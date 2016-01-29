@@ -26,11 +26,11 @@
         "RealTimeVisitorCount": "Počet návštěvníků v reálném čase",
         "Referrer_URL": "Odkazující URL",
         "ShowMap": "Zobrazit mapu",
-        "SimpleRealTimeWidget_Message": "%s a %s v posledních %s.",
+        "SimpleRealTimeWidget_Message": "%1$s a %2$s v posledních %3$s.",
         "ViewVisitorProfile": "Zobrazit profil návštěvníka",
         "VisitedPages": "Navštívené stránky",
         "VisitorLog": "Pohled na návštěvníky",
-        "VisitorLogDocumentation": "Tato tabulka zobrazuje poslední návštěvy v daném období. Najetím na datum návštěvy zobrazíte čas, kdy tento návštěvník navštívil stránky naposledy. %s Pokud období zahrnuje dnešek, můžete vidět návštěvníky v reálném čase! %s Zde zobrazovaná data jsou vždy živá bez ohledu na to, jak a kdy probíhá archivační cron úloha.",
+        "VisitorLogDocumentation": "Tato tabulka zobrazuje poslední návštěvy v daném období. Najetím na datum návštěvy zobrazíte čas, kdy tento návštěvník navštívil stránky naposledy. %1$s Pokud období zahrnuje dnešek, můžete vidět návštěvníky v reálném čase! %2$s Zde zobrazovaná data jsou vždy živá bez ohledu na to, jak a kdy probíhá archivační cron úloha.",
         "VisitorProfile": "Profil návštěvníka",
         "VisitorsInRealTime": "Návštěvníci v reálném čase",
         "VisitorsLastVisit": "K poslední návštěvě tohoto návštěvníka došlo před %s dny.",
@@ -40,7 +40,7 @@
         "RowActionTooltipDefault": "Zobrazit záznam návštěvníků rozdělený podle tohoto řádku",
         "RowActionTooltipWithDimension": "Zobrazit záznam návštěvníků rozdělený podle %s",
         "RowActionTooltipTitle": "Otevřít rozdělený záznam návštěvníků",
-        "SegmentedVisitorLogTitle": "Záznam návštěvníků, zobrazující návštěvy, kde %s je \"%s\"",
+        "SegmentedVisitorLogTitle": "Záznam návštěvníků, zobrazující návštěvy, kde %1$s je \"%2$s\"",
         "OnClickPause": "%s běží. Klikněte pro pozastavení.",
         "OnClickStart": "%s je zastaven. Klikněte pro spuštění."
     }

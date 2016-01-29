@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Keni ndonjë të metë që ta raportoni apo kërkesë për veçori të reja?",
         "HowToCreateTicket": "Ju lutemi, lexoni rekomandimet se si të shkruhet si duhet një %1$snjoftim të metash%2$s apo %3$skërkesë për veçori%4$s. Mandej regjistrohuni ose bëni hyrjen te %5$sndjekësi ynë i çështjeve%6$s dhe krijoni një %7$sçështje të re%8$s.",
         "IWantTo": "Dua të:",
-        "LearnWaysToParticipate": "Njihuni me krejt mënyrat përmes të cilave mund të %s merrni pjesë%s",
+        "LearnWaysToParticipate": "Njihuni me krejt mënyrat përmes të cilave mund të %1$s merrni pjesë%2$s",
         "ManuallySendEmailTo": "Ju lutem, dërgojeni mesazhin tuaj dorazi te",
         "PluginDescription": "Dërgojani Përshtypjet tuaja Ekipit të Piwik-ut. Ndani me taidetë dhe sugjerimet tuaja për ta bërë Piwik-un platformën më të mirë në botë për analiza!",
         "PrivacyClaim": "Piwik-u respekton %1$sprivatësinë%2$s tuaj dhe ju jep kontroll të plotë mbi të dhënat tuaja.",
@@ -15,7 +15,7 @@
         "SendFeedback": "Dërgoji Përshtypjet",
         "ThankYou": "Faleminderit që na ndihmoni ta bëjmë më të mirë Piwik-un!",
         "TopLinkTooltip": "Na thoni se ç’mendim keni, ose kërkoni Asistencë Profesionale.",
-        "ViewAnswersToFAQ": "Shihni përgjigjet te %sPyetje të Bëra Shpesh%s",
+        "ViewAnswersToFAQ": "Shihni përgjigjet te %1$sPyetje të Bëra Shpesh%2$s",
         "ViewUserGuides": "Mësoni përmes %1$sudhërëfyesit tonë për përdoruesit%2$s se si ta formësoni Piwik-un dhe si të analizoni me efektshmëri të dhënat tuaja",
         "CommunityHelp": "Ndihmë nga Bashkësia",
         "ProfessionalHelp": "Ndihmë Profesionale",
@@ -28,7 +28,6 @@
         "PiwikProPremiumFeatures": "Veçori Me Pagesë",
         "PiwikProCustomDevelopment": "Shërbime Personalizimesh",
         "PiwikProAnalystConsulting": "Shërbime konsulence analizash",
-        "ContactUs": "Lidhuni me ne",
-        "VisitTheForums": "Vizitoni %s Forumet%s"
+        "ContactUs": "Lidhuni me ne"
     }
 }

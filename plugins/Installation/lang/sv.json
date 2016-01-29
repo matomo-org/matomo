@@ -49,7 +49,7 @@
         "RestartWebServer": "När du har gjort den här ändringen, starta om din webbserver.",
         "ReusingTables": "Återanvänder tabellerna",
         "PiwikOrgNewsletter": "maila mig vid större Piwik community uppdateringar",
-        "PiwikProNewsletter": "skicka mer information om tjänster och erbjudanden från %sPiwik PRO%s",
+        "PiwikProNewsletter": "skicka mer information om tjänster och erbjudanden från %1$sPiwik PRO%2$s",
         "SeeBelowForMoreInfo": "Se nedan för mer information.",
         "SetupWebsite": "Konfigurera en webbplats",
         "SetupWebsiteError": "Det uppstod ett fel när webbplatsen försökte läggas till.",

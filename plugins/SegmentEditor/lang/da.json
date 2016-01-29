@@ -18,7 +18,6 @@
         "SegmentIsDisplayedForWebsite": "og vises for",
         "SegmentNotApplied": "Segment '%s' anvendes ikke",
         "SegmentNotAppliedMessage": "Du beder om data til brugerdefineret segment '%s', Piwik konfigurationen forhindrer tidstro behandling af rapporter pga ydeevne grunde.",
-        "SelectSegmentOfVisitors": "Vælg et segment af besøgende:",
         "ThisSegmentIsVisibleTo": "Segmentet er synligt for:",
         "VisibleToAllUsers": "Alle brugere",
         "VisibleToMe": "mig",

@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Har du en bugg att rapportera eller en funktionsbegäran?",
         "HowToCreateTicket": "Vänligen läs rekommendationerna för hur du skriver en bra %1$sfel rapport%2$s eller %3$sfunktionsförfrågan%4$s. Registrera eller logga in på %5$svårt ärendehanteringssystem%6$s och skapa %7$sett nytt ärende%8$s.",
         "IWantTo": "Jag vill:",
-        "LearnWaysToParticipate": "Läs om alla sätt du kan %s delta%s",
+        "LearnWaysToParticipate": "Läs om alla sätt du kan %1$s delta%2$s",
         "ManuallySendEmailTo": "Vänligen skicka ditt meddelande manuellt till",
         "PrivacyClaim": "Piwik respekterar din %1$sintegritet%2$s och ger dig full kontroll över din information.",
         "RateFeatureLeaveMessageDislike": "Vi är ledsna över att du inte gillar det! Berätta gärna för oss hur vi kan förbättra Piwik.",
@@ -14,13 +14,12 @@
         "SendFeedback": "Skicka Feedback",
         "ThankYou": "Tack för att du hjälper oss att göra Piwik bättre!",
         "TopLinkTooltip": "Tala om för oss vad du tycker, eller fråga efter professionell support.",
-        "ViewAnswersToFAQ": "Se svar på %svanliga frågor%s",
+        "ViewAnswersToFAQ": "Se svar på %1$svanliga frågor%2$s",
         "ViewUserGuides": "Lär dig att konfigurera Piwik och hur man på ett effektivt sätt analyserar data med våra %1$sanvändarguider%2$s",
         "ProfessionalHelp": "Professionell hjälp",
         "PiwikProOfferIntro": "Vårt erbjudande inkluderar",
         "PiwikProPhoneEmailSupport": "Telefon och e-postsupport",
         "PiwikProPremiumFeatures": "Premium-funktioner",
-        "ContactUs": "Kontakta oss",
-        "VisitTheForums": "Besök %s Forumet%s"
+        "ContactUs": "Kontakta oss"
     }
 }

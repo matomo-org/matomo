@@ -87,6 +87,7 @@
         "Continue": "Συνέχεια",
         "ContinueToPiwik": "Συνέχεια στο Piwik",
         "CurrentlyUsingUnsecureHttp": "Αυτή τη στιγμή χρησιμοποιείτε το Piwik πάνω από μη ασφαλή σύνδεση HTTP, γεγονός που εμπεριέχει ρίσκο. Συνιστούμε να παραμετροποιήσετε το Piwik για χρήση SSL (HTTPS) για βελτιωμένη ασφάλεια.",
+        "CreatedByUser": "δημιουργήθηκε από %s",
         "CurrentMonth": "Τρέχων Μήνας",
         "CurrentWeek": "Τρέχουσα Εβδομάδα",
         "CurrentYear": "Τρέχον Έτος",

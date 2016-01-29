@@ -27,7 +27,7 @@
         "MakeADifference": "Budi drugačiji: %1$sDoniraj%2$s za Piwik 2.0!",
         "MakeOneTimeDonation": "Možete izvršiti i jednokratnu donaciju.",
         "Menu": "Meni",
-        "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%s' ali izgleda da nemate postavljena nikakva ovlašćenja. %s Tražite od Piwik administratora (kliknite za poruku)%s da vam dozvoli 'prikaz' na sajtu.",
+        "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%1$s' ali izgleda da nemate postavljena nikakva ovlašćenja. %2$s Tražite od Piwik administratora (kliknite za poruku)%3$s da vam dozvoli 'prikaz' na sajtu.",
         "OnlyForSuperUserAccess": "Ovaj vidžet se prikazuje samo superkorisnicima.",
         "PageOf": "%1$s od %2$s",
         "PeriodRange": "Period",
@@ -48,6 +48,6 @@
         "YouAreUsingTheLatestVersion": "Koristite poslednju verziju Piwik-a",
         "ClickRowToExpandOrContract": "Kliknite ovaj red kako biste proširili ili skupili tabelu.",
         "UndoPivotBySubtable": "Ovaj izveštaj je pivotiran %s Otkaži pivot",
-        "PivotBySubtable": "Ovaj izveštaj nije pivotiran %s Pivotiraj sa %s"
+        "PivotBySubtable": "Ovaj izveštaj nije pivotiran %1$s Pivotiraj sa %2$s"
     }
 }

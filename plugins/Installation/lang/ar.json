@@ -48,7 +48,7 @@
         "RestartWebServer": "أعد تشغيل خادم الويب لديك بعد القيام بهذا التغيير.",
         "ReusingTables": "إعادة استخدام الجداول",
         "PiwikOrgNewsletter": "أرسل لي بريداً بآخر تحديثات مجتمع Piwik",
-        "PiwikProNewsletter": "أرسل لي معلومات عن خدمات وعروض %sPiwik PRO%s",
+        "PiwikProNewsletter": "أرسل لي معلومات عن خدمات وعروض %1$sPiwik PRO%2$s",
         "SeeBelowForMoreInfo": "أنظر أدناه لمزيد من المعلومات.",
         "SetupWebsite": "إعداد موقع ويب",
         "SetupWebsiteError": "حدث خطأ ما أثناء إضافة الموقع",

@@ -27,7 +27,7 @@
         "MakeADifference": "Maak een verschil: %1$sDoneer nu%2$s om Piwik 2.0 te steunen!",
         "MakeOneTimeDonation": "Doe een eennmalige donatie in de plaats.",
         "Menu": "Menu",
-        "NoPrivilegesAskPiwikAdmin": "U bent aangemeld as '%s'. Maar het lijkt er op dat u geen rechten hebt op Piwik te bezoeken. %sVraag aan uw webmaster (klik hier voor e-mail)%s of hij u de juiste rechten wilt geven om de statistieken te bekijken.",
+        "NoPrivilegesAskPiwikAdmin": "U bent aangemeld as '%1$s'. Maar het lijkt er op dat u geen rechten hebt op Piwik te bezoeken. %2$sVraag aan uw webmaster (klik hier voor e-mail)%3$s of hij u de juiste rechten wilt geven om de statistieken te bekijken.",
         "OnlyForSuperUserAccess": "Deze widget wordt alleen getoond aan superusers.",
         "PageOf": "%1$s of %2$s",
         "PeriodRange": "Datumbereik",
@@ -48,6 +48,6 @@
         "YouAreUsingTheLatestVersion": "Je gebruikt de laatste versie van Piwik!",
         "ClickRowToExpandOrContract": "Klik deze regel om de tabel te openen of te sluiten.",
         "UndoPivotBySubtable": "Dit rapport wordt als een draaitabel getoond, %s schakel de draaitabel uit.",
-        "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %s maak een draaitabel op basis van %s"
+        "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %1$s maak een draaitabel op basis van %2$s"
     }
 }

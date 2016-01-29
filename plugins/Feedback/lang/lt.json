@@ -2,7 +2,7 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Norite pranešti apie aptiktą klaidą arba paprašyti naujų ypatybių?",
         "IWantTo": "Aš noriu:",
-        "LearnWaysToParticipate": "Sužinokite kaip galite %s prisijungti%s",
+        "LearnWaysToParticipate": "Sužinokite kaip galite %1$s prisijungti%2$s",
         "ManuallySendEmailTo": "Prašome išsiųsti rankiniu būdu",
         "PluginDescription": "Siųskite savo atsiliepimus Piwik komandai. Dalinkitės savo idėjomis ir pasiūlymais, kad padarytumėte Piwik geriausia analitikos platforma pasaulyje!",
         "RateFeatureLeaveMessageDislike": "Mes apgailestaujame išgirsti, kad jums ji nepatinka! Prašome parašyti, kaip mes galėtume ją patobulinti.",
@@ -12,7 +12,6 @@
         "SendFeedback": "Siųsti atsiliepimą",
         "ThankYou": "Dėkojame už pagalbą kuriant tobulesnį Piwik!",
         "CommunityHelp": "Bendruomenės pagalba",
-        "ProfessionalHelp": "Profesionali pagalba",
-        "VisitTheForums": "Apsilankykite %s forumuose%s"
+        "ProfessionalHelp": "Profesionali pagalba"
     }
 }

@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Da li želite da prijavite grešku u programu ili imate neku želju?",
         "HowToCreateTicket": "Molimo vas da pročitate preporuke kako se piše dobra %1$sprijava problema%2$s ili %3$szahtev za novom funkcionalnošću%4$s. Nakon toga se %5$sregistrujte ili prijavite%6$s i kreirajte %7$snovi zahtev%8$s.",
         "IWantTo": "Želim da:",
-        "LearnWaysToParticipate": "Pogledajte kako sve možete da %s uzmete učešće%s",
+        "LearnWaysToParticipate": "Pogledajte kako sve možete da %1$s uzmete učešće%2$s",
         "ManuallySendEmailTo": "Molimo vas da pošaljete poruku na",
         "PluginDescription": "Pošaljite vaše komentare Piwik timu. Podelite vaše ideje i predloge kako bismo učinili Piwik najboljom analitičkom platformom na svetu!",
         "PrivacyClaim": "Piwik poštuje vašu %1$sprivatnost%2$s i daje vam potpunu kontrolu nad vašim podacima.",
@@ -15,7 +15,7 @@
         "SendFeedback": "Pošaljite vaše zapažanje",
         "ThankYou": "Hvala vam što nam pomažete da učinimo Piwik boljim!",
         "TopLinkTooltip": "Recite nam šta mislite ili zatražite profesionalnu pomoć.",
-        "ViewAnswersToFAQ": "Prikaži odgovore na %sčesto postavljana pitanja%s",
+        "ViewAnswersToFAQ": "Prikaži odgovore na %1$sčesto postavljana pitanja%2$s",
         "ViewUserGuides": "Naučite kako da podesite Piwik i kako da efikasno analizirate vaše podatke prateći %1$skorisničko uputstvo%2$s",
         "CommunityHelp": "Pomoć zajednice",
         "ProfessionalHelp": "Profesionalna pomoć",
@@ -28,7 +28,6 @@
         "PiwikProPremiumFeatures": "Premium sadržaje",
         "PiwikProCustomDevelopment": "Razvoj usluga po vašoj želji",
         "PiwikProAnalystConsulting": "Usluge analitičkog konsaltinga",
-        "ContactUs": "Kontaktirajte nas",
-        "VisitTheForums": "Posetite %s Forum%s"
+        "ContactUs": "Kontaktirajte nas"
     }
 }

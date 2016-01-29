@@ -3,7 +3,7 @@
         "CategoryNoData": "V tej kategoriji ni podatkov. Poizkusite \"Vključiti celotno populacijo\".",
         "CheckForUpdates": "Preveri za posodobitve",
         "Default": "privzeto",
-        "NoPrivilegesAskPiwikAdmin": "Vpisani ste kot '%s', vendar v Piwik-u nimate nastavljenih nobenih pooblastil. %s Poprosite vašega Piwik administratorja (klik za email)%s naj vam da pooblastila za ogled določene(ih) strani.",
+        "NoPrivilegesAskPiwikAdmin": "Vpisani ste kot '%1$s', vendar v Piwik-u nimate nastavljenih nobenih pooblastil. %2$s Poprosite vašega Piwik administratorja (klik za email)%3$s naj vam da pooblastila za ogled določene(ih) strani.",
         "PageOf": "%1$s od %2$s",
         "PeriodRange": "Razpon",
         "ReportGeneratedOn": "Poročilo ustvarjano na %s",
