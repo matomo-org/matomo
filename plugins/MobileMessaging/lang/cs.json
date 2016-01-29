@@ -34,8 +34,8 @@
         "Settings_VerificationCodeJustSent": "Právě jsme na zadané telefonní číslo odeslali SMS s kódem. Zadejte ho výše a stiskněte \"ověřit\".",
         "SettingsMenu": "Mobilní zprávy",
         "SMS_Content_Too_Long": "[příliš dlouhé]",
-        "TopLinkTooltip": "Nechte si webové analýzy zasílat na email nebo na svůj mobilní telefon.",
-        "TopMenu": "Email a SMS reporty",
+        "TopLinkTooltip": "Nechte si webové analýzy zasílat na e-mail nebo na svůj mobilní telefon.",
+        "TopMenu": "E-mail a SMS hlášení",
         "VerificationText": "Kód je %1$s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Piwik > %2$s > %3$s."
     }
 }

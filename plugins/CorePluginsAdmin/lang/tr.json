@@ -42,7 +42,7 @@
         "PluginHomepage": "Eklenti Sayfası",
         "PluginKeywords": "Anahtar Kelimeler",
         "PluginsManagement": "Eklenti Yönetimi",
-        "PluginUpdateAvailable": "Şuanda %s versiyonunu kullanıyorsunuz ve yeni %s versiyon mevcut.",
+        "PluginUpdateAvailable": "Şuanda %1$s versiyonunu kullanıyorsunuz ve yeni %2$s versiyon mevcut.",
         "PluginVersionInfo": "%2$s den %1$s e",
         "PluginWebsite": "Eklenti Sitesi",
         "Screenshots": "Ekran Görüntüleri",

@@ -25,11 +25,11 @@
         "RealTimeVisitorCount": "Echtzeit-Besucherzähler",
         "Referrer_URL": "Herkunftsseite",
         "ShowMap": "Karte einblenden",
-        "SimpleRealTimeWidget_Message": "%s und %s in den letzten %s.",
+        "SimpleRealTimeWidget_Message": "%1$s und %2$s in den letzten %3$s.",
         "ViewVisitorProfile": "Besucherprofil ansehen",
         "VisitedPages": "Besuchte Seiten",
         "VisitorLog": "Besucher-Log",
-        "VisitorLogDocumentation": "Diese Tabelle zeigt die letzten Besuche innerhalb der ausgewählten Periode. Sie können sehen, wann der Besucher die Seite zuletzt besucht hat, wenn Sie die Maus über das Datum eines Besuches bewegen. %s Wenn die gewählte Periode den heutigen Tag enthält, können Sie die Besuche in Echtzeit sehen! %s Die angezeigten Daten sind immer live, egal ob und in welchem Intervall Sie den Archivierungs-Cronjob verwenden.",
+        "VisitorLogDocumentation": "Diese Tabelle zeigt die letzten Besuche innerhalb der ausgewählten Periode. Sie können sehen, wann der Besucher die Seite zuletzt besucht hat, wenn Sie die Maus über das Datum eines Besuches bewegen. %1$s Wenn die gewählte Periode den heutigen Tag enthält, können Sie die Besuche in Echtzeit sehen! %2$s Die angezeigten Daten sind immer live, egal ob und in welchem Intervall Sie den Archivierungs-Cronjob verwenden.",
         "VisitorProfile": "Besucherprofil",
         "VisitorsInRealTime": "Besucher in Echtzeit",
         "VisitorsLastVisit": "Der letzte Besuch dieses Besuchers war vor %s Tagen.",
@@ -37,7 +37,7 @@
         "RowActionTooltipDefault": "Zeige Besucher-Log aufgeteilt durch diese Zeile",
         "RowActionTooltipWithDimension": "Zeige Besucher-Log segmentiert durch %s",
         "RowActionTooltipTitle": "Log segmentierter Besucher öffnen",
-        "SegmentedVisitorLogTitle": "Besucher-Log zeigt Besuche bei denen gilt: %s ist \\\"%s\\\"",
+        "SegmentedVisitorLogTitle": "Besucher-Log zeigt Besuche bei denen gilt: %1$s ist \"%2$s\"",
         "OnClickPause": "%s ist gestartet. Klicken Sie um zu pausieren.",
         "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten."
     }

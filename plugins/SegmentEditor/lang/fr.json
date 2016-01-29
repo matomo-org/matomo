@@ -20,7 +20,6 @@
         "SegmentIsDisplayedForWebsite": "et affiché pour",
         "SegmentNotApplied": "Segment \"%s\" non appliqué",
         "SegmentNotAppliedMessage": "Vous êtes en train de demander des données for le segment personnalisé '%s', la configuration actuelle de Piwik empêche la génération en temps réelle de rapport pour des raisons de performance.",
-        "SelectSegmentOfVisitors": "Choisir un segment de visiteurs :",
         "ThisSegmentIsVisibleTo": "Ce segment est visible pour :",
         "VisibleToAllUsers": "tous les utilisateurs",
         "VisibleToMe": "moi",

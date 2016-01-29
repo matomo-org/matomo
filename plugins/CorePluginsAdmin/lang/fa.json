@@ -16,7 +16,7 @@
         "BeCarefulUsingThemes": "زمینه هایی که توسط Piwik تهیه نشده اند قابل اعتماد نبوده و باید با احتیاط استفاده گردند : ما آنها را چک نمی کنیم.",
         "ByXDevelopers": "توسط %s برنامه نویس",
         "Changelog": "لاگ تغییرات",
-        "ChangeSettingsPossible": "شما می توانید %ssettings%s را برای این پلاگین تغییر دهید.",
+        "ChangeSettingsPossible": "شما می توانید %1$ssettings%2$s را برای این پلاگین تغییر دهید.",
         "CorePluginTooltip": "پلاگین های هسته با برنامه توزیع شده اند",
         "Deactivate": "غیر فعال کردن",
         "Developer": "توسعه دهنده ها",

@@ -49,7 +49,7 @@
         "RestartWebServer": "Depois de fazer essa alteração, reinicie o seu servidor web.",
         "ReusingTables": "Reutilizando as Tabelas",
         "PiwikOrgNewsletter": "me enviar e-mail com as principais atualizações da comunidade Piwik",
-        "PiwikProNewsletter": "envie-me informações sobre os serviços e ofertas do %sPiwik PRO%s",
+        "PiwikProNewsletter": "envie-me informações sobre os serviços e ofertas do %1$sPiwik PRO%2$s",
         "SeeBelowForMoreInfo": "Veja abaixo para mais informações.",
         "SetupWebsite": "Configurar um website",
         "SetupWebsiteError": "Ocorreu um erro ao tentar adicionar o website",

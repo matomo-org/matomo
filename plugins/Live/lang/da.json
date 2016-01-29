@@ -23,11 +23,11 @@
         "RealTimeVisitorCount": "Tidstro besøgsantal",
         "Referrer_URL": "Henvisning netadresse",
         "ShowMap": "vis kort",
-        "SimpleRealTimeWidget_Message": "%s og %s i den sidste %s.",
+        "SimpleRealTimeWidget_Message": "%1$s og %2$s i den sidste %3$s.",
         "ViewVisitorProfile": "Vis besøgendes profil",
         "VisitedPages": "Besøgte sider",
         "VisitorLog": "Besøgslog",
-        "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
+        "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%1$s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %2$s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
         "VisitorProfile": "Besøgendes profil",
         "VisitorsInRealTime": "Besøgende her og nu",
         "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
@@ -35,6 +35,6 @@
         "RowActionTooltipDefault": "Vis besøgslog opdelt efter denne række",
         "RowActionTooltipWithDimension": "Vis besøgslog opdelt efter %s",
         "RowActionTooltipTitle": "Åben segmenteret besøgslog",
-        "SegmentedVisitorLogTitle": "Besøgslog viser besøg, hvor %s er \\\"%s\\\""
+        "SegmentedVisitorLogTitle": "Besøgslog viser besøg, hvor %1$s er \"%2$s\""
     }
 }

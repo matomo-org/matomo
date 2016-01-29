@@ -11,9 +11,9 @@
         "PageRefreshed": "Jumlah kali halaman ini ditampilkan \/ disegarkan berurutan.",
         "RealTimeVisitorCount": "Jumlah Pengunjung Waktu Nyata",
         "Referrer_URL": "URL Pengarah",
-        "SimpleRealTimeWidget_Message": "%s dan %s dalam %s terakhir.",
+        "SimpleRealTimeWidget_Message": "%1$s dan %2$s dalam %3$s terakhir.",
         "VisitorLog": "Catatan Pengunjung",
-        "VisitorLogDocumentation": "Tabel berikut menampilkan kunjungan terakhir selama rentang tanggal yang dipilih.%s Bila hari ini termasuk dalam rentang tanggal, Anda dapat melihat pengunjung Anda dalam waktu nyata! %s Data yang ditampilkan di sini selalu ditampilkan secara langsung, tidak terpengaruh bagaimana Anda mengatur pengarsipan di tugas Cron.",
+        "VisitorLogDocumentation": "Tabel berikut menampilkan kunjungan terakhir selama rentang tanggal yang dipilih.%1$s Bila hari ini termasuk dalam rentang tanggal, Anda dapat melihat pengunjung Anda dalam waktu nyata! %2$s Data yang ditampilkan di sini selalu ditampilkan secara langsung, tidak terpengaruh bagaimana Anda mengatur pengarsipan di tugas Cron.",
         "VisitorsInRealTime": "Pengunjung dalam Waktu Nyata",
         "VisitorsLastVisit": "Pengunjung ini telah berkunjung %s hari yang lalu."
     }

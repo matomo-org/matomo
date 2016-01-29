@@ -25,7 +25,7 @@
         "JavascriptDisabled": "Dapat mong i-enable ang Javascrip upang iyong magamit ang Piwik sa standard view. <br\/> tila ang JavaScript ay disabled o hindi suportado ng iyong browser. <br\/> Upang magamit ang standard view, paganahin ang JavaScript sa pamamagitan ng pagbabago ng iyong mga pagpipilian sa browser, pagkatapos ay %1$s subukang muli %2$s. <br\/>",
         "MakeADifference": "Gumawa ng isang pagkakaiba: %1$sMagbigay ng donasyon ngayon%2$s upang pondohan ang Piwik 2.0!",
         "MakeOneTimeDonation": "Ang widget na ito ay ipinapakita lamang sa mga user na may Super User na access.",
-        "NoPrivilegesAskPiwikAdmin": "Ikaw ay naka-log-in bilang '%s' ngunit mukhang wala kang anumang pahintulot na naka-set sa Piwik. %s Tanungin ang iyong Piwik administrator (i-click upang i-email) %s upang bigyan ka ng 'view' access sa website.",
+        "NoPrivilegesAskPiwikAdmin": "Ikaw ay naka-log-in bilang '%1$s' ngunit mukhang wala kang anumang pahintulot na naka-set sa Piwik. %2$s Tanungin ang iyong Piwik administrator (i-click upang i-email) %3$s upang bigyan ka ng 'view' access sa website.",
         "OnlyForSuperUserAccess": "Ang widget na ito ay ipanapakita lamang sa mga user na mayroong Super User access",
         "PageOf": "%1$s ng %2$s",
         "PeriodRange": "Pagitan",
@@ -45,6 +45,6 @@
         "YouAreUsingTheLatestVersion": "Ginagamit mo ang pinaka bagong bersyon ng Piwik",
         "ClickRowToExpandOrContract": "I-click ang hanay na ito, upang palawakin o ikontrata ang subtable",
         "UndoPivotBySubtable": "Ang ulat na ito ay napaikot %s I-undo ang pagpaikot",
-        "PivotBySubtable": "Ang ulat na ito ay hindi umiikot %s Paikutin ng %s"
+        "PivotBySubtable": "Ang ulat na ito ay hindi umiikot %1$s Paikutin ng %2$s"
     }
 }

@@ -1,7 +1,7 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Lokální čas",
-        "ColumnServerTime": "Serverový čas",
+        "ColumnServerTime": "Čas serveru",
         "DayOfWeek": "Dny v týdnu",
         "LocalTime": "Návštěvy podle lokálního času",
         "NHour": "%sh",

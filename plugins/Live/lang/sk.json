@@ -15,7 +15,7 @@
         "PreviousVisitor": "Predchádzajúci návštevník",
         "RealTimeVisitorCount": "Sledovanie návštev v reálnom čase",
         "Referrer_URL": "Referenčné URL",
-        "SimpleRealTimeWidget_Message": "%s a %s v posledných %s",
+        "SimpleRealTimeWidget_Message": "%1$s a %2$s v posledných %3$s",
         "VisitorLog": "Záznam návštevníka",
         "VisitorsInRealTime": "Návštevníci v reálnom čase"
     }

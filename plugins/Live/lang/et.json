@@ -22,7 +22,7 @@
         "RealTimeVisitorCount": "Reaalajas külastuste arv",
         "Referrer_URL": "Viitaja URL",
         "ShowMap": "kuva kaart",
-        "SimpleRealTimeWidget_Message": "%s ja %s perioodis viimased %s",
+        "SimpleRealTimeWidget_Message": "%1$s ja %2$s perioodis viimased %3$s",
         "ViewVisitorProfile": "Kuva külastaja profiil",
         "VisitedPages": "Külastatud lehed",
         "VisitorLog": "Külastuste logi",

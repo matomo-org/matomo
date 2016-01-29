@@ -25,7 +25,7 @@
         "JavascriptDisabled": "JavaScript phải được cho phép trong trường hợp bạn sử dụng Piwik với hiển thị tiêu chuẩn. <br \/>Tuy nhiên, có thể là JavaScript đã bị chặn hoặc trình duyệt của bạn không hỗ trợ.<br \/> Để sử dụng hiển thị tiêu chuẩn, vui lòng bật JavaScript bằng cách thay đổi tùy biến trình duyệt của bạn, sau đó %1$sthử lại%2$s.<br \/>",
         "MakeADifference": "Hãy tạo sự khác biệt: %1$s Đóng góp ngay bây giờ %2$s cho quỹ Piwik 2.0!",
         "MakeOneTimeDonation": "Hãy đóng góp",
-        "NoPrivilegesAskPiwikAdmin": "Bạn được đăng nhập như '%s' nhưng dường như bạn không được phép thiết lập trong Piwik. %s Yêu cầu quản trị Piwik của bạn (bấm vào để email) %s để cung cấp cho bạn 'xem' truy cập đến một website.",
+        "NoPrivilegesAskPiwikAdmin": "Bạn được đăng nhập như '%1$s' nhưng dường như bạn không được phép thiết lập trong Piwik. %2$s Yêu cầu quản trị Piwik của bạn (bấm vào để email) %3$s để cung cấp cho bạn 'xem' truy cập đến một website.",
         "PageOf": "%1$s của %2$s",
         "PeriodRange": "Phạm vi",
         "ReportGeneratedOn": "Báo cáo được tạo vào %s",

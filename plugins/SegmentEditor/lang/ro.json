@@ -18,7 +18,6 @@
         "SegmentIsDisplayedForWebsite": "și afișate pentru",
         "SegmentNotApplied": "Segmentul '%s' nu se aplica",
         "SegmentNotAppliedMessage": "Vi se solicită date pentru segmentul personalizat '%s', această configurație Piwik împiedică în prezent prelucrarea în timp real a rapoartelor pentru motive de performanță.",
-        "SelectSegmentOfVisitors": "Selecteaza un segment de vizitatori:",
         "ThisSegmentIsVisibleTo": "Acest segment este vizibil către:",
         "VisibleToAllUsers": "tuturor utilizatorilor",
         "VisibleToMe": "mie",

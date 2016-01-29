@@ -8,7 +8,7 @@
         "PageRefreshed": "Sa herë rresht është parë \/ rifreskuar kjo faqew.",
         "Referrer_URL": "URL Referuesi",
         "VisitorLog": "Regjistër Vizitori",
-        "VisitorLogDocumentation": "Kjo tabelë tregon vizitat e fundit brenda intervalit kohor të përzgjedhur. Se kur u bë vizita e fundit nga një vizitor mund ta shihni duke kaluar kursorin përsipër datës së një vizite. %s Nëse intervali kohor e përfshin ditën e sotme, mund t’i shihni vizitorët aty për aty! %s Të dhënat e shfaqura këtu janë përherë më të rejat, pavarësisht nëse e përdorni a jo dhe se sa shpesh funksionin cron për arkivim.",
+        "VisitorLogDocumentation": "Kjo tabelë tregon vizitat e fundit brenda intervalit kohor të përzgjedhur. Se kur u bë vizita e fundit nga një vizitor mund ta shihni duke kaluar kursorin përsipër datës së një vizite. %1$s Nëse intervali kohor e përfshin ditën e sotme, mund t’i shihni vizitorët aty për aty! %2$s Të dhënat e shfaqura këtu janë përherë më të rejat, pavarësisht nëse e përdorni a jo dhe se sa shpesh funksionin cron për arkivim.",
         "VisitorsInRealTime": "Vizitorë në Kohë Reale",
         "VisitorsLastVisit": "Vizita e fundit e këtij vizitori ndodhi %s ditë më parë."
     }
