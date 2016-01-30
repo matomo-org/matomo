@@ -193,7 +193,7 @@ class CreatePull extends TranslationBase
                  --stderr /dev/null \
                  -o /dev/null \
                  -u '.$username.' \
-                 --data "{\"title\":\"[automatic translation update] '.$title.'\",\"body\":\"'.$message.'\",\"head\":\"translationupdates\",\"base\":\"master\",\"labels\":[\"c: i18n\"]}" \
+                 --data "{\"title\":\"[automatic translation update] '.$title.'\",\"body\":\"'.$message.'\",\"head\":\"translationupdates\",\"base\":\"master\"}" \
                  -H "Accept: application/json" \
                  https://api.github.com/repos/piwik/piwik/pulls');
 
