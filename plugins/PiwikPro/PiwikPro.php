@@ -10,4 +10,18 @@ namespace Piwik\Plugins\PiwikPro;
 
 class PiwikPro extends \Piwik\Plugin
 {
+    /**
+     * @see Piwik\Plugin::registerEvents
+     */
+    public function registerEvents()
+    {
+        return array(
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+        );
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = 'plugins/PiwikPro/stylesheets/widget.less';
+    }
 }

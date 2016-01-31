@@ -19,6 +19,9 @@ use Piwik\Config;
  */
 class Advertising
 {
+    const CAMPAIGN_NAME_UPGRADE_TO_PRO = 'Upgrade_to_Pro';
+    const CAMPAIGN_NAME_UPGRADE_TO_CLOUD = 'Upgrade_to_Cloud';
+
     /**
      * @var Plugin\Manager
      */
@@ -54,34 +57,65 @@ class Advertising
     }
 
     /**
-     * Generates a link for promoting the Piwik Cloud.
+     * Get URL for promoting the Piwik Cloud.
      *
      * @param string $campaignMedium
      * @param string $campaignContent
      * @return string
      */
-    public function getPromoLinkForCloud($campaignMedium, $campaignContent = '')
+    public function getPromoUrlForCloud($campaignMedium, $campaignContent = '')
     {
-        $url = 'https://piwik.pro/cloud/';
-        $campaign = $this->getCampaignParametersForPromoLink($name = 'Upgrade_to_Cloud', $campaignMedium, $campaignContent);
+        $url = 'https://piwik.pro/cloud/?';
 
-        $url .= '?' . $campaign;
+        $campaign = $this->getCampaignParametersForPromoUrl(
+            $name = self::CAMPAIGN_NAME_UPGRADE_TO_CLOUD,
+            $campaignMedium,
+            $campaignContent
+        );
 
-        return $url;
+        return $url . $campaign;
     }
 
     /**
-     * Generates a link for promoting Piwik On Premises.
+     * Get URL for promoting Piwik On Premises.
      * @param string $campaignMedium
      * @param string $campaignContent
      * @return string
      */
-    public function getPromoLinkForOnPremises($campaignMedium, $campaignContent = '')
+    public function getPromoUrlForOnPremises($campaignMedium, $campaignContent = '')
     {
-        $url = 'https://piwik.pro/c/upgrade/';
-        $campaign = $this->getCampaignParametersForPromoLink($name = 'Upgrade_to_Pro', $campaignMedium, $campaignContent);
+        $url = 'https://piwik.pro/c/upgrade/?';
 
-        $url .= '?' . $campaign;
+        $campaign = $this->getCampaignParametersForPromoUrl(
+            $name = self::CAMPAIGN_NAME_UPGRADE_TO_PRO,
+            $campaignMedium,
+            $campaignContent
+        );
+
+        return $url . $campaign;
+    }
+
+    /**
+     * Appends campaign parameters to the given URL for promoting any Piwik PRO service.
+     * @param string $url
+     * @param string $campaignName
+     * @param string $campaignMedium
+     * @param string $campaignContent
+     * @return string
+     */
+    public function addPromoCampaignParametersToUrl($url, $campaignName, $campaignMedium, $campaignContent = '')
+    {
+        if (empty($url)) {
+            return '';
+        }
+
+        if (strpos($url, '?') === false) {
+            $url .= '?';
+        } else {
+            $url .= '&';
+        }
+
+        $url .= $this->getCampaignParametersForPromoUrl($campaignName, $campaignMedium, $campaignContent);
 
         return $url;
     }
@@ -91,15 +125,15 @@ class Advertising
      *
      * @param string $campaignName
      * @param string $campaignMedium
-     * @param string $content Optional
+     * @param string $campaignContent Optional
      * @return string URL parameters without a leading ? or &
      */
-    public function getCampaignParametersForPromoLink($campaignName, $campaignMedium, $content = '')
+    private function getCampaignParametersForPromoUrl($campaignName, $campaignMedium, $campaignContent = '')
     {
         $campaignName = sprintf('pk_campaign=%s&pk_medium=%s&pk_source=Piwik_App', $campaignName, $campaignMedium);
 
-        if (!empty($content)) {
-            $campaignName .= '&pk_content=' . $content;
+        if (!empty($campaignContent)) {
+            $campaignName .= '&pk_content=' . $campaignContent;
         }
 
         return $campaignName;

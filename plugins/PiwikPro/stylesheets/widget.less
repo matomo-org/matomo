@@ -1,0 +1,29 @@
+.promoWidget {
+  // hard coded background color because image has hardcoded background
+  background-color: white;
+
+  .promo {
+    padding: 20px;
+    &:after {
+      content: '';
+      clear: both;
+      visibility: hidden;
+    }
+  }
+  .text {
+    overflow: hidden;
+  }
+  hr {
+    margin: 0px;
+  }
+  .link {
+    padding: 20px;
+  }
+  .icon {
+    margin-top:20px;
+    width: 64px;
+    height: 64px;
+    float: left;
+    margin-right: 20px;
+  }
+}

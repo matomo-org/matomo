@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PiwikPro;
 use Piwik\Piwik;
 use Piwik\PiwikPro\Advertising;
 use Piwik\Plugins\ExampleRssWidget\RssRenderer;
+use Piwik\View;
 
 class Widgets extends \Piwik\Plugin\Widgets
 {
@@ -21,15 +22,22 @@ class Widgets extends \Piwik\Plugin\Widgets
      */
     private $advertising;
 
-    public function __construct(Advertising $advertising)
+    /**
+     * @var Promo
+     */
+    private $promo;
+
+    public function __construct(Advertising $advertising, Promo $promo)
     {
         $this->advertising = $advertising;
+        $this->promo = $promo;
     }
 
     protected function init()
     {
         if ($this->advertising->arePiwikProAdsEnabled()) {
             $this->addWidget('PiwikPro_WidgetBlogTitle', 'rssPiwikPro');
+            $this->addWidget('PiwikPro_WidgetPiwikProAd', 'promoPiwikPro');
         }
     }
 
@@ -47,6 +55,19 @@ class Widgets extends \Piwik\Plugin\Widgets
         }
     }
 
+    public function promoPiwikPro()
+    {
+        $view = new View('@PiwikPro/promoPiwikProWidget');
+
+        $promo = $this->promo->getContent();
+
+        $view->ctaLinkUrl = $this->advertising->getPromoUrlForOnPremises('PromoWidget', $promo['campaignContent']);
+        $view->ctaText = $promo['text'];
+        $view->ctaLinkTitle = $this->promo->getLinkTitle();
+
+        return $view->render();
+    }
+
     /**
      * @param \Exception $e
      * @return string
@@ -57,4 +78,5 @@ class Widgets extends \Piwik\Plugin\Widgets
              . Piwik::translate('General_ErrorRequest', array('', ''))
              . ' - ' . $e->getMessage() . '</div>';
     }
+
 }
