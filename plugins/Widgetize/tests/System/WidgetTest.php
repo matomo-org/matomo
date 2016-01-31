@@ -835,9 +835,17 @@ class WidgetTest extends SystemTestCase
                             'action' => 'rssChangelog',
                         ),
                 ),
+                array (
+                    'name' => 'Piwik PRO Blog',
+                    'uniqueId' => 'widgetPiwikProrssPiwikPro',
+                    'parameters' =>
+                        array (
+                            'module' => 'PiwikPro',
+                            'action' => 'rssPiwikPro',
+                        ),
+                )
         );
     }
-
 }
 
 

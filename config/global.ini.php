@@ -795,6 +795,7 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 Plugins[] = Heartbeat
 Plugins[] = Intl
+Plugins[] = PiwikPro
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
