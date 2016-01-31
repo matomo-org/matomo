@@ -42,6 +42,8 @@
         "PasswordDoNotMatch": "password do not match",
         "PasswordRepeat": "Password (repeat)",
         "PercentDone": "%s %% Done",
+        "PiwikProAdTitle": "Advanced Analytics & Services",
+        "PiwikProAdText": "Add premium functionality and unlock the full power with %1$sPiwik PRO On-Premises%2$s, or get your own hassle-free Piwik hosted in the %3$sPiwik PRO Cloud%4$s.",
         "PleaseFixTheFollowingErrors": "Please fix the following errors",
         "DefaultSettings": "Default Piwik settings",
         "DefaultSettingsHelp": "Piwik comes with default settings. You can customize them now or do so later in the admin screen.",
