@@ -28,6 +28,9 @@ describe("ActionsDataTable", function () {
         expect.screenshot('subtables_loaded').to.be.capture(function (page) {
             page.click('tr.subDataTable:first');
             page.click('tr.subDataTable:eq(2)');
+            page.evaluate(function () {
+                $('.foldDataTableFooterDrawer').click(); // open the footer icons controls
+            });
         }, done);
     });
 
