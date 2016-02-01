@@ -38,7 +38,7 @@ class GetCustomVariables extends Base
 
         $that = $this;
         $view->config->filters[] = function (DataTable $table) use ($view, $that) {
-            if($this->isReportContainsUnsetVisitsColumns($table)) {
+            if($that->isReportContainsUnsetVisitsColumns($table)) {
                 $message = $that->getFooterMessageExplanationMissingMetrics();
                 $view->config->show_footer_message = $message;
             }
