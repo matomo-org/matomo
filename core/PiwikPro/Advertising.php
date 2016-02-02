@@ -44,10 +44,10 @@ class Advertising
      */
     public function arePiwikProAdsEnabled()
     {
-        if ($this->pluginManager->isPluginInstalled('EnterpriseAdmin')
-            || $this->pluginManager->isPluginInstalled('LoginAdmin')
-            || $this->pluginManager->isPluginInstalled('CloudAdmin')
-            || $this->pluginManager->isPluginInstalled('WhiteLabel')) {
+        if ($this->pluginManager->isPluginActivated('EnterpriseAdmin')
+            || $this->pluginManager->isPluginActivated('LoginAdmin')
+            || $this->pluginManager->isPluginActivated('CloudAdmin')
+            || $this->pluginManager->isPluginActivated('WhiteLabel')) {
             return false;
         }
 
