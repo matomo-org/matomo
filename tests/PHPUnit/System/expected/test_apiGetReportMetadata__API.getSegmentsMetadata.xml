@@ -59,13 +59,6 @@
 		<permission>1</permission>
 	</row>
 	<row>
-		<type>metric</type>
-		<category>Actions</category>
-		<name>Action Type</name>
-		<segment>actionType</segment>
-		<acceptedValues>A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads</acceptedValues>
-	</row>
-	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>City</name>
@@ -454,6 +447,13 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable value 5 (scope visit)</name>
 		<segment>customVariableValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Action Type</name>
+		<segment>actionType</segment>
+		<acceptedValues>A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
