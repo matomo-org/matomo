@@ -57,13 +57,13 @@ describe("ActionsDataTable", function () {
 
     it("should display pageview percentages when hovering over pageviews column", function (done) {
         expect.screenshot('pageview_percentages').to.be.capture(function (page) {
-            page.mouseMove('tr:eq(2) td.column:eq(1)');
+            page.mouseMove('tr:contains("thankyou") td.column:eq(1)');
         }, done);
     });
 
     it("should generate a proper title for the visitor log segmented by the current row", function (done) {
         expect.screenshot('segmented_visitor_log_hover').to.be.capture(function (page) {
-            var row = 'tr:eq(2) ';
+            var row = 'tr:contains("thankyou") ';
             page.mouseMove(row + 'td.column:first');
             page.mouseMove(row + 'td.label .actionSegmentVisitorLog');
         }, done);
@@ -71,7 +71,7 @@ describe("ActionsDataTable", function () {
 
     it("should open the visitor log segmented by the current row", function (done) {
         expect.screenshot('segmented_visitor_log').to.be.capture(function (page) {
-            page.click('tr:eq(2) td.label .actionSegmentVisitorLog');
+            page.click('tr:contains("thankyou") td.label .actionSegmentVisitorLog');
         }, done);
     });
 
@@ -79,7 +79,7 @@ describe("ActionsDataTable", function () {
         expect.screenshot('unique_pageview_percentages').to.be.capture(function (page) {
             page.click('.ui-widget .ui-dialog-titlebar-close');
 
-            page.mouseMove('tr:eq(2) td.column:eq(2)');
+            page.mouseMove('tr:contains("thankyou") td.column:eq(2)');
         }, done);
     });
 
