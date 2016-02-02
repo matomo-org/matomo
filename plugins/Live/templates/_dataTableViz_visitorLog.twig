@@ -190,6 +190,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
             {% endif %}
 
             <div class="col-md-{% if displayVisitorsInOwnColumn %}7{% else %}8{% endif %} column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
+                {{ postEvent('Live.visitorLogViewBeforeActionsInfo', visitor) }}
                 <div class="visitor-log-page-list">
                     <strong>
                         {{ visitor.getColumn('actionDetails')|length }}
@@ -205,6 +206,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                         {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails')} %}
                     </ol>
                 </div>
+                {{ postEvent('Live.visitorLogViewAfterActionsInfo', visitor) }}
             </div>
         </div>
     {% endset %}
