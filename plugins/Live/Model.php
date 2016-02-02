@@ -382,11 +382,15 @@ class Model
             $date = 'yesterdaySameTime';
         }
 
-        list($whereBind, $where) = $this->getWhereClauseAndBind($idSite, $period, $date, $visitorId, $minTimestamp);
+
+        list($whereClause, $bindIdSites) = $this->getIdSitesWhereClause($idSite);
+
+        list($whereBind, $where) = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $idSite, $period, $date, $visitorId, $minTimestamp);
 
         if (strtolower($filterSortOrder) !== 'asc') {
             $filterSortOrder = 'DESC';
         }
+
         $segment = new Segment($segment, $idSite);
 
         // Subquery to use the indexes for ORDER BY
@@ -395,7 +399,13 @@ class Model
         $groupBy = false;
         $limit = $limit >= 1 ? (int)$limit : 0;
         $offset = $offset >= 1 ? (int)$offset : 0;
-        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
+
+        $orderBy = '';
+        if (count($bindIdSites) <= 1) {
+            $orderBy = 'idsite, ';
+        }
+
+        $orderBy .= "visit_last_action_time " . $filterSortOrder;
         $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
 
         $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit, $offset);
@@ -422,6 +432,8 @@ class Model
     }
 
     /**
+     * @param string $whereClause
+     * @param array $bindIdSites
      * @param $idSite
      * @param $period
      * @param $date
@@ -430,10 +442,8 @@ class Model
      * @return array
      * @throws Exception
      */
-    private function getWhereClauseAndBind($idSite, $period, $date, $visitorId, $minTimestamp)
+    private function getWhereClauseAndBind($whereClause, $bindIdSites, $idSite, $period, $date, $visitorId, $minTimestamp)
     {
-        list($whereClause, $bindIdSites) = $this->getIdSitesWhereClause($idSite);
-
         $where = array();
         $where[] = $whereClause;
         $whereBind = $bindIdSites;
