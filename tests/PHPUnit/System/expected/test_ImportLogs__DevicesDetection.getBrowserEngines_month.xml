@@ -9,7 +9,7 @@
 		<bounce_count>16</bounce_count>
 		<nb_visits_converted>17</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserEngine==WebKit</segment>
 	</row>
 	<row>

@@ -252,7 +252,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>

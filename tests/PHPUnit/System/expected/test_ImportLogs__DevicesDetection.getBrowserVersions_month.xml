@@ -100,7 +100,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==20.0</segment>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
