@@ -142,7 +142,7 @@ Application.prototype.loadTestModules = function () {
         // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
         // split tests into multiple jobs.
         var numTestsFirstHalf = Math.round(mocha.suite.suites.length / 2);
-        numTestsFirstHalf += 5; // run a few more test suits in first half as UiIntegrationTests contain many tests
+        numTestsFirstHalf += 15; // run a few more test suits in first half as UiIntegrationTests contain many tests
         mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
             if (options['run-first-half-only'] && index < numTestsFirstHalf) {
                 return true;
