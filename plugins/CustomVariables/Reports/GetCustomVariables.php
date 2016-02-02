@@ -48,7 +48,7 @@ class GetCustomVariables extends Base
     /**
      * @return array
      */
-    protected function getFooterMessageExplanationMissingMetrics()
+    public function getFooterMessageExplanationMissingMetrics()
     {
         $metrics = sprintf("'%s', '%s' %s '%s'",
             Piwik::translate('General_ColumnNbVisits'),
