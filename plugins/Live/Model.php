@@ -395,7 +395,7 @@ class Model
         $groupBy = false;
         $limit = $limit >= 1 ? (int)$limit : 0;
         $offset = $offset >= 1 ? (int)$offset : 0;
-        $orderBy = "idsite, visit_last_action_time " . $filterSortOrder;
+        $orderBy = "visit_last_action_time " . $filterSortOrder;
         $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
 
         $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit, $offset);
