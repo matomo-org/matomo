@@ -22,7 +22,7 @@
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==7</segment>
 		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>

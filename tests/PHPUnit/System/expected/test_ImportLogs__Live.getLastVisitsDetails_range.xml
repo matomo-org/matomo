@@ -4518,7 +4518,7 @@
 		
 		
 		
-		<userId />
+		<userId>commonuser</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
