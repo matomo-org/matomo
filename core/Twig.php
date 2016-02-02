@@ -284,6 +284,7 @@ class Twig
     {
         $rawSafeDecoded = new Twig_SimpleFilter('rawSafeDecoded', function ($string) {
             $string = str_replace('+', '%2B', $string);
+            $string = str_replace('&nbsp;', html_entity_decode('&nbsp;'), $string);
 
             return SafeDecodeLabel::decodeLabelSafe($string);
 
