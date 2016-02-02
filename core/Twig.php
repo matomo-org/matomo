@@ -87,6 +87,7 @@ class Twig
         $this->addFilter_percentage();
         $this->addFilter_percent();
         $this->addFilter_percentEvolution();
+        $this->addFilter_piwikProAdLink();
         $this->addFilter_piwikProOnPremisesAdLink();
         $this->addFilter_piwikProCloudAdLink();
         $this->addFilter_prettyDate();
@@ -322,6 +323,16 @@ class Twig
             return NumberFormatter::getInstance()->formatPercentEvolution($string);
         });
         $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_piwikProAdLink()
+    {
+        $ads = $this->getPiwikProAdvertising();
+        $piwikProAd = new Twig_SimpleFilter('piwikProCampaignParameters', function ($url, $campaignName, $campaignMedium, $campaignContent = '') use ($ads) {
+            $url = $ads->addPromoCampaignParametersToUrl($url, $campaignName, $campaignMedium, $campaignContent);
+            return $url;
+        });
+        $this->twig->addFilter($piwikProAd);
     }
 
     protected function addFilter_piwikProOnPremisesAdLink()

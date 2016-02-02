@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
+    {{ ajax.requestErrorDiv(emailSuperUser|default(''), arePiwikProAdsEnabled) }}
     {{ ajax.loadingDiv() }}
 
     <div id="content" class="home">

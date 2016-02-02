@@ -231,6 +231,7 @@
         "Name": "Name",
         "NbActions": "Number of Actions",
         "NbSearches": "Number of Internal Searches",
+        "NeedMoreHelp": "Need more help?",
         "Never": "Never",
         "NewReportsWillBeProcessedByCron": "When Piwik archiving is not triggered by the browser, new reports will be processed by the crontab.",
         "NewUpdatePiwikX": "New Update: Piwik %s",

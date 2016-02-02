@@ -112,9 +112,19 @@
   font-size: 10pt;
 }
 
+.widgetLoadingError {
+  .alert.alert-danger {
+    border: 0;
+  }
+}
+
 .widgetLoadingError, .dimensionLoadingError {
   color: @theme-color-brand;
   text-align: left;
+  a {
+    color: @theme-color-brand;
+    text-decoration: underline;
+  }
 }
 
 #closeMenuIcon {

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ExampleRssWidget;
 
+use Piwik\Common;
 use Piwik\Piwik;
 
 class Widgets extends \Piwik\Plugin\Widgets
