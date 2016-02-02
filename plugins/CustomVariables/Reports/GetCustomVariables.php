@@ -66,7 +66,7 @@ class GetCustomVariables extends Base
     /**
      * @return bool
      */
-    protected function isReportContainsUnsetVisitsColumns(DataTable $report)
+    public function isReportContainsUnsetVisitsColumns(DataTable $report)
     {
         $visits = $report->getColumn('nb_visits');
         $isVisitsMetricsSometimesUnset = in_array(false, $visits);
