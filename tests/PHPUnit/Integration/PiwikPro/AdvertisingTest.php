@@ -68,7 +68,7 @@ class AdvertisingTest extends IntegrationTestCase
         $enabled = $this->advertising->arePiwikProAdsEnabled();
         $this->assertTrue($enabled);
 
-        $this->pluginManager->setInstalledPlugins(array('CloudAdmin'));
+        $this->pluginManager->setActivatedPlugins(array('CloudAdmin'));
 
         $enabled = $this->advertising->arePiwikProAdsEnabled();
         $this->assertFalse($enabled);
@@ -79,7 +79,7 @@ class AdvertisingTest extends IntegrationTestCase
         $enabled = $this->advertising->arePiwikProAdsEnabled();
         $this->assertTrue($enabled);
 
-        $this->pluginManager->setInstalledPlugins(array('EnterpriseAdmin'));
+        $this->pluginManager->setActivatedPlugins(array('EnterpriseAdmin'));
 
         $enabled = $this->advertising->arePiwikProAdsEnabled();
         $this->assertFalse($enabled);

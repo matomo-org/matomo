@@ -4,20 +4,20 @@ namespace Piwik\Tests\Framework\Mock\Plugin;
 
 class Manager extends \Piwik\Plugin\Manager
 {
-    private $installedPlugins = array();
+    private $pluginsToActivate = array();
 
     public function __construct()
     {
     }
 
-    public function setInstalledPlugins($pluginsList)
+    public function setActivatedPlugins($pluginsList)
     {
-        $this->installedPlugins = $pluginsList;
+        $this->pluginsToActivate = $pluginsList;
     }
 
-    public function isPluginInstalled($pluginName)
+    public function isPluginActivated($pluginName)
     {
-        return in_array($pluginName, $this->installedPlugins);
+        return in_array($pluginName, $this->pluginsToActivate);
     }
 
 }
