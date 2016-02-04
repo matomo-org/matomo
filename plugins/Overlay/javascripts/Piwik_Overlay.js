@@ -240,13 +240,17 @@ var Piwik_Overlay = (function () {
                 if (segment) {
                     unescapedSegment = unescape(segment);
                 }
-                DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized, unescapedSegment);
+                if (window.DataTable_RowActions_Transitions) {
+                    DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized, unescapedSegment);
+                }
                 return false;
             });
 
             // handle row evolution link
             $rowEvolutionLink.click(function () {
-                DataTable_RowActions_RowEvolution.launch('Actions.getPageUrls', iframeCurrentActionLabel);
+                if (window.DataTable_RowActions_RowEvolution) {
+                    DataTable_RowActions_RowEvolution.launch('Actions.getPageUrls', iframeCurrentActionLabel);
+                }
                 return false;
             });
 
