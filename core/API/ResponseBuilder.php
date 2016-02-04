@@ -97,7 +97,10 @@ class ResponseBuilder
         // apply the set of generic filters if asked in the URL
         // and we render the DataTable according to the format specified in the URL
         if ($value instanceof DataTableInterface) {
-            return $this->handleDataTable($value);
+            $table = $this->handleDataTable($value);
+            $this->sendHeaderIfEnabled();
+
+            return $table;
         }
 
         // Case an array is returned from the API call, we convert it to the requested format
