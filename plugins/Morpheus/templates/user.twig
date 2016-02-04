@@ -21,7 +21,7 @@
     {% include "@CoreHome/_topScreen.twig" %}
 
     {% import 'ajaxMacros.twig' as ajax %}
-    {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
+    {{ ajax.requestErrorDiv(emailSuperUser|default(''), arePiwikProAdsEnabled) }}
     {{ postEvent("Template.beforeContent", "user", currentModule) }}
 
     <div class="page">

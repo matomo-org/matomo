@@ -16,9 +16,12 @@ class Updates_2_16_0_rc2 extends Updates
     public function doUpdate(Updater $updater)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $pluginName = 'PiwikPro';
 
         try {
-            $pluginManager->activatePlugin('PiwikPro');
+            if (!$pluginManager->isPluginActivated($pluginName)) {
+                $pluginManager->activatePlugin($pluginName);
+            }
         } catch (\Exception $e) {
         }
     }
