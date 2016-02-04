@@ -50,7 +50,9 @@ class Original extends ApiRenderer
 
     public function sendHeader()
     {
-        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+        if ($this->shouldSerialize()) {
+            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+        }
     }
 
     /**
