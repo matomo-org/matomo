@@ -718,11 +718,11 @@ class Date
             case "EE":
             case "E":
                 return $translator->translate('Intl_Day_Short_' . $dayOfWeek);
-            case "CCCC":
+            case "cccc":
                 return $translator->translate('Intl_Day_Long_StandAlone_' . $dayOfWeek);
-            case "CCC":
-            case "CC":
-            case "C":
+            case "ccc":
+            case "cc":
+            case "c":
                 return $translator->translate('Intl_Day_Short_StandAlone_' . $dayOfWeek);
             case "D":
                 return 1 + (int)$this->toString('z'); // 1 - 366

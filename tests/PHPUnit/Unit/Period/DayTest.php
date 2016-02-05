@@ -217,6 +217,7 @@ class DayTest extends BasePeriodTest
         return array(
             array('en', 'Wed, Oct 9'),
             array('lt', '10-09, Tr'),
+            array('ru', 'Ср, 9 Окт.'),
             array('zh-cn', '10月9日周三'),
         );
     }
