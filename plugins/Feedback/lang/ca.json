@@ -2,11 +2,10 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Teniu algun error que reportar o una petició de noves funcionalitats?",
         "IWantTo": "Jo vull:",
-        "LearnWaysToParticipate": "Apren sobre les formes en que tu pots %s participar %s",
+        "LearnWaysToParticipate": "Apren sobre les formes en que tu pots %1$s participar %2$s",
         "ManuallySendEmailTo": "Siusplau envia el vostre missatge manualmetn a",
         "SendFeedback": "Enviar Feedback",
         "ThankYou": "Gràcies per ajudar-nos a fer el Piwik millor!",
-        "TopLinkTooltip": "Digue'ns que en penses o demana suport Professional.",
-        "VisitTheForums": "Entra als %s Forums%s"
+        "TopLinkTooltip": "Digue'ns que en penses o demana suport Professional."
     }
 }

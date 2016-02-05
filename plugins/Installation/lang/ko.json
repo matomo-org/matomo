@@ -49,7 +49,7 @@
         "RestartWebServer": "변경한 후 웹서버를 다시 시작하세요.",
         "ReusingTables": "테이블",
         "PiwikOrgNewsletter": "주요 Piwik 커뮤니티의 업데이트 이메일 구독",
-        "PiwikProNewsletter": "%sPiwik PRO%s 서비스 및 신청과 관련한 정보 받기",
+        "PiwikProNewsletter": "%1$sPiwik PRO%2$s 서비스 및 신청과 관련한 정보 받기",
         "SeeBelowForMoreInfo": "자세한 내용은 아래를 참조하세요.",
         "SetupWebsite": "웹사이트 설정",
         "SetupWebsiteError": "웹사이트 추가중에 에러가 있었습니다",

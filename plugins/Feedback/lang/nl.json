@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Heeft u een bugmelding of een verzoek voor nieuwe functies?",
         "HowToCreateTicket": "Gelieve de richtlijnen te lezen over hoe een correct %1$sbug rapport%2$s of %3$sfeature request%4$s te schrijven. Daarna kun je je registreren of inloggen op %5$sonze issue tracker%6$s en een %7$snieuw issue%8$s aanmaken.",
         "IWantTo": "Ik wil:",
-        "LearnWaysToParticipate": "Ontdek op welke manieren je kunt %s bijdragen%s",
+        "LearnWaysToParticipate": "Ontdek op welke manieren je kunt %1$s bijdragen%2$s",
         "ManuallySendEmailTo": "Gelieve uw bericht handmatig te zenden naar",
         "PluginDescription": "Stuur je feedback naar het Piwik team. Deel je ideeën en suggesties om van Piwik het beste analytics platform in de wereld te maken!",
         "PrivacyClaim": "Piwik respecteert je %1$sprivacy%2$s en geeft je alle controle over jouw data.",
@@ -15,7 +15,7 @@
         "SendFeedback": "Stuur Feedback",
         "ThankYou": "Bedankt voor uw bijdrage om Piwik beter te maken!",
         "TopLinkTooltip": "Vertel ons je waat je ervan denkt, of vraag om Professionele Ondersteuning.",
-        "ViewAnswersToFAQ": "Bekijk de antwoorden van %sveelgestelde vragen%s",
+        "ViewAnswersToFAQ": "Bekijk de antwoorden van %1$sveelgestelde vragen%2$s",
         "ViewUserGuides": "Leer hoe je Piwik moet configureren en hoe je data te analyseren met onze %1$sgebruikers handleidingen%2$s",
         "CommunityHelp": "Hulp van de community",
         "ProfessionalHelp": "Professionele Hulp",
@@ -28,7 +28,6 @@
         "PiwikProPremiumFeatures": "Premium functies",
         "PiwikProCustomDevelopment": "Eigen Ontwikkel diensten",
         "PiwikProAnalystConsulting": "Analyst consultatie diensten",
-        "ContactUs": "Contacteer ons",
-        "VisitTheForums": "Bezoek de %s Forums %s"
+        "ContactUs": "Contacteer ons"
     }
 }

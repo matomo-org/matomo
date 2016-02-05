@@ -2,7 +2,7 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "क्या आपके पास एक बग की रिपोर्ट या एक सुविधा का अनुरोध है?",
         "IWantTo": "मैं चाहता हूँ:",
-        "LearnWaysToParticipate": "सभी तरीकों के बारे में जानें, आप %s भाग %s ले सकते हैं",
+        "LearnWaysToParticipate": "सभी तरीकों के बारे में जानें, आप %1$s भाग %2$s ले सकते हैं",
         "ManuallySendEmailTo": "अपने संदेश को स्वेक्षा से भेजने के लिए कृपया",
         "RateFeatureLeaveMessageDislike": "आप इसे पसंद नहीं करते हम सुनने के लिए खेद है! कृपया हमें बतायें हम कैसे बेहतर कर सकते हैं।",
         "RateFeatureLeaveMessageLike": "आप इसे पसंद हम खुश हैं! हमें आप एक सुविधा का अनुरोध किया है अगर आप सबसे अधिक पसंद है या क्या पता है।",
@@ -10,7 +10,6 @@
         "ThankYou": "Piwik बेहतर बनाने में हमें मदद करने के लिए आपका शुक्रिया",
         "TopLinkTooltip": "आप क्या सोचते हैं हमें बताओ,या व्यावसायिक सहायता का अनुरोध करे",
         "CommunityHelp": "समुदाय सहायता",
-        "ProfessionalHelp": "पेशेवर मदद",
-        "VisitTheForums": "%s विचार मंच %s पर जाएँ"
+        "ProfessionalHelp": "पेशेवर मदद"
     }
 }

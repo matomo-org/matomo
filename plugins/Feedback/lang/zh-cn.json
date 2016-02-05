@@ -2,11 +2,10 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "您有bug报告或要新增功能？",
         "IWantTo": "我想要:",
-        "LearnWaysToParticipate": "了解所有您可以 %s 参与%s 的方法",
+        "LearnWaysToParticipate": "了解所有您可以 %1$s 参与%2$s 的方法",
         "ManuallySendEmailTo": "请手动发送信息至",
         "SendFeedback": "提交反馈",
         "ThankYou": "感谢您帮助我们改进 Piwik ！",
-        "TopLinkTooltip": "告诉我们您的想法，或者寻求专业技术支持。",
-        "VisitTheForums": "访问 %s 论坛%s"
+        "TopLinkTooltip": "告诉我们您的想法，或者寻求专业技术支持。"
     }
 }

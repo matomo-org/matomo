@@ -27,7 +27,7 @@
         "MakeADifference": "Gør en forskel: %1$sGiv et bidrag nu%2$s og støt Piwik 2.0!",
         "MakeOneTimeDonation": "Foretag engangsdonation, i stedet.",
         "Menu": "Menu",
-        "NoPrivilegesAskPiwikAdmin": "Du er logget på som '%s' men det ser ikke ud som du har adgang til Piwik. %s Spørg Piwik administratoren (klik for at sende e-mail)%s for at give dig 'se' adgang til et websted.",
+        "NoPrivilegesAskPiwikAdmin": "Du er logget på som '%1$s' men det ser ikke ud som du har adgang til Piwik. %2$s Spørg Piwik administratoren (klik for at sende e-mail)%3$s for at give dig 'se' adgang til et websted.",
         "OnlyForSuperUserAccess": "Modulet vises kun til brugere, der har superbruger adgang.",
         "PageOf": "%1$s af %2$s",
         "PeriodRange": "Interval",
@@ -48,6 +48,6 @@
         "YouAreUsingTheLatestVersion": "Du bruger den seneste version af Piwik!",
         "ClickRowToExpandOrContract": "Klik på rækken for at udvide eller sammentrække undertabelen.",
         "UndoPivotBySubtable": "Rapporten er blevet pivoteret %s Fortryd pivot.",
-        "PivotBySubtable": "Rapporten er ikke pivoteret %s Pivoter med %s."
+        "PivotBySubtable": "Rapporten er ikke pivoteret %1$s Pivoter med %2$s."
     }
 }

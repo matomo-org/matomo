@@ -3,7 +3,7 @@
         "AbandonedCart": "Cistella abandonada",
         "AddGoal": "Afegir un objectiu",
         "AddNewGoal": "Afegir un nou objectiu",
-        "AddNewGoalOrEditExistingGoal": "%sAfegeix un nou objectiu%s o %sEdita objectius existents%s",
+        "AddNewGoalOrEditExistingGoal": "%1$sAfegeix un nou objectiu%2$s o %3$sEdita objectius existents%4$s",
         "AllowGoalConvertedMoreThanOncePerVisit": "Permetre convertir un objectiu més d'una vegada per visita",
         "AllowMultipleConversionsPerVisit": "Permetre múltiples conversions per visita",
         "BestCountries": "Els millors paísos amb conversions són:",
@@ -26,7 +26,7 @@
         "ColumnVisits": "El nombre total de visites, sense tenir en compte si s'ha assolit l'objectiu o no.",
         "ColumnVisitsProductDocumentation": "El nombre de visites a la pagina del Producte\/Categoria. S'utiltiza per calcular el rati de conversió del %s. Aquesta mètrica està a l'informe si",
         "Contains": "conté %s",
-        "ConversionByTypeReportDocumentation": "Aquest informe proporciona informació detallada sobre la productivitat dels objectius (conversions, rati de conversións i ingresos per visita) per cada una de les catagories disponibles al panell de l'esquerra. %s Cliqueu alguna de les categories per veure l'informe. %s Per mes informació, llegiu %s la documetnació sobre el rastreig d'objectius a piwik.org%s",
+        "ConversionByTypeReportDocumentation": "Aquest informe proporciona informació detallada sobre la productivitat dels objectius (conversions, rati de conversións i ingresos per visita) per cada una de les catagories disponibles al panell de l'esquerra. %1$s Cliqueu alguna de les categories per veure l'informe. %2$s Per mes informació, llegiu %3$s la documetnació sobre el rastreig d'objectius a piwik.org%4$s",
         "ConversionRate": "Rati de coversió de %s",
         "Conversions": "%s conversions",
         "ConversionsOverview": "Vista general de les conversions",
@@ -44,7 +44,7 @@
         "EcommerceOrder": "Ordre d'ecomerç",
         "EcommerceOverview": "Vista general ecomerç",
         "EcommerceReports": "Informes d'Ecommerce",
-        "ExceptionInvalidMatchingString": "Si escolleu 'coïncidencia exacta', el cadena de coincidència ha de ser una URL que comença per %s. Per exemple, '%s'.",
+        "ExceptionInvalidMatchingString": "Si escolleu 'coïncidencia exacta', el cadena de coincidència ha de ser una URL que comença per %1$s. Per exemple, '%2$s'.",
         "ExternalWebsiteUrl": "URL del lloc web extern",
         "Filename": "nom del fitxer",
         "GoalConversion": "Conversió d'objectius",
@@ -83,7 +83,7 @@
         "VisitUrl": "Visitar una URL donada (pàgina o grup de pàgines)",
         "WhenVisitors": "quan el visitant",
         "WhereThe": "quan el",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "quan la pagina visitada conté una crida al mètode piwikTracker.trackGoal() de la API de Javascript (%s saber més %s)",
-        "YouCanEnableEcommerceReports": "Podeu activar el %s per aquest lloc web a la pàgina %s."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "quan la pagina visitada conté una crida al mètode piwikTracker.trackGoal() de la API de Javascript (%1$s saber més %2$s)",
+        "YouCanEnableEcommerceReports": "Podeu activar el %1$s per aquest lloc web a la pàgina %2$s."
     }
 }

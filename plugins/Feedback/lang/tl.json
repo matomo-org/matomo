@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Mayroon ka bang iuulat na bug o hihilinging feature?",
         "HowToCreateTicket": "Mangyaring basahin ang rekomendasyon sa mahusay na pagsusulat %1$sbug report%2$s o %3$sfeature request%4$s. Pagkatapos magrehistro o mag-login sa %5$sour issue tracker%6$s at gumawa ng %7$snew issue%8$s.",
         "IWantTo": "Gusto kong:",
-        "LearnWaysToParticipate": "Pag-aralan ang lahat ng daan upang %s makasali sa %s",
+        "LearnWaysToParticipate": "Pag-aralan ang lahat ng daan upang %1$s makasali sa %2$s",
         "ManuallySendEmailTo": "Mangyaring manu-manong ipadala ang iyong mensahe sa.",
         "PrivacyClaim": "Nirerespeto ng Piwik ang iyong %1$s privacy %2$s at nagbibigay sa iyo ng ganap na kontrol sa iyong data.",
         "RateFeatureLeaveMessageDislike": "Ikinalulungkot namin na hindi mo ito gustong marinig! Mangyaring ipaalam samin kung paano naman ito mapapabuti.",
@@ -14,8 +14,8 @@
         "SendFeedback": "Magpadala ng Feedback",
         "ThankYou": "Salamat sa pagtulong sa amin upang maging mas mabuti ang Piwik!",
         "TopLinkTooltip": "Sabihin sa amin ang iyong iniisip o humiling ng Propesyonal na Suporta.",
-        "ViewAnswersToFAQ": "Ipakita ang sagot sa %s Mga Madalas Itanong %s",
+        "ViewAnswersToFAQ": "Ipakita ang sagot sa %1$s Mga Madalas Itanong %2$s",
         "ViewUserGuides": "Alamin kung paano i-configure ang Piwik at kung paano epektibong pag-aralan ang iyong data sa aming %1$suser gabay sa %2$s.",
-        "VisitTheForums": "Bisitahin ang mga %s Forum %s at makakuha ng tulong mula sa komunidad ng mga Piwik user."
+        "VisitTheForums": "Bisitahin ang mga %1$s Forum %2$s at makakuha ng tulong mula sa komunidad ng mga Piwik user."
     }
 }

@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "新增目標",
         "AddNewGoal": "新增一個新的目標",
-        "AddNewGoalOrEditExistingGoal": "%s新增一個新的目標%s 或 %s編輯%s 已存在的目標",
+        "AddNewGoalOrEditExistingGoal": "%1$s新增一個新的目標%2$s 或 %3$s編輯%4$s 已存在的目標",
         "BestCountries": "你的最佳轉換國家為：",
         "BestKeywords": "你的最佳轉換關鍵字為：",
         "BestReferrers": "你的最佳轉換網站推薦連結為：",
@@ -17,7 +17,7 @@
         "DefaultRevenueHelp": "舉例來說，訪客送出一個聯繫表單可能平均價值為 $10。Piwik 將幫助你瞭解你的訪客。",
         "DeleteGoalConfirm": "你確定要刪除目標 %s ？",
         "Download": "下載一個檔案",
-        "ExceptionInvalidMatchingString": "如果你選擇 '精準符合'，相符的字串必須包含一個網址開頭 %s. 舉例來說，'%s' 。",
+        "ExceptionInvalidMatchingString": "如果你選擇 '精準符合'，相符的字串必須包含一個網址開頭 %1$s. 舉例來說，'%2$s' 。",
         "ExternalWebsiteUrl": "外部網站網址",
         "Filename": "檔案名稱",
         "GoalIsTriggered": "目標觸發",
@@ -42,6 +42,6 @@
         "VisitUrl": "訪問特定網址（頁面或頁面群組）",
         "WhenVisitors": "當訪客",
         "WhereThe": "位於",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "在被訪問的頁面包含一個 JavaScript piwikTracker.trackGoal() 方法（%s知道更多%s）"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "在被訪問的頁面包含一個 JavaScript piwikTracker.trackGoal() 方法（%1$s知道更多%2$s）"
     }
 }

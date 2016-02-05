@@ -2,10 +2,9 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Imate napako ali pa željo, ki nam jo želite sporočiti?",
         "IWantTo": "Želim:",
-        "LearnWaysToParticipate": "Oglejte si vse načine kako lahko %ssodelujete%s",
+        "LearnWaysToParticipate": "Oglejte si vse načine kako lahko %1$ssodelujete%2$s",
         "ManuallySendEmailTo": "Prosimo, da sporočilo ročno pošljete",
         "SendFeedback": "Pošlji povratno informacijo",
-        "ThankYou": "Hvala, ker nam pomagate izboljšati Piwik!",
-        "VisitTheForums": "Obiščite %sForume%s"
+        "ThankYou": "Hvala, ker nam pomagate izboljšati Piwik!"
     }
 }

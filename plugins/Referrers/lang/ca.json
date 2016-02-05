@@ -1,8 +1,8 @@
 {
     "Referrers": {
         "Campaigns": "Campanyes",
-        "CampaignsDocumentation": "Visitants que visiten el vostre lloc web com a resultat d'una campanya. %s Visualitzeu l'inforrme %s per més detalls.",
-        "CampaignsReportDocumentation": "Aquest informe mostra quines campanyes han portat visitants al vostre lloc web. %s Per mes informació sobre la gestió de campanyes, llegiu la %s documetnació de campanyes a piwik.org %s",
+        "CampaignsDocumentation": "Visitants que visiten el vostre lloc web com a resultat d'una campanya. %1$s Visualitzeu l'inforrme %2$s per més detalls.",
+        "CampaignsReportDocumentation": "Aquest informe mostra quines campanyes han portat visitants al vostre lloc web. %1$s Per mes informació sobre la gestió de campanyes, llegiu la %2$s documetnació de campanyes a piwik.org %3$s",
         "ColumnCampaign": "Campanya",
         "ColumnSearchEngine": "Cercador",
         "ColumnSocial": "Xarxa social",
@@ -25,7 +25,7 @@
         "ReferrersOverview": "Resum dels referents",
         "ReferrerTypes": "Tipus de referent",
         "SearchEngines": "Cercadors",
-        "SearchEnginesDocumentation": "Un visitant ha vingut al vostre lloc web a través d'un navegador web. %s Visualitzeu l'informe %s per a més informació.",
+        "SearchEnginesDocumentation": "Un visitant ha vingut al vostre lloc web a través d'un navegador web. %1$s Visualitzeu l'informe %2$s per a més informació.",
         "SearchEnginesReportDocumentation": "Aquest informa mostra quins motors de cerca han portat usuaris al vostre lloc web. %s Clicant en una fila de la tabla, pedeu veureu que han estat cercant els vostres usuris en aquest lloc web.",
         "SocialFooterMessage": "Aquest és un subconjunt del l'informe de llocs web de l'esquerra. Filtra la informació d'altres llocs web així podeu comparar els referents de xarxes socials directament.",
         "Socials": "Xarxes socials",
@@ -42,7 +42,7 @@
         "ViewAllReferrers": "Veure tots els referents",
         "ViewReferrersBy": "Veure els referents agrupats per %s",
         "Websites": "Llocs",
-        "WebsitesDocumentation": "Els visitant ha seguit un enllaç en un altre lloc web que ha portat al vostre lloc web. %s Visualitzeu l'informe %s per a més detalls.",
+        "WebsitesDocumentation": "Els visitant ha seguit un enllaç en un altre lloc web que ha portat al vostre lloc web. %1$s Visualitzeu l'informe %2$s per a més detalls.",
         "WebsitesReportDocumentation": "En aquesta taula podeu observar quins llocs web han portat visitants al vostre lloc web. %s Cliqueu en una fila de la taule per veure les URL dels enllaços a les vostres pàgines.",
         "WidgetExternalWebsites": "Llistat de llocs web externs",
         "WidgetGetAll": "Tots els referents",

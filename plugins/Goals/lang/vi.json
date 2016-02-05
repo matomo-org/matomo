@@ -3,7 +3,7 @@
         "AbandonedCart": "Giỏ hàng không được để ý đến",
         "AddGoal": "Thêm chỉ tiêu (Goal)",
         "AddNewGoal": "Thêm chỉ tiêu mới",
-        "AddNewGoalOrEditExistingGoal": "%s Thêm một chỉ tiêu mới %s hoặc %s sửa chữa %s chỉ tiêu hiện tại",
+        "AddNewGoalOrEditExistingGoal": "%1$s Thêm một chỉ tiêu mới %2$s hoặc %3$s sửa chữa %4$s chỉ tiêu hiện tại",
         "AllowGoalConvertedMoreThanOncePerVisit": "Chỉ tiêu được chuyển đổi nhiều hơn một lần của mỗi lượt truy cập",
         "AllowMultipleConversionsPerVisit": "Cho phép chuyển đổi nhiều phần mỗi lần truy cập",
         "BestCountries": "Các nước chuyển đổi tốt nhất của bạn là:",
@@ -26,7 +26,7 @@
         "ColumnVisits": "Tổng lượt truy cập, Bất kể một mục tiêu có được kích hoạt hay không",
         "ColumnVisitsProductDocumentation": "Số lần truy cập trang Product\/Category. Nó cũng được sử dụng để xử lý %s tốc độ chuyển trang. Chỉ số này sẽ xuất hiện trong báo cáo nếu hệ thống theo dõi thương mại điện tử được xây dựng trong các trang Product\/Category.",
         "Contains": "Chứa %s",
-        "ConversionByTypeReportDocumentation": "Báo cáo này cung cấp thông tin chi tiết về hiệu suất mong muốn (số lượt chuyển đổi, tốc độ chuyển đổi và lợi nhuận trên mỗi lượt thăm) đối với mỗi danh mục có trên panel bên trái. %s Vui lòng nhấn vào một trong các danh mục trên để xem báo cáo. %s Để có thêm thông tin, đọc %sTài liệu Tracking Goals%s",
+        "ConversionByTypeReportDocumentation": "Báo cáo này cung cấp thông tin chi tiết về hiệu suất mong muốn (số lượt chuyển đổi, tốc độ chuyển đổi và lợi nhuận trên mỗi lượt thăm) đối với mỗi danh mục có trên panel bên trái. %1$s Vui lòng nhấn vào một trong các danh mục trên để xem báo cáo. %2$s Để có thêm thông tin, đọc %3$sTài liệu Tracking Goals%4$s",
         "ConversionRate": "Tỷ lệ chuyển đổi %s",
         "Conversions": "%s chuyển đổi",
         "ConversionsOverview": "Chuyển đổi tổng quan (Overview)",
@@ -44,7 +44,7 @@
         "EcommerceOrder": "Đặt hàng Thương mại điện tử",
         "EcommerceOverview": "Thương mại điện tử tổng quan",
         "EcommerceReports": "Các báo cáo thương mại điện tử",
-        "ExceptionInvalidMatchingString": "Nếu bạn chọn 'kết hợp chính xác', các chuỗi kết hợp phải là một URL bắt đầu với %s. Ví dụ, '%s'.",
+        "ExceptionInvalidMatchingString": "Nếu bạn chọn 'kết hợp chính xác', các chuỗi kết hợp phải là một URL bắt đầu với %1$s. Ví dụ, '%2$s'.",
         "ExternalWebsiteUrl": "Đường dẫn (URL) của website nước ngoài",
         "Filename": "Tên tệp tin",
         "GoalConversion": "Chỉ tiêu chuyển đổi",
@@ -84,7 +84,7 @@
         "VisitUrl": "Truy cập vào một URL đã cho (trang hoặc một nhóm trang)",
         "WhenVisitors": "Khi các khách truy cập",
         "WhereThe": "Ở đâu",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Khi một trang đã truy cập gọi đến phương pháp JavaScript 'trackGoal' (%s tìm hiểu thêm %s)",
-        "YouCanEnableEcommerceReports": "Bạn có thể kích hoạt %s cho website này trong trang %s."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Khi một trang đã truy cập gọi đến phương pháp JavaScript 'trackGoal' (%1$s tìm hiểu thêm %2$s)",
+        "YouCanEnableEcommerceReports": "Bạn có thể kích hoạt %1$s cho website này trong trang %2$s."
     }
 }

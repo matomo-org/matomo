@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "Gehitu helburua",
         "AddNewGoal": "Gehitu helburu berria",
-        "AddNewGoalOrEditExistingGoal": "%sGehitu helburu berria%s edo %sEditatu%s dauden helburuak",
+        "AddNewGoalOrEditExistingGoal": "%1$sGehitu helburu berria%2$s edo %3$sEditatu%4$s dauden helburuak",
         "ClickOutlink": "Egin klik kanpoko webgune baterako loturan",
         "ColumnConversions": "Bihurketa",
         "ConversionsOverview": "Bihurketen ikuspegi orokorra",

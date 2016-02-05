@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "Cél hozzáadása",
         "AddNewGoal": "Új cél létrehozása",
-        "AddNewGoalOrEditExistingGoal": "%sHozz létre új célt%s vagy %sszerkeszd%s a már meglévő célokat",
+        "AddNewGoalOrEditExistingGoal": "%1$sHozz létre új célt%2$s vagy %3$sszerkeszd%4$s a már meglévő célokat",
         "BestCountries": "A legjobban konvertáló országok a következőek:",
         "BestKeywords": "A legjobban konvertáló kulcsszavak a következőek:",
         "BestReferrers": "A legjobban konvertáló hivatkozó weboldalak a következőek:",
@@ -17,7 +17,7 @@
         "DefaultRevenueHelp": "Például egy látogató által elküldött kapcsolatfelvételi űrlap 1000 forintnak megfelelő értéket jelenthet átlagosan. A Piwik segít annak megértésében, hogy az egyes látogatói szegmensek hogyan teljesítenek ennek fényében.",
         "DeleteGoalConfirm": "Biztosan törölni szeretnéd a %s elnevezésű célt?",
         "Download": "letöltenek egy fájlt",
-        "ExceptionInvalidMatchingString": "Ha a pontos egyezést választja, akkor a sztringnek egy %s kezdetű URL-nek kell lennie, mint pl. %s.",
+        "ExceptionInvalidMatchingString": "Ha a pontos egyezést választja, akkor a sztringnek egy %1$s kezdetű URL-nek kell lennie, mint pl. %2$s.",
         "ExternalWebsiteUrl": "Külső weboldal URL-je",
         "Filename": "fájlnév",
         "GoalConversion": "Célkonverzió",
@@ -43,6 +43,6 @@
         "VisitUrl": "meglátogatnak egy adott URL-t (mely egy weblapot vagy weblapok csoportját jelenti)",
         "WhenVisitors": "bekövetkezik, ha a látogatók",
         "WhereThe": "ahol a (z)",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "ahol a meglátogatott oldal tartalmaz egy JavaScript hívást a piwikTracker.trackGoal() funkció aktiválására (%stovábbi információ%s)"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "ahol a meglátogatott oldal tartalmaz egy JavaScript hívást a 'trackGoal' funkció aktiválására (%1$stovábbi információ%2$s)"
     }
 }

@@ -31,6 +31,7 @@
         "ExceptionSuperUserAccess": "Dieser Nutzer hat bereits Hauptadministrator-Berechtigungen und Erlaubnis, alle Websites in Piwik aufzurufen und zu bearbeiten. Sie können den Super User Zugriff von diesem Nutzer entfernen und es im Anschluss noch einmal versuchen.",
         "ExceptionUserDoesNotExist": "Der Benutzer '%s' existiert nicht.",
         "ExceptionYouMustGrantSuperUserAccessFirst": "Es muss mindestens ein Hauptadministrator existieren. Bitte geben Sie zuerst einem anderen Nutzer Hauptadministrator-Berechtigungen.",
+        "ExceptionUserHasViewAccessAlready": "Dieser Benutzer hat bereits Zugriff auf diese Website.",
         "ExceptionNoValueForUsernameOrEmail": "Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.",
         "ExcludeVisitsViaCookie": "Ihre Besuche von der Erfassung via Cookie ausschließen",
         "ForAnonymousUsersReportDateToLoadByDefault": "Bericht, der für Gast-Besucher (\"anonymous\") standardmäßig geladen wird",

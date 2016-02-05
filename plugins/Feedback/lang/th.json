@@ -2,10 +2,9 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "คุณมีข้อบกพร่องในการรายงานหรือการร้องขอคุณลักษณะหรือไม่",
         "IWantTo": "ฉันอยากจะ:",
-        "LearnWaysToParticipate": "เรียนรู้เกี่ยวกับทั้งหมดด้วยวิธี %s คุณสามารถ %s มีส่วนร่วมได้",
+        "LearnWaysToParticipate": "เรียนรู้เกี่ยวกับทั้งหมดด้วยวิธี %1$s คุณสามารถ %2$s มีส่วนร่วมได้",
         "ManuallySendEmailTo": "กรุณาส่งข้อความของคุณด้วยตนเอง",
         "SendFeedback": "ส่งคำติชม",
-        "ThankYou": "ขอบคุณที่ช่วยให้เราสามารถทำให้ Piwik ดีกว่า",
-        "VisitTheForums": "เข้าชม %s เว็บบอร์ด %s"
+        "ThankYou": "ขอบคุณที่ช่วยให้เราสามารถทำให้ Piwik ดีกว่า"
     }
 }

@@ -16,7 +16,7 @@
         "RealTimeVisitorCount": "Besøkstall i sanntid",
         "Referrer_URL": "Henvisnings-URL",
         "ShowMap": "vis kart",
-        "SimpleRealTimeWidget_Message": "%s og %s i de siste %s",
+        "SimpleRealTimeWidget_Message": "%1$s og %2$s i de siste %3$s",
         "ViewVisitorProfile": "Vis besøksprofil",
         "VisitedPages": "Besøkte sider",
         "VisitorLog": "Logg over besøkere",

@@ -17,6 +17,7 @@
         "CreatingCustomVariableTakesTime": "La création de nouveaux emplacement de variable personnalisée peut prendre du temps dépendamment de la taille de votre base de données. De ce fait il est possible d'effectuer cela uniquement via une commande qui doit être exécutée dans la console.",
         "CurrentAvailableCustomVariables": "Pour l'instant vous pouvez utiliser jusqu'à %s Variables personnalisées par site.",
         "ToCreateCustomVarExecute": "Pour créer un nouvel emplacement de variable personnalisée exécutez la commande suivante dans votre installation de Piwik :",
-        "SlotsReportIsGeneratedOverTime": "Les données pour ce rapport vont être peuplées avec le temps. Il se peut que cela prenne un jour ou deux pour voir des informations et quelques semaines avant que le rapport ne soit précis."
+        "SlotsReportIsGeneratedOverTime": "Les données pour ce rapport vont être peuplées avec le temps. Il se peut que cela prenne un jour ou deux pour voir des informations et quelques semaines avant que le rapport ne soit précis.",
+        "MetricsNotAvailableForPageScope": "Pour les variables personnalisées de la portée %1$s, la valeur de colonne pour ces métriques est %2$s"
     }
 }

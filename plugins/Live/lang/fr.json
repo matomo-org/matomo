@@ -24,11 +24,11 @@
         "RealTimeVisitorCount": "Décompte des visiteurs en temps réel",
         "Referrer_URL": "URL du référent",
         "ShowMap": "Montrer la carte",
-        "SimpleRealTimeWidget_Message": "%s et %s dans le(s)\/la dernier(s)\/ière(s) %s.",
+        "SimpleRealTimeWidget_Message": "%1$s et %2$s dans le(s)\/la dernier(s)\/ière(s) %3$s.",
         "ViewVisitorProfile": "Afficher le profil du visiteur",
         "VisitedPages": "Pages visitées",
         "VisitorLog": "Log visiteur",
-        "VisitorLogDocumentation": "Ce tableau affiche les dernières visites parmi la période sélectionnée. %s Si la période inclut aujourd'hui, vous pouvez voir vos visiteurs en temps réel! %s Les données affichées ici le sont toujours en temps réel, indépendamment de quand et à quelle fréquence vous utilisez la tâche automatique (cron) d'archivage.",
+        "VisitorLogDocumentation": "Ce tableau affiche les dernières visites parmi la période sélectionnée. %1$s Si la période inclut aujourd'hui, vous pouvez voir vos visiteurs en temps réel! %2$s Les données affichées ici le sont toujours en temps réel, indépendamment de quand et à quelle fréquence vous utilisez la tâche automatique (cron) d'archivage.",
         "VisitorProfile": "Profil visiteur",
         "VisitorsInRealTime": "Visiteurs en temps réel",
         "VisitorsLastVisit": "La dernière visite du visiteur était il y a %s jours.",
@@ -36,7 +36,7 @@
         "RowActionTooltipDefault": "Afficher le logs des visiteurs segmenté par cette rangée",
         "RowActionTooltipWithDimension": "Afficher le log des visiteurs segmenté en fonction de %s",
         "RowActionTooltipTitle": "Ouvrir le log des visiteur segmenté",
-        "SegmentedVisitorLogTitle": "Log des visiteurs affichant les visites ou %s est \"%s\"",
+        "SegmentedVisitorLogTitle": "Log des visiteurs affichant les visites ou %1$s est \"%2$s\"",
         "OnClickPause": "%s est démarré. Cliquer pour mettre en pause.",
         "OnClickStart": "%s est arrêté. Cliquer pour démarrer."
     }

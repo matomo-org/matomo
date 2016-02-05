@@ -92,7 +92,7 @@
         "NVisits": "%s visitas",
         "Ok": "Ok",
         "OpenSourceWebAnalytics": "Analise Web de Open Source",
-        "OrCancel": "ou %s Cancelar %s",
+        "OrCancel": "ou %1$s Cancelar %2$s",
         "Others": "Outros",
         "Outlinks": "Ligazóns externos",
         "Overview": "Xeral",

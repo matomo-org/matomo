@@ -3,7 +3,7 @@
         "AnonymizeIpDescription": "Vyberte \"Áno\" ak chcete aby Piwik nesledoval plne kvalifikované IP adresy",
         "AnonymizeIpInlineHelp": "Anonymnosť posledný bajt IP adresy návštevníkov v súlade s miestnymi zákonmi na ochranu súkromia.",
         "AnonymizeIpMaskLengtDescription": "Vyberte koľko bajtov IP adresy návštevníkov by malo byť maskovaných.",
-        "AnonymizeIpMaskLength": "%s bajt(y) - napr. %s",
+        "AnonymizeIpMaskLength": "%1$s bajt(y) - napr. %2$s",
         "ClickHereSettings": "Kliknite sem pre prístup k %s nastaveniam.",
         "CurrentDBSize": "Aktuálna veľkosť databázy",
         "DBPurged": "Databáza vyčistená."

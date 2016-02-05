@@ -2,10 +2,9 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Ці ёсць у вас памылка аб якой неабходна певедаміць?",
         "IWantTo": "Я хачу, каб:",
-        "LearnWaysToParticipate": "Даведайцеся пра ўсе спосабы %s ўдзельнічыства %s",
+        "LearnWaysToParticipate": "Даведайцеся пра ўсе спосабы %1$s ўдзельнічыства %2$s",
         "ManuallySendEmailTo": "Калі ласка, уручную адпраўце паведамленне да",
         "SendFeedback": "Адправіць водгук",
-        "ThankYou": "Дзякуй за дапамогу нам зрабіць Piwik лепш!",
-        "VisitTheForums": "Наведайце %s форумы %s"
+        "ThankYou": "Дзякуй за дапамогу нам зрабіць Piwik лепш!"
     }
 }
