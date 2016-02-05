@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "%s เวลาเฉลี่ยในการผลิต",
         "AverageVisitDuration": "เฉลี่ยระยะเวลาการเข้าชม %s",
         "GenerateQueries": "%s การค้นหา",
         "GenerateTime": "%s วินาทีที่ใช้",
@@ -7,8 +8,10 @@
         "NbActionsDescription": "%s ดำเนินการ(เข้าชม ดาวน์โหลดและลิงค์ออก)",
         "NbActionsPerVisit": "%s ดำเนินต่อเข้าชม",
         "NbDownloadsDescription": "%s ดาวน์โหลด",
+        "NbKeywordsDescription": "%s คีย์เวิร์ดที่ไม่ซ้ำกัน",
         "NbOutlinksDescription": "%s ลิงค์ที่ออก",
         "NbPageviewsDescription": "%s จำนวนหน้าที่มีการเปิด",
+        "NbSearchesDescription": "รวมผลการค้นหาทั้งหมด %s รายการ ในเว็บไซต์ของคุณ",
         "NbUniqueDownloadsDescription": "%s จำนวนดาวน์โหลดที่ไม่ซ้ำกันน",
         "NbUniqueOutlinksDescription": "%s จำนวนลิงค์ที่ออกโดยไม่ซ้ำกัน",
         "NbUniquePageviewsDescription": "%s จำนวนหน้าที่มีการเปิดที่ไม่ซ้ำกัน",

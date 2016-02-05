@@ -2,7 +2,7 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Czy odkryłeś błąd o którym chcesz poinformować, lub masz pomysł na nową funkcjonalność?",
         "IWantTo": "Pragnę:",
-        "LearnWaysToParticipate": "Poznaj wszystkie sposoby %s uczestnictwa%s",
+        "LearnWaysToParticipate": "Poznaj wszystkie sposoby %1$s uczestnictwa%2$s",
         "ManuallySendEmailTo": "Prosimy ręcznie wysłać swoją wiadomość",
         "PrivacyClaim": "Piwik respektuje twoją %1$sprywatność%2$s i oddaje ci pełną kontrolę nad twoimi danymi.",
         "RateFeatureLeaveMessageDislike": "Przykro nam słyszeć, że Tobie się nie podoba! Proszę pozwól nam wiedzieć, jak możemy to poprawić.",
@@ -12,7 +12,6 @@
         "SendFeedback": "Wyślij opinię",
         "ThankYou": "Dziękujemy za pomoc, która pozwala uczynić statystyki Piwik jeszcze lepszymi!",
         "TopLinkTooltip": "Powiedz nam co myslisz albo poproś o profesjonalne wsparcie.",
-        "ViewUserGuides": "Naucz się jak skonfigurować Piwik i jak efektywnie analizować twoje dane z naszym %1$spodręcznikiem użytkownika%2$s",
-        "VisitTheForums": "Odwiedź %s forum%s"
+        "ViewUserGuides": "Naucz się jak skonfigurować Piwik i jak efektywnie analizować twoje dane z naszym %1$spodręcznikiem użytkownika%2$s"
     }
 }

@@ -27,7 +27,7 @@
         "MakeADifference": "Marque la diferencia: %1$sDone ahora%2$s para financiar Piwik 2.0!",
         "MakeOneTimeDonation": "Entonces, haga una sola donación",
         "Menu": "Menú",
-        "NoPrivilegesAskPiwikAdmin": "Ha iniciado sesión como '%s', pero parece que no posee ningún permiso configurado en Piwik. %s Consulta al administrador de su Piwik (clic para enviar correo electrónico)%s para que le otorgue acceso para 'ver' en el sitio de internet.",
+        "NoPrivilegesAskPiwikAdmin": "Ha iniciado sesión como '%1$s', pero parece que no posee ningún permiso configurado en Piwik. %2$s Consulta al administrador de su Piwik (clic para enviar correo electrónico)%3$s para que le otorgue acceso para 'ver' en el sitio de internet.",
         "OnlyForSuperUserAccess": "Este reproductor sólo se muestra a los usuarios con acceso Super User.",
         "PageOf": "%1$s de %2$s",
         "PeriodRange": "Rango",
@@ -48,6 +48,6 @@
         "YouAreUsingTheLatestVersion": "¡Está utilizando la última versión de Piwik!",
         "ClickRowToExpandOrContract": "Clic en esta fila para expandir o contraer la subtabla.",
         "UndoPivotBySubtable": "Este informe ha sido girado %s Deshacer giro",
-        "PivotBySubtable": "Este informe no es girado %s Giro por %s"
+        "PivotBySubtable": "Este informe no es girado %1$s Giro por %2$s"
     }
 }

@@ -2,10 +2,9 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Ви хочете надіслати нам повідомлення про помилку чи попросити додати нову функцію?",
         "IWantTo": "Я хочу:",
-        "LearnWaysToParticipate": "Дізнатися про всі способи %sдолучитися%s",
+        "LearnWaysToParticipate": "Дізнатися про всі способи %1$sдолучитися%2$s",
         "ManuallySendEmailTo": "Будь-ласка надішліть ваше повідомлення власноручно на",
         "SendFeedback": "Надіслати відгук",
-        "ThankYou": "Дякуємо що допомагаєте робити Piwik кращим!",
-        "VisitTheForums": "Відвідати %s Форум%s"
+        "ThankYou": "Дякуємо що допомагаєте робити Piwik кращим!"
     }
 }

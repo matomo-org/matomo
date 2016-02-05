@@ -3,7 +3,7 @@
         "AbandonedCart": "Адмененых Кошыкаў",
         "AddGoal": "Дадаць Мэту",
         "AddNewGoal": "Дадаць новую Мэту",
-        "AddNewGoalOrEditExistingGoal": "%sДадаць новую Мэту%s або %sРэдагаваць%s існуючыя Мэты",
+        "AddNewGoalOrEditExistingGoal": "%1$sДадаць новую Мэту%2$s або %3$sРэдагаваць%4$s існуючыя Мэты",
         "AllowGoalConvertedMoreThanOncePerVisit": "Дазволіць канвертаванне Мэты больш чым адзін раз за наведванне",
         "AllowMultipleConversionsPerVisit": "Дазволіць некалькі канверсій за адно наведванне",
         "BestCountries": "Краіны з самай лепшай канверсіяй:",
@@ -42,7 +42,7 @@
         "EcommerceOrder": "Электронна-камерцыйная замова",
         "EcommerceOverview": "Агляд Электроннай камерцыі",
         "EcommerceReports": "Справаздачы электроннай камерцыі",
-        "ExceptionInvalidMatchingString": "Калі вы вылучыце 'дакладнае супадзенне', адпавядаючы радок павінен быць URL-адрасам, пачынаючы %s. Напрыклад, '%s'.",
+        "ExceptionInvalidMatchingString": "Калі вы вылучыце 'дакладнае супадзенне', адпавядаючы радок павінен быць URL-адрасам, пачынаючы %1$s. Напрыклад, '%2$s'.",
         "ExternalWebsiteUrl": "знешні URL-адрас сайта",
         "Filename": "імя файла",
         "GoalConversion": "Канверсія Мэты",
@@ -79,7 +79,7 @@
         "VisitUrl": "Наведайце URL-адрас (старонкі, або групу старонак)",
         "WhenVisitors": "калі наведвальнікі",
         "WhereThe": "дзе",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "дзе старонка павінна змяшчаць выклік JavaScript piwikTracker.trackGoal() метада (%sдаведацца больш%s)",
-        "YouCanEnableEcommerceReports": "Вы можаце ўключыць %s для гэтага вэб-сайта ў %s старонкі."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "дзе старонка павінна змяшчаць выклік JavaScript piwikTracker.trackGoal() метада (%1$sдаведацца больш%2$s)",
+        "YouCanEnableEcommerceReports": "Вы можаце ўключыць %1$s для гэтага вэб-сайта ў %2$s старонкі."
     }
 }

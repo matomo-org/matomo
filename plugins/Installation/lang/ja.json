@@ -49,7 +49,7 @@
         "RestartWebServer": "この変更を行った後、ウェブサーバーを再起動してください。",
         "ReusingTables": "表の再利用",
         "PiwikOrgNewsletter": "私に Piwik コミュニティの最新情報をメールで送る",
-        "PiwikProNewsletter": "%s Piwik PRO %s のサービスや最新情報を送ってください",
+        "PiwikProNewsletter": "%1$s Piwik PRO %2$s のサービスや最新情報を送ってください",
         "SeeBelowForMoreInfo": "詳細は、以下をご確認ください。",
         "SetupWebsite": "ウェブサイトのセットアップ",
         "SetupWebsiteError": "ウェブサイトを追加する際にエラーが発生しました",

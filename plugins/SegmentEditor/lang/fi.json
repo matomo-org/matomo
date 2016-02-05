@@ -17,7 +17,6 @@
         "SegmentDisplayedThisWebsiteOnly": "vain tällä verkkosivulla",
         "SegmentIsDisplayedForWebsite": "näytetään vain",
         "SegmentNotApplied": "Segmenttiä '%s' ei sovelleta",
-        "SelectSegmentOfVisitors": "Valitse kävijäsegmentti:",
         "ThisSegmentIsVisibleTo": "Tämä segmentti näytetään seuraaville:",
         "VisibleToAllUsers": "kaikki käyttäjät",
         "VisibleToMe": "minä",

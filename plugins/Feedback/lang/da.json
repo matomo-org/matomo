@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Har du en fejlrapport eller en anmodning om en funktion?",
         "HowToCreateTicket": "Læs anbefalingerne om at skrive en god %1$sfejlrapport%2$s eller %3$sfunktionsanmodning%4$s. Tilmeld eller log ind på %5$svores emne tracker%6$s og opret et %7$snyt emne%8$s.",
         "IWantTo": "Jeg ønsker at:",
-        "LearnWaysToParticipate": "Lær om alle de måder, du kan %s bidrage%s",
+        "LearnWaysToParticipate": "Lær om alle de måder, du kan %1$s bidrage%2$s",
         "ManuallySendEmailTo": "Send din besked manuelt til",
         "PluginDescription": "Send tilbagemelding til Piwik holdet. Del dine ideer og forslag til at gøre Piwik til den bedste analyseplatform i verden!",
         "PrivacyClaim": "Piwik respekterer din %1$sprivacy%2$s og giver dig fuld kontrol over dine data.",
@@ -15,8 +15,7 @@
         "SendFeedback": "Send tilbagemelding",
         "ThankYou": "Tak, fordi du hjælper med at gøre Piwik bedre!",
         "TopLinkTooltip": "Fortæl os hvad du mener eller anmod om professionel support",
-        "ViewAnswersToFAQ": "Se svarene på %sOfte stillede spørgsmål%s",
-        "ViewUserGuides": "Lær at konfigurere Piwik og hvordan man effektivt analyserer data med vores %1$sbrugervejledninger%2$s",
-        "VisitTheForums": "Besøg %s Forum%s"
+        "ViewAnswersToFAQ": "Se svarene på %1$sOfte stillede spørgsmål%2$s",
+        "ViewUserGuides": "Lær at konfigurere Piwik og hvordan man effektivt analyserer data med vores %1$sbrugervejledninger%2$s"
     }
 }

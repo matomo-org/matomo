@@ -7,7 +7,7 @@
         "LinkVisitorLog": "Ver registo de visitantes detalhado",
         "Referrer_URL": "Endereço do Referente",
         "VisitorLog": "Registo de Visitantes",
-        "VisitorLogDocumentation": "Esta tabela mostra as últimas visitas dentro do período selecionado. Você pode ver quando a última visita de um visitante ocorreu passando o cursor sobre os dados de uma visita. %s Se o intervalo de datas incluir hoje, você pode ver os seus visitantes em tempo real! %s Os dados apresentados aqui são sempre em tempo real, independentemente de quantas vezes você está usando o cron job de arquivamento.",
+        "VisitorLogDocumentation": "Esta tabela mostra as últimas visitas dentro do período selecionado. Você pode ver quando a última visita de um visitante ocorreu passando o cursor sobre os dados de uma visita. %1$s Se o intervalo de datas incluir hoje, você pode ver os seus visitantes em tempo real! %2$s Os dados apresentados aqui são sempre em tempo real, independentemente de quantas vezes você está usando o cron job de arquivamento.",
         "VisitorsInRealTime": "Visitantes em Tempo Real",
         "VisitorsLastVisit": "A última visita do utilizador ocorreu à %s dias atrás."
     }

@@ -7,6 +7,7 @@
         "AnonymousUserHasViewAccess": "Merk: brukeren %1$s har %2$s tilgang til dette nettstedet.",
         "AnonymousUserHasViewAccess2": "Dine analyserapporter og informasjon om dine besøkere er offentlig tilgjengelig.",
         "ApplyToAllWebsites": "Legg til alle nettsteder",
+        "ChangeAllConfirm": "Er du sikker på at du vil gi «%s» tilgang til alle nettsteder?",
         "ChangePasswordConfirm": "Endrer du passordet vil du også endre brukerens token_auth. Vil du virkelig fortsette?",
         "ClickHereToDeleteTheCookie": "Klikk her for å slette informasjonskapselen og la Piwik spore dine besøk",
         "ClickHereToSetTheCookieOnDomain": "Klikk her for å sette en informasjonskapsel som vil ekskludere dine besøk på nettsteder som spores av Piwik på %s",

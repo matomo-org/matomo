@@ -14,7 +14,6 @@
         "SegmentDisplayedThisWebsiteOnly": "только этот сайт",
         "SegmentIsDisplayedForWebsite": "и отображается для",
         "SegmentNotAppliedMessage": "Вы запрашиваете данные для пользовательского сегмента '%s', эта конфигурация Piwik в данный момент препятствует обработке отчетов в реальном времени по соображениям производительности.",
-        "SelectSegmentOfVisitors": "Выберите сегмент посетителей:",
         "ThisSegmentIsVisibleTo": "Этот сегмент видим для:",
         "VisibleToAllUsers": "все пользователи",
         "VisibleToMe": "меня",

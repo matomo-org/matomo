@@ -24,7 +24,7 @@
         "JavascriptDisabled": "Aby użyć standardowego widoku Piwik, wymagane jest zezwolenie do działanie skryptów Java.<br \/>Wydaje się jednak, że tutaj JavaScript nie działa lub jest niepoprawnie wspierany przez twoją przeglądarkę.<br \/>By użyć standardowego widoku, włącz działanie JavaScript w opcjach swojej przeglądarki, i wtedy %1$sspróbuj ponownie%2$s.<br \/>",
         "MakeOneTimeDonation": "Zamiast, przekaż jednorazową dotację.",
         "Menu": "Menu",
-        "NoPrivilegesAskPiwikAdmin": "Jesteś zalogowany jako '%s' ale wygląda na to, że nie masz nadanych żadnych uprawnień w Piwik'u. %s Poproś swojego administratora Piwik'a (kliknij aby wysłąć email)%s aby nadał Ci uprawnienia 'przeglądania' strony.",
+        "NoPrivilegesAskPiwikAdmin": "Jesteś zalogowany jako '%1$s' ale wygląda na to, że nie masz nadanych żadnych uprawnień w Piwik'u. %2$s Poproś swojego administratora Piwik'a (kliknij aby wysłąć email)%3$s aby nadał Ci uprawnienia 'przeglądania' strony.",
         "OnlyForSuperUserAccess": "Ten widżet widzą tylko użytkownych z prawami dostępu Super User.",
         "PageOf": "%1$s z %2$s",
         "PeriodRange": "Zakres",

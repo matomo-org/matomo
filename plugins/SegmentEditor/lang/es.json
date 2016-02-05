@@ -19,7 +19,6 @@
         "SegmentIsDisplayedForWebsite": "y mostrado para",
         "SegmentNotApplied": "Segmento '%s' no aplicado",
         "SegmentNotAppliedMessage": "Está solicitando datos para el segmento personalizado '%s', esta configuración de Piwik actualmente impide el proceso en tiempo real de informes por razones de rendimiento.",
-        "SelectSegmentOfVisitors": "Seleccione un segmento de visitantes:",
         "ThisSegmentIsVisibleTo": "Este segmento es visible para:",
         "VisibleToAllUsers": "todos los usuarios",
         "VisibleToMe": "yo",

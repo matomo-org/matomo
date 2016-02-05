@@ -3,7 +3,7 @@
         "AbandonedCart": "Hylätty ostoskori",
         "AddGoal": "Lisää tavoite",
         "AddNewGoal": "Lisää uusi tavoite",
-        "AddNewGoalOrEditExistingGoal": "%sLisää uusi tavoite%s tai %smuokkaa%s olemassaolevia tavoitteita",
+        "AddNewGoalOrEditExistingGoal": "%1$sLisää uusi tavoite%2$s tai %3$smuokkaa%4$s olemassaolevia tavoitteita",
         "AllowGoalConvertedMoreThanOncePerVisit": "Salli tavoitteen saavuttaminen useammin kuin kerran per käynti",
         "AllowMultipleConversionsPerVisit": "Salli monta tavoitteen saavuttamista per käynti",
         "BestCountries": "Parhaat maat ovat:",
@@ -28,7 +28,7 @@
         "ColumnVisits": "Käyntien kokonaismäärä, riippumatta tavoitteiden saavuttamisesta.",
         "ColumnVisitsProductDocumentation": "Käyntien määrä tuote-\/kategoriasivuilla. Tätä käytetään %s:n saavuttamisasteen laskemiseen. Tämä arvo on raportissa, jos verkkokaupan seuranta on otettu käyttöön tuote- ja kategoriasivuilla.",
         "Contains": "sisältää %s",
-        "ConversionByTypeReportDocumentation": "Tämä raportti antaa tarkempaa tietoa tavoitteista (saavuttaminen, saavuttamisprosentit, tulot per käynti) jokaiselle vasemman paneelin kategorialle. %s Näet raportin klikkaamalla kategoriaa. %s Saat lisätietoa englanninkielisestä %s dokumentaatiosta piwik.orgissa%s",
+        "ConversionByTypeReportDocumentation": "Tämä raportti antaa tarkempaa tietoa tavoitteista (saavuttaminen, saavuttamisprosentit, tulot per käynti) jokaiselle vasemman paneelin kategorialle. %1$s Näet raportin klikkaamalla kategoriaa. %2$s Saat lisätietoa englanninkielisestä %3$s dokumentaatiosta piwik.orgissa%4$s",
         "ConversionRate": "%s siirtymisaste",
         "Conversions": "%s siirtymää",
         "ConversionsOverview": "Siirtymien yleiskatsaus",
@@ -46,7 +46,7 @@
         "EcommerceOrder": "Verkkokaupan järjestys",
         "EcommerceOverview": "Verkkokaupan yleiskatsaus",
         "EcommerceReports": "Verkkokaupan raportit",
-        "ExceptionInvalidMatchingString": "Jos valitset 'täsmällinen osuma', täsmäävän merkkijonon täytyy olla osoite, joka alkaa %s. Esimerkiksi '%s'.",
+        "ExceptionInvalidMatchingString": "Jos valitset 'täsmällinen osuma', täsmäävän merkkijonon täytyy olla osoite, joka alkaa %1$s. Esimerkiksi '%2$s'.",
         "ExternalWebsiteUrl": "ulkopuolisen sivun osoite",
         "Filename": "tiedostonimi",
         "GoalConversion": "Maalin muunnos",
@@ -86,7 +86,7 @@
         "VisitUrl": "Vierailee annetussa osoitteessa (sivu tai ryhmä sivuja)",
         "WhenVisitors": "kun kävijöitä",
         "WhereThe": "jossa",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "jossa sivu sisältää JavaScript-kutsun metodille piwikTracker.trackGoal() (%slue lisää%s)",
-        "YouCanEnableEcommerceReports": "Voit ottaa käyttöön %s tälle sivustolle sivulla %s."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "jossa sivu sisältää JavaScript-kutsun metodille 'trackGoal' (%1$slue lisää%2$s)",
+        "YouCanEnableEcommerceReports": "Voit ottaa käyttöön %1$s tälle sivustolle sivulla %2$s."
     }
 }

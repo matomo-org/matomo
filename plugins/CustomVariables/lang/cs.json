@@ -17,6 +17,8 @@
         "CreatingCustomVariableTakesTime": "Vytvoření nové vlastní proměnné hodnoty může trvat déle v závislosti na velikosti vaší databáze. Proto je toto možné provést pouze pomocí příkazu spuštěnému v příkazové řádce.",
         "CurrentAvailableCustomVariables": "Aktuálně můžete použít až %s vlastních proměnných na stránku.",
         "ToCreateCustomVarExecute": "Pro vytvoření nového slotu pro vlastní proměnnou spusťte následující příkaz ve své instalaci Piwik:",
-        "SlotsReportIsGeneratedOverTime": "Data pro tento report budou dostupná později. Než budou data vidět, může to den nebo dva trvat a poté několik týdnů než bude report vypovídající."
+        "SlotsReportIsGeneratedOverTime": "Data pro toto hlášení budou dostupná později. Než budou data vidět, může to den nebo dva trvat a poté několik týdnů než bude hlášení plně vypovídající.",
+        "MetricsAreOnlyAvailableForVisitScope": "Poznámka: Metriky %1$s jsou k dispozici pro vlastní proměnné pouze v rozsahu %2$s.",
+        "MetricsNotAvailableForPageScope": "Pro vlastní proměnné v rozsahu %1$s je hodnota sloupce s těmito metrikami %2$s"
     }
 }

@@ -18,7 +18,6 @@
         "SegmentIsDisplayedForWebsite": "och visas för",
         "SegmentNotApplied": "Segment '%s' tillämpas inte",
         "SegmentNotAppliedMessage": "Du begär data för det Anpassade Segmentet '%s', denna Piwik konfiguration förhindrar realtidsbearbetning av rapporter pga prestandaskäl.",
-        "SelectSegmentOfVisitors": "Välj ett besökarsegment",
         "ThisSegmentIsVisibleTo": "Det här segmentet är synligt för:",
         "VisibleToAllUsers": "alla användare",
         "VisibleToMe": "jag",

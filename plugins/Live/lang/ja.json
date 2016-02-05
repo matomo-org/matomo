@@ -24,11 +24,11 @@
         "RealTimeVisitorCount": "リアルタイムのビジター数",
         "Referrer_URL": "参照元 URL",
         "ShowMap": "地図を表示",
-        "SimpleRealTimeWidget_Message": "最後の %s の %s と %s",
+        "SimpleRealTimeWidget_Message": "最後の %1$s の %2$s と %3$s",
         "ViewVisitorProfile": "ビジターのプロフィールをみる",
         "VisitedPages": "訪問されたページ",
         "VisitorLog": "ビジターログ",
-        "VisitorLogDocumentation": "この表は選択した日付期間内で最新のビジットについて表示しています。ビジットの日付の上にマウスを移動して、そのビジターの最後のビジットが何日前か見ることが出来ます。%s 期間内に本日が含まれていれば、ビジターをリアルタイムで見られます！ %s ここに表示されるのは、アーカイブのためのcronジョブ設定の頻度に関わらず、常にライブのデータです。",
+        "VisitorLogDocumentation": "この表は選択した日付期間内で最新のビジットについて表示しています。ビジットの日付の上にマウスを移動して、そのビジターの最後のビジットが何日前か見ることが出来ます。%1$s 期間内に本日が含まれていれば、ビジターをリアルタイムで見られます！ %2$s ここに表示されるのは、アーカイブのためのcronジョブ設定の頻度に関わらず、常にライブのデータです。",
         "VisitorProfile": "ビジターのプロフィール",
         "VisitorsInRealTime": "リアルタイムのビジター",
         "VisitorsLastVisit": "このビジターの最新のビジットは %s 日前です。",
@@ -36,7 +36,7 @@
         "RowActionTooltipDefault": "この行で分割されたビジターログを表示",
         "RowActionTooltipWithDimension": "この %s で分割されたビジターログを表示",
         "RowActionTooltipTitle": "セグメントビジターログを表示",
-        "SegmentedVisitorLogTitle": "%s が \" %s \" のビジットを示すビジターログ",
+        "SegmentedVisitorLogTitle": "%1$s が \" %2$s \" のビジットを示すビジターログ",
         "OnClickPause": "%s が開始されました。クリックして一時停止します。",
         "OnClickStart": "%s は停止しています。クリックして開始します。"
     }
