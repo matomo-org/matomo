@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\LanguagesManager\Test\Integration;
 
+use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Plugins\LanguagesManager\API;
@@ -19,6 +20,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespac
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
+use Piwik\Translate;
 
 /**
  * @group LanguagesManager
@@ -123,6 +125,27 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
     function testGetTranslationsForLanguagesNot()
     {
         $this->assertFalse(API::getInstance()->getTranslationsForLanguage("../no-language"));
+    }
+
+    /**
+     * check all english translations do not contain more than one
+     *
+     * @group Plugins
+     * @group numbered
+     */
+    function testTranslationsUseNumberedPlaceholders()
+    {
+        Cache::flushAll();
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translator->reset();
+        Translate::loadAllTranslations();
+        $translations = $translator->getAllTranslations();
+        foreach ($translations AS $plugin => $pluginTranslations) {
+            foreach ($pluginTranslations as $key => $pluginTranslation) {
+                $this->assertLessThanOrEqual(1, substr_count($pluginTranslation, '%s'),
+                    sprintf('%s.%s must use numbered placeholders instead of multiple %%s', $plugin, $key));
+            }
+        }
     }
 
     /**
