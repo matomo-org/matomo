@@ -115,7 +115,7 @@ class BatchInsert
             // in this case tableInsertBatch might still work
         }
 
-        if (empty($path) || !is_dir($path) || !is_writable($path)) {
+        if (empty($path) || !@is_dir($path) || !@is_writable($path)) {
             $path = StaticContainer::get('path.tmp') . '/assets/';
         } elseif (!Common::stringEndsWith($path, '/')) {
             $path .= '/';
