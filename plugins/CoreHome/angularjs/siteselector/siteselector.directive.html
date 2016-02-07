@@ -37,7 +37,7 @@
                     ng-hide="!showSelectedSite && activeSiteId==site.idsite">
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
                        piwik-autocomplete-matched="view.searchTerm"
-                       title="{{ site.name|htmldecode }}"
+                       title="{{ site.name|htmldecode }}"
                        ng-bind-html="site.name" tabindex="4"></a>
                 </li>
             </ul>
