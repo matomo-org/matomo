@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Http;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Url;
@@ -23,6 +24,7 @@ abstract class ReleaseChannel extends BaseReleaseChannel
         $parameters = array(
             'piwik_version'   => Version::VERSION,
             'php_version'     => PHP_VERSION,
+            'mysql_version'   => Db::get()->getServerVersion(),
             'release_channel' => $this->getId(),
             'url'             => Url::getCurrentUrlWithoutQueryString(),
             'trigger'         => Common::getRequestVar('module', '', 'string'),
