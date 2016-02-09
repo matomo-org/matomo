@@ -466,19 +466,14 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu ul li {
-    padding: 2px 0px 1px 6px;
+    padding: 2px 0 1px 6px;
     margin: 3px 0 0 0;
     cursor: pointer;
 }
 
 .segmentationContainer .submenu ul li:hover {
     color: #255792;
-    margin: 0;
-    margin-left: -3px;
-    border: 1px solid #d5d2c6;
-    border-bottom: 2px solid #918f88;
-    border-radius: 4px;
-    background: #eae8e3;
+    background: #ebeae6;
 }
 
 .segmentationContainer ul.submenu {
@@ -496,6 +491,11 @@ div.scrollable {
     background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
     width: 16px;
     height: 16px;
+    .opacity(0.5);
+
+    &:hover {
+        .opacity(1);
+    }
 }
 
 .segmentEditorPanel.expanded .segmentationContainer {
