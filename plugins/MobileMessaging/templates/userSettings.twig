@@ -1,5 +1,7 @@
 {% extends 'user.twig' %}
 
+{% set title %}{{ 'MobileMessaging_Settings_SMSProvider'|translate }}{% endset %}
+
 {% block content %}
 
     {% import 'ajaxMacros.twig' as ajax %}
@@ -11,8 +13,7 @@
     {% import '@MobileMessaging/macros.twig' as macro %}
 
     {% if accountManagedByCurrentUser and delegatedManagement %}
-        <h2 piwik-enriched-headline
-                >{{ 'MobileMessaging_Settings_SMSProvider'|translate }}</h2>
+        <h2 piwik-enriched-headline>{{ title }}</h2>
 
         {{ macro.manageSmsApi(credentialSupplied, creditLeft, smsProviders, provider) }}
     {% endif %}
@@ -28,104 +29,93 @@
         {% endif %}
     {% else %}
         {{ 'MobileMessaging_Settings_PhoneNumbers_Help'|translate }}
-        <br/>
-        <br/>
-        <table style="width:900px;" class="adminTable">
-            <tbody>
-            <tr>
-                <td style="width:480px;">
-                    <strong>{{ 'MobileMessaging_Settings_PhoneNumbers_Add'|translate }}</strong>
-                    <br/><br/>
+        <span class="form-group">
+            <div class="form-help">
+                {{ strHelpAddPhone }}
+            </div>
+            <span>
+                <p><strong>{{ 'MobileMessaging_Settings_PhoneNumbers_Add'|translate }}</strong></p>
+            </span>
+            <span id="suspiciousPhoneNumber" style="display:none;">
+                {{ 'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate('54184032') }}
+                <br/><br/>
+            </span>
 
-                <span id="suspiciousPhoneNumber" style="display:none;">
-                    {{ 'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate('54184032') }}
-                    <br/><br/>
-                </span>
+        </span>
 
-                    + <input id="countryCallingCode" size="4" maxlength="4"/>&nbsp;
-                    <input id="newPhoneNumber"/>
-                    <input type="submit" value='{{ 'General_Add'|translate }}'
-                           id="addPhoneNumberSubmit"/>
-                    <br/>
+        + <input id="countryCallingCode" size="4" maxlength="4"/>&nbsp;
+        <input id="newPhoneNumber"/>
+        <input type="submit" value='{{ 'General_Add'|translate }}'
+               id="addPhoneNumberSubmit"/>
+        <br/>
 
 		<span style=' font-size: 11px;'><span
                     class="form-description">{{ 'MobileMessaging_Settings_CountryCode'|translate }}</span>
 			<span class="form-description"
                   style="margin-left:50px;">{{ 'MobileMessaging_Settings_PhoneNumber'|translate }}</span></span>
-                    <br/><br/>
 
-                    {{ 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate }}
+        <br/><br/>
 
-                    <select id="countries">
-                        {# this is a trick to avoid selecting the first country when no default could be found #}
-                        <option value="">&nbsp;</option>
-                        {% for countryCode, country in countries %}
-                            <option value='{{ country.countryCallingCode }}'
-                                    {% if defaultCountry==countryCode %} selected="selected" {% endif %}
-                                    >
-                                {{ country.countryName }}
-                            </option>
-                        {% endfor %}
-                    </select>
+        {{ 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate }}
 
-                </td>
-                <td style="width:220px;">
-                    {% import 'macros.twig' as piwik %}
-                    {{ piwik.inlineHelp(strHelpAddPhone) }}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
+        <select id="countries">
+            {# this is a trick to avoid selecting the first country when no default could be found #}
+            <option value="">&nbsp;</option>
+            {% for countryCode, country in countries %}
+                <option value='{{ country.countryCallingCode }}'
+                        {% if defaultCountry==countryCode %} selected="selected" {% endif %}
+                        >
+                    {{ country.countryName }}
+                </option>
+            {% endfor %}
+        </select>
 
-                    {% if phoneNumbers|length > 0 %}
-                        <br/>
-                        <br/>
-                        <strong>{{ 'MobileMessaging_Settings_ManagePhoneNumbers'|translate }}</strong>
-                        <br/>
-                        <br/>
+
+        {% if phoneNumbers|length > 0 %}
+            <br/>
+            <br/>
+            <strong>{{ 'MobileMessaging_Settings_ManagePhoneNumbers'|translate }}</strong>
+            <br/>
+            <br/>
+        {% endif %}
+
+        {{ ajax.errorDiv('invalidVerificationCodeAjaxError') }}
+
+        <div id='phoneNumberActivated' style="display:none;">
+            {{ 'MobileMessaging_Settings_PhoneActivated'|translate }}
+        </div>
+
+        <div id='invalidActivationCode' style="display:none;">
+            {{ 'MobileMessaging_Settings_InvalidActivationCode'|translate }}
+        </div>
+
+        <ul>
+            {% for phoneNumber, validated in phoneNumbers %}
+                <li>
+                    <span class='phoneNumber'>{{ phoneNumber }}</span>
+                    {% if not validated %}
+                        <input class='verificationCode'/>
+                        <input
+                                type='submit'
+                                value='{{ 'MobileMessaging_Settings_ValidatePhoneNumber'|translate }}'
+                                class='validatePhoneNumberSubmit'
+                                />
                     {% endif %}
+                    <input
+                            type='submit'
+                            value='{{ 'General_Remove'|translate }}'
+                            class='removePhoneNumberSubmit'
+                            />
+                    {% if not validated %}
+                        <br/>
+                        <span class='form-description'>{{ 'MobileMessaging_Settings_VerificationCodeJustSent'|translate }}</span>
+                    {% endif %}
+                    <br/>
+                    <br/>
+                </li>
+            {% endfor %}
+        </ul>
 
-                    {{ ajax.errorDiv('invalidVerificationCodeAjaxError') }}
-
-                    <div id='phoneNumberActivated' style="display:none;">
-                        {{ 'MobileMessaging_Settings_PhoneActivated'|translate }}
-                    </div>
-
-                    <div id='invalidActivationCode' style="display:none;">
-                        {{ 'MobileMessaging_Settings_InvalidActivationCode'|translate }}
-                    </div>
-
-                    <ul>
-                        {% for phoneNumber, validated in phoneNumbers %}
-                            <li>
-                                <span class='phoneNumber'>{{ phoneNumber }}</span>
-                                {% if not validated %}
-                                    <input class='verificationCode'/>
-                                    <input
-                                            type='submit'
-                                            value='{{ 'MobileMessaging_Settings_ValidatePhoneNumber'|translate }}'
-                                            class='validatePhoneNumberSubmit'
-                                            />
-                                {% endif %}
-                                <input
-                                        type='submit'
-                                        value='{{ 'General_Remove'|translate }}'
-                                        class='removePhoneNumberSubmit'
-                                        />
-                                {% if not validated %}
-                                    <br/>
-                                    <span class='form-description'>{{ 'MobileMessaging_Settings_VerificationCodeJustSent'|translate }}</span>
-                                {% endif %}
-                                <br/>
-                                <br/>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                </td>
-            </tr>
-            </tbody>
-        </table>
     {% endif %}
 
     {{ ajax.loadingDiv('ajaxLoadingMobileMessagingSettings') }}

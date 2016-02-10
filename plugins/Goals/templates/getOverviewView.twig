@@ -21,9 +21,9 @@
         {% endif %}
 
                 <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
-                    {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
+                    {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions|number~"</strong>")|raw }}
                     {% if goal.goalAllowMultipleConversionsPerVisit %}
-                        ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
+                        ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted|number~"</strong>") | raw }})
                     {% endif %}
                 </div>
 
@@ -33,7 +33,7 @@
         {% endif %}
 
                 <div class="sparkline">{{ sparkline(goal.urlSparklineConversionRate) }}
-                    {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
+                    {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong>")|raw }}
                 </div>
 
         {% if not isWidget %}

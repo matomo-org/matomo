@@ -1,15 +1,24 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s min",
-        "BetweenXYSeconds": "%1$s-%2$ss",
-        "ColumnPagesPerVisit": "Sider pr. besøk",
+        "BetweenXYMinutes": "%1$s – %2$s min",
+        "BetweenXYSeconds": "%1$s–%2$ss",
+        "ColumnPagesPerVisit": "Sider per besøk",
         "ColumnVisitDuration": "Besøksvarighet",
         "Engagement": "Engasjement",
         "NPages": "%s sider",
         "OnePage": "1 side",
-        "VisitsPerDuration": "Besøk pr. besøksvarighet",
-        "VisitsPerNbOfPages": "Besøk pr. antall sider",
+        "PluginDescription": "Rapporter om besøkeres interesse: antall sider som ble vist, tid brukt på nettstedet, dager siden siste besøk, og mer.",
+        "VisitNum": "Besøksnummer",
+        "VisitsByDaysSinceLast": "Besøk etter dager siden siste besøk",
+        "visitsByVisitCount": "Besøk etter besøksnummer",
+        "VisitsPerDuration": "Besøk per besøksvarighet",
+        "VisitsPerNbOfPages": "Besøk per antall sider",
         "WidgetLengths": "Besøkslengde",
-        "WidgetPages": "Sider pr. besøk"
+        "WidgetLengthsDocumentation": "I denne rapporten kan du se hvor mange besøk som hadde en bestemt totallengde. I utgangspunktet vises rapporten som en stikkordsky, hvor mer vanlige lengder vises med større skrift.",
+        "WidgetPages": "Sider per besøk",
+        "WidgetPagesDocumentation": "I denne rapporten kan du se hvor mange besøk som involverte et bestemt antall sidevisninger. I utgangspunktet vises rapporten som en stikkordsky, hvor mer vanlige antall sidevisninger vises med større skrift.",
+        "WidgetVisitsByDaysSinceLast": "Besøk etter dager siden siste besøk",
+        "WidgetVisitsByDaysSinceLastDocumentation": "I denne rapporten kan du se hvor mange besøk som kom fra besøkere som var på nettstedet for et visst antall dager siden.",
+        "WidgetVisitsByNumDocumentation": "I denne rapporten kan du se antallet besøk som var det N-te besøket, altså besøkere som besøkte ditt nettsted minst N ganger."
     }
 }

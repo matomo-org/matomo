@@ -1,11 +1,17 @@
 {
     "Login": {
+        "ConfirmationLinkSent": "Potrditveno sporočilo je bilo poslano na vaš elektronski naslov. Poglejte elektronsko pošto in sledite povezavi v njem, da potrdite zahtevo za spremembo vašega gesla.",
+        "ContactAdmin": "Možen razlog: na strežniku je onemogočena mail() funkcija. <br \/>Prosimo, obrnite se na vašega Piwik administratorja.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uporabnik z vlogo \"Super User\" se ne more prijaviti z uporabo mehanizma '%s'.",
         "InvalidOrExpiredToken": "Žeton je neveljaven ali pa je potekel.",
         "InvalidUsernameEmail": "Napačno uporabniško ime ali e-mail naslov.",
         "LogIn": "Vpis",
         "LoginOrEmail": "Uporabniško ime ali E-mail",
         "LoginPasswordNotCorrect": "Napačna kombinacija uporabniškega imena in gesla.",
         "LostYourPassword": "Ste pozabili geslo?",
+        "MailPasswordChangeBody": "Pozdravljen\/-a %1$s,\n\ns strani %2$s je bil prejet zahtevek za zamenjavo gesla. Za potrditev verodostojnosti te zahteve, prosimo sledite povezavi:\n\n%3$s\n\nOpozorilo: ta žeton bo potekel po 24-ih urah.\n\nHvala, ker uporabljate Piwik!",
+        "MailTopicPasswordChange": "Potrdite spremembo gesla",
+        "PasswordChanged": "Vaše geslo je bilo spremenjeno.",
         "PasswordRepeat": "Geslo (ponovno)",
         "PasswordsDoNotMatch": "Gesli se ne ujemata.",
         "RememberMe": "Zapomni si me"

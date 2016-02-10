@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>new name</website>
-	<prettyDate>Saturday 6 March 2010</prettyDate>
+	<prettyDate>Saturday, March 6, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<name>Page titles</name>
@@ -44,7 +44,8 @@
 	</reportData>
 	<reportMetadata>
 		<row>
-			<idsubdatatable>1</idsubdatatable>
+			
+			<idsubdatatable>5119</idsubdatatable>
 		</row>
 	</reportMetadata>
 	<reportTotal>

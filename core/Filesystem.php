@@ -135,10 +135,11 @@ class Filesystem
 
             $output = @shell_exec($command);
             if ($output) {
-                $output = explode("\n", $output);
-                if (count($output) > 1) {
+                $commandFailed = (false !== strpos($output, "no file systems processed"));
+                $output = explode("\n", trim($output));
+                if (!$commandFailed
+                    && count($output) > 1) {
                     // check if filesystem is NFS
-
                     return true;
                 }
             }

@@ -10,7 +10,7 @@ var Piwik_Overlay_Client = (function () {
     var idSite;
 
     /** The current period and date */
-    var period, date;
+    var period, date, segment;
 
     /** Reference to the status bar DOM element */
     var statusBar;
@@ -131,11 +131,12 @@ var Piwik_Overlay_Client = (function () {
     return {
 
         /** Initialize in-site analytics */
-        initialize: function (pPiwikRoot, pIdSite, pPeriod, pDate) {
+        initialize: function (pPiwikRoot, pIdSite, pPeriod, pDate, pSegment) {
             piwikRoot = pPiwikRoot;
             idSite = pIdSite;
             period = pPeriod;
             date = pDate;
+            segment = pSegment;
 
             var load = this.loadScript;
             var loading = this.loadingNotification;
@@ -192,6 +193,10 @@ var Piwik_Overlay_Client = (function () {
         api: function (method, callback, additionalParams) {
             var url = piwikRoot + 'index.php?module=API&method=Overlay.' + method
                 + '&idSite=' + idSite + '&period=' + period + '&date=' + date + '&format=JSON&filter_limit=-1';
+
+            if (segment) {
+                url += '&segment=' + segment;
+            }
 
             if (additionalParams) {
                 url += '&' + additionalParams;

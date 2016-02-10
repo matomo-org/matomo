@@ -84,6 +84,36 @@ class ManagerTest extends IntegrationTestCase
         $this->assertFalse($this->manager->isPluginActivated('ExampleTheme'));
     }
 
+    /**
+     * @dataProvider getPluginNameProvider
+     */
+    public function test_isValidPluginName($expectedIsValid, $pluginName)
+    {
+        $valid = $this->manager->isValidPluginName($pluginName);
+        $this->assertSame($expectedIsValid, $valid);
+    }
+
+    public function getPluginNameProvider()
+    {
+        return array(
+            array(true, 'a'),
+            array(true, 'a0'),
+            array(true, 'pluginNameTest'),
+            array(true, 'PluginNameTest'),
+            array(true, 'PluginNameTest92323232eerwrwere938'),
+            array(false, ''),
+            array(false, '0'),
+            array(false, '0a'),
+            array(false, 'a.'),
+            array(false, 'a-'),
+            array(false, 'a_'),
+            array(false, 'a-ererer'),
+            array(false, 'a_ererer'),
+            array(false, '..'),
+            array(false, '/'),
+        );
+    }
+
     private function getCacheForTrackerPlugins()
     {
         return PiwikCache::getEagerCache();

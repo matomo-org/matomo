@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
+use Piwik\NumberFormatter;
+use Piwik\Plugins\Referrers\SearchEngine;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -36,9 +38,9 @@ class Dmoz implements MetricsProvider
         try {
             $response = Http::sendHttpRequest(self::URL . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
 
-            preg_match('#Open Directory Sites[^\(]+\([0-9]-[0-9]+ of ([0-9]+)\)#', $response, $p);
+            preg_match('#DMOZ Sites[^\(]+\([0-9]-[0-9]+ of ([0-9]+)\)#', $response, $p);
             if (!empty($p[1])) {
-                $value = (int)$p[1];
+                $value = NumberFormatter::getInstance()->formatNumber((int)$p[1]);
             } else {
                 $value = 0;
             }
@@ -52,7 +54,7 @@ class Dmoz implements MetricsProvider
             $value = null;
         }
 
-        $logo = \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://dmoz.org');
+        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://dmoz.org');
 
         return array(
             new Metric('dmoz', 'SEO_Dmoz', $value, $logo)

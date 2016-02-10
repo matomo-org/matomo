@@ -10,16 +10,18 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
-use Piwik\Date;
+use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
+use Piwik\ProxyHttp;
 
 /**
  * Base class of plugin controllers that provide administrative functionality.
@@ -85,6 +87,36 @@ abstract class ControllerAdmin extends Controller
         self::setBasicVariablesAdminView($view);
     }
 
+    private static function notifyIfURLIsNotSecure()
+    {
+        $isURLSecure = ProxyHttp::isHttps();
+        if ($isURLSecure) {
+            return;
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
+        if(Url::isLocalHost(Url::getCurrentHost())) {
+            return;
+        }
+
+
+        $message = Piwik::translate('General_CurrentlyUsingUnsecureHttp');
+
+        $message .= " ";
+
+        $message .= Piwik::translate('General_ReadThisToLearnMore',
+            array('<a rel="noreferrer" target="_blank" href="https://piwik.org/faq/how-to/faq_91/">', '</a>')
+          );
+
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->raw     = true;
+        Notification\Manager::notify('ControllerAdmin_HttpIsUsed', $notification);
+    }
+
     /**
      * @ignore
      */
@@ -102,6 +134,7 @@ abstract class ControllerAdmin extends Controller
             Notification\Manager::notify('ControllerAdmin_ConfigNotWriteable', $notification);
         }
     }
+
 
     private static function notifyIfEAcceleratorIsUsed()
     {
@@ -122,14 +155,23 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsEOL()
     {
-        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersion53();
+        $deprecatedMajorPhpVersion = null;
+        if(self::isPhpVersion53()) {
+            $deprecatedMajorPhpVersion = '5.3';
+        } elseif(self::isPhpVersion54()) {
+            $deprecatedMajorPhpVersion = '5.4';
+        }
+
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && $deprecatedMajorPhpVersion;
         if (!$notifyPhpIsEOL) {
             return;
         }
-        $dateDropSupport = Date::factory('2015-05-01')->getLocalized('%longMonth% %longYear%');
-        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', $dateDropSupport)
+
+        $nextRequiredMinimumPHP = '5.5';
+
+        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, $nextRequiredMinimumPHP))
             . "\n "
-            . Piwik::translate('General_WarningPhpVersionXIsTooOld', '5.3');
+            . Piwik::translate('General_WarningPhpVersionXIsTooOld', $deprecatedMajorPhpVersion);
 
         $notification = new Notification($message);
         $notification->title = Piwik::translate('General_Warning');
@@ -137,7 +179,26 @@ abstract class ControllerAdmin extends Controller
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
-        NotificationManager::notify('PHP53VersionCheck', $notification);
+        NotificationManager::notify('DeprecatedPHPVersionCheck', $notification);
+    }
+
+    private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
+    {
+        if (!Development::isEnabled()
+            && Piwik::hasUserSuperUserAccess() &&
+            TrackerConfig::getConfigValue($trackerSetting)) {
+
+            $message = Piwik::translate('General_WarningDebugOnDemandEnabled');
+            $message = sprintf($message, '"' . $trackerSetting . '"', '"[Tracker] ' .  $trackerSetting . '"', '"0"',
+                                               '"config/config.ini.php"');
+            $notification = new Notification($message);
+            $notification->title = Piwik::translate('General_Warning');
+            $notification->priority = Notification::PRIORITY_LOW;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->type = Notification::TYPE_TRANSIENT;
+            $notification->flags = Notification::FLAG_NO_CLEAR;
+            NotificationManager::notify('Tracker' . $trackerSetting, $notification);
+        }
     }
 
     /**
@@ -166,6 +227,7 @@ abstract class ControllerAdmin extends Controller
     {
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
+        self::notifyIfURLIsNotSecure();
 
         $view->topMenu  = MenuTop::getInstance()->getMenu();
         $view->userMenu = MenuUser::getInstance()->getMenu();
@@ -185,6 +247,8 @@ abstract class ControllerAdmin extends Controller
         self::checkPhpVersion($view);
 
         self::notifyWhenPhpVersionIsEOL();
+        self::notifyWhenDebugOnDemandIsEnabled('debug');
+        self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;
@@ -220,5 +284,10 @@ abstract class ControllerAdmin extends Controller
     private static function isPhpVersion53()
     {
         return strpos(PHP_VERSION, '5.3') === 0;
+    }
+
+    private static function isPhpVersion54()
+    {
+        return strpos(PHP_VERSION, '5.4') === 0;
     }
 }

@@ -34,6 +34,11 @@ class UpdaterMock extends Updater
         return true;
     }
 
+    public function getArchiveUrl($version, $https = true)
+    {
+        return 'http://builds.piwik.org/piwik.zip';
+    }
+
     public function updatePiwik($https = true)
     {
         // Simulate that the update over HTTPS fails

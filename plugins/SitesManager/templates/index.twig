@@ -1,5 +1,7 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'SitesManager_WebsitesManagement'|translate }}{% endset %}
+
 {% block content %}
 
     <div ng-include="'plugins/SitesManager/templates/index.html?cb={{ cacheBuster }}'"></div>

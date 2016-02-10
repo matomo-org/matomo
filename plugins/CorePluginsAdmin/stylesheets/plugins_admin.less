@@ -23,6 +23,40 @@ table.dataTable tr.inactive-plugin:hover > td {
     margin-bottom:1.5em;
 }
 
+.plugin-donation {
+    margin-top:1em;
+}
+
+.donation-overlay {
+    text-align: center;
+    .donation-links {
+        margin-top: 2em;
+        .donation-link {
+            display: inline-block;
+            margin: 0 1em;
+
+            &.bitcoin {
+                margin: 1em 0!important;
+                display: block!important;
+                a {
+                    display: inline-block;
+                    color: #c7254e;
+                    border-radius: 4px;
+                    font-size: 1.1em;
+                    padding: 5px;
+                    text-decoration: none!important;
+                    background-color: #f9f2f4;
+                }
+                span {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
 .plugin-author {
     float:left;
 }
@@ -58,6 +92,14 @@ table.entityTable tr td a.uninstall {
 }
 
 #plugins {
+
+    .inactive-plugin,
+    .active-plugin {
+        .name {
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+    }
 
     .plugin-desc-missingrequirements {
         font-weight:bold;

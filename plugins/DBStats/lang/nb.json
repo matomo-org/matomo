@@ -2,14 +2,20 @@
     "DBStats": {
         "DatabaseUsage": "Databasebruk",
         "DataSize": "Datastørrelse",
-        "DBSize": "DB størrelse",
+        "DBSize": "DB-størrelse",
         "EstimatedSize": "Estimert størrelse",
         "IndexSize": "Indeksstørrelse",
         "LearnMore": "For å lære mer om hvordan Piwik behandler data og hvordan få Piwik til å virke bra for nettsteder med medium og høy trafikk, les dokumentasjonen %s.",
         "MainDescription": "Piwik lagrer all din statistikk i MySQL-databasen. Akkurat nå bruker Piwik-tabellene %s.",
+        "MetricDataByYear": "Måledatatabeller etter år",
+        "MetricTables": "Måletdatatabeller",
         "OtherTables": "Andre tabeller",
+        "PluginDescription": "Gir deg detaljerte rapporter om MySQL-databasebruk. Tilgjengelig for superbrukere under Diagnostikk.",
+        "ReportDataByYear": "Rapporttabeller etter år",
+        "ReportTables": "Rapporttabeller",
         "RowCount": "Antall rader",
         "Table": "Tabell",
-        "TotalSize": "Total størrelse"
+        "TotalSize": "Total størrelse",
+        "TrackerTables": "Sporingstabeller"
     }
 }

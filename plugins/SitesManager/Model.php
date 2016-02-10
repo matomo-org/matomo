@@ -80,8 +80,8 @@ class Model
     /**
      * Returns the list of the website IDs that received some visits since the specified timestamp.
      *
-     * @param \Piwik\Date $time
-     * @param \Piwik\Date $now
+     * @param string $time
+     * @param string $now
      * @return array The list of website IDs
      */
     public function getSitesWithVisits($time, $now)
@@ -286,6 +286,22 @@ class Model
         return $urls;
     }
 
+    /**
+     * Returns the list of alias URLs registered for the given idSite.
+     * The website ID must be valid when calling this method!
+     *
+     * @param int $idSite
+     * @return array list of alias URLs
+     */
+    public function getAllKnownUrlsForAllSites()
+    {
+        $db        = $this->getDb();
+        $mainUrls  = $db->fetchAll("SELECT idsite, main_url as url FROM " . Common::prefixTable("site"));
+        $aliasUrls = $db->fetchAll("SELECT idsite, url FROM " . Common::prefixTable("site_url"));
+
+        return array_merge($mainUrls, $aliasUrls);
+    }
+
     public function updateSite($site, $idSite)
     {
         $idSite = (int) $idSite;
@@ -314,7 +330,7 @@ class Model
     /**
      * Updates the field ts_created for the specified websites.
      *
-     * @param $idSites int Id Site to update ts_created
+     * @param $idSites int[] Id Site to update ts_created
      * @param string Date to set as creation date.
      *
      * @ignore

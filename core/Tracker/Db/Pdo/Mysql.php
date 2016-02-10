@@ -47,9 +47,14 @@ class Mysql extends Db
         } else {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
         }
+
         $this->username = $dbInfo['username'];
         $this->password = $dbInfo['password'];
-        $this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
+
+        if (isset($dbInfo['charset'])) {
+            $this->charset = $dbInfo['charset'];
+            $this->dsn .= ';charset=' . $this->charset;
+        }
     }
 
     public function __destruct()
@@ -203,9 +208,8 @@ class Mysql extends Db
             }
             return $sth;
         } catch (PDOException $e) {
-            throw new DbException("Error query: " . $e->getMessage() . "
-                                In query: $query
-                                Parameters: " . var_export($parameters, true));
+            $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
+            throw new DbException("Error query: " . $message, (int) $e->getCode());
         }
     }
 

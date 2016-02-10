@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\Common;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Db;
@@ -193,12 +192,21 @@ class Visitor implements VisitorInterface
         // Flatten Page Titles/URLs
         $count = 1;
         foreach ($visitorDetailsArray['actionDetails'] as $action) {
-            if (!empty($action['url'])) {
-                $flattenedKeyName = 'pageUrl' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
-                $visitorDetailsArray[$flattenedKeyName] = $action['url'];
-            }
 
             // API.getSuggestedValuesForSegment
+            $flattenForActionType = array(
+                'outlink' => 'outlinkUrl',
+                'download' => 'downloadUrl',
+                'action' => 'pageUrl'
+            );
+            foreach($flattenForActionType as $actionType => $flattenedKeyPrefix) {
+                if (!empty($action['url'])
+                    && $action['type'] == $actionType) {
+                    $flattenedKeyName = $flattenedKeyPrefix . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                    $visitorDetailsArray[$flattenedKeyName] = $action['url'];
+                }
+            }
+
             $flatten = array( 'pageTitle', 'siteSearchKeyword', 'eventCategory', 'eventAction', 'eventName', 'eventValue');
             foreach($flatten as $toFlatten) {
                 if (!empty($action[$toFlatten])) {
@@ -250,7 +258,7 @@ class Visitor implements VisitorInterface
         $actionDetails = $model->queryActionsForVisit($idVisit, $actionsLimit);
 
         $formatter = new Formatter();
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];
@@ -277,7 +285,7 @@ class Visitor implements VisitorInterface
                 unset($actionDetails[$actionIdx]);
                 continue;
 
-            } elseif ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+            } elseif ($actionDetail['type'] == Action::TYPE_EVENT) {
                 // Handle Event
                 if (strlen($actionDetail['pageTitle']) > 0) {
                     $actionDetail['eventName'] = $actionDetail['pageTitle'];
@@ -292,7 +300,7 @@ class Visitor implements VisitorInterface
             }
 
             // Event value / Generation time
-            if ($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+            if ($actionDetail['type'] == Action::TYPE_EVENT) {
                 if (strlen($actionDetail['custom_float']) > 0) {
                     $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
                 }
@@ -301,7 +309,7 @@ class Visitor implements VisitorInterface
             }
             unset($actionDetail['custom_float']);
 
-            if ($actionDetail['type'] != Action::TYPE_EVENT_CATEGORY) {
+            if ($actionDetail['type'] != Action::TYPE_EVENT) {
                 unset($actionDetail['eventCategory']);
                 unset($actionDetail['eventAction']);
             }
@@ -351,6 +359,8 @@ class Visitor implements VisitorInterface
             $ecommerceConversion['itemDetails'] = $itemsDetails;
         }
 
+        $actionDetails = array_values($actionDetails);
+
         // Enrich with time spent per action
         foreach($actionDetails as $actionIdx => &$actionDetail) {
 
@@ -359,22 +369,24 @@ class Visitor implements VisitorInterface
             if ($nextActionFound) {
                 $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
             } else {
+
                 // Last action of a visit.
                 // By default, Piwik does not know how long the user stayed on the page
                 // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
-                $timeOfLastActionOrPingInVisitRow = $visitorDetailsArray['lastActionTimestamp'];
-
+                $visitTotalTime = $visitorDetailsArray['visitDuration'];
                 $timeOfLastAction = Date::factory($actionDetail['serverTimePretty'])->getTimestamp();
 
-                $timeSpentOnPage = $timeOfLastActionOrPingInVisitRow - $timeOfLastAction;
+                $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetailsArray['firstActionTimestamp']);
+                $timeSpentOnPage = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
 
                 // Safe net, we assume the time is correct when it's more than 10 seconds
-                if($timeSpentOnPage > 10) {
+                if ($timeSpentOnPage > 10) {
                     $actionDetail['timeSpent'] = $timeSpentOnPage;
                 }
+
             }
 
-            if(isset($actionDetail['timeSpent'])) {
+            if (isset($actionDetail['timeSpent'])) {
                 $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent'], true);
             }
 
@@ -383,7 +395,6 @@ class Visitor implements VisitorInterface
         }
 
         $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
-
         usort($actions, array('static', 'sortByServerTime'));
 
         foreach ($actions as &$action) {
@@ -415,7 +426,7 @@ class Visitor implements VisitorInterface
                     $details['type'] = 'search';
                     $details['icon'] = 'plugins/Morpheus/images/search_ico.png';
                     break;
-                case Action::TYPE_EVENT_CATEGORY:
+                case Action::TYPE_EVENT:
                     $details['type'] = 'event';
                     $details['icon'] = 'plugins/Morpheus/images/event.png';
                     break;
@@ -427,7 +438,7 @@ class Visitor implements VisitorInterface
 
             // Convert datetimes to the site timezone
             $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
-            $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat') . ' %time%');
+            $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::DATETIME_FORMAT_SHORT);
             $details['timestamp'] = $dateTimeVisit->getTimestamp();
         }
 

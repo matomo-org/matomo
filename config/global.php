@@ -72,4 +72,14 @@ return array(
                 'tld' => false,
             ))));
     },
+
+    'Piwik\Tracker\VisitorRecognizer' => DI\object()
+        ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))
+        ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))
+        ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor'))
+        ->constructorParameter('trackerAlwaysNewVisitor', DI\get('ini.Debug.tracker_always_new_visitor')),
+
+    'Piwik\Tracker\Settings' => DI\object()
+        ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
+
 );

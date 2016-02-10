@@ -10,8 +10,8 @@
         "VisitsByDayOfWeek": "Odwiedziny w poszczególnych dniach tygodnia",
         "WidgetByDayOfWeekDocumentation": "Ten wykres pokazuje liczbe odwiedzin twojej stony otrzymanych każdego dnia tygodnia",
         "WidgetLocalTime": "Odwiedziny według lokalnego czasu",
-        "WidgetLocalTimeDocumentation": "Ten wykres pokazuje jaki czas był %s w strefie czasowej odwiedzających %s podczas ich wizyty.",
+        "WidgetLocalTimeDocumentation": "Ten wykres pokazuje jaki czas był %1$s w strefie czasowej odwiedzających %2$s podczas ich wizyty.",
         "WidgetServerTime": "Odwiedziny według czasu serwera",
-        "WidgetServerTimeDocumentation": "Ten wykres pokazuje jaki czas był w %s strefie czasowej serwera %s podczas odwiedzin."
+        "WidgetServerTimeDocumentation": "Ten wykres pokazuje jaki czas był w %1$s strefie czasowej serwera %2$s podczas odwiedzin."
     }
 }

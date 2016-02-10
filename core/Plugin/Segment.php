@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Plugin;
+use Exception;
 
 /**
  * Creates a new segment that can be used for instance within the {@link \Piwik\Columns\Dimension::configureSegment()}
@@ -51,6 +52,15 @@ class Segment
     private $acceptValues;
     private $permission;
     private $suggestedValuesCallback;
+    private $unionOfSegments;
+
+    /**
+     * If true, this segment will only be visible to the user if the user has view access
+     * to one of the requested sites (see API.getSegmentsMetadata).
+     *
+     * @var bool
+     */
+    private $requiresAtLeastViewAccess = false;
 
     /**
      * @ignore
@@ -114,6 +124,7 @@ class Segment
     public function setSegment($segment)
     {
         $this->segment = $segment;
+        $this->check();
     }
 
     /**
@@ -157,6 +168,29 @@ class Segment
     public function setSqlSegment($sqlSegment)
     {
         $this->sqlSegment = $sqlSegment;
+        $this->check();
+    }
+
+    /**
+     * Set a list of segments that should be used instead of fetching the values from a single column.
+     * All set segments will be applied via an OR operator.
+     *
+     * @param array $segments
+     * @api
+     */
+    public function setUnionOfSegments($segments)
+    {
+        $this->unionOfSegments = $segments;
+        $this->check();
+    }
+
+    /**
+     * @return array
+     * @ignore
+     */
+    public function getUnionOfSegments()
+    {
+        return $this->unionOfSegments;
     }
 
     /**
@@ -185,6 +219,15 @@ class Segment
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return string
+     * @ignore
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -233,6 +276,10 @@ class Segment
             'sqlSegment' => $this->sqlSegment,
         );
 
+        if (!empty($this->unionOfSegments)) {
+            $segment['unionOfSegments'] = $this->unionOfSegments;
+        }
+
         if (!empty($this->sqlFilter)) {
             $segment['sqlFilter'] = $this->sqlFilter;
         }
@@ -254,5 +301,41 @@ class Segment
         }
 
         return $segment;
+    }
+
+    /**
+     * Returns true if this segment should only be visible to the user if the user has view access
+     * to one of the requested sites (see API.getSegmentsMetadata), false if it should always be
+     * visible to the user (even the anonymous user).
+     *
+     * @return boolean
+     * @ignore
+     */
+    public function isRequiresAtLeastViewAccess()
+    {
+        return $this->requiresAtLeastViewAccess;
+    }
+
+    /**
+     * Sets whether the segment should only be visible if the user requesting it has view access
+     * to one of the requested sites and if the user is not the anonymous user.
+     *
+     * @param boolean $requiresAtLeastViewAccess
+     * @ignore
+     */
+    public function setRequiresAtLeastViewAccess($requiresAtLeastViewAccess)
+    {
+        $this->requiresAtLeastViewAccess = $requiresAtLeastViewAccess;
+    }
+
+    private function check()
+    {
+        if ($this->sqlSegment && $this->unionOfSegments) {
+            throw new Exception(sprintf('Union of segments and SQL segment is set for segment "%s", use only one of them', $this->name));
+        }
+
+        if ($this->segment && $this->unionOfSegments && in_array($this->segment, $this->unionOfSegments, true)) {
+            throw new Exception(sprintf('The segment %s contains a union segment to itself', $this->name));
+        }
     }
 }

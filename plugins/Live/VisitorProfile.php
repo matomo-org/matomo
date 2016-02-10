@@ -38,10 +38,11 @@ class VisitorProfile
      * @param $visits
      * @param $visitorId
      * @param $segment
+     * @param $numLastVisits
      * @return array
      * @throws Exception
      */
-    public function makeVisitorProfile(DataTable $visits, $visitorId, $segment)
+    public function makeVisitorProfile(DataTable $visits, $visitorId, $segment, $numLastVisits)
     {
         $this->initVisitorProfile();
 
@@ -56,8 +57,12 @@ class VisitorProfile
             // individual goal conversions are stored in action details
             foreach ($visit->getColumn('actionDetails') as $action) {
                 $this->handleIfGoalAction($action);
+                $this->handleIfEventAction($action);
+                $this->handleIfDownloadAction($action);
+                $this->handleIfOutlinkAction($action);
                 $this->handleIfEcommerceAction($action);
                 $this->handleIfSiteSearchAction($action);
+                $this->handleIfPageViewAction($action);
                 $this->handleIfPageGenerationTime($action);
             }
             $this->handleGeoLocation($visit);
@@ -75,7 +80,7 @@ class VisitorProfile
         $this->handleAdjacentVisitorIds($visits, $visitorId, $segment);
 
         // use N most recent visits for last_visits
-        $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
+        $visits->deleteRowsOffset($numLastVisits);
 
         $this->profile['lastVisits'] = $visits;
 
@@ -97,7 +102,7 @@ class VisitorProfile
         $serverDate = $visit->getColumn('firstActionTimestamp');
         return array(
             'date'            => $serverDate,
-            'prettyDate'      => Date::factory($serverDate)->getLocalized(Piwik::translate('CoreHome_DateFormat')),
+            'prettyDate'      => Date::factory($serverDate)->getLocalized(Date::DATE_FORMAT_LONG),
             'daysAgo'         => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
             'referrerType'    => $visit->getColumn('referrerType'),
             'referralSummary' => self::getReferrerSummaryForVisit($visit),
@@ -133,7 +138,14 @@ class VisitorProfile
         }
 
         if ($referrerType == 'campaign') {
-            return Piwik::translate('Referrers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
+
+            $summary = Piwik::translate('Referrers_ColumnCampaign') . ': ' . $visit->getColumn('referrerName');
+            $keyword = $visit->getColumn('referrerKeyword');
+            if (!empty($keyword)) {
+                $summary .= ' - ' . $keyword;
+            }
+
+            return $summary;
         }
 
         return $visit->getColumn('referrerName');
@@ -142,6 +154,50 @@ class VisitorProfile
     private function isEcommerceEnabled()
     {
         return $this->isEcommerceEnabled;
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfEventAction($action)
+    {
+        if ($action['type'] != 'event') {
+            return;
+        }
+        $this->profile['totalEvents']++;
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfDownloadAction($action)
+    {
+        if ($action['type'] != 'download') {
+            return;
+        }
+        $this->profile['totalDownloads']++;
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfOutlinkAction($action)
+    {
+        if ($action['type'] != 'outlink') {
+            return;
+        }
+        $this->profile['totalOutlinks']++;
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfPageViewAction($action)
+    {
+        if ($action['type'] != 'action') {
+            return;
+        }
+        $this->profile['totalPageViews']++;
     }
 
     /**
@@ -275,7 +331,11 @@ class VisitorProfile
         $this->profile['totalVisits'] = 0;
         $this->profile['totalVisitDuration'] = 0;
         $this->profile['totalActions'] = 0;
+        $this->profile['totalEvents'] = 0;
+        $this->profile['totalOutlinks'] = 0;
+        $this->profile['totalDownloads'] = 0;
         $this->profile['totalSearches'] = 0;
+        $this->profile['totalPageViews'] = 0;
         $this->profile['totalPageViewsWithTiming'] = 0;
         $this->profile['totalGoalConversions'] = 0;
         $this->profile['totalConversionsByGoal'] = array();

@@ -62,7 +62,7 @@ class Visitor
             ) {
                 $refUrl = @parse_url($this->details['referer_url']);
                 if (isset($refUrl['host'])) {
-                    $url = getSearchEngineUrlFromUrlAndKeyword('http://google.com', $this->getKeyword());
+                    $url = SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword('http://google.com', $this->getKeyword());
                     $url = str_replace('google.com', $refUrl['host'], $url);
 
                     return $url;
@@ -109,7 +109,7 @@ class Visitor
             && !empty($this->details['referer_name'])
         ) {
 
-            return getSearchEngineUrlFromName($this->details['referer_name']);
+            return SearchEngine::getInstance()->getUrlFromName($this->details['referer_name']);
         }
 
         return null;
@@ -121,7 +121,7 @@ class Visitor
 
         if (!is_null($searchEngineUrl)) {
 
-            return getSearchEngineLogoFromUrl($searchEngineUrl);
+            return SearchEngine::getInstance()->getLogoFromUrl($searchEngineUrl);
         }
 
         return null;

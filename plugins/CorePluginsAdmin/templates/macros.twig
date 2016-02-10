@@ -15,13 +15,13 @@
             {% for name,plugin in pluginsHavingUpdate %}
                 <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                     <td class="name">
-                        <a href="javascript:void(0);" data-pluginName="{{ plugin.name|e('html_attr') }}">
+                        <a href="javascript:void(0);" data-pluginName="{{ plugin.name|e('html_attr') }}" class="plugin-details">
                             {{ plugin.name }}
                         </a>
                     </td>
                     <td class="vers">
                         {% if plugin.repositoryChangelogUrl %}
-                            <a href="javascript:void(0);" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" data-activePluginTab="changelog" data-pluginName="{{ plugin.name|e('html_attr') }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
+                            <a href="javascript:void(0);" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" class="plugin-details" data-activePluginTab="changelog" data-pluginName="{{ plugin.name|e('html_attr') }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
                         {% else %}
                             {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
                         {% endif %}
@@ -153,10 +153,10 @@
             {% set isDefaultTheme = isTheme and name == 'Morpheus' %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
-                    <td class="name" style="white-space:nowrap;">
+                    <td class="name">
                         <a name="{{ name|e('html_attr') }}"></a>
                         {% if not plugin.isCorePlugin and name in marketplacePluginNames -%}
-                            <a href="javascript:void(0);"
+                            <a href="javascript:void(0);" class="plugin-details"
                                data-pluginName="{{ name|e('html_attr') }}"
                                >{{ name }}</a>
                         {%- else %}
@@ -184,8 +184,33 @@
                                   'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/'
                             ] %}
                             <span class="plugin-homepage">
-                                <a href="{{ plugin.info.homepage }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
+                                <a target="_blank" href="{{ plugin.info.homepage }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
                             </span>
+                            {% endif %}
+
+                            {% if plugin.info.donate is defined and plugin.info.donate|length %}
+                                <div class="plugin-donation">
+                                    {{ 'CorePluginsAdmin_LikeThisPlugin'|translate }} <a href="javascript:;" class="plugin-donation-link" data-overlay-id="overlay-{{ name|escape('html_attr') }}">{{ 'CorePluginsAdmin_ConsiderDonating'|translate }}</a>
+                                    <div id="overlay-{{ name|escape('html_attr') }}" class="donation-overlay ui-confirm" title="{{ 'CorePluginsAdmin_LikeThisPlugin'|translate }}">
+                                        <p>{{ 'CorePluginsAdmin_CommunityContributedPlugin'|translate }}</p>
+                                        <p>{{ 'CorePluginsAdmin_ConsiderDonatingCreatorOf'|translate("<b>" ~ name ~ "</b>")|raw }}</p>
+                                        <div class="donation-links">
+                                        {% if plugin.info.donate.paypal is defined and plugin.info.donate.paypal %}
+                                            <a class="donation-link paypal" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&item_name=Piwik%20Plugin%20{{ name|escape('url') }}&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted&business={{ plugin.info.donate.paypal|escape('url') }}"><img src="plugins/CorePluginsAdmin/images/paypal_donate.jpg" height="30"/></a>
+                                        {% endif %}
+                                        {% if plugin.info.donate.flattr is defined and plugin.info.donate.flattr %}
+                                            <a class="donation-link flattr" target="_blank" href="{{ plugin.info.donate.flattr }}"><img class="alignnone" title="Flattr" alt="" src="plugins/CorePluginsAdmin/images/flattr.png" height="29" /></a>
+                                        {% endif %}
+                                        {% if plugin.info.donate.bitcoin is defined and plugin.info.donate.bitcoin %}
+                                            <div class="donation-link bitcoin">
+                                                <span>Donate Bitcoins to:</span>
+                                                <a href="bitcoin:{{ plugin.info.donate.bitcoin|escape('url') }}">{{ plugin.info.donate.bitcoin }}</a>
+                                            </div>
+                                        {% endif %}
+                                        </div>
+                                        <input role="no" type="button" value="{{ 'General_Close'|translate }}"/>
+                                    </div>
+                                </div>
                             {% endif %}
                         </div>
                         {% if plugin.info.license is defined %}

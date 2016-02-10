@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live\tests\Integration;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\Live\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -59,6 +60,48 @@ class ModelTest extends IntegrationTestCase
         ';
         $expectedBind = array(
             '1',
+            '2010-01-01 00:00:00',
+            '2010-02-01 00:00:00',
+        );
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    public function test_makeLogVisitsQueryString_withMultipleIdSites()
+    {
+        Piwik::addAction('Live.API.getIdSitesString', function (&$idSites) {
+            $idSites = array(2,3,4);
+        });
+
+        $model = new Model();
+        list($sql, $bind) = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $period = 'month',
+                $date = '2010-01-01',
+                $segment = false,
+                $offset = 0,
+                $limit = 100,
+                $visitorId = false,
+                $minTimestamp = false,
+                $filterSortOrder = false
+        );
+        $expectedSql = ' SELECT sub.* FROM
+                (
+                    SELECT log_visit.*
+                    FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
+                    WHERE log_visit.idsite in (?,?,?)
+                      AND log_visit.visit_last_action_time >= ?
+                      AND log_visit.visit_last_action_time <= ?
+                    ORDER BY visit_last_action_time DESC
+                    LIMIT 100
+                 ) AS sub
+                 GROUP BY sub.idvisit
+                 ORDER BY sub.visit_last_action_time DESC
+        ';
+        $expectedBind = array(
+            '2',
+            '3',
+            '4',
             '2010-01-01 00:00:00',
             '2010-02-01 00:00:00',
         );

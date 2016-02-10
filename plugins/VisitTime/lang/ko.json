@@ -5,13 +5,14 @@
         "DayOfWeek": "요일",
         "LocalTime": "현지 시간 기준 방문 수",
         "NHour": "%s시",
+        "PluginDescription": "방문자가 웹사이트나 앱을 볼 때 현지 시간 및 서버 시간을 알려줍니다.",
         "ServerTime": "서버 시간 기준 방문 수",
         "SubmenuTimes": "방문시간",
         "VisitsByDayOfWeek": "요일별 방문수",
         "WidgetByDayOfWeekDocumentation": "이 그래프는 각 요일별로 웹사이트에 방문한 수를 보여줍니다.",
         "WidgetLocalTime": "현지 시간 기준 방문 수",
-        "WidgetLocalTimeDocumentation": "이 그래프는 %s현지 시간대%s에 기준하여 시간별 방문수를 보여줍니다.",
+        "WidgetLocalTimeDocumentation": "이 그래프는 %1$s현지 시간대%2$s에 기준하여 시간별 방문수를 보여줍니다.",
         "WidgetServerTime": "서버 시간 기준 방문 수",
-        "WidgetServerTimeDocumentation": "이 그래프는 %s서버 시간대%s에 기준하여 시간별 방문수를 보여줍니다."
+        "WidgetServerTimeDocumentation": "이 그래프는 %1$s서버 시간대%2$s에 기준하여 시간별 방문수를 보여줍니다."
     }
 }

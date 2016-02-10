@@ -13,8 +13,9 @@
         "OneClick": "1회 클릭",
         "OpenFullScreen": "전체 화면 (사이드바 아님)으로 이동",
         "Overlay": "페이지 오버레이",
-        "RedirectUrlError": "URL \"%s\"에 대한 페이지 오버레이를 열려고 시도합니다. %s은 Piwik 설정한 도메인과 어떤 링크도 일치하지 않습니다.",
-        "RedirectUrlErrorAdmin": "당신은 %s설정%s에서 추가적인 URL로 도메인을 추가할 수 있습니다.",
+        "PluginDescription": "당신의 웹사이트 분석 데이터를 오버레이 형식으로 볼 수 있습니다. 사용자가 얼마나 각 링크를 클릭했는지 확인해보세요. 참고: Transitions 플러그인이 활성화 되어 있어야 합니다.",
+        "RedirectUrlError": "URL \"%1$s\"에 대한 페이지 오버레이를 열려고 시도합니다. %2$s은 Piwik 설정한 도메인과 어떤 링크도 일치하지 않습니다.",
+        "RedirectUrlErrorAdmin": "당신은 %1$s설정%2$s에서 추가적인 URL로 도메인을 추가할 수 있습니다.",
         "RedirectUrlErrorUser": "도메인에 추가적인 URL을 추가하려면 관리자에게 문의하세요."
     }
 }

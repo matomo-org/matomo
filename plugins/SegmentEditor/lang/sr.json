@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
+        "PluginDescription": "Kreiranje segmentiranih izveštaja.",
         "AddANDorORCondition": "Dodavanje uslova %s",
         "AddNewSegment": "Dodavanje novog segmenta",
         "AreYouSureDeleteSegment": "Da li ste sigurni da želite da obrišete ovaj segment?",
@@ -18,11 +19,10 @@
         "SegmentIsDisplayedForWebsite": "i prikazan za",
         "SegmentNotApplied": "Segment '%s' nije primenjen.",
         "SegmentNotAppliedMessage": "Zahtevali ste podatke za korisnički definisani segment '%s' a trenutne postavke Piwik-a sprečavaju procesiranje izveštaja u realnom vremenu zbog očuvanja nivoa performansi.",
-        "SelectSegmentOfVisitors": "Izaberite segment posetilaca:",
         "ThisSegmentIsVisibleTo": "Ovaj segment je vidljiv:",
         "VisibleToAllUsers": "svi korisnici",
         "VisibleToMe": "meni",
-        "YouMayChangeSetting": "Takođe možete promeniti podešavanja i u datoteci %s ili izmenom segmenta i izborom '%s'.",
+        "YouMayChangeSetting": "Takođe možete promeniti podešavanja i u datoteci %1$s ili izmenom segmenta i izborom '%2$s'.",
         "YouMustBeLoggedInToCreateSegments": "Morate biti prijavljeni kako biste mogli da kreirate i menjate segmente.",
         "YouDontHaveAccessToCreateSegments": "Nemate odgovarajući nivo pristupa da biste kreirali i menjali segmente.",
         "AddingSegmentForAllWebsitesDisabled": "Dodavanje segmenata za sve sajtove je onemogućeno."

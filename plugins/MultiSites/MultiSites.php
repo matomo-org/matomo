@@ -13,9 +13,9 @@ use Piwik\Piwik;
 class MultiSites extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
@@ -47,7 +47,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'General_ColumnNbVisits';
         $translations[] = 'General_ColumnPageviews';
         $translations[] = 'General_ColumnRevenue';
-        $translations[] = 'General_TotalVisitsPageviewsRevenue';
+        $translations[] = 'General_TotalVisitsPageviewsActionsRevenue';
         $translations[] = 'General_EvolutionSummaryGeneric';
         $translations[] = 'General_AllWebsitesDashboard';
         $translations[] = 'General_NVisits';
@@ -62,6 +62,10 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'General_ErrorRequest';
         $translations[] = 'General_Pagination';
         $translations[] = 'General_ClickToSearch';
+        $translations[] = 'General_NeedMoreHelp';
+        $translations[] = 'General_Faq';
+        $translations[] = 'Feedback_CommunityHelp';
+        $translations[] = 'Feedback_ProfessionalHelp';
     }
 
     public function getJsFiles(&$jsFiles)

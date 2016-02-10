@@ -133,10 +133,20 @@ class Model
             $i++;
         }
 
-        $this->getDb()->query($sql, $bind);
-
         Common::printDebug($sql);
         Common::printDebug($bind);
+
+        try {
+            $this->getDb()->query($sql, $bind);
+        } catch (Exception $e) {
+            if ($e->getCode() == 23000 ||
+                false !== strpos($e->getMessage(), 'Duplicate entry') ||
+                false !== strpos($e->getMessage(), 'Integrity constraint violation')) {
+                Common::printDebug('Did not create ecommerce item as item was already created');
+            } else {
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -279,7 +289,7 @@ class Model
 
     public function updateVisit($idSite, $idVisit, $valuesToUpdate)
     {
-        list($updateParts, $sqlBind) = $this->visitFieldsToQuery($valuesToUpdate);
+        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode($updateParts, ', ');
         $table = Common::prefixTable('log_visit');
@@ -302,15 +312,37 @@ class Model
         return $wasInserted;
     }
 
-    public function findVisitor($idSite, $configId, $idVisitor, $fieldsToRead, $numCustomVarsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
+    public function updateAction($idLinkVa, $valuesToUpdate)
+    {
+        if (empty($idLinkVa)) {
+            return;
+        }
+
+        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+
+        $parts = implode($updateParts, ', ');
+        $table = Common::prefixTable('log_link_visit_action');
+
+        $sqlQuery = "UPDATE $table SET $parts WHERE idlink_va = ?";
+
+        $sqlBind[] = $idLinkVa;
+
+        $db          = $this->getDb();
+        $result      = $db->query($sqlQuery, $sqlBind);
+        $wasInserted = $db->rowCount($result) != 0;
+
+        if (!$wasInserted) {
+            Common::printDebug("Action with this idLinkVa wasn't found in the DB.");
+            Common::printDebug("$sqlQuery --- ");
+            Common::printDebug($sqlBind);
+        }
+
+        return $wasInserted;
+    }
+
+    public function findVisitor($idSite, $configId, $idVisitor, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
     {
         $selectCustomVariables = '';
-
-        if ($numCustomVarsToRead) {
-            for ($index = 1; $index <= $numCustomVarsToRead; $index++) {
-                $selectCustomVariables .= ', custom_var_k' . $index . ', custom_var_v' . $index;
-            }
-        }
 
         $selectFields = implode(', ', $fieldsToRead);
 
@@ -392,7 +424,7 @@ class Model
         return $result == null;
     }
 
-    private function visitFieldsToQuery($valuesToUpdate)
+    private function fieldsToQuery($valuesToUpdate)
     {
         $updateParts = array();
         $sqlBind     = array();

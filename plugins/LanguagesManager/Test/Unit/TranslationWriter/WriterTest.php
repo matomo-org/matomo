@@ -103,17 +103,12 @@ class WriterTest extends \PHPUnit_Framework_TestCase
         return array(
             array(array('General' => array('Locale' => '')) + $translations, CoreTranslations::ERRORSTATE_LOCALEREQUIRED),
             array(array('General' => array('Locale' => 'de_DE.UTF-8')) + $translations, CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED),
-            array(array('General' => array('Locale' => 'de_DE.UTF-8',
-                                           'TranslatorName' => 'name')) + $translations, CoreTranslations::ERRORSTATE_TRANSLATOREMAILREQUIRED),
             array(array('General' => array('Locale' => 'invalid',
-                                           'TranslatorName' => 'name',
-                                           'TranslatorEmail' => 'name@domain.com')) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALID),
+                                           'TranslatorName' => 'name')) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALID),
             array(array('General' => array('Locale' => 'xx_DE.UTF-8',
-                                           'TranslatorName' => 'name',
-                                           'TranslatorEmail' => 'name@domain.com',)) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE),
+                                           'TranslatorName' => 'name')) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE),
             array(array('General' => array('Locale' => 'de_XX.UTF-8',
-                                           'TranslatorName' => 'name',
-                                           'TranslatorEmail' => 'name@domain.com',)) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY),
+                                           'TranslatorName' => 'name')) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY),
             array(array('General' => array('Locale' => '<script>')) + $translations, 'script tags restricted for language files'),
         );
     }

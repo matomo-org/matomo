@@ -1,6 +1,10 @@
 {
     "DevicePlugins": {
-        "BrowserWithPluginsEnabled": "%1$s med tillegg %2$s aktivert",
-        "WidgetPlugins": "Liste over tillegg"
+        "BrowserWithNoPluginsEnabled": "%1$s uten noen aktiverte utvidelser",
+        "BrowserWithPluginsEnabled": "%1$s med utvidelsene %2$s aktivert",
+        "PluginDescription": "Rapporter med lister av utvidelser som er støttet i besøkeres nettlesere.",
+        "PluginDetectionDoesNotWorkInIE": "Merk. Utvidelsesgjenkjenning fungerer ikke i Internet Explorer før versjon 11. Denne rapporten baserer seg kun på ikke-IE-nettlesere og nyere versjoner av IE.",
+        "WidgetPlugins": "Liste over utvidelser",
+        "WidgetPluginsDocumentation": "Denne rapporten viser hvilke utvidelser som dine besøkere har aktivert. Denne informasjonen kan være nyttig for velge riktig måte å presentere ditt innhold."
     }
 }

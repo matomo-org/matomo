@@ -10,7 +10,7 @@
         "ExceptionArchiveEmpty": "Tühi arhiiv.",
         "HelpMessageContent": "Vaata %1$s Piwik KKK %2$s milles selgitadakse tavapäraste probleemide põhjuseid ja lahendusi. %3$s Kui sa ei leia lahendust, siis küsi oma süsteemi administraatoritelt abi- nad võivad aidata juhul, kui need vead on seotud serveri või MySQL seadetega.",
         "HelpMessageIntroductionWhenWarning": "Uuendamine edukalt lõpetatud, siiski esines protsessis vigu. Palun tutvu ülal vigade kirjeldustega. Saamaks rohkem abi:",
-        "HighTrafficPiwikServerEnableMaintenance": "Kui sa haldad suure liiklusega Piwiku serverit, soovitame korraks %slülitada Piwiku kasutajaliides hooldusrežiimi ja katkestada külastuste kohta info kogumine%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Kui sa haldad suure liiklusega Piwiku serverit, soovitame korraks %1$slülitada Piwiku kasutajaliides hooldusrežiimi ja katkestada külastuste kohta info kogumine%2$s.",
         "InstallingTheLatestVersion": "Paigaldan uusimat versiooni",
         "MajorUpdateWarning1": "Tegemist on suure uuendusega! See võtab tavapärasest kauem aega.",
         "MajorUpdateWarning2": "Järgnev info on eriti oluline suure külastatavusega paigaldustele.",

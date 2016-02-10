@@ -10,8 +10,8 @@
         "VisitsByDayOfWeek": "Besök efter veckodag",
         "WidgetByDayOfWeekDocumentation": "Den här grafen visar antalet besök din webbplats fått per veckodag.",
         "WidgetLocalTime": "Besök efter lokal tid",
-        "WidgetLocalTimeDocumentation": "Denna graf visar vad klockan var i %s besökarens tidszon %s vid deras besök.",
+        "WidgetLocalTimeDocumentation": "Denna graf visar vad klockan var i %1$s besökarens tidszon %2$s vid deras besök.",
         "WidgetServerTime": "Besök efter servertid",
-        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %s serverns tidszon %s vid besöket."
+        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %1$s serverns tidszon %2$s vid besöket."
     }
 }

@@ -1,9 +1,9 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Avez-vous un bug à rapporter ou une fonctionnalité à demander ?",
-        "HowToCreateTicket": "Veuillez consulter les recommandations sur la rédaction d'un bon %1$srapport de bug%2$s ou %3$sdemande de fonctionnalité%4$s. Puis s'enregistrer ou se connecter sur %5$snotre système de suivit des incidents%6$s et créer un %7$snouvel incident%8$s.",
+        "HowToCreateTicket": "Veuillez consulter les recommandations sur la rédaction d'un bon %1$srapport de bug%2$s ou %3$sdemande de fonctionnalité%4$s. Puis s'enregistrer ou se connecter sur %5$snotre système de suivi des incidents%6$s et créer un %7$snouvel incident%8$s.",
         "IWantTo": "Je veux:",
-        "LearnWaysToParticipate": "Renseignez vous sur les manières dont vous pouvez %s participer%s",
+        "LearnWaysToParticipate": "Renseignez vous sur les manières dont vous pouvez %1$s participer%2$s",
         "ManuallySendEmailTo": "Merci d'envoyer manuellement votre message à",
         "PluginDescription": "Envoyez votre votre retour d'expérience à l'équipe Piwik. Partagez vos idées et suggestions pour aider à faire de Piwik la meilleure plateforme d'analyse web du monde!",
         "PrivacyClaim": "Piwik respecte votre %1$svie privée%2$s et vous donne un contrôle total sur vos données.",
@@ -15,7 +15,7 @@
         "SendFeedback": "Envoyer le retour",
         "ThankYou": "Merci d'avoir aidé à améliorer Piwik!",
         "TopLinkTooltip": "Dites nous ce que vous en pensez, ou demandez un Support Professionnel.",
-        "ViewAnswersToFAQ": "Voir les réponses aux %squestions fréquemment posées%s",
+        "ViewAnswersToFAQ": "Voir les réponses aux %1$squestions fréquemment posées%2$s",
         "ViewUserGuides": "Apprenez comment configurer Piwik et comment analyser de manière efficaces vos données avec notre %1$sguide utilisateur%2$s",
         "CommunityHelp": "Aide de la communauté",
         "ProfessionalHelp": "Aide professionnelle",
@@ -28,7 +28,6 @@
         "PiwikProPremiumFeatures": "Fonctionnalités premium",
         "PiwikProCustomDevelopment": "Services de développement personnalisés",
         "PiwikProAnalystConsulting": "Services de consultation en analyse",
-        "ContactUs": "Nous contacter",
-        "VisitTheForums": "Visitez les %s Forums%s"
+        "ContactUs": "Nous contacter"
     }
 }

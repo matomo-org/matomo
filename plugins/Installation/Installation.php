@@ -8,12 +8,12 @@
  */
 namespace Piwik\Plugins\Installation;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
-use Piwik\Translate;
 use Piwik\View as PiwikView;
 
 /**
@@ -24,9 +24,9 @@ class Installation extends \Piwik\Plugin
     protected $installationControllerName = '\\Piwik\\Plugins\\Installation\\Controller';
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'Config.NoConfigurationFile'      => 'dispatch',
@@ -40,8 +40,17 @@ class Installation extends \Piwik\Plugin
 
     public function displayDbConnectionMessage($exception = null)
     {
+        Common::sendResponseCode(500);
+
+        $errorMessage = $exception->getMessage();
+
+        if (Request::isApiRequest($_GET)) {
+            $ex = new DatabaseConnectionFailedException($errorMessage);
+            throw $ex;
+        }
+
         $view = new PiwikView("@Installation/cannotConnectToDb");
-        $view->exceptionMessage = $exception->getMessage();
+        $view->exceptionMessage = $errorMessage;
 
         $ex = new DatabaseConnectionFailedException($view->render());
         $ex->setIsHtmlMessage();

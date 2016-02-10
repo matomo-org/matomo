@@ -39,10 +39,10 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
+		<referrerType>campaign</referrerType>
+		<referrerTypeName>Campaigns</referrerTypeName>
+		<referrerName>campaign name - yeah!</referrerName>
+		<referrerKeyword>campaign keyword - right...</referrerKeyword>
 		<referrerKeywordPosition />
 		<referrerUrl />
 		<referrerSearchEngineUrl />
@@ -80,9 +80,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
@@ -121,7 +118,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
-				<revenue>0</revenue>
+				<revenue>1000</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
@@ -161,10 +158,10 @@
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
+		<referrerType>campaign</referrerType>
+		<referrerTypeName>Campaigns</referrerTypeName>
+		<referrerName>campaign name - yeah!</referrerName>
+		<referrerKeyword>campaign keyword - right...</referrerKeyword>
 		<referrerKeywordPosition />
 		<referrerUrl />
 		<referrerSearchEngineUrl />
@@ -202,9 +199,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
@@ -383,9 +377,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>

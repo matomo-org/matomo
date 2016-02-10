@@ -7,10 +7,12 @@
     margin-right: 0 !important;
 }
 
+// hide PHP is deprecated notification in UI test
+.uiTest [notification-id="DeprecatedPHPVersionCheck"] {
+    display: none !important;
+}
+
 #content.admin {
-    margin: 0 0 0 260px;
-    padding: 0 0 40px;
-    display: table;
     font-size: 13px;
 
     // Fix the <pre> blocks because of the display: table
@@ -20,8 +22,8 @@
 }
 
 .admin #header_message {
-    margin-top: 10px;
-    margin-right: 10px;
+    margin-top: 8px;
+    margin-right: 8px;
 }
 
 table.admin {
@@ -87,9 +89,9 @@ table.admin tbody td:hover, table.admin tbody th:hover {
     width: 100%;
 
     &:first-of-type:not(.secondary) {
-        margin-top: 17px;
+        margin-top: 7px;
         margin-bottom: 16px;
-        border-bottom: 1px solid #DADADA;
+        border-bottom: 1px solid @theme-color-background-tinyContrast;
     }
 }
 
@@ -155,11 +157,6 @@ table.admin tbody td:hover, table.admin tbody th:hover {
 
 .adminTable .columnHelp .ui-inline-help {
     margin-left: 0px;
-}
-
-/* to override .admin a */
-.admin .sites_autocomplete a {
-    color: #255792;
 }
 
 /* trusted host styles */

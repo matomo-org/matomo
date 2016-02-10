@@ -210,7 +210,7 @@ nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uni
 
 Page URLs
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
-/index.htm,4,16,0%,00:13:30,100%
+/index.htm,4,16,0%,00:03:23,100%
 
 Entry pages
 label,entry_nb_visits,entry_bounce_count,bounce_rate
@@ -222,7 +222,7 @@ label,nb_visits,exit_nb_visits,exit_rate
 
 Page titles
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
- View product left in cart,3,9,0%,00:06:00,100%
+ View product left in cart,3,9,0%,00:02:00,100%
  Another Product page,1,1,0%,00:06:00,0%
  Another Product page with multiple categories,1,1,0%,00:00:00,100%
  Another Product page with no category,1,1,0%,00:00:00,0%
@@ -461,10 +461,6 @@ New visits,1
 Returning Visits
 nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
 1,0,4,12,6,25%,3,00:25:32
-
-Provider
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
 
 Device type
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

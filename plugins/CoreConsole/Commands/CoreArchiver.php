@@ -41,6 +41,7 @@ class CoreArchiver extends ConsoleCommand
         $archiver->forceTimeoutPeriod = $input->getOption("force-timeout-for-periods");
         $archiver->shouldArchiveAllPeriodsSince = $input->getOption("force-all-periods");
         $archiver->restrictToDateRange = $input->getOption("force-date-range");
+        $archiver->phpCliConfigurationOptions = $input->getOption("php-cli-options");
 
         $restrictToPeriods = $input->getOption("force-periods");
         $restrictToPeriods = explode(',', $restrictToPeriods);
@@ -100,7 +101,7 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be processed only for these Sites Ids (comma separated)');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
-            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month)");
+            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
         $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED,
             "This script calls the API with period=lastN. You can force the N in lastN by specifying this value.");
         $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL,
@@ -116,5 +117,6 @@ class CoreArchiver extends ConsoleCommand
         $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE,
             "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be "
             . "useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
+        $command->addOption('php-cli-options', null, InputOption::VALUE_OPTIONAL, 'Forwards the PHP configuration options to the PHP CLI command. For example "-d memory_limit=8G". Note: These options are only applied if the archiver actually uses CLI and not HTTP.', $default = '');
     }
 }

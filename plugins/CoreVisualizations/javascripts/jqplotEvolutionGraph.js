@@ -94,6 +94,7 @@
                             var module = broadcast.getValueFromHash('module');
                             var action = broadcast.getValueFromHash('action');
                             var idGoal = broadcast.getValueFromHash('idGoal');
+                            var idDimension = broadcast.getValueFromHash('idDimension');
                             var idSite = broadcast.getValueFromUrl('idSite', url);
                             var period = broadcast.getValueFromUrl('period', url);
                             var date   = broadcast.getValueFromUrl('date', url);
@@ -107,6 +108,10 @@
 
                                 if (idGoal) {
                                     url += '&idGoal=' + idGoal;
+                                }
+
+                                if (idDimension) {
+                                    url += '&idDimension=' + idDimension;
                                 }
 
                                 if (period) {

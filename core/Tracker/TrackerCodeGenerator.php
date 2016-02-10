@@ -58,15 +58,15 @@ class TrackerCodeGenerator
         $options = '';
         $optionsBeforeTrackerUrl = '';
         if ($groupPageTitlesByDomain) {
-            $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
+            $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . "\n";
         }
         if ($mergeSubdomains || $mergeAliasUrls) {
             $options .= $this->getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
         }
-        $maxCustomVars = CustomVariables::getMaxCustomVariables();
+        $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
 
         if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
-            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . PHP_EOL;
+            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . "\n";
             $index = 1;
             foreach ($visitorCustomVariables as $visitorCustomVariable) {
                 if (empty($visitorCustomVariable)) {
@@ -78,12 +78,12 @@ class TrackerCodeGenerator
                     $index++,
                     json_encode($visitorCustomVariable[0]),
                     json_encode($visitorCustomVariable[1]),
-                    PHP_EOL
+                    "\n"
                 );
             }
         }
         if ($pageCustomVariables && count($pageCustomVariables) > 0) {
-            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . PHP_EOL;
+            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . "\n";
             $index = 1;
             foreach ($pageCustomVariables as $pageCustomVariable) {
                 if (empty($pageCustomVariable)) {
@@ -94,23 +94,23 @@ class TrackerCodeGenerator
                     $index++,
                     json_encode($pageCustomVariable[0]),
                     json_encode($pageCustomVariable[1]),
-                    PHP_EOL
+                    "\n"
                 );
             }
         }
         if ($customCampaignNameQueryParam) {
             $options .= '  _paq.push(["setCampaignNameKey", '
-                . json_encode($customCampaignNameQueryParam) . ']);' . PHP_EOL;
+                . json_encode($customCampaignNameQueryParam) . ']);' . "\n";
         }
         if ($customCampaignKeywordParam) {
             $options .= '  _paq.push(["setCampaignKeywordKey", '
-                . json_encode($customCampaignKeywordParam) . ']);' . PHP_EOL;
+                . json_encode($customCampaignKeywordParam) . ']);' . "\n";
         }
         if ($doNotTrack) {
-            $options .= '  _paq.push(["setDoNotTrack", true]);' . PHP_EOL;
+            $options .= '  _paq.push(["setDoNotTrack", true]);' . "\n";
         }
         if ($disableCookies) {
-            $options .= '  _paq.push(["disableCookies"]);' . PHP_EOL;
+            $options .= '  _paq.push(["disableCookies"]);' . "\n";
         }
 
         $codeImpl = array(
@@ -172,17 +172,27 @@ class TrackerCodeGenerator
         }
         // We need to parse_url to isolate hosts
         $websiteHosts = array();
+        $firstHost = null;
         foreach ($websiteUrls as $site_url) {
             $referrerParsed = parse_url($site_url);
-            $websiteHosts[] = $referrerParsed['host'];
+
+            if (!isset($firstHost)) {
+                $firstHost = $referrerParsed['host'];
+            }
+
+            $url = $referrerParsed['host'];
+            if (!empty($referrerParsed['path'])) {
+                $url .= $referrerParsed['path'];
+            }
+            $websiteHosts[] = $url;
         }
         $options = '';
-        if ($mergeSubdomains && !empty($websiteHosts)) {
-            $options .= '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
+        if ($mergeSubdomains && !empty($firstHost)) {
+            $options .= '  _paq.push(["setCookieDomain", "*.' . $firstHost . '"]);' . "\n";
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
             $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';
-            $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . PHP_EOL;
+            $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . "\n";
         }
         return $options;
     }

@@ -3,9 +3,21 @@
         "ColumnCustomVariableName": "Nom de la variable personnalisée",
         "ColumnCustomVariableValue": "Valeur de la variable personnalisée",
         "CustomVariables": "Variables personnalisées",
-        "CustomVariablesReportDocumentation": "Ce rapport contient des informations à propos de vos Variables Personnalisées. Cliquez sur un nom de variable pour voir la répartition de la valeur. %s Pour plus d'informations à propos des variables personnalisées en général, lisez la %s documentation sur les variables personnalisées sur piwik.org%s",
+        "CustomVariablesReportDocumentation": "Ce rapport contient des informations à propos de vos Variables Personnalisées. Cliquez sur un nom de variable pour voir la répartition de la valeur. %1$s Pour plus d'informations à propos des variables personnalisées en général, lisez la %2$s documentation sur les variables personnalisées sur piwik.org%3$s",
         "PluginDescription": "Les variables personnalisées sont des paires (nom, valeur) que vous pouvez assigner en utilisant l'API Javascript aux visiteurs ou n'importe quelle de leur action. Piwik rapportera ensuite le nombre de visites, pages, conversions pour chacune de ces noms et valeurs personnalisés. Voir les variables personnalisées détaillées pour chaque utilisateur et action dans le journal visiteur. <br \/>Nécessite d'utiliser la fonctionnalité <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Ecommerce Analytics<\/a> !",
         "ScopePage": "Étendue page",
-        "ScopeVisit": "Étendue visite"
+        "ScopeVisit": "Étendue visite",
+        "ManageDescription": "Cette vue d'ensemble affiche tous les emplacements de variables personnalisées et leur utilisation pour le site web \"%s\". Les noms dans chacun des emplacements sont ordonnés par le nombre de fois qu'elles ont été utilisées au total.",
+        "ScopeX": "Etendue %s",
+        "Index": "Index",
+        "Usages": "Usages",
+        "Unused": "Inutilisé",
+        "CreateNewSlot": "Augmenter le nombre d'emplacement de variables personnalisées disponibles",
+        "UsageDetails": "%1$s visites et %2$s actions depuis la création de ce site web.",
+        "CreatingCustomVariableTakesTime": "La création de nouveaux emplacement de variable personnalisée peut prendre du temps dépendamment de la taille de votre base de données. De ce fait il est possible d'effectuer cela uniquement via une commande qui doit être exécutée dans la console.",
+        "CurrentAvailableCustomVariables": "Pour l'instant vous pouvez utiliser jusqu'à %s Variables personnalisées par site.",
+        "ToCreateCustomVarExecute": "Pour créer un nouvel emplacement de variable personnalisée exécutez la commande suivante dans votre installation de Piwik :",
+        "SlotsReportIsGeneratedOverTime": "Les données pour ce rapport vont être peuplées avec le temps. Il se peut que cela prenne un jour ou deux pour voir des informations et quelques semaines avant que le rapport ne soit précis.",
+        "MetricsNotAvailableForPageScope": "Pour les variables personnalisées de la portée %1$s, la valeur de colonne pour ces métriques est %2$s"
     }
 }

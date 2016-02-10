@@ -3,7 +3,7 @@
         "BrowserWithNoPluginsEnabled": "%1$s mit keinen aktivierten Plugins",
         "BrowserWithPluginsEnabled": "%1$s mit den Plugins %2$s aktiviert",
         "PluginDescription": "Zeigt die Liste der Plugins an, welche in den Browsern der Benutzer unterstützt werden.",
-        "PluginDetectionDoesNotWorkInIE": "Hinweis: Die Erkennung von Plugins funktioniert nicht im Internet Explorer. Diese Statistik beruht nur auf Nicht-IE Browsern.",
+        "PluginDetectionDoesNotWorkInIE": "Hinweis: Die Erkennung von Plugins funktioniert nicht im Internet Explorer vor Version 11. Diese Statistik beruht nur auf Nicht-IE Browsern sowie neueren Version des IE.",
         "WidgetPlugins": "Browser-Plugins",
         "WidgetPluginsDocumentation": "Dieser Bericht zeigt Ihnen, welche Plugins Ihre Besucher in Ihren Browser aktiviert haben. Diese Informationen kann Ihnen dabei helfen, die beste Art zu finden, Ihre Inhalte auszuliefern."
     }

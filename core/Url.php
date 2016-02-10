@@ -176,19 +176,10 @@ class Url
      */
     public static function getCurrentScheme()
     {
-        try {
-            $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
-        } catch (Exception $e) {
-            $assume_secure_protocol = false;
-        }
-        if ($assume_secure_protocol
-            || (isset($_SERVER['HTTPS'])
-                && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
-        ) {
+        if (self::isPiwikConfiguredToAssumeSecureConnection()) {
             return 'https';
         }
-        return 'http';
+        return self::getCurrentSchemeFromRequestHeader();
     }
 
     /**
@@ -216,6 +207,7 @@ class Url
                 return true;
             }
         }
+
         // if host is in hardcoded whitelist, assume it's valid
         if (in_array($host, self::getAlwaysTrustedHosts())) {
             return true;
@@ -559,6 +551,21 @@ class Url
         && in_array($parsedUrl['scheme'], array('http', 'https'));
     }
 
+    /**
+     * Checks whether the given host is a local host like `127.0.0.1` or `localhost`.
+     *
+     * @param string $host
+     * @return bool
+     */
+    public static function isLocalHost($host)
+    {
+        if (empty($host)) {
+            return false;
+        }
+
+        return in_array($host, Url::getLocalHostnames(), true);
+    }
+
     public static function getTrustedHostsFromConfig()
     {
         $hosts = self::getHostsFromConfig('General', 'trusted_hosts');
@@ -683,5 +690,47 @@ class Url
     public static function getLocalHostnames()
     {
         return array('localhost', '127.0.0.1', '::1', '[::1]');
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isSecureConnectionAssumedByPiwikButNotForcedYet()
+    {
+        $isSecureConnectionLikelyNotUsed = Url::isSecureConnectionLikelyNotUsed();
+        $hasSessionCookieSecureFlag = ProxyHttp::isHttps();
+        $isSecureConnectionAssumedByPiwikButNotForcedYet = Url::isPiwikConfiguredToAssumeSecureConnection() && !SettingsPiwik::isHttpsForced();
+
+        return     $isSecureConnectionLikelyNotUsed
+                && $hasSessionCookieSecureFlag
+                && $isSecureConnectionAssumedByPiwikButNotForcedYet;
+    }
+
+    /**
+     * @return string
+     */
+    protected static function getCurrentSchemeFromRequestHeader()
+    {
+        if ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+        ) {
+
+            return 'https';
+        }
+        return 'http';
+    }
+
+    protected static function isSecureConnectionLikelyNotUsed()
+    {
+        return  Url::getCurrentSchemeFromRequestHeader() == 'http';
+    }
+
+    /**
+     * @return bool
+     */
+    protected static function isPiwikConfiguredToAssumeSecureConnection()
+    {
+        $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
+        return (bool) $assume_secure_protocol;
     }
 }

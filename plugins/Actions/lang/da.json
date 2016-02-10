@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Gennemsnit baseret på %s hits %s mellem %s og %s",
+        "AvgGenerationTimeTooltip": "Gennemsnit baseret på %1$s hits %2$s mellem %3$s og %4$s",
         "ColumnClickedURL": "Klikkede URL",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Antal gange linket blev klikket på.",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Et udgående link er et link, der fører den besøgende væk fra hjemmesiden (til et andet domæne)",
         "OutlinksReportDocumentation": "Rapporten viser en hierarkisk liste over udgående netadresser, der blev klikket på af de besøgende",
         "PagesReportDocumentation": "Rapporten indeholder oplysninger om sidens netadresser, der er blevet besøgt. %s tabellen er arrangeret hierarkisk, netadresserne vises i en mappestruktur.",
-        "PageTitlesReportDocumentation": "Rapporten indeholder oplysninger om titlerne på de sider, der er blevet besøgt. %s side titel er HTML %s mærket, som de fleste netlæsere viser i vinduetitlen.",
+        "PageTitlesReportDocumentation": "Rapporten indeholder oplysninger om titlerne på de sider, der er blevet besøgt. %1$s side titel er HTML %2$s mærket, som de fleste netlæsere viser i vinduetitlen.",
         "PageUrls": "Side URL'er",
         "PluginDescription": "Rapporter om sidevisninger og sidetitler. Gør det muligt at måle det interne websted søgemaskine. Sporer automatisk klik på eksterne links og filhentninger.",
         "SiteSearchCategories1": "Rapporten viser de kategorier, som de besøgende valgte, da de lavede en søgning på hjemmesiden.",

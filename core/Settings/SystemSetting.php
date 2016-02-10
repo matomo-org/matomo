@@ -9,6 +9,7 @@
 
 namespace Piwik\Settings;
 
+use Piwik\Config;
 use Piwik\Piwik;
 
 /**
@@ -58,6 +59,10 @@ class SystemSetting extends Setting
      */
     public function isWritableByCurrentUser()
     {
+        if ($this->hasConfigValue()) {
+            return false;
+        }
+
         return $this->writableByCurrentUser;
     }
 
@@ -80,4 +85,34 @@ class SystemSetting extends Setting
     {
         return 30;
     }
+
+    public function getValue()
+    {
+        $defaultValue = parent::getValue(); // we access value first to make sure permissions are checked
+
+        $configValue = $this->getValueFromConfig();
+
+        if (isset($configValue)) {
+            $defaultValue = $configValue;
+            settype($defaultValue, $this->type);
+        }
+
+        return $defaultValue;
+    }
+
+    private function hasConfigValue()
+    {
+        $value = $this->getValueFromConfig();
+        return isset($value);
+    }
+
+    private function getValueFromConfig()
+    {
+        $config = Config::getInstance()->{$this->pluginName};
+
+        if (!empty($config) && array_key_exists($this->name, $config)) {
+            return $config[$this->name];
+        }
+    }
+
 }

@@ -8,7 +8,8 @@
     <![endif]-->
 {% endblock %}
 
-{% block pageTitle %}{{ siteName|raw }} - {% if not isCustomLogo %}Piwik &rsaquo;{% endif %} {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endblock %}
+{% set title %}{{ siteName|raw }}{% if prettyDateLong is defined %} - {{ prettyDateLong }}{% endif %} - {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endset %}
+
 {% block pageDescription %}Web Analytics report for {{ siteName|escape("html_attr") }} - Piwik{% endblock %}
 
 {% set bodyClass = postEvent('Template.bodyClass', 'dashboard') %}
@@ -22,10 +23,6 @@
     {% include "@CoreHome/_warningInvalidHost.twig" %}
     {% include "@CoreHome/_topScreen.twig" %}
 
-    {% block notification %}
-        {% include "@CoreHome/_notifications.twig" %}
-    {% endblock %}
-
     <div class="ui-confirm" id="alert">
         <h2></h2>
         <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
@@ -33,6 +30,31 @@
 
     {{ postEvent("Template.beforeContent", "dashboard", currentModule) }}
 
-    {% block content %}
-    {% endblock %}
+    <div class="page">
+
+        {% if (menu is defined and menu) %}
+            {% import '@CoreHome/_menu.twig' as menuMacro %}
+            {{ menuMacro.menu(menu, true, 'Menu--dashboard') }}
+        {% endif %}
+
+        <div class="pageWrap">
+
+
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
+            </div>
+
+            <a name="main"></a>
+            {% block notification %}
+                {% include "@CoreHome/_notifications.twig" %}
+            {% endblock %}
+
+            {% block content %}
+            {% endblock %}
+
+            <div class="clear"></div>
+        </div>
+
+    </div>
 {% endblock %}

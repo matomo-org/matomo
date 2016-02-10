@@ -7,6 +7,13 @@
 				<nb_visits>7</nb_visits>
 				<nb_actions>9</nb_actions>
 				<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>5</index>
+					</row>
+				</slots>
+				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
 						<label>0</label>
@@ -33,6 +40,13 @@
 				<nb_visits>4</nb_visits>
 				<nb_actions>5</nb_actions>
 				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>4</index>
+					</row>
+				</slots>
+				<segment>customVariableName==_pk_scat</segment>
 				<subtable>
 					<row>
 						<label>Search Category</label>
@@ -69,6 +83,13 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>2</nb_actions>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>5</index>
+					</row>
+				</slots>
+				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
 						<label>0</label>
@@ -83,6 +104,13 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>4</index>
+					</row>
+				</slots>
+				<segment>customVariableName==_pk_scat</segment>
 				<subtable>
 					<row>
 						<label>Bad No Result Category bis :(</label>
@@ -112,6 +140,13 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<slots>
+					<row>
+						<scope>visit</scope>
+						<index>1</index>
+					</row>
+				</slots>
+				<segment>customVariableName==test+cvar+name</segment>
 				<subtable>
 					<row>
 						<label>test cvar value</label>

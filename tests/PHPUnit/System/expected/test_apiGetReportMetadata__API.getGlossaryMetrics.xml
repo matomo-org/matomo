@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<name>% Search Exits (Site Search)</name>
+		<id>exit_rate</id>
+		<documentation>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</documentation>
+	</row>
+	<row>
+		<name>Actions</name>
+		<id>nb_actions</id>
+		<documentation>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</documentation>
+	</row>
+	<row>
+		<name>Actions per Visit</name>
+		<id>nb_actions_per_visit</id>
+		<documentation>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</documentation>
+	</row>
+	<row>
+		<name>Avg. Time on Website</name>
+		<id>avg_time_on_site</id>
+		<documentation>The average duration of a visit.</documentation>
+	</row>
+	<row>
+		<name>Avg. generation time</name>
+		<id>avg_time_generation</id>
+		<documentation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</documentation>
+	</row>
+	<row>
+		<name>Avg. time on page</name>
+		<id>avg_time_on_page</id>
+		<documentation>The average amount of time visitors spent on this page (only the page, not the entire website).</documentation>
+	</row>
+	<row>
+		<name>Bounce Rate</name>
+		<id>bounce_rate</id>
+		<documentation>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</documentation>
+	</row>
+	<row>
+		<name>Bounce Rate (Actions)</name>
+		<id>bounce_rate</id>
+		<documentation>The percentage of visits that started on this page and left the website straight away.</documentation>
+	</row>
+	<row>
+		<name>Bounces</name>
+		<id>entry_bounce_count</id>
+		<documentation>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</documentation>
+	</row>
+	<row>
+		<name>Clicked in search results</name>
+		<id>nb_hits_following_search</id>
+		<documentation>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</documentation>
+	</row>
+	<row>
+		<name>Conversion Rate</name>
+		<id>conversion_rate</id>
+		<documentation>The percentage of visits that triggered a goal conversion.</documentation>
+	</row>
+	<row>
+		<name>Downloads</name>
+		<id>nb_downloads</id>
+		<documentation>The number of times this link was clicked.</documentation>
+	</row>
+	<row>
+		<name>Entrances</name>
+		<id>entry_nb_visits</id>
+		<documentation>Number of visits that started on this page.</documentation>
+	</row>
+	<row>
+		<name>Events with a value</name>
+		<id>nb_events_with_value</id>
+		<documentation>Number of events where an Event value was set</documentation>
+	</row>
+	<row>
+		<name>Exit rate</name>
+		<id>exit_rate</id>
+		<documentation>The percentage of visits that left the website after viewing this page.</documentation>
+	</row>
+	<row>
+		<name>Exits</name>
+		<id>exit_nb_visits</id>
+		<documentation>Number of visits that ended on this page.</documentation>
+	</row>
+	<row>
+		<name>Impressions</name>
+		<id>nb_impressions</id>
+		<documentation>The number of times a content block, such as a banner or an ad, was displayed on a page.</documentation>
+	</row>
+	<row>
+		<name>Interaction Rate</name>
+		<id>interaction_rate</id>
+		<documentation>The ratio of content impressions to interactions.</documentation>
+	</row>
+	<row>
+		<name>Interactions</name>
+		<id>nb_interactions</id>
+		<documentation>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</documentation>
+	</row>
+	<row>
+		<name>Maximum value</name>
+		<id>max_event_value</id>
+		<documentation>The maximum value for this event</documentation>
+	</row>
+	<row>
+		<name>Minimum value</name>
+		<id>min_event_value</id>
+		<documentation>The minimum value for this event</documentation>
+	</row>
+	<row>
+		<name>Outlinks</name>
+		<id>nb_outlinks</id>
+		<documentation>The number of times this link was clicked.</documentation>
+	</row>
+	<row>
+		<name>Pageviews</name>
+		<id>nb_pageviews</id>
+		<documentation>The number of times this page was visited.</documentation>
+	</row>
+	<row>
+		<name>Search Results pages</name>
+		<id>nb_pages_per_search</id>
+		<documentation>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</documentation>
+	</row>
+	<row>
+		<name>Searches</name>
+		<id>nb_searches</id>
+		<documentation>The number of visits that searched for this keyword on your website's search engine.</documentation>
+	</row>
+	<row>
+		<name>Searches (Site Search)</name>
+		<id>nb_visits</id>
+		<documentation>The number of visits that searched for this keyword on your website's search engine.</documentation>
+	</row>
+	<row>
+		<name>The average of all values for this event</name>
+		<id>avg_event_value</id>
+		<documentation>The average of all values for this event</documentation>
+	</row>
+	<row>
+		<name>Total Pageviews</name>
+		<id>nb_hits</id>
+		<documentation>The number of times this page was visited.</documentation>
+	</row>
+	<row>
+		<name>Total events</name>
+		<id>nb_events</id>
+		<documentation>Total number of events</documentation>
+	</row>
+	<row>
+		<name>Total value</name>
+		<id>sum_event_value</id>
+		<documentation>The sum of event values</documentation>
+	</row>
+	<row>
+		<name>Unique Clicks (Actions)</name>
+		<id>nb_visits</id>
+		<documentation>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique Downloads</name>
+		<id>nb_uniq_downloads</id>
+		<documentation>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique Downloads (Actions)</name>
+		<id>nb_visits</id>
+		<documentation>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique Outlinks</name>
+		<id>nb_uniq_outlinks</id>
+		<documentation>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique Pageviews</name>
+		<id>nb_uniq_pageviews</id>
+		<documentation>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique Pageviews (Actions)</name>
+		<id>nb_visits</id>
+		<documentation>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique visitors</name>
+		<id>nb_uniq_visitors</id>
+		<documentation>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</documentation>
+	</row>
+	<row>
+		<name>Users</name>
+		<id>nb_users</id>
+		<documentation>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</documentation>
+	</row>
+	<row>
+		<name>Visits</name>
+		<id>nb_visits</id>
+		<documentation>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</documentation>
+	</row>
+</result>

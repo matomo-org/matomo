@@ -1,0 +1,10 @@
+{
+    "Insights": {
+        "DayComparedToPreviousDay": "día anterior",
+        "DayComparedToPreviousWeek": "o mesmo día a semana anterior",
+        "DayComparedToPreviousYear": "o mesmo día o ano anterior",
+        "MonthComparedToPreviousMonth": "o mes anterior",
+        "MonthComparedToPreviousYear": "o mesmo mes o ano anterior",
+        "WeekComparedToPreviousWeek": "a semana anterior"
+    }
+}

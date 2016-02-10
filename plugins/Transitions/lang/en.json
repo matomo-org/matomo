@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "Either the action had no pageviews during the period %s or it is invalid.",
         "OutgoingTraffic": "Outgoing traffic",
         "PluginDescription": "Reports previous and following actions for each page URL in a new Transitions report, available in the Actions reports via a new icon.",
-        "ShareOfAllPageviews": "This page had %s pageviews (%s of all pageviews)",
+        "ShareOfAllPageviews": "This page had %1$s pageviews (%2$s of all pageviews)",
         "ToFollowingPages": "To Internal Pages",
         "ToFollowingPagesInline": "%s to internal pages",
         "ToFollowingSiteSearches": "Internal Searches",
         "ToFollowingSiteSearchesInline": "%s internal searches",
         "XOfAllPageviews": "%s of all views of this page",
-        "XOutOfYVisits": "%s (out of %s)"
+        "XOutOfYVisits": "%1$s (out of %2$s)"
     }
 }

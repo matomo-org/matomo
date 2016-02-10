@@ -15,11 +15,14 @@
                 <ul class="details">
                     <li>{{ 'DevicesDetection_ColumnBrowser'|translate }}: {{ visitor.getColumn('browser') }}</li>
                     <li>{{ 'DevicesDetection_BrowserEngine'|translate }}: {{ visitor.getColumn('browserFamily') }}</li>
-                    {% if visitor.getColumn('pluginsIcons')|length > 0 %}<li>{{ 'General_Plugins'|translate }}:
-                        {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
-                            <img src="{{ pluginIcon.pluginIcon }}" title="{{ pluginIcon.pluginName|capitalize(true) }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
-                        {% endfor %}
-                    </li>{% endif %}
+                    {% if visitor.getColumn('pluginsIcons')|length > 0 %}
+                        <li>
+                            {{ 'General_Plugins'|translate }}:
+                            {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
+                                <img src="{{ pluginIcon.pluginIcon }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
+                            {% endfor %}
+                        </li>
+                    {% endif %}
                 </ul>
             </span>
         {% endif %}
@@ -45,21 +48,21 @@
         </span>
 
         <span class="visitorType">
-        {# Goals, and/or Ecommerce activity #}
+            {# Goals, and/or Ecommerce activity #}
             {% if visitor.getColumn('visitConverted') %}
-                <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank'
+                <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank visitorLogTooltip'
                       {% if not displayVisitorsInOwnColumn or breakBeforeVisitorRank %}style="margin-left:0;"{% endif %}>
-                <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
-                <span class='hash'>#</span>
+                    <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
+                    <span class='hash'>#</span>
                     {{ visitor.getColumn('goalConversions') }}
                     {% if visitHasEcommerceActivity %}
                         &nbsp;
-                        <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
+                        <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" class='visitorLogTooltip' title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
                     {% endif %}
-            </span>
-        {# Ecommerce activity only (no goal) #}
-        {% elseif visitHasEcommerceActivity %}
-                <span><img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/></span>
+                </span>
+            {# Ecommerce activity only (no goal) #}
+            {% elseif visitHasEcommerceActivity %}
+                <img class="visitorLogTooltip" src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
             {% endif %}
         </span>
     </span>
@@ -70,7 +73,7 @@
     <div class="visitorReferrer">
         {% if visitor.getColumn('referrerType') == 'website' %}
             {{ 'Referrers_ColumnWebsite'|translate }}:
-            <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"
+            <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitor.getColumn('referrerUrl') }}"
                style="text-decoration:underline;">
                 {{ visitor.getColumn('referrerName') }}
             </a>
@@ -85,7 +88,7 @@
             {% if visitor.getColumn('searchEngineIcon') %}
                 <img src="{{ visitor.getColumn('searchEngineIcon') }}" alt="{{ visitor.getColumn('referrerName') }}"/>
             {% endif %}
-            <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
+            <span {% if not showKeyword %}title="{{ keywordNotDefined }}" class="visitorLogTooltip"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
             {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
                 <a href="{{ visitor.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" style="text-decoration:underline;">
                     "{{ visitor.getColumn('referrerKeyword') }}"</a>
@@ -94,7 +97,7 @@
             {% set searchName %}{{ visitor.getColumn('referrerName') }}{% endset %}
             {% set position %}#{{ visitor.getColumn('referrerKeywordPosition') }}{% endset %}
             {% if visitor.getColumn('referrerKeywordPosition') %}
-                <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank'>
+                <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank visitorLogTooltip'>
                                 <span class='hash'>#</span>
                     {{ visitor.getColumn('referrerKeywordPosition') }}
                             </span>
@@ -108,7 +111,7 @@
         <div class="card row">
 
             {% if visitor.getColumn('visitorId') is not empty and not clientSideParameters.hideProfileLink %}
-                <a class="visitor-log-visitor-profile-link" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
+                <a class="visitor-log-visitor-profile-link visitorLogTooltip" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
                     <img src="plugins/Live/images/visitorProfileLaunch.png"/> <span>{{ 'Live_ViewVisitorProfile'|translate }}
                         {%- if visitor.getColumn('userId') is not empty %}: {{ visitor.getColumn('userId')|raw }}{% endif %}</span>
                 </a>
@@ -116,12 +119,12 @@
 
         {% set cycleIndex=cycleIndex+1 %}
             <div class="col-md-{% if displayVisitorsInOwnColumn %}3{% else %}4{% endif %}">
-                <strong title="{% if visitor.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.getColumn('daysSinceLastVisit')) }}{% endif %}">
+                <strong class="visitorLogTooltip" title="{% if visitor.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.getColumn('daysSinceLastVisit')) }}{% endif %}">
                     {{ visitor.getColumn('serverDatePrettyFirstAction') }}
                     {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitor.getColumn('serverTimePrettyFirstAction') }}</strong>
                 {% if visitor.getColumn('visitIp') is not empty %}
                     <br/>
-                <span title="{% if visitor.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitor.getColumn('userId')|raw }}{% endif %}
+                <span class="visitorLogTooltip" title="{% if visitor.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitor.getColumn('userId')|raw }}{% endif %}
 
 {% if visitor.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.getColumn('visitorId') }}{% endif -%}
 {%- if visitor.getColumn('latitude') or visitor.getColumn('longitude') %}
@@ -137,15 +140,19 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 {% if visitor.getColumn('provider') %}
                     <br/>
                     {{ 'Provider_ColumnProvider'|translate }}:
-                    <a href="{{ visitor.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" title="{{ visitor.getColumn('providerName') }} {{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
+                    <a href="{{ visitor.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitor.getColumn('providerName') }} {{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
                         {{ visitor.getColumn('providerName') }}</a>
                 {% endif %}
                 {% if visitor.getColumn('visitorTypeIcon') or visitor.getColumn('countryFlag') %}
                     <br/>
                 {% endif %}
                 {% if visitor.getColumn('visitorTypeIcon') %}
-                    <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
-                         title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}"/>
+                    <span class="visitorLogIconWithDetails">
+                        <img src="{{ visitor.getColumn('visitorTypeIcon') }}"/>
+                        <ul class="details">
+                            <li>{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}</li>
+                        </ul>
+                    </span>
                 {% endif %}
                 {% if visitor.getColumn('countryFlag') %}
                     <span class="visitorLogIconWithDetails">
@@ -163,7 +170,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                         {% set name='customVariableName' ~ id %}
                         {% set value='customVariableValue' ~ id %}
                         <br/>
-                        <acronym title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
+                        <acronym class="visitorLogTooltip" title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
                             {{ customVariable[name]|truncate(30) }}
                         </acronym>
                     {% if customVariable[value]|length > 0 %}: {{ customVariable[value]|truncate(50) }}{% endif %}
@@ -183,6 +190,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
             {% endif %}
 
             <div class="col-md-{% if displayVisitorsInOwnColumn %}7{% else %}8{% endif %} column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
+                {{ postEvent('Live.visitorLogViewBeforeActionsInfo', visitor) }}
                 <div class="visitor-log-page-list">
                     <strong>
                         {{ visitor.getColumn('actionDetails')|length }}
@@ -198,6 +206,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                         {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails')} %}
                     </ol>
                 </div>
+                {{ postEvent('Live.visitorLogViewAfterActionsInfo', visitor) }}
             </div>
         </div>
     {% endset %}

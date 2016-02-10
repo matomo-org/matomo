@@ -13,8 +13,8 @@
         "OneClick": "1 klikkaus",
         "OpenFullScreen": "Siirry koko näytön tilaan (ei sivupalkkia)",
         "Overlay": "Sivun leijuke",
-        "RedirectUrlError": "Yrität avata sivun leijuketta URL:lle \"%s\". %s mikän Piwikin asetuksien domain ei vastaa linkkiä.",
-        "RedirectUrlErrorAdmin": "Voit lisätä domainin ylimääräisenä URL:nä %sasetuksissa%s.",
+        "RedirectUrlError": "Yrität avata sivun leijuketta URL:lle \"%1$s\". %2$s mikän Piwikin asetuksien domain ei vastaa linkkiä.",
+        "RedirectUrlErrorAdmin": "Voit lisätä domainin ylimääräisenä URL:nä %1$sasetuksissa%2$s.",
         "RedirectUrlErrorUser": "Pyydä ylläpitää lisäämään domain ylimääräisenä verkkosivuna."
     }
 }

@@ -302,15 +302,6 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Providers',
-                    'uniqueId' => 'widgetProvidergetProvider',
-                    'parameters' =>
-                        array (
-                            'module' => 'Provider',
-                            'action' => 'getProvider',
-                        ),
-                ),
-                array (
                     'name' => 'Frequency Overview',
                     'uniqueId' => 'widgetVisitFrequencygetSparklines',
                     'parameters' =>
@@ -844,9 +835,26 @@ class WidgetTest extends SystemTestCase
                             'action' => 'rssChangelog',
                         ),
                 ),
+                array (
+                    'name' => 'Piwik PRO Blog',
+                    'uniqueId' => 'widgetPiwikProrssPiwikPro',
+                    'parameters' =>
+                        array (
+                            'module' => 'PiwikPro',
+                            'action' => 'rssPiwikPro',
+                        ),
+                ),
+                array (
+                    'name' => 'Piwik PRO: Advanced Analytics & Services',
+                    'uniqueId' => 'widgetPiwikPropromoPiwikProPiwikPro',
+                    'parameters' =>
+                        array (
+                            'module' => 'PiwikPro',
+                            'action' => 'promoPiwikPro',
+                        ),
+                )
         );
     }
-
 }
 
 

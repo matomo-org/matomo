@@ -2,17 +2,17 @@
 <result>
 	<row>
 		<label>blog</label>
-		<nb_visits>5</nb_visits>
-		<nb_hits>5</nb_hits>
+		<nb_visits>6</nb_visits>
+		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 		<min_time_generation />
 		<max_time_generation>0</max_time_generation>
-		<entry_nb_visits>5</entry_nb_visits>
-		<entry_nb_actions>5</entry_nb_actions>
+		<entry_nb_visits>6</entry_nb_visits>
+		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
-		<entry_bounce_count>5</entry_bounce_count>
-		<exit_nb_visits>5</exit_nb_visits>
+		<entry_bounce_count>6</entry_bounce_count>
+		<exit_nb_visits>6</exit_nb_visits>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -20,45 +20,45 @@
 		<subtable>
 			<row>
 				<label>category</label>
-				<nb_visits>4</nb_visits>
-				<nb_hits>4</nb_hits>
+				<nb_visits>5</nb_visits>
+				<nb_hits>5</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<entry_nb_visits>4</entry_nb_visits>
-				<entry_nb_actions>4</entry_nb_actions>
+				<entry_nb_visits>5</entry_nb_visits>
+				<entry_nb_actions>5</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
-				<entry_bounce_count>4</entry_bounce_count>
-				<exit_nb_visits>4</exit_nb_visits>
+				<entry_bounce_count>5</entry_bounce_count>
+				<exit_nb_visits>5</exit_nb_visits>
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<subtable>
 					<row>
 						<label>meta</label>
-						<nb_visits>3</nb_visits>
-						<nb_hits>3</nb_hits>
+						<nb_visits>4</nb_visits>
+						<nb_hits>4</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<entry_nb_visits>3</entry_nb_visits>
-						<entry_nb_actions>3</entry_nb_actions>
+						<entry_nb_visits>4</entry_nb_visits>
+						<entry_nb_actions>4</entry_nb_actions>
 						<entry_sum_visit_length>0</entry_sum_visit_length>
-						<entry_bounce_count>3</entry_bounce_count>
-						<exit_nb_visits>3</exit_nb_visits>
+						<entry_bounce_count>4</entry_bounce_count>
+						<exit_nb_visits>4</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<subtable>
 							<row>
 								<label>/index</label>
-								<nb_visits>3</nb_visits>
-								<nb_hits>3</nb_hits>
+								<nb_visits>4</nb_visits>
+								<nb_hits>4</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
-								<entry_nb_visits>3</entry_nb_visits>
-								<entry_nb_actions>3</entry_nb_actions>
+								<entry_nb_visits>4</entry_nb_visits>
+								<entry_nb_actions>4</entry_nb_actions>
 								<entry_sum_visit_length>0</entry_sum_visit_length>
-								<entry_bounce_count>3</entry_bounce_count>
-								<exit_nb_visits>3</exit_nb_visits>
-								<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-								<sum_daily_entry_nb_uniq_visitors>3</sum_daily_entry_nb_uniq_visitors>
-								<sum_daily_exit_nb_uniq_visitors>3</sum_daily_exit_nb_uniq_visitors>
+								<entry_bounce_count>4</entry_bounce_count>
+								<exit_nb_visits>4</exit_nb_visits>
+								<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+								<sum_daily_entry_nb_uniq_visitors>4</sum_daily_entry_nb_uniq_visitors>
+								<sum_daily_exit_nb_uniq_visitors>4</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
@@ -474,7 +474,7 @@
 										<bounce_rate>50%</bounce_rate>
 										<exit_rate>50%</exit_rate>
 										<avg_time_generation>0.359</avg_time_generation>
-										<url>http://piwik.net/hello/from/another/world/6,681965</url>
+										<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 									</row>
 								</subtable>
 							</row>
@@ -520,7 +520,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.359</avg_time_generation>
-						<url>http://piwik.net/hello/world/6,681965</url>
+						<url>http://hello.example.com/hello/world/6,681965</url>
 					</row>
 				</subtable>
 			</row>
@@ -680,7 +680,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>50%</exit_rate>
-				<url>http://piwik.net/Topic/hw43061</url>
+				<url>http://example.hello.com/Topic/hw43061</url>
 			</row>
 		</subtable>
 	</row>
@@ -791,6 +791,48 @@
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/to-an-error</url>
 		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+	</row>
+	<row>
+		<label>api</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+		<min_time_generation>0.009</min_time_generation>
+		<max_time_generation>0.009</max_time_generation>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>1</entry_nb_actions>
+		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0.009</avg_time_generation>
+		<subtable>
+			<row>
+				<label>/fútbol-user-agent</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<min_time_generation>0.009</min_time_generation>
+				<max_time_generation>0.009</max_time_generation>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.009</avg_time_generation>
+				<url>http://piwik.net/api/fútbol-user-agent</url>
+			</row>
+		</subtable>
 	</row>
 	<row>
 		<label>download</label>
@@ -998,7 +1040,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.109</avg_time_generation>
-				<url>http://piwik.net/Products/theProduct</url>
+				<url>http://xzy.example.com/Products/theProduct</url>
 			</row>
 		</subtable>
 	</row>

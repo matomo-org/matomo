@@ -111,6 +111,7 @@
                 searchKeywordParameters: sendSiteSearchKeywordParams ? $scope.site.sitesearch_keyword_parameters.join(',') : null,
                 searchCategoryParameters: sendSearchCategoryParameters ? $scope.site.sitesearch_category_parameters.join(',') : null,
                 urls: $scope.site.alias_urls,
+                excludeUnknownUrls: $scope.site.exclude_unknown_urls,
                 settings: flatSettings
             }, 'POST');
 
@@ -133,6 +134,7 @@
                 "http://siteUrl.com/",
                 "http://siteUrl2.com/"
             ];
+            $scope.site.exclude_unknown_urls = 0;
             $scope.site.keep_url_fragment = "0";
             $scope.site.excluded_ips = [];
             $scope.site.excluded_parameters = [];

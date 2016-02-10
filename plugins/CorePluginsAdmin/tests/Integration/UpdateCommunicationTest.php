@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -121,7 +122,8 @@ class UpdateCommunicationTest extends IntegrationTestCase
     public function test_sendNotificationIfUpdatesAvailable_ShouldSendCorrectText()
     {
         $subject = 'CoreUpdater_NotificationSubjectAvailablePluginUpdate';
-        $message = 'ScheduledReports_EmailHello
+        $rootUrl = Fixture::getTestRootUrl();
+        $message = "ScheduledReports_EmailHello
 
 CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate
 
@@ -130,9 +132,9 @@ CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate
  * MyTest3 31.0.0
 
 CoreUpdater_NotificationClickToUpdatePlugins
-http://localhost/tests/PHPUnit/proxy/index.php?module=CorePluginsAdmin&action=plugins
+{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins
 
-Installation_HappyAnalysing';
+Installation_HappyAnalysing";
 
         $mock = $this->getCommunicationMockHavingManyUpdates();
 

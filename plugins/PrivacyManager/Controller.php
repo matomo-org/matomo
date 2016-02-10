@@ -279,7 +279,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $deleteDataInfos["nextScheduleTime"] = $nextPossibleSchedule;
         } else {
             $deleteDataInfos["lastRun"] = $optionTable;
-                $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
+                $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized(Date::DATE_FORMAT_SHORT);
 
             //Calculate next run based on last run + interval
             $nextScheduleRun = (int)($deleteDataInfos["lastRun"] + $deleteDataInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60);

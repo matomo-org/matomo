@@ -1,5 +1,6 @@
 {
     "Contents": {
+        "PluginDescription": "Sledování obsahu a bannerů vám umožňuje sledovat efektivitu (zobrazení, kliky...) libovolného obsahu (bannerová reklama, obrázek, vlastně cokoliv) na vašich stránkách.",
         "Impressions": "Dojmy",
         "Interactions": "Interakce",
         "Interaction": "Interakce",
@@ -7,6 +8,9 @@
         "ContentName": "Jméno obsahu",
         "ContentPiece": "Část obsahu",
         "ContentTarget": "Cíl obsahu",
-        "Contents": "Obsah"
+        "Contents": "Obsah",
+        "InteractionsMetricDocumentation": "Kolikrát bylo s blokem obsahu interagováno (t. j. kliknuto na banner nebo reklamu).",
+        "ImpressionsMetricDocumentation": "Počet zobrazení banneru nebo reklamy na stránkách.",
+        "InteractionRateMetricDocumentation": "Poměr impresí obsahu k interakcím."
     }
 }

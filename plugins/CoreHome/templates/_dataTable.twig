@@ -12,7 +12,7 @@
      data-params="{% if clientSideParameters is empty %}{}{% else %}{{ clientSideParameters|json_encode }}{% endif %}">
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
-        {% if reportLastUpdatedMessage is defined %}<span class='helpDate'>{{ reportLastUpdatedMessage }}</span>{% endif %}
+        {% if reportLastUpdatedMessage is defined %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
     </div>
     <div class="dataTableWrapper">
         {% if error is defined %}

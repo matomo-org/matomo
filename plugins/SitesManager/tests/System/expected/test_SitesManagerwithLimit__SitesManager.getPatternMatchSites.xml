@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idsite>1</idsite>
+		<name>SiteTest1</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>10</idsite>
+		<name>SiteTest10</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+</result>

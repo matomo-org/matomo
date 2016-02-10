@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "アクションが %s の期間ページビューが無かったか、無効です。",
         "OutgoingTraffic": "送信トラフィック",
         "PluginDescription": "新しいアイコンを通して Actions レポートで利用可能な、新しい Transitions レポートのそれぞれのページURL に対する遷移をレポートします。",
-        "ShareOfAllPageviews": "このページは、%s ページビューでした ( 全ページビューの %s )",
+        "ShareOfAllPageviews": "このページは、%1$s ページビューでした ( 全ページビューの %2$s )",
         "ToFollowingPages": "内部ページへ",
         "ToFollowingPagesInline": "内部ページへの %s",
         "ToFollowingSiteSearches": "内部検索",
         "ToFollowingSiteSearchesInline": "%s 内部検索",
         "XOfAllPageviews": "このページの全ビューの %s",
-        "XOutOfYVisits": "(%s の内の) %s"
+        "XOutOfYVisits": "(%2$s の内の) %1$s"
     }
 }

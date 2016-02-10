@@ -3,6 +3,7 @@
         "PhoneNumbers": "Telefonnumre",
         "Settings_APIKey": "API-nøkkel",
         "Settings_CountryCode": "Landskode",
+        "Settings_DeleteAccountConfirm": "Er du sikker på at du vil slette denne SMS-kontoen?",
         "Settings_InvalidActivationCode": "Koden du har angitt var ikke gyldig, vennligst prøv igjen.",
         "Settings_ManagePhoneNumbers": "Administrer telefonnummer",
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
@@ -11,10 +12,11 @@
         "Settings_SMSAPIAccount": "Behandle SMS API-konto",
         "Settings_SMSProvider": "SMS-leverandør",
         "Settings_SuperAdmin": "Superbruker-instillinger",
+        "Settings_UpdateOrDeleteAccount": "\"Du kan også %1$soppdatere%2$s eller %3$sslette%4$s denne kontoen.",
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "Vi har nettopp sendt en SMS til dette nummeret med en kode: Skriv inn denne koden ovenfor og klikk \"Valider\".",
         "SettingsMenu": "Meldingstjenester",
         "SMS_Content_Too_Long": "[for lang]",
-        "TopMenu": "E-post og SMS-rapporter"
+        "TopMenu": "E-post- og SMS-rapporter"
     }
 }

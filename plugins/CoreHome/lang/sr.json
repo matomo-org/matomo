@@ -8,7 +8,6 @@
         "DataForThisReportHasBeenPurged": "Podaci za ovaj izveštaj su više od %s meseci stari te su obrisani.",
         "DataTableExcludeAggregateRows": "Zbirni redovi su prikazani %s Sakrij ih",
         "DataTableIncludeAggregateRows": "Zbirni redovi su sakriveni %s Prikaži ih",
-        "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "podrazumevano",
         "DonateCall1": "Piwik vas nikada neće ništa koštati ali to ne znači da nas Piwik ništa ne košta dok ga pravimo.",
         "DonateCall2": "Piwiku je potrebna vaša stalna podrška kako bi rastao i napredovao.",
@@ -25,12 +24,10 @@
         "InjectedHostSuperUserWarning": "Piwik možda nije podešen kako treba (na primer, premešten je na novi server ili URL). Možete ili da %1$skliknete ovde i dodate %2$s kao validan naziv hosta (ukoliko mu verijete)%3$s, ili da %4$skliknete ovde i %5$s pristupite bezbedno Piwik-u%6$s.",
         "InjectedHostWarningIntro": "Sada pristupate Piwik-u sa %1$s, ali je Piwik podešen da radi sa ove adrese: %2$s.",
         "JavascriptDisabled": "JavaScript mora bidi uključen kako biste standardno koristili Piwik.<br \/>Izgleda da je JavaScript ili isključen ili nije podržan od strane vašeg brauzera.<br \/>Kako biste omogućili standardni prikaz, uključite JavaScript kroz podešavanja vašeg brauzera a onda %1$spokušajte ponovo%2$s.<br \/>",
-        "LongMonthFormat": "%longYear%, %longMonth%",
-        "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Budi drugačiji: %1$sDoniraj%2$s za Piwik 2.0!",
         "MakeOneTimeDonation": "Možete izvršiti i jednokratnu donaciju.",
         "Menu": "Meni",
-        "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%s' ali izgleda da nemate postavljena nikakva ovlašćenja. %s Tražite od Piwik administratora (kliknite za poruku)%s da vam dozvoli 'prikaz' na sajtu.",
+        "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%1$s' ali izgleda da nemate postavljena nikakva ovlašćenja. %2$s Tražite od Piwik administratora (kliknite za poruku)%3$s da vam dozvoli 'prikaz' na sajtu.",
         "OnlyForSuperUserAccess": "Ovaj vidžet se prikazuje samo superkorisnicima.",
         "PageOf": "%1$s od %2$s",
         "PeriodRange": "Period",
@@ -39,10 +36,6 @@
         "SharePiwikLong": "Ćaos! Upravo sam naleteo na strava program: Piwik!\n\nPiwik je besplatan program otvorenog koda za praćenje posetilaca na tvom sajtu. Definitvno moraš da ga isprobaš!",
         "SharePiwikShort": "Piwik! Besplatna web analitika otvorenog koda. Budite vlasnici svojih podataka.",
         "ShareThis": "Podeli",
-        "ShortDateFormat": "%shortDay% %day% %shortMonth%",
-        "ShortDateFormatWithYear": "%day% %shortMonth% %shortYear%",
-        "ShortMonthFormat": "%shortMonth% %longYear%",
-        "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Prikaži JavaScript kod",
         "SkipToContent": "Pređi na sadržaj",
         "SubscribeAndBecomePiwikSupporter": "Nastavite ka stranici za sigurno plaćanje (Paypal) kako biste postali Piwik suporter!",
@@ -55,6 +48,6 @@
         "YouAreUsingTheLatestVersion": "Koristite poslednju verziju Piwik-a",
         "ClickRowToExpandOrContract": "Kliknite ovaj red kako biste proširili ili skupili tabelu.",
         "UndoPivotBySubtable": "Ovaj izveštaj je pivotiran %s Otkaži pivot",
-        "PivotBySubtable": "Ovaj izveštaj nije pivotiran %s Pivotiraj sa %s"
+        "PivotBySubtable": "Ovaj izveštaj nije pivotiran %1$s Pivotiraj sa %2$s"
     }
 }

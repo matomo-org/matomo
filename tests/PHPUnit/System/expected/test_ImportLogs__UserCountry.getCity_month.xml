@@ -17,7 +17,7 @@
 		<nb_conversions>27</nb_conversions>
 		<revenue>135</revenue>
 		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
 		<city_name>Unknown</city_name>
 		<city>xx</city>
@@ -82,5 +82,61 @@
 		<country_name>Canada</country_name>
 		<region_name>Nunavut</region_name>
 		<logo>plugins/UserCountry/images/flags/ca.png</logo>
+	</row>
+	<row>
+		<label>Mount Laurel, New Jersey, United States</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>39.957</lat>
+		<long>-74.916</long>
+		<segment>city==Mount+Laurel;regionCode==NJ;countryCode==us</segment>
+		<city_name>Mount Laurel</city_name>
+		<region>NJ</region>
+		<country>us</country>
+		<country_name>United States</country_name>
+		<region_name>New Jersey</region_name>
+		<logo>plugins/UserCountry/images/flags/us.png</logo>
+	</row>
+	<row>
+		<label>Seoul, Seoul-t&amp;#039;ukpyolsi, South Korea</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>37.599</lat>
+		<long>126.978</long>
+		<segment>city==Seoul;regionCode==11;countryCode==kr</segment>
+		<city_name>Seoul</city_name>
+		<region>11</region>
+		<country>kr</country>
+		<country_name>South Korea</country_name>
+		<region_name>Seoul-t'ukpyolsi</region_name>
+		<logo>plugins/UserCountry/images/flags/kr.png</logo>
 	</row>
 </result>

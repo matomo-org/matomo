@@ -3,7 +3,6 @@
         "BrowserWithNoPluginsEnabled": "%1$s med ingen aktiverede udvidelsesmoduler",
         "BrowserWithPluginsEnabled": "%1$s med udvidelsesmoduler %2$s aktiveret",
         "PluginDescription": "Viseren liste over udvidelser, der understøttes i besøgendes browsere.",
-        "PluginDetectionDoesNotWorkInIE": "Note: Udvidelsesmodul detektering virker ikke i Internet Explorer. Rapport viser kun ikke-IE browsere.",
         "WidgetPlugins": "Udvidelsesmoduler",
         "WidgetPluginsDocumentation": "Rapporten viser, hvilke browserudvidelser de besøgende havde aktiveret. Oplysningerne kan være vigtigt for at vælge den rigtige måde at levere indholdet på."
     }

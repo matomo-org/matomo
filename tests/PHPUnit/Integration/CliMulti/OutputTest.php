@@ -25,7 +25,7 @@ class OutputTest extends IntegrationTestCase
 
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         File::reset();
         Url::setHost(false);
@@ -34,7 +34,10 @@ class OutputTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        $this->output->destroy();
+        if(is_object($this->output)){
+            $this->output->destroy();
+        }
+        
         File::reset();
 
         parent::tearDown();

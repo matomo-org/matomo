@@ -1,6 +1,9 @@
 {
     "Transitions": {
+        "BouncesInline": "%s sprett",
+        "DirectEntries": "Direkte treff",
         "ErrorBack": "Gå tilbake til forrige handling",
+        "ExitsInline": "%s utganger",
         "FromCampaigns": "Fra kampanjer",
         "FromPreviousPages": "Fra interne sider",
         "FromPreviousPagesInline": "%s fra interne sider",
@@ -9,12 +12,17 @@
         "FromSearchEngines": "Fra søkemotorer",
         "FromWebsites": "Fra nettsider",
         "IncomingTraffic": "Innkommende trafikk",
+        "LoopsInline": "%s innlastinger av side på nytt",
         "NoDataForAction": "Det finnes ingen data for %s",
+        "NoDataForActionDetails": "Enten har handlingen ingen sidevisninger i perioden %s eller så er den ugyldig.",
         "OutgoingTraffic": "Utgående trafikk",
+        "PluginDescription": "Rapporterer forrige og neste handlinger for hver URL i en ny Overganger-rapport, tilgjengelig i Handlinger-rapporten og via et nytt ikon.",
+        "ShareOfAllPageviews": "Denne siden hadde %1$s sidevisninger (%2$s av alle sidevisninger)",
         "ToFollowingPages": "Til interne sider",
         "ToFollowingPagesInline": "%s til interne sider",
         "ToFollowingSiteSearches": "Interne søk",
         "ToFollowingSiteSearchesInline": "%s interne søk",
-        "XOutOfYVisits": "%s (av %s)"
+        "XOfAllPageviews": "%s av alle besøk på denne siden",
+        "XOutOfYVisits": "%1$s (av %2$s)"
     }
 }

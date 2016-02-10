@@ -10,6 +10,7 @@ namespace Piwik\ReportRenderer;
 
 use Piwik\Common;
 use Piwik\Filesystem;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\ReportRenderer;
@@ -405,7 +406,7 @@ class Pdf extends ReportRenderer
                     if (empty($rowMetrics[$columnId])) {
                         $rowMetrics[$columnId] = 0;
                     }
-                    $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, $rowMetrics[$columnId], 'LR', 0, 'L', $fill);
+                    $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, NumberFormatter::getInstance()->format($rowMetrics[$columnId]), 'LR', 0, 'L', $fill);
                 }
             }
 

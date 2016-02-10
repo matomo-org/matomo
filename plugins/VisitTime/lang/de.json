@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Besuche nach Wochentagen",
         "WidgetByDayOfWeekDocumentation": "Dieser Graph zeigt die Anzahl der Besuche Ihrer Website nach Wochentagen.",
         "WidgetLocalTime": "Besuche nach lokaler Zeit",
-        "WidgetLocalTimeDocumentation": "Dieser Graph zeigt, wie viel Uhr es %s in der Zeitzone des Besuchers %s war, als er die Seite besuchte.",
+        "WidgetLocalTimeDocumentation": "Dieser Graph zeigt, wie viel Uhr es %1$s in der Zeitzone des Besuchers %2$s war, als er die Seite besuchte.",
         "WidgetServerTime": "Besuche nach Server-Zeit",
-        "WidgetServerTimeDocumentation": "Dieser Graph zeigt, wie viel Uhr es %s in der Zeitzone des Servers %s war, als die Seite besucht wurde."
+        "WidgetServerTimeDocumentation": "Dieser Graph zeigt, wie viel Uhr es %1$s in der Zeitzone des Servers %2$s war, als die Seite besucht wurde."
     }
 }

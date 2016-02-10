@@ -16,6 +16,9 @@
 $piwik_errorMessage = '';
 
 // Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
+// NOTE: when changing this variable, we also need to update
+// 1) api.piwik.org
+// 2) tests/travis/generator/Generator.php
 $piwik_minimumPHPVersion = '5.3.3';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
@@ -124,7 +127,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if (empty($faviconUrl)) {
-            $faviconUrl = "plugins/CoreHome/images/favicon.ico";
+            $faviconUrl = "plugins/CoreHome/images/favicon.png";
         }
 
         if ($optionalTrace) {
@@ -141,7 +144,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
                             <li><a rel="noreferrer" target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
                             <li><a rel="noreferrer" target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
                             <li><a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://piwik.pro/contact/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink#contact-form">Professional help (Piwik PRO)</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {
@@ -159,8 +162,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $content = '<h2>' . $message . '</h2>
                     <p>'
             . $optionalLinkBack
-            . ' | <a href="index.php">Go to Piwik</a> |
-                       <a href="index.php?module=Login">Login</a>'
+            . ' | <a href="index.php">Go to Piwik</a>'
             . '</p>'
             . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;

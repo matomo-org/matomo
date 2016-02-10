@@ -11,8 +11,10 @@ namespace Piwik\Plugins\CoreHome\Columns;
 use Piwik\Cache;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
-use Piwik\Period\Range;
+use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Segment;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -32,6 +34,19 @@ class UserId extends VisitDimension
      * @var string
      */
     protected $columnType = 'VARCHAR(200) NULL';
+
+    protected function configureSegments()
+    {
+        $segment = new Segment();
+        $segment->setType('dimension');
+        $segment->setSegment('userId');
+        $segment->setCategory(Piwik::translate('General_Visit'));
+        $segment->setName('General_UserId');
+        $segment->setAcceptedValues('any non empty unique string identifying the user (such as an email address or a username).');
+        $segment->setSqlSegment('log_visit.user_id');
+        $segment->setRequiresAtLeastViewAccess(true);
+        $this->addSegment($segment);
+    }
 
     /**
      * @param Request $request
@@ -109,7 +124,14 @@ class UserId extends VisitDimension
             return false;
         }
 
-        $numUsers = $result->getColumn('nb_users');
+        $firstRow = $result->getFirstRow();
+        if ($firstRow instanceof DataTable\Row && $firstRow->hasColumn(Metrics::INDEX_NB_USERS)) {
+            $metric = Metrics::INDEX_NB_USERS;
+        } else {
+            $metric = 'nb_users';
+        }
+
+        $numUsers = $result->getColumn($metric);
         $numUsers = array_sum($numUsers);
 
         return !empty($numUsers);

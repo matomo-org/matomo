@@ -137,4 +137,14 @@ class Controller extends \Piwik\Plugin\Controller
 		</table>
 		";
     }
+
+    public function glossary()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        return $this->renderTemplate('glossary', array(
+            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports')),
+            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics')),
+        ));
+    }
 }

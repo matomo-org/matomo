@@ -83,6 +83,8 @@
             service.checkUrlForDialog();
         });
 
+        service.checkUrlForDialog(); // check on initial page load
+
         return service;
     }
 })();

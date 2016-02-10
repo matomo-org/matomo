@@ -45,7 +45,8 @@ class Collection
         'Dashboard',
         'ExamplePluginTemplate',
         'CustomAlerts',
-        'Insights'
+        'Insights',
+        'LogViewer',
     );
 
     /**

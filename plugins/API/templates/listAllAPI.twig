@@ -1,16 +1,17 @@
 {% extends 'user.twig' %}
 
+{% set title %}{{ 'API_ReportingApiReference'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
+
 {% block content %}
 
 <div class="api-list">
 
-    <h2>{{ 'API_QuickDocumentationTitle'|translate }}</h2>
-
-    {% include "@CoreHome/_siteSelectHeader.twig" %}
-
-    <div class="top_controls">
-        {% include "@CoreHome/_periodSelect.twig" %}
-    </div>
+    <h2>{{ title }}</h2>
 
     <p>{{ 'API_PluginDescription'|translate }}</p>
 

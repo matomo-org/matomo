@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Promig basat en %s accessos %s entre %s i %s",
+        "AvgGenerationTimeTooltip": "Promig basat en %1$s accessos %2$s entre %3$s i %4$s",
         "ColumnClickedURL": "URL picada",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "Nombre de vegades que s'ha fet clic en aquest enllaç",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Un enllaç de sortida es un enllaç que porta el visitant fora del teu lloc web (a un altre domini)",
         "OutlinksReportDocumentation": "Aquest informe mostra una lista jeràrquica de les URL de sortida que han estat clicades pels vostres visitants.",
         "PagesReportDocumentation": "Aquest informe conté les URL de les pàgines que s'han visitat. %s La taula s'organitza jerarquicament, i les URL es mostren amb estructura de directoris.",
-        "PageTitlesReportDocumentation": "Aquest informe conté informació sobre els títols de les pàgines que s'han visitat. %s El títol de la pàgina es el tag HTML: %s, que es mostra al títol de la finestra en la majoría de navegadors.",
+        "PageTitlesReportDocumentation": "Aquest informe conté informació sobre els títols de les pàgines que s'han visitat. %1$s El títol de la pàgina es el tag HTML: %2$s, que es mostra al títol de la finestra en la majoría de navegadors.",
         "PageUrls": "URLs de les pàgines",
         "PluginDescription": "Informa sobre les vistes i títols de pàgina. Et permet mesurar el motor de cerca intern del teu lloc web. Monitoritza automàticament els clics en enllaços externs i descàrregues de fitxers.",
         "SiteSearchCategories1": "Aquest informe mostra les categoríes que han seleccionat els visitants quan han fet una cerca al vostre lloc web",

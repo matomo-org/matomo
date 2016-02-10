@@ -3,9 +3,22 @@
         "ColumnCustomVariableName": "Custom Variable name",
         "ColumnCustomVariableValue": "Custom Variable value",
         "CustomVariables": "Custom Variables",
-        "CustomVariablesReportDocumentation": "This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. %s For more information about Custom Variables in general, read the %sCustom Variables documentation on piwik.org%s",
+        "CustomVariablesReportDocumentation": "This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. %1$s For more information about Custom Variables in general, read the %2$sCustom Variables documentation on piwik.org%3$s",
         "PluginDescription": "Custom Variables are (name, value) pairs that you can assign using the Javascript API to visitors or any of their action. Piwik will then report how many visits, pages, conversions for each of these custom names and values. View the detailed Custom Variables for each user and action in the Visitor Log.<br />Required to use <a href=\"http://piwik.org/docs/ecommerce-analytics/\">Ecommerce Analytics</a> feature!",
         "ScopePage": "scope page",
-        "ScopeVisit": "scope visit"
+        "ScopeVisit": "scope visit",
+        "ManageDescription": "This overview shows all custom variable slots and their usages for website '%s'. The names within each slot are ordered by how often they were used in total.",
+        "ScopeX": "Scope %s",
+        "Index": "Index",
+        "Usages": "Usages",
+        "Unused": "Unused",
+        "CreateNewSlot": "Increase the number of available Custom Variables slots",
+        "UsageDetails": "%1$s visits and %2$s actions since creation of this website.",
+        "CreatingCustomVariableTakesTime": "Creating a new custom variable slot can take a long time depending on the size of your database. Therefore it is only possible to do this via a command which needs to be executed on the command line.",
+        "CurrentAvailableCustomVariables": "Currently you can use up to %s Custom Variables per site.",
+        "ToCreateCustomVarExecute": "To create a new custom variable slot execute the following command within your Piwik installation: ",
+        "SlotsReportIsGeneratedOverTime": "Data for this report will be populated over time. It may take a day or two to see any data and a few weeks until the report is fully accurate.",
+        "MetricsAreOnlyAvailableForVisitScope": "Note: %1$s metrics are available for Custom Variables of scope %2$s only.",
+        "MetricsNotAvailableForPageScope": "For Custom Variables of scope %1$s, the column value for these metrics is %2$s"
     }
 }

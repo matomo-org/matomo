@@ -8,10 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\EntryPageUrl;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
@@ -59,7 +57,7 @@ class GetEntryPageUrls extends Base
     protected function getMetricsDocumentation()
     {
         $metrics = parent::getMetricsDocumentation();
-        $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
+        $metrics['bounce_rate'] = Piwik::translate('General_ColumnPageBounceRateDocumentation');
 
         unset($metrics['bounce_rate']);
         unset($metrics['exit_rate']);

@@ -39,11 +39,52 @@ class TestingEnvironmentVariables
         return isset($this->behaviorOverrideProperties[$name]);
     }
 
+    /**
+     * Overrides a config entry.
+     *
+     * You can use this method either to set one specific config value `overrideConfig(group, name, value)`
+     * or you can set a whole group of values `overrideConfig(group, valueObject)`.
+     *
+     * @param string $group  Eg 'General', 'log', or any other config group name
+     * @param string|array $name  The name of the config within the group you want to overwrite. If you want to overwrite
+     *                            the whole group just leave `$value` empty and instead provide an array of key/value pairs
+     *                            here.
+     * @param string|int|array|null $value  The value you want to set for the given config.
+     * @throws \Exception if no name is set
+     */
+    public function overrideConfig($group, $name, $value = null)
+    {
+        if (empty($name) && !is_array($name)) {
+            throw new \Exception('No name set that needs to be overwritten');
+        }
+
+        $config = $this->configOverride;
+
+        if (empty($config)) {
+            $config = array();
+        }
+
+        if (!isset($value) && is_array($name)) {
+            $config[$group] = $name;
+            $this->configOverride = $config;
+            return;
+        }
+
+        if (!isset($config[$group])) {
+            $config[$group] = array();
+        }
+
+        $config[$group][$name] = $value;
+        $this->configOverride = $config;
+    }
+
     public function save()
     {
         $includePath = __DIR__ . '/../../..';
 
-        @mkdir($includePath . '/tmp');
+        if(!file_exists($includePath . '/tmp')){
+            mkdir($includePath . '/tmp');
+        }
 
         $overridePath = $includePath . '/tmp/testingPathOverride.json';
         file_put_contents($overridePath, json_encode($this->behaviorOverrideProperties));

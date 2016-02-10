@@ -9,8 +9,10 @@
 namespace Piwik\Tests\Unit;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\SettingsServer;
+use Piwik\Translate;
 
 /**
  */
@@ -268,6 +270,23 @@ class DateTest extends \PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testSubSeconds()
+    {
+        $date = Date::factory('2010-03-01 00:01:25');
+        $dateExpected = Date::factory('2010-03-01 00:00:54');
+
+        $date = $date->subSeconds(31);
+        $this->assertSame($dateExpected->getTimestamp(), $date->getTimestamp());
+
+        $date = Date::factory('2010-03-01 00:01:25');
+        $dateExpected = Date::factory('2010-03-01 00:01:36');
+        $date = $date->subSeconds(-11);
+        $this->assertSame($dateExpected->getTimestamp(), $date->getTimestamp());
+    }
+
+    /**
+     * @group Core
+     */
     public function testAddPeriodMonthRespectsMaxDaysInMonth()
     {
         $date = Date::factory('2014-07-31');
@@ -313,5 +332,35 @@ class DateTest extends \PHPUnit_Framework_TestCase
             $date = Date::factory('2052-01-01');
             $this->assertTrue($date->isLeapYear());
         }
+    }
+
+
+    public function getLocalizedLongStrings()
+    {
+        return array(
+            array('en', false, '2000-01-01 16:05:52', '16:05:52'),
+            array('de', false, '2000-01-01 16:05:52', '16:05:52'),
+            array('en', true, '2000-01-01 16:05:52', '4:05:52 PM'),
+            array('de', true, '2000-01-01 04:05:52', '4:05:52 vorm.'),
+            array('zh-tw', true, '2000-01-01 04:05:52', '上午4:05:52'),
+            array('lt', true, '2000-01-01 16:05:52', '04:05:52 popiet'),
+            array('ar', true, '2000-01-01 04:05:52', '4:05:52 ص'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @dataProvider getLocalizedLongStrings
+     */
+    public function testGetLocalizedTimeFormats($language, $use12HourClock, $time, $shouldBe)
+    {
+        Translate::loadAllTranslations();
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+        StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider')->forceTimeFormat($use12HourClock);
+
+        $date = Date::factory($time);
+
+        $this->assertEquals($shouldBe, $date->getLocalized(Date::TIME_FORMAT));
+        Translate::reset();
     }
 }

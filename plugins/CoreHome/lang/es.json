@@ -8,7 +8,6 @@
         "DataForThisReportHasBeenPurged": "Los datos para este informe tienen más de %s meses de antigüedad y han sido purgados.",
         "DataTableExcludeAggregateRows": "Mostrar filas acumuladas %s Ocultarlas",
         "DataTableIncludeAggregateRows": "Filas agregadas están ocultas %s Mostrarlas",
-        "DateFormat": "%longDay% %day% %longMonth% %longYear%",
         "Default": "predeterminado",
         "DonateCall1": "​Piwik siempre será gratis, pero eso no significa que no nos cueste nada hacerlo.",
         "DonateCall2": "Piwik necesita su apoyo para crecer y prosperar.",
@@ -25,12 +24,10 @@
         "InjectedHostSuperUserWarning": "Piwik puede estar desconfigurado (por ejemplo, si Piwik fue mudado recientemente a un nuevo servidor o cambió su dirección de internet). Puede %1$scliquear aquí y agregar %2$s como servidores válidos Piwik (si los considera confiables)%3$s, o %4$s cliquee aquí y vaya a %5$s para acceder de forma segura a Piwik%6$s.",
         "InjectedHostWarningIntro": "Está accediendo a Piwik desde %1$s, pero Piwik ha sido configurado para ejecutarse en esta dirección: %2$s.",
         "JavascriptDisabled": "JavaScript debe estar habilitado para que pueda utilizar la vista estándar de Piwik .<br \/>Sin embargo, para ser que JavaScript está deshabilitado o no es respaldado por su navegador. <br \/>Para usar la vista estándar, habilite JavaScript cambiando las opciones de su navegador, luego%1$sintente nuevamente%2$s.<br \/>",
-        "LongMonthFormat": "%longYear%, %longMonth%",
-        "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "Marque la diferencia: %1$sDone ahora%2$s para financiar Piwik 2.0!",
         "MakeOneTimeDonation": "Entonces, haga una sola donación",
         "Menu": "Menú",
-        "NoPrivilegesAskPiwikAdmin": "Ha iniciado sesión como '%s', pero parece que no posee ningún permiso configurado en Piwik. %s Consulta al administrador de su Piwik (clic para enviar correo electrónico)%s para que le otorgue acceso para 'ver' en el sitio de internet.",
+        "NoPrivilegesAskPiwikAdmin": "Ha iniciado sesión como '%1$s', pero parece que no posee ningún permiso configurado en Piwik. %2$s Consulta al administrador de su Piwik (clic para enviar correo electrónico)%3$s para que le otorgue acceso para 'ver' en el sitio de internet.",
         "OnlyForSuperUserAccess": "Este reproductor sólo se muestra a los usuarios con acceso Super User.",
         "PageOf": "%1$s de %2$s",
         "PeriodRange": "Rango",
@@ -39,10 +36,6 @@
         "SharePiwikLong": "¡Hola! Encontré una gran pieza de software de código abierto: Piwik! Piwik le permitirá rastrear visitantes en su sitio de internet gratis. ¡Debería revisarlo definitivamente!",
         "SharePiwikShort": "Piwik! Análisis de internet gratuito y de código abierto. Posea sus datos.",
         "ShareThis": "Compartirlo",
-        "ShortDateFormat": "%shortDay% %day% %shortMonth%",
-        "ShortDateFormatWithYear": "%day% %shortMonth% %shortYear%",
-        "ShortMonthFormat": "%shortMonth% %longYear%",
-        "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "Mostrar el código JavaScript para insertar",
         "SkipToContent": "Saltar al contenido",
         "SubscribeAndBecomePiwikSupporter": "Continuar a una página de pago con tarjeta de crédito segura (PayPal) para transformarse en un ¡Colaborador de Piwik!",
@@ -55,6 +48,6 @@
         "YouAreUsingTheLatestVersion": "¡Está utilizando la última versión de Piwik!",
         "ClickRowToExpandOrContract": "Clic en esta fila para expandir o contraer la subtabla.",
         "UndoPivotBySubtable": "Este informe ha sido girado %s Deshacer giro",
-        "PivotBySubtable": "Este informe no es girado %s Giro por %s"
+        "PivotBySubtable": "Este informe no es girado %1$s Giro por %2$s"
     }
 }

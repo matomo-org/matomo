@@ -87,8 +87,8 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
 				<icon />
 				
 			</row>
@@ -187,9 +187,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
@@ -433,8 +430,8 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
 				<icon />
 				
 			</row>
@@ -533,9 +530,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
@@ -763,9 +757,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName4>ValueIsZero</customVariableName4>

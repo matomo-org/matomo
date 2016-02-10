@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\CoreHome\tests\Unit;
 
-use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\CoreHome;
 
 /**

@@ -9,10 +9,10 @@
 
 namespace Piwik\Plugins\ImageGraph;
 
-use Exception;
 use pData;
 use pImage;
 use Piwik\Container\StaticContainer;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\BaseFactory;
 
@@ -249,6 +249,8 @@ abstract class StaticGraph extends BaseFactory
             }
         }
 
+        $this->pData->setAxisDisplay(0, AXIS_FORMAT_CUSTOM, '\\Piwik\\Plugins\\ImageGraph\\formatYAxis');
+
         $this->pData->addPoints($this->abscissaSeries, self::ABSCISSA_SERIE_NAME);
         $this->pData->setAbscissa(self::ABSCISSA_SERIE_NAME);
     }
@@ -340,4 +342,16 @@ abstract class StaticGraph extends BaseFactory
             return false;
         }
     }
+}
+
+/**
+ * Global format method
+ *
+ * required to format y axis values using pcharts internal format callbacks
+ * @param $value
+ * @return mixed
+ */
+function formatYAxis($value)
+{
+    return NumberFormatter::getInstance()->format($value);
 }

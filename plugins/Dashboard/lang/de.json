@@ -21,6 +21,7 @@
         "PluginDescription": "Ihr Web Analyse Dashboard. Personalisieren Sie Ihr Dashboard, in dem Sie neue Widgets hinzufügen, per Drag und Drop herumschieben, und das Dashboard Spaltenlayout ändern. Jeder Benutzer kann sein eigenes personalisiertes Dashboard verwalten.",
         "RemoveDashboard": "Dashboard entfernen",
         "RemoveDashboardConfirm": "Sind Sie sicher, dass Sie das Dashboard \"%s\" löschen möchten?",
+        "RemoveDefaultDashboardNotPossible": "Das Standard-Dashboard kann nicht entfernt werden.",
         "RenameDashboard": "Dashboard umbenennen",
         "ResetDashboard": "Dashboard zurücksetzen",
         "ResetDashboardConfirm": "Wollen Sie wirklich das Dashboardlayout auf die Standardeinstellungen zurücksetzen?",

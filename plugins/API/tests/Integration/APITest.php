@@ -59,6 +59,7 @@ class APITest extends IntegrationTestCase
             "method%3dVisitsSummary.get%26token_auth%3d$token%26idSite%3d1%26date%3d2015-01-26%26period%3dday",
             "method%3dVisitsSummary.get%26idSite%3d1%26date%3d2015-01-26%26period%3dday",
             "method%3dVisitsSummary.get%26idSite%3d1%26token_auth%3danonymous%26date%3d2015-01-26%26period%3dday",
+            "method%3dVisitsSummary.get%26token_auth%3d$token%26idSite%3d1%26date%3d2015-01-26%26period%3dday%26segment%3dvisitDuration%3d%3d30%3bactions%3e2",
         );
         $response = $this->api->getBulkRequest($urls);
 
@@ -67,6 +68,7 @@ class APITest extends IntegrationTestCase
         $this->assertSame(0, $response[1]['nb_visits']);
         $this->assertResponseIsPermissionError($response[2]);
         $this->assertResponseIsPermissionError($response[3]);
+        $this->assertResponseIsSuccess($response[4]);
     }
 
     private function assertResponseIsPermissionError($response)

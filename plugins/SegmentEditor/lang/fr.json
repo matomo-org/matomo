@@ -7,6 +7,7 @@
         "AutoArchivePreProcessed": "les rapports segmentés sont pré-traités (plus rapide, requiert un cron sur archive.php)",
         "AutoArchiveRealTime": "les rapports segmentés sont traités en temps réel",
         "ChooseASegment": "Choisir un segment",
+        "CurrentlySelectedSegment": "Segment sélectionné : %s",
         "DataAvailableAtLaterDate": "Votre rapport d'analyse segmenté sera disponible plus tard. Veuillez nous excuser pour le désagrément.",
         "DefaultAllVisits": "Toutes les visites",
         "DragDropCondition": "Condition de Drag & Drop",
@@ -19,13 +20,19 @@
         "SegmentIsDisplayedForWebsite": "et affiché pour",
         "SegmentNotApplied": "Segment \"%s\" non appliqué",
         "SegmentNotAppliedMessage": "Vous êtes en train de demander des données for le segment personnalisé '%s', la configuration actuelle de Piwik empêche la génération en temps réelle de rapport pour des raisons de performance.",
-        "SelectSegmentOfVisitors": "Choisir un segment de visiteurs :",
+        "SelectSegmentOfVisits": "Sélectionnez un segment de visites :",
         "ThisSegmentIsVisibleTo": "Ce segment est visible pour :",
         "VisibleToAllUsers": "tous les utilisateurs",
         "VisibleToMe": "moi",
-        "YouMayChangeSetting": "Vous pouvez ou changer le paramètre depuis le fichier de configuration (%s) ou bien modifier ce segment et choisir '%s'.",
+        "YouMayChangeSetting": "Vous pouvez ou changer le paramètre depuis le fichier de configuration (%1$s) ou bien modifier ce segment et choisir '%2$s'.",
+        "VisibleToSuperUser": "Vous est visible car vous avez un accès Super Utilisateur",
+        "SharedWithYou": "Partagé avec vous",
         "YouMustBeLoggedInToCreateSegments": "Vous devez être identifié(e) pour créer et modifier des segments de visiteurs personnalisés.",
         "YouDontHaveAccessToCreateSegments": "Vous n'avez pas les permissions requises pour créer et modifier des segments.",
-        "AddingSegmentForAllWebsitesDisabled": "Ajouter des segments pour tous les sites a été désactivé."
+        "AddingSegmentForAllWebsitesDisabled": "Ajouter des segments pour tous les sites a été désactivé.",
+        "SegmentXIsAUnionOf": "%s est une union des segments suivants :",
+        "CustomSegment": "Segment personnalisé",
+        "SegmentOperatorIsNullOrEmpty": "Est nul ou vide",
+        "SegmentOperatorIsNotNullNorEmpty": "n'est pas nul ou vide"
     }
 }

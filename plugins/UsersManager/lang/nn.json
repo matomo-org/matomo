@@ -4,7 +4,6 @@
         "Alias": "Alias",
         "AllWebsites": "Alle nettstader",
         "ApplyToAllWebsites": "Gjer gjeldande for alle nettstader",
-        "ChangeAllConfirm": "Er du sikker på at du vil endra '%s' tilgangar på alle nettstadene?",
         "ClickHereToDeleteTheCookie": "Klikk her for å sletta informasjonskapselen slik at Piwik loggar dine vitjingar",
         "DeleteConfirm": "Er du sikker på at du vil fjerna brukar %s?",
         "Email": "Epost",
@@ -14,12 +13,10 @@
         "ExceptionEditAnonymous": "Den anonyme brukaren kan ikkje bli endra eller sletta. Den er brukt av Piwik for å definera ein brukar som ikkje hev logga inn. Til døme kan du gjera statistikken offentleg tilgjengeleg ved å gjeva lesetilgang til den anonyme brukaren.",
         "ExceptionEmailExists": "Ein bukar med eposten '%s' finst allereie.",
         "ExceptionInvalidEmail": "Eposten hev eit ugyldig format.",
-        "ExceptionLoginExists": "Brukar '%s' finst allereie.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth forventar eit MD5-hasja passord (ein 32 teikn lang streng). Nytt md5()-funksjonen på passord før du kallar denne metoden.",
         "ExceptionUserDoesNotExist": "Brukar '%s' finst ikkje.",
         "ExcludeVisitsViaCookie": "Utelukk dine vitjingar frå Piwik med ein informasjonskapsel.",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Om du ønskjer å bytte passordet, skriv inn eit nytt et. Ellers skriv du ingenting.",
-        "MainDescription": "Bestem kven av brukarane som hev korleis tilgang til dine nettstader. Du kan òg setja tilgang til alle nettstadene på ein gong.",
         "ManageAccess": "Bestem tilgang",
         "MenuAnonymousUserSettings": "Innstillingar for anonyme brukarar",
         "MenuUsers": "Brukarar",
@@ -34,7 +31,7 @@
         "UsersManagementMainDescription": "Lag nye brukarar eller oppdater eksisterande brukarar. Du kan deretter setta deira tilgangar ovanfor.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Når brukarar vitjar Piwik uten å vera innlogga, skal dei ha tilgang til",
         "YourUsernameCannotBeChanged": "Brukarnamnet ditt kan ikkje endrast.",
-        "YourVisitsAreIgnoredOnDomain": "%sDine vitjingar blir ignorert av Piwik på %s %s (Informasjonskapselen frå Piwik vart funnen i din nettlesar).",
-        "YourVisitsAreNotIgnored": "%sDine vitjingar blir ikkje ignorert av Piwik%s (Informasjonskapselen frå Piwik vart ikkje funnen i din nettlesar)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sDine vitjingar blir ignorert av Piwik på %2$s %3$s (Informasjonskapselen frå Piwik vart funnen i din nettlesar).",
+        "YourVisitsAreNotIgnored": "%1$sDine vitjingar blir ikkje ignorert av Piwik%2$s (Informasjonskapselen frå Piwik vart ikkje funnen i din nettlesar)."
     }
 }

@@ -1,12 +1,11 @@
 {
     "API": {
-        "GenerateVisits": "Daca nu ai date pentru astazi, prima data poti genera date folosind pluginul %s. Poti activa pluginul %s, apoi apasa pe meniul 'Visitor Generator' in aria de administrare Piwik Admin.",
-        "KeepTokenSecret": "Acest token_auth este secret cum sunt login-ul si parola, %s nu le fa publice%s!",
+        "GenerateVisits": "Daca nu ai date pentru astazi, prima data poti genera date folosind pluginul %1$s. Poti activa pluginul %2$s, apoi apasa pe meniul 'Visitor Generator' in aria de administrare Piwik Admin.",
+        "KeepTokenSecret": "Acest token_auth este secret cum sunt login-ul si parola, %1$s nu le fa publice%2$s!",
         "LoadedAPIs": "%s API-uri încarcate cu succes",
-        "MoreInformation": "Pentru mai multe informatii despre API-urile Piwik, va rugam sa va uitati la %s Introducere la Piwik API %s si la %s Referinte Piwik API %s.",
-        "QuickDocumentationTitle": "Demonstrare rapida API",
+        "MoreInformation": "Pentru mai multe informatii despre API-urile Piwik, va rugam sa va uitati la %1$s Introducere la Piwik API %2$s si la %3$s Referinte Piwik API %4$s.",
         "TopLinkTooltip": "Acceseaza datele tale de Web Analytics in mod organizat prin intermediul unui simplu API in json, xml, etc.",
         "UserAuthentication": "Identificare utilizator",
-        "UsingTokenAuth": "Daca vrei sa %s preiei date printr-un script, crontab etc. %s este necesar sa adaugi parametrul %s la URL-urile API care cer autentificare."
+        "UsingTokenAuth": "Daca vrei sa %1$s preiei date printr-un script, crontab etc. %2$s este necesar sa adaugi parametrul %3$s la URL-urile API care cer autentificare."
     }
 }

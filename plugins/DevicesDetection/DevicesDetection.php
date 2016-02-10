@@ -11,19 +11,19 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
-use Piwik\Piwik;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class DevicesDetection extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Request.getRenamedModuleAndAction' => 'renameUserSettingsModuleAndAction',
         );
     }
 
@@ -49,4 +49,21 @@ class DevicesDetection extends \Piwik\Plugin
         $visitor['browserVersion']           = $instance->getBrowserVersion();
     }
 
+    public function renameUserSettingsModuleAndAction(&$module, &$action)
+    {
+        $movedMethods = array(
+            'index' => 'software',
+            'getBrowser' => 'getBrowsers',
+            'getBrowserVersion' => 'getBrowserVersions',
+            'getMobileVsDesktop' => 'getType',
+            'getOS' => 'getOsVersions',
+            'getOSFamily' => 'getOsFamilies',
+            'getBrowserType' => 'getBrowserEngines',
+        );
+
+        if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
+            $module = 'DevicesDetection';
+            $action = $movedMethods[$action];
+        }
+    }
 }

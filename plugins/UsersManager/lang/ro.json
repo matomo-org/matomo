@@ -6,13 +6,11 @@
         "AnonymousUserHasViewAccess": "Notă: utilizatorul %1$s are acces %2$s la acest website.",
         "AnonymousUserHasViewAccess2": "Rapoartele de analiză și informațiile dvs. despre vizitatori sunt facute publice.",
         "ApplyToAllWebsites": "Aplica tuturor siteurilor",
-        "ChangeAllConfirm": "Esti sigur ca vrei sa scimbi '%s' permisiunile tuturor siteurilor?",
         "ChangePasswordConfirm": "Schimbarea parolei va modifica token_auth al utilizatorului. Într-adevăr doreşti să continui?",
         "ClickHereToDeleteTheCookie": "Click aici pentru a șterge cookie-ul și puenti-l pe Piwik sa urmăreasca vizitele",
         "ClickHereToSetTheCookieOnDomain": "Click aici pentru a stabili un cookie care va exclude vizitele dvs. de pe site-urile urmărite cu Piwik pe %s",
         "ConfirmGrantSuperUserAccess": "Chiar vrei să se acorde '%s' acces de Super utilizator? Avertisment: utilizatorul va avea acces la toate site-urile și va fi capabil de a efectua sarcini administrative.",
         "ConfirmProhibitMySuperUserAccess": "%s, chiar vrei să eliminați propriul Super acces utilizator? Veți pierde toate permisiunile și acces la toate site-urile și vei fi deconectat de la Piwik.",
-        "ConfirmProhibitOtherUsersSuperUserAccess": "Chiar doriți să eliminați accesul Super utilizator de la \"%s\"? Utilizatorul va pierde toate permisiunile și acces la toate site-urile. Asigurați-vă că pentru a seta permisiuni la site-urile necesare , dacă este necesar.",
         "DeleteConfirm": "Eşti sigur că vrei să ştergi utilizatorul %s?",
         "Email": "Email",
         "EmailYourAdministrator": "%1$sTrimite email administratorului despre aceasta problema%2$s.",
@@ -23,9 +21,7 @@
         "ExceptionEditAnonymous": "Userul anonim nu poate fi editat sau sters.De exemplu poti face ca statisticile tale sa fie publice autorizand 'view' accesul la 'anonymous' user.",
         "ExceptionEmailExists": "Deja există un utilizator cu adresa '%s'.",
         "ExceptionInvalidEmail": "Emailul nu are un format valid.",
-        "ExceptionInvalidLoginFormat": "The login must be between %1$s and %2$s characters long and contain only letters, numbers, or the characters '_' or '-' or '.'",
         "ExceptionInvalidPassword": "Lungimea parolei trebuie să fie între %1$s şi %2$s simboluri.",
-        "ExceptionLoginExists": "Login '%s' există deja.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth se așteaptă la o parolă distribuita-MD5 (32 de caractere șir lung). Vă rugăm să apelati la funcția md5 () la parola înainte de a apela această metodă.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Scoaterea accesul utilizatorului Super de la utilizator '%s' nu este posibil.",
         "ExceptionSuperUserAccess": "Acest utilizator are acces la Super utilizator și are deja permisiunea de a accesa și modifica toate site-urile din Piwik. Puteți scoate Super accesul utilizatorului la acest utilizator și încercați din nou.",
@@ -36,7 +32,6 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Dacă doriți să modificați parolă taastati una noua. În caz contrar, lăsați spatiul gol.",
         "InjectedHostCannotChangePwd": "Daca în prezent vizitati o gazdă necunoscuta (%1$s). Nu puteți schimba parola până când această problemă nu este rezolvata.",
         "LastSeen": "Ultima data vazut",
-        "MainDescription": "Decide userul ce are acces la propriul website . Poti de asemenea seta permisiunile la toate siteurile in acelasi timp.",
         "ManageAccess": "Manageriaza accesul",
         "MenuAnonymousUserSettings": "Setările utilizatorului anonim",
         "MenuUsers": "Utilizatori",
@@ -59,7 +54,7 @@
         "UsersManagementMainDescription": "Creaza user nou sau actualizeaza userul existent. Poti seta permisiunile lor.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Atunci când utilizatorii nu sunt logati și viziteaza Piwik, acestea ar trebui să acceseze",
         "YourUsernameCannotBeChanged": "Numele tău de utilizator nu poate fi schimbat.",
-        "YourVisitsAreIgnoredOnDomain": "%svizitele tale sunt ignorate de Piwik pe %s%s (piwik ignora cookie care a fost găsit în browser-ul dvs.).",
-        "YourVisitsAreNotIgnored": "%s Vizitele tale nu sunt ignorate de Piwik%s (piwik ignora cookie care nu au fost găsite în browser-ul dvs.)."
+        "YourVisitsAreIgnoredOnDomain": "%1$svizitele tale sunt ignorate de Piwik pe %2$s%3$s (piwik ignora cookie care a fost găsit în browser-ul dvs.).",
+        "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Piwik%2$s (piwik ignora cookie care nu au fost găsite în browser-ul dvs.)."
     }
 }

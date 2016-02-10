@@ -8,15 +8,18 @@
  */
 namespace Piwik\Plugins\Contents;
 
+use Piwik\Piwik;
+
 class Contents extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
+            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
@@ -39,4 +42,9 @@ class Contents extends \Piwik\Plugin
         $stylesheets[] = "plugins/Contents/stylesheets/datatable.less";
     }
 
+    public function addMetricDocumentationTranslations(&$translations)
+    {
+        $translations['nb_impressions'] = Piwik::translate('Contents_ImpressionsMetricDocumentation');
+        $translations['nb_interactions'] = Piwik::translate('Contents_InteractionsMetricDocumentation');
+    }
 }

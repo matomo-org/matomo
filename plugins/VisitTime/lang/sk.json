@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Návštevy podľa dňa v týždni",
         "WidgetByDayOfWeekDocumentation": "Tento graf zobrazuje množstvo návštev, ktoré vaša web stránka prijala v každom dni týždňa.",
         "WidgetLocalTime": "Návštevníci podľa lokálneho času",
-        "WidgetLocalTimeDocumentation": "Tento graf zobrazuje koľko hodín bolo %s podľa časového pásma návštevníka %s počas návštevy.",
+        "WidgetLocalTimeDocumentation": "Tento graf zobrazuje koľko hodín bolo %1$s podľa časového pásma návštevníka %2$s počas návštevy.",
         "WidgetServerTime": "Návštevníci podľa serverového času",
-        "WidgetServerTimeDocumentation": "Tento graf zobrazuje koľko hodín bolo %s podľa časového pásma servera %s počas návštevy."
+        "WidgetServerTimeDocumentation": "Tento graf zobrazuje koľko hodín bolo %1$s podľa časového pásma servera %2$s počas návštevy."
     }
 }

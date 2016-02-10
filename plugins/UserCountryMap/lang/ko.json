@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "이 플러그인은 방문자 지도 및 실시간 지도 위젯을 제공합니다. 주의: UserCountry 플러그인이 활성화 되어 있어야 합니다.",
         "AndNOthers": ", 기타 %s",
         "Cities": "도시",
         "Countries": "국가",
@@ -17,6 +18,8 @@
         "ShowingVisits": "최근 방문의 지리적 위치",
         "Unlocated": "<b>%s<\/b> %c 방문에서 %p의 지리적 위치를 찾을 수 없습니다.",
         "VisitorMap": "방문자 지도",
-        "WorldWide": "전세계"
+        "WorldWide": "전세계",
+        "WithUnknownRegion": "%s 알 수 없는 지역",
+        "WithUnknownCity": "%s 알 수 없는 도시"
     }
 }

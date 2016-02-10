@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit\Period;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Month;
 
@@ -307,17 +308,47 @@ class MonthTest extends BasePeriodTest
         $this->assertEquals(7, $month->getNumberOfSubperiods());
     }
 
-    public function testGetLocalizedShortString()
+    public function getLocalizedShortStrings()
     {
+        return array(
+            array('en', 'Oct 2024'),
+            array('lt', '2024-10'),
+            array('zh-cn', '2024年10月'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @group Month
+     * @dataProvider getLocalizedShortStrings
+     */
+    public function testGetLocalizedShortString($language, $shouldBe)
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+
         $month = new Month(Date::factory('2024-10-09'));
-        $shouldBe = 'Oct 2024';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
     }
 
-    public function testGetLocalizedLongString()
+    public function getLocalizedLongStrings()
     {
+        return array(
+            array('en', 'October 2024'),
+            array('lt', '2024 m. Spalis'),
+            array('zh-cn', '2024年10月'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @group Month
+     * @dataProvider getLocalizedLongStrings
+     */
+    public function testGetLocalizedLongString($language, $shouldBe)
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+
         $month = new Month(Date::factory('2024-10-09'));
-        $shouldBe = '2024, October';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
     }
 

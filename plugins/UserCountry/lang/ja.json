@@ -16,6 +16,7 @@
         "country_a2": "衛星プロバイダ",
         "country_cat": "カタロニア語圏のコミュニティ",
         "country_o1": "その他の国",
+        "country_ti": "チベット",
         "CurrentLocationIntro": "このプロバイダーによると、あなたの現在地は",
         "DefaultLocationProviderDesc1": "デフォルトロケーションプロバイダーでは、ビジターの国は使用言語に基づいて推測されます。",
         "DefaultLocationProviderDesc2": "これは正確ではありません。%1$swe recommend installing and using %2$sGeoIP%3$s。%4$s",

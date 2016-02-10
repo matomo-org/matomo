@@ -9,7 +9,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>21</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -81,9 +81,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -117,7 +114,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>20</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -189,9 +186,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -225,7 +219,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>16</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -239,7 +233,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>17</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -253,7 +247,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>19</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -267,7 +261,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>22</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -296,7 +290,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
-				<pageIdAction>23</pageIdAction>
+				<pageIdAction>25</pageIdAction>
 				
 				<pageId>24</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
@@ -370,9 +364,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -406,7 +397,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>18</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -478,9 +469,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -538,7 +526,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>2</pageId>
 				<eventCategory>Music</eventCategory>
@@ -558,7 +546,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>3</pageId>
 				<eventCategory>Music</eventCategory>
@@ -578,7 +566,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>4</pageId>
 				<eventCategory>Music</eventCategory>
@@ -598,7 +586,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>5</pageId>
 				<eventCategory>Music</eventCategory>
@@ -618,7 +606,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>6</pageId>
 				<eventCategory>Music</eventCategory>
@@ -638,7 +626,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>7</pageId>
 				<eventCategory>Music</eventCategory>
@@ -659,7 +647,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>8</pageId>
 				<eventCategory>Music</eventCategory>
@@ -681,7 +669,7 @@
 				<type>action</type>
 				<url>http://example.org/movies</url>
 				<pageTitle>Movie Theater</pageTitle>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>9</pageId>
 				<generationTime>0.67s</generationTime>
@@ -693,7 +681,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>10</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -707,7 +695,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>11</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -721,7 +709,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>12</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -735,7 +723,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>13</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -749,7 +737,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>14</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -763,7 +751,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>15</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -836,9 +824,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -872,7 +857,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>45</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -944,9 +929,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -976,7 +958,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>44</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1048,9 +1030,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -1080,7 +1059,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>40</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1094,7 +1073,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>41</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1108,7 +1087,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>43</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1122,7 +1101,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>46</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1151,7 +1130,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
-				<pageIdAction>23</pageIdAction>
+				<pageIdAction>25</pageIdAction>
 				
 				<pageId>48</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
@@ -1225,9 +1204,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -1257,7 +1233,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>42</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1329,9 +1305,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>
@@ -1385,7 +1358,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>26</pageId>
 				<eventCategory>Music</eventCategory>
@@ -1405,7 +1378,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>27</pageId>
 				<eventCategory>Music</eventCategory>
@@ -1425,7 +1398,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>28</pageId>
 				<eventCategory>Music</eventCategory>
@@ -1445,7 +1418,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>29</pageId>
 				<eventCategory>Music</eventCategory>
@@ -1465,7 +1438,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>30</pageId>
 				<eventCategory>Music</eventCategory>
@@ -1485,7 +1458,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>31</pageId>
 				<eventCategory>Music</eventCategory>
@@ -1506,7 +1479,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageIdAction>2</pageIdAction>
+				<pageIdAction>3</pageIdAction>
 				
 				<pageId>32</pageId>
 				<eventCategory>Music</eventCategory>
@@ -1528,7 +1501,7 @@
 				<type>action</type>
 				<url>http://example.org/movies</url>
 				<pageTitle>Movie Theater</pageTitle>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>33</pageId>
 				<generationTime>0.67s</generationTime>
@@ -1540,7 +1513,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>34</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1554,7 +1527,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>35</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1568,7 +1541,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>36</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1582,7 +1555,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>37</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1596,7 +1569,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>38</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1610,7 +1583,7 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>14</pageIdAction>
 				
 				<pageId>39</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -1683,9 +1656,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 			<row>
 				<customVariableName1>Visit Scope Custom var</customVariableName1>

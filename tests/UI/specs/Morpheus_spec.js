@@ -12,11 +12,7 @@ describe("Morpheus", function () {
 
     before(function () {
         // Enable development mode
-        testEnvironment.configOverride = {
-            Development: {
-                enabled: true
-            }
-        };
+        testEnvironment.overrideConfig('Development', 'enabled', true);
         testEnvironment.save();
     });
 

@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Tarjoajan nimi '%s' on tuntematon. Kokeile jotakin seuraavista: %s.",
+        "Exception_UnknownProvider": "Tarjoajan nimi '%1$s' on tuntematon. Kokeile jotakin seuraavista: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Voit lisätä puhelinnumeroita",
         "MobileReport_MobileMessagingSettingsLink": "Mobiiliviestinnän asetukset",
         "MobileReport_NoPhoneNumbers": "Aktivoi vähintään yksi puhelinnumero",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS-toimittaja",
         "Settings_SuperAdmin": "Superkäyttäjäasetukset",
         "Settings_SuspiciousPhoneNumber": "Jos et saa tekstiviestiä, kokeile ottaa ensimmäinen nolla pois numerosta, eli %s",
-        "Settings_UpdateOrDeleteAccount": "Voit myös %späivittää%s tai %spoistaa%s tämän tilin.",
+        "Settings_UpdateOrDeleteAccount": "Voit myös %1$späivittää%2$s tai %3$spoistaa%4$s tämän tilin.",
         "Settings_ValidatePhoneNumber": "Varmista",
         "Settings_VerificationCodeJustSent": "Olemme juuri lähettäneet tähän numeroon koodin sisältävän tekstiviestin: kirjoita koodi ylle ja klikkaa \"Todenna\".",
         "SettingsMenu": "Mobiiliviestit",
         "SMS_Content_Too_Long": "[liian pitkä]",
         "TopLinkTooltip": "Saa verkkoanalyysiraportteja suoraan sähköpostiisi tai puhelimeesi!",
         "TopMenu": "Sähköposti- ja SMS-raportit",
-        "VerificationText": "Koodi on %s. Todentaaksesi puhelinnumerosi ja vastaanottaaksesi Piwik SMS raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Piwikissä > %s > %s."
+        "VerificationText": "Koodi on %1$s. Todentaaksesi puhelinnumerosi ja vastaanottaaksesi Piwik SMS raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Piwikissä > %2$s > %3$s."
     }
 }

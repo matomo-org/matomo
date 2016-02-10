@@ -1,16 +1,35 @@
 {
     "Live": {
+        "CalculatedOverNPageViews": "해당 방문자의 %1$s 번 페이지 방문을 통해 계산되었습니다.",
+        "ClickToViewMoreAboutVisit": "이 방문에 대해 더 자세한 정보를 보기 위해서 클릭하세요.",
+        "ConvertedNGoals": "변환된 %s 목표",
+        "FirstVisit": "첫 방문",
         "GoalType": "유형",
+        "HideMap": "지도 숨기기",
         "KeywordRankedOnSearchResultForThisVisitor": "키워드 %1$s 이 방문자의 %3$s 검색 결과 페이지에서 %2$s에 랭크되었습니다.",
         "LastHours": "최근 %s시간",
         "LastMinutes": "최근 %s분",
+        "LastVisit": "최근 방문",
         "LinkVisitorLog": "방문자 기록 자세히 보기",
+        "LoadMoreVisits": "더 많은 방문들 불러오기",
         "MorePagesNotDisplayed": "이 방문객의 표시는 더이상 없습니다",
+        "NbVisitor": "1명 방문자",
+        "NbVisitors": "%s 방문자들",
+        "NextVisitor": "다음 방문자",
+        "NoMoreVisits": "이 방문자가 방문한 페이지는 더 이상 없습니다.",
         "PageRefreshed": "이 페이지를 볼 수 있음 \/ 업데이트된 횟수",
+        "PreviousVisitor": "이전 방문자",
+        "RealTimeVisitorCount": "실시간 방문자 합계",
         "Referrer_URL": "참조 URL",
+        "ShowMap": "지도 보이기",
+        "ViewVisitorProfile": "방문자 프로필 보기",
+        "VisitedPages": "방문한 페이지들",
         "VisitorLog": "방문자 기록",
-        "VisitorLogDocumentation": "이 표는 선택한 날짜 기간 내에 최신 방문에 표시하고 있습니다. 방문 날짜 위로 마우스를 이동하고, 그 방문자의 마지막 방문이 며칠 전인지 볼 수 있습니다. %s 기간내에 오늘이 포함되어 있으면, 방문객을 실시간으로 볼 수 있습니다! %s 여기에 표시되는 것은 보관을위한 cron 작업 설정 빈도에 상관없는 라이브 데이터입니다.",
+        "VisitorLogDocumentation": "이 표는 선택한 날짜 기간 내에 최신 방문에 표시하고 있습니다. 방문 날짜 위로 마우스를 이동하고, 그 방문자의 마지막 방문이 며칠 전인지 볼 수 있습니다. %1$s 기간내에 오늘이 포함되어 있으면, 방문객을 실시간으로 볼 수 있습니다! %2$s 여기에 표시되는 것은 보관을위한 cron 작업 설정 빈도에 상관없는 라이브 데이터입니다.",
+        "VisitorProfile": "방문자 프로필",
         "VisitorsInRealTime": "실시간 방문자",
-        "VisitorsLastVisit": "이 방문객의 최신 방문은 %s일 입니다."
+        "VisitorsLastVisit": "이 방문객의 최신 방문은 %s일 입니다.",
+        "OnClickPause": "%s이\/가 시작되었습니다. 멈추기 위해서 클릭해주세요.",
+        "OnClickStart": "%s이\/가 멈추었습니다. 시작하기 위해서 클릭해주세요."
     }
 }

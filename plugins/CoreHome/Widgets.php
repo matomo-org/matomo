@@ -15,7 +15,7 @@ use Piwik\View;
 
 class Widgets extends \Piwik\Plugin\Widgets
 {
-    protected $category = 'Example Widgets';
+    protected $category = 'About Piwik';
 
     /**
      * @var Translator

@@ -1,12 +1,33 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "발견한 버그나 기능에 대한 의견을 보고하시겠습니까?",
+        "HowToCreateTicket": "좋은 %1$s버그 리포트%2$s 혹은 %3$s기능 개선%4$s을 작성하는 추천법에 대해 읽어주세요. 그 후 %5$s우리의 이슈 트래커%6$s에 가입 및 로그인 하셔서 %7$s새로운 이슈%8$s를 만들어주세요.",
         "IWantTo": "내가 원하는 것은:",
-        "LearnWaysToParticipate": "당신이 %s참여%s할 수있는 모든 방법",
+        "LearnWaysToParticipate": "당신이 %1$s참여%2$s할 수있는 모든 방법",
         "ManuallySendEmailTo": "당신의 메시지를 다음 주소로 직접 보내주세요:",
+        "PluginDescription": "Piwik 팀에게 피드백 보내기. 당신의 아이디어와 제안은 더 나은 세상에서 가장 우수한 분석 플랫폼이 될 Piwik를 만드는데 큰 도움이 됩니다.",
+        "PrivacyClaim": "Piwik는 당신의 %1$s프라이버시%2$s를 존중하며 동시에 당신의 데이터가 당신의 통제 하에 있도록 노력합니다.",
+        "RateFeatureLeaveMessageDislike": "안 좋아하신다고요! 죄송합니다! 우리가 이를 개선할 수 있도록 도움을 주세요!",
+        "RateFeatureLeaveMessageLike": "좋아요에 감사 드립니다! 어떤 점을 좋게 생각하시는지 혹은 어떤 기능적 개선 요구가 있는지 알고 싶습니다.",
+        "RateFeatureSendFeedbackInformation": "당신의 Piwik 플랫폼은 우리들(Piwik 팀)에게 (당신의 이메일 주소를 포함한) 메일을 보낼 것입니다. 따라서 당신의 질문에 따라 우리가 연락을 취할 수 있습니다.",
+        "RateFeatureThankYouTitle": "'%s' 등급에 감사 드립니다.",
+        "RateFeatureTitle": "'%s'의 기능이 어떤가요? 평가 및 코멘트 해주세요.",
         "SendFeedback": "의견 보내기",
         "ThankYou": "우리가 Piwik을 향상시키는 데 도움을 주셔서 감사합니다!",
-        "TopLinkTooltip": "당신이 생각하는 기술 지원 요청을 알려주세요.",
-        "VisitTheForums": "%s포럼%s으로 이동"
+        "TopLinkTooltip": "당신이 필요로 하는 기술 지원 요청을 알려주세요.",
+        "ViewAnswersToFAQ": "%1$s자주 하는 질문%2$s에서 답변 보기",
+        "ViewUserGuides": "%1$s사용자 가이드%2$s에서 효율적으로 당신의 데이터를 분석하는 방법과 Piwik를 구성하는 법에 대해서 알 수 있습니다.",
+        "CommunityHelp": "커뮤니티에서의 도움",
+        "ProfessionalHelp": "전문가의 도움",
+        "PiwikProIntro": "Piwik PRO는 전문가들이 구축한 인프라에서 그들의 지원과 컨설팅을 받을 수 있는 서비스입니다.",
+        "PiwikProOfferIntro": "제공되는 것들",
+        "PiwikProReviewPiwikSetup": "Piwik 셋업",
+        "PiwikProOptimizationMaintenance": "Piwik 최적화 및 관리 보수",
+        "PiwikProPhoneEmailSupport": "전화 및 이메일",
+        "PiwikProTraining": "사용자, 기술자 및 개발자",
+        "PiwikProPremiumFeatures": "프리미엄",
+        "PiwikProCustomDevelopment": "맞춤 개발",
+        "PiwikProAnalystConsulting": "전문가 컨설팅",
+        "ContactUs": "연락주세요"
     }
 }

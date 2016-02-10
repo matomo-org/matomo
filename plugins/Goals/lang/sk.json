@@ -3,7 +3,7 @@
         "AbandonedCart": "Opustený košík",
         "AddGoal": "Pridať ciele",
         "AddNewGoal": "Pridať nový cieľ",
-        "AddNewGoalOrEditExistingGoal": "%sPridať nový Cieľ%s alebo %sUpraviť%s existujúce Ciele",
+        "AddNewGoalOrEditExistingGoal": "%1$sPridať nový Cieľ%2$s alebo %3$sUpraviť%4$s existujúce Ciele",
         "AllowGoalConvertedMoreThanOncePerVisit": "Povoliť aby bol Cieľ konvertovaný viac ako raz za návštevu",
         "AllowMultipleConversionsPerVisit": "Povoliť viacero konverzií za návštevu",
         "BestCountries": "Vaša najlepšia konverzia s krajín:",

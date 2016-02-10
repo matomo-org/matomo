@@ -61,9 +61,9 @@ class MobileMessaging extends \Piwik\Plugin
     );
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',

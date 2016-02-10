@@ -1,5 +1,6 @@
 {
     "Actions": {
+        "AvgGenerationTimeTooltip": "Pamantayan batay sa mga %1$s ng mga hit %2$s sa pagitan ng %3$s at %4$s",
         "ColumnClickedURL": "Na-click na URL",
         "ColumnClicks": "Mga Click",
         "ColumnClicksDocumentation": "Kung ilang beses na na-click ang link na ito.",
@@ -36,7 +37,7 @@
         "OutlinkDocumentation": "Ang isang outlink ay isang link na naghahatid sa isang bisita nang palayo mula sa iyong website (sa isa pang domain).",
         "OutlinksReportDocumentation": "Ipinapakita ng ulat na ito ang hirerkiya na listahan ng mga outlink URL na na-click ng iyong mga bisita.",
         "PagesReportDocumentation": "Ang ulat na ito ay naglalaman ng impormasyon tungkol sa mga URL ng pahina na binisita mo. %s ang talahanayan ay nakaayos ng hierarchically, ang mga URL ay ipinapakita bilang isang istraktura ng folder.",
-        "PageTitlesReportDocumentation": "Ang ulat na ito ay naglalaman ng impormasyon tungkol sa mga pamagat ng mga pahina na binisita na. %s Ang pamagat ng pahina ay ang HTML %s Tag na karaniwang pinapakita ng ng karamihan sa mga browser sa kanilang mga window bilang pamagat.",
+        "PageTitlesReportDocumentation": "Ang ulat na ito ay naglalaman ng impormasyon tungkol sa mga pamagat ng mga pahina na binisita na. %1$s Ang pamagat ng pahina ay ang HTML %2$s Tag na karaniwang pinapakita ng ng karamihan sa mga browser sa kanilang mga window bilang pamagat.",
         "PageUrls": "Mga URL ng Pahina",
         "SiteSearchCategories1": "Inililista ng ulat na ito ang mga kategorya na napili ng mga bisita kapag ginawa nila ang isang Paghahanap sa iyong website.",
         "SiteSearchCategories2": "Halimbawa, ang mga Ecommerce website ay karaniwang may tagapili ng \"Kategorya\" upang ang mga bisita ay maaaring malimitahan ang kanilang mga paghahanap sa lahat ng produkto sa isang espesipikong Kategorya.",

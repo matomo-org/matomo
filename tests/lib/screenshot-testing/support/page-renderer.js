@@ -114,6 +114,10 @@ PageRenderer.prototype.downloadLink = function (selector, waitTime) {
     this.queuedEvents.push([this._downloadLink, waitTime, selector]);
 };
 
+PageRenderer.prototype.downloadUrl = function (url, waitTime) {
+    this.queuedEvents.push([this._downloadUrl, waitTime, url]);
+};
+
 PageRenderer.prototype.dragDrop = function (startSelector, endSelector, waitTime) {
     this.mousedown(startSelector, waitTime);
     this.mouseMove(endSelector, waitTime);
@@ -133,6 +137,8 @@ PageRenderer.prototype._sendMouseEvent = function (type, pos, callback) {
 PageRenderer.prototype._click = function (selector, modifiers, callback) {
     var position = this._getPosition(selector);
 
+    this._makeSurePositionIsInViewPort(position.x, position.y);
+
     if (modifiers.length) {
         var self = this;
         modifiers = modifiers.reduce(function (previous, mStr) {
@@ -146,6 +152,46 @@ PageRenderer.prototype._click = function (selector, modifiers, callback) {
     }
 
     callback();
+};
+
+PageRenderer.prototype._makeSurePositionIsInViewPort = function (width, height) {
+
+    var currentWidth  = this._getViewportWidth();
+    var currentHeight = this._getViewportHeight();
+
+    var update = false;
+
+    if (width && width > 0 && width >= currentWidth) {
+        currentWidth = width + 50;
+        update = true;
+    }
+
+    if (height && height > 0 && height >= currentHeight) {
+        currentHeight = height + 50;
+        update = true;
+    }
+
+    if (update) {
+        this._setCorrectViewportSize({width: currentWidth, height: currentHeight});
+    }
+};
+
+PageRenderer.prototype._getViewportWidth = function () {
+    var width = 1350;
+    if (this._viewportSizeOverride && this._viewportSizeOverride.width) {
+        width = this._viewportSizeOverride.width;
+    }
+
+    return width;
+};
+
+PageRenderer.prototype._getViewportHeight = function () {
+    var height = 768;
+    if (this._viewportSizeOverride && this._viewportSizeOverride.height) {
+        height = this._viewportSizeOverride.height;
+    }
+
+    return height;
 };
 
 PageRenderer.prototype._keypress = function (keys, callback) {
@@ -220,16 +266,23 @@ PageRenderer.prototype._evaluate = function (impl, callback) {
 };
 
 PageRenderer.prototype._downloadLink = function (str, callback) {
-    var response = this.webpage.evaluate(function (selector) {
-        var $ = window.jQuery,
-            url = $(selector).attr('href');
+    var url = this.webpage.evaluate(function (selector) {
+        return $(selector).attr('href');
+    }, str);
+
+    this._downloadUrl(url, callback);
+};
+
+PageRenderer.prototype._downloadUrl = function (url, callback) {
+    var response = this.webpage.evaluate(function (url) {
+        var $ = window.jQuery;
 
         return $.ajax({
             type: "GET",
             url: url,
             async: false
         }).responseText;
-    }, str);
+    }, url);
 
     this.downloadedContents = response;
 
@@ -285,7 +338,7 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             self.abort();
 
             callback(new Error("Screenshot load timeout. Details:\n" + timeoutDetails));
-        }, 120 * 1000);
+        }, 180 * 1000);
 
     if (this.webpage === null) {
         this._recreateWebPage();
@@ -563,8 +616,10 @@ PageRenderer.prototype._waitForNextEvent = function (events, callback, i, waitTi
     }, waitTime);
 };
 
-PageRenderer.prototype._setCorrectViewportSize = function () {
-    var viewportSize = this._viewportSizeOverride || {width:1350, height:768};
+PageRenderer.prototype._setCorrectViewportSize = function (viewportSize) {
+    if (!viewportSize) {
+        viewportSize = {width: this._getViewportWidth(), height: this._getViewportHeight()};
+    }
 
     this.webpage.viewportSize = viewportSize;
     var height = Math.max(viewportSize.height, this.webpage.evaluate(function() {
@@ -599,6 +654,7 @@ PageRenderer.prototype._removeUrlFromQueue = function (url) {
     }
 };
 
+var linkObject = document.createElement('a');
 PageRenderer.prototype._setupWebpageEvents = function () {
     var self = this;
     this.webpage.onError = function (message, trace) {
@@ -614,11 +670,31 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         self._logMessage(msgStack.join('\n'));
     };
 
+    linkObject.setAttribute('href', config.piwikUrl);
+    var piwikHost = linkObject.hostname,
+        piwikPort = linkObject.port;
+
     this.webpage.onResourceRequested = function (requestData, networkRequest) {
-        self._addUrlToQueue(requestData.url);
+        var url = requestData.url;
+
+        // replaces the requested URL to the piwik URL w/ a port, if it does not have one.  This allows us to run UI
+        // tests when Piwik is on a port, w/o having to have different UI screenshots. (This is one half of the
+        // solution, the other half is in config/environment/ui-test.php, where we remove all ports from Piwik URLs.)
+        if (piwikPort && piwikPort != 0) {
+            linkObject.setAttribute('href', url);
+
+            if (linkObject.hostname == piwikHost && (!linkObject.port || linkObject.port == 0 || linkObject.port == 80)) {
+                linkObject.port = piwikPort;
+                url = linkObject.href;
+
+                networkRequest.changeUrl(url);
+            }
+        }
+
+        self._addUrlToQueue(url);
 
         if (VERBOSE) {
-            self._logMessage('Requesting resource (#' + requestData.id + 'URL:' + requestData.url + ')');
+            self._logMessage('Requesting resource (#' + requestData.id + 'URL:' + url + ')');
         }
     };
 

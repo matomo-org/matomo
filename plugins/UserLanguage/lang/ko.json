@@ -1,6 +1,7 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "브라우저 언어",
-        "LanguageCode": "언어 코드"
+        "LanguageCode": "언어 코드",
+        "PluginDescription": "방문자의 브라우저를 통해 언어 기록"
     }
 }

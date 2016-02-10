@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\Actions;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Model\DuplicateActionRemover;
 use Piwik\Timer;
@@ -75,7 +76,7 @@ class FixDuplicateLogActions extends ConsoleCommand
     {
         parent::__construct();
 
-        $this->archiveInvalidator = $invalidator ?: new ArchiveInvalidator();
+        $this->archiveInvalidator = $invalidator ?: StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $this->duplicateActionRemover = $duplicateActionRemover ?: new DuplicateActionRemover();
         $this->actionsAccess = $actionsAccess ?: new Actions();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
@@ -126,8 +127,8 @@ class FixDuplicateLogActions extends ConsoleCommand
     {
         $output->write("Invalidating archives affected by duplicates fixed...");
         foreach ($archivesAffected as $archiveInfo) {
-            $this->archiveInvalidator->markArchivesAsInvalidated(
-                array($archiveInfo['idsite']), $archiveInfo['server_time'], $period = false);
+            $dates = array(Date::factory($archiveInfo['server_time']));
+            $this->archiveInvalidator->markArchivesAsInvalidated(array($archiveInfo['idsite']), $dates, $period = false);
         }
         $output->writeln("Done.");
     }

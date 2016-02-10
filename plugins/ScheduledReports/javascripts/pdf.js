@@ -155,7 +155,7 @@ function initManagePdf() {
     });
 
     // Delete Report
-    $('a[name=linkDeleteReport]').click(function () {
+    $('.delete-report').click(function () {
         var idReport = $(this).attr('id');
 
         function onDelete() {
@@ -173,7 +173,7 @@ function initManagePdf() {
     });
 
     // Edit Report click
-    $('a[name=linkEditReport]').click(function () {
+    $('.edit-report').click(function () {
         var idReport = $(this).attr('id');
         formSetEditReport(idReport);
         $('.entityAddContainer').show();
@@ -188,7 +188,7 @@ function initManagePdf() {
     });
 
     // Add a Report click
-    $('#linkAddReport').click(function () {
+    $('#add-report').click(function () {
         $('.entityAddContainer').show();
         $('#entityEditContainer').hide();
         formSetEditReport(/*idReport = */0);

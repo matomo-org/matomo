@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Actions;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
@@ -26,9 +25,9 @@ class Actions extends \Piwik\Plugin
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'ViewDataTable.configure'         => 'configureViewDataTable',
@@ -105,6 +104,7 @@ class Actions extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Actions/javascripts/actionsDataTable.js";
+        $jsFiles[] = "plugins/Actions/javascripts/rowactions.js";
     }
 
     public function isSiteSearchEnabled($idSites, $idSite)

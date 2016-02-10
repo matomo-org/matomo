@@ -6,7 +6,6 @@
         "AnonymousUserHasViewAccess": "Lưu ý: Người dùng %1$s có truy cập %2$s đến website này.",
         "AnonymousUserHasViewAccess2": "Các báo cáo phân tích của bạn và thông tin các khách truy cập của bạn là công khai có thể xem được.",
         "ApplyToAllWebsites": "Áp dụng cho tất cả các website",
-        "ChangeAllConfirm": "Bạn có chắc chắn bạn muốn thay đổi '%s' quyền truy cập trên tất cả các trang web?",
         "ChangePasswordConfirm": "Thay đổi mật khẩu cũng sẽ thay đổi token_auth của người dùng. Bạn có thực sự muốn tiếp tục?",
         "ClickHereToDeleteTheCookie": "Click vào đây để xóa các cookie và đã Piwik theo dõi truy cập của bạn",
         "ClickHereToSetTheCookieOnDomain": "Click vào đây để thiết lập một cookie sẽ loại trừ các lượt truy cập của bạn trên các trang web được theo dõi bởi Piwik trên %s",
@@ -19,16 +18,13 @@
         "ExceptionEditAnonymous": "Người dùng ẩn danh không thể chỉnh sửa hoặc xóa. Nó được sử dụng bởi Piwik để xác định một người dùng đã không đăng nhập lúc này. Ví dụ, bạn có thể làm cho số liệu thống kê công cộng(public) của bạn bằng cách cho phép truy cập \"xem\" đến người dùng 'ẩn danh'.",
         "ExceptionEmailExists": "Người dùng với email '%s' đã tồn tại.",
         "ExceptionInvalidEmail": "Email không có một định dạng hợp lệ.",
-        "ExceptionInvalidLoginFormat": "Đăng nhập phải từ %1$s và %2$s character long and chỉ chứa chữ cái, số, hoặc các ký tự '_' hoặc '-' hoặc '.' hoặc '@' hoặc '+'",
         "ExceptionInvalidPassword": "Độ dài mật khẩu phải từ %1$s và %2$s ký tự.",
-        "ExceptionLoginExists": "Đăng nhập '%s' đã tồn tại.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth là yêu cầu một mật khẩu băm MD5 (chuỗi 32 char long). Xin vui lòng gọi hàm md5() trên mật khẩu trước khi gọi phương thức này.",
         "ExceptionUserDoesNotExist": "Người dùng '%s' không tồn tại.",
         "ExcludeVisitsViaCookie": "Loại bỏ các truy cập của bạn sử dụng một cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Đối với người dùng ẩn danh, báo cáo thep ngày nạp theo mặc định",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Nếu bạn muốn thay đổi các loại mật khẩu thành một cái mới. Nếu không thì để trống.",
         "InjectedHostCannotChangePwd": "Bạn đang truy cập với một máy chủ không xác định (%1$s). Bạn không thể thay đổi mật khẩu của bạn cho đến khi vấn đề này được xử lý.",
-        "MainDescription": "Quyết định người dùng nào đó có truy cập Piwik nào đó trên trang web của bạn. Bạn cũng có thể thiết lập quyền truy cập trên tất cả các trang web cùng một lúc.",
         "ManageAccess": "Quản lý truy cập",
         "MenuAnonymousUserSettings": "Thiết lập người dùng ẩn danh",
         "MenuUsers": "Các người dùng",
@@ -47,7 +43,7 @@
         "UsersManagementMainDescription": "Tạo người dùng mới hoặc cập nhật các người dùng hiện tại. Sau đó bạn có thể thiết lập quyền của họ.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Khi người dùng không đăng nhập và thăm Piwik, họ nên truy cập",
         "YourUsernameCannotBeChanged": "Tên đăng nhập của bạn không thể thay đổi.",
-        "YourVisitsAreIgnoredOnDomain": "%s lượt truy cập của bạn sẽ được bỏ qua bởi Piwik trên %s %s (cookie Piwik bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
-        "YourVisitsAreNotIgnored": "%s lượt truy cập của bạn không được bỏ qua bởi Piwik %s (cookie Piwik bỏ qua đã không tìm thấy trong trình duyệt của bạn)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s lượt truy cập của bạn sẽ được bỏ qua bởi Piwik trên %2$s %3$s (cookie Piwik bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
+        "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Piwik %2$s (cookie Piwik bỏ qua đã không tìm thấy trong trình duyệt của bạn)."
     }
 }

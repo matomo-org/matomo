@@ -1,7 +1,9 @@
 {
     "MultiSites": {
         "Evolution": "Utvikling",
-        "LoadingWebsites": "Laster nettsider",
-        "Pagination": "%s - %s av %s"
+        "LoadingWebsites": "Laster nettsteder",
+        "PluginDescription": "Se og sammenligne alle dine nettsteder og apper i denne nyttige «Alle nettsteder»-oversikten.",
+        "TopLinkTooltip": "Sammenligne web-statistikk for alle dine nettsteder.",
+        "Pagination": "%1$s – %2$s av %3$s"
     }
 }

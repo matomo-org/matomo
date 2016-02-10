@@ -22,7 +22,7 @@
         "HelpMessageContent": "Pogledajte %1$s Piwik pitanja i odgovore %2$s koja objašnjavaju najčešće greške prilikom nadogradnje. %3$s Kontaktirajte vašeg sistemskog administratora - možda je u mogućnosti da vam pomogne oko grešaka koje su najverovatnije u domenu podešavanja servera ili MySQL-a.",
         "HelpMessageIntroductionWhenError": "Ovo gore je sama srž poruke o grešci. Ona bi trebalo da objasni uzrok a u slučaju da vam je potrebna dalja pomoć:",
         "HelpMessageIntroductionWhenWarning": "Proces nadogradnje je uspešno okončan, međutim, imamo i spornih momenata nastalih tokom procesa. Molimo vas da pročitate njihove opise zarad detalja. U slučaju da vam je potrebna dalja pomoć:",
-        "HighTrafficPiwikServerEnableMaintenance": "Ukoliko koristite Piwik na serveru sa velikim saobraćajem, preporučujemo da %sodmah isključite praćenje posetilaca i prebacite Piwik interfejs u mod održavanja%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Ukoliko koristite Piwik na serveru sa velikim saobraćajem, preporučujemo da %1$sodmah isključite praćenje posetilaca i prebacite Piwik interfejs u mod održavanja%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Neko dodaci nisu kompatibilni sa Piwik %s. Oni će biti deaktivirani nakon nadogradnje:",
         "InstallingTheLatestVersion": "Instaliranje poslednje verzije",
         "MajorUpdateWarning1": "Ovo je bitna nadogradnja! Trajaće duže nego inače.",

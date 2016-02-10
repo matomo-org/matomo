@@ -8,7 +8,7 @@
 function sendGeneralSettingsAJAX() {
     var enableBrowserTriggerArchiving = $('input[name=enableBrowserTriggerArchiving]:checked').val();
     var enablePluginUpdateCommunication = $('input[name=enablePluginUpdateCommunication]:checked').val();
-    var enableBetaReleaseCheck = $('input[name=enableBetaReleaseCheck]:checked').val();
+    var releaseChannel = $('input[name=releaseChannel]:checked').val();
     var todayArchiveTimeToLive = $('#todayArchiveTimeToLive').val();
 
     var trustedHosts = [];
@@ -22,7 +22,7 @@ function sendGeneralSettingsAJAX() {
         format: 'json',
         enableBrowserTriggerArchiving: enableBrowserTriggerArchiving,
         enablePluginUpdateCommunication: enablePluginUpdateCommunication,
-        enableBetaReleaseCheck: enableBetaReleaseCheck,
+        releaseChannel: releaseChannel,
         todayArchiveTimeToLive: todayArchiveTimeToLive,
         mailUseSmtp: isSmtpEnabled(),
         mailPort: $('#mailPort').val(),
@@ -113,6 +113,7 @@ $(document).ready(function () {
 
     $("#logoUploadForm").submit(function (data) {
         var submittingForm = $(this);
+        $('.uploaderror').fadeOut();
         var frameName = "upload" + (new Date()).getTime();
         var uploadFrame = $("<iframe name=\"" + frameName + "\" />");
         uploadFrame.css("display", "none");
@@ -122,6 +123,10 @@ $(document).ready(function () {
 
                 var frameContent = $(uploadFrame.contents()).find('body').html();
                 frameContent = $.trim(frameContent);
+
+                if ('0' === frameContent) {
+                    $('.uploaderror').show();
+                }
 
                 if ('1' === frameContent || '0' === frameContent) {
                     uploadFrame.remove();

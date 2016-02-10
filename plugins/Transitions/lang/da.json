@@ -16,12 +16,12 @@
         "NoDataForAction": "Der er ingen data for %s",
         "NoDataForActionDetails": "Enten havde handlingen ingen sidevisninger i perioden %s eller den er ugyldig.",
         "OutgoingTraffic": "Udgående trafik",
-        "ShareOfAllPageviews": "Denne side havde %s sidevisninger (%s af alle sidevisninger)",
+        "ShareOfAllPageviews": "Denne side havde %1$s sidevisninger (%2$s af alle sidevisninger)",
         "ToFollowingPages": "Til interne sider",
         "ToFollowingPagesInline": "%s til interne sider",
         "ToFollowingSiteSearches": "Interne søgninger",
         "ToFollowingSiteSearchesInline": "%s interne søgninger",
         "XOfAllPageviews": "%s af alle visninger af denne side",
-        "XOutOfYVisits": "%s (ud af %s)"
+        "XOutOfYVisits": "%1$s (ud af %2$s)"
     }
 }

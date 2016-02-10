@@ -16,11 +16,10 @@
         "SegmentDisplayedThisWebsiteOnly": "ang website na ito lamang",
         "SegmentIsDisplayedForWebsite": "at ipinapakita para sa",
         "SegmentNotApplied": "Hindi nai-apply ang Segment '%s'",
-        "SelectSegmentOfVisitors": "Pumili ng isang segment sa mga bisita:",
         "ThisSegmentIsVisibleTo": "Ang segment na ito ay makikita sa:",
         "VisibleToAllUsers": "lahat ng mga user",
         "VisibleToMe": "ako",
-        "YouMayChangeSetting": "Maaari mo ring baguhin ang settings sa config file (%s) o i-edit ang mga Segment at piliin ang '%s'.",
+        "YouMayChangeSetting": "Maaari mo ring baguhin ang settings sa config file (%1$s) o i-edit ang mga Segment at piliin ang '%2$s'.",
         "YouMustBeLoggedInToCreateSegments": "Kailangan mong mag log-in upang gumawa at mag-edit ng custom visitor segments.",
         "YouDontHaveAccessToCreateSegments": "Wala kang mga kinakailangang access level upang lumikha at mag edit ng mga segment.",
         "AddingSegmentForAllWebsitesDisabled": "Ang pagdagdag ng bahagi para sa lahat ng website ay hindi na pinagana."

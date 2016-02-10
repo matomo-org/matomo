@@ -1,7 +1,8 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Media basata su %s hits %s tra %s e %s",
+        "AvgGenerationTimeTooltip": "Media basata su %1$s hits %2$s tra %3$s e %4$s",
         "ColumnClickedURL": "URL Cliccate",
+        "ColumnActionURL": "URL dell'azione",
         "ColumnClicks": "Click",
         "ColumnClicksDocumentation": "Numero di volte che questo link è stato cliccato.",
         "ColumnDownloadURL": "URL Download",
@@ -14,7 +15,7 @@
         "ColumnPagesPerSearch": "Pagine di risultati",
         "ColumnPagesPerSearchDocumentation": "I visitatori cercheranno sul sito e delle volte cliccheranno su \"Successivi\" per vedere più risultati. Questo è il numero medio di risultati di ricerca visualizzati per questa parola chiave.",
         "ColumnPageURL": "URL pagina",
-        "ColumnSearchCategory": "Ricerca Categoria",
+        "ColumnSearchCategory": "Categoria di Ricerca",
         "ColumnSearches": "Ricerche",
         "ColumnSearchesDocumentation": "Il numero di visite che hanno ricercato questa parola chiave sul motore di ricerca del vostro sito.",
         "ColumnSearchExits": "% Uscite dalla ricerca",
@@ -37,13 +38,13 @@
         "OutlinkDocumentation": "Un link esterno è un link che conduce il visitatore lontano dal tuo sito web (in un altro dominio)",
         "OutlinksReportDocumentation": "Questo report mostra un elenco gerarchico di link esterni che sono stati cliccati dai visitatori.",
         "PagesReportDocumentation": "Questo report contiene informazioni riguardo gli URL delle pagine che sono state viste. %s La tabella è organizzata gerarchicamente, gli URL vengono visualizzati come una struttura di cartelle.",
-        "PageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine che sono state visitate. %s Il titolo della pagina è il tag HTML %s che la maggior parte dei browser mostrano nel titolo della loro finestra.",
+        "PageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine che sono state visitate. %1$s Il titolo della pagina è il tag HTML %2$s che la maggior parte dei browser mostrano nel titolo della loro finestra.",
         "PageUrls": "URL delle pagine",
         "PluginDescription": "Riporta le viste e i titoli pagina. Ti consente di misurare il motore di ricerca interno al tuo sito. Traccia in automatico i click sui link esterni e i download dei files.",
         "SiteSearchCategories1": "Questo report elenca le Categorie che i visitatori hanno selezionato nel fare una ricerca sul vostro sito.",
         "SiteSearchCategories2": "Per esempio, i siti di Ecommerce hanno tipicamente un selettore di \"Categoria\", così che i visitatori possano restringere le ricerche ai prodotti in una Categoria specifica.",
         "SiteSearchFollowingPagesDoc": "Quando i visitatori fanno ricerche sul vostro sito, stanno cercando una determinata pagina, contenuto, prodotto e servizio. Questo report elenca le pagine più cliccate dopo una ricerca interna. In altre parole, è l'elenco delle pagine più ricercate dai visitatori sul vostro sito.",
-        "SiteSearchIntro": "Tracciare le ricerche che i visitatori fanno sul vostro sito è un modo molto efficace per imparare di più su quello che cercano coloro che vi seguono, può aiutare a trovare idee per nuovi contenuti, nuovi prodotti Ecommerce ricercati da potenziali clienti e generalmente migliora l'esperienza dei visitarori sul vostro sito.",
+        "SiteSearchIntro": "Tracciare le ricerche che i visitatori fanno sul vostro sito è un modo molto efficace per imparare di più su quello che cercano coloro che vi seguono, può aiutare a trovare idee per nuovi contenuti, nuovi prodotti Ecommerce ricercati da potenziali clienti, e generalmente migliora l'esperienza dei visitarori sul vostro sito.",
         "SiteSearchKeyword": "Parola chiave (Ricerca sito)",
         "SiteSearchKeywordsDocumentation": "Questo report elenca le Parole di Ricerca che i visitatori hanno digitato nel vostro Motore di Ricerca interno.",
         "SiteSearchKeywordsNoResultDocumentation": "Questo report elenca la Parole di Ricerca che non hanno restituito alcun risultato: forse può essere migliorato l'algoritmo del motore di ricerca o forse i vostri visitatori stanno cercando un contenuto che non è (ancora) sul vostro sito?",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Pagine risultanti da una Ricerca sul Sito",
         "WidgetSearchCategories": "Categorie di Ricerca",
         "WidgetSearchKeywords": "Parole Chiave di Ricerca sul Sito",
-        "WidgetSearchNoResultKeywords": "Parole Chiave di Ricerca senza risultati"
+        "WidgetSearchNoResultKeywords": "Parole Chiave di Ricerca senza risultati",
+        "ActionType": "Tipo di Azione"
     }
 }

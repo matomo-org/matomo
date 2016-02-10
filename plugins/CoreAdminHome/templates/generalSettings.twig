@@ -1,5 +1,7 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'CoreAdminHome_MenuGeneralSettings'|translate }}{% endset %}
+
 {% block content %}
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
@@ -73,21 +75,23 @@
         <h2>{{ 'CoreAdminHome_UpdateSettings'|translate }}</h2>
 
         <div class="form-group">
-            <label>{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</label>
+            <label>{{ 'CoreAdminHome_ReleaseChannel'|translate }}</label>
             <div class="form-help">
                 {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>")|raw }}
                 <br/>
                 {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'>","</a>")|raw }}
+                <br />
+                {{ 'CoreAdminHome_LtsReleases'|translate }}
             </div>
-            <label class="radio">
-                <input type="radio" value="1" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==1 %} checked="checked"{% endif %} />
-                {{ 'General_Yes'|translate }}
-            </label>
-            <label class="radio">
-                <input type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
-                {{ 'General_No'|translate }}
-                <span class="form-description">{{ 'General_Recommended'|translate }}</span>
-            </label>
+            {% for releaseChannel in releaseChannels %}
+                <label class="radio">
+                    <input type="radio" value="{{ releaseChannel.id|e('html_attr') }}" name="releaseChannel"{% if releaseChannel.active %} checked="checked"{% endif %} />
+                    {{ releaseChannel.name }}
+                    {% if releaseChannel.description %}
+                    <span class="form-description">{{ releaseChannel.description }}</span>
+                    {% endif %}
+                </label>
+            {% endfor %}
         </div>
 
         {% if canUpdateCommunication %}
@@ -200,6 +204,9 @@
                 <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
 
                 {% if logosWriteable %}
+                    <div class="alert alert-warning uploaderror" style="display:none;">
+                        {{ 'CoreAdminHome_LogoUploadFailed'|translate }}
+                    </div>
                     <div class="form-group">
                         <label for="customLogo">{{ 'CoreAdminHome_LogoUpload'|translate }}</label>
                         <div class="form-help">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110) }}</div>
@@ -246,8 +253,8 @@
                 {% for hostIdx, host in trustedHosts %}
                     <li>
                         <input name="trusted_host" type="text" value="{{ host }}"/>
-                        <a href="#" class="remove-trusted-host" title="{{ 'General_Delete'|translate }}">
-                            <img alt="{{ 'General_Delete'|translate }}" src="plugins/Morpheus/images/ico_delete.png" />
+                        <a href="#" class="remove-trusted-host btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
+                            <span class="icon-minus"></span>
                         </a>
                     </li>
                 {% endfor %}
@@ -256,8 +263,8 @@
             <div class="add-trusted-host">
                 <input type="text" placeholder="{{ 'CoreAdminHome_AddNewTrustedHost'|translate|e('html_attr') }}" readonly/>
 
-                <a href="#" title="{{ 'General_Delete'|translate }}">
-                    <img alt="{{ 'General_Delete'|translate }}" src="plugins/Morpheus/images/add.png"/>
+                <a href="#" class="btn btn-flat btn-lg" title="{{ 'General_Add'|translate }}">
+                    <span class="icon-add"></span>
                 </a>
 
             </div>

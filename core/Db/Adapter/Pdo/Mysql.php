@@ -12,6 +12,7 @@ use Exception;
 use PDO;
 use PDOException;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Db\AdapterInterface;
 use Piwik\Piwik;
 use Zend_Config;
@@ -61,10 +62,21 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
          */
         $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 
+        return $this->_connection;
+    }
+
+    protected function _connect()
+    {
+        if ($this->_connection) {
+            return;
+        }
+
+        parent::_connect();
+
         // MYSQL_ATTR_USE_BUFFERED_QUERY will use more memory when enabled
         // $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
-        return $this->_connection;
+        $this->_connection->exec('SET sql_mode = "' . Db::SQL_MODE . '"');
     }
 
     /**
@@ -233,5 +245,20 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $stmt = parent::query($sql, $bind);
         $this->cachePreparedStatement[$sql] = $stmt;
         return $stmt;
+    }
+
+    /**
+     * Override _dsn() to ensure host and port to not be passed along
+     * if unix_socket is set since setting both causes unexpected behaviour
+     * @see http://php.net/manual/en/ref.pdo-mysql.connection.php
+     */
+    protected function _dsn()
+    {
+        if (!empty($this->_config['unix_socket'])) {
+            unset($this->_config['host']);
+            unset($this->_config['port']);
+        }
+
+        return parent::_dsn();
     }
 }

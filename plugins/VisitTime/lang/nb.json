@@ -1,15 +1,18 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Lokaltid",
-        "ColumnServerTime": "Tjenertid",
+        "ColumnServerTime": "Servertid",
         "DayOfWeek": "Dag i uken",
         "LocalTime": "Besøk pr. lokaltid",
         "NHour": "%st",
-        "ServerTime": "Besøk pr. tjenertid",
+        "PluginDescription": "Rapporterer lokal tid og servertid når dine besøkere ser ditt nettsted eller din app.",
+        "ServerTime": "Besøk pr. servertid",
         "SubmenuTimes": "Tider",
         "VisitsByDayOfWeek": "Besøk etter ukedag",
-        "WidgetByDayOfWeekDocumentation": "Denne grafen viser antall besøk nettstedet ditt mottatt på hver dag i uken.",
+        "WidgetByDayOfWeekDocumentation": "Denne grafen viser antall besøk nettstedet ditt mottatt på de ulike dagene i uken.",
         "WidgetLocalTime": "Besøk etter lokaltid",
-        "WidgetServerTime": "Besøk etter tjenertid"
+        "WidgetLocalTimeDocumentation": "Denne grafen viser hvilken tid det var i %1$s besøkeres tidssoner %2$s da besøkene skjedde.",
+        "WidgetServerTime": "Besøk etter servertid",
+        "WidgetServerTimeDocumentation": "Denne grafen viser hvilken tid det var i %1$s serverens tidssone %2$s da besøkene skjedde."
     }
 }

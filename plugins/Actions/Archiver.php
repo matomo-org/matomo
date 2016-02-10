@@ -149,10 +149,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $select = "log_action.name,
                 log_action.type,
                 log_action.idaction,
-                log_action.url_prefix,
-                count(distinct log_link_visit_action.idvisit) as `" . PiwikMetrics::INDEX_NB_VISITS . "`,
-                count(distinct log_link_visit_action.idvisitor) as `" . PiwikMetrics::INDEX_NB_UNIQ_VISITORS . "`,
-                count(*) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS . "`";
+                log_action.url_prefix";
 
         $select = $this->addMetricsToSelect($select, $metricsConfig);
 
@@ -178,8 +175,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
-            $rankingQuery->addColumn(array('url_prefix', PiwikMetrics::INDEX_NB_UNIQ_VISITORS));
-            $rankingQuery->addColumn(array(PiwikMetrics::INDEX_PAGE_NB_HITS, PiwikMetrics::INDEX_NB_VISITS), 'sum');
+            $rankingQuery->addColumn('url_prefix');
 
             if ($this->isSiteSearchEnabled()) {
                 $rankingQuery->addColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT, 'min');

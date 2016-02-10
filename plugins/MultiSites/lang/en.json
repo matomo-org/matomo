@@ -4,6 +4,6 @@
         "LoadingWebsites": "Loading websites",
         "PluginDescription": "View and compare all your websites and apps in this useful 'All Websites' dashboard. ",
         "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites.",
-        "Pagination": "%s - %s of %s"
+        "Pagination": "%1$s - %2$s of %3$s"
     }
 }

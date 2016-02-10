@@ -3,13 +3,20 @@
 	<totalVisits>2</totalVisits>
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
+	<totalEvents>0</totalEvents>
+	<totalOutlinks>1</totalOutlinks>
+	<totalDownloads>0</totalDownloads>
 	<totalSearches>0</totalSearches>
+	<totalPageViews>1</totalPageViews>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
 		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
 	<hasLatLong>0</hasLatLong>
+	<totalRevenueByGoal>
+		<row idgoal="1">1000</row>
+	</totalRevenueByGoal>
 	<searches>
 	</searches>
 	<continents>
@@ -31,16 +38,16 @@
 	<firstVisit>
 		
 		
-		<daysAgo>0</daysAgo>
-		<referrerType>direct</referrerType>
-		<referralSummary>Direct Entry</referralSummary>
+		
+		<referrerType>campaign</referrerType>
+		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
 	</firstVisit>
 	<lastVisit>
 		
 		
-		<daysAgo>0</daysAgo>
-		<referrerType>direct</referrerType>
-		<referralSummary>Direct Entry</referralSummary>
+		
+		<referrerType>campaign</referrerType>
+		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>
 	
@@ -85,10 +92,10 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
-			<referrerType>direct</referrerType>
-			<referrerTypeName>Direct Entry</referrerTypeName>
-			<referrerName />
-			<referrerKeyword />
+			<referrerType>campaign</referrerType>
+			<referrerTypeName>Campaigns</referrerTypeName>
+			<referrerName>campaign name - yeah!</referrerName>
+			<referrerKeyword>campaign keyword - right...</referrerKeyword>
 			<referrerKeywordPosition />
 			<referrerUrl />
 			<referrerSearchEngineUrl />
@@ -126,9 +133,6 @@
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<provider>Unknown</provider>
-			<providerName>Unknown</providerName>
-			<providerUrl />
 			<customVariables>
 				<row>
 					<customVariableName1>VisitorType</customVariableName1>
@@ -167,7 +171,7 @@
 					<type>goal</type>
 					<goalName>triggered js</goalName>
 					<goalId>1</goalId>
-					<revenue>0</revenue>
+					<revenue>1000</revenue>
 					<goalPageId />
 					
 					<url>http://example.org/homepage</url>
@@ -207,10 +211,10 @@
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
-			<referrerType>direct</referrerType>
-			<referrerTypeName>Direct Entry</referrerTypeName>
-			<referrerName />
-			<referrerKeyword />
+			<referrerType>campaign</referrerType>
+			<referrerTypeName>Campaigns</referrerTypeName>
+			<referrerName>campaign name - yeah!</referrerName>
+			<referrerKeyword>campaign keyword - right...</referrerKeyword>
 			<referrerKeywordPosition />
 			<referrerUrl />
 			<referrerSearchEngineUrl />
@@ -248,9 +252,6 @@
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
 			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<provider>Unknown</provider>
-			<providerName>Unknown</providerName>
-			<providerUrl />
 			<customVariables>
 				<row>
 					<customVariableName1>VisitorType</customVariableName1>

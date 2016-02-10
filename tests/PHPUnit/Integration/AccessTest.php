@@ -117,6 +117,19 @@ class AccessTest extends IntegrationTestCase
         $access->checkUserHasSomeAdminAccess();
     }
 
+    public function test_isUserHasSomeAdminAccess_WithSuperUserAccess()
+    {
+        $access = new Access();
+        $access->setSuperUserAccess(true);
+        $this->assertTrue($access->isUserHasSomeAdminAccess());
+    }
+
+    public function test_isUserHasSomeAdminAccess_WithOnlyViewAccess()
+    {
+        $access = new Access();
+        $this->assertFalse($access->isUserHasSomeAdminAccess());
+    }
+
     /**
      * @expectedException \Piwik\NoAccessException
      */

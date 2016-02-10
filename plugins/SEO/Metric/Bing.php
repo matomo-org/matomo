@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
+use Piwik\NumberFormatter;
+use Piwik\Plugins\Referrers\SearchEngine;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -36,7 +38,7 @@ class Bing implements MetricsProvider
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
 
             if (preg_match('#([0-9\,]+) results#i', $response, $p)) {
-                $pageCount = (int)str_replace(',', '', $p[1]);
+                $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace(',', '', $p[1]));
             } else {
                 $pageCount = 0;
             }
@@ -45,7 +47,7 @@ class Bing implements MetricsProvider
             $pageCount = null;
         }
 
-        $logo = \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://bing.com');
+        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://bing.com');
 
         return array(
             new Metric('bing-index', 'SEO_Bing_IndexedPages', $pageCount, $logo, null, null, 'General_Pages')

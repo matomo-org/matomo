@@ -20,7 +20,6 @@ class CoreTranslations extends ValidateAbstract
      */
     const ERRORSTATE_LOCALEREQUIRED = 'Locale required';
     const ERRORSTATE_TRANSLATORINFOREQUIRED = 'Translator info required';
-    const ERRORSTATE_TRANSLATOREMAILREQUIRED = 'Translator email required';
     const ERRORSTATE_LOCALEINVALID = 'Locale is invalid';
     const ERRORSTATE_LOCALEINVALIDLANGUAGE = 'Locale is invalid - invalid language code';
     const ERRORSTATE_LOCALEINVALIDCOUNTRY = 'Locale is invalid - invalid country code';
@@ -40,7 +39,7 @@ class CoreTranslations extends ValidateAbstract
     /**
      * Validates the given translations
      *  * There need to be more than 250 translations present
-     *  * Locale, TranslatorName and TranslatorEmail needs to be set in plugin General
+     *  * Locale and TranslatorName needs to be set in plugin General
      *  * Locale must be valid (format, language & country)
      *
      * @param array $translations
@@ -58,11 +57,6 @@ class CoreTranslations extends ValidateAbstract
 
         if (empty($translations['General']['TranslatorName'])) {
             $this->message = self::ERRORSTATE_TRANSLATORINFOREQUIRED;
-            return false;
-        }
-
-        if (empty($translations['General']['TranslatorEmail'])) {
-            $this->message = self::ERRORSTATE_TRANSLATOREMAILREQUIRED;
             return false;
         }
 

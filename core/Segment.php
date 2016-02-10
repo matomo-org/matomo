@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\API\API;
 use Piwik\Segment\SegmentExpression;
@@ -72,6 +73,11 @@ class Segment
     protected $idSites = null;
 
     /**
+     * @var LogQueryBuilder
+     */
+    private $segmentQueryBuilder;
+
+    /**
      * Truncate the Segments to 8k
      */
     const SEGMENT_TRUNCATE_LIMIT = 8192;
@@ -86,6 +92,8 @@ class Segment
      */
     public function __construct($segmentCondition, $idSites)
     {
+        $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+
         $segmentCondition = trim($segmentCondition);
         if (!SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
@@ -100,6 +108,35 @@ class Segment
         } catch (Exception $e) {
             $this->initializeSegment($segmentCondition, $idSites);
         }
+    }
+
+    private function getAvailableSegments()
+    {
+        // segment metadata
+        if (empty($this->availableSegments)) {
+            $this->availableSegments = API::getInstance()->getSegmentsMetadata($this->idSites, $_hideImplementationData = false);
+        }
+
+        return $this->availableSegments;
+    }
+
+    private function getSegmentByName($name)
+    {
+        $segments = $this->getAvailableSegments();
+
+        foreach ($segments as $segment) {
+            if ($segment['segment'] == $name && !empty($name)) {
+
+                // check permission
+                if (isset($segment['permission']) && $segment['permission'] != 1) {
+                    throw new NoAccessException("You do not have enough permission to access the segment " . $name);
+                }
+
+                return $segment;
+            }
+        }
+
+        throw new Exception("Segment '$name' is not a supported segment.");
     }
 
     /**
@@ -119,6 +156,7 @@ class Segment
 
         // parse segments
         $expressions = $segment->parseSubExpressions();
+        $expressions = $this->getExpressionsWithUnionsResolved($expressions);
 
         // convert segments name to sql segment
         // check that user is allowed to view this segment
@@ -134,6 +172,41 @@ class Segment
         $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
     }
 
+    private function getExpressionsWithUnionsResolved($expressions)
+    {
+        $expressionsWithUnions = array();
+        foreach ($expressions as $expression) {
+            $operand = $expression[SegmentExpression::INDEX_OPERAND];
+            $name    = $operand[SegmentExpression::INDEX_OPERAND_NAME];
+
+            $availableSegment = $this->getSegmentByName($name);
+
+            if (!empty($availableSegment['unionOfSegments'])) {
+                $count = 0;
+                foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
+                    $count++;
+                    $operator = SegmentExpression::BOOL_OPERATOR_OR; // we connect all segments within that union via OR
+                    if ($count === count($availableSegment['unionOfSegments'])) {
+                        $operator = $expression[SegmentExpression::INDEX_BOOL_OPERATOR];
+                    }
+
+                    $operand[SegmentExpression::INDEX_OPERAND_NAME] = $segmentNameOfUnion;
+                    $expressionsWithUnions[] = array(
+                        SegmentExpression::INDEX_BOOL_OPERATOR => $operator,
+                        SegmentExpression::INDEX_OPERAND => $operand
+                    );
+                }
+            } else {
+                $expressionsWithUnions[] = array(
+                    SegmentExpression::INDEX_BOOL_OPERATOR => $expression[SegmentExpression::INDEX_BOOL_OPERATOR],
+                    SegmentExpression::INDEX_OPERAND => $operand
+                );
+            }
+        }
+
+        return $expressionsWithUnions;
+    }
+
     /**
      * Returns `true` if the segment is empty, `false` if otherwise.
      */
@@ -146,58 +219,35 @@ class Segment
 
     protected function getCleanedExpression($expression)
     {
-        if (empty($this->availableSegments)) {
-            $this->availableSegments = API::getInstance()->getSegmentsMetadata($this->idSites, $_hideImplementationData = false);
-        }
+        $name      = $expression[SegmentExpression::INDEX_OPERAND_NAME];
+        $matchType = $expression[SegmentExpression::INDEX_OPERAND_OPERATOR];
+        $value     = $expression[SegmentExpression::INDEX_OPERAND_VALUE];
 
-        $name = $expression[0];
-        $matchType = $expression[1];
-        $value = $expression[2];
-        $sqlName = '';
+        $segment = $this->getSegmentByName($name);
+        $sqlName = $segment['sqlSegment'];
 
-        foreach ($this->availableSegments as $segment) {
-            if ($segment['segment'] != $name) {
-                continue;
+        if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+            && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
+
+            if (isset($segment['sqlFilterValue'])) {
+                $value = call_user_func($segment['sqlFilterValue'], $value);
             }
 
-            $sqlName = $segment['sqlSegment'];
+            // apply presentation filter
+            if (isset($segment['sqlFilter'])) {
+                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
-            // check permission
-            if (isset($segment['permission'])
-                && $segment['permission'] != 1
-            ) {
-                throw new NoAccessException("You do not have enough permission to access the segment " . $name);
-            }
-
-            if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
-                && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
-                if (isset($segment['sqlFilterValue'])) {
-                    $value = call_user_func($segment['sqlFilterValue'], $value);
+                if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
+                    return array(null, $matchType, null);
                 }
 
-                // apply presentation filter
-                if (isset($segment['sqlFilter'])) {
-                    $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
-
-                    if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
-                        return array(null, $matchType, null);
-                    }
-
-                    // sqlFilter-callbacks might return arrays for more complex cases
-                    // e.g. see TableLogAction::getIdActionFromSegment()
-                    if (is_array($value) && isset($value['SQL'])) {
-                        // Special case: returned value is a sub sql expression!
-                        $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
-                    }
-
-
+                // sqlFilter-callbacks might return arrays for more complex cases
+                // e.g. see TableLogAction::getIdActionFromSegment()
+                if (is_array($value) && isset($value['SQL'])) {
+                    // Special case: returned value is a sub sql expression!
+                    $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
                 }
             }
-            break;
-        }
-
-        if (empty($sqlName)) {
-            throw new Exception("Segment '$name' is not a supported segment.");
         }
 
         return array($sqlName, $matchType, $value);
@@ -253,8 +303,8 @@ class Segment
             $limit = (int) $offset . ', ' . (int) $limit;
         }
 
-        $segmentQuery = new LogQueryBuilder($segmentExpression);
-        return $segmentQuery->getSelectQueryString($select, $from, $where, $bind, $groupBy, $orderBy, $limit);
+        return $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
+            $groupBy, $orderBy, $limit);
     }
 
     /**

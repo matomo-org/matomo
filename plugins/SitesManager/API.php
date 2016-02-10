@@ -263,6 +263,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool|int $timestamp
      * @return array The list of website IDs
+     * @deprecated since 2.15 This method will be removed in Piwik 3.0, there is no replacement.
      */
     public function getSitesIdWithVisits($timestamp = false)
     {
@@ -506,6 +507,7 @@ class API extends \Piwik\Plugin\API
      * @param array|null $settings JSON serialized settings eg {settingName: settingValue, ...}
      * @see getKeepURLFragmentsGlobal.
      * @param string $type The website type, defaults to "website" if not set.
+     * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
      *
      * @return int the website ID created
      */
@@ -524,7 +526,8 @@ class API extends \Piwik\Plugin\API
                             $excludedUserAgents = null,
                             $keepURLFragments = null,
                             $type = null,
-                            $settings = null)
+                            $settings = null,
+                            $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -555,6 +558,7 @@ class API extends \Piwik\Plugin\API
         $bind = array('name'     => $siteName,
                       'main_url' => $url);
 
+        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters']  = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
@@ -581,7 +585,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!empty($settings)) {
-            $this->validateMeasurableSettings($bind['type'], $settings);
+            $this->validateMeasurableSettings(0, $bind['type'], $settings);
         }
 
         $idSite = $this->getModel()->createSite($bind);
@@ -607,9 +611,9 @@ class API extends \Piwik\Plugin\API
         return (int) $idSite;
     }
 
-    private function validateMeasurableSettings($idType, $settings)
+    private function validateMeasurableSettings($idSite, $idType, $settings)
     {
-        $measurableSettings = new MeasurableSettings(0, $idType);
+        $measurableSettings = new MeasurableSettings($idSite, $idType);
 
         foreach ($measurableSettings->getSettingsForCurrentUser() as $measurableSetting) {
             $name = $measurableSetting->getName();
@@ -641,6 +645,7 @@ class API extends \Piwik\Plugin\API
     {
         Site::clearCache();
         Cache::regenerateCacheWebsiteAttributes($idSite);
+        Cache::clearCacheGeneral();
         SiteUrls::clearSitesCache();
     }
 
@@ -1087,6 +1092,7 @@ class API extends \Piwik\Plugin\API
      *                                   will be removed. If 0, the default global behavior will be used.
      * @param string $type The Website type, default value is "website"
      * @param array|null $settings JSON serialized settings eg {settingName: settingValue, ...}
+     * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
@@ -1109,7 +1115,8 @@ class API extends \Piwik\Plugin\API
                                $excludedUserAgents = null,
                                $keepURLFragments = null,
                                $type = null,
-                               $settings = null)
+                               $settings = null,
+                               $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1156,6 +1163,7 @@ class API extends \Piwik\Plugin\API
         if (!is_null($startDate)) {
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
+        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
@@ -1177,7 +1185,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!empty($settings)) {
-            $this->validateMeasurableSettings(Site::getTypeFor($idSite), $settings);
+            $this->validateMeasurableSettings($idSite, Site::getTypeFor($idSite), $settings);
         }
 
         $this->getModel()->updateSite($bind, $idSite);
@@ -1235,7 +1243,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currencies = Formatter::getCurrencyList();
+        $currencies = Site::getCurrencyList();
         return array_map(function ($a) {
             return $a[1] . " (" . $a[0] . ")";
         }, $currencies);
@@ -1248,7 +1256,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencySymbols()
     {
-        $currencies = Formatter::getCurrencyList();
+        $currencies = Site::getCurrencyList();
         return array_map(function ($a) {
             return $a[0];
         }, $currencies);
@@ -1476,7 +1484,10 @@ class API extends \Piwik\Plugin\API
 
         foreach ($urls as &$url) {
             $url = $this->removeTrailingSlash($url);
-            if (strpos($url, 'http') !== 0) {
+            $scheme = parse_url($url, PHP_URL_SCHEME);
+            if (empty($scheme)
+                && strpos($url, '://') === false
+            ) {
                 $url = 'http://' . $url;
             }
             $url = trim($url);
@@ -1515,17 +1526,43 @@ class API extends \Piwik\Plugin\API
         return true;
     }
 
-    public function getPatternMatchSites($pattern)
+    /**
+     * Find websites matching the given pattern.
+     *
+     * Any website will be returned that matches the pattern in the name, URL or group.
+     * To limit the number of returned sites you can either specify `filter_limit` as usual or `limit` which is
+     * faster.
+     *
+     * @param string $pattern
+     * @param int|false $limit
+     * @return array
+     */
+    public function getPatternMatchSites($pattern, $limit = false)
     {
         $ids = $this->getSitesIdWithAtLeastViewAccess();
         if (empty($ids)) {
             return array();
         }
 
-        $limit = SettingsPiwik::getWebsitesCountToDisplay();
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
 
         return $sites;
+    }
+
+    /**
+     * Returns the number of websites to display per page.
+     *
+     * For example this is used in the All Websites Dashboard, in the Website Selector etc. If multiple websites are
+     * shown somewhere, one should request this method to detect how many websites should be shown per page when
+     * using paging. To use paging is always recommended since some installations have thousands of websites.
+     *
+     * @return int
+     */
+    public function getNumWebsitesToDisplayPerPage()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        return SettingsPiwik::getWebsitesCountToDisplay();
     }
 
     /**

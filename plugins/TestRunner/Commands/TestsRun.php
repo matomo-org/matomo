@@ -44,7 +44,8 @@ class TestsRun extends ConsoleCommand
 
         $groups = $this->getGroupsFromString($groups);
 
-        $command = PIWIK_VENDOR_PATH . '/phpunit/phpunit/phpunit';
+        // bin is the composer executeable directory, where all vendors (should) place their executables
+        $command = PIWIK_VENDOR_PATH . '/bin/phpunit';
 
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
             $command = 'php -dzend.enable_gc=0 ' . $command;

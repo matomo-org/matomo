@@ -16,6 +16,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
+ * @group WidgetsListTest
  * @group Core
  */
 class WidgetsListTest extends IntegrationTestCase
@@ -37,7 +38,7 @@ class WidgetsListTest extends IntegrationTestCase
         $numberOfWidgets = array(
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 4,
-            'General_Visitors'             => 12,
+            'General_Visitors'             => 11,
             'General_VisitorSettings'      => 5,
             'General_Actions'              => 10,
             'Events_Events'                => 3,
@@ -45,7 +46,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Referrers_Referrers'          => 7,
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
-            'Example Widgets'              => 4,
+            'About Piwik'                  => 6,
             'DevicesDetection_DevicesDetection' => 8,
             'Insights_WidgetCategory' => 2
         );

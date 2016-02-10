@@ -42,6 +42,10 @@ table.dataTable img {
   margin-left: 0.5em;
 }
 
+table.subDataTable img.link {
+  transform: translateY(-50%);
+}
+
 table.dataTable tr.subDataTable {
   cursor: pointer;
 
@@ -164,6 +168,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   color: #888;
   text-align: left;
   margin: 10px;
+  margin-left: 1px;
 }
 
 .dataTablePages {
@@ -287,7 +292,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
     margin-bottom: -1px;
     margin-left: auto;
     margin-right: auto;
-    background-color: @theme-color-background-base;
+    background-color: @theme-color-widget-background;
     border: 1px solid @theme-color-background-tinyContrast;
     height: 9px;
     width: 70px;
@@ -331,7 +336,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
     margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
-    background-color: @theme-color-background-base;
+    background-color: @theme-color-widget-background;
     border: 1px solid @theme-color-background-tinyContrast;
     -webkit-border-top-left-radius: 10px;
     -webkit-border-top-right-radius: 10px;
@@ -588,7 +593,7 @@ tr td.label img.plusMinus {
 .pk-emptyDataTable {
   padding-top: 20px;
   padding-bottom: 10px;
-  padding-left: 11px;
+  padding-left: 1px;
 }
 
 .widget .pk-emptyDataTable {

@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\API\tests\Integration;
 
-use Piwik\Access;
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Rss;
 use Piwik\Tests\Framework\Fixture;

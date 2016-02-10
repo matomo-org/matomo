@@ -21,11 +21,10 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
-
 ; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
-; Piwik should work correctly without this setting.
-;charset = utf8
+; Piwik should work correctly without this setting but we recommend to have a charset set.
+charset = utf8
 
 [database_tests]
 host = localhost
@@ -37,6 +36,7 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
+charset = utf8
 
 [tests]
 ; needed in order to run tests.
@@ -45,6 +45,7 @@ schema = Mysql
 http_host   = localhost
 remote_addr = "127.0.0.1"
 request_uri = "@REQUEST_URI@"
+port =
 
 ; access key and secret as listed in AWS -> IAM -> Users
 aws_accesskey = ""
@@ -108,16 +109,8 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
-; if set to > 0, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc.
-; data will be stored for idSite = enable_measure_piwik_usage_in_idsite
-; this is useful for Piwik developers as an easy way to create data in their local Piwik
-enable_measure_piwik_usage_in_idsite = 0
-
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
-
-; Allow automatic upgrades to Beta or RC releases
-allow_upgrades_to_beta = 0
 
 ; if set to 1, all SQL queries will be logged using the DEBUG log level
 log_sql_queries = 0
@@ -136,6 +129,7 @@ enabled = 0
 
 ; if set to 1, javascript files will be included individually and neither merged nor minified.
 ; this option must be set to 1 when adding, removing or modifying javascript files
+; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Piwik URL
 disable_merged_assets = 0
 
 [General]
@@ -161,9 +155,21 @@ enable_processing_unique_visitors_multiple_sites = 0
 enabled_periods_UI = "day,week,month,year,range"
 enabled_periods_API = "day,week,month,year,range"
 
+; whether to enable subquery cache for Custom Segment archiving queries
+enable_segments_subquery_cache = 0
+; Any segment subquery that matches more than segments_subquery_cache_limit IDs will not be cached,
+; and the original subquery executed instead.
+segments_subquery_cache_limit  = 100000
+; TTL: Time to live for cache files, in seconds. Default to 60 minutes
+segments_subquery_cache_ttl  = 3600
+
 ; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
 maintenance_mode = 0
+
+; Defines the release channel that shall be used. Currently available values are:
+; "latest_stable", "latest_beta", "latest_2x_stable", "latest_2x_beta"
+release_channel = "latest_stable"
 
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create
@@ -226,6 +232,8 @@ allow_adding_segments_for_all_websites = 1
 ; When archiving segments for the first time, this determines the oldest date that will be archived.
 ; This option can be used to avoid archiving (for isntance) the lastN years for every new segment.
 ; Valid option values include: "beginning_of_time" (start date of archiving will not be changed)
+;                              "segment_last_edit_time" (start date of archiving will be the earliest last edit date found,
+;                                                        if none is found, the created date is used)
 ;                              "segment_creation_time" (start date of archiving will be the creation date of the segment)
 ;                              lastN where N is an integer (eg "last10" to archive for 10 days before the segment creation date)
 process_new_segments_from = "beginning_of_time"
@@ -242,8 +250,9 @@ default_language = en
 datatable_default_limit = 10
 
 ; Each datatable report has a Row Limit selector at the bottom right.
-; By default you can select from 5 to 500 rows. You may customise the values below:
-datatable_row_limits = "5,10,25,50,100,250,500"
+; By default you can select from 5 to 500 rows. You may customise the values below
+; -1 will be displayed as 'all' and it will export all rows (filter_limit=-1)
+datatable_row_limits = "5,10,25,50,100,250,500,-1"
 
 ; default number of rows returned in API responses
 ; this value is overwritten by the '# Rows to display' selector.
@@ -475,7 +484,7 @@ enable_trusted_host_check = 1
 
 ; If you use this Piwik instance over multiple hostnames, Piwik will need to know
 ; a unique instance_id for this instance, so that Piwik can serve the right custom logo and tmp/* assets,
-; independantly of the hostname Piwik is currently running under.
+; independently of the hostname Piwik is currently running under.
 ; instance_id = stats.example.com
 
 ; The API server is an essential part of the Piwik infrastructure/ecosystem to
@@ -553,6 +562,10 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; on a per-request basis;
 pivot_by_filter_default_column_limit = 10
 
+; If set to 0 it will disable Piwik Pro advertisements in some places. For example in the installation screen, the
+; Piwik Pro Ad widget will be removed etc.
+piwik_pro_ads_enabled = 1
+
 [Tracker]
 
 ; Piwik uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Piwik,
@@ -571,7 +584,9 @@ use_third_party_id_cookie = 0
 debug = 0
 
 ; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
-; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled.
+; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled. For security reasons this
+; option should be only enabled if really needed and only for a short time frame. Otherwise anyone can set debug=1 and
+; see the log output as well.
 debug_on_demand = 0
 
 ; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
@@ -643,6 +658,10 @@ create_new_visit_when_campaign_changes = 1
 ; will be treated as the start of a new visit. This will include situations when website referrer information was
 ; absent before, but is present now.
 create_new_visit_when_website_referrer_changes = 0
+
+; ONLY CHANGE THIS VALUE WHEN YOU DO NOT USE PIWIK ARCHIVING, SINCE THIS COULD CAUSE PARTIALLY MISSING ARCHIVE DATA
+; Whether to force a new visit at midnight for every visitor. Default 1.
+create_new_visit_after_midnight = 1
 
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
@@ -748,7 +767,6 @@ Plugins[] = VisitTime
 Plugins[] = VisitorInterest
 Plugins[] = ExampleAPI
 Plugins[] = ExampleRssWidget
-Plugins[] = Provider
 Plugins[] = Feedback
 Plugins[] = Monolog
 
@@ -769,15 +787,15 @@ Plugins[] = MobileMessaging
 Plugins[] = Overlay
 Plugins[] = SegmentEditor
 Plugins[] = Insights
-Plugins[] = ZenMode
-Plugins[] = LeftMenu
 Plugins[] = Morpheus
 Plugins[] = Contents
 Plugins[] = TestRunner
 Plugins[] = BulkTracking
 Plugins[] = Resolution
 Plugins[] = DevicePlugins
+Plugins[] = Heartbeat
 Plugins[] = Intl
+Plugins[] = PiwikPro
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

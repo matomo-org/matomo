@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
 use Piwik\Version;
+use Piwik\Plugin;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,7 +29,8 @@ class GeneratePlugin extends GeneratePluginBase
             ->setDescription('Generates a new plugin/theme including all needed files')
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
             ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
-            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version');
+            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
+            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Generate even if plugin directory already exists.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -115,20 +117,28 @@ class GeneratePlugin extends GeneratePluginBase
      */
     protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
+        $overwrite = $input->getOption('overwrite');
+
         $self = $this;
 
-        $validate = function ($pluginName) use ($self) {
+        $validate = function ($pluginName) use ($self, $overwrite) {
             if (empty($pluginName)) {
                 throw new \RuntimeException('You have to enter a plugin name');
             }
 
-            if (!Filesystem::isValidFilename($pluginName)) {
-                throw new \RuntimeException(sprintf('The plugin name %s is not valid', $pluginName));
+            if(strlen($pluginName) > 40) {
+                throw new \RuntimeException('Your plugin name cannot be longer than 40 characters');
+            }
+
+            if (!Plugin\Manager::getInstance()->isValidPluginName($pluginName)) {
+                throw new \RuntimeException(sprintf('The plugin name %s is not valid. The name must start with a letter and is only allowed to contain numbers and letters.', $pluginName));
             }
 
             $pluginPath = $self->getPluginPath($pluginName);
 
-            if (file_exists($pluginPath)) {
+            if (file_exists($pluginPath)
+                && !$overwrite
+            ) {
                 throw new \RuntimeException('A plugin with this name already exists');
             }
 

@@ -154,7 +154,7 @@ class TestsSetupFixture extends ConsoleCommand
     private function createSymbolicLinksForUITests()
     {
         // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-        foreach (array('libs', 'plugins', 'tests', 'piwik.js') as $linkName) {
+        foreach (array('libs', 'plugins', 'tests', 'misc', 'piwik.js') as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
                 symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
@@ -192,10 +192,7 @@ class TestsSetupFixture extends ConsoleCommand
         );
         foreach ($optionsToOverride as $configOption => $value) {
             if ($value) {
-                $configOverride = $testingEnvironment->configOverride;
-                $configOverride['database_tests'][$configOption] = $configOverride['database'][$configOption] = $value;
-                $testingEnvironment->configOverride = $configOverride;
-
+                $testingEnvironment->overrideConfig('database_tests', $configOption, $value);
                 Config::getInstance()->database[$configOption] = $value;
             }
         }
@@ -212,6 +209,7 @@ class TestsSetupFixture extends ConsoleCommand
             throw new \Exception("Cannot find fixture class '$fixtureClass'.");
         }
 
+        /** @var Fixture $fixture */
         $fixture = new $fixtureClass();
         $fixture->printToScreen = true;
 
@@ -233,25 +231,14 @@ class TestsSetupFixture extends ConsoleCommand
             $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
         }
 
+        $fixture->extraDiEnvironments = array('ui-test');
+
         return $fixture;
     }
 
     private function requireFixtureFiles(InputInterface $input)
     {
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
-        $fixturesToLoad = array(
-            '/tests/PHPUnit/Fixtures/*.php',
-            '/tests/UI/Fixtures/*.php',
-            '/plugins/*/tests/Fixtures/*.php',
-            '/plugins/*/Test/Fixtures/*.php',
-        );
-
-        foreach($fixturesToLoad as $fixturePath) {
-            foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
-                require_once $file;
-            }
-        }
 
         $file = $input->getOption('file');
         if ($file) {

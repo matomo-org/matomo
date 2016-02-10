@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "Evolution": "변화 추이",
-        "TopLinkTooltip": "웹사이트의 모든 웹분석 통계를 비교합니다."
+        "TopLinkTooltip": "웹사이트의 모든 웹분석 통계를 비교합니다.",
+        "Pagination": "%1$s - %2$s 의 %3$s"
     }
 }

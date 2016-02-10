@@ -27,6 +27,12 @@ class SegmentExpression
     const MATCH_LESS = '<';
     const MATCH_CONTAINS = '=@';
     const MATCH_DOES_NOT_CONTAIN = '!@';
+    const MATCH_STARTS_WITH = '=^';
+    const MATCH_ENDS_WITH = '=$';
+
+    const BOOL_OPERATOR_OR = 'OR';
+    const BOOL_OPERATOR_AND = 'AND';
+    const BOOL_OPERATOR_END = '';
 
     // Note: you can't write this in the API, but access this feature
     // via field!=        <- IS NOT NULL
@@ -40,6 +46,10 @@ class SegmentExpression
     const INDEX_BOOL_OPERATOR = 0;
     const INDEX_OPERAND = 1;
 
+    const INDEX_OPERAND_NAME = 0;
+    const INDEX_OPERAND_OPERATOR = 1;
+    const INDEX_OPERAND_VALUE = 2;
+
     const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
     const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
 
@@ -47,6 +57,11 @@ class SegmentExpression
     {
         $this->string = $string;
         $this->tree = $this->parseTree();
+    }
+
+    public function getSegmentDefinition()
+    {
+        return $this->string;
     }
 
     public function isEmpty()
@@ -84,7 +99,9 @@ class SegmentExpression
                 . self::MATCH_LESS_OR_EQUAL . '|'
                 . self::MATCH_LESS . '|'
                 . self::MATCH_CONTAINS . '|'
-                . self::MATCH_DOES_NOT_CONTAIN
+                . self::MATCH_DOES_NOT_CONTAIN . '|'
+                . preg_quote(self::MATCH_STARTS_WITH) . '|'
+                . preg_quote(self::MATCH_ENDS_WITH)
                 . '){1}(.*)/';
             $match = preg_match($pattern, $operand, $matches);
             if ($match == 0) {
@@ -110,9 +127,9 @@ class SegmentExpression
             $parsedSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
                 self::INDEX_OPERAND       => array(
-                    $leftMember,
-                    $operation,
-                    $valueRightMember,
+                    self::INDEX_OPERAND_NAME => $leftMember,
+                    self::INDEX_OPERAND_OPERATOR => $operation,
+                    self::INDEX_OPERAND_VALUE => $valueRightMember,
                 ));
         }
         $this->parsedSubExpressions = $parsedSubExpressions;
@@ -141,14 +158,17 @@ class SegmentExpression
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $operandDefinition = $leaf[self::INDEX_OPERAND];
 
-
             $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
-            if ($operand[1] !== null) {
-                $this->valuesBind[] = $operand[1];
+            if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
+                if (is_array($operand[self::INDEX_OPERAND_OPERATOR])) {
+                    $this->valuesBind = array_merge($this->valuesBind, $operand[self::INDEX_OPERAND_OPERATOR]);
+                } else {
+                    $this->valuesBind[] = $operand[self::INDEX_OPERAND_OPERATOR];
+                }
             }
 
-            $operand = $operand[0];
+            $operand = $operand[self::INDEX_OPERAND_NAME];
 
             $sqlSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
@@ -177,7 +197,7 @@ class SegmentExpression
         $value     = $def[2];
 
         // Segment::getCleanedExpression() may return array(null, $matchType, null)
-        $operandWillNotMatchAnyRow = is_null($field) && is_null($value);
+        $operandWillNotMatchAnyRow = empty($field) && is_null($value);
         if($operandWillNotMatchAnyRow) {
             if($matchType == self::MATCH_EQUAL) {
                 // eg. pageUrl==DoesNotExist
@@ -187,6 +207,14 @@ class SegmentExpression
                 // eg. pageUrl!=DoesNotExist
                 // Not equal to NULL means it matches all rows
                 $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
+            } elseif($matchType == self::MATCH_CONTAINS
+                  || $matchType == self::MATCH_DOES_NOT_CONTAIN
+                  || $matchType == self::MATCH_STARTS_WITH
+                  || $matchType == self::MATCH_ENDS_WITH) {
+                // no action was found for CONTAINS / DOES NOT CONTAIN
+                // eg. pageUrl=@DoesNotExist -> matches no row
+                // eg. pageUrl!@DoesNotExist -> matches no rows
+                $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
             } else {
                 // it is not expected to reach this code path
                 throw new Exception("Unexpected match type $matchType for your segment. " .
@@ -199,41 +227,49 @@ class SegmentExpression
         $alsoMatchNULLValues = false;
         switch ($matchType) {
             case self::MATCH_EQUAL:
-                $sqlMatch = '=';
+                $sqlMatch = '%s =';
                 break;
             case self::MATCH_NOT_EQUAL:
-                $sqlMatch = '<>';
+                $sqlMatch = '%s <>';
                 $alsoMatchNULLValues = true;
                 break;
             case self::MATCH_GREATER:
-                $sqlMatch = '>';
+                $sqlMatch = '%s >';
                 break;
             case self::MATCH_LESS:
-                $sqlMatch = '<';
+                $sqlMatch = '%s <';
                 break;
             case self::MATCH_GREATER_OR_EQUAL:
-                $sqlMatch = '>=';
+                $sqlMatch = '%s >=';
                 break;
             case self::MATCH_LESS_OR_EQUAL:
-                $sqlMatch = '<=';
+                $sqlMatch = '%s <=';
                 break;
             case self::MATCH_CONTAINS:
-                $sqlMatch = 'LIKE';
+                $sqlMatch = '%s LIKE';
                 $value    = '%' . $this->escapeLikeString($value) . '%';
                 break;
             case self::MATCH_DOES_NOT_CONTAIN:
-                $sqlMatch = 'NOT LIKE';
+                $sqlMatch = '%s NOT LIKE';
                 $value    = '%' . $this->escapeLikeString($value) . '%';
                 $alsoMatchNULLValues = true;
                 break;
+            case self::MATCH_STARTS_WITH:
+                $sqlMatch = '%s LIKE';
+                $value    = $this->escapeLikeString($value) . '%';
+                break;
+            case self::MATCH_ENDS_WITH:
+                $sqlMatch = '%s LIKE';
+                $value    = '%' . $this->escapeLikeString($value);
+                break;
 
             case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
-                $sqlMatch = 'IS NOT NULL AND (' . $field . ' <> \'\' OR ' . $field . ' = 0)';
+                $sqlMatch = '%s IS NOT NULL AND (%s <> \'\' OR %s = 0)';
                 $value    = null;
                 break;
 
             case self::MATCH_IS_NULL_OR_EMPTY:
-                $sqlMatch = 'IS NULL OR ' . $field . ' = \'\' ';
+                $sqlMatch = '%s IS NULL OR %s = \'\' ';
                 $value    = null;
                 break;
 
@@ -242,8 +278,8 @@ class SegmentExpression
                 // (it won't be matched in self::parseSubExpressions())
                 // it can be used internally to inject sub-expressions into the query.
                 // see Segment::getCleanedExpression()
-                $sqlMatch = 'IN (' . $value['SQL'] . ')';
-                $value    = $this->escapeLikeString($value['bind']);
+                $sqlMatch = '%s IN (' . $value['SQL'] . ')';
+                $value    = $value['bind'];
                 break;
             default:
                 throw new Exception("Filter contains the match type '" . $matchType . "' which is not supported");
@@ -252,16 +288,17 @@ class SegmentExpression
 
         // We match NULL values when rows are excluded only when we are not doing a
         $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
+        $sqlMatch = str_replace('%s', $field, $sqlMatch);
 
         if ($matchType === self::MATCH_ACTIONS_CONTAINS
             || is_null($value)
         ) {
-            $sqlExpression = "( $field $sqlMatch )";
+            $sqlExpression = "( $sqlMatch )";
         } else {
             if ($alsoMatchNULLValues) {
-                $sqlExpression = "( $field IS NULL OR $field $sqlMatch ? )";
+                $sqlExpression = "( $field IS NULL OR $sqlMatch ? )";
             } else {
-                $sqlExpression = "$field $sqlMatch ?";
+                $sqlExpression = "$sqlMatch ?";
             }
         }
 
@@ -300,8 +337,14 @@ class SegmentExpression
      */
     private function escapeLikeString($str)
     {
-        $str = str_replace("%", "\%", $str);
-        $str = str_replace("_", "\_", $str);
+        if (false !== strpos($str, '%')) {
+            $str = str_replace("%", "\%", $str);
+        }
+
+        if (false !== strpos($str, '_')) {
+            $str = str_replace("_", "\_", $str);
+        }
+        
         return $str;
     }
 
@@ -335,15 +378,15 @@ class SegmentExpression
                     $operand = substr($operand, 0, -1);
                 }
                 $operand .= $char;
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => '', self::INDEX_OPERAND => $operand);
+                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_END, self::INDEX_OPERAND => $operand);
                 break;
             }
 
             if ($isAND && !$isBackslash) {
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => 'AND', self::INDEX_OPERAND => $operand);
+                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_AND, self::INDEX_OPERAND => $operand);
                 $operand = '';
             } elseif ($isOR && !$isBackslash) {
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => 'OR', self::INDEX_OPERAND => $operand);
+                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_OR, self::INDEX_OPERAND => $operand);
                 $operand = '';
             } else {
                 if ($isBackslash && ($isAND || $isOR)) {
@@ -376,7 +419,7 @@ class SegmentExpression
             $operator = $expression[self::INDEX_BOOL_OPERATOR];
             $operand = $expression[self::INDEX_OPERAND];
 
-            if ($operator == 'OR'
+            if ($operator == self::BOOL_OPERATOR_OR
                 && !$subExpression
             ) {
                 $sql .= ' (';
@@ -387,7 +430,7 @@ class SegmentExpression
 
             $sql .= $operand;
 
-            if ($operator == 'AND'
+            if ($operator == self::BOOL_OPERATOR_AND
                 && $subExpression
             ) {
                 $sql .= ')';

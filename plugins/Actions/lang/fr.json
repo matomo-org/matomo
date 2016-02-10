@@ -1,7 +1,7 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Moyenne basée sur %s entrée(s) sur %s entre %s et %s",
         "ColumnClickedURL": "URL cliquées",
+        "ColumnActionURL": "URL d'action",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "Nombre de clics sur ce lien.",
         "ColumnDownloadURL": "URL de téléchargement",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Un lien sortant est un lien qui mène le visiteur en dehors de votre site web (vers un autre domaine).",
         "OutlinksReportDocumentation": "Ce rapport affiche une liste hiérarchique de liens sortants sur lesquels ont cliqué vos visiteurs.",
         "PagesReportDocumentation": "Ce rapport contient des informations à propos des URLs qui ont été visitées. %s Le tableau est organisé hiérarchiquement, les URLs sont affichées en structure de dossier.",
-        "PageTitlesReportDocumentation": "Ce rapport contient des informations à propos des titres des pages qui ont été visitées. %s Le titre de la page est le tag HTML %s que la plupart des navigateurs affichent dans le titre de la fenêtre.",
+        "PageTitlesReportDocumentation": "Ce rapport contient des informations à propos des titres des pages qui ont été visitées. %1$s Le titre de la page est le tag HTML %2$s que la plupart des navigateurs affichent dans le titre de la fenêtre.",
         "PageUrls": "URL de la page",
         "PluginDescription": "Rapports à propos des vues et titres de pages. Vous permet de suivre l'utilisation du moteur de recherche interne de votre site web. Trace automatiquement les clics sur des liens externes et téléchargements de fichiers.",
         "SiteSearchCategories1": "Ce rapport liste les catégories que les visiteurs ont sélectionnées lorsqu'ils ont effectué une recherche sur votre site web.",
@@ -60,6 +60,7 @@
         "WidgetPageUrlsFollowingSearch": "Pages après une recherche",
         "WidgetSearchCategories": "Catégories de recherche",
         "WidgetSearchKeywords": "Mot-clés recherchés sur le site",
-        "WidgetSearchNoResultKeywords": "Mots-clés sans résultats"
+        "WidgetSearchNoResultKeywords": "Mots-clés sans résultats",
+        "ActionType": "Type d'action"
     }
 }

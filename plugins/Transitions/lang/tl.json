@@ -16,12 +16,12 @@
         "NoDataForAction": "Walang data para sa %s",
         "NoDataForActionDetails": "Maaaring ang aksyon ay walang pageview sa panahon ng %s o ito ay hindi wasto.",
         "OutgoingTraffic": "Mga outgoing na traffic",
-        "ShareOfAllPageviews": "Ang pahinang ito ay may %s na pageview (%s ng lahat ng mga pageview)",
+        "ShareOfAllPageviews": "Ang pahinang ito ay may %1$s na pageview (%2$s ng lahat ng mga pageview)",
         "ToFollowingPages": "Sa mga panloob na mga pahina",
         "ToFollowingPagesInline": "%s panloob na mga pahina",
         "ToFollowingSiteSearches": "Panloob na paghahanap",
         "ToFollowingSiteSearchesInline": "panloob na paghahanap %s",
         "XOfAllPageviews": "%s ng lahat ng mga tanawin ng pahinang ito",
-        "XOutOfYVisits": "%s (mula sa %s)"
+        "XOutOfYVisits": "%1$s (mula sa %2$s)"
     }
 }

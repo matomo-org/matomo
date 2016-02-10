@@ -3,12 +3,14 @@
 {% set test_piwikUrl='http://demo.piwik.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
 
+{% set title %}{{ 'General_AboutPiwikX'|translate(piwikVersion) }}{% endset %}
+
 {% block content %}
 
     <div id="feedback-faq" class="admin">
         <h2 piwik-enriched-headline
             feature-name="{{ 'General_Help'|translate }}"
-            >{{ 'General_AboutPiwikX'|translate(piwikVersion) }}</h2>
+            >{{ title }}</h2>
 
         <div class="header_full">
             <p>{{ 'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate(
@@ -30,6 +32,10 @@
             <p> &bull; {{ 'Feedback_ViewUserGuides'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/'>","</a>")|raw }}.</p>
             <p> &bull; {{ 'Feedback_ViewAnswersToFAQ'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/faq/'>","</a>")|raw }}.</p>
             <p> &bull; {{ 'Feedback_VisitTheForums'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://forum.piwik.org/'>","</a>")|raw }}.</p>
+            <p> &bull; {{ 'API_LearnAboutCommonlyUsedTerms'|translate(
+                '<a href="'~ linkTo({'module':"API",'action':"glossary"}) ~ '#metrics">' ~ 'General_Metrics'|translate ~ '</a>',
+                '<a href="'~ linkTo({'module':"API",'action':"glossary"}) ~ '#reports">' ~ 'General_Reports'|translate ~ '</a>')|raw
+                }} ({{ 'API_Glossary'|translate }})</p>
         </div>
 
         <h2>{{ 'Feedback_ProfessionalHelp'|translate }}</h2>

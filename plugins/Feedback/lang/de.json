@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "Möchten Sie einen Fehler melden oder haben Sie eine Idee für eine neue Funktion?",
         "HowToCreateTicket": "Bitte lesen Sie die Empfehlungen wie man eine gute %1$sFehlermeldung%2$s oder einen %3$sVerbesserungsvorschlag%4$s erstellt. Dann registrieren Sie sich oder loggen Sie sich bei %5$sunserem Fehlermeldesystem%6$s an und erstellen Sie einen %7$sneuen Fall%8$s.",
         "IWantTo": "Ich möchte:",
-        "LearnWaysToParticipate": "Lernen Sie alle Möglichkeiten kennen, wie Sie %s uns unterstützen können%s",
+        "LearnWaysToParticipate": "Lernen Sie alle Möglichkeiten kennen, wie Sie %1$s uns unterstützen können%2$s",
         "ManuallySendEmailTo": "Senden Sie Ihre Nachricht manuell an",
         "PluginDescription": "Senden Sie Ihr Feedback ans Piwik Team. Teilen Sie uns Ihre Ideen und Vorschläge mit, um Piwik zur besten Analyseplattform der Welt zu machen.",
         "PrivacyClaim": "Piwik respektiert Ihre %1$sPrivatsphäre%2$s und gibt Ihnen volle Kontrolle über Ihre Daten.",
@@ -15,7 +15,7 @@
         "SendFeedback": "Feedback absenden",
         "ThankYou": "Danke für Ihre Unterstützung, Piwik zu verbessern!",
         "TopLinkTooltip": "Teilen Sie uns Ihre Meinung mit, oder fordern professionelle Unterstützung an.",
-        "ViewAnswersToFAQ": "Antworten zu %sFrequently Asked Questions%s ansehen",
+        "ViewAnswersToFAQ": "Antworten zu %1$sFrequently Asked Questions%2$s ansehen",
         "ViewUserGuides": "Lernen Sie mithilfe unseres %1$sBenutzerhandbuches%2$s, wie Sie Piwik konfigurieren können und wie Sie effektiv Ihre Daten analysieren.",
         "CommunityHelp": "Hilfe aus der Community",
         "ProfessionalHelp": "Profesionelle Hilfe",
@@ -29,6 +29,6 @@
         "PiwikProCustomDevelopment": "Individuelle Programmierung",
         "PiwikProAnalystConsulting": "Analysenberatung",
         "ContactUs": "Kontaktieren Sie uns",
-        "VisitTheForums": "Besuchen Sie die %s Foren%s"
+        "VisitTheForums": "Besuchen Sie die %1$s Foren%2$s und erhalten Sie Hilfe von der Piwik Community"
     }
 }

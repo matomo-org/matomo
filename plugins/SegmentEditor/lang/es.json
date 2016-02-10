@@ -19,11 +19,10 @@
         "SegmentIsDisplayedForWebsite": "y mostrado para",
         "SegmentNotApplied": "Segmento '%s' no aplicado",
         "SegmentNotAppliedMessage": "Está solicitando datos para el segmento personalizado '%s', esta configuración de Piwik actualmente impide el proceso en tiempo real de informes por razones de rendimiento.",
-        "SelectSegmentOfVisitors": "Seleccione un segmento de visitantes:",
         "ThisSegmentIsVisibleTo": "Este segmento es visible para:",
         "VisibleToAllUsers": "todos los usuarios",
         "VisibleToMe": "yo",
-        "YouMayChangeSetting": "Alternativamente puede cambiar la configuración en el archivo config (%s) o modificar este segmento y elegir '%s'.",
+        "YouMayChangeSetting": "Alternativamente puede cambiar la configuración en el archivo config (%1$s) o modificar este segmento y elegir '%2$s'.",
         "YouMustBeLoggedInToCreateSegments": "Debe estar conectado para crear y editar segmentos de usuario personalizados.",
         "YouDontHaveAccessToCreateSegments": "No posee el nivel de acceso requerido para crear y editar segmentos.",
         "AddingSegmentForAllWebsitesDisabled": "Añadir segmentos para todos los sitios de internet se ha deshabilitado."

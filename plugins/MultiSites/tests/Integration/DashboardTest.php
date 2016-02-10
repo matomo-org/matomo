@@ -13,6 +13,7 @@ use Piwik\Period;
 use Piwik\Plugins\MultiSites\Dashboard;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Translate;
 
 /**
  * @group MultiSites
@@ -37,6 +38,8 @@ class DashboardTest extends IntegrationTestCase
             Fixture::createWebsite('2012-12-12 00:00:00', $ecommerce = 0, 'Site ' . $i);
         }
 
+        Translate::loadAllTranslations();
+
         $this->dashboard = $this->getMockBuilder('Piwik\Plugins\MultiSites\Dashboard')
                                 ->setMethods(null)
                                 ->disableOriginalConstructor()
@@ -56,6 +59,7 @@ class DashboardTest extends IntegrationTestCase
         $expectedTotals = array(
             'nb_pageviews' => 0,
             'nb_visits' => 0,
+            'nb_actions' => 0,
             'revenue' => 0,
             'nb_visits_lastdate' => 0,
         );
@@ -65,9 +69,11 @@ class DashboardTest extends IntegrationTestCase
             array (
                 'label' => 'Site 1',
                 'nb_visits' => 0,
+                'nb_actions' => 0,
                 'nb_pageviews' => 0,
-                'revenue' => '$ 0',
+                'revenue' => '$0',
                 'visits_evolution' => '0%',
+                'actions_evolution' => '0%',
                 'pageviews_evolution' => '0%',
                 'revenue_evolution' => '0%',
                 'idsite' => 1,
@@ -77,9 +83,11 @@ class DashboardTest extends IntegrationTestCase
             array (
                 'label' => 'Site 2',
                 'nb_visits' => 0,
+                'nb_actions' => 0,
                 'nb_pageviews' => 0,
-                'revenue' => '$ 0',
+                'revenue' => '$0',
                 'visits_evolution' => '0%',
+                'actions_evolution' => '0%',
                 'pageviews_evolution' => '0%',
                 'revenue_evolution' => '0%',
                 'idsite' => 2,
@@ -89,9 +97,11 @@ class DashboardTest extends IntegrationTestCase
             array (
                 'label' => 'Site 3',
                 'nb_visits' => 0,
+                'nb_actions' => 0,
                 'nb_pageviews' => 0,
-                'revenue' => '$ 0',
+                'revenue' => '$0',
                 'visits_evolution' => '0%',
+                'actions_evolution' => '0%',
                 'pageviews_evolution' => '0%',
                 'revenue_evolution' => '0%',
                 'idsite' => 3,
@@ -111,9 +121,11 @@ class DashboardTest extends IntegrationTestCase
             array (
                 'label' => 'Site 2',
                 'nb_visits' => 0,
+                'nb_actions' => 0,
                 'nb_pageviews' => 0,
-                'revenue' => '$ 0',
+                'revenue' => '$0',
                 'visits_evolution' => '0%',
+                'actions_evolution' => '0%',
                 'pageviews_evolution' => '0%',
                 'revenue_evolution' => '0%',
                 'idsite' => 2,

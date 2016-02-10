@@ -23,9 +23,9 @@ use Piwik\Session;
 class Login extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
@@ -57,11 +57,11 @@ class Login extends \Piwik\Plugin
         $frontController = FrontController::getInstance();
 
         if (Common::isXmlHttpRequest()) {
-            echo $frontController->dispatch('Login', 'ajaxNoAccess', array($exception->getMessage()));
+            echo $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', array($exception->getMessage()));
             return;
         }
 
-        echo $frontController->dispatch('Login', 'login', array($exception->getMessage()));
+        echo $frontController->dispatch(Piwik::getLoginPluginName(), 'login', array($exception->getMessage()));
     }
 
     /**

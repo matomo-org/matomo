@@ -63,7 +63,7 @@
                                 {% if rowMetrics[columnId] is empty %}
                                     0
                                 {% else %}
-                                    {{ rowMetrics[columnId] }}
+                                    {{ rowMetrics[columnId]|number(2) }}
                                 {% endif %}
                             {% endif %}
                         </td>

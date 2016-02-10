@@ -3,7 +3,7 @@
         "DoYouHaveBugReportOrFeatureRequest": "¿Tienes un error que informar o una nueva característica?",
         "HowToCreateTicket": "Por favor, lee las recomendaciones de cómo escribir un buen %1$sinforme de error%2$s o %3$spetición de funcionalidad%4$s. Luego regístrese o inicie sesión en nuestro %5$ssistema de seguimiento de errores%6$s y crea un %7$snuevo tema de discusión%8$s.",
         "IWantTo": "Yo quiero:",
-        "LearnWaysToParticipate": "Aprende sobre todas las formas de %sparticipar%s",
+        "LearnWaysToParticipate": "Aprende sobre todas las formas de %1$sparticipar%2$s",
         "ManuallySendEmailTo": "Por favor envíe su mensaje manualmente a",
         "PluginDescription": "Envíe su comentario al equipo de Piwik. ¡Comparte tus ideas y sugerencias para hacer de Piwik la mejor plataforma de analíticas en el mundo!",
         "PrivacyClaim": "Piwik respeta su %1$sprivacidad%2$s y le deja controlar todos sus datos.",
@@ -15,7 +15,7 @@
         "SendFeedback": "Enviar comentario",
         "ThankYou": "¡Gracias por ayudarnos a hacer Piwik mejor!",
         "TopLinkTooltip": "Danos tu opinión o solicita Soporte Profesional",
-        "ViewAnswersToFAQ": "Ver respuestas a las %sPreguntas frecuentes%s",
+        "ViewAnswersToFAQ": "Ver respuestas a las %1$sPreguntas frecuentes%2$s",
         "ViewUserGuides": "Aprende a configurar Piwik y analizar sus datos de modo eficaz con nuestras %1$sguías de usuario%2$s",
         "CommunityHelp": "Ayuda comunitaria",
         "ProfessionalHelp": "Ayuda profesional",
@@ -29,6 +29,6 @@
         "PiwikProCustomDevelopment": "Servicios de desarrollo personalizado",
         "PiwikProAnalystConsulting": "Servicios de consultoría de análisis",
         "ContactUs": "Contáctanos",
-        "VisitTheForums": "Visita el %sForo%s y obtenga ayuda de la comuniad de usuarios Piwik"
+        "VisitTheForums": "Visita el %1$sForo%2$s y obtenga ayuda de la comuniad de usuarios Piwik"
     }
 }

@@ -8,9 +8,9 @@
 
 {% block content %}
     <div class="overlay-sidebar-container">
-        <a id="overlayTitle" href="http://piwik.org/docs/page-overlay/" rel="noreferrer"  target="_blank">
+        <a id="overlayTitle" href="http://piwik.org/docs/page-overlay/" rel="noreferrer" target="_blank">
             {{ 'Overlay_Overlay'|translate }}
-            <img src="plugins/Morpheus/images/help.png" alt="Documentation"/>
+            <span class="icon-help"></span>
         </a>
 
         <div id="overlayDateRangeSelection">
@@ -61,8 +61,8 @@
     <script type="text/javascript">
         broadcast._isInit = true;
         $(function () {
-            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}';
-            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}');
+            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
+            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');
 
             window.Piwik_Overlay_Translations = {
                 domain: "{{ 'Overlay_Domain'|translate }}"

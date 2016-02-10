@@ -3,6 +3,6 @@
         "Evolution": "Эволюция",
         "LoadingWebsites": "Загрузка сайтов",
         "TopLinkTooltip": "Сравните веб-аналитику для всех ваших сайтов.",
-        "Pagination": "%s - %s из %s"
+        "Pagination": "%1$s - %2$s из %3$s"
     }
 }

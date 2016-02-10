@@ -72,110 +72,6 @@ table.entityTable tr td a:hover {
 #root {
     margin: 0 0 100px 0;
     padding: 0;
-
-    #header {
-        margin: 0 15px;
-        #topBars {
-            a {
-                color: @theme-color-link;
-                text-decoration: none;
-            }
-        }
-
-        .topBarElem {
-          padding: 0 3px;
-          color: @theme-color-text-lighter;
-            strong {
-                font-weight: normal;
-                color: @theme-color-text;
-            }
-        }
-    }
-
-    .top_bar_sites_selector {
-        margin-right: 10px;
-        label {
-            padding-top: 9px;
-            .font-default(13px, 15px);
-        }
-    }
-
-    .Menu--dashboard {
-        border-top: 1px solid @theme-color-background-lowContrast;
-        border-bottom: 0px;
-        > .Menu-tabList {
-            margin: 0;
-            a {
-               .font-default(18px, 22px);
-               padding: 14px 28px 11px;
-            }
-            > li {
-                .border-radius(0px);
-                border: 0;
-                background: none;
-                border-right: 1px solid @theme-color-background-lowContrast;
-                margin-bottom: -1px;
-                border-bottom: 0px;
-
-                > ul {
-                    li {
-                        a {
-                            color: @theme-color-menu-contrast-text;
-                            .font-default(15px, 18px);
-                            padding: 14px 22px 11px;
-                        }
-
-                        &:hover,
-                        &.sfHover {
-                            a {
-                                color: @theme-color-menu-contrast-textActive;
-                                font-weight: normal;
-                            }
-
-                        }
-                    }
-                }
-
-                &.sfActive {
-                    > a {
-                        color: @theme-color-text;
-                        text-decoration: none;
-                        position: relative;
-                        &:after {
-                            content: '';
-                            position: absolute;
-                            bottom: -3px;
-                            left: 0;
-                            width: 100%;
-                            height: 4px;
-                            background: @theme-color-brand;
-                        }
-                    }
-
-                }
-
-                &.sfHover {
-                    > a {
-                        border: 0;
-                        text-decoration: none;
-                        color: @theme-color-text;
-                    }
-                }
-            }
-        }
-    }
-
-    .nav_sep {
-        background: @theme-color-menu-contrast-background;
-        min-height: 57px;
-        .border-radius(0px);
-        border-color: @theme-color-background-lowContrast !important;
-        border-top: 0px !important;
-        border-right: 0px !important;
-        border-left: 0px !important;
-        box-shadow: inset 0 2px 4px #d8d8d8;
-    }
-
     .widgetize {
         width: auto;
     }
@@ -186,9 +82,7 @@ table.entityTable tr td a:hover {
   border: 1px solid @theme-color-background-lowContrast;
   background: @theme-color-background-base;
   z-index: 10;
-  padding: 8px 10px 8px 10px;
   .border-radius(0px);
-  .font-default(10px, 12px);
   > span {
     position: relative;
     background: none;
@@ -197,15 +91,16 @@ table.entityTable tr td a:hover {
       content: '';
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 5px solid @theme-color-brand;
+      border-top: 5px solid @color-silver-l20;
       position: absolute;
       top: 3px;
-      right: 0;
+      right: 7px;
     }
   }
 
   ul.submenu {
     margin-left: 0;
+    padding-right: 0;
     li {
       list-style-type: none;
       > div {
@@ -236,24 +131,15 @@ table.entityTable tr td a:hover {
 .segmentEditorPanel {
   border: 1px solid @theme-color-background-lowContrast;
   background: @theme-color-background-base;
-  padding: 8px 10px 8px 10px;
   .border-radius(0px);
-  .segmentationTitle {
-    background: url(plugins/Morpheus/images/segment-users.png) no-repeat right 0;
-    text-transform: uppercase;
-    .font-default(10px, 12px);
-    position: relative;
-  }
   .dropdown-body {
     background:@theme-color-background-base;
-    padding:0 10px;
+    padding: 8px 19px 0;
     .border-radius(0px);
-    border: 1px solid @color-silver-l80;
     border-top-width: 0px;
   }
   &:hover .dropdown-body {
     background:@theme-color-background-base;
-    border-color: @color-silver-l80;
   }
   .segmentationContainer {
     > span > strong {
@@ -277,13 +163,8 @@ table.entityTable tr td a:hover {
     .segmentationContainer {
       .submenu {
           li {
-          .font-default(13px, 16px);
-          color: @theme-color-text-light;
-          &:hover {
-              border-color: @color-silver-l80 !important;
-              background:@theme-color-background-base !important;
-              .border-radius(0px);
-          }
+            .font-default(13px, 16px);
+            color: @theme-color-text-light;
           }
       }
     }
@@ -299,31 +180,36 @@ table.entityTable tr td a:hover {
 /* Iframed Embed dashboard style */
 #standalone {
 
-  #Dashboard:hover ul {
-    background: #f1f0eb;
-    border-color: #a9a399;
-  }
-
   #Dashboard {
-    ul {
+    position: relative;
 
-      background: @theme-color-background-base;
-      border: 1px solid @color-silver-l80;
-      padding: 8px 10px 8px 10px;
+    &:hover ul {
+      background-color: @theme-color-background-base;
+    }
+    ul {
+      padding: 0 19px;
       color: @theme-color-text-light;
-      height: 30px;
+      min-height: 33px;
       line-height:0.5em;
       .border-radius(0px);
+      border: 0;
+      background-color: @theme-color-background-base;
+    }
+    > ul > li {
+      white-space: nowrap;
+      margin-right: 0px;
+      a {
+        padding-left: 0;
+      }
+      &.sfActive {
+        a {
+          color: @theme-color-menu-contrast-textActive;
+        }
+      }
     }
     > ul > li:hover,
-    > ul > li:hover a,
-    > ul > li.sfHover,
-    > ul > li.sfHover a {
+    > ul > li:hover a {
       color: @theme-color-brand;
-    }
-    > ul > li.sfHover,
-    > ul > li.sfHover a {
-      font-weight: normal;
     }
   }
 }
@@ -335,13 +221,17 @@ table.entityTable tr td a:hover {
     text-decoration: none;
     display: block;
     width: 100%;
+    margin-top: 14px;
+}
+
+.rss li:first-child .rss-title {
+  margin-top: 0;
 }
 
 .rss-date {
     display: block;
     color: @color-silver-l60;
-    .font-default(11px, 14px);
-    margin-top: 15px;
+    .font-default(11px, 26px);
 }
 
 .rss-description {
@@ -512,7 +402,7 @@ table.dataTable {
     }
 }
 
-div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns {
+div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, div.dataTableVizGoals {
   tr.subDataTable > td:first-child:before {
     display: inline-block;
     float: left;
@@ -549,17 +439,24 @@ table.dataTable .dataTableRowActions {
 }
 
 .dataTableFooterIcons {
-  padding: 6px 8px 0px;
+  padding: 6px 12px 0px;
   border-top: 1px solid @color-silver-l90;
+}
+
+.UserCountryMap-btn-zoom {
+  padding-left: 0px;
 }
 
 div.sparkline {
     display: block;
-    width: 100%;
     border-bottom: 0;
     margin-bottom: 10px;
-    &:hover {
-        border-bottom: 0;
+    &.linked {
+        border-bottom: 1px solid transparent;
+        &:hover {
+            cursor: pointer;
+            border-bottom: 1px dashed #c3c3c3;
+        }
     }
 }
 
@@ -659,7 +556,7 @@ div.sparkline {
 }
 
 .visitor-profile-more-info {
-    margin-top: 15px;
+    margin: 5px 0 15px 0;
 }
 
 .visitor-profile-visits-container {
@@ -858,7 +755,7 @@ div.sparkline {
 
 #piwik-promo-share {
     border: 0px;
-    background: #f2f2f2;
+    background: @theme-color-background-tinyContrast;
     .font-default(10px, 16px);
 }
 
@@ -870,20 +767,13 @@ tr:hover #token_auth {
   background: #FFFFF7;
 }
 
-table#users {
-    .deleteuser:hover > span,
-    .edituser:hover > span {
-        text-decoration: underline;
-    }
-}
-
-// previous style overrides
-#header_message a {
+#header_message .dropdown a,
+#header_message #updateCheckLinkContainer:hover {
     text-decoration: underline;
 }
 
-#header_message a:hover {
-    text-decoration: none;
+#header_message #updateCheckLinkContainer:hover {
+    cursor: pointer;
 }
 
 #multisites table.dataTable {

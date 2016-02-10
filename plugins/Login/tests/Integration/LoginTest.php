@@ -15,17 +15,12 @@ use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Login/Auth.php';
-
 /**
- * Class Plugins_LoginTest
- *
  * @group Plugins
  * @group Plugins_LoginTest
  */
 class LoginTest extends IntegrationTestCase
 {
-
     /**
      * @var Auth
      */
@@ -48,7 +43,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureNoLoginNoTokenAuth()
+    public function test_authenticate_failureNoLoginNoTokenAuth()
     {
         // no login; no token auth
         $rc = $this->auth->authenticate();
@@ -58,7 +53,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureEmptyLoginNoTokenAuth()
+    public function test_authenticate_failureEmptyLoginNoTokenAuth()
     {
         // empty login; no token auth
         $this->auth->setLogin('');
@@ -69,7 +64,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureNonExistentUser()
+    public function test_authenticate_failureNonExistentUser()
     {
         // non-existent user
         $this->auth->setLogin('nobody');
@@ -80,7 +75,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureAnonymousNotExisting()
+    public function test_authenticate_failureAnonymousNotExisting()
     {
         // anonymous user doesn't exist yet
         $rc = $this->authenticate($login = 'anonymous', $authToken = '');
@@ -90,7 +85,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureAnonymousNotExistentEmptyLogin()
+    public function test_authenticate_failureAnonymousNotExistentEmptyLogin()
     {
         // empty login; anonymous user doesn't exist yet
         $rc = $this->authenticate($login = '', $authToken = 'anonymous');
@@ -101,7 +96,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureAnonymousNotExistentEmptyLoginWithTokenAuth()
+    public function test_authenticate_failureAnonymousNotExistentEmptyLoginWithTokenAuth()
     {
         // API authentication; anonymous user doesn't exist yet
         $rc = $this->authenticate($login = null, $authToken = 'anonymous');
@@ -111,7 +106,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureAnonymousNotExistentWithLoginAndTokenAuth()
+    public function test_authenticate_failureAnonymousNotExistentWithLoginAndTokenAuth()
     {
         // anonymous user doesn't exist yet
         $rc = $this->authenticate($login = 'anonymous', $authToken = 'anonymous');
@@ -121,7 +116,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureAnonymousWithLogin()
+    public function test_authenticate_failureAnonymousWithLogin()
     {
         DbHelper::createAnonymousUser();
 
@@ -133,7 +128,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureAnonymousEmptyLoginWithTokenAuth()
+    public function test_authenticate_failureAnonymousEmptyLoginWithTokenAuth()
     {
         DbHelper::createAnonymousUser();
 
@@ -145,7 +140,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureAnonymousLoginTokenAuthMissmatch()
+    public function test_authenticate_failureAnonymousLoginTokenAuthMissmatch()
     {
         DbHelper::createAnonymousUser();
 
@@ -157,7 +152,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateSuccessAnonymousWithTokenAuth()
+    public function test_authenticate_successAnonymousWithTokenAuth()
     {
         DbHelper::createAnonymousUser();
 
@@ -169,7 +164,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateSuccessAnonymous()
+    public function test_authenticate_successAnonymous()
     {
         DbHelper::createAnonymousUser();
 
@@ -181,7 +176,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserEmptyTokenAuth()
+    public function test_authenticate_failureUserEmptyTokenAuth()
     {
         $user = $this->_setUpUser();
 
@@ -193,7 +188,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserInvalidTokenAuth()
+    public function test_authenticate_failureUserInvalidTokenAuth()
     {
         $user = $this->_setUpUser();
 
@@ -205,7 +200,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserInvalidTokenAuth2()
+    public function test_authenticate_failureUserInvalidTokenAuth2()
     {
         $user = $this->_setUpUser();
 
@@ -217,7 +212,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserEmptyLogin()
+    public function test_authenticate_failureUserEmptyLogin()
     {
         $user = $this->_setUpUser();
 
@@ -229,7 +224,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserWithSuperUserAccessEmptyLogin()
+    public function test_authenticate_failureUserWithSuperUserAccessEmptyLogin()
     {
         $user = $this->_setUpUser();
         $this->_setUpSuperUserAccessViaDb();
@@ -242,7 +237,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserLoginTokenAuthMissmatch()
+    public function test_authenticate_failureUserLoginTokenAuthMissmatch()
     {
         $this->_setUpUser();
 
@@ -254,7 +249,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserLoginTokenAuthMissmatch2()
+    public function test_authenticate_failureUserLoginTokenAuthMissmatch2()
     {
         $user = $this->_setUpUser();
 
@@ -266,7 +261,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserLoginTokenAuthMissmatch3()
+    public function test_authenticate_failureUserLoginTokenAuthMissmatch3()
     {
         $user = $this->_setUpUser();
 
@@ -278,7 +273,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateFailureUserWithSuperUserAccessLoginTokenAuthMissmatch()
+    public function test_authenticate_failureUserWithSuperUserAccessLoginTokenAuthMissmatch()
     {
         $user = $this->_setUpUser();
         $this->_setUpSuperUserAccessViaDb();
@@ -291,7 +286,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateSuccessUserTokenAuth()
+    public function test_authenticate_successUserTokenAuth()
     {
         $user = $this->_setUpUser();
 
@@ -303,7 +298,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateSuccessUserWithSuperUserAccessByTokenAuth()
+    public function test_authenticate_successUserWithSuperUserAccessByTokenAuth()
     {
         $user = $this->_setUpUser();
         $this->_setUpSuperUserAccessViaDb();
@@ -316,7 +311,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateSuccessUserLoginAndTokenAuth()
+    public function test_authenticate_successUserLoginAndTokenAuth()
     {
         $user = $this->_setUpUser();
 
@@ -328,7 +323,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateSuccessUserWithSuperUserAccessLoginAndTokenAuth()
+    public function test_authenticate_successUserWithSuperUserAccessLoginAndTokenAuth()
     {
         $user = $this->_setUpUser();
         $this->_setUpSuperUserAccessViaDb();
@@ -341,7 +336,7 @@ class LoginTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testAuthenticateSuccessLoginAndHashedTokenAuth()
+    public function test_authenticate_successLoginAndHashedTokenAuth()
     {
         $user = $this->_setUpUser();
         $hash = \Piwik\Plugins\Login\SessionInitializer::getHashTokenAuth($user['login'], $user['tokenAuth']);
@@ -349,6 +344,83 @@ class LoginTest extends IntegrationTestCase
         // valid login & hashed token auth
         $rc = $this->authenticate($user['login'], $tokenAuth = $hash);
         $this->assertUserLogin($rc);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function test_authenticate_successWithValidPassword()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword($user['password']);
+
+        $rc = $this->auth->authenticate();
+        $this->assertUserLogin($rc);
+        // Check that the token auth is correct in the result
+        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function test_authenticate_successWithSuperUserPassword()
+    {
+        $user = $this->_setUpUser();
+        $this->_setUpSuperUserAccessViaDb();
+
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword($user['password']);
+
+        $rc = $this->auth->authenticate();
+        $this->assertSuperUserLogin($rc, 'user');
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function test_authenticate_failsWithInvalidPassword()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword('foo bar');
+
+        $rc = $this->auth->authenticate();
+        $this->assertFailedLogin($rc);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function test_authenticate_prioritizesPasswordAuthentication()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setPassword($user['password']); // correct password
+        $this->auth->setTokenAuth('foo bar'); // invalid token
+
+        // Authentication should succeed because authenticating via password is favored
+        $rc = $this->auth->authenticate();
+        $this->assertUserLogin($rc);
+        // Check that the token auth is correct in the result
+        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+    }
+
+    /**
+     * @group Plugins
+     * @see https://github.com/piwik/piwik/issues/8548
+     */
+    public function test_authenticate_withPasswordIsCaseInsensitiveForLogin()
+    {
+        $user = $this->_setUpUser();
+        $this->auth->setLogin('uSeR');
+        $this->auth->setPassword($user['password']);
+
+        $rc = $this->auth->authenticate();
+        $this->assertUserLogin($rc);
+        // Check that the login + token auth is correct in the result
+        $this->assertEquals($user['login'], $rc->getIdentity());
+        $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
     }
 
     protected function _setUpUser()
@@ -393,7 +465,7 @@ class LoginTest extends IntegrationTestCase
 
     private function assertUserLogin(AuthResult $authResult, $login = 'user', $tokenLength = 32)
     {
-        $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode());
+        $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode(), 'Authentication failed');
         $this->assertEquals($login, $authResult->getIdentity());
         $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
     }

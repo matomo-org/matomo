@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Live\Reports;
 
 use Piwik\Menu\MenuReporting;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\Live\VisitorLog;
+use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\WidgetsList;
 
 class GetLastVisitsDetails extends Base

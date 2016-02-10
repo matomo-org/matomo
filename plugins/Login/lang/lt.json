@@ -7,6 +7,7 @@
         "LoginOrEmail": "Registracijos vardas arba el. paštas",
         "LoginPasswordNotCorrect": "Naudotojo vardas ir slaptažodis neteisingi",
         "LostYourPassword": "Pamiršote slaptažodį?",
+        "PasswordChanged": "Jūsų slaptažodis buvo pakeistas.",
         "PasswordRepeat": "Slaptažodis (pakartoti)",
         "PasswordsDoNotMatch": "Slaptažodžiai nesutampa",
         "RememberMe": "Prisiminti mane"

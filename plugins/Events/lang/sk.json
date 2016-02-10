@@ -1,5 +1,14 @@
 {
     "Events": {
-        "AvgValue": "Priemerná hodnota"
+        "PluginDescription": "Sledovanie Udalostí a získanie reportu ohľadom aktivity vašich návštevníkov.",
+        "AvgValue": "Priemerná hodnota",
+        "Events": "Udalosti",
+        "EventsWithValue": "Udalosti s hodnotou",
+        "EventsWithValueDocumentation": "Počet udalostí, kde bola nastavená hodnota Udalosti",
+        "EventValueTooltip": "Hodnota Udalostí celom je suma %1$s hodnôt udalostí %2$s medzi minimom %3$s a maximom %4$s.",
+        "TopEvents": "Top Udalosti",
+        "TotalEvents": "Udalosti celkom",
+        "TotalEventsDocumentation": "Celkový počet udalostí",
+        "ViewEvents": "Zobraziť udalosti"
     }
 }

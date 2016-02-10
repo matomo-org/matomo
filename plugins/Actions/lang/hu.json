@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ColumnClickedURL": "Kattintott URL",
+        "ColumnActionURL": "Akció URL",
         "ColumnClicks": "Kattintások",
         "ColumnClicksDocumentation": "Erre a linkre történt kattintások száma.",
         "ColumnDownloadURL": "Letöltött URL",
@@ -11,6 +12,7 @@
         "ColumnNoResultKeyword": "Kulcszó keresőtalálat nélkül",
         "ColumnPageName": "Weblap címe",
         "ColumnPagesPerSearch": "Kereső találati oldalak",
+        "ColumnPagesPerSearchDocumentation": "Látogatók keresni fognak az ön weboldalán és néha rákattintanak a \"következő\" gombra a további találatok miatt. Ez az átlagosan megtekintett keresési találatok száma erre a kulcsszóra.",
         "ColumnPageURL": "Weblap URL-je",
         "ColumnSearchCategory": "Kategória keresés",
         "ColumnSearches": "Keresések",
@@ -27,7 +29,7 @@
         "ExitPageTitlesReportDocumentation": "Ez a jelentés az adott idő alatt felmerült kilépési oldalak címeit és statisztikáit foglalja össze.",
         "OneSearch": "1 keresés",
         "PagesReportDocumentation": "Ez a jelentés a megtekintett URL-ekről tartalmaz információkat. %s A tábla hierarchigusan van szervezve, az URL-ek mappaként jelennek meg.",
-        "PageTitlesReportDocumentation": "Ez a jelentés a megtekintett oldalak címéről tartalmaz információkat. %s Az oldal címe a %s HTML Tag, amit a legtöbb bönkésző az ablak címsorában mutat.",
+        "PageTitlesReportDocumentation": "Ez a jelentés a megtekintett oldalak címéről tartalmaz információkat. %1$s Az oldal címe a %2$s HTML Tag, amit a legtöbb bönkésző az ablak címsorában mutat.",
         "PageUrls": "Oldal hivatkozások",
         "SiteSearchKeyword": "Kulcsszó (Oldal keresés)",
         "SubmenuPagesEntry": "Belépési lapok",
@@ -40,6 +42,8 @@
         "WidgetPagesExit": "Kilépési lapok",
         "WidgetPageTitles": "Oldalak címe",
         "WidgetSearchCategories": "Keresés kategóriák",
-        "WidgetSearchKeywords": "Oldal keresés kulcsszavak"
+        "WidgetSearchKeywords": "Oldal keresés kulcsszavak",
+        "WidgetSearchNoResultKeywords": "Kulcsszavak, melyekre nincs találat",
+        "ActionType": "Akció típusa"
     }
 }

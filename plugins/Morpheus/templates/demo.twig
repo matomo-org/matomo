@@ -1,5 +1,7 @@
 {% extends 'layout.twig' %}
 
+{% set title %}Piwik UI demo{% endset %}
+
 {% block head %}
     {{ parent() }}
 
@@ -46,6 +48,15 @@
             border: 1px solid #e3e3e3;
             border-radius: 4px;
         }
+        .icons h4 {
+            padding-top: 15px;
+            padding-bottom: 10px;
+        }
+        .icons .icon {
+            font-family: monospace, monospace;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
     </style>
 {% endblock %}
 
@@ -53,7 +64,7 @@
 
     <div class="container">
 
-        <h1>Piwik UI demo</h1>
+        <h1>{{ title }}</h1>
         <p>
             This page is intended to show all the UI components and styles available to use in Piwik.
         </p>
@@ -184,6 +195,30 @@
         <div class="demo-code">
             <pre>&lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;Block button&lt;/a&gt;
 &lt;a class=&quot;btn btn-lg btn-block&quot; href=&quot;#&quot;&gt;Large block button&lt;/a&gt;</pre>
+        </div>
+
+        <h3>Link buttons</h3>
+
+        <div class="demo">
+            <a class="btn btn-link" href="#">Link button</a>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn btn-link&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;</pre>
+        </div>
+
+        <h3>Flat buttons</h3>
+
+        <div class="demo">
+            <a class="btn btn-flat" href="#">Flat button</a>
+            <a class="btn btn-flat" href="#"><span class="icon-add"></span></a>
+            <a class="btn btn-flat btn-lg" href="#">Flat button</a>
+            <a class="btn btn-flat btn-lg" href="#"><span class="icon-add"></span></a>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn btn-flat&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;a class=&quot;btn btn-flat btn-lg&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn btn-flat btn-lg&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
         </div>
 
         <h2>Alerts</h2>
@@ -422,6 +457,142 @@
         <div class="demo-code">
             <pre>&lt;table&gt;...&lt;/table&gt;</pre>
         </div>
+
+        <h2>Icons</h2>
+
+        <div id="icons" class="demo icons">
+        </div>
+        <div class="demo-code">
+            <pre>&lt;span class=&quot;icon-ok&quot;&gt;&lt;/span&gt;</pre>
+        </div>
+
+        <script>
+            $(function () {
+
+                var icons = {
+                    'Manage': [
+                        'add',
+                        'edit',
+                        'delete',
+                        'plus',
+                        'minus',
+                    ],
+                    'Alerts': [
+                        'error',
+                        'warning',
+                        'info',
+                        'success',
+                        'help',
+                        'help-alt',
+                        'ok',
+                    ],
+                    'Navigation': [
+                        'arrow-left',
+                        'arrow-right',
+                        'arrow-top',
+                        'arrow-bottom',
+                        'arrow-collapsed',
+                        'zoom-in',
+                        'zoom-out',
+                        'show',
+                        'hide',
+                        'search',
+                        'menu-hamburger',
+                        'more-horiz',
+                        'more-verti'
+                    ],
+                    'Window-Widget': [
+                        'minimise',
+                        'fullscreen',
+                        'close',
+                        'maximise',
+                        'newtab',
+                        'refresh',
+                        'reload',
+                    ],
+                    'Reports': [
+                        'table',
+                        'table-more',
+                        'chart-bar',
+                        'chart-pie',
+                        'chart-line',
+                        'chart-line-details',
+                    ],
+                    'Users': [
+                        'user',
+                        'user-add',
+                        'users',
+                        'alien',
+                    ],
+                    'Date-picker': [
+                        'calendar',
+                    ],
+                    'Annotations': [
+                        'annotation',
+                    ],
+                    'E-commerce': [
+                        'ecommerce-order',
+                        'ecommerce-abandoned-cart',
+                    ],
+                    'Goals': [
+                        'goal',
+                    ],
+                    'Insights': [
+                        'insights',
+                    ],
+                    'Segments': [
+                        'segment',
+                    ],
+                    'Visitors': [
+                        'visitor-profile',
+                    ],
+                    'Lock': [
+                        'locked',
+                        'locked-2',
+                        'locked-3',
+                        'locked-4',
+                    ],
+                    'Other': [
+                        'configure',
+                        'document',
+                        'email',
+                        'export',
+                        'feed',
+                        'download',
+                        'image',
+                        'code',
+                        'star',
+                        'drop',
+                        'business',
+                        'finance',
+                        'folder',
+                        'folder-charts',
+                        'open-source',
+                        'puzzle',
+                        'server',
+                        'server-alt',
+                        'tag-cloud',
+                        'play',
+                        'sign-in',
+                        'sign-out'
+                    ],
+                };
+
+                var iconsDiv = $('#icons');
+                for(var category in icons) {
+                    if (icons.hasOwnProperty(category)) {
+                        iconsDiv.append('<h4>' + category + '</h4>');
+                        var row = $('<div class="row"></div>');
+                        icons[category].forEach(function(icon) {
+                            icon = 'icon-' + icon;
+                            row.append('<div class="col-sm-4 icon"><span class="' + icon + '"></span> ' + icon + '</div>');
+                        });
+                        iconsDiv.append(row);
+                    }
+                }
+
+            });
+        </script>
 
     </div>
 

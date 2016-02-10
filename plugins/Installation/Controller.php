@@ -471,6 +471,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function saveLanguage()
     {
+        if (DbHelper::isInstalled()) {
+            $this->checkTokenInUrl();
+        }
         $language = $this->getParam('language');
         LanguagesManager::setLanguageForSession($language);
         Url::redirectToReferrer();
@@ -678,6 +681,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikorg'  => $newsletterPiwikORG,
             'piwikpro'  => $newsletterPiwikPRO,
             'url'       => Url::getCurrentUrlWithoutQueryString(),
+            'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
         );
         if ($params['piwikorg'] == '1'
             || $params['piwikpro'] == '1'

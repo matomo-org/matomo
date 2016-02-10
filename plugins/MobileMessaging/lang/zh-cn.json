@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "服务商名字 '%s' 未知，请试试下面的: %s。",
+        "Exception_UnknownProvider": "服务商名字 '%1$s' 未知，请试试下面的: %2$s。",
         "MobileReport_AdditionalPhoneNumbers": "通过访问，您可以添加多个电话号码",
         "MobileReport_MobileMessagingSettingsLink": "手机短信设置页",
         "MobileReport_NoPhoneNumbers": "激活至少一个电话号码，请访问",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "短信服务商",
         "Settings_SuperAdmin": "用户设置",
         "Settings_SuspiciousPhoneNumber": "如果没有收到短信，试试前面不要 0。例如. %s",
-        "Settings_UpdateOrDeleteAccount": "您也可以 %s修改%s 或 %s删除%s 这个帐号。",
+        "Settings_UpdateOrDeleteAccount": "您也可以 %1$s修改%2$s 或 %3$s删除%4$s 这个帐号。",
         "Settings_ValidatePhoneNumber": "有效",
         "Settings_VerificationCodeJustSent": "我们刚发了代码短信到这个号码: 请输入上面的代码然后点 \"验证\"。",
         "SettingsMenu": "手机短信",
         "SMS_Content_Too_Long": "[太长]",
         "TopLinkTooltip": "设置网站分析报表发送到邮箱或者手机!",
         "TopMenu": "邮件和短信报表",
-        "VerificationText": "代码为 %s。要验证电话号码及接收 Piwik 短信报表，请复制本代码到 Piwik > %s > %s 的表格中。"
+        "VerificationText": "代码为 %1$s。要验证电话号码及接收 Piwik 短信报表，请复制本代码到 Piwik > %2$s > %3$s 的表格中。"
     }
 }

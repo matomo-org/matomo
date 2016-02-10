@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>user</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<subtable>
+			<row>
+				<label>/profile</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>2</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example.org/user/profile</url>
+			</row>
+		</subtable>
+	</row>
+</result>

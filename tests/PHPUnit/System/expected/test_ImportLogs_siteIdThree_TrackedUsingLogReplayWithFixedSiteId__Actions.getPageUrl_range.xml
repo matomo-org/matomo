@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/index.htm</label>
+		<nb_visits>2</nb_visits>
+		<nb_hits>4</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<entry_nb_visits>2</entry_nb_visits>
+		<entry_nb_actions>4</entry_nb_actions>
+		<entry_sum_visit_length>1</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
+		<exit_nb_visits>2</exit_nb_visits>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>50%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.org/index.htm</url>
+	</row>
+</result>

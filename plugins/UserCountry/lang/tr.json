@@ -4,11 +4,13 @@
         "Continent": "Kıta",
         "Country": "Ülke",
         "country_o1": "Diğer Ükle",
+        "DownloadingDb": "Karşıdan Yükleme %s",
         "Geolocation": "Coğrafi Lokasyon",
         "GeolocationPageDesc": "Bu sayfada Piwik'in ziyaretçi lokasyonunu nasıl bulacağını ayarlayabilirsiniz.",
         "Latitude": "Enlem",
         "Location": "Konum",
         "Longitude": "Boylam",
+        "Organization": "Organizasyon",
         "Region": "Bölge",
         "SubmenuLocations": "Konumlar"
     }

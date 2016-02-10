@@ -5,7 +5,7 @@
     <div class="form-group">
 
         {% if setting.introduction %}
-            <p>{{ setting.introduction }}</p>
+            <p class="settingIntroduction">{{ setting.introduction }}</p>
         {% endif %}
 
         {{ _self.field(setting, index) }}

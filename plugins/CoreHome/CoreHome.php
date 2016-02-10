@@ -14,9 +14,9 @@ namespace Piwik\Plugins\CoreHome;
 class CoreHome extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
@@ -61,7 +61,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/coreHome.less";
-        $stylesheets[] = "plugins/CoreHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
@@ -72,9 +71,12 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/layout.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/dialogtoggler/ngdialog.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -116,6 +118,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
@@ -130,6 +133,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/length.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/htmldecode.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/ucfirst.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
@@ -163,6 +168,11 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/selector/selector.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -171,8 +181,10 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
         $translationKeys[] = 'General_Hide';
-        $translationKeys[] = 'Intl_YearShort';
+        $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
+        $translationKeys[] = 'General_SearchNoResults';
         $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';
         $translationKeys[] = 'CoreHome_IncludeRowsWithLowPopulation';
         $translationKeys[] = 'CoreHome_ExcludeRowsWithLowPopulation';
@@ -184,6 +196,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
         $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'CoreHome_ClickToEditX';
+        $translationKeys[] = 'CoreHome_Menu';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
@@ -193,51 +206,53 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Annotations_HideAnnotationsFor';
         $translationKeys[] = 'General_LoadingPopover';
         $translationKeys[] = 'General_LoadingPopoverFor';
-        $translationKeys[] = 'Intl_ShortMonth_1';
-        $translationKeys[] = 'Intl_ShortMonth_2';
-        $translationKeys[] = 'Intl_ShortMonth_3';
-        $translationKeys[] = 'Intl_ShortMonth_4';
-        $translationKeys[] = 'Intl_ShortMonth_5';
-        $translationKeys[] = 'Intl_ShortMonth_6';
-        $translationKeys[] = 'Intl_ShortMonth_7';
-        $translationKeys[] = 'Intl_ShortMonth_8';
-        $translationKeys[] = 'Intl_ShortMonth_9';
-        $translationKeys[] = 'Intl_ShortMonth_10';
-        $translationKeys[] = 'Intl_ShortMonth_11';
-        $translationKeys[] = 'Intl_ShortMonth_12';
-        $translationKeys[] = 'Intl_LongMonth_1';
-        $translationKeys[] = 'Intl_LongMonth_2';
-        $translationKeys[] = 'Intl_LongMonth_3';
-        $translationKeys[] = 'Intl_LongMonth_4';
-        $translationKeys[] = 'Intl_LongMonth_5';
-        $translationKeys[] = 'Intl_LongMonth_6';
-        $translationKeys[] = 'Intl_LongMonth_7';
-        $translationKeys[] = 'Intl_LongMonth_8';
-        $translationKeys[] = 'Intl_LongMonth_9';
-        $translationKeys[] = 'Intl_LongMonth_10';
-        $translationKeys[] = 'Intl_LongMonth_11';
-        $translationKeys[] = 'Intl_LongMonth_12';
-        $translationKeys[] = 'Intl_ShortDay_1';
-        $translationKeys[] = 'Intl_ShortDay_2';
-        $translationKeys[] = 'Intl_ShortDay_3';
-        $translationKeys[] = 'Intl_ShortDay_4';
-        $translationKeys[] = 'Intl_ShortDay_5';
-        $translationKeys[] = 'Intl_ShortDay_6';
-        $translationKeys[] = 'Intl_ShortDay_7';
-        $translationKeys[] = 'Intl_LongDay_1';
-        $translationKeys[] = 'Intl_LongDay_2';
-        $translationKeys[] = 'Intl_LongDay_3';
-        $translationKeys[] = 'Intl_LongDay_4';
-        $translationKeys[] = 'Intl_LongDay_5';
-        $translationKeys[] = 'Intl_LongDay_6';
-        $translationKeys[] = 'Intl_LongDay_7';
-        $translationKeys[] = 'Intl_DayMo';
-        $translationKeys[] = 'Intl_DayTu';
-        $translationKeys[] = 'Intl_DayWe';
-        $translationKeys[] = 'Intl_DayTh';
-        $translationKeys[] = 'Intl_DayFr';
-        $translationKeys[] = 'Intl_DaySa';
-        $translationKeys[] = 'Intl_DaySu';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_1';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_2';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_3';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_4';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_5';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_6';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_7';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_8';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_9';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_10';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_11';
+        $translationKeys[] = 'Intl_Month_Short_StandAlone_12';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_1';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_2';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_3';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_4';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_5';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_6';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_7';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_8';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_9';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_10';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_11';
+        $translationKeys[] = 'Intl_Month_Long_StandAlone_12';
+        $translationKeys[] = 'Intl_Day_Short_StandAlone_1';
+        $translationKeys[] = 'Intl_Day_Short_StandAlone_2';
+        $translationKeys[] = 'Intl_Day_Short_StandAlone_3';
+        $translationKeys[] = 'Intl_Day_Short_StandAlone_4';
+        $translationKeys[] = 'Intl_Day_Short_StandAlone_5';
+        $translationKeys[] = 'Intl_Day_Short_StandAlone_6';
+        $translationKeys[] = 'Intl_Day_Short_StandAlone_7';
+        $translationKeys[] = 'Intl_Day_Long_StandAlone_1';
+        $translationKeys[] = 'Intl_Day_Long_StandAlone_2';
+        $translationKeys[] = 'Intl_Day_Long_StandAlone_3';
+        $translationKeys[] = 'Intl_Day_Long_StandAlone_4';
+        $translationKeys[] = 'Intl_Day_Long_StandAlone_5';
+        $translationKeys[] = 'Intl_Day_Long_StandAlone_6';
+        $translationKeys[] = 'Intl_Day_Long_StandAlone_7';
+        $translationKeys[] = 'Intl_Day_Min_StandAlone_1';
+        $translationKeys[] = 'Intl_Day_Min_StandAlone_2';
+        $translationKeys[] = 'Intl_Day_Min_StandAlone_3';
+        $translationKeys[] = 'Intl_Day_Min_StandAlone_4';
+        $translationKeys[] = 'Intl_Day_Min_StandAlone_5';
+        $translationKeys[] = 'Intl_Day_Min_StandAlone_6';
+        $translationKeys[] = 'Intl_Day_Min_StandAlone_7';
+        $translationKeys[] = 'General_And';
+        $translationKeys[] = 'General_All';
         $translationKeys[] = 'General_Search';
         $translationKeys[] = 'General_Clear';
         $translationKeys[] = 'General_MoreDetails';
@@ -255,8 +270,14 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_LoadingData';
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
+        $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
-        $translationKeys[] = 'General_LearnMore';
+        $translationKeys[] = 'CoreHome_QuickAccessTitle';
+        $translationKeys[] = 'CoreHome_Segments';
+        $translationKeys[] = 'CoreHome_MenuEntries';
+        $translationKeys[] = 'SitesManager_Sites';
+        $translationKeys[] = 'CoreHome_ChangeCurrentWebsite';
+        $translationKeys[] = 'General_CreatedByUser';
     }
 }

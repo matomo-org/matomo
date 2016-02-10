@@ -156,11 +156,13 @@
 
                 var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric] ? data[metric] : data[metric].toFixed(1);
                 if (metric == 'bounce_rate') {
-                    val += '%';
+                    val = NumberFormatter.formatPercent(val);
                 } else if (metric == 'avg_time_on_site') {
                     val = new Date(0, 0, 0, val / 3600, val % 3600 / 60, val % 60)
                         .toTimeString()
                         .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+                } else {
+                    val = NumberFormatter.formatNumber(val);
                 }
 
                 var v = _[metric].replace('%s', '<strong>' + val + '</strong>');
@@ -266,8 +268,10 @@
             }
 
             function formatPercentage(val) {
-                if (val < 0.001) return '< 0.1%';
-                return Math.round(1000 * val) / 10 + '%';
+                if (val < 0.001) {
+                    return '< ' + NumberFormatter.formatPercent(0.1);
+                }
+                return NumberFormatter.formatPercent(Math.round(1000 * val) / 10);
             }
 
             /*
@@ -536,7 +540,14 @@
                             return UserCountryMap.countriesByIso[pd.iso] === undefined;
                         },
                         tooltips: function (pd) {
-                            return '<h3>' + pd.name + '</h3>' + _.no_visit;
+                            var countryName = pd.name;
+                            for (var iso in self.config.countryNames) {
+                                if (UserCountryMap.ISO2toISO3[iso.toUpperCase()] == pd.iso) {
+                                    countryName = self.config.countryNames[iso];
+                                    break;
+                                }
+                            }
+                            return '<h3>' + countryName + '</h3>' + _.no_visit;
                         }
                     });
 
@@ -1245,12 +1256,18 @@
          */
         resize: function () {
             var ratio, w, h,
-                map = this.map,
-                maxHeight = $(window).height() - (this.theWidget && this.theWidget.isMaximised ? 150 : 79);
+                map = this.map;
+
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
             h = w / ratio;
-            h = Math.min(maxHeight, h);
+
+            // special handling for widgetize mode
+            if (!this.theWidget && map.container.parents('.widget').length) {
+                var maxHeight = $(window).height() - ($('html').height() - map.container.height());
+                h = Math.min(maxHeight, h);
+            }
+
             map.container.height(h - 2);
             map.resize(w, h);
 

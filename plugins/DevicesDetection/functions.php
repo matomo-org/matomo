@@ -127,7 +127,7 @@ function getDeviceTypeLabel($label)
         'desktop'       => 'General_Desktop',
         'smartphone'    => 'DevicesDetection_Smartphone',
         'tablet'        => 'DevicesDetection_Tablet',
-        'phablet'        => 'DevicesDetection_Phablet',
+        'phablet'       => 'DevicesDetection_Phablet',
         'feature phone' => 'DevicesDetection_FeaturePhone',
         'console'       => 'DevicesDetection_Console',
         'tv'            => 'DevicesDetection_TV',
@@ -340,7 +340,7 @@ function getBrowserEngineName($engineName) {
     $displayNames = array(
         'Trident' => 'Trident (IE)',
         'Gecko' => 'Gecko (Firefox)',
-        'KHTML' => 'KHTML (Konquerer)',
+        'KHTML' => 'KHTML (Konqueror)',
         'Presto' => 'Presto (Opera)',
         'WebKit' => 'WebKit (Safari, Chrome)',
         'Blink' => 'Blink (Chrome, Opera)'

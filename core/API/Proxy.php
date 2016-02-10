@@ -37,10 +37,7 @@ class Proxy extends Singleton
     // when a parameter doesn't have a default value we use this
     private $noDefaultValue;
 
-    /**
-     * protected constructor
-     */
-    protected function __construct()
+    public function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
     }
@@ -265,7 +262,7 @@ class Proxy extends Singleton
              * **Example**
              *
              *     // append (0 hits) to the end of row labels whose row has 0 hits for any report that has the 'nb_hits' metric
-             *     Piwik::addAction('API.Actions.getPageUrls', function (&$returnValue, $info)) {
+             *     Piwik::addAction('API.Actions.getPageUrls.end', function (&$returnValue, $info)) {
              *         // don't process non-DataTable reports and reports that don't have the nb_hits column
              *         if (!($returnValue instanceof DataTableInterface)
              *             || in_array('nb_hits', $returnValue->getColumns())

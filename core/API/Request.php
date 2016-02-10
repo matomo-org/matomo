@@ -36,12 +36,10 @@ use Piwik\Plugin\Manager as PluginManager;
  * ### Post-processing
  *
  * The return value of API methods undergo some extra processing before being returned by Request.
- * To learn more about what happens to API results, read [this](/guides/piwiks-web-api#extra-report-processing).
  *
  * ### Output Formats
  *
  * The value returned by Request will be serialized to a certain format before being returned.
- * To see the list of supported output formats, read [this](/guides/piwiks-web-api#output-formats).
  *
  * ### Examples
  *
@@ -279,6 +277,22 @@ class Request
     }
 
     /**
+     * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
+     * specified.
+     *
+     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @return bool
+     * @throws Exception
+     */
+    public static function isApiRequest($request)
+    {
+        $module = Common::getRequestVar('module', '', 'string', $request);
+        $method = Common::getRequestVar('method', '', 'string', $request);
+
+        return $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+    }
+
+    /**
      * If the token_auth is found in the $request parameter,
      * the current session will be authenticated using this token_auth.
      * It will overwrite the previous Auth object.
@@ -374,6 +388,7 @@ class Request
     {
         $params = array();
         $params['format'] = 'original';
+        $params['serialize'] = '0';
         $params['module'] = 'API';
         $params['method'] = $method;
         $params = $paramOverride + $params;

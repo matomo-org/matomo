@@ -8,9 +8,15 @@
 
 namespace Piwik\Tests\Unit\Period;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Week;
 
+/**
+ * Class WeekTest
+ * @package Piwik\Tests\Unit\Period
+ * @group WeekTest
+ */
 class WeekTest extends BasePeriodTest
 {
     /**
@@ -117,24 +123,63 @@ class WeekTest extends BasePeriodTest
         $this->assertEquals(7, $week->getNumberOfSubperiods());
     }
 
-    /**
-     * @group Core
-     */
-    public function testGetLocalizedShortString()
+    public function getLocalizedShortStrings()
     {
-        $week = new Week(Date::factory('2024-10-09'));
-        $shouldBe = '7 Oct - 13 Oct 24';
-        $this->assertEquals($shouldBe, $week->getLocalizedShortString());
+        return array(
+            array('en', array('Oct 7 – 13, 2024', 'Nov 25 – Dec 1, 2024', 'Dec 30, 2024 – Jan 5, 2025')),
+            array('lt', array('2024 Spal. 7–13', '2024 Lapkr. 25 – Gruod. 1', '2024 Gruod. 30 – 2025 Saus. 5')),
+            array('zh-cn', array('2024年10月7日至13日', '2024年11月25日至12月1日', '2024年12月30日至2025年01月5日')),
+        );
     }
 
     /**
      * @group Core
+     * @dataProvider getLocalizedShortStrings
      */
-    public function testGetLocalizedLongString()
+    public function testGetLocalizedShortString($language, $shouldBe)
     {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+        // a week within a month
         $week = new Week(Date::factory('2024-10-09'));
-        $shouldBe = 'Week 7 October - 13 October 2024';
-        $this->assertEquals($shouldBe, $week->getLocalizedLongString());
+        $this->assertEquals($shouldBe[0], $week->getLocalizedShortString());
+
+        // a week ending in another month
+        $week = new Week(Date::factory('2024-12-01'));
+        $this->assertEquals($shouldBe[1], $week->getLocalizedShortString());
+
+        // a week ending in another year
+        $week = new Week(Date::factory('2024-12-31'));
+        $this->assertEquals($shouldBe[2], $week->getLocalizedShortString());
+    }
+
+    public function getLocalizedLongStrings()
+    {
+        return array(
+            array('en', array('week October 7 – 13, 2024', 'week November 25 – December 1, 2024', 'week December 30, 2024 – January 5, 2025')),
+            array('es', array('semana 7–13 de Octubre de 2024', 'semana 25 de Noviembre–1 de Diciembre de 2024', 'semana 30 de Diciembre de 2024–5 de Enero de 2025')),
+            array('lt', array('savaitė 2024 Spalio 7–13', 'savaitė 2024 Lapkričio 25 – Gruodžio 1', 'savaitė 2024 Gruodžio 30 – 2025 Sausio 5')),
+            array('zh-cn', array('周 2024年10月7日至13日', '周 2024年11月25日至12月1日', '周 2024年12月30日至2025年01月5日')),
+        );
+    }
+
+    /**
+     * @group Core
+     * @dataProvider getLocalizedLongStrings
+     */
+    public function testGetLocalizedLongString($language, $shouldBe)
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+        // a week within a month
+        $week = new Week(Date::factory('2024-10-09'));
+        $this->assertEquals($shouldBe[0], $week->getLocalizedLongString());
+
+        // a week ending in another month
+        $week = new Week(Date::factory('2024-12-01'));
+        $this->assertEquals($shouldBe[1], $week->getLocalizedLongString());
+
+        // a week ending in another year
+        $week = new Week(Date::factory('2024-12-31'));
+        $this->assertEquals($shouldBe[2], $week->getLocalizedLongString());
     }
 
     /**

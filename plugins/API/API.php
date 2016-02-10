@@ -11,6 +11,7 @@ namespace Piwik\Plugins\API;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -22,7 +23,6 @@ use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
@@ -88,8 +88,9 @@ class API extends \Piwik\Plugin\API
      * are not visible in the UI and not present in the API meta data. These columns are
      * translated here.
      * @return array
+     * @deprecated since Piwik 2.15.1
      */
-    public static function getDefaultMetricTranslations()
+    public function getDefaultMetricTranslations()
     {
         return Metrics::getDefaultMetricTranslations();
     }
@@ -102,6 +103,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getAvailableMeasurableTypes()
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         $typeManager = new TypeManager();
         $types = $typeManager->getAllTypes();
 
@@ -120,10 +123,21 @@ class API extends \Piwik\Plugin\API
 
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
     {
-        $segments = array();
+        if (empty($idSites)) {
+            Piwik::checkUserHasSomeViewAccess();
+        } else {
+            Piwik::checkUserHasViewAccess($idSites);
+        }
 
+        $isNotAnonymous = !Piwik::isUserIsAnonymous();
+
+        $segments = array();
         foreach (Dimension::getAllDimensions() as $dimension) {
             foreach ($dimension->getSegments() as $segment) {
+                if ($segment->isRequiresAtLeastViewAccess()) {
+                    $segment->setPermission($isNotAnonymous);
+                }
+
                 $segments[] = $segment->toArray();
             }
         }
@@ -176,50 +190,6 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('API.getSegmentDimensionMetadata', array(&$segments, $idSites));
 
-        $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_UserId',
-            'segment'        => 'userId',
-            'acceptedValues' => 'any non empty unique string identifying the user (such as an email address or a username).',
-            'sqlSegment'     => 'log_visit.user_id',
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitorID',
-            'segment'        => 'visitorId',
-            'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
-            'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilterValue' => array('Piwik\Common', 'convertVisitorIdToBin'),
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('General_Visit') . " ID",
-            'segment'        => 'visitId',
-            'acceptedValues' => 'Any integer. ',
-            'sqlSegment'     => 'log_visit.idvisit',
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-
-        $segments[] = array(
-            'type'           => 'metric',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitorIP',
-            'segment'        => 'visitIp',
-            'acceptedValues' => '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255',
-            'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilterValue' => array('Piwik\Network\IPUtils', 'stringToBinaryIP'),
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-
         foreach ($segments as &$segment) {
             $segment['name'] = Piwik::translate($segment['name']);
             $segment['category'] = Piwik::translate($segment['category']);
@@ -228,11 +198,34 @@ class API extends \Piwik\Plugin\API
                 unset($segment['sqlFilter']);
                 unset($segment['sqlFilterValue']);
                 unset($segment['sqlSegment']);
+
+                if (isset($segment['suggestedValuesCallback'])
+                    && !is_string($segment['suggestedValuesCallback'])
+                ) {
+                    unset($segment['suggestedValuesCallback']);
+                }
             }
         }
 
         usort($segments, array($this, 'sortSegments'));
         return $segments;
+    }
+
+    /**
+     * @param $segmentName
+     * @param $table
+     * @return array
+     */
+    protected function getSegmentValuesFromVisitorLog($segmentName, $table)
+    {
+        // Cleanup data to return the top suggested (non empty) labels for this segment
+        $values = $table->getColumn($segmentName);
+
+
+        // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
+        $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
+        $values = array_merge($values, $valuesBis);
+        return $values;
     }
 
     private function sortSegments($row1, $row2)
@@ -266,6 +259,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
      * @return string
+     * @deprecated since Piwik 2.15.1
      */
     public function getLogoUrl($pathOnly = false)
     {
@@ -278,6 +272,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
      * @return string
+     * @deprecated since Piwik 2.15.1
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
@@ -316,6 +311,8 @@ class API extends \Piwik\Plugin\API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         if ($language) {
             /** @var Translator $translator */
             $translator = StaticContainer::get('Piwik\Translation\Translator');
@@ -341,6 +338,8 @@ class API extends \Piwik\Plugin\API
     public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false,
                                       $showSubtableReports = false)
     {
+        Piwik::checkUserHasViewAccess($idSites);
+
         $reporter = new ProcessedReport();
         $metadata = $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
@@ -349,11 +348,13 @@ class API extends \Piwik\Plugin\API
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
                                        $apiParameters = false, $idGoal = false, $language = false,
                                        $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
-                                       $format_metrics = null)
+                                       $format_metrics = null, $idDimension = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $reporter = new ProcessedReport();
         $processed = $reporter->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
-            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics);
+            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics, $idDimension);
 
         return $processed;
     }
@@ -363,6 +364,8 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $columns = Piwik::getArrayFromApiParameter($columns);
 
         // build columns map for faster checks later on
@@ -443,15 +446,21 @@ class API extends \Piwik\Plugin\API
      * @param bool|int $idGoal
      * @param bool|string $legendAppendMetric
      * @param bool|string $labelUseAbsoluteUrl
+     * @param bool|int $idDimension
      * @return array
      */
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl);
+            $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl, $idDimension);
     }
 
+    /**
+     * @deprecated
+     */
     public function getLastDate($date, $period)
     {
         $lastDate = Range::getLastDate($date, $period);
@@ -476,7 +485,21 @@ class API extends \Piwik\Plugin\API
 
         $result = array();
         foreach ($urls as $url) {
-            $req = new Request($url . '&format=php&serialize=0');
+            $params = Request::getRequestArrayFromString($url . '&format=php&serialize=0');
+
+            if (isset($params['urls']) && $params['urls'] == $urls) {
+                // by default 'urls' is added to $params as Request::getRequestArrayFromString adds all $_GET/$_POST
+                // default parameters
+                unset($params['urls']);
+            }
+
+            if (!empty($params['segment']) && strpos($url, 'segment=') > -1) {
+                // only unsanitize input when segment is actually present in URL, not when it was used from
+                // $defaultRequest in Request::getRequestArrayFromString from $_GET/$_POST
+                $params['segment'] = urlencode(Common::unsanitizeInputValue($params['segment']));
+            }
+
+            $req = new Request($params);
             $result[] = $req->process();
         }
         return $result;
@@ -506,9 +529,60 @@ class API extends \Piwik\Plugin\API
         if (empty(Config::getInstance()->General['enable_segment_suggested_values'])) {
             return array();
         }
+
         Piwik::checkUserHasViewAccess($idSite);
 
         $maxSuggestionsToReturn = 30;
+        $segment = $this->findSegment($segmentName, $idSite);
+
+        // if segment has suggested values callback then return result from it instead
+        $suggestedValuesCallbackRequiresTable = false;
+        if (isset($segment['suggestedValuesCallback'])) {
+            $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
+                $segment['suggestedValuesCallback']);
+
+            if (!$suggestedValuesCallbackRequiresTable) {
+                return call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
+            }
+        }
+
+        // if period=range is disabled, do not proceed
+        if (!Period\Factory::isPeriodEnabledForAPI('range')) {
+            return array();
+        }
+
+        if (!empty($segment['unionOfSegments'])) {
+            $values = array();
+            foreach ($segment['unionOfSegments'] as $unionSegmentName) {
+                $unionSegment = $this->findSegment($unionSegmentName, $idSite);
+
+                try {
+                    $result = $this->getSuggestedValuesForSegmentName($idSite, $unionSegment, $maxSuggestionsToReturn);
+                    if (!empty($result)) {
+                        $values = array_merge($result, $values);
+                    }
+                } catch (\Exception $e) {
+                    // we ignore if there was no data found for $unionSegmentName
+                }
+            }
+
+            if (empty($values)) {
+                throw new \Exception("There was no data to suggest for $segmentName");
+            }
+
+        } else {
+            $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
+        }
+
+        $values = $this->getMostFrequentValues($values);
+        $values = array_slice($values, 0, $maxSuggestionsToReturn);
+        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+
+        return $values;
+    }
+
+    private function findSegment($segmentName, $idSite)
+    {
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
 
         $segmentFound = false;
@@ -518,20 +592,16 @@ class API extends \Piwik\Plugin\API
                 break;
             }
         }
+
         if (empty($segmentFound)) {
-            throw new \Exception("Requested segment not found.");
+            throw new \Exception("Requested segment $segmentName not found.");
         }
 
-        // if segment has suggested values callback then return result from it instead
-        if (isset($segmentFound['suggestedValuesCallback'])) {
-            return call_user_func($segmentFound['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
-        }
+        return $segmentFound;
+    }
 
-        // if period=range is disabled, do not proceed
-        if (!Period\Factory::isPeriodEnabledForAPI('range')) {
-            return array();
-        }
-
+    private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
+    {
         $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
@@ -540,6 +610,8 @@ class API extends \Piwik\Plugin\API
         &format=original
         &serialize=0
         &flat=1";
+
+        $segmentName = $segment['segment'];
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
@@ -555,24 +627,43 @@ class API extends \Piwik\Plugin\API
 
         $request = new Request($requestLastVisits);
         $table = $request->process();
+
         if (empty($table)) {
             throw new \Exception("There was no data to suggest for $segmentName");
         }
 
-        // Cleanup data to return the top suggested (non empty) labels for this segment
-        $values = $table->getColumn($segmentName);
-
-        // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
-        $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
-        $values = array_merge($values, $valuesBis);
-
-        $values = $this->getMostFrequentValues($values);
-
-        $values = array_slice($values, 0, $maxSuggestionsToReturn);
-
-        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+        if (isset($segment['suggestedValuesCallback']) &&
+            $this->doesSuggestedValuesCallbackNeedData($segment['suggestedValuesCallback'])) {
+            $values = call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
+        } else {
+            $values = $this->getSegmentValuesFromVisitorLog($segmentName, $table);
+        }
 
         return $values;
+    }
+
+    /**
+     * A glossary of all reports and their definition
+     *
+     * @param $idSite
+     * @return array
+     */
+    public function getGlossaryReports($idSite)
+    {
+        $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
+        return $glossary->reportsGlossary($idSite);
+    }
+
+    /**
+     * A glossary of all metrics and their definition
+     *
+     * @param $idSite
+     * @return array
+     */
+    public function getGlossaryMetrics($idSite)
+    {
+        $glossary = StaticContainer::get('Piwik\Plugins\API\Glossary');
+        return $glossary->metricsGlossary($idSite);
     }
 
     /**
@@ -584,7 +675,9 @@ class API extends \Piwik\Plugin\API
         // If you update this, also update flattenVisitorDetailsArray
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
                                          'pageUrl', 'pageTitle', 'siteSearchKeyword',
-                                         'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
+                                         'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
+                                         'outlinkUrl', 'downloadUrl'
+        );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
         $isContentSegment = stripos($segmentName, 'content') !== false;
@@ -615,6 +708,23 @@ class API extends \Piwik\Plugin\API
         $values = array_keys($values);
         return $values;
     }
+
+    private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
+    {
+        if (is_string($suggestedValuesCallback)
+            && strpos($suggestedValuesCallback, '::') !== false
+        ) {
+            $suggestedValuesCallback = explode('::', $suggestedValuesCallback);
+        }
+
+        if (is_array($suggestedValuesCallback)) {
+            $methodMetadata = new \ReflectionMethod($suggestedValuesCallback[0], $suggestedValuesCallback[1]);
+        } else {
+            $methodMetadata = new \ReflectionFunction($suggestedValuesCallback);
+        }
+
+        return $methodMetadata->getNumberOfParameters() >= 3;
+    }
 }
 
 /**
@@ -628,9 +738,9 @@ class Plugin extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'

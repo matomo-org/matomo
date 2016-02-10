@@ -56,6 +56,7 @@ if (Piwik\Common::isPhpCliMode()) {
 
     $console->run();
 } else { // if running via web request, use CoreAdminHome.runCronArchiving method
+    Piwik\Common::sendHeader('Content-type: text/plain');
     $_GET['module'] = 'API';
     $_GET['method'] = 'CoreAdminHome.runCronArchiving';
     $_GET['format'] = 'console'; // will use Content-type text/plain

@@ -168,6 +168,10 @@ class DeleteLogsData extends ConsoleCommand
 
     private function askForDeleteConfirmation(InputInterface $input, OutputInterface $output)
     {
+        if ($input->getOption('no-interaction')) {
+            return true;
+        }
+
         $helper   = $this->getHelper('question');
         $question = new ConfirmationQuestion('<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ', false);
 

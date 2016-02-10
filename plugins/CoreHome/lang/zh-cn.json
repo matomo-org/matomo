@@ -8,7 +8,6 @@
         "DataForThisReportHasBeenPurged": "本报表数据超过 %s 个月已被清空。",
         "DataTableExcludeAggregateRows": "汇总行已显示 %s 隐藏汇总",
         "DataTableIncludeAggregateRows": "汇总行已隐藏 %s 显示汇总",
-        "DateFormat": "%longDay% %longYear% %longMonth% %day%",
         "Default": "默认",
         "DonateCall1": "Piwik 对您来说可以免费使用，但对我们来说并非零成本。",
         "DonateCall2": "Piwik 的茁壮成长离不开您的支持。",
@@ -25,12 +24,10 @@
         "InjectedHostSuperUserWarning": "可能 Piwik 配置有误 (例如，Piwik 刚移到新的服务器)。您可以 %1$s点这里添加 %2$s 为 Piwik 主机名 (如果您信任)%3$s, 或者 %4$s点这里转到 %5$s 安全访问 Piwik %6$s。",
         "InjectedHostWarningIntro": "您现在是通过 %1$s 访问 Piwik，但 Piwik 设置的地址是: %2$s.",
         "JavascriptDisabled": "使用 Piwik 的标准视图时必须启用 JavaScript。<br \/>然而，看来您的浏览器已停用或不支持 JavaScript。<br \/>若要使用标准视图，请修改您的浏览器选项并启用 JavaScript, 然后%1$s重试一次%2$s。<br \/>",
-        "LongMonthFormat": "%longYear%, %longMonth%",
-        "LongWeekFormat": "%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%",
         "MakeADifference": "现在就%1$s捐款%2$s给 Piwik 2.0 !",
         "MakeOneTimeDonation": "一次性捐款",
         "Menu": "菜单",
-        "NoPrivilegesAskPiwikAdmin": "您当前登录用户是 '%s' 但是没有 Piwik 权限。%s 联系 Piwik 管理员 (点击发送邮件)%s 获得 '查看' 权限。",
+        "NoPrivilegesAskPiwikAdmin": "您当前登录用户是 '%1$s' 但是没有 Piwik 权限。%2$s 联系 Piwik 管理员 (点击发送邮件)%3$s 获得 '查看' 权限。",
         "OnlyForSuperUserAccess": "这个小工具只对超级用户开放。",
         "PageOf": "%1$s，总共 %2$s",
         "PeriodRange": "时间段",
@@ -39,9 +36,6 @@
         "SharePiwikLong": "您好！我刚刚发现了一个很棒的开源软件: Piwik！\n\nPiwik 可以免费统计网站的访问情况，您一定要看一看！",
         "SharePiwikShort": "Piwik！自由和开源的网络分析程序，掌控您自己的统计数据。",
         "ShareThis": "分享这个",
-        "ShortDateFormat": "%shortDay% %shortMonth%%day%日",
-        "ShortMonthFormat": "%longYear% %shortMonth%",
-        "ShortWeekFormat": "%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%",
         "ShowJSCode": "显示插入的Javascript代码",
         "SkipToContent": "跳过，查看内容",
         "SubscribeAndBecomePiwikSupporter": "进入安全的信用卡付款页面 (Paypal) 支持 Piwik !",
@@ -54,6 +48,6 @@
         "YouAreUsingTheLatestVersion": "您正在使用最新版的 Piwik！",
         "ClickRowToExpandOrContract": "点击这行可以扩展或压缩小工作台。",
         "UndoPivotBySubtable": "这个报表被 pivot 了 %s 撤销 Pivot",
-        "PivotBySubtable": "这个报表尚未 pivot %s 以 %s 的身份 pivot"
+        "PivotBySubtable": "这个报表尚未 pivot %1$s 以 %2$s 的身份 pivot"
     }
 }

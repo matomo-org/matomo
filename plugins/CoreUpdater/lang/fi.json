@@ -22,7 +22,7 @@
         "HelpMessageContent": "Tarkista %1$s Piwikin FAQ:sta%2$s yleisimmät virheet. %3$s Kysy järjestelmän ylläpitäjältä - he voivat auttaa virheissä, jotka johtuvat luultavasti palvelimesta tai tietokannasta.",
         "HelpMessageIntroductionWhenError": "Alla on ytimen virheviesti: Sen pitäisi auttaa virheen etsimisessä, mutta jos tarvitset lisää apua:",
         "HelpMessageIntroductionWhenWarning": "Päivitys valmistui onnistuneesti, mutta prosessin aikana tapahtui virheitä. Ole hyvä ja lue alla olevat kuvaukset. Lisää apua:",
-        "HighTrafficPiwikServerEnableMaintenance": "Jos Piwik-palvelimellasi on suuria määriä liikennettä, suosittelemme %spoistamaan käyttäjäseurannan hetkellisesti käytöstä ja laittamaan Piwikin käyttäjäliittymän huoltotilaan%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Jos Piwik-palvelimellasi on suuria määriä liikennettä, suosittelemme %1$spoistamaan käyttäjäseurannan hetkellisesti käytöstä ja laittamaan Piwikin käyttäjäliittymän huoltotilaan%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Huom. Osa lisäosista ei ole yhteensopivia Piwikin kanssa: %s. Nämä poistetaan käytöstä kun päivität:",
         "InstallingTheLatestVersion": "Asennetaan uusinta versiota",
         "MajorUpdateWarning1": "Tämä on iso päivitys! Päivityksessä kestää kauemmin kuin normaalisti.",

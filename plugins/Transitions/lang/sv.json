@@ -16,12 +16,12 @@
         "NoDataForAction": "Det finns inga data för %s",
         "NoDataForActionDetails": "Antingen har händelsen inte haft några sidvisningar under perioden %s eller så är den ogiltig.",
         "OutgoingTraffic": "Utgående trafik",
-        "ShareOfAllPageviews": "Den här sidan hade %s sidvisningar (%s av alla sidvisningar)",
+        "ShareOfAllPageviews": "Den här sidan hade %1$s sidvisningar (%2$s av alla sidvisningar)",
         "ToFollowingPages": "Till interna sidor",
         "ToFollowingPagesInline": "%s till interna sidor",
         "ToFollowingSiteSearches": "Interna Sökningar",
         "ToFollowingSiteSearchesInline": "%s interna sökningar",
         "XOfAllPageviews": "%s av alla sidvisningar",
-        "XOutOfYVisits": "%s (av %s)"
+        "XOutOfYVisits": "%1$s (av %2$s)"
     }
 }

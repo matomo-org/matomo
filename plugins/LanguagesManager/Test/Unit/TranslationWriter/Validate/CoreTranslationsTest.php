@@ -22,8 +22,7 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
                 array(
                     'General' => array_merge(array_fill(0, 251, 'test'), array(
                                                                               'Locale'          => 'de_DE.UTF-8',
-                                                                              'TranslatorName'  => 'name',
-                                                                              'TranslatorEmail' => 'email',
+                                                                              'TranslatorName'  => 'name'
                                                                          )
                     )
                 ),
@@ -64,18 +63,8 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'General' => array(
-                        'Locale' => 'de_DE.UTF-8',
-                        'TranslatorName' => 'name',
-                    )
-                ),
-                CoreTranslations::ERRORSTATE_TRANSLATOREMAILREQUIRED
-            ),
-            array(
-                array(
-                    'General' => array(
                         'Locale' => 'invalid',
-                        'TranslatorName' => 'name',
-                        'TranslatorEmail' => 'emails',
+                        'TranslatorName' => 'name'
                     )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALID
@@ -84,8 +73,7 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
                 array(
                     'General' => array(
                         'Locale' => 'xx_DE.UTF-8',
-                        'TranslatorName' => 'name',
-                        'TranslatorEmail' => 'emails',
+                        'TranslatorName' => 'name'
                     )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE
@@ -94,8 +82,7 @@ class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
                 array(
                     'General' => array(
                         'Locale' => 'de_XX.UTF-8',
-                        'TranslatorName' => 'name',
-                        'TranslatorEmail' => 'emails',
+                        'TranslatorName' => 'name'
                     )
                 ),
                 CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY

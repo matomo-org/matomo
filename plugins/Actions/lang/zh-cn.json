@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "平均值基于 %s 次访问 %s，介于 %s 和 %s 之间",
+        "AvgGenerationTimeTooltip": "平均值基于 %1$s 次访问 %2$s，介于 %3$s 和 %4$s 之间",
         "ColumnClickedURL": "点击的网址",
         "ColumnClicks": "点击次数",
         "ColumnClicksDocumentation": "链接被点击的次数",
@@ -37,8 +37,9 @@
         "OutlinkDocumentation": "离站链接指导致访客离开您的网站或域名的链接。",
         "OutlinksReportDocumentation": "本报表显示访客点击的离站链接网址的的分级列表。",
         "PagesReportDocumentation": "本报表显示被访问的网页地址。%s 表格分级归类，网址按照目录结构显示。",
-        "PageTitlesReportDocumentation": "本报表显示被访问页面的标题。%s 网页标题为 HTML %s 标签，多数浏览器显示为窗口的标题。",
+        "PageTitlesReportDocumentation": "本报表显示被访问页面的标题。%1$s 网页标题为 HTML %2$s 标签，多数浏览器显示为窗口的标题。",
         "PageUrls": "页面地址",
+        "PluginDescription": "有关页面访问量和页面标题的报告。让你衡量你的内部网站的搜索引擎。自动跟踪外部链接和文件下载点击。",
         "SiteSearchCategories1": "本报表显示访客使用站内搜索时选择的分类。",
         "SiteSearchCategories2": "例如，购物网站通常有个\"分类\"选项，访客可以限制在某个分类中搜索产品。",
         "SiteSearchFollowingPagesDoc": "当访客在网站上搜索时，他们是在寻找特定的页面、内容、产品或者服务，本报表显示站内搜索后点击最多的页面。也就是说，显示了已有访客搜索最多的页面。",

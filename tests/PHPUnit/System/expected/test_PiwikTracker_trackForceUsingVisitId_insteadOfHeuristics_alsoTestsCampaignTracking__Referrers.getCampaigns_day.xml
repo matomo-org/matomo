@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>ga campaign</label>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
-		<nb_visits>4</nb_visits>
-		<nb_actions>4</nb_actions>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
 		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>1084</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<bounce_count>5</bounce_count>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -38,6 +38,17 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>42.26</revenue>
+			</row>
+			<row>
+				<label>some keyword</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 			</row>
 			<row>
 				<label>thing1.com</label>
@@ -228,6 +239,64 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>42</revenue>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>gifted search</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>0</revenue>
+		<segment>referrerType==campaign;referrerName==gifted+search</segment>
+		<subtable>
+			<row>
+				<label>xavierinstitute.org</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>recruiting drive</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==recruiting+drive</segment>
+		<subtable>
+			<row>
+				<label>am i a mutant?</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 			</row>
 		</subtable>
 	</row>

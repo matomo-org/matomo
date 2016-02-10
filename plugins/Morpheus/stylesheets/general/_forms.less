@@ -89,14 +89,9 @@ select {
     }
 
     .form-help {
-        .alert;
-        .alert-info;
         float: right;
         width: 58%;
         margin-bottom: 0;
-        // Smaller padding to match input's heights
-        padding-top: 11px;
-        padding-bottom: 10px;
     }
 
     label .form-description {
@@ -120,6 +115,19 @@ select {
     }
 }
 
+// TODO Form helps are used outside of forms in UserCountry (old table layout)
+// Once this plugin uses the new form layout, move those rules back into ".form-group .form-help"
+.form-help {
+    .alert;
+    .alert-info;
+    // Smaller padding to match input's heights
+    padding: 11px 20px 10px;
+    &:before {
+        // Remove the icon
+        content: "";
+    }
+}
+
 .form-description {
     color: @theme-color-text-lighter;
     font-style: italic;
@@ -131,6 +139,7 @@ select {
 }
 
 .top_bar_sites_selector {
+    z-index: 143;
     .sites_autocomplete .custom_select {
         z-index: 139;
     }
@@ -139,30 +148,6 @@ select {
 .sites_autocomplete {
     input {
         min-height: 0;
-    }
-    .custom_select {
-        border-color: @theme-color-background-lowContrast;
-        .border-radius(0px);
-        background: @theme-color-background-base;
-        padding: 0;
-        color: @theme-color-text;
-        text-transform: uppercase;
-        .font-default(10px, 12px);
-        min-height: 30px;
-        .box-sizing(border-box);
-        a {
-            color: @theme-color-text;
-            &:hover {
-                text-decoration: none;
-            }
-        }
-        .custom_select_block {
-            .custom_select_container {
-                .custom_select_ul_list {
-                    margin-top: 20px;
-                }
-            }
-        }
     }
 }
 
@@ -174,19 +159,6 @@ select {
     padding: 20px 25px;
     text-align: center;
     font-weight: normal;
-}
-
-.sites_autocomplete--dropdown {
-    .custom_select_main_link:not(.loading):before {
-        color: @theme-color-brand;
-        font-size: 0.7em;
-        top: 4px;
-        right: 10px;
-        content: '';
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 5px solid @theme-color-brand;
-    }
 }
 
 .limitSelection {

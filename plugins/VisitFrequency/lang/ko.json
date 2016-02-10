@@ -10,6 +10,8 @@
         "ColumnReturningVisits": "돌아온 방문 수",
         "ColumnSumVisitLengthReturning": "리피터의 총 머문 시간 (초)",
         "ColumnUniqueReturningVisitors": "고유한 돌아온 방문자",
+        "ColumnReturningUsers": "돌아온 사용자",
+        "PluginDescription": "처음 방문한 방문자와 다시 돌아온 방문자에 대한",
         "ReturnActions": "%s 돌아온 방문의 활동",
         "ReturnAverageVisitDuration": "%s 돌아온 방문자의 평균 방문 시간",
         "ReturnAvgActions": "%s 돌아온 방문당 활동",
@@ -17,8 +19,8 @@
         "ReturningVisitDocumentation": "돌아온 방문은 (신규 방문과는 대조적으로), 적어도 한 번은 이전에 웹 사이트를 방문한 사람에 의해 이루어집니다.",
         "ReturningVisitsDocumentation": "돌아온 방문 개요입니다.",
         "ReturnVisits": "%s 돌아온 방문",
-        "SubmenuFrequency": "프리퀸시",
+        "SubmenuFrequency": "빈도",
         "WidgetGraphReturning": "돌아온 방문 수 그래프",
-        "WidgetOverview": "프리퀸시 개요"
+        "WidgetOverview": "빈도 개요"
     }
 }

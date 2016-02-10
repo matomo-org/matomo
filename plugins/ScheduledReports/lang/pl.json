@@ -5,7 +5,7 @@
         "AggregateReportsFormat_TablesAndGraphs": "Wyświetlane tabeli i wykresów dla wszystkich raportów",
         "AggregateReportsFormat_TablesOnly": "(domyślny) Wyświetlane tabele raportu (wykresy tylko dla kluczowych wskaźników)",
         "AlsoSendReportToTheseEmails": "Również wyślij raport na podane adresy e-mail (jeden na linię):",
-        "CancelAndReturnToReports": "Anuluj i %spowróć do listy raportów%s",
+        "CancelAndReturnToReports": "Anuluj i %1$spowróć do listy raportów%2$s",
         "CreateAndScheduleReport": "Utwórz i zaplanuj raport",
         "CreateReport": "Utwórz raport",
         "DescriptionOnFirstPage": "Opis będzie wyświetlany na pierwszej stronie raportu.",

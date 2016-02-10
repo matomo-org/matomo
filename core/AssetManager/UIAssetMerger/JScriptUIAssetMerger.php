@@ -37,15 +37,13 @@ class JScriptUIAssetMerger extends UIAssetMerger
 
     protected function getMergedAssets()
     {
-        $concatenatedAssets = $this->getConcatenatedAssets();
-
-        return str_replace("\n", "\r\n", $concatenatedAssets);
+        return $this->getConcatenatedAssets();
     }
 
     protected function generateCacheBuster()
     {
         $cacheBuster = $this->cacheBuster->piwikVersionBasedCacheBuster($this->getPlugins());
-        return "/* Piwik Javascript - cb=" . $cacheBuster . "*/\r\n";
+        return "/* Piwik Javascript - cb=" . $cacheBuster . "*/\n";
     }
 
     protected function getPreamble()
@@ -74,7 +72,7 @@ class JScriptUIAssetMerger extends UIAssetMerger
 
     public function getFileSeparator()
     {
-        return PHP_EOL;
+        return "\n";
     }
 
     protected function processFileContent($uiAsset)

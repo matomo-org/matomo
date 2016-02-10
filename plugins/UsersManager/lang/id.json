@@ -6,7 +6,6 @@
         "AnonymousUserHasViewAccess": "Catatan: pengguna %1$s memiliki akses %2$s di situs ini.",
         "AnonymousUserHasViewAccess2": "Laporan analitis dan informasi pengunjung Anda dapat dilihat secara terbuka.",
         "ApplyToAllWebsites": "Terapkan ke seluruh situs",
-        "ChangeAllConfirm": "Apakah Anda yakin mengubah perizinan '%s' seluruh situs?",
         "ChangePasswordConfirm": "Mengubah sandi juga mengubah token_auth pengguba. Yakin melanjutkan?",
         "ClickHereToDeleteTheCookie": "Klik di sini untuk menghapus kuki dan mengizinkan Piwik melacak kunjungan Anda",
         "ClickHereToSetTheCookieOnDomain": "Klik di sini untuk mengatur kuki yang akan mengecualikan kunjungan Anda ke situs yang dilacak oleh Piwik %s",
@@ -19,16 +18,13 @@
         "ExceptionEditAnonymous": "Pengguna anonim tidak dapat dihapus atau disunting. Piwik menggunakan pengguna ini untuk menjelaskan pengguna yang belum masuk. Misalnya, Anda dapat membuat statistik publik Anda dengan memberi hak `Tampil` untuk pengguna 'anonim'.",
         "ExceptionEmailExists": "Pengguna dengan surel '%s' telah tersedia.",
         "ExceptionInvalidEmail": "Surel tidak memiliki bentuk sahih.",
-        "ExceptionInvalidLoginFormat": "Nama-id harus memiliki panjang antara %1$s dan %2$s karakter dan mengandung hanya huruf, angka, atau karakter '_' atau '-' atau '.' atau '@' atau '+'",
         "ExceptionInvalidPassword": "Panjang sandi harus antara %1$s dan %2$s karakter.",
-        "ExceptionLoginExists": "Nama-id '%s' telah tersedia.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth membutuhkan sandi acak MD5 (32 karakter larik panjang). Silakan panggil fungsi md5() dalam sandi sebelum memanggil metode ini.",
         "ExceptionUserDoesNotExist": "Pengguan '%s' tida ada.",
         "ExcludeVisitsViaCookie": "Kecualikan kunjungan Anda menggunakan kuki",
         "ForAnonymousUsersReportDateToLoadByDefault": "Tanggal laporan yang dimuat secara asali untuk pengguna anonim",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Bila Anda ingin mengganti sandi, ketik sandi baru. Bila tidak, biarkan ini kosong.",
         "InjectedHostCannotChangePwd": "Sekarang Anda berkunjung dengan inang yang tidak dikenal (%1$s). Anda tidak dapat mengubah sandi Anda hingga masalah ini diperbaiki.",
-        "MainDescription": "Tentukan pengguna yang memilik akses Piwik ke situs Anda. Anda juga dapat mengatur perizinan seluruh Situs dalam satu kali.",
         "ManageAccess": "Atur akses",
         "MenuAnonymousUserSettings": "Pengaturan pengguna anonim",
         "MenuUsers": "Pengguna",
@@ -47,7 +43,7 @@
         "UsersManagementMainDescription": "Menciptakan pengguna baru atau memperbarui pengguna yang telah ada. Anda dapat mengatur perizinan di atas.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Bila pengguna tidak masuk-log dan mengunjungi Piwik, mereka harus mengakses",
         "YourUsernameCannotBeChanged": "Nama-id Anda tidak dapat diubah.",
-        "YourVisitsAreIgnoredOnDomain": "%sKunjungan Anda diabaikan oleh Piwik dalam %s %s (kuki pengecualian ditemukan dalam peramban Anda).",
-        "YourVisitsAreNotIgnored": "%sKunjungan Anda tidak diabaikan oleh Piwik%s (kuki pengecualian tidak ditemukan dalam peramban Anda)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sKunjungan Anda diabaikan oleh Piwik dalam %2$s %3$s (kuki pengecualian ditemukan dalam peramban Anda).",
+        "YourVisitsAreNotIgnored": "%1$sKunjungan Anda tidak diabaikan oleh Piwik%2$s (kuki pengecualian tidak ditemukan dalam peramban Anda)."
     }
 }

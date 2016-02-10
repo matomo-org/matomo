@@ -18,27 +18,34 @@
 (function () {
     angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', piwikAutocompleteMatched);
 
-    function piwikAutocompleteMatched() {
-        return function(scope, element, attrs) {
-            var searchTerm;
+    piwikAutocompleteMatched.$inject = ['piwik', '$sanitize'];
 
-            scope.$watch(attrs.piwikAutocompleteMatched, function(value) {
-                searchTerm = value;
-                updateText();
-            });
+    function piwikAutocompleteMatched(piwik, $sanitize) {
 
-            function updateText () {
-                if (!searchTerm || !element) {
-                    return;
-                }
+        return {
+            priority: 10, // makes sure to render after other directives, otherwise the content might be overwritten again see https://github.com/piwik/piwik/pull/8467
+            link: function (scope, element, attrs) {
+                var searchTerm;
 
-                var content   = element.html();
-                var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
+                scope.$watch(attrs.piwikAutocompleteMatched, function (value) {
+                    searchTerm = value;
+                    updateText();
+                });
 
-                if (-1 !== startTerm) {
-                    var word = content.substr(startTerm, searchTerm.length);
-                    content = content.replace(word, '<span class="autocompleteMatched">' + word + '</span>');
-                    element.html(content);
+                function updateText() {
+                    if (!searchTerm || !element) {
+                        return;
+                    }
+
+                    var content = piwik.helper.htmlEntities(element.text());
+                    var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
+
+                    if (-1 !== startTerm) {
+                        var word = content.substr(startTerm, searchTerm.length);
+                        var escapedword = $sanitize(piwik.helper.htmlEntities(word));
+                        content = content.replace(word, '<span class="autocompleteMatched">' + escapedword + '</span>');
+                        element.html(content);
+                    }
                 }
             }
         };

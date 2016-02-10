@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UserCountryMap;
 
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Version;
 use Piwik\WidgetsList;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -29,7 +28,7 @@ class UserCountryMap extends \Piwik\Plugin
         $out .= FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
     }
 
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',

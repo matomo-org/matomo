@@ -17,12 +17,13 @@ use Piwik\FrontController;
 class UserLanguage extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
-            'Live.getAllVisitorDetails'              => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
+            'Request.getRenamedModuleAndAction' => 'renameUserSettingsModuleAndAction',
         );
     }
 
@@ -43,5 +44,12 @@ class UserLanguage extends \Piwik\Plugin
     {
         $out .= '<h2 piwik-enriched-headline>' . Piwik::translate('UserLanguage_BrowserLanguage') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('UserLanguage', 'getLanguage');
+    }
+
+    public function renameUserSettingsModuleAndAction(&$module, &$action)
+    {
+        if ($module == 'UserSettings' && ($action == 'getLanguage' || $action == 'getLanguageCode')) {
+            $module = 'UserLanguage';
+        }
     }
 }

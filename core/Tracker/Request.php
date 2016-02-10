@@ -43,6 +43,15 @@ class Request
 
     protected $tokenAuth;
 
+    /**
+     * Stores plugin specific tracking request metadata. RequestProcessors can store
+     * whatever they want in this array, and other RequestProcessors can modify these
+     * values to change tracker behavior.
+     *
+     * @var string[][]
+     */
+    private $requestMetadata = array();
+
     const UNKNOWN_RESOLUTION = 'unknown';
 
     const CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN = 14400; // 4 hours
@@ -73,6 +82,13 @@ class Request
             if (!empty($url)) {
                 $this->params['url'] = $url;
             }
+        }
+
+        // check for 4byte utf8 characters in url and replace them with �
+        // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
+        if (array_key_exists('url', $this->params) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $this->params['url'])) {
+            Common::printDebug("Unsupport character detected. Replacing with \xEF\xBF\xBD");
+            $this->params['url'] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $this->params['url']);
         }
     }
 
@@ -136,6 +152,8 @@ class Request
                 $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
                 $cache->save($cacheKey, $this->isAuthenticated);
             } catch (Exception $e) {
+                Common::printDebug("could not authenticate, caught exception: " . $e->getMessage());
+
                 $this->isAuthenticated = false;
             }
 
@@ -270,6 +288,15 @@ class Request
             'i' => (string)Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
             's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
         );
+        if($localTimes['h'] < 0 || $localTimes['h'] > 23) {
+            $localTimes['h'] = 0;
+        }
+        if($localTimes['i'] < 0 || $localTimes['i'] > 59) {
+            $localTimes['i'] = 0;
+        }
+        if($localTimes['s'] < 0 || $localTimes['s'] > 59) {
+            $localTimes['s'] = 0;
+        }
         foreach ($localTimes as $k => $time) {
             if (strlen($time) == 1) {
                 $localTimes[$k] = '0' . $time;
@@ -374,6 +401,16 @@ class Request
         }
 
         return $this->paramsCache[$name];
+    }
+
+    public function setParam($name, $value)
+    {
+        $this->params[$name] = $value;
+        unset($this->paramsCache[$name]);
+
+        if ($name === 'cdt') {
+            $this->cdtCache = null;
+        }
     }
 
     private function hasParam($name)
@@ -529,7 +566,7 @@ class Request
         }
 
         $customVariables = array();
-        $maxCustomVars   = CustomVariables::getMaxCustomVariables();
+        $maxCustomVars   = CustomVariables::getNumUsableCustomVariables();
 
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
@@ -761,5 +798,29 @@ class Request
         }
 
         return $cip;
+    }
+
+    /**
+     * Set a request metadata value.
+     *
+     * @param string $pluginName eg, `'Actions'`, `'Goals'`, `'YourPlugin'`
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setMetadata($pluginName, $key, $value)
+    {
+        $this->requestMetadata[$pluginName][$key] = $value;
+    }
+
+    /**
+     * Get a request metadata value. Returns `null` if none exists.
+     *
+     * @param string $pluginName eg, `'Actions'`, `'Goals'`, `'YourPlugin'`
+     * @param string $key
+     * @return mixed
+     */
+    public function getMetadata($pluginName, $key)
+    {
+        return isset($this->requestMetadata[$pluginName][$key]) ? $this->requestMetadata[$pluginName][$key] : null;
     }
 }

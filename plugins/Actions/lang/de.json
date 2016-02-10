@@ -1,7 +1,8 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Durchschnitt basierend auf %s Aufruf(en) %s zwischen %s und %s",
+        "AvgGenerationTimeTooltip": "Durchschnitt basierend auf %1$s Aufruf(en) %2$s zwischen %3$s und %4$s",
         "ColumnClickedURL": "Angeklickte URL",
+        "ColumnActionURL": "Aktions-URL",
         "ColumnClicks": "Klicks",
         "ColumnClicksDocumentation": "Anzahl der Klicks auf diesen Link.",
         "ColumnDownloadURL": "Download-URL",
@@ -29,15 +30,15 @@
         "EntryPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Einstiegsseiten. Die Einstiegsseite ist die erste Seite, die während eines Besuches aufgerufen wird. %s Die URLs werden als Ordnerstruktur angezeigt.",
         "EntryPageTitles": "Titel der Einstiegsseite",
         "EntryPageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Titel der Einstiegsseiten, die im angeforderten Zeitraum verwendet wurden.",
-        "ExitPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Ausstiegsseiten. Die Ausstiegsseite ist die letzte Seite, die während eines Besuches aufgerufen wird. %s Die URLs werden als Ordnerstruktur angezeigt.",
+        "ExitPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Ausstiegsseiten die im gewählten Zeitraum auftraten. Die Ausstiegsseite ist die letzte Seite, die während eines Besuches aufgerufen wird. %s Die URLs der Ausstiegsseiten werden als Ordnerstruktur angezeigt.",
         "ExitPageTitles": "Titel der Ausstiegsseite",
         "ExitPageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Titel der Ausstiegsseiten, die angeforderten Zeitraum verwendet wurden.",
         "LearnMoreAboutSiteSearchLink": "Mehr Informationen über das Auswerten der internen Suche.",
         "OneSearch": "1 Suche",
         "OutlinkDocumentation": "Ein ausgehender Verweis ist ein Link der einen Besucher auf eine andere Website führt (auf eine andere Domain).",
-        "OutlinksReportDocumentation": "Dieser Bericht zeigt eine hierarchisch angeordnete Liste von ausgehenden Links, die von den Besuchern angeklickt wurden.",
+        "OutlinksReportDocumentation": "Dieser Bericht zeigt eine hierarchisch angeordnete Liste von ausgehenden Links, die von ihren Besuchern angeklickt wurden.",
         "PagesReportDocumentation": "Dieser Bericht enthält Informationen über die URLs der besuchten Seiten. %s Die Tabelle ist hierarchisch strukturiert, die URLs werden als Ordnerstruktur angezeigt.",
-        "PageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Seitentitel der besuchten Seiten. %s Der Seitentitel ist der HTML %s Tag, der von den meisten Browsern in ihrer Titelleiste angezeigt wird.",
+        "PageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Seitentitel der besuchten Seiten. %1$s Der Seitentitel ist der HTML %2$s Tag, der von den meisten Browsern in ihrer Titelleiste angezeigt wird.",
         "PageUrls": "Seiten URL",
         "PluginDescription": "Berichte über die Seitenansichten und Seitentitel. Lässt Sie die internen Suchmaschinen Ihrer Website erfassen. Trackt Klicks auf externe Links und Dateidownloads automatisch.",
         "SiteSearchCategories1": "Dieser Bericht zeigt die Kategorien, welche bei der internen Suche ausgewählt wurden.",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Besuchte Seiten nach einer internen Suche",
         "WidgetSearchCategories": "Suchkategorien",
         "WidgetSearchKeywords": "Suchbegriffe (interne Suche)",
-        "WidgetSearchNoResultKeywords": "Suchbegriffe ohne Ergebnisse"
+        "WidgetSearchNoResultKeywords": "Suchbegriffe ohne Ergebnisse",
+        "ActionType": "Typ der Aktion"
     }
 }

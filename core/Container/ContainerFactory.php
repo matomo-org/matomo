@@ -79,17 +79,17 @@ class ContainerFactory
 
         // Development config
         if ($this->isDevelopmentModeEnabled()) {
-            $builder->addDefinitions(PIWIK_USER_PATH . '/config/environment/dev.php');
-        }
-
-        // User config
-        if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
-            $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
+            $this->addEnvironmentConfig($builder, 'dev');
         }
 
         // Environment config
         foreach ($this->environments as $environment) {
             $this->addEnvironmentConfig($builder, $environment);
+        }
+
+        // User config
+        if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
+            $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
         }
 
         if (!empty($this->definitions)) {
@@ -116,6 +116,17 @@ class ContainerFactory
         if (file_exists($file)) {
             $builder->addDefinitions($file);
         }
+
+        // add plugin environment configs
+        $plugins = $this->pluginList->getActivatedPlugins();
+        foreach ($plugins as $plugin) {
+            $baseDir = Manager::getPluginsDirectory() . $plugin;
+
+            $environmentFile = $baseDir . '/config/' . $environment . '.php';
+            if (file_exists($environmentFile)) {
+                $builder->addDefinitions($environmentFile);
+            }
+        }
     }
 
     private function addPluginConfigs(ContainerBuilder $builder)
@@ -128,13 +139,6 @@ class ContainerFactory
             $file = $baseDir . '/config/config.php';
             if (file_exists($file)) {
                 $builder->addDefinitions($file);
-            }
-
-            foreach ($this->environments as $environment) {
-                $environmentFile = $baseDir . '/config/' . $environment . '.php';
-                if (file_exists($environmentFile)) {
-                    $builder->addDefinitions($environmentFile);
-                }
             }
         }
     }

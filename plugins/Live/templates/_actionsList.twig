@@ -83,7 +83,7 @@
             {% endif %}
             {% if action.siteSearchKeyword is defined %}
                 {% if action.type == 'search' %}
-                    <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}' class="action-list-action-icon">
+                    <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}' class="action-list-action-icon search">
                 {% endif %}
                 <span class="truncated-text-line">{{ action.siteSearchKeyword }}</span>
             {% endif %}
@@ -94,7 +94,7 @@
             {% if action.url is not empty %}
                 {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
                 {% if action.type == 'download' or action.type == 'outlink' %}
-                    <img src='{{ action.icon }}' class="action-list-action-icon">
+                    <img src='{{ action.icon }}' class="action-list-action-icon {{ action.type }}">
                 {% endif %}
 
                 {% if action.eventCategory|default(false) is not empty
@@ -103,11 +103,7 @@
                 {% else %}
                     <a href="{{ action.url }}" rel="noreferrer" target="_blank" class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
                        {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="text-decoration:underline;"{% endif %}>
-                       {% if action.eventCategory|default(false) is not empty %}
-                           (url)
-                       {% else %}
-                           {{ action.url }}
-                       {% endif %}
+                       {{ action.url }}
                     </a>
                 {% endif %}
                 {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}

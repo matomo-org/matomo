@@ -1,9 +1,10 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Średnia podstawa dla %s trafień %s pomiędzy %s i %s",
+        "AvgGenerationTimeTooltip": "Średnia podstawa dla %1$s trafień %2$s pomiędzy %3$s i %4$s",
         "ColumnClickedURL": "Kliknięty link URL",
+        "ColumnActionURL": "Adres URL Akcji",
         "ColumnClicks": "Kliknięcia",
-        "ColumnClicksDocumentation": "Ile razy ten link został kliknięty.",
+        "ColumnClicksDocumentation": "Ilość kliknięć na ten link.",
         "ColumnDownloadURL": "Adres URL pobrań",
         "ColumnEntryPageTitle": "Tytuł stron z których wchodzono",
         "ColumnEntryPageURL": "Adres URL stron z których wchodzono",
@@ -37,7 +38,7 @@
         "OutlinkDocumentation": "Link wyjściowy to link który prowadzi odwiedzającego poza twoją stronę (do innej domeny).",
         "OutlinksReportDocumentation": "Ten raport pokazuje ustrukturyzowaną listę linków wychodzących które zostały kliknięte przez odwiedzających.",
         "PagesReportDocumentation": "Ten raport zawiera informację o URL-ach stron które zostały odwiedzone. %s Tabela jest organizowana w hierarchii, URL-e są wyświetlane z uwzględnieniem struktury katalogów.",
-        "PageTitlesReportDocumentation": "Ten raport zawiera informację o tytułach stron które zostały odwiedzone. %s Tytuł stron to %s znacznik HTML które większość przeglądarek wyświetla na belce tytułowej okna.",
+        "PageTitlesReportDocumentation": "Ten raport zawiera informację o tytułach stron które zostały odwiedzone. %1$s Tytuł stron to %2$s znacznik HTML które większość przeglądarek wyświetla na belce tytułowej okna.",
         "PageUrls": "Strony URL",
         "PluginDescription": "Raporty dotyczące odwiedzin i tytułów stron. Pozwala na analizę działania wewnętrznej wyszukiwarki serwisu. Automatycznie śledzi kliknięcia na linkach zewnętrznych i pobraniach plików.",
         "SiteSearchCategories1": "Ten raport wyświetla listę Kategorii które odwiedzający wybrali kiedy używali wyszukiwarki na twojej stronie.",
@@ -59,7 +60,8 @@
         "WidgetPageTitlesFollowingSearch": "Tytuły Stron po Wyszukiwaniu Strony",
         "WidgetPageUrlsFollowingSearch": "Strony Występujące po Wyszukiwaniu Stron",
         "WidgetSearchCategories": "Kategorie wyszukiwań",
-        "WidgetSearchKeywords": "Słowa Kluczowe Wyszukiwarki",
-        "WidgetSearchNoResultKeywords": "Słowa Kluczowe bez Wyników"
+        "WidgetSearchKeywords": "Słowa kluczowe wyszukiwarki",
+        "WidgetSearchNoResultKeywords": "Słowa Kluczowe bez Wyników",
+        "ActionType": "Typ Akcji"
     }
 }

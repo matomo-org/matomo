@@ -29,21 +29,34 @@
 [submodule "tests/UI/expected-ui-screenshots"]
     path = tests/UI/expected-ui-screenshots
     url = https://github.com/piwik/piwik-ui-tests.git
+    branch = master
+[submodule "tests/travis"]
+    path = tests/travis
+    url = https://github.com/piwik/travis-scripts
+    branch = master
+[submodule "plugins/LogViewer"]
+	path = plugins/LogViewer
+	url = https://github.com/piwik/plugin-LogViewer.git
+    branch = master
+[submodule "plugins/AnonymousPiwikUsageMeasurement"]
+	path = plugins/AnonymousPiwikUsageMeasurement
+	url = https://github.com/piwik/plugin-AnonymousPiwikUsageMeasurement.git
+    branch = master
+[submodule "plugins/CustomDimensions"]
+	path = plugins/CustomDimensions
+	url = https://github.com/piwik/plugin-CustomDimensions.git
+    branch = master
 
+
+# Add new Plugin submodule above this line ^^
+# 
 # Note: when you add a submodule that SHOULD be left in the packaged release such as the few submodules below,
 #       then you MUST add these submodules names in the SUBMODULES_PACKAGED_WITH_CORE variable in:
 #       https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh
-
-
-[submodule "libs/PiwikTracker"]
-    path = libs/PiwikTracker
-    url = https://github.com/piwik/piwik-php-tracker.git
-    branch = master
 [submodule "misc/log-analytics"]
     path = misc/log-analytics
     url = https://github.com/piwik/piwik-log-analytics.git
     branch = master
 
-[submodule "tests/travis"]
-	path = tests/travis
-	url = https://github.com/piwik/travis-scripts
+# Note: do not add new plugin submodules here, but a few lines above
+

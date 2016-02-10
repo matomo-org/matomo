@@ -1,16 +1,16 @@
 {% extends 'user.twig' %}
 
+{% set title %}{{ 'ScheduledReports_PersonalEmailReports'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
+
 {% block content %}
 
 <div class="emailReports">
-    <h2 piwik-enriched-headline
-        help-url="http://piwik.org/docs/email-reports/">{{ 'ScheduledReports_PersonalEmailReports'|translate }}</h2>
-
-    {% include "@CoreHome/_siteSelectHeader.twig" %}
-
-    <div class="top_controls">
-        {% include "@CoreHome/_periodSelect.twig" %}
-    </div>
+    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/email-reports/">{{ title }}</h2>
 
     <span id="reportSentSuccess"></span>
     <span id="reportUpdatedSuccess"></span>
@@ -52,14 +52,6 @@
 
     .entityAddContainer {
         position:relative;
-    }
-
-    #linkAddReport {
-        margin-top: 0px;
-    }
-
-    #linkAddReport:hover {
-        text-decoration: underline;
     }
 
     .emailReports .top_controls {

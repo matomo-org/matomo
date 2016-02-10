@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ColumnClickedURL": "조회한 URL",
+        "ColumnActionURL": "활동 URL",
         "ColumnClicks": "조회수",
         "ColumnClicksDocumentation": "이 링크를 클릭 한 횟수입니다.",
         "ColumnDownloadURL": "다운로드 URL",
@@ -32,15 +33,18 @@
         "ExitPageTitles": "이탈 페이지 제목",
         "ExitPageTitlesReportDocumentation": "이 보고서는 기간의 이탈 페이지 제목에 대한 정보입니다.",
         "LearnMoreAboutSiteSearchLink": "방문자가 검색기능을 사용하는 것을 추적하는 방법에 대해 자세히 알아보세요.",
+        "OneSearch": "검색 1",
         "OutlinkDocumentation": "외부 링크는 사이트 내에서 외부 사이트(다른 도메인)로의 링크입니다.",
         "OutlinksReportDocumentation": "이 보고서는 방문자가 클릭 한 외부 링크의 URL을 계층 구조 목록으로 표시합니다.",
         "PagesReportDocumentation": "이 보고서는 방문한 페이지 URL에 대한 정보입니다. %s 테이블은 계층 구조로 되어 있으며, URL은 폴더 구조로 표시됩니다.",
-        "PageTitlesReportDocumentation": "이 보고서는 방문한 페이지 제목에 대한 정보입니다. %s 페이지 제목은 대부분의 브라우저 윈도우의 제목에 표시되는 HTML %s 태그입니다.",
+        "PageTitlesReportDocumentation": "이 보고서는 방문한 페이지 제목에 대한 정보입니다. %1$s 페이지 제목은 대부분의 브라우저 윈도우의 제목에 표시되는 HTML %2$s 태그입니다.",
         "PageUrls": "페이지 URL",
+        "PluginDescription": "페이지 뷰와 제목에 대한 보고서. 내부 웹사이트 검색 엔진을 측정할 수 있습니다. 외부 링크 클릭 및 파일 다운로드에 대해서도 자동으로 추적합니다.",
         "SiteSearchCategories1": "이 보고서는 웹사이트에서 검색했을 때 방문자가 선택한 카테고리를 나열합니다.",
         "SiteSearchCategories2": "예를 들면, 일반적인 전자상거래 사이트는 '카테고리'를 제공하는데 방문자는 특정 카테고리의 모든 제품을 검색하는 것으로 범위를 축소할 수 있습니다.",
         "SiteSearchFollowingPagesDoc": "방문자는 특정 페이지, 콘텐츠, 제품 또는 서비스를 찾으려고 웹사이트에서 검색을 시도합니다. 이 보고서는 사이트 내부에서 검색시도 후 가장 많이 클릭한 페이지 목록입니다. 즉, 이 페이지 목록은 대부분의 방문자가 사이트내 검색에 의해 방문한 것입니다.",
         "SiteSearchIntro": "방문자의 검색을 추적하는 것은 당신의 웹사이트를 좋게 만드는 매우 효과적인 방법입니다. 잠재 고객이 무엇을 찾고 있는지에 대해 자세히 알 수 있고, 이것으로 새로운 콘텐츠에 대한 아이디어를 찾는 데 도움을 받게 되며, 잠재 고객이 찾는 새로운 전자상거래 제품을 제공할 수 있게 됩니다. 그리고 방문자의 웹사이트 사용 경험을 대폭 향상시킵니다.",
+        "SiteSearchKeyword": "키워드 (사이트 검색)",
         "SiteSearchKeywordsDocumentation": "이 보고서에서는 방문자가 내부 검색 엔진에서 검색한 검색어를 나열합니다.",
         "SiteSearchKeywordsNoResultDocumentation": "이 보고서는 검색 결과를 반환하지 않은 검색어를 나열합니다: 어쩌면 검색 엔진 알고리즘을 향상 시키거나 방문자가 당신의 웹사이트에 (아직)없는 콘텐츠를 찾고 있는 것이겠죠?",
         "SubmenuPagesEntry": "진입 페이지",
@@ -56,6 +60,7 @@
         "WidgetPageUrlsFollowingSearch": "페이지별 사이트 검색",
         "WidgetSearchCategories": "검색 카테고리",
         "WidgetSearchKeywords": "사이트 검색어",
-        "WidgetSearchNoResultKeywords": "검색 결과 없음"
+        "WidgetSearchNoResultKeywords": "검색 결과 없음",
+        "ActionType": "활동 종류"
     }
 }

@@ -7,6 +7,7 @@
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
             <div title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}" class="datetime">
                 <span style="display:none;" class="serverTimestamp">{{ visitor.serverTimestamp|raw }}</span>
+                {{ postEvent('Live.visitorLogWidgetViewBeforeVisitInfo', visitor) }}
                 {% set year = visitor.serverTimestamp|date('Y') %}
                 {{ visitor.serverDatePretty|replace({(year): ' '}) }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}<em>({{ visitor.visitDurationPretty|raw }})</em>{% endif %}
                 {% if visitor.visitorId|default(false) is not empty %}

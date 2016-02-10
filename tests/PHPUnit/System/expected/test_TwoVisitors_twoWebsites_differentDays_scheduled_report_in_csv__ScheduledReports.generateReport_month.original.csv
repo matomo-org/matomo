@@ -113,7 +113,7 @@ Page URLs
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
 /index.htm,9,9,11%,00:05:20,11%,0.3s
 Page URL not defined,9,17,0%,00:00:00,0%,0.22s
-/thankyou,8,16,0%,00:06:00,100%,0.31s
+/thankyou,8,16,0%,00:03:00,100%,0.31s
 /products,1,1,100%,00:00:00,100%,0.15s
 
 Entry pages
@@ -303,10 +303,6 @@ New visits,2
 Returning Visits
 nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
 2,0,9,41,5,11%,4.6,00:13:21
-
-Provider
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
 
 Device type
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

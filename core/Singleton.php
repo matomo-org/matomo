@@ -32,7 +32,7 @@ class Singleton
      * Returns the singleton instance for the derived class. If the singleton instance
      * has not been created, this method will create it.
      *
-     * @return Singleton
+     * @return static
      */
     public static function getInstance()
     {
@@ -62,5 +62,13 @@ class Singleton
     {
         $class = get_called_class();
         self::$instances[$class] = $instance;
+    }
+
+    /**
+     * @ignore
+     */
+    public static function clearAll()
+    {
+        self::$instances = array();
     }
 }

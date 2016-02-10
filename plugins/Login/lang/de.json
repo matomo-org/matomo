@@ -2,9 +2,9 @@
     "Login": {
         "ConfirmationLinkSent": "Ein Bestätigungslink wurde an Ihren Posteingang verschickt. Überprüfen Sie Ihre E-Mails und besuchen diesen Link um die Passwortänderung zu bestätigen.",
         "ContactAdmin": "Möglicher Grund: Der Server könnte die mail()-Funktion deaktiviert haben.<br\/>Bitte sprechen Sie mit Ihrem Piwik-Administrator.",
-        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ein Benutzer mit Hauptadministrator-Berechtigung kann nicht mit der Methode '%s' authentifiziert werden.",
-        "ExceptionPasswordMD5HashExpected": "Der 'password'-Parameter wird als MD5-Hash des Passworts erwartet.",
-        "InvalidNonceOrHeadersOrReferrer": "Sicherheitschecks fehlgeschlagen. Bitte laden Sie das Formular erneut und prüfen Sie, ob Ihr Browser Cookies zulässt. Wenn Sie einen Proxy Server verwenden, müssen Sie %sPiwik so einrichten, dass es Proxy Header akzeptiert%s.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ein Benutzer mit Systemverwaltunszugriff kann nicht mit der Methode »%s« legitimiert werden.",
+        "ExceptionPasswordMD5HashExpected": "Der Parameter »password« wird als MD5-Hash des Passwortes erwartet.",
+        "InvalidNonceOrHeadersOrReferrer": "Sicherheitschecks fehlgeschlagen. Bitte laden Sie das Formular erneut und prüfen Sie, ob Ihr Browser Cookies zulässt. Wenn Sie einen Proxy Server verwenden, müssen Sie %1$sPiwik so einrichten, dass es Proxy Header akzeptiert%2$s.",
         "InvalidOrExpiredToken": "Der Token ist ungültig oder dessen Gültigkeitsdauer ist bereits abgelaufen.",
         "InvalidUsernameEmail": "Ungültiger Bernutzername und\/oder E-Mail-Adresse",
         "LogIn": "Anmelden",

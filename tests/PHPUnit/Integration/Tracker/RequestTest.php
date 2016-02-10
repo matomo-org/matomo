@@ -339,6 +339,33 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame(12, $request->getIdSite());
     }
 
+    /**
+     * @group invalidChars
+     * @dataProvider getInvalidCharacterUrls
+     */
+    public function testInvalidCharacterRemoval($url, $expectedUrl)
+    {
+        $request = $this->buildRequest(array('url' => $url));
+        $this->assertEquals($expectedUrl, $request->getParam('url'));
+    }
+
+    public function getInvalidCharacterUrls()
+    {
+        return array(
+            // urls with valid chars
+            array("http://www.my.url", 'http://www.my.url'),
+            array("http://www.my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ", 'http://www.my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ'), // various foreign chars
+            array("http://www.my.url/‱©®↙⋗♤㎧￭", 'http://www.my.url/‱©®↙⋗♤㎧￭'), // various symbols
+            array("http://www.my.url/\x39\xE2\x83\xA3", "http://www.my.url/\x39\xE2\x83\xA3"), // digit six + combining enclosing keycap
+
+            // urls with 4byte chars
+            array("http://www.my.url/test-article-\xF3\xA0\x81\xBEa", 'http://www.my.url/test-article-�a'), // tag tilde
+            array("http://www.my.url/test-article-\xF0\x9F\x98\x81", 'http://www.my.url/test-article-�'), // emoji: grinning face with smiling eyes
+            array("http://www.my.url/?param=val𠱸ue", 'http://www.my.url/?param=val�ue'),
+            array("http://www.my.url/\xF0\x9F\x87\xB0\xF0\x9F\x87\xB7", 'http://www.my.url/��'), // regional indicator symbol letter k + regional indicator symbol letter r
+        );
+    }
+
     private function assertCustomVariablesInVisitScope($expectedCvars, $cvarsJsonEncoded)
     {
         $request = $this->buildRequest(array('_cvar' => $cvarsJsonEncoded));

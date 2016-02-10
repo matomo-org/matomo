@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -160,6 +159,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
+        $this->setUserCanEditGoals($view);
         return $view->render();
     }
 
@@ -229,7 +229,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Goals/addNewGoal');
         $this->setGeneralVariablesView($view);
-        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $this->setUserCanEditGoals($view);
         $view->onlyShowAddNewGoal = true;
         return $view->render();
     }
@@ -239,7 +239,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/editGoals');
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
-        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $this->setUserCanEditGoals($view);
         return $view->render();
     }
 
@@ -458,8 +458,14 @@ class Controller extends \Piwik\Plugin\Controller
                     }
                     $customParams['viewDataTable'] = $report['viewDataTable'];
 
+                    if (!empty($report['parameters'])) {
+                        $params = array_merge($customParams, $report['parameters']);
+                    } else {
+                        $params = $customParams;
+                    }
+
                     $goalReportsByDimension->addReport(
-                        $categoryText, $report['name'], $report['module'] . '.' . $report['action'], $customParams);
+                        $categoryText, $report['name'], $report['module'] . '.' . $report['action'], $params);
                 }
             }
         }
@@ -489,5 +495,10 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $view->goalsJSON = json_encode($goals);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
+    }
+
+    private function setUserCanEditGoals(View $view)
+    {
+        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
     }
 }

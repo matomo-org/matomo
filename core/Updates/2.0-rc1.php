@@ -9,12 +9,13 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_0_rc1 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Morpheus');

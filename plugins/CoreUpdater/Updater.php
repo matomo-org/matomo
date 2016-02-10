@@ -16,18 +16,18 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugin\ReleaseChannels;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
+use Piwik\UpdateCheck;
 use Piwik\Version;
 
 class Updater
 {
     const OPTION_LATEST_VERSION = 'UpdateCheck_LatestVersion';
     const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
-    const LATEST_VERSION_URL = '://builds.piwik.org/piwik.zip';
-    const LATEST_BETA_VERSION_URL = '://builds.piwik.org/piwik-%s.zip';
-    const DOWNLOAD_TIMEOUT = 120;
+    const DOWNLOAD_TIMEOUT = 720;
 
     /**
      * @var Translator
@@ -35,13 +35,19 @@ class Updater
     private $translator;
 
     /**
+     * @var ReleaseChannels
+     */
+    private $releaseChannels;
+
+    /**
      * @var string
      */
     private $tmpPath;
 
-    public function __construct(Translator $translator, $tmpPath)
+    public function __construct(Translator $translator, ReleaseChannels $releaseChannels, $tmpPath)
     {
         $this->translator = $translator;
+        $this->releaseChannels = $releaseChannels;
         $this->tmpPath = $tmpPath;
     }
 
@@ -252,11 +258,8 @@ class Updater
      */
     public function getArchiveUrl($version, $https = true)
     {
-        if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
-            $url = sprintf(self::LATEST_BETA_VERSION_URL, $version);
-        } else {
-            $url = self::LATEST_VERSION_URL;
-        }
+        $channel = $this->releaseChannels->getActiveReleaseChannel();
+        $url = $channel->getDownloadUrlWithoutScheme($version);
 
         if ($this->isUpdatingOverHttps() && $https) {
             $url = 'https' . $url;

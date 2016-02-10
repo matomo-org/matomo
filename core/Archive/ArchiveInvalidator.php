@@ -9,6 +9,7 @@
 
 namespace Piwik\Archive;
 
+use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -17,9 +18,7 @@ use Piwik\Option;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
-use Piwik\Period\Week;
-use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
-use Piwik\Site;
+use Piwik\Segment;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -46,12 +45,17 @@ use Piwik\Site;
  */
 class ArchiveInvalidator
 {
-    private $warningDates = array();
-    private $processedDates = array();
-    private $minimumDateWithLogs = false;
-    private $invalidDates = array();
-
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
+
+    /**
+     * @var Model
+     */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
     {
@@ -119,229 +123,195 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites array
-     * @param $dates string
+     * @param $idSites int[]
+     * @param $dates Date[]
      * @param $period string
-     * @return array
+     * @param $segment Segment
+     * @param bool $cascadeDown
+     * @return InvalidationResult
      * @throws \Exception
      */
-    public function markArchivesAsInvalidated(array $idSites, $dates, $period)
+    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
     {
-        $this->findOlderDateWithLogs();
-        $datesToInvalidate = $this->getDatesToInvalidateFromString($dates);
-        $minDate = $this->getMinimumDateToInvalidate($datesToInvalidate);
+        $invalidationInfo = new InvalidationResult();
 
-        $this->updateSiteCreatedTime($idSites, $minDate);
+        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
 
-        $datesByMonth = $this->getDatesByYearMonth($datesToInvalidate);
-        $this->markArchivesInvalidatedFor($idSites, $period, $datesByMonth);
+        if (empty($period)) {
+            // if the period is empty, we don't need to cascade in any way, since we'll remove all periods
+            $periodDates = $this->getDatesByYearMonthAndPeriodType($dates);
+        } else {
+            $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
+            $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
+        }
 
-        $this->persistInvalidatedArchives($idSites, $datesByMonth);
+        $periodDates = $this->getUniqueDates($periodDates);
+        $this->markArchivesInvalidated($idSites, $periodDates, $segment);
+
+        $yearMonths = array_keys($periodDates);
+        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths);
 
         foreach ($idSites as $idSite) {
-            foreach ($datesToInvalidate as $date) {
+            foreach ($dates as $date) {
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
             }
         }
 
-        return $this->makeOutputLogs();
-    }
-
-    private function updateSiteCreatedTime($idSites, Date $minDate)
-    {
-        $idSites    = Site::getIdSitesFromIdSitesString($idSites);
-        $minDateSql = $minDate->subDay(1)->getDatetime();
-
-        $model = new SitesManagerModel();
-        $model->updateSiteCreatedTime($idSites, $minDateSql);
+        return $invalidationInfo;
     }
 
     /**
-     * @param $toInvalidate
-     * @return bool|Date
-     * @throws \Exception
+     * @param string[][][] $periodDates
+     * @return string[][][]
      */
-    private function getMinimumDateToInvalidate($toInvalidate)
+    private function getUniqueDates($periodDates)
     {
-        /* @var $date Date */
-        $minDate = false;
-        foreach ($toInvalidate as $date) {
-            // Keep track of the minimum date for each website
-            if ($minDate === false
-                || $date->isEarlier($minDate)
+        $result = array();
+        foreach ($periodDates as $yearMonth => $periodsByYearMonth) {
+            foreach ($periodsByYearMonth as $periodType => $periods) {
+                $result[$yearMonth][$periodType] = array_unique($periods);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param Date[] $dates
+     * @param string $periodType
+     * @param bool $cascadeDown
+     * @return Period[]
+     */
+    private function getPeriodsToInvalidate($dates, $periodType, $cascadeDown)
+    {
+        $periodsToInvalidate = array();
+
+        foreach ($dates as $date) {
+            if ($periodType == 'range') {
+                $date = $date . ',' . $date;
+            }
+
+            $period = Period\Factory::build($periodType, $date);
+            $periodsToInvalidate[] = $period;
+
+            if ($cascadeDown) {
+                $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
+            }
+
+            if ($periodType != 'year'
+                && $periodType != 'range'
             ) {
-                $minDate = $date;
+                $periodsToInvalidate[] = Period\Factory::build('year', $date);
             }
         }
-        if (empty($minDate)) {
-            throw new \Exception("Check the 'dates' parameter is a valid date.");
-        }
-        return $minDate;
+
+        return $periodsToInvalidate;
     }
 
     /**
-     * @param $idSites
-     * @param $period string
-     * @param $datesByMonth array
+     * @param Period[] $periods
+     * @return string[][][]
+     */
+    private function getPeriodDatesByYearMonthAndPeriodType($periods)
+    {
+        $result = array();
+        foreach ($periods as $period) {
+            $date = $period->getDateStart();
+            $periodType = $period->getId();
+
+            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
+            $result[$yearMonth][$periodType][] = $date->toString();
+        }
+        return $result;
+    }
+
+    /**
+     * Called when deleting all periods.
+     *
+     * @param Date[] $dates
+     * @return string[][][]
+     */
+    private function getDatesByYearMonthAndPeriodType($dates)
+    {
+        $result = array();
+        foreach ($dates as $date) {
+            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
+            $result[$yearMonth][null][] = $date->toString();
+
+            // since we're removing all periods, we must make sure to remove year periods as well.
+            // this means we have to make sure the january table is processed.
+            $janYearMonth = $date->toString('Y') . '_01';
+            $result[$janYearMonth][null][] = $date->toString();
+        }
+        return $result;
+    }
+
+    /**
+     * @param int[] $idSites
+     * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidatedFor($idSites, $period, $datesByMonth)
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null)
     {
-        $invalidateForPeriodId = $this->getPeriodId($period);
-
-        // In each table, invalidate day/week/month/year containing this date
-        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-
-        $archiveNumericTables = array_filter($archiveTables, function ($name) {
-            return ArchiveTableCreator::getTypeFromTableName($name) == ArchiveTableCreator::NUMERIC_TABLE;
-        });
-
+        $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
-            // Extract Y_m from table name
-            $suffix = ArchiveTableCreator::getDateFromTableName($table);
-            if (!isset($datesByMonth[$suffix])) {
+            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
+            if (empty($dates[$tableDate])) {
                 continue;
             }
-            // Dates which are to be deleted from this table
-            $datesToDelete = $datesByMonth[$suffix];
-            self::getModel()->updateArchiveAsInvalidated($table, $idSites, $invalidateForPeriodId, $datesToDelete);
+
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
         }
     }
 
     /**
-     * Ensure the specified dates are valid.
-     * Store invalid date so we can log them
-     * @param array $dates
-     * @return Date[]
+     * @param Date[] $dates
+     * @param InvalidationResult $invalidationInfo
+     * @return \Piwik\Date[]
      */
-    private function getDatesToInvalidateFromString($dates)
+    private function removeDatesThatHaveBeenPurged($dates, InvalidationResult $invalidationInfo)
     {
-        $toInvalidate = array();
+        $this->findOlderDateWithLogs($invalidationInfo);
 
-        $dates = explode(',', trim($dates));
-        $dates = array_unique($dates);
-
-        foreach ($dates as $theDate) {
-            $theDate = trim($theDate);
-            try {
-                $date = Date::factory($theDate);
-            } catch (\Exception $e) {
-                $this->invalidDates[] = $theDate;
+        $result = array();
+        foreach ($dates as $date) {
+            // we should only delete reports for dates that are more recent than N days
+            if ($invalidationInfo->minimumDateWithLogs
+                && $date->isEarlier($invalidationInfo->minimumDateWithLogs)
+            ) {
+                $invalidationInfo->warningDates[] = $date->toString();
                 continue;
             }
-            if ($date->toString() == $theDate) {
-                $toInvalidate[] = $date;
-            } else {
-                $this->invalidDates[] = $theDate;
-            }
-        }
 
-        return $toInvalidate;
+            $result[] = $date;
+            $invalidationInfo->processedDates[] = $date->toString();
+        }
+        return $result;
     }
 
-    private function findOlderDateWithLogs()
+    private function findOlderDateWithLogs(InvalidationResult $info)
     {
         // If using the feature "Delete logs older than N days"...
         $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
-        $logsDeletedWhenOlderThanDays = $purgeDataSettings['delete_logs_older_than'];
+        $logsDeletedWhenOlderThanDays = (int)$purgeDataSettings['delete_logs_older_than'];
         $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];
 
         if ($logsDeleteEnabled
             && $logsDeletedWhenOlderThanDays
         ) {
-            $this->minimumDateWithLogs = Date::factory('today')->subDay($logsDeletedWhenOlderThanDays);
+            $info->minimumDateWithLogs = Date::factory('today')->subDay($logsDeletedWhenOlderThanDays);
         }
-    }
-
-    /**
-     * Given the list of dates, process which tables YYYY_MM we should delete from
-     *
-     * @param $datesToInvalidate Date[]
-     * @return array
-     */
-    private function getDatesByYearMonth($datesToInvalidate)
-    {
-        $datesByMonth = array();
-        foreach ($datesToInvalidate as $date) {
-            // we should only delete reports for dates that are more recent than N days
-            if ($this->minimumDateWithLogs
-                && $date->isEarlier($this->minimumDateWithLogs)
-            ) {
-                $this->warningDates[] = $date->toString();
-                continue;
-            }
-
-            $this->processedDates[] = $date->toString();
-
-            $month = $date->toString('Y_m');
-            // For a given date, we must invalidate in the monthly archive table
-            $datesByMonth[$month][] = $date->toString();
-
-            // But also the year stored in January
-            $year = $date->toString('Y_01');
-            $datesByMonth[$year][] = $date->toString();
-
-            // but also weeks overlapping several months stored in the month where the week is starting
-            /* @var $week Week */
-            $week = Period\Factory::build('week', $date);
-            $weekAsString = $week->getDateStart()->toString('Y_m');
-            $datesByMonth[$weekAsString][] = $date->toString();
-        }
-        return $datesByMonth;
-    }
-
-    /**
-     * @return array
-     */
-    private function makeOutputLogs()
-    {
-        $output = array();
-        if ($this->warningDates) {
-            $output[] = 'Warning: the following Dates have not been invalidated, because they are earlier than your Log Deletion limit: ' .
-                implode(", ", $this->warningDates) .
-                "\n The last day with logs is " . $this->minimumDateWithLogs . ". " .
-                "\n Please disable 'Delete old Logs' or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
-        }
-        if ($this->invalidDates) {
-            $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
-                implode(", ", $this->invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
-        }
-
-        $output[] = "Success. The following dates were invalidated successfully: " . implode(", ", $this->processedDates);
-        return $output;
-    }
-
-    /**
-     * @param $period
-     * @return bool|int
-     */
-    private function getPeriodId($period)
-    {
-        if (!empty($period)) {
-            $period = Period\Factory::build($period, Date::today());
-        }
-        $invalidateForPeriod = $period ? $period->getId() : false;
-        return $invalidateForPeriod;
     }
 
     /**
      * @param array $idSites
-     * @param $datesByMonth
+     * @param array $yearMonths
      */
-    private function persistInvalidatedArchives(array $idSites, $datesByMonth)
+    private function markInvalidatedArchivesForReprocessAndPurge(array $idSites, $yearMonths)
     {
-        $yearMonths = array_keys($datesByMonth);
-        $yearMonths = array_unique($yearMonths);
-
         $store = new SitesToReprocessDistributedList();
         $store->add($idSites);
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);
-    }
-
-    private static function getModel()
-    {
-        return new Model();
     }
 }

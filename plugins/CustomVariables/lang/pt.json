@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Nome da variável ​​personalizada",
         "ColumnCustomVariableValue": "Valor da variável ​​personalizada",
         "CustomVariables": "Variáveis ​​personalizadas",
-        "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as variáveis ​​personalizadas. Clique no nome de uma variável para ver a distribuição dos valores. %s Para mais informações sobre variáveis ​​personalizadas em geral, deve ler a %sdocumentação sobre Variáveis Personalizadas em piwik.org %s",
+        "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as variáveis ​​personalizadas. Clique no nome de uma variável para ver a distribuição dos valores. %1$s Para mais informações sobre variáveis ​​personalizadas em geral, deve ler a %2$sdocumentação sobre Variáveis Personalizadas em piwik.org %3$s",
         "ScopePage": "Âmbito da página",
         "ScopeVisit": "Âmbito da visita"
     }

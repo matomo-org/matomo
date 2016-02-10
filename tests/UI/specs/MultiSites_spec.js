@@ -11,7 +11,7 @@ describe("MultiSitesTest", function () {
     this.timeout(0);
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
-    var selector = '.pageWrap,.expandDataTableFooterDrawer';
+    var selector = '#multisites,.expandDataTableFooterDrawer';
 
     var createdSiteId = null;
 

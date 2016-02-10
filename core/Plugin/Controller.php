@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
@@ -25,6 +24,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
+use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\PeriodValidator;
@@ -595,7 +595,9 @@ abstract class Controller
         $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
 
-        $rawDate   = Common::getRequestVar('date');
+        $rawDate = Common::getRequestVar('date');
+        Period::checkDateFormat($rawDate);
+
         $periodStr = Common::getRequestVar('period');
 
         if ($periodStr != 'range') {
@@ -627,6 +629,7 @@ abstract class Controller
 
         $view->date = $this->strDate;
         $view->prettyDate = self::getCalendarPrettyDate($period);
+        $view->prettyDateLong = $period->getLocalizedLongString();
         $view->rawDate = $rawDate;
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
@@ -664,8 +667,6 @@ abstract class Controller
      *
      * The following variables assigned:
      *
-     * **enableMeasurePiwikForSiteId** - The value of the `[Debug] enable_measure_piwik_usage_in_idsite`
-     *                                     INI config option.
      * **isSuperUser** - True if the current user is the Super User, false if otherwise.
      * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
      *                          false if otherwise.
@@ -685,7 +686,6 @@ abstract class Controller
     protected function setBasicVariablesView($view)
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
-        $view->enableMeasurePiwikForSiteId = PiwikConfig::getInstance()->Debug['enable_measure_piwik_usage_in_idsite'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
@@ -879,7 +879,7 @@ abstract class Controller
             $currentLogin = Piwik::getCurrentUserLogin();
             $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
             $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
-            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . StaticContainer::get('Piwik\Auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
+            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Piwik::getLoginPluginName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
 
             $ex = new NoPrivilegesException($errorMessage);
             $ex->setIsHtmlMessage();
@@ -985,6 +985,9 @@ abstract class Controller
             $img = "arrow_up.png";
             $titleEvolutionPercent = '+' . $titleEvolutionPercent;
         }
+
+        $currentValue = NumberFormatter::getInstance()->format($currentValue);
+        $pastValue    = NumberFormatter::getInstance()->format($pastValue);
 
         $title = Piwik::translate('General_EvolutionSummaryGeneric', array(
                                                                          Piwik::translate('General_NVisits', $currentValue),

@@ -16,13 +16,16 @@ use Piwik\Tracker;
 class CustomVariables extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
-            'Live.getAllVisitorDetails'       => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails'       => 'extendVisitorDetails',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
         );
     }
 
@@ -40,7 +43,7 @@ class CustomVariables extends \Piwik\Plugin
     {
         $customVariables = array();
 
-        $maxCustomVariables = self::getMaxCustomVariables();
+        $maxCustomVariables = self::getNumUsableCustomVariables();
 
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (!empty($details['custom_var_k' . $i])) {
@@ -63,25 +66,41 @@ class CustomVariables extends \Piwik\Plugin
         return 200;
     }
 
-    public static function getMaxCustomVariables()
+    /**
+     * Returns the number of available custom variables that can be used.
+     *
+     * "Can be used" is identifed by the minimum number of available custom variables across all relevant tables. Eg
+     * if there are 6 custom variables installed in log_visit but only 5 in log_conversion, we consider only 5 custom
+     * variables as usable.
+     * @return int
+     */
+    public static function getNumUsableCustomVariables()
     {
         $cache    = Cache::getCacheGeneral();
-        $cacheKey = 'CustomVariables.MaxNumCustomVariables';
+        $cacheKey = 'CustomVariables.NumUsableCustomVariables';
 
         if (!array_key_exists($cacheKey, $cache)) {
 
-            $maxCustomVar = 0;
+            $minCustomVar = null;
 
             foreach (Model::getScopes() as $scope) {
                 $model = new Model($scope);
                 $highestIndex = $model->getHighestCustomVarIndex();
 
-                if ($highestIndex > $maxCustomVar) {
-                    $maxCustomVar = $highestIndex;
+                if (!isset($minCustomVar)) {
+                    $minCustomVar = $highestIndex;
+                }
+
+                if ($highestIndex < $minCustomVar) {
+                    $minCustomVar = $highestIndex;
                 }
             }
 
-            $cache[$cacheKey] = $maxCustomVar;
+            if (!isset($minCustomVar)) {
+                $minCustomVar = 0;
+            }
+
+            $cache[$cacheKey] = $minCustomVar;
             Cache::setCacheGeneral($cache);
         }
 
@@ -90,7 +109,7 @@ class CustomVariables extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        $maxCustomVariables = self::getMaxCustomVariables();
+        $maxCustomVariables = self::getNumUsableCustomVariables();
 
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             $segments[] = array(
@@ -126,6 +145,37 @@ class CustomVariables extends \Piwik\Plugin
                 'sqlSegment' => 'log_link_visit_action.custom_var_v' . $i,
             );
         }
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'CustomVariables_CustomVariables';
+        $translationKeys[] = 'CustomVariables_ManageDescription';
+        $translationKeys[] = 'CustomVariables_ScopeX';
+        $translationKeys[] = 'CustomVariables_Index';
+        $translationKeys[] = 'CustomVariables_Usages';
+        $translationKeys[] = 'CustomVariables_Unused';
+        $translationKeys[] = 'CustomVariables_CreateNewSlot';
+        $translationKeys[] = 'CustomVariables_UsageDetails';
+        $translationKeys[] = 'CustomVariables_CurrentAvailableCustomVariables';
+        $translationKeys[] = 'CustomVariables_ToCreateCustomVarExecute';
+        $translationKeys[] = 'CustomVariables_CreatingCustomVariableTakesTime';
+        $translationKeys[] = 'CustomVariables_SlotsReportIsGeneratedOverTime';
+        $translationKeys[] = 'General_Loading';
+        $translationKeys[] = 'General_TrackingScopeVisit';
+        $translationKeys[] = 'General_TrackingScopePage';
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.less";
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.model.js";
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.controller.js";
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.js";
     }
 
 }

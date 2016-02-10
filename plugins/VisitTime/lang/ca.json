@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Visites per día de la setmana",
         "WidgetByDayOfWeekDocumentation": "Aquest gràfic mostre el nombre de visites que ha rebut el vostre lloc web cada dia de la setmana.",
         "WidgetLocalTime": "Visites segons l'hora local",
-        "WidgetLocalTimeDocumentation": "Aquest gràfic mostra a quina hora era a %s la zona horària del visitant %s durant la seva visita.",
+        "WidgetLocalTimeDocumentation": "Aquest gràfic mostra a quina hora era a %1$s la zona horària del visitant %2$s durant la seva visita.",
         "WidgetServerTime": "Visites segons l'hora del servidor",
-        "WidgetServerTimeDocumentation": "Aquest gràfic quina hora era a la %s zona horària del servidor %s durant la visita."
+        "WidgetServerTimeDocumentation": "Aquest gràfic quina hora era a la %1$s zona horària del servidor %2$s durant la visita."
     }
 }

@@ -2,7 +2,7 @@
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "أرسل التقرير إلى هذه العناوين أيضاً (عنوان لكل سطر):",
         "AreYouSureDeleteReport": "هل ترغب حقاً في حذف هذا التقرير وجدولته الزمنية؟",
-        "CancelAndReturnToReports": "إلغاء و%s رجوع إلى قائمة التقارير%s",
+        "CancelAndReturnToReports": "إلغاء و%1$s رجوع إلى قائمة التقارير%2$s",
         "CreateAndScheduleReport": "أنشئ وأعد جدولاً لتقرير",
         "CreateReport": "إنشاء تقرير",
         "DescriptionOnFirstPage": "وصف التقرير سيتم عرضه في الصفحة الأولى من التقرير.",

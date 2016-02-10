@@ -50,7 +50,8 @@ class LoadDataInfileCheck implements Diagnostic
                     array($testOptionNames[0], '1'),
                     array($testOptionNames[1], '2'),
                 ),
-                $throwException = true
+                $throwException = true,
+                $charset = 'latin1'
             );
         } catch (\Exception $ex) {
             $errorMessage = str_replace("\n", "<br/>", $ex->getMessage());

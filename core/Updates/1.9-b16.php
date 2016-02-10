@@ -22,7 +22,7 @@ class Updates_1_9_b16 extends Updates
         return true;
     }
 
-    public static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             'ALTER TABLE  `' . Common::prefixTable('log_link_visit_action') . '`
@@ -45,8 +45,8 @@ class Updates_1_9_b16 extends Updates
         );
     }
 
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

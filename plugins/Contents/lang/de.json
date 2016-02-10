@@ -8,6 +8,9 @@
         "ContentName": "Inhaltsname",
         "ContentPiece": "Inhaltsteil",
         "ContentTarget": "Inhaltsziel",
-        "Contents": "Inhalte"
+        "Contents": "Inhalte",
+        "InteractionsMetricDocumentation": "Die Anzahl, wie häufig mit einem Inhalt interagiert wurde (z.B. durch einen Klick auf ein Banner oder eine Anzeige).",
+        "ImpressionsMetricDocumentation": "Die Anzahl, wie häufig ein Inhalt, z.b. ein Banner oder eine Anzeige, auf der Seite angezeigt wurden.",
+        "InteractionRateMetricDocumentation": "Verhältnis zwischen Impressionen des Inhalts und Interaktionen."
     }
 }

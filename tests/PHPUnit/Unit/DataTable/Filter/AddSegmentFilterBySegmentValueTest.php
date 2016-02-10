@@ -11,6 +11,7 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Actions\Reports\GetOutlinks;
+use Piwik\Plugins\DevicePlugins\Reports\GetPlugin;
 use Piwik\Plugins\UserCountry\Reports\GetCity;
 use Piwik\Plugins\UserCountry\Reports\GetCountry;
 use Piwik\Plugins\VisitsSummary\Reports\Get;
@@ -97,8 +98,8 @@ class AddSegmentBySegmentValueTest extends \PHPUnit_Framework_TestCase
 
     public function test_filter_shouldNotGenerateASegment_IfDimensionHasNoSegmentFilter()
     {
-        // outlinks currently has a dimensions but no segments, we have to use another report once it has segments
-        $report = new GetOutlinks();
+        // plugin report currently has a dimensions but no segments, we have to use another report if later we add segments
+        $report = new GetPlugin();
         $this->assertEmpty($report->getDimension()->getSegments());
 
         $this->assertSegmentForSegmentValueAndReport($report, $segmentValue = 'existing', false);

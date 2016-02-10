@@ -14,8 +14,8 @@
 				
 				<pageId>1</pageId>
 				<generationTime>0.33s</generationTime>
-				<timeSpent>270</timeSpent>
-				<timeSpentPretty>4 min 30s</timeSpentPretty>
+				<timeSpent>271</timeSpent>
+				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<icon />
 				
 			</row>
@@ -83,9 +83,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
@@ -120,8 +117,8 @@
 				
 				<pageId>13</pageId>
 				<generationTime>0.33s</generationTime>
-				<timeSpent>270</timeSpent>
-				<timeSpentPretty>4 min 30s</timeSpentPretty>
+				<timeSpent>271</timeSpent>
+				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<icon />
 				
 			</row>
@@ -189,9 +186,6 @@
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>

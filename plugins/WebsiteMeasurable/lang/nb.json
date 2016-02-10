@@ -1,6 +1,7 @@
 {
     "WebsiteMeasurable": {
         "Website": "Nettsted",
-        "Websites": "Nettsteder"
+        "Websites": "Nettsteder",
+        "WebsiteDescription": "Et nettsted består av nettsider som typisk vises fra ett enkelt domene."
     }
 }

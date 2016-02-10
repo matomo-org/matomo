@@ -75,7 +75,7 @@ class UrlNormalizationTest extends SystemTestCase
             'testSuffix' => '_pagesSegmented',
             'idSite'     => $idSite,
             'date'       => $dateTime,
-            'segment'    => 'pageUrl==example.org/foo/bar2.html',
+            'segment'    => 'pageUrl==' . urlencode('example.org/foo/bar2.html'),
         ));
         $return[] = array('Actions.getPageUrls', array(
             'testSuffix' => '_pagesSegmentedRef',
@@ -101,7 +101,7 @@ class UrlNormalizationTest extends SystemTestCase
     {
         $sql = "SELECT count(*) FROM " . Common::prefixTable('log_action');
         $count = Db::get()->fetchOne($sql);
-        $expected = 9; // 4 urls + 5 titles
+        $expected = 13; // 6 urls + 7 titles
         $this->assertEquals($expected, $count, "only $expected actions expected");
 
         $sql = "SELECT name, url_prefix FROM " . Common::prefixTable('log_action')
@@ -112,7 +112,9 @@ class UrlNormalizationTest extends SystemTestCase
             array('name' => 'example.org/foo/bar.html', 'url_prefix' => 0),
             array('name' => 'example.org/foo/bar2.html', 'url_prefix' => 3),
             array('name' => 'example.org/foo/bar3.html', 'url_prefix' => 1),
-            array('name' => 'example.org/foo/bar4.html', 'url_prefix' => 2)
+            array('name' => 'my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ', 'url_prefix' => 1),
+            array('name' => 'make.wordpress.org/?emoji=�l&param=test', 'url_prefix' => 2),
+            array('name' => 'example.org/foo/bar4.html', 'url_prefix' => 2),
         );
         $this->assertEquals($expected, $urls, "normalization went wrong");
     }

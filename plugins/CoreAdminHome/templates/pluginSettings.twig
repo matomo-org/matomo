@@ -1,17 +1,21 @@
 
 {% extends mode == 'user' ? "user.twig" : "admin.twig" %}
 
+{% set title %}
+{% if mode == 'user' -%}
+    {{ 'CoreAdminHome_PersonalPluginSettings'|translate }}
+{%- else -%}
+    {{ 'CoreAdminHome_SystemPluginSettings'|translate }}
+{% endif %}
+{% endset %}
+
 {% block content %}
 
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
     {% import 'settingsMacros.twig' as settingsMacro %}
 
-    {% if mode == 'user' %}
-        <h2 piwik-enriched-headline>{{ 'CoreAdminHome_PersonalPluginSettings'|translate }}</h2>
-    {% else %}
-        <h2 piwik-enriched-headline>{{ 'CoreAdminHome_SystemPluginSettings'|translate }}</h2>
-    {% endif %}
+    <h2 piwik-enriched-headline>{{ title }}</h2>
 
     <input type="hidden" name="setpluginsettingsnonce" value="{{ nonce }}">
 

@@ -62,6 +62,7 @@ abstract class Action
 
     private $idLinkVisitAction;
     private $actionIdsCached = array();
+    private $customFields = array();
     private $actionName;
     private $actionType;
 
@@ -228,6 +229,16 @@ abstract class Action
         return false;
     }
 
+    public function setCustomField($field, $value)
+    {
+        $this->customFields[$field] = $value;
+    }
+
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
     public function getIdActionUrl()
     {
         $idUrl = $this->actionIdsCached['idaction_url'];
@@ -379,13 +390,7 @@ abstract class Action
             $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = Common::forceDotAsSeparatorForDecimalPoint($customValue);
         }
 
-        $customVariables = $this->getCustomVariables();
-        if (!empty($customVariables)) {
-            Common::printDebug("Page level Custom Variables: ");
-            Common::printDebug($customVariables);
-        }
-
-        $visitAction = array_merge($visitAction, $customVariables);
+        $visitAction = array_merge($visitAction, $this->customFields);
 
         $this->idLinkVisitAction = $this->getModel()->createAction($visitAction);
 
@@ -399,9 +404,12 @@ abstract class Action
         /**
          * Triggered after successfully persisting a [visit action entity](/guides/persistence-and-the-mysql-backend#visit-actions).
          *
+         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
+         *
          * @param Action $tracker Action The Action tracker instance.
          * @param array $visitAction The visit action entity that was persisted. Read
          *                           [this](/guides/persistence-and-the-mysql-backend#visit-actions) to see what it contains.
+         * @deprecated
          */
         Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $visitAction));
     }

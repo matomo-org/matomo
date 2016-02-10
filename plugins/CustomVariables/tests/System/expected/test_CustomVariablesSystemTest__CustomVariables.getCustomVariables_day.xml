@@ -3,6 +3,13 @@
 	<row>
 		<label>Name_PAGE_1</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>1</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_1</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE1</label>
@@ -14,6 +21,13 @@
 	<row>
 		<label>Name_PAGE_2</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>2</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_2</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE2</label>
@@ -25,6 +39,13 @@
 	<row>
 		<label>Name_PAGE_3</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>3</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_3</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE3</label>
@@ -36,6 +57,13 @@
 	<row>
 		<label>Name_PAGE_4</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>4</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_4</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE4</label>
@@ -47,6 +75,13 @@
 	<row>
 		<label>Name_PAGE_5</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>5</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_5</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE5</label>
@@ -58,6 +93,13 @@
 	<row>
 		<label>Name_PAGE_6</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>6</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_6</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE6</label>
@@ -69,6 +111,13 @@
 	<row>
 		<label>Name_PAGE_7</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>7</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_7</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE7</label>
@@ -80,6 +129,13 @@
 	<row>
 		<label>Name_PAGE_8</label>
 		<nb_actions>1</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>8</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_PAGE_8</segment>
 		<subtable>
 			<row>
 				<label>Val_PAGE8</label>
@@ -105,6 +161,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>1</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_1</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT1</label>
@@ -143,6 +206,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>2</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_2</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT2</label>
@@ -181,6 +251,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>3</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_3</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT3</label>
@@ -219,6 +296,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>4</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_4</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT4</label>
@@ -257,6 +341,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>5</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_5</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT5</label>
@@ -295,6 +386,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>6</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_6</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT6</label>
@@ -333,6 +431,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>7</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_7</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT7</label>
@@ -371,6 +476,13 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>8</index>
+			</row>
+		</slots>
+		<segment>customVariableName==Name_VISIT_8</segment>
 		<subtable>
 			<row>
 				<label>Val_VISIT8</label>

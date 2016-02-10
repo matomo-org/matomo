@@ -506,13 +506,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         }
 
+        function getFilterLimitAsString(limit) {
+            if (limit == '-1') {
+                return _pk_translate('General_All').toLowerCase();
+            }
+            return limit;
+        }
+
         // setup limit control
-        $('.limitSelection', domElem).append('<div><span>' + self.param[limitParamName] + '</span></div><ul></ul>');
+        $('.limitSelection', domElem).append('<div><span value="'+ self.param[limitParamName] +'">' + getFilterLimitAsString(self.param[limitParamName]) + '</span></div><ul></ul>');
 
         if (self.props.show_limit_control) {
             $('.limitSelection ul', domElem).hide();
             for (var i = 0; i < numbers.length; i++) {
-                $('.limitSelection ul', domElem).append('<li value="' + numbers[i] + '"><span>' + numbers[i] + '</span></li>');
+                $('.limitSelection ul', domElem).append('<li value="' + numbers[i] + '"><span>' + getFilterLimitAsString(numbers[i]) + '</span></li>');
             }
             $('.limitSelection ul li:last', domElem).addClass('last');
 
@@ -535,12 +542,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     $('.limitSelection', domElem).is('.visible') ? hide() : show();
                 });
                 $('.limitSelection ul li', domElem).on('click', function (event) {
-                    var limit = parseInt($(event.target).text());
+                    var limit = parseInt($(event.target).closest('li').attr('value'));
 
                     hide();
                     if (limit != self.param[limitParamName]) {
                         setLimitValue(self.param, limit);
-                        $('.limitSelection>div>span', domElem).text(limit);
+                        $('.limitSelection>div>span', domElem).text( getFilterLimitAsString(limit)).attr('value', limit);
                         self.reloadAjaxDataTable();
 
                         var data = {};
@@ -781,9 +788,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         ;
 
                     var annotationsCss = {left: 6}; // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
-                    if (self.isWithinDialog(domElem)) {
-                        annotationsCss['top'] = -datatableFeatures.height() - annotationAxisHeight + noteSize / 2;
-                    }
 
                     // set position of evolution annotation icons
                     annotations.css(annotationsCss);
@@ -1048,7 +1052,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 $(this).attr('href', function () {
                     var url = $(this).attr('href') + '&token_auth=' + piwik.token_auth;
 
-                    var limit = $('.limitSelection>div>span', domElem).text();
+                    var limit = $('.limitSelection>div>span', domElem).attr('value');
                     var defaultLimit = $(this).attr('filter_limit');
                     if (!limit || 'undefined' === limit || defaultLimit == -1) {
                         limit = defaultLimit;
@@ -1072,6 +1076,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var segment = self.param.segment;
                 var label = self.param.label;
                 var idGoal = self.param.idGoal;
+                var idDimension = self.param.idDimension;
                 var param_date = self.param.date;
                 var date = $(this).attr('date');
                 if (typeof date != 'undefined') {
@@ -1139,6 +1144,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (typeof idGoal != 'undefined'
                     && idGoal != '-1') {
                     str += '&idGoal=' + idGoal;
+                }
+                // Export Dimension specific reports
+                if (typeof idDimension != 'undefined'
+                    && idDimension != '-1') {
+                    str += '&idDimension=' + idDimension;
                 }
                 if (label) {
                     label = label.split(',');
@@ -1229,14 +1239,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         };
 
-        var getText = function (text, addDefault) {
-            text = _pk_translate(text);
-            if (text.indexOf('%s') > 0) {
-                text = text.replace('%s', '<br /><span class="action">&raquo; ');
+        var getText = function (text, addDefault, replacement) {
+            if (/(%(.\$)?s+)/g.test(_pk_translate(text))) {
+                var values = ['<br /><span class="action">&raquo; '];
+                if(replacement) {
+                    values.push(replacement);
+                }
+                text = _pk_translate(text, values);
                 if (addDefault) text += ' (' + _pk_translate('CoreHome_Default') + ')';
                 text += '</span>';
+                return text;
             }
-            return text;
+            return _pk_translate(text);
         };
 
         var setText = function (el, paramName, textA, textB) {
@@ -1300,7 +1314,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
                     iconHighlighted = true;
                 } else {
-                    var optionLabelText = getText('CoreHome_PivotBySubtable').replace('%s', self.props.pivot_dimension_name);
+                    var optionLabelText = getText('CoreHome_PivotBySubtable', false, self.props.pivot_dimension_name);
                     $(this).html(optionLabelText);
                 }
             })
@@ -1422,19 +1436,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleExpandFooter: function (domElem) {
-        if (this.isWithinDialog(domElem)) {
-            return;
-        }
-
         var footerIcons = $('.dataTableFooterIcons', domElem);
 
         if (!footerIcons.length) {
             return;
         }
 
+        if (this.isWithinDialog(domElem)) {
+            $('.dataTableFeatures', domElem).addClass('expanded');
+        }
+
         var self = this;
         function toggleFooter(event)
         {
+            if (self.isWithinDialog(domElem)) {
+                return;
+            }
+
             var icons = $('.dataTableFooterIcons', domElem);
             $('.dataTableFeatures', domElem).toggleClass('expanded');
 

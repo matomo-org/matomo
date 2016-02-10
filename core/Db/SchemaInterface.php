@@ -15,13 +15,6 @@ namespace Piwik\Db;
 interface SchemaInterface
 {
     /**
-     * Is this schema available?
-     *
-     * @return bool  True if schema is available; false otherwise
-     */
-    public static function isAvailable();
-
-    /**
      * Get the SQL to create a specific Piwik table
      *
      * @param string $tableName

@@ -26,6 +26,8 @@ use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Translation\Translator;
+use Piwik\Url;
+use Psr\Log\LoggerInterface;
 
 /**
  * The ScheduledReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -59,6 +61,16 @@ class API extends \Piwik\Plugin\API
 
     // static cache storing reports
     public static $cache = array();
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * Creates a new report and schedules it.
@@ -377,7 +389,20 @@ class API extends \Piwik\Plugin\API
                 $params['segment'] = false;
             }
 
-            $processedReport = Request::processRequest('API.getProcessedReport', $params);
+            try {
+                $processedReport = Request::processRequest('API.getProcessedReport', $params);
+            } catch (\Exception $ex) {
+                // NOTE: can't use warning or error because the log message will appear in the UI as a notification
+                $this->logger->info("Error getting '?{report}' when generating scheduled report: {exception}", array(
+                    'report' => http_build_query($params),
+                    'exception' => $ex->getMessage(),
+                ));
+
+                $this->logger->debug($ex);
+
+                continue;
+            }
+
             $processedReport['segment'] = $segment;
 
             // TODO add static method getPrettyDate($period, $date) in Period
@@ -708,7 +733,7 @@ class API extends \Piwik\Plugin\API
     private static function validateReportHour($hour)
     {
         if (!is_numeric($hour) || $hour < 0 || $hour > 23) {
-            throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
+            throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
         }
     }
 

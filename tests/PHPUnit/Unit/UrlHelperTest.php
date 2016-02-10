@@ -30,6 +30,11 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('https://www.tëteâ.org', true),
             array('http://汉语/漢語.cn', true), //chinese
 
+            array('rtp://whatever.com', true),
+            array('testhttp://test.com', true),
+            array('cylon://3.hmn', true),
+            array('://something.com', true),
+
             // valid network-path reference RFC3986
             array('//piwik.org', true),
             array('//piwik/hello?world=test&test', true),
@@ -45,7 +50,7 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('jmleslangues.php', false),
             array('http://', false),
             array(' http://', false),
-            array('testhttp://test.com', false),
+            array('2fer://', false),
         );
     }
 
@@ -145,32 +150,6 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Dataprovider for testExtractSearchEngineInformationFromUrl
-     */
-    public function getSearchEngineUrls()
-    {
-        return Spyc::YAMLLoad(PIWIK_PATH_TEST_TO_ROOT .'/tests/resources/extractSearchEngineInformationFromUrlTests.yml');
-    }
-
-    /**
-     * @dataProvider getSearchEngineUrls
-     * @group Core
-     */
-    public function testExtractSearchEngineInformationFromUrl($url, $engine, $keywords)
-    {
-        $this->includeDataFilesForSearchEngineTest();
-        $returnedValue = UrlHelper::extractSearchEngineInformationFromUrl($url);
-
-        $exptectedValue = false;
-
-        if (!empty($engine)) {
-            $exptectedValue = array('name' => $engine, 'keywords' => $keywords);
-        }
-
-        $this->assertEquals($exptectedValue, $returnedValue);
-    }
-
-    /**
      * Dataprovider for testGetLossyUrl
      */
     public function getLossyUrls()
@@ -196,11 +175,6 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetLossyUrl($input, $expected)
     {
         $this->assertEquals($expected, UrlHelper::getLossyUrl($input));
-    }
-
-    private function includeDataFilesForSearchEngineTest()
-    {
-        include "DataFiles/SearchEngines.php";
     }
 
     /**

@@ -13,6 +13,7 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
@@ -32,6 +33,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         // note: not sure why I have to manually install plugin
         \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomAlerts')->install();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomDimensions')->install();
 
         $result = Fixture::updateDatabase();
         if ($result === false) {

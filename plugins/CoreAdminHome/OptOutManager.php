@@ -34,6 +34,9 @@ class OptOutManager
     /** @var View|null */
     private $view;
 
+    /** @var array */
+    private $queryParameters = array();
+
     /**
      * @param DoNotTrackHeaderChecker $doNotTrackHeaderChecker
      */
@@ -111,6 +114,50 @@ class OptOutManager
     }
 
     /**
+     * @param string $key
+     * @param string $value
+     * @param bool $override
+     *
+     * @return bool
+     */
+    public function addQueryParameter($key, $value, $override = true)
+    {
+        if (!isset($this->queryParameters[$key]) || true === $override) {
+            $this->queryParameters[$key] = $value;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array $items
+     * @param bool|true $override
+     */
+    public function addQueryParameters(array $items, $override = true)
+    {
+        foreach ($items as $key => $value) {
+            $this->addQueryParameter($key, $value, $override);
+        }
+    }
+
+    /**
+     * @param $key
+     */
+    public function removeQueryParameter($key)
+    {
+        unset($this->queryParameters[$key]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getQueryParameters()
+    {
+        return $this->queryParameters;
+    }
+
+    /**
      * @return View
      * @throws \Exception
      */
@@ -145,18 +192,25 @@ class OptOutManager
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 
+        $this->addQueryParameters(array(
+            'module' => 'CoreAdminHome',
+            'action' => 'optOut',
+            'language' => $lang,
+            'setCookieInNewWindow' => 1
+        ), false);
+
         $this->view = new View("@CoreAdminHome/optOut");
         $this->view->setXFrameOptions('allow');
         $this->view->dntFound = $dntFound;
         $this->view->trackVisits = $trackVisits;
         $this->view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
         $this->view->language = $lang;
-        $this->view->isSafari = $this->isUserAgentSafari();
         $this->view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $this->view->reloadUrl = $reloadUrl;
         $this->view->javascripts = $this->getJavascripts();
         $this->view->stylesheets = $this->getStylesheets();
         $this->view->title = $this->getTitle();
+        $this->view->queryParameters = $this->getQueryParameters();
 
         return $this->view;
     }
@@ -167,14 +221,5 @@ class OptOutManager
     protected function getDoNotTrackHeaderChecker()
     {
         return $this->doNotTrackHeaderChecker;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isUserAgentSafari()
-    {
-        $userAgent = @$_SERVER['HTTP_USER_AGENT'] ?: '';
-        return strpos($userAgent, 'Safari') !== false && strpos($userAgent, 'Chrome') === false;
     }
 }

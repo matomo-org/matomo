@@ -141,7 +141,6 @@ class API extends \Piwik\Plugin\API
                                   'name'                => $translations['Intl']['OriginalLanguageName'],
                                   'english_name'        => $translations['Intl']['EnglishLanguageName'],
                                   'translators'         => $translations['General']['TranslatorName'],
-                                  'translators_email'   => $translations['General']['TranslatorEmail'],
                                   'percentage_complete' => $percentageComplete . '%',
             );
             $languagesInfo[] = $languageInfo;
@@ -274,6 +273,45 @@ class API extends \Piwik\Plugin\API
         $this->getModel()->setLanguageForUser($login, $languageCode);
 
         return true;
+    }
+
+    /**
+     * Returns whether the user uses 12 hour clock
+     *
+     * @param string $login
+     * @return string
+     */
+    public function uses12HourClockForUser($login)
+    {
+        if ($login == 'anonymous') {
+            return false;
+        }
+
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
+
+        $lang = $this->getModel()->uses12HourClock($login);
+
+        return $lang;
+    }
+
+    /**
+     * Returns whether the user uses 12 hour clock
+     *
+     * @param string $login
+     * @param bool $use12HourClock
+     * @return string
+     */
+    public function set12HourClockForUser($login, $use12HourClock)
+    {
+        if ($login == 'anonymous') {
+            return false;
+        }
+
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
+
+        $lang = $this->getModel()->set12HourClock($login, $use12HourClock);
+
+        return $lang;
     }
 
     private function loadAvailableLanguages()

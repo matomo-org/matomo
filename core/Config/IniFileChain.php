@@ -141,7 +141,11 @@ class IniFileChain
 
         $configToWrite = array();
         foreach ($this->mergedSettings as $sectionName => $changedSection) {
-            $existingMutableSection = @$existingMutableSettings[$sectionName] ?: array();
+            if(isset($existingMutableSettings[$sectionName])){
+                $existingMutableSection = $existingMutableSettings[$sectionName];
+            } else{
+                $existingMutableSection = array();
+            }
 
             // remove default values from both (they should not get written to local)
             if (isset($defaultSettings[$sectionName])) {
@@ -218,7 +222,23 @@ class IniFileChain
             }
         }
 
-        $this->mergedSettings = $this->mergeFileSettings();
+        $merged = $this->mergeFileSettings();
+        // remove reference to $this->settingsChain... otherwise dump() or compareElements() will never notice a difference
+        // on PHP 7+ as they would be always equal
+        $this->mergedSettings = $this->copy($merged);
+    }
+
+    private function copy($merged)
+    {
+        $copy = array();
+        foreach ($merged as $index => $value) {
+            if (is_array($value)) {
+                $copy[$index] = $this->copy($value);
+            } else {
+                $copy[$index] = $value;
+            }
+        }
+        return $copy;
     }
 
     private function resetSettingsChain($defaultSettingsFiles, $userSettingsFile)

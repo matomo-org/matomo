@@ -3,7 +3,7 @@
   &:after {
     content: "";
     display: table;
-    clear: both;
+    clear: right;
   }
   &:before {
     content: "";
@@ -35,7 +35,7 @@
     background-image: -moz-linear-gradient(left, @start-color @start-percent, @end-color @end-percent); // FF 3.6+
     background-image:  linear-gradient(to right, @start-color @start-percent, @end-color @end-percent); // Standard, IE10
     background-repeat: repeat-x;
-    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",argb(@start-color),argb(@end-color))); // IE9 and down
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@start-color,@end-color)); // IE9 and down
   }
 
   .vertical(@start-color: #555, @end-color: #333, @start-percent: 0%, @end-percent: 100%) {
@@ -44,7 +44,7 @@
     background-image:  -moz-linear-gradient(top, @start-color @start-percent, @end-color @end-percent); // FF 3.6+
     background-image: linear-gradient(to bottom, @start-color @start-percent, @end-color @end-percent); // Standard, IE10
     background-repeat: repeat-x;
-    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@start-color),argb(@end-color))); // IE9 and down
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@start-color,@end-color)); // IE9 and down
   }
 }
 

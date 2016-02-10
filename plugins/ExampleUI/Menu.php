@@ -18,7 +18,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addItem('UI Framework', '', $this->urlForAction('dataTables'), 30);
+        $menu->addItem('UI Framework', '', array(), 30);
 
         $this->addSubMenu($menu, 'Data tables', 'dataTables', 1);
         $this->addSubMenu($menu, 'Bar graph', 'barGraph', 2);
@@ -34,7 +34,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        $menu->addPlatformItem('UI Notifications', $this->urlForAction('notifications'), $order = 3);
+        $menu->addPlatformItem('UI Notifications', $this->urlForAction('notifications'), $order = 10);
     }
 
     private function addSubMenu(MenuReporting $menu, $subMenu, $action, $order)

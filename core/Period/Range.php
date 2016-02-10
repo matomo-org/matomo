@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period;
-use Piwik\Piwik;
 
 /**
  * Arbitrary date range representation.
@@ -31,6 +30,8 @@ use Piwik\Piwik;
  */
 class Range extends Period
 {
+    const PERIOD_ID = 5;
+
     protected $label = 'range';
     protected $today;
 
@@ -107,16 +108,7 @@ class Range extends Period
      */
     public function getLocalizedShortString()
     {
-        //"30 Dec 08 - 26 Feb 09"
-        $dateStart = $this->getDateStart();
-        $dateEnd   = $this->getDateEnd();
-        $template  = $this->translator->translate('CoreHome_ShortDateFormatWithYear');
-
-        $shortDateStart = $dateStart->getLocalized($template);
-        $shortDateEnd   = $dateEnd->getLocalized($template);
-
-        $out = "$shortDateStart - $shortDateEnd";
-        return $out;
+        return $this->getTranslatedRange($this->getRangeFormat(true));
     }
 
     /**
@@ -126,7 +118,7 @@ class Range extends Period
      */
     public function getLocalizedLongString()
     {
-        return $this->getLocalizedShortString();
+        return $this->getTranslatedRange($this->getRangeFormat());
     }
 
     /**
@@ -521,5 +513,16 @@ class Range extends Period
         $dateEnd   = $this->getDateEnd();
 
         return $dateStart->toString("Y-m-d") . "," . $dateEnd->toString("Y-m-d");
+    }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        $subperiods = $this->getSubperiods();
+        return reset($subperiods)->getImmediateChildPeriodLabel();
+    }
+
+    public function getParentPeriodLabel()
+    {
+        return null;
     }
 }

@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "เพิ่มเป้าหมาย",
         "AddNewGoal": "เพิ่มค่าเป้าหมายใหม่",
-        "AddNewGoalOrEditExistingGoal": "%s เพิ่มเป้าหมายใหม่ %s หรือ %s แก้ไข %s เป้าหมายที่มีอยู่แล้ว",
+        "AddNewGoalOrEditExistingGoal": "%1$s เพิ่มเป้าหมายใหม่ %2$s หรือ %3$s แก้ไข %4$s เป้าหมายที่มีอยู่แล้ว",
         "BestCountries": "การแปลงประเทศที่ดีที่สุดของคุณคือ:",
         "BestKeywords": "การแปลงคีย์เวิร์ดยอดนิยมของคุณคือ:",
         "BestReferrers": "แปลงแหล่งที่มาเว็บไซต์ที่ดีที่สุดของคุณคือ:",
@@ -21,7 +21,7 @@
         "Ecommerce": "อีคอมเมิร์ซ",
         "EcommerceAndGoalsMenu": "อีคอมเมิร์ซ & เป้าหมาย",
         "EcommerceOverview": "ข้อมูลอีคอมเมิร์ซเบื้องต้น",
-        "ExceptionInvalidMatchingString": "ถ้าคุณเลือก 'ตรงกันพอดี' สตริงที่ตรงกันต้องเป็น URL เริ่มต้นด้วย %s ตัวอย่างเช่น '%s'",
+        "ExceptionInvalidMatchingString": "ถ้าคุณเลือก 'ตรงกันพอดี' สตริงที่ตรงกันต้องเป็น URL เริ่มต้นด้วย %1$s ตัวอย่างเช่น '%2$s'",
         "ExternalWebsiteUrl": "URL ของเว็บไซต์ภายนอก",
         "Filename": "ชื่อไฟล์",
         "GoalConversion": "การแปลงเป้าหมาย",
@@ -53,6 +53,6 @@
         "VisitUrl": "การเข้าชมได้รับ URL (หน้าหรือกลุ่มของหน้า)",
         "WhenVisitors": "เมื่อผู้เข้าชม",
         "WhereThe": "ที่ซึ่ง",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "ในหน้าเว็บเพจเมื่อเข้าชมแล้ว จะประกอบไปด้วยวิธีการเรียก JavaScript piwikTracker.trackGoal() และวิธี (%s เรียนรู้เพิ่มเติม %s)"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "ในหน้าเว็บเพจเมื่อเข้าชมแล้ว จะประกอบไปด้วยวิธีการเรียก JavaScript 'trackGoal' และวิธี (%1$s เรียนรู้เพิ่มเติม %2$s)"
     }
 }

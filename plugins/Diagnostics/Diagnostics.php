@@ -12,4 +12,19 @@ use Piwik\Plugin;
 
 class Diagnostics extends Plugin
 {
+    /**
+     * @see Piwik\Plugin::registerEvents
+     */
+    public function registerEvents()
+    {
+        return array(
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+        );
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/Diagnostics/stylesheets/configfile.less";
+    }
+
 }

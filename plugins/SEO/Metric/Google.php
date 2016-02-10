@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\SEO\Metric;
 
 use Piwik\Http;
+use Piwik\NumberFormatter;
+use Piwik\Plugins\Referrers\SearchEngine;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -36,7 +38,7 @@ class Google implements MetricsProvider
         $pageCount = $this->fetchIndexedPagesCount($domain);
         $pageRank = $this->fetchPageRank($domain);
 
-        $logo = \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://google.com');
+        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://google.com');
 
         return array(
             new Metric('google-index', 'SEO_Google_IndexedPages', $pageCount, $logo, null, null, 'General_Pages'),
@@ -52,7 +54,7 @@ class Google implements MetricsProvider
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
 
             if (preg_match('#([0-9\,]+) results#i', $response, $p)) {
-                return (int)str_replace(',', '', $p[1]);
+                return NumberFormatter::getInstance()->formatNumber((int)str_replace(',', '', $p[1]));
             } else {
                 return 0;
             }

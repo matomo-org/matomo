@@ -146,6 +146,9 @@ class DoNotTrackHeaderChecker
 
             // Maxthon
             'Maxthon',
+            
+            // Epiphany - https://github.com/piwik/piwik/issues/8682
+            'Epiphany',
         );
     }
 }

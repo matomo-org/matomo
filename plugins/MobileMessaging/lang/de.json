@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Der Anbietername '%s' ist unbekannt. Versuchen Sie stattdessen einen der folgenden: %s.",
+        "Exception_UnknownProvider": "Der Anbietername '%1$s' ist unbekannt. Versuchen Sie stattdessen einen der folgenden: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Sie können weitere Telefonnummern hinzufügen auf",
         "MobileReport_MobileMessagingSettingsLink": "der Mobile Messaging Einstellungsseite",
         "MobileReport_NoPhoneNumbers": "Bitte aktivieren Sie mindestens eine Telefonnummer auf",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS-Anbieter",
         "Settings_SuperAdmin": "Einstellungen für Hauptadministrator",
         "Settings_SuspiciousPhoneNumber": "Falls Sie keine Textnachricht erhalten probieren Sie es bitte ohne eine führende 0, z.B.: %s",
-        "Settings_UpdateOrDeleteAccount": "Sie können diesen Zugang auch %saktualisieren%s oder %sentfernen%s.",
+        "Settings_UpdateOrDeleteAccount": "Sie können diesen Zugang auch %1$saktualisieren%2$s oder %3$sentfernen%4$s.",
         "Settings_ValidatePhoneNumber": "Validieren",
         "Settings_VerificationCodeJustSent": "Wir haben Ihnen eine SMS mit einem Code an diese Nummer geschickt: Bitte geben Sie diesen Code unterhalb ein und klicken auf \"Validieren\".",
         "SettingsMenu": "Mobile Messaging",
         "SMS_Content_Too_Long": "[zu lang]",
         "TopLinkTooltip": "Erhalten Sie Webanalytik Berichte direkt in Ihren E-Mail Posteingang oder auf Ihr Mobiltelefon!",
         "TopMenu": "E-Mail & SMS Berichte",
-        "VerificationText": "Der Code lautet %s. Um Ihre Telefonnummer zu validieren und Piwik SMS Berichte zu erhalten kopieren Sie bitte diesen Code in das Formular unter Piwik > %s > %s."
+        "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Piwik SMS Berichte zu erhalten kopieren Sie bitte diesen Code in das Formular unter Piwik > %2$s > %3$s."
     }
 }

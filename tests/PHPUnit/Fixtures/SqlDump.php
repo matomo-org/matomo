@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Reusable fixture. Loads a SQL dump into the DB.
@@ -59,9 +60,10 @@ class SqlDump extends Fixture
         // load the data into the correct database
         $user = Config::getInstance()->database['username'];
         $password = Config::getInstance()->database['password'];
+        $host = Config::getInstance()->database['host'];
         Config::getInstance()->database['tables_prefix'] = $this->tablesPrefix;
 
-        $cmd = "mysql -u \"$user\" \"--password=$password\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
+        $cmd = "mysql -h \"$host\" -u \"$user\" \"--password=$password\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
         exec($cmd, $output, $return);
         if ($return !== 0) {
             throw new Exception("Failed to load sql dump: " . implode("\n", $output));
@@ -73,17 +75,13 @@ class SqlDump extends Fixture
         // reload access
         Access::getInstance()->reloadAccess();
 
-        $this->getTestEnvironment()->configOverride = array(
+        $testVars = new TestingEnvironmentVariables();
+        $testVars->configOverride = array(
             'database' => array(
                 'tables_prefix' => $this->tablesPrefix
             )
         );
-        $this->getTestEnvironment()->save();
-    }
-
-    public function tearDown()
-    {
-        // empty
+        $testVars->save();
     }
 
     /**

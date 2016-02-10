@@ -130,9 +130,15 @@ class Common
             return self::$isCliMode;
         }
 
-        $remoteAddr = @$_SERVER['REMOTE_ADDR'];
-        return PHP_SAPI == 'cli' ||
-        (self::isPhpCgiType() && empty($remoteAddr));
+        if(PHP_SAPI == 'cli'){
+            return true;
+        }
+        
+        if(self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))){
+            return true;
+        }
+        
+        return false;
     }
 
     /**
@@ -578,10 +584,6 @@ class Common
         $chars = $alphabet;
         $str   = '';
 
-        list($usec, $sec) = explode(" ", microtime());
-        $seed = ((float)$sec + (float)$usec) * 100000;
-        mt_srand($seed);
-
         for ($i = 0; $i < $length; $i++) {
             $rand_key = mt_rand(0, strlen($chars) - 1);
             $str .= substr($chars, $rand_key, 1);
@@ -807,86 +809,6 @@ class Common
         /** @var LanguageDataProvider $dataProvider */
         $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
         return $dataProvider->getLanguageToCountryList();
-    }
-
-    /**
-     * Returns list of search engines by URL
-     *
-     * @see core/DataFiles/SearchEngines.php
-     *
-     * @return array  Array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
-     */
-    public static function getSearchEngineUrls()
-    {
-        $cacheId = 'Common.getSearchEngineUrls';
-        $cache = Cache::getTransientCache();
-        $searchEngines = $cache->fetch($cacheId);
-
-        if (empty($searchEngines)) {
-            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
-
-            $searchEngines = $GLOBALS['Piwik_SearchEngines'];
-
-            Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$searchEngines));
-
-            $cache->save($cacheId, $searchEngines);
-        }
-
-        return $searchEngines;
-    }
-
-    /**
-     * Returns list of search engines by name
-     *
-     * @see core/DataFiles/SearchEngines.php
-     *
-     * @return array  Array of ( searchEngineName => URL )
-     */
-    public static function getSearchEngineNames()
-    {
-        $cacheId = 'Common.getSearchEngineNames';
-        $cache = Cache::getTransientCache();
-        $nameToUrl = $cache->fetch($cacheId);
-
-        if (empty($nameToUrl)) {
-            $searchEngines = self::getSearchEngineUrls();
-
-            $nameToUrl = array();
-            foreach ($searchEngines as $url => $info) {
-                if (!isset($nameToUrl[$info[0]])) {
-                    $nameToUrl[$info[0]] = $url;
-                }
-            }
-            $cache->save($cacheId, $nameToUrl);
-        }
-
-        return $nameToUrl;
-    }
-
-    /**
-     * Returns list of social networks by URL
-     *
-     * @see core/DataFiles/Socials.php
-     *
-     * @return array  Array of ( URL => Social Network Name )
-     */
-    public static function getSocialUrls()
-    {
-        $cacheId = 'Common.getSocialUrls';
-        $cache = Cache::getTransientCache();
-        $socialUrls = $cache->fetch($cacheId);
-
-        if (empty($socialUrls)) {
-            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
-
-            $socialUrls = $GLOBALS['Piwik_socialUrl'];
-
-            Piwik::postEvent('Referrer.addSocialUrls', array(&$socialUrls));
-
-            $cache->save($cacheId, $socialUrls);
-        }
-
-        return $socialUrls;
     }
 
     /**
@@ -1274,15 +1196,17 @@ class Common
                 $info = var_export($info, true);
             }
 
+            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+
             if (is_array($info) || is_object($info)) {
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
                 foreach (explode("\n", $out) as $line) {
-                    echo $line . "\n";
+                    $logger->debug($line);
                 }
             } else {
                 foreach (explode("\n", $info) as $line) {
-                    echo $line . "\n";
+                    $logger->debug($line);
                 }
             }
         }

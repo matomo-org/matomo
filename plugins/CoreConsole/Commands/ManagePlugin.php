@@ -41,7 +41,7 @@ class ManagePlugin extends ConsoleCommand
     }
 
     /**
-     * Execute command like: ./console cloudadmin:plugin activate CustomAlerts --piwik-domain=testcustomer.piwik.pro
+     * Execute command like: ./console core:plugin activate CustomAlerts --piwik-domain=testcustomer.piwik.pro
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

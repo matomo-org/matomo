@@ -34,7 +34,7 @@ class AverageTimeOnPage extends ProcessedMetric
     public function compute(Row $row)
     {
         $sumTimeSpent = $this->getMetric($row, 'sum_time_spent');
-        $visits = $this->getMetric($row, 'nb_visits');
+        $visits = $this->getMetric($row, 'nb_hits');
 
         return Piwik::getQuotientSafe($sumTimeSpent, $visits, $precision = 0);
     }
@@ -46,6 +46,6 @@ class AverageTimeOnPage extends ProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('sum_time_spent', 'nb_visits');
+        return array('sum_time_spent', 'nb_hits');
     }
 }

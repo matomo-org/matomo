@@ -8,12 +8,10 @@
  */
 namespace Piwik;
 
-use Exception;
-use Piwik\Plugins\SitesManager\API;
+use Piwik\Container\StaticContainer;
 
 /**
  * Class to check if a newer version of Piwik is available
- *
  */
 class UpdateCheck
 {
@@ -51,34 +49,36 @@ class UpdateCheck
         ) {
             // set the time checked first, so that parallel Piwik requests don't all trigger the http requests
             Option::set(self::LAST_TIME_CHECKED, time(), $autoLoad = 1);
-            $parameters = array(
-                'piwik_version' => Version::VERSION,
-                'php_version'   => PHP_VERSION,
-                'url'           => Url::getCurrentUrlWithoutQueryString(),
-                'trigger'       => Common::getRequestVar('module', '', 'string'),
-                'timezone'      => API::getInstance()->getDefaultTimezone(),
-            );
 
-            $url = Config::getInstance()->General['api_service_url']
-                . '/1.0/getLatestVersion/'
-                . '?' . http_build_query($parameters, '', '&');
-            $timeout = self::SOCKET_TIMEOUT;
-
-            if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
-                $url = 'http://builds.piwik.org/LATEST_BETA';
-            }
-
-            try {
-                $latestVersion = Http::sendHttpRequest($url, $timeout);
-                if (!preg_match('~^[0-9][0-9a-zA-Z_.-]*$~D', $latestVersion)) {
-                    $latestVersion = '';
-                }
-            } catch (Exception $e) {
-                // e.g., disable_functions = fsockopen; allow_url_open = Off
+            $latestVersion = self::getLatestAvailableVersionNumber();
+            $latestVersion = trim((string) $latestVersion);
+            if (!preg_match('~^[0-9][0-9a-zA-Z_.-]*$~D', $latestVersion)) {
                 $latestVersion = '';
             }
+
             Option::set(self::LATEST_VERSION, $latestVersion);
         }
+    }
+
+    /**
+     * Get the latest available version number for the currently active release channel. Eg '2.15.0-b4' or '2.15.0'.
+     * Should return a semantic version number in format MAJOR.MINOR.PATCH (http://semver.org/).
+     * Returns an empty string in case one cannot connect to the remote server.
+     * @return string
+     */
+    private static function getLatestAvailableVersionNumber()
+    {
+        $channel = StaticContainer::get('\Piwik\Plugin\ReleaseChannels')->getActiveReleaseChannel();
+        $url = $channel->getUrlToCheckForLatestAvailableVersion();
+
+        try {
+            $latestVersion = Http::sendHttpRequest($url, self::SOCKET_TIMEOUT);
+        } catch (\Exception $e) {
+            // e.g., disable_functions = fsockopen; allow_url_open = Off
+            $latestVersion = '';
+        }
+
+        return $latestVersion;
     }
 
     /**

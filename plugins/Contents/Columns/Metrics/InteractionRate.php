@@ -32,6 +32,11 @@ class InteractionRate extends ProcessedMetric
         return Piwik::translate('Contents_InteractionRate');
     }
 
+    public function getDocumentation()
+    {
+        return Piwik::translate('Contents_InteractionRateMetricDocumentation');
+    }
+
     public function compute(Row $row)
     {
         $interactions = $this->getMetric($row, 'nb_interactions');

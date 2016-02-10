@@ -1,0 +1,399 @@
+
+ #header {
+  padding: 0 15px;
+  background-color: @theme-color-background-base;
+  height: 50px;
+
+  /* Clear fix */
+  &:after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+
+  .icon-menu-hamburger {
+     display: none;
+  }
+
+  #logo {
+  }
+
+  #topRightBar {
+    li {
+      display: inline-block;
+    }
+
+    .topBarElem {
+      color: @theme-color-text;
+      text-decoration: none;
+      padding: 14px 12px;
+      display: inline-block;
+      height: 100%;
+      transition: background-color 150ms linear;
+
+      &:hover, &:focus {
+        background-color: @theme-color-menu-contrast-background;
+      }
+
+      &.active {
+        color: @theme-color-brand;
+      }
+
+      .menuDropdown {
+        color: @theme-color-text;
+        .title:after {
+          color: @theme-color-text;
+          border-top-color: @theme-color-text;
+        }
+      }
+    }
+
+    .navbar-right {
+        height: 48px;
+        position: absolute;
+        right: 10px;
+        font-size: 13px;
+    }
+  }
+}
+
+ .navbar {
+   a {
+     text-decoration: none;
+     &:hover, &:focus {
+       text-decoration: none;
+     }
+   }
+ }
+
+ // start #secondNavBar fadeInLeft animation
+ @-webkit-keyframes fadeInLeft {
+   0% {
+     opacity: 0;
+     -webkit-transform: translateX(-20px);
+   }
+   100% {
+     opacity: 1;
+     -webkit-transform: translateX(0);
+   }
+ }
+ @keyframes fadeInLeft {
+   0% {
+     opacity: 0;
+     transform: translateX(-20px);
+   }
+   100% {
+     opacity: 1;
+     transform: translateX(0);
+   }
+ }
+ // end #secondNavBar fadeInLeft animation
+
+#root {
+
+  .pageWrap {
+    padding-left: 18px;
+    padding-right: 15px;
+  }
+
+  #secondNavBar + .pageWrap {
+    margin-left: 224px;
+  }
+
+  #root>.top_controls {
+    margin-left:15px;
+    margin-right:15px;
+  }
+
+  @media all and (max-width: 749px) {
+    .pageWrap {
+      margin-left: 0 !important;
+    }
+
+    #header {
+      min-height: 50px;
+      height: auto;
+    }
+
+    #topRightBar {
+      .navbar-right {
+        text-align: left;
+        margin-left: 2px;
+        display: inline-block;
+        position: relative;
+        height: auto;
+        min-height: 48px;
+      }
+    }
+
+    #navbar-collapse1 {
+      margin-left: 45px;
+    }
+
+    #secondNavBar:not(.standalone) {
+      z-index: 9999;
+      position: absolute;
+      border-right: 1px solid @theme-color-background-tinyContrast;
+      border-top: 1px solid @theme-color-background-tinyContrast;
+      -webkit-box-shadow: 4px 4px 18px 1px rgba(0,0,0,0.75);
+      -moz-box-shadow: 4px 4px 18px 1px rgba(0,0,0,0.75);
+      box-shadow: 4px 4px 18px 1px rgba(0,0,0,0.75);
+      -webkit-animation-duration: 0.3s;
+      animation-duration: 0.3s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      -webkit-animation-timing-function: linear;
+      animation-timing-function: linear;
+
+      display: none;
+      &.open {
+        display: block;
+        -webkit-animation-name: fadeInLeft;
+        animation-name: fadeInLeft;
+      }
+
+      #search {
+        display: none;
+      }
+    }
+
+
+    .top_controls {
+      height: auto;
+
+      .isPiwikDemo,
+      .piwikTopControl {
+        position: static !important;
+        margin: 0 0 10px;
+        float: none;
+        display: inline-block;
+      }
+
+      .isPiwikDemo {
+        margin-top: 8px;
+      }
+    }
+
+    .icon-menu-hamburger {
+      padding: 10px 10px 10px;
+      display: inline-block;
+      float: left;
+      cursor: pointer;
+      font-size: 23px;
+    }
+
+    #logo {
+      display: none;
+    }
+
+  }
+
+  #ajaxLoadingDiv {
+    margin-top: 10px;
+  }
+
+  #secondNavBar {
+    width: 224px;
+    float:left;
+
+    #search {
+      padding: 8px 0 13px 8px;
+      height: 61px;
+
+      .quick-access {
+        z-index: 1000;
+        position: absolute;
+        width: 216px;
+        input {
+          height: 33px;
+          font-size: 11px;
+          padding: 10px 12px 10px 10px;
+        }
+      }
+    }
+
+    .navbar {
+      background-color: @theme-color-menu-contrast-background;
+      border-bottom: 1px solid @theme-color-menu-contrast-background;
+
+      .menu-icon {
+        padding-right: 13px;
+      }
+
+      > li {
+        display: inline-block;
+        width: 100%;
+        .border-radius(0px);
+        border: 0;
+        background: none;
+
+        .item {
+          display: inline-block;
+          width: 100%;
+          font-family: Verdana, sans-serif;
+          .font-default(13px, 21px);
+          padding: 12px 21px 12px 19px;
+          color: @theme-color-menu-contrast-text;
+          decoration: none !important;
+          word-break: break-word;
+
+          &:hover, &:focus {
+            decoration: none !important;
+          }
+        }
+
+        > .item {
+          cursor: default;
+          font-weight: bold;
+          &:hover, &:focus {
+            text-decoration: none;
+          }
+        }
+
+        > ul {
+
+          li {
+            .item {
+              .font-default(13px, 16px);
+              padding: 11px 22px 11px 45px;
+              decoration: none;
+              transition: background-color 200ms linear;
+              &:hover, &:focus {
+                text-decoration: none;
+                color: @theme-color-menu-contrast-textActive;
+              }
+            }
+
+            &.sfActive {
+              .item {
+                color: @theme-color-menu-contrast-textSelected;
+                background-color: @theme-color-background-base;
+                decoration: none;
+              }
+            }
+          }
+        }
+      }
+
+
+      .menuDropdown {
+
+        .items {
+          width: 224px;
+          box-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+
+          .search {
+            margin: 15px 16px 10px 17px;
+          }
+
+          .item {
+            padding: 10px 16px 10px !important;
+            min-height: 25px;
+            height: auto;
+          }
+        }
+
+        .title {
+          color: @theme-color-menu-contrast-text;
+          display: block;
+          padding: 15px 22px 11px 45px;
+          font-size: 13px;
+          font-weight: normal;
+
+          &:hover, &:focus {
+            color: @theme-color-menu-contrast-textActive;
+          }
+
+          &:after {
+            color: @theme-color-menu-contrast-text;
+            border-top: 5px solid @theme-color-menu-contrast-text;
+            top: 20px;
+            right: 3px;
+          }
+        }
+      }
+    }
+
+    &.Menu--dashboard .navbar > li {
+      > ul {
+        display: none;
+
+        @media all and (max-width: 749px) {
+          display: block;
+        }
+      }
+
+      > .item {
+        cursor: pointer;
+        &:hover, &:focus {
+          color: @theme-color-menu-contrast-textActive;
+        }
+      }
+
+      &.sfActive {
+        ul {
+          display: block;
+        }
+
+        .icon-arrow-right:before {
+          content: "\e63b";
+        }
+      }
+    }
+
+    &.Menu--admin .navbar > li {
+      > .item {
+        padding: 14px 21px 6px 19px;
+      }
+      .item .icon-arrow-right:before {
+        content: "\e63b";
+      }
+    }
+  }
+}
+
+#root {
+  .top_controls {
+    visibility: hidden;
+    opacity: 0;
+    .piwikTopControl {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+#root, #standalone {
+  .top_controls {
+    min-height: 51px;
+    position: relative;
+    background-color: @theme-color-background-base;
+    height: auto;
+    margin-bottom: 10px;
+
+    .piwikTopControl {
+      display: inline-block;
+      float: none;
+      position: absolute;
+      margin-right: 18px;
+      vertical-align: top;
+      font-size: 11px;
+    }
+  }
+}
+
+#root, #standalone, .ui-dialog, .ngdialog {
+  .borderedControl {
+    background-color: @theme-color-background-base;
+    border: 1px solid @theme-color-background-tinyContrast;
+    transition: box-shadow 150ms linear;
+    &.expanded,
+    &:hover, &:focus {
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    }
+  }
+}
+
+.widgetize {
+  width: auto;
+}

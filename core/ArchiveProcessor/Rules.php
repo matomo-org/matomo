@@ -86,7 +86,7 @@ class Rules
         return 'done' . $segment->getHash() . '.' . $plugin ;
     }
 
-    private static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
+    public static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
     {
         return 'done' . $segment->getHash();
     }

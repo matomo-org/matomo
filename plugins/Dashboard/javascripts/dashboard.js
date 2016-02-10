@@ -11,9 +11,9 @@ function initDashboard(dashboardId, dashboardLayout) {
     initTopControls();
 
     // Embed dashboard
-    if (!$('#topBars').length) {
+    if (!$('#header .navbar-right').length) {
         $('.dashboardSettings').after($('#Dashboard'));
-        $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
+        $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfActive');
     }
 
     widgetsHelper.getAvailableWidgets();
@@ -168,21 +168,15 @@ function copyDashboardToUser() {
         // on menu item click, trigger action event on this
         var self = this;
         this.$element.on('click', 'ul.submenu li[data-action]', function (e) {
-            self.$element.toggleClass('visible');
-
-            $(self).trigger($(this).attr('data-action'));
+            if (!$(this).attr('disabled')) {
+                self.$element.removeClass('expanded');
+                $(self).trigger($(this).attr('data-action'));
+            }
         });
 
         // open manager on open
         this.$element.on('click', function (e) {
-            if ($(e.target).is('.dashboardSettings,.dashboardSettings>span')) {
-                self.$element.toggleClass('visible');
-
-                // fix position
-                self.$element
-                    .find('.widgetpreview-widgetlist')
-                    .css('paddingTop', self.$element.find('.widgetpreview-categorylist').parent('li').position().top);
-
+            if ($(e.target).is('.dashboardSettings') || $(e.target).closest('.dashboardSettings').length) {
                 self.onOpen();
             }
         });
@@ -193,7 +187,7 @@ function copyDashboardToUser() {
                 && !$(e.target).is('.dashboardSettings')
             ) {
                 self.$element.widgetPreview('reset');
-                self.$element.removeClass('visible');
+                self.$element.removeClass('expanded');
             }
         };
 
@@ -206,7 +200,7 @@ function copyDashboardToUser() {
             },
             onSelect: function (widgetUniqueId) {
                 var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-                self.$element.removeClass('visible');
+                self.$element.removeClass('expanded');
 
                 self.widgetSelected(widget);
             },
@@ -280,14 +274,28 @@ function copyDashboardToUser() {
     $.extend(DashboardManagerControl.prototype, DashboardSettingsControlBase.prototype, {
         onOpen: function () {
             if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
-                $('.removeDashboardLink', this.$element).hide();
+                $('[data-action=removeDashboard]', this.$element).attr('disabled', 'disabled');
+                $(this.$element).tooltip({
+                    items: '[data-action=removeDashboard]',
+                    show: false,
+                    hide: false,
+                    track: true,
+                    content: function() {
+                        return _pk_translate('Dashboard_RemoveDefaultDashboardNotPossible')
+                    },
+                    tooltipClass: 'small'
+                });
             } else {
-                $('.removeDashboardLink', this.$element).show();
-            }
+                $('[data-action=removeDashboard]', this.$element).removeAttr('disabled');
+                // try to remove tooltip if any
+                try {
+                    $(this.$element).tooltip('destroy');
+                } catch (e) { }
+             }
         },
 
         hide: function () {
-            this.$element.removeClass('visible');
+            this.$element.removeClass('expanded');
         },
 
         isWidgetAvailable: function (widgetUniqueId) {

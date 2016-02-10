@@ -33,6 +33,13 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>4</index>
+			</row>
+		</slots>
+		<segment>customVariableName==ValueIsZero</segment>
 		<subtable>
 			<row>
 				<label>0</label>
@@ -103,6 +110,13 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>5</index>
+			</row>
+		</slots>
+		<segment>customVariableName==VisitorType</segment>
 		<subtable>
 			<row>
 				<label>NewLoggedOut</label>
@@ -144,6 +158,13 @@
 		<label>_pkc</label>
 		<nb_visits>7</nb_visits>
 		<nb_actions>12</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>5</index>
+			</row>
+		</slots>
+		<segment>customVariableName==_pkc</segment>
 		<subtable>
 			<row>
 				<label>Electronics &amp; Cameras</label>
@@ -188,6 +209,13 @@
 		<label>_pkn</label>
 		<nb_visits>6</nb_visits>
 		<nb_actions>11</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>4</index>
+			</row>
+		</slots>
+		<segment>customVariableName==_pkn</segment>
 		<subtable>
 			<row>
 				<label>PRODUCT name</label>
@@ -212,6 +240,13 @@
 		<label>_pks</label>
 		<nb_visits>6</nb_visits>
 		<nb_actions>11</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>3</index>
+			</row>
+		</slots>
+		<segment>customVariableName==_pks</segment>
 		<subtable>
 			<row>
 				<label>SKU VERY nice indeed</label>
@@ -260,6 +295,13 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>3111.11</revenue>
+		<slots>
+			<row>
+				<scope>visit</scope>
+				<index>3</index>
+			</row>
+		</slots>
+		<segment>customVariableName==VisitorName</segment>
 		<subtable>
 			<row>
 				<label>Great name!</label>
@@ -296,6 +338,13 @@
 		<label>_pkp</label>
 		<nb_visits>8</nb_visits>
 		<nb_actions>8</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>2</index>
+			</row>
+		</slots>
+		<segment>customVariableName==_pkp</segment>
 		<subtable>
 			<row>
 				<label>333</label>

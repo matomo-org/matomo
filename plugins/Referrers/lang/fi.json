@@ -2,8 +2,8 @@
     "Referrers": {
         "AllReferrersReportDocumentation": "Tämä raportti näyttää kaikki viittaukset yhdessä raportissa, listaten kaikki verkkosivut, hakusanat ja kampanjat, joita käyttäjäsi käyttivät löytääkseen verkkosivusi.",
         "Campaigns": "Kampanjat",
-        "CampaignsDocumentation": "Vierailijat, jotka tulivat sivullesi kampanjan mukana. %s Katso %s raportista lisätietoja.",
-        "CampaignsReportDocumentation": "Tässä raportissa on tietoa kampanjoista, joilla käyttäjiä tuli sivuillesi. %s Lisätietoa kampanjoiden seuraamisesta löytyy %senglanninkielisestä dokumentista piwik.orgissa%s",
+        "CampaignsDocumentation": "Vierailijat, jotka tulivat sivullesi kampanjan mukana. %1$s Katso %2$s raportista lisätietoja.",
+        "CampaignsReportDocumentation": "Tässä raportissa on tietoa kampanjoista, joilla käyttäjiä tuli sivuillesi. %1$s Lisätietoa kampanjoiden seuraamisesta löytyy %2$senglanninkielisestä dokumentista piwik.orgissa%3$s",
         "ColumnCampaign": "Kampanja",
         "ColumnSearchEngine": "Hakukone",
         "ColumnSocial": "Sosiaalinen verkosto",
@@ -25,7 +25,7 @@
         "Referrers": "Viittaajat",
         "ReferrersOverview": "Viittauksien yleiskatsaus",
         "SearchEngines": "Hakukoneet",
-        "SearchEnginesDocumentation": "Kävijä tuli sivullesi hakukoneesta. %s Katso %s raportista lisätietoja.",
+        "SearchEnginesDocumentation": "Kävijä tuli sivullesi hakukoneesta. %1$s Katso %2$s raportista lisätietoja.",
         "SearchEnginesReportDocumentation": "Tämä raportti näyttää, mitkä hakukoneet viittasivat kävijöitä sivuillesi. %s Näet hakusanat klikkaamalla hakukoneen nimeä.",
         "SocialFooterMessage": "Tämä on osajoukko verkkosivuraportista vasemmalla. Se suodattaa pois toiset verkkosivut, jotta voit verrata sosiaalisia verkostojasi suoraan.",
         "Socials": "Sosiaaliset verkostot",
@@ -42,12 +42,12 @@
         "ViewAllReferrers": "Näytä kaikki viittaukset",
         "ViewReferrersBy": "Näytä viittaukset %s mukaan",
         "Websites": "Sivustot",
-        "WebsitesDocumentation": "Kävijä tuli sivullesi seuraamalla linkkiä toiselta sivulta. %s Katso %s raportista lisätietoja.",
+        "WebsitesDocumentation": "Kävijä tuli sivullesi seuraamalla linkkiä toiselta sivulta. %1$s Katso %2$s raportista lisätietoja.",
         "WebsitesReportDocumentation": "Tässä taulussa on lista sivuista, joiden kautta käyttäjiä tuli sinun sivullesi. %s Näet lähdesivun URL:n klikkaamalla taulun riviä.",
         "WidgetExternalWebsites": "Lista ulkoisista verkkosivuista",
         "WidgetGetAll": "Kaikki viittaukset",
         "WidgetSocials": "Sosiaalisten verkostojen lista",
         "WidgetTopKeywordsForPages": "Käytetyimmät avainsanat sivun URL:lle",
-        "XPercentOfVisits": "%s%% kävijöistä"
+        "XPercentOfVisits": "%s kävijöistä"
     }
 }

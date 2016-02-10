@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1</website>
-	<prettyDate>Sunday 3 January 2010</prettyDate>
+	<prettyDate>Sunday, January 3, 2010</prettyDate>
 	<metadata>
 		<category>Visits Summary</category>
 		<name>Visits by Server Time</name>
@@ -57,11 +57,11 @@
 			<label>12h</label>
 			<nb_uniq_visitors>4</nb_uniq_visitors>
 			<nb_visits>4</nb_visits>
-			<nb_actions>12</nb_actions>
+			<nb_actions>20</nb_actions>
 			<nb_users>0</nb_users>
 			<revenue>$ 40</revenue>
-			<nb_actions_per_visit>3</nb_actions_per_visit>
-			<avg_time_on_site>00:21:01</avg_time_on_site>
+			<nb_actions_per_visit>5</nb_actions_per_visit>
+			<avg_time_on_site>00:27:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</row>
 		<row>
@@ -395,7 +395,7 @@
 	<reportTotal>
 		<nb_visits>8</nb_visits>
 		<nb_uniq_visitors>8</nb_uniq_visitors>
-		<nb_actions>16</nb_actions>
+		<nb_actions>24</nb_actions>
 		<nb_visits_converted>0</nb_visits_converted>
 		<bounce_count>4</bounce_count>
 		<nb_conversions>12</nb_conversions>

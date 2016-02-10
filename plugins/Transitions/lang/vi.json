@@ -16,12 +16,12 @@
         "NoDataForAction": "Không có dữ liệu cho %s",
         "NoDataForActionDetails": "Hay là hành động không có lượt xem trang trong thời gian %s hoặc không hợp lệ.",
         "OutgoingTraffic": "Lưu lượng truy cập đi",
-        "ShareOfAllPageviews": "Trang này đã có %s lượt xem trang (%s của tất cả các lượt xem trang)",
+        "ShareOfAllPageviews": "Trang này đã có %1$s lượt xem trang (%2$s của tất cả các lượt xem trang)",
         "ToFollowingPages": "Tới các trang nội bộ",
         "ToFollowingPagesInline": "%s tới các trang nội bộ",
         "ToFollowingSiteSearches": "Các tìm kiếm nội bộ",
         "ToFollowingSiteSearchesInline": "%s Các tìm kiếm nội bộ",
         "XOfAllPageviews": "%s của tất cả các lượt xem của trang này",
-        "XOutOfYVisits": "%s (trong số %s)"
+        "XOutOfYVisits": "%1$s (trong số %2$s)"
     }
 }

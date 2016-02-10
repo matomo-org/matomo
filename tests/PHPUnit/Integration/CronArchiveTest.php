@@ -8,8 +8,8 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Archiver\Request;
 use Piwik\CliMulti;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
@@ -31,7 +31,7 @@ class CronArchiveTest extends IntegrationTestCase
         Fixture::createWebsite('2014-12-12 00:01:02');
         Fixture::createWebsite('2014-12-12 00:01:02');
 
-        $ar = new ArchiveInvalidator();
+        $ar = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $ar->rememberToInvalidateArchivedReportsLater(1, Date::factory('2014-04-05'));
         $ar->rememberToInvalidateArchivedReportsLater(2, Date::factory('2014-04-05'));
         $ar->rememberToInvalidateArchivedReportsLater(2, Date::factory('2014-04-06'));
@@ -128,9 +128,10 @@ SUMMARY
 Total visits for today across archived websites: 1
 Archived today's reports for 1 websites
 Archived week/month/year for 1 websites
-Skipped 0 websites: no new visit since the last script execution
-Skipped 0 websites day archiving: existing daily reports are less than 150 seconds old
-Skipped 0 websites week/month/year archiving: existing periods reports are less than 3600 seconds old
+Skipped 0 websites
+- 0 skipped because no new visit since the last script execution
+- 0 skipped because existing daily reports are less than 150 seconds old
+- 0 skipped because existing week/month/year periods reports are less than 3600 seconds old
 Total API requests: %s
 done: 1/1 100%, 1 vtoday, 1 wtoday, 1 wperiods, %s req, %s ms, no error
 Time elapsed: %s

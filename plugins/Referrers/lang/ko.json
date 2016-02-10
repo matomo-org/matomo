@@ -2,8 +2,8 @@
     "Referrers": {
         "AllReferrersReportDocumentation": "이 보고서는 모든 리퍼러에 대한 보고서를 하나로 통합한 것으로, 방문자가 경유한 웹사이트, 검색어 그리고 캠페인의 목록입니다.",
         "Campaigns": "캠페인",
-        "CampaignsDocumentation": "캠페인의 결과로 웹사이트를 방문한 방문자입니다. 상세 보고서는 %s이곳%s에 있습니다.",
-        "CampaignsReportDocumentation": "이 보고서는 웹사이트에 방문자를 이끈 캠페인에 대해 설명합니다. %s 캠페인 추적에 대한 자세한 내용은 %spiwik.org의 캠페인에 대한 문서%s를 읽어 보세요.",
+        "CampaignsDocumentation": "캠페인의 결과로 웹사이트를 방문한 방문자입니다. 상세 보고서는 %1$s이곳%2$s에 있습니다.",
+        "CampaignsReportDocumentation": "이 보고서는 웹사이트에 방문자를 이끈 캠페인에 대해 설명합니다. %1$s 캠페인 추적에 대한 자세한 내용은 %2$spiwik.org의 캠페인에 대한 문서%3$s를 읽어 보세요.",
         "ColumnCampaign": "캠페인",
         "ColumnSearchEngine": "검색엔진",
         "ColumnSocial": "소셜 네트워크",
@@ -20,12 +20,14 @@
         "EvolutionDocumentationMoreInfo": "다른 참조 유형에 대한 자세한 내용은 %s 테이블의 문서를 참조하세요.",
         "Keywords": "검색어",
         "KeywordsReportDocumentation": "이 보고서는 사용자가 웹사이트를 방문하는 데 사용하는 검색어를 나타냅니다. %s 테이블의 행을 클릭하면 검색어에 조회된 검색 엔진의 분포를 볼 수 있습니다.",
+        "PluginDescription": "리퍼터 데이터 보고서: 검색 엔진, 키워드, 웹사이트, 캠페인, 소셜 미디어, 직접 입력",
         "Referrer": "리퍼러",
         "ReferrerName": "리퍼러 이름",
         "Referrers": "참조",
         "ReferrersOverview": "리퍼러 개요",
+        "ReferrerTypes": "리퍼러 타입",
         "SearchEngines": "검색엔진",
-        "SearchEnginesDocumentation": "검색 엔진을 참조하여 웹사이트로 접속한 방문자입니다. 상세 보고서는 %s 여기 %s에 있습니다.",
+        "SearchEnginesDocumentation": "검색 엔진을 참조하여 웹사이트로 접속한 방문자입니다. 상세 보고서는 %1$s 여기 %2$s에 있습니다.",
         "SearchEnginesReportDocumentation": "이 보고서는 어떤 검색 엔진으로 웹사이트에 사용자가 유입되었는 지를 보여줍니다. %s 테이블의 행을 클릭하면 사용자가 특정 검색 엔진을 사용하여 무엇을 찾고 있었는지를 확인할 수 있습니다.",
         "SocialFooterMessage": "이것은 왼쪽 웹사이트 보고서의 집합입니다. 다른 웹사이트를 필터링해서 소셜 네트워크 리퍼러를 직접 비교할 수 있습니다.",
         "Socials": "소셜 네트워크",
@@ -42,11 +44,12 @@
         "ViewAllReferrers": "모든 리퍼러 보기",
         "ViewReferrersBy": "%s별 리퍼러 보기",
         "Websites": "웹사이트",
-        "WebsitesDocumentation": "다른 웹사이트의 링크를 클릭하여 찾아온 방문자입니다. 상세 보고서는 %s %s 자세히 보기",
+        "WebsitesDocumentation": "다른 웹사이트의 링크를 클릭하여 찾아온 방문자입니다. 상세 보고서는 %1$s %2$s 자세히 보기",
         "WebsitesReportDocumentation": "이 표에서 귀하의 사이트로 방문자를 연결하는 추천 웹사이트를 볼 수 있습니다. %s 테이블의 행을 클릭하면 클릭된 URL 링크를 볼 수 있습니다.",
         "WidgetExternalWebsites": "외부 웹사이트 목록",
         "WidgetGetAll": "모든 리퍼러",
         "WidgetSocials": "소셜 네트워크의 목록",
-        "WidgetTopKeywordsForPages": "패지 URL의 상위 키워드"
+        "WidgetTopKeywordsForPages": "패지 URL의 상위 키워드",
+        "XPercentOfVisits": "%s 번"
     }
 }

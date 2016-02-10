@@ -1,0 +1,55 @@
+{% extends 'admin.twig' %}
+
+{% macro humanReadableValue(value) %}
+    {% if value is false %}
+        false
+    {% elseif value is true %}
+        true
+    {% elseif value is null %}
+    {% elseif value is emptyString %}
+        ''
+    {% else %}
+        {{ value|join(', ') }}
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    <h2 piwik-enriched-headline>{{ 'Diagnostics_ConfigFileTitle'|translate }}</h2>
+    <p>
+        {{ 'Diagnostics_ConfigFileIntroduction'|translate('<code>"config/config.ini.php"</code>')|raw }}
+        {{ 'Diagnostics_HideUnchanged'|translate('<a ng-click="hideGlobalConfigValues=!hideGlobalConfigValues">', '</a>')|raw }}
+
+        <h3>{{ 'Diagnostics_Sections'|translate }}</h3>
+        {% for category, values in allConfigValues %}
+            <a href="#{{ category|e('html_attr') }}">{{ category }}</a><br />
+        {% endfor %}
+    </p>
+
+    <table class="simple-table diagnostics configfile">
+        <tbody>
+        {% for category, configValues in allConfigValues %}
+            <tr><td colspan="3"><a name="{{ category|e('html_attr') }}"></a><h3>{{ category }}</h3></td></tr>
+
+            {% for key, configEntry in configValues %}
+                <tr {% if configEntry.isCustomValue %}class="custom-value"{% else %}ng-hide="hideGlobalConfigValues"{% endif %}>
+                    <td class="name">{{ key }}{% if configEntry.value is iterable %}[]{% endif %}</td>
+                    <td class="value">
+                        {{ _self.humanReadableValue(configEntry.value) }}
+                    </td>
+                    <td class="description">
+                        {{ configEntry.description }}
+
+                        {% if (configEntry.isCustomValue or configEntry.value is null) and configEntry.defaultValue is not null %}
+                            {% if configEntry.description %}<br />{% endif %}
+
+                            {{ 'General_Default'|translate }}:
+                            <span class="defaultValue">{{ _self.humanReadableValue(configEntry.defaultValue) }}<span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

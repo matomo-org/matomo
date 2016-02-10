@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Prosijek baziran na %s pogodak(a) %s između %s i %s",
+        "AvgGenerationTimeTooltip": "Prosijek baziran na %1$s pogodak(a) %2$s između %3$s i %4$s",
         "ColumnClickedURL": "Kliknut URL",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj klikova na ovaj link",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Izlazni link je link na kojeg je izašao posjetilac sa tvoje stranica na neki drugi websajt (druga domena)",
         "OutlinksReportDocumentation": "Ovaj izvještaj sadrži hijerarhalnu listu izlaznih linkova koji su kliknuti od strane tvojih posjetilaca.",
         "PagesReportDocumentation": "Ovaj izvještaj sadrži informacije o stranicama koje su posjećene. %s tabela je organizovana hijerarhijski, URL-ovi su prikazani kao struktura foldera.",
-        "PageTitlesReportDocumentation": "Ovaj raport sadrži informacije o naslovima stranica koje su posjećene. %s Naslov stranice je HTML %s Oznaka koju većina pregledača prikazuje u njihovom prozornom imenu.",
+        "PageTitlesReportDocumentation": "Ovaj raport sadrži informacije o naslovima stranica koje su posjećene. %1$s Naslov stranice je HTML %2$s Oznaka koju većina pregledača prikazuje u njihovom prozornom imenu.",
         "PageUrls": "Veze stranice",
         "SiteSearchCategories1": "Ovaj raport prikazuje spisak kategorija koje su posjetioci odabrali kad su vršili istragu na vašoj stranici.",
         "SiteSearchCategories2": "Na primjer, stranice sa elektronskom trgovinom tipično imaju birač kategorija tako da se posjetioci mogu ograničiti na pretrage na svim proizvodima u specifičnoj kategoriji.",

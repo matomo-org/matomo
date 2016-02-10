@@ -86,8 +86,19 @@ describe("Installation", function () {
         }, done);
     });
 
+    var pageUrl, pageUrlDe;
+
+    it("should show Piwik PRO GmbH when language is German", function (done) {
+        expect.screenshot("superuser_de").to.be.capture(function (page) {
+            pageUrl = page.getCurrentUrl();
+            pageUrlDe = pageUrl + '&language=de'
+            page.load(pageUrlDe);
+        }, done);
+    });
+
     it("should fail when incorrect information is entered in the superuser configuration page", function (done) {
         expect.screenshot("superuser_fail").to.be.capture(function (page) {
+            page.load(pageUrl);
             page.click('.btn');
         }, done);
     });
@@ -112,13 +123,24 @@ describe("Installation", function () {
     it("should display the javascript tracking page when correct information is entered in the setup website page and next is clicked", function (done) {
         expect.screenshot("js_tracking").to.be.capture(function (page) {
             page.sendKeys('input[name=siteName]', 'Serenity');
-            page.sendKeys('input[name=url]', 'serenity.com');
             page.evaluate(function () {
+                // cannot use sendKeys since quickform does not use placeholder attribute
+                $('input[name=url]').val('serenity.com');
+                
                 $('select[name=timezone]').val('Europe/Paris');
                 $('select[name=ecommerce]').val('1');
             });
             page.click('.btn');
             page.wait(3000);
+
+            // manually remove port in tracking code, since ui-test.php won't be using the correct INI config file
+            page.evaluate(function () {
+                $('pre').each(function () {
+                    var html = $(this).html();
+                    html = html.replace(/localhost\:[0-9]+/g, 'localhost');
+                    $(this).html(html);
+                });
+            });
         }, done);
     });
 

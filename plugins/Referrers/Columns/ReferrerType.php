@@ -42,7 +42,7 @@ class ReferrerType extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $information = $this->getReferrerInformationFromRequest($request);
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         return $information['referer_type'];
     }
