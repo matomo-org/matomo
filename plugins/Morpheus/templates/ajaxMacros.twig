@@ -29,7 +29,7 @@
             <a rel="noreferrer" target="_blank" href="https://piwik.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a> –
             <a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
 
-            {% if arePiwikProAdsEnabled %}
+            {%- if arePiwikProAdsEnabled %}
                 –
                 <a rel="noreferrer" target="_blank" href="{{ 'https://piwik.pro/'|piwikProCampaignParameters('Help', 'AjaxError')|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
             {%- endif %}.
