@@ -622,9 +622,14 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('20', bin2hex(' '), "Checking that this test file was not tampered with");
 
         $errors = array();
+        $countFileChecked = 0;
         foreach ($files as $file) {
 
             if($this->isFileBelongToTests($file)) {
+                continue;
+            }
+
+            if(strpos($file, 'vendor/php-di/php-di/website/') !== false) {
                 continue;
             }
 
@@ -635,7 +640,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 $around = trim($around);
                 $errors[] = "File $file contains an unusual space character, please remove it from here: ...$around...";
             }
+
+            $countFileChecked++;
         }
+        $this->assertTrue($countFileChecked > 100, "expected to test at least 100 files, but tested only " . $countFileChecked);
+
         if (!empty($errors)) {
             throw new Exception(implode(",\n\n ", $errors));
         }
