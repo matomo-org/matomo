@@ -1353,7 +1353,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    // se https://github.com/piwik/piwik/issues/9194
+    // see https://github.com/piwik/piwik/issues/9194
     public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndLogVisit_shouldUseSubselectGroupedByIdVisitAndBuster()
     {
         $select = 'log_conversion.idgoal AS `idgoal`,
