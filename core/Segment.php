@@ -299,12 +299,13 @@ class Segment
     {
         $segmentExpression = $this->segmentExpression;
 
-        if ($offset > 0) {
-            $limit = (int) $offset . ', ' . (int) $limit;
+        $limitAndOffset = null;
+        if($limit > 0) {
+            $limitAndOffset = (int) $offset . ', ' . (int) $limit;
         }
 
         return $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
-            $groupBy, $orderBy, $limit);
+            $groupBy, $orderBy, $limitAndOffset);
     }
 
     /**
