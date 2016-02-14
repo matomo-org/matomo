@@ -12,4 +12,8 @@
     {%- if revenue_discount is not empty -%},
         {{ 'General_Discount'|translate }}: {{ revenue_discount|money(idSite)|raw -}}
     {% endif %}
-</ul><br/>
+</ul>
+<a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
+    {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
+</a>
+<br style="clear:left"/>
