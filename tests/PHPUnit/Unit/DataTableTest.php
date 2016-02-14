@@ -898,6 +898,14 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($unserialized[0][3], "found the id sub table in the serialized, not expected");
     }
 
+    public function testMergeSubtablesKeepsMetadata()
+    {
+        $dataTable = $this->_getDataTable1ForTest();
+        $dataTable->setMetadata('additionalMetadata', 'test');
+        $dataTable = $dataTable->mergeSubtables();
+        $this->assertEquals('test', $dataTable->getMetadata('additionalMetadata'));
+    }
+
     private function createDataTable($rows)
     {
         $useless1 = new DataTable;
