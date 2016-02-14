@@ -3,7 +3,7 @@
         <div id="search" ng-cloak>
             <div piwik-quick-access class="borderedControl"></div>
         </div>
-        <ul class="navbar" role="menu">
+        <ul class="navbar" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
             {% for level1,level2 in menu %}
 
                 {% set hasSubmenuItem = false %}
@@ -16,7 +16,7 @@
                 {% if hasSubmenuItem %}
                     <li class="menuTab" role="menuitem">
 
-                        <a class="item">
+                        <a class="item" tabindex="5">
                             <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
                             <span class="hidden">
                              {{ 'CoreHome_Menu'|translate }}
@@ -28,8 +28,8 @@
                                     <li {% if urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}class="active"{% endif %}
                                         role="menuitem"
                                     >
-                                        <a class="item"
-                                           title="{{ urlParameters._tooltip|default(name)|translate|e('html_attr') }}"
+                                        <a class="item" tabindex="5"
+                                           title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
                                            href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">
                                             {{ name|translate }}
                                         </a>

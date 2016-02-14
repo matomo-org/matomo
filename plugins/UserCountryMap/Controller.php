@@ -225,15 +225,20 @@ class Controller extends \Piwik\Plugin\Controller
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
         if (empty($params['segment'])) {
-            $segment = \Piwik\API\Request::getRawSegmentFromRequest();
+            $segment = Request::getRawSegmentFromRequest();
             if (!empty($segment)) {
-                $params['segment'] = urldecode($segment);
+                $params['segment'] = $segment;
             }
+        }
+
+        if (!empty($params['segment'])) {
+            $params['segment'] = urldecode($params['segment']);
         }
 
         if ($encode) {
             $params = json_encode($params);
         }
+
         return $params;
     }
 

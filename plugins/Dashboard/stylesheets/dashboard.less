@@ -112,9 +112,19 @@
   font-size: 10pt;
 }
 
+.widgetLoadingError {
+  .alert.alert-danger {
+    border: 0;
+  }
+}
+
 .widgetLoadingError, .dimensionLoadingError {
   color: @theme-color-brand;
   text-align: left;
+  a {
+    color: @theme-color-brand;
+    text-decoration: underline;
+  }
 }
 
 #closeMenuIcon {
@@ -257,7 +267,7 @@
 
 ul.widgetpreview-widgetlist,
 ul.widgetpreview-categorylist {
-  color: #5d5342;
+  color: @theme-color-text-light;
   list-style: none;
   font-size: 11px;
   line-height: 20px;
@@ -318,7 +328,7 @@ div.widgetpreview-preview {
   font-weight: normal;
   padding-top: 10px;
   margin-left: 10px;
-  color: #5D5342;
+  color: @theme-color-text-light;
   list-style: none;
   font-size: 11px;
   line-height: 20px;

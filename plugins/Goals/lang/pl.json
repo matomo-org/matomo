@@ -3,7 +3,7 @@
         "AbandonedCart": "Opuszczony Koszyk",
         "AddGoal": "Dodaj założenia",
         "AddNewGoal": "Dodaj nowy cel",
-        "AddNewGoalOrEditExistingGoal": "%sDodaj nowe założenie celu%s lub %sedytuj%s istniejące trafienia",
+        "AddNewGoalOrEditExistingGoal": "%1$sDodaj nowe założenie celu%2$s lub %3$sedytuj%4$s istniejące trafienia",
         "AllowGoalConvertedMoreThanOncePerVisit": "Zezwól dla trafień, by były zamieniane częściej w trakcie jednej wizyty",
         "AllowMultipleConversionsPerVisit": "Zezwalaj na wiele zamian przypadających w trakcie wizyty",
         "BestCountries": "Pochodzenie najlepszych krajów:",
@@ -35,7 +35,7 @@
         "Ecommerce": "Ecommerce",
         "EcommerceLog": "E-commerce Zaloguj",
         "EcommerceOrder": "E-commerce zamów",
-        "ExceptionInvalidMatchingString": "Jeżeli wybierasz 'dokładne dopasowanie', łańcuch dopasowujący musi być adresem URL zaczynającym się od %s. Na przykład, '%s'.",
+        "ExceptionInvalidMatchingString": "Jeżeli wybierasz 'dokładne dopasowanie', łańcuch dopasowujący musi być adresem URL zaczynającym się od %1$s. Na przykład, '%2$s'.",
         "ExternalWebsiteUrl": "adres zewnętrzny URL",
         "Filename": "nazwa pliku",
         "GoalConversion": "Zmiana założenia",
@@ -70,6 +70,6 @@
         "VisitUrl": "odwiedź dany adres URL (stronę lub grupę stron)",
         "WhenVisitors": "przez odwiedzającego",
         "WhereThe": "gdzie",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "gdzie odwiedzona strona zawiera wywołania do metody JavaScript piwikTracker.trackGoal() (%szobacz więcej%s)"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "gdzie odwiedzona strona zawiera wywołania do metody JavaScript 'trackGoal' (%1$szobacz więcej%2$s)"
     }
 }

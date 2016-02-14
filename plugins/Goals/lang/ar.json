@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "أضف هدفاً",
         "AddNewGoal": "أضف هدفاً جديداً",
-        "AddNewGoalOrEditExistingGoal": "%s أضف هدفاً جديداً %s أو %s حرر %s أهدافاً قائمة",
+        "AddNewGoalOrEditExistingGoal": "%1$s أضف هدفاً جديداً %2$s أو %3$s حرر %4$s أهدافاً قائمة",
         "AllowGoalConvertedMoreThanOncePerVisit": "السماح للهدف بالتحويل أكثر من مرة لكل زيارة",
         "AllowMultipleConversionsPerVisit": "السماح بعدة تحويلات لكل زيارة",
         "BestCountries": "أفضل الدول من حيث التحويل هي:",
@@ -21,7 +21,7 @@
         "DefaultRevenueHelp": "على سبيل المثال، نموذج الاتصال الذي يرسله الزائر قد يساوي 10 جنيه في المتوسط. سيساعدك Piwik في فهم كيف تؤدي القطاعات المختلفة من زياراتك.",
         "DeleteGoalConfirm": "هل ترغب حقاً في حذف الهدف %s؟",
         "Download": "تحميل ملف",
-        "ExceptionInvalidMatchingString": "إذا اخترت \"مطابق تماماً\"، فإن العبارة المطابقة يجب أن تكون رابط ويب يبدأ بالتالي %s. على سبيل المثال \"%s\".",
+        "ExceptionInvalidMatchingString": "إذا اخترت \"مطابق تماماً\"، فإن العبارة المطابقة يجب أن تكون رابط ويب يبدأ بالتالي %1$s. على سبيل المثال \"%2$s\".",
         "ExternalWebsiteUrl": "رابط موقع خارجي",
         "Filename": "اسم الملف",
         "GoalConversion": "تحويل الهدف",
@@ -51,6 +51,6 @@
         "VisitUrl": "زيارة رابط معين (صفحة أو مجموعة من الصفحات)",
         "WhenVisitors": "عندما يقوم الزوار",
         "WhereThe": "حيث يكون",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "حيث تكون الصفحة تحتوي على استدعاء لجافاسكريبت piwikTracker.trackGoal() (%sتعرف على المزيد%s)"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "حيث تكون الصفحة تحتوي على استدعاء لجافاسكريبت piwikTracker.trackGoal() (%1$sتعرف على المزيد%2$s)"
     }
 }

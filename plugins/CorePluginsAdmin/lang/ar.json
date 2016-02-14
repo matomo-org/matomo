@@ -31,7 +31,7 @@
         "PluginHomepage": "صفحة التطبيقات الرئيسية",
         "PluginKeywords": "كلمات دلالية",
         "PluginsManagement": "إدارة التطبيقات",
-        "PluginUpdateAvailable": "أنت تستخدم الإصدار %s %sويوجد إصدار جديد متاح",
+        "PluginUpdateAvailable": "أنت تستخدم الإصدار %1$s %2$sويوجد إصدار جديد متاح",
         "PluginWebsite": "الموقع الإلكتروني للإضافة",
         "Screenshots": "صور العرض",
         "SortByAlpha": "الفا",

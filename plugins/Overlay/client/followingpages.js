@@ -164,7 +164,12 @@ var Piwik_Overlay_FollowingPages = (function () {
         linkTag[0].piwikTagElement = true;
 
         var rate = data.clickRate;
-        if (rate < 10) {
+
+        if( rate < 0.001 ) {
+            rate = '<0.001';
+        } else if (rate < 1) {
+            rate = Math.round( rate * 1000 ) / 1000;
+        } else if (rate < 10) {
             rate = Math.round(rate * 10) / 10;
         } else {
             rate = Math.round(rate);

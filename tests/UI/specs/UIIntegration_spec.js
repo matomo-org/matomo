@@ -158,6 +158,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageUrls");
             page.mouseMove('h2[piwik-enriched-headline]');
             page.click(".helpIcon");
+            page.evaluate(function () {
+                $('.helpDate:visible').hide();
+            });
         }, done);
     });
 
@@ -486,6 +489,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the plugin settings user page correctly', function (done) {
         expect.screenshot('user_plugin_settings').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=userPluginSettings");
+        }, done);
+    });
+
+    it('should load the config file page correctly', function (done) {
+        expect.screenshot('admin_diagnostics_configfile').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + generalParams + "&module=Diagnostics&action=configfile");
         }, done);
     });
 

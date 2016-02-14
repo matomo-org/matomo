@@ -10,8 +10,8 @@
         "VisitsByDayOfWeek": "Kunjungan berdasar Hari dalam Sepekan",
         "WidgetByDayOfWeekDocumentation": "Grafik ini menampilkan jumlah kunjungan yang diperoleh situs Anda dalam setiap hari dalam sepekan.",
         "WidgetLocalTime": "Kunjungan berdasar waktu lokal",
-        "WidgetLocalTimeDocumentation": "Grafik ini menampilkan waktu pengunjung %s saat ini dalam wilayah waktu %s selama kunjungan.",
+        "WidgetLocalTimeDocumentation": "Grafik ini menampilkan waktu pengunjung %1$s saat ini dalam wilayah waktu %2$s selama kunjungan.",
         "WidgetServerTime": "Kunjungan berdasar waktu peladen",
-        "WidgetServerTimeDocumentation": "Grafik ini menampilkan waktu peladen %s saat ini dalam wilayah waktu %s selama kunjungan."
+        "WidgetServerTimeDocumentation": "Grafik ini menampilkan waktu peladen %1$s saat ini dalam wilayah waktu %2$s selama kunjungan."
     }
 }

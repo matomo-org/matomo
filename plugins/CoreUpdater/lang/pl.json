@@ -22,7 +22,7 @@
         "HelpMessageContent": "Sprawdź w %1$s Piwik FAQ %2$s, które wyjaśni najczęściej spotykane błędy występujące w trakcie aktualizacji. %3$s Poproś o pomoc, lub ewentualnie zadaj pytanie skierowane do helpdesku serwera - tam specjaliści mogą na prawdę pomóc w pokonywaniu błędów najczęściej spotykanych na serwerze lub przy konfiguracji MySQL.",
         "HelpMessageIntroductionWhenError": "Powyżej znajduje się główny komunikat o błędzie. To powinno pomóc ustalić przyczynę problemu, ale jeżeli problem wymaga dodatkowej pomocy:",
         "HelpMessageIntroductionWhenWarning": "Aktualizacja zakończona sukcesem, jednakże nie obyło się bez problemów podczas tego procesu. Proszę zaposnać się z powyższym opisem by poznać szczegóły. Więcej pomocy możesz uzyskać:",
-        "HighTrafficPiwikServerEnableMaintenance": "Jeśli zarządzasz serwerem Piwik o dużym ruchu, zalecamy %stymczasowo wyłączyć śledzenie odwiedzających i przełączyć Interfejs Użytkownika Piwik w tryb konserwacji%s",
+        "HighTrafficPiwikServerEnableMaintenance": "Jeśli zarządzasz serwerem Piwik o dużym ruchu, zalecamy %1$stymczasowo wyłączyć śledzenie odwiedzających i przełączyć Interfejs Użytkownika Piwik w tryb konserwacji%2$s",
         "IncompatbilePluginsWillBeDisabledInfo": "Uwaga: niektóre wtyczki nie są zgodne z Piwik %s. Będą wyłączone podczas aktualizacji:",
         "InstallingTheLatestVersion": "Instalowanie najnowszej wersji",
         "MajorUpdateWarning1": "To jest znacząca aktualizacja i potrwa dłużej niż zwykle.",

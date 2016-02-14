@@ -127,6 +127,18 @@ class Mail extends Zend_Mail
         }
     }
 
+    public function createAttachment($body, $mimeType = null, $disposition = null, $encoding = null, $filename = null)
+    {
+        $filename = $this->sanitiseString($filename);
+        return parent::createAttachment($body, $mimeType, $disposition, $encoding, $filename);
+    }
+
+    public function setSubject($subject)
+    {
+        $subject = $this->sanitiseString($subject);
+        return parent::setSubject($subject);
+    }
+
     /**
      * @param string $email
      * @return string
@@ -152,6 +164,20 @@ class Mail extends Zend_Mail
      */
     protected function isHostDefinedAndNotLocal($url)
     {
-        return isset($url['host']) && !in_array($url['host'], Url::getLocalHostnames(), true);
+        return isset($url['host']) && !Url::isLocalHost($url['host']);
+    }
+
+    /**
+     * Replaces characters known to appear incorrectly in some email clients
+     *
+     * @param $string
+     * @return mixed
+     */
+    function sanitiseString($string)
+    {
+        $search = array('–', '’');
+        $replace = array('-', '\'');
+        $string = str_replace($search, $replace, $string);
+        return $string;
     }
 }

@@ -39,13 +39,24 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
 * Required PHP version was changed from 5.3 to 5.5
 
-## Piwik 2.15.1
+## Piwik 2.16.0
 
 ### New features
  * New segment `actionType` lets you segment all actions of a given type, eg. `actionType==events` or `actionType==downloads`. Action types values are: `pageviews`, `contents`, `sitesearches`, `events`, `outlinks`, `downloads`
+ * New segment `actionUrl` lets you segment any action that matches a given URL, whether they are Pageviews, Site searches, Contents, Downloads or Events.
+ * New segment `deviceBrand` lets you restrict your users to those using a particular device brand such as Apple, Samsung, LG, Google, Nokia, Sony, Lenovo, Alcatel, etc. View the [complete list of device brands.](http://developer.piwik.org/api-reference/segmentation)
+ * New segment operators `=^` "Starts with" and `=$` "Ends with" complement the existing segment operators: Contains, Does not contain, Equals, Not equals, Greater than or equal to, Less than or equal to.
  * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
+ * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
+ * It is now possible to pass an option `php-cli-options` to the `core:archive` command. The given cli options will be forwarded to the actual PHP command. This allows to for example specifiy a different memory limit for the archiving process like this: `./console core:archive --php-cli-options="-d memory_limit=8G"`
+ * New less variable `@theme-color-menu-contrast-textSelected` that lets you specify the color of a selected menu item.
+ * in Administration > Diagnostics, there is a new page `Config file` which lets Super User view all config values from `global.ini.php` in the UI, and whether they were overriden in your `config/config.ini.php`
 
-### Internal change
+### New commands
+ * New command `config:set` lets you set INI config options from the command line. This command can be used for convenience or for automation.
+   
+### Internal changes
+ * `UsersManager.*` API calls: when an API request specifies a `token_auth` of a user with `admin` permission, the returned dataset will not include all usernames as previously, API will now only return usernames for users with `view` or `admin` permission to website(s) viewable by this `token_auth`. 
  * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
  * JavaScript Tracker tests no longer require `SQLite`. The existing MySQL configuration for tests is used now. In order to run the tests make sure Piwik is installed and `[database_tests]` is configured in `config/config.ini.php`.
  * The definitions for search engine and social network detection have been moved from bundled data files to a separate package (see [https://github.com/piwik/searchengine-and-social-list](https://github.com/piwik/searchengine-and-social-list)).
@@ -57,12 +68,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 
 ### Deprecations
  * The method `DB::tableExists` was un-used and has been removed.
- 
-### New commands
- * New command `config:set` lets you set INI config options from the command line. This command can be used for convenience or for automation.
-
-### Breaking changes
- * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
 
 
 ## Piwik 2.15.0 

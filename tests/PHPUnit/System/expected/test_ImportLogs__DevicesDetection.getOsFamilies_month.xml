@@ -21,7 +21,7 @@
 		<bounce_count>10</bounce_count>
 		<nb_visits_converted>11</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>
 	<row>
@@ -71,5 +71,17 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
+	</row>
+	<row>
+		<label>iOS</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<logo>plugins/DevicesDetection/images/os/IOS.gif</logo>
 	</row>
 </result>

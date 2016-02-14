@@ -3,7 +3,7 @@
         "AnonymizeIpDescription": "Selecione \"Sim\" para o Piwik não rastrear totalmente endereços IP qualificados.",
         "AnonymizeIpInlineHelp": "Torna o último byte dos endereços IP de visitantes anónimo para obedecer às suas leis\/regulamentos de privacidade locais.",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes dos IPs dos visitantes devem ser mascarados.",
-        "AnonymizeIpMaskLength": "%s byte(s) - por exemplo %s",
+        "AnonymizeIpMaskLength": "%1$s byte(s) - por exemplo %2$s",
         "ClickHereSettings": "Clique aqui para aceder às %s definições",
         "DeleteLogDescription2": "Quando você activa a ​​eliminação automática de logs, você deve garantir que todos os relatórios diários anteriores tenham sido processados​​, de modo que nenhuns dados sejam perdidos.",
         "DeleteLogInfo": "Logs das seguintes tabelas serão apagados: %s",

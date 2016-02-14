@@ -13,8 +13,8 @@
         "OneClick": "1 klick",
         "OpenFullScreen": "Gå till helskärmsläge (ingen sidolist)",
         "Overlay": "Sidöverlägg",
-        "RedirectUrlError": "Du försöker öppna ett överliggande lager för URL \"%s\". %s Ingen av domänerna från Piwik's inställningar matchar länken.",
-        "RedirectUrlErrorAdmin": "Du kan lägga till domänen som en extra URL %si inställningarna%s.",
+        "RedirectUrlError": "Du försöker öppna ett överliggande lager för URL \"%1$s\". %2$s Ingen av domänerna från Piwik's inställningar matchar länken.",
+        "RedirectUrlErrorAdmin": "Du kan lägga till domänen som en extra URL %1$si inställningarna%2$s.",
         "RedirectUrlErrorUser": "Be administratören att lägga till domänen som en extra webbadress"
     }
 }

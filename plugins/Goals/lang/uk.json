@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "Додати Ціль",
         "AddNewGoal": "Додати нову Ціль",
-        "AddNewGoalOrEditExistingGoal": "%sДодати нову Ціль%s або %sРедагувати%s існуючі Цілі",
+        "AddNewGoalOrEditExistingGoal": "%1$sДодати нову Ціль%2$s або %3$sРедагувати%4$s існуючі Цілі",
         "BestCountries": "Країни з найкращою корверсією:",
         "BestKeywords": "Ключові слова з найкращоб конверсією:",
         "BestReferrers": "Джерела трафіку з найкращою конверсією:",
@@ -17,7 +17,7 @@
         "DefaultRevenueHelp": "Для прикладу, надіслана відвідувачем Форма Контактів може в середньому вартувати $10. Piwik дозволить вам зрозуміти наскільки добре поводять себе різні сегменти ваших користувачів.",
         "DeleteGoalConfirm": "Впевнені що хочете видалити Ціль %s?",
         "Download": "Завантажено файл",
-        "ExceptionInvalidMatchingString": "Якщо вибрати \"точне сіпвпадіння\" то стрічка для співставлення має бути коректним URL та починатися з %s. Наприклад '%s'.",
+        "ExceptionInvalidMatchingString": "Якщо вибрати \"точне сіпвпадіння\" то стрічка для співставлення має бути коректним URL та починатися з %1$s. Наприклад '%2$s'.",
         "ExternalWebsiteUrl": "URL на зовнішній веб-сайт",
         "Filename": "ім’я файла",
         "GoalConversion": "Конверсія цілі",
@@ -43,6 +43,6 @@
         "VisitUrl": "Відвідано заданий URL (сторінку або групу сторінок)",
         "WhenVisitors": "коли відвідувачі",
         "WhereThe": "де",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "де відвідана сторінка містить запит методу JavaScript piwikTracker.trackGoal()(%sдізнатись більше%s)"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "де відвідана сторінка містить запит методу JavaScript 'trackGoal' (%1$sдізнатись більше%2$s)"
     }
 }

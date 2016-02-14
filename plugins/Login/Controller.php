@@ -48,7 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
-\     */
+     */
     public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
     {
         parent::__construct();
@@ -184,9 +184,10 @@ class Controller extends \Piwik\Plugin\Controller
      * Authenticate user and password.  Redirect if successful.
      *
      * @param string $login user name
-     * @param string $password md5 password
+     * @param string $password plain-text or hashed password
      * @param bool $rememberMe Remember me?
      * @param string $urlToRedirect URL to redirect to, if successfully authenticated
+     * @param bool $passwordHashed indicates if $password is hashed
      * @return string failure message if unable to authenticate
      */
     protected function authenticateAndRedirect($login, $password, $rememberMe, $urlToRedirect = false, $passwordHashed = false)

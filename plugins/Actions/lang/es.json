@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Promedio basado en %s acceso(s) %s entre %s y %s",
+        "AvgGenerationTimeTooltip": "Promedio basado en %1$s acceso(s) %2$s entre %3$s y %4$s",
         "ColumnClickedURL": "URL elegida",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "El número de veces que se ha hecho clic en este enlace.",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Un enlace externo es un enlace que lleva a su visitante fuera de su página de internet (a otro dominio).",
         "OutlinksReportDocumentation": "Este informe muestra una lista jerárquica de los enlaces externos en los que sus visitantes han hecho clic.",
         "PagesReportDocumentation": "Este reporte contiene información sobre las URLs de las páginas que han sido visitadas. %s La tabla está organizada por jerarquía, las URLs han sido mostradas como una estructura de carpetas.",
-        "PageTitlesReportDocumentation": "Este informe contiene información sobre los títulos de las páginas que han sido visitadas. %s El título de la página es la etiqueta HTML %s, que la gran mayoría de los navegadores muestran en el título de su ventana.",
+        "PageTitlesReportDocumentation": "Este informe contiene información sobre los títulos de las páginas que han sido visitadas. %1$s El título de la página es la etiqueta HTML %2$s, que la gran mayoría de los navegadores muestran en el título de su ventana.",
         "PageUrls": "URLs de página",
         "PluginDescription": "Informa sobre las vistas y títulos de página. Le permite medir el motor de búsqueda interno de tu sitio de internet. Monitoriza automáticamente los clics de enlaces externos y descargas de archivos.",
         "SiteSearchCategories1": "Este informe lista las Categorías que los visitantes eligieron cuando realizaron una búsqueda en su sitio de internet.",

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreUpdater\Test\ReleaseChannel;
 
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
 use Piwik\UpdateCheck;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -56,11 +57,12 @@ class ReleaseChannelTest extends IntegrationTestCase
     {
         $version = Version::VERSION;
         $phpVersion = urlencode(PHP_VERSION);
+        $mysqlVersion = Db::get()->getServerVersion();
         $url = urlencode(Url::getCurrentUrlWithoutQueryString());
 
         $urlToCheck = $this->channel->getUrlToCheckForLatestAvailableVersion();
 
-        $this->assertStringStartsWith("http://api.piwik.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
+        $this->assertStringStartsWith("http://api.piwik.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
     }
 
 }

@@ -11,6 +11,6 @@
         "OutgoingTraffic": "Ruch wychodzący",
         "ToFollowingSiteSearches": "Wyszukania Wewnętrzne",
         "ToFollowingSiteSearchesInline": "%s wewnętrzne wyszukiwania",
-        "XOutOfYVisits": "%s (z %s)"
+        "XOutOfYVisits": "%1$s (z %2$s)"
     }
 }

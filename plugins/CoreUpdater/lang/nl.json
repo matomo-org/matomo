@@ -22,7 +22,7 @@
         "HelpMessageContent": "Controleer de %1$s Piwik FAQ %2$s waarin de meest voorkomende upgrade foutmeldingen worden uitgelegd. %3$s Vraag uw systeem beheerder - deze kan u wellicht helpen met deze fout die waarschijnlijk gerelateerd is aan de configuratie van uw webserver of MySQL-database.",
         "HelpMessageIntroductionWhenError": "Hierboven staat de foutmelding. Hierin zou de oorzaak naar voren moeten komen, mocht u desondanks nog vragen hebben:",
         "HelpMessageIntroductionWhenWarning": "De upgrade is voltooid, maar met fouten tijdens het proces. Lees de omschrijvingen hierboven voor meer informatie. Voor verdere hulp:",
-        "HighTrafficPiwikServerEnableMaintenance": "Als je een Piwik server met veel verkeer beheert, raden we je aan om %smetingen tijdelijk uit te schakelen en de Piwik omgeving in onderhouds modus te zetten%s",
+        "HighTrafficPiwikServerEnableMaintenance": "Als je een Piwik server met veel verkeer beheert, raden we je aan om %1$smetingen tijdelijk uit te schakelen en de Piwik omgeving in onderhouds modus te zetten%2$s",
         "IncompatbilePluginsWillBeDisabledInfo": "Let op: sommige plugins zijn niet compitable met Piwik %s. Deze worden uitgeschakeld bij een upgrade.",
         "InstallingTheLatestVersion": "Bezig om de laatste versie te installeren",
         "MajorUpdateWarning1": "Dit is een ingrijpende update! Het zal langer dan normaal duren.",

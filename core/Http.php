@@ -125,6 +125,7 @@ class Http
      * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
      * @param string $httpUsername HTTP Auth username
      * @param string $httpPassword HTTP Auth password
+     * @param array|string $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
      *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
@@ -143,7 +144,8 @@ class Http
         $getExtendedInfo = false,
         $httpMethod = 'GET',
         $httpUsername = null,
-        $httpPassword = null
+        $httpPassword = null,
+        $requestBody = null
     ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
@@ -151,6 +153,10 @@ class Http
 
         $contentLength = 0;
         $fileLength = 0;
+
+        if (!empty($requestBody) && is_array($requestBody)) {
+            $requestBody = http_build_query($requestBody);
+        }
 
         // Piwik services behave like a proxy, so we should act like one.
         $xff = 'X-Forwarded-For: '
@@ -251,9 +257,16 @@ class Http
                 . $xff . "\r\n"
                 . $via . "\r\n"
                 . $rangeHeader
-                . "Connection: close\r\n"
-                . "\r\n";
+                . "Connection: close\r\n";
             fwrite($fsock, $requestHeader);
+
+            if (strtolower($httpMethod) === 'post' && !empty($requestBody)) {
+                fwrite($fsock, self::buildHeadersForPost($requestBody));
+                fwrite($fsock, "\r\n");
+                fwrite($fsock, $requestBody);
+            } else {
+                fwrite($fsock, "\r\n");
+            }
 
             $streamMetaData = array('timed_out' => false);
             @stream_set_blocking($fsock, true);
@@ -421,6 +434,14 @@ class Http
                     }
                 }
 
+                if (strtolower($httpMethod) === 'post' && !empty($requestBody)) {
+                    $postHeader  = self::buildHeadersForPost($requestBody);
+                    $postHeader .= "\r\n";
+                    $stream_options['http']['method']  = 'POST';
+                    $stream_options['http']['header'] .= $postHeader;
+                    $stream_options['http']['content'] = $requestBody;
+                }
+
                 $ctx = stream_context_create($stream_options);
             }
 
@@ -497,6 +518,11 @@ class Http
             @curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $httpMethod);
             if ($httpMethod == 'HEAD') {
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
+            }
+
+            if (strtolower($httpMethod) === 'post' && !empty($requestBody)) {
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBody);
             }
 
             if (!empty($httpUsername) && !empty($httpPassword)) {
@@ -594,6 +620,14 @@ class Http
                 'data'    => $response
             );
         }
+    }
+
+    private static function buildHeadersForPost($requestBody)
+    {
+        $postHeader  = "Content-Type: application/x-www-form-urlencoded\r\n";
+        $postHeader .= "Content-Length: " . strlen($requestBody) . "\r\n";
+
+        return $postHeader;
     }
 
     /**
@@ -839,9 +873,8 @@ class Http
     private static function getProxyConfiguration($url)
     {
         $hostname = UrlHelper::getHostFromUrl($url);
-        $localHostnames = Url::getLocalHostnames();
 
-        if(in_array($hostname, $localHostnames)) {
+        if (Url::isLocalHost($hostname)) {
             return array(null, null, null, null);
         }
 

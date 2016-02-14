@@ -359,6 +359,8 @@ class Visitor implements VisitorInterface
             $ecommerceConversion['itemDetails'] = $itemsDetails;
         }
 
+        $actionDetails = array_values($actionDetails);
+
         // Enrich with time spent per action
         foreach($actionDetails as $actionIdx => &$actionDetail) {
 
@@ -367,22 +369,24 @@ class Visitor implements VisitorInterface
             if ($nextActionFound) {
                 $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
             } else {
+
                 // Last action of a visit.
                 // By default, Piwik does not know how long the user stayed on the page
                 // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
-                $timeOfLastActionOrPingInVisitRow = $visitorDetailsArray['lastActionTimestamp'];
-
+                $visitTotalTime = $visitorDetailsArray['visitDuration'];
                 $timeOfLastAction = Date::factory($actionDetail['serverTimePretty'])->getTimestamp();
 
-                $timeSpentOnPage = $timeOfLastActionOrPingInVisitRow - $timeOfLastAction;
+                $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetailsArray['firstActionTimestamp']);
+                $timeSpentOnPage = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
 
                 // Safe net, we assume the time is correct when it's more than 10 seconds
-                if($timeSpentOnPage > 10) {
+                if ($timeSpentOnPage > 10) {
                     $actionDetail['timeSpent'] = $timeSpentOnPage;
                 }
+
             }
 
-            if(isset($actionDetail['timeSpent'])) {
+            if (isset($actionDetail['timeSpent'])) {
                 $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent'], true);
             }
 

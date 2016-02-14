@@ -3,7 +3,7 @@
         "AbandonedCart": "丢弃的购物车",
         "AddGoal": "新增目标",
         "AddNewGoal": "新增目标",
-        "AddNewGoalOrEditExistingGoal": "%s新增目标%s 或 %s编辑%s 已有目标",
+        "AddNewGoalOrEditExistingGoal": "%1$s新增目标%2$s 或 %3$s编辑%4$s 已有目标",
         "AllowGoalConvertedMoreThanOncePerVisit": "每次访问的所有目标会被多次转化",
         "AllowMultipleConversionsPerVisit": "每次访问允许多次转化",
         "BestCountries": "您的最佳转化国家为:",
@@ -26,7 +26,7 @@
         "ColumnVisits": "总的访问次数，无论是否触发目标。",
         "ColumnVisitsProductDocumentation": "产品\/分类页面的访问次数，同时用于计算 %s 转化率。如果在产品\/分类页面设置了电子商务跟踪，报表中将显示这个指标。",
         "Contains": "包含 %s",
-        "ConversionByTypeReportDocumentation": "本报表显示左边每个分类的详细的目标性能。(转化, 转化率和单次访问收入)。%s 请点击分类查看报表。 %s 详情查看 %s跟踪目标文档%s",
+        "ConversionByTypeReportDocumentation": "本报表显示左边每个分类的详细的目标性能。(转化, 转化率和单次访问收入)。%1$s 请点击分类查看报表。 %2$s 详情查看 %3$s跟踪目标文档%4$s",
         "ConversionRate": "%s转化率",
         "Conversions": "%s 转化数",
         "ConversionsOverview": "转化总表",
@@ -44,7 +44,7 @@
         "EcommerceOrder": "订单",
         "EcommerceOverview": "总表",
         "EcommerceReports": "电子商务报表",
-        "ExceptionInvalidMatchingString": "如果选择 'exact match'，匹配的字符串必须是以 %s 开头的网址，例如，'%s' 。",
+        "ExceptionInvalidMatchingString": "如果选择 'exact match'，匹配的字符串必须是以 %1$s 开头的网址，例如，'%2$s' 。",
         "ExternalWebsiteUrl": "外部网站",
         "Filename": "文件名称",
         "GoalConversion": "目标转化",
@@ -61,7 +61,7 @@
         "HelpOneConversionPerVisit": "如果一次访问中，匹配目标的页面被刷新或多次查看，只有第一次访问页面的目标会被统计。",
         "IsExactly": "正好是 %s",
         "LeftInCart": "%s(购物车内产品)",
-        "ManageGoalsOrCreateANewGoal": "%s管理目标%s 或马上新建一个目标！",
+        "ManageGoalsOrCreateANewGoal": "%1$s管理目标%2$s 或马上新建一个目标！",
         "Manually": "手动触发",
         "ManuallyTriggeredUsingJavascriptFunction": "手动触发的目标是使用 JavaScript API trackGoal()",
         "MatchesExpression": "匹配表达式 %s",
@@ -87,7 +87,7 @@
         "VisitUrl": "访问特定网址(页面或页面组)",
         "WhenVisitors": "当访客",
         "WhereThe": "设置",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "在被访问的页面包含一个 JavaScript piwikTracker.trackGoal() 方法(%s了解更多%s)",
-        "YouCanEnableEcommerceReports": "您可以为网站开启%s在%s页面。"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "在被访问的页面包含一个 JavaScript piwikTracker.trackGoal() 方法(%1$s了解更多%2$s)",
+        "YouCanEnableEcommerceReports": "您可以为网站开启%1$s在%2$s页面。"
     }
 }

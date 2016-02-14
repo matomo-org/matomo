@@ -733,7 +733,7 @@ class API extends \Piwik\Plugin\API
     private static function validateReportHour($hour)
     {
         if (!is_numeric($hour) || $hour < 0 || $hour > 23) {
-            throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
+            throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
         }
     }
 

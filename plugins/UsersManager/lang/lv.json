@@ -4,7 +4,6 @@
         "Alias": "Aizstājējvārds",
         "AllWebsites": "Visas vietnes",
         "ApplyToAllWebsites": "Apstipriniet visām vietnēm",
-        "ChangeAllConfirm": "Vai tiešām vēlaties mainīt '%s' pieejas atļaujas visām vietnēm?",
         "ChangePasswordConfirm": "Mainot lietotāja paroli, tiks izmainīts arī lietotāja token_auth. Vai tiešām vēlaties turpināt?",
         "ClickHereToDeleteTheCookie": "Klikšķiniet šeit, lai dzēstu sīkdatni un atļautu Piwik izsekot Jūsu pašu apmeklējumus",
         "ClickHereToSetTheCookieOnDomain": "Klikšķiniet šeit, lai iestatītu sīkdatni, kas aizliegs izsekot Jūsu pašu apmeklējumus %s",
@@ -16,15 +15,12 @@
         "ExceptionEditAnonymous": "Anonīmo lietotāju nav iespējams labot vai dzēst. Tas tiek izmantots, lai definētu lietotāju, kurš vēl nav pieteicies. Piemēram, Jūs varat publiskot statistiku atļaujot apskates pieeju anonīmajam lietotājam.",
         "ExceptionEmailExists": "Lietotājs ar e-pasta adresi '%s' jau eksistē.",
         "ExceptionInvalidEmail": "E-pasta adresei nav pareizs formāts",
-        "ExceptionInvalidLoginFormat": "Lietotājvārdam jābūt garumā no %1$s līdz %2$s simboliem un jāsatur tikai cipari, burti vai simboli '_', '-', '.', '@', '+'",
         "ExceptionInvalidPassword": "Parolei jābūt garumā no %1$s līdz %2$s simboliem.",
-        "ExceptionLoginExists": "Lietotājvārds '%s' jau eksistē.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth sagaida MD5 kodētu paroli (32 simbolu garu tekstu). Lūdzu pielietojiet md5() metodi parolei pirms izsaucat šo metodi.",
         "ExceptionUserDoesNotExist": "Lietotājs '%s' neeksistē.",
         "ExcludeVisitsViaCookie": "Neiekļaut Jūsu pašu apmeklējumus izmantojot sīkdatni",
         "ForAnonymousUsersReportDateToLoadByDefault": "Atskaite, kuru ielādēt pēc noklusējuma anonīmiem lietotājiem",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Ja vēlaties mainīt paroli, ievadiet jauno. Pretējā gadījumā atstājiet tukšu.",
-        "MainDescription": "Izlemjiet kuriem lietotājiem ir kādas Piwik pieejas atļaujas Jūsu vietnēm. Jūs varat arī uzstādīt pieejas atļaujas visām vietnēm vienlaicīgi.",
         "ManageAccess": "Pārvaldiet pieejas",
         "MenuAnonymousUserSettings": "Anonīmu lietotāju iestatījumi",
         "MenuUsers": "Lietotāji",
@@ -42,6 +38,6 @@
         "UsersManagementMainDescription": "Izveidojiet jaunus vai labojiet esošu lietotāju iestatījumus. Augstāk Jūs varat uzstādīt šo lietotāju pieejas atļaujas.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kad lietotāji nav pieteikušies un apmeklē Piwik, tiem rādam",
         "YourUsernameCannotBeChanged": "Jūsu lietotājvārdu nav iespējams izmainīt.",
-        "YourVisitsAreIgnoredOnDomain": "%sJūsu apmeklējumi tiek ignorēti %s %s (pārlūkā tika atrasta Piwik ignorēšanas sīkdatne)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sJūsu apmeklējumi tiek ignorēti %2$s %3$s (pārlūkā tika atrasta Piwik ignorēšanas sīkdatne)."
     }
 }

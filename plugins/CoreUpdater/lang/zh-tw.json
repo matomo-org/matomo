@@ -22,7 +22,7 @@
         "HelpMessageContent": "請檢查 %1$s Piwik FAQ %2$s，其中已有更新過程中所發生的常見錯誤之解決辦法。%3$s 詢問你的系統管理員 - 他們應該可以協助你解決大部分關於伺服器或 MySQL 設定的問題。",
         "HelpMessageIntroductionWhenError": "以上是核心錯誤訊息。它應該有助於解釋原因，但如果你需要進一步的說明請至：",
         "HelpMessageIntroductionWhenWarning": "此次更新成功完成，但在過程中有發生一些問題。請閱讀以上說明的詳細內容。如需更進一步的說明：",
-        "HighTrafficPiwikServerEnableMaintenance": "如果你管理一個高流量的Piwik伺服器，我們建議%s暫時禁用訪客追踪功能，並把Piwik用戶界面設定為維運模式%s。",
+        "HighTrafficPiwikServerEnableMaintenance": "如果你管理一個高流量的Piwik伺服器，我們建議%1$s暫時禁用訪客追踪功能，並把Piwik用戶界面設定為維運模式%2$s。",
         "IncompatbilePluginsWillBeDisabledInfo": "注意：有些插件並不兼容在Piwik %s，它們將會當你升級後被禁用。",
         "InstallingTheLatestVersion": "正在安裝最新版本中",
         "MajorUpdateWarning1": "這是一個重大更新！這將需要比平常更長的時間。",

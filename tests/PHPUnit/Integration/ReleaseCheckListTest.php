@@ -184,6 +184,30 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function test_jsfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.js');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
+    }
+
+    public function test_phpfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
+    }
+
+    public function test_twigfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.twig');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
+    }
+    
+    public function test_htmlfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.html');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
+    }
+
     public function test_directoriesShouldBeChmod755()
     {
         $pluginsPath = realpath(PIWIK_INCLUDE_PATH . '/plugins/');
@@ -422,7 +446,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
 
         // in build-package.sh we have: `find ./ -iname 'tests' -type d -prune -exec rm -rf {} \;`
-        if(stripos($file, "/tests/") !== false) {
+        if($this->isFileBelongToTests($file)) {
             return false;
         }
         if(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
@@ -585,5 +609,53 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $filesizes[$file] = $filesize;
         }
         return $filesizes;
+    }
+
+    /**
+     * @param $files
+     * @throws Exception
+     */
+    protected function checkFilesDoNotHaveWeirdSpaces($files)
+    {
+        $weirdSpace = ' ';
+        $this->assertEquals('c2a0', bin2hex($weirdSpace), "Checking that this test file was not tampered with");
+        $this->assertEquals('20', bin2hex(' '), "Checking that this test file was not tampered with");
+
+        $errors = array();
+        $countFileChecked = 0;
+        foreach ($files as $file) {
+
+            if($this->isFileBelongToTests($file)) {
+                continue;
+            }
+
+            if(strpos($file, 'vendor/php-di/php-di/website/') !== false) {
+                continue;
+            }
+
+            $content = file_get_contents($file);
+            $posWeirdSpace = strpos($content, $weirdSpace);
+            if ($posWeirdSpace !== false) {
+                $around = substr($content, $posWeirdSpace - 20, 40);
+                $around = trim($around);
+                $errors[] = "File $file contains an unusual space character, please remove it from here: ...$around...";
+            }
+
+            $countFileChecked++;
+        }
+        $this->assertTrue($countFileChecked > 100, "expected to test at least 100 files, but tested only " . $countFileChecked);
+
+        if (!empty($errors)) {
+            throw new Exception(implode(",\n\n ", $errors));
+        }
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileBelongToTests($file)
+    {
+        return stripos($file, "/tests/") !== false;
     }
 }

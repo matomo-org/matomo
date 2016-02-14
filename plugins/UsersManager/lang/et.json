@@ -4,7 +4,6 @@
         "Alias": "Alias",
         "AllWebsites": "Kõik veebilehed",
         "ApplyToAllWebsites": "Laienda kõigile veebilehtedele",
-        "ChangeAllConfirm": "Kas sa oled kindel soovis anda '%s' õigused kõigile veebilehtedele?",
         "ClickHereToSetTheCookieOnDomain": "Vajuta siia, et käesolevasse veebisirvikusse tekitada küpsis, mis ei lase sinu külastusi arvestada veebilehel %s",
         "DeleteConfirm": "Kas oled kindel, et soovid %s kustutada?",
         "Email": "E-post",
@@ -13,11 +12,9 @@
         "ExceptionEditAnonymous": "Anonüümset kasutajat ei saa muuta ega kustutada. Piwik kasutab seda määratlemaks kasutajat, kes ei ole veel sisse loginud. Näiteks, saad teha statistika lubada 'view' statistikat õigused 'anonymous' kasutajale.",
         "ExceptionEmailExists": "Sellise e-mailiga '%s' kasutaja on olemas.",
         "ExceptionInvalidEmail": "Emaili aadress ei ole õiges formaadis.",
-        "ExceptionLoginExists": "Kasutajanimi '%s' on kasutusel.",
         "ExceptionUserDoesNotExist": "Kasutaja '%s' puudub.",
         "ExcludeVisitsViaCookie": "Arva ennast külastajate hulgast välja kasutades küpsist",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Kui soovid salasõna vahetada, siis sisesta siia uus. Vastasel korral jäta tühjaks.",
-        "MainDescription": "Otsusta millistel kasutajatel on ligipääs analüütikale. Saad seada õigused kõigile veebilehtedele korraga.",
         "ManageAccess": "Halda ligipääsu",
         "MenuAnonymousUserSettings": "Tundmatu kasutaja seaded",
         "MenuUsers": "Kasutajaid",
@@ -37,6 +34,6 @@
         "UsersManagement": "Kasutajate haldamine",
         "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool.",
         "YourUsernameCannotBeChanged": "Sinu kasutajanime ei saa muuta.",
-        "YourVisitsAreNotIgnored": "%sPiwik ei arva sinu külastusi statistikast välja%s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust)."
+        "YourVisitsAreNotIgnored": "%1$sPiwik ei arva sinu külastusi statistikast välja%2$s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust)."
     }
 }

@@ -8,11 +8,11 @@
         "FromSearchEngines": "S spletnih iskalnikov",
         "NoDataForAction": "Ni podatkov za %s",
         "OutgoingTraffic": "Izhodni promet",
-        "ShareOfAllPageviews": "Ta stran je imela %s ogledov strani (%s od vseh ogledov strani)",
+        "ShareOfAllPageviews": "Ta stran je imela %1$s ogledov strani (%2$s od vseh ogledov strani)",
         "ToFollowingPages": "Na notranje strani",
         "ToFollowingPagesInline": "%s na notranje strani",
         "ToFollowingSiteSearches": "Notranja iskanja",
         "ToFollowingSiteSearchesInline": "%s notranjih iskanj",
-        "XOutOfYVisits": "%s (od %s)"
+        "XOutOfYVisits": "%1$s (od %2$s)"
     }
 }

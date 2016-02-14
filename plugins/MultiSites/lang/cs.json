@@ -3,7 +3,7 @@
         "Evolution": "Vývoj",
         "LoadingWebsites": "Načítání webových stránek",
         "PluginDescription": "Zobrazte a porovnejte všechny vaše stránky a aplikace na této užitečné nástěnce všech stránek.",
-        "TopLinkTooltip": "Porovnejte webové analytické statistiky pro všechny vaše webové stránky.",
-        "Pagination": "%s - %s z %s"
+        "TopLinkTooltip": "Porovnejte webové analytické statistiky pro všechny vaše weby.",
+        "Pagination": "%1$s - %2$s z %3$s"
     }
 }

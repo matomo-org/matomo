@@ -27,7 +27,7 @@
         "MakeADifference": "Gör skillnad: %1$sDonera nu%2$s för att finansiera Piwik 2.0!",
         "MakeOneTimeDonation": "Donera en engångssumma istället.",
         "Menu": "Meny",
-        "NoPrivilegesAskPiwikAdmin": "Du är inloggad som '%s' men det verkar som om du inte har några rättigheter satta i Piwik. %s Fråga din Piwik administratör (klicka för att e-posta)%s för att få läsrättighet till en webbplats.",
+        "NoPrivilegesAskPiwikAdmin": "Du är inloggad som '%1$s' men det verkar som om du inte har några rättigheter satta i Piwik. %2$s Fråga din Piwik administratör (klicka för att e-posta)%3$s för att få läsrättighet till en webbplats.",
         "OnlyForSuperUserAccess": "Den här widgeten visas bara för användare som har Superanvändare access.",
         "PageOf": "%1$s av %2$s",
         "PeriodRange": "Intervall",
@@ -48,6 +48,7 @@
         "YouAreUsingTheLatestVersion": "Du använder den senaste versionen av Piwik!",
         "ClickRowToExpandOrContract": "Klicka på denna rad för att visa eller dölja undertabeller.",
         "UndoPivotBySubtable": "Denna rapport har pivoterats %s Ångra pivotering",
-        "PivotBySubtable": "Denna rapport är inte pivoterad %s Pivotera med %s"
+        "PivotBySubtable": "Denna rapport är inte pivoterad %1$s Pivotera med %2$s",
+        "Segments": "Segment"
     }
 }

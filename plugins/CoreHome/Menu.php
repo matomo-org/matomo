@@ -35,7 +35,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         if (Piwik::isUserIsAnonymous()) {
             if (Plugin\Manager::getInstance()->isPluginActivated('ScheduledReports')) {
-                $menu->addItem($login, null, array('module' => 'ScheduledReports', 'action' => 'index'), 970, Piwik::translate('ScheduledReports_PersonalEmailReports'));
+                $menu->addItem($login, null, array('module' => 'ScheduledReports', 'action' => 'index'), 970, Piwik::translate('UsersManager_PersonalSettings'));
             } else {
                 $menu->addItem($login, null, array('module' => 'API', 'action' => 'listAllAPI'), 970, Piwik::translate('API_ReportingApiReference'));
             }

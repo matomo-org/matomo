@@ -22,7 +22,7 @@
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==7</segment>
 		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
 	</row>
@@ -116,6 +116,19 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==BOT;operatingSystemVersion==UNK</segment>
 		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
+	</row>
+	<row>
+		<label>iOS 7.1</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>operatingSystemCode==IOS;operatingSystemVersion==7.1</segment>
+		<logo>plugins/DevicesDetection/images/os/IOS.gif</logo>
 	</row>
 	<row>
 		<label>Mac</label>

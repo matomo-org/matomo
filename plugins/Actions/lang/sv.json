@@ -1,10 +1,11 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Medel baseras på %s träff(ar) %s mellan %s och %s",
+        "AvgGenerationTimeTooltip": "Medel baseras på %1$s träff(ar) %2$s mellan %3$s och %4$s",
         "ColumnClickedURL": "Klickad URL",
+        "ColumnActionURL": "Åtgärds-URL",
         "ColumnClicks": "Klick",
         "ColumnClicksDocumentation": "Antalet gånger som denna länk klickades på.",
-        "ColumnDownloadURL": "Nedladdningens URL",
+        "ColumnDownloadURL": "Nedladdnings-URL",
         "ColumnEntryPageTitle": "Målsidans titel",
         "ColumnEntryPageURL": "Målsidans URL",
         "ColumnExitPageTitle": "Avvisningssidans titel",
@@ -14,7 +15,7 @@
         "ColumnPagesPerSearch": "Sökresultatsidor",
         "ColumnPagesPerSearchDocumentation": "Ibland klickar användare som söker på din webbplats på \"nästa\" för att visa flera resultat. Detta är det genomsnittliga antalet sidor med sökresultat som visas för det här nyckelordet.",
         "ColumnPageURL": "Sidans URL",
-        "ColumnSearchCategory": "Sök kategori",
+        "ColumnSearchCategory": "Sökkategori",
         "ColumnSearches": "Sökningar",
         "ColumnSearchesDocumentation": "Antalet besök som sökte efter detta nyckelord i din webbplats sökmotor.",
         "ColumnSearchExits": "% Sökutgångar",
@@ -37,14 +38,14 @@
         "OutlinkDocumentation": "En utlänk är en länk som leder besökaren bort från webbplatsen (till en annan domän).",
         "OutlinksReportDocumentation": "Denna rapport visar en hierarkisk lista över utlänkarnas webbadresser som klickades på utav dina besökare.",
         "PagesReportDocumentation": "Denna rapport innehåller information om webbadresserna som har besökts. %s Tabellen ordnas hierarkiskt, webbadresserna visas som en mappstruktur.",
-        "PageTitlesReportDocumentation": "Denna rapport innehåller information om titlarna på de sidor som har besökts. %s sidans titel är HTML-taggen %s som de flesta webbläsare visar i sina fönster titel.",
-        "PageUrls": "Webbadress",
+        "PageTitlesReportDocumentation": "Denna rapport innehåller information om titlarna på de sidor som har besökts. %1$s sidans titel är HTML-taggen %2$s som de flesta webbläsare visar i sina fönster titel.",
+        "PageUrls": "Webbadresser",
         "PluginDescription": "Rapporter om sidvisningar och sidtitlar. Låter dig mäta din webbplats sökmotor. Spårar klick på externa länkar och filnedladdningar.",
         "SiteSearchCategories1": "Den här rapporten listar kategorierna som besökarna valt när dom gjort en sökning på din webbplats.",
         "SiteSearchCategories2": "T.ex. så har e-handelssidor vanligtvis kategorier som gör att besökarna kan begränsa sökningen till produkter i en vald kategori",
         "SiteSearchFollowingPagesDoc": "När besökare söker på din webbplats så letar dom efter en speciell sida, innehåll, produkt eller tjänst. Den här rapporten listar de sidor med flest klick efter en intern sökning. Med andra ord, en lista med dom mest sökta sidorna av besökare som redan hittat till din webbplats.",
         "SiteSearchIntro": "Att spåra sökningar som besökare gör på webbplatsen är ett väldigt effektivt sätt att lära sig mer om vad dom letar efter. Det kan hjälpa till med nya idéer för innehåll eller nya produkter som potentiella kunder letar efter. Det kan även förbättra den allmänna upplevelsen besökarna får på din webbplats.",
-        "SiteSearchKeyword": "Nyckelord(Webbplatssökning)",
+        "SiteSearchKeyword": "Nyckelord (Webbplatssökning)",
         "SiteSearchKeywordsDocumentation": "Den här rapporten listar nyckelorden som besökare sökt efter med din interna sökmotor.",
         "SiteSearchKeywordsNoResultDocumentation": "Den här rapporten listar nyckelorden som inte gav något resultat. Möjligtvis kan webbplatsens sökmotor förbättras eller så letar besökarna efter innehåll som inte finns (ännu?)",
         "SubmenuPagesEntry": "Målsidor",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Sidor från en webbplatssökning",
         "WidgetSearchCategories": "Sök kategorier",
         "WidgetSearchKeywords": "Nyckelord från webbplatssökningar",
-        "WidgetSearchNoResultKeywords": "Nyckelord utan resultat"
+        "WidgetSearchNoResultKeywords": "Nyckelord utan resultat",
+        "ActionType": "Åtgärdstyp"
     }
 }

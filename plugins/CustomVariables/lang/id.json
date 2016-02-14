@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Nama Variabel Kustom",
         "ColumnCustomVariableValue": "Nilai Variabel Kustom",
         "CustomVariables": "Variabel Kustom",
-        "CustomVariablesReportDocumentation": "Laporan ini mengandung informasi tentang Variabel Kustom Anda. Klik di nama variabel untuk melihat distribusi nilai. %s Informasi lebih lengkap tentang Vabiabel Kustom, baca %sdokumentasi Vabiabel Kustom di piwik.org%s",
+        "CustomVariablesReportDocumentation": "Laporan ini mengandung informasi tentang Variabel Kustom Anda. Klik di nama variabel untuk melihat distribusi nilai. %1$s Informasi lebih lengkap tentang Vabiabel Kustom, baca %2$sdokumentasi Vabiabel Kustom di piwik.org%3$s",
         "ScopePage": "cakupan halaman",
         "ScopeVisit": "cakupan kunjungan"
     }

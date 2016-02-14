@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Konfigurační soubor",
+        "ConfigFileIntroduction": "Zde vidíte konfiguraci pro Piwik. Pokud Piwik běží v prostředí s vyvažováním zátěže, můžou se zobrazovaná data lišit podle toho, ze kterého serveru jsou natažena. Řádky se změněnou barvou pozadí značí změněné konfigurační hodnoty, které jsou specifikovány například v %1$s souboru.",
+        "HideUnchanged": "Pokud chcete vidět pouze změněné hodnoty, můžete %1$snezměněné hodnoty skrýt%2$s.",
+        "Sections": "Sekce"
+    }
+}

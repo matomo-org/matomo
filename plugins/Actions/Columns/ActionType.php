@@ -47,7 +47,7 @@ class ActionType extends ActionDimension
         $segment->setSegment('actionType');
         $segment->setName('Actions_ActionType');
         $segment->setSqlSegment('log_action.type');
-        $segment->setType(Segment::TYPE_METRIC);
+        $segment->setType(Segment::TYPE_DIMENSION);
         $segment->setAcceptedValues(sprintf('A type of action, such as: %s', implode(', ', $types)));
         $segment->setSqlFilter(function ($type) use ($types) {
             if (array_key_exists($type, $types)) {

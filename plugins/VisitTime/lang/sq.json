@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Vizita sipas Ditëve të Javës",
         "WidgetByDayOfWeekDocumentation": "Ky grafik shfaq numrin e vizitave që pati sajti juaj në çdo ditë të javës.",
         "WidgetLocalTime": "Vizita sipas kohës vendore",
-        "WidgetLocalTimeDocumentation": "Ky grafik shfaq kohën sipas %s zonës kohore të vizitorit %s kur ka ndodhur një vizitë.",
+        "WidgetLocalTimeDocumentation": "Ky grafik shfaq kohën sipas %1$s zonës kohore të vizitorit %2$s kur ka ndodhur një vizitë.",
         "WidgetServerTime": "Vizita sipas Kohës së Shërbyesit",
-        "WidgetServerTimeDocumentation": "Ky grafik shfaq kohën sipas %s zonës kohore të shërbyesit %s kur ka ndodhur një vizitë."
+        "WidgetServerTimeDocumentation": "Ky grafik shfaq kohën sipas %1$s zonës kohore të shërbyesit %2$s kur ka ndodhur një vizitë."
     }
 }

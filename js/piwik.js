@@ -957,7 +957,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
 /*global unescape */
 /*global ActiveXObject */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift, piwikAsyncInit,
+    shift, unshift, piwikAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
@@ -2727,6 +2727,18 @@ if (typeof Piwik !== 'object') {
             );
         }
 
+        function isInsideAnIframe () {
+            if (isDefined(windowAlias.frameElement)) {
+                return (windowAlias.frameElement && String(windowAlias.frameElement.nodeName).toLowerCase() === 'iframe');
+            }
+
+            try {
+                return windowAlias.self !== windowAlias.top;
+            } catch (e) {
+                return true;
+            }
+        }
+
         /************************************************************
          * End Page Overlay
          ************************************************************/
@@ -2912,6 +2924,11 @@ if (typeof Piwik !== 'object') {
 
                 // Guard against installing the activity tracker more than once per Tracker instance
                 heartBeatSetUp = false,
+
+                // bool used to detect whether this browser window had focus at least once. So far we cannot really
+                // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
+                // the window had focus at least once.
+                hadWindowFocusAtLeastOnce = isInsideAnIframe(),
 
                 // Timestamp of last tracker request sent to Piwik
                 lastTrackerRequestTime = null,
@@ -3228,6 +3245,19 @@ if (typeof Piwik !== 'object') {
 
                 heartBeatTimeout = setTimeout(function heartBeat() {
                     heartBeatTimeout = null;
+
+                    if (!hadWindowFocusAtLeastOnce) {
+                        // if browser does not support .hasFocus (eg IE5), we assume that the window has focus.
+                        hadWindowFocusAtLeastOnce = (!documentAlias.hasFocus || documentAlias.hasFocus());
+                    }
+
+                    if (!hadWindowFocusAtLeastOnce) {
+                        // only send a ping if the tab actually had focus at least once. For example do not send a ping
+                        // if window was opened via "right click => open in new window" and never had focus see #9504
+                        heartBeatUp(configHeartBeatDelay);
+                        return;
+                    }
+
                     if (heartBeatPingIfActivityAlias()) {
                         return;
                     }
@@ -3253,6 +3283,8 @@ if (typeof Piwik !== 'object') {
             }
 
             function heartBeatOnFocus() {
+                hadWindowFocusAtLeastOnce = true;
+
                 // since it's possible for a user to come back to a tab after several hours or more, we try to send
                 // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
                 if (heartBeatPingIfActivityAlias()) {

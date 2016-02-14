@@ -100,7 +100,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==20.0</segment>
 		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
 	</row>
@@ -207,5 +207,18 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==IE;browserVersion==8.0</segment>
 		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+	</row>
+	<row>
+		<label>Unknown</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserCode==UNK;browserVersion==1.0</segment>
+		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
 	</row>
 </result>

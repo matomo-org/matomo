@@ -18,7 +18,7 @@
         "Deactivate": "비활성화",
         "Developer": "개발자",
         "DoMoreContactPiwikAdmins": "새로운 플러그인이나 테마를 설치하기 위해서, Piwik 관리자에게 연락해주세요.",
-        "GetEarlyAccessForPaidPlugins": "참고사항: 모든 플러그인은 현재 무료로 사용할 수 있습니다. 향후 유료 마켓플레이스를 제공할 예정입니다 (자세한 사항은 %s연락 주시길%s 바랍니다.).",
+        "GetEarlyAccessForPaidPlugins": "참고사항: 모든 플러그인은 현재 무료로 사용할 수 있습니다. 향후 유료 마켓플레이스를 제공할 예정입니다 (자세한 사항은 %1$s연락 주시길%2$s 바랍니다.).",
         "Inactive": "비활성",
         "InstallNewPlugins": "새로운 플러그인 설치",
         "InstallNewThemes": "새로운 테마 설치",

@@ -29,7 +29,7 @@ class GetDonateForm extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('Example Widgets');
+        $config->setCategoryId('About Piwik');
         $config->setName('CoreHome_SupportPiwik');
         $config->setOrder(5);
     }

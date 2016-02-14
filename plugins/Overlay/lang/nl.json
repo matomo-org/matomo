@@ -14,8 +14,8 @@
         "OpenFullScreen": "Toon volledig scherm (geen zijbalk)",
         "Overlay": "Pagina Overlay",
         "PluginDescription": "Zie je analyse data als een transparant op je eigenlijke website. Zie hoeveel keer je bezoekers hebben geklik op elke link. Opmerking: Vereist dat de Transitions plugin is ingeschakeld.",
-        "RedirectUrlError": "Je probeert Pagina overlay te openen voor de URL \"%s\". %s Geen enkel domain van de Piwik instellingen komt overeen met de link.",
-        "RedirectUrlErrorAdmin": "Je kunt het domein toevoegen als extra URL %sin de instellingen%s.",
+        "RedirectUrlError": "Je probeert Pagina overlay te openen voor de URL \"%1$s\". %2$s Geen enkel domain van de Piwik instellingen komt overeen met de link.",
+        "RedirectUrlErrorAdmin": "Je kunt het domein toevoegen als extra URL %1$sin de instellingen%2$s.",
         "RedirectUrlErrorUser": "Vraag je beheerder om het domein toe te voegen als additionele URL."
     }
 }

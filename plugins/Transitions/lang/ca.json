@@ -16,12 +16,12 @@
         "NoDataForAction": "No hi ha informació per %s",
         "NoDataForActionDetails": "O l'acció no ha estat vista cap vegada durant el període %s o és invàlida.",
         "OutgoingTraffic": "Tràfic surtint",
-        "ShareOfAllPageviews": "Aquesta pàgina ha tingut %s visites (%s de totes les visites)",
+        "ShareOfAllPageviews": "Aquesta pàgina ha tingut %1$s visites (%2$s de totes les visites)",
         "ToFollowingPages": "A pàgines internes",
         "ToFollowingPagesInline": "%s a pàgines internes",
         "ToFollowingSiteSearches": "Cerques internes",
         "ToFollowingSiteSearchesInline": "%s cerques internes",
         "XOfAllPageviews": "%s de totes les visualitzacions d'aquesta pàgina",
-        "XOutOfYVisits": "%s (de %s)"
+        "XOutOfYVisits": "%1$s (de %2$s)"
     }
 }

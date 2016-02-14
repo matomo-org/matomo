@@ -15,7 +15,7 @@
         "EventsWithValue": "Události s hodnotou",
         "EventsWithValueDocumentation": "Počet událostí s nastavenou hodnotou",
         "EventValue": "Hodnota události",
-        "EventValueTooltip": "Celková hodnota události je součet %s hodnot událostí %s mezi minimem %s a maximem %s.",
+        "EventValueTooltip": "Celková hodnota události je součet %1$s hodnot událostí %2$s mezi minimem %3$s a maximem %4$s.",
         "MaxValue": "Maximální hodnota",
         "MaxValueDocumentation": "Maximální hodnota pro tuto událost",
         "MinValue": "Minimální hodnota",

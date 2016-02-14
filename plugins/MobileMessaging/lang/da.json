@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Udbydernavn '%s' er ukendt. Prøv et af følgende i stedet: %s.",
+        "Exception_UnknownProvider": "Udbydernavn '%1$s' er ukendt. Prøv et af følgende i stedet: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Du kan tilføje flere telefonnumre ved at åbne",
         "MobileReport_MobileMessagingSettingsLink": "Mobil besked indstillinger",
         "MobileReport_NoPhoneNumbers": "Aktiver mindst ét telefonnummer ved at besøge",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS udbyder",
         "Settings_SuperAdmin": "Superbruger indstillinger",
         "Settings_SuspiciousPhoneNumber": "Hvis du ikke modtager en SMS-besked, kan du prøve uden det forreste nul. dvs. %s",
-        "Settings_UpdateOrDeleteAccount": "Du kan også %sopdatere%s eller %sslette%s denne konto.",
+        "Settings_UpdateOrDeleteAccount": "Du kan også %1$sopdatere%2$s eller %3$sslette%4$s denne konto.",
         "Settings_ValidatePhoneNumber": "Bekræft",
         "Settings_VerificationCodeJustSent": "Vi har sendt dig en SMS med en kode til dette nummer: Indtast denne kode nedenfor og klik på \"Godkend\".",
         "SettingsMenu": "Mobile beskeder",
         "SMS_Content_Too_Long": "[for lang]",
         "TopLinkTooltip": "Få web analyse rapporter leveret til din indbakke eller din mobiltelefon!",
         "TopMenu": "Email & SMS rapporter",
-        "VerificationText": "Koden er %s. For at validere dit telefonnummer og modtage Piwik SMS rapporter, kopierer koden til formularen tilgængelig på Piwik > %s > %s."
+        "VerificationText": "Koden er %1$s. For at validere dit telefonnummer og modtage Piwik SMS rapporter, kopierer koden til formularen tilgængelig på Piwik > %2$s > %3$s."
     }
 }

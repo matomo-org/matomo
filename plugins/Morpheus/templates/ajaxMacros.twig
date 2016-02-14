@@ -13,10 +13,26 @@
 </div>
 {% endmacro %}
 
-{% macro requestErrorDiv(emailSuperUser) %}
-    {% if emailSuperUser is defined and emailSuperUser %}
-        <div id="loadingError">{{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}</div>
-    {% else %}
-        <div id="loadingError">{{ 'General_ErrorRequest'|translate('', '') }}</div>
-    {% endif %}
+{% macro requestErrorDiv(emailSuperUser, arePiwikProAdsEnabled = false) %}
+    <div id="loadingError">
+        <div class="alert alert-danger">
+
+            {% if emailSuperUser is defined and emailSuperUser %}
+                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}
+            {% else %}
+                {{ 'General_ErrorRequest'|translate('', '') }}
+            {% endif %}
+
+            <br /><br />
+            {{ 'General_NeedMoreHelp'|translate }}
+
+            <a rel="noreferrer" target="_blank" href="https://piwik.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a> –
+            <a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+
+            {%- if arePiwikProAdsEnabled %}
+                –
+                <a rel="noreferrer" target="_blank" href="{{ 'https://piwik.pro/'|piwikProCampaignParameters('Help', 'AjaxError')|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
+            {%- endif %}.
+        </div>
+    </div>
 {% endmacro %}

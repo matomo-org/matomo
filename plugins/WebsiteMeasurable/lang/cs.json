@@ -1,7 +1,7 @@
 {
     "WebsiteMeasurable": {
-        "Website": "Webová stránka",
-        "Websites": "Webové stránky",
-        "WebsiteDescription": "Webová stránka se skládá ze stránek, většinou umístěných na jedné doméně."
+        "Website": "Web",
+        "Websites": "Weby",
+        "WebsiteDescription": "Web se skládá ze stránek zpravidla umístěných na jedné doméně."
     }
 }

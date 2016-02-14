@@ -1,5 +1,5 @@
 <div id="periodString" piwik-expand-on-click class="piwikTopControl piwikSelector borderedControl periodSelector">
-    <a id="date" class="title" title="{{ 'General_ChooseDate'|translate|e('html_attr') }}">
+    <a id="date" class="title" title="{{ 'General_ChooseDate'|translate(prettyDateLong|default(''))|e('html_attr') }}" tabindex="4">
         <span class="icon icon-calendar"></span>
         {{ prettyDate }}
     </a>
@@ -9,12 +9,12 @@
         </div>
         <div class="period-range" style="display:none;">
             <div id="calendarRangeFrom">
-                <h6>{{ 'General_DateRangeFrom'|translate }}<input tabindex="1" type="text" id="inputCalendarFrom" name="inputCalendarFrom"/></h6>
+                <h6>{{ 'General_DateRangeFrom'|translate }}<input tabindex="4" type="text" id="inputCalendarFrom" name="inputCalendarFrom"/></h6>
 
                 <div id="calendarFrom"></div>
             </div>
             <div id="calendarRangeTo">
-                <h6>{{ 'General_DateRangeTo'|translate }}<input tabindex="2" type="text" id="inputCalendarTo" name="inputCalendarTo"/></h6>
+                <h6>{{ 'General_DateRangeTo'|translate }}<input tabindex="4" type="text" id="inputCalendarTo" name="inputCalendarTo"/></h6>
 
                 <div id="calendarTo"></div>
             </div>
@@ -28,7 +28,7 @@
                 <br/>
             {% endfor %}
 			</span>
-            <input tabindex="3" type="submit" value="{{ 'General_Apply'|translate }}" id="calendarApply" class="btn"/>
+            <input tabindex="4" type="submit" value="{{ 'General_Apply'|translate }}" id="calendarApply" class="btn"/>
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.loadingDiv('ajaxLoadingCalendar') }}
         </div>

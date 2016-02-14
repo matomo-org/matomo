@@ -7,8 +7,8 @@
         "ServerTime": "Vistas por hora do servidor",
         "SubmenuTimes": "Horas",
         "WidgetLocalTime": "Visitas pela hora local",
-        "WidgetLocalTimeDocumentation": "Este gráfico mostra que horas eram no %s fuso horário dos visitantes %s durante suas visitas.",
+        "WidgetLocalTimeDocumentation": "Este gráfico mostra que horas eram no %1$s fuso horário dos visitantes %2$s durante suas visitas.",
         "WidgetServerTime": "Vistas pela hora do servidor",
-        "WidgetServerTimeDocumentation": "Este gráfico mostra que horas eram no %s fuso horário do servidor %s durante suas visitas."
+        "WidgetServerTimeDocumentation": "Este gráfico mostra que horas eram no %1$s fuso horário do servidor %2$s durante suas visitas."
     }
 }

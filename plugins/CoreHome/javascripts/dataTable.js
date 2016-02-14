@@ -1241,14 +1241,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         };
 
-        var getText = function (text, addDefault) {
-            text = _pk_translate(text);
-            if (text.indexOf('%s') > 0) {
-                text = text.replace('%s', '<br /><span class="action">&raquo; ');
+        var getText = function (text, addDefault, replacement) {
+            if (/(%(.\$)?s+)/g.test(_pk_translate(text))) {
+                var values = ['<br /><span class="action">&raquo; '];
+                if(replacement) {
+                    values.push(replacement);
+                }
+                text = _pk_translate(text, values);
                 if (addDefault) text += ' (' + _pk_translate('CoreHome_Default') + ')';
                 text += '</span>';
+                return text;
             }
-            return text;
+            return _pk_translate(text);
         };
 
         var setText = function (el, paramName, textA, textB) {
@@ -1312,7 +1316,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
                     iconHighlighted = true;
                 } else {
-                    var optionLabelText = getText('CoreHome_PivotBySubtable').replace('%s', self.props.pivot_dimension_name);
+                    var optionLabelText = getText('CoreHome_PivotBySubtable', false, self.props.pivot_dimension_name);
                     $(this).html(optionLabelText);
                 }
             })

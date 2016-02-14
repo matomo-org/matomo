@@ -6,7 +6,6 @@
         "Email": "ఈమెయిలు",
         "ExceptionEmailExists": "'%s' అనే ఈమెయిలుతో వాడుకరి ఇప్పటికే ఉన్నారు.",
         "ExceptionInvalidEmail": "ఈ ఈమెయిలు సరైన రీతిలో లేదు.",
-        "ExceptionLoginExists": "'%s' వాడుకరి ఇప్పటికే ఉన్నారు.",
         "ExceptionUserDoesNotExist": "'%s' వాడుకరి లేనే లేరు.",
         "MenuAnonymousUserSettings": "ఆజ్ఞాత వాడుకరుల అమరికలు",
         "MenuUsers": "వాడుకరులు",

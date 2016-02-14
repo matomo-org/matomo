@@ -16,7 +16,7 @@ class RssChangelog extends \Piwik\Widget\Widget
 {
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('Example Widgets');
+        $config->setCategoryId('About Piwik');
         $config->setName('Piwik Changelog');
     }
 

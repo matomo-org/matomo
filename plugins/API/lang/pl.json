@@ -1,11 +1,13 @@
 {
     "API": {
-        "GenerateVisits": "Jeżeli nie posiadasz żadnych danych do dnia dzisiejszego, możesz na początek wygenerować trochę symulowanych danych testowych używając wtyczki o nazwie %s. Możesz aktywować i uruchomić wtyczkę %s, a następnie kliknąć w menu przycisk Potwierdź w 'generatorze odwiedzin', w strefie menu Konfiguracja administratora systemu Piwik.",
-        "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %s nie upowszechniaj go%s!",
+        "GenerateVisits": "Jeżeli nie posiadasz żadnych danych do dnia dzisiejszego, możesz na początek wygenerować trochę symulowanych danych testowych używając wtyczki o nazwie %1$s. Możesz aktywować i uruchomić wtyczkę %2$s, a następnie kliknąć w menu przycisk Potwierdź w 'generatorze odwiedzin', w strefie menu Konfiguracja administratora systemu Piwik.",
+        "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %1$s nie upowszechniaj go%2$s!",
         "LoadedAPIs": "Środowisko API załadowano %s pomyślnie",
-        "MoreInformation": "Aby uzyskać więcej informacji o interfejsie API statystyk Piwik, prosimy przeczytać %s Wprowadzenie do interfejsu API w Piwik%s, a także na stronie opracowania %s Piwik API Reference%s.",
+        "MoreInformation": "Aby uzyskać więcej informacji o interfejsie API statystyk Piwik, prosimy przeczytać %1$s Wprowadzenie do interfejsu API w Piwik%2$s, a także na stronie opracowania %3$s Piwik API Reference%4$s.",
+        "PluginDescription": "Wszystkie dane w Piwiku są dostępne poprzez proste API. Ten plugin jest punktem końcowym serwisu web,",
         "TopLinkTooltip": "Dostęp do twoich danych analitycznych programistycznie poprzez proste API w formatach json, xml itp.",
         "UserAuthentication": "Uwierzytelnianie użytkownika",
-        "UsingTokenAuth": "Jeżeli wysuniesz żądanie %s ujęcia pewnych danych w statystyce za pomocą crontab, %s musisz dodać poniższy parametr %s do interfejsu API, wywołując URL-e które wymagają uwierzytelniania."
+        "UsingTokenAuth": "Jeżeli wysuniesz żądanie %1$s ujęcia pewnych danych w statystyce za pomocą crontab, %2$s musisz dodać poniższy parametr %3$s do interfejsu API, wywołując URL-e które wymagają uwierzytelniania.",
+        "Glossary": "Słownik"
     }
 }

@@ -59,6 +59,15 @@
                 <td colspan="7">
                     <div class="notification system notification-error">
                         {{ 'General_ErrorRequest'|translate:(''):('') }}
+
+                        <br /><br />
+                        {{ 'General_NeedMoreHelp'|translate }}
+
+                        <a rel="noreferrer" target="_blank" href="https://piwik.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a>
+                        –
+                        <a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+                        <span ng-show="arePiwikProAdsEnabled"> – </span>
+                        <a ng-show="arePiwikProAdsEnabled" rel="noreferrer" target="_blank" href="https://piwik.pro/?pk_campaign=Help&pk_medium=AjaxError&pk_content=MultiSites&pk_source=Piwik_App">{{ 'Feedback_ProfessionalHelp'|translate }}</a>.
                     </div>
                 </td>
             </tr>

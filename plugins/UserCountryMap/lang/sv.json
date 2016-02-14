@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Denna plugin ger dig widgetarna besökskarta och realtidskarta. Notera: Kräver aktiverad UserCountry-plugin.",
         "AndNOthers": "och %s andra",
         "Cities": "Städer",
         "Countries": "Länder",
@@ -17,6 +18,7 @@
         "ShowingVisits": "Geolokaliserade besök de senaste",
         "Unlocated": "<b>%s<\/b> %p av besöken från %c kunde inte geolokaliseras.",
         "VisitorMap": "Besökskarta",
-        "WorldWide": "Hela världen"
+        "WorldWide": "Hela världen",
+        "WithUnknownCity": "%s med okänd stad"
     }
 }

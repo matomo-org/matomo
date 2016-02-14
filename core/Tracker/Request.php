@@ -407,6 +407,10 @@ class Request
     {
         $this->params[$name] = $value;
         unset($this->paramsCache[$name]);
+
+        if ($name === 'cdt') {
+            $this->cdtCache = null;
+        }
     }
 
     private function hasParam($name)

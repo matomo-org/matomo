@@ -174,7 +174,7 @@ div.scrollable {
 }
 
 .segment-element .segment-nav div > ul > li a {
-    color: #5d5342;
+    color: @theme-color-text-light;
     font-size: 11px;
     font-weight: bold;
     text-decoration: none;
@@ -454,7 +454,7 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu ul {
-    color: #5D5342;
+    color: @theme-color-text-light;
     float: none;
     font-size: 11px;
     font-weight: normal;
@@ -466,19 +466,14 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu ul li {
-    padding: 2px 0px 1px 6px;
+    padding: 2px 0 1px 6px;
     margin: 3px 0 0 0;
     cursor: pointer;
 }
 
 .segmentationContainer .submenu ul li:hover {
     color: #255792;
-    margin: 0;
-    margin-left: -3px;
-    border: 1px solid #d5d2c6;
-    border-bottom: 2px solid #918f88;
-    border-radius: 4px;
-    background: #eae8e3;
+    background: @color-silver-l95;
 }
 
 .segmentationContainer ul.submenu {
@@ -496,6 +491,11 @@ div.scrollable {
     background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
     width: 16px;
     height: 16px;
+    .opacity(0.5);
+
+    &:hover {
+        .opacity(1);
+    }
 }
 
 .segmentEditorPanel.expanded .segmentationContainer {
@@ -572,7 +572,7 @@ body > a.ddmetric {
     cursor: move;
     padding: 1px 0 2px 18px;
     background: #eae8e3 url(plugins/SegmentEditor/images/segment-move.png) 100% 50% no-repeat;
-    color: #5d5342;
+    color: @theme-color-text-light;
     font-weight: normal;
     font-size: 11px;
     text-decoration: none;
@@ -723,6 +723,10 @@ a.metric_category {
     max-width: 170px;
 }
 
+.segment-clicked {
+    font-weight: bold;
+}
+
 .segmentEditorPanel a.title {
     padding-bottom: 8px;
 }
@@ -758,4 +762,12 @@ a.metric_category {
     margin-left: 7px;
     display: inline-block;
     vertical-align: sub;
+}
+
+.segmentsVisibleToSuperUser, .segmentsSharedWithMeBySuperUser {
+    font-style: italic;
+
+    li {
+        font-style: normal;
+    }
 }

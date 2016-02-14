@@ -4,7 +4,7 @@
         "ContactAdmin": "Moguć razlog: vaš hosting provajder je možda onemogućio mail() funkciju. <br \/>Molimo vas da kontaktirate vašeg Piwik administratora.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Korisnik sa superkorisničkim nivoom pristupa ne može biti autentifikovan korišćenjem mehanizma '%s'.",
         "ExceptionPasswordMD5HashExpected": "Parametar za lozinku bi trebalo da bude MD5 hash lozinke.",
-        "InvalidNonceOrHeadersOrReferrer": "Problem sa sigurnošću. Molimo vas da proverite da li su kolačići (cookies) omogućeni i da ponovo učitate stranicu. Ukoliko se nalazite iza proxy servera, morate %s podesiti Piwik da prihvata proxy zaglavlje%s koje prosleđuje zaglavlje servera. Takođe, proverite da li je referer zaglavlje poslato kako treba.",
+        "InvalidNonceOrHeadersOrReferrer": "Problem sa sigurnošću. Molimo vas da proverite da li su kolačići (cookies) omogućeni i da ponovo učitate stranicu. Ukoliko se nalazite iza proxy servera, morate %1$s podesiti Piwik da prihvata proxy zaglavlje%2$s koje prosleđuje zaglavlje servera. Takođe, proverite da li je referer zaglavlje poslato kako treba.",
         "InvalidOrExpiredToken": "Token ili nije validan ili je istekao.",
         "InvalidUsernameEmail": "Pogrešno korisničko ime i\/ili elektronska adresa",
         "LogIn": "Prijavljivanje",

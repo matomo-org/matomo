@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Nombre de la Variable Personalizada",
         "ColumnCustomVariableValue": "Valor de la Variable Personalizada",
         "CustomVariables": "Variables Personalizadas",
-        "CustomVariablesReportDocumentation": "Este informe contiene información sobre sus Variables Personalizadas. Haga clic en el nombre de una variable para ver la distribución de los valores. %s Para más información sobre las Variables Personalizadas en general, lea la %sdocumentación de Variables Personalizadas en piwik.org%s",
+        "CustomVariablesReportDocumentation": "Este informe contiene información sobre sus Variables Personalizadas. Haga clic en el nombre de una variable para ver la distribución de los valores. %1$s Para más información sobre las Variables Personalizadas en general, lea la %2$sdocumentación de Variables Personalizadas en piwik.org%3$s",
         "PluginDescription": "Variables Personalizadas (nombre, valor) son pares que se pueden asignar mediante la API de Javascript a los visitantes o cualquiera de sus acciones. Piwik luego informará el número de visitas, páginas, las conversiones para cada uno de estos nombres y valores personalizados. Vea las variables personalizadas detalladas para cada usuario y su acción en el registro de visitantes. <br \/> Requerida para utilizar la función de <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\"> Ecommerce Analytics <\/a>!",
         "ScopePage": "ámbito de la página",
         "ScopeVisit": "alcance de la visita"

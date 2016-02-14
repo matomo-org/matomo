@@ -157,7 +157,8 @@ class Config
             'action_url_category_delimiter' => $general['action_url_category_delimiter'],
             'autocomplete_min_sites' => $general['autocomplete_min_sites'],
             'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
-            'datatable_row_limits' => $this->getDatatableRowLimits()
+            'datatable_row_limits' => $this->getDatatableRowLimits(),
+            'are_ads_enabled' => $general['piwik_pro_ads_enabled']
         );
     }
 

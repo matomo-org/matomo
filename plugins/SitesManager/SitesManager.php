@@ -293,6 +293,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_AliasUrlHelp";
         $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowed";
         $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowedHelp";
+        $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowedHelpExamples";
         $translationKeys[] = "SitesManager_KeepURLFragmentsLong";
         $translationKeys[] = "SitesManager_HelpExcludedIps";
         $translationKeys[] = "SitesManager_ListOfQueryParametersToExclude";

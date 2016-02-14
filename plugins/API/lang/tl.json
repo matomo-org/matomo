@@ -1,11 +1,11 @@
 {
     "API": {
-        "GenerateVisits": "Kung wala kang data para sa araw na ito maaari ka munang bumuo ng ilang data gamit ang %s na plugin. Maaari mong i-enable ang %s na plugin, at pagkatapos ay i-click ang 'Tagabuo ng Bisita' na menu sa Piwik Admin area.",
-        "KeepTokenSecret": "Ang token_auth na ito ay isang lihim gaya ng iyong login at password, %s huwag itong ibahagi sa iba %s!",
+        "GenerateVisits": "Kung wala kang data para sa araw na ito maaari ka munang bumuo ng ilang data gamit ang %1$s na plugin. Maaari mong i-enable ang %2$s na plugin, at pagkatapos ay i-click ang 'Tagabuo ng Bisita' na menu sa Piwik Admin area.",
+        "KeepTokenSecret": "Ang token_auth na ito ay isang lihim gaya ng iyong login at password, %1$s huwag itong ibahagi sa iba %2$s!",
         "LoadedAPIs": "Matagumpay na nai-load ang %s APIs",
-        "MoreInformation": "Para sa karagdagang impormasyon tungkol sa Piwik API, mangyaring tumingin sa %s Panimula sa Piwik API %s at ang %s Piwik API Reference %s.",
+        "MoreInformation": "Para sa karagdagang impormasyon tungkol sa Piwik API, mangyaring tumingin sa %1$s Panimula sa Piwik API %2$s at ang %3$s Piwik API Reference %4$s.",
         "TopLinkTooltip": "I-access ang iyong data ng Web Analytics programmatically sa pamamagitan ng isang simpleng API sa json, xml, atbp.",
         "UserAuthentication": "Pagpapatunay sa User",
-        "UsingTokenAuth": "Kung nais mong %s mag-request ng data sa loob ng isang script, crontab, atbp. %s kailangan mong idagdag ang parameter na %s sa mga tumatawag ng API na URL na nangangailangan ng pagpapatunay."
+        "UsingTokenAuth": "Kung nais mong %1$s mag-request ng data sa loob ng isang script, crontab, atbp. %2$s kailangan mong idagdag ang parameter na %3$s sa mga tumatawag ng API na URL na nangangailangan ng pagpapatunay."
     }
 }

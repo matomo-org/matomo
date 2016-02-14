@@ -11,8 +11,8 @@
         "VisitsByDayOfWeek": "Besøk etter ukedag",
         "WidgetByDayOfWeekDocumentation": "Denne grafen viser antall besøk nettstedet ditt mottatt på de ulike dagene i uken.",
         "WidgetLocalTime": "Besøk etter lokaltid",
-        "WidgetLocalTimeDocumentation": "Denne grafen viser hvilken tid det var i %s besøkeres tidssoner %s da besøkene skjedde.",
+        "WidgetLocalTimeDocumentation": "Denne grafen viser hvilken tid det var i %1$s besøkeres tidssoner %2$s da besøkene skjedde.",
         "WidgetServerTime": "Besøk etter servertid",
-        "WidgetServerTimeDocumentation": "Denne grafen viser hvilken tid det var i %s serverens tidssone %s da besøkene skjedde."
+        "WidgetServerTimeDocumentation": "Denne grafen viser hvilken tid det var i %1$s serverens tidssone %2$s da besøkene skjedde."
     }
 }

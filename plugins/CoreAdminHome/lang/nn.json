@@ -11,7 +11,7 @@
         "OptOutComplete": "Avmelding fullførd. Vitjingane dine til denne nettsida vil ikkje loggførast av nettstatistikkverktøyet.",
         "OptOutCompleteBis": "Dersom du slettar infokapslane dine eller byter datamaskin eller nettlesar, må du avmelda deg på nytt.",
         "OptOutExplanation": "Piwik er oppteken av personvern på Internett.For å gje vitjarane dine valet om å slå av Piwik Nettstatistikk, kan du leggja til følgjande HTML-kode på ei av sidene dine, til dømes ei side med retningsliner for personvern.",
-        "OptOutExplanationBis": "Denne koden vil visa ei flytande råme med ein peikar som vitjarane dine kan klikka på for å melda seg av med ein infokapsel i nettlesaren deira. %s Klikk her%s for å sjå innhaldet som visast i den flytande råma.",
+        "OptOutExplanationBis": "Denne koden vil visa ei flytande råme med ein peikar som vitjarane dine kan klikka på for å melda seg av med ein infokapsel i nettlesaren deira. %1$s Klikk her%2$s for å sjå innhaldet som visast i den flytande råma.",
         "OptOutForYourVisitors": "Avmelding av Piwik for vitjarar",
         "UseCustomLogo": "Bruk ein tilpassa logo",
         "YouAreOptedIn": "Du er påmeldt.",

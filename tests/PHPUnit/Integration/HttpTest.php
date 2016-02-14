@@ -170,6 +170,58 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getMethodsToTest
      */
+    public function testHttpPost_ViaString($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            'abc12=43&abfec=abcdef'
+        );
+
+        $this->assertEquals('{"abc12":"43","abfec":"abcdef","method":"post"}', $result);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpPost_ViaArray($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            array('adf2' => '44', 'afc23' => 'ab12')
+        );
+
+        $this->assertEquals('{"adf2":"44","afc23":"ab12","method":"post"}', $result);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
     public function testHttpsWorksWithValidCertificate($method)
     {
         $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);

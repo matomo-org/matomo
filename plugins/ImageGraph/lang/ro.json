@@ -1,5 +1,5 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Coloana '%s' nu a fost gasita in acest raport. Incearca oricare dintre %s"
+        "ColumnOrdinateMissing": "Coloana '%1$s' nu a fost gasita in acest raport. Incearca oricare dintre %2$s"
     }
 }

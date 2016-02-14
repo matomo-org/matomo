@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Rerata berdasar %s kunjungan %s antara %s dan %s",
+        "AvgGenerationTimeTooltip": "Rerata berdasar %1$s kunjungan %2$s antara %3$s dan %4$s",
         "ColumnClickedURL": "URL diklik",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Jumlah tautan ini diklik.",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Tautan keluar merupakan tautan yang mengarahkan keluar pengunjung dari situs Anda (ke ranah lainnya).",
         "OutlinksReportDocumentation": "Laporan ini menampilkan laporan secara berurutan tautan keluar URL yang diklik oleh pengunjung Anda.",
         "PagesReportDocumentation": "Laporan ini mengandung informasi tentang URL halaman yang dikunjungi. %s Tabel diatur berurutan, URL ditampilkan sebagai struktur map.",
-        "PageTitlesReportDocumentation": "Laporan ini mengandung informasi tentang judul halaman yang telah dikunjungi. %s Judul halaman merupakan Etiket %s HTML yang kebanyakan peramban ditampilkan di judul jendela.",
+        "PageTitlesReportDocumentation": "Laporan ini mengandung informasi tentang judul halaman yang telah dikunjungi. %1$s Judul halaman merupakan Etiket %2$s HTML yang kebanyakan peramban ditampilkan di judul jendela.",
         "PageUrls": "URL Halaman",
         "PluginDescription": "Laporan mengenai tampilan dan judul halaman. Membantu Anda mengukur mesin pencarian internal situs web Anda. Pelacakan klik otomatis dalam tautan eksternal dan berkas unduhan.",
         "SiteSearchCategories1": "Lapotan ini mendaftar Kategori dipilih oleh pengunjung ketika membuat Pencarian di situs Anda.",

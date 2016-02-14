@@ -34,6 +34,7 @@
         "DefaultSettings": "Numatytieji Piwik nustatymai",
         "Requirements": "Piwik reikalavimai sistemai",
         "RestartWebServer": "Įvykdę šį pakeitimą, iš naujo paleiskite savo saityno serverį.",
+        "SeeBelowForMoreInfo": "Išsamesnę informaciją žiūrėkite žemiau.",
         "SetupWebsite": "Svetainės nustatymai",
         "SetupWebsiteError": "Rasta klaidų pridedant svetainę",
         "SetupWebSiteName": "Svetainės pavadinimas",

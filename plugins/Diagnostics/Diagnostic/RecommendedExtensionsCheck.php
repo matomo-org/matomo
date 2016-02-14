@@ -31,9 +31,12 @@ class RecommendedExtensionsCheck implements Diagnostic
         $result = new DiagnosticResult($label);
 
         $loadedExtensions = @get_loaded_extensions();
+        $loadedExtensions = array_map(function ($extension) {
+            return strtolower($extension);
+        }, $loadedExtensions);
 
         foreach ($this->getRecommendedExtensions() as $extension) {
-            if (! in_array($extension, $loadedExtensions)) {
+            if (! in_array(strtolower($extension), $loadedExtensions)) {
                 $status = DiagnosticResult::STATUS_WARNING;
                 $comment = $extension . '<br/>' . $this->getHelpMessage($extension);
             } else {

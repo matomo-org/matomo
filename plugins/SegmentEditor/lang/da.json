@@ -18,11 +18,10 @@
         "SegmentIsDisplayedForWebsite": "og vises for",
         "SegmentNotApplied": "Segment '%s' anvendes ikke",
         "SegmentNotAppliedMessage": "Du beder om data til brugerdefineret segment '%s', Piwik konfigurationen forhindrer tidstro behandling af rapporter pga ydeevne grunde.",
-        "SelectSegmentOfVisitors": "Vælg et segment af besøgende:",
         "ThisSegmentIsVisibleTo": "Segmentet er synligt for:",
         "VisibleToAllUsers": "Alle brugere",
         "VisibleToMe": "mig",
-        "YouMayChangeSetting": "Alternativt kan du ændre indstillingen i konfigurationsfilen (%s), eller redigere dette segment og vælg '%s'.",
+        "YouMayChangeSetting": "Alternativt kan du ændre indstillingen i konfigurationsfilen (%1$s), eller redigere dette segment og vælg '%2$s'.",
         "YouMustBeLoggedInToCreateSegments": "Du skal være logget ind for at oprette og anvende brugerdefinerede besøgssegmenter.",
         "YouDontHaveAccessToCreateSegments": "Du har ikke det nødvendige adgangsniveau til at oprette og redigere segmenter.",
         "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret."

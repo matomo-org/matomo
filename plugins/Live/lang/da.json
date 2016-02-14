@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s afbrudte ordrer%3$s og %4$s usolgte varer %5$stil en samlet værdi af %6$s%7$s.",
         "AveragePageGenerationTime": "Det tog gennemsnitligt %1$s at indlæse hver side for denne besøgende.",
         "CalculatedOverNPageViews": "Beregnet på baggrund af denne besøgendes seneste %1$s sidevisninger.",
         "ClickToViewMoreAboutVisit": "Klik for at se mere information om dette besøg",
         "ConvertedNGoals": "Omregnet %s mål",
-        "EcommerceSummaryConversions": "%1$s%2$s ordrer til en værdi af %3$s%4$s, købte %5$s varer.",
         "FirstVisit": "Første besøg",
         "GoalType": "Type",
         "HideMap": "skjul kort",
@@ -25,19 +23,18 @@
         "RealTimeVisitorCount": "Tidstro besøgsantal",
         "Referrer_URL": "Henvisning netadresse",
         "ShowMap": "vis kort",
-        "SimpleRealTimeWidget_Message": "%s og %s i den sidste %s.",
+        "SimpleRealTimeWidget_Message": "%1$s og %2$s i den sidste %3$s.",
         "ViewVisitorProfile": "Vis besøgendes profil",
         "VisitedPages": "Besøgte sider",
         "VisitorLog": "Besøgslog",
-        "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
+        "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%1$s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %2$s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
         "VisitorProfile": "Besøgendes profil",
         "VisitorsInRealTime": "Besøgende her og nu",
         "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
         "VisitsFrom": "%1$s%2$s besøg %3$s fra",
-        "VisitSummary": "Brugte i alt %1$s%2$s på hjemmesiden %3$s og %4$sså %5$s sider på %6$s besøg. %7$s",
         "RowActionTooltipDefault": "Vis besøgslog opdelt efter denne række",
         "RowActionTooltipWithDimension": "Vis besøgslog opdelt efter %s",
         "RowActionTooltipTitle": "Åben segmenteret besøgslog",
-        "SegmentedVisitorLogTitle": "Besøgslog viser besøg, hvor %s er \\\"%s\\\""
+        "SegmentedVisitorLogTitle": "Besøgslog viser besøg, hvor %1$s er \"%2$s\""
     }
 }

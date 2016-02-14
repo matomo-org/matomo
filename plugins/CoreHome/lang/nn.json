@@ -9,7 +9,7 @@
         "FlattenDataTable": "Rapporten er hierarkisk %s Gjer den flat",
         "IncludeRowsWithLowPopulation": "Rader med låg populasjon er skjult %s Vis alle rader",
         "JavascriptDisabled": "JavaScript må vera slegen på for å kunne bruka Piwik i standardvisning.<br \/>Det ser ut til at JavaScript er slegen av eller ikkje støtta i nettlesaren din.<br \/>For å bruka standardvisninga, slå på JavaScript i nettlesaren din, og %1$sprøv igjen%2$s.<br \/>",
-        "NoPrivilegesAskPiwikAdmin": "Du er innlogga som '%s' men det ser ikkje ut til at du har vidare tilgang til Piwik. %s Spør Piwik-administratoren (klikk for å senda e-post)%s om å gje deg 'vis'-tilgang til ei nettside.",
+        "NoPrivilegesAskPiwikAdmin": "Du er innlogga som '%1$s' men det ser ikkje ut til at du har vidare tilgang til Piwik. %2$s Spør Piwik-administratoren (klikk for å senda e-post)%3$s om å gje deg 'vis'-tilgang til ei nettside.",
         "PageOf": "%1$s av %2$s",
         "PeriodRange": "Periode",
         "ReportGeneratedOn": "Rapport generert den %s",

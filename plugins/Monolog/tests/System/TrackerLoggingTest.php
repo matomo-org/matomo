@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use PiwikTracker;
 
 /**
@@ -82,7 +83,7 @@ DEBUG:   'apiv' => '1',", $response);
 
     private function setTrackerConfig($trackerConfig)
     {
-        $testingEnvironment = self::$fixture->getTestEnvironment();
+        $testingEnvironment = new TestingEnvironmentVariables();
         $testingEnvironment->overrideConfig('Tracker', $trackerConfig);
         $testingEnvironment->overrideConfig('log', 'log_writers', array('screen'));
         $testingEnvironment->save();

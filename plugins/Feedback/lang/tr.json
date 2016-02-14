@@ -2,14 +2,13 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Hata raporu veya özellik öneriniz mi var?",
         "IWantTo": "İstiyorum:",
-        "LearnWaysToParticipate": "%sOrtak olabileceğiniz%s tüm yolları öğrenin",
+        "LearnWaysToParticipate": "%1$sOrtak olabileceğiniz%2$s tüm yolları öğrenin",
         "ManuallySendEmailTo": "Lütfen mesajınızı elle yollayın",
         "RateFeatureLeaveMessageDislike": "Beğenmediğiniz için çok üzgünüz! Lütfen bunu nasıl geliştireceğimiz konusunda yardımcı olun.",
         "RateFeatureThankYouTitle": "Oyladığınız için teşekkürler '%s'!",
         "RateFeatureTitle": "'%s' özelliğini beğendiniz mi? Lütfen oy verip, bir yorum yapın",
         "SendFeedback": "Geribildirim Yollayın",
         "ThankYou": "Piwik'i daha iyi yapmamıza yardım ettiğiniz için teşekkür ederiz!",
-        "TopLinkTooltip": "Bize fikirlerinizi iletin, ya da Profesyonel Destek isteyin.",
-        "VisitTheForums": "%sForumları%s ziyaret edin"
+        "TopLinkTooltip": "Bize fikirlerinizi iletin, ya da Profesyonel Destek isteyin."
     }
 }

@@ -9,9 +9,22 @@
 		<bounce_count>27</bounce_count>
 		<nb_visits_converted>30</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<segment>deviceType==desktop</segment>
 		<logo>plugins/DevicesDetection/images/screens/normal.gif</logo>
+	</row>
+	<row>
+		<label>Smartphone</label>
+		<nb_visits>4</nb_visits>
+		<nb_actions>6</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>2</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>deviceType==smartphone</segment>
+		<logo>plugins/DevicesDetection/images/screens/smartphone.png</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -24,19 +37,6 @@
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
-	</row>
-	<row>
-		<label>Smartphone</label>
-		<nb_visits>3</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>2</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<nb_visits_converted>3</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>deviceType==smartphone</segment>
-		<logo>plugins/DevicesDetection/images/screens/smartphone.png</logo>
 	</row>
 	<row>
 		<label>Camera</label>

@@ -204,6 +204,9 @@
                 <input type="hidden" name="token_auth" value="{{ token_auth }}"/>
 
                 {% if logosWriteable %}
+                    <div class="alert alert-warning uploaderror" style="display:none;">
+                        {{ 'CoreAdminHome_LogoUploadFailed'|translate }}
+                    </div>
                     <div class="form-group">
                         <label for="customLogo">{{ 'CoreAdminHome_LogoUpload'|translate }}</label>
                         <div class="form-help">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110) }}</div>

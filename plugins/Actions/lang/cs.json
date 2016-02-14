@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Průměr dle %s přístupů %s mezi %s a %s",
+        "AvgGenerationTimeTooltip": "Průměr dle %1$s přístupů %2$s mezi %3$s a %4$s",
         "ColumnClickedURL": "URL prokliku",
         "ColumnActionURL": "URL akce",
         "ColumnClicks": "Prokliků",
@@ -38,7 +38,7 @@
         "OutlinkDocumentation": "Externí odkaz je odkaz, který vede z vašich stránek na jinou domén.",
         "OutlinksReportDocumentation": "Toto hlášení zobrazuje hyerarchický seznam URL externích odkazů, na které vaši návštěvníci klikli.",
         "PagesReportDocumentation": "Toto hlášení obsahuje informace o URL navštívených. %s Tabulka je organizována hyerarchicky jako strom složek.",
-        "PageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích navštívených stránek. %s Titulek je HTML tag %s, který většina prohlížečů zobrazuje v titulku okna.",
+        "PageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích navštívených stránek. %1$s Titulek je HTML tag %2$s, který většina prohlížečů zobrazuje v titulku okna.",
         "PageUrls": "URL stránky",
         "PluginDescription": "Podává hlášení o zobrazení a titulcích stránek. Umožňuje měřit váš interní vyhledávač. Automaticky sleduje kliky na externí odkazy a soubory ke stažení.",
         "SiteSearchCategories1": "Toto hlášení shrnuje kategorie, které návštěvníci vybrali při vyhledávání na stránkách.",

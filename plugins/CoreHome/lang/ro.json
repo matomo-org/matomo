@@ -25,7 +25,7 @@
         "JavascriptDisabled": "Trebuie sa aveti JavaScript activat pentru a putea utiliza Piwik in modul de vizualizare standard.<br \/> Se pare ca JavaScript ori nu este activat, ori nu este suportat de browserul dvs.<br \/> Pentru a utiliza modul de vizualizare standard, activati JavaScript modificand optiunile browserului dvs, apoi %1$sincercati din nou%2$s.<br \/>",
         "MakeADifference": "Fa o diferenta: %1$sDoneaza acum%2$s pentru a sponsoriza Piwik 2.0!",
         "MakeOneTimeDonation": "În schimb, donează o dată (fără subscriere).",
-        "NoPrivilegesAskPiwikAdmin": "Sunteti logat ca '%s' dar se pare ca nu aveti nici o permisiune setata in Piwik. %s Solicitati administratorului dvs al Piwik (click pentru email)%s sa va permita accesul tip 'vizualizare' pentru un site.",
+        "NoPrivilegesAskPiwikAdmin": "Sunteti logat ca '%1$s' dar se pare ca nu aveti nici o permisiune setata in Piwik. %2$s Solicitati administratorului dvs al Piwik (click pentru email)%3$s sa va permita accesul tip 'vizualizare' pentru un site.",
         "OnlyForSuperUserAccess": "Acest widget este afișat numai pentru utilizatorii care au acces la Super utilizator.",
         "PageOf": "%1$s din %2$s",
         "PeriodRange": "Perioadă",
