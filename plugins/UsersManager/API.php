@@ -342,7 +342,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the user information (login, password md5, alias, email, date_registered, etc.)
+     * Returns the user information (login, password hash, alias, email, date_registered, etc.)
      *
      * @param string $userLogin the user login
      *
@@ -359,7 +359,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the user information (login, password md5, alias, email, date_registered, etc.)
+     * Returns the user information (login, password hash, alias, email, date_registered, etc.)
      *
      * @param string $userEmail the user email
      *
@@ -783,15 +783,12 @@ class API extends \Piwik\Plugin\API
      * Generates a unique MD5 for the given login & password
      *
      * @param string $userLogin Login
-     * @param string $md5Password MD5ied string of the password
-     * @throws Exception
+     * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
      * @return string
      */
     public function getTokenAuth($userLogin, $md5Password)
     {
-        if (strlen($md5Password) != 32) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
-        }
+        UsersManager::checkPasswordHash($md5Password, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
 
         return md5($userLogin . $md5Password);
     }

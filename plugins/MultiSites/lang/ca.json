@@ -2,6 +2,6 @@
     "MultiSites": {
         "Evolution": "Evolució",
         "TopLinkTooltip": "Compareu les estadístiques anàlitiques de tots els vostres llocs web.",
-        "Pagination": "%s - %s de %s"
+        "Pagination": "%1$s - %2$s de %3$s"
     }
 }

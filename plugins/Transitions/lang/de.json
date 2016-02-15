@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "Entweder hatte diese Aktion während des Zeitraums %s keine Seitenansichten oder sie ist ungültig.",
         "OutgoingTraffic": "Ausgehender Traffic",
         "PluginDescription": "Berichte über vergangene und zukünftige Aktionen für jede Seiten-URL in einem neuen Transitions-Bericht, aufrufbar im Aktionen-Bericht über ein neues Icon.",
-        "ShareOfAllPageviews": "Diese Seite wurde %s mal angesehen (%s aller Seitenansichten)",
+        "ShareOfAllPageviews": "Diese Seite wurde %1$s mal angesehen (%2$s aller Seitenansichten)",
         "ToFollowingPages": "Zu internen Seiten",
         "ToFollowingPagesInline": "%s zu internen Seiten",
         "ToFollowingSiteSearches": "Interne Suchen",
         "ToFollowingSiteSearchesInline": "%s interne Suchen",
         "XOfAllPageviews": "%s von allen Seitenansichten",
-        "XOutOfYVisits": "%s (von insgesamt %s)"
+        "XOutOfYVisits": "%1$s (von insgesamt %2$s)"
     }
 }

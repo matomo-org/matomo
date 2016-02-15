@@ -16,7 +16,7 @@
         "InjectedHostWarningIntro": "Esteu accedint al Piwik desde %1$s, però el Piwik està configurat per escoltar a l'adreça: %2$s.",
         "JavascriptDisabled": "S'ha de tenir el Javascript activat per vistualitzar la vista estàndar del Piwik.<br\/> No obstant això, sembla que el Javascript esta deshabilitat or no està suportat pel vostre navegador<br\/> Per utilitzar la vista estàndarc, activeu el Javascript canviant les opcions del navegador i %1$storneu-ho a probar%2$s.<br \/>",
         "MakeADifference": "Contribuieu a les millores: %1$sDonar ara%2$s per col·laborar amb Piwik 2.0!",
-        "NoPrivilegesAskPiwikAdmin": "Esteu identificat com a '%s' però sembla que no teniu cap permís establert al Piwik. %s Pregunteu al vostre administrador de Piwik (feu click per enviar un email)%s que us dongui access per veure un lloc web.",
+        "NoPrivilegesAskPiwikAdmin": "Esteu identificat com a '%1$s' però sembla que no teniu cap permís establert al Piwik. %2$s Pregunteu al vostre administrador de Piwik (feu click per enviar un email)%3$s que us dongui access per veure un lloc web.",
         "PageOf": "%1$s de %2$s",
         "PeriodRange": "Rang",
         "ReportGeneratedOn": "Informe generat el %s",

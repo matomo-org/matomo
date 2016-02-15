@@ -338,7 +338,8 @@ class Pages
 
     private function createWidgetForReport($module, $action)
     {
-        $factory = new ReportWidgetFactory(Reports::factory($module, $action));
+        $report = Reports::factory($module, $action);
+        $factory = new ReportWidgetFactory($report);
         return $factory->createWidget();
     }
 

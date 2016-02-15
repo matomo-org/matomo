@@ -22,7 +22,7 @@
         "HelpMessageContent": "Comprueba la %1$s Piwik FAQ %2$s que explica los errores más comunes durante la actualización. %3$s Pregúntele a su administrador del sistema - que puede ser capaz de ayudarle con el error, que es más probable que sea en relación a su servidor o la configuración de MySQL.",
         "HelpMessageIntroductionWhenError": "Lo anterior es un mensaje de error principal. Debería ayudarle a explicar la causa, pero si necesita más ayuda, por favor:",
         "HelpMessageIntroductionWhenWarning": "Actualización completada con éxito, sin embargo hubo problemas durante el proceso. Por favor, lea las descripciones anteriores para obtener más detalles. Para obtener más ayuda:",
-        "HighTrafficPiwikServerEnableMaintenance": "Si administra un servidor de Piwik con tráfico elevado, le recomendamos %sdesactivar momentáneamente el seguimento de los visitantes y disponer la interfaz de usuario de Piwik en modo mantenimiento%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Si administra un servidor de Piwik con tráfico elevado, le recomendamos %1$sdesactivar momentáneamente el seguimento de los visitantes y disponer la interfaz de usuario de Piwik en modo mantenimiento%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Nota: algunos complementos no son compatibles con Piwik %s. Serán desactivados cuando actualice:",
         "InstallingTheLatestVersion": "Instalando la última versión",
         "MajorUpdateWarning1": "¡Esta es una actualización importante! Tardará más de lo usual.",

@@ -3,7 +3,7 @@
         "AbandonedCart": "سبد خرید رها شده",
         "AddGoal": "هدف اضافه کن",
         "AddNewGoal": "هدف جدید اضافه کن",
-        "AddNewGoalOrEditExistingGoal": "%s یک هدف جدید اضافه کنید %s یا %sویرایش کنید %sهدف های کنونی را",
+        "AddNewGoalOrEditExistingGoal": "%1$s یک هدف جدید اضافه کنید %2$s یا %3$sویرایش کنید %4$sهدف های کنونی را",
         "AllowGoalConvertedMoreThanOncePerVisit": "اجازه هدف بیش از یک بار در هر بازدید تبدیل",
         "AllowMultipleConversionsPerVisit": "اجازه تبدیل چند در هر بازدید",
         "BestCountries": "بهترین شما تبدیل کشورها عبارتند از:",
@@ -74,6 +74,6 @@
         "VisitUrl": "ارسال یک URL (صفحه یا گروهی از صفحات)",
         "WhenVisitors": "زمانی که بازدیدکنندگان",
         "WhereThe": "کجاست",
-        "YouCanEnableEcommerceReports": "شما می توانید %s را برای این وبسایت در صفحه %s فعال کنید."
+        "YouCanEnableEcommerceReports": "شما می توانید %1$s را برای این وبسایت در صفحه %2$s فعال کنید."
     }
 }

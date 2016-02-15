@@ -97,7 +97,7 @@
 				<exit_nb_visits>6</exit_nb_visits>
 				<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>6</sum_daily_exit_nb_uniq_visitors>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.313</avg_time_generation>
@@ -138,7 +138,7 @@
 				<exit_nb_visits>2</exit_nb_visits>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.313</avg_time_generation>

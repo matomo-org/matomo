@@ -22,6 +22,7 @@ describe("PivotByDimension", function () {
             page.click('.expandDataTableFooterDrawer');
             page.mouseMove('.tableConfiguration');
             page.click('.dataTablePivotBySubtable');
+            page.mouseMove({x: -15, y: -15}); // make sure nothing is highlighted
         }, done);
     });
 
@@ -35,6 +36,7 @@ describe("PivotByDimension", function () {
             page.click('.expandDataTableFooterDrawer');
             page.mouseMove('.tableConfiguration');
             page.click('.dataTablePivotBySubtable');
+            page.mouseMove({x: -15, y: -15}); // make sure nothing is highlighted
         }, done);
     });
 });

@@ -1,8 +1,8 @@
 {
     "Referrers": {
         "Campaigns": "Campanhas",
-        "CampaignsDocumentation": "Visitantes que chegaram ao seu website como resultado de uma campanha. %s Veja o relatório %s para mais detalhes.",
-        "CampaignsReportDocumentation": "Este relatório mostra quais as campanhas que levaram visitantes ao seu website. %s Para mais informações sobre dados de campanhas, leia a documentação de campanhas%s em piwik.org%s.",
+        "CampaignsDocumentation": "Visitantes que chegaram ao seu website como resultado de uma campanha. %1$s Veja o relatório %2$s para mais detalhes.",
+        "CampaignsReportDocumentation": "Este relatório mostra quais as campanhas que levaram visitantes ao seu website. %1$s Para mais informações sobre dados de campanhas, leia a documentação de campanhas%2$s em piwik.org%3$s.",
         "ColumnCampaign": "Campanha",
         "ColumnSearchEngine": "Motor de Busca",
         "ColumnWebsite": "Website",
@@ -21,7 +21,7 @@
         "ReferrerName": "Nome do referente",
         "Referrers": "Referentes",
         "SearchEngines": "Motores de Busca",
-        "SearchEnginesDocumentation": "O visitante foi referenciado para o seu website a partir de um motor de busca. %s Veja o relatório %s para mais detalhes.",
+        "SearchEnginesDocumentation": "O visitante foi referenciado para o seu website a partir de um motor de busca. %1$s Veja o relatório %2$s para mais detalhes.",
         "SearchEnginesReportDocumentation": "Este relatório mostra quais os motores de pesquisa que referenciaram utilizadores para o seu website. %s Ao clicar numa linha da tabela pode ver o que os utilizadores pesquisaram num motor de pesquisa específico.",
         "SubmenuSearchEngines": "Motores de Buscas & Palvras Chaves",
         "SubmenuWebsites": "Websites",
@@ -33,7 +33,7 @@
         "TypeWebsites": "%s de websites",
         "UsingNDistinctUrls": "(usando %s endereços distintos)",
         "Websites": "Websites",
-        "WebsitesDocumentation": "O visitante seguiu um link noutro website que apontava para o seu. %s Veja o relatório %s para mais detalhes.",
+        "WebsitesDocumentation": "O visitante seguiu um link noutro website que apontava para o seu. %1$s Veja o relatório %2$s para mais detalhes.",
         "WebsitesReportDocumentation": "Nesta tabela, pode ver quais os website que levaram referentes para o seu site. %s Ao clicar numa linha da tabela pode ver quais os URLs onde os links para o seu site estavam.",
         "WidgetExternalWebsites": "Lista de Websites externos"
     }

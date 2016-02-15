@@ -1,5 +1,5 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Cột này '%s' không thấy trong báo cáo này. Thử bất kỳ của %s"
+        "ColumnOrdinateMissing": "Cột này '%1$s' không thấy trong báo cáo này. Thử bất kỳ của %2$s"
     }
 }

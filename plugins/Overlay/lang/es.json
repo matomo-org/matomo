@@ -14,8 +14,8 @@
         "OpenFullScreen": "Ir a pantalla completa (sin barras laterales)",
         "Overlay": "Superposición de página",
         "PluginDescription": "Vea su información analítica como una superposición en su actual sitio de internet. Vea cuántas veces sus usuarios han hecho clic en cada enlace. Nota: Requiere el complemento Transitions habilitado.",
-        "RedirectUrlError": "Está intentando abrir Superposición de página de la dirección de internet \"%s\"- %s Ninguno de los dominios de su configuración Piwik coincide con el enlace.",
-        "RedirectUrlErrorAdmin": "Puede agregar el dominio como una dirección de internet %sen la configuración%s.",
+        "RedirectUrlError": "Está intentando abrir Superposición de página de la dirección de internet \"%1$s\"- %2$s Ninguno de los dominios de su configuración Piwik coincide con el enlace.",
+        "RedirectUrlErrorAdmin": "Puede agregar el dominio como una dirección de internet %1$sen la configuración%2$s.",
         "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."
     }
 }

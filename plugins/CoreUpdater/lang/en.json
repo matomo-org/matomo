@@ -22,7 +22,7 @@
         "HelpMessageContent": "Check the %1$s Piwik FAQ %2$s which explains most common errors during update. %3$s Ask your system administrator - they may be able to help you with the error which is most likely related to your server or MySQL setup.",
         "HelpMessageIntroductionWhenError": "The above is the core error message. It should help explain the cause, but if you require further help please:",
         "HelpMessageIntroductionWhenWarning": "The update completed successfuly, however there were issues during the process. Please read the above descriptions for details. For further help:",
-        "HighTrafficPiwikServerEnableMaintenance": "If you manage a high traffic Piwik server, we recommend to %smomentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode%s.",
+        "HighTrafficPiwikServerEnableMaintenance": "If you manage a high traffic Piwik server, we recommend to %1$smomentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Note: some plugins are not compatible with Piwik %s. They will be disabled when you upgrade:",
         "InstallingTheLatestVersion": "Installing the latest version",
         "LatestBetaRelease": "Latest beta release",

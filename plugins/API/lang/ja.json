@@ -1,15 +1,15 @@
 {
     "API": {
-        "GenerateVisits": "今日のデータがない場合は、%s プラグインを使用して、はじめに若干のデータを生成することができます。 これを行うには、%s プラグインを有効にし、管理エリアで 'ビジタージェネレータ' メニューをクリックします。",
-        "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%s絶対に共有しないでください%s！",
+        "GenerateVisits": "今日のデータがない場合は、%1$s プラグインを使用して、はじめに若干のデータを生成することができます。 これを行うには、%2$s プラグインを有効にし、管理エリアで 'ビジタージェネレータ' メニューをクリックします。",
+        "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%1$s絶対に共有しないでください%2$s！",
         "LoadedAPIs": "%s API が正常に読み込まれました",
-        "MoreInformation": "Piwik API の詳細については、%sIntroduction to Piwik API%s や %sPiwik API Reference%s を参照してください。",
+        "MoreInformation": "Piwik API の詳細については、%1$sIntroduction to Piwik API%2$s や %3$sPiwik API Reference%4$s を参照してください。",
         "PluginDescription": "Pwik の全てのデータは簡単な API を通して利用することができます。このプラグインはウェブサービスの入り口で、xml , json , php , csv などのあなたのウェブ分析データを入手するために呼び出すことができます。",
         "ReportingApiReference": "API リファレンスを報告",
         "TopLinkTooltip": "jsopn、xml等シンプルなAPIを介して、プログラムで分析データにアクセスできます",
         "UserAuthentication": "ユーザー認証",
-        "UsingTokenAuth": "%sスクリプト（crontab 等）でリクエストデータを得たい場合%sは、API をコールする URL（認証が必要）にパラメータ %s を付加する必要があります。",
+        "UsingTokenAuth": "%1$sスクリプト（crontab 等）でリクエストデータを得たい場合%2$sは、API をコールする URL（認証が必要）にパラメータ %3$s を付加する必要があります。",
         "Glossary": "用語集",
-        "LearnAboutCommonlyUsedTerms": "Piwik Analytics の最もよく使われる用語について: %s と %s"
+        "LearnAboutCommonlyUsedTerms": "Piwik Analytics の最もよく使われる用語について: %1$s と %2$s"
     }
 }

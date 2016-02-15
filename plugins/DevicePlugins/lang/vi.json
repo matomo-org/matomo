@@ -2,7 +2,6 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s không có plugin nào được kích hoạt",
         "BrowserWithPluginsEnabled": "%1$s với plugin %2$s đã kích hoạt",
-        "PluginDetectionDoesNotWorkInIE": "Chú ý: Các Plugin phát hiện không làm việc trên Internet Explorer. Báo cáo này chỉ dựa trên trình duyệt không phải IE.",
         "WidgetPlugins": "Các Plugin trình duyệt",
         "WidgetPluginsDocumentation": "Báo cáo này cho thấy các plugin trình duyệt mà khách truy cập của bạn đã kích hoạt. Thông tin này có thể là quan trọng cho việc lựa chọn cách đúng để cung cấp nội dung của bạn."
     }

@@ -3,7 +3,6 @@
         "BrowserWithNoPluginsEnabled": "%1$s के साथ प्लगइन सक्रिय नहीं",
         "BrowserWithPluginsEnabled": "प्लगिन %2$s से %1$s सक्षम",
         "PluginDescription": "आगंतुकों ब्राउज़रों में समर्थन कर रहे हैं कि प्लग इन की सूची रिपोर्टें।",
-        "PluginDetectionDoesNotWorkInIE": "नोट: प्लगइन्स का पता लगाने इंटरनेट एक्सप्लोरर में काम नहीं करता है. यह रिपोर्ट केवल गैर आईई ब्राउज़रों पर आधारित है.",
         "WidgetPlugins": "ब्राउज़र प्लगइन्स"
     }
 }

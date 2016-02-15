@@ -3,7 +3,7 @@
         "AbandonedCart": "Carrinhos abandonados",
         "AddGoal": "Adicionar Objectivo",
         "AddNewGoal": "Adicionar um novo Objectivo",
-        "AddNewGoalOrEditExistingGoal": "%sAdicionar um novo Objectivo%s ou %sEditar%s Objectivos existentes",
+        "AddNewGoalOrEditExistingGoal": "%1$sAdicionar um novo Objectivo%2$s ou %3$sEditar%4$s Objectivos existentes",
         "AllowGoalConvertedMoreThanOncePerVisit": "Permitir um Objectivo ser convertido mais de uma vez por visita",
         "AllowMultipleConversionsPerVisit": "Permitir multiplas conversões por visitas",
         "BestCountries": "Os seus melhores países de conversões são:",
@@ -26,7 +26,7 @@
         "ColumnVisits": "O número total de visitas, independente se um objectivo foi despoletado ou não.",
         "ColumnVisitsProductDocumentation": "O número de visitas na página do produto \/ Categoria. Este também é usado para processar a taxa de conversão %s. Esta métrica está no relatório se a vista de rastreamento de Comério electrónico foi configurado nas páginas de Produto \/ Categoria.",
         "Contains": "contém %s",
-        "ConversionByTypeReportDocumentation": "Este relatório fornece informações detalhadas sobre o desempenho de Objectivos (conversões, as taxas de conversão e receita por visita) para cada uma das categorias disponíveis no painel esquerdo. Por favor clique em %s em uma das categorias para visualizar o relatório. %s Para mais informações, leia a %sdocumentação Rastreamento de Objectivos em piwik.org%s",
+        "ConversionByTypeReportDocumentation": "Este relatório fornece informações detalhadas sobre o desempenho de Objectivos (conversões, as taxas de conversão e receita por visita) para cada uma das categorias disponíveis no painel esquerdo. Por favor clique em %1$s em uma das categorias para visualizar o relatório. %2$s Para mais informações, leia a %3$sdocumentação Rastreamento de Objectivos em piwik.org%4$s",
         "ConversionRate": "%s taxa de conversão",
         "Conversions": "%s conversões",
         "ConversionsOverview": "Visão Geral das Conversões",
@@ -44,7 +44,7 @@
         "EcommerceOrder": "Ordens de Comércio Electrónico",
         "EcommerceOverview": "Visão Global de Comércio Electrónico",
         "EcommerceReports": "Relatórios de Comércio Electrónico",
-        "ExceptionInvalidMatchingString": "Se escolher 'correspondência exacta', a string correspondente tem que ser um endereço a começar por %s. Por exemplo, '%s'.",
+        "ExceptionInvalidMatchingString": "Se escolher 'correspondência exacta', a string correspondente tem que ser um endereço a começar por %1$s. Por exemplo, '%2$s'.",
         "ExternalWebsiteUrl": "endereço de website externo",
         "Filename": "nome do ficheiro",
         "GoalConversion": "Conversão de Objectivo",
@@ -83,7 +83,7 @@
         "VisitUrl": "Visitar um dado endereço (página ou grupo de páginas)",
         "WhenVisitors": "quando visitantes",
         "WhereThe": "onde o",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "onde a página visitada contém uma chamada ao método JavaScript piwikTracker.trackGoal() (%saprenda mais%s)",
-        "YouCanEnableEcommerceReports": "Você pode ativar %s para este site na página %s."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "onde a página visitada contém uma chamada ao método JavaScript 'trackGoal' (%1$saprenda mais%2$s)",
+        "YouCanEnableEcommerceReports": "Você pode ativar %1$s para este site na página %2$s."
     }
 }

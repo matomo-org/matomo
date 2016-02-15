@@ -67,13 +67,6 @@
 		<permission>1</permission>
 	</row>
 	<row>
-		<type>metric</type>
-		<category>Actions</category>
-		<name>Action Type</name>
-		<segment>actionType</segment>
-		<acceptedValues>A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads</acceptedValues>
-	</row>
-	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>City</name>
@@ -143,6 +136,13 @@
 		<name>Browser version</name>
 		<segment>browserVersion</segment>
 		<acceptedValues>1.0, 8.0, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Device brand</name>
+		<segment>deviceBrand</segment>
+		<acceptedValues>3Q, Acer, Ainol, Airness, Alcatel, Allview, Altech UEC, Arnova, Amazon, Amoi, Apple, Archos, ARRIS, Airties, Asus, Avvio, Audiovox, Axxion, BBK, Becker, Bird, Beetel, Bmobile, Barnes &amp; Noble, BangOlufsen, BenQ, BenQ-Siemens, Blu, Boway, bq, Brondi, Bush, CUBOT, Carrefour, Captiva, Casio, Cat, Celkon, ConCorde, Changhong, Cherry Mobile, Cricket, Crosscall, Compal, CnM, Crius Mea, CreNova, Capitel, Compaq, Coolpad, Cowon, Cube, Coby Kyros, Danew, Datang, Denver, Desay, Dbtel, DoCoMo, Dicam, Dell, DMM, Doogee, Doov, Dopod, Dune HD, E-Boda, EBEST, Ericsson, ECS, Ezio, Elephone, Easypix, Energy Sistem, Ericy, Eton, eTouch, Evertek, Ezze, Fly, Foxconn, Fujitsu, Garmin-Asus, Gateway, Gemini, Gionee, Gigabyte, Gigaset, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hisense, Hi-Level, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, Ikea, iBall, i-Joy, iBerry, iKoMo, i-mate, iOcean, Infinix, Innostream, Inkti, Intex, i-mobile, INQ, Intek, Inverto, iTel, Jiayu, Jolla, Karbonn, KDDI, Kingsun, Konka, Komu, Koobee, K-Touch, KT-Tech, KOPO, Koridy, Kumai, Kyocera, Kazam, Lava, Lanix, LCT, Lenovo, Lenco, Le Pan, LG, Lingwin, Loewe, Logicom, Lexibook, Majestic, Manta Multimedia, Mobistel, Mecer, Medion, MEEG, Meizu, Metz, MEU, MicroMax, Mediacom, MediaTek, Mio, Mpman, Mofut, Motorola, Microsoft, MSI, Memup, Mitsubishi, MLLED, M.T.T., MyPhone, NEC, Netgear, NGM, Nintendo, Noain, Nokia, Nomi, Nikon, Newgen, Nexian, NextBook, Onda, OnePlus, OPPO, Orange, O2, Ouki, OUYA, Opsson, Panasonic, PEAQ, Philips, Polaroid, Palm, phoneOne, Pantech, Point of View, PolyPad, Pomp, Positivo, Prestigio, ProScan, PULID, Qilive, Qtek, QMobile, Quechua, Overmax, Oysters, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Samsung, Sega, Sony Ericsson, Sencor, Softbank, SFR, Sagem, Sharp, Siemens, Sendo, Skyworth, Smartfren, Sony, Spice, SuperSonic, Selevision, Sanyo, Symphony, Smart, Star, Storex, Stonex, SunVan, Sumvision, Tesla, TCL, Telit, ThL, TiPhone, Tecno Mobile, Tesco, TIANYU, Telefunken, Telenor, T-Mobile, Thomson, Tolino, Toplux, Toshiba, TechnoTrend, Trevi, Tunisie Telecom, Turbo-X, TVC, TechniSat, teXet, Unowhy, Uniscope, UTStarcom, Vastking, Videocon, Vertu, Vitelcom, VK Mobile, ViewSonic, Vestel, Vivo, Voto, Voxtel, Vodafone, Vizio, Videoweb, Walton, Web TV, WellcoM, Wexler, Wiko, Wolder, Wonu, Woxter, Xiaomi, Xolo, Unknown, Yarvik, Yuandao, Yusun, Ytone, Zeemi, Zonda, Zopo, ZTE</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -222,7 +222,7 @@
 		<category>Visit</category>
 		<name>Visit ID</name>
 		<segment>visitId</segment>
-		<acceptedValues>Any integer. </acceptedValues>
+		<acceptedValues>Any integer.</acceptedValues>
 		<permission>1</permission>
 	</row>
 	<row>
@@ -479,6 +479,13 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable value 5 (scope visit)</name>
 		<segment>customVariableValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Action Type</name>
+		<segment>actionType</segment>
+		<acceptedValues>A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

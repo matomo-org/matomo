@@ -1264,10 +1264,108 @@ class WidgetTest extends SystemTestCase
                         'action' => 'widgetGoalReport',
                         'idGoal' => 'ecommerceOrder',
                     ),
-            )
+            ),
+                array (
+                    'name' => 'Ecommerce Log',
+                    'uniqueId' => 'widgetEcommercegetEcommerceLog',
+                    'parameters' =>
+                        array (
+                            'module' => 'Ecommerce',
+                            'action' => 'getEcommerceLog',
+                        ),
+                ),
+                array (
+                    'name' => 'Insights Overview',
+                    'uniqueId' => 'widgetInsightsgetInsightsOverview',
+                    'parameters' =>
+                        array (
+                            'module' => 'Insights',
+                            'action' => 'getInsightsOverview',
+                        ),
+                ),
+                array (
+                    'name' => 'Movers and Shakers',
+                    'uniqueId' => 'widgetInsightsgetOverallMoversAndShakers',
+                    'parameters' =>
+                        array (
+                            'module' => 'Insights',
+                            'action' => 'getOverallMoversAndShakers',
+                        ),
+                ),
+                array (
+                    'name' => 'Top Keywords for Page URL',
+                    'uniqueId' => 'widgetReferrersgetKeywordsForPage',
+                    'parameters' =>
+                        array (
+                            'module' => 'Referrers',
+                            'action' => 'getKeywordsForPage',
+                        ),
+                ),
+                array (
+                    'name' => 'SEO Rankings',
+                    'uniqueId' => 'widgetSEOgetRank',
+                    'parameters' =>
+                        array (
+                            'module' => 'SEO',
+                            'action' => 'getRank',
+                        ),
+                ),
+                array (
+                    'name' => 'Support Piwik!',
+                    'uniqueId' => 'widgetCoreHomegetDonateForm',
+                    'parameters' =>
+                        array (
+                            'module' => 'CoreHome',
+                            'action' => 'getDonateForm',
+                        ),
+                ),
+                array (
+                    'name' => 'Welcome!',
+                    'uniqueId' => 'widgetCoreHomegetPromoVideo',
+                    'parameters' =>
+                        array (
+                            'module' => 'CoreHome',
+                            'action' => 'getPromoVideo',
+                        ),
+                ),
+                array (
+                    'name' => 'Piwik.org Blog',
+                    'uniqueId' => 'widgetExampleRssWidgetrssPiwik',
+                    'parameters' =>
+                        array (
+                            'module' => 'ExampleRssWidget',
+                            'action' => 'rssPiwik',
+                        ),
+                ),
+                array (
+                    'name' => 'Piwik Changelog',
+                    'uniqueId' => 'widgetExampleRssWidgetrssChangelog',
+                    'parameters' =>
+                        array (
+                            'module' => 'ExampleRssWidget',
+                            'action' => 'rssChangelog',
+                        ),
+                ),
+                array (
+                    'name' => 'Piwik PRO Blog',
+                    'uniqueId' => 'widgetPiwikProrssPiwikPro',
+                    'parameters' =>
+                        array (
+                            'module' => 'PiwikPro',
+                            'action' => 'rssPiwikPro',
+                        ),
+                ),
+                array (
+                    'name' => 'Piwik PRO: Advanced Analytics & Services',
+                    'uniqueId' => 'widgetPiwikPropromoPiwikProPiwikPro',
+                    'parameters' =>
+                        array (
+                            'module' => 'PiwikPro',
+                            'action' => 'promoPiwikPro',
+                        ),
+                )
         );
     }
-
 }
 
 

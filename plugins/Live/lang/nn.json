@@ -7,7 +7,7 @@
         "MorePagesNotDisplayed": "fleire sider av denne vitjaren er ikkje vist",
         "PageRefreshed": "Tal på gonger denne sida var vist \/ oppdatert.",
         "VisitorLog": "Vitjarlogg",
-        "VisitorLogDocumentation": "Denne tabellen visar dei seinaste vitjingane innan tidsperioden. Du kan sjå den førre vitjinga til ein vitjar ved å halda peikaren over datoen til ei vitjing. %s Viss tidsperioden inkluderer idag, kan du sjå vitjarane dine i sanntid! %s Data her er alltid i sanntid, same om og kor ofte Piwik arkiverer dei.",
+        "VisitorLogDocumentation": "Denne tabellen visar dei seinaste vitjingane innan tidsperioden. Du kan sjå den førre vitjinga til ein vitjar ved å halda peikaren over datoen til ei vitjing. %1$s Viss tidsperioden inkluderer idag, kan du sjå vitjarane dine i sanntid! %2$s Data her er alltid i sanntid, same om og kor ofte Piwik arkiverer dei.",
         "VisitorsInRealTime": "Vitjarar i sanntid",
         "VisitorsLastVisit": "Den førre vitjinga til vitjaren var %s dagar sidan."
     }

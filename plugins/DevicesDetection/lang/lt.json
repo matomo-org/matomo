@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserEngine": "Naršyklė",
+        "BrowserEngines": "Naršyklių moduliai",
         "BrowserFamily": "Naršyklių šeimos",
         "Browsers": "Naršyklės",
         "BrowserVersion": "Naršyklės versija",

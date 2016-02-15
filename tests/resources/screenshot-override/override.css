@@ -6,7 +6,7 @@
     display:none;
 }
 
-.visitor-profile-important-visits>div>div>p:first-child>span {
+.visitor-profile-important-visits>div>div>p:first-child {
     display:none;
 }
 

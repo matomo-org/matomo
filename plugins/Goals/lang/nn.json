@@ -39,6 +39,6 @@
         "VisitUrl": "Vitj ein gitt URL (side eller gruppe av sider)",
         "WhenVisitors": "når vitjarar",
         "WhereThe": "når",
-        "YouCanEnableEcommerceReports": "Du kan slå på %s for denne nettstaden på %s-sida."
+        "YouCanEnableEcommerceReports": "Du kan slå på %1$s for denne nettstaden på %2$s-sida."
     }
 }

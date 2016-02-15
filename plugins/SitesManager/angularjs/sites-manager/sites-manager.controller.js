@@ -159,7 +159,7 @@
                             $scope.timezones.push({
                                 group: timezoneGroup,
                                 code: code,
-                                label: label
+                                label: label
                             });
                         });
                     });

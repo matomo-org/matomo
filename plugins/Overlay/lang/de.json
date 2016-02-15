@@ -14,8 +14,8 @@
         "OpenFullScreen": "Vollbildmodus starten (keine Sidebar)",
         "Overlay": "Seiten Overlay",
         "PluginDescription": "Sehen Sie Ihre Analysedaten als ein Overlay auf Ihrer aktuellen Website an. Lassen Sie sich anzeigen wie oft Ihre Benutzer auf welchen Link geklickt haben. Hinweis: Benötigt das Transitions-Plugin.",
-        "RedirectUrlError": "Sie versuchen, eine Seiten Overlay Sitzung für die URL \"%s\" zu starten. %s Keine der in den Piwik Einstellungen hinterlegten Domains passt zu diesem Link.",
-        "RedirectUrlErrorAdmin": "Sie können diese Domain %sin den Einstellungen%s als zusätzliche URL hinzufügen.",
+        "RedirectUrlError": "Sie versuchen, eine Seiten Overlay Sitzung für die URL \"%1$s\" zu starten. %2$s Keine der in den Piwik Einstellungen hinterlegten Domains passt zu diesem Link.",
+        "RedirectUrlErrorAdmin": "Sie können diese Domain %1$sin den Einstellungen%2$s als zusätzliche URL hinzufügen.",
         "RedirectUrlErrorUser": "Bitten Sie Ihren Administrator diese Domain als zusätzliche URL hinzuzufügen."
     }
 }

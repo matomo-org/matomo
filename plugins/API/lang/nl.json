@@ -1,13 +1,13 @@
 {
     "API": {
-        "GenerateVisits": "Als u geen data hebt voor vandaag, kunt u eerst wat data genereren met de %s plugin. U kunt de %s plugin inschakelen, en dan klikken op het Bezoekers generator menu in het Piwik beheer gedeelte.",
-        "KeepTokenSecret": "Deze token_auth is even geheim als uw gebruikersnaam en wachtwoord, %sdeel het met niemand%s!",
+        "GenerateVisits": "Als u geen data hebt voor vandaag, kunt u eerst wat data genereren met de %1$s plugin. U kunt de %2$s plugin inschakelen, en dan klikken op het Bezoekers generator menu in het Piwik beheer gedeelte.",
+        "KeepTokenSecret": "Deze token_auth is even geheim als uw gebruikersnaam en wachtwoord, %1$sdeel het met niemand%2$s!",
         "LoadedAPIs": "%s API's succesvol geladen",
-        "MoreInformation": "Voor meer informatie over de Piwik API's, lees even de %s introductie van de Piwik API %s en de %s Piwik API referenties %s.",
+        "MoreInformation": "Voor meer informatie over de Piwik API's, lees even de %1$s introductie van de Piwik API %2$s en de %3$s Piwik API referenties %4$s.",
         "PluginDescription": "Alle data in Piwik is beschikbaar via eenvoudige API's. Deze plugin is het web service contactpunt, waarmee je je Web Analytics data in xml, json, php, csv, etc. kunt verkrijgen.",
         "ReportingApiReference": "Rapportage API verwijzing",
         "TopLinkTooltip": "Benader je Web Analyse data via een simpele API in josn, xml, enz.",
         "UserAuthentication": "Gebruikers authenticatie.",
-        "UsingTokenAuth": "Als u data wil %s opvragen via een script, een cronjob, enz. waarvoor authenticatie vereist is, %s moet u de parameter %s aan de API aanvraag URL's toevoegen"
+        "UsingTokenAuth": "Als u data wil %1$s opvragen via een script, een cronjob, enz. waarvoor authenticatie vereist is, %2$s moet u de parameter %3$s aan de API aanvraag URL's toevoegen"
     }
 }

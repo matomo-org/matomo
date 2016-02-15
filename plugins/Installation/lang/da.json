@@ -45,7 +45,7 @@
         "RestartWebServer": "Efter ændringen er have foretaget - genstart webserveren.",
         "ReusingTables": "Genbrug tabellerne",
         "PiwikOrgNewsletter": "e-mail mig de vigtigste Piwik community opdateringer",
-        "PiwikProNewsletter": "send mig information om %sPiwik PRO%s tjenester og tilbud",
+        "PiwikProNewsletter": "send mig information om %1$sPiwik PRO%2$s tjenester og tilbud",
         "SeeBelowForMoreInfo": "Se nedenfor for mere information.",
         "SetupWebsite": "Tilføj en hjemmeside",
         "SetupWebsiteError": "Fejl ved tilføjelse af hjemmeside",

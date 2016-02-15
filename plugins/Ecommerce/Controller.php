@@ -79,6 +79,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $dataRow = $goalMetrics->getFirstRow();
 
         $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->idGoal = $idGoal;
 
         if ($dataRow) {
             $view->revenue          = $dataRow->getColumn('revenue');

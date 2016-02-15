@@ -1,13 +1,15 @@
-<div class="quick-access" title="{{ quickAccessTitle }}"
+<div class="quick-access"
      ng-class="{active: view.searchActive, expanded: view.searchActive}"
      piwik-focus-anywhere-but-here="view.searchActive = false;">
     <span class="icon-search" ng-hide="search.term || view.searchActive"
           ng-mouseenter="view.searchActive=true"></span>
-    <input ng-keydown="quickAccess.onKeypress($event)"
+    <input class="s"
+           title="{{ quickAccessTitle }}"
+           ng-keydown="quickAccess.onKeypress($event)"
            ng-change="view.searchActive=true;quickAccess.searchMenu(search.term)"
            ng-focus="view.searchActive=true"
            ng-model="search.term" piwik-focus-if="view.searchActive"
-           type="text"/>
+           type="text" tabindex="2"/>
     <ul ng-hide="!search.term || !view.searchActive || (quickAccess.numMenuItems > 0) || (quickAccess.sitesModel.sites | length)">
         <li class="no-result">{{ 'General_SearchNoResults' | translate }}</li>
     </ul>

@@ -3,7 +3,7 @@
         "AbandonedCart": "Hüljatud ostukorv",
         "AddGoal": "Lisa eesmärk",
         "AddNewGoal": "Lisa uus eesmärk",
-        "AddNewGoalOrEditExistingGoal": "%sLisa uus eesmärk%s või %sMuuda%s olemasolevaid eesmärke",
+        "AddNewGoalOrEditExistingGoal": "%1$sLisa uus eesmärk%2$s või %3$sMuuda%4$s olemasolevaid eesmärke",
         "AllowGoalConvertedMoreThanOncePerVisit": "Luba külastajate muundamist rohkem kui ühe korra külastuse jooksul (võib mitu korda muutuda tulu toovaks kliendiks)",
         "AllowMultipleConversionsPerVisit": "Luba mitu tulutoomist ühe külastuse jooksul",
         "BestCountries": "Sinu parimad tulutoovad riigid on:",
@@ -60,6 +60,6 @@
         "VisitUrl": "Külastavad määratud URLi (leht või lehtede grupp)",
         "WhenVisitors": "kui külastajad",
         "WhereThe": "kus",
-        "YouCanEnableEcommerceReports": "Sa saad aktiveerida %s antud veebilehele %s lehel."
+        "YouCanEnableEcommerceReports": "Sa saad aktiveerida %1$s antud veebilehele %2$s lehel."
     }
 }

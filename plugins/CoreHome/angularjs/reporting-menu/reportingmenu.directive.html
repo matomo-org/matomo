@@ -1,9 +1,9 @@
-<ul class="navbar"role="menu">
+<ul class="navbar" role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate }}">
     <li ng-repeat="category in menuModel.menu"
         class="menuTab"
         role="menuitem"
         ng-class="{'active': category.active}">
-        <a class="item"
+        <a class="item" tabindex="5"
            href=""
            ng-click="loadCategory(category)">
             <span class="menu-icon {{ category.icon ? category.icon : 'icon-arrow-right' }}"></span>{{ category.name }}
@@ -16,7 +16,7 @@
                 role="menuitem"
                 ng-class="{'active': subcategory.active}">
                 <div ng-if="subcategory.isGroup" piwik-menudropdown show-search="true" menu-title="{{ subcategory.name|escape }}">
-                    <a class="item"
+                    <a class="item" tabindex="5"
                        ng-repeat="subcat in subcategory.subcategories"
                        title="{{ subcat.tooltip }}"
                        ng-class="{'active': subcat.active}"

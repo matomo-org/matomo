@@ -351,13 +351,50 @@ class API extends \Piwik\Plugin\API
         $userLogin = Piwik::getCurrentUserLogin();
 
         $model = $this->getModel();
-        if (empty($idSite)) {
-            $segments = $model->getAllSegments($userLogin);
+        if(Piwik::hasUserSuperUserAccess()) {
+            $segments = $model->getAllSegmentsForAllUsers($idSite);
         } else {
-            $segments = $model->getAllSegmentsForSite($idSite, $userLogin);
+            if (empty($idSite)) {
+                $segments = $model->getAllSegments($userLogin);
+            } else {
+                $segments = $model->getAllSegmentsForSite($idSite, $userLogin);
+            }
         }
 
+        $segments = $this->sortSegmentsCreatedByUserFirst($segments);
+
         return $segments;
+    }
+
+    /**
+     * Sorts segment in a particular order:
+     *
+     *  1) my segments
+     *  2) segments created by the super user that were shared with all users
+     *  3) segments created by other users (which are visible to all super users)
+     *
+     * @param $segments
+     * @return array
+     */
+    private function sortSegmentsCreatedByUserFirst($segments)
+    {
+        $orderedSegments = array();
+        foreach($segments as $id => &$segment) {
+            if($segment['login'] == Piwik::getCurrentUserLogin()) {
+                $orderedSegments[] = $segment;
+                unset($segments[$id]);
+            }
+        }
+        foreach($segments as $id => &$segment) {
+            if($segment['enable_all_users'] == 1) {
+                $orderedSegments[] = $segment;
+                unset($segments[$id]);
+            }
+        }
+        foreach($segments as $id => &$segment) {
+            $orderedSegments[] = $segment;
+        }
+        return $orderedSegments;
     }
 
     /**

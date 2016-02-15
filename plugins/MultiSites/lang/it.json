@@ -4,6 +4,6 @@
         "LoadingWebsites": "Caricamento siti web",
         "PluginDescription": "Guarda e confronta tutti i siti e le app in questa utile dashboard 'Tutti i Siti'.",
         "TopLinkTooltip": "Compara le statistiche web di tutti i tuoi siti web.",
-        "Pagination": "%s - %s di %s"
+        "Pagination": "%1$s - %2$s di %3$s"
     }
 }

@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "Pridėti uždavinį",
         "AddNewGoal": "Pridėti naują uždavinį",
-        "AddNewGoalOrEditExistingGoal": "%sPridėti naują uždavinį%s arba %sRedaguoti%s jau egzistuojantį",
+        "AddNewGoalOrEditExistingGoal": "%1$sPridėti naują uždavinį%2$s arba %3$sRedaguoti%4$s jau egzistuojantį",
         "BestCountries": "Jūsų geriausios konversijos šalys:",
         "BestKeywords": "Jū9sų geriausi konversijos raktažodžiai:",
         "BestReferrers": "Jūsų geriausios konversijos svetainės:",
@@ -17,7 +17,7 @@
         "DefaultRevenueHelp": "Pavyzdžiui, lankytojo užpildyta ir išsiųsta kontaktinė forma gali būti verta vidutiniškai 10 Lt. Piwik padės Jums suprasti Jūsų lankytojų segmentų efektyvumą.",
         "DeleteGoalConfirm": "Ar tikrai norite ištrinti uždavinį %s?",
         "Download": "Atsisiųsti failą",
-        "ExceptionInvalidMatchingString": "Jei pasirinksite \"tikslų atitikimą\", tinkanti reikšmė turi būti URL prasidedanti %s. Pavyzdžiui, '%s'.",
+        "ExceptionInvalidMatchingString": "Jei pasirinksite \"tikslų atitikimą\", tinkanti reikšmė turi būti URL prasidedanti %1$s. Pavyzdžiui, '%2$s'.",
         "ExternalWebsiteUrl": "išorinės svetainės URL",
         "Filename": "failo pavadinimas",
         "GoalIsTriggered": "Uždavinys paleistas",

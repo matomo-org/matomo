@@ -1,7 +1,6 @@
 {
     "Live": {
         "ClickToViewMoreAboutVisit": "Kliknij po więcej informacji o tej wizycie",
-        "EcommerceSummaryConversions": "%1$s%2$s zamówienia na łączną %3$s%4$s, zakupione %5$s elementy.",
         "FirstVisit": "Pierwsza wizyta",
         "GoalType": "Rodzaj",
         "HideMap": "ukryj mapę",
@@ -18,7 +17,7 @@
         "PreviousVisitor": "Poprzedni odwiedzający",
         "Referrer_URL": "Przysyłający adres URL",
         "ShowMap": "Pokaż mapę",
-        "SimpleRealTimeWidget_Message": "%s %s na %s ostatni",
+        "SimpleRealTimeWidget_Message": "%1$s %2$s na %3$s ostatni",
         "ViewVisitorProfile": "Zobacz profil odwiedzającego",
         "VisitedPages": "Odwiedzone strony",
         "VisitorLog": "Log odwiedzających",

@@ -17,6 +17,16 @@
     <p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
     <p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
 
+    {% if arePiwikProAdsEnabled %}
+        <h3>{{ 'Installation_PiwikProAdTitle'|translate }}</h3>
+        <p>
+            {% set linkOnPremises = 'Installation_End'|piwikProOnPremisesPromoUrl %}
+            {% set linkOnCloud = 'Installation_End'|piwikProCloudPromoUrl %}
+
+            {{ 'Installation_PiwikProAdText'|translate('<a rel="noreferrer" target="_blank" href="' ~ linkOnPremises ~ '">','</a>', '<a  rel="noreferrer"  target="_blank" href="' ~ linkOnCloud ~ '">','</a>')|raw }}
+        </p>
+    {% endif %}
+
     <h3>{{ 'Installation_DefaultSettings'|translate }}</h3>
     <p>{{ 'Installation_DefaultSettingsHelp'|translate }}</p>
 

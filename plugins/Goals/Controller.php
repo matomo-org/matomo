@@ -98,6 +98,7 @@ class Controller extends \Piwik\Plugin\Controller
         // conversion rate for new and returning visitors
         $view->conversion_rate_returning = $this->formatConversionRate($goalMetrics, 'conversion_rate_returning_visit');
         $view->conversion_rate_new = $this->formatConversionRate($goalMetrics, 'conversion_rate_new_visit');
+        $view->idGoal = $idGoal;
 
         return $view->render();
     }

@@ -24,7 +24,7 @@
         "JavascriptDisabled": "JavaScript harus diaktifkan untuk melihat Piwik di tampilan standar. <br \/>Namun, tampaknya JavaScript dimatikan atau tidak didukung oleh peramban Anda. <br \/>Untuk menggunakan tampilan standar, aktifkan JavaScript dengan mengubah pengaturab peramban Anda, lalu %1$scoba lagi%2$s. <br \/>",
         "MakeADifference": "Buat perbedaan: %1$sMenyumbang sekarang%2$s untuk mendanai Piwik 2.0!",
         "MakeOneTimeDonation": "Buat satu kali sumbangan saja.",
-        "NoPrivilegesAskPiwikAdmin": "Anda masuk sebagai '%s' tetapi sepertinya Anda tidak memiliki izin apapun di Piwik. %s Tanyakan kepada pengelola Piwik Anda (klik untuk kirim surel)%s untuk memberikan akses 'Lihat' ke situs.",
+        "NoPrivilegesAskPiwikAdmin": "Anda masuk sebagai '%1$s' tetapi sepertinya Anda tidak memiliki izin apapun di Piwik. %2$s Tanyakan kepada pengelola Piwik Anda (klik untuk kirim surel)%3$s untuk memberikan akses 'Lihat' ke situs.",
         "PageOf": "%1$s dari %2$s",
         "PeriodRange": "Rentang",
         "ReportGeneratedOn": "Laporan dibuat dalam %s",

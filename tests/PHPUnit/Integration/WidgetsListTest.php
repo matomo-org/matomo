@@ -44,15 +44,14 @@ class WidgetsListTest extends IntegrationTestCase
             'Dashboard_Dashboard' => 1,
             'General_Actions' => 15,
             'General_Visitors' => 34,
-            'Example Widgets' => 5,
             'SEO' => 2,
             'Goals_Goals' => 3,
             'Live!' => 2,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
             'Referrers_Referrers' => 9,
+            'About Piwik' => 7,
         );
-
         // number of main categories
         $this->assertEquals(count($numberOfWidgets), count($widgetsPerCategory));
 

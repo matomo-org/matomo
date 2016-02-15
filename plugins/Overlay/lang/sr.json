@@ -14,8 +14,8 @@
         "OpenFullScreen": "Prikaži preko celog ekrana",
         "Overlay": "Prikaz preko (overlay)",
         "PluginDescription": "Prikažite analitičke podatke preko vašeg sajta. Pogledajte koliko puta su korisnici kliknuli na svaki od linkova. Morate imati uključen Transitions dodatak.",
-        "RedirectUrlError": "Pokušali ste da otvorite stranicu za URL \"%s\". %s Nijedan od domena iz Piwik podešavanja ne odgovara ovom linku.",
-        "RedirectUrlErrorAdmin": "Možete dodati domen kao dodatni URL %su podešavanjima%s.",
+        "RedirectUrlError": "Pokušali ste da otvorite stranicu za URL \"%1$s\". %2$s Nijedan od domena iz Piwik podešavanja ne odgovara ovom linku.",
+        "RedirectUrlErrorAdmin": "Možete dodati domen kao dodatni URL %1$su podešavanjima%2$s.",
         "RedirectUrlErrorUser": "Zamolite administratora da doda domen kao dodatni URL."
     }
 }

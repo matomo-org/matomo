@@ -1,15 +1,15 @@
 {
     "API": {
-        "GenerateVisits": "Se oggi non hai ricevuto visite, le puoi generare usando il plugin %s. Abilita il plugin %s, quindi clicca su \"Generatore di Visite\" nell'area amministrazione Piwik.",
-        "KeepTokenSecret": "Questo token_auth è segreto come il tuo login e la tua password, %s non condividerlo %s!",
+        "GenerateVisits": "Se oggi non hai ricevuto visite, le puoi generare usando il plugin %1$s. Abilita il plugin %2$s, quindi clicca su \"Generatore di Visite\" nell'area amministrazione Piwik.",
+        "KeepTokenSecret": "Questo token_auth è segreto come il tuo login e la tua password, %1$s non condividerlo %2$s!",
         "LoadedAPIs": "Sono state caricate con successo %s API",
-        "MoreInformation": "Per ulteriori informazioni sulle API di Piwik, si prega di dare un'occhiata all'introduzione delle API di Pwik %s e a %s %s Piwik API di riferimento API %s.",
+        "MoreInformation": "Per ulteriori informazioni sulle API di Piwik, si prega di dare un'occhiata all'introduzione delle API di Pwik %1$s e a %2$s %3$s Piwik API di riferimento API %4$s.",
         "PluginDescription": "Tutti i dati di Piwik sono disponibili tramite semplici API. Questo plugin è la porta d'accesso al servizio web che puoi utilizzare per avere i dati delle tue statistiche web in xml, json, php, csv, ecc.",
         "ReportingApiReference": "Segnalazione Riferimenti API",
         "TopLinkTooltip": "Accedi ai tuoi dati di Web Analytics tramite le semplici API in JSON, XML, ecc",
         "UserAuthentication": "Autenticazione utente",
-        "UsingTokenAuth": "Se si vogliono i dati di richiesta %s all'interno di uno script, un crontab, ecc %s è necessario aggiungere il parametro %s per le chiamate API URL che richiedono l'autenticazione.",
+        "UsingTokenAuth": "Se si vogliono i dati di richiesta %1$s all'interno di uno script, un crontab, ecc %2$s è necessario aggiungere il parametro %3$s per le chiamate API URL che richiedono l'autenticazione.",
         "Glossary": "Glossario",
-        "LearnAboutCommonlyUsedTerms": "Impara i termini comunemente usati per sfruttare al meglio Piwik Analytics: %s e %s."
+        "LearnAboutCommonlyUsedTerms": "Impara i termini comunemente usati per sfruttare al meglio Piwik Analytics: %1$s e %2$s."
     }
 }

@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Jméno poskytovatele '%s' není známé. Zkuste některé z %s.",
+        "Exception_UnknownProvider": "Jméno poskytovatele '%1$s' není známé. Zkuste některé z %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Více telefonních čísel můžete přidat přejitím na",
         "MobileReport_MobileMessagingSettingsLink": "Stránka nastavení mobilních zpráv",
         "MobileReport_NoPhoneNumbers": "Prosím aktivujte aspoň jedno telefonní číslo přejitím na",
@@ -27,15 +27,15 @@
         "Settings_PleaseSignUp": "Pokud chcetevytvářet SMS hlášení a dostávat krátké zprávy o statistikách do svého telefonu, zaregistrujte se na SMS API a zadejte svoje informace níže.",
         "Settings_SMSAPIAccount": "Správa SMS API účtu",
         "Settings_SMSProvider": "SMS Provider",
-        "Settings_SuperAdmin": "Nastavení super uživatele",
+        "Settings_SuperAdmin": "Nastavení super-uživatele",
         "Settings_SuspiciousPhoneNumber": "Pokud neobdržíte SMS zprávu, můžete to zkusit bez úvodní nuly, t. j. %s",
-        "Settings_UpdateOrDeleteAccount": "Také můžete tento účet %saktualizovat%s nebo %ssmazat%s.",
+        "Settings_UpdateOrDeleteAccount": "Také můžete tento účet %1$saktualizovat%2$s nebo %3$ssmazat%4$s.",
         "Settings_ValidatePhoneNumber": "Ověřit",
         "Settings_VerificationCodeJustSent": "Právě jsme na zadané telefonní číslo odeslali SMS s kódem. Zadejte ho výše a stiskněte \"ověřit\".",
         "SettingsMenu": "Mobilní zprávy",
         "SMS_Content_Too_Long": "[příliš dlouhé]",
-        "TopLinkTooltip": "Nechte si webové analýzy zasílat na email nebo na svůj mobilní telefon.",
-        "TopMenu": "Email a SMS reporty",
-        "VerificationText": "Kód je %s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Piwik > %s > %s."
+        "TopLinkTooltip": "Nechte si webové analýzy zasílat na e-mail nebo na svůj mobilní telefon.",
+        "TopMenu": "E-mail a SMS hlášení",
+        "VerificationText": "Kód je %1$s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Piwik > %2$s > %3$s."
     }
 }

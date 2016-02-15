@@ -47,7 +47,7 @@ class PingRequestTest extends IntegrationTestCase
         $pingTime = '2012-01-05 00:20:00';
         $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = false);
 
-        $this->assertInitialVisitIsExtended($pingTime, self::FIRST_VISIT_TIME, $checkModifiedDimensions = false);
+        $this->assertInitialVisitIsNotExtended(self::FIRST_VISIT_TIME, $checkModifiedDimensions = false, 1201);
     }
 
     public function test_PingWithinThirtyMinutes_AndChangedDimensionValues_ExtendsExistingVisit_AndChangesAppropriateDimensions()
@@ -63,7 +63,7 @@ class PingRequestTest extends IntegrationTestCase
         $pingTime = '2012-01-05 00:20:00';
         $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = true);
 
-        $this->assertInitialVisitIsExtended($pingTime, self::FIRST_VISIT_TIME, $checkModifiedDimensions = true);
+        $this->assertInitialVisitIsNotExtended(self::FIRST_VISIT_TIME, $checkModifiedDimensions = true, 1201);
     }
 
     public function test_PingWithinThirtyMinutes_DoesNotTriggerGoalConversion()
@@ -82,7 +82,7 @@ class PingRequestTest extends IntegrationTestCase
         $tracker->setDebugStringAppend('&idgoal=1');
         $this->doPingRequest($tracker, $pingTime, $setNewDimensionValues = true);
 
-        $this->assertInitialVisitIsExtended($pingTime, self::FIRST_VISIT_TIME, $checkModifiedDimensions = true);
+        $this->assertInitialVisitIsNotExtended(self::FIRST_VISIT_TIME, $checkModifiedDimensions = true, 1201);
         $this->assertGoalConversionCount(1);
     }
 
@@ -163,11 +163,17 @@ class PingRequestTest extends IntegrationTestCase
         return Db::fetchOne("SELECT MAX(server_time) FROM " . Common::prefixTable('log_link_visit_action') . " WHERE idvisit = ?", array($idVisit));
     }
 
+    private function getVisitTotalTime($idVisit)
+    {
+        return Db::fetchOne("SELECT MAX(visit_total_time) FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
+    }
+
     private function assertInitialVisitIsCorrect()
     {
         $this->assertVisitCount(1);
         $this->assertActionCount(1);
         $this->assertGoalConversionCount(1);
+        $this->assertEquals(0, $this->getVisitTotalTime($idVisit= 1));
 
         $this->assertVisitPropertiesAreUnchanged($idVisit = 1);
     }
@@ -192,17 +198,20 @@ class PingRequestTest extends IntegrationTestCase
         return $response;
     }
 
-    private function assertInitialVisitIsExtended($newEndTime, $lastActionTime, $checkPropertiesModified)
+    private function assertInitialVisitIsNotExtended($firstActionTime, $checkPropertiesModified, $expectedTotalTime)
     {
         $this->assertVisitCount(1);
         $this->assertActionCount(1);
         $this->assertGoalConversionCount(1);
 
         $visitEndTime = $this->getVisitLastActionTime($idVisit = 1);
-        $this->assertEquals($newEndTime, $visitEndTime);
+        $this->assertEquals($firstActionTime, $visitEndTime);
 
         $actionTime = $this->getLatestActionTime($idVisit = 1);
-        $this->assertEquals($lastActionTime, $actionTime);
+        $this->assertEquals($firstActionTime, $actionTime);
+
+        $visitTotalTime = $this->getVisitTotalTime($idVisit = 1);
+        $this->assertEquals($expectedTotalTime, $visitTotalTime);
 
         if ($checkPropertiesModified) {
             $this->assertVisitPropertiesAreChanged($idVisit = 1, $checkUnchangeable = false);

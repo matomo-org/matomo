@@ -1,6 +1,5 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s inabandunang mga cart%3$s at %4$s inabandunang mga item %5$sna may halagang aabot sa total na %6$s%7$s.",
         "AveragePageGenerationTime": "Bawat pahina ay umaabot ng %1$s upang mag-load para sa bisita.",
         "CalculatedOverNPageViews": "Kinakalkula gamit ang huling %1$s page view ng bisita na ito.",
         "ClickToViewMoreAboutVisit": "Pindutin dito upang makita ang marami pang impormasyon tungkol sa pagbisita.",
@@ -23,11 +22,11 @@
         "RealTimeVisitorCount": "Real Time na bilang ng mga bisita",
         "Referrer_URL": "Referrer URL",
         "ShowMap": "ipakita ang mapa",
-        "SimpleRealTimeWidget_Message": "%s at %s sa nakaraang %s",
+        "SimpleRealTimeWidget_Message": "%1$s at %2$s sa nakaraang %3$s",
         "ViewVisitorProfile": "Tingnan ang profile ng bisita",
         "VisitedPages": "Binisitang mga pahina",
         "VisitorLog": "Log ng bisita",
-        "VisitorLogDocumentation": "Ang table na ito ay nagpapakita ng mga pinakabagong mga pagbisita sa loob ng napiling hanay ng petsa. Maaari mong makita kung kelan ang huling pag bisita ng iyong bisita sa pamamagitan ng pag hover sa petsa ng pag bisita. %s Kung ang sakop ng petsa ay kaasama ngayon makikita mo ang lahat ng iyong mga bisita real time! %s Ang datus ng pinapakita dito ay laging live hindi alintana at kung gaano kadalas mo ginagamit ang archiving cron-job.",
+        "VisitorLogDocumentation": "Ang table na ito ay nagpapakita ng mga pinakabagong mga pagbisita sa loob ng napiling hanay ng petsa. Maaari mong makita kung kelan ang huling pag bisita ng iyong bisita sa pamamagitan ng pag hover sa petsa ng pag bisita. %1$s Kung ang sakop ng petsa ay kaasama ngayon makikita mo ang lahat ng iyong mga bisita real time! %2$s Ang datus ng pinapakita dito ay laging live hindi alintana at kung gaano kadalas mo ginagamit ang archiving cron-job.",
         "VisitorProfile": "profile ng Bisita",
         "VisitorsInRealTime": "Real time na pagbisita",
         "VisitorsLastVisit": "Ang huling bisita ng bisitang ito ay %s araw na ang nakakalipas.",

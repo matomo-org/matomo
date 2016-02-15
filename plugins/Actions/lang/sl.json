@@ -31,7 +31,7 @@
         "OutlinkDocumentation": "Zunanja povezava je povezava, ki vodi obiskovalca stran od vaše splete strani (na drugo domeno).",
         "OutlinksReportDocumentation": "To poročilo prikazuje hierarhični seznam URL-jev zunanjih povezav na katere so uporabniki kliknili.",
         "PagesReportDocumentation": "To poročilo vsebuje informacije o URL-jih strani, ki so bile obiskane. %s Tabela je hierarhično organizirana. URL-ji so prikazani kot struktura mape.",
-        "PageTitlesReportDocumentation": "To poročilo vsebuje informacije o nazivih strani, ki so bile obiskane. %s Naziv strani je HTML oznaka %s Oznaka, ki jo večina brskalnikov prikaže v nazivu okna.",
+        "PageTitlesReportDocumentation": "To poročilo vsebuje informacije o nazivih strani, ki so bile obiskane. %1$s Naziv strani je HTML oznaka %2$s Oznaka, ki jo večina brskalnikov prikaže v nazivu okna.",
         "PageUrls": "URL-ji strani",
         "SiteSearchKeyword": "Ključna beseda (iskanje po strani)",
         "SubmenuPagesEntry": "Vstopne strani",

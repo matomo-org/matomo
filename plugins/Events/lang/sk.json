@@ -5,7 +5,7 @@
         "Events": "Udalosti",
         "EventsWithValue": "Udalosti s hodnotou",
         "EventsWithValueDocumentation": "Počet udalostí, kde bola nastavená hodnota Udalosti",
-        "EventValueTooltip": "Hodnota Udalostí celom je suma %s hodnôt udalostí %s medzi minimom %s a maximom %s.",
+        "EventValueTooltip": "Hodnota Udalostí celom je suma %1$s hodnôt udalostí %2$s medzi minimom %3$s a maximom %4$s.",
         "TopEvents": "Top Udalosti",
         "TotalEvents": "Udalosti celkom",
         "TotalEventsDocumentation": "Celkový počet udalostí",

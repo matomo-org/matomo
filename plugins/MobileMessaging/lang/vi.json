@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Tên nhà cung cấp '%s' chưa biết. Thử các cách sau đây để thay thế: %s.",
+        "Exception_UnknownProvider": "Tên nhà cung cấp '%1$s' chưa biết. Thử các cách sau đây để thay thế: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Bạn có thể thêm nhiều số điện thoại bằng cách truy cập",
         "MobileReport_MobileMessagingSettingsLink": "Trang cài đặt tin nhắn di động",
         "MobileReport_NoPhoneNumbers": "Hãy kích hoạt ít nhất một số điện thoại bằng cách truy cập",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "Nhà cung cấp SMS",
         "Settings_SuperAdmin": "Cài đặt siêu người dùng",
         "Settings_SuspiciousPhoneNumber": "Nếu bạn không nhận được tin nhắn văn bản, bạn có thể thử ngoài hàng 0 đầu. tức là. %s",
-        "Settings_UpdateOrDeleteAccount": "Bạn cũng có thể %s cập nhật %s hoặc %s xóa %s tài khoản này.",
+        "Settings_UpdateOrDeleteAccount": "Bạn cũng có thể %1$s cập nhật %2$s hoặc %3$s xóa %4$s tài khoản này.",
         "Settings_ValidatePhoneNumber": "Xác nhận",
         "Settings_VerificationCodeJustSent": "Chúng tôi đã gửi một tin nhắn SMS đến số này với một mã số: vui lòng điền mã ở trên và click \"Xác nhận\".",
         "SettingsMenu": "Tin nhắn trên điện thoại di động",
         "SMS_Content_Too_Long": "[quá lâu]",
         "TopLinkTooltip": "Nhận các báo cáo Web Analytics đã được gửi đến hộp thư email của bạn hoặc điện thoại di động của bạn!",
         "TopMenu": "Các báo cáo Email & SMS",
-        "VerificationText": "Mã số là %s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Piwik hãy sao chép mã này trong mẫu truy cập thông qua Piwik > %s> %s."
+        "VerificationText": "Mã số là %1$s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Piwik hãy sao chép mã này trong mẫu truy cập thông qua Piwik > %2$s> %3$s."
     }
 }

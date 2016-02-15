@@ -51,17 +51,20 @@ class BatchInsert
      * @param array $values array of data to be inserted
      * @param bool $throwException Whether to throw an exception that was caught while trying
      *                                LOAD DATA INFILE, or not.
+     * @param string $charset The charset to use, defaults to utf8
      * @throws Exception
      * @return bool  True if the bulk LOAD was used, false if we fallback to plain INSERTs
      */
-    public static function tableInsertBatch($tableName, $fields, $values, $throwException = false)
+    public static function tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'utf8')
     {
-        $filePath = StaticContainer::get('path.tmp') . '/assets/' . $tableName . '-' . Common::generateUniqId() . '.csv';
-
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
         if ($loadDataInfileEnabled
             && Db::get()->hasBulkLoader()) {
+
+            $path = self::getBestPathForLoadData();
+            $filePath = $path . $tableName . '-' . Common::generateUniqId() . '.csv';
+
             try {
                 $fileSpec = array(
                     'delim'            => "\t",
@@ -72,12 +75,8 @@ class BatchInsert
                         },
                     'eol'              => "\r\n",
                     'null'             => 'NULL',
+                    'charset'          => $charset
                 );
-
-                // hack for charset mismatch
-                if (!DbHelper::isDatabaseConnectionUTF8() && !isset(Config::getInstance()->database['charset'])) {
-                    $fileSpec['charset'] = 'latin1';
-                }
 
                 self::createCSVFile($filePath, $fileSpec, $values);
 
@@ -95,15 +94,34 @@ class BatchInsert
                     throw $e;
                 }
             }
+
+            // if all else fails, fallback to a series of INSERTs
+            if (file_exists($filePath)) {
+                @unlink($filePath);
+            }
         }
 
-        // if all else fails, fallback to a series of INSERTs
-        if(file_exists($filePath)){
-            @unlink($filePath);
-        }
-        
         self::tableInsertBatchIterate($tableName, $fields, $values);
+
         return false;
+    }
+
+    private static function getBestPathForLoadData()
+    {
+        try {
+            $path = Db::fetchOne('SELECT @@secure_file_priv'); // was introduced in 5.0.38
+        } catch (Exception $e) {
+            // we do not rethrow exception as an error is expected if MySQL is < 5.0.38
+            // in this case tableInsertBatch might still work
+        }
+
+        if (empty($path) || !@is_dir($path) || !@is_writable($path)) {
+            $path = StaticContainer::get('path.tmp') . '/assets/';
+        } elseif (!Common::stringEndsWith($path, '/')) {
+            $path .= '/';
+        }
+
+        return $path;
     }
 
     /**

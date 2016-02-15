@@ -14,7 +14,7 @@
         "EventsWithValue": "Mga event na may value",
         "EventsWithValueDocumentation": "Bilang ng pangyayari kung saan ang halaga ng Event ay itinakda",
         "EventValue": "Event Value",
-        "EventValueTooltip": "Ang total event value ay resulta ng %s events values %s sa pagitan ng minimum %s at maximum ng %s.",
+        "EventValueTooltip": "Ang total event value ay resulta ng %1$s events values %2$s sa pagitan ng minimum %3$s at maximum ng %4$s.",
         "MaxValue": "Maximum na halaga",
         "MaxValueDocumentation": "Ang maximum na halaga para sa kaganapang ito.",
         "MinValue": "Minimum na halaga",

@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "Enten har handlingen ingen sidevisninger i perioden %s eller så er den ugyldig.",
         "OutgoingTraffic": "Utgående trafikk",
         "PluginDescription": "Rapporterer forrige og neste handlinger for hver URL i en ny Overganger-rapport, tilgjengelig i Handlinger-rapporten og via et nytt ikon.",
-        "ShareOfAllPageviews": "Denne siden hadde %s sidevisninger (%s av alle sidevisninger)",
+        "ShareOfAllPageviews": "Denne siden hadde %1$s sidevisninger (%2$s av alle sidevisninger)",
         "ToFollowingPages": "Til interne sider",
         "ToFollowingPagesInline": "%s til interne sider",
         "ToFollowingSiteSearches": "Interne søk",
         "ToFollowingSiteSearchesInline": "%s interne søk",
         "XOfAllPageviews": "%s av alle besøk på denne siden",
-        "XOutOfYVisits": "%s (av %s)"
+        "XOutOfYVisits": "%1$s (av %2$s)"
     }
 }

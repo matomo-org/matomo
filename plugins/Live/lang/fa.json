@@ -22,7 +22,7 @@
         "RealTimeVisitorCount": "زمان واقعی تعداد بازدید کنندگان",
         "Referrer_URL": "URL بازگشتی",
         "ShowMap": "نمایش نقشه",
-        "SimpleRealTimeWidget_Message": "%s و %s در اخرین %s",
+        "SimpleRealTimeWidget_Message": "%1$s و %2$s در اخرین %3$s",
         "ViewVisitorProfile": "مشاهده نمایه دیدن کننده",
         "VisitedPages": "صفحات بازدید شده",
         "VisitorLog": "لاگ بازدیدکننده",

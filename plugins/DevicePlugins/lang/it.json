@@ -3,7 +3,7 @@
         "BrowserWithNoPluginsEnabled": "%1$s con nessun plugin abilitato",
         "BrowserWithPluginsEnabled": "%1$s con plugin %2$s abilitati",
         "PluginDescription": "Restituisce l'elenco dei plugin supportati dal browser dei visitatori.",
-        "PluginDetectionDoesNotWorkInIE": "N.B.: Questo plugin non funziona su Internet Explorer. Questo report è basato solamente sugli utenti di altri browser.",
+        "PluginDetectionDoesNotWorkInIE": "Nota: L'individuazione dei plugin non funziona con versioni di Internet Explorer precedenti alla 11. Questo report è basato solamente su browser diversi da IE e con versioni recenti di IE.",
         "WidgetPlugins": "Plugin Browser",
         "WidgetPluginsDocumentation": "Questo report mostra quali plugin del browser i visitatori avevano abilitato. Questa informazione potrebbe essere importante per la scelta del giusto modo di inviare i tuoi contenuti."
     }

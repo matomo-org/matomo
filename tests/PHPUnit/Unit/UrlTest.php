@@ -13,12 +13,10 @@ use Piwik\Url;
 
 /**
  * @backupGlobals enabled
+ * @group Core
  */
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
     public function testAllMethods()
     {
         $this->assertEquals(Url::getCurrentQueryStringWithParametersModified(array()), Url::getCurrentQueryString());
@@ -63,7 +61,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getCurrentHosts
-     * @group Core
      */
     public function testGetCurrentHost($description, $test)
     {
@@ -132,8 +129,30 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getIsLocalHost
+     */
+    public function test_isLocalHost($expectedIsLocal, $host)
+    {
+        $this->assertSame($expectedIsLocal, Url::isLocalHost($host));
+    }
+
+    public function getIsLocalHost()
+    {
+        return array(
+            array($isLocal = false, '127.0.0.2'),
+            array($isLocal = false, '192.168.1.1'),
+            array($isLocal = false, '10.1.1.1'),
+            array($isLocal = false, '172.30.1.1'),
+
+            array($isLocal = true, 'localhost'),
+            array($isLocal = true, '127.0.0.1'),
+            array($isLocal = true, '::1'),
+            array($isLocal = true, '[::1]'),
+        );
+    }
+
+    /**
      * @dataProvider getLocalUrls
-     * @group Core
      */
     public function testIsLocalUrl($httphost, $scripturi, $requesturi, $testurl, $result)
     {
@@ -161,7 +180,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getCurrentUrlWithoutFilename
-     * @group Core
      */
     public function testGetCurrentUrlWithoutFilename($expected, $https, $host, $path)
     {
@@ -182,9 +200,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $url);
     }
 
-    /**
-     * @group Core
-     */
     public function test_getCurrentScriptName()
     {
         $this->resetGlobalVariables();
@@ -238,7 +253,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getValidHostData
-     * @group Core
      */
     public function testIsValidHost($expected, $host, $trustedHosts, $description)
     {
@@ -247,9 +261,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Url::isValidHost($host), $description);
     }
 
-    /**
-     * @group Core
-     */
     public function testGetReferrer()
     {
         $_SERVER['HTTP_REFERER'] = 'http://www.piwik.org';
@@ -257,8 +268,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getQueryParameters
      */
     public function testGetQueryStringFromParameters($params, $queryString)
@@ -281,8 +290,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getHostsFromUrl
      */
     public function testGetHostsFromUrl($url, $expectedHost)
@@ -304,8 +311,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getIsHostInUrls
      */
     public function testIsHostInUrlsl($isHost, $host, $urls)
@@ -348,7 +353,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
      * @dataProvider urlProvider
      */
     public function testGetCurrentUrl($url, $pathInfo = null)
@@ -372,7 +376,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
      * @dataProvider urlWithoutQueryStringProvider
      */
     public function testGetCurrentUrlWithoutQueryString($url, $expected, $pathInfo = null)
@@ -387,7 +390,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      * Tests a use case that was reported by some users: Nginx is not properly configured and passes
      * incorrect PATH_INFO values in $_SERVER.
      * @link https://github.com/piwik/piwik/issues/6491
-     * @group Core
      */
     public function testMisconfiguredNginxPathInfo()
     {

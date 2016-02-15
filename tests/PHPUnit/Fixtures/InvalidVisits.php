@@ -112,6 +112,12 @@ class InvalidVisits extends Fixture
         $t->setUrl("http://their.stuff.com/back/to/the/future");
         $t->doTrackPageView("ignored, not from my.stuff.com");
 
+        // undo exclude unknown urls change (important when multiple fixtures are setup together, as is done in OmniFixture)
+        API::getInstance()->updateSite($idSite, $siteName = null, $urls, $ecommerce = null, $siteSearch = null,
+            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParams = null,
+            $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
+            $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = 0);
+
         try {
             @$t->setAttributionInfo(array());
             self::fail();

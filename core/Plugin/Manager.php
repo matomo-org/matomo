@@ -18,9 +18,11 @@ use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Log;
+use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\PluginDeactivatedException;
+use Piwik\Session;
 use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translation\Translator;
@@ -828,6 +830,15 @@ class Manager
 
                 if ($newPlugin->hasMissingDependencies()) {
                     $this->deactivatePlugin($pluginName);
+
+                    // add this state we do not know yet whether current user has super user access. We do not even know
+                    // if someone is actually logged in.
+                    $message  = sprintf('We disabled the plugin %s as it has missing dependencies.', $pluginName);
+                    $message .= ' Please contact your Piwik administrator.';
+
+                    $notification = new Notification($message);
+                    $notification->context = Notification::CONTEXT_ERROR;
+                    Notification\Manager::notify('PluginManager_PluginDeactivated', $notification);
                     continue;
                 }
 

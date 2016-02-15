@@ -49,7 +49,7 @@
         "RestartWebServer": "做过这个改动之后，请重新启动网络服务器。",
         "ReusingTables": "重用的表",
         "PiwikOrgNewsletter": "邮件通知我重大的 Piwik 社区更新",
-        "PiwikProNewsletter": "给我发送 %sPiwik PRO%s 的折扣和服务相关的信息",
+        "PiwikProNewsletter": "给我发送 %1$sPiwik PRO%2$s 的折扣和服务相关的信息",
         "SeeBelowForMoreInfo": "更详细的信息请看下面",
         "SetupWebsite": "设定一个网站",
         "SetupWebsiteError": "增加此网站时出现错误",

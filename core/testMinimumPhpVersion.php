@@ -144,7 +144,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
                             <li><a rel="noreferrer" target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
                             <li><a rel="noreferrer" target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
                             <li><a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://piwik.pro/contact/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink#contact-form">Professional help (Piwik PRO)</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {

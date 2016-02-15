@@ -1,11 +1,11 @@
 {
     "API": {
-        "GenerateVisits": "Bila Anda tidak memiliki data untuk hari ini, Anda dapat membuat beberapa menggunakan pengaya %s. Anda dapat mengaktifkan pengaya %s, lalu klik menu 'Pembangkit Kunjungan' di halaman Pengurus Piwik.",
-        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama-id dan sandi Anda, %s sehingga jangan memberitahukannya%s!",
+        "GenerateVisits": "Bila Anda tidak memiliki data untuk hari ini, Anda dapat membuat beberapa menggunakan pengaya %1$s. Anda dapat mengaktifkan pengaya %2$s, lalu klik menu 'Pembangkit Kunjungan' di halaman Pengurus Piwik.",
+        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama-id dan sandi Anda, %1$s sehingga jangan memberitahukannya%2$s!",
         "LoadedAPIs": "Berhasil memuat API %s",
-        "MoreInformation": "Untuk informasi selengkapnya tentang API Piwik, silakan melihat %s Pengenalan API Piwik%s dan %sReferensi API Piwik%s.",
+        "MoreInformation": "Untuk informasi selengkapnya tentang API Piwik, silakan melihat %1$s Pengenalan API Piwik%2$s dan %3$sReferensi API Piwik%4$s.",
         "TopLinkTooltip": "Akses data Analisis Ramatraya terprogram melalui API sederhana dalam json, xml, dan lain lain.",
         "UserAuthentication": "Otentikasi pengguna",
-        "UsingTokenAuth": "Jika Anda ingin melakukan permintaan data %s menggunakan skrip, crontab, dll. %s Anda harus menambah parameter %s agar API memanggil URL yang membutuhkan otentikasi."
+        "UsingTokenAuth": "Jika Anda ingin melakukan permintaan data %1$s menggunakan skrip, crontab, dll. %2$s Anda harus menambah parameter %3$s agar API memanggil URL yang membutuhkan otentikasi."
     }
 }

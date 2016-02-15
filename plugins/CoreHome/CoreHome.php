@@ -306,6 +306,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_Segments';
         $translationKeys[] = 'CoreHome_MenuEntries';
         $translationKeys[] = 'SitesManager_Sites';
+        $translationKeys[] = 'CoreHome_MainNavigation';
         $translationKeys[] = 'CoreHome_ChangeCurrentWebsite';
+        $translationKeys[] = 'General_CreatedByUser';
     }
 }

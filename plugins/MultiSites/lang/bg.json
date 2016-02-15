@@ -3,6 +3,6 @@
         "Evolution": "Развитие",
         "LoadingWebsites": "Зарежда сайтовете",
         "TopLinkTooltip": "Сравнете статистиката за всички ваши уебсайтове.",
-        "Pagination": "%s - %s като %s"
+        "Pagination": "%1$s - %2$s като %3$s"
     }
 }

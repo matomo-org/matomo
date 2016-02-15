@@ -46,7 +46,7 @@
         "RestartWebServer": "После этих изменений перезапустите браузер.",
         "ReusingTables": "Переиспользование таблиц",
         "PiwikOrgNewsletter": "послать мне email о новых обновления Piwik community",
-        "PiwikProNewsletter": "пришлите мне информацию об услугах и предложениях %sPiwik PRO%s",
+        "PiwikProNewsletter": "пришлите мне информацию об услугах и предложениях %1$sPiwik PRO%2$s",
         "SeeBelowForMoreInfo": "Смотрите ниже для получения дополнительной информации.",
         "SetupWebsite": "Добавить сайт",
         "SetupWebsiteError": "Возникла ошибка при добавлении сайта",

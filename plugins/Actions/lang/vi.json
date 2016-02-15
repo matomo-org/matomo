@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Trung bình dựa trên %s lần(s) %s giữa %s và %s",
+        "AvgGenerationTimeTooltip": "Trung bình dựa trên %1$s lần(s) %2$s giữa %3$s và %4$s",
         "ColumnClickedURL": "URL đã truy cập",
         "ColumnClicks": "Clicks",
         "ColumnClicksDocumentation": "Số lần đường dẫn này đã được click",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Một outlink là một liên kết dẫn người truy cập từ trang web của bạn (đến tên miền khác)",
         "OutlinksReportDocumentation": "Báo cáo này cho thấy một danh sách phân cấp của outlink URL đã được click bởi khách truy cập của bạn",
         "PagesReportDocumentation": "Báo cáo này chứa thông tin về các URLs của trang đã được xem. %s Bảng này được tổ chức dưới dạng cây, Các URL được hiển thị dưới cấu trúc folder.",
-        "PageTitlesReportDocumentation": "Báo cáo này chứa thông tin về tiêu đề các trang đã được truy cập. %s Tiêu đề trang là thẻ HTML %s mà các trình duyệt hiển thị trên thanh tiêu đề của cửa sổ trình duyệt.",
+        "PageTitlesReportDocumentation": "Báo cáo này chứa thông tin về tiêu đề các trang đã được truy cập. %1$s Tiêu đề trang là thẻ HTML %2$s mà các trình duyệt hiển thị trên thanh tiêu đề của cửa sổ trình duyệt.",
         "PageUrls": "Đường dẫn trang",
         "SiteSearchCategories1": "Báo cáo này liệt kê các hạng mục cho người truy cập lựa chọn khi họ thực hiện một tìm kiếm trên trang web của bạn",
         "SiteSearchCategories2": "Ví dụ, một trang thương mại điện tử (e-commerce) thường có chức năng \"Lựa chọn Phân mục\" để khách truy cập giới hạn phạm vi tìm kiếm đối với các sản phẩm trong một phân mục quy định.",

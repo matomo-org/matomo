@@ -18,12 +18,14 @@
         "SegmentIsDisplayedForWebsite": "och visas för",
         "SegmentNotApplied": "Segment '%s' tillämpas inte",
         "SegmentNotAppliedMessage": "Du begär data för det Anpassade Segmentet '%s', denna Piwik konfiguration förhindrar realtidsbearbetning av rapporter pga prestandaskäl.",
-        "SelectSegmentOfVisitors": "Välj ett besökarsegment",
         "ThisSegmentIsVisibleTo": "Det här segmentet är synligt för:",
         "VisibleToAllUsers": "alla användare",
         "VisibleToMe": "jag",
-        "YouMayChangeSetting": "Alternativt kan du ändra inställningarna i konfigurationsfilen (%s), eller redigera detta Segment och välj '%s'.",
+        "YouMayChangeSetting": "Alternativt kan du ändra inställningarna i konfigurationsfilen (%1$s), eller redigera detta Segment och välj '%2$s'.",
         "YouMustBeLoggedInToCreateSegments": "Du måste vara inloggad för att skapa och redigera besökssegment.",
-        "YouDontHaveAccessToCreateSegments": "Du har inte rättigheter för att skapa och redigera segment."
+        "YouDontHaveAccessToCreateSegments": "Du har inte rättigheter för att skapa och redigera segment.",
+        "CustomSegment": "Anpassat segment",
+        "SegmentOperatorIsNullOrEmpty": "är null eller tom",
+        "SegmentOperatorIsNotNullNorEmpty": "är inte null och inte tom"
     }
 }

@@ -88,5 +88,7 @@ class SegmentEditor extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'SegmentEditor_CustomSegment';
+        $translationKeys[] = 'SegmentEditor_VisibleToSuperUser';
+        $translationKeys[] = 'SegmentEditor_SharedWithYou';
     }
 }

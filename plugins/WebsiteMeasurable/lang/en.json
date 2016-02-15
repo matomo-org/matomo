@@ -1,7 +1,7 @@
 {
-  "WebsiteMeasurable": {
-    "Website": "Website",
-    "Websites": "Websites",
-    "WebsiteDescription": "A website consists of web pages typically served from a single web domain."
-  }
+    "WebsiteMeasurable": {
+        "Website": "Website",
+        "Websites": "Websites",
+        "WebsiteDescription": "A website consists of web pages typically served from a single web domain."
+    }
 }

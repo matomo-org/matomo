@@ -49,7 +49,7 @@
         "RestartWebServer": "Nakon ovih izmena restartujte vaš web server",
         "ReusingTables": "Ponovna upotreba tabela",
         "PiwikOrgNewsletter": "pošalji mi mejl kada dođe do značajne Piwik izmene",
-        "PiwikProNewsletter": "pošalji mi informacije o %sPiwik PRO%s uslugama i ponudama",
+        "PiwikProNewsletter": "pošalji mi informacije o %1$sPiwik PRO%2$s uslugama i ponudama",
         "SeeBelowForMoreInfo": "Pogledajte ispod za više informacija.",
         "SetupWebsite": "Podešavanje sajta",
         "SetupWebsiteError": "Došlo je do greške prilikom dodavanja sajta",

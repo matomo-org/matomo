@@ -129,6 +129,12 @@ class CronArchive
     public $shouldStartProfiler = false;
 
     /**
+     * Given options will be forwarded to the PHP command if the archiver is executed via CLI.
+     * @var string
+     */
+    public $phpCliConfigurationOptions = '';
+
+    /**
      * If HTTP requests are used to initiate archiving, this controls whether invalid SSL certificates should
      * be accepted or not by each request.
      *
@@ -896,9 +902,7 @@ class CronArchive
         $this->requests += count($urls);
 
         $cliMulti = $this->makeCliMulti();
-        $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
         $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
-        $cliMulti->runAsSuperUser();
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
@@ -969,18 +973,8 @@ class CronArchive
     {
         $url = $this->makeRequestUrl($url);
 
-        if ($this->shouldStartProfiler) {
-            $url .= "&xhprof=2";
-        }
-
-        if ($this->testmode) {
-            $url .= "&testmode=1";
-        }
-
         try {
             $cliMulti  = $this->makeCliMulti();
-            $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
-            $cliMulti->runAsSuperUser();
             $responses = $cliMulti->request(array($url));
 
             $response  = !empty($responses) ? array_shift($responses) : null;
@@ -1603,7 +1597,17 @@ class CronArchive
      */
     private function makeRequestUrl($url)
     {
-        return $url . self::APPEND_TO_API_REQUEST;
+        $url = $url . self::APPEND_TO_API_REQUEST;
+
+        if ($this->shouldStartProfiler) {
+            $url .= "&xhprof=2";
+        }
+
+        if ($this->testmode) {
+            $url .= "&testmode=1";
+        }
+
+        return $url;
     }
 
     /**
@@ -1712,6 +1716,9 @@ class CronArchive
     {
         $cliMulti = StaticContainer::get('Piwik\CliMulti');
         $cliMulti->setUrlToPiwik($this->urlToPiwik);
+        $cliMulti->setPhpCliConfigurationOptions($this->phpCliConfigurationOptions);
+        $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+        $cliMulti->runAsSuperUser();
         return $cliMulti;
     }
 

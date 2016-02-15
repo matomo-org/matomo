@@ -54,7 +54,7 @@
                     scope.widgetsByCategory = $filter('orderBy')(finalWidgetsByCategory, 'order');
 
                     scope.selectWidget = function (widget) {
-                        scope.selectedWidget = widget;
+                        scope.selectedWidget = angular.copy(widget); // we copy to force rerender
                     }
 
                     if (widgetsSorted && widgetsSorted.length) {

@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Aangepaste variabelenaam",
         "ColumnCustomVariableValue": "Aangepaste variabele waarde",
         "CustomVariables": "Aangepaste variabelen",
-        "CustomVariablesReportDocumentation": "Dit rapport bevat informatie over uw aangepaste variabelen. Klik op de naam van een variabele om de verdeling van de waarden te zien. %s voor meer informatie over aangepaste variabelen in het algemeen, lees de %sCustom variabelen documentatie over piwik.org%s",
+        "CustomVariablesReportDocumentation": "Dit rapport bevat informatie over uw aangepaste variabelen. Klik op de naam van een variabele om de verdeling van de waarden te zien. %1$s voor meer informatie over aangepaste variabelen in het algemeen, lees de %2$sCustom variabelen documentatie over piwik.org%3$s",
         "PluginDescription": "Aangepaste variabelen zijn (naam, waarde) paren dat je kunt toewijzen via de Javascript API aan bezoekers of aan één van hun acties. Piwik zal dan het aantal bezoeken, pagina's, conversies voor elk van deze aangepaste namen en waarden rapporteren. Bekijk de gedetailleerde Aangepaste variabelen voor elke gebruik en actie in het Bezoekerslogboek. <br\/>Het is vereist gebruik te maken van de<a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Ecommerce Analyses<\/a> functie!",
         "ScopePage": "omvang pagina",
         "ScopeVisit": "omvang bezoek"

@@ -86,8 +86,19 @@ describe("Installation", function () {
         }, done);
     });
 
+    var pageUrl, pageUrlDe;
+
+    it("should show Piwik PRO GmbH when language is German", function (done) {
+        expect.screenshot("superuser_de").to.be.capture(function (page) {
+            pageUrl = page.getCurrentUrl();
+            pageUrlDe = pageUrl + '&language=de'
+            page.load(pageUrlDe);
+        }, done);
+    });
+
     it("should fail when incorrect information is entered in the superuser configuration page", function (done) {
         expect.screenshot("superuser_fail").to.be.capture(function (page) {
+            page.load(pageUrl);
             page.click('.btn');
         }, done);
     });

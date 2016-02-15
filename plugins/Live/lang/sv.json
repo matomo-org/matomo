@@ -1,11 +1,10 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s%2$s övergivna korgar %3$s och %4$s övergivna varor %5$still ett värde av totalt %6$s%7$s.",
+        "AbandonedCartSummary": "%1$s övergivna varukorgar%2$s och %3$s övergivna varor%4$s värda totalt %5$s%6$s.",
         "AveragePageGenerationTime": "Varje sida tog i genomsnitt %1$s att ladda för besökaren.",
         "CalculatedOverNPageViews": "Beräknat på denna besöakrens senaste %1$s sidvisningar.",
         "ClickToViewMoreAboutVisit": "Klicka för mer information om det här besöket",
         "ConvertedNGoals": "Konverteringar %s Mål",
-        "EcommerceSummaryConversions": "%1$s%2$s ordrar för totalt %3$s%4$s, köpt %5$s varor.",
         "FirstVisit": "Första besöket",
         "GoalType": "Sort",
         "HideMap": "Dölj mapp",
@@ -25,15 +24,14 @@
         "RealTimeVisitorCount": "Besöksräknare i realtid",
         "Referrer_URL": "Hänvisningsadress",
         "ShowMap": "Visa mapp",
-        "SimpleRealTimeWidget_Message": "%s och %s dom senaste %s.",
+        "SimpleRealTimeWidget_Message": "%1$s och %2$s dom senaste %3$s.",
         "ViewVisitorProfile": "Ny besöksprofil",
         "VisitedPages": "Besökta sidor",
         "VisitorLog": "Besökslogg",
-        "VisitorLogDocumentation": "Denna tabell visar de senaste besök inom det valda datumintervallet. %s Om datumet inkluderar idag kan du se dina besökare i realtid! %s data som visas här är alltid live, oavsett om och hur ofta du använder cron-jobb för arkivering.",
+        "VisitorLogDocumentation": "Denna tabell visar de senaste besök inom det valda datumintervallet. %1$s Om datumet inkluderar idag kan du se dina besökare i realtid! %2$s data som visas här är alltid live, oavsett om och hur ofta du använder cron-jobb för arkivering.",
         "VisitorProfile": "Besöksprofil",
         "VisitorsInRealTime": "Besökare i realtid",
         "VisitorsLastVisit": "Denna besökares senaste besök var %s dagar sedan.",
-        "VisitsFrom": "%1$s%2$s besökta %3$s från",
-        "VisitSummary": "Spenderade totalt %1$s%2$s på den här webbsidan%3$s, och %4$svar inne på %5$s sidor under %6$sbesöket. %7$s"
+        "VisitsFrom": "%1$s%2$s besökta %3$s från"
     }
 }

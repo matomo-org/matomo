@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Keskmine, mis baseerub %s laadimisel %s, %s ja %s vahel.",
+        "AvgGenerationTimeTooltip": "Keskmine, mis baseerub %1$s laadimisel %2$s, %3$s ja %4$s vahel.",
         "ColumnClickedURL": "Külastatud URL",
         "ColumnClicks": "Hiireklikke",
         "ColumnClicksDocumentation": "Arv, mitu korda antud linki on klikitud.",

@@ -40,20 +40,30 @@
                 <div class="visitor-profile-summary">
                     <h1>{{ 'General_Summary'|translate }}</h1>
                     <div>
-                        <p>{{ 'Live_VisitSummary'|translate('<strong>' ~ visitorData.totalVisitDurationPretty ~ '</strong>', '', '', '<strong>', visitorData.totalActions, visitorData.totalVisits, '</strong>')|raw }}</p>
+                        {% if visitorData.totalPageViews != visitorData.totalActions %}
+                            {% set actionDetails = [] %}
+                            {% if visitorData.totalPageViews > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalPageViews ~ ' ' ~ 'General_ColumnPageviews'|translate]) %}{% endif %}
+                            {% if visitorData.totalEvents > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalEvents ~ ' ' ~ 'Events_Events'|translate]) %}{% endif %}
+                            {% if visitorData.totalDownloads > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalDownloads ~ ' ' ~ 'General_Downloads'|translate]) %}{% endif %}
+                            {% if visitorData.totalOutlinks > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalOutlinks ~ ' ' ~ 'General_Outlinks'|translate]) %}{% endif %}
+                            {% if visitorData.totalSearches > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalSearches ~ ' ' ~ 'Actions_ColumnSearches'|translate]) %}{% endif %}
+                            <p>{{ 'Live_VisitSummaryWithActionDetails'|translate('<strong>' ~ visitorData.totalVisitDurationPretty ~ '</strong>', '', '', '<strong>' ~ visitorData.totalActions, '</strong>', actionDetails|join(', ') , '<strong>' ~ visitorData.totalVisits, '</strong>')|raw }}</p>
+                        {% else %}
+                            <p>{{ 'Live_VisitSummary'|translate('<strong>' ~ visitorData.totalVisitDurationPretty ~ '</strong>', '', '', '<strong>' ~ visitorData.totalActions,  '</strong>', '<strong>' ~ visitorData.totalVisits, '</strong>')|raw }}</p>
+                        {% endif %}
                         <p>{% if visitorData.totalGoalConversions %}<strong>{% endif %}{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}{% if visitorData.totalGoalConversions %}</strong>{% endif %}
                         {%- if visitorData.totalGoalConversions %} (
                             {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
                             {%- set idGoal = idGoal[7:] -%}
-                            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
+                            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} {{ goals[idGoal]['name'] -}}
                             {%- endfor -%}
                         ){% endif %}.</p>
                         {% if visitorData.totalEcommerceConversions|default(0) > 0 or visitorData.totalAbandonedCarts|default(0) > 0%}
                         <p>
                             {{ 'Goals_Ecommerce'|translate }}:
-                            {%- if visitorData.totalEcommerceConversions|default(0) > 0 %} {{ 'Live_EcommerceSummaryConversions'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}
+                            {%- if visitorData.totalEcommerceConversions|default(0) > 0 %} {{ 'Live_EcommerceSummaryConversions'|translate('<strong>' ~ visitorData.totalEcommerceConversions, '</strong>', '<strong>' ~ visitorData.totalEcommerceRevenue|money(idSite), '</strong>', '<strong>' ~ visitorData.totalEcommerceItems, '</strong>')|raw }}
                             {%- endif -%}
-                            {%- if visitorData.totalAbandonedCarts|default(0) > 0 %} {{ 'Live_AbandonedCartSummary'|translate('<strong>', visitorData.totalAbandonedCarts, '</strong>', visitorData.totalAbandonedCartsItems, '<strong>', visitorData.totalAbandonedCartsRevenue|money(idSite), '</strong>')|raw }}{%- endif -%}
+                            {%- if visitorData.totalAbandonedCarts|default(0) > 0 %} {{ 'Live_AbandonedCartSummary'|translate('<strong>' ~ visitorData.totalAbandonedCarts, '</strong>', '<strong>' ~ visitorData.totalAbandonedCartsItems, '</strong>', '<strong>' ~ visitorData.totalAbandonedCartsRevenue|money(idSite), '</strong>')|raw }}{%- endif -%}
                         </p>
                         {% endif %}
                         {% if visitorData.totalSearches|default(0) %}
@@ -74,18 +84,18 @@
                     <div>
                         <h1>{% if visitorData.visitsAggregated == 100 %}{{ 'General_Visit'|translate }}# 100{% else %}{{ 'Live_FirstVisit'|translate }}{% endif %}</h1>
                         <div>
-                            <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</span></p>
-                            <p><span>{{ 'General_FromReferrer'|translate }}</span>
-                            <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.firstVisit.referralSummary }}</strong></p>
+                            <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</p>
+                            <p>
+                            {{ 'General_FromReferrer'|translate }}<strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.firstVisit.referralSummary }}</strong></p>
                         </div>
                     </div>
                     {% if visitorData.lastVisits.getRowsCount() != 1 %}
                     <div>
                         <h1>{{ 'Live_LastVisit'|translate }}</h1>
                         <div>
-                            <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</span></p>
-                            <p><span>{{ 'General_FromReferrer'|translate }}</span>
-                            <strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.lastVisit.referralSummary }}</strong></p>
+                            <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</p>
+                            <p>
+                                {{ 'General_FromReferrer'|translate }}<strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.lastVisit.referralSummary }}</strong></p>
                         </div>
                     </div>
                     {% endif %}

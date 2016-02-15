@@ -126,6 +126,10 @@ class GeneratePlugin extends GeneratePluginBase
                 throw new \RuntimeException('You have to enter a plugin name');
             }
 
+            if(strlen($pluginName) > 40) {
+                throw new \RuntimeException('Your plugin name cannot be longer than 40 characters');
+            }
+
             if (!Plugin\Manager::getInstance()->isValidPluginName($pluginName)) {
                 throw new \RuntimeException(sprintf('The plugin name %s is not valid. The name must start with a letter and is only allowed to contain numbers and letters.', $pluginName));
             }

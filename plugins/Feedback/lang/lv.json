@@ -2,7 +2,7 @@
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Vai Jums ir kļūdas ziņojums vai papildus funkcionalitātes pieprasījums?",
         "IWantTo": "Es vēlos:",
-        "LearnWaysToParticipate": "Uzzināt vairāk par to, kā Jūs varat %s piedalīties%s",
+        "LearnWaysToParticipate": "Uzzināt vairāk par to, kā Jūs varat %1$s piedalīties%2$s",
         "ManuallySendEmailTo": "Lūdzu manuāli nosūtiet savu ziņu uz",
         "SendFeedback": "Sūtīt atsauksmes",
         "ThankYou": "Paldies, ka palīdzat uzlabot Piwik!"

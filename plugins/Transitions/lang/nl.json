@@ -17,12 +17,12 @@
         "NoDataForActionDetails": "Deze actie had geen paginaweergaves gedurende de periode %s, of is ongeldig.",
         "OutgoingTraffic": "Uitgaand verkeer",
         "PluginDescription": "Voor elke pagina URL in het Transities rapport zijn de voorgaande en volgende acties beschikbaar in de Acties rapportage met een nieuw icoontje.",
-        "ShareOfAllPageviews": "Deze pagina had %s paginaweergaves (%s van alle paginaweergaves)",
+        "ShareOfAllPageviews": "Deze pagina had %1$s paginaweergaves (%2$s van alle paginaweergaves)",
         "ToFollowingPages": "Naar Interne Pagina's",
         "ToFollowingPagesInline": "%s naar interne pagina's",
         "ToFollowingSiteSearches": "Interne Zoekopdrachten",
         "ToFollowingSiteSearchesInline": "%s interne zoekopdrachten",
         "XOfAllPageviews": "%s van alle weergaves van deze pagina",
-        "XOutOfYVisits": "%s (van de %s)"
+        "XOutOfYVisits": "%1$s (van de %2$s)"
     }
 }

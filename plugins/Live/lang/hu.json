@@ -7,7 +7,7 @@
         "LinkVisitorLog": "Részletes látogatói adatok megtekintése",
         "Referrer_URL": "Hivatkozó URL",
         "VisitorLog": "Látogatói adatok",
-        "VisitorLogDocumentation": "Ez a táblázat a legutolsó látogatásokat mutatja a kiválasztott időintervallumon belül.%s Ha az időintervallum tartalmazz a mai napot is, akkor élőben láthatod látogatóid! %s Az itt kijelzett adatok mindig élőek maradnak, függetlenül, hogy hogyan és milyen gyakran használod az archiválásra szolgáló cron job-ot.",
+        "VisitorLogDocumentation": "Ez a táblázat a legutolsó látogatásokat mutatja a kiválasztott időintervallumon belül.%1$s Ha az időintervallum tartalmazz a mai napot is, akkor élőben láthatod látogatóid! %2$s Az itt kijelzett adatok mindig élőek maradnak, függetlenül, hogy hogyan és milyen gyakran használod az archiválásra szolgáló cron job-ot.",
         "VisitorsInRealTime": "Látogatók valós időben"
     }
 }

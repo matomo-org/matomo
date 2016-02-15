@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Config file",
+        "ConfigFileIntroduction": "Here you can view the Piwik configuration. If you are running Piwik in a load balanced environment the page might be different depending from which server this page is loaded. Rows with a different background color are changed config values that are specified for example in the %1$s file.",
+        "HideUnchanged": "If you want to see only changed values you can %1$shide all unchanged values%2$s.",
+        "Sections": "Sections"
+    }
+}

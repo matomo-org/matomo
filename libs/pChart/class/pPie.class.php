@@ -36,7 +36,7 @@
    var $LabelPos = "" ;
 
    /* Class creator */
-   function pPie($Object,$pDataObject)
+   function __construct($Object,$pDataObject)
     {
      /* Cache the pChart object reference */
      $this->pChartObject = $Object;

@@ -14,8 +14,8 @@
         "OpenFullScreen": "Go full screen (no sidebar)",
         "Overlay": "Page Overlay",
         "PluginDescription": "See your analytics data as an Overlay on your actual website. View how many times your users have clicked on each link. Note: Requires the Transitions plugin enabled.",
-        "RedirectUrlError": "You are attempting to open Page Overlay for the URL \"%s\". %s None of the domains from the Piwik settings matches the link.",
-        "RedirectUrlErrorAdmin": "You can add the domain as an additional URL %sin the settings%s.",
+        "RedirectUrlError": "You are attempting to open Page Overlay for the URL \"%1$s\". %2$s None of the domains from the Piwik settings matches the link.",
+        "RedirectUrlErrorAdmin": "You can add the domain as an additional URL %1$sin the settings%2$s.",
         "RedirectUrlErrorUser": "Ask your administrator to add the domain as an additional URL."
     }
 }

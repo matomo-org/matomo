@@ -14,7 +14,6 @@
         "JavaScriptTracking": "ஜாவா ஸ்கிரிப்ட் கண்காணிப்பு",
         "JSTracking_CampaignKwdParam": "பிரச்சாரத்தின் திறவுச்சொல் காரணி",
         "JSTracking_CampaignNameParam": "பிரச்சாரப் பெயர் அளவுரு",
-        "JSTracking_CodeNote": "இந்த குறியீடுகள் உங்கள் தளத்தின் ஒவ்வொரு பக்கத்திலும் %1$s ஒட்டுக்கு முன் இருப்பதை உறுதி செய்யுங்க.",
         "JSTracking_CustomCampaignQueryParam": "பிரச்சாரப் பெயர் மற்றும் முக்கியைசொல்லுக்கு, தனிபயன் கேள்வி அளவுரு பெயர்கள் பயன்படுத்துக.",
         "JSTracking_CustomCampaignQueryParamDesc": "குறிப்பு: %1$sPiwik தன்னியக்கமாக Google Analytics அளவுருக்களை கண்டுகொள்ளும்.%2$s",
         "JSTracking_EnableDoNotTrack": "வாடிக்கையாளர் பக்க DoNotTrack கண்டறிதலை செயல்படுத்த",

@@ -4,7 +4,7 @@
         "ContactAdmin": "考えられる理由： ホストで mail() 関数が無効にされている可能性があります。<br \/>Piwik 管理者にご連絡ください。",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "スーパーユーザーアクセス権を持つユーザーは、'%s' のメカニズムを使用して、認証することはできません。",
         "ExceptionPasswordMD5HashExpected": "パスワードパラメータは、パスワードの MD5 ハッシュ値であることを想定されています。",
-        "InvalidNonceOrHeadersOrReferrer": "安全にフォームをロードできませんでした。フォームを再ロードし、cookie が有効になっていることを確認してください。プロキシサーバーを使用する場合、ホストヘッダーを転送するプロキシヘッダー %s を許可するために、Piwik を %s 設定する必要があります。また、リファラーヘッダーが正しく送信されているかどうかご確認ください。",
+        "InvalidNonceOrHeadersOrReferrer": "安全にフォームをロードできませんでした。フォームを再ロードし、cookie が有効になっていることを確認してください。プロキシサーバーを使用する場合、ホストヘッダーを転送するプロキシヘッダー %1$s を許可するために、Piwik を %2$s 設定する必要があります。また、リファラーヘッダーが正しく送信されているかどうかご確認ください。",
         "InvalidOrExpiredToken": "トークンが無効または期限切れです。",
         "InvalidUsernameEmail": "ユーザー名またはメールアドレスが無効です",
         "LogIn": "ログイン",

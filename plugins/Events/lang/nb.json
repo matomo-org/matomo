@@ -1,15 +1,32 @@
 {
     "Events": {
+        "PluginDescription": "Spor hendelser og få rapporter om dine brukeres aktiviteter.",
         "AvgEventValue": "Gjennomsnittlig hendelseverdi er: %s",
         "AvgValue": "Gjennomsnittlig verdi",
+        "AvgValueDocumentation": "Gjennomsnittet av alle verdier for denne hendelsen",
         "Event": "Hendelse",
+        "EventAction": "Hendelseshandling",
+        "EventActions": "Hendelseshandlinger",
+        "EventCategories": "Hendelseskategorier",
         "EventCategory": "Hendelsekategori",
+        "EventName": "Hendelsesnavn",
+        "EventNames": "Hendelsesnavn",
         "Events": "Hendelser",
+        "EventsWithValue": "Hendelser med en verdi",
+        "EventsWithValueDocumentation": "Antall hendelser der en hendelsesverdi er satt",
+        "EventValue": "Hendelsesverdi",
+        "EventValueTooltip": "Total hendelsesverdi er summen av alle %1$s hendelsesverdier %2$s mellom minimumsverdi %3$s og maksimumsverdi %4$s.",
         "MaxValue": "Maksimumsverdi",
-        "MinValue": "Minimum verdi",
+        "MaxValueDocumentation": "Maksimumsverdien for denne hendelsen",
+        "MinValue": "Minimumsverdi",
+        "MinValueDocumentation": "Minimumsverdien for denne hendelsen",
+        "SecondaryDimension": "Sekundær dimensjon er %s.",
         "SwitchToSecondaryDimension": "Bytt til %s",
         "TopEvents": "Topphendelser",
+        "TotalEvents": "Totalt antall hendelser",
+        "TotalEventsDocumentation": "Totalt antall hendelser",
         "TotalValue": "Totalverdi",
+        "TotalValueDocumentation": "Summen av alle hendelsesverdier",
         "ViewEvents": "Vis hendelser"
     }
 }

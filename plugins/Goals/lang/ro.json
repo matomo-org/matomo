@@ -3,7 +3,7 @@
         "AbandonedCart": "Cart abandonat",
         "AddGoal": "Adaugă o ţintă",
         "AddNewGoal": "Agaugă o ţintă nouă",
-        "AddNewGoalOrEditExistingGoal": "%sAdaugă o ţintă nouă sau%s sau %sModifică%s ţinte existente",
+        "AddNewGoalOrEditExistingGoal": "%1$sAdaugă o ţintă nouă sau%2$s sau %3$sModifică%4$s ţinte existente",
         "AllowGoalConvertedMoreThanOncePerVisit": "Obiectivul permite să fie convertite mai mult de o dată la fiecare vizită",
         "AllowMultipleConversionsPerVisit": "Permite conversii multiple pe vizita",
         "BestCountries": "Topul tarilor care convertesc cel mai bine este:",
@@ -26,7 +26,7 @@
         "ColumnVisits": "Numărul total de vizite, indiferent dacă a fost declanșată scop sau nu.",
         "ColumnVisitsProductDocumentation": "Numărul de vizite pe pagina de Produs\/Categorie. Acest lucru este, de asemenea, utilizat pentru a procesa %s rata de conversie. Această valoare este în raport, dacă pe Ecommerce urmarire a fost configurat pe paginile de produs \/ categorie.",
         "Contains": "conţine %s",
-        "ConversionByTypeReportDocumentation": "Acest raport oferă informații detaliate despre performanța obiectivului (conversii, ratele de conversie și venituri pe vizita), pentru fiecare dintre categoriile disponibile în panoul din stânga. %s Vă rugăm să faceți clic pe una dintre categoriile pentru a vizualiza raportul. %s Pentru mai multe informații, citiți documentația %sUrmarire Goluri%s",
+        "ConversionByTypeReportDocumentation": "Acest raport oferă informații detaliate despre performanța obiectivului (conversii, ratele de conversie și venituri pe vizita), pentru fiecare dintre categoriile disponibile în panoul din stânga. %1$s Vă rugăm să faceți clic pe una dintre categoriile pentru a vizualiza raportul. %2$s Pentru mai multe informații, citiți documentația %3$sUrmarire Goluri%4$s",
         "ConversionRate": "%s rata conversie",
         "Conversions": "%s conversii",
         "ConversionsOverview": "Privire Generala Conversii",
@@ -44,7 +44,7 @@
         "EcommerceOrder": "Comanda Magazin Online",
         "EcommerceOverview": "Privire Generala Magazin Online",
         "EcommerceReports": "Rapoarte Ecomerţ",
-        "ExceptionInvalidMatchingString": "Dacă alegeți \"potrivire exactă\", șirul de potrivire trebuie să fie un URL incepand cu %s. De exemplu, \"%s\".",
+        "ExceptionInvalidMatchingString": "Dacă alegeți \"potrivire exactă\", șirul de potrivire trebuie să fie un URL incepand cu %1$s. De exemplu, \"%2$s\".",
         "ExternalWebsiteUrl": "URL Site web extern",
         "Filename": "nume fişier",
         "GoalConversion": "conversie obiectiv",
@@ -84,7 +84,7 @@
         "VisitUrl": "Viziteaza un URL dat (o pagina sau un grup de pagini)",
         "WhenVisitors": "când vizitatorii",
         "WhereThe": "unde",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "acolo unde pagina vizitată conține un call către metoda JavaScript 'trackGoal' (%svezi mai multe%s)",
-        "YouCanEnableEcommerceReports": "Poţi activa %s pentru acest site pe pagina %s."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "acolo unde pagina vizitată conține un call către metoda JavaScript 'trackGoal' (%1$svezi mai multe%2$s)",
+        "YouCanEnableEcommerceReports": "Poţi activa %1$s pentru acest site pe pagina %2$s."
     }
 }

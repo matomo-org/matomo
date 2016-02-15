@@ -2114,7 +2114,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>67</idVisit>
+		<idVisit>68</idVisit>
 		<visitIp>173.5.0.0</visitIp>
 		
 		<actionDetails>
@@ -2123,7 +2123,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>93</goalPageId>
+				<goalPageId>94</goalPageId>
 				
 				<url>http://hello.example.com/hello/from/another/world/6,681965</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -2135,7 +2135,7 @@
 				<pageTitle />
 				<pageIdAction>61</pageIdAction>
 				
-				<pageId>93</pageId>
+				<pageId>94</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>
@@ -2293,7 +2293,7 @@
 				<pageTitle />
 				<pageIdAction>56</pageIdAction>
 				
-				<pageId>90</pageId>
+				<pageId>91</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>
@@ -2512,7 +2512,7 @@
 				<pageTitle>404/URL = http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</pageTitle>
 				<pageIdAction>60</pageIdAction>
 				
-				<pageId>92</pageId>
+				<pageId>93</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>
@@ -2638,7 +2638,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>66</idVisit>
+		<idVisit>67</idVisit>
 		<visitIp>70.95.32.0</visitIp>
 		
 		<actionDetails>
@@ -2647,7 +2647,7 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>91</goalPageId>
+				<goalPageId>92</goalPageId>
 				
 				<url>http://example.hello.com/Topic/hw43061</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
@@ -2659,7 +2659,7 @@
 				<pageTitle>301/URL = http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</pageTitle>
 				<pageIdAction>58</pageIdAction>
 				
-				<pageId>91</pageId>
+				<pageId>92</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Generation Time</customVariablePageName1>
@@ -3117,6 +3117,115 @@
 		<location>Igloolik, Nunavut, Canada</location>
 		<latitude>69.400002</latitude>
 		<longitude>-81.800003</longitude>
+		<visitLocalTime>12:20:31</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>66</idVisit>
+		<visitIp>73.77.55.45</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>90</goalPageId>
+				
+				<url>http://piwik.net/api/fútbol-user-agent</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/api/fútbol-user-agent</url>
+				<pageTitle />
+				<pageIdAction>71</pageIdAction>
+				
+				<pageId>90</pageId>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<generationTime>0.009s</generationTime>
+				<icon />
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>iPhone</deviceModel>
+		<operatingSystem>iOS 7.1</operatingSystem>
+		<operatingSystemName>iOS</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/IOS.gif</operatingSystemIcon>
+		<operatingSystemCode>IOS</operatingSystemCode>
+		<operatingSystemVersion>7.1</operatingSystemVersion>
+		<browserFamily />
+		<browserFamilyDescription>Unknown</browserFamilyDescription>
+		<browser>Unknown</browser>
+		<browserName>Unknown</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserCode>UNK</browserCode>
+		<browserVersion>1.0</browserVersion>
+		<events>0</events>
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<region>New Jersey</region>
+		<regionCode>NJ</regionCode>
+		<city>Mount Laurel</city>
+		<location>Mount Laurel, New Jersey, United States</location>
+		<latitude>39.957001</latitude>
+		<longitude>-74.916000</longitude>
 		<visitLocalTime>12:20:31</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -4409,7 +4518,7 @@
 		
 		
 		
-		<userId />
+		<userId>commonuser</userId>
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>

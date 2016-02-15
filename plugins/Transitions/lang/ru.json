@@ -16,12 +16,12 @@
         "NoDataForAction": "Нет данныз для %s",
         "NoDataForActionDetails": "Не было совершено таких действий %s или они неправильны.",
         "OutgoingTraffic": "Исходящий трафик",
-        "ShareOfAllPageviews": "У этой страницы %s просмотров (%s из просмотров всех страниц)",
+        "ShareOfAllPageviews": "У этой страницы %1$s просмотров (%2$s из просмотров всех страниц)",
         "ToFollowingPages": "на внутренние страницы",
         "ToFollowingPagesInline": "%s на внутренние страницы",
         "ToFollowingSiteSearches": "внутренних поисков по сайту",
         "ToFollowingSiteSearchesInline": "%s внутренних поисков по сайту",
         "XOfAllPageviews": "%s из всех просмотров страницы",
-        "XOutOfYVisits": "%s (из %s)"
+        "XOutOfYVisits": "%1$s (из %2$s)"
     }
 }

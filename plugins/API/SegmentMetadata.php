@@ -101,7 +101,7 @@ class SegmentMetadata
             'category'       => Piwik::translate('General_Visit'),
             'name'           => Piwik::translate('General_Visit') . " ID",
             'segment'        => 'visitId',
-            'acceptedValues' => 'Any integer. ',
+            'acceptedValues' => 'Any integer.',
             'sqlSegment'     => 'log_visit.idvisit',
             'permission'     => $isAuthenticatedWithViewAccess,
         );

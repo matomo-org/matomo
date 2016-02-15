@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Numele furnizorului '%s' necunoscut. Încercați oricare dintre următoarele: %s.",
+        "Exception_UnknownProvider": "Numele furnizorului '%1$s' necunoscut. Încercați oricare dintre următoarele: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Poţi adîuga mai multe numele de telefon accesând",
         "MobileReport_MobileMessagingSettingsLink": "Pagina setări mesage mobile",
         "MobileReport_NoPhoneNumbers": "Vă rugăm să activați cel puțin un număr de telefon accesand",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "Operator SMS",
         "Settings_SuperAdmin": "Setările utilizatorului privilegiat",
         "Settings_SuspiciousPhoneNumber": "Dacă nu primiți un mesaj text, puteți încerca fără primul zero. de exemplu. %s.",
-        "Settings_UpdateOrDeleteAccount": "Puteți, de asemenea %sactualiza%s sau %ssterge%s acest cont.",
+        "Settings_UpdateOrDeleteAccount": "Puteți, de asemenea %1$sactualiza%2$s sau %3$ssterge%4$s acest cont.",
         "Settings_ValidatePhoneNumber": "Verifică",
         "Settings_VerificationCodeJustSent": "Tocmai am trimis un SMS la acest număr cu un cod: Va rugam introduceti codul de mai sus și faceți clic pe \"Validare\".",
         "SettingsMenu": "Mesagerie mobil",
         "SMS_Content_Too_Long": "[prea lung]",
         "TopLinkTooltip": "Web Analytics Rapoarte livrate pe email-ul sau telefonul mobil!",
         "TopMenu": "Email & SMS Rapoarte",
-        "VerificationText": "Codul este de %s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Piwik vă rugăm să copiați acest cod în formă accesibilă prin intermediul Piwik > %s > %s."
+        "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Piwik vă rugăm să copiați acest cod în formă accesibilă prin intermediul Piwik > %2$s > %3$s."
     }
 }

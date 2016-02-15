@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Provider name '%s' unknown. Try any of the following instead: %s.",
+        "Exception_UnknownProvider": "Provider name '%1$s' unknown. Try any of the following instead: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "You can add more phone numbers by accessing",
         "MobileReport_MobileMessagingSettingsLink": "the Mobile Messaging settings page",
         "MobileReport_NoPhoneNumbers": "Please activate at least one phone number by accessing",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS Provider",
         "Settings_SuperAdmin": "Super User Settings",
         "Settings_SuspiciousPhoneNumber": "If you don't receive the text message, you may try without the leading zero. ie. %s",
-        "Settings_UpdateOrDeleteAccount": "You can also %supdate%s or %sdelete%s this account.",
+        "Settings_UpdateOrDeleteAccount": "You can also %1$supdate%2$s or %3$sdelete%4$s this account.",
         "Settings_ValidatePhoneNumber": "Validate",
         "Settings_VerificationCodeJustSent": "We just sent a SMS to this number with a code: please enter this code above and click \"Validate\".",
         "SettingsMenu": "Mobile Messaging",
         "SMS_Content_Too_Long": "[too long]",
         "TopLinkTooltip": "Get Web Analytics Reports delivered to your email inbox or your mobile phone.",
         "TopMenu": "Email & SMS Reports",
-        "VerificationText": "Code is %s. To validate your phone number and receive Piwik SMS reports please copy this code in the form accessible via Piwik > %s > %s."
+        "VerificationText": "Code is %1$s. To validate your phone number and receive Piwik SMS reports please copy this code in the form accessible via Piwik > %2$s > %3$s."
     }
 }

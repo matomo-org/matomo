@@ -3,7 +3,7 @@
         "AbandonedCart": "Keranjang Terabaikan",
         "AddGoal": "Tambah Tujuan",
         "AddNewGoal": "Tambah Tujuan baru",
-        "AddNewGoalOrEditExistingGoal": "%sTambah Tujuan baru%s atau %sSunting%s Tujuan saat ini",
+        "AddNewGoalOrEditExistingGoal": "%1$sTambah Tujuan baru%2$s atau %3$sSunting%4$s Tujuan saat ini",
         "AllowGoalConvertedMoreThanOncePerVisit": "Perbolehkan Tujuan dikonversi lebih dari sekali tiap kunjungan",
         "AllowMultipleConversionsPerVisit": "Perbolehkan banyak konversi tiap kunjungan",
         "BestCountries": "Konversi terbaik untuk negara Anda adalah:",
@@ -26,7 +26,7 @@
         "ColumnVisits": "Jumlah kunjungan, terlepas dari apakah tujuan telah dipicu atau tidak.",
         "ColumnVisitsProductDocumentation": "Jumlah kunjungan halaman Produk\/Kategori. Ini juga digunakan untuk mengolah tingkat konversi %s. Matrik ini juga berada di laporan bila tampilan pelacakan Niaga-E diatur dalam halaman Produk\/Kategori.",
         "Contains": "mengandung %s",
-        "ConversionByTypeReportDocumentation": "Laporan ini menyediakan laporan terperinci tentang kinerja tujuan (konversi, ringkat konversi, dan pendapatan tiap kunjungan) untuk setiap kategori yang tersedia di panel kiri. %s Silakan klik salah satu kategori untuk melihat laporan. %s Informasi selengkapnya, silakan melihat %s dokumentasi Pelacakan Tujuan di piwik.org%s",
+        "ConversionByTypeReportDocumentation": "Laporan ini menyediakan laporan terperinci tentang kinerja tujuan (konversi, ringkat konversi, dan pendapatan tiap kunjungan) untuk setiap kategori yang tersedia di panel kiri. %1$s Silakan klik salah satu kategori untuk melihat laporan. %2$s Informasi selengkapnya, silakan melihat %3$s dokumentasi Pelacakan Tujuan di piwik.org%4$s",
         "ConversionRate": "%s tingkat konversi",
         "Conversions": "%s konversi",
         "ConversionsOverview": "Iktisar Konversi",
@@ -44,7 +44,7 @@
         "EcommerceOrder": "Permintaan Niaga-E",
         "EcommerceOverview": "Iktisar Niaga-E",
         "EcommerceReports": "Laporan Niaga-E",
-        "ExceptionInvalidMatchingString": "Bila Anda memilih 'persis sesuai', pencocokan huruf harus URL yang dimulai dengan %s. Misalnya, '%s'.",
+        "ExceptionInvalidMatchingString": "Bila Anda memilih 'persis sesuai', pencocokan huruf harus URL yang dimulai dengan %1$s. Misalnya, '%2$s'.",
         "ExternalWebsiteUrl": "URL situs luar",
         "Filename": "nama berkas",
         "GoalConversion": "Konversi Tujuan",
@@ -84,7 +84,7 @@
         "VisitUrl": "Kunjungi URL yang diberikan (halaman atau kelompok halaman)",
         "WhenVisitors": "ketika pengunjung",
         "WhereThe": "di mana",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "di mana halaman yang dikunjungi mengandung panggilan ke metode JavaScript piwikTracker.trackGoal() (%spelajari selengkapnya%s)",
-        "YouCanEnableEcommerceReports": "Anda dapat mengaktifkan %s untuk situs ini dalam halaman %s."
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "di mana halaman yang dikunjungi mengandung panggilan ke metode JavaScript 'trackGoal' (%1$spelajari selengkapnya%2$s)",
+        "YouCanEnableEcommerceReports": "Anda dapat mengaktifkan %1$s untuk situs ini dalam halaman %2$s."
     }
 }

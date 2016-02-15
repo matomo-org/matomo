@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Media bazata pe %s hit(uri) %s intre %s si %s",
+        "AvgGenerationTimeTooltip": "Media bazata pe %1$s hit(uri) %2$s intre %3$s si %4$s",
         "ColumnClickedURL": "URL-uri accesate",
         "ColumnClicks": "Click-uri",
         "ColumnClicksDocumentation": "Numărul de ori link-ul a fost click-uit.",
@@ -37,7 +37,7 @@
         "OutlinkDocumentation": "Un outlink este un link ce trimite vizitatori de pe website-ul tău (către alt domeniu).",
         "OutlinksReportDocumentation": "Acest raport arată o listă ierarhică al URL-urilor outlink-urilor ce au fost click-uite de vizitatorii tăi.",
         "PagesReportDocumentation": "Acest raport conţine informaţii despre URL-urile paginilor ce au fost vizitate. %s Acest tabel este organizat ierarhic,URL-urile sunt afişate într-o structură tip arbore.",
-        "PageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor ce au fost vizitate. %s Titlul paginii este Tag-ul HTML %s afişat de cele mai multe browsere ca nume al ferestrei.",
+        "PageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor ce au fost vizitate. %1$s Titlul paginii este Tag-ul HTML %2$s afişat de cele mai multe browsere ca nume al ferestrei.",
         "PageUrls": "URL-uri pagini",
         "SiteSearchCategories1": "Acest raport afiseaza Categoriile pe care vizitatorii le-au selectat cand au efectuat o Cautare pe siteul tau.",
         "SiteSearchCategories2": "De exemplu, magazinele online de obicei au o optiune de a selecta o anumita \"Categorie\" dintr-o lista, pentru ca vizitatorii sa restrictioneze cautarile pe site doar la produsele aflate intr-o anumita Categorie.",

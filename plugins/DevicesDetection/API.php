@@ -96,6 +96,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable('DevicesDetection_brands', $idSite, $period, $date, $segment);
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceBrandLabel'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrandLogo'));
+        $dataTable->filter('AddSegmentByLabel', array('deviceBrand'));
         return $dataTable;
     }
 

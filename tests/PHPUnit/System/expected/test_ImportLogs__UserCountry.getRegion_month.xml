@@ -17,7 +17,7 @@
 		<nb_conversions>27</nb_conversions>
 		<revenue>135</revenue>
 		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
 		<region>xx</region>
 		<country>xx</country>
@@ -48,6 +48,31 @@
 		<country>us</country>
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
+		<logo>plugins/UserCountry/images/flags/us.png</logo>
+	</row>
+	<row>
+		<label>New Jersey, United States</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>regionCode==NJ;countryCode==us</segment>
+		<region>NJ</region>
+		<country>us</country>
+		<country_name>United States</country_name>
+		<region_name>New Jersey</region_name>
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 	</row>
 	<row>
