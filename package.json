@@ -1,8 +1,8 @@
 {
     "name": "Piwik",
     "version": "2.16.0",
-    "description": "Liberating Web Analytics. Star us on Github? +1. Piwik is the leading open alternative to Google Analytics that gives you full control over your data. Piwik lets you easily collect data from websites, apps & the IoT and visualise this data and extract insights. Privacy is built-in. ",
-    "author": "Your Name <you.name@example.org>",
+    "description": "Liberating Web Analytics. Piwik is the leading open alternative to Google Analytics that gives you full control over your data. Piwik lets you easily collect data from websites, apps & the IoT and visualise this data and extract insights. Privacy is built-in. ",
+    "author": "http://piwik.org/",
     "bugs": {
         "url": "https://github.com/piwik/piwik/issues"
     },
