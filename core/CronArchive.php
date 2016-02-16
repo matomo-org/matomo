@@ -848,10 +848,9 @@ class CronArchive
 
 	/**
 	 * @param $idSite
-	 * @param $period
 	 * @return array
 	 */
-    private function getSegmentsForSite($idSite, $period)
+    private function getSegmentsForSite($idSite)
     {
         $segmentsAllSites = $this->segments;
         $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
@@ -1637,7 +1636,7 @@ class CronArchive
     private function getUrlsWithSegment($idSite, $period, $date)
     {
         $urlsWithSegment = array();
-        $segmentsForSite = $this->getSegmentsForSite($idSite, $period);
+        $segmentsForSite = $this->getSegmentsForSite($idSite);
 
         $segments = array();
         foreach ($segmentsForSite as $segment) {
