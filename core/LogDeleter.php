@@ -84,6 +84,9 @@ class LogDeleter
 
         if (!empty($startDatetime)) {
             $conditions[] = array('visit_last_action_time', '>=', $startDatetime);
+
+            // we do not delete visits overlapping two days
+            $conditions[] = array('visit_first_action_time', '>=', $startDatetime);
         }
 
         if (!empty($endDatetime)) {
