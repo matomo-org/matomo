@@ -713,15 +713,15 @@ class CronArchive
         return $success;
     }
 
-	/**
-	 * Returns base URL to process reports for the $idSite on a given $period
-	 *
-	 * @param string $idSite
-	 * @param string $period
-	 * @param string $date
-	 * @param bool|false $segment
-	 * @return string
-	 */
+    /**
+     * Returns base URL to process reports for the $idSite on a given $period
+     *
+     * @param string $idSite
+     * @param string $period
+     * @param string $date
+     * @param bool|false $segment
+     * @return string
+     */
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
         $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
@@ -846,10 +846,10 @@ class CronArchive
         return true;
     }
 
-	/**
-	 * @param $idSite
-	 * @return array
-	 */
+    /**
+     * @param $idSite
+     * @return array
+     */
     private function getSegmentsForSite($idSite)
     {
         $segmentsAllSites = $this->segments;
