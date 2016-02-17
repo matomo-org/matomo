@@ -1714,6 +1714,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function mergeSubtables($labelColumn = false, $useMetadataColumn = false)
     {
         $result = new DataTable();
+        $result->setAllTableMetadata($this->getAllTableMetadata());
         foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
             if ($subtable !== false) {

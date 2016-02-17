@@ -30,3 +30,4 @@ third-party libraries:
    - ZF-10871 - undefined variables when socket support disabled
    - fix #6980 ("Array to string conversion") in `Zend/Session/Exception.php`
    - fix Zend/Validate using deprecated iconv_set_encoding()
+   - Make sure sessions work when storing notifications
