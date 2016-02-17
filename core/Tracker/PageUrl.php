@@ -30,7 +30,7 @@ class PageUrl
 
     protected static $queryParametersToExclude = array('gclid', 'fb_xd_fragment', 'fb_comment_id',
                                                        'phpsessid', 'jsessionid', 'sessionid', 'aspsessionid',
-                                                       'doing_wp_cron');
+                                                       'doing_wp_cron', 'sid');
 
     /**
      * Given the Input URL, will exclude all query parameters set for this site
