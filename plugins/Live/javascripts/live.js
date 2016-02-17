@@ -245,7 +245,7 @@ $(function() {
                 var visitorsCountMessage = translations['one_visitor'];
             }
             else {
-                var visitorsCountMessage = translations['visitors'].replace('%s', visitors);
+                var visitorsCountMessage = sprintf(translations['visitors'], visitors);
             }
             $('.simple-realtime-visitor-counter', element)
               .attr('title', visitorsCountMessage)
@@ -255,15 +255,15 @@ $(function() {
             var metrics = $('.simple-realtime-metric', element);
 
             var visitsText = data['visits'] == 1
-              ? translations['one_visit'] : translations['visits'].replace('%s', data['visits']);
+              ? translations['one_visit'] : sprintf(translations['visits'], data['visits']);
             $(metrics[0]).text(visitsText);
 
             var actionsText = data['actions'] == 1
-              ? translations['one_action'] : translations['actions'].replace('%s', data['actions']);
+              ? translations['one_action'] : sprintf(translations['actions'], data['actions']);
             $(metrics[1]).text(actionsText);
 
             var lastMinutesText = lastMinutes == 1
-              ? translations['one_minute'] : translations['minutes'].replace('%s', lastMinutes);
+              ? translations['one_minute'] : sprintf(translations['minutes'], lastMinutes);
             $(metrics[2]).text(lastMinutesText);
 
             scheduleAnotherRequest();
