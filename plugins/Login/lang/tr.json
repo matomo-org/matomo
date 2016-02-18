@@ -2,6 +2,8 @@
     "Login": {
         "ConfirmationLinkSent": "Onaylama bağlantısı gelen kutunuza gönderildi. Şifre değişikliğinı onaylamak için e-posta hesabınızı kontrol edin ve bağlantıyı ziyaret edin.",
         "ContactAdmin": "Olası nedeni: Sunucunuzda mail() fonksiyonunu devre dışı bırakmış olabilir. <br \/>Lütfen Piwik yöneticinizle iletişime geçiniz.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "'%s' mekanizması kullanılarak bir süper kullanıcı girişi yetkilendirilemez.",
+        "ExceptionPasswordMD5HashExpected": "Bu şifre parametresi şifrenin MD5 ile hashlenmiş halini beklemektedir.",
         "InvalidOrExpiredToken": "Güvenlik kodu yanlış yada süresi dolmuş.",
         "InvalidUsernameEmail": "Geçersiz kullanıcı adı ve\/veya e-posta adresi",
         "LogIn": "Oturum aç",

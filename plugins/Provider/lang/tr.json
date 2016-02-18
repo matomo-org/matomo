@@ -1,6 +1,9 @@
 {
     "Provider": {
         "ColumnProvider": "Sağlayıcı",
-        "WidgetProviders": "Sağlayıcılar"
+        "PluginDescription": "Ziyaretçilerin İnternet Servis Sağlayıcılarını raporla",
+        "ProviderReportDocumentation": "Bu rapor ziyaretçilerinin internete ulaşmakta hangi internet servis sağlayıcısının kullandığını gösterir. Daha detaylı bilgi almak için sağlayıcı ismine tıklayabilrsin. Eğer Piwik ziyaretçi servis sağlayıcısını bulamazsa IP olarak listeler %s.",
+        "WidgetProviders": "Sağlayıcılar",
+        "ProviderReportFooter": "Bilinmeyen sağlayıcı demek IP adresi bulunamamış demektir"
     }
 }

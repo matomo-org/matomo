@@ -21,6 +21,7 @@
         "InjectedHostWarningIntro": "Şu anda Piwik'e %1$s 'den giriş yapıyorsunuz ama Piwik şu adreste çalışması için ayarlandı: %2$s.",
         "MakeADifference": "Farklılık yarat: Piwik 2.0'ı finanse etmek için şimdi %1$s bağışla %2$s",
         "MakeOneTimeDonation": "Onun yerine bir defalık bağış yapın",
+        "Menu": "Menü",
         "OnlyForSuperUserAccess": "Bu widget sadece Super User seviyesinde olan kullanıcılara görüntülenir.",
         "PageOf": "%1$s nin %2$s",
         "PeriodRange": "Aralık",
@@ -29,12 +30,15 @@
         "SharePiwikShort": "Piwik! Ücretsiz web takibi ve analizi. Kendi verilerinizle.",
         "ShareThis": "paylaş",
         "ShowJSCode": "Eklenecek JavaScript kodu göster",
+        "SkipToContent": "İçeriği atla",
         "SubscribeAndBecomePiwikSupporter": "Piwik Destekçisi olmak için güvenli bir kredi kartı ödeme sayfasına (Paypal) geçin!",
         "SupportPiwik": "Piwike destek ol",
         "TableNoData": "Bu tablo için bir veri yok.",
         "ThereIsNoDataForThisReport": "Bu rapor için veri yok.",
         "ViewAllPiwikVideoTutorials": "Tüm Piwik Yardım Videolarına Bak",
         "WebAnalyticsReports": "Web Analiz Raporları",
-        "YouAreUsingTheLatestVersion": "Piwik'in son versiyonunu kullanıyorsunuz!"
+        "YouAreUsingTheLatestVersion": "Piwik'in son versiyonunu kullanıyorsunuz!",
+        "Segments": "Bölümler",
+        "ChangeCurrentWebsite": "Bir websitesi seç, mevcut seçilen site: %s"
     }
 }

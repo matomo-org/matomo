@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Shtoni një strehë të re të besuar",
         "Administration": "Administrim",
         "BrandingSettings": "Rregullime marke",
         "ClickHereToOptIn": "Klikoni këtu për të kryer \"opt in\"",
@@ -7,13 +8,14 @@
         "CustomLogoFeedbackInfo": "Nëse e përshtatni logon e Piwik-ut, mund t’ju interesonte edhe fshehja lidhjes %1$s te menuja në krye. Për ta bërë këtë, mund të çaktivizoni shtojcën e Përshtypjeve te faqja e %2$sAdministrimit të Shtojcëve%3$s.",
         "CustomLogoHelpText": "Logon e Piwik-ut, që do të shfaqet në ndërfaqen e përdoruesit dhe raportet email.",
         "EmailServerSettings": "Rregullime shërbyesi email",
+        "ForBetaTestersOnly": "Vetëm për testues beta",
         "LogoUpload": "Përzgjidhni një Logo për ta ngarkuar",
         "MenuDiagnostic": "Diagnostikim",
         "MenuGeneralSettings": "Rregullime të përgjithshme",
         "MenuManage": "Administroni",
-        "OptOutComplete": "\"Opt-out\" u plotësua; vizitat tuaja në këtë \"site\" web nuk do të regjistrohen nga mjeti Analiza Web.",
-        "OptOutCompleteBis": "Mbani parasysh që nëse i hiqni \"cookie\"-t tuaja, fshini \"cookie\"-in për \"opt-out\", ose ndërroni kompjuter apo shfletues Web, do t'ju duhet të kryeni sërish procedurën për \"opt-out\".",
-        "OptOutExplanation": "Piwik-u është i përkushtuar ndaj mundësimit të vetësisë në Internet. Për t'u dhënë mundësinë e zgjedhjes së \"opt-out\" te Analizat Web Piwik, mund të shtoni kodin HTML vijues te një nga faqet e site-it tuaj web, për shembull te faqja e Rregullave të Vetësisë.",
+        "OptOutComplete": "\"Opt-out\" u plotësua; vizitat tuaja në këtë sajt s’do të regjistrohen nga mjeti Analiza Web.",
+        "OptOutCompleteBis": "Mbani parasysh që nëse i hiqni cookie-t tuaja, fshini cookie-in për \"opt-out\", ose ndërroni kompjuter apo shfletues Web, do t’ju duhet të kryeni sërish procedurën për \"opt-out\".",
+        "OptOutExplanation": "Piwik-u është i përkushtuar ndaj mundësimit të privatësisë në Internet. Për t’u dhënë mundësinë e zgjedhjes së \"opt-out\" te Analizat Web Piwik, mund të shtoni kodin HTML vijues te një nga faqet e sajtit tuaj, për shembull te faqja e Rregullave të Privatësisë.",
         "OptOutExplanationBis": "Ky kod do të shfaqë një Iframe që përmban një lidhje me të cilën vizitorët të mund të zgjedhin \"opt-out\" për Piwik-un, duke depozituar një \"opt-out cookie\" në shfletuesin e tyre. %1$s Klikoni këtu%2$s që të shihni lëndën që do të shfaqet nga iFrame-i.",
         "OptOutForYourVisitors": "\"Opt-out\" i Piwik-ut për vizitorët tuaj",
         "PiwikIsInstalledAt": "Piwik-u është instaluar te",
@@ -23,7 +25,7 @@
         "ValidPiwikHostname": "Strehëemër e Vlefshme Piwik",
         "YouAreOptedIn": "Tani jeni nën \"opt-in\"",
         "YouAreOptedOut": "Tani jeni nën \"opt-out\"",
-        "YouMayOptOut": "Mundet edhe të zgjidhni të mos ju përshoqërohet një numër unik identifikimi \"cookie\" analizash web për kompjuterin tuaj, për të shmangur mbledhjen dhe analizimin e të dhënave të mbledhura në këtë \"site\" web.",
+        "YouMayOptOut": "Mundet edhe të zgjidhni të mos ju përshoqërohet një numër unik identifikimi \"cookie\" analizash web për kompjuterin tuaj, për të shmangur mbledhjen dhe analizimin e të dhënave të mbledhura në këtë sajt.",
         "YouMayOptOutBis": "Për ta bërë këtë zgjedhje, ju lutem klikoni më poshtë që të merrni një \"cookie\" \"opt-out\"."
     }
 }
