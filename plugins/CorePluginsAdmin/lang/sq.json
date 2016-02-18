@@ -1,9 +1,14 @@
 {
     "CorePluginsAdmin": {
+        "ActionActivatePlugin": "Aktivizoje shtojcën",
+        "ActionActivateTheme": "Aktivizojeni temën",
+        "ActionUninstall": "Çinstalojeni",
         "Activate": "Aktivizoje",
         "Activated": "E aktivizuar",
         "Active": "Vepruese",
+        "Activity": "Veprimtari",
         "AuthorHomepage": "Faqja Hyrëse e Autorit",
+        "Authors": "Autorë",
         "Deactivate": "Çaktivizoje",
         "Inactive": "Jovepruese",
         "LicenseHomepage": "Faqja Hyrëse e Lejes",
@@ -16,6 +21,6 @@
         "Status": "Gjendje",
         "Support": "Asistencë",
         "Version": "Version",
-        "Websites": "\"Site\"-e web"
+        "Websites": "Sajte"
     }
 }

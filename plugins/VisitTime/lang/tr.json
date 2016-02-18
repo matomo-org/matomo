@@ -6,7 +6,9 @@
         "LocalTime": "Yerel saat başına ziyaretler",
         "NHour": "%sh",
         "ServerTime": "yerel sunucu başına ziyaretler",
+        "SubmenuTimes": "Zamanlar",
         "VisitsByDayOfWeek": "Haftanın günlerine göre Ziyaretler",
+        "WidgetByDayOfWeekDocumentation": "Bu grafik sitenizin haftanın her günü için aldığı ziyaret sayılarını gösterir",
         "WidgetLocalTime": "Yerel saate göre Ziyaretler",
         "WidgetServerTime": "Sunucu saatine göre Ziyaretler"
     }

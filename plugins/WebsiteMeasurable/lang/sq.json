@@ -1,6 +1,7 @@
 {
     "WebsiteMeasurable": {
         "Website": "Sajt",
-        "Websites": "Sajte"
+        "Websites": "Sajte",
+        "WebsiteDescription": "Një sajt përbëhet prej faqesh web që zakonisht shërbehen prej një përkatësie të caktuar web."
     }
 }

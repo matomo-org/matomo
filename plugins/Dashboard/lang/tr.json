@@ -7,6 +7,7 @@
         "CreateNewDashboard": "Yeni panel ekle",
         "Dashboard": "Pano",
         "DashboardCopied": "Panel başarılı şekilde seçilen kullanıcı için kopyalandı",
+        "DashboardEmptyNotification": "Kontrol Panelin hiçbir widget içermiyor. Widget ekleyerek veya kontrol panelini resetleyerek varsayılan widget seçimi ile başlayabilirsin.",
         "DashboardName": "Panel adı:",
         "DashboardOf": "Kontrol paneli %s",
         "DefaultDashboard": "Varsayılan panel - Varsayılan widget seçimleri ve sütunları kullanın",
@@ -25,6 +26,9 @@
         "ResetDashboardConfirm": "Kontrol paneli şablonunuzu varsayılan widget seçimlerine sıfırlamak istediğinizden emin misiniz?",
         "SelectDashboardLayout": "Lütfen yeni panel düzenini seçiniz.",
         "SelectWidget": "Panoya eklemek için bileşen seçiniz.",
+        "SetAsDefaultWidgets": "Varsayılan widget seçimi olarak ata",
+        "SetAsDefaultWidgetsConfirm": "Mevcut widget seçimini ve kontrol paneli düzenini varsayılan kontrol paneli teması olarak atamak istediğinizden emin misiniz?",
+        "TopLinkTooltip": "%s için Web Analatik raporunu görüntüle.",
         "WidgetNotFound": "Bileşen bulunamadı",
         "WidgetPreview": "Bileşen görünümü"
     }
