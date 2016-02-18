@@ -28,6 +28,7 @@ describe("Transitions", function () {
         expect.screenshot('transitions_popup_urls').to.be.captureSelector('.ui-dialog', function (page) {
             page.load("?" + urlBase + "#/" + generalParams + "&module=Actions&action=menuGetPageUrls&"
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
+            page.mouseMove('.Transitions_CurveTextRight');
         }, done);
     });
 });

@@ -268,7 +268,7 @@ Piwik_Transitions.prototype.preparePopover = function () {
                 var share = NumberFormatter.formatPercent(Math.round(self.model.pageviews / totalNbPageviews * 1000) / 10);
 
                 var text = Piwik_Transitions_Translations.ShareOfAllPageviews;
-                text = text.replace(/%s/, NumberFormatter.formatNumber(self.model.pageviews)).replace(/%s/, share);
+                text = sprintf(text, NumberFormatter.formatNumber(self.model.pageviews), share);
                 text += '<br /><em>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</em>';
 
                 var title = '<h3>' + piwikHelper.addBreakpointsToUrl(self.actionName) + '</h3>';
@@ -419,7 +419,7 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
 Piwik_Transitions.prototype.addTooltipShowingPercentageOfAllPageviews = function(element, metric) {
     var tip = Piwik_Transitions_Translations.XOfAllPageviews;
     var percentage = this.model.getPercentage(metric, true);
-    tip = tip.replace(/%s/, '<strong>' + percentage + '</strong>');
+    tip = sprintf(tip, '<strong>' + percentage + '</strong>');
 
     element.tooltip({
         track: true,
@@ -572,7 +572,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
         }
 
         var tooltip = Piwik_Transitions_Translations.XOfY;
-        tooltip = '<strong>' + tooltip.replace(/%s/, data.referrals + '</strong>').replace(/%s/, nbTransitions);
+        tooltip = '<strong>' + sprintf(tooltip, data.referrals, nbTransitions) + '</strong>';
         tooltip = this.model.getShareInGroupTooltip(tooltip, groupName);
 
         var fullLabel = label;
@@ -1403,7 +1403,7 @@ Piwik_Transitions_Model.prototype.getGroupTitle = function (groupName) {
 
 Piwik_Transitions_Model.prototype.getShareInGroupTooltip = function (share, groupName) {
     var tip = this.shareInGroupTexts[groupName];
-    return tip.replace(/%s/, share);
+    return sprintf(tip, share);
 };
 
 Piwik_Transitions_Model.prototype.getDetailsForGroup = function (groupName) {
@@ -1500,10 +1500,10 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                     if (typeof params.actionName != 'undefined') {
                         var url = params.actionName;
                         url = piwikHelper.addBreakpointsToUrl(url);
-                        errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
+                        errorTitle = sprintf(errorTitle, '<span>' + url + '</span>');
                     }
 
-                    errorMessage = errorMessage.replace(/%s/g, '<br />');
+                    errorMessage = sprintf(errorMessage, '<br />');
                     Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
                 };
 
