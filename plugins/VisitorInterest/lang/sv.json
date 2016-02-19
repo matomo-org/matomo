@@ -7,6 +7,7 @@
         "Engagement": "Engagemang",
         "NPages": "%s sidor",
         "OnePage": "1 sida",
+        "PluginDescription": "Rapporter för besöksbeteenden: antalet sidvisningar, tid på webbplatsen, dagar sedan senaste besök, och mycket mer.",
         "VisitNum": "Besöksnummer",
         "VisitsByDaysSinceLast": "Besök efter dagar sedan senaste besöket",
         "visitsByVisitCount": "Besök efter besöksnummer",

@@ -19,6 +19,7 @@
         "Unlocated": "<b>%s<\/b> %p av besöken från %c kunde inte geolokaliseras.",
         "VisitorMap": "Besökskarta",
         "WorldWide": "Hela världen",
+        "WithUnknownRegion": "%s med okänd region",
         "WithUnknownCity": "%s med okänd stad"
     }
 }
