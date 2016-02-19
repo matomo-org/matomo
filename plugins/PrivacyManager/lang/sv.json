@@ -51,6 +51,7 @@
         "PurgeNow": "Rensa databasen nu",
         "PurgeNowConfirm": "Du är på väg att permanent radera data från din databas. Är du säker på att du vill fortsätta?",
         "PurgingData": "Rensar data...",
+        "RecommendedForPrivacy": "Rekommenderas för sekretess",
         "ReportsDataSavedEstimate": "Databasstorlek",
         "SaveSettingsBeforePurge": "Du har ändrat inställningarna för radering av loggdata. Spara dem innan du startar en utrensning.",
         "SeeAlsoOurOfficialGuidePrivacy": "Se också vår allmänna guide: %1$sWeb Analytics Privacy%2$s",
