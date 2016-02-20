@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "Detta plugin framställer och visar SEO-värden: Alexa webbranking , Google Pagerank , antalet indexerade sidor och länkar för den valda webbplatsen.",
         "AlexaRank": "Alexa Rank",
         "Bing_IndexedPages": "Bing indexerade sidor",
         "Dmoz": "DMOZ poster",

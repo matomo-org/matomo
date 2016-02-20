@@ -1,0 +1,14 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s kthime",
+        "ErrorBack": "Kthehu te veprimi i mëparshëm",
+        "ExitsInline": "%s largime",
+        "FromCampaigns": "Prej Fushatash",
+        "FromPreviousPages": "Prej Faqesh të Brendshme",
+        "FromPreviousPagesInline": "%s prej faqesh të brendshme",
+        "FromPreviousSiteSearches": "Prej Kërkimesh të Brendshme",
+        "FromSearchEngines": "Prej Motorë Kërkimesh",
+        "FromWebsites": "Prej Sajtesh",
+        "IncomingTraffic": "Trafik ardhës"
+    }
+}

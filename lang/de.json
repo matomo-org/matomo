@@ -230,6 +230,7 @@
         "Name": "Name",
         "NbActions": "Anzahl der Aktionen",
         "NbSearches": "Anzahl der internen Suchen",
+        "NeedMoreHelp": "Benötigen Sie weitere Hilfe?",
         "Never": "Niemals",
         "NewReportsWillBeProcessedByCron": "Wenn der Archivierungsprozess nicht vom Browser ausgelöst wird, werden neue Berichte vom Cronjob erzeugt.",
         "NewUpdatePiwikX": "Neue Version: Piwik %s",

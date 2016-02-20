@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Ortalama %1$s hit, %2$s arasında %3$s \/ %4$s 'e dayalı",
         "ColumnClickedURL": "Tıklanan Sayfa Adresleri",
+        "ColumnActionURL": "Aksiyon Adresi",
         "ColumnClicks": "Tıklamalar",
         "ColumnClicksDocumentation": "Tıklama sayısı",
         "ColumnDownloadURL": "İndirme Sayfa Adresleri",
@@ -39,6 +40,7 @@
         "PagesReportDocumentation": "Bu rapor ziyaret edilen sayfa URL'leri hakkında bilgi içerir. %s Tablo hiyerarşik olarak düzenlenmiştir, URL'ler klasör yapısı ile görüntülenmektedir.",
         "PageTitlesReportDocumentation": "Bu rapor ziyaret edilen sayfaların başlıkları ile ilgili bilgi içerir. %1$s Sayfa başlığı, birçok tarayıcının pencere başlığında gösterdiği HTML %2$s imidir.",
         "PageUrls": "Sayfa Adresleri",
+        "PluginDescription": "Sayfa ziyaretleri ve sayfa başlıkları hakkında Raporlar. Kendi iç websitenin arama motorunu ölçmeye başla. Otomatik olarak harici linkleri ve dosya indirmeleri takip eder.",
         "SiteSearchCategories1": "Bu rapor, ziyaretçilerin sitenizde arama yaptıklarında seçtikleri kategorileri listelemektedir.",
         "SiteSearchCategories2": "Örnek olarak, E-Ticaret websitelerinde tipik bir \"Kategori\" seçimi vardır böylece ziyaretçiler aramalarını belirli bir kategori içindeki tüm ürünler ile kısıtlayabilirler.",
         "SiteSearchFollowingPagesDoc": "Ziyaretçileriniz web sitenizde arama yaptığında belirli bir sayfa, içerik, ürün ya da hizmete bakarlar. Bu rapor, web siteniz içinde yapılan bir aramadan sonra en çok tıklanan sayfalarınızı listeler. Diğer bir deyişle, web sitenizdeki mevcut ziyaretçilerinizin en çok aradığı sayfaları gösterir.",
@@ -58,6 +60,7 @@
         "WidgetPageUrlsFollowingSearch": "Site Aramasını Takip eden Sayfalar",
         "WidgetSearchCategories": "Arama Kategorileri",
         "WidgetSearchKeywords": "Arama Kelimeleri",
-        "WidgetSearchNoResultKeywords": "Sonuç dönmeyen Arama Kelimeleri"
+        "WidgetSearchNoResultKeywords": "Sonuç dönmeyen Arama Kelimeleri",
+        "ActionType": "Aksiyon Tipi"
     }
 }

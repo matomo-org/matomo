@@ -1,5 +1,8 @@
 {
     "UserCountry": {
+        "AssumingNonApache": "S’gjendet dot funksioni find apache_get_modules function, po merret i mirëqenë si shërbyes non-Apache.",
+        "City": "Qytet",
+        "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",
         "Country": "Vend",
         "country_a1": "Ndërmjetës Anonim",

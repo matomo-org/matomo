@@ -35,6 +35,8 @@
         "ExceptionNoValueForUsernameOrEmail": "Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.",
         "ExcludeVisitsViaCookie": "Ihre Besuche von der Erfassung via Cookie ausschließen",
         "ForAnonymousUsersReportDateToLoadByDefault": "Bericht, der für Gast-Besucher (\"anonymous\") standardmäßig geladen wird",
+        "GiveViewAccessTitle": "Einem bestehenden Benutzer die Berechtigung geben Berichte für %s zu sehen",
+        "GiveViewAccessInstructions": "Um einem bestehenden Benutzer Lese-Berechtigung für %s zu geben, geben Sie dessen Benutzername oder E-Mail-Adresse ein.",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Wenn Sie Ihr Passwort ändern möchten, geben Sie ein neues ein. Ansonsten lassen Sie dieses Feld frei.",
         "InjectedHostCannotChangePwd": "Ihr Besuch erfolgt aktuell durch einen unbekannten Hostnamen (%1$s). Es ist somit nicht möglich Ihr Kennwort zu ändert bis dieser Umstand behoben ist.",
         "LastSeen": "Zuletzt gesehen",
