@@ -17,7 +17,7 @@
         "SaveAndApply": "Save & Apply",
         "SegmentDisplayedAllWebsites": "all websites",
         "SegmentDisplayedThisWebsiteOnly": "this website only",
-        "SegmentIsDisplayedForWebsite": "and displayed for",
+        "SegmentIsDisplayedForWebsite": "and processed for",
         "SegmentNotApplied": "Segment '%s' not applied",
         "SegmentNotAppliedMessage": "You are requesting data for the Custom Segment '%s', this Piwik configuration currently prevents real time processing of reports for performance reasons.",
         "SelectSegmentOfVisits": "Select a segment of visits:",

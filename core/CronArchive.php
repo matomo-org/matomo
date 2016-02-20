@@ -1149,19 +1149,23 @@ class CronArchive
 
         $secondsSinceLastArchive = $this->getSecondsSinceLastArchive();
         if ($secondsSinceLastArchive < $secondsSinceMidnight) {
-            $secondsSinceMidnight = $secondsSinceLastArchive;
+            $secondsBackToLookForVisits = $secondsSinceLastArchive;
+            $sinceInfo = "(since the last successful archiving)";
+        } else {
+            $secondsBackToLookForVisits = $secondsSinceMidnight;
+            $sinceInfo = "(since midnight)";
         }
 
-        $from = Date::now()->subSeconds($secondsSinceMidnight)->getDatetime();
+        $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getDatetime();
         $to   = Date::now()->addHour(1)->getDatetime();
 
         $dao = new RawLogDao();
         $hasVisits = $dao->hasSiteVisitsBetweenTimeframe($from, $to, $idSite);
 
         if ($hasVisits) {
-            $this->logger->info("- tracking data found for website id $idSite (between $from and $to)");
+            $this->logger->info("- tracking data found for website id $idSite since $from UTC $sinceInfo");
         } else {
-            $this->logger->info("- no new tracking data for website id $idSite (between $from and $to)");
+            $this->logger->info("- no new tracking data for website id $idSite since $from UTC $sinceInfo");
         }
 
         return $hasVisits;
