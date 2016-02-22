@@ -10,3 +10,7 @@ Please read the recommendations on writing a good [bug report](http://developer.
 ## How to suggest improvements to translations?
 
 You can help improve translations in Piwik, please read [contribute to translations](https://github.com/piwik/piwik/blob/master/lang/README.md).
+
+## How to submit code improvements via pull requests?
+
+You can help contribute to Piwik codebase via Pull Requests, see [Contributing to Piwik core](https://developer.piwik.org/guides/contributing-to-piwik-core)
