@@ -4050,8 +4050,7 @@ if (typeof Piwik !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData) {
-                var now = new Date(),
-                    request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
+                var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
                 sendRequest(request, configTrackerPause);
             }
