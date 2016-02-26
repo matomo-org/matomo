@@ -89,7 +89,7 @@ function showChangeDashboardLayoutDialog() {
 function showEmptyDashboardNotification() {
     piwikHelper.modalConfirm('#dashboardEmptyNotification', {
         resetDashboard: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); },
-        addWidget: function () { $('.dashboardSettings').trigger('click'); }
+        addWidget: function () { $('.dashboardSettings > a').trigger('click'); }
     });
 }
 
