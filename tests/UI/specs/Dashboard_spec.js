@@ -212,6 +212,9 @@ describe("Dashboard", function () {
             page.click('li[data-action=createDashboard]');
             page.sendKeys('#createDashboardName', 'newdash2');
             page.click('.ui-dialog[aria-describedby=createDashboardConfirm] button>span:contains(Yes)');
+            // toggle map widget to prevent failures
+            page.mouseMove('#widgetUserCountryMapvisitorMap .widgetTop', 3000);
+            page.click('#widgetUserCountryMapvisitorMap #minimise');
         }, done);
     });
 
