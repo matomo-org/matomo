@@ -17,7 +17,7 @@
         "SaveAndApply": "Αποθήκευση και εφαρμογή",
         "SegmentDisplayedAllWebsites": "όλους τους ιστοτόπους",
         "SegmentDisplayedThisWebsiteOnly": "μόνο αυτόν τον ιστοτόπο",
-        "SegmentIsDisplayedForWebsite": "και εμφανίζεται για",
+        "SegmentIsDisplayedForWebsite": "και υπέστη επεξεργασία για",
         "SegmentNotApplied": "Το τμήμα '%s' δεν εφαρμόζεται",
         "SegmentNotAppliedMessage": "Ζητάτε δεδομένα για το Προσαρμοσμένο Τμήμα '%s', ωστόσο η τρέχουσα παραμετροποίηση του Piwik εμποδίζει την σε πραγματικό χρόνο επεξεργασία των αναφορών για λόγους απόδοσης.",
         "SelectSegmentOfVisits": "Επιλέξτε ένα τμήμα επισκέψεων:",

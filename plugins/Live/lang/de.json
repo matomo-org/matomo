@@ -35,6 +35,8 @@
         "VisitorsInRealTime": "Besucher in Echtzeit",
         "VisitorsLastVisit": "Der letzte Besuch dieses Besuchers war vor %s Tagen.",
         "VisitsFrom": "%1$s%2$s Besuche%3$s aus",
+        "VisitSummary": "Verbrachte insgesamt %1$s%2$s auf der Website%3$s, und besuchte %4$s Seiten%5$s in %6$s Besuchen%7$s.",
+        "VisitSummaryWithActionDetails": "Verbrachte insgesamt %1$s%2$s auf der Website%3$s und führte %4$s Aktionen%5$s (%6$s) in %7$s Besuchen%8$s aus.",
         "RowActionTooltipDefault": "Zeige Besucher-Log aufgeteilt durch diese Zeile",
         "RowActionTooltipWithDimension": "Zeige Besucher-Log segmentiert durch %s",
         "RowActionTooltipTitle": "Log segmentierter Besucher öffnen",
