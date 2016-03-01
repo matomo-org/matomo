@@ -713,11 +713,14 @@ class API extends \Piwik\Plugin\API
         }
         
         usort($newValues, function($a, $b){
+            
             if($a['count'] < $b['count']){
-                return -1;
-            } elseif($a['count'] > $b['count']){
                 return 1;
+            } elseif($a['count'] > $b['count']){
+                return -1;
             }
+            
+            return 0;
             
             //equal count -> so sort by the label
             return strcmp($a['label'], $b['label']);
