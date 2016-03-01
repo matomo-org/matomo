@@ -125,6 +125,7 @@ class PiwikTest extends IntegrationTestCase
             'aa',
             'aaa',
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            'äÄüÜöÖß',
             'shoot_puck@the-goal.com',
         );
         foreach ($valid as $key => $value) {
