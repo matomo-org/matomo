@@ -704,9 +704,26 @@ class API extends \Piwik\Plugin\API
         // we have a list of all values. let's show the most frequently used first.
         $values = array_count_values($values);
 
-        arsort($values);
-        $values = array_keys($values);
-        return $values;
+        $newValues = [];
+        foreach($values as $label => $count){
+            $newValues[] = [
+                'label' => $label,
+                'count' => $count
+            ];
+        }
+        
+        usort($newValues, function($a, $b){
+            if($a['count'] < $b['count']){
+                return -1;
+            } elseif($a['count'] > $b['count']){
+                return 1;
+            }
+            
+            //equal count -> so sort by the label
+            return strcmp($a['label'], $b['label']);
+        });
+        
+        return array_column($newValues, 'label');
     }
 
     private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
