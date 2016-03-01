@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-    <row>Cvar1 value is 0</row>
+	<row>Cvar1 value is 0</row>
 	<row>Cvar1 value is 1</row>
 	<row>Cvar5 value is 0</row>
 	<row>Cvar5 value is 1</row>

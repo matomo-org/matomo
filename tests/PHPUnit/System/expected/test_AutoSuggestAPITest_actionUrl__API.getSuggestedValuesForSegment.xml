@@ -12,9 +12,9 @@
 	<row>http://example.org/path/file3.zip</row>
 	<row>http://example-outlink.org/4.html</row>
 	<row>http://example-outlink.org/5.html</row>
-    <row>http://example-outlink.org/6.html</row>
-    <row>http://example-outlink.org/7.html</row>
-    <row>http://example-outlink.org/8.html</row>
+	<row>http://example-outlink.org/6.html</row>
+	<row>http://example-outlink.org/7.html</row>
+	<row>http://example-outlink.org/8.html</row>
 	<row>http://example.org/path/file4.zip</row>
 	<row>http://example.org/path/file5.zip</row>
 	<row>http://example.org/path/file6.zip</row>

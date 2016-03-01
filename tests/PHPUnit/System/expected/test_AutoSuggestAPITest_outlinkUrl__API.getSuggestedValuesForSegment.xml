@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-    <row>http://example-outlink.org/0.html</row>
+	<row>http://example-outlink.org/0.html</row>
 	<row>http://example-outlink.org/1.html</row>
 	<row>http://example-outlink.org/2.html</row>
 	<row>http://example-outlink.org/3.html</row>
