@@ -7,6 +7,16 @@
 		
 		<actionDetails>
 			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				<pageId>95</pageId>
+				<icon />
+				
+			</row>
+			<row>
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
@@ -15,16 +25,6 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
-				<pageIdAction>2</pageIdAction>
-				
-				<pageId>95</pageId>
-				<icon />
 				
 			</row>
 		</actionDetails>
@@ -173,7 +173,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file8.zip</url>
 				<pageTitle />
-				<pageIdAction>46</pageIdAction>
+				<pageIdAction>47</pageIdAction>
 				
 				<pageId>48</pageId>
 				<timeSpent>180</timeSpent>
@@ -185,7 +185,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/8.html</url>
 				<pageTitle />
-				<pageIdAction>47</pageIdAction>
+				<pageIdAction>48</pageIdAction>
 				
 				<pageId>49</pageId>
 				<timeSpent>180</timeSpent>
@@ -196,7 +196,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
@@ -305,17 +305,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>45</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -333,6 +322,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>45</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -471,7 +471,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file7.zip</url>
 				<pageTitle />
-				<pageIdAction>41</pageIdAction>
+				<pageIdAction>42</pageIdAction>
 				
 				<pageId>42</pageId>
 				<timeSpent>180</timeSpent>
@@ -483,7 +483,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/7.html</url>
 				<pageTitle />
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>43</pageIdAction>
 				
 				<pageId>43</pageId>
 				<timeSpent>180</timeSpent>
@@ -494,7 +494,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
@@ -603,17 +603,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>40</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -631,6 +620,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>40</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -787,7 +787,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file6.zip</url>
 				<pageTitle />
-				<pageIdAction>36</pageIdAction>
+				<pageIdAction>37</pageIdAction>
 				
 				<pageId>37</pageId>
 				<timeSpent>180</timeSpent>
@@ -799,7 +799,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/6.html</url>
 				<pageTitle />
-				<pageIdAction>37</pageIdAction>
+				<pageIdAction>38</pageIdAction>
 				
 				<pageId>38</pageId>
 				<timeSpent>180</timeSpent>
@@ -810,7 +810,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>39</pageId>
 				<eventCategory>Cat6</eventCategory>
@@ -919,17 +919,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>34</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -947,6 +936,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>34</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -1085,7 +1085,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file5.zip</url>
 				<pageTitle />
-				<pageIdAction>31</pageIdAction>
+				<pageIdAction>32</pageIdAction>
 				
 				<pageId>31</pageId>
 				<timeSpent>180</timeSpent>
@@ -1097,7 +1097,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/5.html</url>
 				<pageTitle />
-				<pageIdAction>32</pageIdAction>
+				<pageIdAction>33</pageIdAction>
 				
 				<pageId>32</pageId>
 				<timeSpent>180</timeSpent>
@@ -1108,7 +1108,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>33</pageId>
 				<eventCategory>Cat5</eventCategory>
@@ -1217,17 +1217,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>29</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -1245,6 +1234,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>29</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -1401,7 +1401,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file4.zip</url>
 				<pageTitle />
-				<pageIdAction>26</pageIdAction>
+				<pageIdAction>27</pageIdAction>
 				
 				<pageId>26</pageId>
 				<timeSpent>180</timeSpent>
@@ -1413,7 +1413,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/4.html</url>
 				<pageTitle />
-				<pageIdAction>27</pageIdAction>
+				<pageIdAction>28</pageIdAction>
 				
 				<pageId>27</pageId>
 				<timeSpent>180</timeSpent>
@@ -1424,7 +1424,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>28</pageId>
 				<eventCategory>Cat4</eventCategory>
@@ -1533,17 +1533,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>23</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -1561,6 +1550,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>23</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -1699,7 +1699,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>21</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				<pageId>20</pageId>
 				<timeSpent>180</timeSpent>
@@ -1711,7 +1711,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>22</pageIdAction>
+				<pageIdAction>23</pageIdAction>
 				
 				<pageId>21</pageId>
 				<timeSpent>180</timeSpent>
@@ -1722,7 +1722,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>22</pageId>
 				<eventCategory>Cat3</eventCategory>
@@ -1868,7 +1868,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>21</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				<pageId>81</pageId>
 				<timeSpent>180</timeSpent>
@@ -1880,7 +1880,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>22</pageIdAction>
+				<pageIdAction>23</pageIdAction>
 				
 				<pageId>82</pageId>
 				<timeSpent>180</timeSpent>
@@ -1891,7 +1891,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>83</pageId>
 				<eventCategory>Cat3</eventCategory>
@@ -1992,17 +1992,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>18</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -2020,6 +2009,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>18</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -2121,17 +2121,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>79</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -2149,6 +2138,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>79</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -2184,22 +2184,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode />
 		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
+		<deviceType>Tablet</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/tablet.png</deviceTypeIcon>
+		<deviceBrand>Sony</deviceBrand>
+		<deviceModel>Xperia Tablet S</deviceModel>
+		<operatingSystem>Android 4.1</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.1</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 34.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>34.0</browserVersion>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -2305,7 +2305,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>17</pageIdAction>
 				
 				<pageId>15</pageId>
 				<timeSpent>180</timeSpent>
@@ -2317,7 +2317,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>17</pageIdAction>
+				<pageIdAction>18</pageIdAction>
 				
 				<pageId>16</pageId>
 				<timeSpent>180</timeSpent>
@@ -2328,7 +2328,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>17</pageId>
 				<eventCategory>Cat2</eventCategory>
@@ -2492,7 +2492,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>17</pageIdAction>
 				
 				<pageId>76</pageId>
 				<timeSpent>180</timeSpent>
@@ -2504,7 +2504,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>17</pageIdAction>
+				<pageIdAction>18</pageIdAction>
 				
 				<pageId>77</pageId>
 				<timeSpent>180</timeSpent>
@@ -2515,7 +2515,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>78</pageId>
 				<eventCategory>Cat2</eventCategory>
@@ -2616,17 +2616,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>12</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -2644,6 +2633,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>12</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -2745,17 +2745,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>73</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -2773,6 +2762,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>73</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -2808,22 +2808,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode />
 		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Dell</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>7</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 11.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>11.0</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -2911,7 +2911,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>9</pageId>
 				<timeSpent>180</timeSpent>
@@ -2923,7 +2923,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>10</pageId>
 				<timeSpent>180</timeSpent>
@@ -2934,7 +2934,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>11</pageId>
 				<eventCategory>Cat1</eventCategory>
@@ -3080,7 +3080,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>59</pageId>
 				<timeSpent>180</timeSpent>
@@ -3092,7 +3092,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>60</pageId>
 				<timeSpent>180</timeSpent>
@@ -3103,7 +3103,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>61</pageId>
 				<eventCategory>Cat1</eventCategory>
@@ -3146,22 +3146,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>HTC</deviceBrand>
+		<deviceModel>Desire</deviceModel>
+		<operatingSystem>MildWild 8.0</operatingSystem>
+		<operatingSystemName>MildWild</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>MLD</operatingSystemCode>
+		<operatingSystemVersion>8.0</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Android Browser</browser>
+		<browserName>Android Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserCode>AN</browserCode>
+		<browserVersion />
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3249,7 +3249,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>70</pageId>
 				<timeSpent>180</timeSpent>
@@ -3261,7 +3261,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>71</pageId>
 				<timeSpent>180</timeSpent>
@@ -3272,7 +3272,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>72</pageId>
 				<eventCategory>Cat1</eventCategory>
@@ -3410,7 +3410,7 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>92</pageId>
 				<timeSpent>180</timeSpent>
@@ -3422,7 +3422,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>93</pageId>
 				<timeSpent>180</timeSpent>
@@ -3433,7 +3433,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>94</pageId>
 				<eventCategory>Cat1</eventCategory>
@@ -3480,18 +3480,18 @@
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
+		<operatingSystem>Ubuntu 9.04</operatingSystem>
+		<operatingSystemName>Ubuntu</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.gif</operatingSystemIcon>
+		<operatingSystemCode>UBT</operatingSystemCode>
+		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
+		<browser>Firefox 3.0</browser>
 		<browserName>Firefox</browserName>
 		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<browserVersion>3.0</browserVersion>
 		<events>1</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -3542,17 +3542,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>7</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -3570,6 +3559,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>7</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -3671,17 +3671,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>57</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -3699,6 +3688,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>57</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -3734,22 +3734,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>HTC</deviceBrand>
+		<deviceModel>Desire</deviceModel>
+		<operatingSystem>MildWild 8.0</operatingSystem>
+		<operatingSystemName>MildWild</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>MLD</operatingSystemCode>
+		<operatingSystemVersion>8.0</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Android Browser</browser>
+		<browserName>Android Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserCode>AN</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3800,17 +3800,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>68</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -3828,6 +3817,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>68</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -3863,22 +3863,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode />
 		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 8.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>8.0</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3929,17 +3929,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>90</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -3957,6 +3946,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>90</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -3996,18 +3996,18 @@
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
+		<operatingSystem>Ubuntu 9.04</operatingSystem>
+		<operatingSystemName>Ubuntu</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.gif</operatingSystemIcon>
+		<operatingSystemCode>UBT</operatingSystemCode>
+		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
+		<browser>Firefox 3.0</browser>
 		<browserName>Firefox</browserName>
 		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<browserVersion>3.0</browserVersion>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -4136,7 +4136,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>6</pageId>
 				<eventCategory>Cat0</eventCategory>
@@ -4323,7 +4323,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>56</pageId>
 				<eventCategory>Cat0</eventCategory>
@@ -4366,22 +4366,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>Google</deviceBrand>
+		<deviceModel>Nexus 4</deviceModel>
+		<operatingSystem>Android 4.4</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.4</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome Mobile 33.0</browser>
+		<browserName>Chrome Mobile</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CM.gif</browserIcon>
+		<browserCode>CM</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4510,7 +4510,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>67</pageId>
 				<eventCategory>Cat0</eventCategory>
@@ -4689,7 +4689,7 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>89</pageId>
 				<eventCategory>Cat0</eventCategory>
@@ -4732,22 +4732,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Phablet</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceBrand>Samsung</deviceBrand>
+		<deviceModel>GALAXY Note 3</deviceModel>
+		<operatingSystem>Android 4.3</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.3</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>QQ Browser 5.0</browser>
+		<browserName>QQ Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.gif</browserIcon>
+		<browserCode>QQ</browserCode>
+		<browserVersion>5.0</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4798,17 +4798,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>1</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -4826,6 +4815,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>1</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -4927,17 +4927,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>51</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -4955,6 +4944,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>51</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -4990,22 +4990,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>Google</deviceBrand>
+		<deviceModel>Nexus 4</deviceModel>
+		<operatingSystem>Android 4.4</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.4</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome Mobile 33.0</browser>
+		<browserName>Chrome Mobile</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CM.gif</browserIcon>
+		<browserCode>CM</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -5056,17 +5056,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>62</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -5084,6 +5073,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>62</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -5123,18 +5123,18 @@
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystemVersion>8.1</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 32.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>32.0</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -5185,17 +5185,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>84</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
@@ -5213,6 +5202,17 @@
 					</row>
 				</customVariables>
 				<icon />
+				
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>84</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -5248,22 +5248,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Phablet</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceBrand>Samsung</deviceBrand>
+		<deviceModel>GALAXY Note 3</deviceModel>
+		<operatingSystem>Android 4.3</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.3</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>QQ Browser 5.0</browser>
+		<browserName>QQ Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.gif</browserIcon>
+		<browserCode>QQ</browserCode>
+		<browserVersion>5.0</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
