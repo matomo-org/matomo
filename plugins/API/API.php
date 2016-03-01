@@ -720,8 +720,6 @@ class API extends \Piwik\Plugin\API
                 return -1;
             }
             
-            return 0;
-            
             //equal count -> so sort by the label
             return strcmp($a['label'], $b['label']);
         });
