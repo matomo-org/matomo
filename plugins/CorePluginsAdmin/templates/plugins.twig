@@ -24,11 +24,8 @@
         <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
     {% endif %}
 
-
-    {% if isMarketplaceEnabled %}
         <br />
         {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}
-    {% endif %}
     </p>
 
     {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}
