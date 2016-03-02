@@ -12,6 +12,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
+[![Dependency Status](https://gemnasium.com/piwik/piwik.svg)](https://gemnasium.com/piwik/piwik)
 
 ## Description
 
