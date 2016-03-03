@@ -3,42 +3,58 @@
 	<date>Sat, Mar 6</date>
 	<previousPages>
 		<row>
-			<label>example.org/the/third_page.html?foo=bar</label>
+			<label>page title - the/third_page.html?foo=bar</label>
 			<referrals>3</referrals>
 		</row>
 		<row>
-			<label>example.org/sub/dir/page2.html</label>
+			<label>page title - sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>Others</label>
-			<referrals>2</referrals>
+			<label>page title - the/third_page.html?foo=baz#anchor1</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=baz#anchor2</label>
+			<referrals>1</referrals>
 		</row>
 	</previousPages>
 	<previousSiteSearches>
+		<row>
+			<label>mykwd</label>
+			<referrals>1</referrals>
+		</row>
 		<row>
 			<label>anotherkwd</label>
 			<referrals>1</referrals>
 		</row>
 	</previousSiteSearches>
 	<pageMetrics>
-		<loops>2</loops>
-		<pageviews>18</pageviews>
-		<entries>4</entries>
-		<exits>7</exits>
+		<loops>5</loops>
+		<pageviews>17</pageviews>
+		<entries>3</entries>
+		<exits>3</exits>
 	</pageMetrics>
 	<followingPages>
 		<row>
-			<label>example.org/the/third_page.html?foo=baz</label>
-			<referrals>3</referrals>
-		</row>
-		<row>
-			<label>example.org/sub/dir/page2.html</label>
+			<label>page title - sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>Others</label>
-			<referrals>3</referrals>
+			<label>page title - the/third_page.html?foo=bar</label>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=baz#anchor1</label>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=baz#anchor2</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>page title - page3.html</label>
+			<referrals>1</referrals>
 		</row>
 	</followingPages>
 	<followingSiteSearches>
@@ -93,17 +109,6 @@
 			<details>
 				<row>
 					<label>http://www.external.com.vn/referrerPage-counted.html</label>
-					<referrals>1</referrals>
-				</row>
-			</details>
-		</row>
-		<row>
-			<label>From Campaigns</label>
-			<shortName>campaign</shortName>
-			<visits>1</visits>
-			<details>
-				<row>
-					<label>testcampaign testkeyword</label>
 					<referrals>1</referrals>
 				</row>
 			</details>
