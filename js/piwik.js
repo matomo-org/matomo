@@ -1046,8 +1046,8 @@ if (typeof _paq !== 'object') {
 }
 
 // Piwik singleton and namespace
-if (typeof Piwik !== 'object') {
-    Piwik = (function () {
+if (typeof window.Piwik !== 'object') {
+    window.Piwik = (function () {
         'use strict';
 
         /************************************************************
@@ -2086,7 +2086,7 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
-                
+
                 var children = getChildrenFromNode(nodeToSearch);
 
                 if (!children || !children.length) {
@@ -6501,7 +6501,7 @@ if (window && window.piwikAsyncInit) {
 (function () {
     var jsTrackerType = (typeof AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
-        AnalyticsTracker = Piwik;
+        AnalyticsTracker = window.Piwik;
     }
 }());
 /*jslint sloppy: false */
@@ -6543,7 +6543,7 @@ if (typeof piwik_log !== 'function') {
 
         // instantiate the tracker
         var option,
-            piwikTracker = Piwik.getTracker(piwikUrl, siteId);
+            piwikTracker = window.Piwik.getTracker(piwikUrl, siteId);
 
         // initialize tracker
         piwikTracker.setDocumentTitle(documentTitle);
