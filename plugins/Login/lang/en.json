@@ -12,7 +12,7 @@
         "LoginOrEmail": "Username or E-mail",
         "LoginPasswordNotCorrect": "Wrong Username and password combination.",
         "LostYourPassword": "Lost your password?",
-        "MailPasswordChangeBody": "Hi %1$s,\n\nA password reset request was received from %2$s. To confirm this password change so you can login with your new credentials, visit the following link:\n\n%3$s\n\nNote: this token will expire in 24 hours.\n\nAnd thank you for using Piwik!",
+        "MailPasswordChangeBody": "Hi %1$s,\n\nA password reset request was received from %2$s. To confirm this password change so you can login with your new credentials, visit the following link:\n\n%3$s\n\nAttention: Changing the password will also change your token_auth. You can look up your new token_auth on your settings page.\n\nIf you are using your API token in any external applications or for archiving, make sure to update the token as requests to the API will fail otherwise.\n\nNote: this token will expire in 24 hours.\n\nAnd thank you for using Piwik!",
         "MailTopicPasswordChange": "Confirm Password Change",
         "PasswordChanged": "Your password has been changed.",
         "PasswordRepeat": "Password (repeat)",
