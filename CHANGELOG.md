@@ -2,6 +2,11 @@
 
 This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
 
+## Piwik 2.16.1
+
+### New features
+ * New method `setIsWritableByCurrentUser` for `SystemSetting` to change the writable permission for certain system settings via DI.
+
 ## Piwik 2.16.0
 
 ### New features
