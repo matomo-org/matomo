@@ -60,6 +60,14 @@ describe("Login", function () {
         }, done);
     });
 
+    it("should show reset password form and error message on error", function (done) {
+        expect.screenshot("password_reset_error").to.be.capture(function (page) {
+            page.sendKeys("#reset_form_login", "superUserLogin");
+            page.sendKeys("#reset_form_password", "superUserPass2");
+            page.click("#reset_form_submit", 3000);
+        }, done);
+    });
+
     it("should send email when password reset form submitted", function (done) {
         expect.screenshot("password_reset").to.be.capture(function (page) {
             page.sendKeys("#reset_form_login", "superUserLogin");
