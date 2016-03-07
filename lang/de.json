@@ -86,6 +86,7 @@
         "ConfigFileIsNotWritable": "Die Piwik-Konfigurationsdatei %1$s ist nicht schreibbar, Ihre Änderungen werden nicht gespeichert. %2$s Bitte ändern Sie die Zugriffsrechte der Konfigurationsdatei, um diese schreibbar zu machen.",
         "Continue": "Weiter",
         "ContinueToPiwik": "Weiter zu Piwik",
+        "CurrentlyUsingUnsecureHttp": "Sie besuchen Piwik über eine unsichere HTTP-Verbindung. Wir empfehlen Ihnen, SSL (HTTPS) zu aktivieren.",
         "CreatedByUser": "Erstellt von %s",
         "CurrentMonth": "Aktueller Monat",
         "CurrentWeek": "Aktuelle Woche",

@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Olayları izle ve ziyaretçilerin aktivitesi üzerine raporlar al.",
         "AvgEventValue": "Ortalama etkinlik değeri: %s",
         "AvgValue": "Ortalama değer",
         "AvgValueDocumentation": "Bu etkinlik için ortalama tüm değerler",
@@ -14,6 +15,7 @@
         "EventsWithValue": "Değeri olan etkinlikler",
         "EventsWithValueDocumentation": "Etkinlik değeri ayarlanmış olan etkinlik sayısı",
         "EventValue": "Etkinlik Değeri",
+        "EventValueTooltip": "Toplam olay değeri %1$s ile %2$s arasında, en az %3$s ve en fazla %4$s dür",
         "MaxValue": "Maksimum değer",
         "MaxValueDocumentation": "Bu etkinlik için maksimum değer",
         "MinValue": "Minimum değer",

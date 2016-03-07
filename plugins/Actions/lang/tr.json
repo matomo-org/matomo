@@ -44,6 +44,7 @@
         "SiteSearchCategories1": "Bu rapor, ziyaretçilerin sitenizde arama yaptıklarında seçtikleri kategorileri listelemektedir.",
         "SiteSearchCategories2": "Örnek olarak, E-Ticaret websitelerinde tipik bir \"Kategori\" seçimi vardır böylece ziyaretçiler aramalarını belirli bir kategori içindeki tüm ürünler ile kısıtlayabilirler.",
         "SiteSearchFollowingPagesDoc": "Ziyaretçileriniz web sitenizde arama yaptığında belirli bir sayfa, içerik, ürün ya da hizmete bakarlar. Bu rapor, web siteniz içinde yapılan bir aramadan sonra en çok tıklanan sayfalarınızı listeler. Diğer bir deyişle, web sitenizdeki mevcut ziyaretçilerinizin en çok aradığı sayfaları gösterir.",
+        "SiteSearchIntro": "Sitenizi ziyaret edenleri takip etmek, hedef kitlenizin nee baktığını anlamak için çok etkili bir yol, yeni içerik ile potansiyel müşterilerin arayabileceği yeni e-ticaret ürünlerini eklemde yardımcı, ve ziyaretçilerin genel kullanıcı deneyimini arttıran bir araçtır.",
         "SiteSearchKeyword": "Anahtar Kelime (Site Arama)",
         "SiteSearchKeywordsDocumentation": "Bu rapor, ziyaretçilerinizin Arama Motorunda aradığı Anahtar Kelimeleri listeler.",
         "SiteSearchKeywordsNoResultDocumentation": "Bu rapordaki arama terimi herhangi bir sonuç döndüremedi: arama motoru algoritması yükselme yada ziyaretçiler sitenizde olmayan bir içeriği aranma ihtimali olabilir mi ?",

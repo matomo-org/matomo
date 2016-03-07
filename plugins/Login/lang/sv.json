@@ -11,7 +11,6 @@
         "LoginOrEmail": "Användarnamn eller e-postadress",
         "LoginPasswordNotCorrect": "Användarnamn & Lösenord är inte korrekta",
         "LostYourPassword": "Glömt ditt lösenord?",
-        "MailPasswordChangeBody": "Hej %1$s,\n\nEn begäran om att återställa ditt lösenord togs emot från %2$s. Besök följande länk för att bekräfta lösenordsbytet och göra det möjligt att logga in med dina nya uppgifter:\n\n%3$s\n\nNotera: den här förfrågan kommer att upphöra om 24 timmar.\n\nTack för att du använder Piwik!",
         "MailTopicPasswordChange": "Bekräfta byte av lösenord",
         "PasswordChanged": "Ditt lösenord har ändrats.",
         "PasswordRepeat": "Lösenord (bekräfta)",

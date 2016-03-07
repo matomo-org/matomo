@@ -11,7 +11,6 @@
         "LoginOrEmail": "Nom d'usuari o correu-e",
         "LoginPasswordNotCorrect": "L'usuari o la contrasenya no són correctes",
         "LostYourPassword": "Heu perdut la contrasenya?",
-        "MailPasswordChangeBody": "Hola %1$s,\n\nS'ha rebut una petició per restablir la contrasenya de %2$s. Per confirmar aquest canvi de contrasenya (per a que pogueu entrar amb les noves credencials), visiteu el següent enllaç:\n\n%3$s\n\nNota: aquest enllaç caduca en 24 hores.\n\nUs donem les gràcies per utiltizar el Piwik!",
         "MailTopicPasswordChange": "Confirmeu el canvi de contrasenya",
         "PasswordChanged": "S'ha canviat la vostra contrasenya",
         "PasswordRepeat": "Contrasenya (torneu-la a escriure)",

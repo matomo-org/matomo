@@ -11,7 +11,6 @@
         "LoginOrEmail": "Korisničko ime ili elektronska adresa",
         "LoginPasswordNotCorrect": "Korisničko ime i lozinka nisu ispravni",
         "LostYourPassword": "Zaboravili ste lozinku?",
-        "MailPasswordChangeBody": "Pozdrav %1$s. Sa %2$s je poslat zahtev za resetovanje lozinke. Ukoliko želite da promenite lozinku kako biste mogli da se ponovo prijavite na sistem, otvorite sledeći link: %3$s Ovaj token je validan naredna 24 sata.",
         "MailTopicPasswordChange": "Potvrdite promenu lozinke",
         "PasswordChanged": "Vaša lozinka je promenjena.",
         "PasswordRepeat": "Lozinka (ponovo)",

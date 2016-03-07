@@ -4,8 +4,12 @@
         "KeepTokenSecret": "Acest token_auth este secret cum sunt login-ul si parola, %1$s nu le fa publice%2$s!",
         "LoadedAPIs": "%s API-uri încarcate cu succes",
         "MoreInformation": "Pentru mai multe informatii despre API-urile Piwik, va rugam sa va uitati la %1$s Introducere la Piwik API %2$s si la %3$s Referinte Piwik API %4$s.",
+        "PluginDescription": "Toate informaţiile din Piwik sunt disponibile prin simple API-uri. Acest plugin este punctul de intrare al serviciului web prin care poţi prelua date Web Analytics în format xml, json, php, csv, etc.",
+        "ReportingApiReference": "Referinţe API de raportare",
         "TopLinkTooltip": "Acceseaza datele tale de Web Analytics in mod organizat prin intermediul unui simplu API in json, xml, etc.",
         "UserAuthentication": "Identificare utilizator",
-        "UsingTokenAuth": "Daca vrei sa %1$s preiei date printr-un script, crontab etc. %2$s este necesar sa adaugi parametrul %3$s la URL-urile API care cer autentificare."
+        "UsingTokenAuth": "Daca vrei sa %1$s preiei date printr-un script, crontab etc. %2$s este necesar sa adaugi parametrul %3$s la URL-urile API care cer autentificare.",
+        "Glossary": "Glosar",
+        "LearnAboutCommonlyUsedTerms": "Învaţă cei mai uzuali termeni de analiză Piwik: %1$s şi %2$s"
     }
 }

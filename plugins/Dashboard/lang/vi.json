@@ -21,6 +21,7 @@
         "PluginDescription": "Bảng điều khiển của bạn. Có thể tùy biến bằng cách thêm widget, kéo thả hoặc thêm các trường dữ liệu. Mỗi người dùng có thể tùy biến bảng điều khiến cho riêng mình.",
         "RemoveDashboard": "Loại bỏ bảng điều khiển",
         "RemoveDashboardConfirm": "Bạn có chắc chắn muốn loại bỏ bảng điều khiển \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "Các bảng điều khiển mặc định không thể bị gỡ bỏ",
         "RenameDashboard": "Đổi tên bảng điều khiển",
         "ResetDashboard": "Bảng điều khiển mặc định",
         "ResetDashboardConfirm": "Bạn có chắc chắn muốn thiết lập lại bố trí bảng điều khiển của bạn cho thiết lập các Widget mặc định?",

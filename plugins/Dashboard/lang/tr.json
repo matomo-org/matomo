@@ -18,6 +18,7 @@
         "Maximise": "Maksimize",
         "Minimise": "Küçült",
         "NotUndo": "Bu eylemi geri alamazsınız.",
+        "PluginDescription": "Web Analitik ve Gösterge Tablon. Yeni widget ekleyerek, onları sürükle bırak yaparak ve gösterge paneli sütun düzgisini değiştirerek gösterge panelini özelleştirebilirsin. Her kullanıcı kendi özelleşmiş gösterge panelini yönetebilir.",
         "RemoveDashboard": "Paneli kaldır",
         "RemoveDashboardConfirm": "\"%s\" panelini kaldırmak istediğinize emin misiniz?",
         "RemoveDefaultDashboardNotPossible": "Varsayılan pano silinemez",
@@ -28,6 +29,7 @@
         "SelectWidget": "Panoya eklemek için bileşen seçiniz.",
         "SetAsDefaultWidgets": "Varsayılan widget seçimi olarak ata",
         "SetAsDefaultWidgetsConfirm": "Mevcut widget seçimini ve kontrol paneli düzenini varsayılan kontrol paneli teması olarak atamak istediğinizden emin misiniz?",
+        "SetAsDefaultWidgetsConfirmHelp": "Bu widgetlerin seçimi ve gösterge panelinin sütun dizgisi herhangi bir kullanıcı yeni gösterge paneli yarattığında veya \"%s\" özellii kullanıldığında kullanılabilir.",
         "TopLinkTooltip": "%s için Web Analatik raporunu görüntüle.",
         "WidgetNotFound": "Bileşen bulunamadı",
         "WidgetPreview": "Bileşen görünümü"
