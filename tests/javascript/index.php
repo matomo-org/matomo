@@ -2190,7 +2190,7 @@ function PiwikTest() {
 
     // support for setCustomUrl( relativeURI )
     test("getProtocolScheme and resolveRelativeReference", function() {
-        expect(27);
+        expect(28);
 
         var tracker = Piwik.getTracker();
 
@@ -2200,6 +2200,7 @@ function PiwikTest() {
         ok( tracker.hook.test._getProtocolScheme('https://example.com') === 'https', 'https://' );
         ok( tracker.hook.test._getProtocolScheme('file://somefile.txt') === 'file', 'file://' );
         ok( tracker.hook.test._getProtocolScheme('mailto:somebody@example.com') === 'mailto', 'mailto:' );
+        ok( tracker.hook.test._getProtocolScheme('tel:0123456789') === 'tel', 'tel:' );
         ok( tracker.hook.test._getProtocolScheme('javascript:alert(document.cookie)') === 'javascript', 'javascript:' );
         ok( tracker.hook.test._getProtocolScheme('') === null, 'empty string' );
         ok( tracker.hook.test._getProtocolScheme(':') === null, 'unspecified scheme' );
