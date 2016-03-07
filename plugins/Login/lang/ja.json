@@ -11,7 +11,6 @@
         "LoginOrEmail": "ユーザー名またはメールアドレス",
         "LoginPasswordNotCorrect": "ユーザー名またはパスワードが正しくありません",
         "LostYourPassword": "パスワードをお忘れですか？",
-        "MailPasswordChangeBody": "こんにちは、%1$s 。%2$s からパスワードのリセットリクエストを受け取りました。このパスワード変更を確認するには、新しい認証情報でログインし、次のリンクを訪問してください。%3$s 注)このトークンの有効期限は 24 時間です。Piwik のご利用ありがとうございます !",
         "MailTopicPasswordChange": "パスワード変更の確認",
         "PasswordChanged": "パスワードが変更されました。",
         "PasswordRepeat": "パスワード（再入力）",

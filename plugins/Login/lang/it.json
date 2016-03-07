@@ -12,7 +12,6 @@
         "LoginOrEmail": "Nome utente o E-mail",
         "LoginPasswordNotCorrect": "Combinazione Nome utente e Password non corretta",
         "LostYourPassword": "Hai perso la password?",
-        "MailPasswordChangeBody": "Ciao %1$s,\n\nUna richiesta di reimpostazione della password è stata ricevuta da %2$s. Per confermare la modifica della password in modo da poter accedere con le nuove credenziali, visitare il seguente link:\n\n%3$s\n\nNota: questo token scade tra 24 ore.\n\nE vi ringrazio per l'utilizzo di Piwik!",
         "MailTopicPasswordChange": "Conferma Cambio Password",
         "PasswordChanged": "La tua password è stata cambiata.",
         "PasswordRepeat": "Password (ripeti)",

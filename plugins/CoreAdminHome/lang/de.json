@@ -17,7 +17,7 @@
         "ImageTrackingIntro2": "Generieren Sie den Link unten und kopieren Sie den generierten HTML-Code in Ihre Seite. Sollten Sie dies als Fallback für das JavaScript Tracking verwenden, umschließen sie es mit einem %1$s Tag.",
         "ImageTrackingIntro3": "Eine vollständige Liste an Möglichkeiten, die Ihnen das Tracking mit einem Bild bietet, finden Sie in der %1$sTracking API Dokumentation%2$s",
         "ImageTrackingLink": "Link zum Tracking mit Hilfe eines Bildes",
-        "ImportingServerLogs": "Import von Server Log-Dateien",
+        "ImportingServerLogs": "Server Log-Dateien importieren",
         "ImportingServerLogsDesc": "Eine Alternative zum Tracken der Besucher im Browser (entweder mit JavaScript oder mit einem Bild-Link) ist der kontinuierliche Import von Server Logdateien. Erfahren Sie mehr über %1$sServer Logdatei Analyse%2$s",
         "InvalidPluginsWarning": "Folgende Plugins sind nicht kompatibel mit %1$s und konnten nicht geladen werden: %2$s",
         "InvalidPluginsYouCanUninstall": "Sie können diese Plugins auf der %1$sPlugins verwalten%2$s Seite aktualisieren oder deinstallieren.",
@@ -88,6 +88,7 @@
         "YouMayOptOut": "Sie können sich hier entscheiden, ob in Ihrem Browser ein eindeutiger Webanalyse-Cookie abgelegt werden darf, um dem Betreiber der Website die Erfassung und Analyse verschiedener statistischer Daten zu ermöglichen.",
         "YouMayOptOutBis": "Wenn Sie sich dagegen entscheiden möchten, klicken Sie den folgenden Link, um den Piwik-Deaktivierungs-Cookie in Ihrem Browser abzulegen.",
         "OptingYouOut": "Deaktivierung wird durchgeführt, bitte warten...",
-        "ProtocolNotDetectedCorrectly": "Sie betrachten Piwik momentan über eine sichere SSL-Verbindung (mittels HTTPS), aber Piwik konnte auf dem Server nur eine nicht sichere Verbindung feststellen."
+        "ProtocolNotDetectedCorrectly": "Sie betrachten Piwik momentan über eine sichere SSL-Verbindung (mittels HTTPS), aber Piwik konnte auf dem Server nur eine nicht sichere Verbindung feststellen.",
+        "ProtocolNotDetectedCorrectlySolution": "Um sicherzustellen, dass Piwik jegliche Anfragen und Inhalte via HTTPS ausliefert, ist es zwingend notwendig, die %1$s-Datei zu bearbeiten, die Proxy-Einstellungen zu überprüfen oder die Zeile %2$s unter dem Abschnitt %3$s hinzuzufügen. %4$sMehr erfahren%5$s"
     }
 }

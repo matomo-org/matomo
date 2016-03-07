@@ -14,11 +14,15 @@
         "IncomingTraffic": "Gelen trafik",
         "LoopsInline": "%s sayfa yüklemeleri",
         "NoDataForAction": "%s için veri yok",
+        "NoDataForActionDetails": "%s süresi boyunca hiç sayfa görüntülenmemiş ve aksiyon alınmamıştır veya o hatalıdır.",
         "OutgoingTraffic": "Giden trafik",
+        "PluginDescription": "Yeni iconu ile ulaşılan Aksiyon raporları sayfasında yeni geçişler raporunun içindeki her sayfaya ait URL'yi önceki ve takip eden aksiyonları için raporlar.",
+        "ShareOfAllPageviews": "Bu sayfa %1$s sayfa görünütülemesine sahiptir ( %2$s tüm sayfa görüntülemesi).",
         "ToFollowingPages": "İç Sayfalara",
         "ToFollowingPagesInline": "%s İç Sayfalara",
         "ToFollowingSiteSearches": "İç Aramalar",
         "ToFollowingSiteSearchesInline": "%s İç Aramalar",
-        "XOfAllPageviews": "Bu sayfadaki tüm görüntülenmelerin %s'i"
+        "XOfAllPageviews": "Bu sayfadaki tüm görüntülenmelerin %s'i",
+        "XOutOfYVisits": "%1$s (%2$s'nin dışında)"
     }
 }

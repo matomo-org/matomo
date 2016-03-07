@@ -12,7 +12,6 @@
         "LoginOrEmail": "Brukernavn eller e-post",
         "LoginPasswordNotCorrect": "Feil kombinasjon av brukernavn og passord.",
         "LostYourPassword": "Glemt passord?",
-        "MailPasswordChangeBody": "Hei %1$s,\n\nDet ble mottatt en forespørsel om å tilbakestille passordet fra %2$s. For å bekrefte denne passordendringen slik at du kan logge inn på nytt, klikk på denne lenken:\n\n%3$s\n\nMerk: denne nøkkelen er kun gyldig i 24 timer.\n\nOg takk for at du bruker Piwik!",
         "MailTopicPasswordChange": "Bekreft passordendring",
         "PasswordChanged": "Passordet er endret.",
         "PasswordRepeat": "Passord (gjenta)",

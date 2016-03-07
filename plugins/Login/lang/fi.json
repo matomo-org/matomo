@@ -11,7 +11,6 @@
         "LoginOrEmail": "Käyttäjätunnus tai sähköposti",
         "LoginPasswordNotCorrect": "Käyttäjätunnus tai salasana väärin",
         "LostYourPassword": "Unohtuiko salasana?",
-        "MailPasswordChangeBody": "Hei %1$s,\n\nPyyntö salasanan resetoimiseen tuli %2$s:ltä. Jos haluat vaihtaa salasanan, avaa seuraava linkki:\n\n%3$s\n\nJos et tilannut uutta salasanaa, voit jätttää tämän sähköpostin huomiotta.\n\nHuom. tämä linkki vanhenee 24 tunnissa.\n\nKiitos Piwikin käyttämisestä!",
         "MailTopicPasswordChange": "Varmista salasanan vaihto",
         "PasswordChanged": "Salasana on vaihdettu.",
         "PasswordRepeat": "Salasana (uudelleen)",

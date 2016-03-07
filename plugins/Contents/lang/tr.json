@@ -1,5 +1,6 @@
 {
     "Contents": {
+        "PluginDescription": "İçerik ve reklam izleme sayfandaki herhangi bir içeriğin (reklam, resim, herhangi bir öğenin) yerinin performansını (görünme, tıklamalar, CTR) izlemene yarar.",
         "Impressions": "Gösterimler",
         "Interactions": "Etkileşimler",
         "Interaction": "Etkileşim",

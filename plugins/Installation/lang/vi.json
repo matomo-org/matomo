@@ -1,5 +1,6 @@
 {
     "Installation": {
+        "CollaborativeProject": "Piwik là một dự án hợp tác, được xây dựng với sự yêu thích của mọi người từ khắp nơi trên thế giới.",
         "ConfigurationHelp": "Tập tin cấu hình Piwik của bạn dường như là sai. Bạn có thể loại bỏ config\/config.ini.php và tiếp tục cài đặt, hoặc sửa chữa các thiết lập kết nối cơ sở dữ liệu.",
         "ConfirmDeleteExistingTables": "Bạn có chắc chắn muốn xóa các table (bảng) sau khỏi database của bạn: %s? CHÚ Ý: DỮ LIỆU BỊ XÓA TỪ CÁC TABLE NÀY SẼ KHÔNG THỂ KHÔI PHỤC LẠI ĐƯỢC!",
         "Congratulations": "Xin chúc mừng",

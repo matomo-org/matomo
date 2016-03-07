@@ -12,7 +12,6 @@
         "LoginOrEmail": "Nome de Usuário ou E-mail",
         "LoginPasswordNotCorrect": "Combinação errada de Nome de Usuário e senha.",
         "LostYourPassword": "Esqueceu a sua senha?",
-        "MailPasswordChangeBody": "Oi %1$s, um pedido de redefinição de senha foi recebida de %2$s. Para confirmar esta alteração de senha para que você possa fazer o login com suas novas credenciais, visite o seguinte link: %3$s Nota: este token expirará em 24 horas. Obrigado por usar Piwik!",
         "MailTopicPasswordChange": "Confirme Alteração de Senha",
         "PasswordChanged": "Sua senha foi alterada.",
         "PasswordRepeat": "Senha (repetir)",
