@@ -4176,7 +4176,7 @@ if (typeof window.Piwik !== 'object') {
                 var sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName);
 
                 // browsers, such as Safari, don't downcase hostname and href
-                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
+                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto|tel):', 'i');
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
