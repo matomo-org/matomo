@@ -956,7 +956,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
-/*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
+/*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
