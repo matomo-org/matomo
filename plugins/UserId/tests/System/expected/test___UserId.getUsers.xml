@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<user_id>user1</user_id>
+		<first_visit_time>2010-02-01 11:22:33</first_visit_time>
+		<last_visit_time>2010-02-10 11:22:33</last_visit_time>
+		<total_visits>10</total_visits>
+		<url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=b3daa77b4c04a955</url>
+	</row>
+	<row>
+		<user_id>user2</user_id>
+		<first_visit_time>2010-02-01 11:22:33</first_visit_time>
+		<last_visit_time>2010-02-20 11:22:33</last_visit_time>
+		<total_visits>20</total_visits>
+		<url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=a1881c06eec96db9</url>
+	</row>
+	<row>
+		<user_id>user3</user_id>
+		<first_visit_time>2010-02-01 11:22:33</first_visit_time>
+		<last_visit_time>2010-03-02 11:22:33</last_visit_time>
+		<total_visits>30</total_visits>
+		<url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=0b7f849446d33835</url>
+	</row>
+</result>
