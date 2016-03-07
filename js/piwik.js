@@ -1702,6 +1702,21 @@ if (typeof window.Piwik !== 'object') {
             return -1;
         }
 
+        function stringEndsWith(str, suffix) {
+            str = String(str);
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+
+        function stringContains(str, needle) {
+            str = String(str);
+            return str.indexOf(needle) !== -1;
+        }
+
+        function removeCharactersFromEndOfString(str, numCharactersToRemove) {
+            str = String(str);
+            return str.substr(0, str.length - numCharactersToRemove);
+        }
+
         /************************************************************
          * Element Visiblility
          ************************************************************/
@@ -2658,10 +2673,29 @@ if (typeof window.Piwik !== 'object') {
                 return apiUrl;
             }
 
-            if (trackerUrl.slice(-9) === 'piwik.php') {
-                trackerUrl = trackerUrl.slice(0, trackerUrl.length - 9);
+            // if eg http://www.example.com/js/tracker.php?version=232323 => http://www.example.com/js/tracker.php
+            if (stringContains(trackerUrl, '?')) {
+                var posQuery = trackerUrl.indexOf('?');
+                trackerUrl   = trackerUrl.slice(0, posQuery);
             }
 
+            if (stringEndsWith(trackerUrl, 'piwik.php')) {
+                // if eg without domain or path "piwik.php" => ''
+                trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'piwik.php'.length);
+            } else if (stringEndsWith(trackerUrl, '.php')) {
+                // if eg http://www.example.com/js/piwik.php => http://www.example.com/js/
+                // or if eg http://www.example.com/tracker.php => http://www.example.com/
+                var lastSlash = trackerUrl.lastIndexOf('/');
+                var includeLastSlash = 1;
+                trackerUrl = trackerUrl.slice(0, lastSlash + includeLastSlash);
+            }
+
+            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Piwik JS loaded)
+            if (stringEndsWith(trackerUrl, '/js/')) {
+                trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'js/'.length);
+            }
+
+            // http://www.example.com/
             return trackerUrl;
         }
 
@@ -3056,16 +3090,6 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 return false;
-            }
-
-            function stringEndsWith(str, suffix) {
-                str = String(str);
-                return str.indexOf(suffix, str.length - suffix.length) !== -1;
-            }
-
-            function removeCharactersFromEndOfString(str, numCharactersToRemove) {
-                str = String(str);
-                return str.substr(0, str.length - numCharactersToRemove);
             }
 
             /*
