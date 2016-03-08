@@ -347,6 +347,14 @@ class IniFileChain
         // return key/value pairs for keys in both $modified and $original, but values differ
         // ignore keys that are in $original but not in $modified
 
+        if (empty($original) || !is_array($original)) {
+            $original = array();
+        }
+
+        if (empty($modified) || !is_array($modified)) {
+            $modified = array();
+        }
+
         return array_udiff_assoc($modified, $original, array(__CLASS__, 'compareElements'));
     }
 
