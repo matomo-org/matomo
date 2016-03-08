@@ -60,6 +60,9 @@ class UserId extends \Piwik\Plugin
                         first_visit_time DATETIME NOT NULL,
                         last_visit_time DATETIME NOT NULL,
                         total_visits INT UNSIGNED NOT NULL,
+                        total_actions INT UNSIGNED NOT NULL,
+                        total_searches INT UNSIGNED NOT NULL,
+                        total_events INT UNSIGNED NOT NULL,
                         idvisitor binary(8) NOT NULL,
                         PRIMARY KEY (idsite, user_id),
                         KEY last_visit_id (last_visit_id)

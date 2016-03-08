@@ -25,7 +25,10 @@ class GetUsers extends Base
      */
     public static function getColumnsToDisplay()
     {
-        return array('user_id', 'first_visit_time', 'last_visit_time', 'total_visits');
+        return array(
+            'user_id', 'first_visit_time', 'last_visit_time', 'total_visits', 'total_actions',
+            'total_searches', 'total_events'
+        );
     }
 
     protected function init()
@@ -50,6 +53,9 @@ class GetUsers extends Base
         $view->config->addTranslation('first_visit_time', Piwik::translate('Live_FirstVisit'));
         $view->config->addTranslation('last_visit_time', Piwik::translate('Live_LastVisit'));
         $view->config->addTranslation('total_visits', Piwik::translate('General_NumberOfVisits'));
+        $view->config->addTranslation('total_actions', Piwik::translate('General_ColumnNbActions'));
+        $view->config->addTranslation('total_searches', Piwik::translate('Actions_ColumnSearches'));
+        $view->config->addTranslation('total_events', Piwik::translate('Events_TotalEvents'));
 
         /*
          * Hide most of the table footer actions, leaving only export icons and pagination

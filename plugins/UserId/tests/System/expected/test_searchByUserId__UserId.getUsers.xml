@@ -2,9 +2,12 @@
 <result>
 	<row>
 		<user_id>user2</user_id>
-		<first_visit_time>2010-02-01 11:22:33</first_visit_time>
-		<last_visit_time>2010-02-20 11:22:33</last_visit_time>
-		<total_visits>20</total_visits>
+		<first_visit_time>Feb 1, 2010</first_visit_time>
+		<last_visit_time>Feb 20, 2010</last_visit_time>
+		<total_visits>21</total_visits>
+		<total_actions>29</total_actions>
+		<total_searches>4</total_searches>
+		<total_events>5</total_events>
 		<url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=a1881c06eec96db9</url>
 	</row>
 </result>

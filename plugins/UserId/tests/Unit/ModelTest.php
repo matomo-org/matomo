@@ -78,7 +78,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
             ->withConsecutive(
                 array(
                     $this->equalTo(
-                    "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+                    "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$model->getUserIdsTable()}
             WHERE idsite = ? AND user_id != ''
             ORDER BY user_id * 1 asc, user_id asc
@@ -88,7 +89,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     $this->equalTo(
-                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$model->getUserIdsTable()}
             WHERE idsite = ? AND user_id != ''
             ORDER BY user_id * 1 desc, user_id desc
@@ -98,7 +100,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     $this->equalTo(
-                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$model->getUserIdsTable()}
             WHERE idsite = ? AND user_id != ''
             ORDER BY user_id * 1 asc, user_id asc
@@ -108,7 +111,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     $this->equalTo(
-                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$model->getUserIdsTable()}
             WHERE idsite = ? AND user_id != ''
             ORDER BY user_id * 1 asc, user_id asc
@@ -118,7 +122,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     $this->equalTo(
-                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$model->getUserIdsTable()}
             WHERE idsite = ? AND user_id != ''
             ORDER BY first_visit_time asc
@@ -128,7 +133,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     $this->equalTo(
-                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$model->getUserIdsTable()}
             WHERE idsite = ? AND user_id != '' AND user_id LIKE ?
             ORDER BY user_id * 1 asc, user_id asc
@@ -138,7 +144,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     $this->equalTo(
-                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+                        "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$model->getUserIdsTable()}
             WHERE idsite = ? AND user_id != '' AND user_id LIKE ?
             ORDER BY user_id * 1 asc, user_id asc
@@ -179,11 +186,14 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 array(
                     $this->equalTo(
                         "INSERT INTO {$model->getUserIdsTable()}
-              (user_id, idsite, last_visit_id, first_visit_time, last_visit_time, total_visits, idvisitor)
-            VALUES ('simple@user.id', 1, 12345, '2014-01-01 01:23:45', '2015-12-13 23:12:21', 9, X'0b81a0fa7f886b23'),('simple\\'use\\\"r.id', 1, 12345, '2014-01-01 01:23:45', '2015-12-13 23:12:21', 9, X'0b81a0fa7f886b23')
+              (user_id, idsite, last_visit_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions, total_searches, total_events)
+            VALUES ('simple@user.id', 1, 12345, '2014-01-01 01:23:45', '2015-12-13 23:12:21', 9, X'0b81a0fa7f886b23', 2, 3, 0),('simple\\'use\\\"r.id', 1, 12345, '2014-01-01 01:23:45', '2015-12-13 23:12:21', 9, X'0b81a0fa7f886b23', 2, 3, 0)
             ON DUPLICATE KEY UPDATE last_visit_id = values(last_visit_id),
               last_visit_time = values(last_visit_time),
-              total_visits = total_visits + values(total_visits)"
+              total_visits = total_visits + values(total_visits),
+              total_actions = total_actions + values(total_actions),
+              total_searches = total_searches + values(total_searches),
+              total_events = total_events + values(total_events)"
                     ),
                     $this->equalTo(array()),
                     $this->equalTo(false)
@@ -198,7 +208,10 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 'last_visit_id' => '12345',
                 'first_visit_time' => '2014-01-01 01:23:45',
                 'last_visit_time' => '2015-12-13 23:12:21',
-                'total_visits' => '9'
+                'total_visits' => '9',
+                'total_actions' => '2',
+                'total_searches' => '3',
+                'total_events' => '0'
             ),
             array(
                 'user_id' => 'simple\'use"r.id',
@@ -207,7 +220,10 @@ class ModelTest extends \PHPUnit_Framework_TestCase
                 'last_visit_id' => '12345',
                 'first_visit_time' => '2014-01-01 01:23:45',
                 'last_visit_time' => '2015-12-13 23:12:21',
-                'total_visits' => '9'
+                'total_visits' => '9',
+                'total_actions' => '2',
+                'total_searches' => '3',
+                'total_events' => '0'
             ),
         ));
     }

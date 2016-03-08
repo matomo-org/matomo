@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserId;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -91,6 +92,18 @@ class API extends \Piwik\Plugin\API
         $dataTable->disableFilter('Pattern');
 
         foreach ($dataTable->getRows() as $row) {
+            /*
+             * Format dates
+             */
+            $row->setColumn(
+                'first_visit_time',
+                Date::factory($row->getColumn('first_visit_time'))->getLocalized(Date::DATE_FORMAT_SHORT)
+            );
+            $row->setColumn(
+                'last_visit_time',
+                Date::factory($row->getColumn('last_visit_time'))->getLocalized(Date::DATE_FORMAT_SHORT)
+            );
+
             /*
              * Get idvisitor and remove it from DataTable. We need it to form an URL that is used in
              * JS to show visitor details popover. See rowaction.js

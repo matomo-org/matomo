@@ -126,7 +126,8 @@ class Model
         }
 
         return $this->db->fetchAll(
-            "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor
+            "SELECT user_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions,
+              total_searches, total_events
             FROM {$this->userIdsTable}
             WHERE idsite = ? AND user_id != ''$filterPatternExpression
             ORDER BY $sortExpression
@@ -175,9 +176,15 @@ class Model
             "SELECT sub.user_id, sub.idsite, MAX(sub.idvisit) as last_visit_id, sub.idvisitor,
               MIN(sub.visit_first_action_time) as first_visit_time,
               MAX(sub.visit_last_action_time) as last_visit_time,
-              SUM(sub.visitor_count_visits) as total_visits
+              SUM(sub.visitor_count_visits) as total_visits,
+              SUM(sub.visit_total_actions) as total_actions,
+              SUM(sub.visit_total_searches) as total_searches,
+              SUM(sub.visit_total_events) as total_events
             FROM (
-                SELECT user_id, idsite, idvisit, idvisitor, visit_first_action_time, visit_last_action_time, visitor_count_visits FROM log_visit
+                SELECT user_id, idsite, idvisit, idvisitor, visit_first_action_time,
+                  visit_last_action_time, visitor_count_visits, visit_total_actions,
+                  visit_total_searches, visit_total_events
+                FROM {$this->getLogVisitTable()}
                 WHERE idvisit > ? AND idvisit <= ?
                 ORDER BY idvisit ASC
                 LIMIT $limit
@@ -200,7 +207,8 @@ class Model
         foreach ($visitsAggregatedByUser as $visitRow) {
             $inserts[] = "('" . addslashes($visitRow['user_id']) . "', {$visitRow['idsite']}, "
                 . "{$visitRow['last_visit_id']}, '{$visitRow['first_visit_time']}', "
-                . "'{$visitRow['last_visit_time']}', {$visitRow['total_visits']}, X'" . bin2hex($visitRow['idvisitor']) . "')";
+                . "'{$visitRow['last_visit_time']}', {$visitRow['total_visits']}, X'" . bin2hex($visitRow['idvisitor']) . "', "
+                . "{$visitRow['total_actions']}, {$visitRow['total_searches']}, {$visitRow['total_events']})";
         }
         if (empty($inserts)) {
             return;
@@ -208,11 +216,14 @@ class Model
 
         $this->db->query(
             "INSERT INTO {$this->getUserIdsTable()}
-              (user_id, idsite, last_visit_id, first_visit_time, last_visit_time, total_visits, idvisitor)
+              (user_id, idsite, last_visit_id, first_visit_time, last_visit_time, total_visits, idvisitor, total_actions, total_searches, total_events)
             VALUES " . implode(',', $inserts) . "
             ON DUPLICATE KEY UPDATE last_visit_id = values(last_visit_id),
               last_visit_time = values(last_visit_time),
-              total_visits = total_visits + values(total_visits)",
+              total_visits = total_visits + values(total_visits),
+              total_actions = total_actions + values(total_actions),
+              total_searches = total_searches + values(total_searches),
+              total_events = total_events + values(total_events)",
             array(),
             false
         );

@@ -2,23 +2,32 @@
 <result>
 	<row>
 		<user_id>user1</user_id>
-		<first_visit_time>2010-02-01 11:22:33</first_visit_time>
-		<last_visit_time>2010-02-10 11:22:33</last_visit_time>
-		<total_visits>10</total_visits>
+		<first_visit_time>Feb 1, 2010</first_visit_time>
+		<last_visit_time>Feb 10, 2010</last_visit_time>
+		<total_visits>11</total_visits>
+		<total_actions>15</total_actions>
+		<total_searches>2</total_searches>
+		<total_events>3</total_events>
 		<url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=b3daa77b4c04a955</url>
 	</row>
 	<row>
 		<user_id>user2</user_id>
-		<first_visit_time>2010-02-01 11:22:33</first_visit_time>
-		<last_visit_time>2010-02-20 11:22:33</last_visit_time>
-		<total_visits>20</total_visits>
+		<first_visit_time>Feb 1, 2010</first_visit_time>
+		<last_visit_time>Feb 20, 2010</last_visit_time>
+		<total_visits>21</total_visits>
+		<total_actions>29</total_actions>
+		<total_searches>4</total_searches>
+		<total_events>5</total_events>
 		<url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=a1881c06eec96db9</url>
 	</row>
 	<row>
 		<user_id>user3</user_id>
-		<first_visit_time>2010-02-01 11:22:33</first_visit_time>
-		<last_visit_time>2010-03-02 11:22:33</last_visit_time>
-		<total_visits>30</total_visits>
+		<first_visit_time>Feb 1, 2010</first_visit_time>
+		<last_visit_time>Mar 2, 2010</last_visit_time>
+		<total_visits>31</total_visits>
+		<total_actions>44</total_actions>
+		<total_searches>6</total_searches>
+		<total_events>8</total_events>
 		<url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=0b7f849446d33835</url>
 	</row>
 </result>
