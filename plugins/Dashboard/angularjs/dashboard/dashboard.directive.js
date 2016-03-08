@@ -52,7 +52,10 @@
         }
 
         function fetchDashboard(dashboardId) {
-            $('#dashboardWidgetsArea').innerHTML ='';
+            var dashboardElement = $('#dashboardWidgetsArea');
+            dashboardElement.dashboard('destroyWidgets');
+            dashboardElement.empty();
+            globalAjaxQueue.abort();
 
             var getDashboard = dashboardsModel.getDashboard(dashboardId);
             var getLayout = dashboardsModel.getDashboardLayout(dashboardId);
@@ -87,9 +90,10 @@
 
                 fetchDashboard(scope.dashboardid);
 
-                function onLocationChange(event, url1, url2)
+                function onLocationChange(event, newUrl, oldUrl)
                 {
-                   if (url1 !== url2) {
+                   if (newUrl !== oldUrl && newUrl.indexOf('category=Dashboard_Dashboard') === -1) {
+                       // we remove the dashboard only if we no longer show a dashboard.
                        clearDashboard();
                    }
                 }

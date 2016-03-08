@@ -132,6 +132,17 @@ var piwikHelper = {
     },
 
     /**
+     * Detects whether angular is rendering the page. If so, the page will be reloaded automatically
+     * via angular as soon as it detects a $locationChange
+     *
+     * @returns {number|jQuery}
+     */
+    isAngularRenderingThePage: function ()
+    {
+        return $('[piwik-reporting-page]').length;
+    },
+
+    /**
      * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
      * Given callback handles will be mapped to the buttons having a role attriute
      *

@@ -70,11 +70,10 @@
         destroy: function () {
             $(dashboardElement).remove();
             dashboardElement = null;
-            var widgets = $('[widgetId]');
-            for (var i = 0; i < widgets.length; i++) {
-                $(widgets[i]).dashboardWidget('destroy');
-            }
+            destroyWidgets();
         },
+
+        destroyWidgets: destroyWidgets,
 
         /**
          * Load dashboard with the given id
@@ -82,14 +81,21 @@
          * @param {int} dashboardIdToLoad
          */
         loadDashboard: function (dashboardIdToLoad) {
+
             $(dashboardElement).empty();
             dashboardName = '';
             dashboardLayout = null;
             dashboardId = dashboardIdToLoad;
 
-            var element = $('[piwik-dashboard]');
-            var scope = angular.element(element).scope();
-            scope.fetchDashboard(dashboardIdToLoad);
+            if (piwikHelper.isAngularRenderingThePage()) {
+                angular.element(document).injector().invoke(function ($location) {
+                    $location.search('subcategory', '' + dashboardIdToLoad);
+                });
+            } else {
+                var element = $('[piwik-dashboard]');
+                var scope = angular.element(element).scope();
+                scope.fetchDashboard(dashboardIdToLoad);
+            }
 
             return this;
         },
@@ -178,12 +184,30 @@
         },
 
         rebuildMenu: rebuildMenu,
-
         /**
          * Removes the current dashboard
          */
         removeDashboard: function () {
-            removeDashboard();
+            if (dashboardId == 1) {
+                return; // dashboard with id 1 should never be deleted, as it is the default
+            }
+
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.setLoadingElement();
+            ajaxRequest.addParams({
+                module: 'Dashboard',
+                action: 'removeDashboard',
+                idDashboard: dashboardId
+            }, 'get');
+            ajaxRequest.setCallback(
+                function () {
+                    methods.loadDashboard.apply(this, [1]);
+                    rebuildMenu();
+                }
+            );
+            ajaxRequest.withTokenInUrl();
+            ajaxRequest.setFormat('html');
+            ajaxRequest.send(true);
         },
 
         /**
@@ -200,6 +224,14 @@
             return (dashboardId == 1);
         }
     };
+
+    function destroyWidgets()
+    {
+        var widgets = $('[widgetId]');
+        for (var i = 0; i < widgets.length; i++) {
+            $(widgets[i]).dashboardWidget('destroy');
+        }
+    }
 
     function removeNonExistingWidgets(availableWidgets, layout)
     {
@@ -490,7 +522,7 @@
      */
     function rebuildMenu() {
 
-        if ($('[piwik-reporting-menu]').length) {
+        if (piwikHelper.isAngularRenderingThePage()) {
             // dashboard in reporting page (regular Piwik UI)
             angular.element(document).injector().invoke(function (reportingMenuModel) {
                 reportingMenuModel.reloadMenuItems();
@@ -541,7 +573,6 @@
                 methods.loadDashboard.apply(_self, [idDashboard]);
 
                 $(this).closest('li').addClass('active');
-
             });
         };
 
@@ -608,32 +639,6 @@
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
         }
-    }
-
-    /**
-     * Removes the current dashboard
-     */
-    function removeDashboard() {
-        if (dashboardId == 1) {
-            return; // dashboard with id 1 should never be deleted, as it is the default
-        }
-
-        var ajaxRequest = new ajaxHelper();
-        ajaxRequest.setLoadingElement();
-        ajaxRequest.addParams({
-            module: 'Dashboard',
-            action: 'removeDashboard',
-            idDashboard: dashboardId
-        }, 'get');
-        ajaxRequest.setCallback(
-            function () {
-                rebuildMenu();
-                methods.loadDashboard.apply(this, [1]);
-            }
-        );
-        ajaxRequest.withTokenInUrl();
-        ajaxRequest.setFormat('html');
-        ajaxRequest.send(true);
     }
 
     /**

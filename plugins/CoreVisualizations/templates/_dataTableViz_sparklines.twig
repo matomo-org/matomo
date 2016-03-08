@@ -12,6 +12,7 @@
         {% endfor %}
 
 {% if not isWidget %}
+        <br style="clear:left"/>
     </div>
     <div class="col-md-6">
 {% endif %}
@@ -21,6 +22,8 @@
                 {{ macros.singleSparkline(sparkline) }}
             {% endif %}
         {% endfor %}
+
+        <br style="clear:left"/>
 
 {% if not isWidget %}
     </div>

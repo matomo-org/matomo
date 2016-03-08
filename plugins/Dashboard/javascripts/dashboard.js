@@ -27,6 +27,7 @@ function createDashboard() {
             function (id) {
                 angular.element(document).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
                     dashboardsModel.reloadAllDashboards().then(function () {
+
                         $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
                         $('#dashboardWidgetsArea').dashboard('rebuildMenu');
                     });

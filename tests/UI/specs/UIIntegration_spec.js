@@ -43,7 +43,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
     });
 
-
     // dashboard tests
     it("should load dashboard1 correctly", function (done) {
         expect.screenshot("dashboard1").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
@@ -567,7 +566,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + generalParams + "&module=Widgetize&action=index");
 
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors)');
-            page.mouseMove('li[uniqueid="widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution"]');
+            page.mouseMove('.widgetpreview-widgetlist li:contains(Visits Over Time)');
+            page.click('.widgetpreview-widgetlist li:contains(Visits Over Time)');
             page.evaluate(function () {
                 $('.formEmbedCode').each(function () {
                     var val = $(this).val();

@@ -121,7 +121,12 @@
                 var $widgetContent = $('.widgetContent', currentWidget);
 
                 $widgetContent.html(loadedContent);
-                piwikHelper.compileAngularComponents($widgetContent);
+
+                if (currentWidget.parents('body').size()) {
+                    // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
+                    // removed from DOM
+                    piwikHelper.compileAngularComponents($widgetContent);
+                }
                 $widgetContent.removeClass('loading');
                 $widgetContent.trigger('widget:create', [self]);
             }
