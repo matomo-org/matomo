@@ -112,10 +112,9 @@ We also have an OmniFixture that includes all other Fixtures. OmniFixture is use
 
 #### Keep OmniFixture up to date
 
-Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql.gz) whenever you make any change to any fixture. You can use:
+Remember to update the [Omnifixture SQL dump](https://github.com/piwik/piwik/blob/master/tests/resources/OmniFixture-dump.sql) whenever you make any change to any fixture. You can use:
 
     ./console tests:setup-fixture OmniFixture --sqldump=OmniFixture-dump.sql
-    cat OmniFixture-dump.sql | gzip > tests/resources/OmniFixture-dump.sql.gz
 
 Keeping the OmniFixture up to date makes it easier to see which tests fail after each small fixture change. 
 
