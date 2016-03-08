@@ -122,6 +122,54 @@ class IniFileChainTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(serialize($b), serialize($diff), $description);
     }
 
+    /**
+     * Dataprovider for testArrayUnmerge Invalid Data
+     * @return array
+     */
+    public function getArrayUnmergeInvalidData()
+    {
+        return array(
+            array('modified invalid string', array(
+                array(),
+                '',
+                array(),
+            )),
+            array('modified invalid int', array(
+                array('login' => 'root', 'password' => 'b33r'),
+                17,
+                array(),
+
+            )),
+            array('original invalid string', array(
+                '',
+                array(),
+                array(),
+            )),
+            array('original invalid int', array(
+                17,
+                array('login' => 'root', 'password' => 'b33r'),
+                array('login' => 'root', 'password' => 'b33r'),
+            )),
+            array('both invalid', array(
+                17,
+                '',
+                array(),
+            )),
+        );
+    }
+
+    /**
+     * @dataProvider getArrayUnmergeInvalidData
+     */
+    public function test_ArrayUnmerge_CanHandleInvalidData($description, $test)
+    {
+        $configWriter = new IniFileChain(array(), null);
+
+        list($a, $b, $c) = $test;
+
+        $this->assertEquals($c, $configWriter->arrayUnmerge($a, $b), $description);
+    }
+
     public function getMergingTestData()
     {
         return array(
