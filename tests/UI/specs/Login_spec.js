@@ -70,6 +70,8 @@ describe("Login", function () {
 
     it("should send email when password reset form submitted", function (done) {
         expect.screenshot("password_reset").to.be.capture(function (page) {
+            page.reload();
+            page.click("a#login_form_nav");
             page.sendKeys("#reset_form_login", "superUserLogin");
             page.sendKeys("#reset_form_password", "superUserPass2");
             page.sendKeys("#reset_form_password_bis", "superUserPass2");
