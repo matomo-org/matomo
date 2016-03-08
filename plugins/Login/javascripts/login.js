@@ -63,7 +63,7 @@
             var ajaxDone = function (response) {
                 $('.loadingPiwik').hide();
 
-                var isSuccess = response.indexOf('id="login_error"') === -1,
+                var isSuccess = response.indexOf('message_error') === -1,
                     fadeOutIds = '#message_container';
                 if (isSuccess) {
                     fadeOutIds += ',#reset_form,#reset_form_nav';

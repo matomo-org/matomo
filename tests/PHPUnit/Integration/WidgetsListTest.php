@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Access;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;

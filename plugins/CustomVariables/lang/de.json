@@ -17,6 +17,8 @@
         "CreatingCustomVariableTakesTime": "Neue benutzerdefinierte Variablen zu erstellen kann viel Zeit beanspruchen, abhängig von der Grösse Ihrer Datenbank. Deshalb ist dieser Vorgang nur über Kommandozeilen verfügbar.",
         "CurrentAvailableCustomVariables": "Aktuell können Sie bis zu %s benutzerdefinierte Variablen pro Seite einsetzen.",
         "ToCreateCustomVarExecute": "Um eine neue benutzerdefinierte Variable zu erstellen, führen Sie in Ihrer Piwik Installation folgende Befehle aus:",
-        "SlotsReportIsGeneratedOverTime": "Daten für diesen Bericht werden periodisch veröffentlicht. Es mag ein oder zwei Tage dauern, bis Daten sichtbar sind und einige Wochen bis der Bericht vollständig aussagekräftig ist."
+        "SlotsReportIsGeneratedOverTime": "Daten für diesen Bericht werden periodisch veröffentlicht. Es mag ein oder zwei Tage dauern, bis Daten sichtbar sind und einige Wochen bis der Bericht vollständig aussagekräftig ist.",
+        "MetricsAreOnlyAvailableForVisitScope": "Hinweis: Die Metriken %1$s sind nur für benutzerdefinierte Variablen mit Geltungsbereich %2$s verfügbar.",
+        "MetricsNotAvailableForPageScope": "Für benutzerdefinierte Variablen mit Geltungsbereich %1$s ist der Wert für diese Metriken %2$s."
     }
 }

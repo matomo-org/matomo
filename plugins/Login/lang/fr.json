@@ -11,7 +11,6 @@
         "LoginOrEmail": "Nom d'utilisateur ou courriel",
         "LoginPasswordNotCorrect": "Mot de passe et nom d'utilisateur incorrects.",
         "LostYourPassword": "Mot de passe perdu ?",
-        "MailPasswordChangeBody": "Bonjour %1$s,\n\nUne demande de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer le changement de mot de passe afin de pouvoir vous authentifier avec vos nouveaux identifiants, cliquez sur le lien suivant :\n\n%3$s\n\nNote : ce jeton expirera dans 24 heures.\n\nMerci d'utiliser Piwik !",
         "MailTopicPasswordChange": "Confirmer le changement de mot de passe",
         "PasswordChanged": "Votre mot de passe a été modifié",
         "PasswordRepeat": "Mot de passe (répétez)",

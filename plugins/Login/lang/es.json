@@ -11,7 +11,6 @@
         "LoginOrEmail": "Usuario o correo electrónico",
         "LoginPasswordNotCorrect": "Usuario y contraseña incorrectos.",
         "LostYourPassword": "¿Olvidó la contraseña?",
-        "MailPasswordChangeBody": "Estimado %1$s:\n\nSe ha recibido una solicitud de modificación de contraseña desde %2$s. Para confirmar el cambio de contraseña y de esta manera permitir su inicio de sesión con nuevas credenciales, visite el siguiente enlace:\n\n%3$s\n\nNota: Este solicitud vencerá en 24 horas.\n\n¡Y gracias por usar Piwik!",
         "MailTopicPasswordChange": "Confirma el cambio de contraseña",
         "PasswordChanged": "Su contraseña ha sido modificada.",
         "PasswordRepeat": "Contraseña (repetir)",

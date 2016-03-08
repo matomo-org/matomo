@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Theo dõi sự kiện và nhận các báo cáo về hoạt động truy cập của bạn.",
         "EventAction": "Hành động sự kiện",
         "EventCategory": "Danh mục sự kiện",
         "EventName": "Tên sự kiện",

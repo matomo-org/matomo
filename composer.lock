@@ -823,16 +823,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.5.1",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "29830f9bd67c8300e37828db0688161dd6f5f7a5"
+                "reference": "8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/29830f9bd67c8300e37828db0688161dd6f5f7a5",
-                "reference": "29830f9bd67c8300e37828db0688161dd6f5f7a5",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae",
+                "reference": "8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae",
                 "shasum": ""
             },
             "require": {
@@ -870,7 +870,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2016-01-21 22:26:37"
+            "time": "2016-03-02 22:20:49"
         },
         {
             "name": "piwik/ini",

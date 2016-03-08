@@ -16,7 +16,6 @@
         "SaveAndApply": "Bewaar & Pas Toe",
         "SegmentDisplayedAllWebsites": "alle websites",
         "SegmentDisplayedThisWebsiteOnly": "alleen deze website",
-        "SegmentIsDisplayedForWebsite": "en getoond voor",
         "SegmentNotApplied": "Segment '%s' niet toegepast",
         "SegmentNotAppliedMessage": "Je probeert data op te vragen voor aangepast segment '%s', deze Piwik omgeving is op dit moment, vanwege performance redenen, ingericht om geen rapporten in realtime te verwerken.",
         "ThisSegmentIsVisibleTo": "Dit segment is zichtbaar voor:",

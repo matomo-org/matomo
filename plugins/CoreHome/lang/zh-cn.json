@@ -24,6 +24,7 @@
         "InjectedHostSuperUserWarning": "可能 Piwik 配置有误 (例如，Piwik 刚移到新的服务器)。您可以 %1$s点这里添加 %2$s 为 Piwik 主机名 (如果您信任)%3$s, 或者 %4$s点这里转到 %5$s 安全访问 Piwik %6$s。",
         "InjectedHostWarningIntro": "您现在是通过 %1$s 访问 Piwik，但 Piwik 设置的地址是: %2$s.",
         "JavascriptDisabled": "使用 Piwik 的标准视图时必须启用 JavaScript。<br \/>然而，看来您的浏览器已停用或不支持 JavaScript。<br \/>若要使用标准视图，请修改您的浏览器选项并启用 JavaScript, 然后%1$s重试一次%2$s。<br \/>",
+        "MainNavigation": "主导航",
         "MakeADifference": "现在就%1$s捐款%2$s给 Piwik 2.0 !",
         "MakeOneTimeDonation": "一次性捐款",
         "Menu": "菜单",
@@ -48,6 +49,11 @@
         "YouAreUsingTheLatestVersion": "您正在使用最新版的 Piwik！",
         "ClickRowToExpandOrContract": "点击这行可以扩展或压缩小工作台。",
         "UndoPivotBySubtable": "这个报表被 pivot 了 %s 撤销 Pivot",
-        "PivotBySubtable": "这个报表尚未 pivot %1$s 以 %2$s 的身份 pivot"
+        "PivotBySubtable": "这个报表尚未 pivot %1$s 以 %2$s 的身份 pivot",
+        "QuickAccessTitle": "搜索 %s，使用上下键在搜索结果中导航。快捷键：按“F”进行搜索。",
+        "MenuEntries": "菜单项",
+        "Segments": "段",
+        "AdblockIsMaybeUsed": "如果您使用的是广告拦截，请禁用此网站，以确保Piwik工作没有任何问题。",
+        "ChangeCurrentWebsite": "选择一个网站，当前选择的网站： %s"
     }
 }

@@ -15,7 +15,6 @@
         "SaveAndApply": "Tallenna ja ota käyttöön",
         "SegmentDisplayedAllWebsites": "kaikki sivut",
         "SegmentDisplayedThisWebsiteOnly": "vain tällä verkkosivulla",
-        "SegmentIsDisplayedForWebsite": "näytetään vain",
         "SegmentNotApplied": "Segmenttiä '%s' ei sovelleta",
         "ThisSegmentIsVisibleTo": "Tämä segmentti näytetään seuraaville:",
         "VisibleToAllUsers": "kaikki käyttäjät",

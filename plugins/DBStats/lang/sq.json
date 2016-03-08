@@ -2,9 +2,16 @@
     "DBStats": {
         "DatabaseUsage": "Përdorim baze të dhënash",
         "DataSize": "Madhësi të dhënash",
+        "DBSize": "Madhësia e DB-së",
+        "EstimatedSize": "Madhësi e vlerësuar",
         "IndexSize": "Madhësi treguesi",
-        "LearnMore": "Për të mësuar më tepër rreth se si i përpunon të dhënat Piwik-u dhe se si ta bëni Piwik-un të punojë mirë me site-e web me trafik mesatar ose të madh, kontrolloni dokumentimin %s.",
+        "LearnMore": "Për të mësuar më tepër rreth se si i përpunon të dhënat Piwik-u dhe se si ta bëni Piwik-un të punojë mirë me sajte me trafik mesatar ose të madh, kontrolloni dokumentimin %s.",
         "MainDescription": "Piwik-u po i depoziton krejt të dhënat tuaja për analizë web te baza e të dhënave MySQL. Tani për tani, tabelat e Piwik-ut po përdorin %s.",
+        "MetricDataByYear": "Tabela Matjesh Sipas Vitesh",
+        "MetricTables": "Tabela Matjesh",
+        "OtherTables": "Tabela të Tjera",
+        "ReportDataByYear": "Tabela Raportesh Sipas Vitit",
+        "ReportTables": "Tabela Raportesh",
         "RowCount": "Numërim rreshtash",
         "Table": "Tabelë",
         "TotalSize": "Madhësi gjithsej"

@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Fişier configurări",
+        "ConfigFileIntroduction": "Aici poţi vedea configurările Piwik. Dacă rulezi Piwik într-un mediu cu load-balancing pagina poate fi diferită în funcţie de serverul de pe care se încarcă. Liniile cu o culoare de fundal diferită valorile de configurare modificate specificate, de exemplu în fişierul %1$s",
+        "HideUnchanged": "Dacă vrei să vezi doar valorile modificate poţi ascunde %1$s toate valorile neschimbate %2$s.",
+        "Sections": "Secţiuni"
+    }
+}

@@ -39,6 +39,12 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
 * Required PHP version was changed from 5.3 to 5.5
 
+
+## Piwik 2.16.1
+
+### New features
+ * New method `setIsWritableByCurrentUser` for `SystemSetting` to change the writable permission for certain system settings via DI.
+
 ## Piwik 2.16.0
 
 ### New features

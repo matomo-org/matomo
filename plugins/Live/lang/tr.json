@@ -16,9 +16,15 @@
         "PreviousVisitor": "Önceki ziyaretçi",
         "RealTimeVisitorCount": "Gerçek Zamanlı Ziyaretçi Sayacı",
         "Referrer_URL": "Yönlendirme Siteleri",
+        "ShowMap": "haritayı göster",
         "ViewVisitorProfile": "Ziyaretçi profiline bak",
         "VisitedPages": "Ziyaret edilmiş sayfalar",
         "VisitorLog": "Ziyaretçi kayıtları",
-        "VisitorsInRealTime": "Gerçek Zamanlı Ziyaretçiler"
+        "VisitorProfile": "Ziyaretçi Profili",
+        "VisitorsInRealTime": "Gerçek Zamanlı Ziyaretçiler",
+        "VisitorsLastVisit": "Bu ziyaretçi %s gün önce ziyaret etmiş",
+        "RowActionTooltipTitle": "Bölüm ziyaretçi loglarını aç",
+        "OnClickPause": "%s başladı. Durdurmak için basın.",
+        "OnClickStart": "%s durduruldu. Başlatmak için basın."
     }
 }

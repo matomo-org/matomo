@@ -265,6 +265,7 @@ class CronArchive
      *
      * @param string|null $processNewSegmentsFrom When to archive new segments from. See [General] process_new_segments_from
      *                                            for possible values.
+     * @param LoggerInterface|null $logger
      */
     public function __construct($processNewSegmentsFrom = null, LoggerInterface $logger = null)
     {
@@ -714,6 +715,12 @@ class CronArchive
 
     /**
      * Returns base URL to process reports for the $idSite on a given $period
+     *
+     * @param string $idSite
+     * @param string $period
+     * @param string $date
+     * @param bool|false $segment
+     * @return string
      */
     private function getVisitsRequestUrl($idSite, $period, $date, $segment = false)
     {
@@ -839,7 +846,11 @@ class CronArchive
         return true;
     }
 
-    private function getSegmentsForSite($idSite, $period)
+    /**
+     * @param $idSite
+     * @return array
+     */
+    private function getSegmentsForSite($idSite)
     {
         $segmentsAllSites = $this->segments;
         $segmentsThisSite = SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite);
@@ -933,6 +944,8 @@ class CronArchive
 
     /**
      * Logs a section in the output
+     *
+     * @param string $title
      */
     private function logSection($title = "")
     {
@@ -968,6 +981,8 @@ class CronArchive
     /**
      * Issues a request to $url eg. "?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1"
      *
+     * @param string $url
+     * @return string
      */
     private function request($url)
     {
@@ -1053,6 +1068,7 @@ class CronArchive
 
     /**
      * @internal
+     * @param $api
      */
     public function setApiToInvalidateArchivedReport($api)
     {
@@ -1136,6 +1152,7 @@ class CronArchive
     /**
      * Detects whether a site had visits since midnight in the websites timezone
      *
+     * @param $idSite
      * @return bool
      */
     private function hadWebsiteTrafficSinceMidnightInTimezone($idSite)
@@ -1149,19 +1166,23 @@ class CronArchive
 
         $secondsSinceLastArchive = $this->getSecondsSinceLastArchive();
         if ($secondsSinceLastArchive < $secondsSinceMidnight) {
-            $secondsSinceMidnight = $secondsSinceLastArchive;
+            $secondsBackToLookForVisits = $secondsSinceLastArchive;
+            $sinceInfo = "(since the last successful archiving)";
+        } else {
+            $secondsBackToLookForVisits = $secondsSinceMidnight;
+            $sinceInfo = "(since midnight)";
         }
 
-        $from = Date::now()->subSeconds($secondsSinceMidnight)->getDatetime();
+        $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getDatetime();
         $to   = Date::now()->addHour(1)->getDatetime();
 
         $dao = new RawLogDao();
         $hasVisits = $dao->hasSiteVisitsBetweenTimeframe($from, $to, $idSite);
 
         if ($hasVisits) {
-            $this->logger->info("- tracking data found for website id $idSite (between $from and $to)");
+            $this->logger->info("- tracking data found for website id $idSite since $from UTC $sinceInfo");
         } else {
-            $this->logger->info("- no new tracking data for website id $idSite (between $from and $to)");
+            $this->logger->info("- no new tracking data for website id $idSite since $from UTC $sinceInfo");
         }
 
         return $hasVisits;
@@ -1619,7 +1640,7 @@ class CronArchive
     private function getUrlsWithSegment($idSite, $period, $date)
     {
         $urlsWithSegment = array();
-        $segmentsForSite = $this->getSegmentsForSite($idSite, $period);
+        $segmentsForSite = $this->getSegmentsForSite($idSite);
 
         $segments = array();
         foreach ($segmentsForSite as $segment) {
@@ -1676,6 +1697,7 @@ class CronArchive
     /**
      * @param $idSite
      * @param $period
+     * @param $date
      */
     private function logArchiveWebsite($idSite, $period, $date)
     {

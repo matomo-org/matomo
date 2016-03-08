@@ -21,6 +21,7 @@
         "PluginDescription": "Ditt dashboard för webbanalys. Anpassa ditt dashboard genom att lägga till nya widgets, flytta runt dem och ändra kolumnindelning. Varje användare kan anpassa sin egen dashboard.",
         "RemoveDashboard": "Ta bort instrumentpanel",
         "RemoveDashboardConfirm": "Vill du verkligen radera instrumentpanelen \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "Standardinstrumentpanelen kan inte tas bort",
         "RenameDashboard": "Byt namn på instrumentpanelen",
         "ResetDashboard": "Återställ instrumentpanel",
         "ResetDashboardConfirm": "Vill du verkligen återställa instrumentpanelens layout för Widgets?",

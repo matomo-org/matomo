@@ -1,6 +1,6 @@
 {
     "Login": {
-        "ConfirmationLinkSent": "Ein Bestätigungslink wurde an Ihren Posteingang verschickt. Überprüfen Sie Ihre E-Mails und besuchen diesen Link um die Passwortänderung zu bestätigen.",
+        "ConfirmationLinkSent": "Ein Bestätigungslink wurde an Ihre E-Mail-Adresse verschickt. Überprüfen Sie Ihren Posteingang und besuchen diesen Link um die Passwortänderung zu bestätigen.",
         "ContactAdmin": "Möglicher Grund: Der Server könnte die mail()-Funktion deaktiviert haben.<br\/>Bitte sprechen Sie mit Ihrem Piwik-Administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ein Benutzer mit Systemverwaltunszugriff kann nicht mit der Methode »%s« legitimiert werden.",
         "ExceptionPasswordMD5HashExpected": "Der Parameter »password« wird als MD5-Hash des Passwortes erwartet.",
@@ -11,7 +11,6 @@
         "LoginOrEmail": "Benutzername oder E-Mail",
         "LoginPasswordNotCorrect": "Benutzername und Passwort sind nicht korrekt",
         "LostYourPassword": "Passwort vergessen?",
-        "MailPasswordChangeBody": "Hallo %1$s, \n\neine Passwortänderung von %2$s wurde eingeleitet. Um das neue Passwort zu bestätigen besuchen Sie folgenden Link: \n\n%3$s\n\nHinweis: Der Link ist nur 24 Stunden gültig. \n\nVielen Dank, dass Sie Piwik verwenden!",
         "MailTopicPasswordChange": "Passwortänderung bestätigen",
         "PasswordChanged": "Das Passwort wurde geändert.",
         "PasswordRepeat": "Passwort (wiederholen)",

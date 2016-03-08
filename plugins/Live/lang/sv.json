@@ -5,6 +5,7 @@
         "CalculatedOverNPageViews": "Beräknat på denna besöakrens senaste %1$s sidvisningar.",
         "ClickToViewMoreAboutVisit": "Klicka för mer information om det här besöket",
         "ConvertedNGoals": "Konverteringar %s Mål",
+        "EcommerceSummaryConversions": "%1$s ordrar%2$s för totalt %3$s%4$s, handlade %5$s varor%6$s.",
         "FirstVisit": "Första besöket",
         "GoalType": "Sort",
         "HideMap": "Dölj mapp",
@@ -32,6 +33,10 @@
         "VisitorProfile": "Besöksprofil",
         "VisitorsInRealTime": "Besökare i realtid",
         "VisitorsLastVisit": "Denna besökares senaste besök var %s dagar sedan.",
-        "VisitsFrom": "%1$s%2$s besökta %3$s från"
+        "VisitsFrom": "%1$s%2$s besökta %3$s från",
+        "RowActionTooltipTitle": "Öppna segmenterade besöksloggar",
+        "SegmentedVisitorLogTitle": "Besökslogg visar var besökarna %1$s och \"%2$s\" är",
+        "OnClickPause": "%s är startad. Klicka för att pausa.",
+        "OnClickStart": "%s är stoppad. Klicka för att starta."
     }
 }

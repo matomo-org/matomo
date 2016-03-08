@@ -138,5 +138,4 @@ $( document ).ready(function() {
         $('a[name="main"]').attr('tabindex', -1).focus();
         $(window).scrollTo($('a[name="main"]'));
     });
-
 });

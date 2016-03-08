@@ -16,6 +16,7 @@
         "country_a2": "Satellit udbyder",
         "country_cat": "Catalansk-talende samfund",
         "country_o1": "Andet land",
+        "country_ti": "Tibet",
         "CurrentLocationIntro": "I følge denne tjeneste er din aktuelle lokation",
         "DefaultLocationProviderDesc1": "Standardlokationstjenesten gætter en besøgendes land baseret på det sprog de bruger.",
         "DefaultLocationProviderDesc2": "Dette er ikke særlig nøjagtigt, så %1$svi anbefaler at du installerer og bruger %2$sGeoIP%3$s.%4$s",

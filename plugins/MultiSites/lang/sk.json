@@ -1,5 +1,6 @@
 {
     "MultiSites": {
-        "Evolution": "Vývoj"
+        "Evolution": "Vývoj",
+        "Pagination": "%1$s - %2$s of %3$s"
     }
 }

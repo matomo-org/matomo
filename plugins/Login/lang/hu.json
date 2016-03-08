@@ -11,7 +11,6 @@
         "LoginOrEmail": "Felhasználói név vagy e-mail cím",
         "LoginPasswordNotCorrect": "Felhasználói név\/jelszó páros nem megfelelő",
         "LostYourPassword": "Elfelejtetted jelszavad?",
-        "MailPasswordChangeBody": "Üdv %1$s,\n\nJelsző visszaállítási kérelem érkezett innen: %2$s. A jelszóváltoztatás megerősítéséhez és a bejelentkezéshez kattintson a következő linkre:\n\n%3$s\n\nMegjegyzés: Ez a link elévül 24 órán belül.\nKöszönjük, hogy Piwik-et használ!",
         "MailTopicPasswordChange": "Jelszóváltoztatás megerősítése",
         "PasswordChanged": "Jelszómódosítás sikeres.",
         "PasswordRepeat": "Jelszó (ismét)",

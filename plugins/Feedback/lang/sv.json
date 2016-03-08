@@ -5,6 +5,7 @@
         "IWantTo": "Jag vill:",
         "LearnWaysToParticipate": "Läs om alla sätt du kan %1$s delta%2$s",
         "ManuallySendEmailTo": "Vänligen skicka ditt meddelande manuellt till",
+        "PluginDescription": "Skicka din feedback till Piwik-teamet. Dela dina idéer och förslag för att göra Piwik till världens bästa analysplattform!",
         "PrivacyClaim": "Piwik respekterar din %1$sintegritet%2$s och ger dig full kontroll över din information.",
         "RateFeatureLeaveMessageDislike": "Vi är ledsna över att du inte gillar det! Berätta gärna för oss hur vi kan förbättra Piwik.",
         "RateFeatureLeaveMessageLike": "Vi är glada att du gillar det! Berätta för oss vad du gillar mest med Piwik eller om du har ett förslag på en funktion.",
@@ -16,10 +17,17 @@
         "TopLinkTooltip": "Tala om för oss vad du tycker, eller fråga efter professionell support.",
         "ViewAnswersToFAQ": "Se svar på %1$svanliga frågor%2$s",
         "ViewUserGuides": "Lär dig att konfigurera Piwik och hur man på ett effektivt sätt analyserar data med våra %1$sanvändarguider%2$s",
+        "CommunityHelp": "Community Hjälp",
         "ProfessionalHelp": "Professionell hjälp",
         "PiwikProOfferIntro": "Vårt erbjudande inkluderar",
+        "PiwikProReviewPiwikSetup": "En recension av din Piwik-installation",
+        "PiwikProOptimizationMaintenance": "Piwik optimering & underhållstjänster",
         "PiwikProPhoneEmailSupport": "Telefon och e-postsupport",
+        "PiwikProTraining": "Användar-, teknisk och utvecklarutbildning",
         "PiwikProPremiumFeatures": "Premium-funktioner",
-        "ContactUs": "Kontakta oss"
+        "PiwikProCustomDevelopment": "Anpassad utvecklingstjänster",
+        "PiwikProAnalystConsulting": "Konsulttjänster för analyser",
+        "ContactUs": "Kontakta oss",
+        "VisitTheForums": "Besök %1$s forumet%2$s och få hjälp av Piwik-användare"
     }
 }

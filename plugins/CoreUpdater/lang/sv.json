@@ -60,6 +60,8 @@
         "CloudHosting": "Molntjänst",
         "Updating": "Uppdateringar",
         "UpdateUsingHttpsFailed": "Nedladdning ac den senaste versionen av Piwik över HTTPS fungerade inte på grund av följande fel:",
+        "UpdateUsingHttpsFailedHelp": "Varför blev det fel? Nerladdning av den senaste versionen av Piwik (via säker HTTPS anslutning) kan misslyckas av flera anledningar, exempelvis på grund av nätverksproblem, långsam internethastighet eller fel systemkonfigurering. Notera att det även kan bero på att din server är måltavla för MITM-attack och att någon försöker ersätta uppdateringen med en skadlig version av Piwik.",
+        "UpdateUsingHttpsFailedHelpWhatToDo": "Vi rekommenderar att du laddar ner på nytt genom att använda en säker HTTPS-anslutning eftersom det förhindrar MITM-attacker.",
         "UsingHttps": "använd den säkra HTTPS-anslutningen (rekommenderas)",
         "UsingHttp": "använd den osäkra HTTP-anslutningen",
         "UpgradeComplete": "Uppgradering färdig!",

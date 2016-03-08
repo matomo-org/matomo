@@ -10,7 +10,6 @@
         "LoginOrEmail": "Nama-id atau Surel",
         "LoginPasswordNotCorrect": "Nama-id dan Sandi tak sesuai",
         "LostYourPassword": "Lupa sandi?",
-        "MailPasswordChangeBody": "Hai %1$s,\n\nSebuah permintaan atur ulang sandi telah diterima dari %2$s. Untuk mengkonfirmasi pengubahan sandi, Anda dapat masuk-log dengan mandat baru Anda, kunjungi tautan berikut:\n\n%3$s\n\nCatatan: kepingan ini akan kedaluwarsa dalam 24 jam.\nDan terima kasih menggunakan Piwik!",
         "MailTopicPasswordChange": "Konfirmasi Pengubahan Sandi",
         "PasswordChanged": "Sandi Anda telah berubah.",
         "PasswordRepeat": "Sandi (ulangi)",

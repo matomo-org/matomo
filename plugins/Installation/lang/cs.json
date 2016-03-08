@@ -43,6 +43,7 @@
         "PasswordRepeat": "Heslo (zopakujte)",
         "PercentDone": "%s %% hotovo",
         "PiwikProAdTitle": "Pokročilé analýzy a služby",
+        "PiwikProAdText": "Pořiďte si nadstandartní možnosti a odkryjte plnou sílu s %1$sPiwik PRO On-Premises%2$s, nebo si objednejte Piwik hostovaný bez starostí v %3$sPiwik PRO Cloud%4$s.",
         "PleaseFixTheFollowingErrors": "Prosím opravte následující chyby",
         "DefaultSettings": "Výchozí nastavení Piwiku",
         "DefaultSettingsHelp": "Piwik má výchozí nastavení. Můžete je změnit teď, nebo později z administračního rozhraní.",

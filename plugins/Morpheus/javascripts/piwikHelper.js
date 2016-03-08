@@ -7,28 +7,11 @@
 
 function _pk_translate(translationStringId, values) {
 
-    function sprintf (translation, values) {
-        var index = 0;
-        return (translation+'').replace(/(%(.\$)?s+)/g, function(match, number) {
-
-            var replaced = match;
-            if (match != '%s') {
-                index = parseInt(match.substr(1, 1)) - 1;
-            }
-
-            if (typeof values[index] != 'undefined') {
-                replaced = values[index];
-            }
-
-            index++;
-            return replaced;
-        });
-    }
-
     if( typeof(piwik_translations[translationStringId]) != 'undefined' ){
         var translation = piwik_translations[translationStringId];
         if (typeof values != 'undefined' && values && values.length) {
-            return sprintf(translation, values);
+            values.unshift(translation);
+            return sprintf.apply(null, values);
         }
 
         return translation;

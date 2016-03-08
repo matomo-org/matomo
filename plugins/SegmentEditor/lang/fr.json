@@ -17,7 +17,6 @@
         "SaveAndApply": "Sauvegarder & appliquer",
         "SegmentDisplayedAllWebsites": "tous les sites web",
         "SegmentDisplayedThisWebsiteOnly": "ce site web uniquement",
-        "SegmentIsDisplayedForWebsite": "et affiché pour",
         "SegmentNotApplied": "Segment \"%s\" non appliqué",
         "SegmentNotAppliedMessage": "Vous êtes en train de demander des données for le segment personnalisé '%s', la configuration actuelle de Piwik empêche la génération en temps réelle de rapport pour des raisons de performance.",
         "SelectSegmentOfVisits": "Sélectionnez un segment de visites :",

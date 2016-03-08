@@ -2190,7 +2190,7 @@ function PiwikTest() {
 
     // support for setCustomUrl( relativeURI )
     test("getProtocolScheme and resolveRelativeReference", function() {
-        expect(27);
+        expect(28);
 
         var tracker = Piwik.getTracker();
 
@@ -2200,6 +2200,7 @@ function PiwikTest() {
         ok( tracker.hook.test._getProtocolScheme('https://example.com') === 'https', 'https://' );
         ok( tracker.hook.test._getProtocolScheme('file://somefile.txt') === 'file', 'file://' );
         ok( tracker.hook.test._getProtocolScheme('mailto:somebody@example.com') === 'mailto', 'mailto:' );
+        ok( tracker.hook.test._getProtocolScheme('tel:0123456789') === 'tel', 'tel:' );
         ok( tracker.hook.test._getProtocolScheme('javascript:alert(document.cookie)') === 'javascript', 'javascript:' );
         ok( tracker.hook.test._getProtocolScheme('') === null, 'empty string' );
         ok( tracker.hook.test._getProtocolScheme(':') === null, 'unspecified scheme' );
@@ -2829,7 +2830,7 @@ function PiwikTest() {
     });
 
     test("Overlay URL Normalizer", function() {
-        expect(11);
+        expect(23);
 
         var test = function(testCases) {
             for (var i = 0; i < testCases.length; i++) {
@@ -2894,6 +2895,25 @@ function PiwikTest() {
                 'example3.com/'
             ]
         ]);
+
+
+        var tracker = Piwik.getTracker();
+
+        // test getPiwikUrlForOverlay
+        var getPiwikUrlForOverlay = tracker.hook.test._getPiwikUrlForOverlay;
+
+        equal( typeof getPiwikUrlForOverlay, 'function', 'getPiwikUrlForOverlay' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/js/piwik.php'), 'http://www.example.com/', 'with piwik.php and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/piwik.php'), 'http://www.example.com/', 'with piwik.php and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/master/js/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/master/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
+        equal( getPiwikUrlForOverlay('/piwik.php'), '/', 'only piwik.php with leading slash' );
+        equal( getPiwikUrlForOverlay('piwik.php'), '', 'only piwik.php' );
+        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), '/', 'only piwik.php with leading slash with query' );
     });
 
 <?php

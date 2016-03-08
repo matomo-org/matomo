@@ -51,4 +51,26 @@ describe("DashboardManager", function () {
             page.click('.widgetpreview-widgetlist>li:contains(Visits Over Time)');
         }, done);
     });
+
+    it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
+        expect.screenshot("create_new").to.be.capture(function (page) {
+            page.click('.dashboard-manager .title');
+            page.click('li[data-action=createDashboard]');
+            page.sendKeys('#createDashboardName', 'newdash2');
+            page.click('.ui-dialog[aria-describedby=createDashboardConfirm] button>span:contains(Yes)');
+        }, done);
+    });
+
+    it("should remove dashboard when remove dashboard process completed", function (done) {
+        expect.screenshot("removed").to.be.capture(function (page) {
+            page.contains('ul.navbar ul li.sfActive:contains(newdash2)');
+            page.click('.dashboard-manager .title');
+            page.click('li[data-action=removeDashboard]');
+            page.click('.ui-dialog[aria-describedby=removeDashboardConfirm] button>span:contains(Yes)');
+            page.mouseMove('.dashboard-manager');
+            page.evaluate(function () {
+                $('.widgetTop').removeClass('widgetTopHover');
+            });
+        }, done);
+    });
 });
