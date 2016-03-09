@@ -389,6 +389,7 @@
         "ComparingRecords": "%s satır karşılaştırılıyor",
         "MetricBetweenText": "%1$s - %2$s arası",
         "MetricChangeText": "%s zaman içinde değişim",
+        "MetricsFor": "%s için ölçümler",
         "PickAnotherRow": "Karşılaştırmak için başka bir satır seç",
         "PickARow": "Karşılaştırmak için bir satır seç"
     }

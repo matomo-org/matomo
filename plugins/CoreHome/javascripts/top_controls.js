@@ -81,6 +81,22 @@ $( document ).ready(function() {
     })
 });
 
+//Keyboard controls for Top Controls Calendar through tab and enter. 
+$( document ).ready(function() {
+    $('.periodSelector').keydown(function(e){
+        toggleCalendar(e);
+    })
+
+    blockPropegation();
+
+    $('.periodSelector .form-radio').keydown(function(e){
+        e.stopPropagation();
+        if(e.which==13){
+            selectPeriodRadioButton($(this));
+        }
+    })
+});
+
 function toggleCalendar(e){
     var calendarOpen = $('.periodSelector').hasClass('expanded');
     
@@ -97,22 +113,6 @@ function toggleCalendar(e){
         }
     }
 }
-
-//Keyboard controls for Top Controls Calendar through tab and enter. 
-$( document ).ready(function() {
-    $('.periodSelector').keydown(function(e){
-        toggleCalendar(e);
-    })
-
-    blockPropegation();
-
-    $('.periodSelector .form-radio').keydown(function(e){
-        e.stopPropagation();
-        if(e.which==13){
-            selectPeriodRadioButton($(this));
-        }
-    })
-});
 
 function selectPeriodRadioButton(button){
     $('.periodSelector .form-radio').removeClass('checked');
