@@ -1,9 +1,9 @@
 (function () {
     angular.module('piwikApp').factory('http404CheckInterceptor', http404CheckInterceptor);
 
-    http404CheckInterceptor.$inject = ['$q'];
+    http404CheckInterceptor.$inject = ['$q', 'globalAjaxQueue'];
 
-    function http404CheckInterceptor($q) {
+    function http404CheckInterceptor($q, globalAjaxQueue) {
 
         function isClientError(rejection)
         {
@@ -15,8 +15,8 @@
         }
 
         return {
-
             'responseError': function(rejection) {
+
                 if (rejection &&
                     isClientError(rejection) &&
                     rejection.config &&

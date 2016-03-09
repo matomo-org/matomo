@@ -43,11 +43,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
     });
 
-
     // dashboard tests
     it("should load dashboard1 correctly", function (done) {
         expect.screenshot("dashboard1").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Dashboard&action=embeddedIndex&idDashboard=1");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
 
             page.evaluate(function () {
                 // Prevent random sizing error eg. http://builds-artifacts.piwik.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
@@ -58,26 +57,26 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it("should load dashboard2 correctly", function (done) {
         expect.screenshot("dashboard2").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Dashboard&action=embeddedIndex&idDashboard=2");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
         }, done);
     });
 
     it("should load dashboard3 correctly", function (done) {
         expect.screenshot("dashboard3").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Dashboard&action=embeddedIndex&idDashboard=3");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
         }, done);
     });
 
     it("should load dashboard4 correctly", function (done) {
         expect.screenshot("dashboard4").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Dashboard&action=embeddedIndex&idDashboard=4");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
         }, done);
     });
 
     it("should display dashboard correctly on a mobile phone", function (done) {
         expect.screenshot("dashboard5_mobile").to.be.capture(function (page) { // capture with menu
             page.setViewportSize(480, 320);
-            page.load("?" + urlBase + "#" + generalParams + "&module=Dashboard&action=embeddedIndex&idDashboard=5");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5");
         }, done);
     });
 
@@ -85,7 +84,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load visitors > overview page correctly', function (done) {
         expect.screenshot("visitors_overview").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             // use columns query param to make sure columns works when supplied in URL fragment
-            page.load("?" + urlBase + "#/?" + generalParams + "&module=VisitsSummary&action=index&columns=nb_visits,nb_actions");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
         }, done);
     });
 
@@ -97,55 +96,49 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load visitors > visitor log page correctly', function (done) {
         expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Live&action=indexVisitorLog");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
         }, done);
     });
 
     it('should load the visitors > devices page correctly', function (done) {
         expect.screenshot("visitors_devices").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=DevicesDetection&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Devices");
         }, done);
     });
 
     it('should load visitors > locations & provider page correctly', function (done) {
         expect.screenshot("visitors_locations_provider").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=UserCountry&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=UserCountry_SubmenuLocations");
         }, done);
     });
 
     it('should load the visitors > software page correctly', function (done) {
         expect.screenshot("visitors_software").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=DevicesDetection&action=software");
-        }, done);
-    });
-
-    it('should redirect the old UserSettings index to visitors > software', function (done) {
-        expect.screenshot('usersettings_index').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=UserSettings&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Software");
         }, done);
     });
 
     it('should load the visitors > times page correctly', function (done) {
         expect.screenshot("visitors_times").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=VisitTime&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
         }, done);
     });
 
     it('should load the visitors > engagement page correctly', function (done) {
         expect.screenshot("visitors_engagement").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=VisitFrequency&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitorInterest_Engagement");
         }, done);
     });
 
     it('should load the visitors > custom variables page correctly', function (done) {
         expect.screenshot('visitors_custom_vars').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=CustomVariables&action=menuGetCustomVariables");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=CustomVariables_CustomVariables");
         }, done);
     });
 
     it('should load the visitors > real-time map page correctly', function (done) {
         expect.screenshot('visitors_realtime_map').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + idSite2Params + "&module=UserCountryMap&action=realtimeWorldMap"
+            page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=UserCountryMap_RealTimeMap"
                     + "&showDateTime=0&realtimeWindow=last2&changeVisitAlpha=0&enableAnimation=0&doNotRefreshVisits=1"
                     + "&removeOldVisits=0");
         }, done);
@@ -154,14 +147,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     // actions pages
     it('should load the actions > pages page correctly', function (done) {
         expect.screenshot('actions_pages').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageUrls");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
         }, done);
     });
 
     // actions pages
     it('should load the actions > pages help tooltip, including the "Report generated time"', function (done) {
         expect.screenshot('actions_pages_tooltip_help').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageUrls");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
             page.mouseMove('h2[piwik-enriched-headline]');
             page.click(".helpIcon");
             page.evaluate(function () {
@@ -172,43 +165,43 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the actions > entry pages page correctly', function (done) {
         expect.screenshot('actions_entry_pages').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetEntryPageUrls");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesEntry");
         }, done);
     });
 
     it('should load the actions > exit pages page correctly', function (done) {
         expect.screenshot('actions_exit_pages').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetExitPageUrls");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesExit");
         }, done);
     });
 
     it('should load the actions > page titles page correctly', function (done) {
         expect.screenshot('actions_page_titles').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageTitles");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
         }, done);
     });
 
     it('should load the actions > site search page correctly', function (done) {
         expect.screenshot('actions_site_search').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=indexSiteSearch");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuSitesearch");
         }, done);
     });
 
     it('should load the actions > outlinks page correctly', function (done) {
         expect.screenshot('actions_outlinks').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetOutlinks");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Outlinks");
         }, done);
     });
 
     it('should load the actions > downloads page correctly', function (done) {
         expect.screenshot('actions_downloads').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetDownloads");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Downloads");
         }, done);
     });
 
     it('should load the actions > contents page correctly', function (done) {
         expect.screenshot('actions_contents').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Contents&action=index&period=day&date=2012-01-01");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Contents_Contents&period=day&date=2012-01-01");
         }, done);
     });
 
@@ -233,115 +226,115 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     // referrers pages
     it('should load the referrers > overview page correctly', function (done) {
         expect.screenshot('referrers_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Referrers&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=General_Overview");
         }, done);
     });
 
     // referrers pages
     it('should load the referrers > overview page correctly', function (done) {
         expect.screenshot('referrers_allreferrers').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Referrers&action=allReferrers");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_WidgetGetAll");
         }, done);
     });
 
     it('should load the referrers > search engines & keywords page correctly', function (done) {
         expect.screenshot('referrers_search_engines_keywords').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Referrers&action=getSearchEnginesAndKeywords");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuSearchEngines");
         }, done);
     });
 
     it('should load the referrers > websites & social page correctly', function (done) {
         expect.screenshot('referrers_websites_social').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Referrers&action=indexWebsites");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuWebsites");
         }, done);
     });
 
     it('should load the referrers > campaigns page correctly', function (done) {
         expect.screenshot('referrers_campaigns').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Referrers&action=menuGetCampaigns");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_Campaigns");
         }, done);
     });
 
     // goals pages
     it('should load the goals > ecommerce page correctly', function (done) {
         expect.screenshot('goals_ecommerce').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=ecommerceReport&idGoal=ecommerceOrder");
+            page.load( "?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview")
         }, done);
     });
 
     it('should load the goals > overview page correctly', function (done) {
         expect.screenshot('goals_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load( "?" + urlBase + "#" + generalParams + "&module=Goals&action=index");
+            page.load( "?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
         }, done);
     });
 
     it('should load the goals > management page correctly', function (done) {
-        expect.screenshot('goals_manage').to.be.captureSelector('.centerLargeDiv,.top_bar_sites_selector,.entityContainer', function (page) {
-            page.load( "?" + generalParams + "&module=Goals&action=manage");
+        expect.screenshot('goals_manage').to.be.captureSelector('#content,.top_bar_sites_selector,.entityContainer', function (page) {
+            page.load("?" + generalParams + "&module=Goals&action=manage");
             page.wait(200);
         }, done);
     });
 
     it('should load the goals > single goal page correctly', function (done) {
         expect.screenshot('goals_individual_goal').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Goals&action=goalReport&idGoal=1");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
         }, done);
     });
 
     // Events pages
     it('should load the Events > index page correctly', function (done) {
         expect.screenshot('events_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Events&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Events_Events");
         }, done);
     });
 
     // one page w/ segment
     it('should load the visitors > overview page correctly when a segment is specified', function (done) {
         expect.screenshot('visitors_overview_segment').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=VisitsSummary&action=index&segment=" + segment);
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&segment=" + segment);
         }, done);
     });
 
     // example ui pages
     it('should load the example ui > dataTables page correctly', function (done) {
         expect.screenshot('exampleui_dataTables').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=ExampleUI&action=dataTables");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=ExampleUI_GetTemperaturesDataTable");
         }, done);
     });
 
     it('should load the example ui > barGraph page correctly', function (done) {
         expect.screenshot('exampleui_barGraph').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=ExampleUI&action=barGraph");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Bar%20graph");
         }, done);
     });
 
     it('should load the example ui > pieGraph page correctly', function (done) {
         expect.screenshot('exampleui_pieGraph').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=ExampleUI&action=pieGraph");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Pie%20graph");
         }, done);
     });
 
     it('should load the example ui > tagClouds page correctly', function (done) {
         expect.screenshot('exampleui_tagClouds').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=ExampleUI&action=tagClouds");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Tag%20clouds");
         }, done);
     });
 
     it('should load the example ui > sparklines page correctly', function (done) {
         expect.screenshot('exampleui_sparklines').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=ExampleUI&action=sparklines");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Sparklines");
         }, done);
     });
 
     it('should load the example ui > evolution graph page correctly', function (done) {
         expect.screenshot('exampleui_evolutionGraph').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=ExampleUI&action=evolutionGraph");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Evolution%20Graph");
         }, done);
     });
 
     it('should load the example ui > treemap page correctly', function (done) {
         expect.screenshot('exampleui_treemap').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=ExampleUI&action=treemap");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Treemap");
             page.wait(2000);
         }, done);
     });
@@ -377,32 +370,32 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should not display API response in the content', function (done) {
         expect.screenshot('menu_apidisallowed').to.be.captureSelector('#content', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode");
+            page.load("?" + urlBase + "#?" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode");
         }, done);
     });
 
     // Ecommerce
     it('should load the ecommerce overview page', function (done) {
         expect.screenshot('ecommerce_overview').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=ecommerceReport&idGoal=ecommerceOrder");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
         }, done);
     });
 
     it('should load the ecommerce log page', function (done) {
         expect.screenshot('ecommerce_log').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=ecommerceLogReport");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
         }, done);
     });
 
     it('should load the ecommerce products page', function (done) {
         expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=products&idGoal=ecommerceOrder");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_Products");
         }, done);
     });
 
     it('should load the ecommerce sales page', function (done) {
         expect.screenshot('ecommerce_sales').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer,.dataTable', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=Ecommerce&action=sales&idGoal=ecommerceOrder");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Ecommerce_Sales");
         }, done);
     });
 
@@ -571,8 +564,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the widgets listing page correctly', function (done) {
         expect.screenshot('widgets_listing').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=Widgetize&action=index");
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Visits Summary)');
-            page.mouseMove('li[uniqueid=widgetVisitsSummarygetEvolutionGraphcolumnsArray]');
+
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors)');
+            page.mouseMove('.widgetpreview-widgetlist li:contains(Visits Over Time)');
+            page.click('.widgetpreview-widgetlist li:contains(Visits Over Time)');
             page.evaluate(function () {
                 $('.formEmbedCode').each(function () {
                     var val = $(this).val();
@@ -622,7 +617,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     // date range clicked
     it('should reload to the correct date when a date range is selected in the period selector', function (done) {
         expect.screenshot('period_select_date_range_click').to.be.capture(function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&module=VisitTime&action=index");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
             page.wait(1000);
             page.click('#date.title');
             // we need to make sure there to wait for a bit till date is opened and period selected
@@ -677,7 +672,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the segmented visitor log correctly when a segment is selected', function (done) {
-        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?module=CustomVariables&action=menuGetCustomVariables&idSite=1&period=year&date=2012-01-13";
+        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
         expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog:visible', 'segmented_visitorlog', function (page) {
             page.click('.segmentationTitle');
             page.click('.segname:contains(From Europe)');

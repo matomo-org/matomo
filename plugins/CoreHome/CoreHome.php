@@ -14,6 +14,13 @@ namespace Piwik\Plugins\CoreHome;
 class CoreHome extends \Piwik\Plugin
 {
     /**
+     * Defines a widget container layout that will display all widgets within a container inside a "tab" menu
+     * where on the left side a link is shown for each widget and on the right side the selected widget.
+     * @api
+     */
+    const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
+
+    /**
      * @see Piwik\Plugin::registerEvents
      */
     public function registerEvents()
@@ -107,8 +114,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable_rowactions.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/menu.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/menu_init.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/calendar.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
@@ -123,8 +128,12 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/service.module.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/global-ajax-queue.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-api.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-url.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/report-metadata-model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/reporting-pages-model.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
@@ -133,6 +142,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/length.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/trim.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/pretty-url.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/escape.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/htmldecode.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/ucfirst.js";
 
@@ -151,6 +161,8 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/activity-indicator/activityindicator.directive.js";
+
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.directive.js";
@@ -168,6 +180,21 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/widget-loader/widgetloader.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/widget-container/widgetcontainer.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/widget/widget.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage-model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.controller.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu-model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/reporting-menu/reportingmenu.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.js";
@@ -273,10 +300,13 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
+        $translationKeys[] = 'General_LearnMore';
+        $translationKeys[] = 'CoreHome_NoSuchPage';
         $translationKeys[] = 'CoreHome_QuickAccessTitle';
         $translationKeys[] = 'CoreHome_Segments';
         $translationKeys[] = 'CoreHome_MenuEntries';
         $translationKeys[] = 'SitesManager_Sites';
+        $translationKeys[] = 'CoreHome_MainNavigation';
         $translationKeys[] = 'CoreHome_ChangeCurrentWebsite';
         $translationKeys[] = 'General_CreatedByUser';
     }

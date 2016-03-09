@@ -22,12 +22,13 @@ class GetVisitInformationPerServerTime extends Base
     {
         parent::init();
         $this->dimension     = new ServerTime();
-        $this->name          = Piwik::translate('VisitTime_WidgetServerTime');
+        $this->name          = Piwik::translate('VisitTime_ServerTime');
         $this->documentation = Piwik::translate('VisitTime_WidgetServerTimeDocumentation', array('<strong>', '</strong>'));
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
-        $this->order = 15;
-        $this->widgetTitle  = 'VisitTime_WidgetServerTime';
+        $this->order = 20;
+
+        $this->subcategoryId = 'VisitTime_SubmenuTimes';
     }
 
     public function configureView(ViewDataTable $view)

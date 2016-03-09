@@ -38,6 +38,7 @@ function sendGeneralSettingsAJAX() {
         module: 'CoreAdminHome',
         action: 'setGeneralSettings'
     }, 'GET');
+    ajaxHandler.withTokenInUrl();
     ajaxHandler.redirectOnSuccess();
     ajaxHandler.send(true);
 }

@@ -18,6 +18,7 @@ use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tracker\Cache;
+use Piwik\Cache as PiwikCache;
 
 /**
  * testing a the auto suggest API for all known segments
@@ -39,10 +40,6 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
-
-        if(self::isPhpVersion53() && self::isTravisCI()) {
-            $this->markTestSkipped("Skipping this test as it seg faults on php 5.3 (bug triggered on travis)");
-        }
 
         $this->runApiTests($api, $params);
     }
@@ -158,6 +155,7 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
+        PiwikCache::getTransientCache()->flushAll();
 
         $segments = array();
 

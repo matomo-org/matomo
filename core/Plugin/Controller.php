@@ -33,6 +33,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugin\Reports;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
@@ -313,7 +314,7 @@ abstract class Controller
     protected function renderReport($apiAction, $controllerAction = false)
     {
         if (empty($controllerAction) && is_string($apiAction)) {
-            $report = Report::factory($this->pluginName, $apiAction);
+            $report = Reports::factory($this->pluginName, $apiAction);
 
             if (!empty($report)) {
                 $apiAction = $report;
@@ -898,6 +899,9 @@ abstract class Controller
      * This is a protection against CSRF and should be used in all controller
      * methods that modify Piwik or any user settings.
      *
+     * If called from JavaScript by using the `ajaxHelper` you have to call `ajaxHelper.withTokenInUrl();` before
+     * `ajaxHandler.send();` to send the token along with the request.
+     *
      * **The token_auth should never appear in the browser's address bar.**
      *
      * @throws \Piwik\NoAccessException If the token doesn't match.
@@ -945,67 +949,6 @@ abstract class Controller
     public static function getPrettyDate($date, $period)
     {
         return self::getCalendarPrettyDate(Period\Factory::build($period, Date::factory($date)));
-    }
-
-    /**
-     * Calculates the evolution from one value to another and returns HTML displaying
-     * the evolution percent. The HTML includes an up/down arrow and is colored red, black or
-     * green depending on whether the evolution is negative, 0 or positive.
-     *
-     * No HTML is returned if the current value and evolution percent are both 0.
-     *
-     * @param string $date The date of the current value.
-     * @param int $currentValue The value to calculate evolution to.
-     * @param string $pastDate The date of past value.
-     * @param int $pastValue The value in the past to calculate evolution from.
-     * @return string|false The HTML or `false` if the evolution is 0 and the current value is 0.
-     * @api
-     */
-    protected function getEvolutionHtml($date, $currentValue, $pastDate, $pastValue)
-    {
-        $evolutionPercent = CalculateEvolutionFilter::calculate(
-            $currentValue, $pastValue, $precision = 1);
-
-        // do not display evolution if evolution percent is 0 and current value is 0
-        if ($evolutionPercent == 0
-            && $currentValue == 0
-        ) {
-            return false;
-        }
-
-        $titleEvolutionPercent = $evolutionPercent;
-        if ($evolutionPercent < 0) {
-            $class = "negative-evolution";
-            $img = "arrow_down.png";
-        } elseif ($evolutionPercent == 0) {
-            $class = "neutral-evolution";
-            $img = "stop.png";
-        } else {
-            $class = "positive-evolution";
-            $img = "arrow_up.png";
-            $titleEvolutionPercent = '+' . $titleEvolutionPercent;
-        }
-
-        $currentValue = NumberFormatter::getInstance()->format($currentValue);
-        $pastValue    = NumberFormatter::getInstance()->format($pastValue);
-
-        $title = Piwik::translate('General_EvolutionSummaryGeneric', array(
-                                                                         Piwik::translate('General_NVisits', $currentValue),
-                                                                         $date,
-                                                                         Piwik::translate('General_NVisits', $pastValue),
-                                                                         $pastDate,
-                                                                         $titleEvolutionPercent
-                                                                    ));
-
-        $result = '<span class="metricEvolution" title="' . $title
-            . '"><img style="padding-right:4px" src="plugins/MultiSites/images/' . $img . '"/><strong';
-
-        if (isset($class)) {
-            $result .= ' class="' . $class . '"';
-        }
-        $result .= '>' . $evolutionPercent . '</strong></span>';
-
-        return $result;
     }
 
     protected function checkSitePermission()

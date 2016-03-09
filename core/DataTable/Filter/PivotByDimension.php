@@ -21,6 +21,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Segment;
+use Piwik\Plugin\Reports;
 use Piwik\Site;
 
 /**
@@ -328,7 +329,7 @@ class PivotByDimension extends BaseFilter
     {
         list($module, $method) = explode('.', $report);
 
-        $this->thisReport = Report::factory($module, $method);
+        $this->thisReport = Reports::factory($module, $method);
         if (empty($this->thisReport)) {
             throw new Exception("Unable to find report '$report'.");
         }

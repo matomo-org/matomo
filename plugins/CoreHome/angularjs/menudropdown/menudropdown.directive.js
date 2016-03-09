@@ -34,10 +34,10 @@
             templateUrl: 'plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.html?cb=' + piwik.cacheBuster,
             link: function(scope, element, attrs) {
 
-                element.find('.item').on('click', function () {
-                    var $self = angular.element(this);
+                scope.selectItem = function (event) {
+                    var $self = angular.element(event.target);
 
-                    if ($self.hasClass('disabled') || $self.hasClass('separator')) {
+                    if (!$self.hasClass('item') || $self.hasClass('disabled') || $self.hasClass('separator')) {
                         return;
                     }
 
@@ -47,11 +47,14 @@
                         });
                     }
                     scope.$eval('view.showItems = false');
-                    scope.$apply();
+
+                    setTimeout(function () {
+                        scope.$apply();
+                    }, 0);
 
                     element.find('.item').removeClass('active');
                     $self.addClass('active');
-                });
+                };
 
                 scope.searchItems = function (searchTerm)
                 {

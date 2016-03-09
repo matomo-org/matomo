@@ -66,7 +66,6 @@
                 return function (scope, element, attrs, ngModel) {
                     scope.selectedSite = {id: attrs.siteid, name: attrs.sitename};
                     scope.model.onlySitesWithAdminAccess = scope.onlySitesWithAdminAccess;
-                    scope.model.loadInitialSites();
 
                     if (ngModel) {
                         ngModel.$setViewValue(scope.selectedSite);

@@ -91,7 +91,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.Resolution_WidgetGlobalVisitors'
+     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.Resolution_Configurations'
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {

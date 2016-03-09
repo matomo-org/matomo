@@ -28,7 +28,7 @@
 
         {% if showMenu is not defined or showMenu %}
             {% import '@CoreHome/_menu.twig' as menu %}
-            {{ menu.menu(userMenu, false, 'Menu--admin') }}
+            {{ menu.menu(userMenu, false, 'Menu--admin', currentModule, currentAction) }}
         {% endif %}
 
         <div class="pageWrap">

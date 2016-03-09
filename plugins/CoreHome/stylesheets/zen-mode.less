@@ -77,14 +77,26 @@
 
 #content:not(.admin), .widget {
 
-  h2:nth-of-type(n+2) {
-    margin-top: 40px;
+  .reporting-page {
+    .smallTopMargin:not(.graphEvolution) {
+      margin-top: 20px;
+    }
   }
 
   h2 {
-    padding-left: 0;
-    font-size: 21px;
+    margin-top: 40px;
     padding: 16px 0 12px 0;
+    font-size: 21px;
+
+    &.noTopMargin {
+      margin-top: 0;
+      padding-top: 7px;
+    }
+  }
+
+  .widget [piwik-widget-container] [piwik-widget]:first-child h2 {
+    // eg Visits Overview with Graph should not have a margin-top
+    margin-top: 0px;
   }
 }
 
