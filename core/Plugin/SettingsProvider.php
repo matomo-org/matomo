@@ -24,6 +24,8 @@ use \Piwik\Settings\Plugin\SystemSettings;
  * {@link addSetting()} method for each of the plugin's settings.
  *
  * For an example, see the {@link Piwik\Plugins\ExampleSettingsPlugin\ExampleSettingsPlugin} plugin.
+ *
+ * @api
  */
 class SettingsProvider
 {
