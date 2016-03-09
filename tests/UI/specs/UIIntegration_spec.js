@@ -154,7 +154,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     // actions pages
     it('should load the actions > pages help tooltip, including the "Report generated time"', function (done) {
         expect.screenshot('actions_pages_tooltip_help').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
-            page.load("?" + urlBase + "#" + generalParams + "&category=General_Actions&subcategory=General_Pages");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
             page.mouseMove('h2[piwik-enriched-headline]');
             page.click(".helpIcon");
             page.evaluate(function () {
