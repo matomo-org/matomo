@@ -8,6 +8,7 @@
  */
 namespace Piwik\Menu;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
@@ -71,7 +72,12 @@ abstract class MenuAbstract extends Singleton
             return self::$menus;
         }
 
-        self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+        $components = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+
+        self::$menus = array();
+        foreach ($components as $component) {
+            self::$menus[] = StaticContainer::get($component);
+        }
 
         return self::$menus;
     }

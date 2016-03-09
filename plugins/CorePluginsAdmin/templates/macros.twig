@@ -166,7 +166,7 @@
 
                         {% if name in pluginNamesHavingSettings %}
                             <br /><br />
-                            <a href="{{ linkTo({'module':'CoreAdminHome', 'action': 'adminPluginSettings'}) }}#{{ name|e('html_attr') }}" class="settingsLink">{{ 'General_Settings'|translate }}</a>
+                            <a href="{{ linkTo({'module':'CoreAdminHome', 'action': 'generalSettings'}) }}#{{ name|e('html_attr') }}" class="settingsLink">{{ 'General_Settings'|translate }}</a>
                         {% endif %}
                     </td>
                     <td class="desc">

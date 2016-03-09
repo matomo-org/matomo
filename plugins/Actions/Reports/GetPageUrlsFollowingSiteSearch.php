@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\DestinationPage;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 
 class GetPageUrlsFollowingSiteSearch extends GetPageTitlesFollowingSiteSearch
 {
@@ -36,7 +36,7 @@ class GetPageUrlsFollowingSiteSearch extends GetPageTitlesFollowingSiteSearch
     public function getRelatedReports()
     {
         return array(
-            Reports::factory('Actions', 'getPageTitlesFollowingSiteSearch'),
+            ReportsProvider::factory('Actions', 'getPageTitlesFollowingSiteSearch'),
         );
     }
 }

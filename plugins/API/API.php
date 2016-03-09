@@ -25,8 +25,10 @@ use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
@@ -54,6 +56,16 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var SettingsProvider
+     */
+    private $settingsProvider;
+
+    public function __construct(SettingsProvider $settingsProvider)
+    {
+        $this->settingsProvider = $settingsProvider;
+    }
+
     /**
      * Get Piwik version
      * @return string
@@ -113,11 +125,16 @@ class API extends \Piwik\Plugin\API
 
         $available = array();
         foreach ($types as $type) {
+            $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite = 0, $type->getId());
+
+            $settingsMetadata = new SettingsMetadata();
+
             $available[] = array(
                 'id' => $type->getId(),
                 'name' => Piwik::translate($type->getName()),
                 'description' => Piwik::translate($type->getDescription()),
-                'howToSetupUrl' => $type->getHowToSetupUrl()
+                'howToSetupUrl' => $type->getHowToSetupUrl(),
+                'settings' => $settingsMetadata->formatSettings($measurableSettings)
             );
         }
 

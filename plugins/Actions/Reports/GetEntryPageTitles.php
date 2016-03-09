@@ -15,7 +15,7 @@ use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -85,8 +85,8 @@ class GetEntryPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            Reports::factory('Actions', 'getPageTitles'),
-            Reports::factory('Actions', 'getEntryPageUrls')
+            ReportsProvider::factory('Actions', 'getPageTitles'),
+            ReportsProvider::factory('Actions', 'getEntryPageUrls')
         );
     }
 }

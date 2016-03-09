@@ -8,10 +8,13 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Settings\Measurable\MeasurableSetting;
+use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
-use Piwik\Plugins\MobileAppMeasurable\tests\Framework\Mock\Type;
+use Piwik\Plugins\MobileAppMeasurable\Type;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -189,13 +192,13 @@ class ApiTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Only 100 characters are allowed
+     * @expectedExceptionMessage SitesManager_OnlyMatchedUrlsAllowed
      */
     public function test_addSite_ShouldFailAndNotCreatedASite_IfASettingIsInvalid()
     {
         try {
             $type = MobileAppMeasurable\Type::ID;
-            $settings = array('app_id' => str_pad('test', 789, 't'));
+            $settings = array('WebsiteMeasurable' => array(array('name' => 'exclude_unknown_urls', 'value' => 'fooBar')));
             $this->addSiteWithType($type, $settings);
         } catch (Exception $e) {
 
@@ -210,15 +213,24 @@ class ApiTest extends IntegrationTestCase
     public function test_addSite_ShouldSavePassedMeasurableSettings_IfSettingsAreValid()
     {
         $type = MobileAppMeasurable\Type::ID;
-        $settings = array('app_id' => 'org.piwik.mobile2');
+        $settings = array('WebsiteMeasurable' => array(array('name' => 'urls', 'value' => array('http://www.piwik.org'))));
         $idSite = $this->addSiteWithType($type, $settings);
 
         $this->assertSame(1, $idSite);
 
-        $measurable = new Measurable($idSite);
-        $appId = $measurable->getSettingValue('app_id');
+        $settings = $this->getWebsiteMeasurable($idSite);
+        $urls = $settings->urls->getValue();
 
-        $this->assertSame('org.piwik.mobile2', $appId);
+        $this->assertSame(array('http://www.piwik.org'), $urls);
+    }
+
+    /**
+     * @return \Piwik\Plugins\WebsiteMeasurable\MeasurableSettings
+     */
+    private function getWebsiteMeasurable($idSite)
+    {
+        $settings = StaticContainer::get('Piwik\Plugin\SettingsProvider');
+        return $settings->getMeasurableSettings('WebsiteMeasurable', $idSite, null);
     }
 
     /**
@@ -642,6 +654,7 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::setIdSitesAdmin(array());
 
         $sites = API::getInstance()->getSitesWithViewAccess();
+
         // we dont test the ts_created
         unset($sites[0]['ts_created']);
         unset($sites[1]['ts_created']);
@@ -753,6 +766,7 @@ class ApiTest extends IntegrationTestCase
         // Updating the group to something
         $group = 'something';
         API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = true, $ss_kwd = null, $ss_cat = '', $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group);
+
         $websites = API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', strtotime($websites[0]['ts_created'])));
@@ -844,7 +858,7 @@ class ApiTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Only 100 characters are allowed
+     * @expectedExceptionMessage SitesManager_OnlyMatchedUrlsAllowed
      */
     public function test_updateSite_ShouldFailAndNotUpdateSite_IfASettingIsInvalid()
     {
@@ -852,7 +866,8 @@ class ApiTest extends IntegrationTestCase
         $idSite = $this->addSiteWithType($type, array());
 
         try {
-            $this->updateSiteSettings($idSite, 'newSiteName', array('app_id' => str_pad('t', 589, 't')));
+            $settings = array('WebsiteMeasurable' => array(array('name' => 'exclude_unknown_urls', 'value' => 'fooBar')));
+            $this->updateSiteSettings($idSite, 'newSiteName', $settings);
 
         } catch (Exception $e) {
             // verify nothing was updated (not even the name)
@@ -870,12 +885,16 @@ class ApiTest extends IntegrationTestCase
 
         $this->assertSame(1, $idSite);
 
-        $this->updateSiteSettings($idSite, 'newSiteName', $settings = array('app_id' => 'org.piwik.mobile2'));
+        $settings = array('WebsiteMeasurable' => array(array('name' => 'urls', 'value' => array('http://www.piwik.org'))));
+
+        $this->updateSiteSettings($idSite, 'newSiteName', $settings);
+
+        $settings = $this->getWebsiteMeasurable($idSite);
 
         // verify it was updated
         $measurable = new Measurable($idSite);
         $this->assertSame('newSiteName', $measurable->getName());
-        $this->assertSame('org.piwik.mobile2', $measurable->getSettingValue('app_id'));
+        $this->assertSame(array('http://www.piwik.org'), $settings->urls->getValue());
     }
 
     public function test_updateSite_CorreclySavesExcludedUnknownUrlSettings()
@@ -1210,7 +1229,6 @@ class ApiTest extends IntegrationTestCase
     {
         return array(
             'Piwik\Access' => new FakeAccess(),
-            'Piwik\Plugins\MobileAppMeasurable\Type' => new Type()
         );
     }
 

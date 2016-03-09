@@ -13,7 +13,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\VisitTime\Columns\LocalTime;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 
 class GetVisitInformationPerLocalTime extends Base
 {
@@ -49,7 +49,7 @@ class GetVisitInformationPerLocalTime extends Base
     public function getRelatedReports()
     {
         return array(
-            Reports::factory('VisitTime', 'getByDayOfWeek')
+            ReportsProvider::factory('VisitTime', 'getByDayOfWeek')
         );
     }
 }

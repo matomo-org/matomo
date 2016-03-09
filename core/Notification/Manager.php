@@ -129,6 +129,10 @@ class Manager
 
     private static function removeOldestNotificationsIfThereAreTooMany()
     {
+        if (!self::isSessionEnabled()) {
+            return;
+        }
+
         $maxNotificationsInSession = 30;
 
         $session = static::getSession();

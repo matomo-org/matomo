@@ -12,9 +12,9 @@ use DI\FactoryInterface;
 use Exception;
 use Piwik\Plugin;
 use Piwik\Plugin\Controller;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Session;
-use Piwik\Plugin\Widgets;
+use Piwik\Plugin\WidgetsProvider;
 
 /**
  * Resolves the controller that will handle the request.
@@ -29,11 +29,11 @@ class ControllerResolver
     private $abstractFactory;
 
     /**
-     * @var Widgets
+     * @var WidgetsProvider
      */
     private $widgets;
 
-    public function __construct(FactoryInterface $abstractFactory, Widgets $widgets)
+    public function __construct(FactoryInterface $abstractFactory, WidgetsProvider $widgets)
     {
         $this->abstractFactory = $abstractFactory;
         $this->widgets = $widgets;
@@ -100,7 +100,7 @@ class ControllerResolver
 
     private function createReportController($module, $action, array &$parameters)
     {
-        $report = Reports::factory($module, $action);
+        $report = ReportsProvider::factory($module, $action);
 
         if (!$report) {
             return null;

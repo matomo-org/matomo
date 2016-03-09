@@ -12,8 +12,11 @@ namespace Piwik\Plugin;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Cache;
 use Piwik\Columns\Dimension;
+use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Db;
+use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
@@ -398,7 +401,8 @@ class Manager
         }
         $this->loadAllPluginsAndGetTheirInfo();
 
-        \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
+        SettingsStorage\Backend\PluginSettingsTable::removeAllSettingsForPlugin($pluginName);
+        SettingsStorage\Backend\MeasurableSettingsTable::removeAllSettingsForPlugin($pluginName);
 
         $this->executePluginDeactivate($pluginName);
         $this->executePluginUninstall($pluginName);

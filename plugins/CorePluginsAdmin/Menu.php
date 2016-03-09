@@ -41,8 +41,8 @@ class Menu extends \Piwik\Plugin\Menu
 
         if ($hasSuperUserAcess) {
             $menu->addManageItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
-                                   $this->urlForAction('plugins', array('activated' => '')),
-                                   $order = 4);
+                $this->urlForAction('plugins', array('activated' => '')),
+                $order = 4);
         }
 
         if ($this->isAllowedToSeeMarketPlace()) {
@@ -56,8 +56,6 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $isAnonymous          = Piwik::isUserIsAnonymous();
         $isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
-
         return $isMarketplaceEnabled && !$isAnonymous;
     }
-
 }

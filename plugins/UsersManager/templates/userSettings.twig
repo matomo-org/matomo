@@ -117,18 +117,24 @@
 
 </form>
 
-<h2 id="excludeCookie">{{ 'UsersManager_ExcludeVisitsViaCookie'|translate }}</h2>
-<p>
-    {% if ignoreCookieSet %}
-       {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
-    {% else %}
-       {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
-    {% endif %}
-</p>
-<span style="margin-left:20px;">
+    <hr />
+
+    <h2 piwik-enriched-headline>{{ 'CoreAdminHome_PersonalPluginSettings'|translate }}</h2>
+
+    <div piwik-plugin-settings mode="user"></div>
+
+    <hr />
+    <h2 id="excludeCookie">{{ 'UsersManager_ExcludeVisitsViaCookie'|translate }}</h2>
+    <p>
+        {% if ignoreCookieSet %}
+            {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
+        {% else %}
+            {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
+        {% endif %}
+    </p>
+    <span style="margin-left:20px;">
 <a href='{{ linkTo({'ignoreSalt':ignoreSalt, 'action':'setIgnoreCookie'}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
     {% else %}{{'UsersManager_ClickHereToSetTheCookieOnDomain'|translate(piwikHost) }}{% endif %}
     <br/>
 </a></span>
-
 {% endblock %}

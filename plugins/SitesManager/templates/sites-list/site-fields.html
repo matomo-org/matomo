@@ -1,4 +1,4 @@
-<div class="site" ng-class="{'editingSite': site.editMode==true}">
+<div class="site" idsite="{{site.idSite}}" ng-class="{'editingSite': site.editMode==true}">
 
     <div class="row" ng-if="!site.editMode">
 
@@ -71,57 +71,12 @@
             <input type="text" ng-model="site.name"/>
         </div>
 
-        <div class="form-group typeSettings"
-             ng-include="'?module=SitesManager&action=getMeasurableTypeSettings&idSite=' + site.idsite + '&idType=' + site.type"
-                >
-        </div>
+        <div piwik-activity-indicator loading="site.isLoading"></div>
 
-        <div class="form-group">
-            <label>{{ 'SitesManager_Urls'|translate }}</label>
-            <div class="form-help">
-                {{ 'SitesManager_AliasUrlHelp' | translate }}
+        <div ng-repeat="settingsPerPlugin in measurableSettings">
+            <div ng-repeat="setting in settingsPerPlugin.settings">
+                <div piwik-form-field="setting" all-settings="settingsPerPlugin.settings"></div>
             </div>
-            <div sites-manager-multiline-field field="site.alias_urls" cols="25" rows="3"></div>
-
-            <div class="form-help">
-                {{ 'SitesManager_OnlyMatchedUrlsAllowedHelp' | translate }}
-                {{ 'SitesManager_OnlyMatchedUrlsAllowedHelpExamples' | translate }}
-            </div>
-            <label class="checkbox">
-                <input type="checkbox" ng-model="site.exclude_unknown_urls" ng-true-value="1" ng-false-value="0"> {{ 'SitesManager_OnlyMatchedUrlsAllowed' | translate:'':'' }}
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label>{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</label>
-            <select ng-options="option.key as option.value for option in keepURLFragmentsOptions"
-                    ng-model="site.keep_url_fragment"></select>
-        </div>
-
-        <div class="form-group">
-            <label>{{ 'SitesManager_ExcludedIps'|translate }}</label>
-            <div ng-include="'plugins/SitesManager/templates/help/excluded-ip-help.html'"></div>
-            <div sites-manager-multiline-field field="site.excluded_ips" cols="20" rows="4"></div>
-        </div>
-
-        <div class="form-group">
-            <label>{{ 'SitesManager_ExcludedParameters'|translate }}</label>
-            <div ng-include="'plugins/SitesManager/templates/help/excluded-query-parameters-help.html'"></div>
-            <div sites-manager-multiline-field field="site.excluded_parameters" cols="20" rows="4"></div>
-        </div>
-
-        <div class="form-group" ng-if="globalSettings.siteSpecificUserAgentExcludeEnabled">
-            <label>{{ 'SitesManager_ExcludedUserAgents'|translate }}</label>
-            <div ng-include="'plugins/SitesManager/templates/help/excluded-user-agents-help.html'"></div>
-            <div sites-manager-multiline-field field="site.excluded_user_agents" cols="20" rows="4"></div>
-        </div>
-
-        <div ng-include="'plugins/SitesManager/templates/sites-list/site-search-field.html'"></div>
-
-        <div class="form-group">
-            <label>{{ 'SitesManager_Timezone'|translate }}</label>
-            <div ng-include="'plugins/SitesManager/templates/help/timezone-help.html'"></div>
-            <select ng-model="site.timezone" ng-options="t.code as t.label group by t.group for t in timezones"></select>
         </div>
 
         <div class="form-group">
@@ -133,18 +88,14 @@
         </div>
 
         <div class="form-group">
-            <label>{{ 'Goals_Ecommerce'|translate }}</label>
-            <div class="form-help">
-                {{ 'SitesManager_EcommerceHelp' | translate }}
-                <br/>
-                <span ng-bind-html="'SitesManager_PiwikOffersEcommerceAnalytics'|translate:'<a href=\'http://piwik.org/docs/ecommerce-analytics/\' target=\'_blank\'>':'</a>'"></span>
-            </div>
-            <select ng-options="option.key as option.value for option in eCommerceptions" ng-model="site.ecommerce"></select>
+            <label>{{ 'SitesManager_Timezone'|translate }}</label>
+            <div ng-include="'plugins/SitesManager/templates/help/timezone-help.html'"></div>
+            <select ng-model="site.timezone" ng-options="t.code as t.label group by t.group for t in timezones"></select>
         </div>
 
         <div class="editingSiteFooter">
-            <input type="submit" class="btn" value="{{ 'General_Save' | translate }}" ng-click="saveSite()"/>
-            <button class="btn btn-link" ng-click="cancelEditSite($event)">{{ 'General_Cancel' | translate:'':'' }}</button>
+            <input ng-show="!site.isLoading" type="submit" class="btn" value="{{ 'General_Save' | translate }}" ng-click="saveSite()"/>
+            <button class="btn btn-link" ng-click="cancelEditSite(site)">{{ 'General_Cancel' | translate:'':'' }}</button>
         </div>
 
     </div>

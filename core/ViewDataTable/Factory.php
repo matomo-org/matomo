@@ -12,7 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Provides a means of creating {@link Piwik\Plugin\ViewDataTable} instances by ID.
@@ -168,7 +168,7 @@ class Factory
     private static function getReport($apiAction)
     {
         list($module, $action) = explode('.', $apiAction);
-        $report = Reports::factory($module, $action);
+        $report = ReportsProvider::factory($module, $action);
         return $report;
     }
 

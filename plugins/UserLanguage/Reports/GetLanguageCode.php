@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserLanguage\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugins\UserLanguage\Columns\Language;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 
 class GetLanguageCode extends GetLanguage
 {
@@ -26,7 +26,7 @@ class GetLanguageCode extends GetLanguage
     public function getRelatedReports()
     {
         return array(
-            Reports::factory('UserLanguage', 'getLanguage'),
+            ReportsProvider::factory('UserLanguage', 'getLanguage'),
         );
     }
 

@@ -51,6 +51,7 @@
         "MissingRequirementsPleaseInstallNotice": "Please install %1$s %2$s as it is required by %3$s.",
         "NewVersion": "new version",
         "NoPluginsFound": "No plugins found",
+        "NoPluginSettings": "No plugin settings that can be configured",
         "NotAllowedToBrowseMarketplacePlugins": "You can browse the list of plugins that can be installed to customize or extend your Piwik platform. Please contact your administrator if you need any of these installed.",
         "NotAllowedToBrowseMarketplaceThemes": "You can browse the list of themes that can be installed to customize the appearance of the Piwik platform. Please contact your administrator to get any of these installed for you.",
         "NoThemesFound": "No themes found",

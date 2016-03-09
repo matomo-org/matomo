@@ -28,9 +28,5 @@ class Menu extends \Piwik\Plugin\Menu
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addDevelopmentItem('UI Demo', $this->urlForAction('demo'));
         }
-
-        if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addPlatformItem('UI Demo', $this->urlForAction('demo'), $order = 15);
-        }
     }
 }

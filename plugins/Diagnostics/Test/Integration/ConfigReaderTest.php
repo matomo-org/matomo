@@ -10,9 +10,12 @@ namespace Piwik\Plugins\Diagnostics\Test\Integration\Commands;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Ini\IniReader;
+use Piwik\Piwik;
 use Piwik\Plugins\Diagnostics\ConfigReader;
-use Piwik\Plugins\ExampleSettingsPlugin\Settings;
+use Piwik\Plugins\ExampleSettingsPlugin\SystemSettings;
+use Piwik\Settings\FieldConfig;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -29,8 +32,12 @@ class ConfigReaderTest extends IntegrationTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $settings = new GlobalSettingsProvider($this->configPath('global.ini.php'), $this->configPath('config.ini.php'), $this->configPath('common.config.ini.php'));
         $this->configReader = new ConfigReader($settings, new IniReader());
+
+        FakeAccess::clearAccess($superUser = true);
     }
 
     public function test_getConfigValuesFromFiles()
@@ -160,9 +167,9 @@ with multiple lines',
 
     public function test_addConfigValuesFromPluginSettings()
     {
-        $settings = new Settings();
+        $settings = new SystemSettings();
 
-        $configValues = $this->configReader->addConfigValuesFromPluginSettings(array(), array($settings));
+        $configValues = $this->configReader->addConfigValuesFromSystemSettings(array(), array($settings));
 
         $expected = array (
             'ExampleSettingsPlugin' =>
@@ -208,7 +215,7 @@ Another line',
 
     public function test_addConfigValuesFromPluginSettings_shouldAddDescriptionAndDefaultValueForExistingConfigValues()
     {
-        $settings = new Settings();
+        $settings = new SystemSettings();
 
         $existing = array(
             'ExampleSettingsPlugin' =>
@@ -223,7 +230,7 @@ Another line',
                     )
         );
 
-        $configValues = $this->configReader->addConfigValuesFromPluginSettings($existing, array($settings));
+        $configValues = $this->configReader->addConfigValuesFromSystemSettings($existing, array($settings));
 
         $this->assertSame('Choose the metric that should be displayed in the browser tab', $configValues['ExampleSettingsPlugin']['metric']['description']);
         $this->assertSame('nb_visits', $configValues['ExampleSettingsPlugin']['metric']['defaultValue']);
@@ -231,8 +238,8 @@ Another line',
 
     public function test_addConfigValuesFromPluginSettings_shouldMaskValueIfTypeIsPassword()
     {
-        $settings = new Settings();
-        $settings->metric->uiControlType = Settings::CONTROL_PASSWORD;
+        $settings = new SystemSettings();
+        $settings->metric->configureField()->uiControl = FieldConfig::UI_CONTROL_PASSWORD;
 
         $existing = array(
             'ExampleSettingsPlugin' =>
@@ -247,9 +254,16 @@ Another line',
                     )
         );
 
-        $configValues = $this->configReader->addConfigValuesFromPluginSettings($existing, array($settings));
+        $configValues = $this->configReader->addConfigValuesFromSystemSettings($existing, array($settings));
 
         $this->assertSame('******', $configValues['ExampleSettingsPlugin']['metric']['value']);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess(),
+        );
     }
 
     private function configPath($file)

@@ -11,7 +11,7 @@ namespace Piwik\Plugins\VisitsSummary\Widgets;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -24,12 +24,12 @@ class Index extends \Piwik\Widget\WidgetContainerConfig
 
     public function isEnabled()
     {
-        return Reports::factory('VisitsSummary', 'get')->isEnabled();
+        return ReportsProvider::factory('VisitsSummary', 'get')->isEnabled();
     }
 
     public function getWidgetConfigs()
     {
-        $report  = Reports::factory('VisitsSummary', 'get');
+        $report  = ReportsProvider::factory('VisitsSummary', 'get');
 
         $factory = new ReportWidgetFactory($report);
         $widgets = array();

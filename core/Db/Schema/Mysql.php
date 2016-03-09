@@ -76,11 +76,21 @@ class Mysql implements SchemaInterface
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
-            'site_setting'    => "CREATE TABLE {$prefixTables}site_setting (
-                          idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+            'plugin_setting' => "CREATE TABLE {$prefixTables}plugin_setting (
+                          `plugin_name` VARCHAR(60) NOT NULL,
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,
-                              PRIMARY KEY(idsite, setting_name)
+                          `user_login` VARCHAR(100) NOT NULL DEFAULT '',
+                              INDEX(plugin_name, user_login)
+                            ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'site_setting'    => "CREATE TABLE {$prefixTables}site_setting (
+                          idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                          `plugin_name` VARCHAR(60) NOT NULL,
+                          `setting_name` VARCHAR(255) NOT NULL,
+                          `setting_value` LONGTEXT NOT NULL,
+                              INDEX(idsite, plugin_name)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 

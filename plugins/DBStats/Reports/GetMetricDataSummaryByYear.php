@@ -11,7 +11,7 @@ namespace Piwik\Plugins\DBStats\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Shows a datatable that displays the amount of space each numeric archive table
@@ -36,7 +36,7 @@ class GetMetricDataSummaryByYear extends Base
     public function getRelatedReports()
     {
         return array(
-            Reports::factory('DBStats', 'getMetricDataSummary'),
+            ReportsProvider::factory('DBStats', 'getMetricDataSummary'),
         );
     }
 

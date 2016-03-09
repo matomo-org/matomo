@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Measurable\Settings\Storage;
+use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
 
@@ -73,8 +74,7 @@ class SitesManager extends \Piwik\Plugin
         $archiveInvalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $archiveInvalidator->forgetRememberedArchivedReportsToInvalidateForSite($idSite);
 
-        $measurableStorage = new Storage(Db::get(), $idSite);
-        $measurableStorage->deleteAllValues();
+        MeasurableSettingsTable::removeAllSettingsForSite($idSite);
     }
 
     /**
