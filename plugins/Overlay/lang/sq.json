@@ -1,5 +1,11 @@
 {
     "Overlay": {
-        "Location": "Vend"
+        "Clicks": "%s klikime",
+        "Domain": "Përkatësi",
+        "Link": "Lidhje",
+        "Location": "Vend",
+        "NoData": "S’ka të dhëna për këtë faqe gjatë periudhës së përzgjedhur.",
+        "OneClick": "1 klikim",
+        "OpenFullScreen": "Kalo sa krejt ekrani (pa anështyllë)"
     }
 }

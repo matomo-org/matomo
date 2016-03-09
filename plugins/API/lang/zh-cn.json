@@ -4,8 +4,12 @@
         "KeepTokenSecret": "授权号 token_auth 与您的帐号和密码一样重要，%1$s请不要公开%2$s！",
         "LoadedAPIs": "已成功载入 %s 个 APIs",
         "MoreInformation": "了解更多关于 Piwik APIs 的资讯，请访问 %1$sPiwik API 介绍%2$s 和 %3$s Piwik API 参考资料%4$s。",
+        "PluginDescription": "在Piwik所有数据，可通过简单的API。这个插件是Web服务的切入点，那你可以打电话得到XML，JSON，PHP，CSV，等你的Web Analytics数据",
+        "ReportingApiReference": "报告API参考",
         "TopLinkTooltip": "通过一个简单的 API，让您可以以 xml, json, 及其它格式取得网站统计数据。",
         "UserAuthentication": "身份验证",
-        "UsingTokenAuth": "如果您想在代码、定时任务中 %1$s 请求资料，%2$s 要在 API 调用需要认证的网址时增加参数 %3$s。"
+        "UsingTokenAuth": "如果您想在代码、定时任务中 %1$s 请求资料，%2$s 要在 API 调用需要认证的网址时增加参数 %3$s。",
+        "Glossary": "词汇表",
+        "LearnAboutCommonlyUsedTerms": "了解Piwik Analytics常用的术语：%1$s and %2$s。"
     }
 }

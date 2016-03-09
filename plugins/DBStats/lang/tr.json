@@ -10,6 +10,7 @@
         "MetricDataByYear": "Yıla Göre Metrik Tablosu",
         "MetricTables": "Metrik Tabloları",
         "OtherTables": "Diğer Tablolar",
+        "PluginDescription": "Detaylı MySQL veritabanı kullanım raporu sağlar. Super Kullanıcı için Teşhis bölümünün altından ulaşılabilir.",
         "ReportDataByYear": "Yıla Göre Rapor Tabloları",
         "ReportTables": "Rapor Tabloları",
         "RowCount": "Satır sayısı",

@@ -459,7 +459,7 @@ class Controller extends ControllerAdmin
             $sessionInitializer = new SessionInitializer();
             $auth = StaticContainer::get('Piwik\Auth');
             $auth->setLogin($userLogin);
-            $auth->setPassword($password);
+            $auth->setPassword($newPassword);
             $sessionInitializer->initSession($auth, $rememberMe = false);
         }
     }

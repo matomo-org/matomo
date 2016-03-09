@@ -85,7 +85,7 @@
                 {% if action.type == 'search' %}
                     <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}' class="action-list-action-icon search">
                 {% endif %}
-                <span class="truncated-text-line">{{ action.siteSearchKeyword }}</span>
+                <span class="truncated-text-line">{{ action.siteSearchKeyword|rawSafeDecoded }}</span>
             {% endif %}
             {% if action.eventCategory|default(false) is not empty %}
                 <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">

@@ -142,8 +142,7 @@ function bindUpdateSuperUserAccess() {
         message = 'UsersManager_ConfirmProhibitOtherUsersSuperUserAccess';
     }
 
-    message = _pk_translate(message);
-    message = message.replace('%s', login);
+    message = _pk_translate(message, [login]);
 
     $('#superUserAccessConfirm h2').text(message);
 

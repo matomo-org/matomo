@@ -1,5 +1,6 @@
 {
     "Contents": {
+        "PluginDescription": "İçerik ve reklam izleme sayfandaki herhangi bir içeriğin (reklam, resim, herhangi bir öğenin) yerinin performansını (görünme, tıklamalar, CTR) izlemene yarar.",
         "Impressions": "Gösterimler",
         "Interactions": "Etkileşimler",
         "Interaction": "Etkileşim",
@@ -7,6 +8,9 @@
         "ContentName": "İçerik İsmi",
         "ContentPiece": "İçerik Parçası",
         "ContentTarget": "İçerik Hedefi",
-        "Contents": "İçerikler"
+        "Contents": "İçerikler",
+        "InteractionsMetricDocumentation": "İçeriğin kaç kere engellendiği (banner veya reklamdaki 'click' ler gibi)",
+        "ImpressionsMetricDocumentation": "Banner ve reklamlar gibi içeriklerin kaç kere gösterildiği",
+        "InteractionRateMetricDocumentation": "İçeriğin gösterimi ile etkileşim oranı"
     }
 }

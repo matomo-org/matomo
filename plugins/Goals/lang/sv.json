@@ -76,6 +76,8 @@
         "MatchesExpression": "matchar uttrycket %s",
         "NewGoalIntro": "Att använda mål för konvertering är ett av de mest effektiva sätten att mäta och förbättra din affärsverksamhet.",
         "NewVisitorsConversionRateIs": "Nya besökares omvandlingsgrad är %s",
+        "NoGoalsNeedAccess": "Bara en administratör eller användare med Superbehörighet kan hantera mål för angiven hemsida. Var snäll och kontakta din administratör hos Piwik för att sätta upp dina mål för din hemsida. <br>Att ha mål är ett utmärkt sätt att få hjälp att förstå hur du maximerar din webbsidas resultat!",
+        "NeedAccess": "Bara en administratör eller användare med Superbehörighet kan hantera mål för angiven hemsida.",
         "Optional": "(frivilligt)",
         "OverallConversionRate": "%s total omvandlingsgrad (besök med ett uppnått mål)",
         "OverallRevenue": "%s totala intäkter",

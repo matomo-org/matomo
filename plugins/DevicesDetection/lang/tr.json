@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserEngine": "Tarayıcı",
+        "BrowserEngines": "Tarayıcı Motorları",
         "BrowserFamily": "Tarayıcı ailesi",
         "Browsers": "Tarayıcılar",
         "BrowserVersion": "Tarayıcı sürümü",
@@ -22,16 +23,21 @@
         "DeviceModel": "Cihaz modeli",
         "DevicesDetection": "Ziyaretçi Cihazları",
         "DeviceType": "Cihaz tipi",
+        "FeaturePhone": "Özellikli Telefon",
         "OperatingSystemFamilies": "İşletim Sistemi aileleri",
         "OperatingSystemFamily": "İşletim Sistemi Ailesi",
         "OperatingSystems": "İşletim sistemleri",
         "OperatingSystemVersions": "İşletim Sistemi versiyonları",
+        "PluginDescription": "Marka (Üretici), Model (cihaz versiyonu) , cihaz tipi (tv, konsol, akıllı telefon, masaüstü gibi) özellikleri içeren kulanıcı cihazları ile ilgili ek bilgi sunar.",
         "SmartDisplay": "Akıllı görüntüleme",
         "Smartphone": "Akıllı Telefon",
+        "PortableMediaPlayer": "Taşınabilir medya oynatıcısı",
         "Devices": "Cihazlar",
         "Tablet": "Tablet",
+        "Phablet": "Tablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
-        "WidgetBrowsers": "Ziyaretçi tarayıcılari"
+        "WidgetBrowsers": "Ziyaretçi tarayıcılari",
+        "WidgetBrowsersDocumentation": "Bu rapor ziyaretçilerinizin ne tür tarayıcılar kullandığı bilgisini içerir. Her tarayıcı versiyonu ayrı olarak listelenmiştir."
     }
 }

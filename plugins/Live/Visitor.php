@@ -158,7 +158,8 @@ class Visitor implements VisitorInterface
         //       ==> also update API/API.php getSuggestedValuesForSegment(), the $segmentsNeedActionsInfo array
 
         // flatten visit custom variables
-        if (is_array($visitorDetailsArray['customVariables'])) {
+        if (!empty($visitorDetailsArray['customVariables']) 
+            && is_array($visitorDetailsArray['customVariables'])) {
             foreach ($visitorDetailsArray['customVariables'] as $thisCustomVar) {
                 $visitorDetailsArray = array_merge($visitorDetailsArray, $thisCustomVar);
             }

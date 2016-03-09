@@ -26,6 +26,18 @@
             currentCategory = category;
             currentSubcategory = subcategory;
 
+            if (category === 'Dashboard_Dashboard' && $.isNumeric(subcategory) && $('[piwik-dashboard]').length) {
+                // hack to make loading of dashboards faster since all the information is already there in the
+                // piwik-dashboard widget, we can let the piwik-dashboard widget render the page. We need to find
+                // a proper solution for this. A workaround for now could be an event or something to let other
+                // components render a specific page.
+                $scope.loading = false;
+                var element = $('[piwik-dashboard]');
+                var scope = angular.element(element).scope();
+                scope.fetchDashboard(parseInt(subcategory, 10));
+                return;
+            }
+
             pageModel.fetchPage(category, subcategory).then(function () {
                 $scope.hasNoPage = !pageModel.page;
                 $scope.loading = false;

@@ -10,7 +10,6 @@
         "LoginOrEmail": "Tên hoặc e-mail truy cập",
         "LoginPasswordNotCorrect": "Sai tên hoặc mật khẩu truy cập",
         "LostYourPassword": "Mật khẩu truy cập của bạn bị mất phải không?",
-        "MailPasswordChangeBody": "Xin chào %1$s, một yêu cầu đặt lại mật khẩu đã nhận được từ %2$s. Để xác nhận thay đổi mật khẩu này vậy thì bạn có thể đăng nhập với các thông tin chi tiết mới của bạn, hãy truy cập vào link sau đây: %3$s Lưu ý: token này sẽ hết hạn trong 24 giờ. Và cảm ơn bạn đã sử dụng Piwik!",
         "MailTopicPasswordChange": "Xác nhận thay đổi mật khẩu",
         "PasswordChanged": "Mật khẩu của bạn đã được thay đổi",
         "PasswordRepeat": "Mật khẩu (lặp lại)",

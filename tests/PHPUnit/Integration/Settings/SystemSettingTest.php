@@ -175,6 +175,21 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertFalse($setting->isWritableByCurrentUser());
     }
 
+    public function test_setIsWritableByCurrentUser()
+    {
+        $this->setSuperUser();
+        $setting = $this->addSystemSetting('myusersetting', 'mytitle');
+        $setting->setPluginName('MyPluginName');
+
+        $this->assertTrue($setting->isWritableByCurrentUser());
+
+        $setting->setIsWritableByCurrentUser(false);
+        $this->assertFalse($setting->isWritableByCurrentUser());
+
+        $setting->setIsWritableByCurrentUser(true);
+        $this->assertTrue($setting->isWritableByCurrentUser());
+    }
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed

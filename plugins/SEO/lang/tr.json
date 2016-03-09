@@ -1,7 +1,7 @@
 {
     "SEO": {
         "AlexaRank": "Alexa Sırası",
-        "DomainAge": "Alan Ad Yaşı",
+        "DomainAge": "Alan Adı Yaşı",
         "Rank": "Sıralama",
         "SeoRankings": "SEO Sıralamaları",
         "SEORankingsFor": "'%s'için SEO Sıralama"

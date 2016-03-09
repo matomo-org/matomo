@@ -6,9 +6,9 @@
     <div id="Dashboard" class="piwikTopControl borderedControl piwikSelector">
         <ul>
             {% for dashboard in dashboards %}
-                <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{{ dashboard.iddashboard }}">
+                <li id="Dashboard_embeddedIndex_{{ dashboard.iddashboard }}">
                     <a href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {{ dashboard.iddashboard }});"
-                       class="title">{{ dashboard.name|escape }}</a>
+                       class="item">{{ dashboard.name|escape }}</a>
                 </li>
             {% endfor %}
         </ul>

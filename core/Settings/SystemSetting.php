@@ -67,6 +67,16 @@ class SystemSetting extends Setting
     }
 
     /**
+     * Set whether setting is writable or not. For example to hide setting from the UI set it to false.
+     *
+     * @param bool $isWritable
+     */
+    public function setIsWritableByCurrentUser($isWritable)
+    {
+        $this->writableByCurrentUser = (bool) $isWritable;
+    }
+
+    /**
      * Returns `true` if this setting can be displayed for the current user, `false` if otherwise.
      *
      * @return bool

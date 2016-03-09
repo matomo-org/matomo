@@ -42,6 +42,8 @@
         "PasswordDoNotMatch": "密码不匹配",
         "PasswordRepeat": "密码(重复)",
         "PercentDone": "%s %% 已完成",
+        "PiwikProAdTitle": "高级分析与服务",
+        "PiwikProAdText": "添加高级功能和解锁全部功能需要 %1$s，Piwik PRO版本价格为 %2$s，您还可以选择Piwik 主机，只需要 %3$s ，Piwik PRO版云主机只需要 %4$s 。",
         "PleaseFixTheFollowingErrors": "请修复以下错误",
         "DefaultSettings": "默认 Piwik 设置",
         "DefaultSettingsHelp": "Piwik自带的默认设置。现在，您可以自定义它们或稍后在管理介面上做。",

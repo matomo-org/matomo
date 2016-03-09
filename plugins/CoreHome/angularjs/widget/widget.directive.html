@@ -7,6 +7,7 @@
     <h2 ng-if="!widget.parameters.widget && widget.name && !widgetized"
         piwik-enriched-headline
         ng-class="{'noTopMargin': widget.isFirstInPage}"
+        inline-help="{{widget.documentation}}"
         feature-name="{{widget.name}}">{{widget.name}}</h2>
     <h2 ng-if="widget.parameters.widget && widget.name && !widgetized">{{widget.name}}</h2>
 

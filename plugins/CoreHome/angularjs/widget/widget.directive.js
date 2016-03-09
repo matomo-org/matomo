@@ -29,16 +29,15 @@
 (function () {
     angular.module('piwikApp').directive('piwikWidget', piwikWidget);
 
-    piwikWidget.$inject = ['piwik', 'piwikApi'];
+    piwikWidget.$inject = ['piwik', 'piwikApi', 'reportMetadataModel'];
 
-    function piwikWidget(piwik, piwikApi){
+    function piwikWidget(piwik, piwikApi, reportMetadataModel){
 
         function findContainerWidget(containerId, scope) {
             widgetsHelper.getAvailableWidgets(function (categorizedWidgets) {
 
                 angular.forEach(categorizedWidgets, function (widgets) {
                     angular.forEach(widgets, function (widget) {
-
                         if (widget && widget.isContainer && widget.parameters.containerId === containerId) {
                             widget = angular.copy(widget);
                             if (scope.widgetized) {
@@ -55,6 +54,16 @@
                 });
 
             });
+        }
+
+        function addReportDocumentationIfPossible(widget)
+        {
+            if (widget && widget.isReport && !widget.documentation) {
+                var report = reportMetadataModel.findReport(widget.module, widget.action);
+                if (report && report.documentation) {
+                    widget.documentation = report.documentation;
+                }
+            }
         }
 
         function applyMiddleware(scope)
@@ -82,6 +91,7 @@
 
                 return function (scope, element, attrs, ngModel) {
                     if (scope.widget) {
+                        addReportDocumentationIfPossible(scope.widget);
                         applyMiddleware(scope);
                     } else if (attrs.containerid) {
                         findContainerWidget(attrs.containerid, scope);

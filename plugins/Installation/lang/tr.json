@@ -1,5 +1,7 @@
 {
     "Installation": {
+        "ConfigurationHelp": "Piwik konfigürasyon dosyası yanlış yapılandırılmış. config\/config.ini.php dosyasını silin ve kuruluma devam edin, yada veritabanı bağlantınızı doğru yapın.",
+        "ConfirmDeleteExistingTables": "%s veritabanından tabloları silmek istediğinizden emin misiniz? UYARI: TABLODAN VERILER YENIDEN ALINAMAZ!",
         "Congratulations": "Tebrikler",
         "CongratulationsHelp": "<p>Tebrikler! Piwik Başarıyla kuruldu.<\/p><p>JavaScript kodunu sayfalarınıza yerleştirdiğinizden emin olun ve ilk ziyaretçilerinizi beklemeye başlayın!<\/p>",
         "DatabaseCreation": "Veritabanı oluşturma",
@@ -13,6 +15,8 @@
         "Email": "E-posta",
         "Extension": "eklenti",
         "Filesystem": "Dosya sistemi",
+        "GoBackAndDefinePrefix": "Geri dönün ve Piwik Tabloları için tablo ön eki tanımlayınız.",
+        "HappyAnalysing": "Mutlu Analizler!",
         "Installation": "Yükleme",
         "InstallationStatus": "Yükleme durumu",
         "InvalidStateError": "Hata: Piwik zaten kurulmuş. %1$s Geri dön %2$s Piwik%3$s.",
@@ -35,6 +39,7 @@
         "SetupWebsiteSetupSuccess": "Web site %s başarıyla eklendi.",
         "SetupWebSiteURL": "Web site adresi",
         "SystemCheck": "Sistem kontrolü",
+        "SystemCheckAutoUpdateHelp": "Not: Piwik Tek Tıklamayla güncelleme için Piwik klasörüne ve içeriğine yazma izinleri gerektirir.",
         "SystemCheckDatabaseHelp": "Piwik mysqli eklentisi ya da PDO ve pdo_mysql eklentilerine ihtiyaç duyar.",
         "SystemCheckError": "Bir hata oluştu. Devam edebilmek için hatayı gidermelisiniz.",
         "SystemCheckExtensions": "Gerekli diğer eklentiler",

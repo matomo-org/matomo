@@ -44,7 +44,7 @@ class ManyUsers extends Fixture
 
     private function setUpWebsite()
     {
-        foreach (range(1,7) as $idSite) {
+        for ($i=0; $i < 7; $i++) {
             Fixture::createWebsite('2010-01-01 00:00:00');
         }
     }

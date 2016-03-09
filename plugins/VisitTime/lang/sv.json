@@ -5,6 +5,7 @@
         "DayOfWeek": "Veckodag",
         "LocalTime": "Besök efter lokal tid",
         "NHour": "%sh",
+        "PluginDescription": "Rapporterar lokaltid och servertid när besökarna visa din webbplats eller app.",
         "ServerTime": "Besök efter servertid",
         "SubmenuTimes": "Tider",
         "VisitsByDayOfWeek": "Besök efter veckodag",

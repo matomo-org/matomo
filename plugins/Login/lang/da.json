@@ -11,7 +11,6 @@
         "LoginOrEmail": "Brugernavn eller e-mail-adresse",
         "LoginPasswordNotCorrect": "Brugernavn og adgangskode er ikke korrekt",
         "LostYourPassword": "Glemt adgangskoden?",
-        "MailPasswordChangeBody": "Hej %1$s, En anmodning og nulstilling af adgangskode blev modtaget fra %2$s. For at bekræfte denne ændring af adgangskode, så du kan logge ind med dine nye legitimationsoplysninger, skal du åbne følgende link: %3$s Bemærk: Dette link udløber om 24 timer. Og tak fordi du bruger Piwik!",
         "MailTopicPasswordChange": "Bekræft ændring af adgangskode",
         "PasswordChanged": "Din adgangskode er blevet ændret.",
         "PasswordRepeat": "Adgangskode (gentag)",

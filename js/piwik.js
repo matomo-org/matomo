@@ -956,7 +956,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
-/*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
+/*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
@@ -1046,8 +1046,8 @@ if (typeof _paq !== 'object') {
 }
 
 // Piwik singleton and namespace
-if (typeof Piwik !== 'object') {
-    Piwik = (function () {
+if (typeof window.Piwik !== 'object') {
+    window.Piwik = (function () {
         'use strict';
 
         /************************************************************
@@ -1702,6 +1702,21 @@ if (typeof Piwik !== 'object') {
             return -1;
         }
 
+        function stringEndsWith(str, suffix) {
+            str = String(str);
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+
+        function stringContains(str, needle) {
+            str = String(str);
+            return str.indexOf(needle) !== -1;
+        }
+
+        function removeCharactersFromEndOfString(str, numCharactersToRemove) {
+            str = String(str);
+            return str.substr(0, str.length - numCharactersToRemove);
+        }
+
         /************************************************************
          * Element Visiblility
          ************************************************************/
@@ -2086,7 +2101,7 @@ if (typeof Piwik !== 'object') {
                     var foundNodes = nodeToSearch.getElementsByClassName(className);
                     return this.htmlCollectionToArray(foundNodes);
                 }
-                
+
                 var children = getChildrenFromNode(nodeToSearch);
 
                 if (!children || !children.length) {
@@ -2658,10 +2673,29 @@ if (typeof Piwik !== 'object') {
                 return apiUrl;
             }
 
-            if (trackerUrl.slice(-9) === 'piwik.php') {
-                trackerUrl = trackerUrl.slice(0, trackerUrl.length - 9);
+            // if eg http://www.example.com/js/tracker.php?version=232323 => http://www.example.com/js/tracker.php
+            if (stringContains(trackerUrl, '?')) {
+                var posQuery = trackerUrl.indexOf('?');
+                trackerUrl   = trackerUrl.slice(0, posQuery);
             }
 
+            if (stringEndsWith(trackerUrl, 'piwik.php')) {
+                // if eg without domain or path "piwik.php" => ''
+                trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'piwik.php'.length);
+            } else if (stringEndsWith(trackerUrl, '.php')) {
+                // if eg http://www.example.com/js/piwik.php => http://www.example.com/js/
+                // or if eg http://www.example.com/tracker.php => http://www.example.com/
+                var lastSlash = trackerUrl.lastIndexOf('/');
+                var includeLastSlash = 1;
+                trackerUrl = trackerUrl.slice(0, lastSlash + includeLastSlash);
+            }
+
+            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Piwik JS loaded)
+            if (stringEndsWith(trackerUrl, '/js/')) {
+                trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'js/'.length);
+            }
+
+            // http://www.example.com/
             return trackerUrl;
         }
 
@@ -3056,16 +3090,6 @@ if (typeof Piwik !== 'object') {
                 }
 
                 return false;
-            }
-
-            function stringEndsWith(str, suffix) {
-                str = String(str);
-                return str.indexOf(suffix, str.length - suffix.length) !== -1;
-            }
-
-            function removeCharactersFromEndOfString(str, numCharactersToRemove) {
-                str = String(str);
-                return str.substr(0, str.length - numCharactersToRemove);
             }
 
             /*
@@ -4050,8 +4074,7 @@ if (typeof Piwik !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData) {
-                var now = new Date(),
-                    request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
+                var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
                 sendRequest(request, configTrackerPause);
             }
@@ -4153,7 +4176,7 @@ if (typeof Piwik !== 'object') {
                 var sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName);
 
                 // browsers, such as Safari, don't downcase hostname and href
-                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto):', 'i');
+                var scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript|mailto|tel):', 'i');
 
                 if (!scriptProtocol.test(sourceHref)) {
                     // track outlinks and all downloads
@@ -6502,7 +6525,7 @@ if (window && window.piwikAsyncInit) {
 (function () {
     var jsTrackerType = (typeof AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
-        AnalyticsTracker = Piwik;
+        AnalyticsTracker = window.Piwik;
     }
 }());
 /*jslint sloppy: false */
@@ -6544,7 +6567,7 @@ if (typeof piwik_log !== 'function') {
 
         // instantiate the tracker
         var option,
-            piwikTracker = Piwik.getTracker(piwikUrl, siteId);
+            piwikTracker = window.Piwik.getTracker(piwikUrl, siteId);
 
         // initialize tracker
         piwikTracker.setDocumentTitle(documentTitle);

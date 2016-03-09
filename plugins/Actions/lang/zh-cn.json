@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "平均值基于 %1$s 次访问 %2$s，介于 %3$s 和 %4$s 之间",
         "ColumnClickedURL": "点击的网址",
+        "ColumnActionURL": "操作网址",
         "ColumnClicks": "点击次数",
         "ColumnClicksDocumentation": "链接被点击的次数",
         "ColumnDownloadURL": "下载的网址",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "站内搜索的结果页面",
         "WidgetSearchCategories": "搜索类别",
         "WidgetSearchKeywords": "站内搜索关键词",
-        "WidgetSearchNoResultKeywords": "没有查到结果的关键词"
+        "WidgetSearchNoResultKeywords": "没有查到结果的关键词",
+        "ActionType": "操作类型"
     }
 }
