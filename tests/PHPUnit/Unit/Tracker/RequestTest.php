@@ -564,6 +564,33 @@ class RequestTest extends UnitTestCase
         TrackerConfig::setConfigValue('cookie_path', $oldPath);
     }
 
+    /**
+     * @group invalidResolutions
+     * @dataProvider getResolutions
+     */
+    public function test_getResolution_isRoundingNumbers($input, $expected)
+    {
+        $request = $this->buildRequest(array('res' => $input ));
+        $this->assertEquals($expected, $request->getResolution(), "failed for $input");
+    }
+
+    public function getResolutions()
+    {
+        return array(
+            array('1280.000x1024.000', '1280x1024'),
+            array('1280.0007428748428764287x1024.005425425420', '1280x1024'),
+            array('1280.x1024.', '1280x1024'),
+            array('9999x9999', '9999x9999'), // Width and Height are limited to 9999 pixels due to DB field size:
+            array('10000x10000', Request::UNKNOWN_RESOLUTION), // Width and Height are limited to 9999 pixels due to DB field size:
+            array('128000x102400', Request::UNKNOWN_RESOLUTION), // Width and Height are limited to 9999 pixels due to DB field size:
+            array('1280x1024x1024', Request::UNKNOWN_RESOLUTION), // more than 2 numbers
+            array('1280xNOT a number', Request::UNKNOWN_RESOLUTION),
+            array('not valid', Request::UNKNOWN_RESOLUTION),
+            array('1280', Request::UNKNOWN_RESOLUTION), // no 'x' found
+        );
+    }
+
+
     private function buildRequest($params)
     {
         $request = new TestRequest($params);

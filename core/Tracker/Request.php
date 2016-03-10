@@ -336,7 +336,7 @@ class Request
             '_idvc'        => array(1, 'int'),
             'url'          => array('', 'string'),
             'urlref'       => array('', 'string'),
-            'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),
+            'res'          => array('', 'string'),
             'idgoal'       => array(-1, 'int'),
             'ping'         => array(0, 'int'),
 
@@ -741,6 +741,33 @@ class Request
         return $plugins;
     }
 
+    public function getResolution()
+    {
+        $resolution = $this->getParam('res');
+
+        if (empty($resolution)) {
+            return self::UNKNOWN_RESOLUTION;
+        }
+
+        if( strpos($resolution, 'x') === false) {
+            return self::UNKNOWN_RESOLUTION;
+        }
+
+        $widthHeight = explode('x', $resolution);
+        if(count($widthHeight) != 2
+            || !is_numeric($widthHeight[0])
+            || !is_numeric($widthHeight[1])
+            || $widthHeight[0] > 9999
+            || $widthHeight[1] > 9999
+        ) {
+            return self::UNKNOWN_RESOLUTION;
+        }
+
+        $widthHeight[0] = round($widthHeight[0]);
+        $widthHeight[1] = round($widthHeight[1]);
+        return implode('x', $widthHeight);
+
+    }
     public function isEmptyRequest()
     {
         return $this->isEmptyRequest;
