@@ -222,8 +222,8 @@ class API extends \Piwik\Plugin\API
         if ($actionType != 'title') {
             // specific setup for page urls
             $types[Action::TYPE_PAGE_URL] = 'followingPages';
-            $dimension = 'if ( %s.idaction_url IS NULL, %s.idaction_name, %s.idaction_url )';
-            $dimension = str_replace('%s', 'log_link_visit_action', $dimension );
+            $dimension = 'if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )';
+            $dimension = sprintf($dimension, 'log_link_visit_action' );
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
             $joinLogActionColumn = $dimension;
@@ -406,8 +406,8 @@ class API extends \Piwik\Plugin\API
         if ($dimension == 'idaction_url_ref') {
             // site search referrers are logged with url_ref=NULL
             // when we find one, we have to join on name_ref
-            $dimension = 'if ( %s.idaction_url_ref IS NULL, %s.idaction_name_ref, %s.idaction_url_ref )';
-            $dimension = str_replace('%s', 'log_link_visit_action', $dimension );
+            $dimension = 'if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )';
+            $dimension = sprintf($dimension, 'log_link_visit_action');
             $joinLogActionOn = $dimension;
         } else {
             $joinLogActionOn = $dimension;
