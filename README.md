@@ -39,7 +39,7 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
 
 Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
 
-[View Job Description](https://piwik.org/blog/2015/01/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
+[View Job Description](https://piwik.org/blog/2016/01/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
 
 This is for a full time position to work on the open source Piwik platform, either remotely or we can help the right candidate relocate to beautiful New Zealand (Wellington) or Poland (Wroclaw).
 
