@@ -224,6 +224,15 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', UrlHelper::getQueryFromUrl('/?segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', array()));
     }
 
+    public function test_getQueryFromUrl_whenUrlParameterIsDuplicatedInQueryString_returnsLastFoundValue()
+    {
+        // Currently when the same parameter is used several times in the query string,
+        // only the last set value is returned by UrlHelper::getParameterFromQueryString
+        // refs https://github.com/piwik/piwik/issues/9842#issue-136043409
+        $this->assertEquals('blue', UrlHelper::getParameterFromQueryString('selected_colors=red&selected_colors=blue&par3=1', 'selected_colors'));
+        $this->assertEquals('selected_colors=red&selected_colors=blue&par3=1', UrlHelper::getQueryFromUrl('http:/mydomain.com?selected_colors=red&selected_colors=blue&par3=1', array()));
+    }
+
     /**
      * @group Core
      */
