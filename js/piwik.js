@@ -1068,10 +1068,6 @@ if (typeof window.Piwik !== 'object') {
             /* performance timing */
             performanceAlias = windowAlias.performance || windowAlias.mozPerformance || windowAlias.msPerformance || windowAlias.webkitPerformance,
 
-            /* DOM Ready */
-            hasLoaded = false,
-            registeredOnLoadHandlers = [],
-
             /* encode */
             encodeWrapper = windowAlias.encodeURIComponent,
 
@@ -1244,72 +1240,6 @@ if (typeof window.Piwik !== 'object') {
                     now = new Date();
                 } while (now.getTimeAlias() < expireDateTime);
             }
-        }
-
-        /*
-         * Handler for onload event
-         */
-        function loadHandler() {
-            var i;
-
-            if (!hasLoaded) {
-                hasLoaded = true;
-                executePluginMethod('load');
-                for (i = 0; i < registeredOnLoadHandlers.length; i++) {
-                    registeredOnLoadHandlers[i]();
-                }
-            }
-
-            return true;
-        }
-
-        /*
-         * Add onload or DOM ready handler
-         */
-        function addReadyListener() {
-            var _timer;
-
-            if (documentAlias.addEventListener) {
-                addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
-                    documentAlias.removeEventListener('DOMContentLoaded', ready, false);
-                    loadHandler();
-                });
-            } else if (documentAlias.attachEvent) {
-                documentAlias.attachEvent('onreadystatechange', function ready() {
-                    if (documentAlias.readyState === 'complete') {
-                        documentAlias.detachEvent('onreadystatechange', ready);
-                        loadHandler();
-                    }
-                });
-
-                if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
-                    (function ready() {
-                        if (!hasLoaded) {
-                            try {
-                                documentAlias.documentElement.doScroll('left');
-                            } catch (error) {
-                                setTimeout(ready, 0);
-
-                                return;
-                            }
-                            loadHandler();
-                        }
-                    }());
-                }
-            }
-
-            // sniff for older WebKit versions
-            if ((new RegExp('WebKit')).test(navigatorAlias.userAgent)) {
-                _timer = setInterval(function () {
-                    if (hasLoaded || /loaded|complete/.test(documentAlias.readyState)) {
-                        clearInterval(_timer);
-                        loadHandler();
-                    }
-                }, 10);
-            }
-
-            // fallback
-            addEventListener(windowAlias, 'load', loadHandler, false);
         }
 
         /*
@@ -4720,7 +4650,7 @@ if (typeof window.Piwik !== 'object') {
                 } else if (windowAlias.addEventListener) {
                     windowAlias.addEventListener('load', callback);
                 } else if (windowAlias.attachEvent) {
-                    windowAlias.attachEvent('onLoad', callback);
+                    windowAlias.attachEvent('onload', callback);
                 }
             }
 
@@ -4729,18 +4659,61 @@ if (typeof window.Piwik !== 'object') {
                 var loaded = false;
 
                 if (documentAlias.attachEvent) {
-                    loaded = documentAlias.readyState === "complete";
+                    loaded = documentAlias.readyState === 'complete';
                 } else {
-                    loaded = documentAlias.readyState !== "loading";
+                    loaded = documentAlias.readyState !== 'loading';
                 }
 
                 if (loaded) {
                     callback();
-                } else if (documentAlias.addEventListener) {
-                    documentAlias.addEventListener('DOMContentLoaded', callback);
-                } else if (documentAlias.attachEvent) {
-                    documentAlias.attachEvent('onreadystatechange', callback);
+                    return;
                 }
+
+                var _timer;
+
+                if (documentAlias.addEventListener) {
+                    addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
+                        documentAlias.removeEventListener('DOMContentLoaded', ready, false);
+                        if (!loaded) {
+                            loaded = true;
+                            callback();
+                        }
+                    });
+                } else if (documentAlias.attachEvent) {
+                    documentAlias.attachEvent('onreadystatechange', function ready() {
+                        if (documentAlias.readyState === 'complete') {
+                            documentAlias.detachEvent('onreadystatechange', ready);
+                            if (!loaded) {
+                                loaded = true;
+                                callback();
+                            }
+                        }
+                    });
+
+                    if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
+                        (function ready() {
+                            if (!loaded) {
+                                try {
+                                    documentAlias.documentElement.doScroll('left');
+                                } catch (error) {
+                                    setTimeout(ready, 0);
+
+                                    return;
+                                }
+                                loaded = true;
+                                callback();
+                            }
+                        }());
+                    }
+                }
+
+                // fallback
+                addEventListener(windowAlias, 'load', function () {
+                    if (!loaded) {
+                        loaded = true;
+                        callback();
+                    }
+                }, false);
             }
 
             /*
@@ -5844,15 +5817,11 @@ if (typeof window.Piwik !== 'object') {
                 enableLinkTracking: function (enable) {
                     linkTrackingEnabled = true;
 
-                    if (hasLoaded) {
-                        // the load event has already fired, add the click listeners now
-                        addClickListeners(enable);
-                    } else {
-                        // defer until page has loaded
-                        registeredOnLoadHandlers.push(function () {
+                    trackCallback(function () {
+                        trackCallbackOnReady(function () {
                             addClickListeners(enable);
                         });
-                    }
+                    });
                 },
 
                 /**
@@ -6413,7 +6382,6 @@ if (typeof window.Piwik !== 'object') {
 
         // initialize the Piwik singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
-        addReadyListener();
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
