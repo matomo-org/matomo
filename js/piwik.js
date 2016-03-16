@@ -5524,11 +5524,6 @@ if (typeof window.Piwik !== 'object') {
                  * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
                  * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
                  *
-                 * We might automatically set a cookieConfigPath to avoid creating several cookies under one domain
-                 * if there is a hostAlias defined with a path. Say a user is visiting 'http://piwik.org/subsite1'
-                 * and '.piwik.org/subsite1' is set as a hostsAlias. Piwik will automatically use '/subsite1' as
-                 * cookieConfigPath.
-                 *
                  * @param string|array hostsAlias
                  */
                 setDomains: function (hostsAlias) {
