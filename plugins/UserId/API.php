@@ -73,14 +73,13 @@ class API extends \Piwik\Plugin\API
         // Only allow certain columns to sort by
         $filterSortColumn = in_array($filterSortColumn, GetUsers::getColumnsToDisplay()) ? $filterSortColumn : 'user_id';
 
-        $model = new Model();
         $dataTable = new DataTable();
         // Don't delegate calculation of total rows to DataTable. Do additional DB query to get total rows number
         $dataTable->setMetadata(
-            DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME, $model->getTotalUsersNumber($idSite, $filterPattern)
+            DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME, $this->model->getTotalUsersNumber($idSite, $filterPattern)
         );
         $dataTable->addRowsFromSimpleArray(
-            $model->getSiteUserIds(
+            $this->model->getSiteUserIds(
                 $idSite, $filterOffset, $filterLimit, $filterSortOrder, $filterSortColumn, $filterPattern
             )
         );
