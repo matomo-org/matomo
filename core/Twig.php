@@ -23,6 +23,85 @@ use Twig_SimpleFilter;
 use Twig_SimpleFunction;
 use Twig_SimpleTest;
 
+function piwik_filter_truncate($string, $size)
+{
+    if (strlen($string) < $size) {
+        return $string;
+    } else {
+        $array = str_split($string, $size);
+        return array_shift($array) . "...";
+    }
+}
+
+function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
+{
+    $formatter = NumberFormatter::getInstance();
+    return $formatter->format($string, $minFractionDigits, $maxFractionDigits);
+}
+
+function piwik_fix_lbrace($string)
+{
+    $chars = array('{', '&#x7B;', '&#123;', '&lcub;', '&lbrace;', '&#x0007B;');
+
+    static $search;
+    static $replace;
+
+    if (!isset($search)) {
+        $search = array_map(function ($val) { return $val . $val; }, $chars);
+    }
+    if (!isset($replace)) {
+        $replace = array_map(function ($val) { return $val . '&#8291;' . $val; }, $chars);
+    }
+
+    return str_replace($search, $replace, $string);
+}
+
+function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
+
+    $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
+
+    switch ($strategy) {
+        case 'html':
+        case 'html_attr':
+            return piwik_fix_lbrace($string);
+        case 'url':
+            $encoded = rawurlencode('{');
+            return str_replace('{{', $encoded . $encoded, $string);
+        case 'css':
+        case 'js':
+        default:
+            return $string;
+    }
+}
+
+function piwik_format_money($amount, $idSite)
+{
+    $currencySymbol = Site::getCurrencySymbolFor($idSite);
+    $numberFormatter = NumberFormatter::getInstance();
+    return $numberFormatter->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
+}
+
+class PiwikTwigFilterExtension extends \Twig_Extension
+{
+    public function getFilters()
+    {
+        return array(
+            new Twig_SimpleFilter('e', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe')),
+            new Twig_SimpleFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe'))
+        );
+    }
+
+    /**
+     * Returns the name of the extension.
+     *
+     * @return string The extension name
+     */
+    public function getName()
+    {
+        return 'escaper2';
+    }
+}
+
 /**
  * Twig class
  *
@@ -84,8 +163,8 @@ class Twig
         $this->addFilter_money();
         $this->addFilter_truncate();
         $this->addFilter_notification();
-        $this->addFilter_percentage();
         $this->addFilter_percent();
+        $this->addFilter_percentage();
         $this->addFilter_percentEvolution();
         $this->addFilter_piwikProAdLink();
         $this->addFilter_piwikProOnPremisesAdLink();
@@ -109,6 +188,8 @@ class Twig
         $this->addTest_false();
         $this->addTest_true();
         $this->addTest_emptyString();
+
+        $this->twig->addExtension(new PiwikTwigFilterExtension());
     }
 
     private function addTest_false()
@@ -287,7 +368,9 @@ class Twig
             $string = str_replace('+', '%2B', $string);
             $string = str_replace('&nbsp;', html_entity_decode('&nbsp;'), $string);
 
-            return SafeDecodeLabel::decodeLabelSafe($string);
+            $string = SafeDecodeLabel::decodeLabelSafe($string);
+
+            return piwik_fix_lbrace($string);
 
         }, array('is_safe' => array('all')));
         $this->twig->addFilter($rawSafeDecoded);
@@ -304,7 +387,8 @@ class Twig
     protected function addFilter_percentage()
     {
         $percentage = new Twig_SimpleFilter('percentage', function ($string, $totalValue, $precision = 1) {
-            return NumberFormatter::getInstance()->formatPercent(Piwik::getPercentageSafe($string, $totalValue, $precision), $precision);
+            $formatter = NumberFormatter::getInstance();
+            return $formatter->formatPercent(Piwik::getPercentageSafe($string, $totalValue, $precision), $precision);
         });
         $this->twig->addFilter($percentage);
     }
@@ -312,7 +396,8 @@ class Twig
     protected function addFilter_percent()
     {
         $percentage = new Twig_SimpleFilter('percent', function ($string, $precision = 1) {
-            return NumberFormatter::getInstance()->formatPercent($string, $precision);
+            $formatter = NumberFormatter::getInstance();
+            return $formatter->formatPercent($string, $precision);
         });
         $this->twig->addFilter($percentage);
     }
@@ -320,7 +405,8 @@ class Twig
     protected function addFilter_percentEvolution()
     {
         $percentage = new Twig_SimpleFilter('percentEvolution', function ($string) {
-            return NumberFormatter::getInstance()->formatPercentEvolution($string);
+            $formatter = NumberFormatter::getInstance();
+            return $formatter->formatPercentEvolution($string);
         });
         $this->twig->addFilter($percentage);
     }
@@ -371,7 +457,7 @@ class Twig
     protected function addFilter_number()
     {
         $formatter = new Twig_SimpleFilter('number', function ($string, $minFractionDigits = 0, $maxFractionDigits = 0) {
-            return NumberFormatter::getInstance()->format($string, $minFractionDigits, $maxFractionDigits);
+            return piwik_format_number($string, $minFractionDigits, $maxFractionDigits);
         });
         $this->twig->addFilter($formatter);
     }
@@ -379,27 +465,20 @@ class Twig
     protected function addFilter_truncate()
     {
         $truncateFilter = new Twig_SimpleFilter('truncate', function ($string, $size) {
-            if (strlen($string) < $size) {
-                return $string;
-            } else {
-                $array = str_split($string, $size);
-                return array_shift($array) . "...";
-            }
+            return piwik_filter_truncate($string, $size);
         });
         $this->twig->addFilter($truncateFilter);
     }
 
     protected function addFilter_money()
     {
-        $formatter = $this->formatter;
-        $moneyFilter = new Twig_SimpleFilter('money', function ($amount) use ($formatter) {
+        $moneyFilter = new Twig_SimpleFilter('money', function ($amount) {
             if (func_num_args() != 2) {
                 throw new Exception('the money modifier expects one parameter: the idSite.');
             }
             $idSite = func_get_args();
             $idSite = $idSite[1];
-            $currencySymbol = Site::getCurrencySymbolFor($idSite);
-            return NumberFormatter::getInstance()->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
+            return piwik_format_money($amount, $idSite);
         });
         $this->twig->addFilter($moneyFilter);
     }
@@ -445,7 +524,8 @@ class Twig
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $pluginManager->getAllPluginsNames();
         foreach ($plugins as $name) {
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {
@@ -461,7 +541,8 @@ class Twig
     */
     private function addCustomPluginNamespaces(Twig_Loader_Filesystem $loader, $pluginName)
     {
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $pluginManager->getAllPluginsNames();
         foreach ($plugins as $name) {
             $path = sprintf("%s/plugins/%s/templates/plugins/%s/", PIWIK_INCLUDE_PATH, $pluginName, $name);
             if (is_dir($path)) {

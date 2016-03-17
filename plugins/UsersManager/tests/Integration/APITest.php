@@ -178,6 +178,17 @@ class APITest extends IntegrationTestCase
         $this->api->setUserPreference($user2, 'ohOH_myPreferenceName', 'valueForUser2');
     }
 
+    public function test_updateUser()
+    {
+        $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false);
+
+        $user = $this->api->getUser($this->login);
+
+        $this->assertSame('14a88b9d2f52c55b5fbcf9c5d9c11875', $user['password']);
+        $this->assertSame('email@example.com', $user['email']);
+        $this->assertSame('newAlias', $user['alias']);
+    }
+
     public function test_getSitesAccessFromUser_forSuperUser()
     {
         $user2 = 'userLogin2';
