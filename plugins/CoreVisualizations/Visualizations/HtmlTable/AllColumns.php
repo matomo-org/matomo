@@ -64,4 +64,14 @@ class AllColumns extends HtmlTable
             $properties->columns_to_display = $columnsToDisplay;
         });
     }
+
+    public function beforeLoadDataTable()
+    {
+        $this->requestConfig->request_parameters_to_modify['pivotBy'] = null; // always unset pivotBy
+    }
+
+    protected function isPivoted()
+    {
+        return false; // Pivot not supported
+    }
 }
