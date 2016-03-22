@@ -62,6 +62,13 @@ class APITest extends IntegrationTestCase
         $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de', 'exact', 1, 50, 1);
     }
 
+    public function test_addGoal_ShouldSucceed_IfExactPageTitle()
+    {
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'normal title', 'exact', true, 50, true);
+
+        $this->assertGoal($idGoal, 'MyName', 'title', 'normal title', 'exact', 1, 50, 1);
+    }
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage Goals_ExceptionInvalidMatchingString
