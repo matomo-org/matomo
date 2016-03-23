@@ -2827,6 +2827,10 @@ if (typeof window.Piwik !== 'object') {
 
                 // Site ID
                 configTrackerSiteId = siteId || '',
+                
+                // Previous value of Current Visit Timestamp. This will replace lastVisitTs when we detect a new session
+                // value is set in setVisitorIdCookie
+                oldCurrentVisitTs = null,
 
                 // User ID
                 configUserId = '',
@@ -3596,6 +3600,7 @@ if (typeof window.Piwik !== 'object') {
                 return originalTimeout;
             }
 
+
             /*
              * Sets the Visitor ID cookie
              */
@@ -3612,6 +3617,11 @@ if (typeof window.Piwik !== 'object') {
                 if(!isDefined(visitorIdCookieValues)) {
                     visitorIdCookieValues = getValuesFromVisitorIdCookie();
                 }
+                
+                // if we haven't already done so, store current value of currentVisitTs before we overwrite it
+                if (oldCurrentVisitTs === null) {
+                    oldCurrentVisitTs = visitorIdCookieValues.currentVisitTs;
+                }                
 
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
                     visitorIdCookieValues.createTs + '.' +
@@ -3794,7 +3804,8 @@ if (typeof window.Piwik !== 'object') {
                     if (!cookieVisitorIdValues.lastVisitTs
                         || (nowTs - cookieVisitorIdValues.lastVisitTs) > visitDuration) {
                         cookieVisitorIdValues.visitCount++;
-                        cookieVisitorIdValues.lastVisitTs = cookieVisitorIdValues.currentVisitTs;
+                        // oldCurrentVisitTs is value that lastVisitTs had in the cookie, before we overwrote it with nowTs
+                        cookieVisitorIdValues.lastVisitTs = oldCurrentVisitTs;
                     }
 
 
@@ -5082,6 +5093,7 @@ if (typeof window.Piwik !== 'object') {
 
                 return hookObj;
             }
+            
 /*</DEBUG>*/
 
             /************************************************************
