@@ -26,7 +26,6 @@ class TrackFewVisitsAndCreateUsers extends Fixture
         }
 
         $this->trackVisits();
-        $this->indexUserIds();
     }
 
     private function trackVisits()
@@ -55,12 +54,5 @@ class TrackFewVisitsAndCreateUsers extends Fixture
         }
 
         self::checkBulkTrackingResponse($t->doBulkTrack());
-    }
-
-    private function indexUserIds()
-    {
-        $api = API::getInstance();
-        $api->cleanIndex();
-        $api->reindex();
     }
 }

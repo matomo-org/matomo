@@ -11,7 +11,7 @@ namespace Piwik\Plugins\UserId\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
-
+use Piwik\Plugins\UserId\Visualizations\UserIds;
 use Piwik\View;
 
 /**
@@ -26,8 +26,7 @@ class GetUsers extends Base
     public static function getColumnsToDisplay()
     {
         return array(
-            'user_id', 'first_visit_time', 'last_visit_time', 'total_visits', 'total_actions',
-            'total_searches', 'total_events'
+            'label', 'nb_visits', 'nb_actions', 'nb_visits_converted'
         );
     }
 
@@ -37,7 +36,6 @@ class GetUsers extends Base
 
         $this->name          = Piwik::translate('UsersManager_MenuUsers');
         $this->menuTitle     = $this->name;
-        $this->dimension     = null;
         $this->documentation = '';
 
         // This defines in which order your report appears in the mobile app, in the menu and in the list of widgets
@@ -49,19 +47,13 @@ class GetUsers extends Base
      */
     public function configureView(ViewDataTable $view)
     {
-        $view->config->addTranslation('user_id', Piwik::translate('General_UserId'));
-        $view->config->addTranslation('first_visit_time', Piwik::translate('Live_FirstVisit'));
-        $view->config->addTranslation('last_visit_time', Piwik::translate('Live_LastVisit'));
-        $view->config->addTranslation('total_visits', Piwik::translate('General_NumberOfVisits'));
-        $view->config->addTranslation('total_actions', Piwik::translate('General_ColumnNbActions'));
-        $view->config->addTranslation('total_searches', Piwik::translate('Actions_ColumnSearches'));
-        $view->config->addTranslation('total_events', Piwik::translate('Events_TotalEvents'));
+        $view->config->addTranslation('label', Piwik::translate('General_UserId'));
+        $view->config->addTranslation('nb_visits_converted', Piwik::translate('General_VisitConvertedGoal'));
 
         /*
          * Hide most of the table footer actions, leaving only export icons and pagination
          */
         $view->config->columns_to_display = $this->getColumnsToDisplay();
-        $view->config->show_footer_icons = false;
         $view->config->show_all_views_icons = false;
         $view->config->show_active_view_icon = false;
         $view->config->show_exclude_low_population = false;
@@ -75,11 +67,13 @@ class GetUsers extends Base
         $view->config->disable_row_evolution = true;
     }
 
-    /**
-     * @return array
-     */
-    public function getRelatedReports()
+    public function getDefaultTypeViewDataTable()
     {
-        return array();
+        return UserIds::ID;
+    }
+
+    public function alwaysUseDefaultViewDataTable()
+    {
+        return true;
     }
 }

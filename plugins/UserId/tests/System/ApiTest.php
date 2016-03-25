@@ -23,7 +23,7 @@ class ApiTest extends SystemTestCase
     /**
      * @var TrackFewVisitsAndCreateUsers
      */
-    public static $fixture = null; // initialized below class definition
+    public static $fixture;
 
     /**
      * @dataProvider getApiForTesting
@@ -36,11 +36,15 @@ class ApiTest extends SystemTestCase
     public function getApiForTesting()
     {
         $api = 'UserId.getUsers';
+        $startDate = substr(self::$fixture->dateTime, 0, 10);
+        $endDate = date('Y-m-d', strtotime($startDate) + 3600*24*365);
 
         $apiToTest   = array();
         $apiToTest[] = array(
             $api,
             array(
+                'date' => $startDate,
+                'periods' => array('day'),
                 'idSite'     => 1,
                 'testSuffix' => ''
             )
@@ -48,6 +52,18 @@ class ApiTest extends SystemTestCase
         $apiToTest[] = array(
             $api,
             array(
+                'date' => "$startDate,$endDate",
+                'periods' => array('range'),
+                'idSite'     => 1,
+                'testSuffix' => ''
+            )
+        );
+
+        $apiToTest[] = array(
+            $api,
+            array(
+                'date' => $startDate,
+                'periods' => array('day'),
                 'idSite'     => 1,
                 'testSuffix' => 'limit',
                 'otherRequestParameters' => array(
@@ -59,27 +75,59 @@ class ApiTest extends SystemTestCase
         $apiToTest[] = array(
             $api,
             array(
+                'date' => "$startDate,$endDate",
+                'periods' => array('range'),
                 'idSite'     => 1,
-                'testSuffix' => 'descSortOrder',
+                'testSuffix' => 'limit',
                 'otherRequestParameters' => array(
-                    'filter_sort_order' => 'desc',
+                    'filter_limit' => '2',
+                    'filter_offset' => '1',
+                )
+            )
+        );
+
+        $apiToTest[] = array(
+            $api,
+            array(
+                'date' => $startDate,
+                'periods' => array('day'),
+                'idSite'     => 1,
+                'testSuffix' => 'ascSortOrder',
+                'otherRequestParameters' => array(
+                    'filter_sort_order' => 'asc',
                 )
             )
         );
         $apiToTest[] = array(
             $api,
             array(
+                'date' => "$startDate,$endDate",
+                'periods' => array('range'),
                 'idSite'     => 1,
-                'testSuffix' => 'sortByVisitsNumber',
+                'testSuffix' => 'ascSortOrder',
                 'otherRequestParameters' => array(
-                    'filter_sort_order' => 'desc',
-                    'filter_sort_column' => 'total_visits',
+                    'filter_sort_order' => 'asc',
+                )
+            )
+        );
+
+        $apiToTest[] = array(
+            $api,
+            array(
+                'date' => $startDate,
+                'periods' => array('day'),
+                'idSite'     => 1,
+                'testSuffix' => 'searchByUserId',
+                'otherRequestParameters' => array(
+                    'filter_pattern' => 'user2'
                 )
             )
         );
         $apiToTest[] = array(
             $api,
             array(
+                'date' => "$startDate,$endDate",
+                'periods' => array('range'),
                 'idSite'     => 1,
                 'testSuffix' => 'searchByUserId',
                 'otherRequestParameters' => array(

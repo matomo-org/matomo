@@ -12,9 +12,9 @@
 
     var actionName = 'visitorDetails';
 
-    // Get an URL to visitor details popover in the data-url-label of table row's <tr>
+    // Get an URL to visitor details popover in the data-visitor-url of table row's <tr>
     function getVisitorDetailsUrl(tr) {
-        return $(tr).data('url-label');
+        return tr.data('visitor-url');
     }
 
     function DataTable_RowActions_VisitorDetails(dataTable) {
@@ -26,7 +26,7 @@
     DataTable_RowActions_VisitorDetails.prototype = new DataTable_RowAction();
 
     DataTable_RowActions_VisitorDetails.prototype.performAction = function (label, tr, e) {
-        DataTable_RowAction.prototype.openPopover.apply(this, [getVisitorDetailsUrl(tr)]);
+        DataTable_RowAction.prototype.openPopover.apply(this, [getVisitorDetailsUrl($(tr))]);
     };
 
     DataTable_RowActions_VisitorDetails.prototype.doOpenPopover = function (urlParam) {
@@ -53,7 +53,7 @@
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {
-            return tr.data('url-label').length > 0;
+            return getVisitorDetailsUrl(tr).length > 0;
         },
 
         createInstance: function (dataTable, param) {
