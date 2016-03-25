@@ -231,6 +231,7 @@
         "Name": "Navn",
         "NbActions": "Antall handlinger",
         "NbSearches": "Antall interne søk",
+        "NeedMoreHelp": "Trenger du mer hjelp?",
         "Never": "Aldri",
         "NewReportsWillBeProcessedByCron": "Hvis Piwik-arkivering ikke blir utløst av nettleseren, så vil nye rapporter bli prosessert ved hjelp av crontab.",
         "NewUpdatePiwikX": "Ny utgave: Piwik %s",

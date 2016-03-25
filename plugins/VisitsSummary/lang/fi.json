@@ -17,6 +17,7 @@
         "NbUniquePageviewsDescription": "%s yksilöllistä sivunavausta",
         "NbUniqueVisitors": "%s uniikia kävijää",
         "NbVisitsBounced": "%s lyhyttä käyntiä (vain yksi ladattu sivu)",
+        "PluginDescription": "Raportoi yleiset analytiikkametriikat: käynnit, uniikit kävijät, toimintojen määrän jne.",
         "VisitsSummary": "Yhteenveto käynneistä",
         "VisitsSummaryDocumentation": "Tämä on käyntien muutoksen yleiskatsaus",
         "WidgetLastVisits": "Edelliset käynnit",

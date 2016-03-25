@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Keskiarvo %1$s osumasta %2$s %3$s - %4$s",
         "ColumnClickedURL": "Klikattu URL",
+        "ColumnActionURL": "Toiminnon osoite",
         "ColumnClicks": "Klikkaukset",
         "ColumnClicksDocumentation": "Tämän linkin klikkausten määrä.",
         "ColumnDownloadURL": "Ladattu URL",
@@ -39,6 +40,7 @@
         "PagesReportDocumentation": "Tämä raportti sisältää tietoa sivuista, joilla on käyty. %s Taulukko on organisoitu hierarkisesti, URL:t näytetään puurakenteena.",
         "PageTitlesReportDocumentation": "Tämä raportti sisältää tietoa käytyjen sivujen otsikoista. %1$s Sivun otsikko on HTML:n %2$s-tagi, jonka useimmat selaimet näyttävät ikkunan otsikossa.",
         "PageUrls": "Sivujen URL:t",
+        "PluginDescription": "Raportoi sivukatselut ja sivujen otsikot. Mahdollistaa sivun sisäisen hakukoneen mittaamisen. Seuraa automaattisesti ulospäin suuntautuvia linkkejä ja latauksia.",
         "SiteSearchCategories1": "Tämä raportti listaa kategoriat jotka kävijät valitsivat.",
         "SiteSearchCategories2": "Esimerkiksi e-kauppojen sivuilla on tyypillisesti \"Kategoria\"-valitsin, jolla käyttäjät voivat rajoittaa hakutuloksia.",
         "SiteSearchFollowingPagesDoc": "Kun kävijät hakevat sivuiltasi, he etsivät tiettyä sivua, sisältöä, tuotetta tai palvelua. Tämä raportti listaa sivut joita klikattiin useiten haun jälkeen.",
@@ -59,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Verkkosivuhaun tuloksena löytyneet sivut",
         "WidgetSearchCategories": "Haun kategoriat",
         "WidgetSearchKeywords": "Sivuhaun hakusanat",
-        "WidgetSearchNoResultKeywords": "Hakusanat ilman tuloksia"
+        "WidgetSearchNoResultKeywords": "Hakusanat ilman tuloksia",
+        "ActionType": "Toiminnon tyyppi"
     }
 }
