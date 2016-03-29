@@ -163,6 +163,16 @@ class CustomLogo
         return SettingsPiwik::rewriteMiscUserPathWithInstanceId($path);
     }
 
+    public static function hasUserLogo()
+    {
+        return file_exists(Filesystem::getPathToPiwikRoot() . '/' . CustomLogo::getPathUserLogo());
+    }
+
+    public static function hasUserFavicon()
+    {
+        return file_exists(Filesystem::getPathToPiwikRoot() . '/' . CustomLogo::getPathUserFavicon());
+    }
+
     public function copyUploadedLogoToFilesystem()
     {
         $uploadFieldName = 'customLogo';
