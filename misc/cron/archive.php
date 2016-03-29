@@ -23,14 +23,18 @@ define('PIWIK_ENABLE_SESSION_START', false);
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 
 if (Piwik\Common::isPhpCliMode()) {
-    $script = array_shift($_SERVER['argv']);
-    $args   = implode(' ', $_SERVER['argv']);
+    require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
 
+    $console = new Piwik\Console();
+
+    // manipulate command line arguments so CoreArchiver command will be executed
+    $script = array_shift($_SERVER['argv']);
     $piwikHome = PIWIK_INCLUDE_PATH;
+
     echo "
 -------------------------------------------------------
 Using this 'archive.php' script is no longer recommended.
-Please use '/path/to/php $piwikHome/console core:archive " . $args . "' instead.
+Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', $_SERVER['argv']) . "' instead.
 To get help use '/path/to/php $piwikHome/console core:archive --help'
 See also: http://piwik.org/docs/setup-auto-archiving/
 
@@ -39,11 +43,6 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 \n\n";
 
-    require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
-
-    $console = new Piwik\Console();
-
-    // manipulate command line arguments so CoreArchiver command will be executed
     array_unshift($_SERVER['argv'], 'core:archive');
     array_unshift($_SERVER['argv'], $script);
 
