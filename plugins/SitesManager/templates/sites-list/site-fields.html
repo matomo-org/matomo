@@ -94,7 +94,7 @@
 
         <div class="form-group">
             <label>{{ 'SitesManager_KeepURLFragmentsLong'|translate }}</label>
-            <select ng-options="key as value for (key, value) in keepURLFragmentsOptions"
+            <select ng-options="option.key as option.value for option in keepURLFragmentsOptions"
                     ng-model="site.keep_url_fragment"></select>
         </div>
 

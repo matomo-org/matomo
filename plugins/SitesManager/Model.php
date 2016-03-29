@@ -41,8 +41,9 @@ class Model
      */
     public function getSitesFromGroup($group)
     {
-        $sites = $this->getDb()->fetchAll("SELECT * FROM " . $this->table . "
-                                           WHERE `group` = ?", $group);
+        $db = $this->getDb();
+        $sites = $db->fetchAll("SELECT * FROM " . $this->table . "
+                                WHERE `group` = ?", $group);
 
         return $sites;
     }
@@ -55,7 +56,8 @@ class Model
      */
     public function getSitesGroups()
     {
-        $groups = $this->getDb()->fetchAll("SELECT DISTINCT `group` FROM " . $this->table);
+        $db = $this->getDb();
+        $groups = $db->fetchAll("SELECT DISTINCT `group` FROM " . $this->table);
 
         $cleanedGroups = array();
         foreach ($groups as $group) {
@@ -72,7 +74,8 @@ class Model
      */
     public function getAllSites()
     {
-        $sites = $this->getDb()->fetchAll("SELECT * FROM " . $this->table . " ORDER BY idsite ASC");
+        $db = $this->getDb();
+        $sites = $db->fetchAll("SELECT * FROM " . $this->table . " ORDER BY idsite ASC");
 
         return $sites;
     }
@@ -111,7 +114,8 @@ class Model
     {
         $siteUrlTable = Common::prefixTable('site_url');
 
-        $ids = $this->getDb()->fetchAll(
+        $db = $this->getDb();
+        $ids = $db->fetchAll(
             'SELECT idsite FROM ' . $this->table . '
                     WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ' .
             'UNION
@@ -137,7 +141,8 @@ class Model
         $siteUrlTable  = Common::prefixTable('site_url');
         $sqlAccessSite = Access::getSqlAccessSite('idsite');
 
-        $ids = $this->getDb()->fetchAll(
+        $db = $this->getDb();
+        $ids = $db->fetchAll(
             'SELECT idsite
                 FROM ' . $this->table . '
                     WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
@@ -171,7 +176,8 @@ class Model
         $query = 'SELECT idsite FROM ' . $this->table . '
                   WHERE timezone IN (' . Common::getSqlStringFieldsArray($timezones) . ')
                   ORDER BY idsite ASC';
-        $sites = $this->getDb()->fetchAll($query, $timezones);
+        $db = $this->getDb();
+        $sites = $db->fetchAll($query, $timezones);
 
         return $sites;
     }
@@ -223,8 +229,9 @@ class Model
      */
     public function getSiteFromId($idSite)
     {
-        $site = $this->getDb()->fetchRow("SELECT * FROM " . $this->table . "
-                                          WHERE idsite = ?", $idSite);
+        $db = $this->getDb();
+        $site = $db->fetchRow("SELECT * FROM " . $this->table . "
+                               WHERE idsite = ?", $idSite);
 
         return $site;
     }
@@ -237,7 +244,7 @@ class Model
      */
     public function getSitesId()
     {
-        $result  = Db::fetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
+        $result = Db::fetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
 
         $idSites = array();
         foreach ($result as $idSite) {
@@ -277,7 +284,8 @@ class Model
     {
         $db     = $this->getDb();
         $result = $db->fetchAll("SELECT url FROM " . Common::prefixTable("site_url") . "
-                                WHERE idsite = ?", $idSite);
+                                 WHERE idsite = ?", $idSite);
+
         $urls = array();
         foreach ($result as $url) {
             $urls[] = $url['url'];
@@ -354,7 +362,9 @@ class Model
     public function getUsedTypeIds()
     {
         $types = array();
-        $rows = $this->getDb()->fetchAll("SELECT DISTINCT `type` as typeid FROM " . $this->table);
+
+        $db   = $this->getDb();
+        $rows = $db->fetchAll("SELECT DISTINCT `type` as typeid FROM " . $this->table);
 
         foreach ($rows as $row) {
             $types[] = $row['typeid'];

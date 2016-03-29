@@ -44,6 +44,7 @@ class Menu extends \Piwik\Plugin\Menu
         if (count($types) === 1) {
             // only one type is in use, use this one for the wording
             return reset($types);
+
         } else {
             // multiple types are activated, check whether only one is actually in use
             $model   = new Model();
