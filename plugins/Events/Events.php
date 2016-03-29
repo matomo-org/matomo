@@ -143,7 +143,8 @@ class Events extends \Piwik\Plugin
         $secondaryDimension = $this->getSecondaryDimensionFromRequest();
         $view->config->subtable_controller_action = API::getInstance()->getActionToLoadSubtables($apiMethod, $secondaryDimension);
 
-        if (Common::getRequestVar('pivotBy', false) === false) {
+        $pivotBy = Common::getRequestVar('pivotBy', false);
+        if (empty($pivotBy)) {
             $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
         }
 
