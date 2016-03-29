@@ -4497,7 +4497,9 @@ if (typeof window.Piwik !== 'object') {
                         'contentImpressions'
                     );
 
-                    requests.push(request);
+                    if (request) {
+                        requests.push(request);
+                    }
                 }
 
                 return requests;
