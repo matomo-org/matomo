@@ -7,6 +7,15 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### New features
  * New method `setIsWritableByCurrentUser` for `SystemSetting` to change the writable permission for certain system settings via DI.
 
+### Breaking Changes
+### Deprecations
+### New APIs
+### New commands
+### New guides
+### Library updates
+### Internal change
+ * In the JavaScript tracker, the function `setDomains` will not anymore attempt to set a cookie path. Learn more about [configuring the tracker correctly](http://developer.piwik.org/guides/tracking-javascript-guide#tracking-one-domain) when tracking one or several domains and/or paths.
+
 ## Piwik 2.16.0
 
 ### New features
