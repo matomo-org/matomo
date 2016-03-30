@@ -47,8 +47,10 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
             if (strpos(mb_strtolower($tld), 'xn--') !== 0) {
                 $tld = mb_strtolower($tld);
             }
+            $email = 'test@example.' . idn_to_utf8($tld);
             $this->assertTrue(
-                $this->isValid('test@example.' . idn_to_utf8($tld))
+                $this->isValid($email),
+                "email $email is not valid, but expected to be valid. Add this domain extension to  libs/Zend/Validate/Hostname.php"
             );
         }
     }
