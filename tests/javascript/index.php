@@ -2537,6 +2537,24 @@ function PiwikTest() {
         equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
     });
 
+    test("Tracker getCookieName() contains website ID", function() {
+        expect(4);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+
+        tracker.setSiteId(1);
+        cookieName = tracker.hook.test._getCookieName('testing');
+        ok( cookieName.indexOf('testing.1.') != -1);
+        ok( cookieName.indexOf('testing.2.') == -1);
+
+        tracker.setSiteId(2);
+        cookieName = tracker.hook.test._getCookieName('testing-another');
+        ok( cookieName.indexOf('testing-another.2.') != -1);
+        ok( cookieName.indexOf('testing-another.1.') == -1);
+
+    });
+
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
         expect(72);
 
