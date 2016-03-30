@@ -3112,7 +3112,7 @@ if (typeof window.Piwik !== 'object') {
 
             function isSitePath (path, pathAlias)
             {
-                var matchesAnyPath = (!pathAlias || pathAlias === '/');
+                var matchesAnyPath = (!pathAlias || pathAlias === '/' || pathAlias === '/*');
 
                 if (matchesAnyPath) {
                     return true;
@@ -3129,6 +3129,26 @@ if (typeof window.Piwik !== 'object') {
                 pathAlias = String(pathAlias).toLowerCase();
                 path = String(path).toLowerCase();
 
+                // wildcard path support
+                if(stringEndsWith(pathAlias, '*')) {
+                    // remove the final '*' before comparing
+                    pathAlias = pathAlias.slice(0, -1);
+
+                    // Note: this is almost duplicated from just few lines above
+                    matchesAnyPath = (!pathAlias || pathAlias === '/');
+
+                    if (matchesAnyPath) {
+                        return true;
+                    }
+
+                    if (path === pathAlias) {
+                        return true;
+                    }
+
+                    // wildcard match
+                    return path.indexOf(pathAlias) === 0;
+                }
+
                 // we need to append slashes so /foobarbaz won't match a site /foobar
                 if (!stringEndsWith(path, '/')) {
                     path += '/';
@@ -3141,6 +3161,15 @@ if (typeof window.Piwik !== 'object') {
                 return path.indexOf(pathAlias) === 0;
             }
 
+            /**
+             * Whether the specified domain name and path belong to any of the alias domains (eg. set via setDomains).
+             *
+             * Note: this function is used to determine whether a click on a URL will be considered an "Outlink".
+             *
+             * @param host
+             * @param path
+             * @returns {boolean}
+             */
             function isSiteHostPath(host, path)
             {
                 var i,
@@ -5523,6 +5552,9 @@ if (typeof window.Piwik !== 'object') {
                  * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
                  * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
                  * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
+                 *
+                 * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
+                 * that don't go to piwik.org/index* would be treated as outlinks.
                  *
                  * @param string|array hostsAlias
                  */
