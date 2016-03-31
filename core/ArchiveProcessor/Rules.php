@@ -172,20 +172,21 @@ class Rules
                 || $generalConfig['archiving_range_force_on_browser_request'] != false
             ) {
                 return false;
-            } else {
-                Log::debug("Not forcing archiving for range period.");
             }
+
+            Log::debug("Not forcing archiving for range period.");
+            $processOneReportOnly = false;
+
+        } else {
+            $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
         }
 
-        $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
-        $isArchivingDisabled = !self::isRequestAuthorizedToArchive() || self::$archivingDisabledByTests;
+        $isArchivingEnabled = self::isRequestAuthorizedToArchive() && !self::$archivingDisabledByTests;
 
-        if ($processOneReportOnly
-            && $periodLabel != 'range'
-        ) {
+        if ($processOneReportOnly)  {
             // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
             if (!$segment->isEmpty()
-                && $isArchivingDisabled
+                && !$isArchivingEnabled
                 && $generalConfig['browser_archiving_disabled_enforce']
                 && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
@@ -196,7 +197,8 @@ class Rules
             // Always allow processing one report
             return false;
         }
-        return $isArchivingDisabled;
+
+        return !$isArchivingEnabled;
     }
 
     public static function isRequestAuthorizedToArchive()
