@@ -22,17 +22,6 @@ use Psr\Log\LoggerInterface;
  */
 class API extends \Piwik\Plugin\API
 {
-    /** @var LoggerInterface */
-    private $logger;
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
     /**
      * Get DataTable with User Ids and some aggregated data. Supports pagination, sorting
      * and filtering by user_id
@@ -54,6 +43,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $archive->getDataTable(Archiver::USERID_ARCHIVE_RECORD);
 
         $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable->queueFilter('ReplaceSummaryRowLabel');
         $dataTable->queueFilter('Piwik\Plugins\UserId\DataTable\Filter\AddVisitorProfileUrl');
 
         return $dataTable;

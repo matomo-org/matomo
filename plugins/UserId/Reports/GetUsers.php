@@ -8,10 +8,12 @@
 
 namespace Piwik\Plugins\UserId\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserId\Visualizations\UserIds;
+use Piwik\Plugins\UserId\Visualizations\UserIdsAllColumns;
 use Piwik\View;
 
 /**
@@ -56,20 +58,19 @@ class GetUsers extends Base
         $view->config->columns_to_display = $this->getColumnsToDisplay();
         $view->config->show_all_views_icons = false;
         $view->config->show_active_view_icon = false;
-        $view->config->show_exclude_low_population = false;
-        $view->config->show_export_as_rss_feed = false;
         $view->config->show_related_reports = false;
         $view->config->show_insights = false;
         $view->config->show_pivot_by_subtable = false;
         $view->config->show_flatten_table = false;
-        $view->config->show_table = false;
-        $view->config->show_table_all_columns = false;
         $view->config->disable_row_evolution = true;
+
+        // exclude users with less then 2 visits, when low population filter is active
+        $view->requestConfig->filter_excludelowpop_value = 2;
     }
 
     public function getDefaultTypeViewDataTable()
     {
-        return UserIds::ID;
+        return Common::getRequestVar('viewDataTable', '') == 'tableAllColumns' ? UserIdsAllColumns::ID : UserIds::ID;
     }
 
     public function alwaysUseDefaultViewDataTable()

@@ -7,7 +7,7 @@
  */
 
 namespace Piwik\Plugins\UserId;
-use Piwik\Container\StaticContainer;
+use Piwik\Config;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -17,10 +17,19 @@ use Piwik\Metrics;
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const USERID_ARCHIVE_RECORD = "UserId_archive_record";
+    const USERID_ARCHIVE_RECORD = "UserId_users";
 
     const VISITOR_ID_FIELD = 'idvisitor';
     const USER_ID_FIELD = 'user_id';
+
+    protected $maximumRowsInDataTableLevelZero;
+
+    function __construct($processor)
+    {
+        parent::__construct($processor);
+
+        $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_userid_users'];
+    }
 
     /**
      * @var DataArray
@@ -52,9 +61,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         $columnsAggregationOperation = null;
         $this->getProcessor()->aggregateDataTableRecords(
             $dataTableRecords,
-            $maximumRowsInDataTableLevelZero = null,
-            $maximumRowsInSubDataTable = null,
-            $columnToSortByBeforeTruncation = null,
+            $this->maximumRowsInDataTableLevelZero,
+            $this->maximumRowsInDataTableLevelZero,
+            $columnToSort = 'nb_visits',
             $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
             $countRowsRecursive = array());
@@ -96,7 +105,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         /** @var DataTable $dataTable */
         $dataTable = $this->arrays->asDataTable();
         $this->setVisitorIds($dataTable);
-        $report = $dataTable->getSerialized(null, null, Metrics::INDEX_NB_VISITS);
+        $report = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, null, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::USERID_ARCHIVE_RECORD, $report);
     }
 

@@ -9,23 +9,15 @@
 namespace Piwik\Plugins\UserId\Visualizations;
 
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 use Piwik\View;
 
 /**
  * Custom report visualization to add data-visitor-url HTML attribute for each report row.
  * Visitor URL is used then to open a popover with detailed visitor information.
  */
-class UserIds extends HtmlTable
+class UserIdsAllColumns extends AllColumns
 {
-    const ID = 'UserIds';
+    const ID = 'UserIdsAllColumns';
     const TEMPLATE_FILE = "@UserId/_dataTableViz_userIds.twig";
-
-    protected function getClientSideParametersToSet()
-    {
-        $javascriptVariablesToSet = parent::getClientSideParametersToSet();
-        // This is to enable .tableConfiguration "cog" element. Otherwise it's removed by JS
-        $javascriptVariablesToSet['viewDataTable'] = 'table';
-        return $javascriptVariablesToSet;
-    }
-
 }

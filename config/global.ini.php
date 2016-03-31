@@ -390,6 +390,9 @@ datatable_archiving_maximum_rows_referrers = 1000
 ; maximum number of rows for any of the Referrers subtable (search engines by keyword, keyword by campaign, etc.)
 datatable_archiving_maximum_rows_subtable_referrers = 50
 
+; maximum number of rows for the Users report
+datatable_archiving_maximum_rows_userid_users = 50000
+
 ; maximum number of rows for the Custom Variables names report
 ; Note: if the website is Ecommerce enabled, the two values below will be automatically set to 50000
 datatable_archiving_maximum_rows_custom_variables = 1000

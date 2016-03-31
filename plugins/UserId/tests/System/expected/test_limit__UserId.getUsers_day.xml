@@ -11,7 +11,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<idvisitor>a1881c06eec96db9</idvisitor>
-		<visitor-url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=a1881c06eec96db9</visitor-url>
+		<visitor_url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=a1881c06eec96db9</visitor_url>
 	</row>
 	<row>
 		<label>user3</label>
@@ -24,6 +24,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<idvisitor>0b7f849446d33835</idvisitor>
-		<visitor-url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=0b7f849446d33835</visitor-url>
+		<visitor_url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=0b7f849446d33835</visitor_url>
 	</row>
 </result>

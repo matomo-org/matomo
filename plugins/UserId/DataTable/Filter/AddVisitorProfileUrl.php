@@ -26,7 +26,7 @@ class AddVisitorProfileUrl extends BaseFilter
             /** @var \Piwik\DataTable\Row $row */
             $visitorId = $row->getMetadata(Archiver::VISITOR_ID_FIELD);
             if (!empty($visitorId)) {
-                $row->setMetadata('visitor-url', "module=Live&action=getVisitorProfilePopup&visitorId=$visitorId");
+                $row->setMetadata('visitor_url', "module=Live&action=getVisitorProfilePopup&visitorId=$visitorId");
             }
         }
     }
