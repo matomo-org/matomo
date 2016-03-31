@@ -1,10 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "de61be52972a0fe8fe751306c271f4b8",
+    "content-hash": "68130b067cdceef8346b47d858b763a3",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -822,16 +823,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.6.0",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae"
+                "reference": "4f4c2b0ce412fb1b8f679a7c82190783ba697d4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae",
-                "reference": "8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/4f4c2b0ce412fb1b8f679a7c82190783ba697d4c",
+                "reference": "4f4c2b0ce412fb1b8f679a7c82190783ba697d4c",
                 "shasum": ""
             },
             "require": {
@@ -869,7 +870,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2016-03-02 22:20:49"
+            "time": "2016-03-31 20:28:09"
         },
         {
             "name": "piwik/ini",
