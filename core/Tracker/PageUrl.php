@@ -28,10 +28,6 @@ class PageUrl
         'https://'     => 2
     );
 
-    protected static $queryParametersToExclude = array('gclid', 'fb_xd_fragment', 'fb_comment_id',
-                                                       'phpsessid', 'jsessionid', 'sessionid', 'aspsessionid',
-                                                       'doing_wp_cron', 'sid');
-
     /**
      * Given the Input URL, will exclude all query parameters set for this site
      *
@@ -87,7 +83,7 @@ class PageUrl
         $excludedParameters = self::getExcludedParametersFromWebsite($website);
 
         $parametersToExclude = array_merge($excludedParameters,
-                                           self::$queryParametersToExclude,
+                                           self::getUrlParameterNamesToExcludeFromUrl(),
                                            $campaignTrackingParameters);
 
         /**
@@ -104,6 +100,19 @@ class PageUrl
 
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;
+    }
+
+    /**
+     * Returns the list of URL query parameters that should be removed from the tracked URL query string.
+     *
+     * @return array
+     */
+    protected static function getUrlParameterNamesToExcludeFromUrl()
+    {
+        $paramsToExclude = Config::getInstance()->Tracker['url_query_parameter_to_exclude_from_url'];
+        $paramsToExclude = explode(",", $paramsToExclude);
+        $paramsToExclude = array_map('trim', $paramsToExclude);
+        return $paramsToExclude;
     }
 
     /**
