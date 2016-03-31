@@ -335,11 +335,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         Http::fetchRemoteFile('https://github.com/downloads/yui/yuicompressor/yuicompressor-2.4.7.zip', PIWIK_DOCUMENT_ROOT .'/tmp/yuicompressor.zip');
         shell_exec('unzip -n '. PIWIK_DOCUMENT_ROOT .'/tmp/yuicompressor.zip');
         shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < ". PIWIK_DOCUMENT_ROOT ."/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
-        $piwikJsMinified = file_get_contents(PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
 
-        $piwikJsMinifiedInGit = file_get_contents(PIWIK_DOCUMENT_ROOT . '/piwik.js');
-
-        $this->assertEquals($piwikJsMinified, $piwikJsMinifiedInGit, 'piwik.js minified is out of date - please re-generate the piwik.js. See instructions in js/README');
+        $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
+                                PIWIK_DOCUMENT_ROOT . '/piwik.js',
+                                'minified /piwik.js is out of date, please re-generate the minified /piwik.js using instructions in /js/README'
+        );
     }
 
     public function testTmpDirectoryContainsGitKeep()
