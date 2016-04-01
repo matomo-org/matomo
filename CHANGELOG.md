@@ -8,9 +8,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
  * New method `setIsWritableByCurrentUser` for `SystemSetting` to change the writable permission for certain system settings via DI.
  * JS Tracker: `setDomains` function now supports page wildcards matching eg. `example.com/index*` which can be useful when [tracking a group of pages within a domain in a separate website in Piwik](http://developer.piwik.org/guides/tracking-javascript-guide#tracking-a-group-of-pages-in-a-separate-website)
  * To customise the list of URL query parameters to be removed from your URLs, you can now define and overwrite  `url_query_parameter_to_exclude_from_url` INI setting in your `config.ini.php` file. By default, the following query string parameters will be removed: `gclid, fb_xd_fragment, fb_comment_id, phpsessid, jsessionid, sessionid, aspsessionid, doing_wp_cron, sid`.
+
 ### Deprecations
 * The following PHP functions have been deprecated and will be removed in Piwik 3.0:
- * `SettingsServer.isApache` 
+ * `SettingsServer::isApache()` 
 
 ### New guides
   * JavaScript Tracker: [Measuring domains and/or sub-domains](http://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
