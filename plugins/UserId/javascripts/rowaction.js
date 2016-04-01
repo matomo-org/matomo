@@ -12,11 +12,6 @@
 
     var actionName = 'visitorDetails';
 
-    // Get an URL to visitor details popover in the data-visitor-url of table row's <tr>
-    function getVisitorDetailsUrl(tr) {
-        return tr.data('visitor-url');
-    }
-
     function DataTable_RowActions_VisitorDetails(dataTable) {
         this.dataTable = dataTable;
         this.actionName = actionName;
@@ -26,17 +21,21 @@
     DataTable_RowActions_VisitorDetails.prototype = new DataTable_RowAction();
 
     DataTable_RowActions_VisitorDetails.prototype.performAction = function (label, tr, e) {
-        DataTable_RowAction.prototype.openPopover.apply(this, [getVisitorDetailsUrl($(tr))]);
+        var visitorId = this.getRowMetadata($(tr)).idvisitor || '';
+        if (visitorId.length > 0) {
+            DataTable_RowAction.prototype.openPopover.apply(this, ['module=Live&action=getVisitorProfilePopup&visitorId=' + visitorId]);
+        }
     };
 
     DataTable_RowActions_VisitorDetails.prototype.doOpenPopover = function (urlParam) {
-        var popoverUrl = urlParam;
-        Piwik_Popover.createPopupAndLoadUrl(popoverUrl, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
+        Piwik_Popover.createPopupAndLoadUrl(urlParam, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
     };
 
     DataTable_RowActions_Registry.register({
 
         name: actionName,
+
+        instance: null,
 
         dataTableIcon: 'plugins/UserId/images/visitordetails.png',
         dataTableIconHover: 'plugins/UserId/images/visitordetails-hover.png',
@@ -53,7 +52,7 @@
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {
-            return getVisitorDetailsUrl(tr).length > 0;
+            return DataTable_RowAction.prototype.getRowMetadata(tr).hasOwnProperty('idvisitor');
         },
 
         createInstance: function (dataTable, param) {
@@ -65,6 +64,8 @@
             if (dataTable !== null) {
                 dataTable.visitorDetailsInstance = instance;
             }
+
+            this.instance = instance;
 
             return instance;
         }

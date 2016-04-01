@@ -8,12 +8,9 @@
 
 namespace Piwik\Plugins\UserId\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\UserId\Visualizations\UserIds;
-use Piwik\Plugins\UserId\Visualizations\UserIdsAllColumns;
 use Piwik\View;
 
 /**
@@ -66,15 +63,5 @@ class GetUsers extends Base
 
         // exclude users with less then 2 visits, when low population filter is active
         $view->requestConfig->filter_excludelowpop_value = 2;
-    }
-
-    public function getDefaultTypeViewDataTable()
-    {
-        return Common::getRequestVar('viewDataTable', '') == 'tableAllColumns' ? UserIdsAllColumns::ID : UserIds::ID;
-    }
-
-    public function alwaysUseDefaultViewDataTable()
-    {
-        return true;
     }
 }

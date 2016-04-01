@@ -11,7 +11,6 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
 		<idvisitor>b3daa77b4c04a955</idvisitor>
-		<visitor_url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=b3daa77b4c04a955</visitor_url>
 	</row>
 	<row>
 		<label>user2</label>
@@ -24,7 +23,6 @@
 		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>20</sum_daily_nb_users>
 		<idvisitor>a1881c06eec96db9</idvisitor>
-		<visitor_url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=a1881c06eec96db9</visitor_url>
 	</row>
 	<row>
 		<label>user3</label>
@@ -37,6 +35,5 @@
 		<sum_daily_nb_uniq_visitors>30</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>30</sum_daily_nb_users>
 		<idvisitor>0b7f849446d33835</idvisitor>
-		<visitor_url>module=Live&amp;action=getVisitorProfilePopup&amp;visitorId=0b7f849446d33835</visitor_url>
 	</row>
 </result>

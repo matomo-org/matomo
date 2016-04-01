@@ -13,7 +13,6 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Psr\Log\LoggerInterface;
 
 /**
  * API for plugin UserId. Allows to get User IDs table.
@@ -44,7 +43,6 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
-        $dataTable->queueFilter('Piwik\Plugins\UserId\DataTable\Filter\AddVisitorProfileUrl');
 
         return $dataTable;
     }
