@@ -222,21 +222,17 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * Prepares and executes an SQL statement with bound data.
      * Caches prepared statements to avoid preparing the same query more than once
      *
-     * @param string|Zend_Db_Select $sql  The SQL statement with placeholders.
+     * @param string|Zend_Db_Select $sql The SQL statement with placeholders.
      * @param array $bind An array of data to bind to the placeholders.
-     * @param bool $usePreparedStatementsCache If true, prepared statements will
-     *                                         be cached in the object
-     *
      * @return Zend_Db_Statement_Interface
-     * @throws \Zend_Db_Statement_Exception
      */
-    public function query($sql, $bind = array(), $usePreparedStatementsCache = true)
+    public function query($sql, $bind = array())
     {
         if (!is_string($sql)) {
             return parent::query($sql, $bind);
         }
 
-        if ($usePreparedStatementsCache && isset($this->cachePreparedStatement[$sql])) {
+        if (isset($this->cachePreparedStatement[$sql])) {
             if (!is_array($bind)) {
                 $bind = array($bind);
             }
@@ -247,9 +243,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         }
 
         $stmt = parent::query($sql, $bind);
-        if ($usePreparedStatementsCache) {
-            $this->cachePreparedStatement[$sql] = $stmt;
-        }
+        $this->cachePreparedStatement[$sql] = $stmt;
         return $stmt;
     }
 
