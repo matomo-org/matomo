@@ -47,7 +47,7 @@
         {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
         {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
 {% endif %}<span class="value">
-    {%- if row.getColumn(column) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{{- row.getColumn(column)|number(2,0)|raw -}}{% endif %}
+    {%- if row.getColumn(column) or (column=='label' and row.getColumn(column) is same as("0")) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{{- row.getColumn(column)|number(2,0)|raw -}}{% endif %}
     {%- else -%}-
     {%- endif -%}</span>
 {% if column=='label' %}</span>{% endif %}
