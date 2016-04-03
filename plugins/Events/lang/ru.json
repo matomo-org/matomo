@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Отслеживайте события и получайте отчеты об активности своих посетителей.",
         "AvgEventValue": "Среднее значение события: %s",
         "AvgValue": "Среднее значение",
         "AvgValueDocumentation": "Среднее всех значений для этого события",
@@ -19,6 +20,7 @@
         "MaxValueDocumentation": "Максимальное значения для этого события",
         "MinValue": "Минимальное значение",
         "MinValueDocumentation": "Минимальное значения для этого события",
+        "SecondaryDimension": "Втроричное измерение %s.",
         "SwitchToSecondaryDimension": "Переключиться на %s",
         "TopEvents": "Топ событий",
         "TotalEvents": "Всего событий",

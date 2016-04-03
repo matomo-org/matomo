@@ -1,5 +1,6 @@
 {
     "UserCountry": {
+        "AssumingNonApache": "Kan ikke finne apache_get_modules-funksjonen. Antar at det ikke er en Apache webserver.",
         "CannotFindGeoIPDatabaseInArchive": "Kan ikke finne filen %1$s i tar-arkivet %2$s!",
         "CannotListContent": "Kunne ikke vise innhold for %1$s: %2$s",
         "CannotLocalizeLocalIP": "IP-adressen %s er en lokal adresse og kan ikke lokaliseres.",
