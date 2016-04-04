@@ -57,10 +57,6 @@ class Controller extends Plugin\ControllerAdmin
         if (!in_array($sort, $this->validSortMethods)) {
             $sort = $this->defaultSortMethod;
         }
-        $mode = Common::getRequestVar('mode', 'admin', 'string');
-        if (!in_array($mode, array('user', 'admin'))) {
-            $mode = 'admin';
-        }
 
         $view = $this->configureView('@CorePluginsAdmin/marketplace');
 
@@ -69,7 +65,6 @@ class Controller extends Plugin\ControllerAdmin
         $showThemes = ($show === 'themes');
         $view->plugins = $marketplace->searchPlugins($query, $sort, $showThemes);
         $view->showThemes = $showThemes;
-        $view->mode = $mode;
         $view->query = $query;
         $view->sort = $sort;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);

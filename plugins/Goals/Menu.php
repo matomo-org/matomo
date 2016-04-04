@@ -9,19 +9,19 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\Common;
-use Piwik\Menu\MenuUser;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         $userPreferences = new UserPreferences();
         $idSite = $this->getIdSite($userPreferences->getDefaultWebsiteId());
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addManageItem('Goals_Goals', $this->urlForAction('manage', array('idSite' => $idSite)), 1);
+            $menu->addManageItem('Goals_Goals', $this->urlForAction('manage', array('idSite' => $idSite)), 15);
         }
     }
 

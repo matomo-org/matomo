@@ -10,7 +10,6 @@ namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 
 /**
  * This class allows you to add, remove or rename menu items.
@@ -20,22 +19,12 @@ use Piwik\Menu\MenuUser;
 class Menu extends \Piwik\Plugin\Menu
 {
 
-    public function configureAdminMenu(MenuAdmin $menu)
-    {
-        // reuse an existing category
-        // $menu->addSettingsItem('My Admin Item', $this->urlForDefaultAction(), $orderId = 30);
-        // $menu->addPlatformItem('My Admin Item', $this->urlForDefaultAction(), $orderId = 30);
-
-        // or create a custom category
-        // $menu->addItem('General_Settings', 'My Admin Item', $this->urlForDefaultAction(), $orderId = 30);
-    }
-
     public function configureTopMenu(MenuTop $menu)
     {
         // $menu->addItem('My Top Item', null, $this->urlForDefaultAction(), $orderId = 30);
     }
 
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         // reuse an existing category. Execute the showList() method within the controller when menu item was clicked
         // $menu->addManageItem('My User Item', $this->urlForAction('showList'), $orderId = 30);

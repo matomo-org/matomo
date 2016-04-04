@@ -31,7 +31,7 @@ describe("MeasurableManager", function () {
     });
 
     it("should use measurable wording in menu", function (done) {
-        var selector = '#secondNavBar li:contains(Administration):first';
+        var selector = '#secondNavBar li:contains(Manage):first';
         expect.screenshot('measurable_menu_item').to.be.captureSelector(selector, function (page) {
 
         }, done);

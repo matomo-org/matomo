@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
@@ -218,8 +217,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyIfEAcceleratorIsUsed();
         self::notifyIfURLIsNotSecure();
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
+        $view->topMenu = MenuTop::getInstance()->getMenu();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
         $enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
@@ -239,8 +237,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
-        $adminMenu = MenuAdmin::getInstance()->getMenu();
-        $view->adminMenu = $adminMenu;
+        $view->adminMenu = MenuAdmin::getInstance()->getMenu();
 
         $notifications = $view->notifications;
 

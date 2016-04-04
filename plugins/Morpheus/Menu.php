@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Morpheus;
 
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -22,17 +21,13 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->registerMenuIcon('CorePluginsAdmin_MenuPlatform', 'icon-admin-platform');
         $menu->registerMenuIcon('General_Settings', 'icon-admin-settings');
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-admin-administration');
+        $menu->registerMenuIcon('UsersManager_MenuPersonal', 'icon-user-personal');
+        $menu->registerMenuIcon('CoreAdminHome_MenuManage', 'icon-user-manage');
+        $menu->registerMenuIcon('CorePluginsAdmin_MenuPlatform', 'icon-user-platform');
 
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addDevelopmentItem('UI Demo', $this->urlForAction('demo'));
         }
-    }
-
-    public function configureUserMenu(MenuUser $menu)
-    {
-        $menu->registerMenuIcon('UsersManager_MenuPersonal', 'icon-user-personal');
-        $menu->registerMenuIcon('CoreAdminHome_MenuManage', 'icon-user-manage');
-        $menu->registerMenuIcon('CorePluginsAdmin_MenuPlatform', 'icon-user-platform');
 
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addPlatformItem('UI Demo', $this->urlForAction('demo'), $order = 15);
