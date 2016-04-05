@@ -30,7 +30,6 @@ class Controller extends \Piwik\Plugin\Controller
         // when calling the API through http, we limit the number of returned results
         if (!isset($_GET['filter_limit'])) {
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
-            $token .= '&api_datatable_default_limit=' . $_GET['filter_limit'];
         }
 
         $request  = new Request($token);
