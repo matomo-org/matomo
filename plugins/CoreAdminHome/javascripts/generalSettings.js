@@ -133,10 +133,10 @@ $(document).ready(function () {
                 else {
                     // Upload succeed, so we update the images availability
                     // according to what have been uploaded
-                    if(isSubmittingLogo) {
+                    if (isSubmittingLogo) {
                         $('#currentLogo').data("srcExists", true)
                     }
-                    if(isSubmittingFavicon) {
+                    if (isSubmittingFavicon) {
                         $('#currentFavicon').data("srcExists", true)
                     }
                     refreshCustomLogo();
