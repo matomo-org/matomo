@@ -234,7 +234,7 @@ class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResponse, $response);
     }
 
-    public function test_getResponse_shouldNotApplyLimit_IfLimitIsDefaultFilterLimitValueAndSetBySystem()
+    public function test_getResponse_shouldAlwaysApplyDefaultFilterLimit_EvenWhenResponseIsAnArray()
     {
         $input = range(0, 200);
         $limit = Config::getInstance()->General['API_datatable_default_limit'];
@@ -246,7 +246,7 @@ class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
             'filter_offset' => 0));
         $response = $builder->getResponse($input);
 
-        $this->assertEquals(range(0, 200), $response);
+        $this->assertEquals(range(0, 99), $response);
     }
 
     public function test_getResponse_shouldApplyLimit_IfLimitIsSetBySystemButDifferentToDefaultLimit()

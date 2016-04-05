@@ -55,7 +55,7 @@
         function getAllDashboards()
         {
             if (!dashboardsPromise) {
-                dashboardsPromise = piwikApi.fetch({method: 'Dashboard.getDashboards'}).then(function (response) {
+                dashboardsPromise = piwikApi.fetch({method: 'Dashboard.getDashboards', filter_limit: '-1'}).then(function (response) {
                     if (response) {
                         model.dashboards = response;
                     }

@@ -99,7 +99,8 @@ function copyDashboardToUser() {
     ajaxRequest.addParams({
         module: 'API',
         method: 'UsersManager.getUsers',
-        format: 'json'
+        format: 'json',
+        filter_limit: '-1'
     }, 'get');
     ajaxRequest.setCallback(
         function (availableUsers) {
