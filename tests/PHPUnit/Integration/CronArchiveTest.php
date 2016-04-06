@@ -140,6 +140,34 @@ LOG;
         $this->assertStringMatchesFormat($expected, $logger->output);
     }
 
+    public function test_shouldNotStopProcessingWhenOneSiteIsInvalid()
+    {
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
+            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+        );
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        $logger = new FakeLogger();
+
+        $archiver = new CronArchive(null, $logger);
+        $archiver->shouldArchiveSpecifiedSites = array(99999, 1);
+        $archiver->init();
+        $archiver->run();
+
+        $expected = <<<LOG
+- Will process 2 websites (--force-idsites)
+Will ignore websites and help finish a previous started queue instead. IDs: 1
+---------------------------
+START
+Starting Piwik reports archiving...
+Will pre-process for website id = 1, period = day, date = last52
+- pre-processing all visits
+LOG;
+
+        $this->assertContains($expected, $logger->output);
+    }
+
     public function provideContainerConfig()
     {
         return array(
