@@ -204,7 +204,7 @@ class ResponseBuilder
             $limit  = Common::getRequestVar('filter_limit', -1, 'integer', $this->request);
             $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
 
-            if ($limit >= 0) {
+            if ($limit >= 0 || $offset > 0) {
                 $array = array_slice($array, $offset, $limit, $preserveKeys = false);
             }
         }
