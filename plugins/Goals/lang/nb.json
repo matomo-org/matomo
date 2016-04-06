@@ -16,6 +16,7 @@
         "ColumnConversions": "Konvertering",
         "ColumnConversionsDocumentation": "Antall konverteringer for %s.",
         "Contains": "inneholder %s",
+        "ConversionRate": "%s konverteringsrate",
         "Conversions": "%s konverteringer",
         "DaysToConv": "Dager til konvertering",
         "Details": "Måldetaljer",

@@ -7,6 +7,7 @@
         "Engagement": "Sitoutuminen",
         "NPages": "%s sivua",
         "OnePage": "1 sivu",
+        "PluginDescription": "Raportoi kävijöiden kiinnostuksen: käytyjen sivujen määrän, sivuilla vietetyn ajan, ajan edellisestä käynnistä jne.",
         "VisitNum": "Käynnin numero",
         "VisitsByDaysSinceLast": "Käynnit lajiteltuna aikavälillä edelliseen käyntiin",
         "visitsByVisitCount": "Käynnit käyntinumeron mukaan",

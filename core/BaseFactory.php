@@ -34,11 +34,16 @@ abstract class BaseFactory
         $className = static::getClassNameFromClassId($classId);
 
         if (!class_exists($className)) {
-            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+            self::sendPlainHeader();
             throw new Exception(static::getInvalidClassIdExceptionMessage($classId));
         }
 
         return new $className;
+    }
+
+    private static function sendPlainHeader()
+    {
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
 
     /**

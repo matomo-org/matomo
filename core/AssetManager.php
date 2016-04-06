@@ -123,7 +123,7 @@ class AssetManager extends Singleton
             $this->getMergedCoreJSAsset()->delete();
             $this->getMergedNonCoreJSAsset()->delete();
 
-            $result .= $this->getIndividualJsIncludes();
+            $result .= $this->getIndividualCoreAndNonCoreJsIncludes();
         } else {
             $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_CORE_JS_MODULE_ACTION);
             $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_NON_CORE_JS_MODULE_ACTION);
@@ -290,7 +290,7 @@ class AssetManager extends Singleton
      *
      * @return string
      */
-    private function getIndividualJsIncludes()
+    private function getIndividualCoreAndNonCoreJsIncludes()
     {
         return
             $this->getIndividualJsIncludesFromAssetFetcher($this->getCoreJScriptFetcher()) .
@@ -305,7 +305,9 @@ class AssetManager extends Singleton
     {
         $jsIncludeString = '';
 
-        foreach ($assetFetcher->getCatalog()->getAssets() as $jsFile) {
+        $assets = $assetFetcher->getCatalog()->getAssets();
+
+        foreach ($assets as $jsFile) {
             $jsFile->validateFile();
             $jsIncludeString = $jsIncludeString . sprintf(self::JS_IMPORT_DIRECTIVE, $jsFile->getRelativeLocation());
         }
@@ -339,10 +341,11 @@ class AssetManager extends Singleton
             return false;
         }
 
-        $plugin = Manager::getInstance()->getLoadedPlugin($pluginName);
+        $pluginManager = Manager::getInstance();
+        $plugin = $pluginManager->getLoadedPlugin($pluginName);
 
         if ($plugin->isTheme()) {
-            $theme = Manager::getInstance()->getTheme($pluginName);
+            $theme = $pluginManager->getTheme($pluginName);
 
             $javaScriptFiles = $theme->getJavaScriptFiles();
 

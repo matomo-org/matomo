@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Tämä lisäosa tarjoaa käyttäjäkartan ja reaaliaikakartan. Huom: \"UserCountry\"-lisäosan täytyy olla päällä.",
         "AndNOthers": "ja %s muuta",
         "Cities": "Kaupunkeja",
         "Countries": "Maita",
@@ -17,6 +18,8 @@
         "ShowingVisits": "Geopaikannetut käynnit viimeiset",
         "Unlocated": "<b>%s<\/b> %p käynneistä %c:sta ei voitu geopaikantaa.",
         "VisitorMap": "Kartta kävijöistä",
-        "WorldWide": "Maailmanlaajuinen"
+        "WorldWide": "Maailmanlaajuinen",
+        "WithUnknownRegion": "%s tuntemattomalta alueelta",
+        "WithUnknownCity": "%s tuntemattomista kaupungeista"
     }
 }

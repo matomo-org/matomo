@@ -18,6 +18,7 @@
         "ViewUserGuides": "Узнайте, как настроить Piwik и эффективно анализировать Ваши данные, используя %1$s руководства пользователя%2$s",
         "CommunityHelp": "Помощь сообщества",
         "ProfessionalHelp": "Помощь профессионала",
+        "PiwikProIntro": "Piwik PRO предоставляет экспертную поддержку и консультирование клиентам, которые размещают Piwik в своей собственной инфраструктуре.",
         "PiwikProOfferIntro": "Наше предложение включает",
         "PiwikProReviewPiwikSetup": "Просмотр Вашей установки Piwik",
         "PiwikProOptimizationMaintenance": "Услуги оптимизации и обслуживания Piwik",
@@ -26,6 +27,7 @@
         "PiwikProPremiumFeatures": "Премиальные возможности",
         "PiwikProCustomDevelopment": "Услуги разработки",
         "PiwikProAnalystConsulting": "Услуги аналитика-консультанта",
-        "ContactUs": "Свяжитесь с нами"
+        "ContactUs": "Свяжитесь с нами",
+        "VisitTheForums": "Посетите %1$s Форумы%2$s и получите помощь от сообщества пользователей Piwik"
     }
 }

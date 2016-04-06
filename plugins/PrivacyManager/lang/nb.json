@@ -12,6 +12,8 @@
         "DeleteMaxRowsNoLimit": "ingen grense",
         "DeleteReportsOlderThan": "Slett rapporter eldre enn",
         "DeleteDataSettings": "Slett gamle besøkslogger og -rapporter",
+        "DoNotTrack_Disable": "Deaktiver Do Not Track støtte",
+        "DoNotTrack_Enable": "Aktiver Do Not Track støtte",
         "EstimatedSpaceSaved": "Estimert plassbesparelse",
         "GeolocationAnonymizeIpNote": "Merk: Geoposisjonering vil ha omtrent de samme resultatene med en byte anonymisert. Med to byte eller mer, vil geoposisjonering være unøyaktig.",
         "KeepDataFor": "Behold all data for",

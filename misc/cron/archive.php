@@ -22,28 +22,6 @@ define('PIWIK_ENABLE_SESSION_START', false);
 
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 
-if (!empty($_SERVER['argv'][0])) {
-    $callee = $_SERVER['argv'][0];
-} else {
-    $callee = '';
-}
-
-if (false !== strpos($callee, 'archive.php')) {
-    $piwikHome = PIWIK_INCLUDE_PATH;
-    echo "
--------------------------------------------------------
-Using this 'archive.php' script is no longer recommended.
-Please use '/path/to/php $piwikHome/console core:archive " . implode('', array_slice($_SERVER['argv'], 1)) . "' instead.
-To get help use '/path/to/php $piwikHome/console core:archive --help'
-See also: http://piwik.org/docs/setup-auto-archiving/
-
-If you cannot use the console because it requires CLI
-try 'php archive.php --url=http://your.piwik/path'
--------------------------------------------------------
-\n\n";
-}
-
-
 if (Piwik\Common::isPhpCliMode()) {
     require_once PIWIK_INCLUDE_PATH . "/core/bootstrap.php";
 
@@ -51,6 +29,20 @@ if (Piwik\Common::isPhpCliMode()) {
 
     // manipulate command line arguments so CoreArchiver command will be executed
     $script = array_shift($_SERVER['argv']);
+    $piwikHome = PIWIK_INCLUDE_PATH;
+
+    echo "
+-------------------------------------------------------
+Using this 'archive.php' script is no longer recommended.
+Please use '/path/to/php $piwikHome/console core:archive " . implode(' ', $_SERVER['argv']) . "' instead.
+To get help use '/path/to/php $piwikHome/console core:archive --help'
+See also: http://piwik.org/docs/setup-auto-archiving/
+
+If you cannot use the console because it requires CLI
+try 'php archive.php --url=http://your.piwik/path'
+-------------------------------------------------------
+\n\n";
+
     array_unshift($_SERVER['argv'], 'core:archive');
     array_unshift($_SERVER['argv'], $script);
 

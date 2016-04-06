@@ -2243,8 +2243,8 @@ function PiwikTest() {
         }
     });
 
-    test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), findConfigCookiePathToUse() and getLinkIfShouldBeProcessed()", function() {
-        expect(117);
+    test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
+        expect(154);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2253,12 +2253,10 @@ function PiwikTest() {
         equal( typeof tracker.hook.test._isSiteHostName, 'function', "isSiteHostName" );
         equal( typeof tracker.hook.test._isSiteHostPath, 'function', "isSiteHostPath" );
         equal( typeof tracker.hook.test._getLinkIfShouldBeProcessed, 'function', "getLinkIfShouldBeProcessed" );
-        equal( typeof tracker.hook.test._findConfigCookiePathToUse, 'function', "findConfigCookiePathToUse" );
 
         var isSiteHostName = tracker.hook.test._isSiteHostName;
         var isSiteHostPath = tracker.hook.test._isSiteHostPath;
         var getLinkIfShouldBeProcessed = tracker.hook.test._getLinkIfShouldBeProcessed;
-        var findConfigCookiePathToUse = tracker.hook.test._findConfigCookiePathToUse;
 
         // tracker.setDomain()
 
@@ -2308,14 +2306,42 @@ function PiwikTest() {
         ok( isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
         ok( !isSiteHostName('piwik.org.com'), '!isSiteHostName("piwik.org.com")');
 
+        // domain wildcard should not affect behavior
+        tracker.setDomains( '.piwik.net/*' );
+        ok( isSiteHostName('piwik.net'), 'isSiteHostName("piwik.net")' );
+        ok( isSiteHostName('dev.piwik.net'), 'isSiteHostName("dev.piwik.net")' );
+        ok( !isSiteHostName('piwik.net.com'), '!isSiteHostName("piwik.net.com")');
+
         /**
          * isSiteHostPath ()
          */
+
+        // various edge cases with wildcards or 'empty' paths
+        var testCases = [
+            ['piwik.org'],
+            ['piwik.org/'],
+            ['piwik.org/*'],
+            ['piwik.org/*', 'piwik.org/foo' ],
+            ['piwik.org/foo', 'piwik.org/*' ],
+            ['piwik.org/foo', 'piwik.org/*', 'piwik.org/*/bar' ],
+        ];
+        for(var i in testCases) {
+            domainTestCase = testCases[i];
+            tracker.setDomains( domainTestCase );
+
+            ok( isSiteHostPath('piwik.org', '/'), 'isSiteHostPath("piwik.org", "/") for ' +  domainTestCase );
+            ok( isSiteHostPath('piwik.org', ''), 'isSiteHostPath("piwik.org", "") for ' +  domainTestCase );
+            ok( isSiteHostPath('piwik.org', '*'), 'isSiteHostPath("piwik.org", "*") for ' +  domainTestCase);
+            ok( isSiteHostPath('piwik.org', '/*'), 'isSiteHostPath("piwik.org", "/*") for ' +  domainTestCase);
+            ok( isSiteHostPath('piwik.org', '/index'), 'isSiteHostPath("piwik.org", "/index") for ' +  domainTestCase);
+        }
+
 
         // with path
         tracker.setDomains( '.piwik.org/path' );
         ok( isSiteHostPath('piwik.org', '/path'), 'isSiteHostPath("piwik.org", "/path")' );
         ok( isSiteHostPath('piwik.org', '/path/'), 'isSiteHostPath("piwik.org", "/path/")' );
+        ok( !isSiteHostPath('piwik.org', '/path.htm'), 'isSiteHostPath("piwik.org", "/path.htm")' );
         ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test)' );
         ok( isSiteHostPath('dev.piwik.org', '/path'), 'isSiteHostPath("dev.piwik.org", "/path")' );
         ok( !isSiteHostPath('piwik.org', '/pat'), '!isSiteHostPath("piwik.org", "/pat")');
@@ -2353,12 +2379,33 @@ function PiwikTest() {
         ok( isSiteHostPath('piwik.org', '/foo/bar'), 'isSiteHostPath("piwik.org", "/foo/bar")' );
         ok( isSiteHostPath('piwik.org', '/bar/baz/foo'), 'isSiteHostPath("piwik.org", "/bar/baz/foo/")' );
         ok( !isSiteHostPath('piwik.org', '/bar/ba'), 'isSiteHostPath("piwik.org", "/bar/ba")' );
-        ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test)' );
+        ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test")' );
+        ok( isSiteHostPath('piwik.org', '/path/test.htm'), 'isSiteHostPath("piwik.org", "/path/test.htm")' );
         ok( isSiteHostPath('dev.piwik.pro', '/test'), 'isSiteHostPath("dev.piwik.pro", "/test")' );
+        ok( !isSiteHostPath('dev.piwik.pro', 'something/test.htm'), 'isSiteHostPath("dev.piwik.pro", "something/test")' );
         ok( !isSiteHostPath('dev.piwik.pro', '/'), 'isSiteHostPath("dev.piwik.pro", "/")' );
-        ok( !isSiteHostPath('piwik.pro', '/'), 'isSiteHostPath("piwik.pro", "/")' );
         ok( !isSiteHostPath('piwik.org', '/'), 'isSiteHostPath("piwik.org", "/")' );
+        ok( !isSiteHostPath('piwik.pro', '/'), 'isSiteHostPath("piwik.pro", "/")' );
+        ok( !isSiteHostPath('piwik.org', '/index.htm'), 'isSiteHostPath("piwik.org", "/index.htm")' );
         ok( !isSiteHostPath('piwik.org', '/anythingelse'), 'isSiteHostPath("piwik.org", "/anythingelse")' );
+        ok( !isSiteHostPath('another.org', '/'), 'isSiteHostPath("another.org", "/")' );
+        ok( !isSiteHostPath('another.org', '/anythingelse'), 'isSiteHostPath("another.org", "/anythingelse")' );
+
+
+        // some subdirectories and some path wildcards
+        tracker.setDomains( ['piwik.org/path', 'piwik.org/path2', 'piwik.org/index*'] );
+        ok( !isSiteHostPath('piwik.org', '/another'), "isSiteHostPath('piwik.org', '/another')" );
+        ok( !isSiteHostPath('piwik.org', '/anotherindex'), "isSiteHostPath('piwik.org', '/anotherindex')" );
+        ok( !isSiteHostPath('piwik.org', '/path.html'), "isSiteHostPath('piwik.org', '/path.html')" );
+        ok( isSiteHostPath('piwik.org', '/index'), "isSiteHostPath('piwik.org', '/index')" );
+        ok( isSiteHostPath('piwik.org', '/index.htm'), "isSiteHostPath('piwik.org', '/index.htm')" );
+        ok( isSiteHostPath('piwik.org', '/index_en.htm'), "isSiteHostPath('piwik.org', '/index_en.htm')" );
+        ok( isSiteHostPath('piwik.org', '/index*page'), "isSiteHostPath('piwik.org', '/index*page')" );
+
+        tracker.setDomains( ['piwik.org/index*', 'piwik.org'] );
+        ok( isSiteHostPath('piwik.org', '/index*page'), "isSiteHostPath('piwik.org', '/index*page')" );
+        ok( isSiteHostPath('piwik.org', ''), "isSiteHostPath('piwik.org', '')" );
+        ok( isSiteHostPath('piwik.org', '/'), "isSiteHostPath('piwik.org', '/')" );
 
         // all is compared lower case
         tracker.setDomains( '.piwik.oRg/PaTh' );
@@ -2416,45 +2463,20 @@ function PiwikTest() {
             "type": "link"
         }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/footer')), 'getLinkIfShouldBeProcessed http://www.piwik.org/footer and there is domain piwik.org/foo but it should be outlink as path is different')
 
-
         /**
-         * findConfigCookiePathToUse ()
-         */
-
-        tracker.setDomains( ['.piwik.org', '.piwik.pro/foo/bar', '.piwik.pro/foo', '.piwik.com/test/foo', 'example.com/foo'] );
-
-        equal(null, findConfigCookiePathToUse('.piwik.org/test', 'http://piwik.org/test/two'), 'findConfigCookiePathToUse no cookiePath because there is a domain alias given allowing them all');
-        equal('/foo', findConfigCookiePathToUse('.piwik.pro/foo', 'http://piwik.pro/foo/bar/test'), 'findConfigCookiePathToUse should find a match');
-        equal('/foo', findConfigCookiePathToUse('.piwik.pro/foo/bar/test', 'http://piwik.pro/foo/bar/test'), 'findConfigCookiePathToUse should find a less restrictive path automatically');
-        equal('/foo', findConfigCookiePathToUse('.piwik.pro/foo/bar/test', 'http://piwik.pro/foo'), 'findConfigCookiePathToUse should find a less restrictive path automatically, urlPath===domainPath');
-        equal('/test/bar/test', findConfigCookiePathToUse('.piwik.com/test/bar/test', 'http://piwik.com/test/bar/test/'), 'findConfigCookiePathToUse should use exactly given path if no less restrictive version is available');
-        equal('/test/foo', findConfigCookiePathToUse('.piwik.com/test/foo/test', 'http://piwik.com/test/foo/test'), 'findConfigCookiePathToUse should find a less restrictive path automatically, configAlias === currentUrl');
-        equal('/test/foo', findConfigCookiePathToUse('.piwik.com/test/foo', 'http://piwik.com/test/foo/test'), 'findConfigCookiePathToUse should find a less restrictive path automatically');
-        equal(null, findConfigCookiePathToUse('.piwik.pro/foo', 'http://piwik.pro/test'), 'findConfigCookiePathToUse should not return a path when user is actually not on that path');
-        equal(null, findConfigCookiePathToUse('.piwik.pro/foo', 'http://piwik.pro'), 'findConfigCookiePathToUse when there is no path set we cannot use a configPath');
-
-        /**
-         * Test sets a good cookie path automatically
+         * Test that we don't set a cookie path automatically
          */
         tracker.setCookiePath(null);
         tracker.setDomains( ['.' + domainAlias + '/tests'] );
-        equal('/tests', tracker.getConfigCookiePath()), 'should set a cookie path automatically';
+        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath(null);
         tracker.setDomains( ['.' + domainAlias + '/tests/javascript'] );
-        equal('/tests/javascript', tracker.getConfigCookiePath()), 'should set a cookie path automatically, multiple directories';
+        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
 
-        tracker.setCookiePath(null);
+        tracker.setCookiePath('/path2');
         tracker.setDomains( ['.' + domainAlias + '/tests/javascript', '.' + domainAlias + '/tests'] );
-        equal('/tests', tracker.getConfigCookiePath()), 'should find shortest path for possible cookie path';
-
-        tracker.setCookiePath(null);
-        tracker.setDomains( ['.' + domainAlias + '/tests/javascript', '.example.com/tests'] );
-        equal('/tests/javascript', tracker.getConfigCookiePath()), 'should not find a shorter path when no other domain matches';
-
-        tracker.setCookiePath(null);
-        tracker.setDomains( ['.' + domainAlias + '/another/one', '.example.org/tests/javascript', '.example.com/tests'] );
-        equal(null, tracker.getConfigCookiePath()), 'should not set a path when no domain and no path matches';
+        equal('/path2', tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath(null);
     });
@@ -2513,6 +2535,24 @@ function PiwikTest() {
             expectedValue = String(Math.random());
         tracker.hook.test._setCookie( cookieName, expectedValue );
         equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
+    });
+
+    test("Tracker getCookieName() contains website ID", function() {
+        expect(4);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+
+        tracker.setSiteId(1);
+        cookieName = tracker.hook.test._getCookieName('testing');
+        ok( cookieName.indexOf('testing.1.') != -1);
+        ok( cookieName.indexOf('testing.2.') == -1);
+
+        tracker.setSiteId(2);
+        cookieName = tracker.hook.test._getCookieName('testing-another');
+        ok( cookieName.indexOf('testing-another.2.') != -1);
+        ok( cookieName.indexOf('testing-another.1.') == -1);
+
     });
 
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {

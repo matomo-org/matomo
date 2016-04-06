@@ -13,6 +13,7 @@
         "AllWebsitesDashboard": "Tablica analiz wszystkich stron",
         "And": "i",
         "API": "API",
+        "Apply": "Zastosuj",
         "ArchivingInlineHelp": "Dla serwisów o średnim i wysokim natężeniu ruchu, zalecane jest wyłączenie archiwizacji danych Piwik podczas przeglądania raportów w przeglądarce. Zamiast tego zaleca się skonfigurowanie żądania cron, by przetwarzanie raportów Piwik następowało co godzinę.",
         "ArchivingTriggerDescription": "Zalecany dla większych instalacji Piwik, musisz %1$sskonfigurować crona%2$s do przetwarzania raportów automatycznie.",
         "AuthenticationMethodSmtp": "Metoda uwierzytelnienie dla SMTP",

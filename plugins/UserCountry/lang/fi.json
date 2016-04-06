@@ -16,6 +16,7 @@
         "country_a2": "Satelliittiyhteys",
         "country_cat": "Katalaania puhuvat alueet",
         "country_o1": "Muu maa",
+        "country_ti": "Tiibet",
         "CurrentLocationIntro": "Tämän toteutuksen mukaan nykyinen sijaintisi on",
         "DefaultLocationProviderDesc1": "Oletustoteutus arvaa käyttäjien maan kielen perusteella.",
         "DefaultLocationProviderDesc2": "Tämä ei ole erityisen tarkkaa, joten %1$ssuosittelemme asentamaan ja käyttämään %2$sGeoIp:tä%3$s.%4$s",

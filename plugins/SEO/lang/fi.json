@@ -1,5 +1,6 @@
 {
     "SEO": {
+        "PluginDescription": "Tämä lisäosa hakee ja näyttää SEO-tietoja: Alexan web ranking, Googlen Pagerank, indeksoitujen sivujen lukumäärän, ja takaisin osoittavien linkkien määrän valitulle sivulle.",
         "AlexaRank": "Alexa-tulos",
         "Bing_IndexedPages": "Bingin indeksoidut sivut",
         "Dmoz": "DMOZ tulossivut",
