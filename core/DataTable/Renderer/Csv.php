@@ -121,7 +121,6 @@ class Csv extends Renderer
     {
         if (is_array($table)) {
             // convert array to DataTable
-
             $table = DataTable::makeFromSimpleArray($table);
         }
 
@@ -247,6 +246,9 @@ class Csv extends Renderer
         } elseif ($value === false) {
             $value = 0;
         }
+
+        $value = $this->formatFormulas($value);
+
         if (is_string($value)
             && (strpos($value, '"') !== false
                 || strpos($value, $this->separator) !== false)
@@ -259,6 +261,29 @@ class Csv extends Renderer
         if (is_numeric($value)) {
             $value = (string)$value;
             $value = str_replace(',', '.', $value);
+        }
+
+        return $value;
+    }
+
+    protected function formatFormulas($value)
+    {
+        $formulaStartsWith = array('=', '+', '-');
+
+        // remove first % sign
+        $count = 1;
+        $valueWithoutPercentSign = str_replace('%', '', $value, $count);
+
+        if (empty($valueWithoutPercentSign)
+            || !is_string($value)
+            || is_numeric($valueWithoutPercentSign)) {
+            return $value;
+        }
+
+        $firstCharCellValue = $valueWithoutPercentSign[0];
+        $isFormula = in_array($firstCharCellValue, $formulaStartsWith);
+        if($isFormula) {
+            return "'" . $value;
         }
 
         return $value;
