@@ -205,6 +205,9 @@ class ResponseBuilder
             $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
 
             if ($limit >= 0 || $offset > 0) {
+                if ($limit < 0) {
+                    $limit = null; // make sure to return all results from offset
+                }
                 $array = array_slice($array, $offset, $limit, $preserveKeys = false);
             }
         }
