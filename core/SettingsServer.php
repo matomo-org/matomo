@@ -76,6 +76,7 @@ class SettingsServer
      *
      * @return bool
      * @api
+     * @deprecated
      */
     public static function isApache()
     {

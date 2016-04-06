@@ -237,6 +237,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should display metric tooltip correctly', function (done) {
+        expect.screenshot("metric_tooltip").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.mouseMove('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV', 500);
+        }, done);
+    });
+
     it('should load the referrers > search engines & keywords page correctly', function (done) {
         expect.screenshot('referrers_search_engines_keywords').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuSearchEngines");

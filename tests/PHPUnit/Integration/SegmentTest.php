@@ -829,9 +829,129 @@ class SegmentTest extends IntegrationTestCase
                     AND
                     ( log_link_visit_action.custom_var_k1 = ? )
                 ORDER BY NULL
-                LIMIT 33
-                    ) AS log_inner
-                LIMIT 33",
+                LIMIT 0, 33
+                    ) AS log_inner",
+            "bind" => array(1, 'Test'));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+
+    public function test_getSelectQuery_whenLimitAndOffset_outerQueryShouldNotHaveOffset()
+    {
+        $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
+        $from = 'log_visit';
+        $where = 'log_visit.idvisit = ?';
+        $bind = array(1);
+
+        $segment = 'customVariablePageName1==Test';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = false;
+        $groupBy = false;
+        $limit = 33;
+        $offset = 10;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    sum(log_inner.visit_total_time) as sum_visit_length
+                FROM
+                    (
+                SELECT
+                    log_visit.visit_total_time
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE
+                    ( log_visit.idvisit = ? )
+                    AND
+                    ( log_link_visit_action.custom_var_k1 = ? )
+                ORDER BY NULL
+                LIMIT 10, 33
+                    ) AS log_inner",
+            "bind" => array(1, 'Test'));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenOffsetIsZero()
+    {
+        $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
+        $from = 'log_visit';
+        $where = 'log_visit.idvisit = ?';
+        $bind = array(1);
+
+        $segment = 'customVariablePageName1==Test';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = false;
+        $groupBy = false;
+        $limit = 33;
+        $offset = 0;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    sum(log_inner.visit_total_time) as sum_visit_length
+                FROM
+                    (
+                SELECT
+                    log_visit.visit_total_time
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE
+                    ( log_visit.idvisit = ? )
+                    AND
+                    ( log_link_visit_action.custom_var_k1 = ? )
+                ORDER BY NULL
+                LIMIT 0, 33
+                    ) AS log_inner",
+            "bind" => array(1, 'Test'));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenLimitIsZero()
+    {
+        $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
+        $from = 'log_visit';
+        $where = 'log_visit.idvisit = ?';
+        $bind = array(1);
+
+        $segment = 'customVariablePageName1==Test';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = false;
+        $groupBy = false;
+        $limit = 0;
+        $offset = 10;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+
+        $expected = array(
+            "sql"  => "
+                SELECT
+                    sum(log_inner.visit_total_time) as sum_visit_length
+                FROM
+                    (
+                SELECT
+                    log_visit.visit_total_time
+                FROM
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE
+                    ( log_visit.idvisit = ? )
+                    AND
+                    ( log_link_visit_action.custom_var_k1 = ? )
+                GROUP BY log_visit.idvisit
+                ORDER BY NULL
+                    ) AS log_inner",
             "bind" => array(1, 'Test'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1233,7 +1353,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    // se https://github.com/piwik/piwik/issues/9194
+    // see https://github.com/piwik/piwik/issues/9194
     public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndLogVisit_shouldUseSubselectGroupedByIdVisitAndBuster()
     {
         $select = 'log_conversion.idgoal AS `idgoal`,

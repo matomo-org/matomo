@@ -68,6 +68,7 @@ class Controller extends \Piwik\Plugin\Controller
         );
 
         $period = Common::getRequestVar('period', false);
+
         if ($period == 'day') {
             // add number of unique (returning) visitors for period=day
             $selectableColumns = array_merge(

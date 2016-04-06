@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "В среднем по %1$s хит(ов) %2$s между %3$s и %4$s",
         "ColumnClickedURL": "URL кликов",
+        "ColumnActionURL": "URL действия",
         "ColumnClicks": "Клики",
         "ColumnClicksDocumentation": "Количество кликов по этой ссылке.",
         "ColumnDownloadURL": "Ссылка для загрузки",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Страницы, которые нашлись в поиске",
         "WidgetSearchCategories": "Категории поиска",
         "WidgetSearchKeywords": "Поисковые ключевые слова сайта",
-        "WidgetSearchNoResultKeywords": "Поисковые ключевые слова без результатов"
+        "WidgetSearchNoResultKeywords": "Поисковые ключевые слова без результатов",
+        "ActionType": "Тип действия"
     }
 }

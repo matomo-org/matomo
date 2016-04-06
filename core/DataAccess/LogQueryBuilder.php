@@ -16,7 +16,7 @@ use Piwik\Segment\SegmentExpression;
 class LogQueryBuilder
 {
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
-                                         $orderBy, $limit)
+                                         $orderBy, $limitAndOffset)
     {
         if (!is_array($from)) {
             $from = array($from);
@@ -43,11 +43,11 @@ class LogQueryBuilder
 
         if ($useSpecialConversionGroupBy) {
             $innerGroupBy = "CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
-            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit, $innerGroupBy);
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $innerGroupBy);
         } elseif ($joinWithSubSelect) {
-            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
         } else {
-            $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);
+            $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
         }
         return array(
             'sql' => $sql,
@@ -249,12 +249,12 @@ class LogQueryBuilder
      * @param string $where
      * @param string $groupBy
      * @param string $orderBy
-     * @param string $limit
+     * @param string $limitAndOffset
      * @param null|string $innerGroupBy  If given, this inner group by will be used. If not, we try to detect one
      * @throws Exception
      * @return string
      */
-    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit, $innerGroupBy = null)
+    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $innerGroupBy = null)
     {
         $matchTables = "(log_visit|log_conversion_item|log_conversion|log_action)";
         preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
@@ -271,7 +271,7 @@ class LogQueryBuilder
         $innerFrom = $from;
         $innerWhere = $where;
 
-        $innerLimit = $limit;
+        $innerLimitAndOffset = $limitAndOffset;
 
         if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
             $innerGroupBy = "log_visit.idvisit";
@@ -280,16 +280,16 @@ class LogQueryBuilder
         }
 
         $innerOrderBy = "NULL";
-        if ($innerLimit && $orderBy) {
+        if ($innerLimitAndOffset && $orderBy) {
             // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
             $innerOrderBy = $orderBy;
         }
-        if ($innerLimit) {
+        if ($innerLimitAndOffset) {
             // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
             $innerGroupBy = false;
         }
 
-        $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerGroupBy, $innerOrderBy, $innerLimit);
+        $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerGroupBy, $innerOrderBy, $innerLimitAndOffset);
 
         $select = preg_replace('/'.$matchTables.'\./', 'log_inner.', $select);
         $from = "
@@ -299,7 +299,9 @@ class LogQueryBuilder
         $where = false;
         $orderBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $orderBy);
         $groupBy = preg_replace('/'.$matchTables.'\./', 'log_inner.', $groupBy);
-        $query = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit);
+
+        $outerLimitAndOffset = null;
+        $query = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $outerLimitAndOffset);
         return $query;
     }
 
@@ -312,10 +314,10 @@ class LogQueryBuilder
      * @param string $where where clause
      * @param string $groupBy group by clause
      * @param string $orderBy order by clause
-     * @param string|int $limit limit by clause eg '5' for Limit 5 Offset 0 or '10, 5' for Limit 5 Offset 10
+     * @param string|int $limitAndOffset limit by clause eg '5' for Limit 5 Offset 0 or '10, 5' for Limit 5 Offset 10
      * @return string
      */
-    private function buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limit)
+    private function buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset)
     {
         $sql = "
 			SELECT
@@ -341,11 +343,16 @@ class LogQueryBuilder
 				$orderBy";
         }
 
-        $sql = $this->appendLimitClauseToQuery($sql, $limit);
+        $sql = $this->appendLimitClauseToQuery($sql, $limitAndOffset);
 
         return $sql;
     }
 
+    /**
+     * @param $sql
+     * @param $limit LIMIT clause eg. "10, 50" (offset 10, limit 50)
+     * @return string
+     */
     private function appendLimitClauseToQuery($sql, $limit)
     {
         $limitParts = explode(',', (string) $limit);

@@ -10,6 +10,8 @@
         "ColumnReturningVisits": "Palaavat käynnit",
         "ColumnSumVisitLengthReturning": "Palaavien käyttäjien aika yhteensä (sekunteja)",
         "ColumnUniqueReturningVisitors": "Yksilölliset palaavat kävijät",
+        "ColumnReturningUsers": "Palaavat käyttäjät",
+        "PluginDescription": "Raportoi metriikat ensimmäisen kerran kävijöistä ja palaavista vierailijoista",
         "ReturnActions": "%s toimintoa palaavilta käyttäjiltä",
         "ReturnAverageVisitDuration": "%s keskimääräinen käynnin pituus palaaville kävijöille",
         "ReturnAvgActions": "%s toimintoa \/ palaava käynti",

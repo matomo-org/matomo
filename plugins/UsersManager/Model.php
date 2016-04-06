@@ -50,9 +50,10 @@ class Model
             $bind  = $userLogins;
         }
 
-        $users = $this->getDb()->fetchAll("SELECT * FROM " . $this->table . "
-                                           $where
-                                           ORDER BY login ASC", $bind);
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT * FROM " . $this->table . "
+                                $where
+                                ORDER BY login ASC", $bind);
 
         return $users;
     }
@@ -64,7 +65,8 @@ class Model
      */
     public function getUsersLogin()
     {
-        $users = $this->getDb()->fetchAll("SELECT login FROM " . $this->table . " ORDER BY login ASC");
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login FROM " . $this->table . " ORDER BY login ASC");
 
         $return = array();
         foreach ($users as $login) {
@@ -76,9 +78,10 @@ class Model
 
     public function getUsersSitesFromAccess($access)
     {
-        $users = $this->getDb()->fetchAll("SELECT login,idsite FROM " . Common::prefixTable("access")
-                                        . " WHERE access = ?
-                                            ORDER BY login, idsite", $access);
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login,idsite FROM " . Common::prefixTable("access")
+                                . " WHERE access = ?
+                                    ORDER BY login, idsite", $access);
 
         $return = array();
         foreach ($users as $user) {
@@ -90,8 +93,9 @@ class Model
 
     public function getUsersAccessFromSite($idSite)
     {
-        $users = $this->getDb()->fetchAll("SELECT login,access FROM " . Common::prefixTable("access")
-                                        . " WHERE idsite = ?", $idSite);
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login,access FROM " . Common::prefixTable("access")
+                             . " WHERE idsite = ?", $idSite);
 
         $return = array();
         foreach ($users as $user) {
@@ -103,7 +107,8 @@ class Model
 
     public function getUsersLoginWithSiteAccess($idSite, $access)
     {
-        $users = $this->getDb()->fetchAll("SELECT login
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login
                                            FROM " . Common::prefixTable("access")
                                        . " WHERE idsite = ? AND access = ?", array($idSite, $access));
 
@@ -133,7 +138,8 @@ class Model
      */
     public function getSitesAccessFromUser($userLogin)
     {
-        $users = $this->getDb()->fetchAll("SELECT idsite,access FROM " . Common::prefixTable("access")
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT idsite,access FROM " . Common::prefixTable("access")
                                         . " WHERE login = ?", $userLogin);
 
         $return = array();
@@ -167,12 +173,14 @@ class Model
 
     public function getUserByEmail($userEmail)
     {
-        return $this->getDb()->fetchRow("SELECT * FROM " . $this->table . " WHERE email = ?", $userEmail);
+        $db = $this->getDb();
+        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE email = ?", $userEmail);
     }
 
     public function getUserByTokenAuth($tokenAuth)
     {
-        return $this->getDb()->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
+        $db = $this->getDb();
+        return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
     }
 
     public function addUser($userLogin, $passwordTransformed, $email, $alias, $tokenAuth, $dateRegistered)
@@ -187,17 +195,31 @@ class Model
             'superuser_access' => 0
         );
 
-        $this->getDb()->insert($this->table, $user);
+        $db = $this->getDb();
+        $db->insert($this->table, $user);
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
-        $this->getDb()->update($this->table,
-            array(
-                'superuser_access' => $hasSuperUserAccess ? 1 : 0
-            ),
-            "login = '$userLogin'"
-        );
+        $this->updateUserFields($userLogin, array(
+            'superuser_access' => $hasSuperUserAccess ? 1 : 0
+        ));
+    }
+
+    private function updateUserFields($userLogin, $fields)
+    {
+        $set  = array();
+        $bind = array();
+
+        foreach ($fields as $key => $val) {
+            $set[]  = "`$key` = ?";
+            $bind[] = $val;
+        }
+
+        $bind[] = $userLogin;
+
+        $db = $this->getDb();
+        $db->query(sprintf('UPDATE `%s` SET %s WHERE `login` = ?', $this->table, implode(', ', $set)), $bind);
     }
 
     /**
@@ -207,45 +229,47 @@ class Model
      */
     public function getUsersHavingSuperUserAccess()
     {
-        $users = $this->getDb()->fetchAll("SELECT login, email, token_auth
-                                           FROM " . Common::prefixTable("user") . "
-                                           WHERE superuser_access = 1
-                                           ORDER BY date_registered ASC");
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login, email, token_auth
+                                FROM " . Common::prefixTable("user") . "
+                                WHERE superuser_access = 1
+                                ORDER BY date_registered ASC");
 
         return $users;
     }
 
     public function updateUser($userLogin, $password, $email, $alias, $tokenAuth)
     {
-        $this->getDb()->update($this->table,
-            array(
-                 'password'   => $password,
-                 'alias'      => $alias,
-                 'email'      => $email,
-                 'token_auth' => $tokenAuth
-            ),
-            "login = '$userLogin'"
-        );
+        $this->updateUserFields($userLogin, array(
+             'password'   => $password,
+             'alias'      => $alias,
+             'email'      => $email,
+             'token_auth' => $tokenAuth
+        ));
     }
 
     public function userExists($userLogin)
     {
-        $count = $this->getDb()->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE login = ?", $userLogin);
 
         return $count != 0;
     }
 
     public function userEmailExists($userEmail)
     {
-        $count = $this->getDb()->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE email = ?", $userEmail);
+        $db = $this->getDb();
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE email = ?", $userEmail);
 
         return $count != 0;
     }
 
     public function addUserAccess($userLogin, $access, $idSites)
     {
+        $db = $this->getDb();
+
         foreach ($idSites as $idsite) {
-            $this->getDb()->insert(Common::prefixTable("access"),
+            $db->insert(Common::prefixTable("access"),
                 array("idsite" => $idsite,
                       "login"  => $userLogin,
                       "access" => $access)
@@ -255,7 +279,8 @@ class Model
 
     public function deleteUserOnly($userLogin)
     {
-        $this->getDb()->query("DELETE FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+        $db->query("DELETE FROM " . $this->table . " WHERE login = ?", $userLogin);
 
         /**
          * Triggered after a user has been deleted.
@@ -270,13 +295,15 @@ class Model
 
     public function deleteUserAccess($userLogin, $idSites = null)
     {
+        $db = $this->getDb();
+
         if (is_null($idSites)) {
-            $this->getDb()->query("DELETE FROM " . Common::prefixTable("access") .
+            $db->query("DELETE FROM " . Common::prefixTable("access") .
                 " WHERE login = ?",
                 array($userLogin));
         } else {
             foreach ($idSites as $idsite) {
-                $this->getDb()->query("DELETE FROM " . Common::prefixTable("access") .
+                $db->query("DELETE FROM " . Common::prefixTable("access") .
                     " WHERE idsite = ? AND login = ?",
                     array($idsite, $userLogin)
                 );

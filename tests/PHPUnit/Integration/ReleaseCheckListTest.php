@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
+use Piwik\Http;
 use Piwik\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -201,7 +202,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.twig');
         $this->checkFilesDoNotHaveWeirdSpaces($js);
     }
-    
+
     public function test_htmlfilesDoNotContainFakeSpaces()
     {
         $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.html');
@@ -327,6 +328,18 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $contents = file_get_contents(PIWIK_DOCUMENT_ROOT . '/piwik.js');
         $this->assertTrue(preg_match($pattern, $contents) == 0);
+    }
+
+    public function test_piwikJs_minified_isUpToDate()
+    {
+        Http::fetchRemoteFile('https://github.com/downloads/yui/yuicompressor/yuicompressor-2.4.7.zip', PIWIK_DOCUMENT_ROOT .'/tmp/yuicompressor.zip');
+        shell_exec('unzip -n '. PIWIK_DOCUMENT_ROOT .'/tmp/yuicompressor.zip');
+        shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < ". PIWIK_DOCUMENT_ROOT ."/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
+
+        $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
+                                PIWIK_DOCUMENT_ROOT . '/piwik.js',
+                                'minified /piwik.js is out of date, please re-generate the minified /piwik.js using instructions in /js/README'
+        );
     }
 
     public function testTmpDirectoryContainsGitKeep()

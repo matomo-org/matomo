@@ -79,6 +79,27 @@ class TransitionsTest extends SystemTestCase
                 'limitBeforeGrouping' => 2
             )
         ));
+
+        $return[] = array('Transitions.getTransitionsForPageUrl', array( // test w/ segment
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day'),
+            'testSuffix'             => '_withSegment',
+            'segment'                => 'visitConvertedGoalId!%3D2',
+            'otherRequestParameters' => array(
+                'pageUrl'             => 'http://example.org/page/one.html',
+                'limitBeforeGrouping' => 2
+            )
+        ));
+        $return[] = array('Transitions.getTransitionsForPageTitle', array(
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day'),
+            'testSuffix'             => '_withSegment',
+            'otherRequestParameters' => array(
+                'pageTitle'          => 'page title - page/one.html',
+            )
+        ));
         return $return;
     }
 

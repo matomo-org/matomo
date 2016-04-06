@@ -1,5 +1,6 @@
 {
     "UserCountry": {
+        "AssumingNonApache": "Kan ikke finne apache_get_modules-funksjonen. Antar at det ikke er en Apache webserver.",
         "CannotFindGeoIPDatabaseInArchive": "Kan ikke finne filen %1$s i tar-arkivet %2$s!",
         "CannotListContent": "Kunne ikke vise innhold for %1$s: %2$s",
         "CannotLocalizeLocalIP": "IP-adressen %s er en lokal adresse og kan ikke lokaliseres.",
@@ -24,6 +25,7 @@
         "HowToInstallGeoIpPecl": "Hvordan installerer jeg GeoIP PECL-utvidelsen?",
         "HowToInstallNginxModule": "Hvordan installerer jeg GeoIP-modulen for Nginx?",
         "HowToSetupGeoIP_Step1": "%1$sLast ned%2$s GeoLite City-databasen fra %3$sMaxMind%4$s.",
+        "HttpServerModule": "HTTP Server-modul",
         "ISPDatabase": "ISP-database",
         "IWantToDownloadFreeGeoIP": "Jeg vil laste ned gratis GeoIP-database...",
         "Latitude": "Breddegrad",

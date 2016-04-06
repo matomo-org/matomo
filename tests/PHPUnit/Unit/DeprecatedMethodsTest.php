@@ -23,6 +23,9 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 {
     public function test_deprecations()
     {
+        $validTill = '2016-09-01';
+        $this->assertDeprecatedMethodIsRemoved('Piwik\SettingsServer', 'isApache', $validTill);
+
         $validTill = '2015-03-10';
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Period', 'factory', $validTill);
         $this->assertDeprecatedMethodIsRemoved('\Piwik\Config', 'getConfigSuperUserForBackwardCompatibility', $validTill);

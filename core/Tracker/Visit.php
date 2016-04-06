@@ -365,7 +365,7 @@ class Visit implements VisitInterface
         return $this->userSettings;
     }
 
-    // is the referrer host any of the registered URLs for this website?
+    // is the host any of the registered URLs for this website?
     public static function isHostKnownAliasHost($urlHost, $idSite)
     {
         $websiteData = Cache::getCacheWebsiteAttributes($idSite);

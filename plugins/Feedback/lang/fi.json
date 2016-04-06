@@ -10,6 +10,12 @@
         "RateFeatureTitle": "Pidätkö ominaisuudesta '%s'? Jätä arvostelu ja kommentti",
         "SendFeedback": "Lähetä palaute",
         "ThankYou": "Kiitos että autat parantamaan Piwikiä!",
-        "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi)."
+        "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi).",
+        "CommunityHelp": "Yhteisön apu",
+        "ProfessionalHelp": "Ammattilaisapu",
+        "PiwikProReviewPiwikSetup": "Piwik-asennuksesi arviointi",
+        "PiwikProPhoneEmailSupport": "Puhelin- ja sähköpostituki",
+        "PiwikProPremiumFeatures": "Premium-ominaisuudet",
+        "ContactUs": "Ota yhteyttä"
     }
 }

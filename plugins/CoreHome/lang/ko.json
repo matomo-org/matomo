@@ -49,6 +49,7 @@
         "ClickRowToExpandOrContract": "하위 테이블의 행을 확장하거나 축소하기 위해 클릭하세요.",
         "UndoPivotBySubtable": "이 보고서는 %s Undo pivot에 의해 결정되었습니다.",
         "PivotBySubtable": "이 보고서는 %1$s Pivot이 %2$s에 의해 결정되지 않았습니다.",
+        "QuickAccessTitle": "%s 검색. 검색 결과를 확인할 때 방향키를 사용하세요. 단축키: 'f'는 검색",
         "MenuEntries": "메뉴",
         "Segments": "세그멘트",
         "AdblockIsMaybeUsed": "Piwik가 문제 없이 동작하기 위해서 광고 차단기능이 있는 플러그인을 꺼주시길 바랍니다.",

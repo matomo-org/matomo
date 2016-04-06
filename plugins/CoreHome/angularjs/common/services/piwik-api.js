@@ -53,7 +53,7 @@ var hasBlockedContent = false;
         }
 
         function isErrorResponse(response) {
-            return response && response.result == 'error';
+            return response && angular.isObject(response) && response.result == 'error';
         }
 
         function createResponseErrorNotification(response, options) {

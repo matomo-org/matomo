@@ -8,12 +8,9 @@
  */
 namespace Piwik\Plugins\Goals;
 
-
-use Piwik\API\Request;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugin\Reports;

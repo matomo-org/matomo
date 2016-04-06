@@ -1,7 +1,9 @@
 {
     "Provider": {
         "ColumnProvider": "Palveluntarjoajat",
+        "PluginDescription": "Raportoi kävijöiden internetoperaattorin",
         "ProviderReportDocumentation": "Tämä raportti näyttää, mitä internetin toimittajia kävijäsi käyttivät sivuillasi. Saat lisätietoja klikkaamalla toimittajan nimeä. %s Jos Piwik ei tunnista toimittajan nimeä, kävijästä näytetään IP.",
-        "WidgetProviders": "Palveluntarjoajat"
+        "WidgetProviders": "Palveluntarjoajat",
+        "ProviderReportFooter": "Tuntematon toimittaja ei selvitä IP-osoitteita"
     }
 }

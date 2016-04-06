@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<date>Sat, Mar 6</date>
+	<previousPages>
+		<row>
+			<label>page title - the/third_page.html?foo=bar</label>
+			<referrals>3</referrals>
+		</row>
+		<row>
+			<label>page title - sub/dir/page2.html</label>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=baz#anchor1</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=baz#anchor2</label>
+			<referrals>1</referrals>
+		</row>
+	</previousPages>
+	<previousSiteSearches>
+		<row>
+			<label>mykwd</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>anotherkwd</label>
+			<referrals>1</referrals>
+		</row>
+	</previousSiteSearches>
+	<pageMetrics>
+		<loops>5</loops>
+		<pageviews>17</pageviews>
+		<entries>3</entries>
+		<exits>3</exits>
+	</pageMetrics>
+	<followingPages>
+		<row>
+			<label>page title - sub/dir/page2.html</label>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=bar</label>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=baz#anchor1</label>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<label>page title - the/third_page.html?foo=baz#anchor2</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>page title - page3.html</label>
+			<referrals>1</referrals>
+		</row>
+	</followingPages>
+	<followingSiteSearches>
+		<row>
+			<label>anotherkwd</label>
+			<referrals>1</referrals>
+		</row>
+	</followingSiteSearches>
+	<outlinks>
+		<row>
+			<label>http://www.anothersite.com/to/outlink/page.html</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>http://anothersite.com/to/outlink/page2.html</label>
+			<referrals>1</referrals>
+		</row>
+	</outlinks>
+	<downloads>
+		<row>
+			<label>http://example.org/downloads/33.tar.gz</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>https://example.org/downloads/35.tar.gz</label>
+			<referrals>1</referrals>
+		</row>
+	</downloads>
+	<referrers>
+		<row>
+			<label>Direct Entries</label>
+			<shortName>direct</shortName>
+			<visits>1</visits>
+			<details>
+			</details>
+		</row>
+		<row>
+			<label>From Search Engines</label>
+			<shortName>search</shortName>
+			<visits>1</visits>
+			<details>
+				<row>
+					<label>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</label>
+					<referrals>1</referrals>
+				</row>
+			</details>
+		</row>
+		<row>
+			<label>From Websites</label>
+			<shortName>website</shortName>
+			<visits>1</visits>
+			<details>
+				<row>
+					<label>http://www.external.com.vn/referrerPage-counted.html</label>
+					<referrals>1</referrals>
+				</row>
+			</details>
+		</row>
+	</referrers>
+</result>
