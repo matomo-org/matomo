@@ -8,11 +8,11 @@
  */
 namespace Piwik\Plugins\ExampleUI;
 
-use Piwik\Menu\MenuUser;
+use Piwik\Menu\MenuAdmin;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         $menu->addPlatformItem('UI Notifications', $this->urlForAction('notifications'), $order = 10);
     }

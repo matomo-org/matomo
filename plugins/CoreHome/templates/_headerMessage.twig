@@ -10,7 +10,7 @@
     </span>
 {% endset %}
 
-{% if isPiwikDemo or (latest_version_available and hasSomeViewAccess and not isUserIsAnonymous) or (isSuperUser and adminMenu is defined and adminMenu) %}
+{% if isPiwikDemo or (latest_version_available and hasSomeViewAccess and not isUserIsAnonymous) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
 <div piwik-expand-on-hover
      id="header_message"
      class="piwikSelector borderedControl {% if isPiwikDemo or not latest_version_available %}header_info{% else %}{% endif %} {% if isPiwikDemo %}isPiwikDemo{% else %}piwikTopControl{% endif %} {% if latest_version_available %}update_available{% endif %}"
@@ -22,7 +22,7 @@
         {% elseif latest_version_available %}
             {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
             <span class="icon-warning"></span>
-        {% elseif isSuperUser and adminMenu is defined and adminMenu %}
+        {% elseif isSuperUser and isAdminArea is defined and isAdminArea %}
             {{ updateCheck|raw }}
         {% endif %}
     </a>
@@ -31,7 +31,7 @@
         {% if isPiwikDemo %}
             {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
             <br/>
-            {% if isSuperUser and adminMenu is defined and adminMenu %}
+            {% if isSuperUser and isAdminArea is defined and isAdminArea %}
                 <br/>
             {% endif %}
         {% endif %}
@@ -44,7 +44,7 @@
             <br />
         {% endif %}
 
-        {% if isPiwikDemo and isSuperUser and adminMenu is defined and adminMenu %}
+        {% if isPiwikDemo and isSuperUser and isAdminArea is defined and isAdminArea %}
             <br/>
             {{ updateCheck|raw }}
             <br/>

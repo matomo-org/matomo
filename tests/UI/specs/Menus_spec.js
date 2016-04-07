@@ -38,20 +38,6 @@ describe("Menus", function () {
         }, done);
     });
 
-    // user menu tests
-    it('should load the user reporting menu correctly', function (done) {
-        expect.screenshot('user_loaded').to.be.captureSelector('#secondNavBar', function (page) {
-            page.load("?" + generalParams + "&module=UsersManager&action=userSettings");
-        }, done);
-    });
-
-    it('should change the user page correctly when a user menu item is clicked', function (done) {
-        expect.screenshot('user_changed').to.be.captureSelector('#secondNavBar', function (page) {
-            openMenuItem(page, 'Platform');
-            openMenuItem(page, 'API');
-        }, done);
-    });
-
     // admin menu tests
     it('should load the admin reporting menu correctly', function (done) {
         expect.screenshot('admin_loaded').to.be.captureSelector('#secondNavBar', function (page) {
@@ -61,7 +47,7 @@ describe("Menus", function () {
 
     it('should change the admin page correctly when an admin menu item is clicked', function (done) {
         expect.screenshot('admin_changed').to.be.captureSelector('#secondNavBar', function (page) {
-            openMenuItem(page, 'Administration');
+            openMenuItem(page, 'Manage');
             openMenuItem(page, 'Websites');
         }, done);
     });

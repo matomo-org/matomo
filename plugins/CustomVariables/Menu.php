@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
-use Piwik\Menu\MenuUser;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 
@@ -20,14 +20,14 @@ use Piwik\Plugins\UsersManager\UserPreferences;
  */
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         $userPreferences = new UserPreferences();
         $default = $userPreferences->getDefaultWebsiteId();
         $idSite = Common::getRequestVar('idSite', $default, 'int');
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addManageItem('Custom Variables', $this->urlForAction('manage'), $orderId = 15);
+            $menu->addDiagnosticItem('Custom Variables', $this->urlForAction('manage'), $orderId = 20);
         }
     }
 }

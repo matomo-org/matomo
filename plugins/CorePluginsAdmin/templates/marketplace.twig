@@ -1,4 +1,4 @@
-{% extends mode is defined and mode == 'user' ? "user.twig" : "admin.twig" %}
+{% extends "admin.twig" %}
 {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% set title %}{{ 'CorePluginsAdmin_Marketplace'|translate }}{% endset %}

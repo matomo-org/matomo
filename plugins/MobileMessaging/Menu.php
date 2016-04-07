@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -17,12 +16,9 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::hasUserSuperUserAccess()) {
-            $menu->addSettingsItem('MobileMessaging_SettingsMenu', $this->urlForAction('index'), $order = 12);
+            $menu->addManageItem('MobileMessaging_SettingsMenu', $this->urlForAction('index'), $order = 12);
         }
-    }
 
-    public function configureUserMenu(MenuUser $menu)
-    {
         if (!Piwik::isUserIsAnonymous()) {
             $menu->addPersonalItem('MobileMessaging_SettingsMenu', $this->urlForAction('userSettings'), $order = 12);
         }

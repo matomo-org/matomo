@@ -3,14 +3,15 @@
 {% set categoryTitle %}{{ 'CoreAdminHome_Administration'|translate }}{% endset %}
 
 {% set bodyClass = postEvent('Template.bodyClass', 'admin') %}
+{% set isAdminArea = true %}
 
 {% block body %}
-    {% if isSuperUser %}
-        {% set topMenuModule = 'CoreAdminHome' %}
-        {% set topMenuAction = 'generalSettings' %}
-    {% else %}
-        {% set topMenuModule = 'SitesManager' %}
+    {% if userIsAnonymous %}
+        {% set topMenuModule = 'ScheduledReports' %}
         {% set topMenuAction = 'index' %}
+    {% else %}
+        {% set topMenuModule = 'UsersManager' %}
+        {% set topMenuAction = 'userSettings' %}
     {% endif %}
     {{ parent() }}
 {% endblock %}

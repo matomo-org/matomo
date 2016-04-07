@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
 /**
@@ -46,11 +45,10 @@ class Menu extends \Piwik\Plugin\Menu
                                    $order = 4);
         }
 
-
-        if (Piwik::hasUserSuperUserAccess() && CorePluginsAdmin::isMarketplaceEnabled()) {
-            $menu->addManageItem('CorePluginsAdmin_Marketplace',
-                $this->urlForAction('marketplace', array('activated' => '', 'mode' => 'admin')),
-                $order = 12);
+        if ($this->isAllowedToSeeMarketPlace()) {
+            $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
+                $this->urlForAction('marketplace', array('activated' => '', 'mode' => 'user')),
+                $order = 5);
         }
     }
 
@@ -62,12 +60,4 @@ class Menu extends \Piwik\Plugin\Menu
         return $isMarketplaceEnabled && !$isAnonymous;
     }
 
-    public function configureUserMenu(MenuUser $menu)
-    {
-        if ($this->isAllowedToSeeMarketPlace()) {
-            $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   $this->urlForAction('marketplace', array('activated' => '', 'mode' => 'user')),
-                                   $order = 5);
-        }
-    }
 }

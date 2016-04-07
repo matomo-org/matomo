@@ -12,10 +12,8 @@ use Piwik\Common;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
-use Piwik\Plugin\Reports;
 
 /**
  * Base class of all plugin menu providers. Plugins that define their own menu items can extend this class to easily
@@ -218,16 +216,8 @@ class Menu
     }
 
     /**
-     * Configures the user menu which is supposed to contain user and help related items such as
-     * "User settings", "Alerts" or "Email Reports".
-     */
-    public function configureUserMenu(MenuUser $menu)
-    {
-    }
-
-    /**
      * Configures the admin menu which is supposed to contain only administration related items such as
-     * "Websites", "Users" or "Plugin settings".
+     * "Websites", "Users" or "Settings".
      */
     public function configureAdminMenu(MenuAdmin $menu)
     {

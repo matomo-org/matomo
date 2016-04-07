@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\API;
 
 use Piwik\DeviceDetectorCache;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use DeviceDetector\Parser\OperatingSystem;
 
@@ -24,7 +24,7 @@ class Menu extends \Piwik\Plugin\Menu
         $this->addTopMenuMobileApp($menu);
     }
 
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         $menu->addPlatformItem('General_API',
             $this->urlForAction('listAllAPI', array('segment' => false)),

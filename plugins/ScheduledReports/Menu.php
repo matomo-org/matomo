@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
-use Piwik\Menu\MenuUser;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
@@ -18,7 +18,7 @@ class Menu extends \Piwik\Plugin\Menu
     const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
     const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
 
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         $tooltip = Piwik::translate(
             \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')

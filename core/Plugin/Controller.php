@@ -20,8 +20,8 @@ use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\FrontController;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\NumberFormatter;
@@ -640,8 +640,8 @@ abstract class Controller
 
         $this->setBasicVariablesView($view);
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
+        $view->topMenu = MenuTop::getInstance()->getMenu();
+        $view->adminMenu = MenuAdmin::getInstance()->getMenu();
 
         $notifications = $view->notifications;
         if (empty($notifications)) {
