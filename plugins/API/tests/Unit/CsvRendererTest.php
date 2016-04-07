@@ -122,9 +122,11 @@ The\nOutput', $response);
             // we prefix with quotes
             array('=test()', '\'=test()'),
             array('=1+1', '\'=1+1'),
+            array('@1+1', '\'@1+1'),
             array('+1+1', '\'+1+1'),
             array('+1+test()', '\'+1+test()'),
             array('-1+1', '\'-1+1'),
+            array('@-1+1', '\'@-1+1'),
             array('-test()', '\'-test()'),
             array('-te,st()', '"\'-te,st()"'),
             array('-te"st()', '"\'-te""st()"'),
@@ -132,6 +134,7 @@ The\nOutput', $response);
             // we do not need to prefix with quote
             array('1', '1'),
             array('2', '2'),
+            array('2@', '2@'),
             array('20000000', '20000000'),
             array('10%', '10%'),
             array('10.5%', '10.5%'),
@@ -139,6 +142,7 @@ The\nOutput', $response);
             array('+10,5%', '"\'+10,5%"'),
             array('10,5', '"10,5"'),
             array('1+test()', '1+test()'),
+            array('1+test@', '1+test@'),
             array('', ''),
             array(0, '0'),
             array(2.2, '2.2'),

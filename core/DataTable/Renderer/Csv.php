@@ -268,7 +268,8 @@ class Csv extends Renderer
 
     protected function formatFormulas($value)
     {
-        $formulaStartsWith = array('=', '+', '-');
+        // Excel / Libreoffice formulas may start with one of these characters
+        $formulaStartsWith = array('=', '+', '-', '@');
 
         // remove first % sign
         $count = 1;
