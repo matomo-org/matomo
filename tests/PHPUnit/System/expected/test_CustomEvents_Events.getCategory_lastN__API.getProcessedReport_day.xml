@@ -91,22 +91,22 @@
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>780</idsubdatatable>
+				<idsubdatatable>784</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>781</idsubdatatable>
+				<idsubdatatable>785</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>782</idsubdatatable>
+				<idsubdatatable>786</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==CategoryTriggersGoal+here</segment>
-				<idsubdatatable>783</idsubdatatable>
+				<idsubdatatable>787</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />
