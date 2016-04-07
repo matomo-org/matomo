@@ -150,6 +150,15 @@
 				<max_event_value>0</max_event_value>
 				<avg_event_value>0</avg_event_value>
 			</row>
+			<row>
+				<label>This is an event without a URL</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -163,60 +172,63 @@
 			<row>
 				
 				<segment>eventAction==playTrailer</segment>
-				<idsubdatatable>807</idsubdatatable>
+				<idsubdatatable>844</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==Search</segment>
-				<idsubdatatable>800</idsubdatatable>
+				<idsubdatatable>837</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play25%25</segment>
-				<idsubdatatable>802</idsubdatatable>
+				<idsubdatatable>839</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play50%25</segment>
-				<idsubdatatable>803</idsubdatatable>
+				<idsubdatatable>840</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play75%25</segment>
-				<idsubdatatable>804</idsubdatatable>
+				<idsubdatatable>841</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==playEnd</segment>
-				<idsubdatatable>805</idsubdatatable>
+				<idsubdatatable>842</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==rating</segment>
-				<idsubdatatable>806</idsubdatatable>
+				<idsubdatatable>843</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==clickBuyNow</segment>
-				<idsubdatatable>808</idsubdatatable>
+				<idsubdatatable>845</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>810</idsubdatatable>
+				<idsubdatatable>847</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play</segment>
-				<idsubdatatable>801</idsubdatatable>
+				<idsubdatatable>838</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==playStart</segment>
-				<idsubdatatable>809</idsubdatatable>
+				<idsubdatatable>846</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==Purchase</segment>
+			</row>
+			<row>
+				<segment>eventAction==This+is+an+event+without+a+URL</segment>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />
@@ -227,7 +239,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>42</nb_visits>
-		<nb_uniq_visitors>40</nb_uniq_visitors>
+		<nb_visits>43</nb_visits>
+		<nb_uniq_visitors>41</nb_uniq_visitors>
 	</reportTotal>
 </result>
