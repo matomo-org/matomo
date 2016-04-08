@@ -21,7 +21,7 @@ class GetModel extends Base
         $this->name          = Piwik::translate('DevicesDetection_DeviceModel');
         $this->documentation = ''; // TODO
         $this->order = 2;
-
+        $this->hasGoalMetrics = true;
         $this->subcategoryId = 'DevicesDetection_Devices';
     }
 
