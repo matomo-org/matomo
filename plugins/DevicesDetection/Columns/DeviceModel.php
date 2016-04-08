@@ -36,4 +36,15 @@ class DeviceModel extends Base
 
         return $parser->getModel();
     }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
+    {
+        return $visitor->getVisitorColumn('config_device_model');
+    }
 }

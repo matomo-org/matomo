@@ -73,8 +73,26 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private function aggregateByLabel($labelSQL, $recordName)
     {
-        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL)->asDataTable();
-        $report = $metrics->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL);
+
+        if (in_array($recordName, array(self::DEVICE_TYPE_RECORD_NAME, self::DEVICE_BRAND_RECORD_NAME, self::DEVICE_MODEL_RECORD_NAME))) {
+
+            $labelSQL = str_replace('log_visit.', 'log_conversion.', $labelSQL);
+
+            $query = $this->getLogAggregator()->queryConversionsByDimension(array($labelSQL));
+
+            if ($query === false) {
+                return;
+            }
+
+            while ($conversionRow = $query->fetch()) {
+
+                $metrics->sumMetricsGoals($conversionRow[$labelSQL], $conversionRow);
+            }
+            $metrics->enrichMetricsWithConversions();
+        }
+
+        $report = $metrics->asDataTable()->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 

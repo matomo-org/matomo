@@ -61,4 +61,15 @@ class DeviceType extends Base
 
         return $parser->getDevice();
     }
+
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
+    {
+        return $visitor->getVisitorColumn('config_device_type');
+    }
 }
