@@ -489,6 +489,8 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         'فلسطين' => array(1 => self::VALID_UNICODE_DOMAIN),
         '政务' => array(1 => self::VALID_UNICODE_DOMAIN),
         '家電' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '微博' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ابوظبي' => array(1 => self::VALID_UNICODE_DOMAIN),
     );
 
 
