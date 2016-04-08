@@ -101,6 +101,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load visitors with site search > visitor log page correctly', function (done) {
+        expect.screenshot("visitors_with_site_search_visitorlog").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=Live&action=indexVisitorLog&period=day&date=2012-01-11");
+        }, done);
+    });
+
     it('should load the visitors > devices page correctly', function (done) {
         expect.screenshot("visitors_devices").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#" + generalParams + "&module=DevicesDetection&action=index");
