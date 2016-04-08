@@ -408,6 +408,10 @@ class Model
         $orderBy .= "visit_last_action_time " . $filterSortOrder;
         $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
 
+        if (!$segment->isEmpty()) {
+            $limit = $limit * 10;
+        }
+
         $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit, $offset);
 
         $bind = $subQuery['bind'];
