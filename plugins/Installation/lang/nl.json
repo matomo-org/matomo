@@ -42,6 +42,8 @@
         "PasswordDoNotMatch": "wachtwoord komt niet overeen",
         "PasswordRepeat": "Wachtwoord (herhalen)",
         "PercentDone": "%s %% Gereed",
+        "PiwikProAdTitle": "Geavanceerde Analytics & Services",
+        "PiwikProAdText": "Voeg premium functionaliteit toe en ontgrendel de volledige kracht met %1$sPiwik PRO On-Premises%2$s, of maak gebruik van je eigen zorgeloze hosted Piwik ongeving in de %3$sPiwik PRO Cloud%4$s.",
         "PleaseFixTheFollowingErrors": "Los de volgende problemen op",
         "DefaultSettings": "Standaard Piwik instellingen",
         "DefaultSettingsHelp": "Piwik komt met voorgedefinieerde instellingen. Je kunt deze nu aanpassen of dit later doen in het admin scherm.",
