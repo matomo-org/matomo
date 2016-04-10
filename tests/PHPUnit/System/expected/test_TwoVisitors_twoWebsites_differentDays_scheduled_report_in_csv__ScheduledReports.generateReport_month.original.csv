@@ -305,9 +305,9 @@ nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_ret
 2,0,9,41,5,11%,4.6,00:13:21
 
 Device type
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Desktop,3,3,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
+Unknown,8,40,5,00:15:01,0%,$ 0
+Desktop,3,3,1,00:00:00,100%,$ 0
 
 Visitor Browser
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -316,12 +316,12 @@ Firefox,2,2,0%,1,00:00:00,100%
 Opera,1,1,0%,1,00:00:00,100%
 
 Device brand
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
+Unknown,11,43,3.9,00:10:55,27%,$ 0
 
 Device model
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
+Unknown,11,43,3.9,00:10:55,27%,$ 0
 
 Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
