@@ -274,6 +274,15 @@ function compareContents(compareAgainst, pageSetupFn, done) {
             if (processed == expected) {
                 pass();
             } else {
+
+                var testInfo = {
+                    name: "URL to reproduce " + pageRenderer.getCurrentUrl(),
+                    processed: fs.isFile(processedFilePath) ? processedFilePath : null,
+                    expected: fs.isFile(expectedFilePath) ? expectedFilePath : null,
+                    baseDirectory: dirsBase
+                };
+                app.diffViewerGenerator.failures.push(testInfo);
+
                 fail("Processed page contents does not equal expected file contents.");
             }
         });
