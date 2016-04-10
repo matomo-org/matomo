@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Log;
 use Piwik\SettingsServer;
 

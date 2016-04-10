@@ -17,6 +17,7 @@ use Piwik\Db;
 use Piwik\Updater as PiwikUpdater;
 use Piwik\Filesystem;
 use Piwik\Cache as PiwikCache;
+use Piwik\Updater\Migration;
 
 /**
  * Class that handles dimension updates
@@ -52,18 +53,27 @@ class Updater extends \Piwik\Updates
         $this->conversionDimensions = $conversionDimensions;
     }
 
+    /**
+     * @param PiwikUpdater $updater
+     * @return Migration\Db[]
+     */
     public function getMigrationQueries(PiwikUpdater $updater)
     {
         $sqls = array();
 
         $changingColumns = $this->getUpdates($updater);
+        $errorCodes = array(
+            Migration\Db\Sql::ERROR_CODE_COLUMN_NOT_EXISTS,
+            Migration\Db\Sql::ERROR_CODE_DUPLICATE_COLUMN
+        );
 
         foreach ($changingColumns as $table => $columns) {
             if (empty($columns) || !is_array($columns)) {
                 continue;
             }
 
-            $sqls["ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns)] = array('1091', '1060');
+            $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns);
+            $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
         }
 
         return $sqls;

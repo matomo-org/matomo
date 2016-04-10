@@ -9,50 +9,56 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_2_10 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
     {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
+    {
+        $tableNotExistsError = Updater\Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS;
         return array(
-            'CREATE TABLE `' . Common::prefixTable('option') . '` (
-				idoption BIGINT NOT NULL AUTO_INCREMENT ,
-				option_name VARCHAR( 64 ) NOT NULL ,
-				option_value LONGTEXT NOT NULL ,
-				PRIMARY KEY ( idoption , option_name )
-			)'                                                                               => 1050,
+            $this->migration->db->createTable('option', array(
+                'idoption' => 'BIGINT NOT NULL AUTO_INCREMENT' ,
+                'option_name' => 'VARCHAR( 64 ) NOT NULL' ,
+                'option_value' => 'LONGTEXT NOT NULL' ,
+            ), array('idoption', 'option_name')),
 
             // 0.1.7 [463]
-            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => 1054,
+            $this->migration->db->changeColumnType('log_visit', 'location_provider', 'VARCHAR( 100 ) DEFAULT NULL'),
 
             // 0.1.7 [470]
-            'ALTER TABLE `' . Common::prefixTable('logger_api_call') . '`
-				CHANGE `parameter_names_default_values` `parameter_names_default_values` TEXT,
-				CHANGE `parameter_values` `parameter_values` TEXT,
-				CHANGE `returned_value` `returned_value` TEXT'                               => array(1054, 1146),
-            'ALTER TABLE `' . Common::prefixTable('logger_error') . '`
-				CHANGE `message` `message` TEXT'                                             => array(1054, 1146),
-            'ALTER TABLE `' . Common::prefixTable('logger_exception') . '`
-				CHANGE `message` `message` TEXT'                                             => array(1054, 1146),
-            'ALTER TABLE `' . Common::prefixTable('logger_message') . '`
-				CHANGE `message` `message` TEXT'                                             => 1054,
+            $this->migration->db->changeColumnTypes('logger_api_call', array(
+                'parameter_names_default_values' => 'TEXT',
+                'parameter_values' => 'TEXT',
+                'returned_value' => 'TEXT',
+            ))->addErrorCodeToIgnore($tableNotExistsError),
+            $this->migration->db->changeColumnType('logger_error', 'message', 'TEXT')->addErrorCodeToIgnore($tableNotExistsError),
+            $this->migration->db->changeColumnType('logger_exception', 'message', 'TEXT')->addErrorCodeToIgnore($tableNotExistsError),
+            $this->migration->db->changeColumnType('logger_message', 'message', 'TEXT')->addErrorCodeToIgnore($tableNotExistsError),
 
             // 0.2.2 [489]
-            'ALTER TABLE `' . Common::prefixTable('site') . '`
-				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL'       => 1054,
+            $this->migration->db->changeColumnType('site', 'feedburnerName', 'VARCHAR( 100 ) DEFAULT NULL'),
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
         $obsoleteDirectories = array(
             '/plugins/AdminHome',
