@@ -29,7 +29,7 @@ describe("ReportExporting", function () {
     }
 
     function evolutionReportTest(format) {
-        it("should export an evolution graph report correclty when the " + format + " export link is clicked", function (done) {
+        it("should export an evolution graph report correctly when the " + format + " export link is clicked", function (done) {
             expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
                 if (page.getCurrentUrl() != visitsSummaryGetUrl) {
                     page.load(visitsSummaryGetUrl);
@@ -43,7 +43,7 @@ describe("ReportExporting", function () {
     }
 
     function rowEvolutionReportTest(format) {
-        it("should export an row evolution graph report correclty when the " + format + " export link is clicked", function (done) {
+        it("should export an row evolution graph report correctly when the " + format + " export link is clicked", function (done) {
             expect.file('RowEvolution_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
                 if (!page.getCurrentUrl() || page.getCurrentUrl().indexOf('popover') == -1) {
                     page.load(referrersGetWebsitesUrl);
