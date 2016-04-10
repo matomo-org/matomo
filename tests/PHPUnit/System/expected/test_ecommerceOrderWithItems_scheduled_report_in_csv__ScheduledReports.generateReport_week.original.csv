@@ -14,16 +14,16 @@ VisitorType,5,16,$ 13361.11,3.2,00:22:49,20%
 VisitorName,4,12,$ 13351.11,3,00:25:32,25%
 
 Device type
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Desktop,5,16,80%,3.2,00:22:49,20%
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Desktop,5,16,$ 250,3.2,00:22:49,20%
 
 Device model
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
 
 Device brand
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
 
 Screen Resolution
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
