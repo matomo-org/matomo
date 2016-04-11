@@ -114,8 +114,10 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
         throw new Error("No 'done' callback specified in capture assertion.");
     }
 
-    var screenshotFileName = screenName,
-        expectedScreenshotPath = getExpectedFilePath(compareAgainst),
+    screenName = assumeFileIsImageIfNotSpecified(screenName);
+    compareAgainst = assumeFileIsImageIfNotSpecified(compareAgainst);
+
+    var expectedScreenshotPath = getExpectedFilePath(compareAgainst),
         processedScreenshotPath = getProcessedFilePath(screenName),
         screenshotDiffDir = getScreenshotDiffDir();
 
@@ -155,14 +157,14 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
             };
 
             if (!testInfo.processed) {
-                fail("Failed to generate screenshot to " + screenshotFileName + ".");
+                fail("Failed to generate screenshot to " + screenName + ".");
                 return;
             }
 
             if (!testInfo.expected) {
                 app.appendMissingExpected(screenName);
 
-                fail("No expected screenshot found for " + screenshotFileName + ".");
+                fail("No expected screenshot found for " + screenName + ".");
                 return;
             }
 
@@ -203,7 +205,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
 
                 child.on("exit", function (code) {
                     if (testFailure) {
-                        testFailure = 'Processed screenshot does not match expected for ' + screenshotFileName + ' ' + testFailure;
+                        testFailure = 'Processed screenshot does not match expected for ' + screenName + ' ' + testFailure;
                         testFailure += 'TestEnvironment was ' + JSON.stringify(testEnvironment);
                     }
 
@@ -239,6 +241,8 @@ function compareContents(compareAgainst, pageSetupFn, done) {
     if (!(done instanceof Function)) {
         throw new Error("No 'done' callback specified in 'pageContents' assertion.");
     }
+
+    compareAgainst = assumeFileIsImageIfNotSpecified(compareAgainst);
 
     var screenshotDiffDir = getScreenshotDiffDir(),
         processedFilePath = getProcessedFilePath(compareAgainst),
