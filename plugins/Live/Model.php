@@ -408,17 +408,28 @@ class Model
         $orderBy .= "visit_last_action_time " . $filterSortOrder;
         $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
 
-        $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $limit, $offset);
+        // this $innerLimit is a workaround (see https://github.com/piwik/piwik/issues/9200#issuecomment-183641293)
+        $innerLimit = $limit;
+        if (!$segment->isEmpty()) {
+            $innerLimit = $limit * 10;
+        }
 
-        $bind = $subQuery['bind'];
-        // Group by idvisit so that a visitor converting 2 goals only appears once
+        $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset);
+
+        $bind = $innerQuery['bind'];
+        // Group by idvisit so that a given visit appears only once, useful when for example:
+        // 1) when a visitor converts 2 goals
+        // 2) when an Action Segment is used, the inner query will return one row per action, but we want one row per visit
         $sql = "
 			SELECT sub.* FROM (
-				" . $subQuery['sql'] . "
+				" . $innerQuery['sql'] . "
 			) AS sub
 			GROUP BY sub.idvisit
 			ORDER BY $orderByParent
 		";
+        if($limit) {
+            $sql .= sprintf("LIMIT %d \n", $limit);
+        }
         return array($sql, $bind);
     }
 

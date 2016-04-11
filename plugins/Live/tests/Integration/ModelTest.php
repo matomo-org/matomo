@@ -57,6 +57,7 @@ class ModelTest extends IntegrationTestCase
                  ) AS sub
                  GROUP BY sub.idvisit
                  ORDER BY sub.visit_last_action_time DESC
+                 LIMIT 100
         ';
         $expectedBind = array(
             '1',
@@ -97,6 +98,7 @@ class ModelTest extends IntegrationTestCase
                  ) AS sub
                  GROUP BY sub.idvisit
                  ORDER BY sub.visit_last_action_time DESC
+                 LIMIT 100
         ';
         $expectedBind = array(
             '2',
@@ -135,6 +137,7 @@ class ModelTest extends IntegrationTestCase
                  ) AS sub
                  GROUP BY sub.idvisit
                  ORDER BY sub.visit_last_action_time DESC
+                 LIMIT 100
         ';
         $expectedBind = array(
             '1',
@@ -175,12 +178,13 @@ class ModelTest extends IntegrationTestCase
                           AND log_visit.visit_last_action_time <= ? )
                           AND ( log_link_visit_action.custom_var_k1 = ? )
                         ORDER BY idsite, visit_last_action_time DESC
-                        LIMIT 10, 100
+                        LIMIT 10, 1000
                         ) AS log_inner
                     ORDER BY idsite, visit_last_action_time DESC
                  ) AS sub
                  GROUP BY sub.idvisit
                  ORDER BY sub.visit_last_action_time DESC
+                 LIMIT 100
         ';
         $expectedBind = array(
             '1',
