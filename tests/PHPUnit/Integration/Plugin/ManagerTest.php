@@ -97,7 +97,7 @@ class ManagerTest extends IntegrationTestCase
                     list($controller, $module, $action) = explode('.', $hook);
 
                     try {
-                        $resolver   = new ControllerResolver(StaticContainer::getContainer(), new Plugin\Widgets($this->manager));
+                        $resolver   = new ControllerResolver(StaticContainer::getContainer(), new Plugin\WidgetsProvider($this->manager));
                         $params = array();
                         $controller = $resolver->getController($module, $action, $params);
                     } catch (\Exception $e) {

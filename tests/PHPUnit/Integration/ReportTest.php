@@ -16,7 +16,7 @@ use Piwik\Piwik;
 use Piwik\Metrics;
 use Piwik\Plugins\ExampleTracker\Columns\ExampleDimension;
 use Piwik\Plugins\Referrers\Columns\Keyword;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
@@ -315,14 +315,14 @@ class ReportTest extends IntegrationTestCase
         $module = 'ExampleReport';
         $action = 'getExampleReport';
 
-        $report = Reports::factory($module, $action);
+        $report = ReportsProvider::factory($module, $action);
 
         $this->assertInstanceOf('Piwik\Plugins\ExampleReport\Reports\GetExampleReport', $report);
         $this->assertEquals($module, $report->getModule());
         $this->assertEquals($action, $report->getAction());
 
         // action ucfirst should work as well
-        $report = Reports::factory($module, ucfirst($action));
+        $report = ReportsProvider::factory($module, ucfirst($action));
 
         $this->assertInstanceOf('Piwik\Plugins\ExampleReport\Reports\GetExampleReport', $report);
         $this->assertEquals($module, $report->getModule());
@@ -345,7 +345,7 @@ class ReportTest extends IntegrationTestCase
     {
         PluginManager::getInstance()->loadPlugins(array('Referrers'));
 
-        $report = Reports::factory('Referrers', 'getSearchEngines');
+        $report = ReportsProvider::factory('Referrers', 'getSearchEngines');
         $subtableDimension = $report->getSubtableDimension();
 
         $this->assertNotNull($subtableDimension);

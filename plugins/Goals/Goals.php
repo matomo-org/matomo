@@ -12,7 +12,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
 
@@ -180,7 +180,7 @@ class Goals extends \Piwik\Plugin
     {
         $reportsWithGoals = array();
 
-        $reports = new Reports();
+        $reports = new ReportsProvider();
 
         foreach ($reports->getAllReports() as $report) {
             if ($report->hasGoalMetrics()) {

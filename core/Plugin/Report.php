@@ -20,7 +20,7 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
 use Piwik\Widget\WidgetsList;
@@ -699,7 +699,7 @@ class Report
 
         list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
 
-        $subtableReport = Reports::factory($subtableReportModule, $subtableReportAction);
+        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
         if (empty($subtableReport)) {
             return null;
         }

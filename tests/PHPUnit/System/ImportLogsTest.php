@@ -8,7 +8,6 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Access;
-use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;

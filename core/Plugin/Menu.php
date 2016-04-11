@@ -236,7 +236,7 @@ class Menu
         }
 
         $reportAction = lcfirst(substr($action, 4));
-        if (Reports::factory($module, $reportAction)) {
+        if (ReportsProvider::factory($module, $reportAction)) {
             return;
         }
 

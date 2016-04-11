@@ -175,7 +175,7 @@ class WidgetsList
     {
         $list = new static;
 
-        $widgets = StaticContainer::get('Piwik\Plugin\Widgets');
+        $widgets = StaticContainer::get('Piwik\Plugin\WidgetsProvider');
 
         $widgetContainerConfigs = $widgets->getWidgetContainerConfigs();
         foreach ($widgetContainerConfigs as $config) {
@@ -191,7 +191,7 @@ class WidgetsList
             }
         }
 
-        $reports = StaticContainer::get('Piwik\Plugin\Reports');
+        $reports = StaticContainer::get('Piwik\Plugin\ReportsProvider');
         $reports = $reports->getAllReports();
         foreach ($reports as $report) {
             if ($report->isEnabled()) {

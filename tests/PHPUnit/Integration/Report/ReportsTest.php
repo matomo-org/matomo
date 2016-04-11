@@ -16,7 +16,7 @@ use Piwik\Piwik;
 use Piwik\Metrics;
 use Piwik\Plugins\ExampleTracker\Columns\ExampleDimension;
 use Piwik\Plugins\Referrers\Columns\Keyword;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
@@ -34,7 +34,7 @@ class ReportTest extends IntegrationTestCase
     {
         $this->unloadAllPlugins();
 
-        $reports = new Reports();
+        $reports = new ReportsProvider();
         $report = $reports->getAllReports();
 
         $this->assertEquals(array(), $report);
@@ -45,7 +45,7 @@ class ReportTest extends IntegrationTestCase
         $this->loadExampleReportPlugin();
         $this->loadMorePlugins();
 
-        $reports = new Reports();
+        $reports = new ReportsProvider();
         $reports = $reports->getAllReports();
 
         $this->assertGreaterThan(20, count($reports));

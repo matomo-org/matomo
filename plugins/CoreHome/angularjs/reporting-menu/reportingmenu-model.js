@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').factory('reportingMenuModel', reportingMenuModelService);
 
-    reportingMenuModelService.$inject = ['$filter', '$q', 'piwikApi', 'reportingPagesModel', '$location'];
+    reportingMenuModelService.$inject = ['$filter', '$q', 'reportingPagesModel', '$location'];
 
-    function reportingMenuModelService ($filter, $q, piwikApi, reportingPagesModel, $location) {
+    function reportingMenuModelService ($filter, $q, reportingPagesModel, $location) {
 
         // those sites are going to be displayed
         var model = {

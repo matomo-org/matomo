@@ -23,7 +23,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Url;
@@ -168,7 +168,7 @@ class ProcessedReport
 
         $availableReports = array();
 
-        $reports = new Reports();
+        $reports = new ReportsProvider();
         foreach ($reports->getAllReports() as $report) {
             $report->configureReportMetadata($availableReports, $parameters);
         }
@@ -291,7 +291,7 @@ class ProcessedReport
      */
     private static function sortReports($a, $b)
     {
-        $reports = new Reports();
+        $reports = new ReportsProvider();
         return $reports->compareCategories($a['category'], $a['subcategory'], $a['order'], $b['category'], $b['subcategory'], $b['order']);
     }
 

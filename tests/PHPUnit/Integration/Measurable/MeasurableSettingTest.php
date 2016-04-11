@@ -8,8 +8,10 @@
 
 namespace Piwik\Tests\Integration\Measurable;
 
-use Piwik\Measurable\MeasurableSetting;
-use Piwik\Settings\Storage;
+use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Measurable\MeasurableSetting;
+use Piwik\Settings\Storage\Storage;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -21,14 +23,13 @@ class MeasurableSettingTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+        Fixture::createWebsite('2014-01-01 00:00:01');
         FakeAccess::$superUser = true;
     }
 
     private function createSetting()
     {
-        $setting = new MeasurableSetting('name', 'test');
-        $storage = new Storage('test');
-        $setting->setStorage($storage);
+        $setting = new MeasurableSetting('name', $default = '', FieldConfig::TYPE_STRING, 'Plugin', $idSite = 1);
         return $setting;
     }
 
@@ -60,16 +61,6 @@ class MeasurableSettingTest extends IntegrationTestCase
     {
         FakeAccess::clearAccess();
         $this->createSetting()->setValue('test');
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage CoreAdminHome_PluginSettingReadNotAllowed
-     */
-    public function testGetSettingValue_shouldThrowException_IfNoPermissionToRead()
-    {
-        FakeAccess::clearAccess();
-        $this->createSetting()->getValue();
     }
 
     public function provideContainerConfig()

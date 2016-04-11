@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugin\Reports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
@@ -192,7 +192,7 @@ abstract class ViewDataTable implements ViewInterface
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
-        $report = Reports::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
+        $report = ReportsProvider::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
 
         if (!empty($report)) {
             /** @var Report $report */

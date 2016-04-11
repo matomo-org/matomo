@@ -8,12 +8,11 @@
 
 namespace Piwik\Tests\Integration\Measurable;
 
+use Piwik\Access;
 use Piwik\Db;
 use Piwik\Plugin;
-use Piwik\Plugins\MobileAppMeasurable\tests\Framework\Mock\Type;
-use Piwik\Plugins\MobileAppMeasurable\Type as MobileAppType;
-use Piwik\Measurable\MeasurableSetting;
-use Piwik\Measurable\MeasurableSettings;
+use Piwik\Plugins\WebsiteMeasurable\Type as WebsiteType;
+use Piwik\Plugins\WebsiteMeasurable\MeasurableSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -36,10 +35,8 @@ class MeasurableSettingsTest extends IntegrationTestCase
 
         FakeAccess::$superUser = true;
 
-        Plugin\Manager::getInstance()->activatePlugin('MobileAppMeasurable');
-
         if (!Fixture::siteCreated($this->idSite)) {
-            $type = MobileAppType::ID;
+            $type = WebsiteType::ID;
             Fixture::createWebsite('2015-01-01 00:00:00',
                 $ecommerce = 0, $siteName = false, $siteUrl = false,
                 $siteSearch = 1, $searchKeywordParameters = null,
@@ -49,48 +46,35 @@ class MeasurableSettingsTest extends IntegrationTestCase
         $this->settings = $this->createSettings();
     }
 
-    public function test_init_shouldAddSettingsFromType()
-    {
-        $this->assertNotEmpty($this->settings->getSetting('app_id'));
-    }
-
     public function test_save_shouldActuallyStoreValues()
     {
-        $this->settings->getSetting('test2')->setValue('value2');
-        $this->settings->getSetting('test3')->setValue('value3');
-
-        $this->assertStoredSettingsValue(null, 'test2');
-        $this->assertStoredSettingsValue(null, 'test3');
-
+        $this->settings->siteSearchKeywords->setValue(array('value2'));
+        $this->settings->siteSearchCategory->setValue(array('value3'));
         $this->settings->save();
 
-        $this->assertStoredSettingsValue('value2', 'test2');
-        $this->assertStoredSettingsValue('value3', 'test3');
+        $this->assertStoredSettingsValue(array('value2'), 'sitesearch_keyword_parameters');
+        $this->assertStoredSettingsValue(array('value3'), 'sitesearch_category_parameters');
     }
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasAdminAccess
+     * @expectedExceptionMessage CoreAdminHome_PluginSettingChangeNotAllowed
      */
     public function test_save_shouldCheckAdminPermissionsForThatSite()
     {
         FakeAccess::clearAccess();
 
+        $this->settings = $this->createSettings();
+        $this->settings->siteSearchKeywords->setValue(array('value4'));
         $this->settings->save();
     }
 
     private function createSettings()
     {
-        $settings = new MeasurableSettings($this->idSite, MobileAppType::ID);
-        $settings->addSetting($this->createSetting('test2'));
-        $settings->addSetting($this->createSetting('test3'));
+        $provider = new Plugin\SettingsProvider(Plugin\Manager::getInstance());
+        $settings = $provider->getMeasurableSettings('WebsiteMeasurable', $this->idSite, WebsiteType::ID);
 
         return $settings;
-    }
-
-    private function createSetting($name)
-    {
-        return new MeasurableSetting($name, $name . ' Name');
     }
 
     private function assertStoredSettingsValue($expectedValue, $settingName)
@@ -105,7 +89,6 @@ class MeasurableSettingsTest extends IntegrationTestCase
     {
         return array(
             'Piwik\Access' => new FakeAccess(),
-            'Piwik\Plugins\MobileAppMeasurable\Type' => new Type()
         );
     }
 }

@@ -34,7 +34,10 @@ class VisitTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
 
         Manager::getInstance()->loadTrackerPlugins();
-        Manager::getInstance()->loadPlugin('SitesManager');
+        $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
+        $pluginNames[] = 'SitesManager';
+        $pluginNames[] = 'WebsiteMeasurable';
+        Manager::getInstance()->loadPlugins($pluginNames);
         Visit::$dimensions = null;
     }
 
