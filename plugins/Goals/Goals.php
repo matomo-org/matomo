@@ -90,7 +90,12 @@ class Goals extends \Piwik\Plugin
         $idSite = Common::getRequestVar('idSite', 0, 'int');
 
         if (!$idSite) {
-            return;
+            // fallback for eg API.getReportMetadata which uses idSites
+            $idSite = Common::getRequestVar('idSites', 0, 'int');
+
+            if (!$idSite) {
+                return;
+            }
         }
 
         $goals = API::getInstance()->getGoals($idSite);

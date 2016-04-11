@@ -25,13 +25,13 @@ class Menu extends \Piwik\Plugin\Menu
         if (Piwik::hasUserSuperUserAccess()) {
             $menu->addManageItem('General_GeneralSettings',
                 $this->urlForAction('generalSettings'),
-                $order = 6);
+                $order = 5);
         }
 
         if (!Piwik::isUserIsAnonymous()) {
             $menu->addManageItem('CoreAdminHome_TrackingCode',
                 $this->urlForAction('trackingCodeGenerator'),
-                $order = 25);
+                $order = 11);
         }
     }
 

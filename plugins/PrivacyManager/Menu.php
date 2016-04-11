@@ -18,7 +18,7 @@ class Menu extends \Piwik\Plugin\Menu
         if (Piwik::isUserHasSomeAdminAccess()) {
             $menu->addManageItem('PrivacyManager_MenuPrivacySettings',
                                  $this->urlForAction('privacySettings'),
-                                 $order = 9);
+                                 $order = 25);
         }
     }
 }

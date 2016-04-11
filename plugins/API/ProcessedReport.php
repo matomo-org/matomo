@@ -22,12 +22,10 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Url;
-use Piwik\Category\Category;
 
 class ProcessedReport
 {

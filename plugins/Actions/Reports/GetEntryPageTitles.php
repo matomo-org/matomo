@@ -38,6 +38,8 @@ class GetEntryPageTitles extends Base
         );
         $this->order   = 6;
         $this->actionToLoadSubTables = $this->action;
+
+        $this->subcategoryId = 'Actions_SubmenuPagesEntry';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)

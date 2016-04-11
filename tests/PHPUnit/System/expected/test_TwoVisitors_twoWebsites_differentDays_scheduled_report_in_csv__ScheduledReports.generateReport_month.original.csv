@@ -232,6 +232,10 @@ Friday,1,5,0%,5,00:15:01,0%
 Saturday,1,5,0%,5,00:15:01,0%
 Sunday,3,7,0%,2.3,00:05:00,67%
 
+Actions - Main metrics
+nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords,avg_time_generation
+43,27,0,0,0,0,0,0,0.3s
+
 Page URLs
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
 /index.htm,9,9,11%,00:05:20,11%,0.3s
@@ -244,11 +248,21 @@ label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
 /index.htm,9,1,11%,0.3s
 /products,1,1,100%,0.15s
 
+Entry page titles
+label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
+second visitor,8,0,0%,0.25s
+ first page view,2,2,100%,0.14s
+
 Exit pages
 label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
 /index.htm,9,1,11%,0.3s
 /thankyou,8,8,100%,0.31s
 /products,1,1,100%,0.15s
+
+Exit page titles
+label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
+Checkout,8,8,100%,0.45s
+ first page view,2,2,100%,0.14s
 
 Page titles
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
@@ -292,20 +306,6 @@ No data available
 
 Content Piece
 No data available
-
-Actions - Main metrics
-nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords,avg_time_generation
-43,27,0,0,0,0,0,0,0.3s
-
-Entry page titles
-label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
-second visitor,8,0,0%,0.25s
- first page view,2,2,100%,0.14s
-
-Exit page titles
-label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
-Checkout,8,8,100%,0.45s
- first page view,2,2,100%,0.14s
 
 Referrer Type
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue

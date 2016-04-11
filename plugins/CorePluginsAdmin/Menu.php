@@ -42,7 +42,7 @@ class Menu extends \Piwik\Plugin\Menu
         if ($hasSuperUserAcess) {
             $menu->addManageItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
                 $this->urlForAction('plugins', array('activated' => '')),
-                $order = 4);
+                $order = 20);
         }
 
         if ($this->isAllowedToSeeMarketPlace()) {

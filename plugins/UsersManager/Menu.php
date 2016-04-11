@@ -16,11 +16,11 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addManageItem('UsersManager_MenuUsers', $this->urlForAction('index'), $order = 2);
+            $menu->addManageItem('UsersManager_MenuUsers', $this->urlForAction('index'), $order = 15);
         }
 
         if (Piwik::hasUserSuperUserAccess() && API::getInstance()->getSitesAccessFromUser('anonymous')) {
-            $menu->addManageItem('UsersManager_AnonymousUser', $this->urlForAction('anonymousSettings'), $order = 20);
+            $menu->addManageItem('UsersManager_AnonymousUser', $this->urlForAction('anonymousSettings'), $order = 16);
         }
 
         if (!Piwik::isUserIsAnonymous()) {

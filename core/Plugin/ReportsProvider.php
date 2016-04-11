@@ -18,6 +18,7 @@ use Piwik\Cache as PiwikCache;
  */
 class ReportsProvider
 {
+    private $categoryList;
 
     /**
      * Get an instance of a specific report belonging to the given module and having the given action.
@@ -112,14 +113,12 @@ class ReportsProvider
 
     public function compareCategories($catIdA, $subcatIdA, $orderA, $catIdB, $subcatIdB, $orderB)
     {
-        static $categoryList;
-
-        if (!isset($categoryList)) {
-            $categoryList = CategoryList::get();
+        if (!isset($this->categoryList)) {
+            $this->categoryList = CategoryList::get();
         }
 
-        $catA = $categoryList->getCategory($catIdA);
-        $catB = $categoryList->getCategory($catIdB);
+        $catA = $this->categoryList->getCategory($catIdA);
+        $catB = $this->categoryList->getCategory($catIdB);
 
         // in case there is a category class for both reports
         if (isset($catA) && isset($catB)) {
@@ -144,9 +143,9 @@ class ReportsProvider
                     return $subcatA->getOrder() < $subcatB->getOrder() ? -1 : 1;
 
                 } elseif ($subcatA) {
-                    return -1;
-                } elseif ($subcatB) {
                     return 1;
+                } elseif ($subcatB) {
+                    return -1;
                 }
 
                 if ($orderA == $orderB) {

@@ -33,7 +33,7 @@ class Menu extends \Piwik\Plugin\Menu
 
             $menu->addManageItem($menuName,
                                  $this->urlForAction('index'),
-                                 $order = 1);
+                                 $order = 10);
         }
     }
 
