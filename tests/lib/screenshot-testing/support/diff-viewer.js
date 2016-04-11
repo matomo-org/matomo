@@ -18,7 +18,7 @@ var DiffViewerGenerator = function (diffDir) {
 
 DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
     var baseDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI');
-    return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name + '.png'));
+    return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name));
 };
 
 // TODO: diff output path shouldn't be stored in piwik repo
@@ -56,7 +56,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                     require('child_process').spawn('cp', [entry.expected, this.getDiffPath(entry)]);
                 }
 
-                var filename       = entry.name + '.png',
+                var filename       = entry.name,
                     expectedUrl    = filename,
                     screenshotRepo = options['screenshot-repo'] || 'piwik/piwik-ui-tests',
                     pathPrefix     = options['screenshot-repo'] ? '/Test/UI' : '',
