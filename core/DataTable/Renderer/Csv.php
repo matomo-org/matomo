@@ -271,17 +271,16 @@ class Csv extends Renderer
         // Excel / Libreoffice formulas may start with one of these characters
         $formulaStartsWith = array('=', '+', '-', '@');
 
-        // remove first % sign
-        $count = 1;
-        $valueWithoutPercentSign = str_replace('%', '', $value, $count);
+        // remove first % sign and if string is still a number, return it as is
+        $valueWithoutFirstPercentSign = $this->removeFirstPercentSign($value);
 
-        if (empty($valueWithoutPercentSign)
+        if (empty($valueWithoutFirstPercentSign)
             || !is_string($value)
-            || is_numeric($valueWithoutPercentSign)) {
+            || is_numeric($valueWithoutFirstPercentSign)) {
             return $value;
         }
 
-        $firstCharCellValue = $valueWithoutPercentSign[0];
+        $firstCharCellValue = $valueWithoutFirstPercentSign[0];
         $isFormula = in_array($firstCharCellValue, $formulaStartsWith);
         if($isFormula) {
             return "'" . $value;
@@ -479,5 +478,19 @@ class Csv extends Renderer
             $str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
         }
         return $str;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    protected function removeFirstPercentSign($value)
+    {
+        $needle = '%';
+        $posPercent = strpos($value, $needle);
+        if ($posPercent !== false) {
+            return substr_replace($value, '', $posPercent, strlen($needle));
+        }
+        return $value;
     }
 }

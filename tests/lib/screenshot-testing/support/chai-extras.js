@@ -263,14 +263,14 @@ function compareContents(compareAgainst, pageSetupFn, done) {
 
             var processed = pageRenderer.getPageContents();
 
-            fs.write(processedFilePath, processed);
+            fs.write(testInfo.processed, processed);
 
-            if (!fs.isFile(expectedFilePath)) {
-                fail("No expected output file found at " + expectedFilePath + ".");
+            if (!fs.isFile(testInfo.expected)) {
+                fail("No expected output file found at " + testInfo.expected + ".");
                 return;
             }
 
-            var expected = fs.read(expectedFilePath);
+            var expected = fs.read(testInfo.expected);
 
             if (processed == expected) {
                 pass();
