@@ -57,7 +57,7 @@ function getProcessedFilePath(fileName) {
 }
 
 
-function failCapture(fileTypeString, testInfo, expectedFilePath, processedFilePath, message, done) {
+function failCapture(fileTypeString, pageRenderer, testInfo, expectedFilePath, processedFilePath, message, done) {
 
     app.diffViewerGenerator.failures.push(testInfo);
 
@@ -82,6 +82,10 @@ function failCapture(fileTypeString, testInfo, expectedFilePath, processedFilePa
     done(error);
 }
 
+function getScreenshotDiffDir(dirsBase) {
+    return path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
+}
+
 function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done) {
 
     if (!(done instanceof Function)) {
@@ -90,13 +94,10 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
 
     var screenshotFileName = screenName,
         dirsBase = app.runner.suite.baseDirectory,
-
         expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
         expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst),
-
-        processedScreenshotPath = getProcessedFilePath(screenName);
-
-        screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
+        processedScreenshotPath = getProcessedFilePath(screenName),
+        screenshotDiffDir = getScreenshotDiffDir(dirsBase);
 
     if (!fs.isDirectory(screenshotDiffDir)) {
         fs.makeTree(screenshotDiffDir);
@@ -122,7 +123,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
             };
 
             var fail = function (message) {
-                failCapture("screenshot", testInfo, expectedScreenshotPath, processedScreenshotPath, message, done);
+                failCapture("screenshot", pageRenderer, testInfo, expectedScreenshotPath, processedScreenshotPath, message, done);
             };
 
             var pass = function () {
@@ -220,13 +221,17 @@ function compareContents(compareAgainst, pageSetupFn, done) {
     }
 
     var dirsBase = app.runner.suite.baseDirectory,
-
         expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
         expectedFilePath = path.join(expectedScreenshotDir, compareAgainst),
+        processedFilePath = getProcessedFilePath(compareAgainst),
+        screenshotDiffDir = getScreenshotDiffDir(dirsBase);
 
-        processedFilePath = getProcessedFilePath(compareAgainst);
+    if (!fs.isDirectory(screenshotDiffDir)) {
+        fs.makeTree(screenshotDiffDir);
+    }
 
     pageSetupFn(pageRenderer);
+
 
     try {
         pageRenderer.capture(processedFilePath, function (err) {
@@ -238,16 +243,8 @@ function compareContents(compareAgainst, pageSetupFn, done) {
                 return;
             }
 
-            var filename = processedFilePath.split(/[\\/]/).pop();
-            var testInfo = {
-                name: filename,
-                processed: fs.isFile(processedFilePath) ? processedFilePath : null,
-                expected: fs.isFile(expectedFilePath) ? expectedFilePath : null,
-                baseDirectory: dirsBase
-            };
-
             var fail = function (message) {
-                failCapture("file", testInfo, expectedFilePath, processedFilePath, message, done);
+                failCapture("file", pageRenderer, testInfo, expectedFilePath, processedFilePath, message, done);
             };
 
             var pass = function () {
@@ -260,7 +257,15 @@ function compareContents(compareAgainst, pageSetupFn, done) {
 
             var processed = pageRenderer.getPageContents();
 
-            fs.write(testInfo.processed, processed);
+            fs.write(processedFilePath, processed);
+
+            var filename = processedFilePath.split(/[\\/]/).pop();
+            var testInfo = {
+                name: filename,
+                processed: fs.isFile(processedFilePath) ? processedFilePath : null,
+                expected: fs.isFile(expectedFilePath) ? expectedFilePath : null,
+                baseDirectory: dirsBase
+            };
 
             if (!fs.isFile(testInfo.expected)) {
                 fail("No expected output file found at " + testInfo.expected + ".");
