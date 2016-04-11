@@ -56,9 +56,6 @@ function getProcessedFilePath(fileName) {
     return path.join(processedScreenshotDir, fileName);
 }
 
-function getProcessedScreenshotPath(screenName) {
-    return getProcessedFilePath(screenName + '.png');
-}
 
 function failCapture(fileTypeString, testInfo, expectedFilePath, processedFilePath, message, done) {
 
@@ -91,13 +88,13 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
         throw new Error("No 'done' callback specified in capture assertion.");
     }
 
-    var screenshotFileName = screenName + '.png',
+    var screenshotFileName = screenName,
         dirsBase = app.runner.suite.baseDirectory,
 
         expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
-        expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst + '.png'),
+        expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst),
 
-        processedScreenshotPath = getProcessedScreenshotPath(screenName);
+        processedScreenshotPath = getProcessedFilePath(screenName);
 
         screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
 
@@ -354,7 +351,7 @@ chai.Assertion.addChainableMethod('contains', function () {
         throw new Error("No 'done' callback specified in 'contains' assertion.");
     }
 
-    var capturePath = screenName ? getProcessedScreenshotPath(screenName) : null;
+    var capturePath = screenName ? getProcessedFilePath(screenName) : null;
 
     pageRenderer.capture(capturePath, function (err) {
         var indent = "     ";
