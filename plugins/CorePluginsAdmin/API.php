@@ -35,7 +35,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @ignore
+     * @internal
      * @param array $settingValues Format: array('PluginName' => array(array('name' => 'SettingName1', 'value' => 'SettingValue1), ..))
      * @throws Exception
      */
@@ -57,7 +57,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @ignore
+     * @internal
      * @param array $settingValues  Format: array('PluginName' => array(array('name' => 'SettingName1', 'value' => 'SettingValue1), ..))
      * @throws Exception
      */
@@ -79,7 +79,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @ignore
+     * @internal
      * @return array
      * @throws \Piwik\NoAccessException
      */
@@ -93,7 +93,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @ignore
+     * @internal
      * @return array
      * @throws \Piwik\NoAccessException
      */
