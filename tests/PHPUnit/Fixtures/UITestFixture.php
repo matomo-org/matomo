@@ -31,7 +31,7 @@ use Piwik\Config as PiwikConfig;
  */
 class UITestFixture extends SqlDump
 {
-    const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql.gz';
+    const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql';
 
     public function __construct()
     {

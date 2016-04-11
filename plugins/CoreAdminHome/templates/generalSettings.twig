@@ -211,13 +211,13 @@
                         <label for="customLogo">{{ 'CoreAdminHome_LogoUpload'|translate }}</label>
                         <div class="form-help">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110) }}</div>
                         <input name="customLogo" type="file" id="customLogo"/>
-                        <img src="{{ pathUserLogo }}?r={{ random() }}" id="currentLogo" style="max-height: 150px"/>
+                        <img data-src="{{ pathUserLogo }}" data-src-exists="{{ hasUserLogo ? '1':'0' }}" id="currentLogo" style="max-height: 150px"/>
                     </div>
                     <div class="form-group">
                         <label for="customLogo">{{ 'CoreAdminHome_FaviconUpload'|translate }}</label>
                         <div class="form-help">{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 16) }}</div>
                         <input name="customFavicon" type="file" id="customFavicon"/>
-                        <img src="{{ pathUserFavicon }}?r={{ random() }}" id="currentFavicon" width="16" height="16"/>
+                        <img data-src="{{ pathUserFavicon }}" data-src-exists="{{ hasUserFavicon ? '1':'0' }}" id="currentFavicon" width="16" height="16"/>
                     </div>
                 {% else %}
                     <div class="alert alert-warning">

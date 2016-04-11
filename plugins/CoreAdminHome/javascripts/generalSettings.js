@@ -49,6 +49,10 @@ function isSmtpEnabled() {
     return $('input[name="mailUseSmtp"]:checked').val();
 }
 function showCustomLogoSettings(value) {
+    if (value == 1) {
+        // Refresh custom logo only if we're going to display it
+        refreshCustomLogo();
+    }
     $('#logoSettings').toggle(value == 1);
 }
 function isCustomLogoEnabled() {
@@ -60,8 +64,8 @@ function refreshCustomLogo() {
     var index;
     for (index = 0; index < selectors.length; index++) {
         var imageDiv = $(selectors[index]);
-        if (imageDiv && imageDiv.attr("src")) {
-            var logoUrl = imageDiv.attr("src").split("?")[0];
+        if (imageDiv && imageDiv.data("src") && imageDiv.data("srcExists")) {
+            var logoUrl = imageDiv.data("src");
             imageDiv.attr("src", logoUrl + "?" + (new Date()).getTime());
         }
     }
@@ -101,7 +105,6 @@ $(document).ready(function () {
         showSmtpSettings($(this).val());
     });
     $('input[name=useCustomLogo]').click(function () {
-        refreshCustomLogo();
         showCustomLogoSettings($(this).val());
     });
     $('input').keypress(function (e) {
@@ -114,19 +117,30 @@ $(document).ready(function () {
 
     $("#logoUploadForm").submit(function (data) {
         var submittingForm = $(this);
+        var isSubmittingLogo = ($('#customLogo').val() != '')
+        var isSubmittingFavicon = ($('#customFavicon').val() != '')
         $('.uploaderror').fadeOut();
         var frameName = "upload" + (new Date()).getTime();
         var uploadFrame = $("<iframe name=\"" + frameName + "\" />");
         uploadFrame.css("display", "none");
         uploadFrame.load(function (data) {
             setTimeout(function () {
-                refreshCustomLogo();
-
                 var frameContent = $(uploadFrame.contents()).find('body').html();
                 frameContent = $.trim(frameContent);
 
                 if ('0' === frameContent) {
                     $('.uploaderror').show();
+                }
+                else {
+                    // Upload succeed, so we update the images availability
+                    // according to what have been uploaded
+                    if (isSubmittingLogo) {
+                        $('#currentLogo').data("srcExists", true)
+                    }
+                    if (isSubmittingFavicon) {
+                        $('#currentFavicon').data("srcExists", true)
+                    }
+                    refreshCustomLogo();
                 }
 
                 if ('1' === frameContent || '0' === frameContent) {

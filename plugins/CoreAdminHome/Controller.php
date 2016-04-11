@@ -65,7 +65,9 @@ class Controller extends ControllerAdmin
         $view->branding              = array('use_custom_logo' => $logo->isEnabled());
         $view->fileUploadEnabled     = $logo->isFileUploadEnabled();
         $view->logosWriteable        = $logo->isCustomLogoWritable();
+        $view->hasUserLogo           = CustomLogo::hasUserLogo();
         $view->pathUserLogo          = CustomLogo::getPathUserLogo();
+        $view->hasUserFavicon        = CustomLogo::hasUserFavicon();
         $view->pathUserFavicon       = CustomLogo::getPathUserFavicon();
         $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
         $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();

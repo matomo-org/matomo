@@ -48,7 +48,7 @@ describe("OptOutForm", function () {
         }, done);
     });
 
-    it("should correclty set opt-out cookie on safari", function (done) {
+    it("should correctly set opt-out cookie on safari", function (done) {
         expect.screenshot('opted-out').to.be.captureSelector('safari-opted-out', 'iframe#optOutIframe', function (page) {
             page.evaluate(function () {
                 $('iframe#optOutIframe').contents().find('input#trackVisits').click();

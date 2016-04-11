@@ -718,7 +718,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Delete a website from the database, given its Id.
+     * Delete a website from the database, given its Id. The method deletes the actual site as well as some associated
+     * data. However, it does not delete any logs or archives that belong to this website. You can delete logs and
+     * archives for a site manually as described in this FAQ: http://piwik.org/faq/how-to/faq_73/ .
      *
      * Requires Super User access.
      *

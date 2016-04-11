@@ -106,7 +106,12 @@ class SearchEngine extends Singleton
     protected function transformData($searchEngines)
     {
         $urlToInfo = array();
+
         foreach ($searchEngines as $name => $info) {
+            if (empty($info) || !is_array($info)) {
+                continue;
+            }
+
             foreach ($info as $urlDefinitions) {
                 foreach ($urlDefinitions['urls'] as $url) {
                     $searchEngineData = $urlDefinitions;
@@ -116,6 +121,7 @@ class SearchEngine extends Singleton
                 }
             }
         }
+
         return $urlToInfo;
     }
 

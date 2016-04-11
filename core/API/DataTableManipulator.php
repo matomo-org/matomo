@@ -162,6 +162,11 @@ abstract class DataTableManipulator
 
             $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod, $apiParameters);
 
+            if (empty($meta) && array_key_exists('idGoal', $apiParameters)) {
+                unset($apiParameters['idGoal']);
+                $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod, $apiParameters);
+            }
+
             if (empty($meta)) {
                 throw new Exception(sprintf(
                     "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: http://developer.piwik.org/api-reference/events#apigetreportmetadata",

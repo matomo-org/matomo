@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Gemiddelde gebaseerd op %1$s hit(s) %2$s tussen %3$s en %4$s",
         "ColumnClickedURL": "Aangeklikte URL",
+        "ColumnActionURL": "Actie URL",
         "ColumnClicks": "Kliks",
         "ColumnClicksDocumentation": "Aantal keer dat er op deze link geklikt is.",
         "ColumnDownloadURL": "Download link",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Bestemmings pagina na lokale zoekopdracht",
         "WidgetSearchCategories": "Zoekcategorieën",
         "WidgetSearchKeywords": "Zoektermen lokale zoekopdracht",
-        "WidgetSearchNoResultKeywords": "Zoektermen zonder resultaten"
+        "WidgetSearchNoResultKeywords": "Zoektermen zonder resultaten",
+        "ActionType": "Actie Soort"
     }
 }
