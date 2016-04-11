@@ -24,7 +24,7 @@ class CustomLogo
     {
         $defaultLogo = 'plugins/Morpheus/images/logo.png';
         $themeLogo = 'plugins/%s/images/logo.png';
-        $userLogo = CustomLogo::getPathUserLogo();
+        $userLogo = static::getPathUserLogo();
         return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $userLogo);
     }
 
@@ -32,7 +32,7 @@ class CustomLogo
     {
         $defaultLogo = 'plugins/Morpheus/images/logo-header.png';
         $themeLogo = 'plugins/%s/images/logo-header.png';
-        $customLogo = CustomLogo::getPathUserLogoSmall();
+        $customLogo = static::getPathUserLogoSmall();
         return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
     }
 
@@ -40,7 +40,7 @@ class CustomLogo
     {
         $defaultLogo = 'plugins/Morpheus/images/logo.svg';
         $themeLogo = 'plugins/%s/images/logo.svg';
-        $customLogo = CustomLogo::getPathUserSvgLogo();
+        $customLogo = static::getPathUserSvgLogo();
         $svg = $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);
         return $svg;
     }
@@ -67,9 +67,7 @@ class CustomLogo
             return true;
         }
 
-        if ($this->isEnabled()
-            && file_exists(Filesystem::getPathToPiwikRoot() . '/' . CustomLogo::getPathUserSvgLogo())
-        ) {
+        if ($this->isEnabled() && static::logoExists(static::getPathUserSvgLogo())) {
             return true;
         }
 
@@ -111,8 +109,6 @@ class CustomLogo
 
     protected function getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo)
     {
-        $pathToPiwikRoot = Filesystem::getPathToPiwikRoot();
-
         $logo = $defaultLogo;
 
         $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
@@ -123,44 +119,59 @@ class CustomLogo
         }
         $themeLogo = sprintf($themeLogo, $themeName);
 
-        if (file_exists($pathToPiwikRoot . '/' . $themeLogo)) {
+        if (static::logoExists($themeLogo)) {
             $logo = $themeLogo;
         }
-        if ($this->isEnabled()
-            && file_exists($pathToPiwikRoot . '/' . $customLogo)
-        ) {
+        if ($this->isEnabled() && static::logoExists($customLogo)) {
             $logo = $customLogo;
         }
 
         if (!$pathOnly) {
             return SettingsPiwik::getPiwikUrl() . $logo;
         }
-        return $pathToPiwikRoot . '/' . $logo;
+
+        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }
 
     public static function getPathUserLogo()
     {
-        return self::rewritePath('misc/user/logo.png');
+        return static::rewritePath('misc/user/logo.png');
     }
 
     public static function getPathUserFavicon()
     {
-        return self::rewritePath('misc/user/favicon.png');
+        return static::rewritePath('misc/user/favicon.png');
     }
 
     public static function getPathUserSvgLogo()
     {
-        return self::rewritePath('misc/user/logo.svg');
+        return static::rewritePath('misc/user/logo.svg');
     }
 
     public static function getPathUserLogoSmall()
     {
-        return self::rewritePath('misc/user/logo-header.png');
+        return static::rewritePath('misc/user/logo-header.png');
     }
 
     protected static function rewritePath($path)
     {
         return SettingsPiwik::rewriteMiscUserPathWithInstanceId($path);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function hasUserLogo()
+    {
+        return static::logoExists(static::getPathUserLogo());
+    }
+
+    /**
+     * @return bool
+     */
+    public static function hasUserFavicon()
+    {
+        return static::logoExists(static::getPathUserFavicon());
     }
 
     public function copyUploadedLogoToFilesystem()
@@ -227,6 +238,14 @@ class CustomLogo
         imagecopyresampled($newImage, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
         imagepng($newImage, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
         return true;
+    }
+
+    /**
+     * @return bool
+     */
+    private static function logoExists($relativePath)
+    {
+        return file_exists(Filesystem::getPathToPiwikRoot() . '/' . $relativePath);
     }
 
 }
