@@ -135,22 +135,25 @@
                 "http://siteUrl2.com/"
             ];
             $scope.site.exclude_unknown_urls = 0;
-            $scope.site.keep_url_fragment = "0";
+            $scope.site.keep_url_fragment = 0;
             $scope.site.excluded_ips = [];
             $scope.site.excluded_parameters = [];
             $scope.site.excluded_user_agents = [];
             $scope.site.sitesearch_keyword_parameters = [];
             $scope.site.sitesearch_category_parameters = [];
-            $scope.site.sitesearch = $scope.globalSettings.searchKeywordParametersGlobal.length ? "1" : "0";
+            $scope.site.sitesearch = $scope.globalSettings.searchKeywordParametersGlobal.length ? 1 : 0;
             $scope.site.timezone = $scope.globalSettings.defaultTimezone;
             $scope.site.currency = $scope.globalSettings.defaultCurrency;
-            $scope.site.ecommerce = "0";
+            $scope.site.ecommerce = 0;
 
             updateSiteWithSiteSearchConfig();
         };
 
         var initExistingSite = function() {
 
+            $scope.site.keep_url_fragment = parseInt($scope.site.keep_url_fragment, 10);
+            $scope.site.ecommerce = parseInt($scope.site.ecommerce, 10);
+            $scope.site.sitesearch = parseInt($scope.site.sitesearch, 10);
             $scope.site.excluded_ips = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_ips);
             $scope.site.excluded_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_parameters);
             $scope.site.excluded_user_agents = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_user_agents);

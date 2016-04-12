@@ -105,6 +105,69 @@ The Output', $response);
 The\nOutput', $response);
     }
 
+    /**
+     * @dataProvider getCellValuesToPrefixOrNot
+     */
+    public function test_renderScalar_whenCellValueIsFormula_shouldPrefixWithQuote($value, $expectedCsvValue)
+    {
+        $response = $this->builder->renderScalar($value);
+
+        $this->assertEquals("value\n$expectedCsvValue", $response);
+    }
+
+    public function getCellValuesToPrefixOrNot()
+    {
+        // input, expected csv output
+        return array(
+            // we prefix with quotes
+            array('=test()', '\'=test()'),
+            array('=test()%%', '\'=test()%%'),
+            array('=1+1', '\'=1+1'),
+            array('@1+1', '\'@1+1'),
+            array('+1+1', '\'+1+1'),
+            array('+1+test()', '\'+1+test()'),
+            array('-1+1', '\'-1+1'),
+            array('@-1+1', '\'@-1+1'),
+            array('-test()', '\'-test()'),
+            array('-te,st()', '"\'-te,st()"'),
+            array('-te"st()', '"\'-te""st()"'),
+
+            // we do not need to prefix with quote
+            array('1', '1'),
+            array('2', '2'),
+            array('2@', '2@'),
+            array('20000000', '20000000'),
+            array('10%', '10%'),
+            array('%%', '%%'),
+            array('10.5%', '10.5%'),
+            array('-10.5%', '-10.5%'),
+            array('+10,5%', '"\'+10,5%"'),
+            array('10,5', '"10,5"'),
+            array('1+test()', '1+test()'),
+            array('1+test@', '1+test@'),
+            array('%10%5', '%10%5'),
+            array('', ''),
+            array(0, '0'),
+            array(2.2, '2.2'),
+            array(-2.2, '-2.2'),
+            array(false, '0'),
+            array(null, ''),
+        );
+    }
+
+    /**
+     * @dataProvider getCellValuesToPrefixOrNot
+     */
+    public function test_renderDataTable_shouldRenderFormulas($value, $expectedValue)
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => $value));
+
+        $response = $this->builder->renderDataTable($dataTable);
+
+        $this->assertEquals("nb_visits,nb_random\n5,$expectedValue", $response);
+    }
+
     public function test_renderDataTable_shouldRenderABasicDataTable()
     {
         $dataTable = new DataTable();

@@ -15,12 +15,10 @@ class ServerFilesGenerator
 {
     /**
      * Generate Apache .htaccess files to restrict access
+     * .htaccess files are created on all webservers even Nginx, as sometimes Nginx knows how to handle .htaccess files
      */
     public static function createHtAccessFiles()
     {
-        if (!SettingsServer::isApache()) {
-            return;
-        }
         $denyAll = self::getDenyAllHtaccessContent();
         $allow = self::getAllowHtaccessContent();
 
@@ -39,7 +37,7 @@ class ServerFilesGenerator
             "</IfModule>\n\n" .
 
             "# Allow to serve static files which are safe\n" .
-            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi|ttf)$\">\n" .
+            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi|ttf|eot)$\">\n" .
                  $allow . "\n" .
             "</Files>\n";
 
@@ -76,17 +74,17 @@ class ServerFilesGenerator
      *
      * Apache-specific; for IIS @see web.config
      *
+     * .htaccess files are created on all webservers even Nginx, as sometimes Nginx knows how to handle .htaccess files
+     *
      * @param string $path without trailing slash
      * @param bool $overwrite whether to overwrite an existing file or not
      * @param string $content
      */
     protected static function createHtAccess($path, $overwrite = true, $content)
     {
-        if (SettingsServer::isApache()) {
-            $file = $path . '/.htaccess';
-            if ($overwrite || !file_exists($file)) {
-                @file_put_contents($file, $content);
-            }
+        $file = $path . '/.htaccess';
+        if ($overwrite || !file_exists($file)) {
+            @file_put_contents($file, $content);
         }
     }
 

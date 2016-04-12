@@ -145,7 +145,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      * Print information about progress.
      * @param OutputInterface $output
      */
-    protected function onVisitProcessed(OutputInterface $output)
+    public function onVisitProcessed(OutputInterface $output)
     {
         ++$this->processed;
 

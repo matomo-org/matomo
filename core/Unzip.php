@@ -33,15 +33,19 @@ class Unzip
                     return new ZipArchive($filename);
                 }
                 break;
+
             case 'tar.gz':
                 return new Tar($filename, 'gz');
+
             case 'tar.bz2':
                 return new Tar($filename, 'bz2');
+
             case 'gz':
                 if (function_exists('gzopen')) {
                     return new Gzip($filename);
                 }
                 break;
+
             case 'PclZip':
             default:
                 return new PclZip($filename);

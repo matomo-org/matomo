@@ -18,7 +18,7 @@ var DiffViewerGenerator = function (diffDir) {
 
 DiffViewerGenerator.prototype.getDiffPath = function (testInfo) {
     var baseDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI');
-    return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name + '.png'));
+    return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfo.name));
 };
 
 // TODO: diff output path shouldn't be stored in piwik repo
@@ -44,7 +44,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
         <th>Expected Latest (Master)</th>\
         <th>Processed</th>\
         <th>Difference</th>\
-    </tr>";
+    </tr>\n\n";
 
         for (var i = 0; i != this.failures.length; ++i) {
             var entry = this.failures[i];
@@ -56,7 +56,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                     require('child_process').spawn('cp', [entry.expected, this.getDiffPath(entry)]);
                 }
 
-                var filename       = entry.name + '.png',
+                var filename       = entry.name,
                     expectedUrl    = filename,
                     screenshotRepo = options['screenshot-repo'] || 'piwik/piwik-ui-tests',
                     pathPrefix     = options['screenshot-repo'] ? '/Test/UI' : '',
@@ -95,14 +95,14 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 processedEntryPath = path.basename(entry.processed);
             }
 
-            diffViewerContent += '\
-    <tr>\
-        <td>' + entry.name + entryLocationHint + '</td>\
-        <td>' + expectedHtml + '</td>\
-        <td>' + githubUrl + '</td>\
-        <td>' + (entry.processed ? ('<a href="' + entry.processedUrl + '">Processed</a>') : '<em>Not found</em>') + '</td>\
-        <td>' + (expectedUrl ? ('<a href="singlediff.html?processed=' + entry.processedUrl + '&expected=' + expectedUrl + '&github=' + processedEntryPath + '">Difference</a>') : '<em>Could not create diff.</em>') + '</td>\
-    </tr>';
+            diffViewerContent += "\n\
+    <tr>\n\
+        <td>" + entry.name + entryLocationHint + "</td>\n\
+        <td>" + expectedHtml + "</td>\n\
+        <td>" + githubUrl + "</td>\n\
+        <td>" + (entry.processed ? ("<a href='" + entry.processedUrl + "'>Processed</a>") : "<em>Not found</em>") + "</td>\n\
+        <td>" + (expectedUrl ? ("<a href='singlediff.html?processed=" + entry.processedUrl + "&expected=" + expectedUrl + "&github=" + processedEntryPath + "'>Difference</a>") : "<em>Could not create diff.</em>") + "</td>\n\
+    </tr>\n";
         }
 
         diffViewerContent += '\

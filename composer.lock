@@ -823,16 +823,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.6.0",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae"
+                "reference": "4f4c2b0ce412fb1b8f679a7c82190783ba697d4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae",
-                "reference": "8c2fcfce34d8bd25d8db9c48e67fabb65c5497ae",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/4f4c2b0ce412fb1b8f679a7c82190783ba697d4c",
+                "reference": "4f4c2b0ce412fb1b8f679a7c82190783ba697d4c",
                 "shasum": ""
             },
             "require": {
@@ -870,7 +870,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2016-03-02 22:20:49"
+            "time": "2016-03-31 20:28:09"
         },
         {
             "name": "piwik/ini",
@@ -939,16 +939,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/piwik-php-tracker.git",
-                "reference": "ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e"
+                "reference": "f026613f8137c014030c96a22491ede5f5f1676b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e",
-                "reference": "ac3e26bb3e2c8a428ccbf6ca663c2ef37fa47a5e",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/f026613f8137c014030c96a22491ede5f5f1676b",
+                "reference": "f026613f8137c014030c96a22491ede5f5f1676b",
                 "shasum": ""
             },
             "type": "library",
@@ -975,20 +975,20 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2015-11-11 02:55:37"
+            "time": "2016-01-12 21:44:22"
         },
         {
             "name": "piwik/referrer-spam-blacklist",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/referrer-spam-blacklist.git",
-                "reference": "85db74cfc7249cb34ff59eba22edeb6704fd69b8"
+                "reference": "665ad115eb85a94210beecb13c57806ff474364f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/85db74cfc7249cb34ff59eba22edeb6704fd69b8",
-                "reference": "85db74cfc7249cb34ff59eba22edeb6704fd69b8",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/665ad115eb85a94210beecb13c57806ff474364f",
+                "reference": "665ad115eb85a94210beecb13c57806ff474364f",
                 "shasum": ""
             },
             "type": "library",
@@ -997,20 +997,20 @@
                 "Public Domain"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2016-01-05 17:31:58"
+            "time": "2016-03-22 18:43:29"
         },
         {
             "name": "piwik/searchengine-and-social-list",
-            "version": "1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/searchengine-and-social-list.git",
-                "reference": "5b6763e77dadf24e579f03a7a0e79f1827b5db8a"
+                "reference": "276e03a2f0dfe1559f57d6e2cba9258305ecdba5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/5b6763e77dadf24e579f03a7a0e79f1827b5db8a",
-                "reference": "5b6763e77dadf24e579f03a7a0e79f1827b5db8a",
+                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/276e03a2f0dfe1559f57d6e2cba9258305ecdba5",
+                "reference": "276e03a2f0dfe1559f57d6e2cba9258305ecdba5",
                 "shasum": ""
             },
             "type": "library",
@@ -1019,7 +1019,7 @@
                 "Public Domain"
             ],
             "description": "Search engine and social network definitions used by Piwik",
-            "time": "2015-11-16 22:24:23"
+            "time": "2016-02-17 06:55:15"
         },
         {
             "name": "psr/log",

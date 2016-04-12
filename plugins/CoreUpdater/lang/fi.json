@@ -25,6 +25,11 @@
         "HighTrafficPiwikServerEnableMaintenance": "Jos Piwik-palvelimellasi on suuria määriä liikennettä, suosittelemme %1$spoistamaan käyttäjäseurannan hetkellisesti käytöstä ja laittamaan Piwikin käyttäjäliittymän huoltotilaan%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Huom. Osa lisäosista ei ole yhteensopivia Piwikin kanssa: %s. Nämä poistetaan käytöstä kun päivität:",
         "InstallingTheLatestVersion": "Asennetaan uusinta versiota",
+        "LatestBetaRelease": "Viimeisin beta-julkaisu",
+        "LatestStableRelease": "Viimeisin vakaa julkaisu",
+        "Latest2XStableRelease": "Viimeisin vakaa 2.X",
+        "Latest2XBetaRelease": "Viimeisin beta 2.X",
+        "LtsSupportVersion": "Pitkään tuettu versio",
         "MajorUpdateWarning1": "Tämä on iso päivitys! Päivityksessä kestää kauemmin kuin normaalisti.",
         "MajorUpdateWarning2": "Seuraavat ohjeet ovat erityisen tärkeitä suurille asennuksille.",
         "NoteForLargePiwikInstances": "Tärkeä tiedotus suurille Piwikin asennuksille",
@@ -48,6 +53,8 @@
         "UpdateHasBeenCancelledExplanation": "Piwikin yhden klikkauksen päivitys on peruutettu. Jos et voi korjata alla olevaa virhettä, on suositeltavaa päivittää Piwik manuaalisesti. %1$s Ole hyvä ja tarkista %2$sPäivitysdokumentaatio%3$s",
         "UpdateTitle": "Piwik › Päivitys",
         "UpdateSuccessTitle": "Piwik on päivitetty onnistuneesti!",
+        "UpdateErrorTitle": "Päivitysvirhe",
+        "Updating": "Päivitetään",
         "UpgradeComplete": "Päivitys valmis!",
         "UpgradePiwik": "Päivitä Piwik",
         "VerifyingUnpackedFiles": "Tarkistetaan purettuja tiedostoja",
@@ -56,6 +63,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Voit päivittää versioon %s automaattisesti tai ladata paketin ja asentaa sen manuaalisesti:",
         "YouCouldManuallyExecuteSqlQueries": "Jos et voi käyttää komentorivin päivitysohjelmaa ja Piwikin päivitys epäonnistuu (aikakatkaisu tai jokin muu virhe), voit ajaa SQL-kyselyt itse.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik ei voi ylikirjoittaa nykyistä asennusta. Voit joko korjata hakemistojen\/tiedostojen oikeudet tai ladata paketin ja asentaa version %s itse:",
-        "YourDatabaseIsOutOfDate": "Piwikin tietokanta on vanhentunut ja se tulee päivittää ennen jatkamista."
+        "YourDatabaseIsOutOfDate": "Piwikin tietokanta on vanhentunut ja se tulee päivittää ennen jatkamista.",
+        "ViewVersionChangelog": "katso muutostiedot tälle versiolle:"
     }
 }

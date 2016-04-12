@@ -140,8 +140,11 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 {% if visitor.getColumn('provider') %}
                     <br/>
                     {{ 'Provider_ColumnProvider'|translate }}:
-                    <a href="{{ visitor.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitor.getColumn('providerName') }} {{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
-                        {{ visitor.getColumn('providerName') }}</a>
+                    {% if visitor.getColumn('providerUrl') %}
+                        <a href="{{ visitor.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitor.getColumn('providerName') }} {{ visitor.getColumn('providerUrl') }}" style="text-decoration:underline;">
+                    {% endif -%}
+                        {{ visitor.getColumn('providerName') }}
+                    {%- if visitor.getColumn('providerUrl') %}</a>{% endif %}
                 {% endif %}
                 {% if visitor.getColumn('visitorTypeIcon') or visitor.getColumn('countryFlag') %}
                     <br/>

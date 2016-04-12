@@ -45,7 +45,6 @@
 {% endfor %}
 
 {% if displayFullReport %}
-    {% if sum_nb_conversions != 0 %}
     <h2 id='titleGoalsByDimension'>
         {% if idGoal is defined %}
             {{ 'Goals_GoalConversionsBy'|translate(goalName) }}
@@ -53,6 +52,9 @@
             {{ 'Goals_ConversionsOverviewBy'|translate }}
         {% endif %}
     </h2>
-    {{ goalReportsByDimension|raw }}
+    {% if sum_nb_conversions != 0 %}
+        {{ goalReportsByDimension|raw }}
+    {% else %}
+        <p class="alert">{{ 'Goals_NoConversionsNoReportsMessage'|translate }}</p>
     {% endif %}
 {% endif %}

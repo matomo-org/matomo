@@ -84,6 +84,10 @@ class Social extends Singleton
     {
         $urlToName = array();
         foreach ($socials as $name => $urls) {
+            if (empty($urls) || !is_array($urls)) {
+                continue;
+            }
+
             foreach ($urls as $url) {
                 $urlToName[$url] = $name;
             }

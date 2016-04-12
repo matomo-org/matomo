@@ -77,6 +77,7 @@
         "NewGoalIntro": "Goal Conversion tracking is one of the most efficient ways to measure and improve your business objectives.",
         "NewVisitorsConversionRateIs": "New visitors conversion rate is %s",
         "NoGoalsNeedAccess": "Only an Administrator or a user with Super User access can manage Goals for a given website. Please ask your Piwik administrator to set up a Goal for your website. <br>Tracking Goals is a great way to help understand and maximize your website performance!",
+        "NoConversionsNoReportsMessage": "Reports are not displayed because there is no conversion data for the selected goal and period.",
         "NeedAccess": "Only an Administrator or a user with Super User access can manage Goals for a given website.",
         "Optional": "(optional)",
         "OverallConversionRate": "%s overall conversion rate (visits with a completed goal)",

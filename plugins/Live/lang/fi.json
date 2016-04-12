@@ -31,6 +31,8 @@
         "VisitorProfile": "Kävijäprofiili",
         "VisitorsInRealTime": "Reaaliaikaiset kävijätiedot",
         "VisitorsLastVisit": "Tämän kävijän edellinen käynti oli %s päivää sitten.",
-        "VisitsFrom": "%1$s%2$s käyntiä%3$s lähteestä"
+        "VisitsFrom": "%1$s%2$s käyntiä%3$s lähteestä",
+        "OnClickPause": "%s on käynnissä. Pysäytä klikkaamalla.",
+        "OnClickStart": "%s on pysäytetty. Aloita klikkaamalla."
     }
 }

@@ -121,7 +121,6 @@ class Csv extends Renderer
     {
         if (is_array($table)) {
             // convert array to DataTable
-
             $table = DataTable::makeFromSimpleArray($table);
         }
 
@@ -247,6 +246,9 @@ class Csv extends Renderer
         } elseif ($value === false) {
             $value = 0;
         }
+
+        $value = $this->formatFormulas($value);
+
         if (is_string($value)
             && (strpos($value, '"') !== false
                 || strpos($value, $this->separator) !== false)
@@ -259,6 +261,29 @@ class Csv extends Renderer
         if (is_numeric($value)) {
             $value = (string)$value;
             $value = str_replace(',', '.', $value);
+        }
+
+        return $value;
+    }
+
+    protected function formatFormulas($value)
+    {
+        // Excel / Libreoffice formulas may start with one of these characters
+        $formulaStartsWith = array('=', '+', '-', '@');
+
+        // remove first % sign and if string is still a number, return it as is
+        $valueWithoutFirstPercentSign = $this->removeFirstPercentSign($value);
+
+        if (empty($valueWithoutFirstPercentSign)
+            || !is_string($value)
+            || is_numeric($valueWithoutFirstPercentSign)) {
+            return $value;
+        }
+
+        $firstCharCellValue = $valueWithoutFirstPercentSign[0];
+        $isFormula = in_array($firstCharCellValue, $formulaStartsWith);
+        if($isFormula) {
+            return "'" . $value;
         }
 
         return $value;
@@ -453,5 +478,19 @@ class Csv extends Renderer
             $str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
         }
         return $str;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    protected function removeFirstPercentSign($value)
+    {
+        $needle = '%';
+        $posPercent = strpos($value, $needle);
+        if ($posPercent !== false) {
+            return substr_replace($value, '', $posPercent, strlen($needle));
+        }
+        return $value;
     }
 }

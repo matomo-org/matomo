@@ -1194,7 +1194,7 @@ class CronArchive
      *
      * @return array
      */
-    private function getTimezonesHavingNewDay()
+    private function getTimezonesHavingNewDaySinceLastRun()
     {
         $timestamp = $this->lastSuccessRunTimestamp;
         $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
@@ -1235,9 +1235,9 @@ class CronArchive
      */
     private function findWebsiteIdsInTimezoneWithNewDay($websiteIds)
     {
-        $timezones = $this->getTimezonesHavingNewDay();
+        $timezones = $this->getTimezonesHavingNewDaySinceLastRun();
         $websiteDayHasFinishedSinceLastRun = APISitesManager::getInstance()->getSitesIdFromTimezones($timezones);
-        $websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $websiteIds);
+        $websiteDayHasFinishedSinceLastRun = array_intersect($websiteDayHasFinishedSinceLastRun, $websiteIds);
         $this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
 
         if (count($websiteDayHasFinishedSinceLastRun) > 0) {

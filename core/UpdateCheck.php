@@ -68,7 +68,8 @@ class UpdateCheck
      */
     private static function getLatestAvailableVersionNumber()
     {
-        $channel = StaticContainer::get('\Piwik\Plugin\ReleaseChannels')->getActiveReleaseChannel();
+        $releaseChannels = StaticContainer::get('\Piwik\Plugin\ReleaseChannels');
+        $channel = $releaseChannels->getActiveReleaseChannel();
         $url = $channel->getUrlToCheckForLatestAvailableVersion();
 
         try {

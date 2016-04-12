@@ -101,6 +101,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load visitors with site search > visitor log page correctly', function (done) {
+        expect.screenshot("visitors_with_site_search_visitorlog").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.load("?" + urlBase + "#" + generalParams + "&module=Live&action=indexVisitorLog&period=day&date=2012-01-11");
+        }, done);
+    });
+
     it('should load the visitors > devices page correctly', function (done) {
         expect.screenshot("visitors_devices").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#" + generalParams + "&module=DevicesDetection&action=index");
@@ -241,6 +247,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the referrers > overview page correctly', function (done) {
         expect.screenshot('referrers_allreferrers').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
             page.load("?" + urlBase + "#" + generalParams + "&module=Referrers&action=allReferrers");
+        }, done);
+    });
+
+    it('should display metric tooltip correctly', function (done) {
+        expect.screenshot("metric_tooltip").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+            page.mouseMove('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV', 500);
         }, done);
     });
 

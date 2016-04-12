@@ -109,7 +109,7 @@ class SyncScreenshots extends ConsoleCommand
 
     private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword)
     {
-        $downloadTo = $this->getDownloadToPath($repository) . $screenshot . '.png';
+        $downloadTo = $this->getDownloadToPath($repository) . $screenshot;
         $url = 'http://builds-artifacts.piwik.org' . $url;
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));

@@ -10,6 +10,7 @@
         "MetricDataByYear": "Metriikat vuosittain",
         "MetricTables": "Metriikkataulut",
         "OtherTables": "Muut taulut",
+        "PluginDescription": "Tarjoaa tietoa MySQL-tietokannan käytöstä. Saatavilla pääkäyttäjille Diagnostiikka-sivun alla.",
         "ReportDataByYear": "Raporttitaulut vuosittain",
         "ReportTables": "Raporttitaulut",
         "RowCount": "Rivien määrä",

@@ -1068,10 +1068,6 @@ if (typeof window.Piwik !== 'object') {
             /* performance timing */
             performanceAlias = windowAlias.performance || windowAlias.mozPerformance || windowAlias.msPerformance || windowAlias.webkitPerformance,
 
-            /* DOM Ready */
-            hasLoaded = false,
-            registeredOnLoadHandlers = [],
-
             /* encode */
             encodeWrapper = windowAlias.encodeURIComponent,
 
@@ -1244,72 +1240,6 @@ if (typeof window.Piwik !== 'object') {
                     now = new Date();
                 } while (now.getTimeAlias() < expireDateTime);
             }
-        }
-
-        /*
-         * Handler for onload event
-         */
-        function loadHandler() {
-            var i;
-
-            if (!hasLoaded) {
-                hasLoaded = true;
-                executePluginMethod('load');
-                for (i = 0; i < registeredOnLoadHandlers.length; i++) {
-                    registeredOnLoadHandlers[i]();
-                }
-            }
-
-            return true;
-        }
-
-        /*
-         * Add onload or DOM ready handler
-         */
-        function addReadyListener() {
-            var _timer;
-
-            if (documentAlias.addEventListener) {
-                addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
-                    documentAlias.removeEventListener('DOMContentLoaded', ready, false);
-                    loadHandler();
-                });
-            } else if (documentAlias.attachEvent) {
-                documentAlias.attachEvent('onreadystatechange', function ready() {
-                    if (documentAlias.readyState === 'complete') {
-                        documentAlias.detachEvent('onreadystatechange', ready);
-                        loadHandler();
-                    }
-                });
-
-                if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
-                    (function ready() {
-                        if (!hasLoaded) {
-                            try {
-                                documentAlias.documentElement.doScroll('left');
-                            } catch (error) {
-                                setTimeout(ready, 0);
-
-                                return;
-                            }
-                            loadHandler();
-                        }
-                    }());
-                }
-            }
-
-            // sniff for older WebKit versions
-            if ((new RegExp('WebKit')).test(navigatorAlias.userAgent)) {
-                _timer = setInterval(function () {
-                    if (hasLoaded || /loaded|complete/.test(documentAlias.readyState)) {
-                        clearInterval(_timer);
-                        loadHandler();
-                    }
-                }, 10);
-            }
-
-            // fallback
-            addEventListener(windowAlias, 'load', loadHandler, false);
         }
 
         /*
@@ -3112,7 +3042,7 @@ if (typeof window.Piwik !== 'object') {
 
             function isSitePath (path, pathAlias)
             {
-                var matchesAnyPath = (!pathAlias || pathAlias === '/');
+                var matchesAnyPath = (!pathAlias || pathAlias === '/' || pathAlias === '/*');
 
                 if (matchesAnyPath) {
                     return true;
@@ -3129,6 +3059,26 @@ if (typeof window.Piwik !== 'object') {
                 pathAlias = String(pathAlias).toLowerCase();
                 path = String(path).toLowerCase();
 
+                // wildcard path support
+                if(stringEndsWith(pathAlias, '*')) {
+                    // remove the final '*' before comparing
+                    pathAlias = pathAlias.slice(0, -1);
+
+                    // Note: this is almost duplicated from just few lines above
+                    matchesAnyPath = (!pathAlias || pathAlias === '/');
+
+                    if (matchesAnyPath) {
+                        return true;
+                    }
+
+                    if (path === pathAlias) {
+                        return true;
+                    }
+
+                    // wildcard match
+                    return path.indexOf(pathAlias) === 0;
+                }
+
                 // we need to append slashes so /foobarbaz won't match a site /foobar
                 if (!stringEndsWith(path, '/')) {
                     path += '/';
@@ -3141,6 +3091,15 @@ if (typeof window.Piwik !== 'object') {
                 return path.indexOf(pathAlias) === 0;
             }
 
+            /**
+             * Whether the specified domain name and path belong to any of the alias domains (eg. set via setDomains).
+             *
+             * Note: this function is used to determine whether a click on a URL will be considered an "Outlink".
+             *
+             * @param host
+             * @param path
+             * @returns {boolean}
+             */
             function isSiteHostPath(host, path)
             {
                 var i,
@@ -4497,7 +4456,9 @@ if (typeof window.Piwik !== 'object') {
                         'contentImpressions'
                     );
 
-                    requests.push(request);
+                    if (request) {
+                        requests.push(request);
+                    }
                 }
 
                 return requests;
@@ -4689,7 +4650,7 @@ if (typeof window.Piwik !== 'object') {
                 } else if (windowAlias.addEventListener) {
                     windowAlias.addEventListener('load', callback);
                 } else if (windowAlias.attachEvent) {
-                    windowAlias.attachEvent('onLoad', callback);
+                    windowAlias.attachEvent('onload', callback);
                 }
             }
 
@@ -4698,18 +4659,61 @@ if (typeof window.Piwik !== 'object') {
                 var loaded = false;
 
                 if (documentAlias.attachEvent) {
-                    loaded = documentAlias.readyState === "complete";
+                    loaded = documentAlias.readyState === 'complete';
                 } else {
-                    loaded = documentAlias.readyState !== "loading";
+                    loaded = documentAlias.readyState !== 'loading';
                 }
 
                 if (loaded) {
                     callback();
-                } else if (documentAlias.addEventListener) {
-                    documentAlias.addEventListener('DOMContentLoaded', callback);
-                } else if (documentAlias.attachEvent) {
-                    documentAlias.attachEvent('onreadystatechange', callback);
+                    return;
                 }
+
+                var _timer;
+
+                if (documentAlias.addEventListener) {
+                    addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
+                        documentAlias.removeEventListener('DOMContentLoaded', ready, false);
+                        if (!loaded) {
+                            loaded = true;
+                            callback();
+                        }
+                    });
+                } else if (documentAlias.attachEvent) {
+                    documentAlias.attachEvent('onreadystatechange', function ready() {
+                        if (documentAlias.readyState === 'complete') {
+                            documentAlias.detachEvent('onreadystatechange', ready);
+                            if (!loaded) {
+                                loaded = true;
+                                callback();
+                            }
+                        }
+                    });
+
+                    if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
+                        (function ready() {
+                            if (!loaded) {
+                                try {
+                                    documentAlias.documentElement.doScroll('left');
+                                } catch (error) {
+                                    setTimeout(ready, 0);
+
+                                    return;
+                                }
+                                loaded = true;
+                                callback();
+                            }
+                        }());
+                    }
+                }
+
+                // fallback
+                addEventListener(windowAlias, 'load', function () {
+                    if (!loaded) {
+                        loaded = true;
+                        callback();
+                    }
+                }, false);
             }
 
             /*
@@ -4944,60 +4948,6 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                 });
-            }
-
-            /**
-             * Note: While we check whether the user is on a configHostAlias path we do not check whether the user is
-             * actually on the configHostAlias domain. This is already done where this method is called and for
-             * simplicity we do not check this again.
-             *
-             * Also we currently assume that all configHostAlias domains start with the same wild card of '*.', '.' or
-             * none. Eg either all like '*.piwik.org' or '.piwik.org' or 'piwik.org'. Piwik always adds '*.' so it
-             * should be fine.
-             */
-            function findConfigCookiePathToUse(configHostAlias, currentUrl)
-            {
-                var aliasPath   = getPathName(configHostAlias);
-                var currentPath = getPathName(currentUrl);
-
-                if (!aliasPath || aliasPath === '/' || !currentPath || currentPath === '/') {
-                    // no path set that would be useful for cookiePath
-                    return;
-                }
-
-                var aliasDomain = domainFixup(configHostAlias);
-
-                if (isSiteHostPath(aliasDomain, '/')) {
-                    // there is another configHostsAlias having same domain that allows all paths
-                    // eg this alias is for piwik.org/support but there is another alias allowing
-                    // piwik.org
-                    return;
-                }
-
-                if (stringEndsWith(aliasPath, '/')) {
-                    aliasPath = removeCharactersFromEndOfString(aliasPath, 1);
-                }
-
-                // eg if we're in the case of "apache.piwik/foo/bar" we check whether there is maybe
-                // also a config alias allowing "apache.piwik/foo". In this case we're not allowed to set
-                // the cookie for "/foo/bar" but "/foo"
-                var pathAliasParts = aliasPath.split('/');
-                var i;
-                for (i = 2; i < pathAliasParts.length; i++) {
-                    var lessRestrctivePath = pathAliasParts.slice(0, i).join('/');
-                    if (isSiteHostPath(aliasDomain, lessRestrctivePath)) {
-                        aliasPath = lessRestrctivePath;
-                        break;
-                    }
-                }
-
-                if (!isSitePath(currentPath, aliasPath)) {
-                    // current path of current URL does not match the alias
-                    // eg user is on piwik.org/demo but configHostAlias is for piwik.org/support
-                    return;
-                }
-
-                return aliasPath;
             }
 
             /*
@@ -5578,10 +5528,8 @@ if (typeof window.Piwik !== 'object') {
                  * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
                  * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
                  *
-                 * We might automatically set a cookieConfigPath to avoid creating several cookies under one domain
-                 * if there is a hostAlias defined with a path. Say a user is visiting 'http://piwik.org/subsite1'
-                 * and '.piwik.org/subsite1' is set as a hostsAlias. Piwik will automatically use '/subsite1' as
-                 * cookieConfigPath.
+                 * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
+                 * that don't go to piwik.org/index* would be treated as outlinks.
                  *
                  * @param string|array hostsAlias
                  */
@@ -5593,15 +5541,6 @@ if (typeof window.Piwik !== 'object') {
                         if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
                             && isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
                             hasDomainAliasAlready = true;
-
-                            if (!configCookiePath) {
-                                var path = findConfigCookiePathToUse(configHostsAlias[i], locationHrefAlias);
-                                if (path) {
-                                    this.setCookiePath(path);
-                                }
-
-                                break;
-                            }
                         }
                     }
 
@@ -5878,15 +5817,11 @@ if (typeof window.Piwik !== 'object') {
                 enableLinkTracking: function (enable) {
                     linkTrackingEnabled = true;
 
-                    if (hasLoaded) {
-                        // the load event has already fired, add the click listeners now
-                        addClickListeners(enable);
-                    } else {
-                        // defer until page has loaded
-                        registeredOnLoadHandlers.push(function () {
+                    trackCallback(function () {
+                        trackCallbackOnReady(function () {
                             addClickListeners(enable);
                         });
-                    }
+                    });
                 },
 
                 /**
@@ -6447,7 +6382,6 @@ if (typeof window.Piwik !== 'object') {
 
         // initialize the Piwik singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
-        addReadyListener();
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 

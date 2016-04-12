@@ -118,8 +118,8 @@
         var initEcommerceSelectOptions = function() {
 
             $scope.eCommerceptions = [
-                {key: '0', value: translate('SitesManager_NotAnEcommerceSite')},
-                {key: '1', value: translate('SitesManager_EnableEcommerce')}
+                {key: 0, value: translate('SitesManager_NotAnEcommerceSite')},
+                {key: 1, value: translate('SitesManager_EnableEcommerce')}
             ];
         };
 
@@ -189,18 +189,17 @@
         var initSiteSearchSelectOptions = function() {
 
             $scope.siteSearchOptions = [
-                {key: '1', value: translate('SitesManager_EnableSiteSearch')},
-                {key: '0', value: translate('SitesManager_DisableSiteSearch')}
+                {key: 1, value: translate('SitesManager_EnableSiteSearch')},
+                {key: 0, value: translate('SitesManager_DisableSiteSearch')}
             ];
         };
 
         var initKeepURLFragmentsList = function() {
-
-            $scope.keepURLFragmentsOptions = {
-                0: ($scope.globalSettings.keepURLFragmentsGlobal ? translate('General_Yes') : translate('General_No')) + ' (' + translate('General_Default') + ')',
-                1: translate('General_Yes'),
-                2: translate('General_No')
-            };
+            $scope.keepURLFragmentsOptions = [
+                {key: 0, value: ($scope.globalSettings.keepURLFragmentsGlobal ? translate('General_Yes') : translate('General_No')) + ' (' + translate('General_Default') + ')'},
+                {key: 1, value: translate('General_Yes')},
+                {key: 2, value: translate('General_No')}
+            ];
         };
 
         var addNewEntity = function () {

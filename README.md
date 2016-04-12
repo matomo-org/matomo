@@ -9,7 +9,7 @@
 
 [![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master "Unit tests code coverage. Does not include coverage of integration tests, system tests or UI screenshot tests.")
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
 [![Dependency Status](https://gemnasium.com/piwik/piwik.svg)](https://gemnasium.com/piwik/piwik)
@@ -39,7 +39,7 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
 
 Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
 
-[View Job Description](https://piwik.org/blog/2015/01/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
+[View Job Description](https://piwik.org/blog/2016/01/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
 
 This is for a full time position to work on the open source Piwik platform, either remotely or we can help the right candidate relocate to beautiful New Zealand (Wellington) or Poland (Wroclaw).
 

@@ -1,6 +1,7 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Selaimen kieli",
-        "LanguageCode": "Kielikoodi"
+        "LanguageCode": "Kielikoodi",
+        "PluginDescription": "Raportoi käyttäjän selaimen kieliasetukset."
     }
 }
