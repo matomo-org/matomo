@@ -36,7 +36,6 @@ class Menu extends \Piwik\Plugin\Menu
             if ($type) {
                 $menu->rename('CoreAdminHome_MenuMeasurables', $subMenuOriginal = null, $type->getNamePlural(), $subMenuRenamed = null);
             }
-
         }
     }
 
