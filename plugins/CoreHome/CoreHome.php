@@ -96,6 +96,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/bower_components/angular-animate/angular-animate.js";
         $jsFiles[] = "libs/bower_components/angular-cookies/angular-cookies.js";
         $jsFiles[] = "libs/bower_components/ngDialog/js/ngDialog.min.js";
+        $jsFiles[] = "libs/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
