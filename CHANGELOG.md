@@ -1,6 +1,8 @@
 # Piwik Platform Changelog
 
-This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
+This is the Developer Changelog for Piwik platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
+
+The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
 ## Piwik 2.16.1
 
