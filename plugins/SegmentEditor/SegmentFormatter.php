@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -111,7 +112,7 @@ class SegmentFormatter
             $translation = Piwik::translate($this->matchesMetric[$operator]);
         }
 
-        return strtolower($translation);
+        return Common::mb_strtolower($translation);
     }
 
     private function getFormattedValue($operand)
