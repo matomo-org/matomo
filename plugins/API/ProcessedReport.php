@@ -30,6 +30,16 @@ use Piwik\Url;
 class ProcessedReport
 {
     /**
+     * @var ReportsProvider
+     */
+    private $reportsProvider;
+
+    public function __construct(ReportsProvider $reportsProvider)
+    {
+        $this->reportsProvider = $reportsProvider;
+    }
+
+    /**
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
      */
@@ -166,8 +176,7 @@ class ProcessedReport
 
         $availableReports = array();
 
-        $reports = new ReportsProvider();
-        foreach ($reports->getAllReports() as $report) {
+        foreach ($this->reportsProvider->getAllReports() as $report) {
             $report->configureReportMetadata($availableReports, $parameters);
         }
 
@@ -200,7 +209,7 @@ class ProcessedReport
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
-        usort($availableReports, array('self', 'sortReports'));
+        usort($availableReports, array($this, 'sortReports'));
 
         $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
         $columnsToKeep   = $this->getColumnsToKeep();
@@ -287,10 +296,9 @@ class ProcessedReport
      * @param array $b
      * @return int
      */
-    private static function sortReports($a, $b)
+    public function sortReports($a, $b)
     {
-        $reports = new ReportsProvider();
-        return $reports->compareCategories($a['category'], $a['subcategory'], $a['order'], $b['category'], $b['subcategory'], $b['order']);
+        return $this->reportsProvider->compareCategories($a['category'], $a['subcategory'], $a['order'], $b['category'], $b['subcategory'], $b['order']);
     }
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,

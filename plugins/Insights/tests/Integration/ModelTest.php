@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Insights\tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Plugins\Insights\Model;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
@@ -35,7 +36,7 @@ class ModelTest extends SystemTestCase
     {
         parent::setUp();
 
-        $this->model = new Model();
+        $this->model = StaticContainer::getContainer()->make('Piwik\Plugins\Insights\Model');
     }
 
     public function test_requestReport_shouldReturnTheDataTableOfTheReport_AndContainReportTotals()
