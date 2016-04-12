@@ -61,9 +61,15 @@ class API extends \Piwik\Plugin\API
      */
     private $settingsProvider;
 
-    public function __construct(SettingsProvider $settingsProvider)
+    /**
+     * @var ProcessedReport
+     */
+    private $processedReport;
+
+    public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {
         $this->settingsProvider = $settingsProvider;
+        $this->processedReport = $processedReport;
     }
 
     /**
@@ -250,8 +256,7 @@ class API extends \Piwik\Plugin\API
             $translator->setCurrentLanguage($language);
         }
 
-        $reporter = new ProcessedReport();
-        $metadata = $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 
@@ -271,8 +276,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSites);
 
-        $reporter = new ProcessedReport();
-        $metadata = $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $metadata = $this->processedReport->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 
@@ -283,8 +287,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $reporter = new ProcessedReport();
-        $processed = $reporter->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
+        $processed = $this->processedReport->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
             $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics, $idDimension);
 
         return $processed;
