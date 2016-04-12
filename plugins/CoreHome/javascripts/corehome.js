@@ -15,6 +15,8 @@
 
         var headerMessageParent = $('#header_message').parent();
 
+        initTopControls();
+
         // when 'check for updates...' link is clicked, force a check & display the result
         headerMessageParent.on('click', '#updateCheckLinkContainer', function (e) {
             e.preventDefault();
@@ -28,8 +30,11 @@
                 action: 'checkForUpdates'
             }, 'get');
 
+            ajaxRequest.withTokenInUrl();
+
             var $titleElement = $(this);
             $titleElement.addClass('activityIndicator');
+
             ajaxRequest.setCallback(function (response) {
                 headerMessage.fadeOut('slow', function () {
                     response = $(response);
@@ -121,67 +126,8 @@
             handleSectionToggle(this, 'inline', !$(this).is(':checked'));
         });
 
-        //
-        // reports by dimension list behavior
-        //
-
-        // when a report dimension is clicked, load the appropriate report
-        var currentWidgetLoading = null;
-        $('body').on('click', '.reportDimension', function (e) {
-            var view = $(this).closest('.reportsByDimensionView'),
-                report = $('.dimensionReport', view),
-                loading = $('.loadingPiwik', view);
-
-            // make this dimension the active one
-            $('.activeDimension', view).removeClass('activeDimension');
-            $(this).addClass('activeDimension');
-
-            // hide the visible report & show the loading elem
-            report.hide();
-            loading.show();
-
-            // load the report using the data-url attribute (which holds the URL to the report)
-            var widgetParams = broadcast.getValuesFromUrl($(this).attr('data-url'));
-            for (var key in widgetParams) {
-                widgetParams[key] = decodeURIComponent(widgetParams[key]);
-            }
-
-            var widgetUniqueId = widgetParams.module + widgetParams.action;
-            currentWidgetLoading = widgetUniqueId;
-
-            var ajaxRequest = new ajaxHelper();
-            ajaxRequest.addParams(widgetParams, 'get');
-            ajaxRequest.setCallback(function (response) {
-                // if the widget that was loaded was not for the latest clicked link, do nothing w/ the response
-                if (widgetUniqueId != currentWidgetLoading) {
-                    return;
-                }
-
-                loading.hide();
-                report.css('display', 'inline-block').html($(response));
-
-                // scroll to report
-                piwikHelper.lazyScrollTo(report, 400);
-            });
-            ajaxRequest.setErrorCallback(function (deferred, status) {
-                if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
-                    return;
-                }
-
-                loading.hide();
-
-                var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
-                if ($('#loadingError').html()) {
-                    errorMessage = $('#loadingError').html();
-                }
-
-                report.css('display', 'inline-block').html('<div class="dimensionLoadingError">' + errorMessage + '</div>');
-            });
-            ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
-        });
     });
-    
+
 
 
 
@@ -192,5 +138,4 @@ $( document ).ready(function() {
         $('a[name="main"]').attr('tabindex', -1).focus();
         $(window).scrollTo($('a[name="main"]'));
     });
-
 });

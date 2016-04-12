@@ -55,8 +55,5 @@ class Type
         return $this->howToSetupUrl;
     }
 
-    public function configureMeasurableSettings(MeasurableSettings $settings)
-    {
-    }
 }
 

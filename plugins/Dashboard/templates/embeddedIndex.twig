@@ -1,10 +1,4 @@
-<script type="text/javascript">
-    widgetsHelper.availableWidgets = {{ availableWidgets|raw }};
-    $(function() {
-        initDashboard({{ dashboardId }}, {{ dashboardLayout|raw }});
-    });
-</script>
-<div id="dashboard">
+<div id="dashboard" piwik-dashboard dashboardid="{{ dashboardId }}">
     <div class="ui-confirm" id="confirm">
         <h2>{{ 'Dashboard_DeleteWidgetConfirm'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>

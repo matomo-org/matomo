@@ -3,7 +3,8 @@
 	<website>Site 1</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Visits Summary</category>
+		<category>Visitors</category>
+		<subcategory>Overview</subcategory>
 		<name>Visits Summary</name>
 		<module>VisitsSummary</module>
 		<action>get</action>

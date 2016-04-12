@@ -14,6 +14,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\VisitTime\Columns\DayOfTheWeek;
 use Piwik\Period;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 
 class GetByDayOfWeek extends Base
@@ -28,7 +29,7 @@ class GetByDayOfWeek extends Base
         $this->documentation = Piwik::translate('VisitTime_WidgetByDayOfWeekDocumentation');
         $this->constantRowsCount = true;
         $this->order = 25;
-        $this->widgetTitle  = 'VisitTime_VisitsByDayOfWeek';
+        $this->subcategoryId = 'VisitTime_SubmenuTimes';
     }
 
     public function configureView(ViewDataTable $view)
@@ -72,5 +73,12 @@ class GetByDayOfWeek extends Base
             $dateRange = $start . " &ndash; " . $end;
         }
         return $dateRange;
+    }
+
+    public function getRelatedReports()
+    {
+        return array(
+            ReportsProvider::factory('VisitTime', 'getVisitInformationPerLocalTime')
+        );
     }
 }

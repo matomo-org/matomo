@@ -19,6 +19,7 @@ use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -71,7 +72,7 @@ class DataTablePostProcessor
         $this->apiMethod = $apiMethod;
         $this->setRequest($request);
 
-        $this->report = Report::factory($apiModule, $apiMethod);
+        $this->report = ReportsProvider::factory($apiModule, $apiMethod);
         $this->apiInconsistencies = new Inconsistencies();
         $this->setFormatter(new Formatter());
     }

@@ -10,7 +10,9 @@ namespace Piwik\Plugins\API;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
-use Piwik\Columns\Dimension;
+use Piwik\Cache;
+use Piwik\CacheId;
+use Piwik\Category\CategoryList;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -23,11 +25,14 @@ use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
+use Piwik\Widget\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
@@ -51,6 +56,22 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var SettingsProvider
+     */
+    private $settingsProvider;
+
+    /**
+     * @var ProcessedReport
+     */
+    private $processedReport;
+
+    public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
+    {
+        $this->settingsProvider = $settingsProvider;
+        $this->processedReport = $processedReport;
+    }
+
     /**
      * Get Piwik version
      * @return string
@@ -110,11 +131,16 @@ class API extends \Piwik\Plugin\API
 
         $available = array();
         foreach ($types as $type) {
+            $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite = 0, $type->getId());
+
+            $settingsMetadata = new SettingsMetadata();
+
             $available[] = array(
                 'id' => $type->getId(),
                 'name' => Piwik::translate($type->getName()),
                 'description' => Piwik::translate($type->getDescription()),
-                'howToSetupUrl' => $type->getHowToSetupUrl()
+                'howToSetupUrl' => $type->getHowToSetupUrl(),
+                'settings' => $settingsMetadata->formatSettings($measurableSettings)
             );
         }
 
@@ -131,83 +157,20 @@ class API extends \Piwik\Plugin\API
 
         $isNotAnonymous = !Piwik::isUserIsAnonymous();
 
-        $segments = array();
-        foreach (Dimension::getAllDimensions() as $dimension) {
-            foreach ($dimension->getSegments() as $segment) {
-                if ($segment->isRequiresAtLeastViewAccess()) {
-                    $segment->setPermission($isNotAnonymous);
-                }
+        $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
+        $cache   = Cache::getTransientCache();
+        $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
+        $cachKey = CacheId::pluginAware($cachKey);
 
-                $segments[] = $segment->toArray();
-            }
+        if ($cache->contains($cachKey)) {
+            return $cache->fetch($cachKey);
         }
 
-        /**
-         * Triggered when gathering all available segment dimensions.
-         *
-         * This event can be used to make new segment dimensions available.
-         *
-         * **Example**
-         *
-         *     public function getSegmentsMetadata(&$segments, $idSites)
-         *     {
-         *         $segments[] = array(
-         *             'type'           => 'dimension',
-         *             'category'       => Piwik::translate('General_Visit'),
-         *             'name'           => 'General_VisitorIP',
-         *             'segment'        => 'visitIp',
-         *             'acceptedValues' => '13.54.122.1, etc.',
-         *             'sqlSegment'     => 'log_visit.location_ip',
-         *             'sqlFilter'      => array('Piwik\IP', 'P2N'),
-         *             'permission'     => $isAuthenticatedWithViewAccess,
-         *         );
-         *     }
-         *
-         * @param array &$dimensions The list of available segment dimensions. Append to this list to add
-         *                           new segments. Each element in this list must contain the
-         *                           following information:
-         *
-         *                           - **type**: Either `'metric'` or `'dimension'`. `'metric'` means
-         *                                       the value is a numeric and `'dimension'` means it is
-         *                                       a string. Also, `'metric'` values will be displayed
-         *                                       under **Visit (metrics)** in the Segment Editor.
-         *                           - **category**: The segment category name. This can be an existing
-         *                                           segment category visible in the segment editor.
-         *                           - **name**: The pretty name of the segment. Can be a translation token.
-         *                           - **segment**: The segment name, eg, `'visitIp'` or `'searches'`.
-         *                           - **acceptedValues**: A string describing one or two exacmple values, eg
-         *                                                 `'13.54.122.1, etc.'`.
-         *                           - **sqlSegment**: The table column this segment will segment by.
-         *                                             For example, `'log_visit.location_ip'` for the
-         *                                             **visitIp** segment.
-         *                           - **sqlFilter**: A PHP callback to apply to segment values before
-         *                                            they are used in SQL.
-         *                           - **permission**: True if the current user has view access to this
-         *                                             segment, false if otherwise.
-         * @param array $idSites The list of site IDs we're getting the available segments
-         *                       for. Some segments (such as Goal segments) depend on the
-         *                       site.
-         */
-        Piwik::postEvent('API.getSegmentDimensionMetadata', array(&$segments, $idSites));
+        $metadata = new SegmentMetadata();
+        $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous);
 
-        foreach ($segments as &$segment) {
-            $segment['name'] = Piwik::translate($segment['name']);
-            $segment['category'] = Piwik::translate($segment['category']);
+        $cache->save($cachKey, $segments);
 
-            if ($_hideImplementationData) {
-                unset($segment['sqlFilter']);
-                unset($segment['sqlFilterValue']);
-                unset($segment['sqlSegment']);
-
-                if (isset($segment['suggestedValuesCallback'])
-                    && !is_string($segment['suggestedValuesCallback'])
-                ) {
-                    unset($segment['suggestedValuesCallback']);
-                }
-            }
-        }
-
-        usort($segments, array($this, 'sortSegments'));
         return $segments;
     }
 
@@ -226,32 +189,6 @@ class API extends \Piwik\Plugin\API
         $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
         return $values;
-    }
-
-    private function sortSegments($row1, $row2)
-    {
-        $customVarCategory = Piwik::translate('CustomVariables_CustomVariables');
-
-        $columns = array('type', 'category', 'name', 'segment');
-        foreach ($columns as $column) {
-            // Keep segments ordered alphabetically inside categories..
-            $type = -1;
-            if ($column == 'name') $type = 1;
-
-            $compare = $type * strcmp($row1[$column], $row2[$column]);
-
-            // hack so that custom variables "page" are grouped together in the doc
-            if ($row1['category'] == $customVarCategory
-                && $row1['category'] == $row2['category']
-            ) {
-                $compare = strcmp($row1['segment'], $row2['segment']);
-                return $compare;
-            }
-            if ($compare != 0) {
-                return $compare;
-            }
-        }
-        return $compare;
     }
 
     /**
@@ -319,8 +256,7 @@ class API extends \Piwik\Plugin\API
             $translator->setCurrentLanguage($language);
         }
 
-        $reporter = new ProcessedReport();
-        $metadata = $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 
@@ -340,8 +276,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSites);
 
-        $reporter = new ProcessedReport();
-        $metadata = $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $metadata = $this->processedReport->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 
@@ -352,11 +287,45 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $reporter = new ProcessedReport();
-        $processed = $reporter->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
+        $processed = $this->processedReport->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
             $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics, $idDimension);
 
         return $processed;
+    }
+
+    /**
+     * Get a list of all pages that shall be shown in a Piwik UI including a list of all widgets that shall
+     * be shown within each page.
+     *
+     * @param int $idSite
+     * @return array
+     */
+    public function getReportPagesMetadata($idSite)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $widgetsList  = WidgetsList::get();
+        $categoryList = CategoryList::get();
+        $metadata     = new WidgetMetadata();
+
+        return $metadata->getPagesMetadata($categoryList, $widgetsList);
+    }
+
+    /**
+     * Get a list of all widgetizable widgets.
+     *
+     * @param int $idSite
+     * @return array
+     */
+    public function getWidgetMetadata($idSite)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $widgetsList  = WidgetsList::get();
+        $categoryList = CategoryList::get();
+        $metadata     = new WidgetMetadata();
+
+        return $metadata->getWidgetMetadata($categoryList, $widgetsList);
     }
 
     /**
@@ -674,9 +643,9 @@ class API extends \Piwik\Plugin\API
     {
         // If you update this, also update flattenVisitorDetailsArray
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
-                                         'pageUrl', 'pageTitle', 'siteSearchKeyword',
-                                         'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
-                                         'outlinkUrl', 'downloadUrl'
+            'pageUrl', 'pageTitle', 'siteSearchKeyword',
+            'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
+            'outlinkUrl', 'downloadUrl'
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;

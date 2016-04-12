@@ -13,7 +13,6 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.

@@ -22,7 +22,7 @@ describe("Overlay", function () {
 
     before(function (done) {
         var baseUrl = '?module=Overlay&period=year&date=today&idSite=3';
-        var hash = '#l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
+        var hash = '#?l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
 
         url = baseUrl + hash;
         urlWithSegment = baseUrl + '&segment=' + encodeURIComponent('visitIp==20.56.34.67') + hash;

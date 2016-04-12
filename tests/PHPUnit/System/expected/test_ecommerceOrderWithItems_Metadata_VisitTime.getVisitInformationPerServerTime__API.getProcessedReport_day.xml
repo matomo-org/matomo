@@ -3,8 +3,9 @@
 	<website>Piwik test</website>
 	<prettyDate>Tuesday, April 5, 2011</prettyDate>
 	<metadata>
-		<category>Visits Summary</category>
-		<name>Visits by Server Time</name>
+		<category>Visitors</category>
+		<subcategory>Times</subcategory>
+		<name>Visits per server time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
 		<dimension>Server time</dimension>

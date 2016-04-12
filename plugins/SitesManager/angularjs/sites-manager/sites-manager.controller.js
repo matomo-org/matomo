@@ -20,7 +20,6 @@
             $scope.adminSites = adminSites;
             $scope.hasSuperUserAccess = piwik.hasSuperUserAccess;
             $scope.redirectParams = {showaddsite: false};
-            $scope.siteIsBeingEdited = false;
             $scope.cacheBuster = piwik.cacheBuster;
             $scope.totalNumberOfSites = '?';
 
@@ -40,8 +39,6 @@
             $scope.addSite = addSite;
             $scope.addNewEntity = addNewEntity;
             $scope.saveGlobalSettings = saveGlobalSettings;
-
-            $scope.informSiteIsBeingEdited = informSiteIsBeingEdited;
             $scope.lookupCurrentEditSite = lookupCurrentEditSite;
 
             $scope.closeAddMeasurableDialog = function () {
@@ -62,15 +59,8 @@
             });
         };
 
-        var informSiteIsBeingEdited = function() {
-
-            $scope.siteIsBeingEdited = true;
-        };
-
         var initSelectLists = function() {
 
-            initSiteSearchSelectOptions();
-            initEcommerceSelectOptions();
             initCurrencyList();
             initTimezones();
         };
@@ -113,14 +103,6 @@
 
             if(piwik.helper.getArrayFromQueryString(search).showaddsite == 1)
                 addNewEntity();
-        };
-
-        var initEcommerceSelectOptions = function() {
-
-            $scope.eCommerceptions = [
-                {key: 0, value: translate('SitesManager_NotAnEcommerceSite')},
-                {key: 1, value: translate('SitesManager_EnableEcommerce')}
-            ];
         };
 
         var initUtcTime = function() {
@@ -186,14 +168,6 @@
             });
         };
 
-        var initSiteSearchSelectOptions = function() {
-
-            $scope.siteSearchOptions = [
-                {key: 1, value: translate('SitesManager_EnableSiteSearch')},
-                {key: 0, value: translate('SitesManager_DisableSiteSearch')}
-            ];
-        };
-
         var initKeepURLFragmentsList = function() {
             $scope.keepURLFragmentsOptions = [
                 {key: 0, value: ($scope.globalSettings.keepURLFragmentsGlobal ? translate('General_Yes') : translate('General_No')) + ' (' + translate('General_Default') + ')'},
@@ -242,15 +216,23 @@
                 searchKeywordParameters: $scope.globalSettings.searchKeywordParametersGlobal.join(','),
                 searchCategoryParameters: $scope.globalSettings.searchCategoryParametersGlobal.join(',')
             }, 'POST');
-
+            ajaxHandler.withTokenInUrl();
             ajaxHandler.redirectOnSuccess($scope.redirectParams);
             ajaxHandler.setLoadingElement();
             ajaxHandler.send(true);
         };
 
-        var cancelEditSite = function ($event) {
-            $event.stopPropagation();
-            piwik.helper.redirect($scope.redirectParams);
+        var cancelEditSite = function (site) {
+            site.editMode = false;
+
+            var idSite = site.idsite;
+            if (idSite) {
+                var siteElement = $('.site[idsite=' + idSite + ']');
+                if (siteElement[0]) {
+                    // todo move this into a directive
+                    siteElement[0].scrollIntoView();
+                }
+            }
         };
 
         var lookupCurrentEditSite = function () {

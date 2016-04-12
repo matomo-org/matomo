@@ -1,9 +1,0 @@
-{{ postEvent("Template.headerVisitsFrequency") }}
-
-<h2 piwik-enriched-headline data-graph-id="VisitFrequency.getEvolutionGraph">{{ 'VisitFrequency_ColumnReturningVisits'|translate }}</h2>
-    {{ graphEvolutionVisitFrequency|raw }}
-<br/>
-
-{% include "@VisitFrequency/_sparklines.twig" %}
-
-{{ postEvent("Template.footerVisitsFrequency") }}

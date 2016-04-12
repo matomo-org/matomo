@@ -49,6 +49,7 @@
         "YouAreUsingTheLatestVersion": "You are using the latest version of Piwik!",
         "ClickRowToExpandOrContract": "Click this row to expand or contract the subtable.",
         "UndoPivotBySubtable": "This report has been pivoted %s Undo pivot",
+        "NoSuchPage": "This page does not exist",
         "PivotBySubtable": "This report is not pivoted %1$s Pivot by %2$s",
         "QuickAccessTitle": "Search for %s. Use the arrow keys to navigate through search results. Shortcut: Press 'f' to search.",
         "MenuEntries": "Menu entries",

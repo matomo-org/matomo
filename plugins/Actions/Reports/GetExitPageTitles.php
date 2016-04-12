@@ -15,6 +15,9 @@ use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugin\ReportsProvider;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetExitPageTitles extends Base
 {
@@ -26,6 +29,7 @@ class GetExitPageTitles extends Base
         $this->name          = Piwik::translate('Actions_ExitPageTitles');
         $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
+        $this->subcategoryId = 'Actions_SubmenuPagesExit';
 
         $this->metrics = array('exit_nb_visits', 'nb_visits');
         $this->processedMetrics = array(
@@ -34,11 +38,16 @@ class GetExitPageTitles extends Base
             new ExitRate(),
             new AveragePageGenerationTime()
         );
-        $this->order   = 7;
+        $this->order = 7;
 
         $this->actionToLoadSubTables = $this->action;
+    }
 
-        $this->widgetTitle = 'Actions_WidgetExitPageTitles';
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        // we have to do it manually since it's only done automatically if a subcategoryId is specified,
+        // we do not set a subcategoryId since this report is not supposed to be shown in the UI
+        $widgetsList->addWidgetConfig($factory->createWidget());
     }
 
     public function getProcessedMetrics()
@@ -86,8 +95,8 @@ class GetExitPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            self::factory('Actions', 'getPageTitles'),
-            self::factory('Actions', 'getExitPageUrls'),
+            ReportsProvider::factory('Actions', 'getPageTitles'),
+            ReportsProvider::factory('Actions', 'getExitPageUrls'),
         );
     }
 }

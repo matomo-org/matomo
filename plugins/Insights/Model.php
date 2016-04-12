@@ -21,6 +21,15 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
  */
 class Model
 {
+    /**
+     * @var ProcessedReport
+     */
+    private $processedReport;
+
+    public function __construct(ProcessedReport $processedReport)
+    {
+        $this->processedReport = $processedReport;
+    }
 
     public function requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment)
     {
@@ -112,8 +121,7 @@ class Model
 
     public function getReportByUniqueId($idSite, $reportUniqueId)
     {
-        $processedReport = new ProcessedReport();
-        $report = $processedReport->getReportMetadataByUniqueId($idSite, $reportUniqueId);
+        $report = $this->processedReport->getReportMetadataByUniqueId($idSite, $reportUniqueId);
 
         return $report;
     }

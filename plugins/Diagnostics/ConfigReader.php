@@ -136,12 +136,12 @@ class ConfigReader
      * for already existing configured config values that overwrite a plugin system setting.
      *
      * @param array $configValues
-     * @param \Piwik\Plugin\Settings[] $pluginSettings
+     * @param \Piwik\Settings\Plugin\SystemSettings[] $systemSettings
      * @return array
      */
-    public function addConfigValuesFromPluginSettings($configValues, $pluginSettings)
+    public function addConfigValuesFromSystemSettings($configValues, $systemSettings)
     {
-        foreach ($pluginSettings as $pluginSetting) {
+        foreach ($systemSettings as $pluginSetting) {
             $pluginName = $pluginSetting->getPluginName();
 
             if (empty($pluginName)) {
@@ -150,36 +150,34 @@ class ConfigReader
 
             $configs[$pluginName] = array();
 
-            foreach ($pluginSetting->getSettings() as $setting) {
-                if ($setting instanceof PiwikSettings\SystemSetting && $setting->isReadableByCurrentUser()) {
-                    $name = $setting->getName();
+            foreach ($pluginSetting->getSettingsWritableByCurrentUser() as $setting) {
+                $name = $setting->getName();
+                $config = $setting->configureField();
 
-                    $description = '';
-                    if (!empty($setting->description)) {
-                        $description .= $setting->description . ' ';
+                $description = '';
+                if (!empty($config->description)) {
+                    $description .= $config->description . ' ';
+                }
+
+                if (!empty($config->inlineHelp)) {
+                    $description .= $config->inlineHelp;
+                }
+
+                if (isset($configValues[$pluginName][$name])) {
+                    $configValues[$pluginName][$name]['defaultValue'] = $setting->getDefaultValue();
+                    $configValues[$pluginName][$name]['description']  = trim($description);
+
+                    if ($config->uiControl === PiwikSettings\FieldConfig::UI_CONTROL_PASSWORD) {
+                        $configValues[$pluginName][$name]['value'] = $this->getMaskedPassword();
                     }
-
-                    if (!empty($setting->inlineHelp)) {
-                        $description .= $setting->inlineHelp;
-                    }
-
-                    if (isset($configValues[$pluginName][$name])) {
-                        $configValues[$pluginName][$name]['defaultValue'] = $setting->defaultValue;
-                        $configValues[$pluginName][$name]['description']  = trim($description);
-
-                        if ($setting->uiControlType === PluginSettings::CONTROL_PASSWORD) {
-                            $value = $configValues[$pluginName][$name]['value'];
-                            $configValues[$pluginName][$name]['value'] = $this->getMaskedPassword();
-                        }
-                    } else {
-                        $defaultValue = $setting->getValue();
-                        $configValues[$pluginName][$name] = array(
-                            'value' => null,
-                            'description' => trim($description),
-                            'isCustomValue' => false,
-                            'defaultValue' => $defaultValue
-                        );
-                    }
+                } else {
+                    $defaultValue = $setting->getValue();
+                    $configValues[$pluginName][$name] = array(
+                        'value' => null,
+                        'description' => trim($description),
+                        'isCustomValue' => false,
+                        'defaultValue' => $defaultValue
+                    );
                 }
             }
 

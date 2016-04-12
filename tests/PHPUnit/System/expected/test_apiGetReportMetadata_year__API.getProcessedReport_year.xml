@@ -4,6 +4,7 @@
 	<prettyDate>2009</prettyDate>
 	<metadata>
 		<category>Visiteurs</category>
+		<subcategory>Provenances géographiques</subcategory>
 		<name>Pays</name>
 		<module>UserCountry</module>
 		<action>getCountry</action>

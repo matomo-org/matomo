@@ -14,6 +14,14 @@ use Piwik\Piwik;
 use Piwik\Url;
 use ReflectionClass;
 
+/**
+ * Possible tags to use in APIs
+ *
+ * @hide -> Won't be shown in list of all APIs but is also not possible to be called via HTTP API
+ * @hideForAll Same as @hide
+ * @hideExceptForSuperUser Same as @hide but still shown and possible to be called by a user with super user access
+ * @internal -> Won't be shown in list of all APIs but is possible to be called via HTTP API
+ */
 class DocumentationGenerator
 {
     protected $countPluginsLoaded = 0;
@@ -58,7 +66,24 @@ class DocumentationGenerator
                 continue;
             }
 
+            if ($this->checkIfCommentContainsInternalAnnotation($rClass)) {
+                continue;
+            }
+
             $toDisplay = $this->prepareModulesAndMethods($info, $moduleName);
+
+            foreach ($toDisplay as $moduleName => $methods) {
+                foreach ($methods as $index => $method) {
+                    $reflectionMethod = new \ReflectionMethod($class, $method);
+                    if ($this->checkIfCommentContainsInternalAnnotation($reflectionMethod)) {
+                        unset($toDisplay[$moduleName][$index]);
+                    }
+                }
+                if (empty($toDisplay[$moduleName])) {
+                    unset($toDisplay[$moduleName]);
+                }
+            }
+
             foreach ($toDisplay as $moduleName => $methods) {
                 $toc .= $this->prepareModuleToDisplay($moduleName);
                 $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls);
@@ -157,6 +182,17 @@ class DocumentationGenerator
     public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
     {
         return false !== strstr($rClass->getDocComment(), '@hide');
+    }
+
+    /**
+     * Check if Class contains @internal
+     *
+     * @param ReflectionClass|\ReflectionMethod $rClass instance of ReflectionMethod
+     * @return bool
+     */
+    private function checkIfCommentContainsInternalAnnotation($rClass)
+    {
+        return false !== strstr($rClass->getDocComment(), '@internal');
     }
 
     /**

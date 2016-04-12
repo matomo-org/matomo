@@ -176,9 +176,9 @@ class Xml extends Renderer
             }
 
             // render the array item
-            if (is_array($value)) {
+            if (is_array($value) || $value instanceof \stdClass) {
                 $result .= $prefixLines . $prefix . "\n";
-                $result .= $this->renderArray($value, $prefixLines . "\t");
+                $result .= $this->renderArray((array) $value, $prefixLines . "\t");
                 $result .= $prefixLines . $suffix . "\n";
             } elseif ($value instanceof DataTable
                 || $value instanceof Map
@@ -198,6 +198,7 @@ class Xml extends Renderer
                 }
             } else {
                 $xmlValue = self::formatValueXml($value);
+
                 if (strlen($xmlValue) != 0) {
                     $result .= $prefixLines . $prefix . $xmlValue . $suffix . "\n";
                 } else {

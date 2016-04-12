@@ -2,10 +2,8 @@
 
 {% block topcontrols %}
     {% if not isWidgetized %}
-        <div class="top_controls">
-            {% include "@CoreHome/_periodSelect.twig" %}
-            {% include "@CoreHome/_headerMessage.twig" %}
-        </div>
+        {% include "@CoreHome/_periodSelect.twig" %}
+        {% include "@CoreHome/_headerMessage.twig" %}
     {% endif %}
 {% endblock %}
 

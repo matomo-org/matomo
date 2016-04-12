@@ -13,6 +13,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * This class is responsible for setting the metadata property 'totals' on each dataTable if the report
@@ -211,7 +212,8 @@ class ReportTotalsCalculator extends DataTableManipulator
 
     private function findFirstLevelReport()
     {
-        foreach (Report::getAllReports() as $report) {
+        $reports = new ReportsProvider();
+        foreach ($reports->getAllReports() as $report) {
             $actionToLoadSubtables = $report->getActionToLoadSubTables();
             if ($actionToLoadSubtables == $this->apiMethod
                 && $this->apiModule == $report->getModule()

@@ -8,18 +8,14 @@
  */
 namespace Piwik\Plugins\Feedback;
 
-use Piwik\Menu\MenuUser;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureUserMenu(MenuUser $menu)
+    public function configureTopMenu(MenuTop $menu)
     {
-        $menu->addPlatformItem(
-            'General_Help',
-            $this->urlForAction('index', array('segment' => false)),
-            $order = 99,
-            $tooltip = Piwik::translate('Feedback_TopLinkTooltip')
-        );
+        $menu->registerMenuIcon('General_Help', 'icon-help');
+        $menu->addItem('General_Help', null, array('module' => 'Feedback', 'action' => 'index'), $order = 990, Piwik::translate('General_Help'));
     }
 }

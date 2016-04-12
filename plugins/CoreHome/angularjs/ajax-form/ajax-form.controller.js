@@ -75,9 +75,9 @@
                     });
                     notification.scrollToNotification();
                 }
-            })['catch'](function (errorMessage) {
+            }).catch(function (errorMessage) {
                 vm.errorPostResponse = errorMessage;
-            })['finally'](function () {
+            }).finally(function () {
                 vm.isSubmitting = false;
             });
         }

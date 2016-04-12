@@ -1,0 +1,31 @@
+<div class="pluginSettings">
+
+    <p>
+        {{ 'CoreAdminHome_PluginSettingsIntro'|translate }}
+
+        <span ng-repeat="settings in pluginSettings.settingsPerPlugin">
+            <a href="#{{ settings.pluginName }}">{{ settings.pluginName }}</a><span ng-hide="$last">, </span>
+        </span>
+    </p>
+
+    <p ng-if="!pluginSettings.isLoading && pluginSettings.settingsPerPlugin.length === 0">
+        {{ 'CorePluginsAdmin_NoPluginSettings'|translate }}
+    </p>
+
+    <div piwik-activity-indicator loading="pluginSettings.isLoading"></div>
+
+    <div ng-repeat="settings in pluginSettings.settingsPerPlugin"
+          id="pluginSettings">
+
+        <h2 id="{{ settings.pluginName }}" class="secondary">{{ settings.pluginName }}</h2>
+
+        <div ng-repeat="setting in settings.settings">
+            <div piwik-form-field="setting" all-settings="settings.settings"></div>
+        </div>
+    </div>
+
+    <input type="button" ng-click="pluginSettings.save()"
+           value="{{ 'General_Save'|translate }}"
+           class="pluginsSettingsSubmit submit"/>
+
+</div>

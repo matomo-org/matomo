@@ -3,7 +3,8 @@
 	<website>Piwik test</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Events</category>
+		<category>Actions</category>
+		<subcategory>Events</subcategory>
 		<name>Event Categories</name>
 		<module>Events</module>
 		<action>getCategory</action>

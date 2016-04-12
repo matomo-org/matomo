@@ -1,4 +1,4 @@
-{% extends 'user.twig' %}
+{% extends 'admin.twig' %}
 
 {% set title %}{{ 'General_Widgets'|translate }}{% endset %}
 
@@ -29,7 +29,6 @@
         $('#widgetPreview').widgetPreview({
             onPreviewLoaded: widgetized.callbackAddExportButtonsUnderWidget
         });
-        broadcast.init();
     });
 </script>
 

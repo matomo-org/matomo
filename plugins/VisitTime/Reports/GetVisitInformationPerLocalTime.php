@@ -13,6 +13,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\VisitTime\Columns\LocalTime;
+use Piwik\Plugin\ReportsProvider;
 
 class GetVisitInformationPerLocalTime extends Base
 {
@@ -23,11 +24,12 @@ class GetVisitInformationPerLocalTime extends Base
     {
         parent::init();
         $this->dimension     = new LocalTime();
-        $this->name          = Piwik::translate('VisitTime_WidgetLocalTime');
+        $this->name          = Piwik::translate('VisitTime_LocalTime');
         $this->documentation = Piwik::translate('VisitTime_WidgetLocalTimeDocumentation', array('<strong>', '</strong>'));
         $this->constantRowsCount = true;
-        $this->order = 20;
-        $this->widgetTitle  = 'VisitTime_WidgetLocalTime';
+        $this->order = 15;
+
+        $this->subcategoryId = 'VisitTime_SubmenuTimes';
     }
 
     public function configureView(ViewDataTable $view)
@@ -42,10 +44,12 @@ class GetVisitInformationPerLocalTime extends Base
         if ($view->isViewDataTableId(Graph::ID)) {
             $view->config->max_graph_elements = false;
         }
+    }
 
-        // add the visits by day of week as a related report, if the current period is not 'day'
-        if (Common::getRequestVar('period', 'day') != 'day') {
-            $view->config->addRelatedReport('VisitTime.getByDayOfWeek', Piwik::translate('VisitTime_VisitsByDayOfWeek'));
-        }
+    public function getRelatedReports()
+    {
+        return array(
+            ReportsProvider::factory('VisitTime', 'getByDayOfWeek')
+        );
     }
 }

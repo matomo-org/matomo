@@ -8,6 +8,7 @@
  */
 namespace Piwik\Menu;
 
+use Piwik\Development;
 use Piwik\Piwik;
 
 /**
@@ -33,6 +34,20 @@ use Piwik\Piwik;
 class MenuAdmin extends MenuAbstract
 {
     /**
+     * See {@link add()}. Adds a new menu item to the manage section of the user menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
+    public function addPersonalItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->addItem('UsersManager_MenuPersonal', $menuName, $url, $order, $tooltip);
+    }
+
+    /**
      * See {@link add()}. Adds a new menu item to the development section of the admin menu.
      * @param string $menuName
      * @param array $url
@@ -43,7 +58,9 @@ class MenuAdmin extends MenuAbstract
      */
     public function addDevelopmentItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->addItem('CoreAdminHome_MenuDevelopment', $menuName, $url, $order, $tooltip);
+        if (Development::isEnabled()) {
+            $this->addItem('CoreAdminHome_MenuDevelopment', $menuName, $url, $order, $tooltip);
+        }
     }
 
     /**
@@ -75,20 +92,6 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * See {@link add()}. Adds a new menu item to the settings section of the admin menu.
-     * @param string $menuName
-     * @param array $url
-     * @param int $order
-     * @param bool|string $tooltip
-     * @api
-     * @since 2.5.0
-     */
-    public function addSettingsItem($menuName, $url, $order = 50, $tooltip = false)
-    {
-        $this->addItem('General_Settings', $menuName, $url, $order, $tooltip);
-    }
-
-    /**
      * See {@link add()}. Adds a new menu item to the manage section of the admin menu.
      * @param string $menuName
      * @param array $url
@@ -99,7 +102,7 @@ class MenuAdmin extends MenuAbstract
      */
     public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->addItem('CoreAdminHome_Administration', $menuName, $url, $order, $tooltip);
+        $this->addItem('CoreAdminHome_MenuManage', $menuName, $url, $order, $tooltip);
     }
 
     /**

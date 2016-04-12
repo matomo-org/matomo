@@ -9,9 +9,13 @@
 namespace Piwik\Tests\Integration\Settings;
 
 use Piwik\Db;
+use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Plugin\SystemSetting;
+use Piwik\Settings\Plugin\UserSetting;
 use Piwik\Settings\Setting;
 use Piwik\Settings\Storage;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\Mock\Settings\FakeSystemSettings;
 
 /**
  * @group PluginSettings
@@ -21,7 +25,7 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
 {
     /**
-     * @var CorePluginTestSettings
+     * @var FakeSystemSettings
      */
     protected $settings;
 
@@ -32,49 +36,14 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
         $this->settings = $this->createSettingsInstance();
     }
 
-    public function tearDown()
-    {
-        $this->setSuperUser();
-        if ($this->settings) {
-            $this->settings->removeAllPluginSettings();
-        }
-
-        parent::tearDown();
-    }
-
-    public function test_constructor_shouldNotEstablishADatabaseConnection()
-    {
-        $this->assertNotDbConnectionCreated();
-
-        new Storage('PluginName');
-
-        $this->assertNotDbConnectionCreated();
-    }
-
     protected function assertSettingHasValue(Setting $setting, $expectedValue, $expectedType = null)
     {
-        $value = $setting->getValue($setting);
+        $value = $setting->getValue();
         $this->assertEquals($expectedValue, $value);
 
         if (!is_null($expectedType)) {
             $this->assertInternalType($expectedType, $value);
         }
-    }
-
-    protected function buildUserSetting($name, $title, $userLogin = null)
-    {
-        $userSetting = new \Piwik\Settings\UserSetting($name, $title, $userLogin);
-        $userSetting->setStorage(new Storage('ExampleSettingsPlugin'));
-
-        return $userSetting;
-    }
-
-    protected function buildSystemSetting($name, $title)
-    {
-        $systemSetting = new \Piwik\Settings\SystemSetting($name, $title);
-        $systemSetting->setStorage(new Storage('ExampleSettingsPlugin'));
-
-        return $systemSetting;
     }
 
     protected function setSuperUser()
@@ -95,32 +64,7 @@ class IntegrationTestCase extends \Piwik\Tests\Framework\TestCase\IntegrationTes
 
     protected function createSettingsInstance()
     {
-        return new CorePluginTestSettings('ExampleSettingsPlugin');
-    }
-
-    protected function addSystemSetting($name, $title)
-    {
-        $setting = $this->buildSystemSetting($name, $title);
-        $this->settings->addSetting($setting);
-        return $setting;
-    }
-
-    protected function addUserSetting($name, $title)
-    {
-        $setting = $this->buildUserSetting($name, $title);
-        $this->settings->addSetting($setting);
-        return $setting;
-    }
-
-
-    protected function assertSettingIsNotSavedInTheDb($settingName, $expectedValue)
-    {
-        // by creating a new instance...
-        $setting = $this->buildSystemSetting($settingName, 'mytitle');
-        $verifySettings = $this->createSettingsInstance();
-        $verifySettings->addSetting($setting);
-
-        $this->assertEquals($expectedValue, $setting->getValue());
+        return new FakeSystemSettings();
     }
 
     public function provideContainerConfig()

@@ -324,7 +324,7 @@ class Plugin
      *                                   given subclass. If the requested file exists but does not extend this class
      *                                   a warning will be shown to advice a developer to extend this certain class.
      *
-     * @return \stdClass|null  Null if the requested component does not exist or an instance of the found
+     * @return string|null  Null if the requested component does not exist or an instance of the found
      *                         component.
      */
     public function findComponent($componentName, $expectedSubclass)
@@ -369,7 +369,7 @@ class Plugin
             $this->cache->save($cacheId, $classname);
         }
 
-        return StaticContainer::get($classname);
+        return $classname;
     }
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
@@ -490,7 +490,7 @@ class Plugin
             require_once $file;
 
             $fileName  = str_replace(array($baseDir . '/', '.php'), '', $file);
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, str_replace('/', '\\', $fileName));
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, str_replace('/', '\\', $directoryWithinPlugin), str_replace('/', '\\', $fileName));
 
             if (!class_exists($klassName)) {
                 continue;

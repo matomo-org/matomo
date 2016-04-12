@@ -38,7 +38,7 @@ class AverageTimeOnSite extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
-        return $formatter->getPrettyTimeFromSeconds($value);
+        return $formatter->getPrettyTimeFromSeconds($value, true);
     }
 
     public function getTranslatedName()

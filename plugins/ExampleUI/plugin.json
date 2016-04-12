@@ -2,14 +2,23 @@
     "name": "ExampleUI",
     "description": "Piwik Platform showcase: how to display data tables, graphs, and the UI framework.",
     "version": "1.0.1",
-    "keywords": ["example", "framework", "platform", "ui", "visualization"],
-    "homepage": "http://piwik.org",
+    "keywords": [
+        "example",
+        "framework",
+        "platform",
+        "ui",
+        "visualization"
+    ],
+    "homepage": "http:\/\/piwik.org",
     "license": "GPL v3+",
     "authors": [
         {
             "name": "Piwik",
             "email": "hello@piwik.org",
-            "homepage": "http://piwik.org"
+            "homepage": "http:\/\/piwik.org"
         }
-    ]
+    ],
+    "require": {
+        "piwik": ">=2.13.1"
+    }
 }

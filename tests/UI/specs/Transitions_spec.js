@@ -16,7 +16,7 @@ describe("Transitions", function () {
 
     it('should load the transitions popup correctly for the page titles report', function (done) {
         expect.screenshot('transitions_popup_titles').to.be.captureSelector('.ui-dialog', function (page) {
-            page.load("?" + urlBase + "#/" + generalParams + "&module=Actions&action=menuGetPageTitles");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
 
             page.mouseMove('div.dataTable tbody tr:eq(2)');
             page.mouseMove('a.actionTransitions:visible'); // necessary to get popover to display
@@ -26,7 +26,7 @@ describe("Transitions", function () {
 
     it('should load the transitions popup correctly for the page urls report', function (done) {
         expect.screenshot('transitions_popup_urls').to.be.captureSelector('.ui-dialog', function (page) {
-            page.load("?" + urlBase + "#/" + generalParams + "&module=Actions&action=menuGetPageUrls&"
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages&"
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
             page.mouseMove('.Transitions_CurveTextRight');
         }, done);

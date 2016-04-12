@@ -14,9 +14,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
@@ -25,9 +23,6 @@ use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Settings\Manager as SettingsManager;
-use Piwik\Settings\SystemSetting;
-use Piwik\Settings\UserSetting;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
@@ -36,8 +31,6 @@ use Piwik\View;
 
 class Controller extends ControllerAdmin
 {
-    const SET_PLUGIN_SETTINGS_NONCE = 'CoreAdminHome.setPluginSettings';
-
     /**
      * @var Translator
      */
@@ -85,175 +78,6 @@ class Controller extends ControllerAdmin
         return $view->render();
     }
 
-    public function adminPluginSettings()
-    {
-        Piwik::checkUserHasSuperUserAccess();
-
-        $settings = $this->getPluginSettings();
-
-        $vars = array(
-            'nonce'                      => Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE),
-            'pluginsSettings'            => $this->getSettingsByType($settings, 'admin'),
-            'firstSuperUserSettingNames' => $this->getFirstSuperUserSettingNames($settings),
-            'mode' => 'admin'
-        );
-
-        return $this->renderTemplate('pluginSettings', $vars);
-    }
-
-    /**
-     * @param \Piwik\Plugin\Settings[] $pluginsSettings
-     * @return array   array([pluginName] => [])
-     */
-    private function getSettingsByType($pluginsSettings, $mode)
-    {
-        $byType = array();
-
-        foreach ($pluginsSettings as $pluginName => $pluginSettings) {
-            $settings = array();
-
-            foreach ($pluginSettings->getSettingsForCurrentUser() as $setting) {
-                if ('admin' === $mode && $setting instanceof SystemSetting) {
-                    $settings[] = $setting;
-                } elseif ('user' === $mode && $setting instanceof UserSetting) {
-                    $settings[] = $setting;
-                }
-            }
-
-            if (!empty($settings)) {
-                $byType[$pluginName] = array(
-                    'introduction' => $pluginSettings->getIntroduction(),
-                    'settings' => $settings
-                );
-            }
-        }
-
-        return $byType;
-    }
-
-    public function userPluginSettings()
-    {
-        Piwik::checkUserIsNotAnonymous();
-
-        $settings = $this->getPluginSettings();
-
-        $vars = array(
-            'nonce'                      => Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE),
-            'pluginsSettings'            => $this->getSettingsByType($settings, 'user'),
-            'firstSuperUserSettingNames' => $this->getFirstSuperUserSettingNames($settings),
-            'mode' => 'user'
-        );
-
-        return $this->renderTemplate('pluginSettings', $vars);
-    }
-
-    private function getPluginSettings()
-    {
-        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
-
-        ksort($pluginsSettings);
-
-        return $pluginsSettings;
-    }
-
-    /**
-     * @param \Piwik\Plugin\Settings[] $pluginsSettings
-     * @return array   array([pluginName] => [])
-     */
-    private function getFirstSuperUserSettingNames($pluginsSettings)
-    {
-        $names = array();
-        foreach ($pluginsSettings as $pluginName => $pluginSettings) {
-
-            foreach ($pluginSettings->getSettingsForCurrentUser() as $setting) {
-                if ($setting instanceof \Piwik\Settings\SystemSetting) {
-                    $names[$pluginName] = $setting->getName();
-                    break;
-                }
-            }
-        }
-
-        return $names;
-    }
-
-    public function setPluginSettings()
-    {
-        Piwik::checkUserIsNotAnonymous();
-        Json::sendHeaderJSON();
-
-        $nonce = Common::getRequestVar('nonce', null, 'string');
-
-        if (!Nonce::verifyNonce(static::SET_PLUGIN_SETTINGS_NONCE, $nonce)) {
-            return json_encode(array(
-                'result' => 'error',
-                'message' => $this->translator->translate('General_ExceptionNonceMismatch')
-            ));
-        }
-
-        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
-
-        try {
-
-            foreach ($pluginsSettings as $pluginName => $pluginSetting) {
-                foreach ($pluginSetting->getSettingsForCurrentUser() as $setting) {
-
-                    $value = $this->findSettingValueFromRequest($pluginName, $setting->getKey());
-
-                    if (!is_null($value)) {
-                        $setting->setValue($value);
-                    }
-                }
-            }
-
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-
-            if (!empty($setting)) {
-                $message = $setting->title . ': ' . $message;
-            }
-
-            $message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
-            return json_encode(array('result' => 'error', 'message' => $message));
-        }
-
-        try {
-            foreach ($pluginsSettings as $pluginSetting) {
-                $pluginSetting->save();
-            }
-        } catch (Exception $e) {
-            return json_encode(array(
-                'result' => 'error',
-                'message' => $this->translator->translate('CoreAdminHome_PluginSettingsSaveFailed'))
-            );
-        }
-
-        Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
-        return json_encode(array('result' => 'success'));
-    }
-
-    private function findSettingValueFromRequest($pluginName, $settingKey)
-    {
-        $changedPluginSettings = Common::getRequestVar('settings', null, 'array');
-
-        if (!array_key_exists($pluginName, $changedPluginSettings)) {
-            return;
-        }
-
-        $settings = $changedPluginSettings[$pluginName];
-
-        foreach ($settings as $setting) {
-            if ($setting['name'] == $settingKey) {
-                $value = $setting['value'];
-
-                if (is_string($value)) {
-                    return Common::unsanitizeInputValue($value);
-                }
-
-                return $value;
-            }
-        }
-    }
-
     public function setGeneralSettings()
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -289,7 +113,6 @@ class Controller extends ControllerAdmin
         $view = new View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
 
         $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
 

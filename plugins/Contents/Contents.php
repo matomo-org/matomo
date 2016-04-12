@@ -21,7 +21,7 @@ class Contents extends \Piwik\Plugin
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
     }
 

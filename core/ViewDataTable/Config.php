@@ -14,8 +14,8 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Contains base display properties for {@link Piwik\Plugin\ViewDataTable}s. Manipulating these
@@ -717,7 +717,7 @@ class Config
 
     private function setShouldShowPivotBySubtable()
     {
-        $report = Report::factory($this->controllerName, $this->controllerAction);
+        $report = ReportsProvider::factory($this->controllerName, $this->controllerAction);
 
         if (empty($report)) {
             $this->show_pivot_by_subtable = false;

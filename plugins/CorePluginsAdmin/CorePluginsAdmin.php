@@ -30,6 +30,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugin-details.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
     }
 
     public static function isMarketplaceEnabled()
@@ -55,6 +56,10 @@ class CorePluginsAdmin extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'CorePluginsAdmin_NoZipFileSelected';
+        $translations[] = 'CorePluginsAdmin_NoPluginSettings';
+        $translations[] = 'CoreAdminHome_PluginSettingsIntro';
+        $translations[] = 'CoreAdminHome_PluginSettingsSaveSuccess';
+        $translations[] = 'General_Save';
     }
 
 }

@@ -13,7 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
-use Piwik\Measurable\MeasurableSettings;
+use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -50,8 +50,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view = new View('@SitesManager/measurable_type_settings');
 
-        $propSettings   = new MeasurableSettings($idSite, $idType);
-        $view->settings = $propSettings->getSettingsForCurrentUser();
+//        $propSettings   = new MeasurableSettings($idSite, $idType);
+        $view->settings = array();
 
         return $view->render();
     }

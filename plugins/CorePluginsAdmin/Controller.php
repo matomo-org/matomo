@@ -18,7 +18,6 @@ use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\Version;
@@ -40,9 +39,15 @@ class Controller extends Plugin\ControllerAdmin
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    /**
+     * @var Plugin\SettingsProvider
+     */
+    private $settingsProvider;
+
+    public function __construct(Translator $translator, Plugin\SettingsProvider $settingsProvider)
     {
         $this->translator = $translator;
+        $this->settingsProvider = $settingsProvider;
 
         parent::__construct();
     }
@@ -57,10 +62,6 @@ class Controller extends Plugin\ControllerAdmin
         if (!in_array($sort, $this->validSortMethods)) {
             $sort = $this->defaultSortMethod;
         }
-        $mode = Common::getRequestVar('mode', 'admin', 'string');
-        if (!in_array($mode, array('user', 'admin'))) {
-            $mode = 'admin';
-        }
 
         $view = $this->configureView('@CorePluginsAdmin/marketplace');
 
@@ -69,7 +70,6 @@ class Controller extends Plugin\ControllerAdmin
         $showThemes = ($show === 'themes');
         $view->plugins = $marketplace->searchPlugins($query, $sort, $showThemes);
         $view->showThemes = $showThemes;
-        $view->mode = $mode;
         $view->query = $query;
         $view->sort = $sort;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
@@ -251,7 +251,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
 
-        $view->pluginNamesHavingSettings = $this->getPluginNamesHavingSettingsForCurrentUser();
+        $view->pluginNamesHavingSettings = array_keys($this->settingsProvider->getAllSystemSettings());
         $view->isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
 
@@ -432,9 +432,9 @@ class Controller extends Plugin\ControllerAdmin
             }
 
             $message = $this->translator->translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
-            if (SettingsManager::hasSystemPluginSettingsForCurrentUser($pluginName)) {
+            if ($this->settingsProvider->getSystemSettings($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
-                    Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'adminPluginSettings')),
+                    Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'generalSettings')),
                     $pluginName);
                 $message .= ' ' . $this->translator->translate('CorePluginsAdmin_ChangeSettingsPossible', array($target, '</a>'));
             }
@@ -505,11 +505,6 @@ class Controller extends Plugin\ControllerAdmin
         if ($redirectAfter) {
             Url::redirectToReferrer();
         }
-    }
-
-    private function getPluginNamesHavingSettingsForCurrentUser()
-    {
-        return SettingsManager::getPluginNamesHavingSystemSettings();
     }
 
     private function tryToRepairPiwik()

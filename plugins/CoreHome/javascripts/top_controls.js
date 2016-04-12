@@ -62,9 +62,24 @@ function initTopControls() {
                 header.css('right', (Math.abs(overlap) + 18) * -1);
             }
         }
-
     }
 }
+
+//Keyboard controls for Top Controls Calendar through tab and enter. 
+$( document ).ready(function() {
+    $('.periodSelector').keydown(function(e){
+        toggleCalendar(e);
+    })
+
+    blockPropegation();
+
+    $('.periodSelector .form-radio').keydown(function(e){
+        e.stopPropagation();
+        if(e.which==13){
+            selectPeriodRadioButton($(this));
+        }
+    })
+});
 
 //Keyboard controls for Top Controls Calendar through tab and enter. 
 $( document ).ready(function() {

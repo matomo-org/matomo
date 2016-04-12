@@ -71,6 +71,7 @@
         "PluginSettingsIntro": "Here you can change the settings for the following 3rd party plugins:",
         "PluginSettingsValueNotAllowed": "The value for field \"%1$s\" in plugin \"%2$s\" is not allowed",
         "PluginSettingsSaveFailed": "Failed to save plugin settings",
+        "PluginSettingsSaveSuccess": "Plugin settings updated.",
         "SendPluginUpdateCommunication": "Send an email when a plugin update is available",
         "SendPluginUpdateCommunicationHelp": "An email will be sent to Super Users when there is a new version available for a plugin.",
         "StableReleases": "If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please %1$ssee here%2$s.",
