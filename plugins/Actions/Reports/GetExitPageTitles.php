@@ -29,6 +29,7 @@ class GetExitPageTitles extends Base
         $this->name          = Piwik::translate('Actions_ExitPageTitles');
         $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
+        $this->subcategoryId = 'Actions_SubmenuPagesExit';
 
         $this->metrics = array('exit_nb_visits', 'nb_visits');
         $this->processedMetrics = array(
@@ -37,7 +38,7 @@ class GetExitPageTitles extends Base
             new ExitRate(),
             new AveragePageGenerationTime()
         );
-        $this->order   = 7;
+        $this->order = 7;
 
         $this->actionToLoadSubTables = $this->action;
     }

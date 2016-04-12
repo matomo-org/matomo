@@ -987,6 +987,38 @@
 	</row>
 	<row>
 		<category>Actions</category>
+		<name>Actions - Main metrics</name>
+		<module>Actions</module>
+		<action>get</action>
+		<metrics>
+			<nb_pageviews>Pageviews</nb_pageviews>
+			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
+			<nb_downloads>Downloads</nb_downloads>
+			<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
+			<nb_outlinks>Outlinks</nb_outlinks>
+			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
+			<nb_searches>Searches</nb_searches>
+			<nb_keywords>Unique Keywords</nb_keywords>
+		</metrics>
+		<metricsDocumentation>
+			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
+			<nb_uniq_pageviews>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_uniq_pageviews>
+			<nb_downloads>The number of times this link was clicked.</nb_downloads>
+			<nb_uniq_downloads>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_downloads>
+			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
+			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
+			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_get</uniqueId>
+	</row>
+	<row>
+		<category>Actions</category>
 		<subcategory>Pages</subcategory>
 		<name>Page URLs</name>
 		<module>Actions</module>
@@ -1052,6 +1084,45 @@
 	</row>
 	<row>
 		<category>Actions</category>
+		<subcategory>Entry pages</subcategory>
+		<name>Entry page titles</name>
+		<module>Actions</module>
+		<action>getEntryPageTitles</action>
+		<dimension>Entry Page title</dimension>
+		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<metrics>
+			<entry_nb_visits>Entrances</entry_nb_visits>
+			<entry_bounce_count>Bounces</entry_bounce_count>
+		</metrics>
+		<metricsDocumentation>
+			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
+			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
+		</metricsDocumentation>
+		<processedMetrics>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
+		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
+		<relatedReports>
+			<row>
+				<name>Page titles</name>
+				<module>Actions</module>
+				<action>getPageTitles</action>
+			</row>
+			<row>
+				<name>Entry pages</name>
+				<module>Actions</module>
+				<action>getEntryPageUrls</action>
+			</row>
+		</relatedReports>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getEntryPageTitles</uniqueId>
+	</row>
+	<row>
+		<category>Actions</category>
 		<subcategory>Exit pages</subcategory>
 		<name>Exit pages</name>
 		<module>Actions</module>
@@ -1085,6 +1156,45 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getExitPageUrls</uniqueId>
+	</row>
+	<row>
+		<category>Actions</category>
+		<subcategory>Exit pages</subcategory>
+		<name>Exit page titles</name>
+		<module>Actions</module>
+		<action>getExitPageTitles</action>
+		<dimension>Exit Page Title</dimension>
+		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<metrics>
+			<exit_nb_visits>Exits</exit_nb_visits>
+			<nb_visits>Unique Pageviews</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<exit_nb_visits>Number of visits that ended on this page.</exit_nb_visits>
+			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
+		</metricsDocumentation>
+		<processedMetrics>
+			<exit_rate>Exit rate</exit_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
+		<actionToLoadSubTables>getExitPageTitles</actionToLoadSubTables>
+		<relatedReports>
+			<row>
+				<name>Page titles</name>
+				<module>Actions</module>
+				<action>getPageTitles</action>
+			</row>
+			<row>
+				<name>Exit pages</name>
+				<module>Actions</module>
+				<action>getExitPageUrls</action>
+			</row>
+		</relatedReports>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getExitPageTitles</uniqueId>
 	</row>
 	<row>
 		<category>Actions</category>
@@ -1432,114 +1542,6 @@
 		<uniqueId>Contents_getContentPieces</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
-		<name>Actions - Main metrics</name>
-		<module>Actions</module>
-		<action>get</action>
-		<metrics>
-			<nb_pageviews>Pageviews</nb_pageviews>
-			<nb_uniq_pageviews>Unique Pageviews</nb_uniq_pageviews>
-			<nb_downloads>Downloads</nb_downloads>
-			<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
-			<nb_outlinks>Outlinks</nb_outlinks>
-			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
-			<nb_searches>Searches</nb_searches>
-			<nb_keywords>Unique Keywords</nb_keywords>
-		</metrics>
-		<metricsDocumentation>
-			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
-			<nb_uniq_pageviews>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_uniq_pageviews>
-			<nb_downloads>The number of times this link was clicked.</nb_downloads>
-			<nb_uniq_downloads>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_downloads>
-			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
-			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
-			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
-			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
-		</metricsDocumentation>
-		<processedMetrics>
-			<avg_time_generation>Avg. generation time</avg_time_generation>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>Actions_get</uniqueId>
-	</row>
-	<row>
-		<category>Actions</category>
-		<name>Entry page titles</name>
-		<module>Actions</module>
-		<action>getEntryPageTitles</action>
-		<dimension>Entry Page title</dimension>
-		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
-		<metrics>
-			<entry_nb_visits>Entrances</entry_nb_visits>
-			<entry_bounce_count>Bounces</entry_bounce_count>
-		</metrics>
-		<metricsDocumentation>
-			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
-			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
-			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
-			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
-		</metricsDocumentation>
-		<processedMetrics>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<avg_time_generation>Avg. generation time</avg_time_generation>
-		</processedMetrics>
-		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
-		<relatedReports>
-			<row>
-				<name>Page titles</name>
-				<module>Actions</module>
-				<action>getPageTitles</action>
-			</row>
-			<row>
-				<name>Entry pages</name>
-				<module>Actions</module>
-				<action>getEntryPageUrls</action>
-			</row>
-		</relatedReports>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>Actions_getEntryPageTitles</uniqueId>
-	</row>
-	<row>
-		<category>Actions</category>
-		<name>Exit page titles</name>
-		<module>Actions</module>
-		<action>getExitPageTitles</action>
-		<dimension>Exit Page Title</dimension>
-		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
-		<metrics>
-			<exit_nb_visits>Exits</exit_nb_visits>
-			<nb_visits>Unique Pageviews</nb_visits>
-		</metrics>
-		<metricsDocumentation>
-			<exit_nb_visits>Number of visits that ended on this page.</exit_nb_visits>
-			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
-			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
-		</metricsDocumentation>
-		<processedMetrics>
-			<exit_rate>Exit rate</exit_rate>
-			<avg_time_generation>Avg. generation time</avg_time_generation>
-		</processedMetrics>
-		<actionToLoadSubTables>getExitPageTitles</actionToLoadSubTables>
-		<relatedReports>
-			<row>
-				<name>Page titles</name>
-				<module>Actions</module>
-				<action>getPageTitles</action>
-			</row>
-			<row>
-				<name>Exit pages</name>
-				<module>Actions</module>
-				<action>getExitPageUrls</action>
-			</row>
-		</relatedReports>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>Actions_getExitPageTitles</uniqueId>
-	</row>
-	<row>
 		<category>Referrers</category>
 		<subcategory>All Referrers</subcategory>
 		<name>Referrer Type</name>
@@ -1814,72 +1816,6 @@
 	</row>
 	<row>
 		<category>Ecommerce</category>
-		<subcategory>Products</subcategory>
-		<name>Product SKU</name>
-		<module>Goals</module>
-		<action>getItemsSku</action>
-		<dimension>Product SKU</dimension>
-		<metrics>
-			<revenue>Product Revenue</revenue>
-			<quantity>Quantity</quantity>
-			<orders>Unique Purchases</orders>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<processedMetrics>
-			<avg_price>Average Price</avg_price>
-			<avg_quantity>Average Quantity</avg_quantity>
-			<conversion_rate>Product Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>Goals_getItemsSku</uniqueId>
-	</row>
-	<row>
-		<category>Ecommerce</category>
-		<subcategory>Products</subcategory>
-		<name>Product Name</name>
-		<module>Goals</module>
-		<action>getItemsName</action>
-		<dimension>Product Name</dimension>
-		<metrics>
-			<revenue>Product Revenue</revenue>
-			<quantity>Quantity</quantity>
-			<orders>Unique Purchases</orders>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<processedMetrics>
-			<avg_price>Average Price</avg_price>
-			<avg_quantity>Average Quantity</avg_quantity>
-			<conversion_rate>Product Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>Goals_getItemsName</uniqueId>
-	</row>
-	<row>
-		<category>Ecommerce</category>
-		<subcategory>Products</subcategory>
-		<name>Product Category</name>
-		<module>Goals</module>
-		<action>getItemsCategory</action>
-		<dimension>Product Category</dimension>
-		<metrics>
-			<revenue>Product Revenue</revenue>
-			<quantity>Quantity</quantity>
-			<orders>Unique Purchases</orders>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<processedMetrics>
-			<avg_price>Average Price</avg_price>
-			<avg_quantity>Average Quantity</avg_quantity>
-			<conversion_rate>Product Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>Goals_getItemsCategory</uniqueId>
-	</row>
-	<row>
-		<category>Ecommerce</category>
 		<name>Ecommerce Orders</name>
 		<module>Goals</module>
 		<action>get</action>
@@ -1994,6 +1930,72 @@
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceAbandonedCart</uniqueId>
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<subcategory>Products</subcategory>
+		<name>Product SKU</name>
+		<module>Goals</module>
+		<action>getItemsSku</action>
+		<dimension>Product SKU</dimension>
+		<metrics>
+			<revenue>Product Revenue</revenue>
+			<quantity>Quantity</quantity>
+			<orders>Unique Purchases</orders>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<processedMetrics>
+			<avg_price>Average Price</avg_price>
+			<avg_quantity>Average Quantity</avg_quantity>
+			<conversion_rate>Product Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Goals_getItemsSku</uniqueId>
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<subcategory>Products</subcategory>
+		<name>Product Name</name>
+		<module>Goals</module>
+		<action>getItemsName</action>
+		<dimension>Product Name</dimension>
+		<metrics>
+			<revenue>Product Revenue</revenue>
+			<quantity>Quantity</quantity>
+			<orders>Unique Purchases</orders>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<processedMetrics>
+			<avg_price>Average Price</avg_price>
+			<avg_quantity>Average Quantity</avg_quantity>
+			<conversion_rate>Product Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Goals_getItemsName</uniqueId>
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<subcategory>Products</subcategory>
+		<name>Product Category</name>
+		<module>Goals</module>
+		<action>getItemsCategory</action>
+		<dimension>Product Category</dimension>
+		<metrics>
+			<revenue>Product Revenue</revenue>
+			<quantity>Quantity</quantity>
+			<orders>Unique Purchases</orders>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<processedMetrics>
+			<avg_price>Average Price</avg_price>
+			<avg_quantity>Average Quantity</avg_quantity>
+			<conversion_rate>Product Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Goals_getItemsCategory</uniqueId>
 	</row>
 	<row>
 		<category>Goals</category>

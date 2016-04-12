@@ -56,6 +56,19 @@
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
+			<row>
+				<name>Entry Page Titles</name>
+				<module>Actions</module>
+				<action>getEntryPageTitles</action>
+				<order>106</order>
+				<parameters>
+					<module>Actions</module>
+					<action>getEntryPageTitles</action>
+				</parameters>
+				<uniqueId>widgetActionsgetEntryPageTitles</uniqueId>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
 		</widgets>
 	</row>
 	<row>
@@ -82,6 +95,19 @@
 					<action>getExitPageUrls</action>
 				</parameters>
 				<uniqueId>widgetActionsgetExitPageUrls</uniqueId>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Exit page titles</name>
+				<module>Actions</module>
+				<action>getExitPageTitles</action>
+				<order>107</order>
+				<parameters>
+					<module>Actions</module>
+					<action>getExitPageTitles</action>
+				</parameters>
+				<uniqueId>widgetActionsgetExitPageTitles</uniqueId>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>

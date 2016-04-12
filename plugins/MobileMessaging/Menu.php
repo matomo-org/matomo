@@ -16,7 +16,7 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::hasUserSuperUserAccess()) {
-            $menu->addManageItem('MobileMessaging_SettingsMenu', $this->urlForAction('index'), $order = 12);
+            $menu->addManageItem('MobileMessaging_SettingsMenu', $this->urlForAction('index'), $order = 35);
         }
 
         if (!Piwik::isUserIsAnonymous()) {
