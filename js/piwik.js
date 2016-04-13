@@ -5546,8 +5546,8 @@ if (typeof window.Piwik !== 'object') {
                 setDomains: function (hostsAlias) {
                     configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
 
-                    var hasDomainAliasAlready = false, i;
-                    for (i in configHostsAlias) {
+                    var hasDomainAliasAlready = false, i = 0;
+                    for (i; i < configHostsAlias.length; i++) {
                         if (isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
                             hasDomainAliasAlready = true;
                             break;
