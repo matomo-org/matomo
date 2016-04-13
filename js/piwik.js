@@ -5531,6 +5531,16 @@ if (typeof window.Piwik !== 'object') {
                  * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
                  * that don't go to piwik.org/index* would be treated as outlinks.
                  *
+                 * The current domain will be added automatically if no given host alias contains a path and if no host
+                 * alias is already given for the current host alias. Say you are on "example.org" and set
+                 * "hostAlias = ['example.com', 'example.org/test']" then the current "example.org" domain will not be
+                 * added as there is already a more restrictive hostAlias 'example.org/test' given. We also do not add
+                 * it automatically if there was any other host specifying any path like
+                 * "['example.com', 'example2.com/test']". In this case we would also not add the current
+                 * domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path
+                 * feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts
+                 * manually.
+                 *
                  * @param string|array hostsAlias
                  */
                 setDomains: function (hostsAlias) {
@@ -5538,9 +5548,15 @@ if (typeof window.Piwik !== 'object') {
 
                     var hasDomainAliasAlready = false, i;
                     for (i in configHostsAlias) {
-                        if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
-                            && isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
+                        if (isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
                             hasDomainAliasAlready = true;
+                            break;
+                        }
+
+                        var pathName = getPathName(domainAlias);
+                        if (pathName && pathName !== '/' && pathName !== '/*') {
+                            hasDomainAliasAlready = true;
+                            break;
                         }
                     }
 
