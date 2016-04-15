@@ -1078,7 +1078,7 @@ if (typeof window.Piwik !== 'object') {
             urldecode = unescape,
 
             /* asynchronous tracker */
-            asyncTracker,
+            asyncTrackers = [],
 
             /* iterator */
             iterator,
@@ -1165,17 +1165,28 @@ if (typeof window.Piwik !== 'object') {
          *      [ functionObject, optional_parameters ]
          */
         function apply() {
-            var i, f, parameterArray;
+            var i, j, f, parameterArray;
 
             for (i = 0; i < arguments.length; i += 1) {
                 parameterArray = arguments[i];
                 f = parameterArray.shift();
 
-                if (isString(f)) {
-                    asyncTracker[f].apply(asyncTracker, parameterArray);
-                } else {
-                    f.apply(asyncTracker, parameterArray);
+                for (j = 0; j < asyncTrackers.length; j++) {
+                    if (isString(f)) {
+                        asyncTrackers[j][f].apply(asyncTrackers[j], parameterArray);
+                        if (f === 'addTracker') {
+                            // addTracker adds an entry to asyncTrackers and would otherwise result in an endless loop
+                            break;
+                        }
+                        if (f === 'setTrackerUrl' || f === 'setSiteId') {
+                            // these two methods should be only executed on the first tracker
+                            break;
+                        }
+                    } else {
+                        f.apply(asyncTrackers[j], parameterArray);
+                    }
                 }
+
             }
         }
 
@@ -5209,6 +5220,26 @@ if (typeof window.Piwik !== 'object') {
                     return configTrackerUrl;
                 },
 
+                /**
+                 * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
+                 * If piwikUrl is not set, current url will be used.
+                 *
+                 * @param string piwikUrl
+                 * @param int|string siteId
+                 * @return Tracker
+                 */
+                addTracker: function (siteId, piwikUrl) {
+                    if (!siteId) {
+                        throw new Error('A siteId must be given to add a new tracker');
+                    }
+
+                    var tracker = new Tracker(piwikUrl, siteId);
+
+                    asyncTrackers.push(tracker);
+
+                    return tracker;
+                },
+
 
                 /**
                  * Returns the site ID
@@ -6385,9 +6416,9 @@ if (typeof window.Piwik !== 'object') {
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
-        asyncTracker = new Tracker();
+        asyncTrackers.push(new Tracker());
 
-        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'addTracker', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
         _paq = applyMethodsInOrder(_paq, applyFirst);
 
         // apply the queue of actions
@@ -6438,7 +6469,9 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             getAsyncTracker: function () {
-                return asyncTracker;
+                if (asyncTrackers && asyncTrackers[0]) {
+                    return asyncTrackers[0];
+                }
             }
         };
 
