@@ -22,7 +22,7 @@ class ChangeColumnTypes extends Sql
 
         $sql = sprintf("ALTER TABLE `%s` %s", $table, implode(', ', $changes));
 
-        parent::__construct($sql, static::ERROR_CODE_DUPLICATE_COLUMN);
+        parent::__construct($sql, static::ERROR_CODE_UNKNOWN_COLUMN);
     }
 
 }
