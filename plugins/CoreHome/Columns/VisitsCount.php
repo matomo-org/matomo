@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 class VisitsCount extends VisitDimension
 {
     protected $columnName = 'visitor_count_visits';
-    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
+    protected $columnType = 'INT(11) UNSIGNED NOT NULL';
 
     protected function configureSegments()
     {
