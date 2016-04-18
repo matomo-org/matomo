@@ -9,22 +9,30 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_6_3 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-				CHANGE `location_ip` `location_ip` INT UNSIGNED NOT NULL'                   => 1054,
-            'ALTER TABLE `' . Common::prefixTable('logger_api_call') . '`
-				CHANGE `caller_ip` `caller_ip` INT UNSIGNED'                                => array(1054, 1146),
+            $this->migration->db->changeColumnType('log_visit', 'location_ip', 'INT UNSIGNED NOT NULL'),
+            $this->migration->db->changeColumnType('logger_api_call', 'caller_ip', 'INT UNSIGNED')->addErrorCodeToIgnore(Updater\Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS),
         );
     }
 
@@ -44,6 +52,6 @@ class Updates_0_6_3 extends Updates
             }
         }
 
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

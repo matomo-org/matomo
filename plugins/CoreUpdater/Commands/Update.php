@@ -156,7 +156,7 @@ class Update extends ConsoleCommand
         $output->writeln(array("    *** Note: this is a Dry Run ***", ""));
 
         foreach ($migrationQueries as $query) {
-            $output->writeln("    " . $query);
+            $output->writeln("    " . $query->__toString());
         }
 
         $output->writeln(array("", "    *** End of Dry Run ***", ""));

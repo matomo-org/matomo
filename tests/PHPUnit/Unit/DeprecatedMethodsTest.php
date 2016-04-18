@@ -80,6 +80,11 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\Resolution\Resolution', 'renameUserSettingsModuleAndAction');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\DevicePlugins\DevicePlugins', 'renameUserSettingsModuleAndAction');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\UserLanguage\UserLanguage', 'renameUserSettingsModuleAndAction');
+
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getSql');
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'update');
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getMigrationQueries');
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updater', 'executeMigrationQueries');
     }
 
     private function assertDeprecatedMethodIsRemoved($className, $method, $removalDate)
@@ -126,14 +131,24 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 
     private function assertDeprecatedMethodIsRemovedInPiwik3($className, $method)
     {
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('3.0.0', $className, $method);
+    }
+
+    private function assertDeprecatedMethodIsRemovedInPiwik4($className, $method)
+    {
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('4.0.0', $className, $method);
+    }
+
+    private function assertDeprecatedMethodIsRemovedInPiwikVersion($piwikVersion, $className, $method)
+    {
         $version = Version::VERSION;
 
         $class        = new ReflectionClass($className);
         $methodExists = $class->hasMethod($method);
 
-        if (-1 === version_compare($version, '3.0.0')) {
+        if (-1 === version_compare($version, $piwikVersion)) {
 
-            $errorMessage = $className . '::' . $method . ' should still exists until 3.0 although it is deprecated.';
+            $errorMessage = $className . '::' . $method . ' should still exists until ' . $piwikVersion . ' although it is deprecated.';
             $this->assertTrue($methodExists, $errorMessage);
             return;
         }

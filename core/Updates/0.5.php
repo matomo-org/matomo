@@ -12,29 +12,42 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_5 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
     {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
+    {
+        $logActionTable = Common::prefixTable('log_action');
+
         return array(
-            'ALTER TABLE ' . Common::prefixTable('log_action') . ' ADD COLUMN `hash` INTEGER(10) UNSIGNED NOT NULL AFTER `name`;'                        => 1060,
-            'ALTER TABLE ' . Common::prefixTable('log_visit') . ' CHANGE visit_exit_idaction visit_exit_idaction_url INTEGER(11) NOT NULL;'              => 1054,
-            'ALTER TABLE ' . Common::prefixTable('log_visit') . ' CHANGE visit_entry_idaction visit_entry_idaction_url INTEGER(11) NOT NULL;'            => 1054,
-            'ALTER TABLE ' . Common::prefixTable('log_link_visit_action') . ' CHANGE `idaction_ref` `idaction_url_ref` INTEGER(10) UNSIGNED NOT NULL;'   => 1054,
-            'ALTER TABLE ' . Common::prefixTable('log_link_visit_action') . ' CHANGE `idaction` `idaction_url` INTEGER(10) UNSIGNED NOT NULL;'           => 1054,
-            'ALTER TABLE ' . Common::prefixTable('log_link_visit_action') . ' ADD COLUMN `idaction_name` INTEGER(10) UNSIGNED AFTER `idaction_url_ref`;' => 1060,
-            'ALTER TABLE ' . Common::prefixTable('log_conversion') . ' CHANGE `idaction` `idaction_url` INTEGER(11) UNSIGNED NOT NULL;'                  => 1054,
-            'UPDATE ' . Common::prefixTable('log_action') . ' SET `hash` = CRC32(name);'                                                                 => false,
-            'CREATE INDEX index_type_hash ON ' . Common::prefixTable('log_action') . ' (type, hash);'                                                    => 1061,
-            'DROP INDEX index_type_name ON ' . Common::prefixTable('log_action') . ';'                                                                   => 1091,
+            $this->migration->db->addColumn('log_action', 'hash', 'INTEGER(10) UNSIGNED NOT NULL', 'name'),
+            $this->migration->db->changeColumn('log_visit', 'visit_exit_idaction', 'visit_exit_idaction_url', 'INTEGER(11) NOT NULL'),
+            $this->migration->db->changeColumn('log_visit', 'visit_entry_idaction', 'visit_entry_idaction_url', 'INTEGER(11) NOT NULL'),
+            $this->migration->db->changeColumn('log_link_visit_action', 'idaction_ref', 'idaction_url_ref', 'INTEGER(10) UNSIGNED NOT NULL'),
+            $this->migration->db->changeColumn('log_link_visit_action', 'idaction', 'idaction_url', 'INTEGER(10) UNSIGNED NOT NULL'),
+            $this->migration->db->addColumn('log_link_visit_action', 'idaction_name', 'INTEGER(10) UNSIGNED', 'idaction_url_ref'),
+            $this->migration->db->changeColumn('log_conversion', 'idaction', 'idaction_url', 'INTEGER(11) UNSIGNED NOT NULL'),
+            $this->migration->db->sql('UPDATE ' . $logActionTable . ' SET `hash` = CRC32(name);'),
+            $this->migration->db->addIndex('log_action', array('type', 'hash'), 'index_type_hash'),
+            $this->migration->db->dropIndex('log_action', 'index_type_name'),
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

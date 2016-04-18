@@ -442,6 +442,7 @@ class Controller extends Plugin\ControllerAdmin
             }
 
             $message = $this->translator->translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
+            
             if ($this->settingsProvider->getSystemSettings($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'generalSettings')),

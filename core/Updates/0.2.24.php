@@ -9,28 +9,36 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_2_24 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'CREATE INDEX index_type_name
-                ON ' . Common::prefixTable('log_action') . ' (type, name(15))'                       => 1072,
-            'CREATE INDEX index_idsite_date
-                ON ' . Common::prefixTable('log_visit') . ' (idsite, visit_server_date)'             => 1072,
-            'DROP INDEX index_idsite ON ' . Common::prefixTable('log_visit')                         => 1091,
-            'DROP INDEX index_visit_server_date ON ' . Common::prefixTable('log_visit')              => 1091,
+            $this->migration->db->addIndex('log_action', array('type', 'name(15)'), 'index_type_name'),
+            $this->migration->db->addIndex('log_visit', array('idsite', 'visit_server_date'), 'index_idsite_date'),
+            $this->migration->db->dropIndex('log_visit', 'index_idsite'),
+            $this->migration->db->dropIndex('log_visit', 'index_visit_server_date'),
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

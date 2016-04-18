@@ -12,41 +12,45 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_9_b16 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
     public static function isMajorUpdate()
     {
         return true;
     }
 
-    public function getMigrationQueries(Updater $updater)
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE  `' . Common::prefixTable('log_link_visit_action') . '`
-			CHANGE `idaction_url` `idaction_url` INT( 10 ) UNSIGNED NULL DEFAULT NULL'
-            => false,
-
-            'ALTER TABLE  `' . Common::prefixTable('log_visit') . '`
-			ADD visit_total_searches SMALLINT(5) UNSIGNED NOT NULL AFTER `visit_total_actions`'
-            => 1060,
-
-            'ALTER TABLE  `' . Common::prefixTable('site') . '`
-			ADD sitesearch TINYINT DEFAULT 1 AFTER `excluded_parameters`,
-            ADD sitesearch_keyword_parameters TEXT NOT NULL AFTER `sitesearch`,
-            ADD sitesearch_category_parameters TEXT NOT NULL AFTER `sitesearch_keyword_parameters`'
-                                                                                             => 1060,
+            $this->migration->db->changeColumnType('log_link_visit_action', 'idaction_url', 'INT( 10 ) UNSIGNED NULL DEFAULT NULL'),
+            $this->migration->db->addColumn('log_visit', 'visit_total_searches', 'SMALLINT(5) UNSIGNED NOT NULL', 'visit_total_actions'),
+            $this->migration->db->addColumns('site', array(
+                'sitesearch' => 'TINYINT DEFAULT 1',
+                'sitesearch_keyword_parameters' => 'TEXT NOT NULL',
+                'sitesearch_category_parameters' => 'TEXT NOT NULL',
+            ), 'excluded_parameters'),
 
             // enable Site Search for all websites, users can manually disable the setting
-            'UPDATE `' . Common::prefixTable('site') . '`
-		    	SET `sitesearch` = 1' => false,
+            $this->migration->db->sql('UPDATE `' . Common::prefixTable('site') . '` SET `sitesearch` = 1')
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

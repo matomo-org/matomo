@@ -45,9 +45,10 @@ class CliUpdateObserver extends UpdateObserver
     {
         $string = $migration->__toString();
         $this->output->write("  Executing <comment>$string</comment>... ");
+
         ++$this->currentMigrationQueryExecutionCount;
     }
-    
+
     public function onFinishedExecutingMigration($updateFile, Migration $migration)
     {
         $this->output->writeln("Done. <info>[{$this->currentMigrationQueryExecutionCount} / {$this->totalMigrationQueryCount}]</info>");

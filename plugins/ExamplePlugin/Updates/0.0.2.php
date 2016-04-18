@@ -9,55 +9,60 @@
 
 namespace Piwik\Plugins\ExamplePlugin\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
+use Piwik\Updater\Migration;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  * Update for version 0.0.2.
  */
 class Updates_0_0_2 extends PiwikUpdates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
 
     /**
-     * Return SQL to be executed in this update.
+     * Return database migrations to be executed in this update.
      *
-     * SQL queries should be defined here, instead of in `doUpdate()`, since this method is used
+     * Database migrations should be defined here, instead of in `doUpdate()`, since this method is used
      * in the `core:update` command when displaying the queries an update will run. If you execute
-     * queries directly in `doUpdate()`, they won't be displayed to the user.
+     * migrations directly in `doUpdate()`, they won't be displayed to the user. Migrations will be executed in the
+     * order as positioned in the returned array.
      *
      * @param Updater $updater
-     * @return array ```
-     *               array(
-     *                   'ALTER .... ' => '1234', // if the query fails, it will be ignored if the error code is 1234
-     *                   'ALTER .... ' => false,  // if an error occurs, the update will stop and fail
-     *                                            // and user will have to manually run the query
-     *               )
-     *               ```
+     * @return Migration\Db[]
      */
-    public function getMigrationQueries(Updater $updater)
+    public function getMigrations(Updater $updater)
     {
-        $errorCodesToIgnore = array(1060);
-        $tableName = Common::prefixTable('log_visit');
-        $updateSql = "ALTER TABLE `" . $tableName . "` CHANGE `example` `example` BOOLEAN NOT NULL";
+        // many different migrations are available to be used via $this->migration factory
+        $migration1 = $this->migration->db->changeColumnType('log_visit', 'example', 'BOOLEAN NOT NULL');
+        // you can also define custom SQL migrations. If you need to bind parameters, use `->boundSql()`
+        $migration2 = $this->migration->db->sql($sqlQuery = 'SELECT 1');
 
         return array(
-            // $updateSql => $errorCodesToIgnore
+            // $migration1,
+            // $migration2
         );
     }
 
     /**
      * Perform the incremental version update.
      *
-     * This method should preform all updating logic. If you define queries in an overridden `getMigrationQueries()`
-     * method, you must call {@link Updater::executeMigrationQueries()} here.
-     *
-     * See {@link Updates} for an example.
+     * This method should preform all updating logic. If you define queries in the `getMigrations()` method,
+     * you must call {@link Updater::executeMigrations()} here.
      *
      * @param Updater $updater
      */
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }
