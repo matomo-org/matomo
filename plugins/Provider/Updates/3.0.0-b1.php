@@ -9,29 +9,35 @@
 
 namespace Piwik\Plugins\Provider\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
+use Piwik\Updater\Migration;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  * Update for version 3.0.0-b1.
  */
 class Updates_3_0_0_b1 extends PiwikUpdates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
 
-    public function getMigrationQueries(Updater $updater)
+    public function __construct(MigrationFactory $factory)
     {
-        $errorCodesToIgnore = array(1060);
-        $tableName = Common::prefixTable('log_visit');
-        $updateSql = "ALTER TABLE `" . $tableName . "` CHANGE `location_provider` `location_provider` VARCHAR(200) NULL";
+        $this->migration = $factory;
+    }
 
+    public function getMigrations(Updater $updater)
+    {
         return array(
-             $updateSql => $errorCodesToIgnore
+            $this->migration->db->changeColumnType('log_visit', 'location_provider', 'VARCHAR(200) NULL')
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }
