@@ -20,10 +20,6 @@ use Piwik\Updater;
  */
 class Updates_2_0_4_b7 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
-    {
-        return array();
-    }
 
     public function doUpdate(Updater $updater)
     {

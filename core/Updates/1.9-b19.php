@@ -9,33 +9,35 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_9_b19 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE  `' . Common::prefixTable('log_link_visit_action') . '`
-			CHANGE `idaction_url_ref` `idaction_url_ref` INT( 10 ) UNSIGNED NULL DEFAULT 0'
-            => false,
-            'ALTER TABLE  `' . Common::prefixTable('log_visit') . '`
-			CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT( 10 ) UNSIGNED NULL DEFAULT 0'
-            => false
+            $this->migration->db->changeColumnType('log_link_visit_action', 'idaction_url_ref', 'INT( 10 ) UNSIGNED NULL DEFAULT 0'),
+            $this->migration->db->changeColumnType('log_visit', 'visit_exit_idaction_url', 'INT( 10 ) UNSIGNED NULL DEFAULT 0'),
+            $this->migration->plugin->activate('Transitions'),
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
-
-        try {
-            \Piwik\Plugin\Manager::getInstance()->activatePlugin('Transitions');
-        } catch (\Exception $e) {
-        }
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

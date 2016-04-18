@@ -9,35 +9,39 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Db;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_14_0_b2 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
     {
-        $dbSettings = new Db\Settings();
-        $engine = $dbSettings->getEngine();
+        $this->migration = $factory;
+    }
 
-        $table = Common::prefixTable('site_setting');
+    public function getMigrations(Updater $updater)
+    {
+        $table = 'site_setting';
 
-        $sqlarray = array(
-            "DROP TABLE IF EXISTS `$table`" => false,
-            "CREATE TABLE `$table` (
-                  idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                  `setting_name` VARCHAR(255) NOT NULL,
-                  `setting_value` LONGTEXT NOT NULL,
-                      PRIMARY KEY(idsite, setting_name)
-                    ) ENGINE=$engine DEFAULT CHARSET=utf8" => 1050,
+        return array(
+            $this->migration->db->dropTable($table),
+            $this->migration->db->createTable($table, array(
+                'idsite' => 'INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'setting_name' => 'VARCHAR(255) NOT NULL',
+                'setting_value' => 'LONGTEXT NOT NULL',
+            ), $primaryKey = array('idsite', 'setting_name')),
         );
-
-        return $sqlarray;
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

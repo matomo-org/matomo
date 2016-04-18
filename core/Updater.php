@@ -10,6 +10,8 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
+use Piwik\Updater\Migration;
+use Piwik\Updater\Migration\Db\Sql;
 use Piwik\Updater\UpdateObserver;
 use Zend_Db_Exception;
 
@@ -172,7 +174,7 @@ class Updater
     /**
      * Returns the list of SQL queries that would be executed during the update
      *
-     * @return array of SQL queries
+     * @return Sql[] of SQL queries
      * @throws \Exception
      */
     public function getSqlQueriesToExecute()
@@ -195,10 +197,15 @@ class Updater
 
                 $classNames[] = $className;
 
+                /** @var Updates $update */
                 $update = StaticContainer::getContainer()->make($className);
-                $queriesForComponent = call_user_func(array($update, 'getMigrationQueries'), $this);
-                foreach ($queriesForComponent as $query => $error) {
-                    $queries[] = $query . ';';
+                $migrationsForComponent = $update->getMigrations($this);
+                foreach ($migrationsForComponent as $index => $migration) {
+                    $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
+
+                    if ($migration instanceof Migration\Db) {
+                        $queries[] = $migration;
+                    }
                 }
                 $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
             }
@@ -484,55 +491,50 @@ class Updater
     }
 
     /**
-     * Execute multiple migration queries from a single Update file.
-     *
-     * @param string $file The path to the Updates file.
-     * @param array $migrationQueries An array mapping SQL queries w/ one or more MySQL errors to ignore.
+     * @deprecated since Piwik 3.0.0, use {@link executeMigrations()} instead.
      */
     public function executeMigrationQueries($file, $migrationQueries)
     {
-        foreach ($migrationQueries as $update => $ignoreError) {
-            $this->executeSingleMigrationQuery($update, $ignoreError, $file);
+        $this->executeMigrations($file, $migrationQueries);
+    }
+
+    /**
+     * Execute multiple migration queries from a single Update file.
+     *
+     * @param string $file The path to the Updates file.
+     * @param Migration[] $migrations An array of migrations
+     * @api
+     */
+    public function executeMigrations($file, $migrations)
+    {
+        foreach ($migrations as $index => $migration) {
+            $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
+            $this->executeMigration($file, $migration);
         }
     }
 
     /**
-     * Execute a single migration query from an update file.
-     *
-     * @param string $migrationQuerySql The SQL to execute.
-     * @param int|int[]|null An optional error code or list of error codes to ignore.
-     * @param string $file The path to the Updates file.
+     * @param $file
+     * @param Migration $migration
+     * @throws UpdaterErrorException
+     * @api
      */
-    public function executeSingleMigrationQuery($migrationQuerySql, $errorToIgnore, $file)
+    public function executeMigration($file, Migration $migration)
     {
         try {
-            $this->executeListenerHook('onStartExecutingMigrationQuery', array($file, $migrationQuerySql));
+            $this->executeListenerHook('onStartExecutingMigration', array($file, $migration));
 
-            Db::exec($migrationQuerySql);
+            $migration->exec();
+
         } catch (\Exception $e) {
-            $this->handleUpdateQueryError($e, $migrationQuerySql, $errorToIgnore, $file);
+            if (!$migration->shouldIgnoreError($e)) {
+                $message = sprintf("%s:\nError trying to execute the migration '%s'.\nThe error was: %s",
+                                   $file, $migration->__toString(), $e->getMessage());
+                throw new UpdaterErrorException($message);
+            }
         }
 
-        $this->executeListenerHook('onFinishedExecutingMigrationQuery', array($file, $migrationQuerySql));
-    }
-
-    /**
-     * Handle an update query error.
-     *
-     * @param \Exception $e The error that occurred.
-     * @param string $updateSql The SQL that was executed.
-     * @param int|int[]|null An optional error code or list of error codes to ignore.
-     * @param string $file The path to the Updates file.
-     * @throws \Exception
-     */
-    public function handleUpdateQueryError(\Exception $e, $updateSql, $errorToIgnore, $file)
-    {
-        if (($errorToIgnore === false)
-            || !self::isDbErrorOneOf($e, $errorToIgnore)
-        ) {
-            $message = $file . ":\nError trying to execute the query '" . $updateSql . "'.\nThe error was: " . $e->getMessage();
-            throw new UpdaterErrorException($message);
-        }
+        $this->executeListenerHook('onFinishedExecutingMigration', array($file, $migration));
     }
 
     private function executeListenerHook($hookName, $arguments)
@@ -558,42 +560,28 @@ class Updater
         }
     }
 
+    private function keepBcForOldMigrationQueryFormat($index, $migration)
+    {
+        if (!is_object($migration)) {
+            // keep BC for old format (pre 3.0): array($sqlQuery => $errorCodeToIgnore)
+            $migrationFactory = StaticContainer::get('Piwik\Updater\Migration\Factory');
+            $migration = $migrationFactory->db->sql($index, $migration);
+        }
+
+        return $migration;
+    }
+
     /**
      * Performs database update(s)
      *
      * @param string $file Update script filename
      * @param array $sqlarray An array of SQL queries to be executed
      * @throws UpdaterErrorException
+     * @deprecated
      */
     public static function updateDatabase($file, $sqlarray)
     {
         self::$activeInstance->executeMigrationQueries($file, $sqlarray);
-    }
-
-    /**
-     * Executes a database update query.
-     *
-     * @param string $updateSql Update SQL query.
-     * @param int|false $errorToIgnore A MySQL error code to ignore.
-     * @param string $file The Update file that's calling this method.
-     */
-    public static function executeMigrationQuery($updateSql, $errorToIgnore, $file)
-    {
-        self::$activeInstance->executeSingleMigrationQuery($updateSql, $errorToIgnore, $file);
-    }
-
-    /**
-     * Handle an error that is thrown from a database query.
-     *
-     * @param \Exception $e the exception thrown.
-     * @param string $updateSql Update SQL query.
-     * @param int|false $errorToIgnore A MySQL error code to ignore.
-     * @param string $file The Update file that's calling this method.
-     * @throws UpdaterErrorException
-     */
-    public static function handleQueryError($e, $updateSql, $errorToIgnore, $file)
-    {
-        self::$activeInstance->handleQueryError($e, $updateSql, $errorToIgnore, $file);
     }
 
     /**
@@ -605,35 +593,6 @@ class Updater
     public static function recordComponentSuccessfullyUpdated($name, $version)
     {
         self::$activeInstance->markComponentSuccessfullyUpdated($name, $version);
-    }
-
-    /**
-     * Retrieve the current version of a recorded component
-     * @param string $name
-     * @return false|string
-     * @throws \Exception
-     */
-    public static function getCurrentRecordedComponentVersion($name)
-    {
-        return self::$activeInstance->getCurrentComponentVersion($name);
-    }
-
-    /**
-     * Returns whether an exception is a DB error with a code in the $errorCodesToIgnore list.
-     *
-     * @param int $error
-     * @param int|int[] $errorCodesToIgnore
-     * @return boolean
-     */
-    public static function isDbErrorOneOf($error, $errorCodesToIgnore)
-    {
-        $errorCodesToIgnore = is_array($errorCodesToIgnore) ? $errorCodesToIgnore : array($errorCodesToIgnore);
-        foreach ($errorCodesToIgnore as $code) {
-            if (Db::get()->isErrNo($error, $code)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

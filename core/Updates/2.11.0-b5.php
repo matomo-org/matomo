@@ -8,17 +8,31 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Plugin\Manager;
 use Piwik\Updates;
 use Piwik\Updater;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_11_0_b5 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
+    {
+        return array(
+            $this->migration->plugin->activate('Monolog')
+        );
+    }
+
     public function doUpdate(Updater $updater)
     {
-        try {
-            Manager::getInstance()->activatePlugin('Monolog');
-        } catch (\Exception $e) {
-        }
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

@@ -9,25 +9,36 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Site;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_2_0_b9 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
     {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
+    {
+        $type = "VARCHAR(255) NOT NULL DEFAULT '" . Site::DEFAULT_SITE_TYPE . "'";
+
         return array(
-            "ALTER TABLE `" . Common::prefixTable('site')
-                . "` ADD `type` VARCHAR(255) NOT NULL DEFAULT '". Site::DEFAULT_SITE_TYPE ."' AFTER `group` " => 1060,
+            $this->migration->db->addColumn('site', 'type', $type, 'group')
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }
