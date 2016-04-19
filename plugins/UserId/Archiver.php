@@ -77,12 +77,13 @@ class Archiver extends \Piwik\Plugin\Archiver
         $userIdFieldName = self::USER_ID_FIELD;
         $visitorIdFieldName = self::VISITOR_ID_FIELD;
 
-        /** @var Zend_Db_Statement $query */
+        /** @var \Zend_Db_Statement $query */
         $query = $this->getLogAggregator()->queryVisitsByDimension(
             array(self::USER_ID_FIELD),
             "$userIdFieldName IS NOT NULL AND $userIdFieldName != ''",
             array("LOWER(HEX($visitorIdFieldName)) as $visitorIdFieldName")
         );
+
         if ($query === false) {
             return;
         }
@@ -114,7 +115,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      *
      * @param array $row
      */
-    protected function rememberVisitorId($row)
+    private function rememberVisitorId($row)
     {
         if (!empty($row[self::USER_ID_FIELD]) && !empty($row[self::VISITOR_ID_FIELD])) {
             $this->visitorIdsUserIdsMap[$row[self::USER_ID_FIELD]] = $row[self::VISITOR_ID_FIELD];
@@ -126,7 +127,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      *
      * @param DataTable $dataTable
      */
-    protected function setVisitorIds(DataTable $dataTable)
+    private function setVisitorIds(DataTable $dataTable)
     {
         foreach ($dataTable->getRows() as $row) {
             $userId = $row->getColumn('label');

@@ -22,20 +22,17 @@ use Piwik\DataTable\Row;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Get DataTable with User Ids and some aggregated data. Supports pagination, sorting
-     * and filtering by user_id
+     * Get a report of all User Ids.
      *
      * @param int $idSite
      *
-     * @param     $period
-     * @param     $date
-     * @param     $segment
-     * @param     $expanded
-     * @param     $flat
+     * @param string  $period
+     * @param int  $date
+     * @param string|bool  $segment
      *
      * @return DataTable
      */
-    public function getUsers($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
+    public function getUsers($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);

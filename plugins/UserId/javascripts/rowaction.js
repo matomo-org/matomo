@@ -22,6 +22,7 @@
 
     DataTable_RowActions_VisitorDetails.prototype.performAction = function (label, tr, e) {
         var visitorId = this.getRowMetadata($(tr)).idvisitor || '';
+        visitorId = encodeURIComponent(visitorId);
         if (visitorId.length > 0) {
             DataTable_RowAction.prototype.openPopover.apply(this, ['module=Live&action=getVisitorProfilePopup&visitorId=' + visitorId]);
         }
