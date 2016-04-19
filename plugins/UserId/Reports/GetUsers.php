@@ -11,6 +11,8 @@ namespace Piwik\Plugins\UserId\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\UserId\Columns\UserId;
 use Piwik\View;
 
 /**
@@ -19,26 +21,27 @@ use Piwik\View;
  */
 class GetUsers extends Base
 {
+    protected function init()
+    {
+        parent::init();
+
+        $this->name          = Piwik::translate('UserId_UserReportTitle');
+        $this->menuTitle     = $this->name;
+        $this->widgetTitle   = $this->menuTitle;
+        $this->documentation = '';
+        $this->dimension = new UserId();
+        $this->metrics = array('label', 'nb_visits', 'nb_actions', 'nb_visits_converted');
+
+        // This defines in which order your report appears in the mobile app, in the menu and in the list of widgets
+        $this->order = 9;
+    }
+
     /**
      * @return array
      */
     public static function getColumnsToDisplay()
     {
-        return array(
-            'label', 'nb_visits', 'nb_actions', 'nb_visits_converted'
-        );
-    }
-
-    protected function init()
-    {
-        parent::init();
-
-        $this->name          = Piwik::translate('UsersManager_MenuUsers');
-        $this->menuTitle     = $this->name;
-        $this->documentation = '';
-
-        // This defines in which order your report appears in the mobile app, in the menu and in the list of widgets
-        $this->order = 1;
+        return ;
     }
 
     /**
@@ -52,14 +55,17 @@ class GetUsers extends Base
         /*
          * Hide most of the table footer actions, leaving only export icons and pagination
          */
-        $view->config->columns_to_display = $this->getColumnsToDisplay();
+        $view->config->columns_to_display = $this->metrics;
         $view->config->show_all_views_icons = false;
         $view->config->show_active_view_icon = false;
         $view->config->show_related_reports = false;
         $view->config->show_insights = false;
         $view->config->show_pivot_by_subtable = false;
         $view->config->show_flatten_table = false;
-        $view->config->disable_row_evolution = true;
+
+        if ($view->isViewDataTableId(HtmlTable::ID)) {
+            $view->config->disable_row_evolution = false;
+        }
 
         // exclude users with less then 2 visits, when low population filter is active
         $view->requestConfig->filter_excludelowpop_value = 2;
