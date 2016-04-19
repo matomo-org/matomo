@@ -120,6 +120,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             // did not exist in Piwik 1.X
             'DevicesDetection.getBrowserEngines',
 
+            // now enriched with goal metrics
+            'DevicesDetection.getType',
+            'DevicesDetection.getBrand',
+            'DevicesDetection.getModel',
+
             // we test VisitFrequency explicitly
             'VisitFrequency.get',
 

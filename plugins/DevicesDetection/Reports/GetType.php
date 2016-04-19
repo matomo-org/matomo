@@ -22,6 +22,7 @@ class GetType extends Base
         $this->name          = Piwik::translate('DevicesDetection_DeviceType');
         $this->documentation = ''; // TODO
         $this->order = 0;
+        $this->hasGoalMetrics = true;
         $this->widgetTitle  = 'DevicesDetection_DeviceType';
     }
 
