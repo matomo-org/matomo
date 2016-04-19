@@ -18,6 +18,9 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
  */
 class CustomEventsTest extends SystemTestCase
 {
+    /**
+     * @var TwoVisitsWithCustomEvents
+     */
     public static $fixture = null; // initialized below class definition
 
     /**
@@ -83,15 +86,15 @@ class CustomEventsTest extends SystemTestCase
                 'testSuffix'   => '_segmentMatchesEventActionPlay')
             ),
 
-            // eventValue should not match any page view
-//            array('Actions.getPageUrls', array(
-//                'idSite'       => $idSite1,
-//                'date'         => $dateTime,
-//                'periods'      => $dayPeriod,
-//                'segment'      => "eventValue>0",
-//                'setDateLastN' => false,
-//                'testSuffix'   => '_eventSegmentMatchNoAction')
-//            ),
+            // Goals and events
+            array('Goals.get', array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $dayPeriod,
+                'idGoal'       => TwoVisitsWithCustomEvents::$idGoalTriggeredOnEventCategory,
+                'setDateLastN' => false)
+            )
+
         );
 
         $apiToCallProcessedReportMetadata = array(

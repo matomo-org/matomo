@@ -62,7 +62,7 @@
 			</row>
 			<row>
 				<label>Event Name not defined</label>
-				<nb_events>6</nb_events>
+				<nb_events>7</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
@@ -118,36 +118,36 @@
 			<row>
 				
 				<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
-				<idsubdatatable>873</idsubdatatable>
+				<idsubdatatable>914</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
-				<idsubdatatable>872</idsubdatatable>
+				<idsubdatatable>913</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>871</idsubdatatable>
+				<idsubdatatable>912</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>877</idsubdatatable>
+				<idsubdatatable>918</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
-				<idsubdatatable>875</idsubdatatable>
+				<idsubdatatable>916</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
-				<idsubdatatable>874</idsubdatatable>
+				<idsubdatatable>915</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==Search+query+here</segment>
-				<idsubdatatable>876</idsubdatatable>
+				<idsubdatatable>917</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />
@@ -158,7 +158,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>42</nb_visits>
-		<nb_uniq_visitors>40</nb_uniq_visitors>
+		<nb_visits>43</nb_visits>
+		<nb_uniq_visitors>41</nb_uniq_visitors>
 	</reportTotal>
 </result>

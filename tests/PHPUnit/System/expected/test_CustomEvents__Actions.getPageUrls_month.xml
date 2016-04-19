@@ -27,7 +27,7 @@
 		<min_time_generation>0.333</min_time_generation>
 		<max_time_generation>0.333</max_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
-		<entry_nb_actions>30</entry_nb_actions>
+		<entry_nb_actions>31</entry_nb_actions>
 		<entry_sum_visit_length>7202</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
