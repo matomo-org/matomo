@@ -711,7 +711,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 if (self.param.keep_summary_row == 1) --totalRows;
 
-                if (offsetEnd > totalRows) offsetEndDisp = totalRows;
+                if (offsetEnd > totalRows || Number(self.param.filter_limit) == -1) offsetEndDisp = totalRows;
 
                 // only show this string if there is some rows in the datatable
                 if (totalRows != 0) {
@@ -731,7 +731,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 + Number(self.param.filter_limit);
             var totalRows = Number(self.param.totalRows);
             if (self.param.keep_summary_row == 1) --totalRows;
-            if (offsetEnd < totalRows) {
+            if (offsetEnd < totalRows && Number(self.param.filter_limit) != -1) {
                 $(this).css('display', 'inline');
             }
         });
