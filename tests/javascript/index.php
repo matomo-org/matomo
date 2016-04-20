@@ -1928,9 +1928,10 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(69);
+        expect(70);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
+        equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
         equal( typeof Piwik.getAsyncTracker, 'function', 'getAsyncTracker' );
 
@@ -2068,8 +2069,64 @@ function PiwikTest() {
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
         var customVisitorId = customTracker.getVisitorId();
         notEqual(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'Visitor ID are different on different websites');
+    });
+
+    test("Managing multiple trackers", function() {
+        expect(23);
+
+        var asyncTracker = Piwik.getAsyncTracker();
+        var i, tracker;
+
+        // TEST addTracker()
+
+        var trackers = [
+            {idSite: '71', url: 'customTrackerUrl', expectedIdSite: '71', expectedUrl: 'customTrackerUrl'},
+            {idSite: 72, url: 'customTrackerUrl', expectedIdSite: 72, expectedUrl: 'customTrackerUrl'},
+            {idSite: 72, url: 'anotherTrackerUrl', expectedIdSite: 72, expectedUrl: 'anotherTrackerUrl'},
+            {idSite: 73, url: null, expectedIdSite: 73, expectedUrl: asyncTracker.getTrackerUrl()}
+        ]
+
+        // add Tracker returns created tracker instance
+        for (i = 0; i < trackers.length; i++) {
+            tracker = trackers[i];
+            var createdTracker = asyncTracker.addTracker(tracker.url, tracker.idSite);
+            equal(tracker.expectedIdSite, createdTracker.getSiteId(), 'addTracker() was created with correct idsite ' + tracker.expectedIdSite);
+            equal(tracker.expectedUrl, createdTracker.getTrackerUrl(), 'addTracker() was created with correct piwikUrl ' + tracker.expectedUrl);
+        }
+
+        // TEST getAsyncTracker()
+
+        // by default still returns first tracker
+        var firstTracker = Piwik.getAsyncTracker();
+        equal(firstTracker.getSiteId(), asyncTracker.getSiteId(), 'getAsyncTracker() async same site id');
+        equal(firstTracker.getTrackerUrl(), asyncTracker.getTrackerUrl(), 'getAsyncTracker() async same getTrackerUrl()');
+        equal(firstTracker, asyncTracker, 'getAsyncTracker() async same tracker instance');
 
 
+        try {
+            // should throw exception when no idSite given
+            asyncTracker.addTracker(tracker.url);
+            ok(false, 'addTracker() without siteId expected exception has not been triggered');
+        } catch (e) {
+            ok(true, 'addTracker() siteId expected exception has been triggered');
+        }
+
+        // getting a specific tracker instance
+
+        for (i = 0; i < trackers.length; i++) {
+            tracker = trackers[i];
+            var fetchedTracker = Piwik.getAsyncTracker(tracker.url, tracker.idSite);
+            equal(tracker.expectedIdSite, fetchedTracker.getSiteId(), 'getAsyncTracker() correct site id ' + tracker.expectedIdSite);
+            equal(tracker.expectedUrl, fetchedTracker.getTrackerUrl(), 'getAsyncTracker() correct tracker url ' + tracker.expectedUrl);
+        }
+
+        // getting an unknown instance
+        equal(null, Piwik.getAsyncTracker('unknownUrl', 72), 'getAsyncTracker() piwikUrl not known');
+        equal(null, Piwik.getAsyncTracker('customTrackerUrl', 999982), 'getAsyncTracker() piwikSiteId not known');
+
+        var fetchedTracker = Piwik.getAsyncTracker('customTrackerUrl', '71');
+        var createdTracker = fetchedTracker.addTracker(null, 55);
+        equal('customTrackerUrl', createdTracker.getTrackerUrl(), 'addTracker() should be default use tracker url of current tracker, not first tracker');
     });
 
     test("AnalyticsTracker alias", function() {
@@ -2974,7 +3031,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(114);
+        expect(118);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3279,12 +3336,20 @@ if ($mysql) {
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
 
+        // add tracker
+        _paq.push(["addTracker", null, 13]);
+        _paq.push(["setCustomData", { "token" : getToken() }]);
+        var createdNewTracker = Piwik.getAsyncTracker(null, 13);
+        equal(13, createdNewTracker.getSiteId(), "addTracker() was actually added");
+        equal(getToken(), createdNewTracker.getCustomData().token, "_paq.push forwards all calls to all trackers");
+        _paq.push(['trackPageView', 'twoTrackers']);
+
         stop();
         setTimeout(function() {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "33", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "34", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -3375,6 +3440,9 @@ if ($mysql) {
             // Testing the JavaScript Error Tracking
             ok( /e_c=JavaScript%20Errors&e_a=http%3A%2F%2Fpiwik.org%2Fpath%2Fto%2Ffile.js%3Fcb%3D34343%3A44%3A12&e_n=Uncaught%20Error%3A%20The%20message&idsite=1/.test( results ), "enableJSErrorTracking() function with predefined onerror event");
             ok( /e_c=JavaScript%20Errors&e_a=http%3A%2F%2Fpiwik.org%2Fpath%2Fto%2Ffile.js%3Fcb%3D3kfkf%3A45&e_n=Second%20Error%3A%20With%20less%20data&idsite=1/.test( results ), "enableJSErrorTracking() function without predefined onerror event and less parameters");
+
+            ok( /piwik.php\?action_name=twoTrackers&idsite=1&/.test( results ), "addTracker() trackPageView() sends request to both Piwik instances");
+            ok( /piwik.php\?action_name=twoTrackers&idsite=13&/.test( results ), "addTracker() trackPageView() sends request to both Piwik instances");
 
             start();
         }, 5000);
