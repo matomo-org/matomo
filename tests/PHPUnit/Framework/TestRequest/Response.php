@@ -135,6 +135,7 @@ class Response
             'visitorId',
             'nextVisitorId',
             'previousVisitorId',
+            'idvisitor'
         );
 
         return $this->removeXmlFields($apiResponse, $toRemove);

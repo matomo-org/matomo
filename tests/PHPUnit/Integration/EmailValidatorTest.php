@@ -37,7 +37,17 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
         return $tlds;
     }
 
+    private function skipTestIfIdnNotAvailable()
+    {
+        if (!function_exists('idn_to_utf8')) {
+            $this->markTestSkipped("Couldn't get TLD list");
+        }
+    }
+
     public function test_allCurrentTlds(){
+
+        $this->skipTestIfIdnNotAvailable();
+
         $tlds = $this->getAllTlds();
         if (count($tlds) === 0) {
             $this->markTestSkipped("Couldn't get TLD list");
@@ -56,6 +66,8 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     public function test_invalidTld(){
+        $this->skipTestIfIdnNotAvailable();
+
         $tlds = [
             strval(bin2hex(openssl_random_pseudo_bytes(64))), //generates 128 bit length string
             '-tld-cannot-start-from-hypen',
