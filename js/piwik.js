@@ -5553,7 +5553,8 @@ if (typeof window.Piwik !== 'object') {
                             break;
                         }
 
-                        var pathName = getPathName(domainAlias);
+                        var pathName = getPathName(configHostsAlias[i]);
+
                         if (pathName && pathName !== '/' && pathName !== '/*') {
                             hasDomainAliasAlready = true;
                             break;
