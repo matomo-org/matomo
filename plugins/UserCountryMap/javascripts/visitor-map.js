@@ -920,10 +920,18 @@
                                 },
                                 title: function (d) {
                                     var v = d.curMetric;
+                                    if (isNaN(v)) {
+                                        return '';
+                                    }
+
                                     if (metric === 'bounce_rate') {
                                         v = Number((''+ v).replace('%', ''));
                                     } else if (metric === 'avg_time_on_site') {
                                         v = Number(v);
+                                    }
+
+                                    if (isNaN(v)) {
+                                        return '';
                                     }
 
                                     if (radscale(v) > 10) {
@@ -940,7 +948,7 @@
                                 },
                                 filter: function (d) {
                                     if (isNaN(d.lat) || isNaN(d.long)) return false;
-                                    return d.curMetric;
+                                    return !!d.curMetric && d.curMetric !== '0';
                                 },
                                 aggregate: function (rows) {
                                     var row = aggregate(rows);
@@ -955,14 +963,24 @@
                                 },
                                 sortBy: 'radius desc',
                                 location: function (city) { return [city.long, city.lat]; },
-                                radius: function (city) { return radscale(city.curMetric); },
+                                radius: function (city) {
+                                    var scale = radscale(city.curMetric);
+                                    if (isNaN(scale)) {
+                                        return 0.01;
+                                    }
+                                    return scale;
+                                },
                                 tooltip: function (city) {
                                     return '<h3>' + city.city_name + '</h3>' +
                                         formatValueForTooltips(city, metric, iso);
                                 },
                                 attrs: function (city) {
+                                    var color = colscale(city.curMetric);
+                                    if (color && color.hex) {
+                                        color = color.hex();
+                                    }
                                     return {
-                                        fill: colscale(city.curMetric).hex(),
+                                        fill: color,
                                         'fill-opacity': 0.7,
                                         stroke: cityStrokeColor,
                                         cursor: 'pointer'
