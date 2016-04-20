@@ -658,8 +658,10 @@ class Archive
                 $archiveGroups[] = $archiveGroup;
             }
 
-            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
-            $doneFlags[$doneFlag] = true;
+            $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
+            if ($globalDoneFlag !== $doneFlag) {
+                $doneFlags[$globalDoneFlag] = true;
+            }
         }
 
         $archiveGroups = array_unique($archiveGroups);
