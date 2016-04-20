@@ -3029,10 +3029,17 @@ if (typeof window.Piwik !== 'object') {
             function getPathName(url) {
                 var parser = document.createElement('a');
                 if (url.indexOf('//') !== 0 && url.indexOf('http') !== 0) {
+                    if (url.indexOf('*') === 0) {
+                        url = url.substr(1);
+                    }
+                    if (url.indexOf('.') === 0) {
+                        url = url.substr(1);
+                    }
                     url = 'http://' + url;
                 }
 
                 parser.href = content.toAbsoluteUrl(url);
+
                 if (parser.pathname) {
                     return parser.pathname;
                 }
@@ -5546,14 +5553,16 @@ if (typeof window.Piwik !== 'object') {
                 setDomains: function (hostsAlias) {
                     configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
 
-                    var hasDomainAliasAlready = false, i = 0;
+                    var hasDomainAliasAlready = false, i = 0, alias;
                     for (i; i < configHostsAlias.length; i++) {
-                        if (isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
+                        alias = String(configHostsAlias[i]);
+
+                        if (isSameHost(domainAlias, domainFixup(alias))) {
                             hasDomainAliasAlready = true;
                             break;
                         }
 
-                        var pathName = getPathName(configHostsAlias[i]);
+                        var pathName = getPathName(alias);
 
                         if (pathName && pathName !== '/' && pathName !== '/*') {
                             hasDomainAliasAlready = true;
