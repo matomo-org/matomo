@@ -657,6 +657,9 @@ class Archive
                 }
                 $archiveGroups[] = $archiveGroup;
             }
+
+            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
+            $doneFlags[$doneFlag] = true;
         }
 
         $archiveGroups = array_unique($archiveGroups);
@@ -733,6 +736,8 @@ class Archive
         foreach ($plugins as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $this->params->getIdSites());
             $this->initializeArchiveIdCache($doneFlag);
+            $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
+            $this->initializeArchiveIdCache($globalDoneFlag);
         }
 
         foreach ($idarchivesByReport as $doneFlag => $idarchivesByDate) {
