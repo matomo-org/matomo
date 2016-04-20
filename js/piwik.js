@@ -1025,7 +1025,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
-    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker
+    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
  */
 /*global _paq:true */
 /*members push */
@@ -1213,14 +1213,17 @@ if (typeof window.Piwik !== 'object') {
         function executePluginMethod(methodName, callback) {
             var result = '',
                 i,
-                pluginMethod;
+                pluginMethod, value;
 
             for (i in plugins) {
                 if (Object.prototype.hasOwnProperty.call(plugins, i)) {
                     pluginMethod = plugins[i][methodName];
 
                     if (isFunction(pluginMethod)) {
-                        result += pluginMethod(callback);
+                        value = pluginMethod(callback);
+                        if (value) {
+                            result += value;
+                        }
                     }
                 }
             }
@@ -5126,6 +5129,10 @@ if (typeof window.Piwik !== 'object') {
                 },
                 getConfigVisitorCookieTimeout: function () {
                     return configVisitorCookieTimeout;
+                },
+                removeAllAsyncTrackersButFirst: function () {
+                    var firstTracker = asyncTrackers[0];
+                    asyncTrackers = [firstTracker];
                 },
                 getRemainingVisitorCookieTimeout: getRemainingVisitorCookieTimeout,
 /*</DEBUG>*/

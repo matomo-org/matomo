@@ -2127,6 +2127,8 @@ function PiwikTest() {
         var fetchedTracker = Piwik.getAsyncTracker('customTrackerUrl', '71');
         var createdTracker = fetchedTracker.addTracker(null, 55);
         equal('customTrackerUrl', createdTracker.getTrackerUrl(), 'addTracker() should be default use tracker url of current tracker, not first tracker');
+
+        asyncTracker.removeAllAsyncTrackersButFirst();
     });
 
     test("AnalyticsTracker alias", function() {
@@ -3031,7 +3033,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(118);
+        expect(117);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3338,18 +3340,18 @@ if ($mysql) {
 
         // add tracker
         _paq.push(["addTracker", null, 13]);
-        _paq.push(["setCustomData", { "token" : getToken() }]);
         var createdNewTracker = Piwik.getAsyncTracker(null, 13);
         equal(13, createdNewTracker.getSiteId(), "addTracker() was actually added");
-        equal(getToken(), createdNewTracker.getCustomData().token, "_paq.push forwards all calls to all trackers");
+        createdNewTracker.setCustomData({ "token" : getToken() });
         _paq.push(['trackPageView', 'twoTrackers']);
+        tracker.removeAllAsyncTrackersButFirst();
 
         stop();
         setTimeout(function() {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "34", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "35", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
