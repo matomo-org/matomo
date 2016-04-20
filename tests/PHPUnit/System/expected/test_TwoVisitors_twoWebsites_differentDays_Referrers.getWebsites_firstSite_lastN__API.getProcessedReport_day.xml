@@ -115,14 +115,14 @@
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1907</idsubdatatable>
+				<idsubdatatable>1941</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1909</idsubdatatable>
+				<idsubdatatable>1943</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -132,14 +132,14 @@
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1914</idsubdatatable>
+				<idsubdatatable>1948</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1916</idsubdatatable>
+				<idsubdatatable>1950</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>

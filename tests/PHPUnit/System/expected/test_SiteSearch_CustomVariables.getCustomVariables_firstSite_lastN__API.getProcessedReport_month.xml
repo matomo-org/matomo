@@ -88,7 +88,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3198</idsubdatatable>
+				<idsubdatatable>3230</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -99,7 +99,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3197</idsubdatatable>
+				<idsubdatatable>3229</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />
