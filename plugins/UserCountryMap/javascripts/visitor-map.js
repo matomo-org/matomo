@@ -48,7 +48,8 @@
                 specialMetricsColorScale = colorManager.getColors(
                     'visitor-map',
                     ['special-metrics-color-scale-1', 'special-metrics-color-scale-2', 'special-metrics-color-scale-3',
-                     'special-metrics-color-scale-4']
+                     'special-metrics-color-scale-4'],
+                    true
                 ),
                 countryHighlightColor = colors['country-highlight-color'],
                 countrySelectedColor = colors['country-selected-color'],
@@ -139,11 +140,34 @@
                 };
             }
 
-            function formatNumber(v) {
+            function formatNumber(v, metric, first) {
                 v = Number(v);
-                return v > 1000000 ? (v / 1000000).toFixed(1) + 'm' :
-                    v > 1000 ? (v / 1000).toFixed(1) + 'k' :
-                        v;
+
+                if (v > 1000000) {
+                    return (v / 1000000).toFixed(1) + 'm';
+                }
+
+                if (v > 1000) {
+                    return (v / 1000).toFixed(1) + 'k';
+                }
+
+                if (!metric) {
+                    return v;
+                }
+
+                if (metric == 'avg_time_on_site') {
+                    v += first ? ' sec' : 's';
+                } else if (metric == 'bounce_rate') {
+                    v += '%';
+                } else if (metric === 'nb_actions_per_visit') {
+                    if (parseInt(v, 10) === v) {
+                        return v;
+                    }
+
+                    return v.toFixed(1);
+                }
+
+                return v;
             }
 
             //
@@ -197,13 +221,7 @@
                 function addLegendItem(val, first) {
                     var d = $('<div>'), r = $('<div>'), l = $('<div>'),
                         metric = $$('.userCountryMapSelectMetrics').val(),
-                        v = formatNumber(Math.round(val));
-
-                    if (metric == 'avg_time_on_site') {
-                        v += first ? ' sec' : 's';
-                    } else if (metric == 'bounce_rate') {
-                        v += '%';
-                    }
+                        v = formatNumber(Math.round(val), metric, first);
 
                     d.css({ width: 17, height: 17, float: 'left', background: colscale(val) });
                     l.css({ 'margin-left': 20, 'line-height': '20px', 'text-align': 'right' }).html(v);
@@ -245,7 +263,7 @@
                     if (id.length == 3) {
                         c = (stats.p90 - stats.min) / (stats.max - stats.min);
                         colscale = chroma.scale(specialMetricsColorScale, [0, c, c + 0.001, 1])
-                            .domain(chroma.limits(rows, 'c', 5, 'curMetric', filter))
+                            .domain(chroma.limits(rows, 'c', 5, 'curMetric', filter), 4, 'c')
                             .mode('hsl');
                     }
                 }
@@ -464,7 +482,7 @@
                     $('.map-stats').html(formatValueForTooltips(UserCountryMap.countriesByIso[id], metric, 'world'));
                 } else {
                     $('.map-stats').html(
-                        _.nb_visits.replace('%s', '<strong>' + formatNumber(totalVisits) + '</strong>') + (id != 'world' ? ' (' +
+                        _.nb_visits.replace('%s', '<strong>' + formatNumber(totalVisits, metric) + '</strong>') + (id != 'world' ? ' (' +
                             formatPercentage(totalVisits / worldTotalVisits) + ')' : '')
                     );
                 }
@@ -887,11 +905,10 @@
                             $.each(cities, function (i, city) {
                                 sumArea += isNaN(city.curMetric) ? 0 : Math.pow(radscale(city.curMetric), 2);
                             });
+
                             maxRad = Math.sqrt(area * f[metric] / sumArea);
 
                             radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad + 2]);
-
-                            var is_rate = metric.substr(0, 3) != 'nb_' || metric == 'nb_actions_per_visit';
 
                             var citySymbols = map.addSymbols({
                                 type: $K.LabeledBubble,
@@ -902,7 +919,18 @@
                                     tolerance: 0
                                 },
                                 title: function (d) {
-                                    return radscale(d.curMetric) > 10 ? formatNumber(d.curMetric) : '';
+                                    var v = d.curMetric;
+                                    if (metric === 'bounce_rate') {
+                                        v = Number((''+ v).replace('%', ''));
+                                    } else if (metric === 'avg_time_on_site') {
+                                        v = Number(v);
+                                    }
+
+                                    if (radscale(v) > 10) {
+                                        return formatNumber(d.curMetric, metric);
+                                    }
+
+                                    return '';
                                 },
                                 labelattrs: {
                                     fill: cityLabelColor,
@@ -912,7 +940,7 @@
                                 },
                                 filter: function (d) {
                                     if (isNaN(d.lat) || isNaN(d.long)) return false;
-                                    return is_rate ? d.nb_visits > 5 && d.curMetric : d.curMetric;
+                                    return d.curMetric;
                                 },
                                 aggregate: function (rows) {
                                     var row = aggregate(rows);
