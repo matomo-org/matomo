@@ -616,7 +616,7 @@ record_statistics = 1
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
 ; after his last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to 
 ; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg 
-; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800000])`
+; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 
 ; The window to look back for a previous visit by this current visitor. Defaults to visit_standard_length.
