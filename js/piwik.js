@@ -5715,7 +5715,7 @@ if (typeof window.Piwik !== 'object') {
 
                 /**
                  * Set session cookie timeout (in seconds).
-                 * Defaults to 30 minutes (timeout=1800000)
+                 * Defaults to 30 minutes (timeout=1800)
                  *
                  * @param int timeout
                  */
