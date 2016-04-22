@@ -31,8 +31,8 @@
             <ul>
                 <li>
                     <span class="title">{{ 'SitesManager_Urls'|translate }}</span>:
-                    <div = ng-repeat = "url in site.alias_urls">
-                        <a href = "{{ url }}">{{ url }}</a>
+                    <div ng-repeat="url in site.alias_urls">
+                        <a href="{{ url }}">{{ url }}</a>
                     </div>
                 </li>
                 <li ng-show="site.excluded_ips.length">
