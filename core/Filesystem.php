@@ -53,7 +53,7 @@ class Filesystem
      */
     public static function isValidFilename($filename)
     {
-        return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-]*))$/D', $filename));
+        return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-\+]*))$/D', $filename));
     }
 
     /**
