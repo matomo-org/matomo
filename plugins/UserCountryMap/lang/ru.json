@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Этот плагин предоставляет виджеты Visitor Map и Real-time Map. Внимание: требуется включенный плагин UserCountry.",
         "AndNOthers": "и %s других",
         "Cities": "Города",
         "Countries": "Страны",

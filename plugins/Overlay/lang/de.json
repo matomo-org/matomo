@@ -1,7 +1,7 @@
 {
     "Overlay": {
         "Clicks": "%s Klicks",
-        "ClicksFromXLinks": "%1$s klicks von einem von %2$s Verweisen",
+        "ClicksFromXLinks": "%1$s Klicks von einem von %2$s Verweisen",
         "Domain": "Domain",
         "ErrorNotLoading": "Die Seiten Overlay Sitzung kann gerade nicht aufgerufen werden.",
         "ErrorNotLoadingDetails": "Möglicherweise hat die rechte Seite keinen Piwik Tracking Code. In diesem Fall bitte versuchen das Overlay für eine andere Seite aus dem Seitenbericht zu benutzen.",
