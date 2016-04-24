@@ -14,6 +14,7 @@ group: legacy
 php:
   - 5.6
   - 5.3.3
+  - 7
 #  - hhvm
 
 services:
@@ -80,6 +81,10 @@ matrix:
     - php: 5.6
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
     - php: 5.6
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
+    - php: 7
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
+    - php: 7
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
     # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
     - php: 5.6

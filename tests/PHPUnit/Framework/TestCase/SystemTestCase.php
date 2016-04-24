@@ -325,7 +325,10 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         try {
-            $errorMessage = get_class($this) . ": Differences with expected in '$processedFilePath'";
+            $errorMessage = get_class($this) .': Differences between'.PHP_EOL;
+            $errorMessage.= 'expected: '.$expectedFilePath.PHP_EOL;
+            $errorMessage.= 'processed: '.$processedFilePath.PHP_EOL;
+            
             Response::assertEquals($expectedResponse, $processedResponse, $errorMessage);
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
@@ -372,7 +375,10 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         try {
-            $errorMessage = get_class($this) . ": Differences with expected in '$processedFilePath'";
+            $errorMessage = get_class($this) .': Differences between'.PHP_EOL;
+            $errorMessage.= 'expected: '.$expectedFilePath.PHP_EOL;
+            $errorMessage.= 'processed: '.$processedFilePath.PHP_EOL;
+
             Response::assertEquals($expectedResponse, $processedResponse, $errorMessage);
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
