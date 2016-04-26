@@ -13,8 +13,7 @@ language: php
 
 php:
   - 5.6
-  - 5.3.3
-#  - hhvm
+  - 5.3
 
 services:
   - redis-server
