@@ -263,8 +263,8 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                 array('Goals.get', array('idSite' => $idSite,
                                          'date' => $dateTime,
                                          'periods' => array('week'),
+                                         'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
                                          'otherRequestParameters' => array(
-                                           'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
                                             'columns' => 'avg_order_revenue'),
                                          'testSuffix' => '_AvgOrderRevenue')),
 

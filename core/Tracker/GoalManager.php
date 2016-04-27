@@ -130,7 +130,7 @@ class GoalManager
         $convertedGoals = array();
         foreach ($goals as $goal) {
             $convertedUrl = $this->detectGoalMatch($goal, $action);
-            if (!empty($convertedUrl)) {
+            if (!is_null($convertedUrl)) {
                 $convertedGoals[] = array('url' => $convertedUrl) + $goal;
             }
         }
@@ -143,7 +143,7 @@ class GoalManager
      *
      * @param array $goal
      * @param Action $action
-     * @return string|null
+     * @return if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
      */
     public function detectGoalMatch($goal, Action $action)
     {
@@ -165,26 +165,26 @@ class GoalManager
         switch ($attribute) {
             case 'title':
                 // Matching on Page Title
-                $url = $action->getActionName();
+                $actionToMatch = $action->getActionName();
                 break;
             case 'event_action':
-                $url = $action->getEventAction();
+                $actionToMatch = $action->getEventAction();
                 break;
             case 'event_name':
-                $url = $action->getEventName();
+                $actionToMatch = $action->getEventName();
                 break;
             case 'event_category':
-                $url = $action->getEventCategory();
+                $actionToMatch = $action->getEventCategory();
                 break;
             // url, external_website, file, manually...
             default:
-                $url = $action->getActionUrlRaw();
+                $actionToMatch = $action->getActionUrlRaw();
                 break;
         }
 
         $pattern_type = $goal['pattern_type'];
 
-        $match = $this->isUrlMatchingGoal($goal, $pattern_type, $url);
+        $match = $this->isUrlMatchingGoal($goal, $pattern_type, $actionToMatch);
         if (!$match) {
             return null;
         }

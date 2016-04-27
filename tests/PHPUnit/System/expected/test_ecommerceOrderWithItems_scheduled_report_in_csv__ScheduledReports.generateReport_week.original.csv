@@ -391,6 +391,9 @@ City
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
 
+Users
+No data available
+
 Custom Variables
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
 ValueIsZero,5,16,$ 13361.11,3.2,00:22:49,20%
@@ -466,13 +469,13 @@ Device type
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Desktop,5,16,80%,3.2,00:22:49,20%
 
-Visitor Browser
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Firefox,5,16,80%,3.2,00:22:49,20%
-
 Device brand
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,5,16,80%,3.2,00:22:49,20%
+
+Visitor Browser
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Firefox,5,16,80%,3.2,00:22:49,20%
 
 Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

@@ -77,6 +77,7 @@
         "NewGoalIntro": "O acompanhamento de conversões de metas é uma das maneiras mais eficientes para medir e melhorar seus objetivos de negócios.",
         "NewVisitorsConversionRateIs": "Taxa de conversão de novos usuários é %s",
         "NoGoalsNeedAccess": "Apenas um Administrador ou um usuário com acesso Super Usuário pode gerenciar Metas para um determinado website. Por favor, peça ao seu administrador Piwik para configurar uma Meta para o seu website. <br>Rastrear Metas é uma ótima maneira de ajudar a compreender e maximizar o desempenho do seu website!",
+        "NoConversionsNoReportsMessage": "Os relatórios não são exibidos porque não há dados de conversão para a meta e o período selecionados.",
         "NeedAccess": "Apenas um Administrador ou um usuário com acesso Super Usuário pode gerenciar Metas para um determinado website.",
         "Optional": "(opcional)",
         "OverallConversionRate": "%s taxa total de conversão(visitas com uma meta completa)",

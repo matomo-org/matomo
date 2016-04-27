@@ -34,6 +34,7 @@ class FormDatabaseSetup extends QuickForm2
     function init()
     {
         HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidFilename');
+        HTML_QuickForm2_Factory::registerRule('checkValidDbname', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidDbname');
         HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', 'Piwik\Plugins\Installation\Rule_checkUserPrivileges');
 
         $availableAdapters = Adapter::getAdapters();
@@ -60,7 +61,7 @@ class FormDatabaseSetup extends QuickForm2
         $item = $this->addElement('text', 'dbname')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupDatabaseName'));
         $item->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
-        $item->addRule('checkValidFilename', Piwik::translate('General_NotValid', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
+        $item->addRule('checkValidDbname', Piwik::translate('General_NotValid', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
 
         $this->addElement('text', 'tables_prefix')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupTablePrefix'))
@@ -302,7 +303,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
 }
 
 /**
- * Filename check for prefix/DB name
+ * Filename check for prefix
  *
  */
 class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
@@ -312,6 +313,20 @@ class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
         $prefix = $this->owner->getValue();
         return empty($prefix)
         || Filesystem::isValidFilename($prefix);
+    }
+}
+
+/**
+ * Filename check for DB name
+ *
+ */
+class FormDatabaseSetup_Rule_checkValidDbname extends HTML_QuickForm2_Rule
+{
+    function validateOwner()
+    {
+        $prefix = $this->owner->getValue();
+        return empty($prefix)
+        || DbHelper::isValidDbname($prefix);
     }
 }
 

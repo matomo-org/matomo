@@ -38,7 +38,7 @@ class WidgetsListTest extends IntegrationTestCase
         $numberOfWidgets = array(
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 4,
-            'General_Visitors'             => 11,
+            'General_Visitors'             => 12,
             'General_VisitorSettings'      => 5,
             'General_Actions'              => 10,
             'Events_Events'                => 3,

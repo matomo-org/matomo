@@ -8,7 +8,7 @@
         "NPages": "%s pages",
         "OnePage": "1 page",
         "PluginDescription": "Fournit des détails sur les intérêts des visiteurs: nombre de pages vues, temps passé sur le site web, jours depuis la dernière visite et plus.",
-        "VisitNum": "Numéro de la visite",
+        "VisitNum": "Nombre de visites",
         "VisitsByDaysSinceLast": "Visites par jours depuis la dernière visite",
         "visitsByVisitCount": "Visites par nombre de visites",
         "VisitsPerDuration": "Visites par durée de la visite",
