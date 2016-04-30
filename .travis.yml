@@ -121,6 +121,9 @@ install:
 
   - ./tests/travis/configure_git.sh
 
+  # disable tls for php 5.3 as openssl isn't available
+  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && composer config -g -- disable-tls true || true'
+
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
 
