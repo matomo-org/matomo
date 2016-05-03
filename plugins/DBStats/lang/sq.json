@@ -10,10 +10,12 @@
         "MetricDataByYear": "Tabela Matjesh Sipas Vitesh",
         "MetricTables": "Tabela Matjesh",
         "OtherTables": "Tabela të Tjera",
+        "PluginDescription": "Furnizon raporte të hollësishëm përdorimi baze të dhënash MySQL. Gjendet nën Diagnostikimet, për Superpërdoruesit.",
         "ReportDataByYear": "Tabela Raportesh Sipas Vitit",
         "ReportTables": "Tabela Raportesh",
         "RowCount": "Numërim rreshtash",
         "Table": "Tabelë",
-        "TotalSize": "Madhësi gjithsej"
+        "TotalSize": "Madhësi gjithsej",
+        "TrackerTables": "Tabela Gjurmuesi"
     }
 }

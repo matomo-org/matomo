@@ -40,6 +40,7 @@
         "LicenseHomepage": "Licens Hemsida",
         "LikeThisPlugin": "Gilla följande plugin?",
         "ConsiderDonating": "Överväg att donera",
+        "CommunityContributedPlugin": "Detta är ett gemensamt utvecklat plugin som är gratis för dig att använda.",
         "ConsiderDonatingCreatorOf": "Vänlig överväg att donera till upphovsman av %s",
         "PluginsExtendPiwik": "Plugins breddar och utökar funktionerna i Piwik.",
         "OncePluginIsInstalledYouMayActivateHere": "När en plugin är installerad kan du aktivera eller inaktivera den här.",
