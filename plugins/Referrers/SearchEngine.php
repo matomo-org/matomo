@@ -291,7 +291,7 @@ class SearchEngine extends Singleton
                         && (
                             // Google search with no keyword
                             ($searchEngineName == 'Google'
-                                && (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
+                                && (empty($query) && (empty($referrerPath) || $referrerPath == '/' || $referrerPath == '/search') && empty($referrerParsed['fragment']))
                             )
 
                             // Yahoo search with no keyword
