@@ -289,8 +289,8 @@ class SearchEngine extends Singleton
                     // Special cases: empty or no keywords
                     if (empty($key)
                         && (
-                            // Google search with no keyword
-                            ($searchEngineName == 'Google'
+                            // Google / Yahoo search with no keyword
+                            (($searchEngineName == 'Google' || $searchEngineName == 'Yahoo!')
                                 && (empty($query) && (empty($referrerPath) || $referrerPath == '/' || $referrerPath == '/search') && empty($referrerParsed['fragment']))
                             )
 
