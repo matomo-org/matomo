@@ -722,7 +722,7 @@ class Piwik
 
     /**
      * Returns an internationalized string using a translation token. If a translation
-     * cannot be found for the toke, the token is returned.
+     * cannot be found for the token, the token is returned.
      *
      * @param string $translationId Translation ID, eg, `'General_Date'`.
      * @param array|string|int $args `sprintf` arguments to be applied to the internationalized

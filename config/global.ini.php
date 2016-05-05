@@ -304,7 +304,7 @@ minimum_mysql_version = 4.1
 ; PostgreSQL minimum required version
 minimum_pgsql_version = 8.3
 
-; Minimum adviced memory limit in php.ini file (see memory_limit value)
+; Minimum advised memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
 ; Minimum memory limit enforced when archived via ./console core:archive
@@ -516,7 +516,7 @@ overlay_disable_framed_mode = 0
 enable_custom_logo_check = 1
 
 ; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
-; Mysql will try to load the chrooted path (which is imcomplete). To prevent an error, here you can specify the
+; Mysql will try to load the chrooted path (which is incomplete). To prevent an error, here you can specify the
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
 absolute_chroot_path =
 
