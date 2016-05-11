@@ -288,8 +288,11 @@ abstract class Base extends VisitDimension
             return false;
         }
 
+        $site = Cache::getCacheWebsiteAttributes($this->idsite);
+        $excludeUnknowns = $site['exclude_unknown_urls'];
+
         // fallback logic if the referrer domain is not known to any site to not break BC
-        if (isset($this->currentUrlParse['host'])) {
+        if (!$excludeUnknowns && isset($this->currentUrlParse['host'])) {
             // this might be actually buggy if first thing tracked is eg an outlink and referrer is from that site
             $currentHost = Common::mb_strtolower($this->currentUrlParse['host']);
             if ($currentHost == Common::mb_strtolower($this->referrerHost)) {
