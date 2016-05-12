@@ -400,13 +400,13 @@ class Model
 
     private function fetchVisitor($select, $from, $where, $bindSql)
     {
-        $sql = "$select $from WHERE " . $where . "
-                ORDER BY visit_last_action_time DESC
-                LIMIT 1";
+        $visitRows = $this->getDb()->fetchAll(
+            "$select $from WHERE " . $where . "
+            ORDER BY visit_last_action_time",
+            $bindSql
+        );
 
-        $visitRow = $this->getDb()->fetch($sql, $bindSql);
-
-        return $visitRow;
+        return array_pop($visitRows);
     }
 
     /**
