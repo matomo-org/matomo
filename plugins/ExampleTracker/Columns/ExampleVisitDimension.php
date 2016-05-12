@@ -18,7 +18,7 @@ use Piwik\Tracker\Action;
 /**
  * This example dimension counts achievement points for each user. A user gets one achievement point for each action
  * plus five extra achievement points for each conversion. This would allow you to create a ranking showing the most
- * active/valueable users. It is just an example, you can log pretty much everything and even just store any custom
+ * active/valuable users. It is just an example, you can log pretty much everything and even just store any custom
  * request url property. Please note that dimension instances are usually cached during one tracking request so they
  * should be stateless (meaning an instance of this dimension will be reused if requested multiple times).
  *

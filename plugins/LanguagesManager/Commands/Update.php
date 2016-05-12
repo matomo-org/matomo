@@ -140,7 +140,7 @@ class Update extends TranslationBase
         preg_match_all('/plugins\/([a-zA-z]+) /', $submodules, $matches);
         $submodulePlugins = $matches[1];
 
-        // ignore complete new plugins aswell
+        // ignore complete new plugins as well
         $changes = shell_exec('git status');
         preg_match_all('/plugins\/([a-zA-z]+)\/\n/', $changes, $matches);
         $newPlugins = $matches[1];
@@ -177,7 +177,7 @@ class Update extends TranslationBase
         if ($input->getOption('force')) {
             $arguments['--lastupdate'] = 1;
         } else {
-            $lastModDate = strtotime('2015-01-04 00:00:00'); // date of inital transifex setup
+            $lastModDate = strtotime('2015-01-04 00:00:00'); // date of initial transifex setup
             try {
                 // try to find the language file (of given plugin) with the newest modification date in git log
                 $path = ($plugin ? 'plugins/' . $plugin . '/' : '') . 'lang';

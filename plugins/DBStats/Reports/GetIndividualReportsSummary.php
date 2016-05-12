@@ -14,7 +14,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
- * Shows a datatable that displays how many occurances there are of each individual
+ * Shows a datatable that displays how many occurrences there are of each individual
  * report type stored in the MySQL database.
  *
  * Goal reports and reports of the format: .*_[0-9]+ are grouped together.
