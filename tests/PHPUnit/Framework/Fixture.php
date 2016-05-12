@@ -466,11 +466,14 @@ class Fixture extends \PHPUnit_Framework_Assert
      * @param null|string $searchCategoryParameters
      * @param null|string $timezone
      * @param null|string $type eg 'website' or 'mobileapp'
+     * @param null|string $settings eg 'website' or 'mobileapp'
+     * @param int $excludeUnknownUrls
      * @return int    idSite of website created
      */
     public static function createWebsite($dateTime, $ecommerce = 0, $siteName = false, $siteUrl = false,
                                          $siteSearch = 1, $searchKeywordParameters = null,
-                                         $searchCategoryParameters = null, $timezone = null, $type = null)
+                                         $searchCategoryParameters = null, $timezone = null, $type = null,
+                                         $excludeUnknownUrls = 0)
     {
         if($siteName === false) {
             $siteName = self::DEFAULT_SITE_NAME;
@@ -488,7 +491,9 @@ class Fixture extends \PHPUnit_Framework_Assert
             $startDate = null,
             $excludedUserAgents = null,
             $keepURLFragments = null,
-            $type
+            $type,
+            $settings = null,
+            $excludeUnknownUrls
         );
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
