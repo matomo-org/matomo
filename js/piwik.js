@@ -1632,6 +1632,11 @@ if (typeof window.Piwik !== 'object') {
             return -1;
         }
 
+        function stringStartsWith(str, prefix) {
+            str = String(str);
+            return str.lastIndexOf(prefix, 0) === 0;
+        }
+
         function stringEndsWith(str, suffix) {
             str = String(str);
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -3112,6 +3117,9 @@ if (typeof window.Piwik !== 'object') {
                     aliasHost = domainFixup(configHostsAlias[i]);
                     aliasPath = getPathName(configHostsAlias[i]);
 
+                    if(stringStartsWith(path, '/') && !stringStartsWith(aliasPath, '/')) {
+                        aliasPath = '/' + aliasPath;
+                    }
                     if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
                         return true;
                     }
