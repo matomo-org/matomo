@@ -48,7 +48,7 @@ class ApiTest extends SystemTestCase
         $apiToTest = array(
             array('UsersManager.getUsers'),
             array('UsersManager.getUsersLogin'),
-            array('UsersManager.getUsersAccessFromSite', array('idSite' => 6)), // admin user has admin acces for this
+            array('UsersManager.getUsersAccessFromSite', array('idSite' => 6)), // admin user has admin access for this
             array('UsersManager.getUsersAccessFromSite', array('idSite' => 3)), // admin user has only view access for this, should not see anything
             array('UsersManager.getUsersSitesFromAccess', array('access' => 'admin')),
             array('UsersManager.getUsersWithSiteAccess', array('idSite' => 3, 'access' => 'admin')),

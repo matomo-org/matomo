@@ -324,7 +324,7 @@ var broadcast = {
             valFromUrl = getQuotedRegex(valFromUrl);
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
-                // if new value is empty remove leading &, aswell
+                // if new value is empty remove leading &, as well
                 regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);

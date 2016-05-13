@@ -58,7 +58,7 @@ class Model
     }
 
     /**
-     * Returns whether the given user has choosen to use 12 hour clock
+     * Returns whether the given user has chosen to use 12 hour clock
      *
      * @param $userLogin
      * @return bool
