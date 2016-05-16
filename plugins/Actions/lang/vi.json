@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Trung bình dựa trên %1$s lần(s) %2$s giữa %3$s và %4$s",
         "ColumnClickedURL": "URL đã truy cập",
+        "ColumnActionURL": "URL hành động",
         "ColumnClicks": "Clicks",
         "ColumnClicksDocumentation": "Số lần đường dẫn này đã được click",
         "ColumnDownloadURL": "Đường dẫn tải về",
@@ -39,6 +40,7 @@
         "PagesReportDocumentation": "Báo cáo này chứa thông tin về các URLs của trang đã được xem. %s Bảng này được tổ chức dưới dạng cây, Các URL được hiển thị dưới cấu trúc folder.",
         "PageTitlesReportDocumentation": "Báo cáo này chứa thông tin về tiêu đề các trang đã được truy cập. %1$s Tiêu đề trang là thẻ HTML %2$s mà các trình duyệt hiển thị trên thanh tiêu đề của cửa sổ trình duyệt.",
         "PageUrls": "Đường dẫn trang",
+        "PluginDescription": "Các báo cáo về lượt xem trang và tiêu đề trang. Cho phép bạn đo lường công cụ tìm kiếm của trang web nội bộ của bạn. Tự động theo dõi các lượt nhấp chuột vào liên kết bên ngoài và lượt tải về tập tin.",
         "SiteSearchCategories1": "Báo cáo này liệt kê các hạng mục cho người truy cập lựa chọn khi họ thực hiện một tìm kiếm trên trang web của bạn",
         "SiteSearchCategories2": "Ví dụ, một trang thương mại điện tử (e-commerce) thường có chức năng \"Lựa chọn Phân mục\" để khách truy cập giới hạn phạm vi tìm kiếm đối với các sản phẩm trong một phân mục quy định.",
         "SiteSearchFollowingPagesDoc": "Khi khách tìm kiếm trên trang web của bạn, họ tìm kiếm một trang, nội dung, sản phẩm hoặc một dịch vụ cụ thể. Báo cáo này liệt kê các trang đã được click nhiều nhất sau khi thực hiện phép tìm kiếm (nội bộ). Nói cách khác, danh sách này chứa các trang được tìm kiếm nhiều nhất được thực hiện bởi khách trên trang web của bạn.",
@@ -59,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Các trang ghé thăm sau trang tìm kiếm",
         "WidgetSearchCategories": "Số danh mục tìm kiếm",
         "WidgetSearchKeywords": "Số từ khóa trang tìm kiếm",
-        "WidgetSearchNoResultKeywords": "Các từ khóa tìm kiếm không có kết quả"
+        "WidgetSearchNoResultKeywords": "Các từ khóa tìm kiếm không có kết quả",
+        "ActionType": "Loại hành động"
     }
 }
