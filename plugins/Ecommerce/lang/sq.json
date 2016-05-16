@@ -1,6 +1,8 @@
 {
     "Ecommerce": {
+        "PluginDescription": "Etregtia ju lejon të ndiqni se kur përdoruesit shtojnë produkte në shporta, dhe kur ato shndërrohen në shitje etregtie. Ajo ndjek gjithashtu parje produktesh dhe kategorish produktesh dhe shporta të braktisura.",
         "Sales": "Shitje",
+        "SalesBy": "Shitje nga %s",
         "SalesAdjective": "Shitje %s"
     }
 }
