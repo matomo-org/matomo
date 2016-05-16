@@ -11,12 +11,12 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  */
@@ -34,6 +34,8 @@ class Update extends TranslationBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->setDecorated(true);
+
         $start = microtime(true);
 
         /** @var DialogHelper $dialog */
@@ -76,10 +78,10 @@ class Update extends TranslationBase
 
             $output->writeln("Starting to import new language files");
 
-            /** @var ProgressHelper $progress */
-            $progress = $this->getHelperSet()->get('progress');
+            /** @var ProgressBar $progress */
+            $progress = new ProgressBar($output, count($files));
 
-            $progress->start($output, count($files));
+            $progress->start();
 
             foreach ($files as $filename) {
 
@@ -119,6 +121,7 @@ class Update extends TranslationBase
             }
 
             $progress->finish();
+            $output->writeln('');
         }
 
         $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
