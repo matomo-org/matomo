@@ -3191,7 +3191,7 @@ if (typeof window.Piwik !== 'object') {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
                             getImage(request, callback);
                         } else {
-                            if (typeof callback === 'function') { callback(); }
+                            if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
                         }
                     };
 
