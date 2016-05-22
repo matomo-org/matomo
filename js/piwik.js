@@ -4032,10 +4032,10 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the page view / visit
              */
-            function logPageView(customTitle, customData) {
+            function logPageView(customTitle, customData, callback) {
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, (callback ? 0 : configTrackerPause), callback);
             }
 
             /*
@@ -5975,8 +5975,9 @@ if (typeof window.Piwik !== 'object') {
                  *
                  * @param string customTitle
                  * @param mixed customData
+                 * @param function callback
                  */
-                trackPageView: function (customTitle, customData) {
+                trackPageView: function (customTitle, customData, callback) {
                     trackedContentImpressions = [];
 
                     if (isOverlaySession(configTrackerSiteId)) {
@@ -5985,7 +5986,7 @@ if (typeof window.Piwik !== 'object') {
                         });
                     } else {
                         trackCallback(function () {
-                            logPageView(customTitle, customData);
+                            logPageView(customTitle, customData, callback);
                         });
                     }
                 },
