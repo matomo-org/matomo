@@ -1,16 +1,26 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "%s середній час генерації сторінки",
         "AverageVisitDuration": "%s середня тривалість відвідування",
         "GenerateQueries": "%s запитів виконано",
-        "GenerateTime": "%s секунд на генерацію сторінки",
-        "MaxNbActions": "%s максимальна кількість переглядів сторінок за одне відвідування",
-        "NbActionsDescription": "%s дій (переглядів сторінок, завантажень, переходів за зовнішніми посиланнями)",
-        "NbActionsPerVisit": "%s дій на відвідування",
+        "GenerateTime": "сторінка згенерована за %s секунд",
+        "MaxNbActions": "%s макс. дій за одне відвідування",
+        "NbActionsDescription": "%s дій (перегляди сторінок, завантаження, зовнішні переходи)",
+        "NbActionsPerVisit": "%s дій за одне відвідування",
+        "NbDownloadsDescription": "%s завантажень",
+        "NbKeywordsDescription": "%s унікальних ключових слів",
+        "NbOutlinksDescription": "%s вихідних посилань",
+        "NbPageviewsDescription": "%s переглядів сторінок",
+        "NbSearchesDescription": "%s всього пошуків на вашому сайті",
+        "NbUniqueDownloadsDescription": "%s унікальних завантажень",
+        "NbUniqueOutlinksDescription": "%s унікальних зовнішніх посилань",
+        "NbUniquePageviewsDescription": "%s унікальних переглядів сторінок",
         "NbUniqueVisitors": "%s унікальних відвідувачів",
-        "NbVisitsBounced": "%s візитів з відмовами (залишили сайт після прегляду однієї сторінки)",
-        "VisitsSummary": "Узагальнено відвідування",
+        "NbVisitsBounced": "%s відмов (пішли після перегляду однієї сторінки)",
+        "VisitsSummary": "Відвідувань",
+        "VisitsSummaryDocumentation": "Це огляд динаміки відвідувань.",
         "WidgetLastVisits": "Графік останніх відвідувань",
-        "WidgetOverviewGraph": "Огляд з графіком",
+        "WidgetOverviewGraph": "Огляд по всім графіками",
         "WidgetVisits": "Огляд відвідувань"
     }
 }
