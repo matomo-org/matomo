@@ -3131,6 +3131,10 @@ if ($mysql) {
         // async tracker proxy
         _paq.push(["trackLink", "http://example.fr/async.zip", "download",  { "token" : getToken() }]);
 
+        // Calling undefined methods should not error
+        _paq.push(['NonExistingFunction should not error']);
+        _paq.push(['NonExistingFunction should not error', 'this is a parameter']);
+
         // push function
         _paq.push([ function(t) {
             tracker.trackLink("http://example.de", "link", { "token" : t });
@@ -3342,6 +3346,7 @@ if ($mysql) {
         _paq.push(["addTracker", null, 13]);
         var createdNewTracker = Piwik.getAsyncTracker(null, 13);
         equal(13, createdNewTracker.getSiteId(), "addTracker() was actually added");
+
         createdNewTracker.setCustomData({ "token" : getToken() });
         _paq.push(['trackPageView', 'twoTrackers']);
         tracker.removeAllAsyncTrackersButFirst();
