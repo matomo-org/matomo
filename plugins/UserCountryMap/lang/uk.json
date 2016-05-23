@@ -1,5 +1,25 @@
 {
     "UserCountryMap": {
-        "map": "карта"
+        "PluginDescription": "Цей плагін надає віджет відображення відвідувачів на карті в реальному часі. Примітка: вимагає активації плагіну UserCountry.",
+        "AndNOthers": "та %s інших",
+        "Cities": "Міста",
+        "Countries": "Країни",
+        "DaysAgo": "%s днів назад",
+        "GoalConversions": "%s цілей досягнуто",
+        "HoursAgo": "%s годин тому",
+        "map": "мапа",
+        "MinutesAgo": "%s хвилин тому",
+        "None": "Немає",
+        "NoVisit": "Без відвідувань",
+        "RealTimeMap": "Карта в реальному часі",
+        "Regions": "Регіони",
+        "Searches": "%s пошукових запитів",
+        "SecondsAgo": "%s секунд тому",
+        "ShowingVisits": "Останні геолокаційні відвідування",
+        "Unlocated": "<b>%s<\/b> %p відвідування з %c не можуть бути геолокалізованни.",
+        "VisitorMap": "Карта відвідувань",
+        "WorldWide": "Весь світ",
+        "WithUnknownRegion": "%s з невідомим регіоном",
+        "WithUnknownCity": "%s з невідомим містом"
     }
 }
