@@ -1180,7 +1180,7 @@ if (typeof window.Piwik !== 'object') {
                 for (j = 0; j < asyncTrackers.length; j++) {
                     if (isString(f)) {
 
-                        if(isObject(asyncTrackers[j][f])) {
+                        if(asyncTrackers[j][f]) {
                             asyncTrackers[j][f].apply(asyncTrackers[j], parameterArray);
                         } else {
                             logConsoleError('The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript');
