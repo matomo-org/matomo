@@ -1025,7 +1025,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
-    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON
+    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
  */
 /*global _paq:true */
 /*members push */
@@ -1078,7 +1078,7 @@ if (typeof window.Piwik !== 'object') {
             urldecode = unescape,
 
             /* asynchronous tracker */
-            asyncTracker,
+            asyncTrackers = [],
 
             /* iterator */
             iterator,
@@ -1165,17 +1165,28 @@ if (typeof window.Piwik !== 'object') {
          *      [ functionObject, optional_parameters ]
          */
         function apply() {
-            var i, f, parameterArray;
+            var i, j, f, parameterArray;
 
             for (i = 0; i < arguments.length; i += 1) {
                 parameterArray = arguments[i];
                 f = parameterArray.shift();
 
-                if (isString(f)) {
-                    asyncTracker[f].apply(asyncTracker, parameterArray);
-                } else {
-                    f.apply(asyncTracker, parameterArray);
+                for (j = 0; j < asyncTrackers.length; j++) {
+                    if (isString(f)) {
+                        asyncTrackers[j][f].apply(asyncTrackers[j], parameterArray);
+                        if (f === 'addTracker') {
+                            // addTracker adds an entry to asyncTrackers and would otherwise result in an endless loop
+                            break;
+                        }
+                        if (f === 'setTrackerUrl' || f === 'setSiteId') {
+                            // these two methods should be only executed on the first tracker
+                            break;
+                        }
+                    } else {
+                        f.apply(asyncTrackers[j], parameterArray);
+                    }
                 }
+
             }
         }
 
@@ -1202,14 +1213,17 @@ if (typeof window.Piwik !== 'object') {
         function executePluginMethod(methodName, callback) {
             var result = '',
                 i,
-                pluginMethod;
+                pluginMethod, value;
 
             for (i in plugins) {
                 if (Object.prototype.hasOwnProperty.call(plugins, i)) {
                     pluginMethod = plugins[i][methodName];
 
                     if (isFunction(pluginMethod)) {
-                        result += pluginMethod(callback);
+                        value = pluginMethod(callback);
+                        if (value) {
+                            result += value;
+                        }
                     }
                 }
             }
@@ -5116,6 +5130,10 @@ if (typeof window.Piwik !== 'object') {
                 getConfigVisitorCookieTimeout: function () {
                     return configVisitorCookieTimeout;
                 },
+                removeAllAsyncTrackersButFirst: function () {
+                    var firstTracker = asyncTrackers[0];
+                    asyncTrackers = [firstTracker];
+                },
                 getRemainingVisitorCookieTimeout: getRemainingVisitorCookieTimeout,
 /*</DEBUG>*/
 
@@ -5209,6 +5227,29 @@ if (typeof window.Piwik !== 'object') {
                     return configTrackerUrl;
                 },
 
+                /**
+                 * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
+                 * If piwikUrl is not set, current url will be used.
+                 *
+                 * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+                 * @param int|string siteId
+                 * @return Tracker
+                 */
+                addTracker: function (piwikUrl, siteId) {
+                    if (!siteId) {
+                        throw new Error('A siteId must be given to add a new tracker');
+                    }
+
+                    if (!isDefined(piwikUrl) || null === piwikUrl) {
+                        piwikUrl = this.getTrackerUrl();
+                    }
+
+                    var tracker = new Tracker(piwikUrl, siteId);
+
+                    asyncTrackers.push(tracker);
+
+                    return tracker;
+                },
 
                 /**
                  * Returns the site ID
@@ -6385,9 +6426,9 @@ if (typeof window.Piwik !== 'object') {
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
-        asyncTracker = new Tracker();
+        asyncTrackers.push(new Tracker());
 
-        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst  = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
         _paq = applyMethodsInOrder(_paq, applyFirst);
 
         // apply the queue of actions
@@ -6423,22 +6464,57 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                if(!isDefined(siteId)) {
+                if (!isDefined(siteId)) {
                     siteId = this.getAsyncTracker().getSiteId();
                 }
-                if(!isDefined(piwikUrl)) {
+                if (!isDefined(piwikUrl)) {
                     piwikUrl = this.getAsyncTracker().getTrackerUrl();
                 }
+
                 return new Tracker(piwikUrl, siteId);
             },
 
             /**
-             * Get internal asynchronous tracker object
+             * Get internal asynchronous tracker object.
              *
+             * If no parameters are given, it returns the internal asynchronous tracker object. If a piwikUrl and idSite
+             * is given, it will try to find an optional
+             *
+             * @param string piwikUrl
+             * @param int|string siteId
              * @return Tracker
              */
-            getAsyncTracker: function () {
-                return asyncTracker;
+            getAsyncTracker: function (piwikUrl, siteId) {
+
+                var firstTracker;
+                if (asyncTrackers && asyncTrackers[0]) {
+                    firstTracker = asyncTrackers[0];
+                }
+
+                if (!siteId && !piwikUrl) {
+                    // for BC and by default we just return the initally created tracker
+                    return firstTracker;
+                }
+
+                // we look for another tracker created via `addTracker` method
+                if ((!isDefined(siteId) || null === siteId) && firstTracker) {
+                    siteId = firstTracker.getSiteId();
+                }
+
+                if ((!isDefined(piwikUrl) || null === piwikUrl) && firstTracker) {
+                    piwikUrl = firstTracker.getTrackerUrl();
+                }
+
+                var tracker, i = 0;
+                for (i; i < asyncTrackers.length; i++) {
+                    tracker = asyncTrackers[i];
+                    if (tracker
+                        && String(tracker.getSiteId()) === String(siteId)
+                        && tracker.getTrackerUrl() === piwikUrl) {
+
+                        return tracker;
+                    }
+                }
             }
         };
 
