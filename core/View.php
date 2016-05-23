@@ -253,7 +253,8 @@ class View implements ViewInterface
         ProxyHttp::overrideCacheControlHeaders('no-store');
 
         Common::sendHeader('Content-Type: ' . $this->contentType);
-        // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
+        // always sending this header, sometimes empty, to ensure that Dashboard embed loads
+        // - when calling sendHeader() multiple times, the last one prevails
         Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
 
         return $this->renderTwigTemplate();
