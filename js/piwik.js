@@ -4035,7 +4035,7 @@ if (typeof window.Piwik !== 'object') {
             function logPageView(customTitle, customData, callback) {
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
-                sendRequest(request, (callback ? 0 : configTrackerPause), callback);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
