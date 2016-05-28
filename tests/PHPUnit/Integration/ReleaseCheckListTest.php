@@ -289,7 +289,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 strpos($file, 'yuicompressor') !== false ||
                 strpos($file, '/libs/') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
-                strpos($file, '/tmp/') !== false
+                strpos($file, '/tmp/') !== false ||
+                strpos($file, '/phantomjs/') !== false
             ) {
                 continue;
             }
@@ -669,6 +670,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     private function isFileBelongToTests($file)
     {
-        return stripos($file, "/tests/") !== false;
+        return stripos($file, "/tests/") !== false || stripos($file, "/phantomjs/") !== false;
     }
 }

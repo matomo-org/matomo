@@ -6,19 +6,10 @@
  */
 
 $(function () {
-    var contentUser = $('#content.user');
-
     function adjustSize(content)
     {
-        var width = $('body').width() - content.offset().left - 10;
+        var width = $('body').width() - content.offset().left - 16;
         content.css('width', width + 'px');
-    }
-
-    if (contentUser.length) {
-        adjustSize(contentUser);
-        $(window).resize(function () {
-            adjustSize(contentUser);
-        });
     }
 
     var contentAdmin = $('#content.admin');

@@ -18,7 +18,6 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Visit;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  * Update for version 2.14.2.
@@ -26,46 +25,36 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 class Updates_2_14_2 extends Updates
 {
     /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    /**
      * Removes option entries for columns that are marked as installed but are actually no longer installed due to
      * a bug in previous versions where the option entries were not correctly removed.
      *
      * @param Updater $updater
      * @return array
      */
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
-        $visitMigrations = $this->getMigrationsThatRemoveOptionEntriesOfNotActuallyInstalledColumns(VisitDimension::INSTALLER_PREFIX, 'log_visit');
-        $actionMigrations = $this->getMigrationsThatRemoveOptionEntriesOfNotActuallyInstalledColumns(ActionDimension::INSTALLER_PREFIX, 'log_link_visit_action');
-        $conversionMigrations = $this->getMigrationsThatRemoveOptionEntriesOfNotActuallyInstalledColumns(ConversionDimension::INSTALLER_PREFIX, 'log_conversion');
+        $visitSqls = self::getSqlsThatRemoveOptionEntriesOfNotActuallyInstalledColumns(VisitDimension::INSTALLER_PREFIX, 'log_visit');
+        $actionSqls = self::getSqlsThatRemoveOptionEntriesOfNotActuallyInstalledColumns(ActionDimension::INSTALLER_PREFIX, 'log_link_visit_action');
+        $conversionSqls = self::getSqlsThatRemoveOptionEntriesOfNotActuallyInstalledColumns(ConversionDimension::INSTALLER_PREFIX, 'log_conversion');
 
-        $migrations = array();
+        $sqls = array();
 
-        foreach ($visitMigrations as $migration) {
-            $migrations[] = $migration;
+        foreach ($visitSqls as $sql) {
+            $sqls[$sql] = false;
         }
 
-        foreach ($actionMigrations as $migration) {
-            $migrations[] = $migration;
+        foreach ($actionSqls as $sql) {
+            $sqls[$sql] = false;
         }
 
-        foreach ($conversionMigrations as $migration) {
-            $migrations[] = $migration;
+        foreach ($conversionSqls as $sql) {
+            $sqls[$sql] = false;
         }
 
-        return $migrations;
+        return $sqls;
     }
 
-    private function getMigrationsThatRemoveOptionEntriesOfNotActuallyInstalledColumns($dimensionPrefix, $tableName)
+    private static function getSqlsThatRemoveOptionEntriesOfNotActuallyInstalledColumns($dimensionPrefix, $tableName)
     {
         $componentPrefix = 'version_' . $dimensionPrefix;
 
@@ -73,19 +62,17 @@ class Updates_2_14_2 extends Updates
 
         $sqls = array();
         foreach ($notActuallyInstalledColumns as $column) {
-            $sqls[] = $this->buildRemoveOptionEntrySql($componentPrefix . $column);
+            $sqls[] = self::buildRemoveOptionEntrySql($componentPrefix . $column);
         }
 
         return $sqls;
     }
 
-    private function buildRemoveOptionEntrySql($optionName)
+    private static function buildRemoveOptionEntrySql($optionName)
     {
         $tableName = Common::prefixTable('option');
 
-        $sql = sprintf("DELETE FROM `%s` WHERE `option_name` = ?", $tableName);
-
-        return $this->migration->db->boundSql($sql, array($optionName));
+        return sprintf("DELETE FROM `%s` WHERE `option_name` = '%s'", $tableName, $optionName);
     }
 
     /**
@@ -132,6 +119,6 @@ class Updates_2_14_2 extends Updates
      */
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

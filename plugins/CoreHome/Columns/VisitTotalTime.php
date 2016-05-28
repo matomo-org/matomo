@@ -18,7 +18,7 @@ use Piwik\Tracker\Visitor;
 class VisitTotalTime extends VisitDimension
 {
     protected $columnName = 'visit_total_time';
-    protected $columnType = 'INT(11) UNSIGNED NOT NULL';
+    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
 
     protected function configureSegments()
     {

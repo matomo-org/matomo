@@ -14,48 +14,39 @@ use Piwik\Db;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_8_3_b1 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
 
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
-            $this->migration->db->changeColumnType('site', 'excluded_parameters', 'TEXT NOT NULL'),
+            'ALTER TABLE `' . Common::prefixTable('site') . '`
+				CHANGE `excluded_parameters` `excluded_parameters` TEXT NOT NULL'                      => false,
 
-            $this->migration->db->createTable('report', array(
-                'idreport' => 'INT(11) NOT NULL AUTO_INCREMENT',
-                'idsite' => 'INTEGER(11) NOT NULL',
-                'login' => 'VARCHAR(100) NOT NULL',
-                'description' => 'VARCHAR(255) NOT NULL',
-                'period' => 'VARCHAR(10) NOT NULL',
-                'type' => 'VARCHAR(10) NOT NULL',
-                'format' => 'VARCHAR(10) NOT NULL',
-                'reports' => 'TEXT NOT NULL',
-                'parameters' => 'TEXT NULL',
-                'ts_created' => 'TIMESTAMP NULL',
-                'ts_last_sent' => 'TIMESTAMP NULL',
-                'deleted' => 'tinyint(4) NOT NULL default 0',
-            ), $primaryKey = 'idreport'),
+            'CREATE TABLE `' . Common::prefixTable('report') . '` (
+					`idreport` INT(11) NOT NULL AUTO_INCREMENT,
+					`idsite` INTEGER(11) NOT NULL,
+					`login` VARCHAR(100) NOT NULL,
+					`description` VARCHAR(255) NOT NULL,
+					`period` VARCHAR(10) NOT NULL,
+					`type` VARCHAR(10) NOT NULL,
+					`format` VARCHAR(10) NOT NULL,
+					`reports` TEXT NOT NULL,
+					`parameters` TEXT NULL,
+					`ts_created` TIMESTAMP NULL,
+					`ts_last_sent` TIMESTAMP NULL,
+					`deleted` tinyint(4) NOT NULL default 0,
+					PRIMARY KEY (`idreport`)
+				) DEFAULT CHARSET=utf8' => 1050,
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('ScheduledReports')) {
             return;
         }
@@ -95,9 +86,9 @@ class Updates_1_8_3_b1 extends Updates
 
                 Db::query(
                     'INSERT INTO `' . Common::prefixTable('report') . '` SET
-                    idreport = ?, idsite = ?, login = ?, description = ?, period = ?,
-                    type = ?, format = ?, reports = ?, parameters = ?, ts_created = ?,
-                    ts_last_sent = ?, deleted = ?',
+					idreport = ?, idsite = ?, login = ?, description = ?, period = ?,
+					type = ?, format = ?, reports = ?, parameters = ?, ts_created = ?,
+					ts_last_sent = ?, deleted = ?',
                     array(
                          $idreport,
                          $idsite,
@@ -115,8 +106,7 @@ class Updates_1_8_3_b1 extends Updates
                 );
             }
 
-            $updater->executeMigration(__FILE__, $this->migration->db->dropTable('pdf'));
-
+            Db::query('DROP TABLE `' . Common::prefixTable('pdf') . '`');
         } catch (\Exception $e) {
         }
     }

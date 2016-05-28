@@ -10,7 +10,7 @@
             {% set latestVersion = plugin.versions[plugin.versions|length - 1] %}
 
             <div class="header">
-                <div class="intro" style="width:75%;float:left;">
+                <div class="intro">
                     <h2>{{ plugin.name }}</h2>
                     <p class="description">
                         {% if plugin.featured %}
@@ -19,8 +19,7 @@
                         {{ plugin.description }}
                     </p>
                 </div>
-                <div class="width:25%;float:left;">
-
+                <div class="actionButton">
                     {% if isSuperUser %}
                         {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
                             <a class="install update"
@@ -37,35 +36,40 @@
             </div>
 
             <div class="content">
-                <div style="width:75%;float:left;">
+                <div class="contentDetails">
+                    <div id="pluginDetailsTabs" class="row">
+                        <div class="col s12">
+                            <ul class="tabs">
+                                <li class="tab col s3"><a href="#tabs-description">{{ 'General_Description'|translate }}</a></li>
 
-                    <div id="pluginDetailsTabs">
-                        <ul>
-                            <li><a href="#tabs-description">{{ 'General_Description'|translate }}</a></li>
-                            {% if latestVersion.readmeHtml.faq %}
-                                <li><a href="#tabs-faq">{{ 'General_Faq'|translate }}</a></li>
-                            {% endif %}
-                            <li><a href="#tabs-changelog">{{ 'CorePluginsAdmin_Changelog'|translate }}</a></li>
-                            {% if plugin.screenshots|length %}
-                                <li><a href="#tabs-screenshots">{{ 'CorePluginsAdmin_Screenshots'|translate }}</a></li>
-                            {% endif %}
-                            {% if latestVersion.readmeHtml.support %}
-                                <li><a href="#tabs-support">{{ 'CorePluginsAdmin_Support'|translate }}</a></li>
-                            {% endif %}
-                        </ul>
+                                {% if latestVersion.readmeHtml.faq %}
+                                    <li class="tab col s3"><a href="#tabs-faq">{{ 'General_Faq'|translate }}</a></li>
+                                {% endif %}
 
-                        <div id="tabs-description">
+                                <li class="tab col s3"><a href="#tabs-changelog">{{ 'CorePluginsAdmin_Changelog'|translate }}</a></li>
+
+                                {% if plugin.screenshots|length %}
+                                    <li class="tab col s3"><a href="#tabs-screenshots">{{ 'CorePluginsAdmin_Screenshots'|translate }}</a></li>
+                                {% endif %}
+
+                                {% if latestVersion.readmeHtml.support %}
+                                    <li class="tab col s3"><a href="#tabs-support">{{ 'CorePluginsAdmin_Support'|translate }}</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                        <div id="tabs-description" class="tab-content col s12">
                             {{ pluginsMacro.missingRequirementsPleaseUpdateNotice(plugin) }}
                             {{ latestVersion.readmeHtml.description|raw }}
                         </div>
 
                         {% if latestVersion.readmeHtml.faq %}
-                            <div id="tabs-faq">
+                            <div id="tabs-faq" class="tab-content col s12">
                                 {{ latestVersion.readmeHtml.faq|raw }}
                             </div>
                         {% endif %}
 
-                        <div id="tabs-changelog">
+                        <div id="tabs-changelog" class="tab-content col s12">
                             {{ pluginsMacro.missingRequirementsPleaseUpdateNotice(plugin) }}
                             {% if plugin.canBeUpdated %}
                                 <div class="alert alert-warning">
@@ -99,7 +103,7 @@
                         </div>
 
                         {% if plugin.screenshots|length %}
-                            <div id="tabs-screenshots">
+                            <div id="tabs-screenshots" class="tab-content col s12">
                                 <div class="thumbnails">
                                     {% for screenshot in plugin.screenshots %}
                                         <div class="thumbnail">
@@ -114,7 +118,7 @@
                         {% endif %}
 
                         {% if latestVersion.readmeHtml.support %}
-                            <div id="tabs-support">
+                            <div id="tabs-support" class="tab-content col s12">
 
                                 {{ latestVersion.readmeHtml.support|raw }}
 
@@ -123,8 +127,7 @@
                     </div>
 
                 </div>
-                <div class="metadata" style="width:25%;float:left;">
-                    <p><br /></p>
+                <div class="metadata">
                     <dl>
                         <dt>{{ 'CorePluginsAdmin_Version'|translate }}</dt>
                         <dd>{{ plugin.latestVersion }}</dd>
@@ -188,7 +191,8 @@
                         }
                     {% endif %}
 
-                    $( "#pluginDetailsTabs" ).tabs({active: active >= 0 ? active : 0});
+                    $('#pluginDetailsTabs .tabs').tabs();
+                    $('#pluginDetailsTabs .tabs').tabs('select_tab', active >= 0 ? active : 0);
 
                     $('.pluginDetails a').each(function (index, a) {
                         var link = $(a).attr('href');

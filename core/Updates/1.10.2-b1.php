@@ -9,33 +9,25 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_10_2_b1 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('report', 'hour', 'TINYINT NOT NULL DEFAULT 0', 'period')
+            // ignore existing column name error (1060)
+            'ALTER TABLE ' . Common::prefixTable('report')
+            . " ADD COLUMN hour tinyint NOT NULL default 0 AFTER period" => 1060,
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

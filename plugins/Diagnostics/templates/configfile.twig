@@ -14,7 +14,8 @@
 {% endmacro %}
 
 {% block content %}
-    <h2 piwik-enriched-headline>{{ 'Diagnostics_ConfigFileTitle'|translate }}</h2>
+<div piwik-content-block
+     content-title="{{ 'Diagnostics_ConfigFileTitle'|translate|e('html_attr') }}" feature="true">
     <p>
         {{ 'Diagnostics_ConfigFileIntroduction'|translate('<code>"config/config.ini.php"</code>')|raw }}
         {{ 'Diagnostics_HideUnchanged'|translate('<a ng-click="hideGlobalConfigValues=!hideGlobalConfigValues">', '</a>')|raw }}
@@ -25,7 +26,7 @@
         {% endfor %}
     </p>
 
-    <table class="simple-table diagnostics configfile">
+    <table class="diagnostics configfile" piwik-content-table>
         <tbody>
         {% for category, configValues in allConfigValues %}
             <tr><td colspan="3"><a name="{{ category|e('html_attr') }}"></a><h3>{{ category }}</h3></td></tr>
@@ -52,4 +53,5 @@
         </tbody>
     </table>
 
+</div>
 {% endblock %}

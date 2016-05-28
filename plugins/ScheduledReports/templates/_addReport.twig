@@ -1,176 +1,147 @@
-<div class="entityAddContainer" style="display:none;">
+<div piwik-content-block
+     content-title="{{ 'ScheduledReports_CreateAndScheduleReport'|translate|e('html_attr') }}"
+     class="entityAddContainer"
+     ng-show="manageScheduledReport.showReportForm">
     <div class='clear'></div>
-    <form id='addEditReport'>
-        <table class="dataTable entityTable">
-            <thead>
-            <tr class="first">
-                <th colspan="2">{{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</th>
-            <tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="first">{{ 'General_Website'|translate }} </td>
-                <td style="width:650px;">
-                    {{ siteName|raw }}
-                </td>
-            </tr>
-            <tr>
-                <td class="first">{{ 'General_Description'|translate }} </td>
-                <td>
-                    <textarea cols="30" rows="3" id="report_description" class="inp"></textarea>
+    <form id='addEditReport' piwik-form ng-submit="manageScheduledReport.submitReport()">
 
-                    <div class="entityInlineHelp">
-                        {{ 'ScheduledReports_DescriptionOnFirstPage'|translate }}
-                    </div>
-                </td>
-            </tr>
-            {% if segmentEditorActivated %}
-            <tr>
-                <td class="first">{{ 'SegmentEditor_ChooseASegment'|translate }} </td>
-                <td>
-                    <select id='report_segment'>
-                        <option value="">{{ 'SegmentEditor_DefaultAllVisits'|translate }}</option>
-                        {% for savedSegmentId, savedSegmentName in savedSegmentsById %}
-                            <option value="{{ savedSegmentId }}">{{ savedSegmentName[:50] }}</option>
+        <div piwik-field uicontrol="text" name="website"
+             title="{{ 'General_Website'|translate|e('html_attr') }}"
+             disabled="true"
+             value="{{ siteName|e('html_attr') }}">
+        </div>
+
+        <div piwik-field uicontrol="textarea" name="report_description"
+             title="{{ 'General_Description'|translate|e('html_attr') }}"
+             ng-model="manageScheduledReport.report.description"
+             inline-help="{{ 'ScheduledReports_DescriptionOnFirstPage'|translate|e('html_attr') }}">
+        </div>
+
+        {% if segmentEditorActivated %}
+            <div id="reportSegmentInlineHelp" class="inline-help-node">
+                {% set SegmentEditor_DefaultAllVisits %}{{ 'SegmentEditor_DefaultAllVisits'|translate }}{% endset %}
+                {% set SegmentEditor_AddNewSegment %}{{ 'SegmentEditor_AddNewSegment'|translate }}{% endset %}
+                {{ 'ScheduledReports_Segment_Help'|translate('<a href="./" rel="noreferrer"  target="_blank">','</a>',SegmentEditor_DefaultAllVisits,SegmentEditor_AddNewSegment)|raw }}
+            </div>
+
+            <div piwik-field uicontrol="select" name="report_segment"
+                 ng-model="manageScheduledReport.report.idsegment"
+                 options="{{ savedSegmentsById|json_encode }}"
+                 title="{{ 'SegmentEditor_ChooseASegment'|translate|e('html_attr') }}"
+                 inline-help="#reportSegmentInlineHelp">
+            </div>
+        {% endif %}
+
+        <div id="emailScheduleInlineHelp" class="inline-help-node">
+            {{ 'ScheduledReports_WeeklyScheduleHelp'|translate }}
+            <br/>
+            {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
+        </div>
+
+        <div piwik-field uicontrol="select" name="report_period"
+             options="{{ periods|json_encode }}"
+             ng-model="manageScheduledReport.report.period"
+             title="{{ 'ScheduledReports_EmailSchedule'|translate|e('html_attr') }}"
+             inline-help="#emailScheduleInlineHelp">
+        </div>
+
+        <div piwik-field uicontrol="text" name="report_hour"
+             ng-model="manageScheduledReport.report.hour"
+             title="{{ 'ScheduledReports_ReportHour'|translate('X')|e('html_attr') }}">
+        </div>
+
+        <div piwik-field uicontrol="select" name="report_type"
+             options="{{ reportTypeOptions|json_encode }}"
+             ng-model="manageScheduledReport.report.type"
+             ng-change="manageScheduledReport.changedReportType()"
+             {% if reportTypes|length == 1 %}disabled="true"{% endif %}
+             title="{{ 'ScheduledReports_ReportType'|translate|e('html_attr') }}">
+        </div>
+
+        {% for reportType, reportFormats in reportFormatsByReportTypeOptions %}
+            <div piwik-field uicontrol="select" name="report_format"
+                 class="{{ reportType }}"
+                 ng-model="manageScheduledReport.report.format{{ reportType }}"
+                 ng-show="manageScheduledReport.report.type == '{{ reportType }}'"
+                 options="{{ reportFormats|json_encode }}"
+                 title="{{ 'ScheduledReports_ReportFormat'|translate|e('html_attr') }}">
+            </div>
+        {% endfor %}
+
+        {{ postEvent("Template.reportParametersScheduledReports") }}
+
+        <div ng-show="manageScheduledReport.report.type == 'email' && manageScheduledReport.report.formatemail !== 'csv'">
+            <div piwik-field uicontrol="select" name="display_format" class="email"
+                 ng-model="manageScheduledReport.report.displayFormat"
+                 options="{{ displayFormats|json_encode }}"
+                 introduction="{{ 'ScheduledReports_AggregateReportsFormat'|translate|e('html_attr') }}">
+            </div>
+
+            <div piwik-field uicontrol="checkbox" name="report_evolution_graph"
+                 class="report_evolution_graph"
+                 ng-model="manageScheduledReport.report.evolutionGraph"
+                 ng-show="manageScheduledReport.report.displayFormat == '2' || manageScheduledReport.report.displayFormat == '3'"
+                 title="{{ 'ScheduledReports_EvolutionGraph'|translate(5)|e('html_attr') }}">
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col s12">{{ 'ScheduledReports_ReportsIncluded'|translate }}</h3>
+        </div>
+
+        {% for reportType, reportsByCategory in reportsByCategoryByReportType %}
+            <div name='reportsList' class='row {{ reportType }}'
+                 ng-show="manageScheduledReport.report.type == '{{ reportType }}'">
+
+                {% if allowMultipleReportsByReportType[reportType] %}
+                    {% set reportInputType='checkbox' %}
+                {% else %}
+                    {% set reportInputType='radio' %}
+                {% endif %}
+
+                {% set countCategory=0 %}
+
+                {% set newColumnAfter=(reportsByCategory|length + 1)//2 %}
+
+                <div class='col s12 m6'>
+                    {% for category, reports in reportsByCategory %}
+                    {% if countCategory >= newColumnAfter and newColumnAfter != 0 %}
+                    {% set newColumnAfter=0 %}
+                </div>
+                <div class='col s12 m6'>
+                    {% endif %}
+                    <div class='reportCategory'>{{ category }}</div>
+                    <ul class='listReports'>
+                        {% for report in reports %}
+                            <li>
+                                <input type='{{ reportInputType }}' id="{{ reportType }}{{ report.uniqueId }}" report-unique-id='{{ report.uniqueId }}'
+                                       name='{{ reportType }}Reports'/>
+                                <label for="{{ reportType }}{{ report.uniqueId }}">
+                                    {{ report.name|raw }}
+                                    {% if report.uniqueId=='MultiSites_getAll' %}
+                                        <div class="entityInlineHelp">{{ 'ScheduledReports_ReportIncludeNWebsites'|translate(countWebsites)
+                                            }}</div>
+                                    {% endif %}
+                                </label>
+                            </li>
                         {% endfor %}
-                    </select>
-
-                    <div class="entityInlineHelp">
-                        {% set SegmentEditor_DefaultAllVisits %}{{ 'SegmentEditor_DefaultAllVisits'|translate }}{% endset %}
-                        {% set SegmentEditor_AddNewSegment %}{{ 'SegmentEditor_AddNewSegment'|translate }}{% endset %}
-                        {{ 'ScheduledReports_Segment_Help'|translate('<a href="./" rel="noreferrer"  target="_blank">','</a>',SegmentEditor_DefaultAllVisits,SegmentEditor_AddNewSegment)|raw }}
-                    </div>
-                </td>
-            </tr>
-            {% endif %}
-            <tr>
-                <td class="first">{{ 'ScheduledReports_EmailSchedule'|translate }}</td>
-                <td>
-                    <select id="report_period" class="inp">
-                        {% for periodId, period in periods %}
-                            <option value="{{ periodId }}">
-                                {{ period }}
-                            </option>
-                        {% endfor %}
-                    </select>
-
-                    <div class="entityInlineHelp">
-                        {{ 'ScheduledReports_WeeklyScheduleHelp'|translate }}
-                        <br/>
-                        {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
-                        <br/>
-                        {{ 'ScheduledReports_ReportHour'|translate('<input type="text" id="report_hour" class="inp" size="2">')|raw }}
-                    </div>
-                </td>
-            </tr>
-
-            <tr {% if reportTypes|length == 1 %}style="display:none;"{% endif %}>
-                <td class="first">
-                    {{ 'ScheduledReports_ReportType'|translate }}
-                </td>
-                <td>
-                    <select id="report_type">
-                        {% for reportType, reportTypeIcon in reportTypes %}
-                            <option value="{{ reportType }}">{{ reportType|upper }}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="first">
-                    {{ 'ScheduledReports_ReportFormat'|translate }}
-                </td>
-
-                <td>
-                    {% for reportType, reportFormats in reportFormatsByReportType %}
-                        <select name='report_format' class='{{ reportType }}'>
-                            {% for reportFormat, reportFormatIcon in reportFormats %}
-                                <option value="{{ reportFormat }}">{{ reportFormat|upper }}</option>
-                            {% endfor %}
-                        </select>
+                        {% set countCategory=countCategory+1 %}
+                    </ul>
+                    <br/>
                     {% endfor %}
-                </td>
-            </tr>
+                </div>
+            </div>
+        {% endfor %}
 
-            {{ postEvent("Template.reportParametersScheduledReports") }}
+        <input type="hidden" id="report_idreport" ng-model="manageScheduledReport.editingReportId">
 
-            <tr class='email' id="row_report_display_options">
-                <td class="first">
-                    {# ScheduledReports_AggregateReportsFormat should be named ScheduledReports_DisplayFormat #}
-                    {{ 'ScheduledReports_AggregateReportsFormat'|translate }}
-                </td>
-                <td>
-                    <select id="display_format">
-                        {% for formatValue, formatLabel in displayFormats %}
-                            <option {% if formatValue==1 %}selected{% endif %} value="{{ formatValue }}">{{ formatLabel }}</option>
-                        {% endfor %}
-                    </select>
+        <div ng-value="manageScheduledReport.saveButtonTitle"
+               onconfirm="manageScheduledReport.submitReport()"
+               piwik-save-button></div>
 
-                    <div class='report_evolution_graph'>
-                        <br/>
-                        <input type="checkbox" id="report_evolution_graph"/>
-                        <label for="report_evolution_graph"><em>{{ 'ScheduledReports_EvolutionGraph'|translate(5) }}</em></label>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="first">{{ 'ScheduledReports_ReportsIncluded'|translate }}</td>
-                <td>
-                    {% for reportType, reportsByCategory in reportsByCategoryByReportType %}
-                        <div name='reportsList' class='{{ reportType }}'>
-
-                            {% if allowMultipleReportsByReportType[reportType] %}
-                                {% set reportInputType='checkbox' %}
-                            {% else %}
-                                {% set reportInputType='radio' %}
-                            {% endif %}
-
-                            {% set countCategory=0 %}
-
-                            {% set newColumnAfter=(reportsByCategory|length + 1)//2 %}
-
-                            <div id='leftcolumn'>
-                                {% for category, reports in reportsByCategory %}
-                                {% if countCategory >= newColumnAfter and newColumnAfter != 0 %}
-                                {% set newColumnAfter=0 %}
-                            </div>
-                            <div id='rightcolumn'>
-                                {% endif %}
-                                <div class='reportCategory'>{{ category }}</div>
-                                <ul class='listReports'>
-                                    {% for report in reports %}
-                                        <li>
-                                            <input type='{{ reportInputType }}' id="{{ reportType }}{{ report.uniqueId }}" report-unique-id='{{ report.uniqueId }}'
-                                                   name='{{ reportType }}Reports'/>
-                                            <label for="{{ reportType }}{{ report.uniqueId }}">
-                                                {{ report.name|raw }}
-                                                {% if report.uniqueId=='MultiSites_getAll' %}
-                                                    <div class="entityInlineHelp">{{ 'ScheduledReports_ReportIncludeNWebsites'|translate(countWebsites)
-                                                        }}</div>
-                                                {% endif %}
-                                            </label>
-                                        </li>
-                                    {% endfor %}
-                                    {% set countCategory=countCategory+1 %}
-                                </ul>
-                                <br/>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </td>
-            </tr>
-
-            </tbody>
-        </table>
-
-        <input type="hidden" id="report_idreport" value="">
-        <input type="submit" id="report_submit" name="submit" class="submit"/>
+        <div class='entityCancel'>
+            {{ 'General_OrCancel'|translate("<a class='entityCancelLink' ng-click='manageScheduledReport.showListOfReports()'>","</a>")|raw }}
+        </div>
 
     </form>
-    <div class='entityCancel'>
-        {{ 'General_OrCancel'|translate("<a class='entityCancelLink'>","</a>")|raw }}
-    </div>
 </div>

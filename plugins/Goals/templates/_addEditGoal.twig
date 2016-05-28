@@ -1,67 +1,34 @@
 
 {% import 'ajaxMacros.twig' as ajax %}
 {{ ajax.errorDiv() }}
-{{ ajax.loadingDiv('goalAjaxLoading') }}
 
-<div class="entityContainer">
+<script type="text/javascript">
+    {% if userCanEditGoals %}
+        {% if onlyShowAddNewGoal is not defined %}
+            piwik.goals = {{ goalsJSON|raw }};
+        {% endif %}
+    {% else %}
+        piwik.goals = {{ goalsJSON|raw }};
+    {% endif %}
+
+</script>
+
+<div piwik-manage-goals
+        {% if userCanEditGoals %}
+            {% if onlyShowAddNewGoal is not defined %}
+                {% if idGoal %}
+                    show-goal="{{ idGoal|e('js') }}"
+                {% endif %}
+            {% else %}
+                show-add-goal="true"
+            {% endif %}
+        {% endif %}>
+
     {% if onlyShowAddNewGoal is not defined %}
         {% include "@Goals/_listGoalEdit.twig" %}
     {% endif %}
     {% if userCanEditGoals %}
         {% include "@Goals/_formAddGoal.twig" %}
-        {% if onlyShowAddNewGoal is not defined %}
-            <div class='entityCancel' style='display:none;'>
-                {{ 'General_OrCancel'|translate("<a class='entityCancelLink'>","</a>")|raw }}
-            </div>
-
-        {% endif %}
     {% endif %}
     <a id='bottom'></a>
 </div>
-
-<script type="text/javascript">
-    var mappingMatchTypeName = {
-        "url": "{{ 'Goals_URL'|translate }}",
-        "title": "{{ 'Goals_PageTitle'|translate }}",
-        "file": "{{ 'Goals_Filename'|translate }}",
-        "external_website": "{{ 'Goals_ExternalWebsiteUrl'|translate }}",
-        "event": "{{ 'Events_Event'|translate }}"
-    };
-    var mappingMatchTypeExamples = {
-        "url": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'checkout/confirmation'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://example.com/thank-you.html'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)\\\/demo\\\/(.*)'") }}",
-        "title": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'Order confirmation'") }}",
-        "file": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'files/brochure.pdf'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://example.com/files/brochure.pdf'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)\\\.zip'") }}",
-        "external_website": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'amazon.com'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://mypartner.com/landing.html'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'") }}",
-        "event": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'video'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'click'") }} \
-        <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)_banner'") }}"
-    };
-    $(document).ready(function () {
-        {% if userCanEditGoals %}
-            bindGoalForm();
-
-            {% if onlyShowAddNewGoal is not defined %}
-                piwik.goals = {{ goalsJSON|raw }};
-                bindListGoalEdit();
-
-                {% if idGoal %}
-                    editGoal({{ idGoal|e('js') }});
-                {% else %}
-                    showEditGoals();
-                {% endif %}
-            {% else %}
-                initAndShowAddGoalForm();
-            {% endif %}
-        {% else %}
-            piwik.goals = {{ goalsJSON|raw }};
-            showEditGoals();
-        {% endif %}
-    });
-
-</script>

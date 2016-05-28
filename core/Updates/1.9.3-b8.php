@@ -9,34 +9,26 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_9_3_b8 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('site', 'excluded_user_agents', 'TEXT NOT NULL', 'excluded_parameters')
+            // ignore existing column name error (1060)
+            'ALTER TABLE ' . Common::prefixTable('site')
+            . " ADD COLUMN excluded_user_agents TEXT NOT NULL AFTER excluded_parameters" => 1060,
         );
     }
 
     public function doUpdate(Updater $updater)
     {
         // add excluded_user_agents column to site table
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

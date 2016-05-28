@@ -26,7 +26,22 @@
             scope: {
                 container: '=piwikWidgetContainer'
             },
-            templateUrl: 'plugins/CoreHome/angularjs/widget-container/widgetcontainer.directive.html?cb=' + piwik.cacheBuster
+            templateUrl: 'plugins/CoreHome/angularjs/widget-container/widgetcontainer.directive.html?cb=' + piwik.cacheBuster,
+            compile: function (element, attrs) {
+
+                return function (scope, element, attrs, ngModel) {
+                    scope.$watch('container', function (container) {
+                        if (container && container.widgets && container.widgets[0] && container.widgets[0].parameters) {
+                            var isWidgetized = container.widgets[0].parameters.widget == '1';
+
+                            if (isWidgetized) {
+                                container.widgets[0].parameters.showtitle = '0';
+                            }
+
+                        }
+                    });
+                }
+            }
         };
     }
 })();

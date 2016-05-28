@@ -1,24 +1,24 @@
 {{ postEvent("Template.beforeTopBar", userAlias, userLogin, topMenu) }}
-<ul role="menubar" class="navbar-right">
-
+<ul class="right hide-on-med-and-down">
     {% macro menuItemLabel(label, icon) %}
         {% if icon is defined and icon and icon starts with 'icon-' %}
-            <span class="{{ icon|striptags }}"></span>
+            <span class="navbar-icon {{ icon|striptags }}"></span>
         {% else %}
             {{ label|translate }}
         {% endif %}
     {% endmacro %}
 
-    {% macro topMenuItem(label, menu, currentModule, currentAction) %}
+    {% macro topMenuItem(label, icon, menu) %}
         {% if menu._html is defined %}
             {{ menu._html|raw }}
         {% else %}
             <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
-               class="topBarElem {% if (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}"
                id="topmenu-{{ menu._url.module|lower }}"
-               href="index.php{{ menu._url|urlRewriteWithParameters }}" tabindex="3">{{ _self.menuItemLabel(label, menu._icon) }}</a>
+               href="index.php{{ menu._url|urlRewriteWithParameters }}" tabindex="3">{{ _self.menuItemLabel(label, icon) }}</a>
         {% endif %}
     {% endmacro %}
+
+    {% macro isActiveItem(menu, currentModule, currentAction) %}{% if (menu and menu._url and menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}{% endmacro %}
 
     {% if topMenuModule is not defined %}
         {% set topMenuModule = currentModule %}
@@ -27,8 +27,15 @@
 
     {% spaceless %}
         {% for label,menu in topMenu %}
-            <li role="menuitem">{{ _self.topMenuItem(label, menu, topMenuModule, topMenuAction) }}</li>
+            <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}">{{ _self.topMenuItem(label, menu._icon, menu) }}</li>
         {% endfor %}
     {% endspaceless %}
-
 </ul>
+<ul class="side-nav" id="mobile-top-menu">
+    {% for label,menu in topMenu %}
+        <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
+            >{{ _self.topMenuItem(label, '', menu) }}</li>
+    {% endfor %}
+</ul>
+<a href="javascript:;" data-activates="mobile-left-menu" class="activateLeftMenu hide-on-large-only button-collapse" style="display:none;"><span class="icon-menu-hamburger"></span></a>
+<a href="javascript:;" data-activates="mobile-top-menu" class="activateTopMenu hide-on-large-only button-collapse"><span class="icon-more-verti"></span></a>

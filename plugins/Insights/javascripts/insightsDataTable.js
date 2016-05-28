@@ -50,12 +50,50 @@
             this.initComparedToXPeriodsAgo(domElem);
             this.initFilterBy(domElem);
             this.setFixWidthToMakeEllipsisWork(domElem);
+
+            $(domElem).find('select').material_select();
         },
 
         setFixWidthToMakeEllipsisWork: function (domElem) {
             var width = domElem.width();
             if (width) {
                 $('td.label', domElem).width(parseInt(width * 0.50, 10));
+            }
+
+            var showScrollbarIfMoreThanThisPxOverlap = 35;
+            this.overflowContentIfNeeded(domElem, showScrollbarIfMoreThanThisPxOverlap);
+
+            var self = this;
+
+            if (!this.windowResizeTableAttached) {
+                this.windowResizeTableAttached = true;
+
+                // on resize of the window we re-calculate everything.
+                var timeout = null;
+                var resizeDataTable = function () {
+
+                    if (timeout) {
+                        clearTimeout(timeout);
+                    }
+
+                    timeout = setTimeout(function () {
+                        var isInDom = domElem && domElem[0] && document && document.body && document.body.contains(domElem[0]);
+                        if (isInDom) {
+                            // as domElem might have been removed by now we check whether domElem actually still is in dom
+                            // and do this expensive operation only if needed.
+                            $('td.label', domElem).width('');
+                            self.setFixWidthToMakeEllipsisWork(domElem);
+                        } else {
+                            $(window).off('resize', resizeDataTable);
+                        }
+
+                        timeout = null;
+                    }, Math.floor((Math.random() * 80) + 220));
+                    // we randomize it just a little to not process all dataTables at similar time but to have a little
+                    // delay in between for smoother resizing. we want to do it between 300 and 400ms
+                }
+
+                $(window).on('resize', resizeDataTable);
             }
         },
 

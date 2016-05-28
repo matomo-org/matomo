@@ -9,11 +9,14 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Access;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\DbHelper;
+use Piwik\Option;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater;
-use Piwik\Updater\Migration;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 use Piwik\Plugins\Dashboard;
 
@@ -23,54 +26,63 @@ use Piwik\Plugins\Dashboard;
 class Updates_3_0_0_b1 extends Updates
 {
     /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    private $pluginSettingsTable = 'plugin_setting';
-    private $siteSettingsTable = 'site_setting';
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    /**
      * Here you can define one or multiple SQL statements that should be executed during the update.
-     * @param Updater $updater
-     * @return Migration[]
+     * @return array
      */
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         $db = Db::get();
         $allGoals = $db->fetchAll(sprintf("SELECT DISTINCT idgoal FROM %s", Common::prefixTable('goal')));
         $allDashboards = $db->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
 
-        $migrations = $this->getDashboardMigrations($allDashboards, $allGoals);
-        $migrations = $this->getPluginSettingsMigrations($migrations);
-        $migrations = $this->getSiteSettingsMigrations($migrations);
+        $queries = $this->getDashboardMigrationSqls($allDashboards, $allGoals);
+        $queries = $this->getPluginSettingsMigrationQueries($queries, $db);
+        $queries = $this->getSiteSettingsMigrationQueries($queries);
 
-        return $migrations;
+        return $queries;
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $this->migratePluginEmailUpdateSetting();
+
+        // added .woff and woff2 whitelisted file for apache webserver
+        ServerFilesGenerator::deleteHtAccessFiles();
+        ServerFilesGenerator::createHtAccessFiles();
+    }
+
+    private function migratePluginEmailUpdateSetting()
+    {
+        $isEnabled = Option::get('enableUpdateCommunicationPlugins');
+
+        Access::doAsSuperUser(function () use ($isEnabled) {
+            $settings = StaticContainer::get('Piwik\Plugins\CoreUpdater\SystemSettings');
+            $settings->sendPluginUpdateEmail->setValue(!empty($isEnabled));
+            $settings->save();
+        });
     }
 
     /**
-     * @param Migration[] $queries
-     * @return Migration[]
+     * @param $queries
+     * @param Db $db
+     * @return mixed
      */
-    private function getPluginSettingsMigrations($queries)
+    private function getPluginSettingsMigrationQueries($queries, $db)
     {
-        $queries[] = $this->migration->db->createTable($this->pluginSettingsTable, array(
-            'plugin_name' => 'VARCHAR(60) NOT NULL',
-            'setting_name' => 'VARCHAR(255) NOT NULL',
-            'setting_value' => 'LONGTEXT NOT NULL',
-            'user_login' => "VARCHAR(100) NOT NULL DEFAULT ''",
-        ));
-        $queries[] = $this->migration->db->addIndex($this->pluginSettingsTable, array('plugin_name', 'user_login'));
+        $pluginSettingsTableName = $this->getPluginSettingsTableName();
+        $dbSettings = new Db\Settings();
+        $engine = $dbSettings->getEngine();
+
+        $pluginSettingsTable = "CREATE TABLE $pluginSettingsTableName (
+                          `plugin_name` VARCHAR(60) NOT NULL,
+                          `setting_name` VARCHAR(255) NOT NULL,
+                          `setting_value` LONGTEXT NOT NULL,
+                          `user_login` VARCHAR(100) NOT NULL DEFAULT '',
+                              INDEX(plugin_name, user_login)
+                            ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ";
+        $queries[$pluginSettingsTable] = 1050;
 
         $optionTable = Common::prefixTable('option');
         $query = 'SELECT `option_name`, `option_value` FROM `' . $optionTable . '` WHERE `option_name` LIKE "Plugin_%_Settings"';
@@ -91,54 +103,61 @@ class Updates_3_0_0_b1 extends Updates
                 }
 
                 foreach ($settingValue as $val) {
-                    $queries[] = $this->createPluginSettingQuery($pluginName, $settingName, $val);
+                    $queries[$this->createPluginSettingQuery($pluginName, $settingName, $val)] = 1062;
                 }
             }
         }
 
-        $queries[] = $this->migration->db->sql(sprintf('DELETE FROM `%s` WHERE `option_name` like "Plugin_%%_Settings"', $optionTable));
+        $queries[$query = sprintf('DELETE FROM `%s` WHERE `option_name` like "Plugin_%%_Settings"', $optionTable)] = false;
 
         return $queries;
     }
 
     /**
-     * @param Migration[] $queries
-     * @return Migration[]
+     * @param $queries
+     * @param Db $db
+     * @return mixed
      */
-    private function getSiteSettingsMigrations($queries)
+    private function getSiteSettingsMigrationQueries($queries)
     {
-        $table = $this->siteSettingsTable;
-        $queries[] = $this->migration->db->addColumn($table, 'plugin_name', 'VARCHAR(60) NOT NULL', $afer = 'idsite');
+        $table = Common::prefixTable('site_setting');
 
-        $table = Common::prefixTable($table);
-        $queries[] = $this->migration->db->sql("ALTER TABLE `$table` DROP PRIMARY KEY, ADD INDEX(idsite, plugin_name);",
-                                               Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS);
+        $pluginSettingsTable = "ALTER TABLE $table ADD COLUMN `plugin_name` VARCHAR(60) NOT NULL AFTER `idsite`";
+        $queries[$pluginSettingsTable] = 1060;
+        $queries["ALTER TABLE $table DROP PRIMARY KEY, ADD INDEX(idsite, plugin_name);"] = false;
 
         // we cannot migrate existing settings as we do not know the related plugin name, but this feature
         // (measurablesettings) was not really used anyway. If a migration is somewhere really needed it has to be
         // handled in the plugin
-        $queries[] = $this->migration->db->sql(sprintf('DELETE FROM `%s`', $table));
+        $queries[sprintf('DELETE FROM `%s`', $table)] = false;
 
         return $queries;
     }
 
     private function createPluginSettingQuery($pluginName, $settingName, $settingValue)
     {
+        $table = $this->getPluginSettingsTableName();
+
         $login = '';
         if (preg_match('/^.+#(.+)#$/', $settingName, $matches)) {
             $login = $matches[1];
             $settingName = str_replace('#' . $login . '#', '', $settingName);
         }
 
-        return $this->migration->db->insert($this->pluginSettingsTable, array(
-            'plugin_name' => $pluginName,
-            'setting_name' => $settingName,
-            'setting_value' => $settingValue,
-            'user_login' => $login
-        ));
+        $db = Db::get();
+
+        $query  = sprintf("INSERT INTO %s (plugin_name, setting_name, setting_value, user_login) VALUES ", $table);
+        $query .= sprintf("(%s, %s, %s, %s)", $db->quote($pluginName), $db->quote($settingName), $db->quote($settingValue), $db->quote($login));
+
+        return $query;
     }
 
-    private function getDashboardMigrations($allDashboards, $allGoals)
+    private function getPluginSettingsTableName()
+    {
+        return Common::prefixTable('plugin_setting');
+    }
+
+    private function getDashboardMigrationSqls($allDashboards, $allGoals)
     {
         $sqls = array();
 
@@ -434,9 +453,6 @@ class Updates_3_0_0_b1 extends Updates
                     ));
         }
 
-        $table = Common::prefixTable('user_dashboard');
-        $sql = sprintf('UPDATE %s SET layout = ? WHERE iddashboard = ?', $table);
-
         foreach ($allDashboards as $dashboard) {
             $dashboardLayout = json_decode($dashboard['layout']);
 
@@ -444,7 +460,7 @@ class Updates_3_0_0_b1 extends Updates
 
             $newLayout = json_encode($dashboardLayout);
             if ($newLayout != $dashboard['layout']) {
-                $sqls[] = $this->migration->db->boundSql($sql, array($newLayout, $dashboard['iddashboard']));
+                $sqls["UPDATE " . Common::prefixTable('user_dashboard') . " SET layout = '".addslashes($newLayout)."' WHERE iddashboard = ".$dashboard['iddashboard']] = false;
             }
         }
 

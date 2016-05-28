@@ -40,10 +40,27 @@ class Get extends Base
         $this->parameters = null;
     }
 
+    private function getGoals()
+    {
+        $idSite = $this->getIdSite();
+        $goals = API::getInstance()->getGoals($idSite);
+        return $goals;
+    }
+
+    private function getGoal($goalId)
+    {
+        $goals = $this->getGoals();
+
+        if (!empty($goals[$goalId])) {
+
+            return $goals[$goalId];
+        }
+    }
+
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         $idSite  = $this->getIdSite();
-        $goals   = API::getInstance()->getGoals($idSite);
+        $goals   = $this->getGoals();
         $reports = Goals::getReportsWithGoalMetrics();
 
         $page = new Pages($factory, $reports);
@@ -77,12 +94,24 @@ class Get extends Base
 
     public function configureView(ViewDataTable $view)
     {
+        $idGoal = Common::getRequestVar('idGoal', 0, 'string');
+
         if ($view->isViewDataTableId(Sparklines::ID)) {
             /** @var Sparklines $view */
             $idSite = $this->getIdSite();
             $isEcommerceEnabled = $this->isEcommerceEnabled($idSite);
 
-            $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+            $onlySummary = Common::getRequestVar('only_summary', 0, 'int');
+
+            if ($onlySummary && !empty($idGoal)) {
+                // in Goals overview summary we show proper title for a goal
+                $goal = $this->getGoal($idGoal);
+                if (!empty($goal['name'])) {
+                    $view->config->title = Piwik::translate('Goals_GoalX', "'" . $goal['name'] . "'");
+                }
+            } else {
+                $view->config->title = '';
+            }
 
             $numberFormatter = NumberFormatter::getInstance();
             $view->config->filters[] = function (DataTable $table) use ($numberFormatter, $idSite) {
@@ -138,8 +167,6 @@ class Get extends Base
                 }
 
             } else {
-                $onlySummary = Common::getRequestVar('only_summary', 0, 'int');
-
                 if ($onlySummary) {
                     // in Goals Overview we list an overview for each goal....
                     $view->config->addTranslation('conversion_rate', Piwik::translate('Goals_ConversionRate'));
@@ -150,6 +177,13 @@ class Get extends Base
                 }
             }
         } else if ($view->isViewDataTableId(Evolution::ID)) {
+            $goal = $this->getGoal($idGoal);
+            if (!empty($goal['name'])) {
+                $view->config->title = Piwik::translate('Goals_GoalX', "'" . $goal['name'] . "'");
+            } else {
+                $view->config->title = Piwik::translate('General_EvolutionOverPeriod');
+            }
+            
             if (empty($view->config->columns_to_display)) {
                 $view->config->columns_to_display = array('nb_conversions');
             }

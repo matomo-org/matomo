@@ -12,26 +12,15 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_2_0_a12 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         $result = array(
-            $this->migration->db->sql('ALTER TABLE ' . Common::prefixTable('logger_message') . ' MODIFY level VARCHAR(16) NULL')
+            'ALTER TABLE ' . Common::prefixTable('logger_message') . ' MODIFY level VARCHAR(16) NULL' => false
         );
 
         $unneededLogTables = array('logger_exception', 'logger_error', 'logger_api_call');
@@ -41,7 +30,7 @@ class Updates_2_0_a12 extends Updates
             try {
                 $rows = Db::fetchOne("SELECT COUNT(*) FROM $tableName");
                 if ($rows == 0) {
-                    $result[] = $this->migration->db->dropTable($table);
+                    $result["DROP TABLE $tableName"] = false;
                 }
             } catch (\Exception $ex) {
                 // ignore
@@ -54,6 +43,6 @@ class Updates_2_0_a12 extends Updates
     public function doUpdate(Updater $updater)
     {
         // change level column in logger_message table to string & remove other logging tables if empty
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

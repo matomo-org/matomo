@@ -3,29 +3,30 @@
 {% set title %}{{ 'DBStats_DatabaseUsage'|translate }}{% endset %}
 
 {% block content %}
-
-<h2 id="databaseUsageSummary">{{ title }}</h2>
+<h2 piwik-enriched-headline>
+    {{ title }}
+</h2>
 <p>
     {{ 'DBStats_MainDescription'|translate(totalSpaceUsed) }}<br/>
     {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>")|raw }}
-    <br/>
-    <br/>
 </p>
-<table class="adminTable dbstatsTable">
-    <tbody>
-    <tr>
-        <td>{{ databaseUsageSummary|raw }}</td>
-        <td>
-            <h3 style="margin-top:0;">{{ 'General_GeneralInformation'|translate }}</h3><br/>
 
+<div class="row">
+    <div class="col s12 m6">
+        {{ databaseUsageSummary|raw }}
+
+        {{ trackerDataSummary|raw }}
+    </div>
+    <div class="col s12 m6">
+        <div piwik-content-block content-title="{{ 'General_GeneralInformation'|translate|e('html_attr') }}">
             <p style="font-size:1.4em;padding-left:21px;line-height:1.8em;">
-                <strong><em>{{ userCount }}</em></strong>&nbsp;{% if userCount == 1 %}{{ 'UsersManager_User'|translate }}{% else %}{{ 'UsersManager_MenuUsers'|translate }}{% endif %}
+                <strong>{{ userCount }}</strong>&nbsp;{% if userCount == 1 %}{{ 'UsersManager_User'|translate }}{% else %}{{ 'UsersManager_MenuUsers'|translate }}{% endif %}
                 <br/>
-                <strong><em>{{ siteCount }}</em></strong>&nbsp;{% if siteCount == 1 %}{{ 'General_Website'|translate }}{% else %}{{ 'Referrers_Websites'|translate }}{% endif %}
-            </p><br/>
+                <strong>{{ siteCount }}</strong>&nbsp;{% if siteCount == 1 %}{{ 'General_Website'|translate }}{% else %}{{ 'Referrers_Websites'|translate }}{% endif %}
+            </p>
+        </div>
+        <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
             {% set clickDeleteLogSettings %}{{ 'PrivacyManager_DeleteDataSettings'|translate }}{% endset %}
-            <h3 style="margin-top:0;">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h3><br/>
-
             <p>
                 {{ 'PrivacyManager_DeleteDataDescription'|translate }}
                 <br/>
@@ -33,72 +34,37 @@
                     {{ 'PrivacyManager_ClickHereSettings'|translate("'"~clickDeleteLogSettings~"'") }}
                 </a>
             </p>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        </div>
+    </div>
+</div>
 
-<br/>
+<div class="row">
+    <div class="col s12 m6">
+        {{ reportDataSummary|raw }}
+    </div>
+    <div class="col s12 m6">
+        <div class="ajaxLoad" action="getIndividualReportsSummary">
+            <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
+        </div>
+    </div>
+</div>
 
-<table class="adminTable dbstatsTable" id="trackerDataSummary">
-    <tbody>
-    <tr>
-        <td>
-            <h2 class="secondary">{{ 'DBStats_TrackerTables'|translate }}</h2>
-            {{ trackerDataSummary|raw }}
-        </td>
-        <td>&nbsp;</td>
-    </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col s12 m6">
+        {{ metricDataSummary|raw }}
+    </div>
+    <div class="col s12 m6">
+        <div class="ajaxLoad" action="getIndividualMetricsSummary">
+            <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
+        </div>
+    </div>
+</div>
 
-<table class="adminTable dbstatsTable" id="reportDataSummary">
-    <tbody>
-    <tr>
-        <td>
-            <h2 class="secondary">{{ 'DBStats_ReportTables'|translate }}</h2>
-            {{ reportDataSummary|raw }}
-        </td>
-        <td>
-            <h2 class="secondary">{{ 'General_Reports'|translate }}</h2>
-
-            <div class="ajaxLoad" action="getIndividualReportsSummary">
-                <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<table class="adminTable dbstatsTable" id="metricDataSummary">
-    <tbody>
-    <tr>
-        <td>
-            <h2 class="secondary">{{ 'DBStats_MetricTables'|translate }}</h2>
-            {{ metricDataSummary|raw }}
-        </td>
-        <td>
-            <h2 class="secondary">{{ 'General_Metrics'|translate }}</h2>
-
-            <div class="ajaxLoad" action="getIndividualMetricsSummary">
-                <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<table class="adminTable dbstatsTable" id="adminDataSummary">
-    <tbody>
-    <tr>
-        <td>
-            <h2 class="secondary">{{ 'DBStats_OtherTables'|translate }}</h2>
-            {{ adminDataSummary|raw }}
-        </td>
-        <td>&nbsp;</td>
-    </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col s12 m6">
+        {{ adminDataSummary|raw }}
+    </div>
+</div>
 
 <script type="text/javascript">
     (function ($) {
@@ -112,14 +78,14 @@
                 ajaxRequest.addParams({
                     module: 'DBStats',
                     action: action,
-                    viewDataTable: 'table'
+                    viewDataTable: 'table',
+                    showtitle: '1'
                 }, 'get');
-                ajaxRequest.setCallback(
-                        function (data) {
-                            $('.loadingPiwik', self).remove();
-                            $(self).html(data);
-                        }
-                );
+                ajaxRequest.setCallback(function (data) {
+                    $('.loadingPiwik', self).remove();
+                    $(self).html(data);
+                    piwikHelper.compileAngularComponents(self);
+                });
                 ajaxRequest.setFormat('html');
                 ajaxRequest.send(false);
             });

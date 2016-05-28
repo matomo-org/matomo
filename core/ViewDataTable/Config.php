@@ -107,7 +107,6 @@ class Config
         'show_footer',
         'show_footer_icons',
         'show_all_views_icons',
-        'show_active_view_icon',
         'show_related_reports',
         'show_limit_control',
         'show_search',
@@ -255,11 +254,6 @@ class Config
     public $show_all_views_icons = true;
 
     /**
-     * Controls whether to display a tiny upside-down caret over the currently active view icon.
-     */
-    public $show_active_view_icon = true;
-
-    /**
      * Related reports are listed below a datatable view. When clicked, the original report will
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
@@ -332,6 +326,19 @@ class Config
      * Controls whether the footer icon that allows users to view data as a tag cloud is shown.
      */
     public $show_tag_cloud = true;
+
+    /**
+     * If enabled, shows the visualization as a content block. This is similar to wrapping your visualization
+     * with a `<div piwik-content-block></div>`
+     * @var bool
+     */
+    public $show_as_content_block = true;
+
+    /**
+     * If enabled shows the title of the report.
+     * @var bool
+     */
+    public $show_title = true;
 
     /**
      * Controls whether the user is allowed to export data as an RSS feed or not.
@@ -467,6 +474,8 @@ class Config
             Metrics::getDefaultMetrics(),
             Metrics::getDefaultProcessedMetrics()
         );
+
+        $this->show_title = Common::getRequestVar('showtitle', 0, 'int');
     }
 
     /**

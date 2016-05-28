@@ -65,23 +65,23 @@ abstract class UpdateObserver
     }
 
     /**
-     * Executed before a migration is executed.
+     * Executed before a migration query is executed.
      *
      * @param string $updateFile The path to the Updates file being executed.
-     * @param Migration $migration The migration that is about to be executed.
+     * @param string $sql The SQL query that is about to be executed.
      */
-    public function onStartExecutingMigration($updateFile, Migration $migration)
+    public function onStartExecutingMigrationQuery($updateFile, $sql)
     {
         // empty
     }
 
     /**
-     * Executed after a migration is executed.
+     * Executed after a migration query is executed.
      *
      * @param string $updateFile The path to the Updates file being executed.
-     * @param Migration $migration The migration that is about to be executed.
+     * @param string $sql The SQL query that has finished executing.
      */
-    public function onFinishedExecutingMigration($updateFile, Migration $migration)
+    public function onFinishedExecutingMigrationQuery($updateFile, $sql)
     {
         // empty
     }

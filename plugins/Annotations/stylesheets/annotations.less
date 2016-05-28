@@ -1,46 +1,41 @@
 .evolution-annotations {
     position: relative;
-    height: 16px;
+    height: 18px;
     width: 100%;
-    margin-top: 12px;
-    margin-bottom: -28px;
     cursor: pointer;
 }
 
 .evolution-annotations > span {
     position: absolute;
-    top:10px;
-}
-
-#content, .ui-dialog {
-  .evolution-annotations > span {
-    top: -1px;
-    position: absolute;
-  }
-  .annotation-manager {
-    margin-top: 15px;
-  }
 }
 
 .evolution-annotations  {
-  margin-top: -5px;
-  margin-bottom: -5px;
-}
-
-body > .widget .evolution-annotations > span {
-  top: -25px;
+  margin-top: 3px;
 }
 
 .annotation-manager {
     text-align: left;
-    margin-top: -18px;
+    margin-top: 5px;
 
   .new-annotation-row {
     height: 145px;
+      .input-field {
+          margin-top: 2px;
+          .new-annotation-edit {
+              padding-bottom: 4px;
+          }
+      }
   }
 
   .annotation.edit .annotation-edit-mode {
     min-height: 125px;
+
+      .input-field {
+          margin-top: 2px;
+          .annotation-edit {
+              padding-bottom: 4px;
+          }
+      }
   }
 }
 
@@ -175,19 +170,6 @@ body > .widget .evolution-annotations > span {
 
 .edit-annotation:hover {
     text-decoration: none;
-}
-
-.annotationView {
-    float: right;
-    margin-left: 5px;
-    position: relative;
-    cursor: pointer;
-}
-
-.annotationView > span {
-    font-style: italic;
-    display: inline-block;
-    margin: 4px 4px 0 4px;
 }
 
 .annotation-period-edit {

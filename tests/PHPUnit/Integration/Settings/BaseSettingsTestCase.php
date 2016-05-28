@@ -102,6 +102,20 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertSame($settings, $this->settings);
     }
 
+    public function test_getTitle_shouldDefaultToPluginName()
+    {
+        $this->assertNotEmpty($this->settings->getTitle());
+        $this->assertSame($this->settings->getTitle(), $this->settings->getPluginName());
+    }
+
+    public function test_getTitle_PrefersSetTitleOverPluginName()
+    {
+        if (method_exists($this->settings, 'setTitle')) {
+            $this->settings->setTitle('title');
+            $this->assertSame('title', $this->settings->getTitle());
+        }
+    }
+
     protected function makeSetting($name)
     {
         $type = FieldConfig::TYPE_STRING;

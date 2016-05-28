@@ -13,26 +13,16 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_5_4 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
-            $this->migration->db->changeColumnType('log_action', 'name', 'TEXT'),
+            'ALTER TABLE `' . Common::prefixTable('log_action') . '`
+				 CHANGE `name` `name` TEXT' => false,
         );
     }
 
@@ -70,6 +60,6 @@ class Updates_0_5_4 extends Updates
             }
         }
 
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

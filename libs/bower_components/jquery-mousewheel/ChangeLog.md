@@ -1,5 +1,11 @@
 # Mouse Wheel ChangeLog
 
+## 3.1.13
+
+* Update copyright notice and license to remove years
+* Create the correct compressed version
+* Remove the obsolete jQuery Plugin Registry file
+
 ## 3.1.12
 
 * Fix possible 0 value for line height when in delta mode 1

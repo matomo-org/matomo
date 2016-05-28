@@ -259,7 +259,8 @@ class Goals extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Goals/javascripts/goalsForm.js";
+        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.controller.js";
+        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -276,6 +277,7 @@ class Goals extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Goals_AddGoal';
+        $translationKeys[] = 'Goals_AddNewGoal';
         $translationKeys[] = 'Goals_UpdateGoal';
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_UpdateGoal';

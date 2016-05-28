@@ -47,10 +47,6 @@ class CorePluginsAdmin extends \Piwik\Plugin
     {
         $jsFiles[] = "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/marketplace.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginOverview.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginExtend.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/plugins.js";
     }
 
     public function getClientSideTranslationKeys(&$translations)

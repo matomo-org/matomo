@@ -5,32 +5,41 @@
 {% set title %}{{ 'CorePluginsAdmin_PluginsManagement'|translate }}{% endset %}
 
 {% block content %}
-<div class="pluginsManagement">
 
-    {% if pluginsHavingUpdate|length %}
-        <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
+<h2 piwik-enriched-headline>
+    {{ title|e('html_attr') }}
+</h2>
 
-        <p>{{ 'CorePluginsAdmin_InfoPluginUpdateIsRecommended'|translate }}</p>
+<p>{{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
+    {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}
 
-        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
+    {% if isMarketplaceEnabled %}
+        {{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate('<a href="' ~ linkTo({'action':'browsePlugins', 'sort': ''}) ~ '">', '</a>')|raw }}
     {% endif %}
-
-    <h2 piwik-enriched-headline>{{ title }}</h2>
-
-    <p>{{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
-        {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}
 
     {% if not isPluginsAdminEnabled %}
         <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
     {% endif %}
 
-        <br />
-        {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}
-    </p>
+    <br />
+    {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}
+</p>
 
-    {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}
+{% if pluginsHavingUpdate|length %}
+    <div piwik-content-block content-title="{{ pluginsHavingUpdate|length }} Update(s) available">
+
+        <p>{{ 'CorePluginsAdmin_InfoPluginUpdateIsRecommended'|translate }}</p>
+
+        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
+    </div>
+{% endif %}
+
+<div piwik-content-block content-title="{{ 'CorePluginsAdmin_InstalledPlugins'|translate|e('html_attr') }}" piwik-plugin-management>
+
+    {{ plugins.pluginsFilter() }}
 
     {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false, marketplacePluginNames, isPluginsAdminEnabled) }}
 
 </div>
+
 {% endblock %}

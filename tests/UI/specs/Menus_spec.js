@@ -16,7 +16,7 @@ describe("Menus", function () {
 
     function openMenuItem(page, menuItem)
     {
-        page.click('#secondNavBar .navbar a:contains('+ menuItem + ')');
+        page.click('#secondNavBar .navbar a:contains('+ menuItem + '):first');
     }
 
     // main menu tests
@@ -48,7 +48,6 @@ describe("Menus", function () {
     it('should change the admin page correctly when an admin menu item is clicked', function (done) {
         expect.screenshot('admin_changed').to.be.captureSelector('#secondNavBar', function (page) {
             openMenuItem(page, 'Manage');
-            openMenuItem(page, 'Websites');
         }, done);
     });
 });

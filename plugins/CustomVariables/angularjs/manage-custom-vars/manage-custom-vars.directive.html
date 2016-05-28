@@ -1,5 +1,8 @@
 <div class="manageCustomVars">
-    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/custom-variables/">{{ 'CustomVariables_CustomVariables'|translate }}</h2>
+    <h2 piwik-enriched-headline
+         help-url="http://piwik.org/docs/custom-variables/">
+        {{ 'CustomVariables_CustomVariables'|translate }}
+    </h2>
 
     <p>
         <span ng-bind-html="'CustomVariables_ManageDescription'|translate:manageCustomVars.siteName"></span>
@@ -10,45 +13,49 @@
     </div>
 
     <div ng-repeat="scope in manageCustomVars.scopes">
-        <h2 class="secondary">{{ 'CustomVariables_ScopeX'|translate:(scope.name) }}</h2>
-        <table class="dataTable entityTable">
-            <thead>
-            <tr>
-                <th>{{'CustomVariables_Index'|translate }}</th>
-                <th>{{'CustomVariables_Usages'|translate }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td colspan="3" ng-show="manageCustomVars.model.isLoading">{{ 'General_Loading'|translate }}</td>
-            </tr>
-            <tr ng-repeat="customVariables in manageCustomVars.model.customVariables|filter:{scope: scope.value}">
-                <td class="index">{{ customVariables.index }}</td>
-                <td>
+        <div piwik-content-block content-title="{{ 'CustomVariables_ScopeX'|translate:(scope.name) }}">
+            <table piwik-content-table>
+                <thead>
+                <tr>
+                    <th>{{'CustomVariables_Index'|translate }}</th>
+                    <th>{{'CustomVariables_Usages'|translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="3" ng-show="manageCustomVars.model.isLoading">{{ 'General_Loading'|translate }}</td>
+                </tr>
+                <tr ng-repeat="customVariables in manageCustomVars.model.customVariables|filter:{scope: scope.value}">
+                    <td class="index">{{ customVariables.index }}</td>
+                    <td>
                     <span ng-show="(customVariables.usages|length) === 0"
                           class="unused">{{'CustomVariables_Unused'|translate }}</span>
                     <span ng-show="customVariables.usages|length" ng-repeat="cvar in customVariables.usages|orderBy:'-nb_actions'">
                         <span title="{{ 'CustomVariables_UsageDetails'|translate:(cvar.nb_visits ? cvar.nb_visits : 0):(cvar.nb_actions ? cvar.nb_actions : 0) }}">{{ cvar.name }}</span><span ng-show="!$last">, </span>
                     </span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <h2 class="secondary" ng-show="!manageCustomVars.model.isLoading">{{ 'CustomVariables_CreateNewSlot'|translate }}</h2>
+    <div ng-show="!manageCustomVars.model.isLoading"
+         piwik-content-block
+         content-title="{{ 'CustomVariables_CreateNewSlot'|translate }}">
 
-    <p ng-show="!manageCustomVars.model.isLoading">
-        {{ 'CustomVariables_CreatingCustomVariableTakesTime'|translate }}
-        <br /><br />
-        <span ng-bind-html="'CustomVariables_CurrentAvailableCustomVariables'|translate:('<strong>'+manageCustomVars.model.numSlotsAvailable+'</strong>')"></span>
-        <br />
-        <br />
-        {{ 'CustomVariables_ToCreateCustomVarExecute'|translate }}
-        <br />
-        <br />
-        <code>./console customvariables:set-max-custom-variables {{ manageCustomVars.model.numSlotsAvailable + 1 }}</code>
-    </p>
+        <p ng-show="!manageCustomVars.model.isLoading">
+            {{ 'CustomVariables_CreatingCustomVariableTakesTime'|translate }}
+            <br /><br />
+            <span ng-bind-html="'CustomVariables_CurrentAvailableCustomVariables'|translate:('<strong>'+manageCustomVars.model.numSlotsAvailable+'</strong>')"></span>
+            <br />
+            <br />
+            {{ 'CustomVariables_ToCreateCustomVarExecute'|translate }}
+            <br />
+            <br />
+            <pre piwik-select-on-focus><code>./console customvariables:set-max-custom-variables {{ manageCustomVars.model.numSlotsAvailable + 1 }}</code></pre>
+        </p>
 
+    </div>
 
 </div>

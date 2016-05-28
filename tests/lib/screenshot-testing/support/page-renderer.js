@@ -247,6 +247,12 @@ PageRenderer.prototype._load = function (url, callback) {
             var $ = window.jQuery;
             if ($) {
                 $('html').addClass('uiTest');
+                $.fx.off = true;
+
+                var css = document.createElement('style');
+                css.type = 'text/css';
+                css.innerHTML = '* { -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }';
+                document.body.appendChild(css);
             }
         });
 
@@ -444,7 +450,7 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
 
                 // _setCorrectViewportSize might cause a re-render. We should wait for a while for the re-render to
                 // finish before capturing a screenshot to avoid possible random failures.
-                var timeInMsToWaitForReRenderToFinish = 400;
+                var timeInMsToWaitForReRenderToFinish = 440;
                 setTimeout(function () {
                     var previousClipRect = self.webpage.clipRect;
 

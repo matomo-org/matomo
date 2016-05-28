@@ -16,7 +16,8 @@ describe("GoalsTable", function () {
     it("should load when the goals icon is clicked", function (done) {
         expect.screenshot('initial').to.be.capture(function (page) {
             page.load(url);
-            page.click('.tableIconsGroup a[data-footer-icon-id=tableGoals]');
+            page.click('.activateVisualizationSelection');
+            page.click('.tableIcon[data-footer-icon-id=tableGoals]');
         }, done);
     });
 
@@ -50,7 +51,8 @@ describe("GoalsTable", function () {
 
     it("should show abandoned carts data when the abandoned carts link is clicked", function (done) {
         expect.screenshot('goals_table_abandoned_carts').to.be.capture(function (page) {
-            page.click('.tableIconsGroup a[data-footer-icon-id=ecommerceAbandonedCart]');
+            page.click('.activateVisualizationSelection');
+            page.click('.tableIcon[data-footer-icon-id=ecommerceAbandonedCart]');
         }, done);
     });
 });

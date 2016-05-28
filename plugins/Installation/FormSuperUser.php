@@ -77,7 +77,7 @@ class FormSuperUser extends QuickForm2
                 'content' => '&nbsp;&nbsp;' . $piwikProNewsletter,
             ));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn btn-lg'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(

@@ -61,6 +61,7 @@ class CoreHome extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
+        $stylesheets[] = "libs/bower_components/materialize/dist/css/materialize.min.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
         $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
         $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog.min.css";
@@ -84,12 +85,17 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/alert/alert.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "libs/bower_components/jquery/dist/jquery.min.js";
         $jsFiles[] = "libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js";
+        $jsFiles[] = "libs/bower_components/materialize/dist/js/materialize.min.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js";
@@ -105,8 +111,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/bower_components/ngDialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
-        $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
-        $jsFiles[] = "plugins/Morpheus/javascripts/morpheus.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
@@ -124,6 +128,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
@@ -148,6 +153,7 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/directive.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/attributes.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/field-condition.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/autocomplete-matched.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/ignore-click.js";
@@ -155,6 +161,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/focusif.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dialog.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/translate.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/side-nav.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
@@ -163,6 +172,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/history/history.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/activity-indicator/activityindicator.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/alert/alert.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
@@ -171,6 +182,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/content-block/content-block.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.controller.js";
@@ -201,6 +213,18 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/selector/selector.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
+
+        // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
+        // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
+        // any angular JS file is loaded etc.
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/smtp/mail-smtp.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/branding/branding.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.directive.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.controller.js";
 
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
@@ -208,7 +232,16 @@ class CoreHome extends \Piwik\Plugin
         // any angular JS file is loaded etc.
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.controller.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/form/form.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/form-field/form-field.directive.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/field/field.directive.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/save-button/save-button.directive.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-filter.directive.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-name.directive.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/marketplace/marketplace.controller.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/marketplace/marketplace.directive.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.min.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -217,6 +250,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
         $translationKeys[] = 'General_Hide';
+        $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Website';
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';

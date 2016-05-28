@@ -37,7 +37,7 @@
         "ExceptionNoValueForUsernameOrEmail": "Please enter a username or email address.",
         "ExcludeVisitsViaCookie": "Exclude your visits using a cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "For anonymous users, report date to load by default",
-        "GiveViewAccess": "Give view access",
+        "GiveViewAccess": "Give view access for %1$s",
         "GiveViewAccessTitle": "Give an existing user access to view reports for %s",
         "GiveViewAccessInstructions": "To give an existing user view access for %s enter the username or email address of an existing user",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "If you would like to change the password type a new one. Otherwise leave this blank.",

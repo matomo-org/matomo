@@ -48,9 +48,6 @@ The `deltaFactor` property was added to the event object in 3.1.5 so that the ac
 extracted. This is a non-standard property.
 
 
-## See it in action
-[See the tests on Github](http://brandonaaron.github.io/jquery-mousewheel/test).
-
 ## Using with [Browserify](http://browserify.org)
 
 Support for browserify is baked in.
@@ -77,9 +74,3 @@ In your browser-side javascript:
 var $ = require('jquery-browserify');
 require('jquery-mousewheel')($);
 ```
-
-## License
-
-This plugin is licensed under the [MIT License](LICENSE.txt).
-
-Copyright (c) 2013 [Brandon Aaron](http://brandon.aaron.sh)

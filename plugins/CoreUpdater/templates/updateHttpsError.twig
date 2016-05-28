@@ -6,7 +6,7 @@
         <h1>{{ 'CoreUpdater_UpdateErrorTitle'|translate }}</h1>
     </div>
 
-    <div class="content text-left">
+    <div class="content" style="text-align:left;">
 
         <div class="alert alert-warning">
             {{ 'CoreUpdater_UpdateUsingHttpsFailed'|translate }}<br/>
@@ -21,7 +21,7 @@
             <input type="hidden" name="module" value="CoreUpdater"/>
             <input type="hidden" name="action" value="oneClickUpdate"/>
             <input type="hidden" name="https" value="1"/>
-            <input id="updateUsingHttps" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+            <input id="updateUsingHttps" class="btn" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
             {{ 'CoreUpdater_UsingHttps'|translate }}
         </form>
         <br/>
@@ -30,13 +30,13 @@
             <input type="hidden" name="module" value="CoreUpdater"/>
             <input type="hidden" name="action" value="oneClickUpdate"/>
             <input type="hidden" name="https" value="0"/>
-            <input id="updateUsingHttp" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+            <input id="updateUsingHttp" class="btn" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
             {{ 'CoreUpdater_UsingHttp'|translate }}
         </form>
         <br/>
 
         <form action="index.php">
-            <input type="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+            <input type="submit" class="btn" value="{{ 'General_ContinueToPiwik'|translate }}"/>
         </form>
 
     </div>

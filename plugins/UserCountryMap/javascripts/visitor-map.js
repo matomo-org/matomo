@@ -310,7 +310,7 @@
                 $$('.UserCountryMap_map').off('click').click(zoomOut);
 
                 // handle window resizes
-                $(window).off('resize').resize(onResizeLazy);
+                $(window).off('resize', onResizeLazy).resize(onResizeLazy);
 
                 // enable metric changes
                 $$('.userCountryMapSelectMetrics').off('change').change(function () {

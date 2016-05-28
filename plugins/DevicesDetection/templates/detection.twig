@@ -15,13 +15,11 @@
             }, 'GET');
             ajaxHandler.setFormat('html');
             ajaxHandler.setCallback(function(response){
-                $('.itemList').html(response).dialog({
-                    modal: true,
-                    width: '50%',
-                    maxHeight: 400
-                });
+                var $list = $('#deviceDetectionItemList');
+                $list.find('.itemList').html(response);
+                piwikHelper.modalConfirm($list, [], {fixedFooter: true});
             });
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         }
 
     </script>
@@ -43,65 +41,73 @@
         }
     </style>
 
-    <h2>{{ title }}</h2>
+    <div piwik-content-block content-title="{{ title|e('html_attr') }}">
+        <h3>{{ 'DevicesDetection_UserAgent'|translate|e('html_attr') }}</h3>
 
-    <h3>{{ 'DevicesDetection_UserAgent'|translate }}</h3>
+        <form action="{{ linkTo({}) }}" method="POST">
+            <textarea name="ua">{{ userAgent }}</textarea>
+            <br />
+            <input type="submit" value="{{ 'General_Refresh'|translate }}" />
+        </form>
 
-    <br />
-    <form action="{{ linkTo({}) }}" method="POST">
-        <textarea name="ua">{{ userAgent }}</textarea>
-        <br />
-        <input type="submit" value="{{ 'General_Refresh'|translate }}" />
-    </form>
+        <h3>{{ 'DevicesDetection_ColumnOperatingSystem'|translate|e('html_attr') }}</h3>
+        <table class="detection" piwik-content-table>
+            <tbody>
+            <tr>
+                <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('os');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
+                <td><img src="{{ os_logo }}" />{{ os_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
+                <td>{{ os_version }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'DevicesDetection_OperatingSystemFamily'|translate }}  <small>(<a href="javascript:showList('osfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
+                <td><img src="{{ os_family_logo }}" />{{ os_family }}</td>
+            </tr>
+            </tbody>
+        </table>
 
-    <h3>{{ 'DevicesDetection_ColumnOperatingSystem'|translate }}</h3>
-    <table class="simple-table detection">
-        <tr>
-            <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('os');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-            <td><img src="{{ os_logo }}" />{{ os_name }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
-            <td>{{ os_version }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'DevicesDetection_OperatingSystemFamily'|translate }}  <small>(<a href="javascript:showList('osfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-            <td><img src="{{ os_family_logo }}" />{{ os_family }}</td>
-        </tr>
-    </table>
+        <h3>{{ 'DevicesDetection_ColumnBrowser'|translate }}</h3>
+        <table class="detection" piwik-content-table>
+            <tbody>
+            <tr>
+                <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('browsers');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
+                <td><img src="{{ browser_logo }}" />{{ browser_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
+                <td>{{ browser_version }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'DevicesDetection_BrowserFamily'|translate }} <small>(<a href="javascript:showList('browserfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
+                <td><img src="{{ browser_family_logo }}" />{{ browser_family }}</td>
+            </tr>
+            </tbody>
+        </table>
 
-    <h3>{{ 'DevicesDetection_ColumnBrowser'|translate }}</h3>
-    <table class="simple-table detection">
-        <tr>
-            <td>{{ 'General_Name'|translate }} <small>(<a href="javascript:showList('browsers');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-            <td><img src="{{ browser_logo }}" />{{ browser_name }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'CorePluginsAdmin_Version'|translate }}</td>
-            <td>{{ browser_version }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'DevicesDetection_BrowserFamily'|translate }} <small>(<a href="javascript:showList('browserfamilies');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-            <td><img src="{{ browser_family_logo }}" />{{ browser_family }}</td>
-        </tr>
-    </table>
+        <h3>{{ 'DevicesDetection_Device'|translate }}</h3>
+        <table class="detection" piwik-content-table>
+            <tbody>
+            <tr>
+                <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }} <small>(<a href="javascript:showList('devicetypes');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
+                <td><img src="{{ device_type_logo }}" />{{ device_type }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'DevicesDetection_dataTableLabelBrands'|translate }} <small>(<a href="javascript:showList('brands');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
+                <td><img src="{{ device_brand_logo }}" />{{ device_brand }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'DevicesDetection_dataTableLabelModels'|translate }}</td>
+                <td>{{ device_model }}</td>
+            </tr></tbody>
+        </table>
 
-    <h3>{{ 'DevicesDetection_Device'|translate }}</h3>
-    <table class="simple-table detection">
-        <tr>
-            <td>{{ 'DevicesDetection_dataTableLabelTypes'|translate }} <small>(<a href="javascript:showList('devicetypes');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-            <td><img src="{{ device_type_logo }}" />{{ device_type }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'DevicesDetection_dataTableLabelBrands'|translate }} <small>(<a href="javascript:showList('brands');">{{ 'Mobile_ShowAll'|translate }}</a>)</small></td>
-            <td><img src="{{ device_brand_logo }}" />{{ device_brand }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'DevicesDetection_dataTableLabelModels'|translate }}</td>
-            <td>{{ device_model }}</td>
-        </tr>
-    </table>
+    </div>
 
-    <div style="display: none;" class="itemList"></div>
+    <div class="ui-confirm" id="deviceDetectionItemList">
+        <div class="itemList"> </div>
+        <input role="close" type="button" value="{{ 'General_Close'|translate }}"/>
+    </div>
 
 {% endblock %}

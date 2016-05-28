@@ -9,37 +9,31 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_2_32 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             // 0.2.32 [941]
-            $this->migration->db->changeColumnType('access', 'login', 'VARCHAR( 100 ) NOT NULL'),
-            $this->migration->db->changeColumnType('user', 'login', 'VARCHAR( 100 ) NOT NULL'),
-            $this->migration->db->changeColumnType('user_dashboard', 'login', 'VARCHAR( 100 ) NOT NULL'),
-            $this->migration->db->changeColumnType('user_language', 'login', 'VARCHAR( 100 ) NOT NULL'),
+            'ALTER TABLE `' . Common::prefixTable('access') . '`
+				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL'                                                                       => false,
+            'ALTER TABLE `' . Common::prefixTable('user') . '`
+				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL'           => false,
+            'ALTER TABLE `' . Common::prefixTable('user_dashboard') . '`
+				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => '1146',
+            'ALTER TABLE `' . Common::prefixTable('user_language') . '`
+				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL'  => '1146',
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

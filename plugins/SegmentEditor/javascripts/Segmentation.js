@@ -972,8 +972,11 @@ Segmentation = (function($) {
             }
             // remove any remaining forms
 
+
             self.form = getFormHtml();
             self.target.prepend(self.form);
+
+            piwikHelper.setMarginLeftToBeInViewport(self.form);
 
             // if there's enough space to the left & not enough space to the right,
             // anchor the form to the right of the selector
@@ -1230,7 +1233,7 @@ $(document).ready(function() {
                     self.changeSegmentList(self.props.availableSegments);
                 }
             });
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         var updateSegment = function(params){
@@ -1269,7 +1272,7 @@ $(document).ready(function() {
                     self.changeSegmentList(self.props.availableSegments);
                 }
             });
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         var deleteSegment = function(params){
@@ -1303,13 +1306,14 @@ $(document).ready(function() {
 
                     self.$element.find('a.close').click();
                     self.changeSegment('');
+                    
                     $('.ui-dialog-content').dialog('close');
 
                     self.changeSegmentList(self.props.availableSegments);
                 }
             });
 
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         var segmentFromRequest = encodeURIComponent(self.props.selectedSegment)

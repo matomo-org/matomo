@@ -71,7 +71,6 @@
         "IsExactly": "is exactly %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Learn more about %1$s Tracking Goals in Piwik%2$s in the user documentation.",
         "LeftInCart": "%s left in cart",
-        "ManageGoalsOrCreateANewGoal": "%1$sManage Goals%2$s or create a new Goal now!",
         "Manually": "manually",
         "ManuallyTriggeredUsingJavascriptFunction": "Goal is manually triggered using the JavaScript API trackGoal()",
         "MatchesExpression": "matches the expression %s",
@@ -103,7 +102,7 @@
         "VisitUrl": "Visit a given URL (page or group of pages)",
         "WhenVisitors": "when visitors",
         "WhereThe": "where the",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "where the visited page contains a call to the JavaScript 'trackGoal' method (%1$slearn more%2$s)",
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "The visited page needs to contain a call to the JavaScript 'trackGoal' method (%1$slearn more%2$s)",
         "YouCanEnableEcommerceReports": "You can enable %1$s for this website in the %2$s page."
     }
 }

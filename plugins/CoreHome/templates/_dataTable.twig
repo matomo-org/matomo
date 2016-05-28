@@ -2,6 +2,30 @@
     {% include visualizationTemplate %}
 {%- else -%}
 
+{% set isDataTableEmpty = (dataTable is empty or dataTableHasNoData|default(false)) %}
+
+{% set showCardAsContentBlock = (properties.show_as_content_block and properties.show_title and not isWidget) %}
+{% set showOnlyTitleWithoutCard = not showCardAsContentBlock and properties.title and properties.show_title %}
+
+{% if showCardAsContentBlock  %}
+<div class="card">
+<div class="card-content">
+    {% if properties.title %}
+        <span class="card-title"
+              piwik-enriched-headline
+        >{{ properties.title }}</span>
+    {% endif %}
+{% elseif showOnlyTitleWithoutCard %}
+    <div>
+    <h2>{{ properties.title }}</h2>
+{% endif %}
+
+{% set showCardTableIsEmpty = not properties.show_as_content_block and isDataTableEmpty and not isWidget %}
+{% if showCardTableIsEmpty %}
+    <div class="card">
+    <div class="card-content">
+{% endif %}
+
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
 <div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %}"
@@ -10,15 +34,17 @@
      data-report-metadata="{{ reportMetdadata|json_encode|e('html_attr') }}"
      data-props="{% if clientSideProperties is empty %}{}{% else %}{{ clientSideProperties|json_encode }}{% endif %}"
      data-params="{% if clientSideParameters is empty %}{}{% else %}{{ clientSideParameters|json_encode }}{% endif %}">
+
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
-        {% if reportLastUpdatedMessage is defined %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
+        {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
     </div>
+
     <div class="dataTableWrapper">
         {% if error is defined %}
             {{ error.message }}
         {% else %}
-            {% if dataTable is empty or dataTableHasNoData|default(false) %}
+            {% if isDataTableEmpty %}
                 <div class="pk-emptyDataTable">
                 {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
                     {{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}
@@ -33,9 +59,20 @@
             {% if properties.show_footer %}
                 {% include "@CoreHome/_dataTableFooter.twig" %}
             {% endif %}
+
             {% include "@CoreHome/_dataTableJS.twig" %}
         {% endif %}
     </div>
 </div>
+
+{% if showCardTableIsEmpty %}
+    </div></div>
+{% endif %}
+
+{% if showCardAsContentBlock %}
+    </div></div>
+{% elseif showOnlyTitleWithoutCard %}
+    </div>
+{% endif %}
 
 {%- endif %}

@@ -303,7 +303,7 @@ class Pages
                 $widget->setIsNotWidgetizable();
 
                 if (!empty($report['viewDataTable'])) {
-                    $widget->setDefaultViewDataTable($report['viewDataTable']);
+                    $widget->forceViewDataTable($report['viewDataTable']);
                 }
 
                 $container->addWidgetConfig($widget);

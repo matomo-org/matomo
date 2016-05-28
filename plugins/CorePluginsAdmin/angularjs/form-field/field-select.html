@@ -1,0 +1,8 @@
+<div>
+    <select name="{{ formField.name }}"
+            ng-model="formField.value"
+            ng-options="t.key as t.value group by t.group for t in formField.availableOptions"
+            piwik-attributes="{{formField.uiControlAttributes}}">
+    </select>
+    <label for="{{ formField.name }}" ng-bind-html="formField.title"></label>
+</div>

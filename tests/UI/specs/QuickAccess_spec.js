@@ -8,7 +8,7 @@
  */
 
 describe("QuickAccess", function () {
-    var selectorToCapture = "#search,.quick-access";
+    var selectorToCapture = ".quick-access,.quick-access .dropdown";
 
     this.timeout(0);
 
@@ -16,7 +16,7 @@ describe("QuickAccess", function () {
 
     function enterSearchTerm(page, searchTermToAdd)
     {
-        page.sendKeys("#search input", searchTermToAdd);
+        page.sendKeys(".quick-access input", searchTermToAdd);
     }
 
     function captureSelector(screenshotName, done, selector, callback)

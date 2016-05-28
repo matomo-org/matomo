@@ -8,9 +8,6 @@
     {{ parent() }}
 
     <script type="text/javascript" src="libs/bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-    <!--[if lt IE 9]>
-    <script src="libs/bower_components/html5shiv/dist/html5shiv.min.js"></script>
-    <![endif]-->
     <script type="text/javascript" src="libs/jquery/jquery.smartbanner.js"></script>
     <link rel="stylesheet" type="text/css" href="libs/jquery/stylesheets/jquery.smartbanner.css" />
 
@@ -38,119 +35,154 @@
 
     <div id="notificationContainer">
     </div>
+    <nav class="blue-grey darken-3">
+        <div class="nav-wrapper">
+            <span id="logo" class="brand-logo center">
 
-    <div id="logo">
-        {% if isCustomLogo == false %}
-            <a href="http://piwik.org" title="{{ linkTitle }}">
-        {% endif %}
-        {% if hasSVGLogo %}
-            <img src='{{ logoSVG }}' title="{{ linkTitle }}" alt="Piwik" class="ie-hide"/>
-            <!--[if lt IE 9]>
-        {% endif %}
-        <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" />
-        {% if hasSVGLogo %}<![endif]-->{% endif %}
+                {% if isCustomLogo == false %}
+                    <a href="http://piwik.org" title="{{ linkTitle }}">
+                {% endif %}
+                {% if hasSVGLogo %}
+                    <img src='{{ logoSVG }}' title="{{ linkTitle }}" alt="Piwik"/>
+                {% else %}
+                    <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" />
+                {% endif %}
 
-        {% if isCustomLogo %}
-            {% set poweredByPiwik %}
-            <i><a href="http://piwik.org/" rel="noreferrer"  target="_blank">{{ linkTitle }}</a></i>
-            {% endset %}
-        {% endif %}
+                {% if isCustomLogo == false %}
+                    </a>
+                {% endif %}
 
-        {% if isCustomLogo == false %}
-            </a>
-            <div class="description">
-                <a href="http://piwik.org" title="{{ linkTitle }}">{{ linkTitle }}</a>
-                <div class="arrow"></div>
-            </div>
-        {% endif %}
-    </div>
+            </span>
+        </div>
+    </nav>
 
-    <section class="loginSection">
+    <section class="loginSection row">
+        <div class="col s12 m6 push-m3 l4 push-l4">
 
         {# untrusted host warning #}
         {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
             {% include '@CoreHome/_warningInvalidHost.twig' %}
         {% else %}
-            <div id="message_container">
+            <div class="contentForm loginForm">
+                {% embed 'contentBlock.twig' with {'title': 'Login_LogIn'|translate} %}
+                {% block content %}
 
-                {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}
+                    <div class="message_container">
 
-                {% if AccessErrorString %}
-                    <div class="message_error">
-                        <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+                        {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}
+
+                        {% if AccessErrorString %}
+                            <div class="message_error">
+                                <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+                            </div>
+                        {% endif %}
+
+                        {% if infoMessage %}
+                            <p class="message">{{ infoMessage|raw }}</p>
+                        {% endif %}
                     </div>
-                {% endif %}
 
-                {% if infoMessage %}
-                    <p class="message">{{ infoMessage|raw }}</p>
-                {% endif %}
+                    <form {{ form_data.attributes|raw }} ng-non-bindable>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
+                                       tabindex="10" autofocus="autofocus"/>
+                                <label for="login_form_login"><i class="icon-user icon"></i> {{ 'General_Username'|translate }}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
+                                <input type="password" placeholder="" name="form_password" id="login_form_password" class="input" value="" size="20"
+                                       tabindex="20" />
+                                <label for="login_form_password"><i class="icon-locked icon"></i> {{ 'General_Password'|translate }}</label>
+                            </div>
+                        </div>
+
+                        <div class="row actions">
+                            <div class="col s12">
+                                <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
+                                       {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
+                                <label for="login_form_rememberme">{{ 'Login_RememberMe'|translate }}</label>
+                                <input class="submit btn" id='login_form_submit' type="submit" value="{{ 'Login_LogIn'|translate }}"
+                                       tabindex="100"/>
+                            </div>
+                        </div>
+
+                    </form>
+                    <p id="nav">
+                        {{ postEvent("Template.loginNav", "top") }}
+                        <a id="login_form_nav" href="#"
+                           title="{{ 'Login_LostYourPassword'|translate }}">{{ 'Login_LostYourPassword'|translate }}</a>
+                        {{ postEvent("Template.loginNav", "bottom") }}
+                    </p>
+
+                    {% if isCustomLogo %}
+                        <p id="piwik">
+                            <i><a href="http://piwik.org/" rel="noreferrer"  target="_blank">{{ linkTitle }}</a></i>
+                        </p>
+                    {% endif %}
+
+                {% endblock %}
+                {% endembed %}
             </div>
-            <form {{ form_data.attributes|raw }} ng-non-bindable>
-                <h1>{{ 'Login_LogIn'|translate }}</h1>
-                <fieldset class="inputs">
-                    <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20"
-                           tabindex="10"
-                           placeholder="{{ 'General_Username'|translate }}" autofocus="autofocus"/>
-                    <input type="password" name="form_password" id="login_form_password" class="input" value="" size="20"
-                           tabindex="20"
-                           placeholder="{{ 'General_Password'|translate }}"/>
-                    <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
-                </fieldset>
+            <div class="contentForm resetForm" style="display:none;">
+                {% embed 'contentBlock.twig' with {'title': 'Login_ChangeYourPassword'|translate} %}
+                {% block content %}
 
-                <fieldset class="actions">
-                    <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
-                           {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
-                    <label for="login_form_rememberme">{{ 'Login_RememberMe'|translate }}</label>
-                    <input class="submit" id='login_form_submit' type="submit" value="{{ 'Login_LogIn'|translate }}"
-                           tabindex="100"/>
-                </fieldset>
-            </form>
-            <form id="reset_form" style="display:none;" ng-non-bindable>
-                <fieldset class="inputs">
-                    <input type="text" name="form_login" id="reset_form_login" class="input" value="" size="20"
-                           tabindex="10"
-                           placeholder="{{ 'Login_LoginOrEmail'|translate }}"/>
-                    <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
+                    <div class="message_container">
+                    </div>
 
-                    <input type="password" name="form_password" id="reset_form_password" class="input" value="" size="20"
-                           tabindex="20" autocomplete="off"
-                           placeholder="{{ 'General_Password'|translate }}"/>
+                    <form id="reset_form" ng-non-bindable>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
+                                <input type="text" placeholder="" name="form_login" id="reset_form_login" class="input" value="" size="20"
+                                       tabindex="10"/>
+                                <label for="reset_form_login">{{ 'Login_LoginOrEmail'|translate }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="password" placeholder="" name="form_password" id="reset_form_password" class="input" value="" size="20"
+                                       tabindex="20" autocomplete="off"/>
+                                <label for="reset_form_password">{{ 'Login_NewPassword'|translate }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="password" placeholder="" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
+                                       size="20" tabindex="30" autocomplete="off"/>
+                                <label for="reset_form_password_bis">{{ 'Login_NewPasswordRepeat'|translate }}</label>
+                            </div>
+                        </div>
 
-                    <input type="password" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
-                           size="20" tabindex="30" autocomplete="off"
-                           placeholder="{{ 'Login_PasswordRepeat'|translate }}"/>
-                </fieldset>
+                        <div class="row actions">
+                            <div class="col s12">
+                                <input class="submit btn" id='reset_form_submit' type="submit"
+                                       value="{{ 'General_ChangePassword'|translate }}" tabindex="100"/>
 
-                <fieldset class="actions">
-                    <span class="loadingPiwik" style="display:none;">
-                        <img alt="Loading" src="plugins/Morpheus/images/loading-blue.gif"/>
-                    </span>
-                    <input class="submit" id='reset_form_submit' type="submit"
-                           value="{{ 'General_ChangePassword'|translate }}" tabindex="100"/>
-                </fieldset>
+                                <span class="loadingPiwik" style="display:none;">
+                                    <img alt="Loading" src="plugins/Morpheus/images/loading-blue.gif"/>
+                                </span>
+                            </div>
+                        </div>
 
-                <input type="hidden" name="module" value="{{ loginModule }}"/>
-                <input type="hidden" name="action" value="resetPassword"/>
-            </form>
-            <p id="nav">
-                {{ postEvent("Template.loginNav", "top") }}
-                <a id="login_form_nav" href="#"
-                   title="{{ 'Login_LostYourPassword'|translate }}">{{ 'Login_LostYourPassword'|translate }}</a>
-                <a id="alternate_reset_nav" href="#" style="display:none;"
-                   title="{{'Login_LogIn'|translate}}">{{ 'Login_LogIn'|translate }}</a>
-                <a id="reset_form_nav" href="#" style="display:none;"
-                   title="{{ 'Mobile_NavigationBack'|translate }}">{{ 'General_Cancel'|translate }}</a>
-                {{ postEvent("Template.loginNav", "bottom") }}
-            </p>
-            {% if poweredByPiwik is defined %}
-                <p id="piwik">
-                    {{ poweredByPiwik }}
-                </p>
-            {% endif %}
-            <div id="lost_password_instructions" style="display:none;">
-                <p class="message">{{ 'Login_ResetPasswordInstructions'|translate }}</p>
+                        <input type="hidden" name="module" value="{{ loginModule }}"/>
+                        <input type="hidden" name="action" value="resetPassword"/>
+                    </form>
+                    <p id="nav">
+                        <a id="reset_form_nav" href="#"
+                           title="{{ 'Mobile_NavigationBack'|translate }}">{{ 'General_Cancel'|translate }}</a>
+                        <a id="alternate_reset_nav" href="#" style="display:none;"
+                           title="{{'Login_LogIn'|translate}}">{{ 'Login_LogIn'|translate }}</a>
+                    </p>
+                {% endblock %}
+                {% endembed %}
             </div>
         {% endif %}
+
     </section>
 
 {% endblock %}

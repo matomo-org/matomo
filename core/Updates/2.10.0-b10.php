@@ -12,23 +12,13 @@ namespace Piwik\Updates;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_10_0_b10 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
 
-    public function __construct(MigrationFactory $factory)
+    public function getMigrationQueries(Updater $updater)
     {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
-    {
-        $migrations = array();
+        $sqls = array();
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
@@ -37,10 +27,10 @@ class Updates_2_10_0_b10 extends Updates
         });
 
         foreach ($archiveBlobTables as $table) {
-            $migrations[] = $this->migration->db->sql("UPDATE $table SET name = 'DevicePlugins_plugin' WHERE name = 'UserSettings_plugin'");
+            $sqls["UPDATE " . $table . " SET name = 'DevicePlugins_plugin' WHERE name = 'UserSettings_plugin'"] = false;
         }
 
-        return $migrations;
+        return $sqls;
     }
 
     public function doUpdate(Updater $updater)
@@ -52,6 +42,6 @@ class Updates_2_10_0_b10 extends Updates
         } catch (\Exception $e) {
         }
 
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.4.3
+ * @license AngularJS v1.4.10
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -39,16 +39,17 @@ angular.module('ngCookies', ['ng']).
      * The object may have following properties:
      *
      * - **path** - `{string}` - The cookie will be available only for this path and its
-     *   sub-paths. By default, this would be the URL that appears in your base tag.
+     *   sub-paths. By default, this is the URL that appears in your `<base>` tag.
      * - **domain** - `{string}` - The cookie will be available only for this domain and
-     *   its sub-domains. For obvious security reasons the user agent will not accept the
-     *   cookie if the current domain is not a sub domain or equals to the requested domain.
+     *   its sub-domains. For security reasons the user agent will not accept the cookie
+     *   if the current domain is not a sub-domain of this domain or equal to it.
      * - **expires** - `{string|Date}` - String of the form "Wdy, DD Mon YYYY HH:MM:SS GMT"
      *   or a Date object indicating the exact date/time this cookie will expire.
-     * - **secure** - `{boolean}` - The cookie will be available only in secured connection.
+     * - **secure** - `{boolean}` - If `true`, then the cookie will only be available through a
+     *   secured connection.
      *
-     * Note: by default the address that appears in your `<base>` tag will be used as path.
-     * This is import so that cookies will be visible for all routes in case html5mode is enabled
+     * Note: By default, the address that appears in your `<base>` tag will be used as the path.
+     * This is important so that cookies will be visible for all routes when html5mode is enabled.
      *
      **/
     var defaults = this.defaults = {};
@@ -278,7 +279,7 @@ function $$CookieWriter($document, $log, $browser) {
     options = options || {};
     expires = options.expires;
     path = angular.isDefined(options.path) ? options.path : cookiePath;
-    if (value === undefined) {
+    if (angular.isUndefined(value)) {
       expires = 'Thu, 01 Jan 1970 00:00:00 GMT';
       value = '';
     }

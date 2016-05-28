@@ -26,10 +26,12 @@
         </div>
         {% if annotation.canEditOrDelete %}
             <div class="annotation-edit-mode" style="display:none;">
-                <input class="annotation-edit" type="text" value="{{ annotation.note|raw }}"/>
+                <div class="input-field">
+                    <input class="annotation-edit browser-default" type="text" value="{{ annotation.note|raw }}"/>
+                </div>
                 <br/>
-                <input class="annotation-save submit" type="button" value="{{ 'General_Save'|translate }}"/>
-                <input class="annotation-cancel submit" type="button" value="{{ 'General_Cancel'|translate }}"/>
+                <input class="annotation-save btn" type="button" value="{{ 'General_Save'|translate }}"/>
+                <input class="annotation-cancel btn" type="button" value="{{ 'General_Cancel'|translate }}"/>
             </div>
         {% endif %}
     </td>

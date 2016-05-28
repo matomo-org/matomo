@@ -369,7 +369,7 @@ class Manager
         if ($view->config->show_goals) {
             $goalButton = static::getFooterIconFor(Goals::ID);
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
-                $goalButton['icon'] = 'plugins/Morpheus/images/ecommerceOrder.gif';
+                $goalButton['icon'] = 'icon-ecommerce-order';
             }
 
             $normalViewIcons['buttons'][] = $goalButton;
@@ -379,14 +379,14 @@ class Manager
             $normalViewIcons['buttons'][] = array(
                 'id' => 'ecommerceOrder',
                 'title' => Piwik::translate('General_EcommerceOrders'),
-                'icon' => 'plugins/Morpheus/images/ecommerceOrder.gif',
+                'icon' => 'icon-ecommerce-order',
                 'text' => Piwik::translate('General_EcommerceOrders')
             );
 
             $normalViewIcons['buttons'][] = array(
                 'id' => 'ecommerceAbandonedCart',
                 'title' => Piwik::translate('General_AbandonedCarts'),
-                'icon' => 'plugins/Morpheus/images/ecommerceAbandonedCart.gif',
+                'icon' => 'icon-ecommerce-abandoned-cart',
                 'text' => Piwik::translate('General_AbandonedCarts')
             );
         }
@@ -400,7 +400,7 @@ class Manager
     {
         // add graph views
         $graphViewIcons = array(
-            'class'   => 'tableGraphViews tableGraphCollapsed',
+            'class'   => 'tableGraphViews',
             'buttons' => array(),
         );
 

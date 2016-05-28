@@ -141,7 +141,13 @@ class PrivacyManager extends Plugin
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -152,7 +158,12 @@ class PrivacyManager extends Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/PrivacyManager/javascripts/privacySettings.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/report-deletion.model.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/schedule-report-deletion/schedule-report-deletion.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-ip/anonymize-ip.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-logs/delete-old-logs.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
     }
 
     /**

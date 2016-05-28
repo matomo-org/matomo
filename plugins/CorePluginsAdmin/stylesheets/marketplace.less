@@ -1,21 +1,29 @@
 .marketplace {
-    .plugin-search {
-        float: right;
-
-        input, button {
-            height: 41px;
-            margin-bottom: 0;
-        }
-        button {
-            font-size: inherit !important; // because the default Piwik button style is crazy
-        }
+    > .row {
+        margin: 0 -0.75rem;
     }
 
-    .marketplace-max-width {
-        max-width: 980px;
+    .marketplaceActions {
+        margin-bottom: 0;
+    }
+
+    .plugin-search {
+        position: relative;
+        margin-right: 20px;
+        .icon-search {
+            position: absolute;
+            bottom: 32px;
+            right: -16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
     }
 
     .plugin {
+        h3 {
+            word-break: break-all;
+        }
         text-align: center;
         .description {
             @line-height: 18px;
@@ -59,7 +67,7 @@
                 text-decoration: none;
             }
         }
-        .panel-footer {
+        .footer {
             padding: 12px 40px;
         }
     }

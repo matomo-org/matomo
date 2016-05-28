@@ -1,9 +1,12 @@
 .limitSelection {
-  float: right;
+  text-align: right;
   position: relative;
   margin-left: 5px;
   min-height: 20px;
-  z-index: 1;
+  padding-top: 4px;
+  vertical-align: top;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
 .limitSelection.hidden {
@@ -11,14 +14,55 @@
 }
 
 .limitSelection > div {
-  border: 1px solid #DFDFDF;
-  border-radius: 4px;
-  background: url(plugins/Morpheus/images/sort_subtable_desc_light.png) no-repeat right 2px;
-  padding: 0 14px 0 4px;
-  display: block;
-  width: 41px;
-  height: 26px;
-  cursor: pointer;
+  .select-wrapper:hover {
+    background-color: #edecec;
+    border-radius: 2px;
+    color: #333;
+    cursor: pointer;
+
+    input.select-dropdown {
+      color: #333;
+    }
+    span.caret {
+        color: #333 !important;
+    }
+  }
+
+  .select-wrapper {
+    input.select-dropdown {
+      height: 30px;
+      line-height: 30px;
+      font-size: 16px;
+      margin-bottom: 0;
+      padding-left: 5px;
+      width: 42px !important;
+      overflow: hidden;
+      border: 0;
+      transition: all 0s;
+      color: #adadad;
+      &:hover {
+        color: #333;
+        border-color: #333;
+      }
+    }
+    span.caret {
+      top: 8px;
+      right: 4px;
+      color: #adadad;
+    }
+  }
+
+  margin-top: 0;
+  display: inline-block;
+  width: 47px;
+  height: 30px;
+}
+
+body > .widget,
+#dashboardWidgetsArea {
+  .limitSelection .select-wrapper span.caret {
+    top: 7px;
+  }
 }
 
 .limitSelection.disabled > div {
@@ -28,40 +72,33 @@
 }
 
 .limitSelection.visible > div {
-  border-radius: 0 0 4px 4px;
   background-image: url(plugins/Morpheus/images/sort_subtable_asc_light.png)
 }
 
 .limitSelection > ul {
   margin-top: 1px;
   overflow: visible;
-  background-color: @theme-color-background-base;
 }
 
 .limitSelection > ul > li {
   cursor: pointer;
   padding: 0 10px 0 4px;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: bold;
-  height: 20px;
-  margin-top: -40px;
-  background-color: @theme-color-background-base;
-  border-left: 1px solid #DFDFDF;
-  border-right: 1px solid #DFDFDF;
+  height: 24px;
+  margin-top: -48px;
+  background-color: @theme-color-background-contrast;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
   vertical-align: middle;
   text-align: right;
 }
 
 .limitSelection > ul > li.last {
-  border-top: 1px solid #DFDFDF;
-  border-radius: 4px 4px 0 0;
+  border-top: 1px solid #ccc;
 }
 
 .limitSelection > ul > li:hover {
   background-color: @color-silver-l95;
 }
 
-.limitSelection span {
-  padding-top: 3px;
-  display: inline-block;
-}

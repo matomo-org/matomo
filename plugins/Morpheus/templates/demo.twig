@@ -69,53 +69,41 @@
             This page is intended to show all the UI components and styles available to use in Piwik.
         </p>
 
-        <h2>Containers</h2>
-        <p>
-            All HTML should be in a container:
-        </p>
-        <ul>
-            <li><code>.container-fluid</code>: this container is fluid and will take 100% of the width</li>
-            <li><code>.container</code>: this container has a max-width that adapts to the screen size</li>
-        </ul>
-        <p>
-            Read more about <a href="http://getbootstrap.com/css/#overview-container">Bootstrap's containers</a>.
-        </p>
-
         <h2>Grid system</h2>
         <p>
-            Bootstrap's grid system allows to organize the content in columns, all the while staying responsive for smaller screens.
+            Materialize's grid system allows to organize the content in columns, all the while staying responsive for smaller screens.
         </p>
         <div class="grid-demo">
             <div class="row">
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
-                <div class="col-md-1">.col-md-1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
             </div>
             <div class="row">
-                <div class="col-md-8">.col-md-8</div>
-                <div class="col-md-4">.col-md-4</div>
+                <div class="col s8">.col m8</div>
+                <div class="col m4">.col m4</div>
             </div>
             <div class="row">
-                <div class="col-md-4">.col-md-4</div>
-                <div class="col-md-4">.col-md-4</div>
-                <div class="col-md-4">.col-md-4</div>
+                <div class="col m4">.col m4</div>
+                <div class="col m4">.col m4</div>
+                <div class="col m4">.col m4</div>
             </div>
             <div class="row">
-                <div class="col-md-6">.col-md-6</div>
-                <div class="col-md-6">.col-md-6</div>
+                <div class="col m6">.col m6</div>
+                <div class="col m6">.col m6</div>
             </div>
         </div>
         <p>
-            Read more about <a href="http://getbootstrap.com/css/#grid">Bootstrap's grid system</a>.
+            Read more about <a href="http://materializecss.com/grid.html">Materialize's grid system</a>.
         </p>
 
         <h2>Typography</h2>
@@ -138,14 +126,25 @@
         <h3>Alignment classes</h3>
 
         <div class="demo">
-            <p class="text-left">Left aligned text.</p>
-            <p class="text-center">Center aligned text.</p>
-            <p class="text-right">Right aligned text.</p>
+            <p class="left">Left aligned block.</p>
+            <p class="center">Center aligned block.</p>
+            <p class="right">Right aligned block.</p>
         </div>
         <div class="demo-code">
-            <pre>&lt;p class=&quot;text-left&quot;&gt;Left aligned text.&lt;/p&gt;
-&lt;p class=&quot;text-center&quot;&gt;Center aligned text.&lt;/p&gt;
-&lt;p class=&quot;text-right&quot;&gt;Right aligned text.&lt;/p&gt;</pre>
+            <pre>&lt;p class=&quot;left&quot;&gt;Left aligned block.&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;Center aligned block.&lt;/p&gt;
+&lt;p class=&quot;right&quot;&gt;Right aligned block.&lt;/p&gt;</pre>
+        </div>
+
+        <div class="demo">
+            <p class="left-align">Left aligned text.</p>
+            <p class="center-align">Center aligned text.</p>
+            <p class="right-align">Right aligned text.</p>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;p class=&quot;left-align&quot;&gt;Left aligned text.&lt;/p&gt;
+&lt;p class=&quot;center-align&quot;&gt;Center aligned text.&lt;/p&gt;
+&lt;p class=&quot;right-align&quot;&gt;Right aligned text.&lt;/p&gt;</pre>
         </div>
 
         <h3>Lists</h3>
@@ -167,235 +166,308 @@
         <div class="demo">
             <a class="btn" href="#">Link</a>
             <input type="button" class="btn" value="Input">
-            <input type="submit" value="Submit">
-            <button type="submit">Button</button>
+            <input type="submit" class="btn" value="Submit">
         </div>
         <div class="demo-code">
             <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;Link&lt;/a&gt;
 &lt;input type=&quot;button&quot; class=&quot;btn&quot; value=&quot;Input&quot;&gt;
-&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
-&lt;button type=&quot;submit&quot;&gt;Button&lt;/button&gt;</pre>
+&lt;input type=&quot;submit&quot; class=&quot;brn&quot; value=&quot;Submit&quot;&gt;</pre>
         </div>
 
         <div class="demo">
-            <button class="btn btn-lg">Large button</button>
-            <a class="btn btn-lg" href="#">Large button</a>
+            <button class="btn btn-large">Large button</button>
+            <a class="btn btn-large" href="#">Large button</a>
         </div>
         <div class="demo-code">
-            <pre>&lt;button class=&quot;btn btn-lg&quot;&gt;Large button&lt;/button&gt;
-&lt;a class=&quot;btn btn-lg&quot; href=&quot;#&quot;&gt;Large button&lt;/a&gt;</pre>
+            <pre>&lt;button class=&quot;btn btn-large&quot;&gt;Large button&lt;/button&gt;
+&lt;a class=&quot;btn btn-large&quot; href=&quot;#&quot;&gt;Large button&lt;/a&gt;</pre>
         </div>
 
         <div class="demo">
             <div class="div-block">
                 <a class="btn btn-block" href="#">Block button</a>
-                <a class="btn btn-lg btn-block" href="#">Large block button</a>
+                <a class="btn btn-large btn-block" href="#">Large block button</a>
             </div>
         </div>
         <div class="demo-code">
             <pre>&lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;Block button&lt;/a&gt;
-&lt;a class=&quot;btn btn-lg btn-block&quot; href=&quot;#&quot;&gt;Large block button&lt;/a&gt;</pre>
-        </div>
-
-        <h3>Link buttons</h3>
-
-        <div class="demo">
-            <a class="btn btn-link" href="#">Link button</a>
-        </div>
-        <div class="demo-code">
-            <pre>&lt;a class=&quot;btn btn-link&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;</pre>
+&lt;a class=&quot;btn btn-large btn-block&quot; href=&quot;#&quot;&gt;Large block button&lt;/a&gt;</pre>
         </div>
 
         <h3>Flat buttons</h3>
 
         <div class="demo">
-            <a class="btn btn-flat" href="#">Flat button</a>
-            <a class="btn btn-flat" href="#"><span class="icon-add"></span></a>
-            <a class="btn btn-flat btn-lg" href="#">Flat button</a>
-            <a class="btn btn-flat btn-lg" href="#"><span class="icon-add"></span></a>
+            <a class="btn-flat" href="#">Flat button</a>
+            <a class="btn-flat" href="#"><span class="icon-add"></span></a>
+            <a class="btn-flat btn-large" href="#">Flat button</a>
+            <a class="btn-flat btn-large" href="#"><span class="icon-add"></span></a>
         </div>
         <div class="demo-code">
             <pre>&lt;a class=&quot;btn btn-flat&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
 &lt;a class=&quot;btn btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;
-&lt;a class=&quot;btn btn-flat btn-lg&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
-&lt;a class=&quot;btn btn-flat btn-lg&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
+&lt;a class=&quot;btn btn-flat btn-large&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn btn-flat btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
         </div>
+
+        <h2>Loading indicator</h2>
+        <div class="demo">
+            <div piwik-activity-indicator loading="true"></div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-activity-indicator loading=&quot;true&quot;>&lt;/div></pre>
+        </div>
+        <p>
+            This is an angular component. You can change the loading state via angular.
+        </p>
+
+        <h2>Progressbar</h2>
+        <div class="demo">
+            <div piwik-progressbar progress="5" label="'Downloading database'"></div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-progressbar progress=&quot;5&quot; label=&quot;Downloading database&quot;>&lt;/div></pre>
+        </div>
+        <p>
+            This is an angular component. Update the progress and label via angular.
+        </p>
 
         <h2>Alerts</h2>
 
         <div class="demo">
-            <div class="alert alert-info">
+            <div piwik-alert="info">
                 <strong>Info!</strong> This alert needs <a>your attention</a>, but it's not super important.
             </div>
-            <div class="alert alert-success">
+            <div piwik-alert="success">
                 <strong>Success!</strong> You successfully read this important <a>alert message</a>.
             </div>
-            <div class="alert alert-warning">
+            <div piwik-alert="warning">
                 <strong>Warning!</strong> Better <a>check</a> yourself, you're not looking too good.
             </div>
-            <div class="alert alert-danger">
+            <div piwik-alert="danger">
                 <strong>Error!</strong> Change <a>a few things</a> up and try submitting again.
             </div>
         </div>
         <div class="demo-code">
-            <pre>&lt;div class=&quot;alert alert-info&quot;&gt;...&lt;/div&gt;
-&lt;div class=&quot;alert alert-success&quot;&gt;...&lt;/div&gt;
-&lt;div class=&quot;alert alert-warning&quot;&gt;...&lt;/div&gt;
-&lt;div class=&quot;alert alert-danger&quot;&gt;...&lt;/div&gt;</pre>
+            <pre>&lt;div piwik-alert=&quot;info&quot;&gt;
+    &lt;strong&gt;Info!&lt;/strong&gt; This alert needs &lt;a&gt;your attention&lt;/a&gt;, but it's not super important.
+&lt;/div&gt;
+&lt;div piwik-alert=&quot;success&quot;&gt;
+    &lt;strong&gt;Success!&lt;/strong&gt; You successfully read this important &lt;a&gt;alert message&lt;/a&gt;.
+&lt;/div&gt;
+&lt;div piwik-alert=&quot;warning&quot;&gt;
+    &lt;strong&gt;Warning!&lt;/strong&gt; Better &lt;a&gt;check&lt;/a&gt; yourself, you're not looking too good.
+&lt;/div&gt;
+&lt;div piwik-alert=&quot;danger&quot;&gt;
+    &lt;strong&gt;Error!&lt;/strong&gt; Change &lt;a&gt;a few things&lt;/a&gt; up and try submitting again.
+&lt;/div&gt;</pre>
         </div>
-
-        <p>
-            Read more about <a href="http://getbootstrap.com/components/#alerts">Bootstrap's alerts</a>.
-        </p>
 
         <h2>Forms</h2>
 
         <h3>Simple form</h3>
 
         <div class="demo">
-            <form action="#">
-                <div class="form-group">
-                    <label for="username">
-                        Username
-                    </label>
-                    <input type="text" id="username" placeholder="Some text here..."/>
+            <div piwik-form>
+                <div piwik-field uicontrol="text" name="username"
+                     title="Username"
+                     introduction="This is an introduction. It can be used to group form fields"
+                     placeholder="Some text here">
                 </div>
 
-                <div class="form-group">
-                    <label for="email">
-                        Email
-                    </label>
-                    <div class="form-help">
-                        Here is more information.
-                    </div>
-                    <input type="email" id="email" placeholder="Some email here..."/>
+                <div piwik-field uicontrol="text" name="email"
+                     title="Email"
+                     inline-help="This is the inline help which provides more information.">
                 </div>
 
-                <div class="form-group">
-                    <label>
-                        Report to load by default
-                    </label>
-                    <div class="form-help">
-                        This is a help text that can be used to describe the field.
-                        This help text may extend over several lines.
-                    </div>
-                    <label class="radio">
-                        <input type="radio" name="defaultReport" value="today">
-                        Today
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="defaultReport" value="yesterday">
-                        Yesterday
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="defaultReport" value="week">
-                        Previous 30 days (not including today)
-                    </label>
+                <div piwik-field uicontrol="text" name="textWithoutPlaceholder"
+                     title="This field has a title but no place holder">
                 </div>
 
-                <div class="form-group">
-                    <label for="language">
-                        Language
-                    </label>
-                    <select id="language">
-                        <option>English</option>
-                    </select>
+                <div piwik-field uicontrol="text" name="textWithoutTitle"
+                     title="This field has a place holder but no title">
                 </div>
 
-                <div class="form-group">
-                    <label for="description">
-                        Description
-                    </label>
-                    <textarea id="description" rows="5"></textarea>
+                <div piwik-field uicontrol="text" name="textWithValue"
+                     value="My value"
+                     title="This field has already a value set">
                 </div>
 
-                <input type="submit" value="Submit">
-            </form>
-        </div>
-        <div class="demo-code">
-            <pre>&lt;form action=&quot;#&quot;&gt;
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;username&quot;&gt;
-            Username
-        &lt;/label&gt;
-        &lt;input type=&quot;text&quot; id=&quot;username&quot; placeholder=&quot;Some text here...&quot;/&gt;
-    &lt;/div&gt;
+                <div piwik-field uicontrol="password" name="password"
+                     title="Password"
+                     placeholder="Enter your password here">
+                </div>
 
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;email&quot;&gt;
-            Email
-        &lt;/label&gt;
-        &lt;div class=&quot;form-help&quot;&gt;
-            Here is more information.
-        &lt;/div&gt;
-        &lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Some email here...&quot;/&gt;
-    &lt;/div&gt;
+                <div id="complexHelpText" class="inline-help-node">
+                    It is possible to use all kind of HTML in the help text, including <a href="javascript:;">links</a>.
+                </div>
 
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label&gt;
-            Report to load by default
-        &lt;/label&gt;
-        &lt;div class=&quot;form-help&quot;&gt;
-            This is a help text that can be used to describe the field.
-            This help text may extend over several lines.
-        &lt;/div&gt;
-        &lt;label class=&quot;radio&quot;&gt;
-            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;today&quot;&gt;
-            Today
-        &lt;/label&gt;
-        &lt;label class=&quot;radio&quot;&gt;
-            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;yesterday&quot;&gt;
-            Yesterday
-        &lt;/label&gt;
-        &lt;label class=&quot;radio&quot;&gt;
-            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;week&quot;&gt;
-            Previous 30 days (not including today)
-        &lt;/label&gt;
-    &lt;/div&gt;
+                <div piwik-field uicontrol="text" name="alias"
+                     title="Disabeld text field"
+                     disabled="true"
+                     placeholder="This value cannot be changed"
+                     inline-help="#complexHelpText">
+                </div>
 
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;language&quot;&gt;
-            Language
-        &lt;/label&gt;
-        &lt;select id=&quot;language&quot;&gt;
-            &lt;option&gt;English&lt;/option&gt;
-        &lt;/select&gt;
-    &lt;/div&gt;
+                <div piwik-field uicontrol="text" name="fullWidthText"
+                     title="Form fields can be made full witdth"
+                     full-width="true"
+                     placeholder="Some text here...">
+                </div>
 
-    &lt;div class=&quot;form-group&quot;&gt;
-        &lt;label for=&quot;description&quot;&gt;
-            Description
-        &lt;/label&gt;
-        &lt;textarea id=&quot;description&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;
-    &lt;/div&gt;
+                <div piwik-field uicontrol="textarea" name="description"
+                     title="Description"
+                     inline-help="This is a textarea. It automatically gets larger the more text is entered.">
+                </div>
 
-    &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
-&lt;/form&gt;</pre>
-        </div>
+                <div piwik-field uicontrol="select" name="language"
+                     title="Language"
+                     introduction="Select fields"
+                     value="1"
+                     inline-help="Single select"
+                     options='{1: "English",2:"Spanish"}'>
+                </div>
 
-        <h3>Input group</h3>
+                <div piwik-field uicontrol="multiselect" name="phonenumbers"
+                     title="Phone numbers"
+                     value="1"
+                     inline-help="Multi select"
+                     options='{1: "0123456789",2:"9876543210",3:"5432109876"}'>
+                </div>
 
-        <div class="demo">
-            <div class="form-group">
-                <label for="deleteOlderThan">
-                    Input with a text addon
-                </label>
-                <div class="input-group">
-                    <input type="text" id="deleteOlderThan" value="180"/>
-                    <span class="input-group-addon">days</span>
+                <div piwik-field uicontrol="checkbox" name="enableFeature"
+                     title="Enable feature"
+                     introduction="Radio and checkboxes"
+                     inline-help="This is a single checkbox">
+                </div>
+
+                <div piwik-field uicontrol="checkbox" name="enableFeature"
+                     title="Enable feature"
+                     var-type="array"
+                     options='{today: "Today", yesterday: "Yesterday",week: "Previous 30 days (not including today)"}'
+                     inline-help="This field shows multiple checkboxes as we declare we want to get an array of values.">
+                </div>
+
+                <div piwik-field uicontrol="radio" name="defaultReportDate"
+                     title="Report to load by default"
+                     options='{today: "Today", yesterday: "Yesterday",week: "Previous 30 days (not including today)"}'
+                     inline-help="This is a help text that can be used to describe the field. This help text may extend over several lines.">
+                </div>
+
+                <div piwik-field uicontrol="site" name="currentsite"
+                     introduction="Piwik specific form fields"
+                     title="Select a website">
+                </div>
+
+                <div piwik-save-button></div>
+                <div piwik-save-button
+                     onconfirm="myController.save()"
+                     disabled="myController.isDisabled"
+                     value="Changed button text"
+                     saving="myController.isLoading">
                 </div>
             </div>
         </div>
         <div class="demo-code">
-            <pre>&lt;div class=&quot;form-group&quot;&gt;
-    &lt;label for=&quot;foo&quot;&gt;
-        Input with a text addon
-    &lt;/label&gt;
-    &lt;div class=&quot;input-group&quot;&gt;
-        &lt;input type=&quot;text&quot; id=&quot;foo&quot; value=&quot;180&quot;/&gt;
-        &lt;span class=&quot;input-group-addon&quot;&gt;days&lt;/span&gt;
+            <pre>&lt;div piwik-form&gt;
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;username&quot;
+          title=&quot;Username&quot;
+          introduction=&quot;This is an introduction. It can be used to group form fields&quot;
+          placeholder=&quot;Some text here&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;email&quot;
+         title=&quot;Email&quot;
+         inline-help=&quot;This is the inline help which provides more information.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;textWithoutPlaceholder&quot;
+         title=&quot;This field has a title but no place holder&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;textWithoutTitle&quot;
+         title=&quot;This field has a place holder but no title&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;textWithValue&quot;
+         value=&quot;My value&quot;
+         title=&quot;This field has already a value set&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;password&quot; name=&quot;password&quot;
+         title=&quot;Password&quot;
+         placeholder=&quot;Enter your password here&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;complexHelpText&quot; class=&quot;inline-help-node&quot;&gt;
+        It is possible to use all kind of HTML in the help text, including &lt;a href=&quot;javascript:;&quot;&gt;links&lt;/a&gt;.
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;alias&quot;
+         title=&quot;Disabeld text field&quot;
+         disabled=&quot;true&quot;
+         placeholder=&quot;This value cannot be changed&quot;
+         inline-help=&quot;#complexHelpText&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;fullWidthText&quot;
+         title=&quot;Form fields can be made full witdth&quot;
+         full-width=&quot;true&quot;
+         placeholder=&quot;Some text here...&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;textarea&quot; name=&quot;description&quot;
+         title=&quot;Description&quot;
+         inline-help=&quot;This is a textarea. It automatically gets larger the more text is entered.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;select&quot; name=&quot;language&quot;
+         title=&quot;Language&quot;
+         introduction=&quot;Select fields&quot;
+         value=&quot;1&quot;
+         inline-help=&quot;Single select&quot;
+         options='{1: &quot;English&quot;,2:&quot;Spanish&quot;}'&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;multiselect&quot; name=&quot;phonenumbers&quot;
+         title=&quot;Phone numbers&quot;
+         value=&quot;1&quot;
+         inline-help=&quot;Multi select&quot;
+         options='{1: &quot;0123456789&quot;,2:&quot;9876543210&quot;,3:&quot;5432109876&quot;}'&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
+         title=&quot;Enable feature&quot;
+         introduction=&quot;Radio and checkboxes&quot;
+         inline-help=&quot;This is a single checkbox&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
+         title=&quot;Enable feature&quot;
+         var-type=&quot;array&quot;
+         options='{today: &quot;Today&quot;, yesterday: &quot;Yesterday&quot;,week: &quot;Previous 30 days (not including today)&quot;}'
+         inline-help=&quot;This field shows multiple checkboxes as we declare we want to get an array of values.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;radio&quot; name=&quot;defaultReportDate&quot;
+         title=&quot;Report to load by default&quot;
+         options='{today: &quot;Today&quot;, yesterday: &quot;Yesterday&quot;,week: &quot;Previous 30 days (not including today)&quot;}'
+         inline-help=&quot;This is a help text that can be used to describe the field. This help text may extend over several lines.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;site&quot; name=&quot;currentsite&quot;
+         introduction=&quot;Piwik specific form fields&quot;
+         title=&quot;Select a website&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-save-button&gt;&lt;/div&gt;
+    &lt;div piwik-save-button
+         onconfirm=&quot;myController.save()&quot;
+         disabled=&quot;myController.isDisabled&quot;
+         value=&quot;Changed button text&quot;
+         saving=&quot;myController.isLoading&quot;&gt;
     &lt;/div&gt;
 &lt;/div&gt;</pre>
+            <p>If you do not want to use one ouf our form fields we recommend to add the class <code>browser-default</code> to the input or select element.</p>
         </div>
 
         <h2>Code</h2>
@@ -404,24 +476,24 @@
 
         <div class="demo">
             <p>
-                You can put code in a text using the <code>code</code> tag.
+                You can put code in a text using the <code piwik-select-on-focus>code</code> tag.
             </p>
         </div>
         <div class="demo-code">
-            <pre>You can put code in a text using the &lt;code&gt;code&lt;/code&gt; tag.</pre>
+            <pre>You can put code in a text using the &lt;code piwik-select-on-focus&gt;code&lt;/code&gt; tag.</pre>
         </div>
 
         <h3>Block</h3>
 
         <div class="demo">
             <p>Or you can display a code block:</p>
-            <pre>&lt;!-- Piwik --&gt;
+            <pre piwik-select-on-focus>&lt;!-- Piwik --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 &lt;/script&gt;
 &lt;!-- End Piwik Code --&gt;</pre>
         </div>
         <div class="demo-code">
-            &lt;pre&gt;...&lt;/pre&gt;
+            &lt;pre piwik-select-on-focus&gt;...&lt;/pre&gt;
         </div>
 
         <h2>Tables</h2>
@@ -455,7 +527,47 @@
             </table>
         </div>
         <div class="demo-code">
-            <pre>&lt;table&gt;...&lt;/table&gt;</pre>
+            <pre>&lt;table&gt;&lt;thead&gt;...&lt;/thead&gt;&lt;tbody&gt;...&lt;/tbody&gt;&lt;/table&gt;</pre>
+        </div>
+
+        <h2>Content blocks</h2>
+
+        <div class="demo">
+            <div piwik-content-block content-title="My title" help-url="https://piwik.org">
+                <p>My text goes is in here</p>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div content-block content-title=&quot;My title&quot; help-url=&quot;https://piwik.org&quot;&gt;
+    &lt;p&gt;My text goes is in here&lt;/p&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <h3>Content Table</h3>
+
+        <div class="demo">
+            <div piwik-content-block content-title="My title" help-url="https://piwik.org">
+                <p>My intro text is here</p>
+                <table piwik-content-table>
+                    <thead><tr><th>Column 1</th><th>Column 2</th></tr></thead>
+                    <tbody>
+                        <tr><td>Value 1</td><td>Value 2</td></tr>
+                        <tr><td>Value 1</td><td>Value 2</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://piwik.org&quot;&gt;
+    &lt;p&gt;My intro text is here&lt;/p&gt;
+    &lt;table piwik-content-table&gt;
+        &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Column 1&lt;/th&gt;&lt;th&gt;Column 2&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;&lt;td&gt;Value 1&lt;/td&gt;&lt;td&gt;Value 2&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Value 1&lt;/td&gt;&lt;td&gt;Value 2&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</pre>
         </div>
 
         <h2>Icons</h2>
@@ -585,7 +697,7 @@
                         var row = $('<div class="row"></div>');
                         icons[category].forEach(function(icon) {
                             icon = 'icon-' + icon;
-                            row.append('<div class="col-sm-4 icon"><span class="' + icon + '"></span> ' + icon + '</div>');
+                            row.append('<div class="col s4 icon"><span class="' + icon + '"></span> ' + icon + '</div>');
                         });
                         iconsDiv.append(row);
                     }

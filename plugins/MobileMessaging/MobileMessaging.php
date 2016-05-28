@@ -78,6 +78,7 @@ class MobileMessaging extends \Piwik\Plugin
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -86,7 +87,9 @@ class MobileMessaging extends \Piwik\Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/MobileMessaging/javascripts/MobileMessagingSettings.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/delegate-mobile-messaging-settings/delegate-mobile-messaging-settings.controller.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-sms-provider/manage-sms-provider.controller.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers/manage-mobile-phone-numbers.controller.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -94,6 +97,13 @@ class MobileMessaging extends \Piwik\Plugin
         $stylesheets[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
     }
 
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
+        $translationKeys[] = 'MobileMessaging_Settings_InvalidActivationCode';
+        $translationKeys[] = 'MobileMessaging_Settings_PhoneActivated';
+    }
+    
     public function validateReportParameters(&$parameters, $reportType)
     {
         if (self::manageEvent($reportType)) {
@@ -200,7 +210,7 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    public static function template_reportParametersScheduledReports(&$out)
+    public static function template_reportParametersScheduledReports(&$out, $context = '')
     {
         if (Piwik::isUserIsAnonymous()) {
             return;
@@ -208,7 +218,17 @@ class MobileMessaging extends \Piwik\Plugin
 
         $view = new View('@MobileMessaging/reportParametersScheduledReports');
         $view->reportType = self::MOBILE_TYPE;
-        $view->phoneNumbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
+        $view->context = $context;
+        $numbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
+
+        $phoneNumbers = array();
+        if (!empty($numbers)) {
+            foreach ($numbers as $number) {
+                $phoneNumbers[$number] = $number;
+            }
+        }
+
+        $view->phoneNumbers = $phoneNumbers;
         $out .= $view->render();
     }
 

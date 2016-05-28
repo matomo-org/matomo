@@ -7,11 +7,22 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerController', SitesManagerController);
 
-    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'piwikApi', 'sitesManagerAdminSitesModel', 'piwik', 'sitesManagerApiHelper', 'sitesManagerTypeModel'];
+    SitesManagerController.$inject = ['$scope', '$filter', 'coreAPI', 'sitesManagerAPI', 'piwikApi', 'sitesManagerAdminSitesModel', 'piwik', 'sitesManagerApiHelper', 'sitesManagerTypeModel', '$rootScope', '$window'];
 
-    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, piwikApi, adminSites, piwik, sitesManagerApiHelper, sitesManagerTypeModel) {
+    function SitesManagerController($scope, $filter, coreAPI, sitesManagerAPI, piwikApi, adminSites, piwik, sitesManagerApiHelper, sitesManagerTypeModel, $rootScope, $window) {
 
         var translate = $filter('translate');
+
+        $scope.globalSettings = {};
+
+        $rootScope.$on('$locationChangeSuccess', function () {
+            if (piwik.hasSuperUserAccess) {
+                // as we are not using a router yet...
+                if ($window.location.hash === '#globalSettings' || $window.location.hash === '#/globalSettings') {
+                    broadcast.propagateNewPage('action=globalSettings');
+                }
+            }
+        });
 
         var init = function () {
 
@@ -40,14 +51,6 @@
             $scope.addNewEntity = addNewEntity;
             $scope.saveGlobalSettings = saveGlobalSettings;
             $scope.lookupCurrentEditSite = lookupCurrentEditSite;
-
-            $scope.closeAddMeasurableDialog = function () {
-                // I couldn't figure out another way to close that jquery dialog
-                var element  = angular.element('[piwik-dialog="$parent.showAddSiteDialog"]');
-                if (element.parents('ui-dialog') && element.dialog('isOpen')) {
-                    element.dialog('close');
-                }
-            }
         };
 
         var initAvailableTypes = function () {
@@ -140,8 +143,8 @@
 
                             $scope.timezones.push({
                                 group: timezoneGroup,
-                                code: code,
-                                label: label
+                                key: code,
+                                value: label
                             });
                         });
                     });
@@ -219,7 +222,7 @@
             ajaxHandler.withTokenInUrl();
             ajaxHandler.redirectOnSuccess($scope.redirectParams);
             ajaxHandler.setLoadingElement();
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         var cancelEditSite = function (site) {

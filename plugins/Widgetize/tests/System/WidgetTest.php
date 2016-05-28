@@ -468,7 +468,7 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Visits per local time',
-                'uniqueId' => 'widgetVisitTimegetVisitInformationPerLocalTimeviewDataTablegraphVerticalBar',
+                'uniqueId' => 'widgetVisitTimegetVisitInformationPerLocalTime',
                 'parameters' =>
                     array (
                         'viewDataTable' => 'graphVerticalBar',
@@ -477,7 +477,7 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Visits per server time',
-                'uniqueId' => 'widgetVisitTimegetVisitInformationPerServerTimeviewDataTablegraphVerticalBar',
+                'uniqueId' => 'widgetVisitTimegetVisitInformationPerServerTime',
                 'parameters' =>
                     array (
                         'viewDataTable' => 'graphVerticalBar',

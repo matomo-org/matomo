@@ -12,42 +12,29 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Piwik\Updater\Migration;
 
 /**
  */
 class Updates_0_6_rc1 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         $defaultTimezone = 'UTC';
         $defaultCurrency = 'USD';
-
         return array(
-            $this->migration->db->changeColumnType('user', 'date_registered', 'TIMESTAMP NULL'),
-            $this->migration->db->changeColumnType('site', 'ts_created', 'TIMESTAMP NULL'),
-            $this->migration->db->addColumn('site', 'timezone', 'VARCHAR( 50 ) NOT NULL', 'ts_created'),
-            $this->migration->db->sql('UPDATE ' . Common::prefixTable('site') . ' SET `timezone` = "' . $defaultTimezone . '";', Migration\Db::ERROR_CODE_DUPLICATE_COLUMN),
-            $this->migration->db->addColumn('site', 'currency', 'CHAR( 3 ) NOT NULL', 'timezone'),
-            $this->migration->db->sql('UPDATE ' . Common::prefixTable('site') . ' SET `currency` = "' . $defaultCurrency . '";', Migration\Db::ERROR_CODE_DUPLICATE_COLUMN),
-            $this->migration->db->addColumn('site', 'excluded_ips', 'TEXT NOT NULL', 'currency'),
-            $this->migration->db->addColumn('site', 'excluded_parameters', 'VARCHAR( 255 ) NOT NULL', 'excluded_ips'),
-            $this->migration->db->addIndex('log_visit', array('idsite', 'visit_last_action_time', 'config_md5config(8)'), 'index_idsite_datetime_config'),
-            $this->migration->db->addIndex('log_visit', array('idsite', 'idvisit')),
-            $this->migration->db->dropIndex('log_conversion', 'index_idsite_date'),
-            $this->migration->db->dropColumn('log_conversion', 'visit_server_date'),
-            $this->migration->db->addIndex('log_conversion', array('idsite', 'server_time'), 'index_idsite_datetime'),
+            'ALTER TABLE ' . Common::prefixTable('user') . ' CHANGE date_registered date_registered TIMESTAMP NULL'                                                                => 1054,
+            'ALTER TABLE ' . Common::prefixTable('site') . ' CHANGE ts_created ts_created TIMESTAMP NULL'                                                                          => 1054,
+            'ALTER TABLE ' . Common::prefixTable('site') . ' ADD `timezone` VARCHAR( 50 ) NOT NULL AFTER `ts_created` ;'                                                           => 1060,
+            'UPDATE ' . Common::prefixTable('site') . ' SET `timezone` = "' . $defaultTimezone . '";'                                                                              => 1060,
+            'ALTER TABLE ' . Common::prefixTable('site') . ' ADD currency CHAR( 3 ) NOT NULL AFTER `timezone` ;'                                                                   => 1060,
+            'UPDATE ' . Common::prefixTable('site') . ' SET `currency` = "' . $defaultCurrency . '";'                                                                              => 1060,
+            'ALTER TABLE ' . Common::prefixTable('site') . ' ADD `excluded_ips` TEXT NOT NULL AFTER `currency` ;'                                                                  => 1060,
+            'ALTER TABLE ' . Common::prefixTable('site') . ' ADD excluded_parameters VARCHAR( 255 ) NOT NULL AFTER `excluded_ips` ;'                                               => 1060,
+            'ALTER TABLE ' . Common::prefixTable('log_visit') . ' ADD INDEX `index_idsite_datetime_config`  ( `idsite` , `visit_last_action_time`  , `config_md5config` ( 8 ) ) ;' => array(1061, 1072),
+            'ALTER TABLE ' . Common::prefixTable('log_visit') . ' ADD INDEX index_idsite_idvisit (idsite, idvisit) ;'                                                              => array(1061, 1072),
+            'ALTER TABLE ' . Common::prefixTable('log_conversion') . ' DROP INDEX index_idsite_date'                                                                               => 1091,
+            'ALTER TABLE ' . Common::prefixTable('log_conversion') . ' DROP visit_server_date;'                                                                                    => 1091,
+            'ALTER TABLE ' . Common::prefixTable('log_conversion') . ' ADD INDEX index_idsite_datetime ( `idsite` , `server_time` )'                                               => array(1072, 1061),
         );
     }
 
@@ -67,7 +54,7 @@ class Updates_0_6_rc1 extends Updates
         }
 
         // Run the SQL
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         // Outputs warning message, pointing users to the plugin download page
         if (!empty($disabledPlugins)) {

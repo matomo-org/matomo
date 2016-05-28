@@ -18,6 +18,11 @@ describe("EvolutionGraph", function () {
         testEnvironment.callApi("Annotations.deleteAll", {idSite: 3}, done);
     });
 
+    function showDataTableFooter(page)
+    {
+        page.mouseMove('.dataTableFeatures');
+    }
+
     it("should load correctly", function (done) {
         expect.screenshot('initial').to.be.capture(function (page) {
             page.load(url);
@@ -44,21 +49,35 @@ describe("EvolutionGraph", function () {
 
     it("should show multiple metrics when another metric picked", function (done) {
         expect.screenshot('two_metrics').to.be.capture(function (page) {
-            page.click('.jqplot-seriespicker-popover input:not(:checked)');
+            page.click('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        }, done);
+    });
+
+    it("should show table actions on hover", function (done) {
+        expect.screenshot('table_actions').to.be.capture(function (page) {
+            showDataTableFooter(page);
+        }, done);
+    });
+
+    it("should show export formats on click including image", function (done) {
+        expect.screenshot('export_formats').to.be.capture(function (page) {
+            page.click('.activateExportSelection');
         }, done);
     });
 
     it("should show graph as image when export as image icon clicked", function (done) {
         expect.screenshot('export_image').to.be.capture(function (page) {
-            page.click('#dataTableFooterExportAsImageIcon>a');
+            page.click('#dataTableFooterExportAsImageIcon');
         }, done);
     });
 
     it("should display more periods when limit selection changed", function (done) {
         expect.screenshot('limit_changed').to.be.capture(function (page) {
-            page.click('.limitSelection');
+            page.click('.ui-dialog .ui-widget-header button:visible');
+            showDataTableFooter(page);
+            page.click('.limitSelection input');
             page.evaluate(function () {
-                $('.limitSelection ul li[value=60]').click();
+                $('.limitSelection ul li:contains(60) span').click();
             });
         }, done);
     });
@@ -66,8 +85,10 @@ describe("EvolutionGraph", function () {
     // annotations tests
     it("should show annotations when annotation icon on x-axis clicked", function (done) {
         expect.screenshot('annotations_single_period').to.be.capture(function (page) {
+            showDataTableFooter(page);
+            page.click('.limitSelection input');
             page.evaluate(function () {
-                $('.limitSelection ul li[value=30]').click(); // change limit back
+                $('.limitSelection ul li:contains(30) span').click(); // change limit back
             });
 
             page.click('.evolution-annotations>span[data-count!=0]', 3000);
@@ -76,6 +97,7 @@ describe("EvolutionGraph", function () {
 
     it("should show all annotations when annotations footer link clicked", function (done) {
         expect.screenshot('annotations_all').to.be.capture(function (page) {
+            showDataTableFooter(page);
             page.click('.annotationView', 3000);
         }, done);
     });
@@ -83,6 +105,7 @@ describe("EvolutionGraph", function () {
     it("should show no annotations message when no annotations for site", function (done) {
         expect.screenshot('annotations_none').to.be.capture(function (page) {
             page.load(page.getCurrentUrl().replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
+            showDataTableFooter(page);
             page.click('.annotationView', 3000);
         }, done);
     });

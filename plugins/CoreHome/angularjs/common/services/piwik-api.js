@@ -121,10 +121,15 @@ var hasBlockedContent = false;
                 'cache-control': 'no-cache'
             };
 
+            var requestFormat = format;
+            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json2') {
+                requestFormat = getParams.format;
+            }
+
             var ajaxCall = {
                 method: 'POST',
                 url: url,
-                responseType: format,
+                responseType: requestFormat,
                 params: _mixinDefaultGetParams(getParams),
                 data: $.param(getPostParams(postParams)),
                 timeout: requestPromise,
@@ -242,7 +247,10 @@ var hasBlockedContent = false;
         function fetch (getParams, options) {
 
             getParams.module = getParams.module || 'API';
-            getParams.format = 'JSON2';
+
+            if (!getParams.format) {
+                getParams.format = 'JSON2';
+            }
 
             addParams(getParams, 'GET');
 
@@ -255,6 +263,9 @@ var hasBlockedContent = false;
 
         function post(getParams, _postParams_, options) {
             if (_postParams_) {
+                if (postParams && postParams.token_auth && !_postParams_.token_auth) {
+                    _postParams_.token_auth = postParams.token_auth;
+                }
                 postParams = _postParams_;
             }
 

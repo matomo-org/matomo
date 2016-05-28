@@ -6,6 +6,8 @@
  */
 (function ($) {
 
+    var layoutColumnSelector = '#dashboardWidgetsArea > .col';
+
     /**
      * Current dashboard column layout
      * @type {object}
@@ -314,7 +316,7 @@
         var columnWidth = layout.split('-');
         var columnCount = columnWidth.length;
 
-        var currentCount = $('.col', dashboardElement).length;
+        var currentCount = $('> .col', dashboardElement).length;
 
         if (currentCount < columnCount) {
             $('.menuClear', dashboardElement).remove();
@@ -331,8 +333,8 @@
                     dashboardLayout.columns.pop();
                 }
                 // move widgets to other columns depending on columns height
-                $('[widgetId]', $('.col:last')).each(function (id, elem) {
-                    var cols = $('.col').slice(0, columnCount);
+                $('[widgetId]', $(layoutColumnSelector + ':last')).each(function (id, elem) {
+                    var cols = $(layoutColumnSelector).slice(0, columnCount);
                     var smallestColumn = $(cols[0]);
                     var smallestColumnHeight = null;
                     cols.each(function (colId, col) {
@@ -345,52 +347,52 @@
                     $(elem).appendTo(smallestColumn);
                 });
 
-                $('.col:last').remove();
+                $(layoutColumnSelector + ':last').remove();
             }
         }
 
         switch (layout) {
             case '100':
-                $('.col', dashboardElement).removeClass()
-                    .addClass('col col-sm-12');
+                $(' > .col', dashboardElement).removeClass()
+                    .addClass('col s12');
                 break;
             case '50-50':
-                $('.col', dashboardElement).removeClass()
-                    .addClass('col col-sm-6');
+                $(' > .col', dashboardElement).removeClass()
+                    .addClass('col s12 m6');
                 break;
             case '67-33':
-                $('.col', dashboardElement)[0].className = 'col col-sm-8';
-                $('.col', dashboardElement)[1].className = 'col col-sm-4';
+                $(' > .col', dashboardElement)[0].className = 'col s12 m8';
+                $(' > .col', dashboardElement)[1].className = 'col s12 m4';
                 break;
             case '33-67':
-                $('.col', dashboardElement)[0].className = 'col col-sm-4';
-                $('.col', dashboardElement)[1].className = 'col col-sm-8';
+                $(' > .col', dashboardElement)[0].className = 'col s12 m4';
+                $(' > .col', dashboardElement)[1].className = 'col s12 m8';
                 break;
             case '33-33-33':
-                $('.col', dashboardElement)[0].className = 'col col-sm-4';
-                $('.col', dashboardElement)[1].className = 'col col-sm-4';
-                $('.col', dashboardElement)[2].className = 'col col-sm-4';
+                $(' > .col', dashboardElement)[0].className = 'col s12 m4';
+                $(' > .col', dashboardElement)[1].className = 'col s12 m4';
+                $(' > .col', dashboardElement)[2].className = 'col s12 m4';
                 break;
             case '40-30-30':
-                $('.col', dashboardElement)[0].className = 'col col-sm-6';
-                $('.col', dashboardElement)[1].className = 'col col-sm-3';
-                $('.col', dashboardElement)[2].className = 'col col-sm-3';
+                $(' > .col', dashboardElement)[0].className = 'col s12 m6';
+                $(' > .col', dashboardElement)[1].className = 'col s12 m3';
+                $(' > .col', dashboardElement)[2].className = 'col s12 m3';
                 break;
             case '30-40-30':
-                $('.col', dashboardElement)[0].className = 'col col-sm-3';
-                $('.col', dashboardElement)[1].className = 'col col-sm-6';
-                $('.col', dashboardElement)[2].className = 'col col-sm-3';
+                $(' > .col', dashboardElement)[0].className = 'col s12 m3';
+                $(' > .col', dashboardElement)[1].className = 'col s12 m6';
+                $(' > .col', dashboardElement)[2].className = 'col s12 m3';
                 break;
             case '30-30-40':
-                $('.col', dashboardElement)[0].className = 'col col-sm-3';
-                $('.col', dashboardElement)[1].className = 'col col-sm-3';
-                $('.col', dashboardElement)[2].className = 'col col-sm-6';
+                $(' > .col', dashboardElement)[0].className = 'col s12 m3';
+                $(' > .col', dashboardElement)[1].className = 'col s12 m3';
+                $(' > .col', dashboardElement)[2].className = 'col s12 m6';
                 break;
             case '25-25-25-25':
-                $('.col', dashboardElement)[0].className = 'col col-sm-3';
-                $('.col', dashboardElement)[1].className = 'col col-sm-3';
-                $('.col', dashboardElement)[2].className = 'col col-sm-3';
-                $('.col', dashboardElement)[3].className = 'col col-sm-3';
+                $(' > .col', dashboardElement)[0].className = 'col s12 m3';
+                $(' > .col', dashboardElement)[1].className = 'col s12 m3';
+                $(' > .col', dashboardElement)[2].className = 'col s12 m3';
+                $(' > .col', dashboardElement)[3].className = 'col s12 m3';
                 break;
         }
 
@@ -457,16 +459,16 @@
         }
 
         // do not try to add widget if given column number is to high
-        if (columnNumber > $('.col', dashboardElement).length) {
+        if (columnNumber > $('> .col', dashboardElement).length) {
             return;
         }
 
         var widgetContent = '<div class="sortable" widgetId="' + uniqueId + '"></div>';
 
         if (addWidgetOnTop) {
-            $('.col:nth-child(' + columnNumber + ')', dashboardElement).prepend(widgetContent);
+            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).prepend(widgetContent);
         } else {
-            $('.col:nth-child(' + columnNumber + ')', dashboardElement).append(widgetContent);
+            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).append(widgetContent);
         }
 
         $('[widgetId="' + uniqueId + '"]', dashboardElement).dashboardWidget({
@@ -500,9 +502,9 @@
         }
 
         //launch 'sortable' property on every dashboard widgets
-        $( "div.col:data('ui-sortable')", dashboardElement ).sortable('destroy');
+        $( layoutColumnSelector + ":data('ui-sortable')", dashboardElement ).sortable('destroy');
 
-        $('div.col', dashboardElement)
+        $('> .col', dashboardElement)
                     .sortable({
                         items: 'div.sortable',
                         opacity: 0.6,
@@ -513,7 +515,7 @@
                         helper: 'clone',
                         start: onStart,
                         stop: onStop,
-                        connectWith: 'div.col'
+                        connectWith: layoutColumnSelector
                     });
     }
 
@@ -594,7 +596,8 @@
         var columns = [];
 
         var columnNumber = 0;
-        $('.col').each(function () {
+
+        $(layoutColumnSelector).each(function () {
             columns[columnNumber] = [];
             var items = $('[widgetId]', this);
             for (var j = 0; j < items.size(); j++) {

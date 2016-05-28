@@ -10,22 +10,21 @@
 {% block content %}
 
 <div class="api-list">
+    <div piwik-content-block content-title="{{ title|e('html_attr') }}" rate="true">
+        <p>{{ 'API_PluginDescription'|translate }}</p>
 
-    <h2>{{ title }}</h2>
-
-    <p>{{ 'API_PluginDescription'|translate }}</p>
-
-    <p>
-        {{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}
-    </p>
-
-    <h2>{{ 'API_UserAuthentication'|translate }}</h2>
-
-    <p>
-        {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
-        <span id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></span><br/>
-        {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
-        {{ list_api_methods_with_links|raw }}
-        <br/>
+        <p>
+            {{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}
+        </p>
+    </div>
+    <div piwik-content-block content-title="{{ 'API_UserAuthentication'|translate|e('html_attr') }}">
+        <p>
+            {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
+            <span id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></span><br/>
+            {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
+        </p>
+    </div>
+    {{ list_api_methods_with_links|raw }}
+    <br/>
 </div>
 {% endblock %}

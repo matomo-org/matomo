@@ -1,0 +1,10 @@
+<div class="checkbox">
+    <input ng-model="formField.value"
+           piwik-attributes="{{formField.uiControlAttributes}}"
+           ng-value="1"
+           type="checkbox"
+           id="{{ formField.name }}"
+           name="{{ formField.name }}">
+
+    <label for="{{ formField.name }}" ng-bind-html="formField.title"></label>
+</div>

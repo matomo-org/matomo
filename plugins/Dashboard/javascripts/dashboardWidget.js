@@ -122,6 +122,14 @@
 
                 $widgetContent.html(loadedContent);
 
+                /* move widget icons into datatable top actions
+                var $buttons = currentWidget.find('.buttons .button');
+                var $controls = currentWidget.find('.dataTableControls .dataTableAction').first();
+                if ($buttons.size() && $controls.size()) {
+                    $buttons.find('.button').addClass('dataTableAction');
+                    $buttons.insertBefore($controls);
+                }*/
+
                 if (currentWidget.parents('body').size()) {
                     // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
                     // removed from DOM
@@ -303,8 +311,6 @@
 
             var width = Math.floor($('body').width() * 0.7);
 
-            var isFooterExpanded = $('.dataTableFeatures', this.element).hasClass('expanded');
-
             var self = this;
             this.element.dialog({
                 title: '',
@@ -315,9 +321,6 @@
                 autoOpen: true,
                 close: function (event, ui) {
                     self.isMaximised = false;
-                    if (!isFooterExpanded) {
-                        $('.dataTableFeatures', self.element).removeClass('expanded');
-                    }
                     $('body').off('.dashboardWidget');
                     $(this).dialog("destroy");
                     $('[id="' + self.uniqueId + '-placeholder"]').replaceWith(this);
@@ -328,7 +331,6 @@
                 }
             });
             this.element.find('div.piwik-graph').trigger('resizeGraph');
-            $('.dataTableFeatures', this.element).addClass('expanded');
 
             var currentWidget = this.element;
             $('body').on('click.dashboardWidget', function (ev) {

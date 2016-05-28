@@ -5,11 +5,18 @@
 {% set title %}{{ 'CorePluginsAdmin_ThemesManagement'|translate }}{% endset %}
 
 {% block content %}
-<div style="max-width:980px;">
 
-    <h2 piwik-enriched-headline>{{ title }}</h2>
+<h2 piwik-enriched-headline>
+    {{ title|e('html_attr') }}
+</h2>
 
-    <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+<p>
+    {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+
+    {% if isMarketplaceEnabled %}
+        {{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate('<a href="' ~ linkTo({'action':'browseThemes', 'sort': ''}) ~ '">', '</a>')|raw }}
+    {% endif %}
+
     {% if otherUsersCount > 0 %}
         <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
     {% endif %}
@@ -17,11 +24,16 @@
         <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
     {% endif %}
 
+</p>
+
+<div piwik-content-block content-title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|e('html_attr') }}"
+     piwik-plugin-management>
+
+    <p>
     </p>
 
-    {{ plugins.pluginsFilter(true, isMarketplaceEnabled) }}
+    {{ plugins.pluginsFilter() }}
 
     {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames, isPluginsAdminEnabled ) }}
-
 </div>
 {% endblock %}

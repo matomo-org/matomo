@@ -1,6 +1,6 @@
 {
   "name": "html5shiv",
-  "version": "3.7.2",
+  "version": "3.7.3",
   "main": [
   	"dist/html5shiv.js"
   ],

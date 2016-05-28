@@ -10,6 +10,7 @@
                     {%- if not isCustomLogo %}Piwik{% endif %}
                 {%- endblock -%}
             </title>
+            <link href='plugins/Morpheus/stylesheets/base/font.css' rel='stylesheet' type='text/css'>
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
             <meta name="viewport" content="initial-scale=1.0"/>
             <meta name="generator" content="Piwik - free/libre analytics platform"/>
@@ -29,9 +30,7 @@
             <![endif]-->
         {% endblock %}
     </head>
-    <!--[if (gte IE 9)|!(IE)]><!-->
     <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
-    <!--<![endif]-->
 
     {% block body %}
 

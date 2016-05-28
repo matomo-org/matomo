@@ -9,9 +9,6 @@
 namespace Piwik\Tests\Integration\Settings;
 
 use Piwik\Db;
-use Piwik\Settings\FieldConfig;
-use Piwik\Settings\Plugin\SystemSetting;
-use Piwik\Settings\Plugin\UserSetting;
 use Piwik\Settings\Setting;
 use Piwik\Settings\Storage;
 use Piwik\Tests\Framework\Mock\FakeAccess;

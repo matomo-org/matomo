@@ -84,15 +84,14 @@ div.scrollable {
     border-radius: 3px;
     position: absolute;
     left: -1px;
-    top: -1px;
+    top: 37px;
 }
 
 .segment-element .custom_select_search {
     width: 146px;
     background: url(plugins/SegmentEditor/images/bg-segment-search.png) 0 10px no-repeat;
     padding: 10px 0 0 0;
-    margin: 10px 0 10px 15px;
-    border-top: 1px solid #dcdacf;
+    margin: 0 0 10px 15px;
     position: relative;
     height: 32px;
 }
@@ -203,7 +202,6 @@ div.scrollable {
 .segment-element .segment-content .segment-rows {
     padding: 4px;
     margin: 0 3px 0 0;
-    background: @theme-color-background-base;
     border: 1px solid #a9a399;
     border-radius: 3px 3px 3px 3px;
     position: relative;
@@ -214,7 +212,7 @@ div.scrollable {
 .segment-element .segment-content .segment-add-or {
     font-size: 14px;
     font-weight: bold;
-    background: @theme-color-background-base;
+    background: @theme-color-background-contrast;
     color: #b9b9b9;
     text-align: center;
     position: relative;
@@ -257,6 +255,7 @@ div.scrollable {
 
 .segment-element .segment-content .segment-add-or > div {
     border: 2px dashed #EFEFEB;
+    background-color: #efefeb;
 }
 
 .segment-element .segment-content .segment-row {
@@ -323,12 +322,16 @@ div.scrollable {
     border-radius: 5px 0 0 5px;
 }
 
+.segment-element .edit_segment_name {
+    width: 200px;
+}
+
 .segment-element .segment-content .segment-and {
     display: inline-block;
     margin: -1px 0 -1px 6%;
     z-index: 1;
     position: relative;
-    background: @theme-color-background-base;
+    background: @theme-color-background-contrast;
     padding: 5px 35px;
     color: #4f4f4f;
     font-size: 14px;
@@ -450,7 +453,7 @@ div.scrollable {
 
 .segmentationContainer .submenu {
     font-size: 13px;
-    min-width: 200px;
+    min-width: 206px;
 }
 
 .segmentationContainer .submenu ul {
@@ -460,13 +463,14 @@ div.scrollable {
     font-weight: normal;
     line-height: 20px;
     list-style: none outside none;
-    margin-left: 5px;
     margin-right: 0;
     padding-top: 10px;
 }
 
+
+
 .segmentationContainer .submenu ul li {
-    padding: 2px 0 1px 6px;
+    padding: 2px 0 1px 0;
     margin: 3px 0 0 0;
     cursor: pointer;
 }
@@ -499,9 +503,11 @@ div.scrollable {
 }
 
 .segmentEditorPanel.expanded .segmentationContainer {
-    width: 240px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    .dropdown-body {
+        width: 240px;
+    }
 }
 
 .segmentEditorPanel.expanded ul.submenu {
@@ -516,7 +522,7 @@ div.scrollable {
 
 .segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
     font-size: 11px;
-    width: 200px;
+    width: 206px;
     padding: 0;
     border: 1px solid #d0d0d0;
     border-width: 1px;
@@ -529,7 +535,7 @@ div.scrollable {
     width: 13px;
     height: 13px;
     right: 23px;
-    top: 48px;
+    top: 24px;
     cursor: pointer;
 }
 
@@ -542,9 +548,8 @@ div.scrollable {
 }
 
 .segmentEditorPanel.expanded .add_new_segment {
-    clear: both;
-    float: right;
-    margin: 12px 9px 10px 0;
+    width: 100%;
+    margin: 16px 0 8px 0;
 }
 
 .segmentationContainer > ul.submenu > li {
@@ -668,8 +673,7 @@ a.metric_category {
 }
 
 .dropdown-body {
-    background-color: #f7f7f7;
-    border-top-width: 0px;
+    border-top-width: 0;
     display: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -678,11 +682,6 @@ a.metric_category {
 .segmentEditorPanel.expanded .dropdown-body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-}
-
-.segmentEditorPanel:hover .dropdown-body {
-    border-color: #a9a399;
-    background: #f1f0eb
 }
 
 .segmentEditorPanel.expanded {
@@ -719,7 +718,7 @@ a.metric_category {
 
 .segmentEditorPanel .segmentationTitle {
     text-overflow: ellipsis;
-    display: inline-block;
+    display: block;
     max-width: 170px;
 }
 
@@ -727,14 +726,8 @@ a.metric_category {
     font-weight: bold;
 }
 
-.segmentEditorPanel a.title {
-    padding-bottom: 8px;
-}
-
-.segmentEditorPanel.expanded .segmentationTitle {
-    max-width: 180px;
-    overflow: visible; /* restore default */
-    white-space: normal; /* restore default */
+.segmentEditorPanel.expanded a.title {
+    padding-bottom: 10px;
 }
 
 .segment-element .segment-nav a.dropdown,

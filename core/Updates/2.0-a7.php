@@ -9,35 +9,29 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_2_0_a7 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('logger_message', 'tag', 'VARCHAR(50) NULL', 'idlogger_message'),
-            $this->migration->db->addColumn('logger_message', 'level', 'TINYINT', 'timestamp'),
+            // ignore existing column name error (1060)
+            'ALTER TABLE ' . Common::prefixTable('logger_message')
+            . " ADD COLUMN tag VARCHAR(50) NULL AFTER idlogger_message" => 1060,
+
+            'ALTER TABLE ' . Common::prefixTable('logger_message')
+            . " ADD COLUMN level TINYINT AFTER timestamp"               => 1060,
         );
     }
 
     public function doUpdate(Updater $updater)
     {
         // add tag & level columns to logger_message table
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

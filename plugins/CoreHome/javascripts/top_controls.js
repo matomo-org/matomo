@@ -23,27 +23,23 @@ function initTopControls() {
         return 0;
     }
 
-    var $topControlsContainer = $('.top_controls'),
-        left = 0;
+    var $topControlsContainer = $('.top_controls');
 
     var allRendered = true;
 
     if ($topControlsContainer.length) {
-        $('.piwikTopControl').each(function () {
+        $topControlsContainer.find('.piwikTopControl').each(function () {
             var $control = $(this);
             if ($control.css('display') == 'none') {
                 return;
             }
 
-            $control.css('left', left);
             var width = $control.outerWidth(true);
 
             var isControlFullyRendered = width >= 30;
             if (!isControlFullyRendered) {
                 allRendered = false;
             }
-
-            left += width;
         });
 
         if (allRendered) {

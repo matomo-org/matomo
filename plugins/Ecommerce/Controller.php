@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\Plugins\Goals\TranslationHelper;
@@ -43,10 +44,11 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             $goalDefinition['name'] = $this->translator->translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
         } else {
-            if (!isset($this->goals[$idGoal])) {
+            $goals = GoalsApi::getInstance()->getGoals($this->idSite);
+            if (!isset($goals[$idGoal])) {
                 Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
             }
-            $goalDefinition = $this->goals[$idGoal];
+            $goalDefinition = $goals[$idGoal];
         }
 
         $this->setGeneralVariablesView($view);

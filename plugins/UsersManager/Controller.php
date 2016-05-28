@@ -255,23 +255,44 @@ class Controller extends ControllerAdmin
         if ($defaultReport == 'MultiSites') {
 
             $defaultSiteId = $userPreferences->getDefaultWebsiteId();
+            $reportOptionsValue = $defaultSiteId;
 
             $view->defaultReportIdSite   = $defaultSiteId;
             $view->defaultReportSiteName = Site::getNameFor($defaultSiteId);
         } else {
+            $reportOptionsValue = $defaultReport;
             $view->defaultReportIdSite   = $defaultReport;
             $view->defaultReportSiteName = Site::getNameFor($defaultReport);
         }
 
+        $view->defaultReportOptions = array(
+            array('key' => 'MultiSites', 'value' => Piwik::translate('General_AllWebsitesDashboard')),
+            array('key' => $reportOptionsValue, 'value' => Piwik::translate('General_DashboardForASpecificWebsite')),
+        );
+
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
         $view->availableDefaultDates = $this->getDefaultDates();
 
-        $view->languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
+        $languages = APILanguagesManager::getInstance()->getAvailableLanguageNames();
+        $languageOptions = array();
+        foreach ($languages as $language) {
+            $languageOptions[] = array(
+                'key' => $language['code'],
+                'value' => $language['name']
+            );
+        }
+
+        $view->languageOptions = $languageOptions;
         $view->currentLanguageCode = LanguagesManager::getLanguageCodeForCurrentUser();
-        $view->currentTimeformat = LanguagesManager::uses12HourClockForCurrentUser();
+        $view->currentTimeformat = (int) LanguagesManager::uses12HourClockForCurrentUser();
         $view->ignoreCookieSet = IgnoreCookie::isIgnoreCookieFound();
         $view->piwikHost = Url::getCurrentHost();
         $this->setBasicVariablesView($view);
+
+        $view->timeFormats = array(
+            '1' => Piwik::translate('General_12HourClock'),
+            '0' => Piwik::translate('General_24HourClock')
+        );
 
         return $view->render();
     }
@@ -316,22 +337,27 @@ class Controller extends ControllerAdmin
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
+
         $userLogin = 'anonymous';
 
         // Which websites are available to the anonymous users?
 
         $anonymousSitesAccess = Request::processRequest('UsersManager.getSitesAccessFromUser', array('userLogin' => $userLogin));
         $anonymousSites = array();
+        $idSites = array();
         foreach ($anonymousSitesAccess as $info) {
             $idSite = $info['site'];
+            $idSites[] = $idSite;
 
             $site = Request::processRequest('SitesManager.getSiteFromId', array('idSite' => $idSite));
             // Work around manual website deletion
             if (!empty($site)) {
-                $anonymousSites[$idSite] = $site;
+                $anonymousSites[] = array('key' => $idSite, 'value' => $site['name']);
             }
         }
         $view->anonymousSites = $anonymousSites;
+
+        $anonymousDefaultSite = '';
 
         // Which report is displayed by default to the anonymous user?
         $anonymousDefaultReport = Request::processRequest('UsersManager.getUserPreference', array('userLogin' => $userLogin, 'preferenceName' => APIUsersManager::PREFERENCE_DEFAULT_REPORT));
@@ -342,13 +368,29 @@ class Controller extends ControllerAdmin
                 // we manually imitate what would happen, in case the anonymous user logs in
                 // and is redirected to the first website available to him in the list
                 // @see getDefaultWebsiteId()
-                reset($anonymousSites);
-                $anonymousDefaultReport = key($anonymousSites);
+                $anonymousDefaultReport = '1';
+                $anonymousDefaultSite = $anonymousSites[0]['key'];
             }
         }
-        $view->anonymousDefaultReport = $anonymousDefaultReport;
 
+        if (is_numeric($anonymousDefaultReport)) {
+            $anonymousDefaultSite = $anonymousDefaultReport;
+            $anonymousDefaultReport = '1'; // a website is selected, we make sure "Dashboard for a specific site" gets pre-selected
+        }
+
+        if ((empty($anonymousDefaultSite) || !in_array($anonymousDefaultSite, $idSites)) && !empty($idSites)) {
+            $anonymousDefaultSite = $anonymousSites[0]['key'];
+        }
+
+        $view->anonymousDefaultReport = $anonymousDefaultReport;
+        $view->anonymousDefaultSite = $anonymousDefaultSite;
         $view->anonymousDefaultDate = $this->getDefaultDateForUser($userLogin);
+
+        $view->defaultReportOptions = array(
+            array('key' => 'Login', 'value' => Piwik::translate('UsersManager_TheLoginScreen')),
+            array('key' => 'MultiSites', 'value' => Piwik::translate('General_AllWebsitesDashboard'), 'disabled' => empty($anonymousSites)),
+            array('key' => '1', 'value' => Piwik::translate('General_DashboardForASpecificWebsite')),
+        );
     }
 
     /**
@@ -393,6 +435,8 @@ class Controller extends ControllerAdmin
             $language = Common::getRequestVar('language');
             $timeFormat = Common::getRequestVar('timeformat');
             $userLogin = Piwik::getCurrentUserLogin();
+
+            Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
             $this->processPasswordChange($userLogin);
 

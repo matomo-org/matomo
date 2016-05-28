@@ -11,33 +11,11 @@
 
 <div>
 
-    <script type="text/javascript">
-    $(function () {
-        var widgetized = new widgetize();
-        var urlPath = document.location.protocol + '//' + document.location.hostname + (document.location.port == '' ? '' : (':' + document.location.port)) + document.location.pathname;
-        var dashboardUrl = urlPath + '?module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=' + piwik.idSite + '&period=week&date=yesterday';
-        $('#exportFullDashboard').html(
-                widgetized.getInputFormWithHtml('dashboardEmbed', '<iframe src="' + dashboardUrl + '" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
-        );
-        $('#linkDashboardUrl').attr('href', dashboardUrl);
+<div class="widgetize" ng-controller="ExportWidgetController as exportWidget">
+<h2 piwik-enriched-headline>{{ title|e('html_attr') }}</h2>
+<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.</p>
 
-        var allWebsitesDashboardUrl = urlPath + '?module=Widgetize&action=iframe&moduleToWidgetize=MultiSites&actionToWidgetize=standalone&idSite=' + piwik.idSite + '&period=week&date=yesterday';
-        $('#exportAllWebsitesDashboard').html(
-                widgetized.getInputFormWithHtml('allWebsitesDashboardEmbed', '<iframe src="' + allWebsitesDashboardUrl + '" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
-        );
-        $('#linkAllWebsitesDashboardUrl').attr('href', allWebsitesDashboardUrl);
-        $('#widgetPreview').widgetPreview({
-            onPreviewLoaded: widgetized.callbackAddExportButtonsUnderWidget
-        });
-    });
-</script>
-
-<h2 piwik-enriched-headline>{{ title }}</h2>
-
-<div class="widgetize">
-    <p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.
-
-    <h2 class="secondary">Authentication</h2>
+<div piwik-content-block content-title="Authentication">
     <p>
         If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions
         to the anonymous user in the <a href='index.php?module=UsersManager' rel='noreferrer' target='_blank'>Users Management section</a>.
@@ -45,25 +23,36 @@
         you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the
         <a href='{{ linkTo({'module':'API','action':'listAllAPI'}) }}' rel='noreferrer' target='_blank'>API page</a>) in the widget URL.
     </p>
-
-    <h2>Widgetize dashboards</h2>
+</div>
+<div piwik-content-block content-title="Widgetize dashboards">
     <p>You can also display the full Piwik dashboard in your application or website in an IFRAME
-        (<a href='' rel='noreferrer' target='_blank' id='linkDashboardUrl'>see example</a>).
+        (<a ng-href='{{ '{{ exportWidget.dashboardUrl }}'|raw }}' rel='noreferrer' target='_blank' >see example</a>).
         The date parameter can be set to a specific calendar date, "today", or "yesterday". The period parameter can be set to "day", "week", "month", or
         "year".
         The language parameter can be set to the language code of a translation, such as language=fr.
-        For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
-        <br />
-        You can also widgetize the all websites dashboard in an IFRAME (<a href='' rel='noreferrer' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
-        <span id='exportAllWebsitesDashboard'></span>
-    </p>
+        For example, for idSite=1 and date=yesterday, you can write:
 
-    <h2>Widgetize reports</h2>
+        <br />
+
+        <pre piwik-select-on-focus ng-bind="exportWidget.dashboardCode"> </pre>
+
+        <br />
+        You can also widgetize the all websites dashboard in an IFRAME
+        (<a ng-href='{{ '{{ exportWidget.allWebsitesDashboardUrl }}'|raw }}' rel='noreferrer' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
+
+        <br />
+
+        <pre piwik-select-on-focus ng-bind="exportWidget.allWebsitesDashboardCode"> </pre>
+    </p>
+</div>
+<div piwik-content-block content-title="Widgetize reports">
     <p>Select a report, and copy paste in your page the embed code below the widget:
 
-    <div id="widgetPreview"></div>
+    <div piwik-widget-preview></div>
 
-    <div id='iframeDivToExport' style='display:none;'></div>
+    <br class="clearfix" />
+
+</div>
 </div>
 </div>
 

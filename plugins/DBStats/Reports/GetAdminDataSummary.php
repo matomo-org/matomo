@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DBStats\Reports;
 
+use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
@@ -20,6 +21,11 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
  */
 class GetAdminDataSummary extends Base
 {
+
+    protected function init()
+    {
+        $this->name = Piwik::translate('DBStats_OtherTables');
+    }
 
     public function configureView(ViewDataTable $view)
     {

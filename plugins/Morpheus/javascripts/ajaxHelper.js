@@ -439,7 +439,8 @@ function ajaxHelper() {
     };
 
     this._isRequestToApiMethod = function () {
-        return this.getParams && this.getParams['module'] === 'API' && this.getParams['method'];
+        return (this.getParams && this.getParams['module'] === 'API' && this.getParams['method']) ||
+               (this.postParams && this.postParams['module'] === 'API' && this.postParams['method']);
     };
 
     this._getDefaultPostParams = function () {

@@ -38,9 +38,6 @@ describe("SitesManager", function () {
     it("should load correctly and show page 0", function (done) {
         assertScreenshotEquals("loaded", done, function (page) {
             page.load(url);
-            page.evaluate(function () {
-                $('.form-help:contains(UTC time is)').hide();
-            });
         });
     });
 
@@ -77,6 +74,15 @@ describe("SitesManager", function () {
     it("should search for websites no result", function (done) {
         assertScreenshotEquals("search_no_result", done, function (page) {
             searchForText(page, 'RanDoMSearChTerm');
+        });
+    });
+
+    it("should load the global settings page", function (done) {
+        assertScreenshotEquals("global_settings", done, function (page) {
+            page.load('?module=SitesManager&action=globalSettings&idSite=1&period=day&date=yesterday&showaddsite=false');
+            page.evaluate(function () {
+                $('.form-help:contains(UTC time is)').hide();
+            });
         });
     });
 });

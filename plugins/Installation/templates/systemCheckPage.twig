@@ -4,24 +4,26 @@
 
 {% block content %}
 
-    <h2 piwik-enriched-headline>{{ title }}</h2>
+    <div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
 
-    {% if diagnosticReport.hasErrors() %}
-        <div class="alert alert-danger">
-            {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }}
-            {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-        </div>
-    {% elseif diagnosticReport.hasWarnings() %}
-        <div class="alert alert-warning">
-            {{ 'Installation_SystemCheckSummaryThereWereWarnings'|translate }}
-            {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-        </div>
-    {% else %}
-        <div class="alert alert-success">
-            {{ 'Installation_SystemCheckSummaryNoProblems'|translate }}
-        </div>
-    {% endif %}
+        {% if diagnosticReport.hasErrors() %}
+            <div class="alert alert-danger">
+                {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }}
+                {{ 'Installation_SeeBelowForMoreInfo'|translate }}
+            </div>
+        {% elseif diagnosticReport.hasWarnings() %}
+            <div class="alert alert-warning">
+                {{ 'Installation_SystemCheckSummaryThereWereWarnings'|translate }}
+                {{ 'Installation_SeeBelowForMoreInfo'|translate }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                {{ 'Installation_SystemCheckSummaryNoProblems'|translate }}
+            </div>
+        {% endif %}
 
-    {% include "@Installation/_systemCheckSection.twig" %}
+            {% include "@Installation/_systemCheckSection.twig" %}
+    </div>
+
 
 {% endblock %}

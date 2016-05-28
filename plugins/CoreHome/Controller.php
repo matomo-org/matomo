@@ -59,6 +59,12 @@ class Controller extends \Piwik\Plugin\Controller
         return $report->render();
     }
 
+    /**
+     * This is only used for exported widgets
+     * @return string
+     * @throws Exception
+     * @throws \Piwik\NoAccessException
+     */
     public function renderWidgetContainer()
     {
         Piwik::checkUserHasSomeViewAccess();

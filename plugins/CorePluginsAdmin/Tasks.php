@@ -10,6 +10,16 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
+    /**
+     * @var UpdateCommunication
+     */
+    private $updateCommunication;
+
+    public function __construct(UpdateCommunication $updateCommunication)
+    {
+        $this->updateCommunication = $updateCommunication;
+    }
+
     public function schedule()
     {
         $this->daily('clearAllCacheEntries', null, self::LOWEST_PRIORITY);
@@ -27,9 +37,8 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function sendNotificationIfUpdatesAvailable()
     {
-        $updateCommunication = new UpdateCommunication();
-        if ($updateCommunication->isEnabled()) {
-            $updateCommunication->sendNotificationIfUpdatesAvailable();
+        if ($this->updateCommunication->isEnabled()) {
+            $this->updateCommunication->sendNotificationIfUpdatesAvailable();
         }
     }
 

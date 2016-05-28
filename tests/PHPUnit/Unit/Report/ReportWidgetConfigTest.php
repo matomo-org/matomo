@@ -156,12 +156,12 @@ class ReportWidgetConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('module' => 'CoreHome', 'action' => 'renderMe'), $this->config->getParameters());
     }
 
-    public function test_getParameters_ShouldReturnViewDataTableIfSet()
+    public function test_getParameters_ShouldNotReturnViewDataTableIfItIsNotForced()
     {
         $this->setModuleAndAction();
         $this->config->setDefaultViewDataTable('graph');
 
-        $this->assertSame(array('viewDataTable' => 'graph', 'module' => 'CoreHome', 'action' => 'renderMe'), $this->config->getParameters());
+        $this->assertSame(array('module' => 'CoreHome', 'action' => 'renderMe'), $this->config->getParameters());
     }
 
     public function test_getParameters_ShouldForceViewDataTableIfSet()

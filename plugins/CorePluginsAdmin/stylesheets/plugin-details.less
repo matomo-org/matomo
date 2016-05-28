@@ -3,23 +3,42 @@
     text-align: left;
     line-height: 20px;
 
+    .header {
+        .intro {
+            width:75%;
+            float:left;
+            margin-bottom: 8px;
+        }
+        .actionButton {
+            width:25%;
+            float:left;
+        }
+    }
+
+    #pluginDetailsTabs > .col {
+        padding: 0 16px 0 0;
+    }
+
+    .content {
+        .contentDetails {
+            width:75%;
+            float:left;
+        }
+        .metadata {
+            width:25%;
+            float:left;
+            padding-top: 16px;
+        }
+    }
+
     h3, h4, h5, h6 {
         margin: 20px 0px 10px 0px;
         color: #000000;
     }
 
-    .ui-tabs-panel ul, .ui-tabs-panel ol {
-        list-style: initial;
-        padding-left: 20px;
-    }
-
-    p, .ui-tabs-panel ul, .ui-tabs-panel li {
+    p {
         text-align: left;
         line-height: 20px;
-    }
-
-    .header .intro {
-        margin-bottom: 15px;
     }
 
     .content p {
@@ -28,43 +47,6 @@
 
     .description {
         padding-right: 25px;
-    }
-
-    .ui-tabs {
-        padding: 0em;
-    }
-
-    .ui-tabs .ui-tabs-nav {
-        padding: 0em;
-        border-bottom: 1px solid #cccccc;
-        margin-right: 25px;
-        border-radius: 0px;
-        font-size: 15px;
-    }
-
-    .ui-tabs .ui-tabs-panel {
-        padding: 1.4em 3em 0em 0em;
-    }
-
-    .content a {
-        color: @theme-color-link;
-        text-decoration: none;
-    }
-
-    .ui-state-default {
-        border: 0px !important;
-    }
-
-    .ui-state-active {
-        padding-bottom: 0px !important;
-    }
-
-    .ui-state-active.ui-state-default {
-        border: 1px solid #cccccc !important;
-    }
-
-    .ui-state-default:hover {
-        background-color: #eeeeee !important;
     }
 
     .install {

@@ -72,6 +72,16 @@ class Controller extends Plugin\ControllerAdmin
         $view->showThemes = $showThemes;
         $view->query = $query;
         $view->sort = $sort;
+        $view->pluginType = $show;
+        $view->pluginTypeOptions = array(
+            'plugins' => Piwik::translate('General_Plugins'),
+            'themes' => Piwik::translate('CorePluginsAdmin_Themes')
+        );
+        $view->pluginSortOptions = array(
+            'popular' => Piwik::translate('CorePluginsAdmin_SortByPopular'),
+            'newest' => Piwik::translate('CorePluginsAdmin_SortByNewest'),
+            'alpha' => Piwik::translate('CorePluginsAdmin_SortByAlpha'),
+        );
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
@@ -432,7 +442,6 @@ class Controller extends Plugin\ControllerAdmin
             }
 
             $message = $this->translator->translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
-            
             if ($this->settingsProvider->getSystemSettings($pluginName)) {
                 $target   = sprintf('<a href="index.php%s#%s">',
                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'generalSettings')),

@@ -76,12 +76,11 @@
 
 .rowevolution {
     position: relative;
-    overflow: hidden;
     text-align: left;
 }
 
 #Piwik_Popover .rowevolution .alert-info {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 a.rowevolution-startmulti {
@@ -116,6 +115,11 @@ a.rowevolution-startmulti {
     user-select: none; /* CSS3 */
     -moz-user-select: none; /* Gecko (Firefox) */
     -khtml-user-select: none; /* Webkit (Safari, Chrome) */
+}
+
+.rowevolution table.metrics td.sparkline,
+.multirowevolution table.metrics td.sparkline {
+    float:none;
 }
 
 .rowevolution table.metrics tr {

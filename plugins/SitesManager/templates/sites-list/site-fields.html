@@ -1,8 +1,9 @@
-<div class="site" idsite="{{site.idSite}}" ng-class="{'editingSite': site.editMode==true}">
+<div class="site card hoverable" idsite="{{site.idSite}}" ng-class="{'editingSite': site.editMode==true}">
+<div class="card-content">
 
     <div class="row" ng-if="!site.editMode">
 
-        <div class="col-md-3">
+        <div class="col m3">
             <h4>{{ site.name }}</h4>
             <ul>
                 <li><span class="title">{{ 'General_Id'|translate }}:</span> {{ site.idsite }}</li>
@@ -15,7 +16,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-4">
+        <div class="col m4">
             <ul>
                 <li><span class="title">{{ 'SitesManager_Timezone'|translate }}:</span> {{ site.timezone }}</li>
                 <li><span class="title">{{ 'SitesManager_Currency'|translate }}:</span> {{ site.currency }}</li>
@@ -27,7 +28,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-4">
+        <div class="col m4">
             <ul>
                 <li>
                     <span class="title">{{ 'SitesManager_Urls'|translate }}</span>:
@@ -47,15 +48,15 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-1 text-right">
+        <div class="col m1 text-right">
             <ul>
                 <li>
-                    <button class="btn btn-flat btn-lg" ng-click="editSite()" title="{{ 'General_Edit'|translate }}">
+                    <button class="table-action" ng-click="editSite()" title="{{ 'General_Edit'|translate }}">
                         <span class="icon-edit"></span>
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-flat btn-lg" ng-show="site.idsite" ng-click="openDeleteDialog()" title="{{ 'General_Delete'|translate }}">
+                    <button class="table-action" ng-show="site.idsite" ng-click="openDeleteDialog()" title="{{ 'General_Delete'|translate }}">
                         <span class="icon-delete"></span>
                     </button>
                 </li>
@@ -66,9 +67,12 @@
 
     <div ng-if="site.editMode">
 
-        <div class="form-group">
-            <label>{{ 'General_Name'|translate }}</label>
-            <input type="text" ng-model="site.name"/>
+        <div class="form-group row">
+            <div class="col s12 m6 input-field">
+                <input type="text" ng-model="site.name"/>
+                <label>{{ 'General_Name'|translate }}</label>
+            </div>
+            <div class="col s12 m6"></div>
         </div>
 
         <div piwik-activity-indicator loading="site.isLoading"></div>
@@ -79,18 +83,24 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label>{{ 'SitesManager_Currency'|translate }}</label>
-            <div class="form-help">
+        <div class="form-group row">
+            <div class="col s12 m6 input-field">
+                <select ng-model="site.currency" ng-options="k as v for (k, v) in currencies"></select>
+                <label>{{ 'SitesManager_Currency'|translate }}</label>
+            </div>
+            <div class="col s12 m6 form-help">
                 {{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}
             </div>
-            <select ng-model="site.currency" ng-options="k as v for (k, v) in currencies"></select>
         </div>
 
-        <div class="form-group">
-            <label>{{ 'SitesManager_Timezone'|translate }}</label>
-            <div ng-include="'plugins/SitesManager/templates/help/timezone-help.html'"></div>
-            <select ng-model="site.timezone" ng-options="t.code as t.label group by t.group for t in timezones"></select>
+        <div class="form-group row">
+            <div class="col s12 m6 input-field">
+                <select ng-model="site.timezone" ng-options="t.key as t.value group by t.group for t in timezones"></select>
+                <label>{{ 'SitesManager_Timezone'|translate }}</label>
+            </div>
+            <div class="col s12 m6 form-help">
+                <div ng-include="'plugins/SitesManager/templates/help/timezone-help.html'"></div>
+            </div>
         </div>
 
         <div class="editingSiteFooter">
@@ -99,5 +109,5 @@
         </div>
 
     </div>
-
+</div>
 </div>

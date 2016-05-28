@@ -417,6 +417,7 @@ class API extends \Piwik\Plugin\API
     public function getDelegatedManagement()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION) == 'true';
+        $option = Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION);
+        return $option === 'true';
     }
 }

@@ -92,17 +92,31 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
+     * See {@link add()}. Adds a new menu item to the measurable section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 3.0.0
+     */
+    public function addMeasurableItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->addItem('CoreAdminHome_MenuMeasurables', $menuName, $url, $order, $tooltip);
+    }
+
+    /**
      * See {@link add()}. Adds a new menu item to the manage section of the admin menu.
      * @param string $menuName
      * @param array $url
      * @param int $order
      * @param bool|string $tooltip
      * @api
-     * @since 2.5.0
+     * @since 3.0.0
      */
-    public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
+    public function addSystemItem($menuName, $url, $order = 50, $tooltip = false)
     {
-        $this->addItem('CoreAdminHome_MenuManage', $menuName, $url, $order, $tooltip);
+        $this->addItem('CoreAdminHome_MenuSystem', $menuName, $url, $order, $tooltip);
     }
 
     /**

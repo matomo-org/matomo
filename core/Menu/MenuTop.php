@@ -49,6 +49,8 @@ class MenuTop extends MenuAbstract
                 $this->menu[$menuName]['_name'] = $menuName;
                 $this->menu[$menuName]['_html'] = $data;
                 $this->menu[$menuName]['_order'] = $order;
+                $this->menu[$menuName]['_url'] = null;
+                $this->menu[$menuName]['_icon'] = '';
                 $this->menu[$menuName]['_hasSubmenu'] = false;
                 $this->menu[$menuName]['_tooltip'] = $tooltip;
             }

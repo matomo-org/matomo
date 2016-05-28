@@ -157,6 +157,10 @@ div.ui-state-highlight {
   text-align: center !important;
 }
 
+.ui-datepicker .ui-state-default {
+  background: @theme-color-background-contrast !important;
+}
+
 .ui-datepicker td.ui-datepicker-week-end .ui-state-default {
   background: #f6f6f6 !important;
 }
@@ -276,6 +280,8 @@ body .ui-tooltip.small {
   text-indent: 0px !important;
   opacity: 1 !important;
   color:@theme-color-brand-contrast;
+  overflow: visible;
+  margin-top: -16px;
 
   &:before{
     content:"\e60a";

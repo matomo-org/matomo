@@ -1,19 +1,15 @@
 .home {
-    h2 {
-        font-size: 18px;
-        padding: 16px 0 16px 0;
-        border: none;
-        margin: 0;
-    }
-
-    h3 {
-        font-size: 1.3em;
-        margin-top: 2em;
-    }
     p {
         padding-bottom: 1em;
         margin-right: 1em;
         margin-left: 1em;
+    }
+}
+
+.card h2 {
+    &.card-title,
+    .card-title {
+        padding: 0 !important;
     }
 }
 
@@ -22,14 +18,15 @@
     font-size: 14px;
     display: inline-block;
     width: 100%;
-
-    > h2:first-child {
-        padding-top: 7px;
-    }
 }
 
 #content.admin {
     display: inline-block;
+    max-width: 1300px;
+
+    > .row {
+        margin: 0 -0.75rem;
+    }
 }
 
 /* 2 columns reports */
@@ -91,8 +88,7 @@ div.ui-datepicker {
 }
 
 #calendarRangeTo {
-    float: left;
-    margin-left: 20px;
+    margin-left: 175px;
 }
 
 #calendarRangeFrom {
@@ -222,8 +218,10 @@ a.Piwik_Popover_Error_Back {
   font-size:18px;
 }
 
-#pluginSettings {
-    .settingIntroduction {
-        font-weight: bold;
-    } 
+/** Can be removed once https://github.com/piwik/piwik/issues/10173 is fixed */
+.modal.modal-fixed-footer .modal-content {
+    height: ~"calc(100% - 56px)"
+}
+.side-nav {
+    height: ~"calc(100% + 60px)"
 }

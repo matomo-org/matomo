@@ -9,50 +9,55 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_5_b3 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
+    public function getMigrationQueries(Updater $updater)
     {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
-    {
-        $customVarType = 'VARCHAR(100) DEFAULT NULL';
-
-        $customVarColumns = array(
-            'custom_var_k1' => $customVarType,
-            'custom_var_v1' => $customVarType,
-            'custom_var_k2' => $customVarType,
-            'custom_var_v2' => $customVarType,
-            'custom_var_k3' => $customVarType,
-            'custom_var_v3' => $customVarType,
-            'custom_var_k4' => $customVarType,
-            'custom_var_v4' => $customVarType,
-            'custom_var_k5' => $customVarType,
-            'custom_var_v5' => $customVarType,
-        );
-
         return array(
-            $this->migration->db->changeColumnTypes('log_visit', $customVarColumns),
-            $this->migration->db->changeColumnTypes('log_conversion', $customVarColumns),
-            $this->migration->db->changeColumnTypes('log_link_visit_action', $customVarColumns),
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k2 custom_var_k2 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v2 custom_var_v2 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k3 custom_var_k3 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v3 custom_var_v3 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k4 custom_var_k4 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(100) DEFAULT NULL'                                                                              => false,
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
+				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k2 custom_var_k2 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v2 custom_var_v2 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k3 custom_var_k3 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v3 custom_var_v3 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k4 custom_var_k4 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(100) DEFAULT NULL'        => false,
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
+				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k2 custom_var_k2 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v2 custom_var_v2 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k3 custom_var_k3 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v3 custom_var_v3 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k4 custom_var_k4 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(100) DEFAULT NULL,
+				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(100) DEFAULT NULL' => false,
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

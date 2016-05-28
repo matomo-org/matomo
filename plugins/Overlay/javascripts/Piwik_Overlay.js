@@ -230,7 +230,9 @@ var Piwik_Overlay = (function () {
                 }
             });
 
-            if (!optionMatchFound) {
+            if (optionMatchFound) {
+                $select.material_select();
+            } else {
                 $select.prepend('<option selected="selected">');
             }
 

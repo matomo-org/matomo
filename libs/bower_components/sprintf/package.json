@@ -1,6 +1,6 @@
 {
     "name": "sprintf-js",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "description": "JavaScript sprintf implementation",
     "author": "Alexandru Marasteanu <hello@alexei.ro> (http://alexei.ro/)",
     "main": "src/sprintf.js",

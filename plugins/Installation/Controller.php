@@ -403,7 +403,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
          */
         Piwik::postEvent('Installation.defaultSettingsForm.init', array($form));
 
-        $form->addElement('submit', 'submit', array('value' => Piwik::translate('General_ContinueToPiwik') . ' »', 'class' => 'btn btn-lg'));
+        $form->addElement('submit', 'submit', array('value' => Piwik::translate('General_ContinueToPiwik') . ' »', 'class' => 'btn'));
 
         if ($form->validate()) {
             try {

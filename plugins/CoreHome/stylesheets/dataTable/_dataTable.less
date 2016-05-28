@@ -21,10 +21,6 @@
   }
 }
 
-div.dataTable {
-  position:relative;
-}
-
 table.dataTable td.label,
 table.subDataTable td.label {
   width: 100%;
@@ -60,13 +56,45 @@ table.dataTable tr.subDataTable {
 
 table.dataTable th {
   margin: 0;
-  color: @dataTable-link-color;
   text-align: left;
   padding: 6px 6px 6px 12px;
-  background: @dataTable-header-background;
   font-size: 12px;
   font-weight: normal;
   vertical-align: top;
+}
+
+// for dataTables in exported widgets ( we do not want to apply this for widgets in dashboard )
+body>.widget table.dataTable {
+  th {
+    background: @theme-color-background-tinyContrast;
+  }
+}
+
+// for dataTables in report pages (not for widgets in the dashboard)
+.theWidgetContent .card .card-content table.dataTable {
+  margin-left: -20px;
+  width: ~"calc(100% + 40px)";
+
+  th {
+    background: @theme-color-background-tinyContrast;
+
+    &:first-child {
+      padding-left: 20px;
+    }
+    &:last-child {
+      padding-right: 20px;
+    }
+  }
+
+  td {
+    &:first-child {
+      padding-left: 20px;
+    }
+
+    &:last-child {
+      padding-right: 20px;
+    }
+  }
 }
 
 table.dataTable th.sortable {
@@ -141,15 +169,6 @@ table.dataTable img {
   margin-left: 0;
 }
 
-.dataTable > .dataTableWrapper {
-  width: 450px;
-}
-
-div.dataTable, div.dataTable > .dataTableWrapper {
-  margin-bottom: 9px; // same height as expand/contract button (so datatable height will encompass the
-                      // expand/contract button)
-}
-
 .subDataTable > .dataTableWrapper {
   width: 95%;
 }
@@ -178,37 +197,80 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   font-size: 12px;
 }
 
-.dataTableSearchPattern {
-  margin: 5px 0 2px 0;
-  height: 20px;
-  display: block;
-  white-space: nowrap;
-  background: url(plugins/Morpheus/images/search_bg.png) no-repeat center 0;
-  text-align: center;
-}
-
-.dataTableSearchPattern input {
-  vertical-align: top;
-  font-size: 10px;
-  color: #454545;
-  border: 0;
-  background: transparent;
-  width: 21px;
-  height: 17px;
-  overflow: hidden;
+.dataTableSearchInput {
+  display: inline-block;
   opacity: 0;
-  filter: Alpha(opacity=0);
-  cursor: pointer;
+  color: #adadad !important;
+  min-height: 30px !important;
+  padding-left: 25px !important;
+  width: 100% !important;
+  transition: opacity 0.3s ease !important;
+  box-shadow: 0 0 !important;
+  visibility: hidden;
 }
 
-.dataTableSearchPattern .searchInput {
-  width: 114px;
-  height: auto;
-  overflow: visible;
-  padding: 2px 6px !important;
-  opacity: 1;
+.searchAction:hover {
+  .dataTableSearchInput {
+    &:hover,
+    &:focus {
+      color: #333 !important;
+    }
+  }
+}
+
+.searchAction {
+  transition: width 0.3s ease !important;
+  text-align: left !important;
+  padding-left: 10px;
+  position: relative;
+  cursor: pointer;
+
+  .icon-search {
+    display: inline-block;
+    cursor: pointer;
+    z-index: 1;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+  }
+
+  .icon-close {
+    display: none;
+  }
+}
+
+.searchAction.searchActive {
   cursor: text;
-  filter: Alpha(opacity=100);
+
+  .dataTableSearchInput {
+    visibility: visible;
+  }
+
+  .icon-close {
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    color: #adadad !important;
+    &:hover,
+    &:focus {
+      color: #333 !important;
+    }
+  }
+  .icon-search {
+    cursor: pointer;
+    color: #adadad !important;
+    &:hover,
+    &:focus {
+      color: #333 !important;
+    }
+  }
+
+  .dataTableSearchInput {
+    opacity: 1;
+  }
 }
 
 .dataTableNext,
@@ -216,44 +278,43 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   font-size: 12px;
   color: #184A83;
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .datatableRelatedReports {
   color: #888;
-  font-size: 11px;
+  font-size: 12px;
   padding-bottom: 5px;
   margin-top: 6px;
-}
-
-#dashboard .datatableRelatedReports {
-  margin-top: 0px;
 }
 
 .datatableRelatedReports span {
   cursor: pointer;
   font-weight: bold;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .dataTableFeatures {
   text-align: center;
 }
 
-.dataTableFooterNavigation {
-  padding: 5px 0;
+.dataTableNext,
+.dataTablePrevious {
+  visibility: hidden;
 }
 
-.dataTableNext,
-.dataTablePrevious,
-.dataTableSearchPattern {
-  display: none;
+.dataTablePaginationControl {
+  margin: 5px 0 !important;
 }
 
 .dataTableFeatures .loadingPiwik {
-  font-size: 0.9em;
-}
-
-.subDataTable .dataTableFooterIcons {
-  height: 0;
+  font-size: 13px;
+  display: inline-block;
+  padding-bottom: 13px;
 }
 
 .dataTable .loadingPiwikBelow {
@@ -262,140 +323,21 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   text-align: center;
 }
 
-.dataTableFooterIcons div {
-  padding-bottom: 4px;
-}
-
 .dataTableFeatures {
-  &.expanded {
-    .dataTableFooterIcons {
-      display: block;
-    }
-
-    .expandDataTableFooterDrawer {
-      display: none;
-    }
-  }
-
   &.hasEvolution {
     .dataTableFooterIcons {
       margin-top: 17px;
     }
-    .expandDataTableFooterDrawer {
-      margin-top: 20px;
-    }
   }
-
-  .expandDataTableFooterDrawer {
-    display: block;
-    margin-top: 5px;
-    margin-bottom: -1px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: @theme-color-widget-background;
-    border: 1px solid @theme-color-background-tinyContrast;
-    height: 9px;
-    width: 70px;
-    -webkit-border-bottom-left-radius: 10px;
-    -webkit-border-bottom-right-radius: 10px;
-    -moz-border-radius-bottomleft: 10px;
-    -moz-border-radius-bottomright: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    line-height: 0px;
-
-    img {
-      margin-bottom: 0px;
-      line-height: 0px;
-    }
-  }
-}
-
-.dataTableFeatures {
-  border-bottom: 1px solid @theme-color-background-tinyContrast;
 }
 
 .widget .dataTableFeatures {
   border-bottom-style: none !important;
 }
 
-.dataTableFooterIcons {
-
-  display: none;
-  margin-top: 5px;
-  height: auto;
-
-  div {
-    padding-bottom: 2px;
-  }
-
-  .foldDataTableFooterDrawer {
-    display: block;
-    padding-bottom: 0px;
-    margin-bottom: -1px;
-    margin-top: 0px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: @theme-color-widget-background;
-    border: 1px solid @theme-color-background-tinyContrast;
-    -webkit-border-top-left-radius: 10px;
-    -webkit-border-top-right-radius: 10px;
-    -moz-border-radius-topleft: 10px;
-    -moz-border-radius-topright: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    line-height: 0px;
-    height: 9px;
-    width: 70px;
-    clear: both;
-
-    img {
-      margin-top: 2px;
-      margin-bottom: 0px;
-      line-height: 0px;
-    }
-  }
-
-  .controls {
-    clear: left;
-    padding: 0px 0px 15px;
-    text-align: left;
-    color: #333;
-  }
-}
-
-#dashboard .dataTableFeatures,.widget .dataTableFeatures {
-  .expandDataTableFooterDrawer {
-    -webkit-border-top-left-radius: 10px;
-    -webkit-border-top-right-radius: 10px;
-    -moz-border-radius-topleft: 10px;
-    -moz-border-radius-topright: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-
-    -webkit-border-bottom-left-radius: 0px;
-    -webkit-border-bottom-right-radius: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    -moz-border-radius-bottomright: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-}
-
-.dataTableFooterIcons .foldDataTableFooterDrawer,
-.dataTableFeatures .expandDataTableFooterDrawer {
-  cursor: pointer;
-}
-
-.widget .foldDataTableFooterDrawer {
-  margin-bottom: -9px;
-}
 
 // customizing footer appearance for row evolution graph
 .ui-dialog .dataTableVizEvolution {
-  .expandDataTableFooterDrawer,.foldDataTableFooterDrawer {
-    display: none !important;
-  }
 
   .dataTableFooterIcons {
     display: block;
@@ -407,26 +349,6 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   }
 }
 
-@-moz-document url-prefix() {
-
-  #dashboard .dataTableFeatures .expandDataTableFooterDrawer {
-    line-height: 1px;
-
-    img {
-      margin-bottom: 1px;
-      line-height: 1px;
-    }
-  }
-}
-
-.dataTableFooterIcons {
-  min-height: 26px;
-  white-space: nowrap;
-  font-size: 10px;
-  padding: 6px 5px 0px;
-  border-top: 1px solid #B6B0A6;
-}
-
 .dataTableFooterWrap {
   position: relative;
   float: left;
@@ -435,23 +357,6 @@ div.dataTable, div.dataTable > .dataTableWrapper {
 .dataTableFooterWrap select {
   float: left;
   margin: 1px 0 1px 10px;
-}
-
-.tableIcon {
-  background: #f2f1ed;
-  display: inline-block;
-  float: left;
-  margin: 0 1px 0 0;
-  padding: 2px;
-  border-radius: 2px;
-}
-
-.tableIcon:hover {
-  background: #e9e8e1;
-}
-
-.activeIcon {
-  background: #e9e8e1;
 }
 
 .tableIconsGroup > span > span {
@@ -465,14 +370,6 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   left: 0;
 }
 
-.exportToFormatItems {
-  background: #dcdacf;
-  float: left;
-  margin: 0 1px 0 0;
-  padding: 4px 6px 3px 6px;
-  color: #968d7f;
-  border-radius: 2px;
-}
 
 .exportToFormatItems img {
   vertical-align: middle;
@@ -513,12 +410,6 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   float: left;
 }
 
-.dataTableFooterIcons,
-.dataTableFooterIcons a {
-  text-decoration: none;
-  color: @dataTable-link-color;
-}
-
 .dataTableSpacer {
   clear: both;
 }
@@ -534,58 +425,64 @@ div.dataTable, div.dataTable > .dataTableWrapper {
 }
 
 tr.level0 td.label {
-  padding-left: 1.5em;
+  padding-left: 20px !important;
+}
+
+.widget {
+  tr.level0 td.label {
+    padding-left: 12px !important;
+  }
 }
 
 tr.level1 td.label {
-  padding-left: 2.5em;
+  padding-left: 2.5em !important;
 }
 
 tr.level2 td.label {
-  padding-left: 3.5em;
+  padding-left: 3.5em !important;
 }
 
 tr.level3 td.label {
-  padding-left: 4.5em;
+  padding-left: 4.5em !important;
 }
 
 tr.level4 td.label {
-  padding-left: 5em;
+  padding-left: 5em !important;
 }
 tr.level5 td.label {
-  padding-left: 5.5em;
+  padding-left: 5.5em !important;
 }
 tr.level6 td.label {
-  padding-left: 6em;
+  padding-left: 6em !important;
 }
 tr.level7 td.label {
-  padding-left: 6.5em;
+  padding-left: 6.5em !important;
 }
 tr.level8 td.label {
-  padding-left: 7em;
+  padding-left: 7em !important;
 }
 tr.level9 td.label {
-  padding-left: 7.5em;
+  padding-left: 7.5em !important;
 }
 tr.level10 td.label {
-  padding-left: 8em;
+  padding-left: 8em !important;
 }
 tr.level11 td.label {
-  padding-left: 8.5em;
+  padding-left: 8.5em !important;
 }
 tr.level12 td.label {
-  padding-left: 9em;
+  padding-left: 9em !important;
 }
 
 /* less right margins for the link image in the Pa*/
 .dataTableActions table.dataTable img.link {
   margin-right: 0.5em;
-  margin-left: -0.5em;
+  margin-left: 0;
   margin-top: -8px;
 }
 
 tr td.label img.plusMinus {
-  margin-left: -10px;
+  margin-left: -3px;
   margin-right: 3px;
   margin-top: -5px;
 }
@@ -597,7 +494,7 @@ tr td.label img.plusMinus {
 }
 
 .widget .pk-emptyDataTable {
-  padding-left: 0px;
+  padding-left: 0;
   padding-top: 33px;
   text-align: center;
 }
@@ -621,7 +518,6 @@ table.dataTable span.cell-tooltip {
 }
 
 .dataTable .jqplot-graph {
-  padding-left: 6px;
   > div {
     position: relative;
   }
@@ -640,5 +536,74 @@ td.cellSubDataTable .loadingPiwik {
     left: -15px;
     cursor: pointer;
     display: inline;
+  }
+}
+
+.dataTableControls {
+  text-align: left;
+  position: relative;
+  padding-left: 0 !important;
+
+  &.col {
+    padding-right: 0;
+  }
+
+  .dropdown-content {
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .dataTableAction {
+    border: 0;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    outline: 0;
+    width: 36px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    text-decoration: none !important;
+    text-align: center;
+    color: #adadad;
+    font-size: 16px;
+    &:hover {
+      color: #333;
+      background-color: @theme-color-background-base;
+      text-decoration: none !important;
+    }
+
+    .icon-export {
+      margin-top: 6px;
+      display: block;
+    }
+
+    .icon-more-verti {
+      font-size: 18px;
+    }
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  #dashboardWidgetsArea .widget,
+  .theWidgetContent > div:not(#dashboard) {
+    &:hover {
+      .limitSelection,
+      .dataTableControls .dataTableAction {
+        visibility: visible;
+      }
+    }
+    .limitSelection,
+    .dataTableControls .dataTableAction {
+      visibility: hidden;
+
+      &.forceActionVisible {
+        visibility: visible;
+      }
+    }
   }
 }

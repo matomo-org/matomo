@@ -178,7 +178,9 @@
 
             // manage resources
             target.on('piwikDestroyPlot', function () {
-                $(window).off('resize', this._resizeListener);
+                if (this._resizeListener) {
+                    $(window).off('resize', this._resizeListener);
+                }
                 self._plot.destroy();
                 for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                     if ($.jqplot.visiblePlots[i] == self._plot) {
@@ -949,7 +951,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // legend will be put there
         if (this.plugins.canvasLegend.show) {
             options.gridPadding = {
-                top: 21
+                top: 21, right: 0
             };
         }
 

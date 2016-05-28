@@ -21,6 +21,12 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class GetIndividualMetricsSummary extends Base
 {
+
+    protected function init()
+    {
+        $this->name = Piwik::translate('General_Metrics');
+    }
+
     public function configureView(ViewDataTable $view)
     {
         $this->addBaseDisplayProperties($view);

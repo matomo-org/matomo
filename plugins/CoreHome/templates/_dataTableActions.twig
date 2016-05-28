@@ -1,0 +1,114 @@
+ {% set randomIdForDropdown = random(999999) %}
+
+    {% if properties.show_footer and properties.show_footer_icons %}
+
+        <a class='dropdown-button dropdownConfigureIcon dataTableAction'
+           href='javascript:;'
+           data-activates='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
+
+        {% set activeFooterIcon = '' %}
+        {% set numIcons = 0 %}
+        {% set visualizationIcons %}
+            <ul id='dropdownVisualizations{{ randomIdForDropdown }}' class='dropdown-content dataTableFooterIcons'>
+                {% for footerIconGroup in footerIcons %}
+                    {% for footerIcon in footerIconGroup.buttons if footerIcon.icon %}
+                        <li>
+                            {% set numIcons = numIcons + 1 %}
+                            {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
+                            ((footerIcon.id == 'ecommerceOrder' and clientSideParameters.abandonedCarts == 0) or
+                            (footerIcon.id == 'ecommerceAbandonedCart' and clientSideParameters.abandonedCarts == 1)) %}
+                            <a class="{{ footerIconGroup.class }} tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id or isActiveEcommerceView %}activeIcon{% set activeFooterIcon = footerIcon.icon %}{% endif %}"
+                               data-footer-icon-id="{{ footerIcon.id }}">
+                                {% if footerIcon.icon starts with 'icon-' %}
+                                    <span title="{{ footerIcon.title }}" class="{{ footerIcon.icon }}"></span>
+                                {% else %}
+                                    <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
+                                {% endif %}
+                                {% if footerIcon.title is defined %}<span>{{ footerIcon.title }}</span>{% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    <li class="divider"></li>
+                {% endfor %}
+            </ul>
+        {% endset %}
+
+        {% if activeFooterIcon and numIcons > 1 %}
+            <a class="dropdown-button dataTableAction activateVisualizationSelection"
+               href="javascript:;"
+               data-activates="dropdownVisualizations{{ randomIdForDropdown }}">
+                {% if activeFooterIcon starts with 'icon-' %}
+                    <span title="{{ 'CoreHome_ChangeVisualization'|translate|e('html_attr') }}" class="{{ activeFooterIcon }}"></span>
+                {% else %}
+                    <img title="{{ 'CoreHome_ChangeVisualization'|translate|e('html_attr') }}" width="16" height="16" src="{{ activeFooterIcon }}"/>
+                {% endif %}
+            </a>
+            {{ visualizationIcons|raw }}
+        {% endif %}
+
+        <a class='dropdown-button dataTableAction activateExportSelection'
+           href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
+           data-activates='dropdownExport{{ randomIdForDropdown }}'><span class="icon-export"></span></a>
+
+        {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
+            <a class='dataTableAction annotationView'
+               href='javascript:;' title="{{ 'Annotations_Annotations'|translate|e('html_attr') }}"
+            ><span class="icon-annotation"></span></a>
+        {% endif %}
+
+        {% if properties.show_search %}
+            <a class='dropdown-button dataTableAction searchAction'
+               href='javascript:;' title="{{ 'General_Search'|translate|e('html_attr') }}"
+               ><span class="icon-search"></span>
+                <span class="icon-close" title="{{ 'CoreHome_CloseSearch'|translate|e('html_attr') }}"></span>
+                <input id="widgetSearch_{{ properties.report_id }}"
+                       title="{{ 'CoreHome_DataTableHowToSearch'|translate|e('html_attr') }}"
+                       type="text"
+                       class="dataTableSearchInput browser-default" />
+            </a>
+        {% endif %}
+
+        <ul id='dropdownExport{{ randomIdForDropdown }}' class='dropdown-content exportToFormatItems'>
+            {% set requestParams = properties.request_parameters_to_modify|json_encode %}
+            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a></li>
+            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a></li>
+            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a></li>
+            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a></li>
+            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a></li>
+            {% if properties.show_export_as_rss_feed %}
+                <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
+                        <span class="icon-feed"></span> RSS
+                    </a>
+                </li>
+            {% endif %}
+            {% if properties.show_export_as_image_icon %}
+                <li><a class="tableIcon" href="javascript:;" id="dataTableFooterExportAsImageIcon" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
+                        <span class="icon-image"></span>
+                        {{ 'General_ExportAsImage'|translate }}
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
+            {% if properties.show_flatten_table %}
+                {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
+                    <li>
+                        <div class="configItem dataTableIncludeAggregateRows"></div>
+                    </li>
+                {% endif %}
+                <li>
+                    <div class="configItem dataTableFlatten"></div>
+                </li>
+            {% endif %}
+            {% if properties.show_exclude_low_population %}
+                <li>
+                    <div class="configItem dataTableExcludeLowPopulation"></div>
+                </li>
+            {% endif %}
+            {% if properties.show_pivot_by_subtable|default is not empty %}
+                <li>
+                    <div class="configItem dataTablePivotBySubtable"></div>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}

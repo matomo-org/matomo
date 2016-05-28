@@ -12,33 +12,22 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_2_37 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
-            $this->migration->db->sql('DELETE FROM `' . Common::prefixTable('user_dashboard') . "`
-                                       WHERE layout LIKE '%.getLastVisitsGraph%'
-                                       OR layout LIKE '%.getLastVisitsReturningGraph%'"),
+            'DELETE FROM `' . Common::prefixTable('user_dashboard') . "`
+				WHERE layout LIKE '%.getLastVisitsGraph%'
+				OR layout LIKE '%.getLastVisitsReturningGraph%'" => false,
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

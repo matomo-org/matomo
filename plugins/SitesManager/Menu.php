@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Measurable\Type\TypeManager;
+use Piwik\Plugins\WebsiteMeasurable;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -23,17 +24,19 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addMeasurableItem('General_Settings', $this->urlForAction('globalSettings'), $order = 11);
+        }
+        
         if (Piwik::isUserHasSomeAdminAccess()) {
+            $menu->addMeasurableItem('SitesManager_MenuManage', $this->urlForAction('index'), $order = 10);
+
             $type = $this->getFirstTypeIfOnlyOneIsInUse();
 
-            $menuName = 'General_Measurables';
             if ($type) {
-                $menuName = $type->getNamePlural();
+                $menu->rename('CoreAdminHome_MenuMeasurables', $subMenuOriginal = null, $type->getNamePlural(), $subMenuRenamed = null);
             }
 
-            $menu->addManageItem($menuName,
-                                 $this->urlForAction('index'),
-                                 $order = 10);
         }
     }
 

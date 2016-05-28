@@ -8,6 +8,17 @@ body {
     margin-bottom: 40px;
     border-bottom: solid 1px #ccc;
 }
+
+.content .btn {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.header .languageSelection {
+    color: #4183C4;
+    font-size: 13px;
+}
+
 .logo {
     float: left;
 }

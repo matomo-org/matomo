@@ -25,7 +25,7 @@ class Insight extends Visualization
     const ID = 'insightsVisualization';
     const TEMPLATE_FILE     = '@Insights/insightVisualization.twig';
     const FOOTER_ICON_TITLE = 'Insights';
-    const FOOTER_ICON       = 'plugins/Insights/images/idea.png';
+    const FOOTER_ICON       = 'icon-insights';
 
     public function beforeLoadDataTable()
     {

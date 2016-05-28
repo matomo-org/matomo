@@ -20,14 +20,11 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The visibility of private properties and methods in `Piwik\Plugins\Login\Controller` were changed to `protected`
 * Controller actions are now case sensitive. This means the URL and events have to use the same case as the name of the action defined in a controller.
 * The "User Menu" was removed and should be replaced by "Admin Menu". Change `configureUserMenu(MenuUser $menu)` to `configureAdminMenu(MenuAdmin $menu)` in your `Menu.php`.
-* The method `Piwik\Menu\MenuAdmin::addSettingsItem()` was removed, use  `Piwik\Menu\MenuAdmin::addManageItem()` instead.
+* The method `Piwik\Menu\MenuAdmin::addSettingsItem()` was removed, use  `Piwik\Menu\MenuAdmin::addSystemItem()` instead.
+* A new methd `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
 * The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no possible to define an introduction text for settings.
-
-### Deprecations
-* The method `Piwik\Updates::getMigrationQueries()` has been deprecated and renamed to `getMigrations()`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0
-* The method `Piwik\Updater::executeMigrationQueries()` has been deprecated and renamed to `executeMigrations`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0.
 
 ### New APIs
 * Multiple widgets for one report can now be created via the `Report::configureWidgets()` method via the new classes `Piwik\Widget\ReportWidgetFactory` and `Piwik\Widget\ReportWidgetConfig`
@@ -38,8 +35,6 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * New HTTP API method `API.getReportPagesMetadata` to get a list of all available pages that exist including the widgets they include
 * New HTTP API method `SitesManager.getSiteSettings` to get a list of all available settings for a specific site
 * The JavaScript AjaxHelper has a new method `ajaxHelper.withTokenInUrl()` to easily send a token along a XHR. Within the Controller the existence of this token can be checked via `$this->checkTokenInUrl();` to prevent CSRF attacks.
-* The new class `Piwik\Updater\Migration\Factory` lets you easily create migrations that can be executed during an update. For example database or plugin related migrations. To generate a new update with migrations execute `./console generate:update`.
-* The new method `Piwik\Updater::executeMigration` lets you execute a single migration.
 
 ### New features
 * New "Sparklines" visualization that let's you create a widget showing multiple sparklines
@@ -50,6 +45,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Internal change
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
 * Required PHP version was changed from 5.3 to 5.5
+* We have updated PhantomJS 1.9 to 2.1.1 for our screenshot tests.
 
 
 ## Piwik 2.16.1

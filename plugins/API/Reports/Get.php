@@ -27,11 +27,11 @@ class Get extends Report
 
         $this->reportsToMerge = $this->getReportsToMerge();
 
-        $this->module        = 'API';
-        $this->action        = 'get';
+        $this->module = 'API';
+        $this->action = 'get';
 
-        $this->categoryId      = 'API';
-        $this->name          = Piwik::translate('General_MainMetrics');
+        $this->categoryId = 'API';
+        $this->name = Piwik::translate('General_MainMetrics');
         $this->documentation = '';
 
         $this->processedMetrics = array();

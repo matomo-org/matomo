@@ -31,23 +31,10 @@
   margin: 0 1px 0 0 !important;
 }
 
-.entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td {
-  vertical-align: middle !important;
-}
-
-.entityAddContainer .entityTable tr td.first {
-  font-weight: bold;
-  vertical-align: top !important;
-}
-
-.entityAddContainer tr:hover {
-  background: none !important;
-}
-
 /* Add / Edit / List entities */
 .entityContainer {
   width: 100%;
-  max-width: 850px;
+  max-width: 900px;
   min-width: 600px;
   font-size: 14px;
 }
@@ -58,79 +45,8 @@
   clear: both;
 }
 
-table.entityTable {
-  thead {
-    tr {
-      th {
-        background-color: @color-silver-l98 !important;
-        text-align: left !important;
-        font-size: 16px;
-      }
-
-      td {
-        padding: 10px;
-      }
-    }
-  }
-
-  tr {
-    td {
-      padding:10px;
-    }
-  }
-}
-
-.entityTable tr td.first, .entityTable tr th.first {
-  border-left: 0 !important;
-  vertical-align: top !important;
-}
-
-.entityTable tr th {
-  white-space: nowrap;
-  padding: 16px 10px !important;
-}
-
-.entityTable tr td, .entityTable tr th {
-  border-bottom: 0 !important;
-}
-
-table.entityTable tr td a {
-  text-decoration: underline;
-}
-
-.entityTable tr.highlighted td {
-  background-color: #ECF9DD;
-}
-
 /* cancel button below Forms */
 .entityCancel {
   padding: 10px 0;
   font-size: 12px;
-}
-
-/* List with grey arrows on left */
-.entityList ul.listCircle {
-  font-weight: normal;
-  list-style: none;
-  padding: 4px 0;
-}
-
-.entityList ul li {
-  background: @theme-color-background-base url(plugins/Morpheus/images/li_dbl_gray.gif) no-repeat 6px 10px;
-  padding: 0 0 0 21px;
-  line-height: 22px;
-}
-
-.entityList ul li .dimension {
-  cursor: pointer;
-  border-bottom: 1px solid #d0d0d0;
-}
-
-.entityList ul li.activeDimension .dimension {
-  font-weight: bold;
-  border: 0;
-}
-
-.entityList ul.listCircle li a {
-  color: #000;
 }

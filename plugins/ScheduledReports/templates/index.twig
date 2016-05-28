@@ -9,13 +9,12 @@
 
 {% block content %}
 
-<div class="emailReports">
-    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/email-reports/">{{ title }}</h2>
+<div class="emailReports" piwik-manage-scheduled-report>
 
     <span id="reportSentSuccess"></span>
     <span id="reportUpdatedSuccess"></span>
 
-    <div class="entityContainer">
+    <div>
         {% import 'ajaxMacros.twig' as ajax %}
         {{ ajax.errorDiv() }}
         {{ ajax.loadingDiv() }}
@@ -40,9 +39,6 @@
     ReportPlugin.reportList = {{ reportsJSON | raw }};
     ReportPlugin.createReportString = "{{ 'ScheduledReports_CreateReport'|translate }}";
     ReportPlugin.updateReportString = "{{ 'ScheduledReports_UpdateReport'|translate }}";
-    $(function () {
-        initManagePdf();
-    });
 </script>
 <style type="text/css">
     .reportCategory {

@@ -22,9 +22,9 @@
             <form id="oneclickupdate" action="index.php">
                 <input type="hidden" name="module" value="CoreUpdater"/>
                 <input type="hidden" name="action" value="oneClickUpdate"/>
-                <input id="updateAutomatically" type="submit" class="btn btn-lg" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
+                <input id="updateAutomatically" type="submit" class="btn" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
                 {% endif %}
-                <a class="btn btn-lg"
+                <a class="btn"
                    href="{{ piwik_latest_version_url }}?cb={{ piwik_new_version }}">{{ 'CoreUpdater_DownloadX'|translate(piwik_new_version) }}</a><br/>
                 {% if can_auto_update %}
             </form>

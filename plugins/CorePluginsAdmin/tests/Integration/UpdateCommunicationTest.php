@@ -9,8 +9,10 @@
 namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
+use Piwik\Plugins\CoreUpdater\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -26,37 +28,30 @@ class UpdateCommunicationTest extends IntegrationTestCase
      */
     private $updateCommunication;
 
+    /**
+     * @var SystemSettings
+     */
+    private $settings;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->updateCommunication = new UpdateCommunication();
-        $this->updateCommunication->enable();
+        $this->settings = StaticContainer::get('Piwik\Plugins\CoreUpdater\SystemSettings');
+        $this->settings->sendPluginUpdateEmail->setValue(true);
+
+        $this->updateCommunication = new UpdateCommunication($this->settings);
     }
 
     public function test_canBeEnabled()
     {
-        $this->assertTrue($this->updateCommunication->canBeEnabled());
+        $this->assertTrue(UpdateCommunication::canBeEnabled());
 
         Config::getInstance()->General['enable_update_communication'] = 0;
-        $this->assertFalse($this->updateCommunication->canBeEnabled());
+        $this->assertFalse(UpdateCommunication::canBeEnabled());
 
         Config::getInstance()->General['enable_update_communication'] = 1;
-        $this->assertTrue($this->updateCommunication->canBeEnabled());
-    }
-
-    public function test_enable()
-    {
-        $this->updateCommunication->enable();
-        $this->assertTrue($this->updateCommunication->isEnabled());
-    }
-
-    public function test_disable()
-    {
-        $this->assertTrue($this->updateCommunication->isEnabled());
-
-        $this->updateCommunication->disable();
-        $this->assertFalse($this->updateCommunication->isEnabled());
+        $this->assertTrue(UpdateCommunication::canBeEnabled());
     }
 
     public function test_isEnabled_shouldReturnFalse_IfCannotBeEnabled()
@@ -160,7 +155,9 @@ Installation_HappyAnalysing";
      */
     private function getCommunicationMock($pluginsHavingUpdate)
     {
-        $mock = $this->getMock('\Piwik\Plugins\CorePluginsAdmin\UpdateCommunication', array('getPluginsHavingUpdate', 'sendEmailNotification'));
+        $mock = $this->getMock('\Piwik\Plugins\CorePluginsAdmin\UpdateCommunication',
+                              array('getPluginsHavingUpdate', 'sendEmailNotification'),
+                               array($this->settings));
 
         $mock->expects($this->any())
              ->method('getPluginsHavingUpdate')

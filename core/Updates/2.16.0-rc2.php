@@ -10,29 +10,19 @@ namespace Piwik\Updates;
 
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_16_0_rc2 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
-    {
-        return array(
-            $this->migration->plugin->activate('PiwikPro')
-        );
-    }
-
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $pluginName = 'PiwikPro';
+
+        try {
+            if (!$pluginManager->isPluginActivated($pluginName)) {
+                $pluginManager->activatePlugin($pluginName);
+            }
+        } catch (\Exception $e) {
+        }
     }
 }

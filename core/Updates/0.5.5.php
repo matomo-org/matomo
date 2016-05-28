@@ -13,46 +13,33 @@ use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_5_5 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
+    public function getMigrationQueries(Updater $updater)
     {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
-    {
-        $migrations = array(
-            $this->migration->db->dropIndex('log_visit', 'index_idsite_date'),
-            $this->migration->db->addIndex('log_visit', array('idsite', 'visit_server_date', 'config_md5config(8)'), 'index_idsite_date_config'),
+        $sqlarray = array(
+            'DROP INDEX index_idsite_date ON ' . Common::prefixTable('log_visit')                                                                => 1091,
+            'CREATE INDEX index_idsite_date_config ON ' . Common::prefixTable('log_visit') . ' (idsite, visit_server_date, config_md5config(8))' => array(1061,1072),
         );
 
         $tables = DbHelper::getTablesInstalled();
         foreach ($tables as $tableName) {
-            $unprefixedTable = Common::unprefixTable($tableName);
             if (preg_match('/archive_/', $tableName) == 1) {
-                $migrations[] = $this->migration->db->dropIndex($unprefixedTable, 'index_all');
+                $sqlarray['DROP INDEX index_all ON ' . $tableName] = 1091;
             }
             if (preg_match('/archive_numeric_/', $tableName) == 1) {
-                $columns = array('idsite', 'date1', 'date2', 'period');
-                $migrations[] = $this->migration->db->addIndex($unprefixedTable, $columns, 'index_idsite_dates_period');
+                $sqlarray['CREATE INDEX index_idsite_dates_period ON ' . $tableName . ' (idsite, date1, date2, period)'] = 1061;
             }
         }
 
-        return $migrations;
+        return $sqlarray;
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

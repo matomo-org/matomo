@@ -1,8 +1,18 @@
-#content:not(.admin), .widget, .ui-widget {
-
-  .UserCountryMap .dataTableFooterIcons {
-    display: block;
+.zenMode {
+  nav {
+    display: none;
   }
+
+  #secondNavBar {
+    display: none;
+  }
+
+  #root #secondNavBar + .pageWrap {
+    margin-left: 0;
+  }
+}
+
+#content:not(.admin), .widget, .ui-widget {
 
   /* DATATABLES */
 
@@ -21,8 +31,8 @@
       font-weight: bold !important;
     }
     tr td {
-      padding-top: 7px;
-      padding-bottom: 7px;
+      padding-top: 8px;
+      padding-bottom: 8px;
     }
   }
 
@@ -38,15 +48,15 @@
   }
 
   .dataTableVizHtmlTable > .dataTableWrapper {
-    width: 500px;
+    width: 100%;
   }
 
   .dataTableFooterNavigation {
-    padding: 7px 0;
-  }
+    padding: 7px 0 0 0;
 
-  .dataTableFooterIcons {
-    border-top: 0px;
+    > .row {
+      margin-bottom: 0;
+    }
   }
 
   .goalEntry:first-of-type {
@@ -61,58 +71,8 @@
     display: none;
   }
 
-  div[data-report="Goals.getItemsSku"] > .dataTableWrapper,
-  div[data-report="Goals.getItemsName"] > .dataTableWrapper,
-  div[data-report="Goals.getItemsCategory"] > .dataTableWrapper,
-  div[data-report="Referrers.getReferrerType"] > .dataTableWrapper,
-  div[data-report="Referrers.getAll"] > .dataTableWrapper {
-    width: 800px;
-  }
-
   .reportsByDimensionView .entityList {
     margin-left: 13px;
   }
 
-}
-
-#content:not(.admin), .widget {
-
-  .reporting-page {
-    .smallTopMargin:not(.graphEvolution) {
-      margin-top: 20px;
-    }
-  }
-
-  h2 {
-    margin-top: 40px;
-    padding: 16px 0 12px 0;
-    font-size: 21px;
-
-    &.noTopMargin {
-      margin-top: 0;
-      padding-top: 7px;
-    }
-  }
-
-  .widget [piwik-widget-container] [piwik-widget]:first-child h2 {
-    // eg Visits Overview with Graph should not have a margin-top
-    margin-top: 0px;
-  }
-}
-
-#root #dashboard .widget {
-  h2 {
-    padding-left: 10px;
-  }
-}
-
-.widget {
-  h2:nth-of-type(n+2) {
-    padding-top: 40px!important;
-    margin-top: 0!important;
-  }
-}
-
-.dataTableFeatures .expandDataTableFooterDrawer {
-  margin-bottom: -9px;
 }

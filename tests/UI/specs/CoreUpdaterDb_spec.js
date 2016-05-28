@@ -43,7 +43,7 @@ describe("CoreUpdaterDb", function () {
 
     it("should show the donation form when the update process is complete", function (done) {
         expect.screenshot("updated").to.be.capture(function (page) {
-            page.click('.submit');
+            page.click('.btn');
         }, done);
     });
 });

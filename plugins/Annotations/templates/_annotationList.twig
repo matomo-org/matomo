@@ -18,9 +18,13 @@
                 </div>
             </td>
             <td class="annotation-value">
-                <input type="text" value="" class="new-annotation-edit" placeholder="{{ 'Annotations_EnterAnnotationText'|translate }}"/><br/>
-                <input type="button" class="submit new-annotation-save" value="{{ 'General_Save'|translate }}"/>
-                <input type="button" class="submit new-annotation-cancel" value="{{ 'General_Cancel'|translate }}"/>
+                <div class="input-field">
+                    <input type="text" value=""
+                           class="new-annotation-edit browser-default"
+                           placeholder="{{ 'Annotations_EnterAnnotationText'|translate }}"/>
+                </div><br/>
+                <input type="button" class="btn new-annotation-save" value="{{ 'General_Save'|translate }}"/>
+                <input type="button" class="btn new-annotation-cancel" value="{{ 'General_Cancel'|translate }}"/>
             </td>
             <td class="annotation-user-cell"><span class="annotation-user">{{ userLogin }}</span></td>
         </tr>

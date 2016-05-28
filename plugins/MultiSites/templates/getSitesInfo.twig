@@ -10,14 +10,24 @@
 {% block content %}
 <div class="container" id="multisites">
 
-    <div id="main">
-        <div piwik-multisites-dashboard
-             display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
-             page-size="{{ limit }}"
-             show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
-             date-sparkline="{{ dateSparkline }}"
-             auto-refresh-today-report="{{ autoRefreshTodayReport }}">
+    {% if isWidgetized %}
+        <div id="main">
+    {% else %}
+        <div id="main" class="card">
+            <div class="card-content">
+    {% endif %}
+            <div piwik-multisites-dashboard
+                 display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
+                 page-size="{{ limit }}"
+                 show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
+                 date-sparkline="{{ dateSparkline }}"
+                 auto-refresh-today-report="{{ autoRefreshTodayReport }}">
+            </div>
+    {% if isWidgetized %}
         </div>
+    {% else %}
+        </div></div>
+    {% endif %}
     </div>
 </div>
 {% endblock %}

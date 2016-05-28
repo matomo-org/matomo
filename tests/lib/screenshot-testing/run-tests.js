@@ -32,6 +32,8 @@ require('./support/fs-extras');
 
 phantom.injectJs('./support/globals.js');
 
+console.log('PhantomJS version: ' + phantom.version.major + '.' + phantom.version.minor + '.' + phantom.version.patch);
+
 // make sure script works wherever it's executed from
 require('fs').changeWorkingDirectory(__dirname);
 

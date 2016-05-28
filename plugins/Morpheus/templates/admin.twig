@@ -19,6 +19,15 @@
 {% block root %}
     {% include "@CoreHome/_topScreen.twig" %}
 
+    <div class="top_controls">
+        <div piwik-quick-access ng-cloak class="piwikTopControl borderedControl"></div>
+
+        {% block topcontrols %}
+        {% endblock %}
+
+        {% include "@CoreHome/_headerMessage.twig" %}
+    </div>
+
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.requestErrorDiv(emailSuperUser|default(''), arePiwikProAdsEnabled) }}
     {{ postEvent("Template.beforeContent", "admin", currentModule) }}
@@ -31,17 +40,13 @@
         {% endif %}
 
         <div class="pageWrap">
-
-            <div class="top_controls">
-                {% block topcontrols %}
-                {% endblock %}
-
-                {% include "@CoreHome/_headerMessage.twig" %}
-            </div>
-
-            <div class="admin" id="content">
+            <a name="main"></a>
+            {% block notification %}
                 {% include "@CoreHome/_notifications.twig" %}
-                {% include "@CoreHome/_warningInvalidHost.twig" %}
+            {% endblock %}
+            {% include "@CoreHome/_warningInvalidHost.twig" %}
+
+            <div class="admin" id="content" ng-cloak>
 
                 <div class="ui-confirm" id="alert">
                     <h2></h2>

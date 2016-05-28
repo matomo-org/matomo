@@ -85,6 +85,7 @@ class SettingsMetadata
 
             $plugin = array(
                 'pluginName' => $pluginName,
+                'title' => $settings->getTitle(),
                 'settings' => array()
             );
 

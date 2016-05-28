@@ -1,10 +1,13 @@
-<span id="logo">
-    <a href="index.php" tabindex="-1" title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik # {{ 'General_OpenSourceWebAnalytics'|translate }}">
+<span id="logo" class="brand-logo">
+    <a href="index.php" tabindex="-1"
+       title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik # {{ 'General_OpenSourceWebAnalytics'|translate }}"
+    >
     {% if hasSVGLogo %}
-        <img src='{{ logoSVG }}' tabindex="3"  alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" class="ie-hide {% if not isCustomLogo %}default-piwik-logo{% endif %}" />
-        <!--[if lt IE 9]>
-    {% endif %}
+        <img src='{{ logoSVG }}' tabindex="3"
+             alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik"
+             class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
+    {% else %}
         <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" />
-    {% if hasSVGLogo %}<![endif]-->{% endif %}
+    {% endif %}
 </a>
 </span>

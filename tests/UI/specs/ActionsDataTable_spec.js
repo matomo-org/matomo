@@ -28,29 +28,31 @@ describe("ActionsDataTable", function () {
         expect.screenshot('subtables_loaded').to.be.capture(function (page) {
             page.click('tr.subDataTable:first');
             page.click('tr.subDataTable:eq(2)');
-            page.evaluate(function () {
-                $('.foldDataTableFooterDrawer').click(); // open the footer icons controls
-            });
+        }, done);
+    });
+
+    it("should show configuration options", function (done) {
+        expect.screenshot('configuration_options').to.be.captureSelector('.tableConfiguration', function (page) {
+            page.click('.dropdownConfigureIcon');
         }, done);
     });
 
     it("should flatten table when flatten link clicked", function (done) {
         expect.screenshot('flattened').to.be.capture(function (page) {
-            page.mouseMove('.tableConfiguration');
             page.click('.dataTableFlatten');
         }, done);
     });
 
     it("should exclude low population rows when exclude low population link clicked", function (done) {
         expect.screenshot('exclude_low_population').to.be.capture(function (page) {
-            page.mouseMove('.tableConfiguration');
+            page.click('.dropdownConfigureIcon');
             page.click('.dataTableExcludeLowPopulation');
         }, done);
     });
 
     it("should load normal view when switch to view hierarchical view link is clicked", function (done) {
         expect.screenshot('unflattened').to.be.capture(function (page) {
-            page.mouseMove('.tableConfiguration');
+            page.click('.dropdownConfigureIcon span');
             page.click('.dataTableFlatten');
         }, done);
     });
@@ -83,13 +85,25 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should search through table when search input entered and search button clicked", function (done) {
-        expect.screenshot('search').to.be.capture(function (page) {
-            page.sendKeys('.dataTableSearchPattern>input[type=text]', 'i');
-            page.click('.dataTableSearchPattern>input[type=submit]');
+    it("should show the search when clicking on the search icon", function (done) {
+        expect.screenshot('search_visible').to.be.capture(function (page) {
+            page.click('.dataTableAction.searchAction');
         }, done);
     });
-    
+
+    it("should search through table when search input entered and search button clicked and input should be visible", function (done) {
+        expect.screenshot('search').to.be.capture(function (page) {
+            page.sendKeys('.searchAction .dataTableSearchInput', 'i');
+            page.click('.searchAction .icon-search');
+        }, done);
+    });
+
+    it("should close search when clicking on the x icon", function (done) {
+        expect.screenshot('search_closed').to.be.capture(function (page) {
+            page.click('.searchAction .icon-close');
+        }, done);
+    });
+
     it("should automatically expand subtables if it contains only one folder", function (done) {
         expect.screenshot('auto_expand').to.be.capture(function (page) {
             page.load(url + '&viewDataTable=table');

@@ -1,34 +1,41 @@
 {% import '@CoreVisualizations/macros.twig' as macros %}
 
 {% if not isWidget %}
-<div class="row">
-    <div class="col-md-6">
+    <div class="card"><div class="card-content">
 {% endif %}
+    {% if title is not empty %}<h2 class="card-title">{{ title }}</h2>{% endif %}
 
-        {% for key, sparkline in sparklines %}
-            {% if key is even %}
-                {{ macros.singleSparkline(sparkline) }}
-            {% endif %}
-        {% endfor %}
+    {% if not isWidget %}
+    <div class="row">
+        <div class="col m6">
+    {% endif %}
 
-{% if not isWidget %}
-        <br style="clear:left"/>
+            {% for key, sparkline in sparklines %}
+                {% if key is even %}
+                    {{ macros.singleSparkline(sparkline) }}
+                {% endif %}
+            {% endfor %}
+
+    {% if not isWidget %}
+            <br style="clear:left"/>
+        </div>
+        <div class="col m6">
+    {% endif %}
+
+            {% for key, sparkline in sparklines %}
+                {% if key is odd %}
+                    {{ macros.singleSparkline(sparkline) }}
+                {% endif %}
+            {% endfor %}
+
+            <br style="clear:left"/>
+
+    {% if not isWidget %}
+        </div>
     </div>
-    <div class="col-md-6">
-{% endif %}
+    {% endif %}
 
-        {% for key, sparkline in sparklines %}
-            {% if key is odd %}
-                {{ macros.singleSparkline(sparkline) }}
-            {% endif %}
-        {% endfor %}
-
-        <br style="clear:left"/>
-
+    {% include "_sparklineFooter.twig" %}
 {% if not isWidget %}
-    </div>
-</div>
+        </div></div>
 {% endif %}
-
-{% include "_sparklineFooter.twig" %}
-

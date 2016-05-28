@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(optional) Display options",
+        "AggregateReportsFormat": "Display options",
         "AggregateReportsFormat_GraphsOnly": "Display Graphs only (no report tables)",
         "AggregateReportsFormat_TablesAndGraphs": "Display Report tables and Graphs for all reports",
         "AggregateReportsFormat_TablesOnly": "(default) Display Report tables (Graphs only for key metrics)",

@@ -13,12 +13,9 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuTop;
-use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
-use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
@@ -60,7 +57,7 @@ class Controller extends ControllerAdmin
         $view = new View('@CoreAdminHome/generalSettings');
         $this->handleGeneralSettingsAdmin($view);
 
-        $view->trustedHosts = Url::getTrustedHostsFromConfig();
+        $view->trustedHosts = array_values(Url::getTrustedHostsFromConfig());
         $logo = new CustomLogo();
         $view->branding              = array('use_custom_logo' => $logo->isEnabled());
         $view->fileUploadEnabled     = $logo->isFileUploadEnabled();
@@ -72,27 +69,49 @@ class Controller extends ControllerAdmin
         $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
         $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
         $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
+        $view->mailTypes = array(
+            '' => '',
+            'Plain' => 'Plain',
+            'Login' => 'Login',
+            'Crammd5' => 'Crammd5',
+        );
+        $view->mailEncryptions = array(
+            '' => '',
+            'ssl' => 'SSL',
+            'tls' => 'TLS'
+        );
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
         return $view->render();
     }
 
-    public function setGeneralSettings()
+    public function setMailSettings()
     {
         Piwik::checkUserHasSuperUserAccess();
-        $response = new ResponseBuilder(Common::getRequestVar('format'));
+
+        if (!self::isGeneralSettingsAdminEnabled()) {
+            // General settings + Beta channel + SMTP settings is disabled
+            return '';
+        }
+
+        $response = new ResponseBuilder('json2');
         try {
             $this->checkTokenInUrl();
 
-            $this->saveGeneralSettings();
+            // Update email settings
+            $mail = array();
+            $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
+            $mail['port'] = Common::getRequestVar('mailPort', '');
+            $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
+            $mail['type'] = Common::getRequestVar('mailType', '');
+            $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
+            $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
+            $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
 
-            $customLogo = new CustomLogo();
-            if (Common::getRequestVar('useCustomLogo', '0')) {
-                $customLogo->enable();
-            } else {
-                $customLogo->disable();
-            }
+            Config::getInstance()->mail = $mail;
+
+            Config::getInstance()->forceSave();
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -123,6 +142,8 @@ class Controller extends ControllerAdmin
         $view->defaultSiteRevenue = Site::getCurrencySymbolFor($view->idSite);
         $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 
+        $view->defaultSite = array('id' => $view->idSite, 'name' => $view->defaultReportSiteName);
+
         $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {
             $aliasUrl = $allUrls[1];
@@ -133,9 +154,6 @@ class Controller extends ControllerAdmin
 
         $mainUrl = Site::getMainUrlFor($view->idSite);
         $view->defaultReportSiteDomain = @parse_url($mainUrl, PHP_URL_HOST);
-
-        // get currencies for each viewable site
-        $view->currencySymbols = APISitesManager::getInstance()->getCurrencySymbols();
 
         $dntChecker = new DoNotTrackHeaderChecker();
         $view->serverSideDoNotTrackEnabled = $dntChecker->isActive();
@@ -171,61 +189,6 @@ class Controller extends ControllerAdmin
         return (bool) Config::getInstance()->General['enable_general_settings_admin'];
     }
 
-    private function makeReleaseChannels()
-    {
-        return StaticContainer::get('Piwik\Plugin\ReleaseChannels');
-    }
-
-    private function saveGeneralSettings()
-    {
-        if (!self::isGeneralSettingsAdminEnabled()) {
-            // General settings + Beta channel + SMTP settings is disabled
-            return;
-        }
-
-        // General Setting
-        $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
-        $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
-        Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-        Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
-
-        $releaseChannels = $this->makeReleaseChannels();
-
-        // update beta channel setting
-        $releaseChannel = Common::getRequestVar('releaseChannel', '', 'string');
-        if (!$releaseChannels->isValidReleaseChannelId($releaseChannel)) {
-            $releaseChannel = '';
-        }
-        $releaseChannels->setActiveReleaseChannelId($releaseChannel);
-
-        // Update email settings
-        $mail = array();
-        $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-        $mail['port'] = Common::getRequestVar('mailPort', '');
-        $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
-        $mail['type'] = Common::getRequestVar('mailType', '');
-        $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
-        $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
-        $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
-
-        Config::getInstance()->mail = $mail;
-
-        // update trusted host settings
-        $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
-        if ($trustedHosts !== false) {
-            Url::saveTrustedHostnameInConfig($trustedHosts);
-        }
-
-        Config::getInstance()->forceSave();
-
-        $pluginUpdateCommunication = new UpdateCommunication();
-        if (Common::getRequestVar('enablePluginUpdateCommunication', '0', 'int')) {
-            $pluginUpdateCommunication->enable();
-        } else {
-            $pluginUpdateCommunication->disable();
-        }
-    }
-
     private function handleGeneralSettingsAdmin($view)
     {
         // Whether to display or not the general settings (cron, beta, smtp)
@@ -247,24 +210,7 @@ class Controller extends ControllerAdmin
         $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-        $releaseChannels = $this->makeReleaseChannels();
-        $activeChannelId = $releaseChannels->getActiveReleaseChannel()->getId();
-        $allChannels = array();
-        foreach ($releaseChannels->getAllReleaseChannels() as $channel) {
-            $allChannels[] = array(
-                'id'   => $channel->getId(),
-                'name' => $channel->getName(),
-                'description' => $channel->getDescription(),
-                'active' => $channel->getId() === $activeChannelId
-            );
-        }
-
-        $view->releaseChannels = $allChannels;
         $view->mail = Config::getInstance()->mail;
-
-        $pluginUpdateCommunication = new UpdateCommunication();
-        $view->canUpdateCommunication              = $pluginUpdateCommunication->canBeEnabled();
-        $view->enableSendPluginUpdateCommunication = $pluginUpdateCommunication->isEnabled();
     }
 
 }

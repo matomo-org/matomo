@@ -22,6 +22,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should load all columns when all columns clicked", function (done) {
         expect.screenshot("1_all_columns").to.be.capture(function (page) {
+            page.click('.activateVisualizationSelection');
             page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
         }, done);
     });
@@ -40,8 +41,14 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should exclude low population rows when low population clicked", function (done) {
         expect.screenshot("4_exclude_low_population").to.be.capture(function (page) {
-            page.mouseMove('.tableConfiguration');
+            page.click('.dropdownConfigureIcon');
             page.click('.dataTableExcludeLowPopulation');
+        }, done);
+    });
+
+    it("should show all available visualizations for this report", function (done) {
+        expect.screenshot("5_visualizations").to.be.captureSelector('.dataTableFooterIcons', function (page) {
+            page.click('.activateVisualizationSelection');
         }, done);
     });
 
@@ -53,27 +60,28 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should load bar graph when bar graph footer icon clicked", function (done) {
         expect.screenshot('6_bar_graph').to.be.capture(function (page) {
-            page.mouseMove('.tableIconsGroup:nth-child(3)');
+            page.click('.activateVisualizationSelection');
             page.click('.tableIcon[data-footer-icon-id=graphVerticalBar]');
         }, done);
     });
 
     it("should load pie graph when pie graph footer icon clicked", function (done) {
         expect.screenshot('7_pie_graph').to.be.capture(function (page) {
-            page.mouseMove('.tableIconsGroup:nth-child(2)');
+            page.click('.activateVisualizationSelection');
             page.click('.tableIcon[data-footer-icon-id=graphPie]');
         }, done);
     });
 
     it("should load a tag cloud when tag cloud footer icon clicked", function (done) {
         expect.screenshot('8_tag_cloud').to.be.capture(function (page) {
-            page.mouseMove('.tableIconsGroup:nth-child(3)');
+            page.click('.activateVisualizationSelection');
             page.click('.tableIcon[data-footer-icon-id=cloud]');
         }, done);
     });
 
     it("should load normal table when normal table footer icon clicked", function (done) {
         expect.screenshot('9_normal_table').to.be.capture(function (page) {
+            page.click('.activateVisualizationSelection');
             page.click('.tableIcon[data-footer-icon-id=table]');
             page.mouseMove({x: -10, y: -10}); // mae sure no row is highlighted
         }, done);
@@ -81,33 +89,33 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should show the limit selector when the limit selector is clicked", function (done) {
         expect.screenshot('limit_selector_open').to.be.capture(function (page) {
-            page.click('.limitSelection');
+            page.click('.limitSelection input');
         }, done);
     });
 
     it("should change the number of rows when new limit selected", function (done) {
         expect.screenshot('10_change_limit').to.be.capture(function (page) {
-            page.click('.limitSelection ul li[value=10]');
+            page.click('.limitSelection ul li:contains(10) span');
         }, done);
     });
 
     it("should flatten the table when the flatten link is clicked", function (done) {
         expect.screenshot('11_flattened').to.be.capture(function (page) {
-            page.mouseMove('.tableConfiguration');
+            page.click('.dropdownConfigureIcon');
             page.click('.dataTableFlatten');
         }, done);
     });
 
     it("should show aggregate rows when the aggregate rows option is clicked", function (done) {
         expect.screenshot('12_aggregate_shown').to.be.capture(function (page) {
-            page.mouseMove('.tableConfiguration');
+            page.click('.dropdownConfigureIcon');
             page.click('.dataTableIncludeAggregateRows');
         }, done);
     });
 
     it("should make the report hierarchical when the flatten link is clicked again", function (done) {
         expect.screenshot('13_make_hierarchical').to.be.capture(function (page) {
-            page.mouseMove('.tableConfiguration');
+            page.click('.dropdownConfigureIcon');
             page.click('.dataTableFlatten');
         }, done);
     });
@@ -127,14 +135,15 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should search the table when a search string is entered and the search button clicked", function (done) {
         expect.screenshot('15_search').to.be.capture(function (page) {
-            page.sendKeys('.dataTableSearchPattern>input[type=text]', 'term');
-            page.click('.dataTableSearchPattern>input[type=submit]');
+            page.click('.dataTableAction.searchAction');
+            page.sendKeys('.searchAction .dataTableSearchInput', 'term');
+            page.click('.searchAction .icon-search');
         }, done);
     });
 
     it("should display the export options when clicking the export icon", function (done) {
         expect.screenshot('export_options').to.be.capture(function (page) {
-            page.click('.exportToFormatIcons', 2000);
+            page.click('.activateExportSelection');
         }, done);
     });
 

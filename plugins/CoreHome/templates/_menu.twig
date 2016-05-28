@@ -1,9 +1,6 @@
 {% macro menu(menu, anchorlink, cssClass, currentModule, currentAction) %}
     <div id="secondNavBar" class="{{ cssClass }}">
-        <div id="search" ng-cloak>
-            <div piwik-quick-access class="borderedControl"></div>
-        </div>
-        <ul class="navbar" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
+        <ul class="navbar hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
             {% for level1,level2 in menu %}
 
                 {% set hasSubmenuItem = false %}
@@ -40,6 +37,39 @@
                     </li>
                 {% endif %}
             {% endfor %}
+        </ul>
+        <ul id="mobile-left-menu" class="side-nav hide-on-large-only">
+            {% for level1,level2 in menu %}
+
+            {% set hasSubmenuItem = false %}
+            {% for name,urlParameters in level2 %}
+                {% if name|slice(0,1) != '_' %}
+                    {% set hasSubmenuItem = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% if hasSubmenuItem %}
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion" piwik-side-nav="nav .activateLeftMenu">
+                    <li>
+                        <a class="collapsible-header">{{ level1|translate }}<i class="{{ level2._icon|default('icon-arrow-down') }}"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                {% for name,urlParameters in level2 %}
+                                    {% if name|slice(0,1) != '_' %}
+                                        <li>
+                                            <a title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
+                                               href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">{{ name|translate }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                {% endif %}
+                {% endfor %}
+            </li>
         </ul>
     </div>
 {% endmacro %}

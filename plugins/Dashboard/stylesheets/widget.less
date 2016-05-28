@@ -2,9 +2,13 @@
     .font-default(13px, 18px);
     background: @theme-color-widget-background;
     border: 1px solid @theme-color-widget-border;
-    box-shadow: 0 1px 1px rgba(204,204,204,.5);
-    overflow: hidden;
-    z-index: 1;
+    border-radius: 2px;
+    position: relative;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.14),0 1px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.12);
+
+    &:hover, &:focus {
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    }
 
     h2 {
         font-weight: normal;
@@ -39,7 +43,7 @@
         padding-bottom: 4px;
         background: @theme-color-widget-title-background;
         h3 {
-            .font-default(15px, 18px);
+            .font-default(18px, 18px);
             color: @theme-color-widget-title-text;
         }
         .button {
@@ -75,12 +79,19 @@
         text-transform: none;
     }
 
-    .dataTableFooterIcons {
-        border-top: 1px solid @color-silver-l85;
-    }
+    .widgetContent {
+        /** We do not want to show a material-card in a widget which is already a card */
+        .card {
+            box-shadow: 0 0;
 
-    .widgetContent .jqplot-graph {
-        margin-top: 6px;
+            .card-content {
+                padding: 0;
+                border-radius: 0
+            }
+        }
+        .jqplot-graph {
+            margin-top: 6px;
+        }
     }
 
     .widgetContent.hidden {

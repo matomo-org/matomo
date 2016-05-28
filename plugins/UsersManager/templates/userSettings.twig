@@ -4,67 +4,62 @@
 
 {% block content %}
 
-<h2 piwik-enriched-headline>{{ title }}</h2>
-
 <div class="ui-confirm" id="confirmPasswordChange">
     <h2>{{ 'UsersManager_ChangePasswordConfirm'|translate }}</h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
-<form id="userSettingsTable">
+<div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
+    <form id="userSettingsTable" piwik-form ng-controller="PersonalSettingsController as personalSettings">
 
-    <div class="form-group">
-        <label for="username">{{ 'General_Username'|translate }}</label>
-        <div class="form-help">{{ 'UsersManager_YourUsernameCannotBeChanged'|translate }}</div>
-        <input value="{{ userLogin }}" id="username" disabled="disabled"/>
-    </div>
+        <div piwik-field uicontrol="text" name="username"
+             title="{{ 'General_Username'|translate|e('html_attr') }}"
+             value="{{ userLogin }}" disabled="true"
+             ng-model="personalSettings.username"
+             inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
+        </div>
 
-    <div class="form-group">
-        <label for="alias">{{ 'UsersManager_Alias'|translate }}</label>
-        <input value="{{ userAlias }}" id="alias" />
-    </div>
+        <div piwik-field uicontrol="text" name="alias"
+             ng-model="personalSettings.alias"
+             title="{{ 'UsersManager_Alias'|translate|e('html_attr') }}"
+             value="{{ userAlias }}">
+        </div>
 
-    <div class="form-group">
-        <label for="email">{{ 'UsersManager_Email'|translate }}</label>
-        <input value="{{ userEmail }}" id="email"/>
-    </div>
+        <div piwik-field uicontrol="text" name="email"
+             ng-model="personalSettings.email"
+             title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
+             value="{{ userEmail }}">
+        </div>
 
-    <div class="form-group">
-        <label for="language">{{ 'General_Language'|translate }}</label>
-        <div class="form-help">
+        <div id="languageHelp" class="inline-help-node">
             <a href="?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/translations/" target="_blank">
                 {{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
         </div>
-        <select name="language" id="language">
-            {% for language in languages %}
-                <option value="{{ language.code }}" {% if language.code == currentLanguageCode %}selected="selected"{% endif %}
-                        title="{{ language.name }} ({{ language.english_name }})">{{ language.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
 
-    <div class="form-group">
-        <label for="timeformat">{{ 'General_TimeFormat'|translate }}</label>
-        <select name="timeformat" id="timeformat">
-            <option value="1" {% if currentTimeformat == 1 %}selected="selected"{% endif %} title="{{ 'General_12HourClock'|translate }}">{{ 'General_12HourClock'|translate }}</option>
-            <option value="0" {% if currentTimeformat == 0 %}selected="selected"{% endif %} title="{{ 'General_24HourClock'|translate }}">{{ 'General_24HourClock'|translate }}</option>
-        </select>
-    </div>
+        <div piwik-field uicontrol="select" name="language"
+             ng-model="personalSettings.language"
+             title="{{ 'General_Language'|translate|e('html_attr') }}"
+             options="{{ languageOptions|json_encode }}"
+             inline-help="#languageHelp"
+             value="{{ currentLanguageCode }}">
+        </div>
 
-    <div class="form-group">
-        <label>{{ 'UsersManager_ReportToLoadByDefault'|translate }}</label>
-        <label class="radio">
-            <input id="defaultReportRadioAll" type="radio" value="MultiSites"
-                   name="defaultReport"{% if defaultReport=='MultiSites' %} checked="checked"{% endif %} />
-            {{ 'General_AllWebsitesDashboard'|translate }}
-        </label>
-        <label class="radio">
-            <input id="defaultReportSpecific" type="radio" value="1"
-                   name="defaultReport"{% if defaultReport != 'MultiSites' %} checked="checked"{% endif %} />
-            {{ 'General_DashboardForASpecificWebsite'|translate }}
-        </label>
+        <div piwik-field uicontrol="select" name="timeformat"
+             ng-model="personalSettings.timeformat"
+             title="{{ 'General_TimeFormat'|translate|e('html_attr') }}"
+             value="{{ currentTimeformat }}" options="{{ timeFormats|json_encode }}">
+        </div>
+
+        <div piwik-field uicontrol="radio" name="defaultReport"
+             ng-model="personalSettings.defaultReport"
+             introduction="{{ 'UsersManager_ReportToLoadByDefault'|translate|e('html_attr') }}"
+             title="{{ 'General_AllWebsitesDashboard'|translate|e('html_attr') }}"
+             value="{{ defaultReport }}" options="{{ defaultReportOptions|json_encode }}">
+        </div>
+
         <div piwik-siteselector
+             ng-model="personalSettings.site"
              show-selected-site="true"
              class="sites_autocomplete"
              siteid="{{ defaultReportIdSite }}"
@@ -73,58 +68,45 @@
              show-all-sites-item="false"
              showselectedsite="true"
              id="defaultReportSiteSelector"
-             ></div>
-    </div>
+        ></div>
 
-    <div class="form-group">
-        <label>{{ 'UsersManager_ReportDateToLoadByDefault'|translate }}</label>
-        {% for value,description in availableDefaultDates %}
-            <label class="radio">
-                <input id="defaultDate-{{ loop.index }}" type="radio"{% if defaultDate==value %} checked="checked"{% endif %} value="{{ value }}" name="defaultDate"/>
-                {{ description }}
-            </label>
-        {% endfor %}
-    </div>
+        <div piwik-field uicontrol="radio" name="defaultDate"
+             ng-model="personalSettings.defaultDate"
+             introduction="{{ 'UsersManager_ReportDateToLoadByDefault'|translate|e('html_attr') }}"
+             value="{{ defaultDate }}" options="{{ availableDefaultDates|json_encode }}">
+        </div>
 
-    {% if isValidHost is defined and isValidHost %}
-        <div class="form-group">
-            <label for="password">{{ 'General_ChangePassword'|translate }}</label>
-            <div class="form-help">
-                {{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate }}
+        {% if isValidHost is defined and isValidHost %}
+
+            <div piwik-field uicontrol="password" name="password" autocomplete="off"
+                 ng-model="personalSettings.password"
+                 introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
+                 value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
             </div>
-            <input value="" autocomplete="off" id="password" type="password"/>
-        </div>
-        <div class="form-group">
-            <div class="form-help">
-                {{ 'UsersManager_TypeYourPasswordAgain'|translate }}
+
+            <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
+                 ng-model="personalSettings.passwordBis"
+                 value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
             </div>
-            <input value="" autocomplete="off" id="passwordBis" type="password"/>
-        </div>
-    {% endif %}
+        {% endif %}
 
-    {% if isValidHost is not defined or not isValidHost %}
-        <div class="alert alert-danger">
-            {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
-            {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
-        </div>
-    {% endif %}
+        {% if isValidHost is not defined or not isValidHost %}
+            <div class="alert alert-danger">
+                {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
+                {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
+            </div>
+        {% endif %}
 
-    {% import 'ajaxMacros.twig' as ajax %}
-    {{ ajax.errorDiv('ajaxErrorUserSettings') }}
-    {{ ajax.loadingDiv('ajaxLoadingUserSettings') }}
+        <div piwik-save-button onconfirm="personalSettings.save()"
+             saving="personalSettings.loading"></div>
 
-    <button type="button" id="userSettingsSubmit">{{ 'General_Save'|translate }}</button>
+    </form>
+</div>
 
-</form>
+<div piwik-plugin-settings mode="user"></div>
 
-    <hr />
-
-    <h2 piwik-enriched-headline>{{ 'CoreAdminHome_PersonalPluginSettings'|translate }}</h2>
-
-    <div piwik-plugin-settings mode="user"></div>
-
-    <hr />
-    <h2 id="excludeCookie">{{ 'UsersManager_ExcludeVisitsViaCookie'|translate }}</h2>
+<div piwik-content-block
+     content-title="{{ 'UsersManager_ExcludeVisitsViaCookie'|translate|e('html_attr') }}">
     <p>
         {% if ignoreCookieSet %}
             {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
@@ -133,8 +115,10 @@
         {% endif %}
     </p>
     <span style="margin-left:20px;">
-<a href='{{ linkTo({'ignoreSalt':ignoreSalt, 'action':'setIgnoreCookie'}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
-    {% else %}{{'UsersManager_ClickHereToSetTheCookieOnDomain'|translate(piwikHost) }}{% endif %}
-    <br/>
-</a></span>
+    <a href='{{ linkTo({'ignoreSalt':ignoreSalt, 'action':'setIgnoreCookie'}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
+        {% else %}{{'UsersManager_ClickHereToSetTheCookieOnDomain'|translate(piwikHost) }}{% endif %}
+        <br/>
+    </a></span>
+</div>
+
 {% endblock %}

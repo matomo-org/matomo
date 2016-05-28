@@ -9,6 +9,13 @@
    }
 }
 
+.theWidgetContent > h2:first-child {
+  color: @theme-color-headline-alternative !important;
+  .title {
+    color: @theme-color-headline-alternative !important;
+  }
+}
+
 #visitsLive .settings {
   border-bottom: 1px solid @color-silver-l90;
 }
@@ -18,7 +25,7 @@
 }
 
 #visitsLive .datetime {
-    background: #E4E2D7;
+    background: @theme-color-background-base;
     border-top: 1px solid #d3d1c5;
     margin: 0;
     line-height: 20px;
@@ -68,9 +75,6 @@
   .dataTableVizVisitorLog {
     .dataTableFeatures {
       border-bottom: 0px;
-    }
-    .expandDataTableFooterDrawer {
-      display: none;
     }
   }
 }

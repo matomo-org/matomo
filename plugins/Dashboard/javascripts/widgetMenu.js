@@ -292,7 +292,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                         $('.dashboard-manager .addWidget').outerHeight();
 
                     if (!$('#content.admin').length) {
-                        position += 10; // + padding defined in dashboard view
+                        position += 5; // + padding defined in dashboard view
                     }
 
                     $('.' + settings.widgetlistClass, widgetPreview).css('top', position);

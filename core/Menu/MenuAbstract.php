@@ -44,8 +44,8 @@ abstract class MenuAbstract extends Singleton
     {
         $this->buildMenu();
         $this->applyEdits();
-        $this->applyRenames();
         $this->applyRemoves();
+        $this->applyRenames();
         $this->applyOrdering();
         return $this->menu;
     }

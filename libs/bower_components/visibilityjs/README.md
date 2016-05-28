@@ -1,32 +1,32 @@
-# Visibility.js
+# Visibility.js [![Build Status](https://travis-ci.org/ai/visibilityjs.svg)](https://travis-ci.org/ai/visibilityjs)
 
 <img align="right" width="100" src="http://ai.github.io/visibilityjs/logo.svg" title="Visibility.js logo by Eugenia Tuchapets">
 
 Visibility.js is a wrapper for the [Page Visibility API]. It hides vendor prefixes and adds high level functions.
 
-Page Visibility API allows you to determine whether your web page is visible to
-a user, is hidden in background tab or is prerendering. It allows you to use
+Page Visibility API allows you to determine whether your web page is either visible to
+a user or hidden in background tab or prerendering. It allows you to use
 the page visibility state in JavaScript logic and improve browser performance
 by disabling unnecessary timers and AJAX requests, or improve user interface
 experience (for example, by stopping video playback or slideshow when user
 switches to another browser tab).
 
 Moreover, you can detect if the browser is just [prerendering] the page while
-the user has not still opened the link, and don’t count this as a visit in your
+the user has still not opened the link, and don’t count this as a visit in your
 analytics module, or do not run heavy calculations or other actions which will
 disable the prerendering.
 
 Page Visibility API is [natively supported] by all browsers. For old browsers
 you can use `lib/visibility.fallback.js` with focus/blur hack (note that this
-hack have issue, that document become to be hidden, when browser just
-lose focus, but still visible for user).
+hack has an issue: when browser just lose focus but still visible for user, its state will change to [hidden]).
 
-Sponsored by [Evil Martians].
+<a href="https://evilmartians.com/?utm_source=visibilityjs">
+<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
 
 [Page Visibility API]: http://www.w3.org/TR/page-visibility/
 [prerendering]:        http://code.google.com/chrome/whitepapers/prerender.html
 [natively supported]:  http://caniuse.com/pagevisibility
-[Evil Martians]:       http://evilmartians.com/
 
 ## Translations
 
@@ -40,7 +40,7 @@ Currently the Page Visibility API supports three visibility states:
 * `visible`: user has opened the page and works within it.
 * `hidden`: user has switched to another tab or minimized browser window.
 * `prerender`: browser is just prerendering a page which may possibly be opened
-   by the user to make the apparent loading time lesser.
+   by the user to make the apparent loading time smaller.
 
 ## Timers
 
@@ -69,7 +69,7 @@ Visibility.every(minute, 5 * minute, function () {
 ```
 
 `Visibility.every` returns a timer identifier, much like the `setInterval`
-function. It cannot be passed to `clearInterval`, through, and you should use
+function. However, it cannot be passed to `clearInterval`, and you should use
 `Visibility.stop(id)` to stop the timer.
 
 ```js
@@ -88,7 +88,7 @@ both the hidden and visible pages.
 
 ## Initializers
 
-In another common use case you need to execute some actions upon a switch to
+Another common use case is when you need to execute some actions upon a switch to
 particular visibility state.
 
 ### Waiting until the page becomes visible
@@ -98,7 +98,7 @@ visible now, it will run `callback`, otherwise it will wait until state changes
 to `visible`, and then run `callback`.
 
 For example, let’s show an animated notification only when the page is visible,
-so if an user opens a page in the background, the animation will delay until
+so if some user opens a page in the background, the animation will delay until
 the page becomes visible, i.e. until the user has switched
 to a tab with the page:
 
@@ -116,7 +116,7 @@ will run the `callback` immediately.
 A web developer can hint a browser (using Prerendering API) that an user
 is likely to click on some link (i.e. on a “Next” link in a multi-page article),
 and the browser then may prefetch and prerender the page, so that the user will
-not wait after actually going via the like.
+not wait after actually going via the link.
 
 But you may not want to count the browser prerendering a page as a visitor in
 your analytics system. Moreover, the browser will disable prerendering if you
@@ -279,15 +279,6 @@ For Ruby on Rails you can use gem for Assets Pipeline.
    ```coffee
    #= require visibility.core
    ```
-
-### CDN
-
-If you don’t use any assets packaging manager use [cdnjs](http://cdnjs.com/).
-Add to your site:
-
-```html
-<script src="//cdnjs.cloudflare.com/ajax/libs/visibility.js/1.2.0/visibility.min.js"></script>
-```
 
 ### Other
 

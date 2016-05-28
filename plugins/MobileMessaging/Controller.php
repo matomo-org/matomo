@@ -50,26 +50,9 @@ class Controller extends ControllerAdmin
      */
     public function index()
     {
-        Piwik::checkUserHasSuperUserAccess();
-
-        $view = new View('@MobileMessaging/index');
-        $this->setManageVariables($view);
-
-        return $view->render();
-    }
-
-    /**
-     * Mobile Messaging Settings tab :
-     *  - set delegated management
-     *  - provide & validate SMS API credential
-     *  - add & activate phone numbers
-     *  - check remaining credits
-     */
-    public function userSettings()
-    {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@MobileMessaging/userSettings');
+        $view = new View('@MobileMessaging/index');
         $this->setManageVariables($view);
 
         return $view->render();
@@ -88,36 +71,60 @@ class Controller extends ControllerAdmin
             $this->translator->translate('MobileMessaging_SettingsMenu')
         ));
         $view->creditLeft = 0;
-        $view->provider = '';
+        $currentProvider = '';
         if ($view->credentialSupplied && $view->accountManagedByCurrentUser) {
-            $view->provider = $mobileMessagingAPI->getSMSProvider();
+            $currentProvider = $mobileMessagingAPI->getSMSProvider();
             $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
         }
 
+        $view->delegateManagementOptions = array(
+            array('key' => '0',
+                  'value' => Piwik::translate('General_No'),
+                  'description' => Piwik::translate('General_Default') . '. ' .
+                                   Piwik::translate('MobileMessaging_Settings_LetUsersManageAPICredential_No_Help')),
+            array('key' => '1',
+                  'value' => Piwik::translate('General_Yes'),
+                  'description' => Piwik::translate('MobileMessaging_Settings_LetUsersManageAPICredential_Yes_Help'))
+        );
+
         $providers = array();
+        $providerOptions = array();
         foreach (SMSProvider::findAvailableSmsProviders() as $provider) {
-            $providers[$provider->getId()] = $provider->getDescription();
-        }
-
-        $view->smsProviders = $providers;
-
-        // construct the list of countries from the lang files
-        $countries = array();
-        foreach ($this->regionDataProvider->getCountryList() as $countryCode => $continentCode) {
-            if (isset(CountryCallingCodes::$countryCallingCodes[$countryCode])) {
-                $countries[$countryCode] = array(
-                    'countryName'        => \Piwik\Plugins\UserCountry\countryTranslate($countryCode),
-                    'countryCallingCode' => CountryCallingCodes::$countryCallingCodes[$countryCode],
-                );
+            if (empty($currentProvider)) {
+                $currentProvider = $provider->getId();
             }
+            $providers[$provider->getId()] = $provider->getDescription();
+            $providerOptions[$provider->getId()] = $provider->getId();
         }
-        $view->countries = $countries;
 
-        $view->defaultCountry = Common::getCountry(
+        $view->provider = $currentProvider;
+        $view->smsProviders = $providers;
+        $view->smsProviderOptions = $providerOptions;
+
+        $defaultCountry = Common::getCountry(
             LanguagesManager::getLanguageCodeForCurrentUser(),
             true,
             IP::getIpFromHeader()
         );
+
+        $view->defaultCallingCode = '';
+
+        // construct the list of countries from the lang files
+        $countries = array(array('key' => '', 'value' => ''));
+        foreach ($this->regionDataProvider->getCountryList() as $countryCode => $continentCode) {
+            if (isset(CountryCallingCodes::$countryCallingCodes[$countryCode])) {
+
+                if ($countryCode == $defaultCountry) {
+                    $view->defaultCallingCode = CountryCallingCodes::$countryCallingCodes[$countryCode];
+                }
+
+                $countries[] = array(
+                    'key' => CountryCallingCodes::$countryCallingCodes[$countryCode],
+                    'value' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode)
+                );
+            }
+        }
+        $view->countries = $countries;
 
         $view->phoneNumbers = $mobileMessagingAPI->getPhoneNumbers();
 

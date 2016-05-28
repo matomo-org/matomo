@@ -1,13 +1,16 @@
 {
     "CoreHome": {
         "CategoryNoData": "No data in this category. Try to \"Include all population\".",
+        "ChangeVisualization": "Change visualization",
         "CheckForUpdates": "Check for updates",
         "CheckPiwikOut": "Check Piwik out!",
         "ClickToEditX": "Click to edit %s",
+        "CloseSearch": "Close search",
         "CloseWidgetDirections": "You can close this widget by clicking on the 'X' icon at the top of the widget.",
         "DataForThisReportHasBeenPurged": "The data for this report is more than %s months old and has been purged.",
         "DataTableExcludeAggregateRows": "Aggregate rows are shown %s Hide them",
         "DataTableIncludeAggregateRows": "Aggregate rows are hidden %s Show them",
+        "DataTableHowToSearch": "Press enter or click the search icon to search",
         "Default": "default",
         "DonateCall1": "Piwik will always cost you nothing to use, but that doesn't mean it costs us nothing to make.",
         "DonateCall2": "Piwik needs your continued support to grow and thrive.",

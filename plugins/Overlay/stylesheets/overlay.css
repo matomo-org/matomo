@@ -15,10 +15,6 @@ body #header {
     margin-left: -6px;
 }
 
-body #logo {
-    margin-top: 5px;
-}
-
 a#overlayTitle {
     font-size: 12px;
     text-decoration: none;
@@ -124,7 +120,7 @@ a#overlayTransitions:hover {
 }
 
 .overlayMetricValue {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
 }
 

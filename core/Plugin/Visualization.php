@@ -227,7 +227,11 @@ class Visualization extends ViewDataTable
         }
 
         $view->idSubtable  = $this->requestConfig->idSubtable;
-        $view->clientSideParameters = $this->getClientSideParametersToSet();
+        $clientSideParameters = $this->getClientSideParametersToSet();
+        if (isset($clientSideParameters['showtitle'])) {
+            unset($clientSideParameters['showtitle']);
+        }
+        $view->clientSideParameters = $clientSideParameters;
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
         $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;

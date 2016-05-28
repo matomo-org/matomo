@@ -10,14 +10,6 @@
 }
 
 #multisites {
-  border: 0;
-  padding: 0 15px;
-  font-size: 14px;
-
-  h2 {
-    border-bottom: 0px;
-    font-size: 24px;
-  }
 
   .notification-error {
     margin-top: 15px;
@@ -26,20 +18,29 @@
     }
   }
 
-  .add_new_site,
-  .clean {
-    border: 0 !important;
-    text-align: right; padding-top: 15px;padding-right:10px;
-  }
-
   .add_new_site {
-    img {
-      margin: 0px;
+    border: 0 !important;
+    font-size: 13px;
+    text-align: left;
+
+    a {
+      color: @theme-color-text;
+      &:hover {
+        text-decoration: underline !important;
+      }
     }
   }
 
+  .clean {
+    border: 0 !important;
+    text-align: right;
+    padding-right:10px;
+    padding-top: 19px;
+    padding-bottom: 5px;
+  }
+
   .site_search {
-    padding: 0px;
+    padding: 0;
     text-align: center;
     border: 0 !important;
   }
@@ -56,36 +57,25 @@
   td, tr, .sparkline {
     text-align: center;
     vertical-align: middle;
-    padding: 2px 6px 2px 12px;
-    margin: 0;
-  }
-
-  th {
-    padding: 12px 6px 12px 12px;
   }
 
   td.empty-row {
     border-bottom: none !important;
   }
 
-  .indicator {
-    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat center;
-    height: 20px;
-    width: 60px;
-    margin: auto;
-    border: 0 !important;
-  }
-
   .paging {
     padding: 5px;
-    font-size: 10px;
-    border-bottom: 0px !important;
+    border-bottom: 0 !important;
+
+    .row {
+      margin-top: 16px;
+    }
 
     .previous {
-      padding-right: 20px;
+      visibility: visible;
     }
     .next {
-      padding-left: 20px;
+      visibility: visible;
     }
   }
 
@@ -95,9 +85,8 @@
 
   th {
     cursor: pointer;
-    border-left: 0px;
     text-align: right;
-    border-bottom: 0px;
+    padding-right: 0 !important;
 
     &#evolution {
       text-align: center;
@@ -109,15 +98,17 @@
   }
 
   .site_search input {
-    margin-right: 0px;
+    margin-right: 0;
     margin-left: 25px;
     padding-right: 25px;
+    width: 250px;
+    height: 3rem;
   }
 
   .search_ico {
     position: relative;
     left: -25px;
-    margin-right: 0px;
+    margin-right: 0;
     margin-top: -1px;
     cursor: pointer;
   }
@@ -125,7 +116,7 @@
     position: relative;
     left: -25px;
     cursor: pointer;
-    margin-right: 0px;
+    margin-right: 0;
   }
 
   tr.group {
@@ -178,13 +169,6 @@
     padding:20px
   }
 
-  .allWebsitesLoadingIndicator {
-    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat right 3px;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-  }
-
   .heading {
     display: inline;
     margin-top: 4px;
@@ -192,6 +176,9 @@
 
   #evolution_selector {
     margin: -6px 0 0 5px;
+    height: 20px;
+    width: 70px;
+    display: inline-block;
   }
 
   .label .arrow {
@@ -203,7 +190,7 @@
     float: none;
     display: inline-block;
     vertical-align: top;
-    margin: 0px;
+    margin: 0;
     margin-left: 6px;
     margin-top: -1px;
   }
@@ -212,7 +199,7 @@
     .multisites_asc,
     .multisites_desc {
       margin-right: 6px;
-      margin-left: 0px;
+      margin-left: 0;
     }
     .evolution {
       vertical-align: top;
@@ -246,18 +233,6 @@
   }
 
   tfoot td {
-    border-bottom: 0px;
+    border-bottom: 0;
   }
-}
-
-#mt thead {
-  line-height: 2.5em;
-}
-
-#mt thead *:first-child {
-  border-top-left-radius: 7px
-}
-
-#mt thead *:last-child {
-  border-top-right-radius: 7px;
 }

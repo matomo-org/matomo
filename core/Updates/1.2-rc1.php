@@ -12,116 +12,116 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_2_rc1 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
+    public function getMigrationQueries(Updater $updater)
     {
-        $this->migration = $factory;
-    }
-
-    public function getMigrations(Updater $updater)
-    {
-        $customVarType = 'VARCHAR(100) DEFAULT NULL';
-        $customVarColumns = array(
-            'custom_var_k1' => $customVarType,
-            'custom_var_v1' => $customVarType,
-            'custom_var_k2' => $customVarType,
-            'custom_var_v2' => $customVarType,
-            'custom_var_k3' => $customVarType,
-            'custom_var_v3' => $customVarType,
-            'custom_var_k4' => $customVarType,
-            'custom_var_v4' => $customVarType,
-            'custom_var_k5' => $customVarType,
-            'custom_var_v5' => $customVarType,
-        );
-
         return array(
             // Various performance improvements schema updates
-            $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-                DROP `visit_server_date`,
-                DROP INDEX `index_idsite_date_config`,
-                DROP INDEX `index_idsite_datetime_config`,
-                ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
-                ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
-               ', array(Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN, Updater\Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS)),
-            $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-                ADD `visit_entry_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_entry_idaction_url`,
-                ADD `visit_exit_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_exit_idaction_url`,
-                CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT UNSIGNED NOT NULL,
-                CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
-                CHANGE `referer_type` `referer_type` TINYINT UNSIGNED NULL DEFAULT NULL,
-                ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL AFTER `visitor_returning`,
-                ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
-                ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL
-               ', Updater\Migration\Db::ERROR_CODE_DUPLICATE_COLUMN),
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+			    DROP `visit_server_date`,
+			    DROP INDEX `index_idsite_date_config`,
+			    DROP INDEX `index_idsite_datetime_config`,
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
+			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
+			   ' => array(1054, 1091),
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+		    	ADD `visit_entry_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_entry_idaction_url`,
+			    ADD `visit_exit_idaction_name` INT UNSIGNED NOT NULL AFTER `visit_exit_idaction_url`,
+			    CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT UNSIGNED NOT NULL,
+			    CHANGE `visit_entry_idaction_url` `visit_entry_idaction_url` INT UNSIGNED NOT NULL,
+			    CHANGE `referer_type` `referer_type` TINYINT UNSIGNED NULL DEFAULT NULL,
+			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL AFTER `visitor_returning`,
+			    ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
+			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL
+			   ' => 1060,
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
+			   ' => 1060,
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
+				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` ,
+				ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
+				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`
+			   ' => 1060,
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
+				ADD `server_time` DATETIME AFTER `idsite`,
+				ADD INDEX `index_idsite_servertime` ( `idsite` , `server_time` )
+			   ' => 1060,
 
-            $this->migration->db->addColumns('log_visit', $customVarColumns),
-
-            $this->migration->db->addColumns('log_link_visit_action', array(
-                'idsite' => 'INT( 10 ) UNSIGNED NOT NULL',
-                'idvisitor' => 'BINARY(8) NOT NULL',
-                'idaction_name_ref' => 'INT UNSIGNED NOT NULL'
-            ), 'idlink_va'),
-
-            $this->migration->db->addColumn('log_link_visit_action', 'server_time', 'DATETIME', 'idsite'),
-            $this->migration->db->addIndex('log_link_visit_action', array('idsite', 'server_time'), 'index_idsite_servertime'),
-            
-            $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
-                DROP `referer_idvisit`,
-                ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`
-               ', array(Updater\Migration\Db::ERROR_CODE_DUPLICATE_COLUMN, Updater\Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS)),
-            $this->migration->db->addColumns('log_conversion', array(
-                'visitor_count_visits' => 'SMALLINT(5) UNSIGNED NOT NULL',
-                'visitor_days_since_first' => 'SMALLINT(5) UNSIGNED NOT NULL',
-            )),
-            $this->migration->db->addColumns('log_conversion', $customVarColumns),
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
+			    DROP `referer_idvisit`,
+			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`
+			   ' => array(1060, 1091),
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
+			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
+			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL
+			   ' => 1060,
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
+			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
+			   ' => array(1060, 1061),
 
             // Migrate 128bits IDs inefficiently stored as 8bytes (256 bits) into 64bits
-            $this->migration->db->sql('UPDATE ' . Common::prefixTable('log_visit') . '
-                SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16))),
-                    config_id = binary(unhex(substring(config_md5config,1,16)))
-                   ', Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN),
-            $this->migration->db->sql('UPDATE ' . Common::prefixTable('log_conversion') . '
-                SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16)))
-                   ', Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN),
+            'UPDATE ' . Common::prefixTable('log_visit') . '
+    			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16))),
+    				config_id = binary(unhex(substring(config_md5config,1,16)))
+	   			' => 1054,
+            'UPDATE ' . Common::prefixTable('log_conversion') . '
+    			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16)))
+	   			' => 1054,
 
             // Drop migrated fields
-            $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-                DROP visitor_idcookie,
-                DROP config_md5config
-                ', Updater\Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS),
-            $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
-                DROP visitor_idcookie
-                ', Updater\Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS),
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+		    	DROP visitor_idcookie,
+		    	DROP config_md5config
+		    	' => 1091,
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
+		    	DROP visitor_idcookie
+		    	' => 1091,
 
             // Recreate INDEX on new field
-            $this->migration->db->addIndex('log_visit', array('idsite', 'visit_last_action_time', 'config_id'), 'index_idsite_datetime_config'),
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+		    	ADD INDEX `index_idsite_datetime_config` (idsite, visit_last_action_time, config_id)
+		    	' => 1061,
 
             // Backfill action logs as best as we can
-            $this->migration->db->sql('UPDATE ' . Common::prefixTable('log_link_visit_action') . ' as action,
-                      ' . Common::prefixTable('log_visit') . '  as visit
+            'UPDATE ' . Common::prefixTable('log_link_visit_action') . ' as action,
+				  	' . Common::prefixTable('log_visit') . '  as visit
                 SET action.idsite = visit.idsite,
-                    action.server_time = visit.visit_last_action_time,
-                    action.idvisitor = visit.idvisitor
+                	action.server_time = visit.visit_last_action_time,
+                	action.idvisitor = visit.idvisitor
                 WHERE action.idvisit=visit.idvisit
-                '),
+                ' => false,
 
-            $this->migration->db->changeColumnType('log_link_visit_action', 'server_time', 'DATETIME NOT NULL'),
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
+				CHANGE `server_time` `server_time` DATETIME NOT NULL
+			   ' => false,
 
             // New index used max once per request, in case this table grows significantly in the future
-            $this->migration->db->addIndex('option', 'autoload', 'autoload'),
+            'ALTER TABLE `' . Common::prefixTable('option') . '` ADD INDEX ( `autoload` ) ' => 1061,
 
             // new field for websites
-            $this->migration->db->addColumn('site', 'group', 'VARCHAR( 250 ) NOT NULL'),
+            'ALTER TABLE `' . Common::prefixTable('site') . '` ADD `group` VARCHAR( 250 ) NOT NULL' => 1060,
         );
     }
 
@@ -141,7 +141,7 @@ class Updates_1_2_rc1 extends Updates
         }
 
         // Run the SQL
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         // Outputs warning message, pointing users to the plugin download page
         if (!empty($disabledPlugins)) {

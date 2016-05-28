@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  * Update for version 2.13.1.
@@ -20,26 +19,16 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 class Updates_2_13_1 extends Updates
 {
     /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    /**
      * Here you can define one or multiple SQL statements that should be executed during the update.
-     * @return Updater\Migration[]
+     * @return array
      */
-    public function getMigrations(Updater $updater)
+    public function getMigrationQueries(Updater $updater)
     {
         $optionTable = Common::prefixTable('option');
         $removeEmptyDefaultReportsSql = "delete from `$optionTable` where option_name like '%defaultReport%' and option_value=''";
 
         return array(
-            $this->migration->db->sql($removeEmptyDefaultReportsSql)
+            $removeEmptyDefaultReportsSql => false
         );
     }
 
@@ -49,6 +38,6 @@ class Updates_2_13_1 extends Updates
      */
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

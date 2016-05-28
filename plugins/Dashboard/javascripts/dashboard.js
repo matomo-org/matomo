@@ -73,8 +73,9 @@ function showChangeDashboardLayoutDialog() {
 
     var id = makeSelectorLastId('changeDashboardLayout');
     piwikHelper.modalConfirm(id, {yes: function () {
-        $('#dashboardWidgetsArea').dashboard('setColumnLayout', $(id).find('.choosen').attr('layout'));
-    }});
+        var layout = $(id).find('.choosen').attr('layout');
+        $('#dashboardWidgetsArea').dashboard('setColumnLayout', layout);
+    }}, {fixedFooter: true});
 }
 
 function showEmptyDashboardNotification() {

@@ -58,6 +58,8 @@ class VisitorLog extends Visualization
      */
     public function beforeRender()
     {
+        $this->config->show_as_content_block = false;
+        $this->config->title = Piwik::translate('Live_VisitorLog');
         $this->config->disable_row_actions = true;
         $this->config->datatable_js_type = 'VisitorLog';
         $this->config->enable_sort       = false;

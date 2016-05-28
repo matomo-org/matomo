@@ -1,10 +1,12 @@
 (function(window) {
     var re = {
         not_string: /[^s]/,
-        number: /[dief]/,
+        number: /[diefg]/,
+        json: /[j]/,
+        not_json: /[^j]/,
         text: /^[^\x25]+/,
         modulo: /^\x25{2}/,
-        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fiosuxX])/,
+        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijosuxX])/,
         key: /^([a-z_][a-z_\d]*)/i,
         key_access: /^\.([a-z_][a-z_\d]*)/i,
         index_access: /^\[(\d+)\]/,
@@ -48,7 +50,7 @@
                     arg = arg()
                 }
 
-                if (re.not_string.test(match[8]) && (get_type(arg) != "number" && isNaN(arg))) {
+                if (re.not_string.test(match[8]) && re.not_json.test(match[8]) && (get_type(arg) != "number" && isNaN(arg))) {
                     throw new TypeError(sprintf("[sprintf] expecting number but found %s", get_type(arg)))
                 }
 
@@ -67,11 +69,17 @@
                     case "i":
                         arg = parseInt(arg, 10)
                     break
+                    case "j":
+                        arg = JSON.stringify(arg, null, match[6] ? parseInt(match[6]) : 0)
+                    break
                     case "e":
                         arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential()
                     break
                     case "f":
                         arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg)
+                    break
+                    case "g":
+                        arg = match[7] ? parseFloat(arg).toPrecision(match[7]) : parseFloat(arg)
                     break
                     case "o":
                         arg = arg.toString(8)
@@ -89,17 +97,22 @@
                         arg = arg.toString(16).toUpperCase()
                     break
                 }
-                if (re.number.test(match[8]) && (!is_positive || match[3])) {
-                    sign = is_positive ? "+" : "-"
-                    arg = arg.toString().replace(re.sign, "")
+                if (re.json.test(match[8])) {
+                    output[output.length] = arg
                 }
                 else {
-                    sign = ""
+                    if (re.number.test(match[8]) && (!is_positive || match[3])) {
+                        sign = is_positive ? "+" : "-"
+                        arg = arg.toString().replace(re.sign, "")
+                    }
+                    else {
+                        sign = ""
+                    }
+                    pad_character = match[4] ? match[4] === "0" ? "0" : match[4].charAt(1) : " "
+                    pad_length = match[6] - (sign + arg).length
+                    pad = match[6] ? (pad_length > 0 ? str_repeat(pad_character, pad_length) : "") : ""
+                    output[output.length] = match[5] ? sign + arg + pad : (pad_character === "0" ? sign + pad + arg : pad + sign + arg)
                 }
-                pad_character = match[4] ? match[4] === "0" ? "0" : match[4].charAt(1) : " "
-                pad_length = match[6] - (sign + arg).length
-                pad = match[6] ? (pad_length > 0 ? str_repeat(pad_character, pad_length) : "") : ""
-                output[output.length] = match[5] ? sign + arg + pad : (pad_character === "0" ? sign + pad + arg : pad + sign + arg)
             }
         }
         return output.join("")

@@ -82,5 +82,9 @@
             $scope.selectMenuItem(index);
         };
 
+        if (typeof initTopControls !== 'undefined' && initTopControls) {
+            initTopControls();
+        }
+
     }
 })();

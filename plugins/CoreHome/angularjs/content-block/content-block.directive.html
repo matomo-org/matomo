@@ -1,0 +1,10 @@
+<div class="card">
+    <div class="card-content">
+        <span ng-if="contentTitle && !feature && !helpUrl && !helpText" class="card-title">{{contentTitle}}</span>
+        <span ng-if="contentTitle && (feature || helpUrl || helpText)" class="card-title"
+              piwik-enriched-headline feature-name="{{feature}}" help-url="{{helpUrl}}" inline-help="{{ helpText }}">
+            {{contentTitle}}</span>
+        <div ng-transclude>
+        </div>
+    </div>
+</div>
