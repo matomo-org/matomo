@@ -23,6 +23,7 @@
         "NoConfigFound": "Файл конфігурації Piwik не знайдено в той час як Ви намагаєтесь користуватися Piwik.<br><b>  » Ви можете <a href='index.php'>встановити Piwik зараз<\/a><\/b><br><small>Якщо ви встановили Piwik раніше і деякі таблиці залишились в базі даних, Ви зможете використати їх і тим самим зберегти вже існуючі дані!<\/small>",
         "Optional": "Не обовязково",
         "PasswordDoNotMatch": "пароль не співпадає",
+        "PasswordRepeat": "Пароль ще раз",
         "PercentDone": "%s %% Завершено",
         "PleaseFixTheFollowingErrors": "Виправте наступні помилки",
         "Requirements": "Системні вимоги Piwik",
