@@ -357,10 +357,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Browser engines',
-                'uniqueId' => 'widgetDevicesDetectiongetBrowserEnginesviewDataTablegraphPie',
+                'uniqueId' => 'widgetDevicesDetectiongetBrowserEngines',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                         'module' => 'DevicesDetection',
                         'action' => 'getBrowserEngines',
                     ),
@@ -414,19 +413,17 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Visits per visit duration',
-                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerVisitDurationviewDataTablecloud',
+                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerVisitDuration',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'cloud',
                         'module' => 'VisitorInterest',
                         'action' => 'getNumberOfVisitsPerVisitDuration',
                     ),
             ),array (
                 'name' => 'Visits per number of pages',
-                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerPageviewDataTablecloud',
+                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerPage',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'cloud',
                         'module' => 'VisitorInterest',
                         'action' => 'getNumberOfVisitsPerPage',
                     ),
@@ -471,7 +468,6 @@ class WidgetTest extends SystemTestCase
                 'uniqueId' => 'widgetVisitTimegetVisitInformationPerLocalTime',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                         'module' => 'VisitTime',
                         'action' => 'getVisitInformationPerLocalTime',
                     ),
@@ -480,16 +476,14 @@ class WidgetTest extends SystemTestCase
                 'uniqueId' => 'widgetVisitTimegetVisitInformationPerServerTime',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                         'module' => 'VisitTime',
                         'action' => 'getVisitInformationPerServerTime',
                     ),
             ),array (
                 'name' => 'Visits by Day of Week',
-                'uniqueId' => 'widgetVisitTimegetByDayOfWeekviewDataTablegraphVerticalBar',
+                'uniqueId' => 'widgetVisitTimegetByDayOfWeek',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                         'module' => 'VisitTime',
                         'action' => 'getByDayOfWeek',
                     ),
@@ -599,19 +593,17 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Referrer Types',
-                'uniqueId' => 'widgetReferrersgetReferrerTypeviewDataTabletableAllColumns',
+                'uniqueId' => 'widgetReferrersgetReferrerType',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                         'module' => 'Referrers',
                         'action' => 'getReferrerType',
                     ),
             ),array (
                 'name' => 'Referrers',
-                'uniqueId' => 'widgetReferrersgetAllviewDataTabletableAllColumns',
+                'uniqueId' => 'widgetReferrersgetAll',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                         'module' => 'Referrers',
                         'action' => 'getAll',
                     ),
@@ -641,10 +633,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Social Networks',
-                'uniqueId' => 'widgetReferrersgetSocialsviewDataTablegraphPie',
+                'uniqueId' => 'widgetReferrersgetSocials',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                         'module' => 'Referrers',
                         'action' => 'getSocials',
                     ),
@@ -765,10 +756,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Pie graph',
-                'uniqueId' => 'widgetExampleUIgetPlanetRatiosviewDataTablegraphPie',
+                'uniqueId' => 'widgetExampleUIgetPlanetRatios',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                         'module' => 'ExampleUI',
                         'action' => 'getPlanetRatios',
                     ),
@@ -784,10 +774,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Advanced tag cloud: with logos and links',
-                'uniqueId' => 'widgetExampleUIgetPlanetRatiosWithLogosviewDataTablecloud',
+                'uniqueId' => 'widgetExampleUIgetPlanetRatiosWithLogos',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'cloud',
                         'module' => 'ExampleUI',
                         'action' => 'getPlanetRatiosWithLogos',
                     )

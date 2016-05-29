@@ -95,7 +95,9 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should change the number of rows when new limit selected", function (done) {
         expect.screenshot('10_change_limit').to.be.capture(function (page) {
-            page.click('.limitSelection ul li:contains(10):first span');
+            page.evaluate(function () {
+                $('.limitSelection ul li:contains(10):first span').click();
+            });
         }, done);
     });
 

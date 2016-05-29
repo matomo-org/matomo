@@ -304,21 +304,18 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getVisitInformationPerServerTime',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                     ),
             ),array (
                 'module' => 'VisitTime',
                 'action' => 'getVisitInformationPerLocalTime',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                     ),
             ),array (
                 'module' => 'VisitTime',
                 'action' => 'getByDayOfWeek',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar'
                     ),
             ),array (
                 'module' => 'VisitsSummary',
@@ -350,7 +347,7 @@ class Updates_3_0_0_b1 extends Updates
                 'params' =>
                     array (
                         'forceView' => '1',
-                        'viewDataTable' => 'Piwik\\Plugins\\Live\\VisitorLog',
+                        'viewDataTable' => 'VisitorLog',
                         'small' => '1',
                     ),
             ),array (
@@ -358,14 +355,12 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getNumberOfVisitsPerVisitDuration',
                 'params' =>
                     array (
-                        'viewDataTable' => 'cloud',
                     ),
             ),array (
                 'module' => 'VisitorInterest',
                 'action' => 'getNumberOfVisitsPerPage',
                 'params' =>
                     array (
-                        'viewDataTable' => 'cloud',
                     ),
             ),array (
                 'module' => 'VisitFrequency',
@@ -388,28 +383,24 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getBrowserEngines',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getReferrerType',
                 'params' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getAll',
                 'params' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getSocials',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                     ),
             ),array (
                 'module' => 'CoreHome',

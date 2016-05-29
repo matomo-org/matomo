@@ -2,6 +2,7 @@
 <result>
 	<row>
 		<pluginName>WebsiteMeasurable</pluginName>
+		<title>WebsiteMeasurable</title>
 		<settings>
 			<row>
 				<name>urls</name>
@@ -75,7 +76,7 @@
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Piwik. You can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;127.0.0.1&lt;/i&gt;</inlineHelp>
+				<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Piwik. You can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;192.168.33.11&lt;/i&gt;</inlineHelp>
 				<introduction />
 				<condition />
 			</row>
@@ -210,6 +211,7 @@
 	</row>
 	<row>
 		<pluginName>ExampleSettingsPlugin</pluginName>
+		<title>ExampleSettingsPlugin</title>
 		<settings>
 			<row>
 				<name>contact_email</name>
