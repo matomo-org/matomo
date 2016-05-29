@@ -449,11 +449,10 @@
 		<action>getBrowserEngines</action>
 		<order>110</order>
 		<parameters>
-			<viewDataTable>graphPie</viewDataTable>
 			<module>DevicesDetection</module>
 			<action>getBrowserEngines</action>
 		</parameters>
-		<uniqueId>widgetDevicesDetectiongetBrowserEnginesviewDataTablegraphPie</uniqueId>
+		<uniqueId>widgetDevicesDetectiongetBrowserEngines</uniqueId>
 		<viewDataTable>graphPie</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -688,11 +687,10 @@
 		<action>getNumberOfVisitsPerVisitDuration</action>
 		<order>115</order>
 		<parameters>
-			<viewDataTable>cloud</viewDataTable>
 			<module>VisitorInterest</module>
 			<action>getNumberOfVisitsPerVisitDuration</action>
 		</parameters>
-		<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDurationviewDataTablecloud</uniqueId>
+		<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDuration</uniqueId>
 		<viewDataTable>cloud</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -713,11 +711,10 @@
 		<action>getNumberOfVisitsPerPage</action>
 		<order>120</order>
 		<parameters>
-			<viewDataTable>cloud</viewDataTable>
 			<module>VisitorInterest</module>
 			<action>getNumberOfVisitsPerPage</action>
 		</parameters>
-		<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerPageviewDataTablecloud</uniqueId>
+		<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerPage</uniqueId>
 		<viewDataTable>cloud</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -832,11 +829,10 @@
 		<action>getVisitInformationPerLocalTime</action>
 		<order>115</order>
 		<parameters>
-			<viewDataTable>graphVerticalBar</viewDataTable>
 			<module>VisitTime</module>
 			<action>getVisitInformationPerLocalTime</action>
 		</parameters>
-		<uniqueId>widgetVisitTimegetVisitInformationPerLocalTimeviewDataTablegraphVerticalBar</uniqueId>
+		<uniqueId>widgetVisitTimegetVisitInformationPerLocalTime</uniqueId>
 		<viewDataTable>graphVerticalBar</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -857,11 +853,10 @@
 		<action>getVisitInformationPerServerTime</action>
 		<order>120</order>
 		<parameters>
-			<viewDataTable>graphVerticalBar</viewDataTable>
 			<module>VisitTime</module>
 			<action>getVisitInformationPerServerTime</action>
 		</parameters>
-		<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeviewDataTablegraphVerticalBar</uniqueId>
+		<uniqueId>widgetVisitTimegetVisitInformationPerServerTime</uniqueId>
 		<viewDataTable>graphVerticalBar</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -882,11 +877,10 @@
 		<action>getByDayOfWeek</action>
 		<order>125</order>
 		<parameters>
-			<viewDataTable>graphVerticalBar</viewDataTable>
 			<module>VisitTime</module>
 			<action>getByDayOfWeek</action>
 		</parameters>
-		<uniqueId>widgetVisitTimegetByDayOfWeekviewDataTablegraphVerticalBar</uniqueId>
+		<uniqueId>widgetVisitTimegetByDayOfWeek</uniqueId>
 		<viewDataTable>graphVerticalBar</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -1487,11 +1481,10 @@
 		<action>getReferrerType</action>
 		<order>101</order>
 		<parameters>
-			<viewDataTable>tableAllColumns</viewDataTable>
 			<module>Referrers</module>
 			<action>getReferrerType</action>
 		</parameters>
-		<uniqueId>widgetReferrersgetReferrerTypeviewDataTabletableAllColumns</uniqueId>
+		<uniqueId>widgetReferrersgetReferrerType</uniqueId>
 		<viewDataTable>tableAllColumns</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -1512,11 +1505,10 @@
 		<action>getAll</action>
 		<order>102</order>
 		<parameters>
-			<viewDataTable>tableAllColumns</viewDataTable>
 			<module>Referrers</module>
 			<action>getAll</action>
 		</parameters>
-		<uniqueId>widgetReferrersgetAllviewDataTabletableAllColumns</uniqueId>
+		<uniqueId>widgetReferrersgetAll</uniqueId>
 		<viewDataTable>tableAllColumns</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -1609,11 +1601,10 @@
 		<action>getSocials</action>
 		<order>111</order>
 		<parameters>
-			<viewDataTable>graphPie</viewDataTable>
 			<module>Referrers</module>
 			<action>getSocials</action>
 		</parameters>
-		<uniqueId>widgetReferrersgetSocialsviewDataTablegraphPie</uniqueId>
+		<uniqueId>widgetReferrersgetSocials</uniqueId>
 		<viewDataTable>graphPie</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -2569,11 +2560,10 @@
 		<action>getPlanetRatiosWithLogos</action>
 		<order>213</order>
 		<parameters>
-			<viewDataTable>cloud</viewDataTable>
 			<module>ExampleUI</module>
 			<action>getPlanetRatiosWithLogos</action>
 		</parameters>
-		<uniqueId>widgetExampleUIgetPlanetRatiosWithLogosviewDataTablecloud</uniqueId>
+		<uniqueId>widgetExampleUIgetPlanetRatiosWithLogos</uniqueId>
 		<viewDataTable>cloud</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -2620,11 +2610,10 @@
 		<action>getPlanetRatios</action>
 		<order>212</order>
 		<parameters>
-			<viewDataTable>graphPie</viewDataTable>
 			<module>ExampleUI</module>
 			<action>getPlanetRatios</action>
 		</parameters>
-		<uniqueId>widgetExampleUIgetPlanetRatiosviewDataTablegraphPie</uniqueId>
+		<uniqueId>widgetExampleUIgetPlanetRatios</uniqueId>
 		<viewDataTable>graphPie</viewDataTable>
 		<isReport>1</isReport>
 	</row>

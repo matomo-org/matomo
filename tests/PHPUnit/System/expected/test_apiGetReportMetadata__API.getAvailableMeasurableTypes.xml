@@ -8,6 +8,7 @@
 		<settings>
 			<row>
 				<pluginName>WebsiteMeasurable</pluginName>
+				<title>WebsiteMeasurable</title>
 				<settings>
 					<row>
 						<name>urls</name>
@@ -212,6 +213,7 @@
 			</row>
 			<row>
 				<pluginName>ExampleSettingsPlugin</pluginName>
+				<title>ExampleSettingsPlugin</title>
 				<settings>
 					<row>
 						<name>contact_email</name>

@@ -556,11 +556,10 @@
 				<action>getNumberOfVisitsPerVisitDuration</action>
 				<order>115</order>
 				<parameters>
-					<viewDataTable>cloud</viewDataTable>
 					<module>VisitorInterest</module>
 					<action>getNumberOfVisitsPerVisitDuration</action>
 				</parameters>
-				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDurationviewDataTablecloud</uniqueId>
+				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDuration</uniqueId>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -570,11 +569,10 @@
 				<action>getNumberOfVisitsPerPage</action>
 				<order>120</order>
 				<parameters>
-					<viewDataTable>cloud</viewDataTable>
 					<module>VisitorInterest</module>
 					<action>getNumberOfVisitsPerPage</action>
 				</parameters>
-				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerPageviewDataTablecloud</uniqueId>
+				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerPage</uniqueId>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -721,11 +719,10 @@
 				<action>getBrowserEngines</action>
 				<order>110</order>
 				<parameters>
-					<viewDataTable>graphPie</viewDataTable>
 					<module>DevicesDetection</module>
 					<action>getBrowserEngines</action>
 				</parameters>
-				<uniqueId>widgetDevicesDetectiongetBrowserEnginesviewDataTablegraphPie</uniqueId>
+				<uniqueId>widgetDevicesDetectiongetBrowserEngines</uniqueId>
 				<viewDataTable>graphPie</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -966,11 +963,10 @@
 				<action>getVisitInformationPerLocalTime</action>
 				<order>115</order>
 				<parameters>
-					<viewDataTable>graphVerticalBar</viewDataTable>
 					<module>VisitTime</module>
 					<action>getVisitInformationPerLocalTime</action>
 				</parameters>
-				<uniqueId>widgetVisitTimegetVisitInformationPerLocalTimeviewDataTablegraphVerticalBar</uniqueId>
+				<uniqueId>widgetVisitTimegetVisitInformationPerLocalTime</uniqueId>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -980,11 +976,10 @@
 				<action>getVisitInformationPerServerTime</action>
 				<order>120</order>
 				<parameters>
-					<viewDataTable>graphVerticalBar</viewDataTable>
 					<module>VisitTime</module>
 					<action>getVisitInformationPerServerTime</action>
 				</parameters>
-				<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeviewDataTablegraphVerticalBar</uniqueId>
+				<uniqueId>widgetVisitTimegetVisitInformationPerServerTime</uniqueId>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -994,11 +989,10 @@
 				<action>getByDayOfWeek</action>
 				<order>125</order>
 				<parameters>
-					<viewDataTable>graphVerticalBar</viewDataTable>
 					<module>VisitTime</module>
 					<action>getByDayOfWeek</action>
 				</parameters>
-				<uniqueId>widgetVisitTimegetByDayOfWeekviewDataTablegraphVerticalBar</uniqueId>
+				<uniqueId>widgetVisitTimegetByDayOfWeek</uniqueId>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1140,11 +1134,10 @@
 				<action>getReferrerType</action>
 				<order>101</order>
 				<parameters>
-					<viewDataTable>tableAllColumns</viewDataTable>
 					<module>Referrers</module>
 					<action>getReferrerType</action>
 				</parameters>
-				<uniqueId>widgetReferrersgetReferrerTypeviewDataTabletableAllColumns</uniqueId>
+				<uniqueId>widgetReferrersgetReferrerType</uniqueId>
 				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1154,11 +1147,10 @@
 				<action>getAll</action>
 				<order>102</order>
 				<parameters>
-					<viewDataTable>tableAllColumns</viewDataTable>
 					<module>Referrers</module>
 					<action>getAll</action>
 				</parameters>
-				<uniqueId>widgetReferrersgetAllviewDataTabletableAllColumns</uniqueId>
+				<uniqueId>widgetReferrersgetAll</uniqueId>
 				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1317,11 +1309,10 @@
 				<action>getSocials</action>
 				<order>111</order>
 				<parameters>
-					<viewDataTable>graphPie</viewDataTable>
 					<module>Referrers</module>
 					<action>getSocials</action>
 				</parameters>
-				<uniqueId>widgetReferrersgetSocialsviewDataTablegraphPie</uniqueId>
+				<uniqueId>widgetReferrersgetSocials</uniqueId>
 				<viewDataTable>graphPie</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1478,13 +1469,14 @@
 						<action>getCustomVariables</action>
 						<order>301</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>CustomVariables</module>
 							<action>getCustomVariables</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetCustomVariablesgetCustomVariablesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1505,13 +1497,14 @@
 						<action>getVisitInformationPerServerTime</action>
 						<order>302</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>VisitTime</module>
 							<action>getVisitInformationPerServerTime</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1532,13 +1525,14 @@
 						<action>getCountry</action>
 						<order>201</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCountry</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCountryviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1559,13 +1553,14 @@
 						<action>getContinent</action>
 						<order>202</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getContinent</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetContinentviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1586,13 +1581,14 @@
 						<action>getRegion</action>
 						<order>203</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getRegion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetRegionviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1613,13 +1609,14 @@
 						<action>getCity</action>
 						<order>204</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCity</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCityviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1640,13 +1637,14 @@
 						<action>getReferrerType</action>
 						<order>1</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getReferrerType</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetReferrerTypeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1667,13 +1665,14 @@
 						<action>getKeywords</action>
 						<order>2</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getKeywords</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetKeywordsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1694,13 +1693,14 @@
 						<action>getSearchEngines</action>
 						<order>3</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getSearchEngines</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetSearchEnginesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1721,13 +1721,14 @@
 						<action>getWebsites</action>
 						<order>4</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getWebsites</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetWebsitesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1748,13 +1749,14 @@
 						<action>getCampaigns</action>
 						<order>5</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getCampaigns</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetCampaignsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1775,12 +1777,14 @@
 						<action>getVisitsUntilConversion</action>
 						<order>101</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getVisitsUntilConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetVisitsUntilConversiondocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1801,12 +1805,14 @@
 						<action>getDaysToConversion</action>
 						<order>102</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getDaysToConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>1</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetDaysToConversiondocumentationForGoalsPage1idGoal1</uniqueId>
+						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal1</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1965,13 +1971,14 @@
 						<action>getCustomVariables</action>
 						<order>301</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>CustomVariables</module>
 							<action>getCustomVariables</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetCustomVariablesgetCustomVariablesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1992,13 +1999,14 @@
 						<action>getVisitInformationPerServerTime</action>
 						<order>302</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>VisitTime</module>
 							<action>getVisitInformationPerServerTime</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2019,13 +2027,14 @@
 						<action>getCountry</action>
 						<order>201</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCountry</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCountryviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2046,13 +2055,14 @@
 						<action>getContinent</action>
 						<order>202</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getContinent</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetContinentviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2073,13 +2083,14 @@
 						<action>getRegion</action>
 						<order>203</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getRegion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetRegionviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2100,13 +2111,14 @@
 						<action>getCity</action>
 						<order>204</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCity</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCityviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2127,13 +2139,14 @@
 						<action>getReferrerType</action>
 						<order>1</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getReferrerType</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetReferrerTypeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2154,13 +2167,14 @@
 						<action>getKeywords</action>
 						<order>2</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getKeywords</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetKeywordsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2181,13 +2195,14 @@
 						<action>getSearchEngines</action>
 						<order>3</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getSearchEngines</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetSearchEnginesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2208,13 +2223,14 @@
 						<action>getWebsites</action>
 						<order>4</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getWebsites</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetWebsitesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2235,13 +2251,14 @@
 						<action>getCampaigns</action>
 						<order>5</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getCampaigns</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetCampaignsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2262,12 +2279,14 @@
 						<action>getVisitsUntilConversion</action>
 						<order>101</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getVisitsUntilConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetVisitsUntilConversiondocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2288,12 +2307,14 @@
 						<action>getDaysToConversion</action>
 						<order>102</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getDaysToConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>2</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetDaysToConversiondocumentationForGoalsPage1idGoal2</uniqueId>
+						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal2</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2452,13 +2473,14 @@
 						<action>getCustomVariables</action>
 						<order>301</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>CustomVariables</module>
 							<action>getCustomVariables</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetCustomVariablesgetCustomVariablesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2479,13 +2501,14 @@
 						<action>getVisitInformationPerServerTime</action>
 						<order>302</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>VisitTime</module>
 							<action>getVisitInformationPerServerTime</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2506,13 +2529,14 @@
 						<action>getCountry</action>
 						<order>201</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCountry</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCountryviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2533,13 +2557,14 @@
 						<action>getContinent</action>
 						<order>202</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getContinent</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetContinentviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2560,13 +2585,14 @@
 						<action>getRegion</action>
 						<order>203</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getRegion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetRegionviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2587,13 +2613,14 @@
 						<action>getCity</action>
 						<order>204</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCity</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCityviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2614,13 +2641,14 @@
 						<action>getReferrerType</action>
 						<order>1</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getReferrerType</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetReferrerTypeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2641,13 +2669,14 @@
 						<action>getKeywords</action>
 						<order>2</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getKeywords</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetKeywordsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2668,13 +2697,14 @@
 						<action>getSearchEngines</action>
 						<order>3</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getSearchEngines</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetSearchEnginesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2695,13 +2725,14 @@
 						<action>getWebsites</action>
 						<order>4</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getWebsites</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetWebsitesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2722,13 +2753,14 @@
 						<action>getCampaigns</action>
 						<order>5</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getCampaigns</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetCampaignsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2749,12 +2781,14 @@
 						<action>getVisitsUntilConversion</action>
 						<order>101</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getVisitsUntilConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetVisitsUntilConversiondocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2775,12 +2809,14 @@
 						<action>getDaysToConversion</action>
 						<order>102</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getDaysToConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>3</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetDaysToConversiondocumentationForGoalsPage1idGoal3</uniqueId>
+						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal3</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2992,13 +3028,14 @@
 						<action>getCustomVariables</action>
 						<order>301</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>CustomVariables</module>
 							<action>getCustomVariables</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetCustomVariablesgetCustomVariablesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3019,13 +3056,14 @@
 						<action>getVisitInformationPerServerTime</action>
 						<order>302</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>VisitTime</module>
 							<action>getVisitInformationPerServerTime</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3046,13 +3084,14 @@
 						<action>getCountry</action>
 						<order>201</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCountry</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCountryviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3073,13 +3112,14 @@
 						<action>getContinent</action>
 						<order>202</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getContinent</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetContinentviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3100,13 +3140,14 @@
 						<action>getRegion</action>
 						<order>203</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getRegion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetRegionviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3127,13 +3168,14 @@
 						<action>getCity</action>
 						<order>204</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCity</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCityviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3154,13 +3196,14 @@
 						<action>getReferrerType</action>
 						<order>1</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getReferrerType</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetReferrerTypeviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3181,13 +3224,14 @@
 						<action>getKeywords</action>
 						<order>2</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getKeywords</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetKeywordsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3208,13 +3252,14 @@
 						<action>getSearchEngines</action>
 						<order>3</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getSearchEngines</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetSearchEnginesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3235,13 +3280,14 @@
 						<action>getWebsites</action>
 						<order>4</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getWebsites</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetWebsitesviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3262,13 +3308,14 @@
 						<action>getCampaigns</action>
 						<order>5</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getCampaigns</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetCampaignsviewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3289,12 +3336,14 @@
 						<action>getVisitsUntilConversion</action>
 						<order>101</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getVisitsUntilConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetVisitsUntilConversiondocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3315,12 +3364,14 @@
 						<action>getDaysToConversion</action>
 						<order>102</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getDaysToConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>0</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetDaysToConversiondocumentationForGoalsPage1idGoal0</uniqueId>
+						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal0</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3648,13 +3699,14 @@
 						<action>getCustomVariables</action>
 						<order>301</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>CustomVariables</module>
 							<action>getCustomVariables</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetCustomVariablesgetCustomVariablesviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3675,13 +3727,14 @@
 						<action>getVisitInformationPerServerTime</action>
 						<order>302</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>VisitTime</module>
 							<action>getVisitInformationPerServerTime</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3702,13 +3755,14 @@
 						<action>getCountry</action>
 						<order>201</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCountry</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCountryviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3729,13 +3783,14 @@
 						<action>getContinent</action>
 						<order>202</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getContinent</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetContinentviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3756,13 +3811,14 @@
 						<action>getRegion</action>
 						<order>203</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getRegion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetRegionviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3783,13 +3839,14 @@
 						<action>getCity</action>
 						<order>204</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>UserCountry</module>
 							<action>getCity</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetUserCountrygetCityviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3810,13 +3867,14 @@
 						<action>getReferrerType</action>
 						<order>1</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getReferrerType</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetReferrerTypeviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3837,13 +3895,14 @@
 						<action>getKeywords</action>
 						<order>2</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getKeywords</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetKeywordsviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3864,13 +3923,14 @@
 						<action>getSearchEngines</action>
 						<order>3</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getSearchEngines</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetSearchEnginesviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3891,13 +3951,14 @@
 						<action>getWebsites</action>
 						<order>4</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getWebsites</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetWebsitesviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3918,13 +3979,14 @@
 						<action>getCampaigns</action>
 						<order>5</order>
 						<parameters>
+							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
 							<module>Referrers</module>
 							<action>getCampaigns</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetReferrersgetCampaignsviewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3945,12 +4007,14 @@
 						<action>getVisitsUntilConversion</action>
 						<order>101</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getVisitsUntilConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetVisitsUntilConversiondocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3971,12 +4035,14 @@
 						<action>getDaysToConversion</action>
 						<order>102</order>
 						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>table</viewDataTable>
 							<module>Goals</module>
 							<action>getDaysToConversion</action>
 							<documentationForGoalsPage>1</documentationForGoalsPage>
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
-						<uniqueId>widgetGoalsgetDaysToConversiondocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4161,11 +4227,10 @@
 				<action>getPlanetRatios</action>
 				<order>212</order>
 				<parameters>
-					<viewDataTable>graphPie</viewDataTable>
 					<module>ExampleUI</module>
 					<action>getPlanetRatios</action>
 				</parameters>
-				<uniqueId>widgetExampleUIgetPlanetRatiosviewDataTablegraphPie</uniqueId>
+				<uniqueId>widgetExampleUIgetPlanetRatios</uniqueId>
 				<viewDataTable>graphPie</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4206,11 +4271,10 @@
 				<action>getPlanetRatiosWithLogos</action>
 				<order>213</order>
 				<parameters>
-					<viewDataTable>cloud</viewDataTable>
 					<module>ExampleUI</module>
 					<action>getPlanetRatiosWithLogos</action>
 				</parameters>
-				<uniqueId>widgetExampleUIgetPlanetRatiosWithLogosviewDataTablecloud</uniqueId>
+				<uniqueId>widgetExampleUIgetPlanetRatiosWithLogos</uniqueId>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>

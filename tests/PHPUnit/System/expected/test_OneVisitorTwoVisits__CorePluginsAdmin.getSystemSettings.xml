@@ -1,7 +1,52 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<pluginName>CoreUpdater</pluginName>
+		<title>Update settings</title>
+		<settings>
+			<row>
+				<name>release_channel</name>
+				<title />
+				<value>latest_stable</value>
+				<defaultValue>latest_stable</defaultValue>
+				<type>string</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<latest_stable>Latest stable release (Recommended)</latest_stable>
+					<latest_beta>Latest beta release</latest_beta>
+					<latest_2x_stable>Latest stable 2.X (Long Term Support version)</latest_2x_stable>
+					<latest_2x_beta>Latest beta 2.X (Long Term Support version)</latest_2x_beta>
+				</availableValues>
+				<description />
+				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Piwik.&lt;br/&gt;If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
+				<introduction>Release channel</introduction>
+				<condition />
+			</row>
+			<row>
+				<name>enable_plugin_update_communication</name>
+				<title />
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<row key="1">Yes</row>
+					<row key="0">No (Default)</row>
+				</availableValues>
+				<description />
+				<inlineHelp>An email will be sent to Super Users when there is a new version available for a plugin.</inlineHelp>
+				<introduction>Send an email when a plugin update is available</introduction>
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
 		<pluginName>ExampleSettingsPlugin</pluginName>
+		<title>ExampleSettingsPlugin</title>
 		<settings>
 			<row>
 				<name>metric</name>
@@ -19,7 +64,7 @@
 				</availableValues>
 				<description>Choose the metric that should be displayed in the browser tab</description>
 				<inlineHelp />
-				<introduction>Only Super Users can change the following settings:</introduction>
+				<introduction />
 				<condition />
 			</row>
 			<row>
@@ -85,6 +130,7 @@ Another line</defaultValue>
 	</row>
 	<row>
 		<pluginName>AnonymousPiwikUsageMeasurement</pluginName>
+		<title>AnonymousPiwikUsageMeasurement</title>
 		<settings>
 			<row>
 				<name>canUserOptOut</name>
@@ -197,7 +243,40 @@ Another line</defaultValue>
 	</row>
 	<row>
 		<pluginName>QueuedTracking</pluginName>
+		<title>QueuedTracking</title>
 		<settings>
+			<row>
+				<name>useSentinelBackend</name>
+				<title>Enable Redis Sentinel'</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+					<size>3</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>If enabled, the Redis Sentinel feature will be used. Make sure to update host and port if needed. Once you have enabled and saved the change, you will be able to specify multiple hosts and ports comma separated.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>sentinelMasterName</name>
+				<title>Redis Sentinel Master name</title>
+				<value>mymaster</value>
+				<defaultValue>mymaster</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>200</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>The sentinel master name only needs to be configured if Sentinel is enabled.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
 			<row>
 				<name>redisHost</name>
 				<title>Redis host</title>
@@ -206,11 +285,11 @@ Another line</defaultValue>
 				<type>string</type>
 				<uiControl>text</uiControl>
 				<uiControlAttributes>
-					<size>300</size>
+					<size>500</size>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Remote host of the Redis server. Max 300 characters are allowed.</inlineHelp>
+				<inlineHelp>Remote host of the Redis server. Max 500 characters are allowed.</inlineHelp>
 				<introduction />
 				<condition />
 			</row>
@@ -219,10 +298,10 @@ Another line</defaultValue>
 				<title>Redis port</title>
 				<value>6379</value>
 				<defaultValue>6379</defaultValue>
-				<type>integer</type>
+				<type>string</type>
 				<uiControl>text</uiControl>
 				<uiControlAttributes>
-					<size>5</size>
+					<size>100</size>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
