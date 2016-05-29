@@ -242,9 +242,11 @@ PageRenderer.prototype._load = function (url, callback) {
     this.webpage.open(url, function (status) {
 
         self._isInitializing = false;
+        self._isLoading = false;
 
         this.evaluate(function () {
             var $ = window.jQuery;
+
             if ($) {
                 $('html').addClass('uiTest');
                 $.fx.off = true;
