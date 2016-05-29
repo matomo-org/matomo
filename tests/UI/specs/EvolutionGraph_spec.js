@@ -150,7 +150,7 @@ describe("EvolutionGraph", function () {
             page.sendKeys('.annotation-edit', 'edited annotation');
             page.click('.annotation-period-edit>a');
             page.evaluate(function () {
-                $('.ui-datepicker-calendar td a:contains(16)').click();
+                $('.annotation-meta .ui-datepicker-calendar td a:contains(16)').click();
             });
             page.click('.annotation-list-range');
             page.click('input.annotation-save', 3000);
