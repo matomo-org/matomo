@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-var VERBOSE = false;
+var VERBOSE = true;
 
 // TODO: should refactor, move all event queueing logic to PageAutomation class and add .frame method to change context
 var PageRenderer = function (baseUrl) {
