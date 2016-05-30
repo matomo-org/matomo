@@ -1075,7 +1075,16 @@ Segmentation = (function($) {
                 jQuery.extend(params, {
                     "idSegment": segmentId
                 });
-                self.updateMethod(params);
+
+                if(segmentStr != getSegmentFromId(segmentId).definition) {
+                    piwikHelper.modalConfirm(self.target.find('.segment-change-confirm'), {
+                        yes: function () {
+                            self.updateMethod(params);
+                        }
+                    });
+                } else {
+                    self.updateMethod(params);
+                }
             }
         };
 
