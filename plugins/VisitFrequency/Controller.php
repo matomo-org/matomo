@@ -11,6 +11,7 @@ namespace Piwik\Plugins\VisitFrequency;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -77,8 +78,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $period = Common::getRequestVar('period', false);
 
-        if ($period == 'day') {
-            // add number of unique (returning) visitors for period=day
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+            // add number of unique (returning) visitors if available
             $selectableColumns = array_merge(
                 array($selectableColumns[0]),
                 array('nb_uniq_visitors_returning'),
