@@ -1098,7 +1098,7 @@ class CronArchive
             $listSiteIds = implode(',', $siteIds);
 
             try {
-                $this->logger->info('Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
+                $this->logger->info('- Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIds, $date);
             } catch (Exception $e) {
                 $this->logger->info('Failed to invalidate archived reports: ' . $e->getMessage());
