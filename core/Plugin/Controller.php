@@ -395,6 +395,9 @@ abstract class Controller
         $date = Common::getRequestVar('date');
         $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
 
+        // remove columns from $columnsToDisplay that are not in $selectableColumns
+        $columnsToDisplay = array_intersect($columnsToDisplay, $selectableColumns);
+
         $columns = array_merge($columnsToDisplay ? $columnsToDisplay : array(), $selectableColumns);
         $translations = array_combine($columns, $columns);
         foreach ($meta as $reportMeta) {
