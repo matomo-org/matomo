@@ -1050,7 +1050,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // prevent click jacking attacks by dynamically adding the token auth when the link is clicked
             .click(function () {
                 $(this).attr('href', function () {
-                    var url = $(this).attr('href') + '&token_auth=' + piwik.token_auth;
+                    var url = $(this).attr('href');
 
                     var limit = $('.limitSelection>div>span', domElem).attr('value');
                     var defaultLimit = $(this).attr('filter_limit');
@@ -1099,7 +1099,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     period = 'day';
                 }
 
-                var str = 'index.php?module=API'
+                var str = 'index.php?module=Proxy'
+                    + '&action=callApi'
                     + '&method=' + method
                     + '&format=' + format
                     + '&idSite=' + self.param.idSite
