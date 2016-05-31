@@ -66,7 +66,7 @@
             </td>
             <td>
                 {# download link #}
-                <a href="{{ linkTo({'module':'API', 'segment': null, 'token_auth':token_auth,
+                <a href="{{ linkTo({'module':'Proxy', 'action': 'callApi', 'segment': null,
                             'method':'ScheduledReports.generateReport', 'idReport':report.idreport,
                             'outputType':downloadOutputType, 'language':language,
                             'format': (report.format in ['html', 'csv']) ? report.format : false

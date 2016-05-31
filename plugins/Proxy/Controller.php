@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Proxy;
 use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
+use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
 use Piwik\Url;
@@ -24,6 +25,15 @@ class Controller extends \Piwik\Plugin\Controller
 {
     const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
     const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
+
+    /**
+     * Proxy method to call API methods using current session for authentication
+     */
+    public function callApi()
+    {
+        echo FrontController::getInstance()->dispatch('API', 'index');
+        exit;
+    }
 
     /**
      * Output the merged CSS file.
