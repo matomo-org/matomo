@@ -82,6 +82,7 @@ class Controller extends \Piwik\Plugin\Controller
             'libs/bower_components/jquery/dist/jquery.min.js',
             'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
             'libs/bower_components/materialize/dist/js/materialize.min.js',
+            'plugins/Morpheus/javascripts/piwikHelper.js',
             'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
             'libs/bower_components/angular/angular.min.js',
