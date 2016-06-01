@@ -64,6 +64,7 @@ class TestsRunUI extends ConsoleCommand
         $this->writeJsConfig();
 
         $options = array();
+        $phantomJsOptions = array();
         if ($persistFixtureData) {
             $options[] = "--persist-fixture-data";
         }
@@ -101,7 +102,7 @@ class TestsRunUI extends ConsoleCommand
         }
 
         if ($debug) {
-            $options[] = "--debug=true";
+            $phantomJsOptions[] = "--debug=true";
         }
 
         if ($extraOptions) {
@@ -109,10 +110,11 @@ class TestsRunUI extends ConsoleCommand
         }
 
         $options = implode(" ", $options);
+        $phantomJsOptions = implode(" ", $phantomJsOptions);
 
         $specs = implode(" ", $specs);
 
-        $cmd = "phantomjs '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        $cmd = "phantomjs " . $phantomJsOptions . " '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');
