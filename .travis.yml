@@ -107,7 +107,7 @@ matrix:
 
 sudo: required
 
-script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
+script: $PIWIK_ROOT_DIR/console tests:run-ui --debug --store-in-ui-tests-repo --persist-fixture-data --assume-artifacts --core Installation
 
 cache:
   directories:
