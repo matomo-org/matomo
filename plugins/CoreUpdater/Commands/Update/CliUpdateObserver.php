@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Commands\Update;
 
+use Piwik\Updater\Migration;
 use Piwik\Updater\UpdateObserver;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -40,14 +41,14 @@ class CliUpdateObserver extends UpdateObserver
         $this->totalMigrationQueryCount = $totalMigrationQueryCount;
     }
 
-    public function onStartExecutingMigrationQuery($updateFile, $sql)
+    public function onStartExecutingMigration($updateFile, Migration $migration)
     {
-        $this->output->write("  Executing <comment>$sql</comment>... ");
-
+        $string = $migration->__toString();
+        $this->output->write("  Executing <comment>$string</comment>... ");
         ++$this->currentMigrationQueryExecutionCount;
     }
-
-    public function onFinishedExecutingMigrationQuery($updateFile, $sql)
+    
+    public function onFinishedExecutingMigration($updateFile, Migration $migration)
     {
         $this->output->writeln("Done. <info>[{$this->currentMigrationQueryExecutionCount} / {$this->totalMigrationQueryCount}]</info>");
     }
