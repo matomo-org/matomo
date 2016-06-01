@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DbHelper;
@@ -44,6 +45,61 @@ class Controller extends \Piwik\Plugin\Controller
         $this->updater = $updater;
 
         parent::__construct();
+    }
+
+    /**
+     * Return the base.less compiled to css
+     *
+     * @return string
+     */
+    public function getUpdaterCss()
+    {
+        Common::sendHeader('Content-Type: text/css');
+
+        $files = array(
+            'libs/jquery/themes/base/jquery-ui.min.css',
+            'libs/bower_components/materialize/dist/css/materialize.min.css',
+            'plugins/Morpheus/stylesheets/base.less',
+            'plugins/Morpheus/stylesheets/general/_forms.less',
+            'plugins/Morpheus/stylesheets/simple_structure.css',
+            'plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css',
+            'plugins/CoreUpdater/stylesheets/updateLayout.css'
+        );
+
+        return AssetManager::compileCustomStylesheets($files);
+    }
+
+    /**
+     * Return the base.less compiled to css
+     *
+     * @return string
+     */
+    public function getUpdaterJs()
+    {
+        Common::sendHeader('Content-Type: text/javascript');
+    
+        $files = array(
+            'libs/bower_components/jquery/dist/jquery.min.js',
+            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
+            'libs/bower_components/materialize/dist/js/materialize.min.js',
+            'plugins/CoreHome/javascripts/donate.js',
+            'plugins/CoreUpdater/javascripts/updateLayout.js',
+            'libs/bower_components/angular/angular.min.js',
+            'libs/bower_components/angular-sanitize/angular-sanitize.js',
+            'libs/bower_components/angular-animate/angular-animate.js',
+            'libs/bower_components/angular-cookies/angular-cookies.js',
+            'libs/bower_components/ngDialog/js/ngDialog.min.js',
+            'plugins/CoreHome/angularjs/common/services/service.module.js',
+            'plugins/CoreHome/angularjs/common/filters/filter.module.js',
+            'plugins/CoreHome/angularjs/common/filters/translate.js',
+            'plugins/CoreHome/angularjs/common/directives/directive.module.js',
+            'plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js',
+            'plugins/CoreHome/angularjs/piwikApp.config.js',
+            'plugins/CoreHome/angularjs/piwikApp.js',
+            'plugins/Installation/javascripts/installation.js',
+        );
+
+        return AssetManager::compileCustomJs($files);
     }
 
     public function newVersionAvailable()

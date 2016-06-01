@@ -39,6 +39,8 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         // note: we're using setImportDir on purpose (not addImportDir)
         $this->lessCompiler->setImportDir(PIWIK_USER_PATH);
         $concatenatedAssets = $this->getConcatenatedAssets();
+
+        $this->lessCompiler->setFormatter('classic');
         $compiled = $this->lessCompiler->compile($concatenatedAssets);
 
         foreach ($this->cssAssetsToReplace as $asset) {
@@ -55,7 +57,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     
     private function getImportStatementForReplacement($path)
     {
-        return '@import url("replace'. $path .'");';
+        return '.nonExistingSelectorOnlyaTest { display:"' . $path . '"; }';
     }
 
     protected function concatenateAssets()

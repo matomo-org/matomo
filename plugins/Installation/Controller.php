@@ -30,6 +30,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
+use Piwik\Theme;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -480,18 +481,56 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Prints out the CSS for installer/updater
+     * Return the base.less compiled to css
      *
-     * During installation and update process, we load a minimal Less file.
-     * At this point Piwik may not be setup yet to write files in tmp/assets/
-     * so in this case we compile and return the string on every request.
+     * @return string
      */
-    public function getBaseCss()
+    public function getInstallationCss()
     {
         Common::sendHeader('Content-Type: text/css');
-        return AssetManager::getInstance()->getCompiledBaseCss()->getContent();
+
+        $files = array(
+            'libs/jquery/themes/base/jquery-ui.min.css',
+            'libs/bower_components/materialize/dist/css/materialize.min.css',
+            'plugins/Morpheus/stylesheets/base.less',
+            'plugins/Morpheus/stylesheets/general/_forms.less',
+            'plugins/Installation/stylesheets/installation.css'
+        );
+
+        return AssetManager::compileCustomStylesheets($files);
     }
 
+    /**
+     * Return the base.less compiled to css
+     *
+     * @return string
+     */
+    public function getInstallationJs()
+    {
+        Common::sendHeader('Content-Type: text/javascript');
+
+        $files = array(
+            'libs/bower_components/jquery/dist/jquery.min.js',
+            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
+            'libs/bower_components/materialize/dist/js/materialize.min.js',
+            'libs/bower_components/angular/angular.min.js',
+            'libs/bower_components/angular-sanitize/angular-sanitize.js',
+            'libs/bower_components/angular-animate/angular-animate.js',
+            'libs/bower_components/angular-cookies/angular-cookies.js',
+            'libs/bower_components/ngDialog/js/ngDialog.min.js',
+            'plugins/CoreHome/angularjs/common/services/service.module.js',
+            'plugins/CoreHome/angularjs/common/filters/filter.module.js',
+            'plugins/CoreHome/angularjs/common/filters/translate.js',
+            'plugins/CoreHome/angularjs/common/directives/directive.module.js',
+            'plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js',
+            'plugins/CoreHome/angularjs/piwikApp.config.js',
+            'plugins/CoreHome/angularjs/piwikApp.js',
+            'plugins/Installation/javascripts/installation.js',
+        );
+
+        return AssetManager::compileCustomJs($files);
+    }
+    
     private function getParam($name)
     {
         return Common::getRequestVar($name, false, 'string');
