@@ -44,9 +44,10 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $compiled = $this->lessCompiler->compile($concatenatedAssets);
 
         foreach ($this->cssAssetsToReplace as $asset) {
+            // to fix #10173
             $cssPath = $asset->getAbsoluteLocation();
             $cssContent = $this->processFileContent($asset);
-            $compiled = str_replace($this->getImportStatementForReplacement($cssPath), $cssContent, $compiled);
+            $compiled = str_replace($this->getCssStatementForReplacement($cssPath), $cssContent, $compiled);
         }
 
         $this->mergedContent = $compiled;
@@ -55,9 +56,9 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         return $compiled;
     }
     
-    private function getImportStatementForReplacement($path)
+    private function getCssStatementForReplacement($path)
     {
-        return '.nonExistingSelectorOnlyaTest { display:"' . $path . '"; }';
+        return '.nonExistingSelectorOnlyForReplacementOfCssFiles { display:"' . $path . '"; }';
     }
 
     protected function concatenateAssets()
@@ -74,7 +75,8 @@ class StylesheetUIAssetMerger extends UIAssetMerger
             }
 
             if (!empty($path) && Common::stringEndsWith($path, '.css')) {
-                $mergedContent .= "\n" . $this->getImportStatementForReplacement($path) . "\n";
+                // to fix #10173
+                $mergedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
                 $this->cssAssetsToReplace[] = $uiAsset;
             } else {
                 $content = $this->processFileContent($uiAsset);
