@@ -82,14 +82,14 @@
          *
          * @param {int} dashboardIdToLoad
          */
-        loadDashboard: function (dashboardIdToLoad) {
+        loadDashboard: function (dashboardIdToLoad, forceReload) {
 
             $(dashboardElement).empty();
             dashboardName = '';
             dashboardLayout = null;
             dashboardId = dashboardIdToLoad;
 
-            if (piwikHelper.isAngularRenderingThePage()) {
+            if (!forceReload && piwikHelper.isAngularRenderingThePage()) {
                 angular.element(document).injector().invoke(function ($location) {
                     $location.search('subcategory', '' + dashboardIdToLoad);
                 });
@@ -177,7 +177,7 @@
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(
                 function () {
-                    methods.loadDashboard.apply(this, [dashboardId])
+                    methods.loadDashboard.apply(this, [dashboardId, true])
                 }
             );
             ajaxRequest.setLoadingElement();
