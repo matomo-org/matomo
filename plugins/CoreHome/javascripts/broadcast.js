@@ -433,7 +433,7 @@ var broadcast = {
             });
         }
 
-        if(broadcast.getParamValue('module', urlAjax) == 'API') {
+        if(broadcast.getParamValue('module', urlAjax) == 'API' || broadcast.getParamValue('module', urlAjax) == 'Proxy' && broadcast.getParamValue('action', urlAjax) == 'callApi') {
             broadcast.lastUrlRequested = null;
             $('#content').html("Loading content from the API and displaying it within Piwik is not allowed.");
             piwikHelper.hideAjaxLoading();
