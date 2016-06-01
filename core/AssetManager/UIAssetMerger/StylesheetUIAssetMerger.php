@@ -12,6 +12,7 @@ use Exception;
 use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
+use Piwik\Common;
 use Piwik\Piwik;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
@@ -20,6 +21,11 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      * @var lessc
      */
     private $lessCompiler;
+
+    /**
+     * @var UIAsset[]
+     */
+    private $cssAssetsToReplace = array();
 
     public function __construct($mergedAsset, $assetFetcher, $cacheBuster)
     {
@@ -33,9 +39,50 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         // note: we're using setImportDir on purpose (not addImportDir)
         $this->lessCompiler->setImportDir(PIWIK_USER_PATH);
         $concatenatedAssets = $this->getConcatenatedAssets();
-        return $this->lessCompiler->compile($concatenatedAssets);
+        $compiled = $this->lessCompiler->compile($concatenatedAssets);
+
+        foreach ($this->cssAssetsToReplace as $asset) {
+            $cssPath = $asset->getAbsoluteLocation();
+            $cssContent = $this->processFileContent($asset);
+            $compiled = str_replace($this->getImportStatementForReplacement($cssPath), $cssContent, $compiled);
+        }
+
+        $this->mergedContent = $compiled;
+        $this->cssAssetsToReplace = array();
+
+        return $compiled;
+    }
+    
+    private function getImportStatementForReplacement($path)
+    {
+        return '@import url("replace'. $path .'");';
     }
 
+    protected function concatenateAssets()
+    {
+        $mergedContent = '';
+
+        foreach ($this->getAssetCatalog()->getAssets() as $uiAsset) {
+            $uiAsset->validateFile();
+
+            try {
+                $path = $uiAsset->getAbsoluteLocation();
+            } catch (Exception $e) {
+                $path = null;
+            }
+
+            if (!empty($path) && Common::stringEndsWith($path, '.css')) {
+                $mergedContent .= "\n" . $this->getImportStatementForReplacement($path) . "\n";
+                $this->cssAssetsToReplace[] = $uiAsset;
+            } else {
+                $content = $this->processFileContent($uiAsset);
+                $mergedContent .= $this->getFileSeparator() . $content;
+            }
+        }
+
+        $this->mergedContent = $mergedContent;
+    }
+    
     /**
      * @return lessc
      * @throws Exception

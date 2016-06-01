@@ -24,7 +24,7 @@ abstract class UIAssetMerger
     /**
      * @var string
      */
-    private $mergedContent;
+    protected $mergedContent;
 
     /**
      * @var UIAssetCacheBuster
@@ -100,7 +100,7 @@ abstract class UIAssetMerger
         return $this->mergedContent;
     }
 
-    private function concatenateAssets()
+    protected function concatenateAssets()
     {
         $mergedContent = '';
 

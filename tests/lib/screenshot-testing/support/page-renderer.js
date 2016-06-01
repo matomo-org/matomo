@@ -239,7 +239,7 @@ PageRenderer.prototype._load = function (url, callback) {
     this._resourcesRequested = {};
 
     var self = this;
-    this.webpage.open(url, {}, function (status) {
+    this.webpage.open(url, function (status) {
 
         if (VERBOSE) {
             self._logMessage('Webpage open event');
