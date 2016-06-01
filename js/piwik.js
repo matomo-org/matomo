@@ -5375,8 +5375,8 @@ if (typeof window.Piwik !== 'object') {
                 },
 
                 /**
-                 * Set Custom Dimensions. Any set Custom Dimension will be cleared after a tracked pageview. Make
-                 * sure to set them again if needed.
+                 * Set Custom Dimensions. Set Custom Dimensions will not be cleared after a tracked pageview and will
+                 * be sent along all following tracking requests. It is possible to remove/clear a value via `deleteCustomDimension`.
                  *
                  * @param int index A Custom Dimension index
                  * @param string value
