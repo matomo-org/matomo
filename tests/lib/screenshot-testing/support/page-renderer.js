@@ -241,6 +241,10 @@ PageRenderer.prototype._load = function (url, callback) {
     var self = this;
     this.webpage.open(url, function (status) {
 
+        if (VERBOSE) {
+            self._logMessage('Webpage open event');
+        }
+
         self._isInitializing = false;
         self._isLoading = false;
 
@@ -747,21 +751,36 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     };
 
     this.webpage.onLoadStarted = function () {
+        if (VERBOSE) {
+            self._logMessage('onLoadStarted');
+        }
+
         self._isInitializing = false;
         self._isLoading = true;
     };
 
     this.webpage.onPageCreated = function onPageCreated(popupPage) {
+        if (VERBOSE) {
+            self._logMessage('onPageCreated');
+        }
+
         popupPage.onLoadFinished = function onLoadFinished() {
             self._isNavigationRequested = false;
         };
     };
 
     this.webpage.onUrlChanged = function onUrlChanged(url) {
+        if (VERBOSE) {
+            self._logMessage('onUrlChanged: ' + url);
+        }
         self._isNavigationRequested = false;
     };
 
     this.webpage.onNavigationRequested = function (url, type, willNavigate, isMainFrame) {
+        if (VERBOSE) {
+            self._logMessage('onNavigationRequested: ' + url);
+        }
+
         self._isInitializing = false;
 
         if (isMainFrame && self._requestedUrl !== url && willNavigate) {
@@ -786,6 +805,8 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     this.webpage.onLoadFinished = function (status) {
         if (status !== 'success' && VERBOSE) {
             self._logMessage('Page did not load successfully (it could be on purpose if a tests wants to test this behaviour): ' + status);
+        } else if (VERBOSE) {
+            self._logMessage('onLoadFinished: ' + status);
         }
 
         self._isInitializing = false;
