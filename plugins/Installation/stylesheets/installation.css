@@ -2,6 +2,10 @@ body {
     font-size: 14px;
 }
 
+#installation > .container {
+    width: 85% !important;
+}
+
 /* Header */
 .header {
     padding: 50px 0 22px;

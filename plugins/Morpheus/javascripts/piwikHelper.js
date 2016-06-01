@@ -99,6 +99,10 @@ var piwikHelper = {
 		return url;
 	},
 
+    getAngularDependency: function (dependency) {
+        return angular.element(document).injector().get(dependency);
+    },
+
     /**
      * As we still have a lot of old jQuery code and copy html from node to node we sometimes have to trigger the
      * compiling of angular components manually.
@@ -207,7 +211,7 @@ var piwikHelper = {
             var text  = $button.val();
             $button.hide();
 
-            var button = $('<a href="javascript:;" class="modal-action modal-close waves-effect waves-green btn-flat "></a>');
+            var button = $('<a href="javascript:;" class="modal-action modal-close waves-effect waves-light btn-flat "></a>');
             button.text(text);
             if (title) {
                 button.attr('title', title);

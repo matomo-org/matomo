@@ -81,11 +81,13 @@
             <div piwik-field uicontrol="password" name="password" autocomplete="off"
                  ng-model="personalSettings.password"
                  introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
+                 title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
             </div>
 
             <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
                  ng-model="personalSettings.passwordBis"
+                 title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
             </div>
         {% endif %}

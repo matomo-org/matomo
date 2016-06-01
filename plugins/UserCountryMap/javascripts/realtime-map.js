@@ -59,13 +59,15 @@
         _initStandaloneMap: function () {
             $('#periodString').hide();
             initTopControls();
-            $('#secondNavBar').on('piwikSwitchPage', function (event, item) {
-                var href = $(item).attr('href');
+
+            var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+            $rootScope.$on('$locationChangeSuccess', function () {
+                var href = location.href;
                 var clickedMenuIsNotMap = !href || (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
                 if (clickedMenuIsNotMap) {
                     $('#periodString').show();
                     initTopControls();
-                }
+                };
             });
             $('.realTimeMap_overlay').css('top', '0px');
             $('.realTimeMap_datetime').css('top', '20px');

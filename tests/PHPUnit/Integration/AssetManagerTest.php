@@ -310,6 +310,7 @@ class AssetManagerTest extends IntegrationTestCase
      */
     private function validateExpectedContent($expectedContent)
     {
+        file_put_contents('testfile', $this->mergedAsset->getContent());
         $this->assertEquals($expectedContent, $this->mergedAsset->getContent());
     }
 

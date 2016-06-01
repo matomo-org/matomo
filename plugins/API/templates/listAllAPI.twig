@@ -20,7 +20,7 @@
     <div piwik-content-block content-title="{{ 'API_UserAuthentication'|translate|e('html_attr') }}">
         <p>
             {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
-            <span id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></span><br/>
+            <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></pre><br/>
             {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
         </p>
     </div>

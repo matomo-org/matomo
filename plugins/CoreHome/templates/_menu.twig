@@ -1,5 +1,5 @@
 {% macro menu(menu, anchorlink, cssClass, currentModule, currentAction) %}
-    <div id="secondNavBar" class="{{ cssClass }}">
+    <div id="secondNavBar" class="{{ cssClass }} z-depth-1">
         <ul class="navbar hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
             {% for level1,level2 in menu %}
 

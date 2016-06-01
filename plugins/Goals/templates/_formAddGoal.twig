@@ -13,7 +13,7 @@
              title="{{ 'Goals_GoalName'|translate|e('html_attr') }}">
         </div>
 
-        <div class="row">
+        <div class="row goalIsTriggeredWhen">
             <div class="col s12">
                 <h3>{{ 'Goals_GoalIsTriggered'|translate|e('html_attr') }}</h3>
             </div>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="row" ng-show="manageGoals.goal.triggerType != 'manually'">
+        <div class="row whereTheMatchAttrbiute" ng-show="manageGoals.goal.triggerType != 'manually'">
             <h3 class="col s12">{{ 'Goals_WhereThe'|translate|e('html_attr') }}
                 <span ng-show="manageGoals.goal.matchAttribute == 'url'">
                     {{ 'Goals_URL'|translate }}

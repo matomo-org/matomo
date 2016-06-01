@@ -221,7 +221,7 @@ class ServerBased extends GeoIp
             . '<em>' . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn') . '</em>'
             . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
-                array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
+                array('<strong>', '</strong>', '<strong>', '</strong>'));
         $installDocs =
             '<a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_165">'
             . Piwik::translate('UserCountry_HowToInstallApacheModule')

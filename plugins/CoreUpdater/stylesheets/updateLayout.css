@@ -36,3 +36,10 @@ body#simple .languageSelection {
     color: #4183C4;
     padding-top: 8px;
 }
+
+p strong {
+    font-weight: 700 !important;
+}
+strong {
+    font-weight: 700 !important;
+}

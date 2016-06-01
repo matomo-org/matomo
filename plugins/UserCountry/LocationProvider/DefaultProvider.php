@@ -103,7 +103,7 @@ class DefaultProvider extends LocationProvider
     {
         $desc = Piwik::translate('UserCountry_DefaultLocationProviderDesc1') . ' '
             . Piwik::translate('UserCountry_DefaultLocationProviderDesc2',
-                array('<strong>', '<em>', '</em>', '</strong>'))
+                array('<strong>', '', '', '</strong>'))
             . '<p><a href="http://piwik.org/faq/how-to/#faq_163" rel="noreferrer"  target="_blank">'
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a></p>';

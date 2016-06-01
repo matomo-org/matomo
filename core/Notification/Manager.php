@@ -119,9 +119,9 @@ class Manager
 
     private static function saveNotificationAcrossUiRequestsIfNeeded($id, Notification $notification)
     {
-        $isPersistent = $notification->type === Notification::TYPE_PERSISTENT;
-
-        if ($isPersistent && self::isSessionEnabled()) {
+        if (self::isSessionEnabled()) {
+            // we need to save even non persistent notifications if possible. Otherwise if there's a redirect
+            // a notification is not shown on the next page view
             $session = static::getSession();
             $session->notifications[$id] = $notification;
         }

@@ -46,13 +46,10 @@ h3 {
     }
 }
 
-#content {
-  .card-content {
-    p {
-      color: @theme-color-text;
-    }
+.card-content {
+  p {
+    color: @theme-color-text;
   }
-
 }
 
 #leftcolumn {
@@ -608,7 +605,7 @@ div.sparkline {
         strong {
             .font-default(13px, 18px);
             color: @theme-color-text;
-            font-weight: normal;
+            font-weight: normal !important;
         }
         span {
             .font-default(13px, 18px);
@@ -633,7 +630,7 @@ div.sparkline {
                 strong {
                     color: @theme-color-text;
                     .font-default(13px, 18px);
-                    font-weight: normal;
+                    font-weight: normal !important;
                 }
 
                 .visitor-profile-os,
@@ -699,10 +696,6 @@ div.sparkline {
     border: 0px;
     background: @theme-color-background-tinyContrast;
     .font-default(10px, 16px);
-}
-
-#token_auth {
-    background: @color-silver-l95;
 }
 
 tr:hover #token_auth {

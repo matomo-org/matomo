@@ -113,8 +113,7 @@
                 <div piwik-activity-indicator loading="managePhoneNumber.isAddingPhonenumber"></div>
 
                 {% if phoneNumbers|length > 0 %}
-                    <h3>{{ 'MobileMessaging_Settings_ManagePhoneNumbers'|translate }}</h3>
-                    <br/>
+                    <div class="row"><h3 class="col s12">{{ 'MobileMessaging_Settings_ManagePhoneNumbers'|translate }}</h3></div>
                 {% endif %}
 
                 {% for phoneNumber, validated in phoneNumbers %}

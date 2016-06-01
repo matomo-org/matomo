@@ -13,6 +13,11 @@
     width: 614px;
 }
 
+.addEditGoal .goalIsTriggeredWhen,
+.addEditGoal .whereTheMatchAttrbiute {
+    margin-bottom: 0;
+}
+
 /* dimension selector */
 #titleGoalsByDimension {
     padding-top: 30px;

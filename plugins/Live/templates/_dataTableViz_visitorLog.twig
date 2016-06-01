@@ -118,7 +118,7 @@
             {% endif %}
 
         {% set cycleIndex=cycleIndex+1 %}
-            <div class="col m{% if displayVisitorsInOwnColumn %}3{% else %}4{% endif %}">
+            <div class="col s12 m{% if displayVisitorsInOwnColumn %}3{% else %}4{% endif %}">
                 <strong class="visitorLogTooltip" title="{% if visitor.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.getColumn('daysSinceLastVisit')) }}{% endif %}">
                     {{ visitor.getColumn('serverDatePrettyFirstAction') }}
                     {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitor.getColumn('serverTimePrettyFirstAction') }}</strong>
@@ -187,12 +187,12 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
             </div>
 
             {% if displayVisitorsInOwnColumn %}
-                <div class="col m2 own-visitor-column">
+                <div class="col s12 m2 own-visitor-column">
                     {{ visitorColumnContent }}
                 </div>
             {% endif %}
 
-            <div class="col m{% if displayVisitorsInOwnColumn %}7{% else %}8{% endif %} column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
+            <div class="col s12 m{% if displayVisitorsInOwnColumn %}7{% else %}8{% endif %} column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
                 {{ postEvent('Live.visitorLogViewBeforeActionsInfo', visitor) }}
                 <div class="visitor-log-page-list">
                     <strong>

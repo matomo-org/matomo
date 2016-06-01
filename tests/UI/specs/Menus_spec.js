@@ -34,7 +34,7 @@ describe("Menus", function () {
 
     it('should change the menu when a lower menu item is clicked in the main menu', function (done) {
         expect.screenshot('mainmenu_lower_clicked').to.be.captureSelector('#secondNavBar', function (page) {
-            openMenuItem(page, 'Visitor Log');
+            openMenuItem(page, 'Custom Variables');
         }, done);
     });
 

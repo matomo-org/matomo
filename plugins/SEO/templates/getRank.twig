@@ -2,18 +2,20 @@
     <script type="text/javascript" src="plugins/SEO/javascripts/rank.js"></script>
 
     <form method="post" style="padding: 8px;">
-        <div align="left" class="mediumtext">
-            {{ 'Installation_SetupWebSiteURL'|translate|capitalize }}
-            <input type="text" id="seoUrl" size="15" value="{{ urlToRank }}" class="textbox"/>
-		  <span style="padding-left:2px;">
-		  <input type="submit" id="rankbutton" value="{{ 'SEO_Rank'|translate }}"/>
-		  </span>
+        <div align="left" class="row">
+            <div class="col s8 input-field">
+                <label for="seoUrl" class="active">{{ 'Installation_SetupWebSiteURL'|translate|capitalize }}</label>
+                <input type="text" id="seoUrl" size="15" value="{{ urlToRank }}" class="textbox "/>
+            </div>
+            <div class="col s4">
+                <input type="submit" class="btn btn-small" id="rankbutton" value="{{ 'SEO_Rank'|translate }}"/>
+            </div>
         </div>
 
         {% import "ajaxMacros.twig" as ajax %}
         {{ ajax.LoadingDiv('ajaxLoadingSEO') }}
 
-        <div id="rankStats" align="left" style="margin-top:10px;">
+        <div id="rankStats" align="left" style="margin-top:10px;margin-left: 5px;">
             {% if ranks is empty %}
                 {{ 'General_Error'|translate }}
             {% else %}

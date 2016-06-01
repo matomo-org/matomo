@@ -30,7 +30,7 @@
 
   .select-wrapper {
     input.select-dropdown {
-      height: 30px;
+      height: 36px;
       line-height: 30px;
       font-size: 16px;
       margin-bottom: 0;
@@ -46,7 +46,7 @@
       }
     }
     span.caret {
-      top: 8px;
+      top: 11px;
       right: 4px;
       color: #adadad;
     }
@@ -55,13 +55,18 @@
   margin-top: 0;
   display: inline-block;
   width: 47px;
-  height: 30px;
+  height: 36px;
 }
 
-body > .widget,
+.widgetpreview-preview,
 #dashboardWidgetsArea {
   .limitSelection .select-wrapper span.caret {
-    top: 7px;
+    top: 9px;
+  }
+}
+body > .widget {
+  .limitSelection .select-wrapper span.caret {
+    top: 8px;
   }
 }
 
