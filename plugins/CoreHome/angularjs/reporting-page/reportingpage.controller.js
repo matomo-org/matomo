@@ -23,6 +23,8 @@
                 return;
             }
 
+            $rootScope.$emit('piwikPageChange', {});
+
             currentCategory = category;
             currentSubcategory = subcategory;
 

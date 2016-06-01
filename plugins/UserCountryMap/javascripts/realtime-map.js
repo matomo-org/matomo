@@ -61,7 +61,7 @@
             initTopControls();
 
             var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-            $rootScope.$on('$locationChangeSuccess', function () {
+            $rootScope.$on('piwikPageChange', function () {
                 var href = location.href;
                 var clickedMenuIsNotMap = !href || (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
                 if (clickedMenuIsNotMap) {

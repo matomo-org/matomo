@@ -389,7 +389,7 @@
                 $.jqplot.visiblePlots = [];
                 var $rootScope = piwikHelper.getAngularDependency('$rootScope');
 
-                $rootScope.$on('$locationChangeSuccess', function () {
+                $rootScope.$on('piwikPageChange', function () {
                     for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                         if ($.jqplot.visiblePlots[i] == null) {
                             continue;
