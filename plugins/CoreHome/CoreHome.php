@@ -88,7 +88,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/alert/alert.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
