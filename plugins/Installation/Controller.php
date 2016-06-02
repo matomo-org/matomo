@@ -488,6 +488,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function getInstallationCss()
     {
         Common::sendHeader('Content-Type: text/css');
+        Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
 
         $files = array(
             'libs/jquery/themes/base/jquery-ui.min.css',
@@ -507,7 +508,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getInstallationJs()
     {
-        Common::sendHeader('Content-Type: text/javascript');
+        Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
+        Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
 
         $files = array(
             'libs/bower_components/jquery/dist/jquery.min.js',

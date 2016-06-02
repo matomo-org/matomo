@@ -55,6 +55,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getUpdaterCss()
     {
         Common::sendHeader('Content-Type: text/css');
+        Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
 
         $files = array(
             'libs/jquery/themes/base/jquery-ui.min.css',
@@ -76,7 +77,8 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getUpdaterJs()
     {
-        Common::sendHeader('Content-Type: text/javascript');
+        Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
+        Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
     
         $files = array(
             'libs/bower_components/jquery/dist/jquery.min.js',
