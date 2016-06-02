@@ -16,6 +16,21 @@ use Piwik\Tracker\Handler;
 // Note: if you wish to debug the Tracking API please see this documentation:
 // http://developer.piwik.org/api-reference/tracking-api#debugging-the-tracker
 
+if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
+    // Close the request if SAPI = php-fpm or mod_php
+    if (PHP_SAPI === 'fpm-fcgi') {
+        header($_SERVER["SERVER_PROTOCOL"].' 204 No Response');
+        header('Content-type: ');
+        fastcgi_finish_request();
+        
+    } elseif (PHP_SAPI === 'apache2handler') {
+        header($_SERVER["SERVER_PROTOCOL"].' 204 No Response');
+        header('Content-type: ');
+        header('Content-Length: ');
+        flush();
+    }
+} // and continue executing the php
+
 if (!defined('PIWIK_DOCUMENT_ROOT')) {
     define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 }
