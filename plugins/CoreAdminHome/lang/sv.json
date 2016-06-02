@@ -89,6 +89,7 @@
         "YouMayOptOut": "Du kan välja att inte ha ett unikt identifieringsnummer i en cookie tilldelad till din dator för att undvika analys av uppgifter som samlats in på denna webbplats.",
         "YouMayOptOutBis": "För att göra det valet, vänligen klicka nedan för att lagra en cookie för exkludering.",
         "OptingYouOut": "Undantar dig, vänligen vänta...",
-        "ProtocolNotDetectedCorrectly": "Du använder just nu Piwik över en säker SSL-anslutning (via HTTPS), men Piwik kan bara upptäcka en osäker anslutning på servern."
+        "ProtocolNotDetectedCorrectly": "Du använder just nu Piwik över en säker SSL-anslutning (via HTTPS), men Piwik kan bara upptäcka en osäker anslutning på servern.",
+        "ProtocolNotDetectedCorrectlySolution": "För att säkerställa att Piwik gör förfrågningar och visar ditt innehållet säkert så görs detta över HTTPS, du kan ändra detta i filen %1$s och antingen konfigurera dina proxyinställningar eller lägga till raden %2$s nedanför sektionen %3$s. %4$sLäs mer%5$s"
     }
 }

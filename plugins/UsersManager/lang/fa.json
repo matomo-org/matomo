@@ -3,6 +3,7 @@
         "AddUser": "ایجاد یک کاربر جدید",
         "Alias": "نام مستعار",
         "AllWebsites": "همه وب سایت ها",
+        "AnonymousUserHasViewAccess": "توجه: کاربر %1$s در%2$s دسترسی به این وب سایت می باشد.",
         "AnonymousUserHasViewAccess2": "گزارش تجزیه و تحلیل و اطلاعات بازدید کنندگان خود را علنی قابل مشاهده است.",
         "ApplyToAllWebsites": "اعمال بر روی تمام وبسایت ها",
         "ChangePasswordConfirm": "تغییر رمز عبور به نیز token_auth کاربر را تغییر دهید. آیا شما واقعا میخواهید ادامه دهید؟",

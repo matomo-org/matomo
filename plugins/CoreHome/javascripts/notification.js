@@ -38,7 +38,7 @@
      * @param    {object}  [options.style]            Optional style/css dictionary. For instance {'display': 'inline-block'}
      * @param    {string}  [options.placeat]          By default, the notification will be displayed in the "stats bar".
      *                                                You can specify any other CSS selector to place the notifications
-     *                                                whereever you want.
+     *                                                wherever you want.
      */
     Notification.prototype.show = function (message, options) {
         if (!message) {

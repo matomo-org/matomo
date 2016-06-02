@@ -24,6 +24,7 @@
         "InjectedHostSuperUserWarning": "Piwik kan vara felkonfigurerat (t.ex. om Pwiwik nyligen har flyttats till en ny server eller URL). Du kan antigen %1$sklicka här och lägga till %2$s som ett giltigt värdnamn för Piwik (om det är giltigt)%3$s, eller %4$sklicka här för att gå till %5$s och ansluta till Piwik säkert%6$s.",
         "InjectedHostWarningIntro": "Du ansluter till Piwik från %1$s, men Piwik har konfigurerats att köras från den här adressen: %2$s.",
         "JavascriptDisabled": "JavaScript måste vara aktiverat för att du ska kunna använda Piwik i standardläge.<br \/>Det verkar dock som att JavaScript antingen är inaktiverat eller att det inte stöds av din webbläsare..<br \/>För att använda standardläget, aktivera JavaScript genom att ändra din webbläsares inställningar, %1$sförsök sen igen%2$s.<br \/>",
+        "MainNavigation": "Huvudmenu",
         "MakeADifference": "Gör skillnad: %1$sDonera nu%2$s för att finansiera Piwik 2.0!",
         "MakeOneTimeDonation": "Donera en engångssumma istället.",
         "Menu": "Meny",
@@ -49,6 +50,10 @@
         "ClickRowToExpandOrContract": "Klicka på denna rad för att visa eller dölja undertabeller.",
         "UndoPivotBySubtable": "Denna rapport har pivoterats %s Ångra pivotering",
         "PivotBySubtable": "Denna rapport är inte pivoterad %1$s Pivotera med %2$s",
-        "Segments": "Segment"
+        "QuickAccessTitle": "Sök efter %s. Använd piltangenterna för att navigera i sökresultatet. Genväg: Tryck på 'f' för att söka.",
+        "MenuEntries": "Menyposter",
+        "Segments": "Segment",
+        "AdblockIsMaybeUsed": "Om du blockerar annonser vänligen inaktivera blockeringen på den här webbplatsen för att Piwik ska fungera utan några problem.",
+        "ChangeCurrentWebsite": "Välj en webbplats, vald webbplats just nu: %s"
     }
 }

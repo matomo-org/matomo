@@ -38,7 +38,7 @@ use Piwik\Network\IPUtils;
 class IP
 {
     /**
-     * Returns the most accurate IP address availble for the current user, in
+     * Returns the most accurate IP address available for the current user, in
      * IPv4 format. This could be the proxy client's IP address.
      *
      * @return string IP address in presentation format.

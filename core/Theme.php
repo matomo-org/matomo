@@ -105,7 +105,7 @@ class Theme
         $source = $src[0];
         $pathAsset = $src[2];
 
-        // Basic health check, we dont replace if not starting with plugins/
+        // Basic health check, we don't replace if not starting with plugins/
         $posPluginsInPath = strpos($pathAsset, 'plugins');
         if ($posPluginsInPath !== 0) {
             return $source;

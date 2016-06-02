@@ -32,6 +32,7 @@ class ReferrerTypeTest extends IntegrationTestCase
     private $idSite1 = 1;
     private $idSite2 = 2;
     private $idSite3 = 3;
+    private $idSite4 = 4;
 
     public function setUp()
     {
@@ -45,6 +46,7 @@ class ReferrerTypeTest extends IntegrationTestCase
         Fixture::createWebsite($date, $ecommerce, $name = 'test1', $url = 'http://piwik.org/foo/bar');
         Fixture::createWebsite($date, $ecommerce, $name = 'test2', $url = 'http://piwik.org/');
         Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.pro/');
+        Fixture::createWebsite($date, $ecommerce, $name = 'test4', $url = 'http://google.com/subdir/', 1, null, null, null, null, $excludeUnknownUrls = 1);
 
         $this->referrerType = new ReferrerType();
     }
@@ -112,6 +114,19 @@ class ReferrerTypeTest extends IntegrationTestCase
 
             // testing case where domain of referrer is not known to any site but neither is the URL, url != urlref
             array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, 'http://example.org', 'http://example.com/bar'),
+
+            ####### testing specific case:
+            ## - ignore unknown urls is activated for idSite4
+
+            // referrer comes from another subdir, but same host   => external website
+            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite4, 'http://google.com/subdir/site', 'http://google.com/base'),
+            // referrer comes from same subdir and host   => direct entry
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/page', 'http://google.com/subdir/x'),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/', 'http://google.com/subdir/?q=test'),
+            // referrer comes from another subdir, but same host, query matches search engine definition  => search engine
+            array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.com/search?q=test'),
+            // referrer comes from search engine not matching site
+            array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.fr/search?q=test')
         );
     }
 

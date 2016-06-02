@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s відскоків (відмов)",
+        "DirectEntries": "Gрямих входів",
+        "ErrorBack": "Повернутися до попередньої дії",
+        "ExitsInline": "%s виходів з сайту",
+        "FromCampaigns": "з кампаній",
+        "FromPreviousPages": "з внутрішніх сторінок",
+        "FromPreviousPagesInline": "%s з внутрішніх сторінок",
+        "FromPreviousSiteSearches": "внутрішніх пошуків по сайту",
+        "FromPreviousSiteSearchesInline": "%s з внутрішнього пошуку по сайту",
+        "FromSearchEngines": "з пошукових систем",
+        "FromWebsites": "з сайтів",
+        "IncomingTraffic": "Вхідний трафік",
+        "LoopsInline": "%s оновлень сторінки",
+        "NoDataForAction": "Немає даних для %s",
+        "NoDataForActionDetails": "Не було скоєно таких дій %s або вони неправильні.",
+        "OutgoingTraffic": "Вихідний трафік",
+        "PluginDescription": "Звіти про попередні та наступні дій для кожної сторінки URL у новому звіті Переходів, в звітах Дії через новий значок.",
+        "ShareOfAllPageviews": "У цієї сторінки %1$s переглядів (%2$s з переглядів всіх сторінок)",
+        "ToFollowingPages": "на внутрішні сторінки",
+        "ToFollowingPagesInline": "%s на внутрішні сторінки",
+        "ToFollowingSiteSearches": "внутрішніх пошуків по сайту",
+        "ToFollowingSiteSearchesInline": "%s внутрішніх пошуків по сайту",
+        "XOfAllPageviews": "%s з усіх переглядів сторінки",
+        "XOutOfYVisits": "%1$s (з %2$s)"
+    }
+}

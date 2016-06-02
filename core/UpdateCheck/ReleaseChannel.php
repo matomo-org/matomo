@@ -14,7 +14,7 @@ namespace Piwik\UpdateCheck;
  * nightly builds, to manage updates for clients via a central server, to package a special Piwik version for clients
  * with custom plugins etc.
  *
- * This is not a public API and it may change without any anouncement.
+ * This is not a public API and it may change without any announcement.
  *
  * @package Piwik\UpdateCheck
  */

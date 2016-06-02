@@ -650,7 +650,7 @@ class CronArchive
          */
         $success = $this->processArchiveForPeriods($idSite, $lastTimestampWebsiteProcessedPeriods);
 
-        // Record succesful run of this website's periods archiving
+        // Record successful run of this website's periods archiving
         if ($success) {
             Option::set($this->lastRunKey($idSite, "periods"), time());
         }
@@ -795,7 +795,7 @@ class CronArchive
             || !is_array($daysResponse)
             || count($daysResponse) == 0
         ) {
-            // cancel the succesful run flag
+            // cancel the successful run flag
             Option::set($this->lastRunKey($idSite, "day"), 0);
 
             // cancel marking the site as reprocessed

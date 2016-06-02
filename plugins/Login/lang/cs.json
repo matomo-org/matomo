@@ -12,6 +12,7 @@
         "LoginOrEmail": "Uživatelské jméno nebo E-mail",
         "LoginPasswordNotCorrect": "Chybná kombinace uživatelského jména a hesla.",
         "LostYourPassword": "Zapomněli jste vaše heslo?",
+        "MailPasswordChangeBody": "Ahoj %1$s,\n\nz %2$s byl přijat požadavek na reset hesla. Abyste se mohli přihlásit s novými přihlašovacími údaji, navštivte následující odkaz:\n\n%3$s\n\nUpozornění: Změna hesla rovněž změní váš token_auth. Váš nový token_auth naleznete na stránce s vaším nastavením\n\nPokud používáte váš token_auth v externích aplikacích nebo pro archivaci, nezapomeňte h změnit, jinak API požadavky selžou\n\nPoznámka: tento odkaz vyprší za 24 hodin.\n\nA děkujeme, že používáte Piwik!",
         "MailTopicPasswordChange": "Potvrďte změnu hesla",
         "PasswordChanged": "Vaše heslo bylo změněno.",
         "PasswordRepeat": "Heslo (pro kontrolu)",

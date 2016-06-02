@@ -13,7 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugins\LanguagesManager\API as LanguagesManagerApi;
 use Piwik\Translation\Transifex\API;
-use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,6 +38,8 @@ class FetchTranslations extends TranslationBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->setDecorated(true);
+
         $username = $input->getOption('username');
         $password = $input->getOption('password');
         $plugin = $input->getOption('plugin');
@@ -81,10 +83,10 @@ class FetchTranslations extends TranslationBase
             $languages = $languageCodes;
         }
 
-        /** @var ProgressHelper $progress */
-        $progress = $this->getHelperSet()->get('progress');
+        /** @var ProgressBar $progress */
+        $progress = new ProgressBar($output, count($languages));
 
-        $progress->start($output, count($languages));
+        $progress->start();
 
         $statistics = $transifexApi->getStatistics($resource);
 
@@ -108,6 +110,7 @@ class FetchTranslations extends TranslationBase
         }
 
         $progress->finish();
+        $output->writeln('');
     }
 
     public static function getDownloadPath()
