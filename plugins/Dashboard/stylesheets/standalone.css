@@ -3,6 +3,10 @@ body {
     padding-left: 7px;
 }
 
+#standalone strong {
+    font-weight: 700;
+}
+
 #dashboard {
     margin: 30px -6px 0 -12px;
     width: 100%;
