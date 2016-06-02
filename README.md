@@ -35,15 +35,6 @@ Or in short:
 
 Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
 
-## We’re seeking a talented Software Engineer
-
-Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
-
-[View Job Description](https://piwik.org/blog/2016/01/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
-
-This is for a full time position to work on the open source Piwik platform, either remotely or we can help the right candidate relocate to beautiful New Zealand (Wellington) or Poland (Wroclaw).
-
-We are grateful if you can share the job description with your friends and wider network! 
 
 ## Requirements
 
@@ -76,13 +67,28 @@ and we need your help to make Piwik better… Why not participate in a useful pr
 
 You will find pointers on how you can participate in Piwik at http://piwik.org/get-involved/
 
+## Quality Assurance
+
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance.
+
+We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help check the Piwik user interface is compatible with many browsers.
+
+[Learn more](https://piwik.org/qa/)
+
+## Security
+
+Security is a top priority at Piwik. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us. 
+
+[Learn more](https://piwik.org/security/)
+
+
 ## Contact
 
 http://piwik.org
 
-hello@piwik.org
+Contact us: http://piwik.org/contact/ or hello@piwik.org
 
-About us: http://piwik.org/the-piwik-team/
+About us: http://piwik.org/team/
 
 ## More information
 
@@ -91,8 +97,7 @@ What makes Piwik unique from the competition:
   * Real time web analytics reports: in Piwik, reports are by default generated in real time.
     For high traffic websites, you can choose the frequency for reports to be processed.
 
-  * You own your web analytics data: since Piwik is installed on your server, the data is stored in your own database and you can get all the statistics
-  using the powerful Piwik Analytics API.
+  * You own your web analytics data: since Piwik is installed on your server, the data is stored in your own database and you can get all the statistics using the powerful Piwik Analytics API.
 
   * Piwik is a Free Software which can easily be configured to respect your visitors privacy.
 
