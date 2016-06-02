@@ -8,6 +8,9 @@
         "ContentName": "Namn på innehåll",
         "ContentPiece": "Innehållsdel",
         "ContentTarget": "Innehållsmål",
-        "Contents": "Innehåll"
+        "Contents": "Innehåll",
+        "InteractionsMetricDocumentation": "Antalet gånger ett innehållsblock har interagerats med (t.ex. ett \"klick\" på en banner eller annons).",
+        "ImpressionsMetricDocumentation": "Antalet gånger ett innehållsblock såsom en banner eller en annons har visats på en sida.",
+        "InteractionRateMetricDocumentation": "Förhållandet mellan innehållsvisningar och interaktioner."
     }
 }

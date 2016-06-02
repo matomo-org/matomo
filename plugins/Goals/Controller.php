@@ -373,7 +373,7 @@ class Controller extends \Piwik\Plugin\Controller
         $dataRow = $datatable->getFirstRow();
         $nbConversions = $dataRow->getColumn('nb_conversions');
         $nbVisitsConverted = $dataRow->getColumn('nb_visits_converted');
-        // Backward compatibilty before 1.3, this value was not processed
+        // Backward compatibility before 1.3, this value was not processed
         if (empty($nbVisitsConverted)) {
             $nbVisitsConverted = $nbConversions;
         }

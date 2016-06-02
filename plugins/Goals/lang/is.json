@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "Bæta Markmiði við",
         "AddNewGoal": "Bæta nýju markmiði við",
-        "AddNewGoalOrEditExistingGoal": "%sAdd a new Goal%s eða %sEdit%s núverandi Markmiðum",
+        "AddNewGoalOrEditExistingGoal": "%1$sAdd a new Goal%2$s eða %3$sEdit%4$s núverandi Markmiðum",
         "CaseSensitive": "Skiptir máli hvort það eru hástafir eða lágstafir",
         "ClickOutlink": "Smella á slóð fyrir utan vefinn",
         "ColumnConversions": "Umbreytingar",

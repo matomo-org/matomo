@@ -1,9 +1,11 @@
 {
     "Live": {
+        "AbandonedCartSummary": "%1$s verlaten winkelmanden%2$s en %3$s verlaten artikelen %4$s met een totaal waarde van %5$s%6$s.",
         "AveragePageGenerationTime": "Elke pagina duurde gemiddeld %1$s om te laden voor deze bezoeker.",
         "CalculatedOverNPageViews": "Berekend met de laatste %1$s paginaweergaves van deze bezoeker.",
         "ClickToViewMoreAboutVisit": "Klik om meer informatie over dit bezoek te zien",
         "ConvertedNGoals": "Behaalde %s Doelen",
+        "EcommerceSummaryConversions": "%1$s bestellingen %2$s voor een totaal van %3$s%4$s, besteld %5$s items %6$s.",
         "FirstVisit": "Eerste bezoek",
         "GoalType": "Type",
         "HideMap": "Verberg kaart",
@@ -33,6 +35,8 @@
         "VisitorsInRealTime": "Bezoekers in real-time",
         "VisitorsLastVisit": "Het laatste bezoek van deze bezoekers was %s dagen geleden.",
         "VisitsFrom": "%1$s%2$s bezoeken%3$s van",
+        "VisitSummary": "Bestede in totaal %1$s%2$s op de website %3$s, en bekeek %4$s pagina's %5$s in %6$s bezoeken %7$s.",
+        "VisitSummaryWithActionDetails": "Bestede in totaal %1$s%2$s op de website%3$s, en verrichte %4$s acties%5$s (%6$s) in %7$s bezoeken%8$s.",
         "RowActionTooltipDefault": "Toon bezoekers log verdeeld volgens deze rij",
         "RowActionTooltipWithDimension": "Toon bezoekers log verdeeld volgens %s",
         "RowActionTooltipTitle": "Open gesegmenteerd Bezoekerslogboek",

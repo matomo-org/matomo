@@ -59,7 +59,7 @@
                 rows = $('tr', domElem);
             }
 
-            // we dont display the link on the row with subDataTable when we are already
+            // we don't display the link on the row with subDataTable when we are already
             // printing all the subTables (case of recursive search when the content is
             // including recursively all the subtables
             if (!self.param.filter_pattern_recursive) {

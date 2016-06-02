@@ -77,6 +77,7 @@
         "NewGoalIntro": "Sledování konverzního poměru cílů je jeden z nejefektivnějších způsobů měření a zlepšování podnikatelských zájmů.",
         "NewVisitorsConversionRateIs": "Poměr konverze nové příchozích uživatelů je %s",
         "NoGoalsNeedAccess": "Pouze administrátor nebo uživatel s právy super-uživatele může spravovat cíle pro daný web. Požádejte vašeho Piwik administrátora, aby cíl pro váš web vytvořil.<br>Sledování cílů je skvělý způsob, jak sledovat a maximalizovat výkonnost vašeho webu!",
+        "NoConversionsNoReportsMessage": "Reporty nejsou zobrazeny, protože nejsou dostupná převodní data pro vybrané cíle a období.",
         "NeedAccess": "Pouze administrátor nebo uživatel s právy super-uživatele může spravovat cíle pro daný web.",
         "Optional": "(volitelné)",
         "OverallConversionRate": "%s celková frekvence konverzí (návštěv se splněným cílem)",

@@ -61,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Faqe Në Vijim të një Kërkimi në Sajt",
         "WidgetSearchCategories": "Kategori Kërkimesh",
         "WidgetSearchKeywords": "Fjalëkyçe Kërkimi në Sajt",
-        "WidgetSearchNoResultKeywords": "Fjalëkyça Kërkimesh me Pa Përfundime"
+        "WidgetSearchNoResultKeywords": "Fjalëkyça Kërkimesh me Pa Përfundime",
+        "ActionType": "Lloj Veprimi"
     }
 }

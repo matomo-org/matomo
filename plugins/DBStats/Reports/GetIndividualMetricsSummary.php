@@ -14,7 +14,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
- * Shows a datatable that displays how many occurances there are of each individual
+ * Shows a datatable that displays how many occurrences there are of each individual
  * metric type stored in the MySQL database.
  *
  * Goal metrics, metrics of the format .*_[0-9]+ and 'done...' metrics are grouped together.
