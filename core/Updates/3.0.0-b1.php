@@ -60,7 +60,7 @@ class Updates_3_0_0_b1 extends Updates
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
         $this->migratePluginEmailUpdateSetting();
 
         // added .woff and woff2 whitelisted file for apache webserver

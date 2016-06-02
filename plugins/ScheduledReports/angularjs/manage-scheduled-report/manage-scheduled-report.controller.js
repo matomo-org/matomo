@@ -62,7 +62,7 @@
             report['format' + report.type] = report.format;
 
             self.report = report;
-
+            self.report.description = piwik.helper.htmlDecode(self.report.description);
             self.editingReportId = idReport;
         }
 
