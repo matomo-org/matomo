@@ -6,25 +6,27 @@
 
 {% block content %}
 
-<h2 piwik-enriched-headline>
-    {{ title|e('html_attr') }}
-</h2>
+<div piwik-content-intro>
+    <h2 piwik-enriched-headline>
+        {{ title|e('html_attr') }}
+    </h2>
 
-<p>
-    {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+    <p>
+        {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
 
-    {% if isMarketplaceEnabled %}
-        {{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate('<a href="' ~ linkTo({'action':'browseThemes', 'sort': ''}) ~ '">', '</a>')|raw }}
-    {% endif %}
+        {% if isMarketplaceEnabled %}
+            {{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate('<a href="' ~ linkTo({'action':'browseThemes', 'sort': ''}) ~ '">', '</a>')|raw }}
+        {% endif %}
 
-    {% if otherUsersCount > 0 %}
-        <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
-    {% endif %}
-    {% if not isPluginsAdminEnabled %}
-        <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
-    {% endif %}
+        {% if otherUsersCount > 0 %}
+            <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
+        {% endif %}
+        {% if not isPluginsAdminEnabled %}
+            <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
+        {% endif %}
 
-</p>
+    </p>
+</div>
 
 <div piwik-content-block content-title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|e('html_attr') }}"
      piwik-plugin-management>

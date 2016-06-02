@@ -1,13 +1,17 @@
 h1, h2, h3, h4 {
   &.card-title {
-    color: @color-black-piwik !important;
+    color: @theme-color-text !important;
     a {
-      color: @color-black-piwik !important;
+      color: @theme-color-text !important;
     }
   }
 }
 
 .card {
+  h1, h2, h3, h4 {
+    color: @theme-color-text;
+  }
+
   > .card-content {
     .card-table {
       margin: 16px 0 16px -20px;
@@ -18,6 +22,7 @@ h1, h2, h3, h4 {
   }
 
   .card-content {
+    color: @theme-color-text;
     .card-title {
       margin-bottom: 16px;
       display: block;

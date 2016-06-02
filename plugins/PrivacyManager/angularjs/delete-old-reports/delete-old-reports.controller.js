@@ -45,7 +45,7 @@
         }
 
         $timeout(function () {
-            reportDeletionModel.initSettings(this.getSettings());
+            reportDeletionModel.initSettings(self.getSettings());
         });
 
         this.save = function () {

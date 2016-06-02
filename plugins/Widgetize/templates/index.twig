@@ -12,9 +12,10 @@
 <div>
 
 <div class="widgetize" ng-controller="ExportWidgetController as exportWidget">
-<h2 piwik-enriched-headline>{{ title|e('html_attr') }}</h2>
-<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.</p>
-
+<div piwik-content-intro>
+    <h2 piwik-enriched-headline>{{ title|e('html_attr') }}</h2>
+    <p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.</p>
+</div>
 <div piwik-content-block content-title="Authentication">
     <p>
         If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions

@@ -5,12 +5,12 @@
 {% block content %}
 {% import 'macros.twig' as piwik %}
 
-<h2 piwik-enriched-headline
-    help-url="http://piwik.org/docs/geo-locate/"
-    id="location-providers">{{ title }}</h2>
-
-<p>{{ 'UserCountry_GeolocationPageDesc'|translate }}</p>
-
+<div piwik-content-intro>
+    <h2 piwik-enriched-headline
+        help-url="http://piwik.org/docs/geo-locate/"
+        id="location-providers">{{ title }}</h2>
+    <p>{{ 'UserCountry_GeolocationPageDesc'|translate }}</p>
+</div>
 <div piwik-content-block content-title="{{ 'UserCountry_LocationProvider'|translate|e('html_attr') }}">
 <div piwik-location-provider-selection="{{ currentProviderId|e('html_attr') }}">
 

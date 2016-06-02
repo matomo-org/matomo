@@ -3,13 +3,15 @@
 {% set title %}{{ 'DBStats_DatabaseUsage'|translate }}{% endset %}
 
 {% block content %}
-<h2 piwik-enriched-headline>
-    {{ title }}
-</h2>
-<p>
-    {{ 'DBStats_MainDescription'|translate(totalSpaceUsed) }}<br/>
-    {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>")|raw }}
-</p>
+<div piwik-content-intro>
+    <h2 piwik-enriched-headline>
+        {{ title }}
+    </h2>
+    <p>
+        {{ 'DBStats_MainDescription'|translate(totalSpaceUsed) }}<br/>
+        {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>")|raw }}
+    </p>
+</div>
 
 <div class="row">
     <div class="col s12 m6">

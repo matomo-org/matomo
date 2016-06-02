@@ -1,12 +1,14 @@
 <div class="manageCustomVars">
-    <h2 piwik-enriched-headline
-         help-url="http://piwik.org/docs/custom-variables/">
-        {{ 'CustomVariables_CustomVariables'|translate }}
-    </h2>
+    <div piwik-content-intro>
+        <h2 piwik-enriched-headline
+             help-url="http://piwik.org/docs/custom-variables/">
+            {{ 'CustomVariables_CustomVariables'|translate }}
+        </h2>
 
-    <p>
-        <span ng-bind-html="'CustomVariables_ManageDescription'|translate:manageCustomVars.siteName"></span>
-    </p>
+        <p>
+            <span ng-bind-html="'CustomVariables_ManageDescription'|translate:manageCustomVars.siteName"></span>
+        </p>
+    </div>
 
     <div class="alert alert-info" ng-show="!manageCustomVars.model.isLoading && manageCustomVars.model.hasCustomVariablesInGeneral && !manageCustomVars.model.hasAtLeastOneUsage">
         {{ 'CustomVariables_SlotsReportIsGeneratedOverTime'|translate }}

@@ -13,6 +13,11 @@
 body {
     background: @theme-color-background-base;
     font-family: @theme-fontFamily-base;
+    color: @theme-color-text;
+}
+
+button, input, optgroup, select, textarea {
+  color: @theme-color-text;
 }
 
 h2 {
@@ -37,13 +42,24 @@ h3 {
     text-decoration:underline;
 }
 
-#content {
-    p {
-        color: @theme-color-headline-alternative;
-        margin-left: 0;
-        margin-right: 0;
-        .font-default(13px, 18px);
-    }
+p {
+    color: @theme-color-text;
+    margin-left: 0;
+    margin-right: 0;
+    .font-default(13px, 18px);
+}
+
+.piwik-content-intro {
+  button, input, optgroup, select, textarea {
+    color: @theme-color-headline-alternative;
+  }
+  color: @theme-color-headline-alternative;
+  h1, h2, h3, h4 {
+    color: @theme-color-headline-alternative;
+  }
+  p {
+    color: @theme-color-headline-alternative;
+  }
 }
 
 #content .card-content {

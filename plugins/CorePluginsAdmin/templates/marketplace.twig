@@ -7,80 +7,82 @@
 
     <div class="marketplace" piwik-marketplace>
 
-        <h2 piwik-enriched-headline feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}"
-            >{{ title|e('html_attr') }}</h2>
-        <p>
-            {% if showThemes %}
-                {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
-                {{ 'CorePluginsAdmin_InstallingNewPluginViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">','</a>')|raw }}
-                <br/>
-                {{ 'CorePluginsAdmin_BeCarefulUsingThemes'|translate }}
-            {% else %}
-                {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
-                {{ 'CorePluginsAdmin_InstallingNewPluginViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">','</a>')|raw }}
-                <br/>
-                {{ 'CorePluginsAdmin_BeCarefulUsingPlugins'|translate }}
-            {% endif %}
-        </p>
-
-        {% if not isSuperUser %}
+        <div piwik-content-intro>
+            <h2 piwik-enriched-headline feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}"
+                >{{ title|e('html_attr') }}</h2>
             <p>
                 {% if showThemes %}
-                    {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplaceThemes'|translate }}
+                    {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+                    {{ 'CorePluginsAdmin_InstallingNewPluginViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">','</a>')|raw }}
+                    <br/>
+                    {{ 'CorePluginsAdmin_BeCarefulUsingThemes'|translate }}
                 {% else %}
-                    {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplacePlugins'|translate }}
+                    {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
+                    {{ 'CorePluginsAdmin_InstallingNewPluginViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">','</a>')|raw }}
+                    <br/>
+                    {{ 'CorePluginsAdmin_BeCarefulUsingPlugins'|translate }}
                 {% endif %}
             </p>
-        {% endif %}
 
-
-        <div class="ui-confirm" id="installPluginByUpload">
-            <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByUpload'|translate }}</h2>
-
-            <p class="description"> {{ 'CorePluginsAdmin_AllowedUploadFormats'|translate }} </p>
-
-            <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
-                  action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
-                <input type="file" name="pluginZip">
-                <br />
-                <input class="startUpload btn" type="submit" value="{{ 'CorePluginsAdmin_UploadZipFile'|translate }}">
-            </form>
-        </div>
-
-        <div class="row marketplaceActions" ng-controller="PiwikMarketplaceController as marketplace">
-            <div piwik-field uicontrol="select" name="plugin_type"
-                 class="col s12 m4"
-                 ng-model="marketplace.pluginType"
-                 ng-change="marketplace.changePluginType()"
-                 title="{{ 'Show'|translate|e('html_attr') }}"
-                 value="{{ pluginType }}"
-                 full-width="true"
-                 options="{{ pluginTypeOptions|json_encode }}">
-            </div>
-
-            <div piwik-field uicontrol="select" name="plugin_sort"
-                 title="{{ 'Sort'|translate|e('html_attr') }}"
-                 value="{{ sort }}"
-                 ng-model="marketplace.pluginSort"
-                 ng-change="marketplace.changePluginSort()"
-                 class="col s12 m4"
-                 full-width="true"
-                 options="{{ pluginSortOptions|json_encode }}">
-            </div>
-
-            {# Hide filters and search for themes because we don't have many of them #}
-            {% if not showThemes %}
-                <div class="col s12 m4 ">
-                    <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
-                        <div piwik-field uicontrol="text" name="query"
-                             title="{{ 'General_Search'|translate }} {{ plugins|length }} {{ 'General_Plugins'|translate|lcfirst }}..."
-                             value="{{ query }}"
-                             full-width="true">
-                        </div>
-                        <span class="icon-search" onclick="$('form.plugin-search').submit();"></span>
-                    </form>
-                </div>
+            {% if not isSuperUser %}
+                <p>
+                    {% if showThemes %}
+                        {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplaceThemes'|translate }}
+                    {% else %}
+                        {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplacePlugins'|translate }}
+                    {% endif %}
+                </p>
             {% endif %}
+
+
+            <div class="ui-confirm" id="installPluginByUpload">
+                <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByUpload'|translate }}</h2>
+
+                <p class="description"> {{ 'CorePluginsAdmin_AllowedUploadFormats'|translate }} </p>
+
+                <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
+                      action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
+                    <input type="file" name="pluginZip">
+                    <br />
+                    <input class="startUpload btn" type="submit" value="{{ 'CorePluginsAdmin_UploadZipFile'|translate }}">
+                </form>
+            </div>
+
+            <div class="row marketplaceActions" ng-controller="PiwikMarketplaceController as marketplace">
+                <div piwik-field uicontrol="select" name="plugin_type"
+                     class="col s12 m4"
+                     ng-model="marketplace.pluginType"
+                     ng-change="marketplace.changePluginType()"
+                     title="{{ 'Show'|translate|e('html_attr') }}"
+                     value="{{ pluginType }}"
+                     full-width="true"
+                     options="{{ pluginTypeOptions|json_encode }}">
+                </div>
+
+                <div piwik-field uicontrol="select" name="plugin_sort"
+                     title="{{ 'Sort'|translate|e('html_attr') }}"
+                     value="{{ sort }}"
+                     ng-model="marketplace.pluginSort"
+                     ng-change="marketplace.changePluginSort()"
+                     class="col s12 m4"
+                     full-width="true"
+                     options="{{ pluginSortOptions|json_encode }}">
+                </div>
+
+                {# Hide filters and search for themes because we don't have many of them #}
+                {% if not showThemes %}
+                    <div class="col s12 m4 ">
+                        <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
+                            <div piwik-field uicontrol="text" name="query"
+                                 title="{{ 'General_Search'|translate }} {{ plugins|length }} {{ 'General_Plugins'|translate|lcfirst }}..."
+                                 value="{{ query }}"
+                                 full-width="true">
+                            </div>
+                            <span class="icon-search" onclick="$('form.plugin-search').submit();"></span>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
         {% include '@CorePluginsAdmin/marketplace/plugin-list.twig' %}

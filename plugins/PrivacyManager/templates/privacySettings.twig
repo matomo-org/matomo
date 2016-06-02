@@ -6,10 +6,12 @@
 {% import 'macros.twig' as piwik %}
 {% if isSuperUser %}
 
-<h2 piwik-enriched-headline help-url="http://piwik.org/docs/privacy/">{{ title }}</h2>
+<div piwik-content-intro>
+    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/privacy/">{{ title }}</h2>
 
-<p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
-    {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="http://piwik.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
+    <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
+        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="http://piwik.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
+</div>
 
 <div piwik-content-block
      id="anonymizeIPAnchor"
