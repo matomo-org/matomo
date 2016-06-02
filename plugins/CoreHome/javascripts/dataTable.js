@@ -447,6 +447,30 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return parseInt(minWidth, 10);
         }
 
+        function getLabelColumnMaxWidth(domElem)
+        {
+            var maxWidth = 0;
+            var maxWidthHead = $('thead .first.label', domElem).css('maxWidth');
+
+            if (maxWidthHead) {
+                maxWidthHead = parseInt(maxWidthHead, 10);
+                if (maxWidthHead > 0) {
+                    maxWidth = parseInt(maxWidthHead, 10);
+                }
+            }
+
+            var maxWidthBody = $('tbody tr:nth-child(1) td.label', domElem).css('maxWidth');
+
+            if (maxWidthBody) {
+                maxWidthBody = parseInt(maxWidthBody, 10);
+                if (maxWidthBody && maxWidthBody > 0 && (maxWidth === 0 || maxWidthBody < maxWidth)) {
+                    maxWidth = maxWidthBody;
+                }
+            }
+
+            return parseInt(maxWidth, 10);
+        }
+
         function removePaddingFromWidth(domElem, labelWidth) {
             var maxPaddingLeft  = 0;
             var maxPaddingRight = 0;
@@ -483,10 +507,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             var tableWidth = getTableWidth(domElem);
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
+            var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
             var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
 
             if (labelColumnMinWidth > labelColumnWidth) {
                 labelColumnWidth = labelColumnMinWidth;
+            }
+            if (labelColumnMaxWidth && labelColumnMaxWidth < labelColumnWidth) {
+                labelColumnWidth = labelColumnMaxWidth;
             }
 
             labelColumnWidth = removePaddingFromWidth(domElem, labelColumnWidth);
