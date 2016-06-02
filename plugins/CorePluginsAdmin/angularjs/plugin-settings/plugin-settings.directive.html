@@ -5,7 +5,7 @@
           id="pluginSettings">
 
         <div class="card-content">
-            <span id="{{ settings.pluginName }}" class="card-title">{{ settings.title }}</span>
+            <h2 id="{{ settings.pluginName }}" class="card-title">{{ settings.title }}</h2>
 
             <div ng-repeat="setting in settings.settings">
                 <div piwik-form-field="setting" all-settings="settings.settings"></div>
