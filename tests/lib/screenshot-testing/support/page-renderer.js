@@ -102,8 +102,8 @@ PageRenderer.prototype.reload = function (waitTime) {
     this.queuedEvents.push([this._reload, waitTime]);
 };
 
-PageRenderer.prototype.load = function (url, waitTime) {
-    this.queuedEvents.push([this._load, waitTime, url]);
+PageRenderer.prototype.load = function (url, options, waitTime) {
+    this.queuedEvents.push([this._load, waitTime, url, options]);
 };
 
 PageRenderer.prototype.evaluate = function (impl, waitTime) {
@@ -227,16 +227,21 @@ PageRenderer.prototype._reload = function (callback) {
     callback();
 };
 
-PageRenderer.prototype._load = function (url, callback) {
+PageRenderer.prototype._load = function (url, options, callback) {
     if (url.indexOf("://") === -1) {
         url = this.baseUrl + url;
     }
 
     this._recreateWebPage(); // calling open a second time never calls the callback
+    this.webpage.settings.loadImages = true;
 
     this._requestedUrl   = url;
     this._isInitializing = true;
     this._resourcesRequested = {};
+
+    if (options && (typeof options.loadImages) !== 'undefined') {
+        this.webpage.settings.loadImages = options.loadImages
+    }
 
     var self = this;
     this.webpage.open(url, function (status) {
