@@ -8,7 +8,6 @@
 
   td .ratio {
     color: #999999;
-    font-size: 12px;
     display: inline-block;
     visibility: hidden;
     text-align: right;
@@ -51,6 +50,7 @@ table.dataTable tr.subDataTable {
     text-overflow: ellipsis;
     width: inherit;
     display: inline-block;
+    vertical-align: sub;
   }
 }
 
@@ -479,13 +479,17 @@ tr.level12 td.label {
 .dataTableActions table.dataTable img.link {
   margin-right: 0.5em;
   margin-left: 0;
-  margin-top: -8px;
+  margin-top: -5px;
+}
+
+table.dataTable td.label img {
+  margin-top: -3px;
 }
 
 tr td.label img.plusMinus {
   margin-left: -3px;
   margin-right: 3px;
-  margin-top: -5px;
+  margin-top: -3px;
 }
 
 .pk-emptyDataTable {

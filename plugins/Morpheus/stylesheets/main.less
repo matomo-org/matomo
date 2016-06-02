@@ -391,6 +391,7 @@ table.dataTable {
               text-overflow: ellipsis;
               width: inherit;
               display: inline-block;
+              vertical-align: sub;
             }
         }
 
@@ -421,7 +422,7 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, di
     width: 12px;
     height: 12px;
     margin-left:-1px;
-    margin-top:4px;
+    margin-top:3px;
     margin-right:8px;
     content: '';
   }
@@ -433,10 +434,6 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, di
   tr.subDataTable.expanded > td:first-child:before {
     background-image: url(plugins/Morpheus/images/minus.png);
   }
-}
-
-table.dataTable .dataTableRowActions {
-  margin-top: -7px;
 }
 
 .visitsLiveFooter {
@@ -485,7 +482,7 @@ div.sparkline {
 
 .dataTableNext, .dataTablePrevious {
     color: @theme-color-link;
-    .font-default(11px, 12px);
+    .font-default(13px, 14px);
 }
 
 .UserCountryMap-info-btn {

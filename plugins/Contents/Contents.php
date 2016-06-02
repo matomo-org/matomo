@@ -21,7 +21,6 @@ class Contents extends \Piwik\Plugin
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
     }
 
@@ -35,11 +34,6 @@ class Contents extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Contents/javascripts/contentsDataTable.js";
-    }
-
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        $stylesheets[] = "plugins/Contents/stylesheets/datatable.less";
     }
 
     public function addMetricDocumentationTranslations(&$translations)

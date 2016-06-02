@@ -1914,7 +1914,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        actions.height(tr.innerHeight() - 2);
+        actions.height(tr.innerHeight() - 6);
         actions.css('marginLeft', (td.width() + 3 - actions.outerWidth()) + 'px');
     },
 
