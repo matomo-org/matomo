@@ -67,7 +67,7 @@ describe("Dashboard", function () {
 
     it("should load correctly", function (done) {
         expect.screenshot("loaded").to.be.capture(function (page) {
-            page.load(url, null, 5000);
+            page.load(url, 5000);
         }, done);
     });
 
