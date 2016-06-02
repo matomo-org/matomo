@@ -6,6 +6,10 @@ body {
     width: 85% !important;
 }
 
+#installation strong {
+    font-weight: 700;
+}
+
 /* Header */
 .header {
     padding: 50px 0 22px;
