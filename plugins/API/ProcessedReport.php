@@ -339,6 +339,17 @@ class ProcessedReport
         return $actualReports; // make sure array has contiguous key values
     }
 
+    private static $translatedOrderOfReports = null;
+
+    /**
+     * Resets translated reports.
+     * FOR TESTING ONLY
+     */
+    public static function reset()
+    {
+        self::$translatedOrderOfReports = null;
+    }
+
     /**
      * API metadata are sorted by category/name,
      * with a little tweak to replicate the standard Piwik category ordering
@@ -349,16 +360,15 @@ class ProcessedReport
      */
     private static function sortReports($a, $b)
     {
-        static $order = null;
-        if (is_null($order)) {
-            $order = array();
+        if (is_null(self::$translatedOrderOfReports)) {
+            self::$translatedOrderOfReports = array();
             foreach (Report::$orderOfReports as $category) {
-                $order[] = Piwik::translate($category);
+                self::$translatedOrderOfReports[] = Piwik::translate($category);
             }
         }
 
-        $posA = array_search($a['category'], $order);
-        $posB = array_search($b['category'], $order);
+        $posA = array_search($a['category'], self::$translatedOrderOfReports);
+        $posB = array_search($b['category'], self::$translatedOrderOfReports);
 
         if ($posA === false && $posB === false) {
             return strcmp($a['category'], $b['category']);

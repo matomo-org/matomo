@@ -28,6 +28,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
@@ -254,6 +255,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         Access::getInstance()->setSuperUserAccess();
 
         Cache::deleteTrackerCache();
+
+        ProcessedReport::reset();
 
         self::resetPluginsInstalledConfig();
 
