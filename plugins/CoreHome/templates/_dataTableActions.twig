@@ -2,6 +2,10 @@
 
     {% if properties.show_footer and properties.show_footer_icons %}
 
+        <a class='dropdown-button dropdownConfigureIcon dataTableAction'
+           href='javascript:;'
+           data-activates='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
+
         {% set activeFooterIcon = '' %}
         {% set numIcons = 0 %}
         {% set visualizationIcons %}
@@ -45,10 +49,6 @@
         <a class='dropdown-button dataTableAction activateExportSelection'
            href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
            data-activates='dropdownExport{{ randomIdForDropdown }}'><span class="icon-export"></span></a>
-
-        <a class='dropdown-button dropdownConfigureIcon dataTableAction'
-           href='javascript:;'
-           data-activates='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
 
         {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
             <a class='dataTableAction annotationView'
