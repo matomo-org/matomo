@@ -63,6 +63,13 @@ table.entityTable {
   }
 }
 
+// needed for IE10
+.card button.table-action {
+  background-color: @theme-color-background-contrast !important;
+  &:hover {
+    background-color: @theme-color-background-base !important;
+  }
+}
 .table-action {
   padding: 16px;
   height: auto;
@@ -75,6 +82,15 @@ table.entityTable {
   &:hover {
     background-color: @theme-color-background-base !important;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16), 0 1px 5px 0 rgba(0,0,0,0.12);
+  }
+}
+
+.card .tableActionBar {
+  a, button {
+    background-color: @theme-color-background-contrast;
+    &:focus {
+      background-color: @theme-color-background-contrast;
+    }
   }
 }
 

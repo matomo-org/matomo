@@ -178,7 +178,12 @@ abstract class ViewDataTable implements ViewInterface
      */
     public function __construct($controllerAction, $apiMethodToRequestDataTable, $overrideParams = array())
     {
-        list($controllerName, $controllerAction) = explode('.', $controllerAction);
+        if (strpos($controllerAction, '.') === false) {
+            $controllerName = '';
+            $controllerAction = '';
+        } else {
+            list($controllerName, $controllerAction) = explode('.', $controllerAction);
+        }
 
         $this->requestConfig = static::getDefaultRequestConfig();
         $this->config        = static::getDefaultConfig();

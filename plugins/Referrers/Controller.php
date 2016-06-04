@@ -74,9 +74,8 @@ class Controller extends \Piwik\Plugin\Controller
             $distinctMetrics = $this->addEvolutionPropertiesToView($prettyDate, $distinctMetrics, $prettyLastPeriodDate, $previousValues);
         }
 
-
         /** @var Sparklines $view */
-        $view = ViewDataTable\Factory::build(Sparklines::ID, $api = false, $controller = false, $force = true, $loadUserParams = false);
+        $view = ViewDataTable\Factory::build(Sparklines::ID, $api = '', $controller = '', $force = true, $loadUserParams = false);
 
         // DIRECT ENTRY
         $metrics['visitorsFromDirectEntry'] = $numberFormatter->formatNumber($metrics['visitorsFromDirectEntry']);
