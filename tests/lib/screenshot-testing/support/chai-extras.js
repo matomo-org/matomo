@@ -11,7 +11,20 @@ var fs = require('fs'),
     PageRenderer = require('./page-renderer.js').PageRenderer,
     AssertionError = chai.AssertionError;
 
-var testsToIgnoreIfTheyFail = [];
+var testsToIgnoreIfAborted = [];
+
+function shouldTestBeSkippedOnAbort(screenName){
+
+    for (var i in testsToIgnoreIfAborted) {
+        // we skip test if needed but still upload the screenshot for the diff just a few lines further up
+        if (testsToIgnoreIfAborted[i] + '.png' === screenName) {
+
+            return true;
+        }
+    }
+
+    return false;
+}
 
 // add screenshot keyword to `expect`
 expect.screenshot = function (file, prefix) {
@@ -98,16 +111,6 @@ function failCapture(fileTypeString, pageRenderer, testInfo, expectedFilePath, p
 
     failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
 
-    for (var i in testsToIgnoreIfTheyFail) {
-        // we skip test if needed but still upload the screenshot for the diff just a few lines further up
-        if (testsToIgnoreIfTheyFail[i] + '.png' === testInfo.name) {
-            console.log('SKIPPING TEST ' + testInfo.name + ' AS IT RANDOMLY FAILS:');
-            console.log(failureInfo);
-            done();
-            return;
-        }
-    }
-
     error = new AssertionError(message);
 
     // stack traces are useless so we avoid the clutter w/ this
@@ -144,6 +147,13 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
             if (err) {
                 var indent = "     ";
                 err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
+
+                if (shouldTestBeSkippedOnAbort(screenName)) {
+                    console.log('SKIPPING TEST ' + screenName + ' AS IT RANDOMLY GETS ABORTED:');
+                    console.log(err.stack);
+                    done();
+                    return;
+                }
 
                 done(err);
                 return;
@@ -360,9 +370,9 @@ chai.Assertion.addChainableMethod('capture', function () {
     capture(screenName, compareAgainst, null, pageSetupFn, comparisonThreshold, done);
 });
 
-chai.Assertion.addChainableMethod('skippedOnFailure', function () {
+chai.Assertion.addChainableMethod('skippedOnAbort', function () {
     var compareAgainst = this.__flags['object'];
-    testsToIgnoreIfTheyFail.push(compareAgainst);
+    testsToIgnoreIfAborted.push(compareAgainst);
 });
 
 // add `contains` assertion
