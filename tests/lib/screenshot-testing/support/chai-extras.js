@@ -11,6 +11,8 @@ var fs = require('fs'),
     PageRenderer = require('./page-renderer.js').PageRenderer,
     AssertionError = chai.AssertionError;
 
+var testsToIgnoreIfTheyFail = [];
+
 // add screenshot keyword to `expect`
 expect.screenshot = function (file, prefix) {
     if (!prefix) {
@@ -95,6 +97,16 @@ function failCapture(fileTypeString, pageRenderer, testInfo, expectedFilePath, p
     failureInfo += indent + "Expected " + fileTypeString + ": " + expectedPath + "\n";
 
     failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
+
+    for (var i in testsToIgnoreIfTheyFail) {
+        // we skip test if needed but still upload the screenshot for the diff just a few lines further up
+        if (testsToIgnoreIfTheyFail[i] + '.png' === testInfo.name) {
+            console.log('SKIPPING TEST ' + testInfo.name + ' AS IT RANDOMLY FAILS:');
+            console.log(failureInfo);
+            done();
+            return;
+        }
+    }
 
     error = new AssertionError(message);
 
@@ -346,6 +358,11 @@ chai.Assertion.addChainableMethod('capture', function () {
     var comparisonThreshold = this.__flags['comparisonThreshold'];
 
     capture(screenName, compareAgainst, null, pageSetupFn, comparisonThreshold, done);
+});
+
+chai.Assertion.addChainableMethod('skippedOnFailure', function () {
+    var compareAgainst = this.__flags['object'];
+    testsToIgnoreIfTheyFail.push(compareAgainst);
 });
 
 // add `contains` assertion

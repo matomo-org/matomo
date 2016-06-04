@@ -351,48 +351,52 @@
             }
         }
 
+        var $dashboardElement = $(' > .col', dashboardElement);
+
+        if (!$dashboardElement.size()) {
+            return;
+        }
+
         switch (layout) {
             case '100':
-                $(' > .col', dashboardElement).removeClass()
-                    .addClass('col s12');
+                $dashboardElement.removeClass().addClass('col s12');
                 break;
             case '50-50':
-                $(' > .col', dashboardElement).removeClass()
-                    .addClass('col s12 m6');
+                $dashboardElement.removeClass().addClass('col s12 m6');
                 break;
             case '67-33':
-                $(' > .col', dashboardElement)[0].className = 'col s12 m8';
-                $(' > .col', dashboardElement)[1].className = 'col s12 m4';
+                $dashboardElement[0].className = 'col s12 m8';
+                $dashboardElement[1].className = 'col s12 m4';
                 break;
             case '33-67':
-                $(' > .col', dashboardElement)[0].className = 'col s12 m4';
-                $(' > .col', dashboardElement)[1].className = 'col s12 m8';
+                $dashboardElement[0].className = 'col s12 m4';
+                $dashboardElement[1].className = 'col s12 m8';
                 break;
             case '33-33-33':
-                $(' > .col', dashboardElement)[0].className = 'col s12 m4';
-                $(' > .col', dashboardElement)[1].className = 'col s12 m4';
-                $(' > .col', dashboardElement)[2].className = 'col s12 m4';
+                $dashboardElement[0].className = 'col s12 m4';
+                $dashboardElement[1].className = 'col s12 m4';
+                $dashboardElement[2].className = 'col s12 m4';
                 break;
             case '40-30-30':
-                $(' > .col', dashboardElement)[0].className = 'col s12 m6';
-                $(' > .col', dashboardElement)[1].className = 'col s12 m3';
-                $(' > .col', dashboardElement)[2].className = 'col s12 m3';
+                $dashboardElement[0].className = 'col s12 m6';
+                $dashboardElement[1].className = 'col s12 m3';
+                $dashboardElement[2].className = 'col s12 m3';
                 break;
             case '30-40-30':
-                $(' > .col', dashboardElement)[0].className = 'col s12 m3';
-                $(' > .col', dashboardElement)[1].className = 'col s12 m6';
-                $(' > .col', dashboardElement)[2].className = 'col s12 m3';
+                $dashboardElement[0].className = 'col s12 m3';
+                $dashboardElement[1].className = 'col s12 m6';
+                $dashboardElement[2].className = 'col s12 m3';
                 break;
             case '30-30-40':
-                $(' > .col', dashboardElement)[0].className = 'col s12 m3';
-                $(' > .col', dashboardElement)[1].className = 'col s12 m3';
-                $(' > .col', dashboardElement)[2].className = 'col s12 m6';
+                $dashboardElement[0].className = 'col s12 m3';
+                $dashboardElement[1].className = 'col s12 m3';
+                $dashboardElement[2].className = 'col s12 m6';
                 break;
             case '25-25-25-25':
-                $(' > .col', dashboardElement)[0].className = 'col s12 m3';
-                $(' > .col', dashboardElement)[1].className = 'col s12 m3';
-                $(' > .col', dashboardElement)[2].className = 'col s12 m3';
-                $(' > .col', dashboardElement)[3].className = 'col s12 m3';
+                $dashboardElement[0].className = 'col s12 m3';
+                $dashboardElement[1].className = 'col s12 m3';
+                $dashboardElement[2].className = 'col s12 m3';
+                $dashboardElement[3].className = 'col s12 m3';
                 break;
         }
 

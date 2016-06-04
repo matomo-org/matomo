@@ -31,3 +31,6 @@ third-party libraries:
    - fix #6980 ("Array to string conversion") in `Zend/Session/Exception.php`
    - fix Zend/Validate using deprecated iconv_set_encoding()
    - Make sure sessions work when storing notifications
+ * materialize/
+   - in materialize.min.css removed the loading of Roboto fonts as the paths do not match and couldn't be loaded. Also
+     we do not want to load as many different font styles of Roboto font.
