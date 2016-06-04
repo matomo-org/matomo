@@ -1271,8 +1271,8 @@
             map.container.height(h - 2);
             map.resize(w, h);
 
-            if (w < 355) $('.tableIcon span').hide();
-            else $('.tableIcon span').show();
+            if (w < 355) $('.UserCountryMap .tableIcon span').hide();
+            else $('.UserCountryMap .tableIcon span').show();
         },
 
         /*

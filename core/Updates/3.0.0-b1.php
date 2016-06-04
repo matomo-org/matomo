@@ -13,7 +13,6 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater;

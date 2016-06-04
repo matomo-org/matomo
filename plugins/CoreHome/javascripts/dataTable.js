@@ -563,13 +563,33 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     overflowContentIfNeeded: function (domElem, showScrollbarIfMoreThanThisPxOverlap) {
-        var self = this;
+
+        var $domNodeToSetOverflow;
+
+        if (this.isDashboard()) {
+            $domNodeToSetOverflow = domElem.parents('.widgetContent').first();
+        } else if (this.isWidgetized()) {
+            $domNodeToSetOverflow = domElem.parents('.widget').first();
+        } else {
+            var inReportPage = domElem.parents('.theWidgetContent').first();
+            var displayedAsCard = inReportPage.find('> .card > .card-content');
+            if (displayedAsCard.size()) {
+                $domNodeToSetOverflow = displayedAsCard.first();
+            } else {
+                $domNodeToSetOverflow = inReportPage;
+            }
+        }
+
+        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.size()) {
+            return;
+        }
 
         // show scrollbars for a report if table does not fit into widget/report page. This happens especially
         // with AllTableColumn visualization
         var tableWidth = domElem.width();
         var dataTableWidth = domElem.find('table.dataTable').width();
         var widthToCheckElementIsActuallyThere = 10;
+
         // in dataTables there is a marginLeft -20px and marginRight -20px applied and jquery seems to not consider
         // this. This results in the actual table always being 40px wider than the domElem. We add another 11px
         // just in case some calculations are not 100% right
@@ -579,23 +599,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // when after adjusting the columns the widget/report is sitll wider than the actual dataTable, we need
             // to make it scrollable otherwise reports overlap each other
 
-            if (self.isDashboard()) {
-                var inDashboardAsWidget = domElem.parents('.widgetContent').first();
-                if (inDashboardAsWidget.size()) {
-                    inDashboardAsWidget.css('overflow-y', 'scroll');
-                }
-            } else if (self.isWidgetized()) {
-                domElem.parents('.widget').first().css('overflow-y', 'scroll');
-            } else {
-                var inReportPage = domElem.parents('.theWidgetContent').first();
-                var displayedAsCard = inReportPage.find('> .card > .card-content');
-                if (displayedAsCard.size()) {
-                    displayedAsCard.first().css('overflow-y', 'scroll');
-                } else {
-                    inReportPage.css('overflow-y', 'scroll');
-                }
-            }
+            $domNodeToSetOverflow.css('overflow-y', 'scroll');
 
+        } else if ($domNodeToSetOverflow.css('overflow-y') === 'scroll') {
+            // undo the overflow as apparently not needed anymore?
+            $domNodeToSetOverflow.css('overflow-y', 'auto');
         }
     },
 
@@ -1117,15 +1125,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // no view box for subtables
             return;
         }
-
-        // When the (+) image is hovered, the export buttons are displayed
-        $('.dataTableFooterIconsShow', domElem)
-            .show()
-            .hover(function () {
-                $(this).fadeOut('slow');
-                $('.exportToFormatIcons', $(this).parent()).show('slow');
-            }, function () {}
-        );
 
         //footer arrow position element name
         self.jsViewDataTable = self.param.viewDataTable;

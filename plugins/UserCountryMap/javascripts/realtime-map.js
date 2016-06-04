@@ -634,8 +634,8 @@
                 map.symbolGroups[0].update();
             }
 
-            if (w < 355) $('.tableIcon span').hide();
-            else $('.tableIcon span').show();
+            if (w < 355) $('.UserCountryMap .tableIcon span').hide();
+            else $('.UserCountryMap .tableIcon span').show();
         },
 
         _destroy: function () {

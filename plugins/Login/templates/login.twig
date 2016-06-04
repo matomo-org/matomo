@@ -43,7 +43,7 @@
                     <a href="http://piwik.org" title="{{ linkTitle }}">
                 {% endif %}
                 {% if hasSVGLogo %}
-                    <img src='{{ logoSVG }}' title="{{ linkTitle }}" alt="Piwik"/>
+                    <img src='{{ logoSVG }}' class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" title="{{ linkTitle }}" alt="Piwik"/>
                 {% else %}
                     <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" />
                 {% endif %}
