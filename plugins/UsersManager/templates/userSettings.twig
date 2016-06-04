@@ -23,7 +23,7 @@
         <div piwik-field uicontrol="text" name="alias"
              ng-model="personalSettings.alias"
              title="{{ 'UsersManager_Alias'|translate|e('html_attr') }}"
-             value="{{ userAlias }}">
+             value="{{ userAlias|raw }}">
         </div>
 
         <div piwik-field uicontrol="text" name="email"
