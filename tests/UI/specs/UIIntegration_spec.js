@@ -670,6 +670,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the segmented visitor log correctly when a segment is selected', function (done) {
+
+        expect.screenshot("segmented_visitorlog").to.be.skippedOnAbort();
+        
         var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
         expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog:visible', 'segmented_visitorlog', function (page) {
             page.click('.segmentationTitle');
