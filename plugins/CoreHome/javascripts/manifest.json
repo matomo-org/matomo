@@ -1,0 +1,14 @@
+{
+  "short_name": "Piwik",
+  "name": "Piwik - Open Source Analytics",
+  "icons": [
+    {
+      "src": "../images/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "../../../",
+  "display": "standalone",
+  "orientation": "portrait"
+}
