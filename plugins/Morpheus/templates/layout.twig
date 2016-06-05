@@ -23,7 +23,7 @@
             {% include "@CoreHome/_favicon.twig" %}
             {% include "_jsGlobalVariables.twig" %}
             {% include "_jsCssIncludes.twig" %}
-            <link rel="manifest" href="plugins/CoreHome/javascripts/manifest.json">
+            {%- if not isCustomLogo %}<link rel="manifest" href="plugins/CoreHome/javascripts/manifest.json">{% endif %}
         {% endblock %}
     </head>
     <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
