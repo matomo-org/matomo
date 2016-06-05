@@ -10,7 +10,6 @@
                     {%- if not isCustomLogo %}Piwik{% endif %}
                 {%- endblock -%}
             </title>
-            <link href='plugins/Morpheus/stylesheets/base/font.css' rel='stylesheet' type='text/css'>
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
             <meta name="viewport" content="initial-scale=1.0"/>
             <meta name="generator" content="Piwik - free/libre analytics platform"/>
@@ -24,6 +23,7 @@
             {% include "@CoreHome/_favicon.twig" %}
             {% include "_jsGlobalVariables.twig" %}
             {% include "_jsCssIncludes.twig" %}
+            <link rel="manifest" href="/manifest.json">
 
             <!--[if IE]>
             <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/ieonly.css"/>

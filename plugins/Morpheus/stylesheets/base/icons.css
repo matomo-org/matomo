@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'piwik';
-    src: url('../../fonts/piwik.eot');
+    src: url('plugins/Morpheus/fonts/piwik.eot');
 }
 @font-face {
     font-family: 'piwik';
-    src: url('../../fonts/piwik.ttf');
+    src: url('plugins/Morpheus/fonts/piwik.ttf');
     font-weight: normal;
     font-style: normal;
 }

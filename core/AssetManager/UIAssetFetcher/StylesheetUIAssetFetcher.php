@@ -19,7 +19,9 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         $themeName = $theme->getThemeName();
 
         $order = array(
+            'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'libs/',
+            'plugins/Morpheus/stylesheets/base/icons.css',
             'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
             'plugins/Morpheus/stylesheets/base.less',
         );

@@ -491,6 +491,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
 
         $files = array(
+            'plugins/Morpheus/stylesheets/base/bootstrap.css',
+            'plugins/Morpheus/stylesheets/base/icons.css',
             'libs/jquery/themes/base/jquery-ui.min.css',
             'libs/bower_components/materialize/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',

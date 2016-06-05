@@ -11,10 +11,6 @@
 	overflow: hidden;
 }
 
-#topLeftBar {
-    z-index: 300!important;
-}
-
 .submit {
     height: 30px;
 }
