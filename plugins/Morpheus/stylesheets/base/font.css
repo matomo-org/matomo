@@ -4,9 +4,9 @@
   font-weight: 400;
   src: local('Roboto'),
        local('Roboto-Regular'),
-       url(libs/bower_components/materialize/dist/font/roboto/Roboto-Regular.woff2) format('woff2'),
-       url(libs/bower_components/materialize/dist/font/roboto/Roboto-Regular.woff) format('woff'),
-       url(libs/bower_components/materialize/dist/font/roboto/Roboto-Regular.ttf) format('truetype');
+       url('libs/bower_components/materialize/dist/font/roboto/Roboto-Regular.woff2') format('woff2'),
+       url('libs/bower_components/materialize/dist/font/roboto/Roboto-Regular.woff') format('woff'),
+       url('libs/bower_components/materialize/dist/font/roboto/Roboto-Regular.ttf') format('truetype');
 }
 
 @font-face {
@@ -15,9 +15,9 @@
   font-weight: 700;
   src: local('Roboto Bold'),
        local('Roboto-Bold'),
-       url(libs/bower_components/materialize/dist/font/roboto/Roboto-Bold.woff2) format('woff2'),
-       url(libs/bower_components/materialize/dist/font/roboto/Roboto-Bold.woff) format('woff'),
-       url(libs/bower_components/materialize/dist/font/roboto/Roboto-Bold.ttf) format('truetype');
+       url('libs/bower_components/materialize/dist/font/roboto/Roboto-Bold.woff2') format('woff2'),
+       url('libs/bower_components/materialize/dist/font/roboto/Roboto-Bold.woff') format('woff'),
+       url('libs/bower_components/materialize/dist/font/roboto/Roboto-Bold.ttf') format('truetype');
 }
 
 
