@@ -10,8 +10,6 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Live/VisitorLog.php';
-
 /**
  *
  */
@@ -19,9 +17,9 @@ class Live extends \Piwik\Plugin
 {
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
@@ -40,8 +38,10 @@ class Live extends \Piwik\Plugin
     {
         $jsFiles[] = "libs/bower_components/visibilityjs/lib/visibility.core.js";
         $jsFiles[] = "plugins/Live/javascripts/live.js";
+        $jsFiles[] = "plugins/Live/javascripts/SegmentedVisitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
+        $jsFiles[] = "plugins/Live/javascripts/rowaction.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -51,5 +51,11 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "Live_ShowMap";
         $translationKeys[] = "Live_HideMap";
         $translationKeys[] = "Live_PageRefreshed";
+        $translationKeys[] = "Live_RowActionTooltipTitle";
+        $translationKeys[] = "Live_RowActionTooltipDefault";
+        $translationKeys[] = "Live_RowActionTooltipWithDimension";
+        $translationKeys[] = "Live_SegmentedVisitorLogTitle";
+        $translationKeys[] = "General_Segment";
+        $translationKeys[] = "General_And";
     }
 }

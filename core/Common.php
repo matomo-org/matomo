@@ -9,9 +9,11 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\LanguageDataProvider;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
-use Piwik\Tracker;
-use Piwik\Tracker\Cache;
+use Piwik\Tracker\Cache as TrackerCache;
 
 /**
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
@@ -108,12 +110,12 @@ class Common
      */
     public static function isGoalPluginEnabled()
     {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals');
+        return Plugin\Manager::getInstance()->isPluginActivated('Goals');
     }
 
     public static function isActionsPluginEnabled()
     {
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('Actions');
+        return Plugin\Manager::getInstance()->isPluginActivated('Actions');
     }
 
     /**
@@ -128,9 +130,15 @@ class Common
             return self::$isCliMode;
         }
 
-        $remoteAddr = @$_SERVER['REMOTE_ADDR'];
-        return PHP_SAPI == 'cli' ||
-        (self::isPhpCgiType() && empty($remoteAddr));
+        if(PHP_SAPI == 'cli'){
+            return true;
+        }
+        
+        if(self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))){
+            return true;
+        }
+        
+        return false;
     }
 
     /**
@@ -266,8 +274,9 @@ class Common
         } elseif (is_string($value)) {
             $value = self::sanitizeString($value);
 
-            if (!$alreadyStripslashed) // a JSON array was already stripslashed, don't do it again for each value
-            {
+            if (!$alreadyStripslashed) {
+                // a JSON array was already stripslashed, don't do it again for each value
+
                 $value = self::undoMagicQuotes($value);
             }
         } elseif (is_array($value)) {
@@ -335,6 +344,7 @@ class Common
      *
      * @param string $value
      * @return string  unsanitized input
+     * @api
      */
     public static function unsanitizeInputValue($value)
     {
@@ -376,9 +386,13 @@ class Common
      */
     private static function undoMagicQuotes($value)
     {
-        if (version_compare(PHP_VERSION, '5.4', '<') &&
-            get_magic_quotes_gpc()) {
+        static $shouldUndo;
 
+        if (!isset($shouldUndo)) {
+            $shouldUndo = version_compare(PHP_VERSION, '5.4', '<') && get_magic_quotes_gpc();
+        }
+
+        if ($shouldUndo) {
             $value = stripslashes($value);
         }
 
@@ -467,26 +481,31 @@ class Common
         }
 
         $value = self::sanitizeInputValues($requestArrayToUse[$varName]);
-        if (!is_null($varType)) {
+        if (isset($varType)) {
             $ok = false;
 
             if ($varType === 'string') {
                 if (is_string($value) || is_int($value)) {
                     $ok = true;
-                } else if (is_float($value)) {
+                } elseif (is_float($value)) {
                     $value = Common::forceDotAsSeparatorForDecimalPoint($value);
                     $ok    = true;
                 }
-
             } elseif ($varType === 'integer') {
-                if ($value == (string)(int)$value) $ok = true;
+                if ($value == (string)(int)$value) {
+                    $ok = true;
+                }
             } elseif ($varType === 'float') {
                 $valueToCompare = (string)(float)$value;
                 $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($valueToCompare);
 
-                if ($value == $valueToCompare) $ok = true;
+                if ($value == $valueToCompare) {
+                    $ok = true;
+                }
             } elseif ($varType === 'array') {
-                if (is_array($value)) $ok = true;
+                if (is_array($value)) {
+                    $ok = true;
+                }
             } else {
                 throw new Exception("\$varType specified is not known. It should be one of the following: array, int, integer, float, string");
             }
@@ -528,7 +547,7 @@ class Common
     }
 
     /**
-     * Configureable hash() algorithm (defaults to md5)
+     * Configurable hash() algorithm (defaults to md5)
      *
      * @param string $str String to be hashed
      * @param bool $raw_output
@@ -545,7 +564,6 @@ class Common
         if ($hashAlgorithm) {
             $hash = @hash($hashAlgorithm, $str, $raw_output);
             if ($hash !== false) {
-
                 return $hash;
             }
         }
@@ -565,10 +583,6 @@ class Common
     {
         $chars = $alphabet;
         $str   = '';
-
-        list($usec, $sec) = explode(" ", microtime());
-        $seed = ((float)$sec + (float)$usec) * 100000;
-        mt_srand($seed);
 
         for ($i = 0; $i < $length; $i++) {
             $rand_key = mt_rand(0, strlen($chars) - 1);
@@ -632,26 +646,6 @@ class Common
         $userIdHashed = \PiwikTracker::getUserIdHashed($userId);
 
         return self::convertVisitorIdToBin($userIdHashed);
-    }
-
-    /**
-     * Convert IP address (in network address format) to presentation format.
-     * This is a backward compatibility function for code that only expects
-     * IPv4 addresses (i.e., doesn't support IPv6).
-     *
-     * @see IP::N2P()
-     *
-     * This function does not support the long (or its string representation)
-     * returned by the built-in ip2long() function, from Piwik 1.3 and earlier.
-     *
-     * @deprecated 1.4
-     *
-     * @param string $ip IP address in network address format
-     * @return string
-     */
-    public static function long2ip($ip)
-    {
-        return IP::long2ip($ip);
     }
 
     /**
@@ -730,14 +724,14 @@ class Common
     /**
      * Returns the list of parent classes for the given class.
      *
-     * @param  string    $klass   A class name.
+     * @param  string    $class   A class name.
      * @return string[]  The list of parent classes in order from highest ancestor to the descended class.
      */
-    public static function getClassLineage($klass)
+    public static function getClassLineage($class)
     {
-        $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
+        $classes = array_merge(array($class), array_values(class_parents($class, $autoload = false)));
 
-        return array_reverse($klasses);
+        return array_reverse($classes);
     }
 
     /*
@@ -749,14 +743,16 @@ class Common
      *
      * @see core/DataFiles/Countries.php
      *
-     * @return array  Array of 3 letter continent codes
+     * @return array Array of 3 letter continent codes
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()
      */
     public static function getContinentsList()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-
-        $continentsList = $GLOBALS['Piwik_ContinentList'];
-        return $continentsList;
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        return $dataProvider->getContinentList();
     }
 
     /**
@@ -765,20 +761,16 @@ class Common
      * @see core/DataFiles/Countries.php
      *
      * @param bool $includeInternalCodes
-     * @return array  Array of (2 letter ISO codes => 3 letter continent code)
+     * @return array Array of (2 letter ISO codes => 3 letter continent code)
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()
      */
     public static function getCountriesList($includeInternalCodes = false)
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-
-        $countriesList = $GLOBALS['Piwik_CountryList'];
-        $extras = $GLOBALS['Piwik_CountryList_Extras'];
-
-        if ($includeInternalCodes) {
-            return array_merge($countriesList, $extras);
-        }
-
-        return $countriesList;
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        return $dataProvider->getCountryList($includeInternalCodes);
     }
 
     /**
@@ -789,13 +781,15 @@ class Common
      * @return array Array of two letter ISO codes mapped with their associated language names (in English). E.g.
      *               `array('en' => 'English', 'ja' => 'Japanese')`.
      * @api
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageList()
      */
     public static function getLanguagesList()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
-
-        $languagesList = $GLOBALS['Piwik_LanguageList'];
-        return $languagesList;
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        return $dataProvider->getLanguageList();
     }
 
     /**
@@ -806,70 +800,15 @@ class Common
      * @return array Array of two letter ISO language codes mapped with two letter ISO country codes:
      *               `array('fr' => 'fr') // French => France`
      * @api
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()
      */
     public static function getLanguageToCountryList()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
-
-        $languagesList = $GLOBALS['Piwik_LanguageToCountry'];
-        return $languagesList;
-    }
-
-    /**
-     * Returns list of search engines by URL
-     *
-     * @see core/DataFiles/SearchEngines.php
-     *
-     * @return array  Array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
-     */
-    public static function getSearchEngineUrls()
-    {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
-
-        $searchEngines = $GLOBALS['Piwik_SearchEngines'];
-
-        Piwik::postEvent('Referrer.addSearchEngineUrls', array(&$searchEngines));
-
-        return $searchEngines;
-    }
-
-    /**
-     * Returns list of search engines by name
-     *
-     * @see core/DataFiles/SearchEngines.php
-     *
-     * @return array  Array of ( searchEngineName => URL )
-     */
-    public static function getSearchEngineNames()
-    {
-        $searchEngines = self::getSearchEngineUrls();
-
-        $nameToUrl = array();
-        foreach ($searchEngines as $url => $info) {
-            if (!isset($nameToUrl[$info[0]])) {
-                $nameToUrl[$info[0]] = $url;
-            }
-        }
-
-        return $nameToUrl;
-    }
-
-    /**
-     * Returns list of social networks by URL
-     *
-     * @see core/DataFiles/Socials.php
-     *
-     * @return array  Array of ( URL => Social Network Name )
-     */
-    public static function getSocialUrls()
-    {
-        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
-
-        $socialUrls = $GLOBALS['Piwik_socialUrl'];
-
-        Piwik::postEvent('Referrer.addSocialUrls', array(&$socialUrls));
-
-        return $socialUrls;
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+        return $dataProvider->getLanguageToCountryList();
     }
 
     /**
@@ -954,7 +893,11 @@ class Common
             return self::LANGUAGE_CODE_INVALID;
         }
 
-        $validCountries = self::getCountriesList();
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
+        $validCountries = $dataProvider->getCountryList();
+
         return self::extractCountryCodeFromBrowserLanguage($lang, $validCountries, $enableLanguageToCountryGuess);
     }
 
@@ -968,7 +911,10 @@ class Common
      */
     public static function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
     {
-        $langToCountry = self::getLanguageToCountryList();
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+
+        $langToCountry = $dataProvider->getLanguageToCountryList();
 
         if ($enableLanguageToCountryGuess) {
             if (preg_match('/^([a-z]{2,3})(?:,|;|$)/', $browserLanguage, $matches)) {
@@ -1003,12 +949,12 @@ class Common
         $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
         $languageRegionCode = self::extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages);
 
-        if(strlen($languageRegionCode) == 2) {
+        if (strlen($languageRegionCode) == 2) {
             $languageCode = $languageRegionCode;
         } else {
             $languageCode = substr($languageRegionCode, 0, 2);
         }
-        if(in_array($languageCode, $validLanguages)) {
+        if (in_array($languageCode, $validLanguages)) {
             return $languageCode;
         }
         return self::LANGUAGE_CODE_INVALID;
@@ -1023,16 +969,16 @@ class Common
      * @param array $validLanguages array of valid language codes. Note that if the array includes "fr" then it will consider all regional variants of this language valid, such as "fr-ca" etc.
      * @return string 2 letter ISO 639 code 'es' (Spanish) or if found, includes the region as well: 'es-ar'
      */
-    public static function extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages = array() )
+    public static function extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages = array())
     {
         $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
 
-        if(!preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
+        if (!preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
             return self::LANGUAGE_CODE_INVALID;
         }
         foreach ($matches as $parts) {
             $langIso639 = $parts[1];
-            if(empty($langIso639)) {
+            if (empty($langIso639)) {
                 continue;
             }
 
@@ -1059,17 +1005,18 @@ class Common
     /**
      * Returns the continent of a given country
      *
-     * @param string $country 2 letters isocode
+     * @param string $country 2 letters iso code
      *
      * @return string  Continent (3 letters code : afr, asi, eur, amn, ams, oce)
      */
     public static function getContinent($country)
     {
-        $countryList = self::getCountriesList();
-        if (isset($countryList[$country])) {
-            return $countryList[$country];
-        }
-        return 'unk';
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
+        $countryList = $dataProvider->getCountryList();
+
+        return isset($countryList[$country]) ? $countryList[$country] : 'unk';
     }
 
     /*
@@ -1180,7 +1127,8 @@ class Common
             401 => 'Unauthorized',
             403 => 'Forbidden',
             404 => 'Not Found',
-            500 => 'Internal Server Error'
+            500 => 'Internal Server Error',
+            503 => 'Service Unavailable',
         );
 
         if (!array_key_exists($code, $messages)) {
@@ -1195,7 +1143,6 @@ class Common
                 && strlen($_SERVER['SERVER_PROTOCOL']) > 1) {
                 $key = $_SERVER['SERVER_PROTOCOL'];
             }
-
         } else {
             // FastCGI
             $key = 'Status:';
@@ -1211,7 +1158,7 @@ class Common
      */
     public static function getCurrentLocationProviderId()
     {
-        $cache = Cache::getCacheGeneral();
+        $cache = TrackerCache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
             ? DefaultProvider::ID
             : $cache['currentLocationProviderId'];
@@ -1221,7 +1168,7 @@ class Common
      * Marks an orphaned object for garbage collection.
      *
      * For more information: {@link https://github.com/piwik/piwik/issues/374}
-     * @param $var The object to destroy.
+     * @param mixed $var The object to destroy.
      * @api
      */
     public static function destroy(&$var)
@@ -1233,28 +1180,47 @@ class Common
         $var = null;
     }
 
+    /**
+     * @todo This method is weird, it's debugging statements but seem to only work for the tracker, maybe it
+     * should be moved elsewhere
+     */
     public static function printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            if (!headers_sent()) {
+                // prevent XSS in tracker debug output
+                header('Content-type: text/plain');
+            }
 
             if (is_object($info)) {
                 $info = var_export($info, true);
             }
 
-            Log::getInstance()->setLogLevel(Log::DEBUG);
+            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
 
             if (is_array($info) || is_object($info)) {
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
                 foreach (explode("\n", $out) as $line) {
-                    Log::debug($line);
+                    $logger->debug($line);
                 }
             } else {
                 foreach (explode("\n", $info) as $line) {
-                    Log::debug(htmlspecialchars($line, ENT_QUOTES));
+                    $logger->debug($line);
                 }
             }
         }
+    }
+
+    /**
+     * Returns true if the request is an AJAX request.
+     *
+     * @return bool
+     */
+    public static function isXmlHttpRequest()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
     }
 
     /**
@@ -1263,8 +1229,11 @@ class Common
      */
     protected static function checkValidLanguagesIsSet($validLanguages)
     {
+        /** @var LanguageDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
+
         if (empty($validLanguages)) {
-            $validLanguages = array_keys(Common::getLanguagesList());
+            $validLanguages = array_keys($dataProvider->getLanguageList());
             return $validLanguages;
         }
         return $validLanguages;

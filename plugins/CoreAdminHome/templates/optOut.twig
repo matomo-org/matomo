@@ -2,33 +2,104 @@
 <html>
 <head>
     <meta charset="utf-8">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% endif %}
+    {% if reloadUrl %}
+        <meta http-equiv="refresh" content="0; url={{ reloadUrl }}&amp;nonce={{ nonce }}" />
+    {% endif %}
+
+    <script>
+        function submitForm(e, form) {
+            if (e.preventDefault) { // IE8 and below do not support preventDefault
+                e.preventDefault();
+            }
+
+            var now = Date.now ? Date.now() : (+(new Date())), // Date.now does not exist in < IE8
+                newWindow = window.open(form.action + '&time=' + now);
+
+            setInterval(function () {
+                if (newWindow.closed) {
+                    window.location.reload();
+                }
+            }, 1000);
+
+            return false;
+        }
+    </script>
+
+    {% if stylesheets.external|length > 0 %}
+        {% for style in stylesheets.external %}
+            <link href="{{ style|raw }}" rel="stylesheet" type="text/css">
+        {% endfor %}
+    {% endif %}
+    {% if stylesheets.inline|length > 0 %}
+        <style>
+            {% for style in stylesheets.inline %}
+            {{ style|raw }}
+            {% endfor %}
+        </style>
+    {% endif %}
 </head>
 <body>
-{% if not trackVisits %}
-    {{ 'CoreAdminHome_OptOutComplete'|translate }}
-    <br/>
-    {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+{% if dntFound %}
+    {{ 'CoreAdminHome_OptOutDntFound'|translate }}
+{% elseif reloadUrl %}
+    {# empty #}
 {% else %}
-    {{ 'CoreAdminHome_YouMayOptOut'|translate }}
-    <br/>
-    {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
-{% endif %}
-<br/><br/>
+    {# if only showing confirmation (because we're in a new window), we only display the success message if JS is disabled.
+     # otherwise we try to close the window immediately.
+     #}
+    {% if showConfirmOnly %}
+    <p>{{ 'CoreAdminHome_OptingYouOut'|translate }}</p>
+    <script>window.close();</script>
+    <noscript>
+    {% endif %}
 
-<form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}">
-    <input type="hidden" name="nonce" value="{{ nonce }}" />
-    <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
-    <input onclick="this.form.submit()" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
-    <label for="trackVisits"><strong>
+    {% if not trackVisits %}
+        {{ 'CoreAdminHome_OptOutComplete'|translate }}
+	    <br/>
+        {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+    {% else %}
+        {{ 'CoreAdminHome_YouMayOptOut'|translate }}
+        <br/>
+        {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
+    {% endif %}
+
+    {% if showConfirmOnly %}</noscript>{% endif %}
+
+    <br/><br/>
+
+    {% if not showConfirmOnly %}
+    <form method="post" action="?{{ queryParameters|url_encode|raw }}" target="_blank">
+        <input type="hidden" name="nonce" value="{{ nonce }}" />
+        <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
+        <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
+        <label for="trackVisits"><strong>
         {% if trackVisits %}
             {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
         {% else %}
             {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
         {% endif %}
-    </strong></label>
-    <noscript>
-        <button type="submit">{{ 'General_Save'|translate }}</button>
-    </noscript>
-</form>
+        </strong></label>
+        <noscript>
+            <button type="submit">{{ 'General_Save'|translate }}</button>
+        </noscript>
+    </form>
+    {% endif %}
+{% endif %}
+
+{% if javascripts.external|length > 0 %}
+    {% for script in javascripts.external %}
+        <script type="text/javascript" src="{{ script|raw }}"></script>
+    {% endfor %}
+{% endif %}
+{% if javascripts.inline|length > 0 %}
+    <script>
+        {% for script in javascripts.inline %}
+        {{ script|raw }}
+        {% endfor %}
+    </script>
+{% endif %}
 </body>
 </html>

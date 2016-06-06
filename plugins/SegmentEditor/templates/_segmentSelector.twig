@@ -1,13 +1,13 @@
 <div class="SegmentEditor" style="display:none;">
-    <div class="segmentationContainer listHtml">
-        <span class="segmentationTitle"></span>
-        <div class="dropdown-body">
+    <div class="segmentationContainer listHtml" title="{{ 'SegmentEditor_ChooseASegment'|translate|e('html_attr') }}. {{ 'SegmentEditor_CurrentlySelectedSegment'|translate(segmentDescription)|e('html_attr') }}">
+        <a class="title" tabindex="4"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
+        <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
                 <input class="segmentFilter" type="text" value="{{ 'General_Search'|translate }}"/>
                 <span/>
             </div>
             <ul class="submenu">
-                <li>{{ 'SegmentEditor_SelectSegmentOfVisitors'|translate }}
+                <li>{{ 'SegmentEditor_SelectSegmentOfVisits'|translate }}
                     <div class="segmentList">
                         <ul>
                         </ul>
@@ -16,8 +16,9 @@
             </ul>
 
             {% if authorizedToCreateSegments %}
-                <a class="add_new_segment">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
+                <a class="add_new_segment btn">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
             {% else %}
+                <hr/>
                 <ul class="submenu">
                 <li>
                     {% if isUserAnonymous %}
@@ -26,6 +27,7 @@
                     {% endif %}
                 </li>
                 </ul>
+                <br/><br/>
             {% endif %}
         </div>
     </div>
@@ -61,6 +63,8 @@
                 <option value=">">{{ 'General_OperationGreaterThan'|translate }}</option>
                 <option value="=@">{{ 'General_OperationContains'|translate }}</option>
                 <option value="!@">{{ 'General_OperationDoesNotContain'|translate }}</option>
+                <option value="=^">{{ 'General_OperationStartsWith'|translate }}</option>
+                <option value="=$">{{ 'General_OperationEndsWith'|translate }}</option>
             </select>
         </div>
         <div class="segment-input metricValueBlock">
@@ -86,9 +90,10 @@
             <a href="#">+ {{ 'SegmentEditor_AddANDorORCondition'|translate(andCondition)|raw }}</a>
         </div>
     </div>
-    <div class="segment-element">
+    <div class="segment-element borderedControl expanded">
         <div class="segment-nav">
-            <h4 class="visits"><span class="available_segments"><strong>
+            <h4 class="visits">
+                <span class="icon-segment"></span><span class="available_segments"><strong>
                 <select class="available_segments_select"></select>
             </strong></span></h4>
             <div class="scrollable">
@@ -98,7 +103,17 @@
                     <a class="metric_category" href="#">{{ category }}</a>
                     <ul style="display:none;">
                         {% for segmentInCategory in segmentsInCategory %}
-                            <li data-metric="{{ segmentInCategory.segment }}"><a class="ddmetric" href="#">{{ segmentInCategory.name }}</a></li>
+                            {% set title = segmentInCategory.name %}
+                            {% if segmentInCategory.unionOfSegments is defined and segmentInCategory.unionOfSegments %}
+                                {% set title = 'SegmentEditor_SegmentXIsAUnionOf'|translate(title) %}
+                                {% for unionSegment in segmentInCategory.unionOfSegments %}
+                                    {% set title = title ~ ' ' ~ unionSegment %}
+                                    {% if not loop.last  %}
+                                        {% set title = title ~ ',' %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <li data-metric="{{ segmentInCategory.segment }}" title="{{ title|e('html_attr') }}"><a class="ddmetric" href="#">{{ segmentInCategory.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>

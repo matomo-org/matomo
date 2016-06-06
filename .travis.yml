@@ -9,6 +9,8 @@
 
 language: php
 
+group: legacy
+
 php:
   - 5.6
   - 5.3.3
@@ -16,6 +18,18 @@ php:
 
 services:
   - redis-server
+
+addons:
+  apt:
+    sources:
+      - deadsnakes
+
+    packages:
+      - python2.6
+      - python2.6-dev
+      - nginx
+      - realpath
+      - lftp
 
 # Separate different test suites
 env:
@@ -26,12 +40,15 @@ env:
     - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     # Javascript tests
     - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     # All tests after another
     - TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
+    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
+    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
+    - SKIP_INSTALL_MYSQL_56=1
     - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
     - secure: "DySde80fX3dw0osGY5s5lGiGLjMleUkkONsuRDC4xjT1hAQP94FGHpPXVZV8\nAQY0s8MQmcK2eRLOQrmE9Bh1XXbGqh40s66XhSWq0hulFHxQH5OLaZXccFeu\n5WxGkHXnNDIc+CVhXW/IIbHZPO1K6hffS8fuvP1o6mYgxwFL6Xw="
     - secure: "CW73pDjcaabpSL7bWiWIQLydKmvLzA1gWNv/zK0VcAKezQtCAQbqpIY1+B56wOhkaCWa7P+xdd2gUWEtvvdRKEC0sZcgCdHD5pQx390e5PWCMQTFO+doAElI4w4DMATCbH890Wcw2rotiZcjlkPYY+urIpUlcRsl6mMtBVQuQ9c="
@@ -40,16 +57,17 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: hhvm
-    - php: 5.6
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
-    - php: 5.6
-      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
+    - php: 7
   exclude:
-    # Run test suites separately only on PHP 5.4 with PDO
+    # Run test suites separately only on PHP 5.6 with PDO
     - php: 5.3.3
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
     - php: 5.3.3
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 5.3.3
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 7
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
     - php: 5.3.3
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
@@ -58,10 +76,17 @@ matrix:
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
+    # run UI tests on PHP 5.3.3 only
+    - php: 5.6
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
+    - php: 5.6
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
     # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
     - php: 5.6
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=PDO_MYSQL
     - php: 5.3.3
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
+    - php: 7
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
     - php: hhvm
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI
@@ -70,11 +95,17 @@ matrix:
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     - php: hhvm
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 7
+      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
     # AngularJS tests need to run only on one PHP version
     - php: 5.3.3
-      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
     - php: hhvm
-      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+    - php: 7
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+
+sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
@@ -83,18 +114,27 @@ before_install:
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
 
 install:
-  # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git fetch
-  - git checkout master -- ./tests/travis ./plugins/TestRunner || true
+  - git fetch -q
 
-before_script:
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then composer require satooshi/php-coveralls dev-master;
-    else
-    phpenv config-rm xdebug.ini;
-    fi
+  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
+  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - ./tests/travis/configure_git.sh
+
+  # travis now complains about this failing 9 times out of 10, so removing it
+  #- travis_retry composer self-update
+
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
+
+
+before_script:
+  - if [[ "$TRAVIS_PHP_VERSION" != 7* ]]; then phpenv config-rm xdebug.ini; fi
+
+  # add always_populate_raw_post_data=-1 to php.ini
+  - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # disable opcache to avoid random failures on travis
+  - echo "opcache.enable=0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # print out mysql information
   - mysql --version
@@ -102,18 +142,14 @@ before_script:
 
   # configure mysql
   - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" # Travis default
+  # try to avoid mysql has gone away errors
+  - mysql -e "SET GLOBAL wait_timeout = 36000;"
+  - mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
+  - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
+  - mysql -e "SHOW VARIABLES LIKE 'wait_timeout';"
 
-  # Uncomment to enable sql_mode STRICT_TRANS_TABLES (new default in Mysql 5.6)
-  - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
   - mysql -e "SELECT @@sql_mode;"
-  - mysql -e "SHOW GLOBAL VARIABLES;"
-
-  # Start UI tests
-  - ./tests/travis/initiate_ui_tests.sh
-  # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
-  # - travis_retry composer self-update
-
-  - travis_retry composer install
+  # - mysql -e "SHOW GLOBAL VARIABLES;"
 
   # print out more debugging info
   - uname -a
@@ -121,20 +157,8 @@ before_script:
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_tests;'
 
-  # Make sure we use Python 2.6
-  - travis_retry sudo add-apt-repository ppa:fkrull/deadsnakes -y
-  - travis_retry sudo apt-get update
-  - travis_retry sudo apt-get install python2.6 python2.6-dev -y --force-yes
-
-  # Log Analytics works with Python 2.6 or 2.7 but we want to test on 2.6
-  - python2.6 --version
-  - python --version
-
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
-
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./console generate:travis-yml --core"
-  - ./tests/travis/autoupdate_travis_yml.sh
 
   - cd tests/PHPUnit
 
@@ -142,12 +166,8 @@ after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
 
-  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
-    then php vendor/bin/coveralls -v;
-    fi
-
   # output contents of files w/ debugging info to screen
-  - cat /var/log/nginx/error.log
+  - cat $PIWIK_ROOT_DIR/tests/travis/error.log
   - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
   - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
   - cat $PIWIK_ROOT_DIR/config/config.ini.php

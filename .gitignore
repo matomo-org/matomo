@@ -7,12 +7,14 @@ php_errors.log
 /build
 /composer.phar
 /config/config*
+/config/*.pem
 /crossdomain.xml
 /documentation
 /docs/
 /favicon.ico
 /js/yui*
 /misc/*.dat
+/misc/*.dat.gz
 /misc/user/logo-header.png
 /misc/user/logo.png
 /misc/user/logo.svg
@@ -22,8 +24,14 @@ php_errors.log
 /plugins/ImageGraph/fonts/unifont.ttf
 /plugins/ImageGraph/fonts/unifont.ttf.zip
 /plugins/*/tests/System/processed
+/plugins/*/Test/System/processed
+/plugins/*/tests/UI/processed-ui-screenshots
+/plugins/*/Test/UI/processed-ui-screenshots
+/plugins/*/tests/UI/screenshot-diffs
+/plugins/*/Test/UI/screenshot-diffs
 /robots.txt
-/tmp/
+/tmp/*
+!/tmp/.gitkeep
 /vendor/
 /.cache
 /.externalToolBuilders
@@ -32,7 +40,6 @@ php_errors.log
 /.project
 /.settings
 /*.buildpath
-/tests/javascript/enable_sqlite
 /tests/javascript/unittest.dbf
 /tests/javascript/unittest2.dbf
 /tests/lib/geoip-files/*.dat*
@@ -55,3 +62,7 @@ php_errors.log
 /tests/PHPUnit/proxy/plugins
 /tests/PHPUnit/proxy/tests
 /config/*.config.ini.php
+/Vagrantfile
+/misc/vagrant
+/.vagrant
+/plugins/.gitignore

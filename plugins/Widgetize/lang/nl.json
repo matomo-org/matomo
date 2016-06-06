@@ -1,6 +1,7 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Open in een nieuw venster",
-        "PluginDescription": "Deze plugin maakt het zeer gemakkelijk om Piwik widgets te exporteren naar uw blog, website of op iGoogle en Netvibes."
+        "PluginDescription": "Toon elk Piwik rapport in je website of app eenvoudig met een Embed HTML tag.",
+        "TopLinkTooltip": "Export Piwik Rapporten als Widgets en voeg het dashboard toe in je app als een iframe."
     }
 }

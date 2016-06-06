@@ -7,8 +7,11 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 
@@ -21,23 +24,25 @@ use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
  */
 class BlobReportLimitingTest extends SystemTestCase
 {
+    /**
+     * @var ManyVisitsWithMockLocationProvider
+     */
     public static $fixture = null; // initialized below class definition
 
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        self::setUpConfigOptions();
-        parent::setUpBeforeClass();
+        Cache::getTransientCache()->flushAll();
+        parent::setUp();
     }
 
     public function getApiForTesting()
     {
-        // TODO: test Provider plugin? Not sure if it's possible.
         $apiToCall = array(
             'Actions.getPageUrls', 'Actions.getPageTitles', 'Actions.getDownloads', 'Actions.getOutlinks',
             'CustomVariables.getCustomVariables',
             'Referrers.getReferrerType', 'Referrers.getKeywords', 'Referrers.getSearchEngines',
             'Referrers.getWebsites', 'Referrers.getAll', /* TODO 'Referrers.getCampaigns', */
-            'UserSettings.getResolution', 'UserSettings.getConfiguration', 'DevicesDetection.getOsVersions',
+            'Resolution.getResolution', 'Resolution.getConfiguration', 'DevicesDetection.getOsVersions',
             'DevicesDetection.getBrowserVersions',
             'UserCountry.getRegion', 'UserCountry.getCity',
         );
@@ -64,6 +69,8 @@ class BlobReportLimitingTest extends SystemTestCase
                                                'date'    => $dateTime,
                                                'periods' => array('day'))),
 
+            // TODO these system tests need to be moved to Provider plugin
+            /*
             array('Provider.getProvider', array('idSite'  => $idSite,
                                                 'date'    => $dateTime,
                                                 'periods' => array('month'))),
@@ -73,6 +80,7 @@ class BlobReportLimitingTest extends SystemTestCase
                                                 'periods'    => array('month'),
                                                 'segment'    => 'provider==comcast.net',
                                                 'testSuffix' => '_segment_provider')),
+            */
 
             // test getDownloads w/ period=range & flat=1
             array('Actions.getDownloads', array('idSite'                 => $idSite,
@@ -91,7 +99,26 @@ class BlobReportLimitingTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        self::setUpConfigOptions();
+
         $this->runApiTests($api, $params);
+    }
+
+    /**
+     * @dataProvider getApiForTesting
+     */
+    public function testApiWithFlattening($apiToCall, $params)
+    {
+        if (empty($params['testSuffix'])) {
+            $params['testSuffix'] = '';
+        }
+        $params['testSuffix'] .= '_flattened';
+        if (empty($params['otherRequestParameters'])) {
+            $params['otherRequestParameters'] = array();
+        }
+        $params['otherRequestParameters']['flat'] = '1';
+
+        $this->runApiTests($apiToCall, $params);
     }
 
     public function testApiWithRankingQuery()
@@ -145,8 +172,6 @@ class BlobReportLimitingTest extends SystemTestCase
 
     protected static function setUpConfigOptions()
     {
-        Config::getInstance()->setTestEnvironment();
-
         $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
@@ -160,4 +185,3 @@ class BlobReportLimitingTest extends SystemTestCase
 }
 
 BlobReportLimitingTest::$fixture = new ManyVisitsWithMockLocationProvider();
-BlobReportLimitingTest::$fixture->createConfig = false;

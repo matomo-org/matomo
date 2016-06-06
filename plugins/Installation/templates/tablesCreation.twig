@@ -2,60 +2,55 @@
 
 {% block content %}
 
-<h2>{{ 'Installation_Tables'|translate }}</h2>
+    <h2>{{ 'Installation_Tables'|translate }}</h2>
 
-{% if someTablesInstalled is defined %}
-    <div class="warning">{{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>")|raw }}
-        <img src="plugins/Morpheus/images/warning_medium.png"/>
-    </div>
-    <div id="toggle" style="display:none;color:#4F2410;font-size: small;">
-            <em>{{ 'Installation_TablesFound'|translate }}: <br/>
-                {{ tablesInstalled }} </em>
-    </div>
-    {% if showReuseExistingTables is defined %}
-        <p>{{ 'Installation_TablesWarningHelp'|translate }}</p>
-        <p class="nextStep"><a href="{{ linkTo({'action':'reuseTables'}) }}">{{ 'Installation_TablesReuse'|translate }} &raquo;</a></p>
-    {% else %}
-        <p class="nextStep"><a href="{{ linkTo({'action':previousPreviousModuleName}) }}">&laquo; {{ 'Installation_GoBackAndDefinePrefix'|translate }}</a></p>
+    {% if someTablesInstalled is defined %}
+        <div class="alert alert-warning">
+            {{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>")|raw }}
+        </div>
+        <p>
+            {{ 'Installation_TablesFound'|translate }}:
+        </p>
+        <p>
+            <em>{{ tablesInstalled }} </em>
+        </p>
+        {% if showReuseExistingTables is defined %}
+            <p>{{ 'Installation_TablesWarningHelp'|translate }}</p>
+            <p class="next-step">
+                <a href="{{ linkTo({'action':'reuseTables'}) }}">{{ 'Installation_TablesReuse'|translate }} &raquo;</a>
+            </p>
+        {% else %}
+            <p class="next-step">
+                <a href="{{ linkTo({'action':previousPreviousModuleName}) }}">&laquo; {{ 'Installation_GoBackAndDefinePrefix'|translate }}</a>
+            </p>
+        {% endif %}
+        <p class="next-step">
+            <a href="{{ linkTo({'deleteTables':1}) }}" id="eraseAllTables">{{ 'Installation_TablesDelete'|translate }} &raquo;</a>
+        </p>
     {% endif %}
-    <p class="nextStep"><a href="{{ linkTo({'deleteTables':1}) }}" id="eraseAllTables">{{ 'Installation_TablesDelete'|translate }} &raquo;</a></p>
-{% endif %}
 
-{% if existingTablesDeleted is defined %}
-    <div class="success"> {{ 'Installation_TablesDeletedSuccess'|translate }}
-        <img src="plugins/Morpheus/images/success_medium.png"/></div>
-{% endif %}
+    {% if existingTablesDeleted is defined %}
+        <div class="alert alert-success">
+            {{ 'Installation_TablesDeletedSuccess'|translate }}
+        </div>
+    {% endif %}
 
-{% if tablesCreated is defined %}
-    <div class="success"> {{ 'Installation_TablesCreatedSuccess'|translate }}
-        <img src="plugins/Morpheus/images/success_medium.png"/></div>
-{% endif %}
+    {% if tablesCreated is defined %}
+        <div class="alert alert-success">
+            {{ 'Installation_TablesCreatedSuccess'|translate }}
+        </div>
+    {% endif %}
 
-<script>
-    $(document).ready(function () {
-        var strConfirmEraseTables = "{{ 'Installation_ConfirmDeleteExistingTables'|translate("["~tablesInstalled~"]") }} ";
+    <script>
+        $(document).ready(function () {
+            var strConfirmEraseTables = "{{ 'Installation_ConfirmDeleteExistingTables'|translate("["~tablesInstalled~"]") }} ";
 
-        // toggle the display of the tables detected during the installation when clicking
-        // on the span "linkToggle"
-        $("#linkToggle")
-            .css("border-bottom", "thin dotted #ff5502")
-
-            .hover(function () {
-                $(this).css({ cursor: "pointer"});
-            },
-            function () {
-                $(this).css({ cursor: "auto"});
-            })
-            .css("border-bottom", "thin dotted #ff5502")
-            .click(function () {
-                $("#toggle").toggle();
+            $("#eraseAllTables").click(function () {
+                if (!confirm(strConfirmEraseTables)) {
+                    return false;
+                }
             });
-
-        $("#eraseAllTables").click(function () {
-            if (!confirm(strConfirmEraseTables)) {
-                return false;
-            }
         });
-    });
-</script>
+    </script>
+
 {% endblock %}

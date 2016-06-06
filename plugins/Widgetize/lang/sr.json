@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Otvori u novom prozoru",
-        "PluginDescription": "Ovaj dodatak vam omogućuje da na veoma jednostavan način prikažete bilo koji od Piwik vidžeta na svom blogu, sajtu, Igoogle ili Netvibes!",
+        "PluginDescription": "Prikaz bilo kog Piwik izveštaja na vašem sajtu pomoću jednostavnog HTML taga.",
         "TopLinkTooltip": "Prikaži Piwik izveštaje kao vidžete i ugradi konzolu u svoju aplikaciju kao iframe."
     }
 }

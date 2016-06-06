@@ -1,0 +1,11 @@
+<h2 piwik-enriched-headline>{{ 'Referrers_ReferrerTypes'|translate }}</h2>
+{{ dataTableReferrerType|raw }}
+
+<div style="clear:both;"></div>
+
+{% if totalVisits > 0 %}
+    <h2 piwik-enriched-headline>{{ 'Referrers_Referrers'|translate }}</h2>
+    {{ referrersReportsByDimension|raw }}
+{% endif %}
+
+{% include "_sparklineFooter.twig" %}

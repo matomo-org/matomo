@@ -1,4 +1,4 @@
-{% extends 'admin.twig' %}
+{% extends 'user.twig' %}
 
 {% block head %}
     {{ parent() }}
@@ -6,14 +6,17 @@
     <script type="text/javascript" src="plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js"></script>
 {% endblock %}
 
+
+{% set title %}{{ 'CoreAdminHome_JavaScriptTracking'|translate }}{% endset %}
+
 {% block content %}
 <div id="js-tracking-generator-data" max-custom-variables="{{ maxCustomVariables|e('html_attr') }}" data-currencies="{{ currencySymbols|json_encode }}"></div>
 
 <h2 piwik-enriched-headline
     feature-name="{{ 'CoreAdminHome_TrackingCode'|translate }}"
-    help-url="http://piwik.org/docs/tracking-api/">{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
+    help-url="http://piwik.org/docs/tracking-api/">{{ title }}</h2>
 
-<div id="js-code-options" class="adminTable">
+<div id="js-code-options">
 
     <p>
         {{ 'CoreAdminHome_JSTrackingIntro1'|translate }}
@@ -25,9 +28,9 @@
         {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/javascript-tracking/">','</a>')|raw }}
     </p>
 
-    <div>
+    <div class="form-group">
         {# website #}
-        <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
+        <label>{{ 'General_Website'|translate }}</label>
 
         <div piwik-siteselector
              class="sites_autocomplete"
@@ -37,181 +40,163 @@
              switch-site-on-select="false"
              id="js-tracker-website"
              show-selected-site="true"></div>
-
-        <br/><br/><br/>
     </div>
 
-    <table id="optional-js-tracking-options" class="adminTable">
-        <tr>
-            <th>{{ 'General_Options'|translate }}</th>
-            <th>{{ 'Mobile_Advanced'|translate }}
-                <a href="#" class="section-toggler-link" data-section-id="javascript-advanced-options">({{ 'General_Show'|translate }})</a>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                {# track across all subdomains #}
-                <div class="tracking-option-section">
-                    <input type="checkbox" id="javascript-tracking-all-subdomains"/>
-                    <label for="javascript-tracking-all-subdomains">{{ 'CoreAdminHome_JSTracking_MergeSubdomains'|translate }}
-                        <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
-                    </label>
+    <h3>{{ 'General_Options'|translate }}</h3>
 
-                    <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate("x.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>","y.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>")|raw }}
+    <div id="optional-js-tracking-options">
+
+        {# track across all subdomains #}
+        <div class="form-group">
+            <div class="form-help">
+                {{ 'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate("x.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>","y.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>")|raw }}
+                {{ 'General_LearnMore'|translate(' (<a href="http://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains" rel="noreferrer"  target="_blank">', '</a>)')|raw }}
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" id="javascript-tracking-all-subdomains"/>
+                {{ 'CoreAdminHome_JSTracking_MergeSubdomains'|translate }}
+                <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
+            </label>
+        </div>
+
+        {# group page titles by site domain #}
+        <div class="form-group">
+            <div class="form-help">
+                {{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1'|translate("<span class='current-site-host'>" ~ defaultReportSiteDomain ~ "</span>")|raw }}
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" id="javascript-tracking-group-by-domain"/>
+                {{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate }}
+            </label>
+        </div>
+
+        {# track across all site aliases #}
+        <div class="form-group">
+            <div class="form-help">
+                {{ 'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate("<span class='current-site-alias'>"~defaultReportSiteAlias~"</span>")|raw }}
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" checked="checked" id="javascript-tracking-all-aliases"/>
+                {{ 'CoreAdminHome_JSTracking_MergeAliases'|translate }}
+                <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
+            </label>
+        </div>
+
+        <h3>{{ 'Mobile_Advanced'|translate }}</h3>
+
+        <p>
+            <a href="#" class="section-toggler-link" data-section-id="javascript-advanced-options">{{ 'General_Show'|translate }}</a>
+        </p>
+
+        <div id="javascript-advanced-options" style="display:none;">
+
+            {# visitor custom variable #}
+            <div id="javascript-tracking-visitor-cv">
+                <div class="form-group">
+                    <div class="form-help">
+                        {{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate }}
                     </div>
-                </div>
-
-                {# group page titles by site domain #}
-                <div class="tracking-option-section">
-                    <input type="checkbox" id="javascript-tracking-group-by-domain"/>
-                    <label for="javascript-tracking-group-by-domain">{{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate }}</label>
-
-                    <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1'|translate("<span class='current-site-host'>" ~ defaultReportSiteDomain ~ "</span>")|raw }}
-                    </div>
-                </div>
-
-                {# track across all site aliases #}
-                <div class="tracking-option-section">
-                    <input type="checkbox" id="javascript-tracking-all-aliases"/>
-                    <label for="javascript-tracking-all-aliases">{{ 'CoreAdminHome_JSTracking_MergeAliases'|translate }}
-                        <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
-                    </label>
-
-                    <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate("<span class='current-site-alias'>"~defaultReportSiteAlias~"</span>")|raw }}
-                    </div>
-                </div>
-
-            </td>
-            <td>
-                <div id="javascript-advanced-options" style="display:none;">
-                    {# visitor custom variable #}
-                    <div class="custom-variable tracking-option-section" id="javascript-tracking-visitor-cv">
+                    <label class="checkbox">
                         <input class="section-toggler-link" type="checkbox" id="javascript-tracking-visitor-cv-check" data-section-id="js-visitor-cv-extra"/>
-                        <label for="javascript-tracking-visitor-cv-check">{{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate }}
-                        </div>
-
-                        <table style="display:none;" id="js-visitor-cv-extra">
-                            <tr>
-                                <td><strong>{{ 'General_Name'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-name" placeholder="e.g. Type"/></td>
-                                <td><strong>{{ 'General_Value'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-value" placeholder="e.g. Customer"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="text-align:right;">
-                                    <a href="#" class="add-custom-variable">{{ 'General_Add'|translate }}</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    {# page view custom variable #}
-                    <div class="custom-variable tracking-option-section" id="javascript-tracking-page-cv">
-                        <input class="section-toggler-link" type="checkbox" id="javascript-tracking-page-cv-check" data-section-id="js-page-cv-extra"/>
-                        <label for="javascript-tracking-page-cv-check">{{ 'CoreAdminHome_JSTracking_PageCustomVars'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_PageCustomVarsDesc'|translate }}
-                        </div>
-
-                        <table style="display:none;" id="js-page-cv-extra">
-                            <tr>
-                                <td><strong>{{ 'General_Name'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-name" placeholder="e.g. Category"/></td>
-                                <td><strong>{{ 'General_Value'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-value" placeholder="e.g. White Papers"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="text-align:right;">
-                                    <a href="#" class="add-custom-variable">{{ 'General_Add'|translate }}</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    {# do not track support #}
-                    <div class="tracking-option-section">
-                        <input type="checkbox" id="javascript-tracking-do-not-track"/>
-                        <label for="javascript-tracking-do-not-track">{{ 'CoreAdminHome_JSTracking_EnableDoNotTrack'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_EnableDoNotTrackDesc'|translate }}
-                            {% if serverSideDoNotTrackEnabled %}
-                                <br/>
-                                <br/>
-                                {{ 'CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled'|translate }}
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    {# disable all cookies options #}
-                    <div class="tracking-option-section">
-                        <input type="checkbox" id="javascript-tracking-disable-cookies"/>
-                        <label for="javascript-tracking-disable-cookies">{{ 'CoreAdminHome_JSTracking_DisableCookies'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_DisableCookiesDesc'|translate }}
-                        </div>
-                    </div>
-
-                    {# custom campaign name/keyword query params #}
-                    <div class="tracking-option-section">
-                        <input class="section-toggler-link" type="checkbox" id="custom-campaign-query-params-check"
-                               data-section-id="js-campaign-query-param-extra"/>
-                        <label for="custom-campaign-query-params-check">{{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="http://piwik.org/faq/general/#faq_119" rel="noreferrer"  target="_blank">','</a>')|raw }}
-                        </div>
-
-                        <table style="display:none;" id="js-campaign-query-param-extra">
-                            <tr>
-                                <td><strong>{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate }}</strong></td>
-                                <td><input type="text" id="custom-campaign-name-query-param"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate }}</strong></td>
-                                <td><input type="text" id="custom-campaign-keyword-query-param"/></td>
-                            </tr>
-                        </table>
-                    </div>
+                        {{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate }}
+                    </label>
                 </div>
-            </td>
-        </tr>
-    </table>
+                <table id="js-visitor-cv-extra" style="display:none;">
+                    <tr>
+                        <th>{{ 'General_Name'|translate }}</th>
+                        <th>{{ 'General_Value'|translate }}</th>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="custom-variable-name" placeholder="e.g. Type"/></td>
+                        <td><input type="text" class="custom-variable-value" placeholder="e.g. Customer"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align:right;">
+                            <a href="#" class="add-custom-variable">{{ 'General_Add'|translate }}</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            {# do not track support #}
+            <div class="form-group">
+                <div class="form-help">
+                    {{ 'CoreAdminHome_JSTracking_EnableDoNotTrackDesc'|translate }}
+                    {% if serverSideDoNotTrackEnabled %}
+                        <br/>
+                        {{ 'CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled'|translate }}
+                    {% endif %}
+                </div>
+                <label class="checkbox">
+                    <input type="checkbox" id="javascript-tracking-do-not-track"/>
+                    {{ 'CoreAdminHome_JSTracking_EnableDoNotTrack'|translate }}
+                </label>
+            </div>
+
+            {# disable all cookies options #}
+            <div class="form-group">
+                <div class="form-help">
+                    {{ 'CoreAdminHome_JSTracking_DisableCookiesDesc'|translate }}
+                </div>
+                <label class="checkbox">
+                    <input type="checkbox" id="javascript-tracking-disable-cookies"/>
+                    {{ 'CoreAdminHome_JSTracking_DisableCookies'|translate }}
+                </label>
+            </div>
+
+            {# custom campaign name/keyword query params #}
+            <div class="form-group">
+                <div class="form-help">
+                    {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="http://piwik.org/faq/general/#faq_119" rel="noreferrer"  target="_blank">','</a>')|raw }}
+                </div>
+                <label class="checkbox">
+                    <input class="section-toggler-link" type="checkbox"
+                           id="custom-campaign-query-params-check"
+                           data-section-id="js-campaign-query-param-extra"/>
+                    {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate }}
+                </label>
+            </div>
+            <div style="display:none;" id="js-campaign-query-param-extra">
+                <div class="form-group">
+                    <label>{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate }}</label>
+                    <input type="text" id="custom-campaign-name-query-param"/>
+                </div>
+                <div class="form-group">
+                    <label>{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate }}</label>
+                    <input type="text" id="custom-campaign-keyword-query-param"/>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
 <div id="javascript-output-section">
     <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
 
-    <p class="form-description">{{ 'CoreAdminHome_JSTracking_CodeNote'|translate("&lt;/body&gt;")|raw }}</p>
+    <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
 
     <div id="javascript-text">
-        <textarea> </textarea>
+        <textarea class="codeblock"> </textarea>
     </div>
-    <br/>
 </div>
 
 <h2 id="image-tracking-link">{{ 'CoreAdminHome_ImageTracking'|translate }}</h2>
 
-<div id="image-tracking-code-options" class="adminTable">
+<div id="image-tracking-code-options">
 
     <p>
         {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<em>&lt;noscript&gt;&lt;/noscript&gt;</em>")|raw }}
-        <br/><br/>
+    </p>
+    <p>
         {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="http://piwik.org/docs/tracking-api/reference/" rel="noreferrer"  target="_blank">','</a>')|raw }}
     </p>
 
-    <div>
-        {# website #}
-        <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
+    {# website #}
+    <div class="form-group">
+        <label>{{ 'General_Website'|translate }}</label>
         <div piwik-siteselector
              class="sites_autocomplete"
              siteid="{{ idSite }}"
@@ -220,55 +205,44 @@
              show-all-sites-item="false"
              switch-site-on-select="false"
              show-selected-site="true"></div>
-
-        <br/><br/><br/>
     </div>
 
-    <table id="image-tracking-section" class="adminTable">
-        <tr>
-            <th>{{ 'General_Options'|translate }}</th>
-            <th>{{ 'Mobile_Advanced'|translate }}
-                <a href="#" class="section-toggler-link" data-section-id="image-tracker-advanced-options">
-                    ({{ 'General_Show'|translate }})
-                </a>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                {# action_name #}
-                <div class="tracking-option-section">
-                    <label for="image-tracker-action-name">{{ 'Actions_ColumnPageName'|translate }}</label>
-                    <input type="text" id="image-tracker-action-name"/>
-                </div>
-            </td>
-            <td>
-                <div id="image-tracker-advanced-options" style="display:none;">
-                    {# goal #}
-                    <div class="goal-picker tracking-option-section">
-                        <input class="section-toggler-link" type="checkbox" id="image-tracking-goal-check" data-section-id="image-goal-picker-extra"/>
-                        <label for="image-tracking-goal-check">{{ 'CoreAdminHome_TrackAGoal'|translate }}</label>
+    <h3>{{ 'General_Options'|translate }}</h3>
 
-                        <div style="display:none;" id="image-goal-picker-extra">
-                            <select id="image-tracker-goal">
-                                <option value="">{{ 'UserCountryMap_None'|translate }}</option>
-                            </select>
-                            <span>{{ 'CoreAdminHome_WithOptionalRevenue'|translate }}</span>
-                            <span class="currency">{{ defaultSiteRevenue }}</span>
-                            <input type="text" class="revenue" value=""/>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
+    <div id="image-tracking-section">
 
-    <div id="image-link-output-section" width="560px">
-        <h3>{{ 'CoreAdminHome_ImageTrackingLink'|translate }}</h3><br/><br/>
+        {# action_name #}
+        <div class="form-group">
+            <label for="image-tracker-action-name">{{ 'Actions_ColumnPageName'|translate }}</label>
+            <input type="text" id="image-tracker-action-name"/>
+        </div>
+
+        {# goal #}
+        <div class="form-group">
+            <label class="checkbox">
+                <input class="section-toggler-link" type="checkbox" id="image-tracking-goal-check" data-section-id="image-goal-picker-extra"/>
+                {{ 'CoreAdminHome_TrackAGoal'|translate }}
+            </label>
+        </div>
+        <div class="form-group" style="display:none;" id="image-goal-picker-extra">
+            <select id="image-tracker-goal">
+                <option value="">{{ 'UserCountryMap_None'|translate }}</option>
+            </select>
+            <span>{{ 'CoreAdminHome_WithOptionalRevenue'|translate }}</span>
+            <div class="input-group">
+                <input type="text" class="revenue" value=""/>
+                <span class="input-group-addon">{{ defaultSiteRevenue }}</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="image-link-output-section">
+        <h3>{{ 'CoreAdminHome_ImageTrackingLink'|translate }}</h3>
 
         <div id="image-tracking-text">
-            <textarea> </textarea>
+            <textarea class="codeblock"> </textarea>
         </div>
-        <br/>
     </div>
 
 </div>

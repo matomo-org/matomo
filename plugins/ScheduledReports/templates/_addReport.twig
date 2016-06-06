@@ -1,7 +1,4 @@
 <div class="entityAddContainer" style="display:none;">
-    <div class='entityCancel'>
-        {{ 'ScheduledReports_CancelAndReturnToReports'|translate("<a class='entityCancelLink'>","</a>")|raw }}
-    </div>
     <div class='clear'></div>
     <form id='addEditReport'>
         <table class="dataTable entityTable">
@@ -62,9 +59,7 @@
                         <br/>
                         {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
                         <br/>
-                        {{ 'ScheduledReports_ReportHour'|translate }}
-                        <input type="text" style="height: 0.9em;padding-left: 5px;width: 35px;" id="report_hour" class="inp" size="2">
-                        {{ 'ScheduledReports_OClock'|translate }}
+                        {{ 'ScheduledReports_ReportHour'|translate('<input type="text" id="report_hour" class="inp" size="2">')|raw }}
                     </div>
                 </td>
             </tr>

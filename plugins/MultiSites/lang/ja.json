@@ -2,8 +2,8 @@
     "MultiSites": {
         "Evolution": "推移",
         "LoadingWebsites": "ウェブサイトをロード中",
-        "Pagination": "%s の %s - %s",
-        "PluginDescription": "マルチサイト運営の概要や統計を表示します。 現在は、コア Piwik プラグインとしてメンテナンスされています。",
-        "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。"
+        "PluginDescription": "この便利な「すべてのウェブサイト」ダッシュボードで、すべてのウェブサイトとアプリケーションを見て、比較してください。",
+        "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。",
+        "Pagination": "%1$s の %2$s - %3$s"
     }
 }

@@ -11,16 +11,17 @@
         "Deactivate": "כבה",
         "Inactive": "לא פעיל",
         "LicenseHomepage": "אתר רישון השימוש",
-        "MenuPlatform": "פלטפורמה",
-        "OncePluginIsInstalledYouMayActivateHere": "ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
-        "PluginDescription": "ממשק ניהול תוספים.",
-        "PluginHomepage": "אתר התוסף",
         "PluginsExtendPiwik": "תוספים מרחיבים את היכולות של Piwik.",
+        "OncePluginIsInstalledYouMayActivateHere": "ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
+        "MenuPlatform": "פלטפורמה",
+        "PluginHomepage": "אתר התוסף",
+        "PluginKeywords": "מילות מפתח",
         "PluginsManagement": "ניהול תוספים",
         "Status": "מצב",
         "Theme": "ערכת עיצוב",
         "Themes": "ערכות עיצוב",
         "ThemesManagement": "ניהול ערכות עיצוב",
-        "Version": "גרסה"
+        "Version": "גרסה",
+        "Websites": "אתרים"
     }
 }

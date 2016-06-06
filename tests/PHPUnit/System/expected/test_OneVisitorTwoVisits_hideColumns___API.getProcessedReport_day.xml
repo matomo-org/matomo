@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>new name</website>
-	<prettyDate>Saturday 6 March 2010</prettyDate>
+	<prettyDate>Saturday, March 6, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<name>Page titles</name>
@@ -45,11 +45,14 @@
 	<reportMetadata>
 		<row>
 			
+			<idsubdatatable>5119</idsubdatatable>
 		</row>
 	</reportMetadata>
 	<reportTotal>
 		<entry_bounce_count>1</entry_bounce_count>
 		<entry_nb_actions>8</entry_nb_actions>
 		<exit_nb_visits>2</exit_nb_visits>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 	</reportTotal>
 </result>

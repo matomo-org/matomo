@@ -2,25 +2,14 @@
 {% set tooltipIndex = column ~ '_tooltip' %}
 {% if row.getMetadata(tooltipIndex) %}<span class="cell-tooltip" data-tooltip="{{ row.getMetadata(tooltipIndex) }}">{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
-    <a rel="noreferrer" target="_blank" href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
+    <a rel="noreferrer"
+       target="_blank"
+       href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
     {% if not row.getMetadata('logo') %}
-        <img class="link" width="10" height="9" src="plugins/Morpheus/images/link.gif"/>
+        <img class="link" width="10" height="9"
+             src="plugins/Morpheus/images/link.gif"/>
     {% endif %}
 {% endif %}
-{% if column=='label' %}
-    {% import 'macros.twig' as piwik %}
-
-    <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
-    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
-        {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
-        {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
-        {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
-{% endif %}<span class="value">{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}-{% endif %}</span>
-{% if column=='label' %}</span>{% endif %}
-{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
-    </a>
-{% endif %}
-{% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
 
 {% set totals = dataTable.getMetadata('totals') %}
 {% if column in totals|keys -%}
@@ -33,17 +22,38 @@
     {% endif %}
     {% set rowPercentage = row.getColumn(column)|percentage(reportTotal, 1) %}
     {% set metricTitle   = translations[column]|default(column) %}
-    {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|raw %}
+    {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|rawSafeDecoded %}
 
     {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(reportLabel, rowPercentage|e('html_attr'), reportTotal|e('html_attr'), metricTitle|e('html_attr'), translations[labelColumn]|default(labelColumn)|e('html_attr')) %}
 
     {% if siteTotal and siteTotal > reportTotal %}
         {% set totalPercentage   = row.getColumn(column)|percentage(siteTotal, 1) %}
-        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal, metricTitle) %}
+        {% set totalRatioTooltip = 'General_TotalRatioTooltip'|translate(totalPercentage, siteTotal|number(2,0), metricTitle) %}
     {% else %}
         {% set totalRatioTooltip = '' %}
     {% endif %}
 
-    <span class="ratio" title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }}">&nbsp;{{ rowPercentage }}</span>
+    <span class="ratio"
+          title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }}"
+          >&nbsp;{{ rowPercentage }}</span>
 {%- endif %}
+
+{% if column=='label' %}
+    {% import 'macros.twig' as piwik %}
+
+    <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
+    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
+        {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
+        {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
+        {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
+{% endif %}<span class="value">
+    {%- if row.getColumn(column) or (column=='label' and row.getColumn(column) is same as("0")) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{{- row.getColumn(column)|number(2,0)|raw -}}{% endif %}
+    {%- else -%}-
+    {%- endif -%}</span>
+{% if column=='label' %}</span>{% endif %}
+{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
+    </a>
+{% endif %}
+{% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
+
 {% endspaceless %}

@@ -12,7 +12,7 @@ namespace Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 use pPie;
 
-require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pPie.class.php";
+require_once PIWIK_INCLUDE_PATH . "/libs/pChart/class/pPie.class.php";
 
 /**
  *

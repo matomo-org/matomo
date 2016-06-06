@@ -15,6 +15,7 @@
         "InlineQuickHelp": "Önemli olduğunu düşündüğünüz yada veri analizleriniz için özel anonslar oluşturabilirsiniz (yeni yazılar yada site yenilenmesi gibi)",
         "LoginToAnnotate": "Not eklemek için giriş yapmalısınız.",
         "NoAnnotations": "Bu tarih aralığı için not yok.",
+        "PluginDescription": "Websiteniz de yaptığınız değişiklikleri farklı günlerde belirtmek için not eklemeye izin verir, veriniz ile ilgili analizleri saklar ve bunları meslektaşlarınız ile birlikte paylaşmanıza izn verir. Neden o veriye baktığınızı hatırlamanızdan emin olmak için veriye dipnot koyar.",
         "ViewAndAddAnnotations": "%s için notları göster ve yeni not ekle...",
         "YouCannotModifyThisNote": "Bunu değiştiremezsiniz. Bunun için bu siteye yönetici erişiminiz olması gerekli."
     }

@@ -1,0 +1,51 @@
+{% extends "dashboard.twig" %}
+
+{% block notification %}{% endblock %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
+{% block content %}
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            $('<div />').insertAfter('.site-without-data').liveWidget({
+                interval: 1000,
+                onUpdate: function () {
+                    // reload page as soon as a visit was detected
+                    document.location.reload();
+                },
+                dataUrlParams: {
+                    module: 'Live',
+                    action: 'getLastVisitsStart'
+                }
+            });
+        });
+    </script>
+
+    <div class="site-without-data">
+
+        <h2>{{ 'SitesManager_SiteWithoutDataTitle'|translate }}</h2>
+
+        <p>
+            {{ 'SitesManager_SiteWithoutDataDescription'|translate }}
+            {{ 'SitesManager_SiteWithoutDataSetupTracking'|translate('<a href="' ~ linkTo({
+                'module': 'CoreAdminHome',
+                'action': 'trackingCodeGenerator',
+            }) ~ '">', "</a>")|raw }}
+        </p>
+
+        <p>
+            {{ 'SitesManager_SiteWithoutDataMessageDisappears'|translate }}
+            {{ 'SitesManager_SiteWithoutDataSetupGoals'|translate('<a href="' ~ linkTo({
+                'module': 'Goals',
+                'action': 'manage',
+            }) ~ '">', "</a>")|raw }}
+        </p>
+
+        {{ trackingHelp|raw }}
+
+    </div>
+
+{% endblock %}

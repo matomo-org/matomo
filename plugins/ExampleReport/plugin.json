@@ -1,7 +1,7 @@
 {
  "name": "ExampleReport",
  "version": "0.1.0",
- "description": "A plugin that shows how to define a report",
+ "description": "Piwik Platform showcase: how to define and display a data report.",
  "theme": false,
  "authors": [
      {

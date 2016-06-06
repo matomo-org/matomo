@@ -16,35 +16,6 @@ use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
 
-class TestRequest extends  Request {
-
-    public function getCookieName()
-    {
-        return parent::getCookieName();
-    }
-
-    public function getCookieExpire()
-    {
-        return parent::getCookieExpire();
-    }
-
-    public function getCookiePath()
-    {
-        return parent::getCookiePath();
-    }
-
-    public function makeThirdPartyCookie()
-    {
-        return parent::makeThirdPartyCookie();
-    }
-
-    public function setIsAuthenticated()
-    {
-        $this->isAuthenticated = true;
-    }
-
-}
-
 /**
  * @group RequestSetTest
  * @group RequestSet
@@ -132,6 +103,8 @@ class RequestTest extends UnitTestCase
         $this->assertCount(1, $request->getParams());
 
         $this->assertTrue($request->isEmptyRequest());
+
+        unset($_SERVER['HTTP_REFERER']);
     }
 
     public function test_isEmptyRequest_ShouldReturnFalse_InCaseAtLEastOneParamIssSet()
@@ -464,9 +437,16 @@ class RequestTest extends UnitTestCase
 
     public function test_getBrowserLanguage_ShouldReturnADefaultLanguageInCaseNoneIsSet()
     {
+        $envLanguage = getenv('LANG');
+        putenv('LANG=en');
+
         $lang = $this->request->getBrowserLanguage();
         $this->assertNotEmpty($lang);
         $this->assertTrue(2 <= strlen($lang) && strlen($lang) <= 10);
+
+        if ($envLanguage !== false) {
+            putenv('LANG=' . $envLanguage);
+        }
     }
 
     public function test_makeThirdPartyCookie_ShouldReturnAnInstanceOfCookie()
@@ -490,23 +470,29 @@ class RequestTest extends UnitTestCase
         $this->assertContains($needle, $cookie . '');
     }
 
+    public function test_getLocalTime()
+    {
+        $request = $this->buildRequest(array('h' => '12', 'm' => '34', 's' => '3'));
+        $this->assertSame('12:34:03', $request->getLocalTime());
+
+
+        $request = $this->buildRequest(array('h' => '23', 'm' => '59', 's' => '59'));
+        $this->assertSame('23:59:59', $request->getLocalTime());
+    }
+
+    public function test_getLocalTime_shouldReturnValidTime_whenTimeWasInvalid()
+    {
+        $request = $this->buildRequest(array('h' => '26', 'm' => '60', 's' => '333'));
+        $this->assertSame('00:00:00', $request->getLocalTime());
+
+        $request = $this->buildRequest(array('h' => '-26', 'm' => '-60', 's' => '-333'));
+        $this->assertSame('00:00:00', $request->getLocalTime());
+    }
+
     public function test_getIdSite()
     {
         $request = $this->buildRequest(array('idsite' => '14'));
         $this->assertSame(14, $request->getIdSite());
-    }
-
-    public function test_getIdSite_shouldTriggerEventAndReturnThatIdSite()
-    {
-        $self = $this;
-        Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
-            $self->assertSame(14, $idSite);
-            $self->assertEquals(array('idsite' => '14'), $params);
-            $idSite = 12;
-        });
-
-        $request = $this->buildRequest(array('idsite' => '14'));
-        $this->assertSame(12, $request->getIdSite());
     }
 
     /**
@@ -590,6 +576,32 @@ class RequestTest extends UnitTestCase
     {
         return new TestRequest($params, $token);
     }
+}
 
+class TestRequest extends Request
+{
+    public function getCookieName()
+    {
+        return parent::getCookieName();
+    }
 
+    public function getCookieExpire()
+    {
+        return parent::getCookieExpire();
+    }
+
+    public function getCookiePath()
+    {
+        return parent::getCookiePath();
+    }
+
+    public function makeThirdPartyCookie()
+    {
+        return parent::makeThirdPartyCookie();
+    }
+
+    public function setIsAuthenticated()
+    {
+        $this->isAuthenticated = true;
+    }
 }

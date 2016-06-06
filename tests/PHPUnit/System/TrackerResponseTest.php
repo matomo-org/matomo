@@ -94,13 +94,24 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertResponseCode(400, $url . '1'); // has to be 16 char, but is 17 now
     }
 
-    public function test_response_ShouldReturnPiwikMessage_InCaseOfEmptyRequest()
+    // See https://github.com/piwik/piwik/issues/7850 piwik.php is used by plugins and monitoring systems to test for Piwik installation.
+    // it is important to return a 200 if someone does a GET request with no parameters
+    public function test_response_ShouldReturnPiwikMessageWithHttp200_InCaseOfEmptyGETRequest()
     {
         $url = Fixture::getTrackerUrl();
-        $response = file_get_contents($url);
+        $this->assertResponseCode(200, $url);
 
         $expected = "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
-        $this->assertEquals($expected, $response);
+        $this->assertHttpResponseText($expected, $url);
+    }
+
+    public function test_response_ShouldReturnPiwikMessageWithHttp400_InCaseOfInvalidRequestOrIfNothingIsTracked()
+    {
+        $url = Fixture::getTrackerUrl();
+        $this->assertResponseCode(400, $url . '?rec=1');
+
+        $expected = "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
+        $this->assertHttpResponseText($expected, $url);
     }
 
 }

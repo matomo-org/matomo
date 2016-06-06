@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "環境設定",
+        "ColumnResolution": "解像度",
+        "Configurations": "環境設定",
+        "PluginDescription": "ビジターの画面解像度を報告します。",
+        "Resolutions": "解像度",
+        "WidgetGlobalVisitors": "ビジターの全般的な環境設定",
+        "WidgetGlobalVisitorsDocumentation": "ビジターの最も一般的な利用環境についてのリポートです。オペレーティングシステム、ブラウザの種類と画面の解像度の組合せで表示します。",
+        "WidgetResolutions": "画面解像度"
+    }
+}

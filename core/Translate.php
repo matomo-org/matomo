@@ -9,14 +9,16 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugin\Manager;
+use Piwik\Translation\Translator;
 
 /**
+ * @deprecated Use Piwik\Translation\Translator instead.
+ * @see \Piwik\Translation\Translator
  */
 class Translate
 {
-    private static $languageToLoad = null;
-    private static $loadedLanguage = false;
-
     /**
      * Clean a string that may contain HTML special chars, single/double quotes, HTML entities, leading/trailing whitespace
      *
@@ -28,25 +30,27 @@ class Translate
         return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
     }
 
+    /**
+     * @deprecated
+     */
     public static function loadEnglishTranslation()
     {
-        self::loadCoreTranslationFile('en');
+        self::loadAllTranslations();
     }
 
+    /**
+     * @deprecated
+     */
     public static function unloadEnglishTranslation()
     {
-        $GLOBALS['Piwik_translations'] = array();
+        self::reset();
     }
 
+    /**
+     * @deprecated
+     */
     public static function reloadLanguage($language = false)
     {
-        if (empty($language)) {
-            $language = self::getLanguageToLoad();
-        }
-        self::unloadEnglishTranslation();
-        self::loadEnglishTranslation();
-        self::loadCoreTranslation($language);
-        \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations($language);
     }
 
     /**
@@ -57,41 +61,14 @@ class Translate
      */
     public static function loadCoreTranslation($language = false)
     {
-        if (empty($language)) {
-            $language = self::getLanguageToLoad();
-        }
-        if (self::$loadedLanguage == $language) {
-            return;
-        }
-        self::loadCoreTranslationFile($language);
+        self::getTranslator()->addDirectory(PIWIK_INCLUDE_PATH . '/lang');
     }
 
-    private static function loadCoreTranslationFile($language)
-    {
-        if (empty($language)) {
-            return;
-        }
-        $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.json';
-        if (!Filesystem::isValidFilename($language) || !is_readable($path)) {
-            throw new Exception(Piwik::translate('General_ExceptionLanguageFileNotFound', array($language)));
-        }
-        $data = file_get_contents($path);
-        $translations = json_decode($data, true);
-        self::mergeTranslationArray($translations);
-        self::setLocale();
-        self::$loadedLanguage = $language;
-    }
-
+    /**
+     * @deprecated
+     */
     public static function mergeTranslationArray($translation)
     {
-        if (!isset($GLOBALS['Piwik_translations'])) {
-            $GLOBALS['Piwik_translations'] = array();
-        }
-        if (empty($translation)) {
-            return;
-        }
-        // we could check that no string overlap here
-        $GLOBALS['Piwik_translations'] = array_replace_recursive($GLOBALS['Piwik_translations'], $translation);
     }
 
     /**
@@ -100,46 +77,13 @@ class Translate
      */
     public static function getLanguageToLoad()
     {
-        if (is_null(self::$languageToLoad)) {
-            $lang = Common::getRequestVar('language', '', 'string');
-
-            /**
-             * Triggered when the current user's language is requested.
-             *
-             * By default the current language is determined by the **language** query
-             * parameter. Plugins can override this logic by subscribing to this event.
-             *
-             * **Example**
-             *
-             *     public function getLanguage(&$lang)
-             *     {
-             *         $client = new My3rdPartyAPIClient();
-             *         $thirdPartyLang = $client->getLanguageForUser(Piwik::getCurrentUserLogin());
-             *
-             *         if (!empty($thirdPartyLang)) {
-             *             $lang = $thirdPartyLang;
-             *         }
-             *     }
-             *
-             * @param string &$lang The language that should be used for the current user. Will be
-             *                      initialized to the value of the **language** query parameter.
-             */
-            Piwik::postEvent('User.getLanguage', array(&$lang));
-
-            self::$languageToLoad = $lang;
-        }
-
-        return self::$languageToLoad;
+        return self::getTranslator()->getCurrentLanguage();
     }
 
     /** Reset the cached language to load. Used in tests. */
     public static function reset()
     {
-        self::$languageToLoad = null;
-    }
-
-    private static function isALanguageLoaded() {
-        return !empty($GLOBALS['Piwik_translations']);
+        self::getTranslator()->reset();
     }
 
     /**
@@ -148,16 +92,12 @@ class Translate
      */
     public static function getLanguageLoaded()
     {
-        if (!self::isALanguageLoaded()) {
-            return null;
-        }
-
-        return self::$loadedLanguage;
+        return self::getTranslator()->getCurrentLanguage();
     }
 
     public static function getLanguageDefault()
     {
-        return Config::getInstance()->General['default_language'];
+        return self::getTranslator()->getDefaultLanguage();
     }
 
     /**
@@ -165,77 +105,25 @@ class Translate
      */
     public static function getJavascriptTranslations()
     {
-        $translations = & $GLOBALS['Piwik_translations'];
-
-        $clientSideTranslations = array();
-        foreach (self::getClientSideTranslationKeys() as $key) {
-            list($plugin, $stringName) = explode("_", $key, 2);
-            $clientSideTranslations[$key] = $translations[$plugin][$stringName];
-        }
-
-        $js = 'var translations = ' . json_encode($clientSideTranslations) . ';';
-        $js .= "\n" . 'if (typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }' .
-            'for(var i in translations) { piwik_translations[i] = translations[i];} ';
-        return $js;
-    }
-
-    /**
-     * Returns the list of client side translations by key. These translations will be outputted
-     * to the translation JavaScript.
-     */
-    private static function getClientSideTranslationKeys()
-    {
-        $result = array();
-
-        /**
-         * Triggered before generating the JavaScript code that allows i18n strings to be used
-         * in the browser.
-         *
-         * Plugins should subscribe to this event to specify which translations
-         * should be available to JavaScript.
-         *
-         * Event handlers should add whole translation keys, ie, keys that include the plugin name.
-         *
-         * **Example**
-         *
-         *     public function getClientSideTranslationKeys(&$result)
-         *     {
-         *         $result[] = "MyPlugin_MyTranslation";
-         *     }
-         *
-         * @param array &$result The whole list of client side translation keys.
-         */
-        Piwik::postEvent('Translate.getClientSideTranslationKeys', array(&$result));
-
-        $result = array_unique($result);
-
-        return $result;
-    }
-
-    /**
-     * Set locale
-     *
-     * @see http://php.net/setlocale
-     */
-    private static function setLocale()
-    {
-        $locale = $GLOBALS['Piwik_translations']['General']['Locale'];
-        $locale_variant = str_replace('UTF-8', 'UTF8', $locale);
-        setlocale(LC_ALL, $locale, $locale_variant);
-        setlocale(LC_CTYPE, '');
+        return self::getTranslator()->getJavascriptTranslations();
     }
 
     public static function findTranslationKeyForTranslation($translation)
     {
-        if (empty($GLOBALS['Piwik_translations'])) {
-            return;
-        }
+        return self::getTranslator()->findTranslationKeyForTranslation($translation);
+    }
 
-        foreach ($GLOBALS['Piwik_translations'] as $key => $translations) {
-            $possibleKey = array_search($translation, $translations);
-            if (!empty($possibleKey)) {
-                return $key . '_' . $possibleKey;
-            }
-        }
+    /**
+     * @return Translator
+     */
+    private static function getTranslator()
+    {
+        return StaticContainer::get('Piwik\Translation\Translator');
+    }
+
+    public static function loadAllTranslations()
+    {
+        self::loadCoreTranslation();
+        Manager::getInstance()->loadPluginTranslations();
     }
 }

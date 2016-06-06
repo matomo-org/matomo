@@ -1,0 +1,23 @@
+<div class="row">
+
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ "DevicesDetection_OperatingSystems"|translate }}</h2>
+        {{ osReport | raw}}
+        {% if configurations|default is not empty %}
+            <h2 piwik-enriched-headline>{{ 'Resolution_Configurations'|translate }}</h2>
+            {{ configurations|raw }}
+        {% endif %}
+    </div>
+
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ "DevicesDetection_Browsers"|translate }}</h2>
+        {{ browserReport | raw }}
+        <h2 piwik-enriched-headline>{{ "DevicesDetection_BrowserEngines"|translate }}</h2>
+        {{ browserEngineReport | raw }}
+        {% if browserPlugins|default is not empty %}
+            <h2 piwik-enriched-headline>{{ 'General_Plugins'|translate }}</h2>
+            {{ browserPlugins|raw }}
+        {% endif %}
+    </div>
+
+</div>

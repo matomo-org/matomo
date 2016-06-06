@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Unknown</label>
+		<nb_visits>22</nb_visits>
+		<nb_actions>61</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>17831</sum_visit_length>
+		<bounce_count>11</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>22</nb_conversions>
+				<nb_visits_converted>22</nb_visits_converted>
+				<revenue>110</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>11</nb_conversions>
+				<nb_visits_converted>11</nb_visits_converted>
+				<revenue>55</revenue>
+			</row>
+		</goals>
+		<nb_conversions>33</nb_conversions>
+		<revenue>165</revenue>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<region>xx</region>
+		<country>xx</country>
+		<country_name>Unknown</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/UserCountry/images/flags/xx.png</logo>
+	</row>
+	<row>
+		<label>British Columbia, Canada</label>
+		<nb_visits>6</nb_visits>
+		<nb_actions>16</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>4863</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>6</nb_conversions>
+				<nb_visits_converted>6</nb_visits_converted>
+				<revenue>30</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>3</nb_conversions>
+				<nb_visits_converted>3</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>9</nb_conversions>
+		<revenue>45</revenue>
+		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>regionCode==BC;countryCode==ca</segment>
+		<region>BC</region>
+		<country>ca</country>
+		<country_name>Canada</country_name>
+		<region_name>British Columbia</region_name>
+		<logo>plugins/UserCountry/images/flags/ca.png</logo>
+	</row>
+	<row>
+		<label>Franche-Comte, France</label>
+		<nb_visits>3</nb_visits>
+		<nb_actions>7</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>3</nb_conversions>
+				<nb_visits_converted>3</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>4</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==A6;countryCode==fr</segment>
+		<region>A6</region>
+		<country>fr</country>
+		<country_name>France</country_name>
+		<region_name>Franche-Comte</region_name>
+		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+	</row>
+	<row>
+		<label>Lazio, Italy</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>15</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>regionCode==07;countryCode==it</segment>
+		<region>07</region>
+		<country>it</country>
+		<country_name>Italy</country_name>
+		<region_name>Lazio</region_name>
+		<logo>plugins/UserCountry/images/flags/it.png</logo>
+	</row>
+	<row>
+		<label>Unknown, Tibet</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>15</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>regionCode==1;countryCode==ti</segment>
+		<region>1</region>
+		<country>ti</country>
+		<country_name>Tibet</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/UserCountry/images/flags/ti.png</logo>
+	</row>
+</result>

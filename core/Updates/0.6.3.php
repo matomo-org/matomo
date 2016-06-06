@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_6_3 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
@@ -28,7 +28,7 @@ class Updates_0_6_3 extends Updates
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         $config = Config::getInstance();
         $dbInfos = $config->database;
@@ -44,6 +44,6 @@ class Updates_0_6_3 extends Updates
             }
         }
 
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

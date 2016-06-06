@@ -10,6 +10,7 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  * Update for version 2.10.0-b4.
@@ -17,13 +18,13 @@ use Piwik\Updates;
 class Updates_2_10_0_b4 extends Updates
 {
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {
             $pluginManager->activatePlugin('BulkTracking');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

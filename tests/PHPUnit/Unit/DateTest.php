@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\SettingsServer;
+use Piwik\Translate;
 
 /**
- * @group Core_DateTest
  */
 class DateTest extends \PHPUnit_Framework_TestCase
 {
@@ -88,6 +89,27 @@ class DateTest extends \PHPUnit_Framework_TestCase
             $time = $date->getTimestamp();
             $this->assertEquals($now, $time);
         }
+    }
+
+    public function test_getHourInUTC()
+    {
+        $date = Date::factory('today', 'UTC');
+        $hour = $date->getHourUTC();
+        $this->assertSame('0', $hour); // hour is already in UTC
+
+        $date = Date::factory('today', 'UTC+10');
+        $hour = $date->getHourUTC();
+        $this->assertSame('10', $hour);
+
+        $date = Date::factory('today');
+        $date = $date->setTime('14:00:00')->setTimezone('UTC+10'); // 14-10 = 4
+        $hour = $date->getHourUTC();
+        $this->assertSame('4', $hour);
+
+        $date = Date::factory('today');
+        $date = $date->setTime('14:00:00')->setTimezone('UTC-5'); // 14+5 = 19
+        $hour = $date->getHourUTC();
+        $this->assertSame('19', $hour);
     }
 
     /**
@@ -248,6 +270,23 @@ class DateTest extends \PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testSubSeconds()
+    {
+        $date = Date::factory('2010-03-01 00:01:25');
+        $dateExpected = Date::factory('2010-03-01 00:00:54');
+
+        $date = $date->subSeconds(31);
+        $this->assertSame($dateExpected->getTimestamp(), $date->getTimestamp());
+
+        $date = Date::factory('2010-03-01 00:01:25');
+        $dateExpected = Date::factory('2010-03-01 00:01:36');
+        $date = $date->subSeconds(-11);
+        $this->assertSame($dateExpected->getTimestamp(), $date->getTimestamp());
+    }
+
+    /**
+     * @group Core
+     */
     public function testAddPeriodMonthRespectsMaxDaysInMonth()
     {
         $date = Date::factory('2014-07-31');
@@ -293,5 +332,35 @@ class DateTest extends \PHPUnit_Framework_TestCase
             $date = Date::factory('2052-01-01');
             $this->assertTrue($date->isLeapYear());
         }
+    }
+
+
+    public function getLocalizedLongStrings()
+    {
+        return array(
+            array('en', false, '2000-01-01 16:05:52', '16:05:52'),
+            array('de', false, '2000-01-01 16:05:52', '16:05:52'),
+            array('en', true, '2000-01-01 16:05:52', '4:05:52 PM'),
+            array('de', true, '2000-01-01 04:05:52', '4:05:52 vorm.'),
+            array('zh-tw', true, '2000-01-01 04:05:52', '上午4:05:52'),
+            array('lt', true, '2000-01-01 16:05:52', '04:05:52 popiet'),
+            array('ar', true, '2000-01-01 04:05:52', '4:05:52 ص'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @dataProvider getLocalizedLongStrings
+     */
+    public function testGetLocalizedTimeFormats($language, $use12HourClock, $time, $shouldBe)
+    {
+        Translate::loadAllTranslations();
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+        StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider')->forceTimeFormat($use12HourClock);
+
+        $date = Date::factory($time);
+
+        $this->assertEquals($shouldBe, $date->getLocalized(Date::TIME_FORMAT));
+        Translate::reset();
     }
 }

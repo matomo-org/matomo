@@ -1,15 +1,20 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Kontakt Piwik-laget!",
         "DoYouHaveBugReportOrFeatureRequest": "Har du en feil å rapportere eller ny funksjonalitet du ønsker deg?",
         "IWantTo": "Jeg vil:",
-        "LearnWaysToParticipate": "Lær om alle måtene du kan %s bidra%s",
+        "LearnWaysToParticipate": "Lær om alle måtene du kan %1$s bidra%2$s",
         "ManuallySendEmailTo": "Send meldingen manuelt til",
-        "PluginDescription": "Send din tilbakemelding til Piwik-laget. Del din ideer og forslag med oss!",
+        "RateFeatureThankYouTitle": "Takk for at du rangerer «%s»!",
+        "RateFeatureTitle": "Liker du funksjonen «%s»? Vennligst ranger den og legg igjen en kommentar",
         "SendFeedback": "Send tilbakemelding",
-        "SpecialRequest": "Har du en spesiell forespørsel til Piwik-laget?",
         "ThankYou": "Takk for at du hjelper oss å lage Piwik bedre!",
         "TopLinkTooltip": "Fortell oss hva du synes eller be om profesjonell støtte.",
-        "VisitTheForums": "Besøk %sforumet%s"
+        "ProfessionalHelp": "Profesjonell hjelp",
+        "PiwikProOfferIntro": "Vårt tilbud inkluderer",
+        "PiwikProOptimizationMaintenance": "Piwik optimalisering- og vedlikeholdstjenester",
+        "PiwikProPhoneEmailSupport": "Telefon og e-post-støtte",
+        "PiwikProTraining": "Bruker, teknisk- og utviklertrening",
+        "PiwikProPremiumFeatures": "Premium-funksjoner",
+        "ContactUs": "Kontakt oss"
     }
 }

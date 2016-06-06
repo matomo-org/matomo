@@ -27,6 +27,7 @@
     "jScrollPane": "~2.0.0",
     "jquery-mousewheel": "~3.1.12",
     "jquery-placeholder": "~2.0.8",
+    "jQuery.dotdotdot": "~1.7.2",
     "jquery.scrollTo": "~1.4.13",
     "chroma-js": "~0.6.0",
     "visibilityjs": "~1.2.1"

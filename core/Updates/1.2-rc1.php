@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_2_rc1 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             // Various performance improvements schema updates
@@ -125,7 +125,7 @@ class Updates_1_2_rc1 extends Updates
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         // first we disable the plugins and keep an array of warnings messages
         $pluginsToDisableMessage = array(
@@ -141,7 +141,7 @@ class Updates_1_2_rc1 extends Updates
         }
 
         // Run the SQL
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         // Outputs warning message, pointing users to the plugin download page
         if (!empty($disabledPlugins)) {
@@ -150,7 +150,5 @@ class Updates_1_2_rc1 extends Updates
                 implode('</li><li>', $disabledPlugins) .
                 "</li></ul>");
         }
-
     }
 }
-

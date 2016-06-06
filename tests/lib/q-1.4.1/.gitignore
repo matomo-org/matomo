@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+CHANGES.html
+README.html
+.tmp
+q.min.js
+
+coverage/
+
+# IntelliJ IDEA project files
+.idea
+*.iml

@@ -26,6 +26,11 @@ class GetAll extends Base
         $this->widgetTitle  = 'Referrers_WidgetGetAll';
     }
 
+    public function getDefaultTypeViewDataTable()
+    {
+        return HtmlTable\AllColumns::ID;
+    }
+
     public function configureView(ViewDataTable $view)
     {
         $referrers = new Referrers();

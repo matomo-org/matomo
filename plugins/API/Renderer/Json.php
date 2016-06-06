@@ -61,8 +61,35 @@ class Json extends ApiRenderer
 
     public function sendHeader()
     {
-        Renderer\Json::sendHeaderJSON();
+        if ($this->isJsonp()) {
+            Common::sendHeader('Content-Type: application/javascript; charset=utf-8');
+        } else {
+            Renderer\Json::sendHeaderJSON();
+        }
+
         ProxyHttp::overrideCacheControlHeaders();
+    }
+
+    private function isJsonp()
+    {
+        $callback = $this->getJsonpCallback();
+
+        if (false === $callback) {
+            return false;
+        }
+
+        return preg_match('/^[0-9a-zA-Z_.]*$/D', $callback) > 0;
+    }
+
+    private function getJsonpCallback()
+    {
+        $jsonCallback = Common::getRequestVar('callback', false, null, $this->request);
+
+        if ($jsonCallback === false) {
+            $jsonCallback = Common::getRequestVar('jsoncallback', false, null, $this->request);
+        }
+
+        return $jsonCallback;
     }
 
     /**
@@ -71,16 +98,9 @@ class Json extends ApiRenderer
      */
     private function applyJsonpIfNeeded($str)
     {
-        $jsonCallback = Common::getRequestVar('callback', false, null, $this->request);
-
-        if ($jsonCallback === false) {
-            $jsonCallback = Common::getRequestVar('jsoncallback', false, null, $this->request);
-        }
-
-        if ($jsonCallback !== false) {
-            if (preg_match('/^[0-9a-zA-Z_.]*$/D', $jsonCallback) > 0) {
-                $str = $jsonCallback . "(" . $str . ")";
-            }
+        if ($this->isJsonp()) {
+            $jsonCallback = $this->getJsonpCallback();
+            $str = $jsonCallback . "(" . $str . ")";
         }
 
         return $str;

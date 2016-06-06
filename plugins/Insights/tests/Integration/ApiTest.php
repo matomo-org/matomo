@@ -6,10 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Insights\tests;
+namespace Piwik\Plugins\Insights\tests\Integration;
+
 use Piwik\API\Request as ApiRequest;
-use Piwik\Cache\PluginAwareStaticCache;
-use Piwik\Cache\StaticCache;
+use Piwik\Cache as PiwikCache;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Insights\API;
@@ -40,11 +40,17 @@ class ApiTest extends SystemTestCase
     {
         parent::setUp();
 
-        StaticCache::clearAll();
-        PluginAwareStaticCache::clearAll();
+        PiwikCache::flushAll();
 
-        Translate::reloadLanguage('en');
+        Translate::loadAllTranslations();
         $this->api = API::getInstance();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        Translate::reset();
     }
 
     /**

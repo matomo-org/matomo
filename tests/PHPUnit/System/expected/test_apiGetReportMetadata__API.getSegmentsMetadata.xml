@@ -82,6 +82,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
+		<name>Language</name>
+		<segment>languageCode</segment>
+		<acceptedValues>de, fr, en-gb, zh-cn, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit Location</category>
 		<name>Latitude</name>
 		<segment>latitude</segment>
 		<acceptedValues>-33.578, 40.830, etc.&lt;br/&gt;You can select visitors within a lat/long range using &amp;segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.</acceptedValues>
@@ -92,13 +99,6 @@
 		<name>Longitude</name>
 		<segment>longitude</segment>
 		<acceptedValues>-70.664, 14.326, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit Location</category>
-		<name>Provider</name>
-		<segment>provider</segment>
-		<acceptedValues>comcast.net, proxad.net, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -132,9 +132,16 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Device brand</name>
+		<segment>deviceBrand</segment>
+		<acceptedValues>3Q, Acer, Ainol, Airness, Alcatel, Allview, Altech UEC, Arnova, Amazon, Amoi, Apple, Archos, ARRIS, Airties, Asus, Avvio, Audiovox, Axxion, BBK, Becker, Bird, Beetel, Bmobile, Barnes &amp; Noble, BangOlufsen, BenQ, BenQ-Siemens, Blu, Boway, bq, Brondi, Bush, CUBOT, Carrefour, Captiva, Casio, Cat, Celkon, ConCorde, Changhong, Cherry Mobile, Cricket, Crosscall, Compal, CnM, Crius Mea, CreNova, Capitel, Compaq, Coolpad, Cowon, Cube, Coby Kyros, Danew, Datang, Denver, Desay, Dbtel, DoCoMo, Dicam, Dell, DNS, DMM, Doogee, Doov, Dopod, Dune HD, E-Boda, EBEST, Ericsson, ECS, Ezio, Elephone, Easypix, Energy Sistem, Ericy, Eton, eTouch, Evertek, Ezze, Fairphone, Fly, Foxconn, Fujitsu, Garmin-Asus, Gateway, Gemini, Gionee, Gigabyte, Gigaset, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hisense, Hi-Level, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, Ikea, iBall, i-Joy, iBerry, iKoMo, i-mate, iOcean, iNew, Infinix, Innostream, Inkti, Intex, i-mobile, INQ, Intek, Inverto, iTel, Jiayu, Jolla, Karbonn, KDDI, Kingsun, Konka, Komu, Koobee, K-Touch, KT-Tech, KOPO, Koridy, Kumai, Kyocera, Kazam, Lava, Lanix, LCT, Lenovo, Lenco, Le Pan, LG, Lingwin, Loewe, Logicom, Lexibook, Majestic, Manta Multimedia, Mobistel, Mecer, Medion, MEEG, Meizu, Metz, MEU, MicroMax, Mediacom, MediaTek, Mio, Mpman, Mofut, Motorola, Microsoft, MSI, Memup, Mitsubishi, MLLED, M.T.T., MyPhone, NEC, Netgear, NGM, Nintendo, Noain, Nokia, Nomi, Nikon, Newgen, Nexian, NextBook, Onda, OnePlus, OPPO, Orange, O2, Ouki, OUYA, Opsson, Panasonic, PEAQ, Philips, Pioneer, Polaroid, Palm, phoneOne, Pantech, Ployer, Point of View, PolyPad, Pomp, Positivo, Prestigio, ProScan, PULID, Qilive, Qtek, QMobile, Quechua, Overmax, Oysters, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Samsung, Sega, Sony Ericsson, Sencor, Softbank, SFR, Sagem, Sharp, Siemens, Sendo, Skyworth, Smartfren, Sony, Spice, SuperSonic, Selevision, Sanyo, Symphony, Smart, Star, Storex, Stonex, SunVan, Sumvision, Tesla, TCL, Telit, ThL, TiPhone, Tecno Mobile, Tesco, TIANYU, Telefunken, Telenor, T-Mobile, Thomson, Tolino, Toplux, Toshiba, TechnoTrend, Trevi, Tunisie Telecom, Turbo-X, TVC, TechniSat, teXet, Unowhy, Uniscope, UTStarcom, Vastking, Videocon, Vertu, Vitelcom, VK Mobile, ViewSonic, Vestel, Vivo, Voto, Voxtel, Vodafone, Vizio, Videoweb, Walton, WellcoM, Wexler, Wiko, Wolder, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Yuandao, Yusun, Ytone, Zeemi, Zonda, Zopo, ZTE, Web TV, Unknown</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Device type</name>
 		<segment>deviceType</segment>
-		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera</acceptedValues>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -148,7 +155,14 @@
 		<category>Visit</category>
 		<name>Operating system</name>
 		<segment>operatingSystemCode</segment>
-		<acceptedValues>WXP, WI7, MAC, LIN, AND, IPD, etc.</acceptedValues>
+		<acceptedValues>WIN, MAC, LIN, AND, IPD, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
+		<name>Operating system version</name>
+		<segment>operatingSystemVersion</segment>
+		<acceptedValues>XP, 7, 2.3, 5.1, ...</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -184,7 +198,7 @@
 		<category>Visit</category>
 		<name>Visit ID</name>
 		<segment>visitId</segment>
-		<acceptedValues>Any integer. </acceptedValues>
+		<acceptedValues>Any integer.</acceptedValues>
 		<permission>1</permission>
 	</row>
 	<row>
@@ -204,17 +218,17 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visitor ID</name>
-		<segment>visitorId</segment>
-		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
-		<permission>1</permission>
+		<name>Visit type</name>
+		<segment>visitorType</segment>
+		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visitor type</name>
-		<segment>visitorType</segment>
-		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
+		<name>Visitor ID</name>
+		<segment>visitorId</segment>
+		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -265,6 +279,19 @@
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
+		<name>Custom Variable name (scope visit)</name>
+		<segment>customVariableName</segment>
+		<unionOfSegments>
+			<row>customVariableName1</row>
+			<row>customVariableName2</row>
+			<row>customVariableName3</row>
+			<row>customVariableName4</row>
+			<row>customVariableName5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
 		<name>Custom Variable name 1 (scope visit)</name>
 		<segment>customVariableName1</segment>
 	</row>
@@ -291,6 +318,19 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable name 5 (scope visit)</name>
 		<segment>customVariableName5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable name (scope page)</name>
+		<segment>customVariablePageName</segment>
+		<unionOfSegments>
+			<row>customVariablePageName1</row>
+			<row>customVariablePageName2</row>
+			<row>customVariablePageName3</row>
+			<row>customVariablePageName4</row>
+			<row>customVariablePageName5</row>
+		</unionOfSegments>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -325,6 +365,19 @@
 	<row>
 		<type>dimension</type>
 		<category>Custom Variables</category>
+		<name>Custom Variable value (scope page)</name>
+		<segment>customVariablePageValue</segment>
+		<unionOfSegments>
+			<row>customVariablePageValue1</row>
+			<row>customVariablePageValue2</row>
+			<row>customVariablePageValue3</row>
+			<row>customVariablePageValue4</row>
+			<row>customVariablePageValue5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
 		<name>Custom Variable value 1 (scope page)</name>
 		<segment>customVariablePageValue1</segment>
 	</row>
@@ -351,6 +404,19 @@
 		<category>Custom Variables</category>
 		<name>Custom Variable value 5 (scope page)</name>
 		<segment>customVariablePageValue5</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Custom Variables</category>
+		<name>Custom Variable value (scope visit)</name>
+		<segment>customVariableValue</segment>
+		<unionOfSegments>
+			<row>customVariableValue1</row>
+			<row>customVariableValue2</row>
+			<row>customVariableValue3</row>
+			<row>customVariableValue4</row>
+			<row>customVariableValue5</row>
+		</unionOfSegments>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -385,6 +451,30 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
+		<name>Action Type</name>
+		<segment>actionType</segment>
+		<acceptedValues>A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Action URL</name>
+		<segment>actionUrl</segment>
+		<unionOfSegments>
+			<row>pageUrl</row>
+			<row>downloadUrl</row>
+			<row>outlinkUrl</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Clicked URL</name>
+		<segment>outlinkUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
 		<name>Content Name</name>
 		<segment>contentName</segment>
 		<acceptedValues>The name of a content block, for instance &quot;Ad Sale&quot;</acceptedValues>
@@ -402,6 +492,12 @@
 		<name>Content Target</name>
 		<segment>contentTarget</segment>
 		<acceptedValues>For instance the URL of a landing page: &quot;http://landingpage.example.com&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Download URL</name>
+		<segment>downloadUrl</segment>
 	</row>
 	<row>
 		<type>dimension</type>

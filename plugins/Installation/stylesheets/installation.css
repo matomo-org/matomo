@@ -1,250 +1,104 @@
-div.both {
-    clear: both;
-}
-
 body {
-    background-color: #FFFBF9;
-    text-align: center;
-    font-family: Arial, Georgia, "Times New Roman", Times, serif;
-    font-size: 17px;
+    font-size: 14px;
 }
 
-p {
-    margin-bottom: 5px;
+/* Header */
+.header {
+    padding: 50px 0 22px;
+    margin-bottom: 40px;
+    border-bottom: solid 1px #ccc;
+}
+.logo {
+    float: left;
+}
+.logo img {
+    max-height: 30px;
+}
+.logo p {
+    font-size: 12px;
+    color: grey;
+}
+.language-selector {
+    float: left;
+    margin-left: 20px;
     margin-top: 10px;
 }
-
-#title {
-    font-size: 50px;
-    color: #284F92;
-    vertical-align: text-bottom;
-}
-
-#subtitle {
-    color: #666;
-    font-size: 27px;
-    padding-left: 20px;
-    vertical-align: sub;
-}
-
-#logo {
-    padding: 20px 30px;
-    padding-bottom: 35px;
-}
-#logo img {
-    height:40px;
-}
-
-#installationPage #logo {
-    height: auto;
-
-}
-
-h2 {
-    font-size: 20px;
-    color: #666666;
-    border-bottom: 1px solid #DADADA;
-    padding: 0 0 7px;
-}
-
-h3 {
-    margin-top: 10px;
-    font-size: 17px;
-    color: #3F5163;
-}
-
-code {
-    font-size: 80%;
-}
-
-.topBarElem {
-    font-family: arial, sans-serif !important;
-    font-size: 13px;
-    line-height: 1.33;
-}
-
-#topRightBar {
+.installation-progress {
     float: right;
-    margin-top: -60px;
+    width: 400px;
+}
+.installation-progress h4 {
+    font-size: 10px;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.installation-progress h4 small {
+    float: right;
+    color: #d4291f;
+}
+.installation-progress .progress {
+    margin-bottom: 0;
 }
 
-.error {
-    color: red;
-    font-size: 100%;
-    font-weight: bold;
-    border: 2px solid red;
-    width: 550px;
-    padding: 20px;
+.installation-finished .form-group .checkbox {
+    width: 100%;
+}
+
+/* Content */
+h2 {
+    font-size: 25px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+.content p {
+    color: #858585;
     margin-bottom: 10px;
 }
-
-.error img {
-    border: 0;
-    float: right;
-    margin: 10px;
+p.next-step {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+p.next-step:first-child {
+    margin-top: 0;
 }
 
-.success {
-    color: #26981C;
-    font-size: 130%;
-    font-weight: bold;
-    padding: 10px;
+/* This rule is duplicated here from systemCheckPage.less */
+.system-check td:first-child {
+    width: 40%;
 }
 
-.warn {
-    color: #D7A006;
-    font-weight: bold;
-}
-
+/* Form classes that we can't change */
 .warning {
+    padding: 20px;
+    border-radius: 2px;
     margin: 10px;
-    color: #ff5502;
-    font-size: 130%;
-    font-weight: bold;
-    padding: 10px 20px 10px 30px;
-    border: 1px solid #ff5502;
+    color: #E0645D;
+    border: 1px solid #D4291F;
 }
-
-.warning ul {
-    list-style: disc;
-}
-
-.success img, .warning img {
-    border: 0;
+.warning img {
     vertical-align: bottom;
 }
 
-/* Cadre general */
-#installationPage {
-    margin: 30px 5px 5px;
-    text-align: left;
+.system-check .icon-ok, .system-check-legend .icon-ok {
+    color: #1AA282;
+    margin-right: 10px;
+}
+.system-check .icon-warning, .system-check-legend .icon-warning {
+    color: #DF9D27;
+    margin-right: 10px;
+}
+.system-check .icon-error, .system-check-legend .icon-error {
+    color: #D73F36;
+    margin-right: 10px;
 }
 
-#content {
-    font-size: 90%;
-    line-height: 1.4em;
-    width: 860px;
-    border: 1px solid #7A5A3F;
-    margin: auto;
-    background: #FFFFFF;
-    padding: 0.2em 2em 2em 2em;
-    border-radius: 8px;
-}
-
-/* form errors */
-#adminErrors {
-    color: #FF6E46;
-    font-size: 120%;
-}
-
-/* listing all the steps */
-#generalInstall {
-    float: left;
-    margin-left: 20px;
-    width: 19%;
-}
-
-#detailInstall {
-    width: 75%;
-    float: right;
-}
-
-#generalInstall ul {
-    list-style-type: decimal;
-}
-
-li.futureStep {
-    color: #d3d3d3;
-}
-
-li.actualStep {
-    font-weight: bold;
-}
-
-li.pastStep {
-    color: #008000;
-}
-
-p.nextStep a {
-    text-decoration: none;
-}
-
-td {
-    border: 1px solid rgb(198, 205, 216);
-    border-top-color: #FFF;
-    color: #444;
-    padding: 0.5em 0.5em 0.5em 0.8em;
-}
-
-.submit {
-    text-align: center;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.submit input {
-    margin-top: 15px;
-    background: transparent url(../../../plugins/Morpheus/images/background-submit.png) repeat scroll 0;
-    font-size: 1.4em;
-    border-color: #CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
-    border-style: double;
-    border-width: 3px;
-    color: #333333;
-    padding: 0.15em;
-}
-
-input {
-    font-size: 18px;
-    border-color: #CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
-    border-width: 1px;
-    color: #3A2B16;
-    padding: 0.15em;
-}
-
-#systemCheckLegend {
-    border: 1px solid #A5A5A5;
-    padding: 20px;
-    color: #727272;
-    margin-top: 30px;
-}
-
-#systemCheckLegend img {
-    padding-right: 10px;
-    vertical-align: middle;
-
-}
-
-.reuseTables .error {
-    margin: 10px 0px;
-}
-
-.reuseTables .warning {
-    color: #ff5502;
-    font-size: 100%;
-    font-weight: bold;
-    padding: 20px;
-    border: 2px solid #ff5502;
-    width: 550px;
-    margin: 10px 0px;
-}
-
-.reuseTables .warning img {
-    border: 0;
-    float: right;
-    margin: 10px;
-}
-
-.reuseTables ul {
-    padding-left: 16px;
-    list-style: disc;
-}
-
-.infos img, .infosServer img {
-    padding-right: 10px;
-    vertical-align: middle;
-}
-
-.err {
-    color: red;
-    font-weight: bold;
+.system-check-legend {
+    font-size: 13px;
 }

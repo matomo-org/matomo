@@ -5,7 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "Meðalfj. aðgerða fyrir endurkomur",
         "ColumnBounceRateForReturningVisits": "Skopphraði fyrir endurkomur",
         "ColumnReturningVisits": "Endurkomur",
-        "PluginDescription": "Skýrsla yfir ýmsa tölfræði um endurkomur versur nýja gesti.",
         "ReturnActions": "%s aðgerðir hjá endurkomum",
         "ReturnAverageVisitDuration": "%s meðalheimsóknartími fyrir endurkomur",
         "ReturnAvgActions": "%s aðgerðir á hverja endurkomu",

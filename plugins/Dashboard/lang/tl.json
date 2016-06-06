@@ -18,7 +18,6 @@
         "Maximise": "I-maximise",
         "Minimise": "I-minimise",
         "NotUndo": "Hindi mo magagawang i-undo ang operasyon na ito.",
-        "PluginDescription": "Ang iyong Web Analytics Dashboard. Maaari mong i-customize ang iyong Dashboard: magdagdag ng mga bagong widget baguhin ang ayos ng iyong widget. Bawat user ay maaring i-access ang kanyang sariling custom Dashboard.",
         "RemoveDashboard": "Alisin dashboard",
         "RemoveDashboardConfirm": "Sigurado ko bang gusto mong tanggalin ang dashboard \"%s\"?",
         "RenameDashboard": "Palitan ang pangalan ng dashboard",
@@ -31,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Ang mga widget na pagpilian at dashboard column layout ay magagamit kapag ang sinumang user na guwama ng bagong dashboard o kapag ang \"%s\" feature ay ginamit.",
         "TopLinkTooltip": "Tignan ang Ulat ng Web Analytics para sa %s.",
         "WidgetNotFound": "Hindi nakita ang Widget",
-        "WidgetPreview": "preview ng widget",
-        "WidgetsAndDashboard": "Mga Widget at Dashboard"
+        "WidgetPreview": "preview ng widget"
     }
 }

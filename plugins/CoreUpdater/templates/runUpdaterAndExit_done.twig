@@ -4,75 +4,82 @@
 {% endset %}
 
 {% block content %}
+
 {% if coreError %}
-    <br/>
-    <br/>
-    <div class="error">
-        <img src="plugins/Morpheus/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
-        {% for message in errorMessages %}
-            <pre>{{ message }}</pre>
-            <br/>
-        {% endfor %}
+    <div class="header">
+        <h1>{{ 'CoreUpdater_UpdateErrorTitle'|translate }}</h1>
     </div>
-    <br/>
-    <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}
-    <ul>
-        <li>{{ helpMessage }}</li>
-    </ul>
-    </p>
-    <p>{{ 'CoreUpdater_ErrorDIYHelp'|translate }}
-    <ul>
-        <li>{{ 'CoreUpdater_ErrorDIYHelp_1'|translate }}</li>
-        <li>{{ 'CoreUpdater_ErrorDIYHelp_2'|translate }}</li>
-        <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }} <a href='https://piwik.org/faq/how-to-update/#faq_179' rel='noreferrer' target='_blank'>(see FAQ)</a></li>
-        <li>{{ 'CoreUpdater_ErrorDIYHelp_4'|translate }}</li>
-        <li>{{ 'CoreUpdater_ErrorDIYHelp_5'|translate }}</li>
-    </ul>
-    </p>
-{% else %}
-    {% if warningMessages|length > 0 %}
-        <div class="warning">
-            <p><img src="plugins/Morpheus/images/warning_medium.png"/> {{ 'CoreUpdater_WarningMessages'|translate }}</p>
-            {% for message in warningMessages %}
-                <pre>{{ message }}</pre>
-                <br/>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if errorMessages|length > 0 %}
-        <div class="warning">
-            <p><img src="plugins/Morpheus/images/error_medium.png"/> {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
+    <div class="content">
+        <div class="alert alert-danger">
+            {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
             {% for message in errorMessages %}
-                <pre>{{ message }}</pre>
-                <br/>
+                <br/><strong>{{ message|striptags }}</strong>
             {% endfor %}
-
-            {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
-                {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
-                <p style="color:red;">
-                    <img src="plugins/Morpheus/images/error_medium.png"/>
-                    {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
-                </p>
-            {% endif %}
         </div>
-    {% endif %}
-
-    {% if errorMessages|length > 0 or warningMessages|length > 0 %}
-        <br/>
-        <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}
+        <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}</p>
         <ul>
             <li>{{ helpMessage }}</li>
         </ul>
-        </p>
-    {% else %}
-        <p class="success">{{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}</p>
-        <div id="donate-form-container">
-            {% include "@CoreHome/_donate.twig" %}
+        <p>{{ 'CoreUpdater_ErrorDIYHelp'|translate }}</p>
+        <ul>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_1'|translate }}</li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_2'|translate }}</li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }} <a href='https://piwik.org/faq/how-to-update/#faq_179' rel='noreferrer' target='_blank'>(see FAQ)</a></li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_4'|translate }}</li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_5'|translate }}</li>
+        </ul>
+    </div>
+{% else %}
+
+    {% if errorMessages|length == 0 and warningMessages|length == 0 %}
+        <div class="header">
+            <h1>{{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}</h1>
         </div>
     {% endif %}
-    <form action="index.php">
-        <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
-    </form>
+
+    <div class="content">
+
+        {% if warningMessages|length > 0 %}
+            <div class="alert alert-warning">
+                <p>{{ 'CoreUpdater_WarningMessages'|translate }}</p>
+                {% for message in warningMessages %}
+                    <br/><strong>{{ message|striptags }}</strong>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if errorMessages|length > 0 %}
+            <div class="alert alert-warning">
+                <p>{{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}</p>
+                {% for message in errorMessages %}
+                    <br/><strong>{{ message|striptags }}</strong>
+                {% endfor %}
+            </div>
+            {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
+                {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
+                <div class="alert alert-danger">
+                    {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if errorMessages|length > 0 or warningMessages|length > 0 %}
+            <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}</p>
+            <ul>
+                <li>{{ helpMessage }}</li>
+            </ul>
+        {% else %}
+            <div id="donate-form-container">
+                {% include "@CoreHome/_donate.twig" %}
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="footer">
+        <a href="index.php">{{ 'General_ContinueToPiwik'|translate }}</a>
+    </div>
+
 {% endif %}
+
 {% endblock %}

@@ -2,20 +2,22 @@
     "Login": {
         "ConfirmationLinkSent": "확인 링크가 당신의 받은 편지함으로 전송되었습니다. 이메일을 확인하고 비밀번호 변경요청을 승인하려면 이 링크를 방문하세요.",
         "ContactAdmin": "가능한 이유: 호스트가 메일 기능을 비활성화했을 수 있습니다. <br \/>당신의 Piwik 관리자에게 연락해보세요.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "슈퍼 유저 접근의 '%s' 방법으로는 인증되지 않습니다.",
         "ExceptionPasswordMD5HashExpected": "비밀번호 매개변수는 MD5해시 값이 사용되고 있습니다.",
-        "InvalidNonceOrHeadersOrReferrer": "양식 보안 실패, 양식을 새로고침하여 쿠키가 활성화되어 있는지 확인하세요. 프록시 서버를 사용하는 경우라면, 호스트 헤더에 %sPiwik configure에서 프록시 헤더를 수락%s하고 전달해야합니다. 또한 리퍼러 헤더가 올바르게 전송되는지 확인합니다.",
+        "InvalidNonceOrHeadersOrReferrer": "양식 보안 실패, 양식을 새로고침하여 쿠키가 활성화되어 있는지 확인하세요. 프록시 서버를 사용하는 경우라면, 호스트 헤더에 %1$sPiwik configure에서 프록시 헤더를 수락%2$s하고 전달해야합니다. 또한 리퍼러 헤더가 올바르게 전송되는지 확인합니다.",
+        "InvalidNonceSSLMisconfigured": "또한, 당신은 %1$s Piwik에 보안 연결 사용 강제%2$s할 수 있습니다: 설정 파일에 %3$s %4$s 설정, section 아래 %5$s",
         "InvalidOrExpiredToken": "토큰이 잘못되었거나 만료되었습니다.",
         "InvalidUsernameEmail": "잘못된 사용자명 그리고\/또는 이메일 주소",
         "LogIn": "로그인",
         "LoginOrEmail": "아이디 또는 이메일",
         "LoginPasswordNotCorrect": "사용자이름 또는 비밀번호가 맞지 않습니다",
         "LostYourPassword": "비밀번호를 잊으셨습니까?",
-        "MailPasswordChangeBody": "안녕하세요, %1$s 님,\n\n%2$s님으로부터 비밀번호 재설정 요청을 받았습니다. 새로운 자격 증명을 이용하여 로그인할 수 있도록 다음 링크를 클릭하고 비밀번호를 변경해주세요:\n\n%3$s\n\n참고: 이 토큰은 24시간 내에 만료됩니다.\n\n그리고 Piwik을 사용하여 주셔서 감사합니다!",
         "MailTopicPasswordChange": "비밀번호 변경 확인",
         "PasswordChanged": "비밀번호가 변경되었습니다.",
         "PasswordRepeat": "비빌번호 (재입력)",
         "PasswordsDoNotMatch": "비밀번호가 일치하지 않습니다.",
-        "RememberMe": "저를 기억해 주세요",
+        "PluginDescription": "아이디와 비밀번호를 통해 사용자 인증뿐만 아니라 비밀번호 재설정 기능까지 제공합니다. 마켓에서 구할 수 있는 LoginLdap와 같은 또 다른 로그인 플러그인을 사용하여 인증 방법을 변경할 수 있습니다.",
+        "RememberMe": "계정 기억하기",
         "ResetPasswordInstructions": "계정에 사용할 새로운 비밀번호를 입력하세요."
     }
 }

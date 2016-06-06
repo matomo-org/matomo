@@ -9,6 +9,8 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\Archive;
+use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -60,10 +62,9 @@ class ArchiveSelector
 
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
-        $isSkipAggregationOfSubTables = $params->isSkipAggregationOfSubTables();
         $plugins = array("VisitsSummary", $requestedPlugin);
 
-        $doneFlags      = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+        $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
@@ -72,13 +73,13 @@ class ArchiveSelector
             return false;
         }
 
-        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $isSkipAggregationOfSubTables, $results);
-        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $isSkipAggregationOfSubTables, $results);
+        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
+
+        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
 
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
         if (false === $visits && false === $idArchive) {
-
             return false;
         }
 
@@ -113,10 +114,10 @@ class ArchiveSelector
         return array($visits, $visitsConverted);
     }
 
-    protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $isSkipAggregationOfSubTables, $results)
+    protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $results)
     {
         $idArchive = false;
-        $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment, $isSkipAggregationOfSubTables);
+        $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment);
 
         foreach ($results as $result) {
             if ($idArchive === false
@@ -137,7 +138,6 @@ class ArchiveSelector
      * @param array $periods
      * @param Segment $segment
      * @param array $plugins List of plugin names for which data is being requested.
-     * @param bool $isSkipAggregationOfSubTables Whether we are selecting an archive that may be partial (no sub-tables)
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
      *                   'VisitsSummary.done' => array(
@@ -146,17 +146,21 @@ class ArchiveSelector
      *               )
      * @throws
      */
-    public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $isSkipAggregationOfSubTables = false)
+    public static function getArchiveIds($siteIds, $periods, $segment, $plugins)
     {
         if (empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
         }
 
+        foreach ($siteIds as $index => $siteId) {
+            $siteIds[$index] = (int) $siteId;
+        }
+
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
-                              WHERE %s
-                                AND " . self::getNameCondition($plugins, $segment, $isSkipAggregationOfSubTables) . "
-                                AND idsite IN (" . implode(',', $siteIds) . ")
+                              WHERE idsite IN (" . implode(',', $siteIds) . ")
+                                AND " . self::getNameCondition($plugins, $segment) . "
+                                AND %s
                            GROUP BY idsite, date1, date2";
 
         $monthToPeriods = array();
@@ -202,12 +206,10 @@ class ArchiveSelector
 
             // get the archive IDs
             foreach ($archiveIds as $row) {
-                $archiveName = $row['name'];
-
                 //FIXMEA duplicate with Archive.php
-                $dateStr = $row['date1'] . "," . $row['date2'];
+                $dateStr = $row['date1'] . ',' . $row['date2'];
 
-                $result[$archiveName][$dateStr][] = $row['idarchive'];
+                $result[$row['name']][$dateStr][] = $row['idarchive'];
             }
         }
 
@@ -218,29 +220,52 @@ class ArchiveSelector
      * Queries and returns archive data using a set of archive IDs.
      *
      * @param array $archiveIds The IDs of the archives to get data from.
-     * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.)
+     * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.).
+     *                           Note: You CANNOT pass multiple recordnames if $loadAllSubtables=true.
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
-     * @param bool $loadAllSubtables Whether to pre-load all subtables
+     * @param int|null|string $idSubtable  null if the root blob should be loaded, an integer if a subtable should be
+     *                                     loaded and 'all' if all subtables should be loaded.
      * @throws Exception
      * @return array
      */
-    public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $loadAllSubtables)
+    public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
     {
+        $chunk = new Chunk();
+
         // create the SQL to select archive data
-        $inNames = Common::getSqlStringFieldsArray($recordNames);
+        $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
         if ($loadAllSubtables) {
             $name = reset($recordNames);
 
             // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
-            $nameEnd = strlen($name) + 2;
-            $whereNameIs = "(name = ?
-                            OR (name LIKE ?
-                                 AND SUBSTRING(name, $nameEnd, 1) >= '0'
-                                 AND SUBSTRING(name, $nameEnd, 1) <= '9') )";
+            $nameEnd = strlen($name) + 1;
+            $nameEndAppendix = $nameEnd + 1;
+            $appendix = $chunk->getAppendix();
+            $lenAppendix = strlen($appendix);
+
+            $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
+            $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
+                                    AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
+
+            $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
             $bind = array($name, $name . '%');
         } else {
+            if ($idSubtable === null) {
+                // select root table or specific record names
+                $bind = array_values($recordNames);
+            } else {
+                // select a subtable id
+                $bind = array();
+                foreach ($recordNames as $recordName) {
+                    // to be backwards compatibe we need to look for the exact idSubtable blob and for the chunk
+                    // that stores the subtables (a chunk stores many blobs in one blob)
+                    $bind[] = $chunk->getRecordNameForTableId($recordName, $idSubtable);
+                    $bind[] = self::appendIdSubtable($recordName, $idSubtable);
+                }
+            }
+
+            $inNames     = Common::getSqlStringFieldsArray($bind);
             $whereNameIs = "name IN ($inNames)";
-            $bind = array_values($recordNames);
         }
 
         $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
@@ -251,7 +276,6 @@ class ArchiveSelector
         // get data from every table we're querying
         $rows = array();
         foreach ($archiveIds as $period => $ids) {
-
             if (empty($ids)) {
                 throw new Exception("Unexpected: id archive not found for period '$period' '");
             }
@@ -259,7 +283,8 @@ class ArchiveSelector
             // $period = "2009-01-04,2009-01-04",
             $date = Date::factory(substr($period, 0, 10));
 
-            if ($archiveDataType == 'numeric') {
+            $isNumeric = $archiveDataType == 'numeric';
+            if ($isNumeric) {
                 $table = ArchiveTableCreator::getNumericTable($date);
             } else {
                 $table = ArchiveTableCreator::getBlobTable($date);
@@ -269,11 +294,56 @@ class ArchiveSelector
             $dataRows = Db::fetchAll($sql, $bind);
 
             foreach ($dataRows as $row) {
-                $rows[] = $row;
+                if ($isNumeric) {
+                    $rows[] = $row;
+                } else {
+                    $row['value'] = self::uncompress($row['value']);
+
+                    if ($chunk->isRecordNameAChunk($row['name'])) {
+                        self::moveChunkRowToRows($rows, $row, $chunk, $loadAllSubtables, $idSubtable);
+                    } else {
+                        $rows[] = $row;
+                    }
+                }
             }
         }
 
         return $rows;
+    }
+
+    private static function moveChunkRowToRows(&$rows, $row, Chunk $chunk, $loadAllSubtables, $idSubtable)
+    {
+        // $blobs = array([subtableID] = [blob of subtableId])
+        $blobs = unserialize($row['value']);
+
+        if (!is_array($blobs)) {
+            return;
+        }
+
+        // $rawName = eg 'PluginName_ArchiveName'
+        $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
+
+        if ($loadAllSubtables) {
+            foreach ($blobs as $subtableId => $blob) {
+                $row['value'] = $blob;
+                $row['name']  = self::appendIdSubtable($rawName, $subtableId);
+                $rows[] = $row;
+            }
+        } elseif (array_key_exists($idSubtable, $blobs)) {
+            $row['value'] = $blobs[$idSubtable];
+            $row['name'] = self::appendIdSubtable($rawName, $idSubtable);
+            $rows[] = $row;
+        }
+    }
+
+    public static function appendIdSubtable($recordName, $id)
+    {
+        return $recordName . "_" . $id;
+    }
+
+    private static function uncompress($data)
+    {
+        return @gzuncompress($data);
     }
 
     /**
@@ -282,14 +352,13 @@ class ArchiveSelector
      *
      * @param array $plugins
      * @param Segment $segment
-     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
-    private static function getNameCondition(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
+    private static function getNameCondition(array $plugins, Segment $segment)
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
-        $doneFlags    = Rules::getDoneFlags($plugins, $segment, $isSkipAggregationOfSubTables);
+        $doneFlags    = Rules::getDoneFlags($plugins, $segment);
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
         $possibleValues = Rules::getSelectableDoneFlagValues();
@@ -297,6 +366,4 @@ class ArchiveSelector
         // create the SQL to find archives that are DONE
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
-
-
 }

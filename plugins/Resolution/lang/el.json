@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Ρύθμιση",
+        "ColumnResolution": "Ανάλυση",
+        "Configurations": "Ρυθμίσεις",
+        "PluginDescription": "Αναφέρει τις αναλύσεις οθόνης των επισκεπτών σας.",
+        "Resolutions": "Αναλύσεις οθόνης",
+        "WidgetGlobalVisitors": "Γενικές ρυθμίσεις χρηστών",
+        "WidgetGlobalVisitorsDocumentation": "Αυτή η αναφορά δείχνει τις πιο συχνές καθολικές ρυθμίσεις που έχουν οι επισκέπτες σας. Μια ρύθμιση είναι ο συνδυασμός του λειτουργικού συστήματος, του τύπου φυλλομετρητή και της ανάλυσης οθόνης.",
+        "WidgetResolutions": "Αναλύσεις οθόνης"
+    }
+}

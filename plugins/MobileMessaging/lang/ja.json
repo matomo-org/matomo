@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "プロバイダ名 '%s' は不明です。代わりに次のいずれかをお試しください。%s",
+        "Exception_UnknownProvider": "プロバイダ名 '%1$s' は不明です。代わりに次のいずれかをお試しください。%2$s",
         "MobileReport_AdditionalPhoneNumbers": "アクセスすることにより、さらに電話番号を追加できます。",
         "MobileReport_MobileMessagingSettingsLink": "モバイルメッセージの設定ページ",
         "MobileReport_NoPhoneNumbers": "アクセスすることにより、少なくとも 1 つ以上の電話番号を有効にしてください。",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS プロバイダ",
         "Settings_SuperAdmin": "スーパーユーザー設定",
         "Settings_SuspiciousPhoneNumber": "テキストメッセージを受け取らない場合、先頭に 0 を付けずにお試しください。例 %s",
-        "Settings_UpdateOrDeleteAccount": "このアカウントを %supdate%s または %sdelete%s することも可能です。",
+        "Settings_UpdateOrDeleteAccount": "このアカウントを %1$supdate%2$s または %3$sdelete%4$s することも可能です。",
         "Settings_ValidatePhoneNumber": "検証する",
         "Settings_VerificationCodeJustSent": "今この番号にコード付きの SMS を送信しました。上のコードを入力し、\"検証\" をクリックしてください。",
         "SettingsMenu": "モバイルメッセージ",
         "SMS_Content_Too_Long": "[ 長過ぎます ]",
         "TopLinkTooltip": "E メール受信箱または携帯電話に届けられたウェブ解析レポートを取得する",
         "TopMenu": "Eメール & SMS レポート",
-        "VerificationText": "コードは %sです。電話番号を検証または Piwik SMS レポートを受け取るには、Piwik > %s > %s 経由でアクセスできるフォームでこのコードをコピーしてくださ"
+        "VerificationText": "コードは %1$sです。電話番号を検証または Piwik SMS レポートを受け取るには、Piwik > %2$s > %3$s 経由でアクセスできるフォームでこのコードをコピーしてくださ"
     }
 }

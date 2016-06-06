@@ -60,6 +60,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomByteRange($method)
     {
+        if ($method == 'fopen') {
+            return; // not supported w/ this method
+        }
+
         $result = Http::sendHttpRequestBy(
             $method,
             Fixture::getRootUrl() . '/piwik.js',
@@ -74,12 +78,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             $getExtendedInfo = true
         );
 
-        if ($method != 'fopen') {
-            $this->assertEquals(206, $result['status']);
-            $this->assertTrue(isset($result['headers']['Content-Range']));
-            $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
-            $this->assertTrue( in_array($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript')));
-        }
+        $this->assertEquals(206, $result['status']);
+        $this->assertTrue(isset($result['headers']['Content-Range']));
+        $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
+        $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript')));
     }
 
     /**
@@ -111,6 +113,146 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(isset($result['headers']['Content-Length']), "Content-Length header not set!");
         $this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
-        $this->assertEquals('application/zip', $result['headers']['Content-Type']);
+        $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed')));
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpAuthentication($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/HttpAuthentication.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'GET',
+            $httpUsername = 'test',
+            $httpPassword = 'test'
+        );
+
+        $this->assertEquals('Authentication successful', $result['data']);
+        $this->assertEquals(200, $result['status']);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpAuthenticationInvalid($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/HttpAuthentication.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'GET',
+            $httpUsername = '',
+            $httpPassword = ''
+        );
+
+        $this->assertEquals(401, $result['status']);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpPost_ViaString($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            'abc12=43&abfec=abcdef'
+        );
+
+        $this->assertEquals('{"abc12":"43","abfec":"abcdef","method":"post"}', $result);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpPost_ViaArray($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            array('adf2' => '44', 'afc23' => 'ab12')
+        );
+
+        $this->assertEquals('{"adf2":"44","afc23":"ab12","method":"post"}', $result);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpsWorksWithValidCertificate($method)
+    {
+        $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
+
+        $this->assertStringMatchesFormat('%d.%d.%d', $result);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage curl_exec: SSL
+     */
+    public function testCurlHttpsFailsWithInvalidCertificate()
+    {
+        Http::sendHttpRequestBy('curl', 'https://divezone.net', 10);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage failed to open stream
+     */
+    public function testFopenHttpsFailsWithInvalidCertificate()
+    {
+        Http::sendHttpRequestBy('fopen', 'https://divezone.net', 10);
+    }
+
+    /**
+     * We check that HTTPS is not supported with the "socket" method
+     */
+    public function testSocketHttpsWorksEvenWithInvalidCertificate()
+    {
+        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net', 10);
+        $this->assertNotEmpty($result);
     }
 }

@@ -8,7 +8,9 @@
  */
 
 namespace Piwik\ViewDataTable;
+
 use Piwik\API\Request as ApiRequest;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
@@ -120,7 +122,8 @@ class Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'export_limit'
+        'export_limit',
+        'columns_to_display'
     );
 
     /**
@@ -484,7 +487,28 @@ class Config
     {
         $this->metrics_documentation = array();
 
-        $report = API::getInstance()->getMetadata(0, $this->controllerName, $this->controllerAction);
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if ($idSite < 1) {
+            return;
+        }
+
+        $apiParameters = array();
+        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
+        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+        if ($idDimension > 0) {
+            $apiParameters['idDimension'] = $idDimension;
+        }
+        if ($idGoal > 0) {
+            $apiParameters['idGoal'] = $idGoal;
+        }
+
+        $report = API::getInstance()->getMetadata($idSite, $this->controllerName, $this->controllerAction, $apiParameters);
+
+        if (empty($report)) {
+            return;
+        }
+
         $report = $report[0];
 
         if (isset($report['metricsDocumentation'])) {
@@ -554,10 +578,21 @@ class Config
         $this->columns_to_display = array_filter($columnsToDisplay);
     }
 
+    public function removeColumnToDisplay($columnToRemove)
+    {
+        if (!empty($this->columns_to_display)) {
+
+            $key = array_search($columnToRemove, $this->columns_to_display);
+            if (false !== $key) {
+                unset($this->columns_to_display[$key]);
+            }
+        }
+    }
+
     /**
      * @ignore
      */
-    public function getFiltersToRun()
+    private function getFiltersToRun()
     {
         $priorityFilters     = array();
         $presentationFilters = array();
@@ -581,12 +616,26 @@ class Config
         return array($priorityFilters, $presentationFilters);
     }
 
+    public function getPriorityFilters()
+    {
+        $filters = $this->getFiltersToRun();
+
+        return $filters[0];
+    }
+
+    public function getPresentationFilters()
+    {
+        $filters = $this->getFiltersToRun();
+
+        return $filters[1];
+    }
+
     /**
      * Adds a related report to the {@link $related_reports} property. If the report
      * references the one that is currently being displayed, it will not be added to the related
      * report list.
      *
-     * @param string $relatedReport The plugin and method of the report, eg, `'UserSettings.getBrowser'`.
+     * @param string $relatedReport The plugin and method of the report, eg, `'DevicesDetection.getBrowsers'`.
      * @param string $title The report's display name, eg, `'Browsers'`.
      * @param array $queryParams Any extra query parameters to set in releated report's URL, eg,
      *                           `array('idGoal' => 'ecommerceOrder')`.
@@ -620,8 +669,8 @@ class Config
      *                              titles, eg,
      *                              ```
      *                              array(
-     *                                  'UserSettings.getBrowser' => 'Browsers',
-     *                                  'UserSettings.getConfiguration' => 'Configurations'
+     *                                  'DevicesDetection.getBrowsers' => 'Browsers',
+     *                                  'Resolution.getConfiguration' => 'Configurations'
      *                              )
      *                              ```
      */

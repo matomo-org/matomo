@@ -62,11 +62,11 @@ class MetricsFormatter
 
     public static function getCurrencySymbol($idSite)
     {
-        return Formatter::getCurrencySymbol($idSite);
+        return Site::getCurrencySymbolFor($idSite);
     }
 
     public static function getCurrencyList()
     {
-        return Formatter::getCurrencyList();
+        return Site::getCurrencyList();
     }
 }

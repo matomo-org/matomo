@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_0_6_rc1 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         $defaultTimezone = 'UTC';
         $defaultCurrency = 'USD';
@@ -38,7 +38,7 @@ class Updates_0_6_rc1 extends Updates
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         // first we disable the plugins and keep an array of warnings messages
         $pluginsToDisableMessage = array(
@@ -54,7 +54,7 @@ class Updates_0_6_rc1 extends Updates
         }
 
         // Run the SQL
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         // Outputs warning message, pointing users to the plugin download page
         if (!empty($disabledPlugins)) {

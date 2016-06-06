@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings;
+
 use Piwik\Option;
 
 /**
@@ -23,7 +24,7 @@ class Storage implements StorageInterface
      *
      * @var array
      */
-    private $settingsValues = array();
+    protected $settingsValues = array();
 
     // for lazy loading of setting values
     private $settingValuesLoaded = false;
@@ -51,10 +52,15 @@ class Storage implements StorageInterface
      */
     public function deleteAllValues()
     {
-        Option::delete($this->getOptionKey());
+        $this->deleteSettingsFromStorage();
 
         $this->settingsValues = array();
         $this->settingValuesLoaded = false;
+    }
+
+    protected function deleteSettingsFromStorage()
+    {
+        Option::delete($this->getOptionKey());
     }
 
     /**
@@ -71,7 +77,6 @@ class Storage implements StorageInterface
         $this->loadSettingsIfNotDoneYet();
 
         if (array_key_exists($setting->getKey(), $this->settingsValues)) {
-
             return $this->settingsValues[$setting->getKey()];
         }
 
@@ -140,5 +145,4 @@ class Storage implements StorageInterface
 
         return array();
     }
-
 }

@@ -9,8 +9,8 @@
 namespace Piwik\Plugin;
 
 use Piwik\Development;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime;
+use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Scheduler\Task;
 
 /**
  * Base class for all Tasks declarations.
@@ -21,15 +21,15 @@ use Piwik\ScheduledTime;
 class Tasks
 {
     /**
-     * @var ScheduledTask[]
+     * @var Task[]
      */
     private $tasks = array();
 
-    const LOWEST_PRIORITY  = ScheduledTask::LOWEST_PRIORITY;
-    const LOW_PRIORITY     = ScheduledTask::LOW_PRIORITY;
-    const NORMAL_PRIORITY  = ScheduledTask::NORMAL_PRIORITY;
-    const HIGH_PRIORITY    = ScheduledTask::HIGH_PRIORITY;
-    const HIGHEST_PRIORITY = ScheduledTask::HIGHEST_PRIORITY;
+    const LOWEST_PRIORITY  = Task::LOWEST_PRIORITY;
+    const LOW_PRIORITY     = Task::LOW_PRIORITY;
+    const NORMAL_PRIORITY  = Task::NORMAL_PRIORITY;
+    const HIGH_PRIORITY    = Task::HIGH_PRIORITY;
+    const HIGHEST_PRIORITY = Task::HIGHEST_PRIORITY;
 
     /**
      * This method is called to collect all schedule tasks. Register all your tasks here that should be executed
@@ -41,7 +41,7 @@ class Tasks
     }
 
     /**
-     * @return ScheduledTask[] $tasks
+     * @return Task[] $tasks
      */
     public function getScheduledTasks()
     {
@@ -60,7 +60,7 @@ class Tasks
      *                                       For instance '$param1###$param2###$param3'
      * @param int $priority                  Can be any constant such as self::LOW_PRIORITY
      *
-     * @return ScheduledTime
+     * @return Schedule
      * @api
      */
     protected function hourly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
@@ -109,13 +109,13 @@ class Tasks
      * @param string|object $objectOrClassName
      * @param string $methodName
      * @param null|string $methodParameter
-     * @param string|ScheduledTime $time
+     * @param string|Schedule $time
      * @param int $priority
      *
-     * @return ScheduledTime
+     * @return \Piwik\Scheduler\Schedule\Schedule
      *
      * @throws \Exception If a wrong time format is given. Needs to be either a string such as 'daily', 'weekly', ...
-     *                    or an instance of {@link Piwik\ScheduledTime}
+     *                    or an instance of {@link Piwik\Scheduler\Schedule\Schedule}
      *
      * @api
      */
@@ -124,14 +124,14 @@ class Tasks
         $this->checkIsValidTask($objectOrClassName, $methodName);
 
         if (is_string($time)) {
-            $time = ScheduledTime::factory($time);
+            $time = Schedule::factory($time);
         }
 
-        if (!($time instanceof ScheduledTime)) {
-            throw new \Exception('$time should be an instance of ScheduledTime');
+        if (!($time instanceof Schedule)) {
+            throw new \Exception('$time should be an instance of Schedule');
         }
 
-        $this->scheduleTask(new ScheduledTask($objectOrClassName, $methodName, $methodParameter, $time, $priority));
+        $this->scheduleTask(new Task($objectOrClassName, $methodName, $methodParameter, $time, $priority));
 
         return $time;
     }
@@ -140,9 +140,9 @@ class Tasks
      * In case you need very high flexibility and none of the other convenient methods such as {@link hourly()} or
      * {@link custom()} suit you, you can use this method to add a custom scheduled task.
      *
-     * @param ScheduledTask $task
+     * @param Task $task
      */
-    protected function scheduleTask(ScheduledTask $task)
+    protected function scheduleTask(Task $task)
     {
         $this->tasks[] = $task;
     }

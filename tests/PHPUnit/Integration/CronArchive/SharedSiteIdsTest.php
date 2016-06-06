@@ -26,11 +26,20 @@ class SharedSiteIdsTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        if (! SharedSiteIds::isSupported()) {
+            $this->markTestSkipped('Not supported on this platform');
+            return;
+        }
+
         $this->sharedSiteIds = new SharedSiteIds(array(1,2,5,9));
     }
 
     public function tearDown()
     {
+        if (! SharedSiteIds::isSupported()) {
+            return;
+        }
+
         $siteIdsToCleanup = new SharedSiteIds(array());
         $siteIdsToCleanup->setSiteIdsToArchive(array());
 
@@ -46,9 +55,12 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertNull($siteIds->getNextSiteId());
     }
 
-    public function test_isSupported()
+    public function test_construct_withCustomOptionName()
     {
-        $this->assertTrue(SharedSiteIds::isSupported());
+        $first = new SharedSiteIds(array(1, 2), 'SharedSiteIdsToArchive_Test');
+        $second = new SharedSiteIds(array(), 'SharedSiteIdsToArchive_Test');
+        $this->assertEquals(array(1, 2), $first->getAllSiteIdsToArchive());
+        $this->assertEquals(array(1, 2), $second->getAllSiteIdsToArchive());
     }
 
     public function test_getNumSites()

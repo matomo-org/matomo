@@ -40,6 +40,20 @@ class MenuUser extends MenuAbstract
      * @api
      * @since 2.5.0
      */
+    public function addPersonalItem($menuName, $url, $order = 50, $tooltip = false)
+    {
+        $this->addItem('UsersManager_MenuPersonal', $menuName, $url, $order, $tooltip);
+    }
+
+    /**
+     * See {@link add()}. Adds a new menu item to the manage section of the user menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 2.5.0
+     */
     public function addManageItem($menuName, $url, $order = 50, $tooltip = false)
     {
         $this->addItem('CoreAdminHome_MenuManage', $menuName, $url, $order, $tooltip);

@@ -1,22 +1,13 @@
-#content:not(.admin), .widget {
+#content:not(.admin), .widget, .ui-widget {
 
   .UserCountryMap .dataTableFooterIcons {
     display: block;
-  }
-
-  .widget {
-    border-color: @color-silver-l85;
-
-    .widgetTop {
-      border-color: @color-silver-l85;
-    }
   }
 
   /* DATATABLES */
 
   table.dataTable {
     th.sortable {
-      background: @theme-color-background-base !important;
       border-left: 0px;
       border-bottom: 0px;
     }
@@ -40,8 +31,7 @@
   }
 
   .dataTableActions table.dataTable  {
-    td.columnodd,
-    td.columneven,
+    td.column
     th.sortable:not(.first) {
       width: 50px;
     }
@@ -59,15 +49,6 @@
     border-top: 0px;
   }
 
-  h2:nth-of-type(n+2) {
-    margin-top: 40px;
-  }
-
-  h2 {
-    padding-left: 10px;
-    font-size: 24px;
-  }
-
   .goalEntry:first-of-type {
     padding-top: 20px;
   }
@@ -80,7 +61,11 @@
     display: none;
   }
 
-  div[data-report="Referrers.getReferrerType"] > .dataTableWrapper {
+  div[data-report="Goals.getItemsSku"] > .dataTableWrapper,
+  div[data-report="Goals.getItemsName"] > .dataTableWrapper,
+  div[data-report="Goals.getItemsCategory"] > .dataTableWrapper,
+  div[data-report="Referrers.getReferrerType"] > .dataTableWrapper,
+  div[data-report="Referrers.getAll"] > .dataTableWrapper {
     width: 800px;
   }
 
@@ -88,8 +73,31 @@
     margin-left: 13px;
   }
 
-  .widgetContent .jqplot-graph {
-    margin-top: 6px;
+}
+
+#content:not(.admin), .widget {
+
+  h2:nth-of-type(n+2) {
+    margin-top: 40px;
+  }
+
+  h2 {
+    padding-left: 0;
+    font-size: 21px;
+    padding: 16px 0 12px 0;
+  }
+}
+
+#root #dashboard .widget {
+  h2 {
+    padding-left: 10px;
+  }
+}
+
+.widget {
+  h2:nth-of-type(n+2) {
+    padding-top: 40px!important;
+    margin-top: 0!important;
   }
 }
 

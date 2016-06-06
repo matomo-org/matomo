@@ -6,16 +6,16 @@
         "ErrorNotLoading": "La sessione di Overlay Pagina non può ancora essere lanciata.",
         "ErrorNotLoadingDetails": "Forse la pagina caricata sulla destra non ha il codice tracking di Piwik. In questo caso prova ad avviare Overlay per una pagina diversa.",
         "ErrorNotLoadingDetailsSSL": "Dal momento che si sta utilizzando Piwik su HTTPS, la causa più probabile è che il vostro sito web non supporti SSL. Prova a utilizzare Piwik su HTTP.",
-        "ErrorNotLoadingLink": "Ottieni altri suggerimenti ai problemi",
+        "ErrorNotLoadingLink": "Ottieni altri suggerimenti sui problemi",
         "Link": "Link",
         "Location": "Posizione",
         "NoData": "Non vi sono dati per questa pagina nel periodo selezionato",
         "OneClick": "1 click",
-        "OpenFullScreen": "vai a schermo intero (niente barra laterale)",
+        "OpenFullScreen": "Vai a schermo intero (niente barra laterale)",
         "Overlay": "Overlay di Pagina",
-        "PluginDescription": "Guarda i dati di analisi come sovrapposizione sul tuo sito web vero e proprio.",
-        "RedirectUrlError": "Si sta tentando di aprire la Pagina Overlay per l'URL \"%s\". %s Nessuno dei domini dalle impostazioni di Piwik corrisponde al link.",
-        "RedirectUrlErrorAdmin": "È possibile aggiungere il dominio come un ulteriore URL %s nelle impostazioni%s.",
+        "PluginDescription": "Vedi i tuoi dati statistici in sovrapposizione al tuo sito web. Guarda quante volte i tuoi utenti hanno cliccato su ciascun link. Nota: Richiede che sia abilitato il plugin Transitions.",
+        "RedirectUrlError": "Si sta tentando di aprire la Pagina Overlay per l'URL \"%1$s\". %2$s Nessuno dei domini dalle impostazioni di Piwik corrisponde al link.",
+        "RedirectUrlErrorAdmin": "È possibile aggiungere il dominio come un ulteriore URL %1$snelle impostazioni%2$s.",
         "RedirectUrlErrorUser": "Chiedi all'amministratore di aggiungere il dominio come un URL aggiuntivo."
     }
 }

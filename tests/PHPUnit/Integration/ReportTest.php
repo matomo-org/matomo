@@ -116,7 +116,6 @@ class ReportTest extends IntegrationTestCase
     {
         WidgetsList::getInstance()->_reset();
         MenuReporting::getInstance()->unsetInstance();
-        Translate::unloadEnglishTranslation();
         unset($_GET['idSite']);
         parent::tearDown();
     }
@@ -157,14 +156,16 @@ class ReportTest extends IntegrationTestCase
 
     public function test_getWidgetTitle_shouldReturnTranslatedTitleIfSet()
     {
-        $this->loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->assertEquals('Page Titles Following a Site Search', $this->advancedReport->getWidgetTitle());
+        Translate::reset();
     }
 
     public function test_getCategory_shouldReturnTranslatedCategory()
     {
-        $this->loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->assertEquals('Goals', $this->advancedReport->getCategory());
+        Translate::reset();
     }
 
     public function test_configureWidget_shouldNotAddAWidgetIfNoWidgetTitleIsSet()
@@ -339,7 +340,11 @@ class ReportTest extends IntegrationTestCase
                     'nb_visits' => 'General_ColumnNbVisitsDocumentation',
                     'nb_uniq_visitors' => 'General_ColumnNbUniqVisitorsDocumentation',
                     'nb_actions' => 'General_ColumnNbActionsDocumentation',
-                    'nb_users' => 'General_ColumnNbUsersDocumentation'
+                    'nb_users' => 'General_ColumnNbUsersDocumentation',
+                    'nb_actions_per_visit' => 'General_ColumnActionsPerVisitDocumentation',
+                    'avg_time_on_site' => 'General_ColumnAvgTimeOnSiteDocumentation',
+                    'bounce_rate' => 'General_ColumnBounceRateDocumentation',
+                    'conversion_rate' => 'General_ColumnConversionRateDocumentation',
                 ),
                 'processedMetrics' => array(
                     'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
@@ -376,6 +381,8 @@ class ReportTest extends IntegrationTestCase
                 'metricsDocumentation' => array(
                     'nb_actions' => 'General_ColumnNbActionsDocumentation',
                     'nb_visits' => 'General_ColumnNbVisitsDocumentation',
+                    'conversion_rate' => 'General_ColumnConversionRateDocumentation',
+                    'bounce_rate' => 'General_ColumnBounceRateDocumentation',
                 ),
                 'processedMetrics' => array(
                     'conversion_rate' => 'General_ColumnConversionRate',
@@ -467,7 +474,8 @@ class ReportTest extends IntegrationTestCase
                 'format' => 'original',
                 'module' => 'API',
                 'method' => 'ExampleReport.getExampleReport',
-                'format_metrics' => 'bc'
+                'format_metrics' => 'bc',
+                'serialize' => '0'
             )
         )->willReturn("result");
         Proxy::setSingletonInstance($proxyMock);
@@ -490,7 +498,8 @@ class ReportTest extends IntegrationTestCase
                 'format' => 'original',
                 'module' => 'API',
                 'method' => 'Referrers.getSearchEnginesFromKeywordId',
-                'format_metrics' => 'bc'
+                'format_metrics' => 'bc',
+                'serialize' => '0'
             )
         )->willReturn("result");
         Proxy::setSingletonInstance($proxyMock);
@@ -538,10 +547,5 @@ class ReportTest extends IntegrationTestCase
     private function unloadAllPlugins()
     {
         PluginManager::getInstance()->unloadPlugins();
-    }
-
-    private function loadEnglishTranslation()
-    {
-        Translate::reloadLanguage('en');
     }
 }

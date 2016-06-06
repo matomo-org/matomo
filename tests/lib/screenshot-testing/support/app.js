@@ -33,11 +33,17 @@ var walk = function (dir, pattern, result) {
     return result;
 };
 
+var isCorePlugin = function (pathToPlugin) {
+    // if the plugin is a .git checkout, it's not part of core
+    var gitDir = path.join(pathToPlugin, '.git');
+    return !fs.exists(gitDir);
+};
+
 var Application = function () {
     this.runner = null;
 
-    var diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
-    this.diffViewerGenerator = new DiffViewerGenerator(diffviewerDir);
+    this.diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
+    this.diffViewerGenerator = new DiffViewerGenerator(this.diffviewerDir);
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -59,6 +65,11 @@ Application.prototype.printHelpAndExit = function () {
     console.log("                            builds artifacts server. For use with travis build.");
     console.log("  --screenshot-repo:        Specifies the github repository that contains the expected screenshots");
     console.log("                            to link to in the diffviewer. For use with travis build.");
+    console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
+    console.log("  --first-half:             Only execute first half of all the test suites. Will be only applied if no")
+    console.log("                            specific plugin or test-files requested");
+    console.log("  --second-half:            Only execute second half of all the test suites. Will be only applied if no")
+    console.log("                            specific plugin or test-files requested");
 
     phantom.exit(0);
 };
@@ -72,7 +83,7 @@ Application.prototype.init = function () {
         var suite = oldDescribe.apply(null, arguments);
         suite.baseDirectory = app.currentModulePath.match(/\/plugins\//) ? path.dirname(app.currentModulePath) : uiTestsDir;
         if (options['assume-artifacts']) {
-            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/PHPUnit/UI', config.screenshotDiffDir);
+            suite.diffDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
         } else {
             suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
         }
@@ -93,6 +104,12 @@ Application.prototype.loadTestModules = function () {
 
     // load all UI tests we can find
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
+
+    if (options.core) {
+        plugins = plugins.filter(function (path) {
+            return isCorePlugin(path);
+        });
+    }
 
     plugins.forEach(function (pluginPath) {
         walk(path.join(pluginPath, 'Test'), /_spec\.js$/, modulePaths);
@@ -118,6 +135,24 @@ Application.prototype.loadTestModules = function () {
         });
     }
 
+    var specificTestsRequested = options.plugin || options.tests.length;
+
+    if ((options['run-first-half-only'] || options['run-second-half-only']) && !specificTestsRequested) {
+        // run only first 50% of the test suites or only run last 50% of the test suites.
+        // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
+        // split tests into multiple jobs.
+        var numTestsFirstHalf = Math.round(mocha.suite.suites.length / 2);
+        numTestsFirstHalf += 7;
+        mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
+            if (options['run-first-half-only'] && index < numTestsFirstHalf) {
+                return true;
+            } else if (options['run-second-half-only'] && index >= numTestsFirstHalf) {
+                return true;
+            }
+            return false;
+        });
+    }
+
     if (!mocha.suite.suites.length) {
         console.log("No tests are executing... are you running tests for a plugin? Make sure to use the"
                   + " --plugin=MyPlugin option.");
@@ -125,7 +160,7 @@ Application.prototype.loadTestModules = function () {
 
     // configure suites (auto-add fixture setup/teardown)
     mocha.suite.suites.forEach(function (suite) {
-        var fixture = typeof suite.fixture === 'undefined' ? 'UITestFixture' : suite.fixture;
+        var fixture = typeof suite.fixture === 'undefined' ? "Piwik\\Tests\\Fixtures\\UITestFixture" : suite.fixture;
 
         suite.beforeAll(function (done) {
             var oldOptions = JSON.parse(JSON.stringify(options));
@@ -194,10 +229,10 @@ Application.prototype.doRunTests = function () {
     this.runner = mocha.run(function () {
         // remove symlinks
         if (!options['keep-symlinks']) {
-            var symlinks = ['libs', 'plugins', 'tests', 'piwik.js'];
+            var symlinks = ['libs', 'plugins', 'tests', 'misc', 'piwik.js'];
 
             symlinks.forEach(function (item) {
-                var file = path.join(uiTestsDir, '..', 'proxy', item);
+                var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);
                 if (fs.exists(file)) {
                     fs.remove(file);
                 }
@@ -209,10 +244,24 @@ Application.prototype.doRunTests = function () {
             self.finish();
         });
     });
+
+    this.runner.on('fail', function(test, err) {
+        var indent = "     ";
+
+        var message = "\n";
+        message += err && err.stack ? err.stack : err;
+        message = message.replace(/\n/g, "\n" + indent);
+        console.log(indent + message + "\n\n");
+    });
 };
 
 Application.prototype.finish = function () {
     phantom.exit(this.runner ? this.runner.failures : -1);
+};
+
+Application.prototype.appendMissingExpected = function (screenName) {
+    var missingExpectedFilePath = path.join(this.diffviewerDir, 'missing-expected.list');
+    fs.write(missingExpectedFilePath, screenName + "\n", "a");
 };
 
 exports.Application = new Application();

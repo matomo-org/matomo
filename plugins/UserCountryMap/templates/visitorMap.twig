@@ -1,3 +1,4 @@
+<section>
 <div class="UserCountryMap" style="position:relative; overflow:hidden;">
     <div class="UserCountryMap_container">
         <div class="UserCountryMap_map" style="overflow:hidden;"></div>
@@ -59,20 +60,18 @@
                     <option value="{{ metric[0] }}" {% if metric[0] == defaultMetric %}selected="selected"{% endif %}}>{{ metric[1] }}</option>
                 {% endfor %}
             </select>
-            <select class="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 10em;font-size:10px;">
+            <select class="userCountryMapSelectCountry">
                 <option value="world">{{ 'UserCountryMap_WorldWide'|translate }}</option>
                 <option disabled="disabled">––––––</option>
-                <option value="AF">{{ 'UserCountry_continent_afr'|translate }}</option>
-                <option value="AS">{{ 'UserCountry_continent_asi'|translate }}</option>
-                <option value="EU">{{ 'UserCountry_continent_eur'|translate }}</option>
-                <option value="NA">{{ 'UserCountry_continent_amn'|translate }}</option>
-                <option value="OC">{{ 'UserCountry_continent_oce'|translate }}</option>
-                <option value="SA">{{ 'UserCountry_continent_ams'|translate }}</option>
+                {% for code,continent in continents %}
+                    <option value="{{ code }}">{{ continent }}</option>
+                {% endfor %}
                 <option disabled="disabled">––––––</option>
             </select>
         </div>
     </div>
 </div>
+</section>
 
 {% if not noData %}
 <!-- configure some piwik vars -->
@@ -81,6 +80,7 @@
     config = JSON.parse('{{ config|e('js') }}');
     config._ = JSON.parse('{{ localeJSON|e('js') }}');
     config.reqParams = JSON.parse('{{ reqParamsJSON|e('js') }}');
+    config.countryNames = JSON.parse('{{ countriesByIso|json_encode|e('js') }}');
 
     $('.UserCountryMap').addClass('dataTable');
 

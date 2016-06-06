@@ -2,8 +2,8 @@
     "MultiSites": {
         "Evolution": "Utveckling",
         "LoadingWebsites": "Laddar webbplatser",
-        "Pagination": "%s - %s av %s",
-        "PluginDescription": "Visar fler-webbplatser sammanfattning\/statistik. För närvarande underhållen som en central Piwik plugin.",
-        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser."
+        "PluginDescription": "Visa och jämför alla dina webbplatser i panelen 'All Websites'.",
+        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser.",
+        "Pagination": "%1$s - %2$s av %3$s"
     }
 }

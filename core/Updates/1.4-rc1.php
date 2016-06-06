@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_4_rc1 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             'UPDATE `' . Common::prefixTable('pdf') . '`
@@ -27,10 +27,10 @@ class Updates_1_4_rc1 extends Updates
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
-            Updater::updateDatabase(__FILE__, self::getSql());
+            $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
         } catch (\Exception $e) {
         }
     }

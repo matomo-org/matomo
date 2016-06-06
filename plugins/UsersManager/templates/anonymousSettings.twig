@@ -1,0 +1,78 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'UsersManager_MenuAnonymousUserSettings'|translate }}{% endset %}
+
+{% block content %}
+{% if isSuperUser %}
+
+    <h2 piwik-enriched-headline>{{ title }}</h2>
+
+    {% if anonymousSites|length == 0 %}
+
+        <div class="alert alert-info">
+            {{ 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2'|translate }}
+        </div>
+
+    {% else %}
+
+        {{ ajax.errorDiv('ajaxErrorAnonymousUserSettings') }}
+        {{ ajax.loadingDiv('ajaxLoadingAnonymousUserSettings') }}
+
+        <div class="form-group">
+            <label>
+                {{ 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate }}
+            </label>
+            <fieldset>
+                <label class="radio">
+                    <input id="anonymousDefaultReport-login" type="radio" value="Login"
+                           name="anonymousDefaultReport"
+                            {% if anonymousDefaultReport==loginModule %} checked="checked"{% endif %} />
+                    {{ 'UsersManager_TheLoginScreen'|translate }}
+                </label>
+                <label class="radio">
+                    <input id="anonymousDefaultReport-multisites"
+                           {% if anonymousSites is empty %}disabled="disabled" {% endif %}
+                           type="radio" value="MultiSites" name="anonymousDefaultReport"
+                           {% if anonymousDefaultReport=='MultiSites' %} checked="checked"{% endif %} />
+                    {{ 'General_AllWebsitesDashboard'|translate }}
+                </label>
+
+                <label class="radio">
+                    <input id="anonymousDefaultReport-specific"
+                           {% if anonymousSites is empty %}disabled="disabled" {% endif %}
+                           type="radio" value="1" name="anonymousDefaultReport"
+                           {% if anonymousDefaultReport>0 %} checked="checked"{% endif %} />
+                    {{ 'General_DashboardForASpecificWebsite'|translate }}
+
+                    {% if anonymousSites is not empty %}
+                        <select id="anonymousDefaultReportWebsite">
+                            {% for info in anonymousSites %}
+                                <option value="{{ info.idsite }}" {% if anonymousDefaultReport==info.idsite %} selected="selected"{% endif %}>
+                                    {{ info.name|raw }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </label>
+
+            </fieldset>
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault'|translate }}</label>
+            <fieldset>
+                {% for value,description in availableDefaultDates %}
+                    <label class="radio">
+                        <input type="radio" name="anonymousDefaultDate"
+                               {% if anonymousDefaultDate==value %}checked="checked" {% endif %}value="{{ value }}"/>
+                        {{ description }}
+                    </label>
+                {% endfor %}
+            </fieldset>
+        </div>
+
+        <input type="submit" value="{{ 'General_Save'|translate }}" id="anonymousUserSettingsSubmit" class="submit"/>
+
+    {% endif %}
+{% endif %}
+{% endblock %}

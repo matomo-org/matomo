@@ -7,9 +7,7 @@
  */
 namespace Piwik\CliMulti;
 
-use Piwik\CliMulti;
 use Piwik\Common;
-use Piwik\Plugins\Installation\SystemCheck;
 
 class CliPhp
 {
@@ -17,7 +15,6 @@ class CliPhp
     public function findPhpBinary()
     {
         if (defined('PHP_BINARY')) {
-
             if ($this->isHhvmBinary(PHP_BINARY)) {
                 return PHP_BINARY . ' --php';
             }
@@ -67,8 +64,9 @@ class CliPhp
 
     private function isValidPhpVersion($bin)
     {
+        global $piwik_minimumPHPVersion;
         $cliVersion = $this->getPhpVersion($bin);
-        $isCliVersionValid = SystemCheck::isPhpVersionValid($cliVersion);
+        $isCliVersionValid = version_compare($piwik_minimumPHPVersion, $cliVersion) <= 0;
         return $isCliVersionValid;
     }
 
@@ -87,10 +85,11 @@ class CliPhp
                 return $path;
             }
         }
+        return null;
     }
 
     /**
-     * @param $bin PHP binary
+     * @param string $bin PHP binary
      * @return string
      */
     private function getPhpVersion($bin)

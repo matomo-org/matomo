@@ -13,12 +13,15 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Timer;
+use Symfony\Component\VarDumper\Cloner\Data;
 
+/**
+ * @group DataTableTest
+ * @group DataTable
+ * @group Core
+ */
 class DataTableTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
     public function testApplyFilter()
     {
         $table = $this->_getDataTable1ForTest();
@@ -43,9 +46,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
     public function testRenameColumn()
     {
         $table = $this->_getSimpleTestDataTable();
@@ -55,9 +55,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('renamed'));
     }
 
-    /**
-     * @group Core
-     */
     public function testDeleteColumn()
     {
         $table = $this->_getSimpleTestDataTable();
@@ -66,9 +63,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(false, false, false, false), $table->getColumn('count'));
     }
 
-    /**
-     * @group Core
-     */
     public function testDeleteRow()
     {
         $table = $this->_getSimpleTestDataTable();
@@ -86,9 +80,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($table->getRowFromId($idToDelete));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetLastRow()
     {
         $table = $this->_getSimpleTestDataTable();
@@ -100,9 +91,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($table->getLastRow(), $table->getRowFromId($rowsCount - 2));
     }
 
-    /**
-     * @group Core
-     */
     public function testGetRowFromIdSubDataTable()
     {
         $table1 = $this->_getDataTable1ForTest();
@@ -119,11 +107,22 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($table2->getRowFromIdSubDataTable($idTable3), $table2->getLastRow());
     }
 
+    public function test_clone_shouldIncreasesTableId()
+    {
+        $table = new DataTable;
+        $rows = array(
+            array(Row::COLUMNS => array('label' => 'google')),
+        );
+        $table->addRowsFromArray($rows);
+
+        $table2 = clone $table;
+
+        $this->assertSame($table2->getId(), $table->getId() + 1);
+    }
+
     /**
      * we test the count rows and the count rows recursive version
      * on a Simple array (1 level only)
-     *
-     * @group Core
      */
     public function testCountRowsSimple()
     {
@@ -137,12 +136,13 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
             array($idcol => array('label' => 'yahoo')),
             array($idcol => array('label' => 'amazon')),
             array($idcol => array('label' => '238975247578949')),
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')));
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))'))
+        );
 
         $table->addRowsFromArray($rows);
 
-        $this->assertEquals(count($rows), $table->getRowsCount());
-        $this->assertEquals(count($rows), $table->getRowsCountRecursive());
+        $this->assertEquals(7, $table->getRowsCount());
+        $this->assertEquals(7, $table->getRowsCountRecursive());
     }
 
     /**
@@ -152,12 +152,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      * the recursive count returns
      *         the sum of the number of rows of all the subtables
      *         + the number of rows in the parent table
-     *
-     * @group Core
      */
     public function testCountRowsComplex()
     {
-
         $idcol = Row::COLUMNS;
         $idsubtable = Row::DATATABLE_ASSOCIATED;
 
@@ -205,20 +202,17 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         );
         $table->addRowsFromArray($rows);
 
-        $this->assertEquals(count($rows), $table->getRowsCount());
-        $countAllRows = count($rows) + count($rows1) + count($rows2) + count($rows1sub);
-        $this->assertEquals($countAllRows, $table->getRowsCountRecursive());
+        $this->assertEquals(3, $table->getRowsCount());
+        $this->assertEquals(18, $table->getRowsCountRecursive());
     }
 
     /**
      * Simple test of the DataTable_Row
-     *
-     * @group Core
      */
     public function testRow()
     {
         $columns = array('test_column' => 145,
-                         092582495     => new Timer,
+                         92582495     => new Timer,
                          'super'       => array('this column has an array value, amazing'));
         $metadata = array('logo'  => 'piwik.png',
                           'super' => array('this column has an array value, amazing'));
@@ -237,8 +231,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Simple test of the DataTable_Row
-     *
-     * @group Core
      */
     public function testSumRow()
     {
@@ -255,14 +247,14 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
             Row::COLUMNS  => $columns,
             Row::METADATA => $metadata,
             'fake useless key'            => 38959,
-            43905724897                   => 'value');
+            '43905724897'                   => 'value');
         $row1 = new Row($arrayRow);
 
         $columns2 = array('test_int'          => 5,
                           'test_float'        => 4.5,
                           'test_float2'       => 14.5,
                           'test_stringint'    => "5",
-                          0925824             => 'toto',
+                          925824             => 'toto',
                           'integerArrayToSum' => array(1 => 5, 2 => 5.5, 3 => array(2 => 4)),
         );
         $finalRow = new Row(array(Row::COLUMNS => $columns2));
@@ -274,7 +266,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
                                'test_stringint'    => 150, //add also strings!!
                                'test'              => 'string fake',
                                'integerArrayToSum' => array(1 => 6, 2 => 15.5, 3 => array(1 => 2, 2 => 7)),
-                               0925824             => 'toto',
+                               925824             => 'toto',
         );
 
         // Also testing that metadata is copied over
@@ -282,8 +274,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Row::isEqual($rowWanted, $finalRow));
 
         // testing that, 'sumRow' does not result in extra unwanted attributes being serialized
-        $expectedRow = 'O:19:"Piwik\DataTable\Row":1:{s:1:"c";a:3:{i:0;a:8:{s:8:"test_int";i:150;s:10:"test_float";d:150;s:11:"test_float2";d:14.5;s:14:"test_stringint";i:150;i:0;s:4:"toto";s:17:"integerArrayToSum";a:3:{i:1;i:6;i:2;d:15.5;i:3;a:2:{i:2;i:7;i:1;i:2;}}s:11:"test_float3";d:1.5;s:4:"test";s:11:"string fake";}i:1;a:2:{s:4:"logo";s:9:"piwik.png";s:5:"super";a:1:{i:0;s:39:"this column has an array value, amazing";}}i:3;N;}}';
-        $this->assertEquals($expectedRow, serialize($finalRow));
+
+        $expectedRow = 'a:3:{i:0;a:8:{s:8:"test_int";i:150;s:10:"test_float";d:150;s:11:"test_float2";d:14.5;s:14:"test_stringint";i:150;i:925824;s:4:"toto";s:17:"integerArrayToSum";a:3:{i:1;i:6;i:2;d:15.5;i:3;a:2:{i:2;i:7;i:1;i:2;}}s:11:"test_float3";d:1.5;s:4:"test";s:11:"string fake";}i:1;a:2:{s:4:"logo";s:9:"piwik.png";s:5:"super";a:1:{i:0;s:39:"this column has an array value, amazing";}}i:3;N;}';
+        $this->assertEquals($expectedRow, serialize($finalRow->export()));
 
         // Testing sumRow with disabled metadata sum
         $rowWanted = new Row(array(Row::COLUMNS => $columnsWanted)); // no metadata
@@ -293,26 +286,41 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
+     * @dataProvider unserializeTestsDataProvider
      */
-    public function test_unserializeWorks_WhenDataTableFormatPriorPiwik2()
+    public function test_unserializeWorks_WithAllDataTableFormats($indexToRead, $label, $column2, $subtable)
     {
-        $serializedDatatable = '';
-        // Prior Piwik 2.0, we didn't use namespaces. Some
-        require PIWIK_INCLUDE_PATH . "/tests/resources/pre-Piwik2-DataTable-archived.php";
+        $serializedDatatable = array();
+        // Prior Piwik 2.13, we serialized the actual Row or DataTableSummaryRow instances, afterwards only arrays
+        require PIWIK_INCLUDE_PATH . "/tests/resources/DataTables-archived-different-formats.php";
         require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
 
-        $this->assertTrue(strlen($serializedDatatable) > 1000);
+        $table = $serializedDatatable[$indexToRead];
+        $this->assertTrue(strlen($table) > 1000);
 
-        $table = unserialize($serializedDatatable);
-        $this->assertTrue($table[0] instanceof \Piwik\DataTable\Row);
+        $table = DataTable::fromSerializedArray($table);
+        $row1  = $table->getFirstRow();
+        $this->assertTrue($row1 instanceof \Piwik\DataTable\Row);
+        $this->assertFalse($row1 instanceof \Piwik\DataTable\Row\DataTableSummaryRow); // we convert summary rows to Row instances
+
+        $this->assertEquals($label, $row1->getColumn('label'));
+        $this->assertEquals($column2, $row1->getColumn(2));
+        $this->assertEquals($subtable, $row1->getIdSubDataTable());
+    }
+
+    public function unserializeTestsDataProvider()
+    {
+        return array(
+            array($index = 0, $label = 'piwik.org', $column2 = 10509, $idSubtable = 1581), // pre Piwik 2.0 (without namespaces, Piwik_DataTable_Row)
+            array($index = 1, $label = 'piwikactions.org', $column2 = 10508, $idSubtable = 1581), // pre Piwik 2.0 Actions (without namespaces, Piwik_DataTable_Row_DataTableSummary)
+            array($index = 2, $label = 'start', $column2 = 89, $idSubtable = 2260), // >= Piwik 2.0 < Piwik 2.13 Actions (DataTableSummaryRow)
+            array($index = 3, $label = 'Ask',   $column2 = 11, $idSubtable = 3335), // >= Piwik 2.0 < Piwik 2.13 Referrers (Row)
+            array($index = 4, $label = 'MyLabel Test',   $column2 = 447, $idSubtable = 1), // >= Piwik 2.0 < Piwik 2.13 Referrers (Row)
+        );
     }
 
     /**
      * Test that adding two string column values results in an exception.
-     *
-     * @group Core
-     *
      */
     public function testSumRow_stringException()
     {
@@ -328,34 +336,28 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $row2->sumRow($row1);
         $this->assertTrue($noException = true);
-
     }
 
     /**
      * Test serialize with an infinite recursion (a row linked to a table in the parent hierarchy)
      * After 100 recursion must throw an exception
      *
-     * @group Core
-     *
      * @expectedException \Exception
      */
     public function testSerializeWithInfiniteRecursion()
     {
         $table = new DataTable;
-        $table->addRowFromArray(array(Row::COLUMNS              => array('visits' => 245, 'visitors' => 245),
-                                      Row::DATATABLE_ASSOCIATED => $table,));
+        $table->addRowFromArray(array(Row::COLUMNS => array('visits' => 245, 'visitors' => 245),
+                                      Row::DATATABLE_ASSOCIATED => $table));
 
         $table->getSerialized();
     }
 
     /**
      * Test queing filters
-     *
-     * @group Core
      */
     public function testFilterQueueSortString()
     {
-
         $idcol = Row::COLUMNS;
 
         $table = new DataTable;
@@ -407,8 +409,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      * We create some tables, add rows, some of the rows link to sub tables
      *
      * Then we serialize everything, and we check that the unserialize give the same object back
-     *
-     * @group Core
      */
     public function testGeneral()
     {
@@ -416,8 +416,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
          * create some fake tables to make sure that the serialized array of the first TABLE
          * does not take in consideration those tables
          */
-        $useless1 = new DataTable;
-        $useless1->addRowFromArray(array(Row::COLUMNS => array(13,),));
+        $useless1 = $this->createDataTable(array(array(13,)));
         /*
          * end fake tables
          */
@@ -428,7 +427,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $table = new DataTable;
         $subtable = new DataTable;
         $idtable = $table->getId();
-        $idsubtable = $subtable->getId();
 
         /*
          * create some fake tables to make sure that the serialized array of the first TABLE
@@ -436,8 +434,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
          * -> we check that the DataTable_Manager is not impacting DataTable
          */
         $useless1->addRowFromArray(array(Row::COLUMNS => array(8487,),));
-        $useless3 = new DataTable;
-        $useless3->addRowFromArray(array(Row::COLUMNS => array(8487,),));
+        $useless3 = $this->createDataTable(array(array(8487)));
         /*
          * end fake tables
          */
@@ -492,9 +489,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $idsubsubtable = $subsubtable->getId();
 
-        $serialized = ($table->getSerialized());
+        $serialized = $table->getSerialized();
 
-        $this->assertEquals(array_keys($serialized), array($idsubsubtable, $idsubtable, 0));
+        $this->assertEquals(array_keys($serialized), array(2, 1, 0)); // subtableIds are now consecutive
 
         // In the next test we compare an unserialized datatable with its original instance.
         // The unserialized datatable rows will have positive DATATABLE_ASSOCIATED ids.
@@ -503,13 +500,13 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         // HOWEVER, because of datatable id conflicts happening in the datatable manager, it is not yet
         // possible to know, after unserializing a datatable, if its sub-datatables are loaded in memory.
         $expectedTableRows = array();
+        $i = 0;
         foreach ($table->getRows() as $currentRow) {
             $expectedTableRow = clone $currentRow;
 
-            $currentRowAssociatedDatatableId = $currentRow->c[Row::DATATABLE_ASSOCIATED];
+            $currentRowAssociatedDatatableId = $currentRow->subtableId;
             if ($currentRowAssociatedDatatableId != null) {
-                // making DATATABLE_ASSOCIATED ids positive
-                $expectedTableRow->c[Row::DATATABLE_ASSOCIATED] = -1 * $currentRowAssociatedDatatableId;
+                $expectedTableRow->setNonLoadedSubtableId(++$i); // subtableIds are consecutive
             }
 
             $expectedTableRows[] = $expectedTableRow;
@@ -521,13 +518,106 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTableRows, $tableAfter->getRows());
 
         $subsubtableAfter = new DataTable;
-        $subsubtableAfter->addRowsFromSerializedArray($serialized[$idsubsubtable]);
+        $subsubtableAfter->addRowsFromSerializedArray($serialized[$consecutiveSubtableId = 2]);
         $this->assertEquals($subsubtable->getRows(), $subsubtableAfter->getRows());
-        $this->assertEquals($subsubtable->getRows(), DataTable::fromSerializedArray($serialized[$idsubsubtable])->getRows());
+        $this->assertEquals($subsubtable->getRows(), DataTable::fromSerializedArray($serialized[$consecutiveSubtableId = 2])->getRows());
         $this->assertTrue($subsubtable->getRowsCount() > 0);
 
         $this->assertEquals($table, Manager::getInstance()->getTable($idtable));
         $this->assertEquals($subsubtable, Manager::getInstance()->getTable($idsubsubtable));
+    }
+
+    public function test_getSerialized_shouldCreateConsecutiveSubtableIds()
+    {
+        $numRowsInRoot = 10;
+        $numRowsInSubtables = 5;
+
+        $rootTable = new DataTable();
+        $this->addManyRows($rootTable, 100);
+
+        foreach ($rootTable->getRows() as $row) {
+            $subtable = new DataTable();
+            $this->addManyRows($subtable, 100);
+            $row->setSubtable($subtable);
+
+            foreach ($subtable->getRows() as $subRow) {
+                $subRow->setSubtable(new DataTable());
+            }
+        }
+
+        // we want to make sure the tables have high ids but we will ignore them and just give them Ids starting from 0
+        $recentId = Manager::getInstance()->getMostRecentTableId();
+        $this->assertGreaterThanOrEqual(5000, $recentId);
+
+        $tables = $rootTable->getSerialized($numRowsInRoot, $numRowsInSubtables);
+
+        // make sure subtableIds are consecutive. Why "-1"? Because if we want 10 rows, there will be 9 subtables + 1 summary row which won't have a subtable
+        $sumSubTables = ($numRowsInRoot - 1) + (($numRowsInRoot - 1) * ($numRowsInSubtables - 1));
+        $subtableIds  = array_keys($tables);
+        sort($subtableIds);
+        $this->assertEquals(range(0, $sumSubTables), $subtableIds);
+
+        // make sure the rows subtableId were updated as well.
+        foreach ($tables as $index => $serializedRows) {
+            $rows = unserialize($serializedRows);
+            $this->assertTrue(is_array($rows));
+
+            if (0 === $index) {
+                // root table, make sure correct amount of rows are in subtables
+                $this->assertCount($numRowsInRoot, $rows);
+            }
+
+            foreach ($rows as $row) {
+                $this->assertTrue(is_array($row));
+
+                $subtableId = $row[Row::DATATABLE_ASSOCIATED];
+
+                if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW) {
+                    $this->assertNull($subtableId);
+                } else {
+
+                    $this->assertLessThanOrEqual($sumSubTables, $subtableId); // make sure row was actually updated
+                    $this->assertGreaterThanOrEqual(0, $subtableId);
+                    $subrows = unserialize($tables[$subtableId]);
+
+                    // this way we make sure the rows point to the correct subtable. only 2nd level rows have actually
+                    // subtables. All 3rd level datatables do not have a row see table creation further above
+                    if ($index === 0) {
+                        $this->assertCount($numRowsInSubtables, $subrows);
+                    } else {
+                        $this->assertCount(0, $subrows);
+                    }
+                }
+            }
+        }
+    }
+
+    public function test_getSerialized_shouldExportOnlyTheSerializedArrayOfAllTableRows()
+    {
+        $rootTable = new DataTable();
+        $this->addManyRows($rootTable, 2);
+
+        foreach ($rootTable->getRows() as $row) {
+            $subtable = new DataTable();
+            $this->addManyRows($subtable, 2);
+            $row->setSubtable($subtable);
+        }
+
+        $tables = $rootTable->getSerialized();
+
+        // we also make sure it actually handles the subtableIds correct etc
+        $this->assertEquals(array(
+            0 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;i:1;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;i:2;}}',
+            1 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
+            2 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
+        ), $tables);
+    }
+
+    private function addManyRows(DataTable $table, $numRows)
+    {
+        for ($i = 0; $i < $numRows; $i++) {
+            $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'label' . $i)));
+        }
     }
 
     /**
@@ -540,8 +630,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * add an empty datatable to a normal datatable
-     *
-     * @group Core
      */
     public function testAddSimpleNoRowTable2()
     {
@@ -554,8 +642,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * add a normal datatable to an empty datatable
-     *
-     * @group Core
      */
     public function testAddSimpleNoRowTable1()
     {
@@ -567,8 +653,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * add to the datatable another datatable// they don't have any row in common
-     *
-     * @group Core
      */
     public function testAddSimpleNoCommonRow()
     {
@@ -586,8 +670,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * add 2 datatable with some common rows
-     *
-     * @group Core
      */
     public function testAddSimpleSomeCommonRow()
     {
@@ -630,8 +712,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * add 2 datatable with only common rows
-     *
-     * @group Core
      */
     public function testAddSimpleAllCommonRow()
     {
@@ -671,12 +751,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * test add 2 different tables to the same table
-     *
-     * @group Core
      */
     public function testAddDataTable2times()
     {
-
         $idcol = Row::COLUMNS;
 
         $rows = array(
@@ -724,9 +801,6 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(DataTable::isEqual($table, $tableExpected));
     }
 
-    /**
-     * @group Core
-     */
     public function testUnrelatedDataTableNotDestructed()
     {
         $mockedDataTable = $this->getMock('\Piwik\DataTable', array('__destruct'));
@@ -738,7 +812,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         // from the database is in conflict with one of the Manager managed table identifiers.
         // This is a rare but legitimate case as identifiers are not thoroughly synchronized
         // when the expanded parameter is false.
-        $rowBeingDestructed->c[Row::DATATABLE_ASSOCIATED] = $mockedDataTable->getId();
+        $rowBeingDestructed->subtableId = $mockedDataTable->getId();
 
         Common::destroy($rowBeingDestructed);
     }
@@ -746,15 +820,26 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
-    public function testGetSerializedCallsCleanPostSerialize()
+    public function test_disableFilter_DoesActuallyDisableAFilter()
     {
-        $mockedDataTableRow = $this->getMock('\Piwik\DataTable\Row', array('cleanPostSerialize'));
-        $mockedDataTableRow->expects($this->once())->method('cleanPostSerialize');
+        $dataTable = DataTable::makeFromSimpleArray(array_fill(0, 100, array()));
+        $this->assertSame(100, $dataTable->getRowsCount());
 
-        $dataTableBeingSerialized = new DataTable();
-        $dataTableBeingSerialized->addRow($mockedDataTableRow);
+        $dataTable2 = clone $dataTable;
 
-        $dataTableBeingSerialized->getSerialized();
+        // verify here the filter is applied
+        $dataTable->filter('Limit', array(10, 10));
+        $this->assertSame(10, $dataTable->getRowsCount());
+
+        // verify here the filter is not applied as it is disabled
+        $dataTable2->disableFilter('Limit');
+        $dataTable2->filter('Limit', array(10, 10));
+        $this->assertSame(100, $dataTable2->getRowsCount());
+
+        // passing a whole className is expected to work. This way we also make sure not all filters are disabled
+        // and it only blocks the given one
+        $dataTable2->filter('Piwik\DataTable\Filter\Limit', array(10, 10));
+        $this->assertSame(10, $dataTable2->getRowsCount());
     }
 
     /**
@@ -771,16 +856,13 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         Common::destroy($rowBeingDestructed);
     }
 
-    /**
-     * @group Core
-     */
     public function test_serializeFails_onSubTableNotFound()
     {
         // create a simple table with a subtable
         $table1 = $this->_getDataTable1ForTest();
         $table2 = $this->_getDataTable2ForTest();
         $table2->getFirstRow()->setSubtable($table1);
-        $idSubtable = $table1->getId();
+        $idSubtable = 1; // subtableIds are consecutive, we cannot use $table->getId()
 
         /* Check it looks good:
         $renderer = DataTable\Renderer::factory('xml');
@@ -795,13 +877,13 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         // both the main table and the sub table are serialized
         $this->assertEquals(sizeof($serializedStrings), 2);
-        $serialized = implode(",", $serializedStrings);
 
         // the serialized string references the id subtable
-        $this->assertTrue( false !== strpos($serialized, 'i:' . $idSubtable), "not found the id sub table in the serialized, not expected");
+        $unserialized = unserialize($serializedStrings[0]);
+        $this->assertSame($idSubtable, $unserialized[0][3], "not found the id sub table in the serialized, not expected");
 
         // KABOOM, we delete the subtable, reproducing a "random data issue"
-        Manager::getInstance()->deleteTable($idSubtable);
+        Manager::getInstance()->deleteTable($table1->getId());
 
         // Now we will serialize this "broken datatable" and check it works.
 
@@ -810,11 +892,28 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         // - the serialized table does NOT contain the sub table
         $this->assertEquals(sizeof($serializedStrings), 1); // main table only is serialized
-        $serialized = implode(",", $serializedStrings);
+        $unserialized = unserialize($serializedStrings[0]);
 
         // - the serialized string does NOT contain the id subtable (the row was cleaned up as expected)
-        $this->assertTrue( false === strpos($serialized, 'i:' . $idSubtable), "found the id sub table in the serialized, not expected");
+        $this->assertNull($unserialized[0][3], "found the id sub table in the serialized, not expected");
+    }
 
+    public function testMergeSubtablesKeepsMetadata()
+    {
+        $dataTable = $this->_getDataTable1ForTest();
+        $dataTable->setMetadata('additionalMetadata', 'test');
+        $dataTable = $dataTable->mergeSubtables();
+        $this->assertEquals('test', $dataTable->getMetadata('additionalMetadata'));
+    }
+
+    private function createDataTable($rows)
+    {
+        $useless1 = new DataTable;
+        foreach ($rows as $row) {
+            $useless1->addRowFromArray(array(Row::COLUMNS => $row));
+        }
+
+        return $useless1;
     }
 
     protected function _getDataTable1ForTest()

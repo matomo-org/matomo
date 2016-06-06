@@ -25,7 +25,7 @@
 		<loops>2</loops>
 		<pageviews>21</pageviews>
 		<entries>4</entries>
-		<exits>1</exits>
+		<exits>9</exits>
 	</pageMetrics>
 	<followingPages>
 		<row>
@@ -38,7 +38,7 @@
 		</row>
 		<row>
 			<label>Others</label>
-			<referrals>5</referrals>
+			<referrals>3</referrals>
 		</row>
 	</followingPages>
 	<followingSiteSearches>

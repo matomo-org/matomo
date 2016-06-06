@@ -11,12 +11,8 @@
 	overflow: hidden;
 }
 
-#topBars {
+#topLeftBar {
     z-index: 300!important;
-}
-
-.sites_autocomplete, .sites_autocomplete .custom_select {
-    z-index: 200!important;
 }
 
 .submit {
@@ -32,4 +28,10 @@ input[type=checkbox], input[type=radio] {
 	width: 15px;
 	margin: 0;
 	padding: 0;
+}
+
+/* Don't override select style */
+select {
+    background: transparent;
+    padding-right: 12px;
 }

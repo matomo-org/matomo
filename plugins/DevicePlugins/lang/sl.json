@@ -1,0 +1,7 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s brez omogočenih vtičnikov",
+        "BrowserWithPluginsEnabled": "%1$s z omogočenimi vtičniki %2$s",
+        "WidgetPlugins": "Seznam Vtičnikov"
+    }
+}

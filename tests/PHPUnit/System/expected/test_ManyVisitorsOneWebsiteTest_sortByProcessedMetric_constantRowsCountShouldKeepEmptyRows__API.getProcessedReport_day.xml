@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1</website>
-	<prettyDate>Sunday 3 January 2010</prettyDate>
+	<prettyDate>Sunday, January 3, 2010</prettyDate>
 	<metadata>
 		<category>Visits Summary</category>
 		<name>Visits by Server Time</name>
@@ -20,6 +20,10 @@
 			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
@@ -53,11 +57,11 @@
 			<label>12h</label>
 			<nb_uniq_visitors>4</nb_uniq_visitors>
 			<nb_visits>4</nb_visits>
-			<nb_actions>12</nb_actions>
+			<nb_actions>20</nb_actions>
 			<nb_users>0</nb_users>
 			<revenue>$ 40</revenue>
-			<nb_actions_per_visit>3</nb_actions_per_visit>
-			<avg_time_on_site>00:21:01</avg_time_on_site>
+			<nb_actions_per_visit>5</nb_actions_per_visit>
+			<avg_time_on_site>00:27:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</row>
 		<row>
@@ -314,12 +318,87 @@
 			<revenue>$ 0</revenue>
 		</row>
 	</reportData>
-	<reportMetadata />
+	<reportMetadata>
+		<row>
+			<segment>visitServerHour==12</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==11</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==0</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==1</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==2</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==3</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==4</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==5</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==6</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==7</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==8</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==9</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==10</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==13</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==14</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==15</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==16</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==17</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==18</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==19</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==20</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==21</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==22</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==23</segment>
+		</row>
+	</reportMetadata>
 	<reportTotal>
 		<nb_visits>8</nb_visits>
 		<nb_uniq_visitors>8</nb_uniq_visitors>
-		<nb_actions>16</nb_actions>
+		<nb_actions>24</nb_actions>
 		<nb_visits_converted>0</nb_visits_converted>
 		<bounce_count>4</bounce_count>
+		<nb_conversions>12</nb_conversions>
+		<revenue>60</revenue>
 	</reportTotal>
 </result>

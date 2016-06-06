@@ -18,9 +18,10 @@
         "Maximise": "Maximiser",
         "Minimise": "Minimiser",
         "NotUndo": "Vous ne pourrez pas annuler cette action.",
-        "PluginDescription": "Votre tableau de bord de statistiques web. Vous pouvez personnaliser votre tableau de bord: ajoutez de nouveaux widgets, changez l'ordre de vos widgets. Chaque utilisateur peut accéder à son propre tableau de bord.",
+        "PluginDescription": "Votre tableau de bord, personnalisez le en ajoutant des widgets, en les déplaçant et en modifiant la disposition des colonnes. Chaque utilisateur possède son propre tableau de bord.",
         "RemoveDashboard": "Supprimer le tableau de bord",
         "RemoveDashboardConfirm": "Êtes vous sûr(e) de vouloir supprimer le tableau de bord \"%s\" ?",
+        "RemoveDefaultDashboardNotPossible": "Le tableau de bord par défaut ne peut pas être supprimé",
         "RenameDashboard": "Renommer le tableau de bord",
         "ResetDashboard": "Restaurer le tableau de bord",
         "ResetDashboardConfirm": "Voulez-vous vraiment restaurer votre tableau de bord avec les widgets par défaut ?",
@@ -31,7 +32,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Cette sélection de gadgets et cette disposition du tableau de bord seront utilisées à chaque création de tableau de bord par n'importe quel utilisateur ou quand la fonctionnalité \"%s\" est utilisée.",
         "TopLinkTooltip": "Afficher les rapport de statistiques web pour %s.",
         "WidgetNotFound": "Widget introuvable",
-        "WidgetPreview": "Prévisualisation du Widget",
-        "WidgetsAndDashboard": "Widgets & Tableau de bord"
+        "WidgetPreview": "Prévisualisation du Widget"
     }
 }

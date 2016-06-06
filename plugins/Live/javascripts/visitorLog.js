@@ -38,6 +38,40 @@
         init: function () {
             dataTablePrototype.init.call(this);
 
+            $('.visitorLogIconWithDetails>img').each(function () {
+                $(this).tooltip({
+                    items: 'img',
+                    track: true,
+                    show: false,
+                    hide: false,
+                    content: function () {
+                        return $('<ul>').html($('ul', $(this).closest('.visitorLogIconWithDetails')).html());
+                    },
+                    tooltipClass: 'small',
+                    open: function () {
+                        tooltipIsOpened = true;
+                    },
+                    close: function () {
+                        tooltipIsOpened = false;
+                    }
+                });
+            });
+
+            $('.visitorLogTooltip').each(function () {
+                $(this).tooltip({
+                    track: true,
+                    show: false,
+                    hide: false,
+                    tooltipClass: 'small',
+                    open: function () {
+                        tooltipIsOpened = true;
+                    },
+                    close: function () {
+                        tooltipIsOpened = false;
+                    }
+                });
+            });
+
             // Replace duplicated page views by a NX count instead of using too much vertical space
             $("ol.visitorLog").each(function () {
                 var prevelement;
@@ -52,7 +86,7 @@
                         if (repeat.length) {
                             repeat.html((parseInt(repeat.html()) + 1) + "x");
                         } else {
-                            prevelement.append($("<em>2x</em>").attr({'class': 'repeat', 'title': _pk_translate('Live_PageRefreshed')}));
+                            prevelement.find('>div').prepend($("<em>2x</em>").attr({'class': 'repeat', 'title': _pk_translate('Live_PageRefreshed')}));
                         }
                         $(this).hide();
                     } else {

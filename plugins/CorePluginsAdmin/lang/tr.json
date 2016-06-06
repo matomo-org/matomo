@@ -39,11 +39,10 @@
         "NumUpdatesAvailable": "Uygun %s Güncelleme",
         "OriginCore": "Çekirdek",
         "OriginThirdParty": "Üçüncü parti",
-        "PluginDescription": "Eklenti yönetim arabirimi.",
         "PluginHomepage": "Eklenti Sayfası",
         "PluginKeywords": "Anahtar Kelimeler",
         "PluginsManagement": "Eklenti Yönetimi",
-        "PluginUpdateAvailable": "Şuanda %s versiyonunu kullanıyorsunuz ve yeni %s versiyon mevcut.",
+        "PluginUpdateAvailable": "Şuanda %1$s versiyonunu kullanıyorsunuz ve yeni %2$s versiyon mevcut.",
         "PluginVersionInfo": "%2$s den %1$s e",
         "PluginWebsite": "Eklenti Sitesi",
         "Screenshots": "Ekran Görüntüleri",
@@ -67,6 +66,6 @@
         "UploadZipFile": "ZIP dosyası yükle",
         "Version": "Versiyon",
         "ViewRepositoryChangelog": "Değişikliklere bak",
-        "Websites": "Web siteler"
+        "Websites": "Websiteler"
     }
 }

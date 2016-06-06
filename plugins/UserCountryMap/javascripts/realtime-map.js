@@ -51,17 +51,20 @@
             $('.RealTimeMap_map', $element).attr('id', this.uniqueId);
 
             // create the map
-            this.map = Kartograph.map('#' + this.uniqueId);
+            this.map = $K.map('#' + this.uniqueId);
 
             $element.focus();
         },
 
         _initStandaloneMap: function () {
-            $('.top_controls').hide();
-            $('.Menu--dashboard').on('piwikSwitchPage', function (event, item) {
-                var clickedMenuIsNotMap = ($(item).attr('href').indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
+            $('#periodString').hide();
+            initTopControls();
+            $('#secondNavBar').on('piwikSwitchPage', function (event, item) {
+                var href = $(item).attr('href');
+                var clickedMenuIsNotMap = !href || (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
                 if (clickedMenuIsNotMap) {
-                    $('.top_controls').show();
+                    $('#periodString').show();
+                    initTopControls();
                 }
             });
             $('.realTimeMap_overlay').css('top', '0px');
@@ -99,7 +102,7 @@
                 colorManager = piwik.ColorManager,
                 colors = colorManager.getColors('realtime-map', ['white-bg', 'white-fill', 'black-bg', 'black-fill', 'visit-stroke',
                                                                  'website-referrer-color', 'direct-referrer-color', 'search-referrer-color',
-                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill']),
+                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill', 'region-stroke-color']),
                 currentTheme = 'white',
                 colorTheme = {
                     white: {
@@ -359,7 +362,7 @@
                  */
                 function gotNewReport(report) {
                     // if the map has been destroyed, do nothing
-                    if (!self.map) {
+                    if (!self.map || !self.$element.length || !$.contains(document, self.$element[0])) {
                         return;
                     }
 
@@ -376,7 +379,7 @@
                     if (firstRun) {  // if we run this the first time, we initialiize the map symbols
                         visitSymbols = map.addSymbols({
                             data: [],
-                            type: Kartograph.Bubble,
+                            type: $K.Bubble,
                             /*title: function(d) {
                              return visitRadius(d) > 15 && d.actions > 1 ? d.actions : '';
                              },
@@ -494,7 +497,7 @@
              */
             function initMap() {
                 $('#widgetRealTimeMapliveMap .loadingPiwik, .RealTimeMap .loadingPiwik').hide();
-                map.addLayer('countries', {
+                map.addLayer(currentMap.length == 3 ? 'context' : 'countries', {
                     styles: {
                         fill: colorTheme[currentTheme].fill,
                         stroke: colorTheme[currentTheme].bg,
@@ -502,7 +505,9 @@
                     },
                     click: function (d, p, evt) {
                         evt.stopPropagation();
-                        if (currentMap != 'world') {  // zoom out if zoomed in
+                        if (currentMap.length == 2){   // zoom to country
+                            updateMap(d.iso);
+                        } else if (currentMap != 'world') {  // zoom out if zoomed in
                             updateMap('world');
                         } else {  // or zoom to continent view otherwise
                             updateMap(UserCountryMap.ISO3toCONT[d.iso]);
@@ -513,7 +518,13 @@
                         return d.name;
                     }
                 });
-
+                if (currentMap.length == 3){
+                    map.addLayer('regions', {
+                        styles: {
+                            stroke: colors['region-stroke-color']
+                        }
+                    });
+                }
                 var lastVisitId = -1,
                     lastReport = [];
                 refreshVisits(true);
@@ -543,7 +554,7 @@
                 storeSettings();
             }
 
-            updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z][A-Z]$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
+            updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z]{2,3}$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
 
             // clicking on map background zooms out
             $('.RealTimeMap_map', this.$element).off('click').click(function () {

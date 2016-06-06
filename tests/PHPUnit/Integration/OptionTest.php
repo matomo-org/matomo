@@ -15,7 +15,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
- * @group Core_OptionTest
  */
 class OptionTest extends IntegrationTestCase
 {

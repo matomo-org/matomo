@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Access;
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -28,9 +27,7 @@ class ActionTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        $config = Config::getInstance();
-        $config->clear();
-        $config->setTestEnvironment();
+
         $section = Config::getInstance()->Tracker;
         $section['default_action_url'] = '/';
         $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,utm_campaign,test_campaign_name';
@@ -40,14 +37,19 @@ class ActionTest extends IntegrationTestCase
 
         PluginManager::getInstance()->loadPlugins(array('SitesManager'));
 
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        Translate::reset();
     }
 
     protected function setUpRootAccess()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     public function getTestUrls()
@@ -380,5 +382,12 @@ class ActionTest extends IntegrationTestCase
         );
 
         $this->assertEquals($processed, $expected);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

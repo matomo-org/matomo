@@ -48,11 +48,11 @@ class SettingsTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage The setting name "myname_" in plugin "ExampleSettingsPlugin" is not valid. Only alpha and numerical characters are allowed
+     * @expectedExceptionMessage The setting name "myname-" in plugin "ExampleSettingsPlugin" is not valid. Only underscores, alpha and numerical characters are allowed
      */
     public function test_addSetting_shouldThrowException_IfTheSettingNameIsNotValid()
     {
-        $setting = $this->buildUserSetting('myname_', 'mytitle');
+        $setting = $this->buildUserSetting('myname-', 'mytitle');
         $this->settings->addSetting($setting);
     }
 
@@ -299,10 +299,12 @@ class SettingsTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionPrivilege
+     * @expectedExceptionMessage checkUserHasSuperUserAccess Fake exception
      */
     public function test_removeAllPluginSettings_shouldThrowException_InCaseAnonymousUser()
     {
+        $this->setAnonymousUser();
+
         $this->settings->removeAllPluginSettings();
     }
 

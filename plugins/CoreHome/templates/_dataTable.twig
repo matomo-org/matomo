@@ -7,11 +7,12 @@
 <div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %}"
      data-table-type="{{ properties.datatable_js_type }}"
      data-report="{{ properties.report_id }}"
+     data-report-metadata="{{ reportMetdadata|json_encode|e('html_attr') }}"
      data-props="{% if clientSideProperties is empty %}{}{% else %}{{ clientSideProperties|json_encode }}{% endif %}"
      data-params="{% if clientSideParameters is empty %}{}{% else %}{{ clientSideParameters|json_encode }}{% endif %}">
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
-        {% if reportLastUpdatedMessage is defined %}<span class='helpDate'>{{ reportLastUpdatedMessage }}</span>{% endif %}
+        {% if reportLastUpdatedMessage is defined %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
     </div>
     <div class="dataTableWrapper">
         {% if error is defined %}

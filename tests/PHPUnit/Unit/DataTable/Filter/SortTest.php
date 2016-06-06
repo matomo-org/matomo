@@ -13,13 +13,11 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
- * @group SortTest
+ * @group DataTableTest
  */
 class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
+
     public function testNormalSortDescending()
     {
         $table = new DataTable();
@@ -34,9 +32,7 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testNormalSortAscending()
     {
         $table = new DataTable();
@@ -51,9 +47,7 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testMissingColumnValuesShouldAppearLastAfterSortAsc()
     {
         $table = new DataTable();
@@ -67,13 +61,11 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
                                       )));
         $filter = new Sort($table, 'count', 'asc');
         $filter->filter($table);
-        $expectedOrder = array('nintendo', 'ask', 'amazing', 'nocolumnbis', 'nocolumn', 'summary');
+        $expectedOrder = array('nintendo', 'ask', 'nocolumnbis', 'nocolumn', 'amazing', 'summary');
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
 
-    /**
-     * @group Core
-     */
+
     public function testMissingColumnValuesShouldAppearLastAfterSortDesc()
     {
         $table = new DataTable();

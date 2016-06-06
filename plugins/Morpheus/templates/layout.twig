@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html id="ng-app" {% if language is defined %}lang="{{ language }}"{% endif %} ng-app="piwikApp">
+    <head>
+        {% block head %}
+            <meta charset="utf-8">
+            <title>
+                {%- block pageTitle -%}
+                    {%- if title is defined %}{{ title }} - {% endif %}
+                    {%- if categoryTitle is defined %}{{ categoryTitle }} - {% endif %}
+                    {%- if not isCustomLogo %}Piwik{% endif %}
+                {%- endblock -%}
+            </title>
+            <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
+            <meta name="viewport" content="initial-scale=1.0"/>
+            <meta name="generator" content="Piwik - free/libre analytics platform"/>
+            <meta name="description" content="{% block pageDescription %}{% endblock %}"/>
+            <meta name="apple-itunes-app" content="app-id=737216887" />
+            <meta name="google-play-app" content="app-id=org.piwik.mobile2">
+            {% block meta %}
+                <meta name="robots" content="noindex,nofollow">
+            {% endblock %}
+
+            {% include "@CoreHome/_favicon.twig" %}
+            {% include "_jsGlobalVariables.twig" %}
+            {% include "_jsCssIncludes.twig" %}
+
+            <!--[if IE]>
+            <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/ieonly.css"/>
+            <![endif]-->
+        {% endblock %}
+    </head>
+    <!--[if lt IE 9 ]>
+    <body id="{{ bodyId|default('') }}" ng-app="app" class="old-ie {{ bodyClass|default('') }}">
+    <![endif]-->
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
+    <!--<![endif]-->
+
+    {% block body %}
+
+        {% include "_iframeBuster.twig" %}
+        {% include "@CoreHome/_javaScriptDisabled.twig" %}
+
+        <div id="root">
+            {% block root %}
+            {% endblock %}
+        </div>
+
+    {% endblock %}
+
+        {% include "@CoreHome/_adblockDetect.twig" %}
+    </body>
+</html>

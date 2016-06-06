@@ -18,9 +18,10 @@
         "Maximise": "Suurenna",
         "Minimise": "Pienennä",
         "NotUndo": "Et voi peruuttaa tätä operaatiota.",
-        "PluginDescription": "Piwikin työpöytä. Voit muokata työpöytääsi: lisätä uusia raportteja, poistaa raportteja ja muuttaa raporttien järjestystä. Jokainen käyttäjä voi käyttää omaa työpöytäänsä.",
+        "PluginDescription": "Web-analytiikkojen työpöytä. Muokkaa työpöytääsi lisäämällä uusia osia, siirtämällä osia eri kohtiin, ja vaihtamalla työpöydän sisältöä. Jokainen käyttäjä voi hallita omaa työpöytäänsä.",
         "RemoveDashboard": "Poista näkymä",
         "RemoveDashboardConfirm": "Haluatko varmasti poistaa työpöydän \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "Oletustyöpöytää ei voi poistaa",
         "RenameDashboard": "Uudelleenimeä näkymä",
         "ResetDashboard": "Nollaa työpöytä",
         "ResetDashboardConfirm": "Haluatko varmasti nollata työpöydän asettelun takaisin oletusasetuksiin?",
@@ -31,7 +32,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Tätä työpöytää käytetään kun kuka tahansa käyttäjistä luo uuden työpöydän tai kun ominaisuutta \"%s\" käytetään.",
         "TopLinkTooltip": "Katso analytiikkaa %s",
         "WidgetNotFound": "Vimpainta ei löydy",
-        "WidgetPreview": "Vimpaimen esikatselu",
-        "WidgetsAndDashboard": "Vimpaimet ja työpöytä"
+        "WidgetPreview": "Vimpaimen esikatselu"
     }
 }

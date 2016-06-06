@@ -1,0 +1,26 @@
+{
+    "UsersManager": {
+        "AddUser": "एक नया उपयोगकर्ता जोड़ें",
+        "Alias": "उपनाम",
+        "AllWebsites": "सभी वेबसाइटों",
+        "AnonymousUser": "बेनामी उपयोगकर्ता",
+        "AnonymousUserHasViewAccess2": "आपकी Analytics रिपोर्ट और अपने दर्शकों के बारे में जानकारी सार्वजनिक रूप से देखा जा सकता है।",
+        "ApplyToAllWebsites": "सभी वेबसाइटों के लिए लागू करें",
+        "DeleteConfirm": "क्या आप प्रयोक्ता %s को हटाना चाहते हैं?",
+        "Email": "ईमेल",
+        "ExcludeVisitsViaCookie": "एक कुकी का उपयोग कर अपने दौरे को बाहर निकालें",
+        "ForAnonymousUsersReportDateToLoadByDefault": "अनाम उपयोगकर्ताओं के लिए, रिपोर्ट तिथि डिफ़ॉल्ट रूप से लोड करने के लिए",
+        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "आप बदलना चाहते हैं, तो पासवर्ड एक नया एक टाइप करें। अन्यथा इस खाली छोड़ दें।",
+        "LastSeen": "अंतिम बार देखा गया",
+        "ManageAccess": "उपयोग का प्रबंधन",
+        "MenuAnonymousUserSettings": "बेनामी उपयोगकर्ता सेटिंग",
+        "MenuUsers": "उपयोगकर्ता",
+        "MenuUserSettings": "उपयोगकर्ता सेटिंग",
+        "MenuPersonal": "व्यक्तिगत",
+        "PersonalSettings": "व्यक्तिगत सेटिंग",
+        "NoUsersExist": "कोई उपयोगकर्ता अभी तक कर रहे हैं ।",
+        "PrivAdmin": "व्यवस्थापक",
+        "PrivNone": "प्रवेश नही",
+        "PrivView": "देखना"
+    }
+}

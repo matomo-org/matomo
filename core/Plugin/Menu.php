@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Common;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuReporting;
@@ -30,14 +31,9 @@ use Piwik\Plugins\UsersManager\UserPreferences;
  */
 class Menu
 {
-    protected $module = '';
-
-    /**
-     * @ignore
-     */
     public function __construct()
     {
-        $this->module = $this->getModule();
+        // Constructor kept for BC (because called in implementations)
     }
 
     private function getModule()
@@ -69,7 +65,7 @@ class Menu
     {
         $params = (array) $additionalParams;
         $params['action'] = '';
-        $params['module'] = $this->module;
+        $params['module'] = $this->getModule();
 
         return $params;
     }
@@ -88,11 +84,12 @@ class Menu
      */
     protected function urlForAction($controllerAction, $additionalParams = array())
     {
-        $this->checkisValidCallable($this->module, $controllerAction);
+        $module = $this->getModule();
+        $this->checkisValidCallable($module, $controllerAction);
 
         $params = (array) $additionalParams;
         $params['action'] = $controllerAction;
-        $params['module'] = $this->module;
+        $params['module'] = $module;
 
         return $params;
     }
@@ -142,12 +139,9 @@ class Menu
      */
     protected function urlForActionWithDefaultUserParams($controllerAction, $additionalParams = array())
     {
-        $urlModuleAction = $this->urlForAction($controllerAction);
-        return array_merge(
-            $urlModuleAction,
-            $this->urlForDefaultUserParams(),
-            $additionalParams
-        );
+        $module = $this->getModule();
+
+        return $this->urlForModuleActionWithDefaultUserParams($module, $controllerAction, $additionalParams);
     }
 
     /**
@@ -165,9 +159,20 @@ class Menu
     protected function urlForModuleActionWithDefaultUserParams($module, $controllerAction, $additionalParams = array())
     {
         $urlModuleAction = $this->urlForModuleAction($module, $controllerAction);
+
+        $date = Common::getRequestVar('date', false);
+        if ($date) {
+            $urlModuleAction['date'] = $date;
+        }
+        $period = Common::getRequestVar('period', false);
+        if ($period) {
+            $urlModuleAction['period'] = $period;
+        }
+
+        // We want the current query parameters to override the user's defaults
         return array_merge(
-            $urlModuleAction,
             $this->urlForDefaultUserParams(),
+            $urlModuleAction,
             $additionalParams
         );
     }
@@ -195,7 +200,7 @@ class Menu
             $defaultDate = $userPreferences->getDefaultDate();
         }
         if (empty($defaultPeriod)) {
-            $defaultPeriod = $userPreferences->getDefaultPeriod();
+            $defaultPeriod = $userPreferences->getDefaultPeriod(false);
         }
         return array(
             'idSite' => $websiteId,
@@ -263,5 +268,4 @@ class Menu
             Development::error($prefix . 'The defined action "' . $action . '" is not callable on "' . $controllerClass . '". Make sure the method is public.');
         }
     }
-
 }

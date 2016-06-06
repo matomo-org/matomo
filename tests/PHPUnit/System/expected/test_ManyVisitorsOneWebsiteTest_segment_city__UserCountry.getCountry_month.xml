@@ -3,9 +3,9 @@
 	<row>
 		<label>United Kingdom</label>
 		<nb_visits>4</nb_visits>
-		<nb_actions>8</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>2522</sum_visit_length>
+		<nb_actions>12</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>3242</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -25,6 +25,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>gb</code>
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>

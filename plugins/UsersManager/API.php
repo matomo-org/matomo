@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -32,19 +33,27 @@ use Piwik\Tracker\Cache;
  */
 class API extends \Piwik\Plugin\API
 {
+    const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
+
     /**
      * @var Model
      */
     private $model;
+
+    /**
+     * @var UserAccessFilter
+     */
+    private $userFilter;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 
-    protected function __construct()
+    public function __construct(Model $model, UserAccessFilter $filter)
     {
-        $this->model = new Model();
+        $this->model = $model;
+        $this->userFilter = $filter;
     }
 
     /**
@@ -52,7 +61,7 @@ class API extends \Piwik\Plugin\API
      * Example of how you would overwrite the UsersManager_API with your own class:
      * Call the following in your plugin __construct() for example:
      *
-     * Registry::set('UsersManager_API', \Piwik\Plugins\MyCustomUsersManager\API::getInstance());
+     * StaticContainer::getContainer()->set('UsersManager_API', \Piwik\Plugins\MyCustomUsersManager\API::getInstance());
      *
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API
@@ -60,7 +69,7 @@ class API extends \Piwik\Plugin\API
     public static function getInstance()
     {
         try {
-            $instance = \Piwik\Registry::get('UsersManager_API');
+            $instance = StaticContainer::get('UsersManager_API');
             if (!($instance instanceof API)) {
                 // Exception is caught below and corrected
                 throw new Exception('UsersManager_API must inherit API');
@@ -68,8 +77,8 @@ class API extends \Piwik\Plugin\API
             self::$instance = $instance;
             
         } catch (Exception $e) {
-            self::$instance = new self;
-            \Piwik\Registry::set('UsersManager_API', self::$instance);
+            self::$instance = StaticContainer::get('Piwik\Plugins\UsersManager\API');
+            StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
         }
 
         return self::$instance;
@@ -98,7 +107,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
-        $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
+        $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);
 
         if ($optionValue !== false) {
             return $optionValue;
@@ -107,9 +116,63 @@ class API extends \Piwik\Plugin\API
         return $this->getDefaultUserPreference($preferenceName, $userLogin);
     }
 
+    /**
+     * Sets a user preference in the DB using the preference's default value.
+     * @param string $userLogin
+     * @param string $preferenceName
+     * @ignore
+     */
+    public function initUserPreferenceWithDefault($userLogin, $preferenceName)
+    {
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
+
+        $optionValue = $this->getPreferenceValue($userLogin, $preferenceName);
+
+        if ($optionValue === false) {
+            $defaultValue = $this->getDefaultUserPreference($preferenceName, $userLogin);
+
+            if ($defaultValue !== false) {
+                $this->setUserPreference($userLogin, $preferenceName, $defaultValue);
+            }
+        }
+    }
+
+    /**
+     * Returns an array of Preferences
+     * @param $preferenceNames array of preference names
+     * @return array
+     * @ignore
+     */
+    public function getAllUsersPreferences(array $preferenceNames)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $userPreferences = array();
+        foreach($preferenceNames as $preferenceName) {
+            $optionNameMatchAllUsers = $this->getPreferenceId('%', $preferenceName);
+            $preferences = Option::getLike($optionNameMatchAllUsers);
+
+            foreach($preferences as $optionName => $optionValue) {
+                $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
+                $userName = substr($optionName, 0, $lastUnderscore);
+                $preference = substr($optionName, $lastUnderscore + 1);
+                $userPreferences[$userName][$preference] = $optionValue;
+            }
+        }
+        return $userPreferences;
+    }
+
     private function getPreferenceId($login, $preference)
     {
-        return $login . '_' . $preference;
+        if(false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+            throw new Exception("Preference name cannot contain underscores.");
+        }
+        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
+    }
+
+    private function getPreferenceValue($userLogin, $preferenceName)
+    {
+        return Option::get($this->getPreferenceId($userLogin, $preferenceName));
     }
 
     private function getDefaultUserPreference($preferenceName, $login)
@@ -117,7 +180,10 @@ class API extends \Piwik\Plugin\API
         switch ($preferenceName) {
             case self::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
-                return reset($viewableSiteIds);
+                if (!empty($viewableSiteIds)) {
+                    return reset($viewableSiteIds);
+                }
+                return false;
             case self::PREFERENCE_DEFAULT_REPORT_DATE:
                 return Config::getInstance()->General['default_day'];
             default:
@@ -141,6 +207,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $users = $this->model->getUsers($logins);
+        $users = $this->userFilter->filterUsers($users);
 
         // Non Super user can only access login & alias
         if (!Piwik::hasUserSuperUserAccess()) {
@@ -161,7 +228,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return $this->model->getUsersLogin();
+        $logins = $this->model->getUsersLogin();
+        $logins = $this->userFilter->filterLogins($logins);
+
+        return $logins;
     }
 
     /**
@@ -184,7 +254,10 @@ class API extends \Piwik\Plugin\API
 
         $this->checkAccessType($access);
 
-        return $this->model->getUsersSitesFromAccess($access);
+        $userSites = $this->model->getUsersSitesFromAccess($access);
+        $userSites = $this->userFilter->filterLoginIndexedArray($userSites);
+
+        return $userSites;
     }
 
     /**
@@ -206,7 +279,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        return $this->model->getUsersAccessFromSite($idSite);
+        $usersAccess = $this->model->getUsersAccessFromSite($idSite);
+        $usersAccess = $this->userFilter->filterLoginIndexedArray($usersAccess);
+
+        return $usersAccess;
     }
 
     public function getUsersWithSiteAccess($idSite, $access)
@@ -220,6 +296,7 @@ class API extends \Piwik\Plugin\API
             return array();
         }
 
+        $logins = $this->userFilter->filterLogins($logins);
         $logins = implode(',', $logins);
 
         return $this->getUsers($logins);
@@ -245,13 +322,27 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
+
+        // Super users have 'admin' access for every site
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            $return = array();
+            $siteManagerModel = new \Piwik\Plugins\SitesManager\Model();
+            $sites = $siteManagerModel->getAllSites();
+            foreach ($sites as $site) {
+                $return[] = array(
+                    'site' => $site['idsite'],
+                    'access' => 'admin'
+                );
+
+            }
+            return $return;
+        }
 
         return $this->model->getSitesAccessFromUser($userLogin);
     }
 
     /**
-     * Returns the user information (login, password md5, alias, email, date_registered, etc.)
+     * Returns the user information (login, password hash, alias, email, date_registered, etc.)
      *
      * @param string $userLogin the user login
      *
@@ -262,11 +353,13 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserExists($userLogin);
 
-        return $this->model->getUser($userLogin);
+        $user = $this->model->getUser($userLogin);
+
+        return $this->userFilter->filterUser($user);
     }
 
     /**
-     * Returns the user information (login, password md5, alias, email, date_registered, etc.)
+     * Returns the user information (login, password hash, alias, email, date_registered, etc.)
      *
      * @param string $userEmail the user email
      *
@@ -277,7 +370,9 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserEmailExists($userEmail);
 
-        return $this->model->getUserByEmail($userEmail);
+        $user = $this->model->getUserByEmail($userEmail);
+
+        return $this->userFilter->filterUser($user);
     }
 
     private function checkLogin($userLogin)
@@ -411,6 +506,9 @@ class API extends \Piwik\Plugin\API
             unset($user['token_auth']);
         }
 
+        // we do not filter these users by access and return them all since we need to print this information in the
+        // UI and they are allowed to see this.
+
         return $users;
     }
 
@@ -533,8 +631,30 @@ class API extends \Piwik\Plugin\API
     public function userEmailExists($userEmail)
     {
         Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
 
         return $this->model->userEmailExists($userEmail);
+    }
+
+    /**
+     * Returns the first login name of an existing user that has the given email address. If no user can be found for
+     * this user an error will be returned.
+     *
+     * @param string $userEmail
+     * @return bool true if the user is known
+     */
+    public function getUserLoginFromUserEmail($userEmail)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $this->checkUserEmailExists($userEmail);
+
+        $user = $this->model->getUserByEmail($userEmail);
+
+        // any user with some admin access is allowed to find any user by email, no need to filter by access here
+
+        return $user['login'];
     }
 
     /**
@@ -663,15 +783,12 @@ class API extends \Piwik\Plugin\API
      * Generates a unique MD5 for the given login & password
      *
      * @param string $userLogin Login
-     * @param string $md5Password MD5ied string of the password
-     * @throws Exception
+     * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
      * @return string
      */
     public function getTokenAuth($userLogin, $md5Password)
     {
-        if (strlen($md5Password) != 32) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
-        }
+        UsersManager::checkPasswordHash($md5Password, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
 
         return md5($userLogin . $md5Password);
     }

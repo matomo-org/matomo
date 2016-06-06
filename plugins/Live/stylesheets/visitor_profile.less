@@ -33,10 +33,14 @@
         padding:0;
         font-weight:bold;
         color:black;
+        border: none;
     }
 
     span.truncated-text-line {
         display:inline-block;
+        &.event {
+          max-width: 89%;
+        }
     }
 }
 
@@ -300,7 +304,6 @@
 }
 
 .visitor-profile-pages-visited {
-    height:42px;
     overflow-y:auto;
     position:relative;
     margin-right:10px;
@@ -314,6 +317,7 @@
 
 .visitor-profile-visits-container {
     overflow-y:auto;
+    overflow-x: hidden;
     position:relative;
     margin-right:10px;
     border-bottom:none!important;
@@ -387,7 +391,7 @@
     ol > li ol li {
       .action-list-url {
         margin-left:4px;
-        line-height:14px;
+        line-height:15px;
         font-size:13px;
       }
 
@@ -487,11 +491,11 @@ div.visitor-profile-navigation {
 .visitor-profile-header {
     position:relative;
 
-    > .reportDocumentationIcon {
-        display:none;
-        margin:0;
-        width:14px;
-        background-size:14px;
+    .visitorProfileHelp {
+        display: none;
+        &:hover {
+            text-decoration: none;
+        }
     }
 }
 
@@ -509,7 +513,7 @@ a.visitor-profile-next-visitor,a.visitor-profile-prev-visitor {
 }
 
 .visitor-profile-avatar:hover {
-    .visitor-profile-next-visitor,.visitor-profile-prev-visitor,.reportDocumentationIcon {
+    .visitor-profile-next-visitor,.visitor-profile-prev-visitor,.visitorProfileHelp {
         display:inline-block;
     }
 }

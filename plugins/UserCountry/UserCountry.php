@@ -9,8 +9,9 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Url;
@@ -26,9 +27,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
 class UserCountry extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
@@ -85,9 +86,12 @@ class UserCountry extends \Piwik\Plugin
      */
     public static function getCountriesForContinent($continent)
     {
+        /** @var RegionDataProvider $regionDataProvider */
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
         $result = array();
         $continent = strtolower($continent);
-        foreach (Common::getCountriesList() as $countryCode => $continentCode) {
+        foreach ($regionDataProvider->getCountryList() as $countryCode => $continentCode) {
             if ($continent == $continentCode) {
                 $result[] = $countryCode;
             }

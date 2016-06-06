@@ -17,7 +17,7 @@
         "NbUniquePageviewsDescription": "%s 次唯一浏览",
         "NbUniqueVisitors": "%s 个独立访客数",
         "NbVisitsBounced": "%s 的跳出率 (查看一个页面后就离开)",
-        "PluginDescription": "显示常见的分析数据: 访问次数、访客人数、活动次数、跳出率等。",
+        "PluginDescription": "报告一般分析指标：参观，独立访问者，动作次数，跳出率等。",
         "VisitsSummary": "访客总表",
         "VisitsSummaryDocumentation": "这是访客趋势总表。",
         "WidgetLastVisits": "访客趋势图",

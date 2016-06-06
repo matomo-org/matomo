@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Mga bumabalik na pagbisita",
         "ColumnSumVisitLengthReturning": "Kabuuang oras na ginugol ng mga bumabalik na bisita (sa segundo)",
         "ColumnUniqueReturningVisitors": "Natatanging mga bumabalik na bisita",
-        "PluginDescription": "Ulat ayon sa iba't ibang mga istatistika tungkol sa mga nag balik na bisita kumpara sa unang bisita.",
         "ReturnActions": "Mga pagkilos %s ng mga bumabalik na mga bisita.",
         "ReturnAverageVisitDuration": "%s ang karaniwang tagal ng pagbisita para sa mga bumabalik na bisita",
         "ReturnAvgActions": "pagkilos %s bawat bumabalik na pagbisita",

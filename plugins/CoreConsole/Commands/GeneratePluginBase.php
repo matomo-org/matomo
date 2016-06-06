@@ -31,7 +31,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     private function getRelativePluginPath($pluginName)
     {
-        return '/plugins/' . ucfirst($pluginName);
+        return '/plugins/' . $pluginName;
     }
 
     private function createFolderWithinPluginIfNotExists($pluginNameOrCore, $folder)
@@ -324,8 +324,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
         } else {
             $validate($pluginName);
         }
-
-        $pluginName = ucfirst($pluginName);
 
         return $pluginName;
     }

@@ -8,10 +8,10 @@
 
 namespace Piwik\Plugins\API\tests\Integration;
 
-use Piwik\Access;
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Rss;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -29,9 +29,7 @@ class RssRendererTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $pseudoMockAccess = new \FakeAccess();
-        \FakeAccess::setSuperUserAccess(true);
-        Access::setSingletonInstance($pseudoMockAccess);
+        FakeAccess::$superUser = true;
 
         $idSite = Fixture::createWebsite('2014-01-01 00:00:00');
 
@@ -189,5 +187,12 @@ class RssRendererTest extends IntegrationTestCase
     private function makeBuilder($request)
     {
         return new Rss($request);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

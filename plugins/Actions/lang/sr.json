@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Prosek zasnovan na %s pogodaka %s između %s i %s",
+        "AvgGenerationTimeTooltip": "Prosek zasnovan na %1$s pogodaka %2$s između %3$s i %4$s",
         "ColumnClickedURL": "Kliknutih linkova",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj klikova na ovaj link.",
@@ -37,9 +37,9 @@
         "OutlinkDocumentation": "Odlazni link je link koji posetioca vodi sa Vašeg sajta (ka nekom drugom).",
         "OutlinksReportDocumentation": "Ovaj izveštaj pokazuje hijerarhijsku listu odlaznih linkova koje su Vaši posetioci kliknuli.",
         "PagesReportDocumentation": "Ovaj izveštaj sadrži informacije o linkovima koji su posećeni. %s Tabela je organizovana hijerarhijski, linkovi su prikazani u vidu foldera.",
-        "PageTitlesReportDocumentation": "Ovaj izveštaj sadrži informacije o naslovima stranica koje su posećene. %s Naslov stranice je HTML %s tag koji većina pregledača prikazuje umesto svog naslova.",
+        "PageTitlesReportDocumentation": "Ovaj izveštaj sadrži informacije o naslovima stranica koje su posećene. %1$s Naslov stranice je HTML %2$s tag koji većina pregledača prikazuje umesto svog naslova.",
         "PageUrls": "Adrese stranica",
-        "PluginDescription": "Izveštaji o broju prikaza stranica, izlaznih linkova i preuzimanja. Praćenje izlaznih linkova i preuzimanja je automatsko!",
+        "PluginDescription": "Izveštaj o prikazima i naslovima stranica. Omogućava vam da pratite vaš interni pretraživač sajta. Automatski prati klikove na eksterne linkove i preuzimanja fajlova.",
         "SiteSearchCategories1": "Ovaj izveštaj prikazuje kategorije koje posetioci biraju kada pretražuju vaš sajt.",
         "SiteSearchCategories2": "Na primer, sajtovi za elektronsku trgovinu obično nude mogućnost izbora kategorije kako bi posetioci ograničili svoju pretragu na proizvode iz određene kategorije.",
         "SiteSearchFollowingPagesDoc": "Kada posetioci pretražuju vaš sajt, oni traže određenu stranicu, sadržaj, proizvod ili uslugu. Ovaj izveštaj prikazuje stranice koje su najčešće otvarane nakom završene pretrage. Drugim rečima, ovo je spisak stranica koje se najviše traže na vašem sajtu.",

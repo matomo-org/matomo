@@ -1,22 +1,28 @@
 <div id="widgetTemplate" style="display:none;">
-  <div class="widget">
-    <div class="widgetTop">
-      <div class="button" id="close">
-        <img src="plugins/Morpheus/images/close.png" title="{{ 'General_Close'|translate }}" />
-      </div>
-      <div class="button" id="maximise">
-        <img src="plugins/Morpheus/images/maximise.png" title="{{ 'Dashboard_Maximise'|translate }}" />
-      </div>
-      <div class="button" id="minimise">
-        <img src="plugins/Morpheus/images/minimise.png" title="{{ 'Dashboard_Minimise'|translate }}" />
-      </div>
-      <div class="button" id="refresh">
-        <img src="plugins/Morpheus/images/refresh.png" title="{{ 'General_Refresh'|translate }}" />
-      </div>
-      <div class="widgetName">{% if widgetName is defined %}{{ widgetName }}{% endif %}</div>
+    <div class="widget">
+        <div class="widgetTop">
+            <div class="buttons">
+                <div class="button" id="close">
+                    <span class="icon-close" title="{{ 'General_Close'|translate }}"></span>
+                </div>
+                <div class="button" id="maximise">
+                    <span class="icon-fullscreen" title="{{ 'Dashboard_Maximise'|translate }}"></span>
+                </div>
+                <div class="button" id="minimise">
+                    <span class="icon-minimise" title="{{ 'Dashboard_Minimise'|translate }}"></span>
+                </div>
+                <div class="button" id="refresh">
+                    <span class="icon-reload" title="{{ 'General_Refresh'|translate }}"></span>
+                </div>
+            </div>
+            <h3 class="widgetName">{% if widgetName is defined %}{{ widgetName }}{% endif %}
+                <div class="widgetNameOffScreen">
+                    {{ 'General_Widget'|translate }}
+                </div>
+            </h3>
+        </div>
+        <div class="widgetContent">
+            <div class="widgetLoading">{{ 'Dashboard_LoadingWidget'|translate }}</div>
+        </div>
     </div>
-    <div class="widgetContent">
-      <div class="widgetLoading">{{ 'Dashboard_LoadingWidget'|translate }}</div>
-    </div>
-  </div>
 </div>

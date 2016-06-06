@@ -6,9 +6,8 @@
         "IndexSize": "索引大小",
         "LearnMore": "瞭解更多關於 Piwik 如何處理數據以及使 Piwik 在中高流量的網站上運作得宜，請查閱說明文件 %s。",
         "MainDescription": "Piwik 儲存所有你的網站分析資料於 MySQL 資料庫中。目前， Piwik 資料表已經使用了 %s。",
-        "PluginDescription": "這個外掛能回報 Piwik 的資料表使用情形。",
         "RowCount": "資料列計數",
-        "Table": "資料表",
+        "Table": "表格",
         "TotalSize": "總容量"
     }
 }

@@ -10,17 +10,18 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_1_10_1 extends Updates
 {
-    static function isMajorUpdate()
+    public static function isMajorUpdate()
     {
         return false;
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Overlay');

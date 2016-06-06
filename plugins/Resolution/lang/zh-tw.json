@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "客戶端配置",
+        "ColumnResolution": "解析度",
+        "Configurations": "客戶端配置",
+        "PluginDescription": "顯示你的訪客的螢幕解析度。",
+        "Resolutions": "解析度",
+        "WidgetGlobalVisitors": "全域訪客配置",
+        "WidgetGlobalVisitorsDocumentation": "此報表列出貴站訪客最常見的設定配置。設定配置包含作業系統、瀏覽器、螢幕解析度等資訊。",
+        "WidgetResolutions": "畫面解析度"
+    }
+}

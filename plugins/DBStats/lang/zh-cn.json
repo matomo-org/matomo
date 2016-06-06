@@ -10,11 +10,11 @@
         "MetricDataByYear": "按年的指标表",
         "MetricTables": "指标表",
         "OtherTables": "其它表",
-        "PluginDescription": "这个插件能报告 Piwik 的数据表使用情况。",
+        "PluginDescription": "提供了详细的MySQL数据库使用情况报告。可用于超级用户下诊断。",
         "ReportDataByYear": "年度报表",
         "ReportTables": "报表",
         "RowCount": "行计算",
-        "Table": "数据表",
+        "Table": "表格",
         "TotalSize": "总容量",
         "TrackerTables": "跟踪表"
     }

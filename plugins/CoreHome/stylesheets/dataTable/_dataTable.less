@@ -9,16 +9,15 @@
   td .ratio {
     color: #999999;
     font-size: 12px;
-    display:none;
+    display: inline-block;
+    visibility: hidden;
     text-align: right;
-    min-width: 45px;
-    margin-left: 4px;
+    margin-right: 4px;
     font-weight: normal;
   }
 
   td.highlight > .ratio {
-    display: inline-block;
-    line-height: 15px;
+    visibility: visible;
   }
 }
 
@@ -43,6 +42,10 @@ table.dataTable img {
   margin-left: 0.5em;
 }
 
+table.subDataTable img.link {
+  transform: translateY(-50%);
+}
+
 table.dataTable tr.subDataTable {
   cursor: pointer;
 
@@ -63,7 +66,6 @@ table.dataTable th {
   background: @dataTable-header-background;
   font-size: 12px;
   font-weight: normal;
-  border-left: 1px solid #d4d0c4;
   vertical-align: top;
 }
 
@@ -73,14 +75,11 @@ table.dataTable th.sortable {
 
 table.dataTable th.columnSorted {
   font-weight: bold;
-  padding-right: 20px;
-  background: @dataTable-headerActive-background;
 }
 
 table.dataTable td {
-  padding: 5px 5px 5px 12px;
-  background: #fff;
-  border-left: 1px solid #e7e7e7;
+  padding: 5px 1px 5px 12px;
+  background: @theme-color-background-base;
 }
 
 table.dataTable td,
@@ -90,39 +89,15 @@ table.dataTable td a {
   color: @theme-color-text-light;
 }
 
-table.dataTable tr:hover > td,
-table.dataTable tr:hover > td .dataTableRowActions {
-  background-color: #FFFFF7;
-}
-
-table.dataTable tr.subDataTable:hover > td,
-table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
-  background-color: #ffffcb;
-}
-
-table.dataTable tr:hover > td.cellSubDataTable
-table.dataTable tr:hover > td.cellSubDataTable .dataTableRowActions {
-  background-color: #fff;
-}
-
 td.clean {
-  background-color: #fff;
+  background-color: @theme-color-background-base;
 }
 
 table.dataTable td.column {
   white-space: nowrap;
 }
 
-table.dataTable td.columneven {
-  background: #efeeec;
-}
-
-table.dataTable td.columnodd {
-  background: #f6f5f3;
-}
-
 .dataTable tr.highlight td {
-  background-color: #ECF9DD;
   font-weight: bold;
 }
 
@@ -180,7 +155,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
 }
 
 .sortIconContainer {
-  float: right;
+  float: left;
   position: relative;
 }
 
@@ -193,6 +168,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   color: #888;
   text-align: left;
   margin: 10px;
+  margin-left: 1px;
 }
 
 .dataTablePages {
@@ -229,7 +205,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
   width: 114px;
   height: auto;
   overflow: visible;
-  padding: 2px 6px;
+  padding: 2px 6px !important;
   opacity: 1;
   cursor: text;
   filter: Alpha(opacity=100);
@@ -316,9 +292,9 @@ div.dataTable, div.dataTable > .dataTableWrapper {
     margin-bottom: -1px;
     margin-left: auto;
     margin-right: auto;
-    background-color: @theme-color-background-base;
+    background-color: @theme-color-widget-background;
     border: 1px solid @theme-color-background-tinyContrast;
-    height: 7px;
+    height: 9px;
     width: 70px;
     -webkit-border-bottom-left-radius: 10px;
     -webkit-border-bottom-right-radius: 10px;
@@ -360,7 +336,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
     margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
-    background-color: @theme-color-background-base;
+    background-color: @theme-color-widget-background;
     border: 1px solid @theme-color-background-tinyContrast;
     -webkit-border-top-left-radius: 10px;
     -webkit-border-top-right-radius: 10px;
@@ -369,7 +345,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     line-height: 0px;
-    height: 7px;
+    height: 9px;
     width: 70px;
     clear: both;
 
@@ -444,7 +420,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
 }
 
 .dataTableFooterIcons {
-  min-height: 20px;
+  min-height: 26px;
   white-space: nowrap;
   font-size: 10px;
   padding: 6px 5px 0px;
@@ -548,7 +524,7 @@ div.dataTable, div.dataTable > .dataTableWrapper {
 }
 
 /* Actions table */
-.dataTableActions table.dataTable tr td.labelodd {
+.dataTableActions table.dataTable tr td.label {
   background-image: none;
 }
 
@@ -609,7 +585,7 @@ tr.level12 td.label {
 }
 
 tr td.label img.plusMinus {
-  margin-left: -1em;
+  margin-left: -10px;
   margin-right: 3px;
   margin-top: -5px;
 }
@@ -617,8 +593,13 @@ tr td.label img.plusMinus {
 .pk-emptyDataTable {
   padding-top: 20px;
   padding-bottom: 10px;
+  padding-left: 1px;
+}
+
+.widget .pk-emptyDataTable {
+  padding-left: 0px;
+  padding-top: 33px;
   text-align: center;
-  font-style: italic;
 }
 
 .helpDate {

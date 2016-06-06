@@ -17,6 +17,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>1</revenue>
+		<segment>referrerType==search;referrerKeyword==purchase</segment>
 		<subtable>
 			<row>
 				<label>Yahoo!</label>

@@ -3,9 +3,9 @@
 	<row>
 		<label>Unknown</label>
 		<nb_visits>8</nb_visits>
-		<nb_actions>15</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>5044</sum_visit_length>
+		<nb_actions>23</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>6484</sum_visit_length>
 		<bounce_count>4</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -34,9 +34,9 @@
 	<row>
 		<label>Vancouver, British Columbia, Canada</label>
 		<nb_visits>6</nb_visits>
-		<nb_actions>10</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>3783</sum_visit_length>
+		<nb_actions>16</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>4863</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -56,6 +56,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>49.25</lat>
 		<long>-123.133</long>
+		<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
 		<city_name>Vancouver</city_name>
 		<region>BC</region>
 		<country>ca</country>
@@ -66,9 +67,9 @@
 	<row>
 		<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
 		<nb_visits>4</nb_visits>
-		<nb_actions>8</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>2522</sum_visit_length>
+		<nb_actions>12</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>3242</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -88,6 +89,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
+		<segment>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>
@@ -98,9 +100,9 @@
 	<row>
 		<label>Besançon, Franche-Comte, France</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -120,6 +122,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>47.249</lat>
 		<long>6.018</long>
+		<segment>city==Besan%C3%A7on;regionCode==A6;countryCode==fr</segment>
 		<city_name>Besançon</city_name>
 		<region>A6</region>
 		<country>fr</country>
@@ -128,11 +131,11 @@
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</label>
+		<label>Hluboká nad Vltavou, Saint Petersburg City, Russia</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -150,19 +153,20 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Hlubok%C3%A1+nad+Vltavou;regionCode==66;countryCode==ru</segment>
 		<city_name>Hluboká nad Vltavou</city_name>
 		<region>66</region>
 		<country>ru</country>
-		<country_name>Russian Federation</country_name>
+		<country_name>Russia</country_name>
 		<region_name>Saint Petersburg City</region_name>
 		<logo>plugins/UserCountry/images/flags/ru.png</logo>
 	</row>
 	<row>
 		<label>Lhasa, Unknown, Tibet</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -182,6 +186,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>29.65</lat>
 		<long>91.1</long>
+		<segment>city==Lhasa;regionCode==1;countryCode==ti</segment>
 		<city_name>Lhasa</city_name>
 		<region>1</region>
 		<country>ti</country>
@@ -192,9 +197,9 @@
 	<row>
 		<label>London, London, City of, United Kingdom</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -212,6 +217,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==London;regionCode==H9;countryCode==gb</segment>
 		<city_name>London</city_name>
 		<region>H9</region>
 		<country>gb</country>
@@ -222,9 +228,9 @@
 	<row>
 		<label>Nuneaton and Bedworth, Warwickshire, United Kingdom</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -242,6 +248,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Nuneaton+and+Bedworth;regionCode==P3;countryCode==gb</segment>
 		<city_name>Nuneaton and Bedworth</city_name>
 		<region>P3</region>
 		<country>gb</country>
@@ -250,71 +257,11 @@
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>15</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<city_name>Stratford-upon-Avon</city_name>
-		<region>66</region>
-		<country>mk</country>
-		<country_name>Macedonia, the Former Yugoslav Republic of</country_name>
-		<region_name>Miravci</region_name>
-		<logo>plugins/UserCountry/images/flags/mk.png</logo>
-	</row>
-	<row>
-		<label>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>15</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<city_name>Stratford-upon-Avon</city_name>
-		<region>66</region>
-		<country>ru</country>
-		<country_name>Russian Federation</country_name>
-		<region_name>Saint Petersburg City</region_name>
-		<logo>plugins/UserCountry/images/flags/ru.png</logo>
-	</row>
-	<row>
 		<label>Stratford-upon-Avon, Kent, United Kingdom</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -332,12 +279,75 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Stratford-upon-Avon;regionCode==G5;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>G5</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Kent</region_name>
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+	</row>
+	<row>
+		<label>Stratford-upon-Avon, Miravci, Macedonia</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>15</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Stratford-upon-Avon;regionCode==66;countryCode==mk</segment>
+		<city_name>Stratford-upon-Avon</city_name>
+		<region>66</region>
+		<country>mk</country>
+		<country_name>Macedonia</country_name>
+		<region_name>Miravci</region_name>
+		<logo>plugins/UserCountry/images/flags/mk.png</logo>
+	</row>
+	<row>
+		<label>Stratford-upon-Avon, Saint Petersburg City, Russia</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>15</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Stratford-upon-Avon;regionCode==66;countryCode==ru</segment>
+		<city_name>Stratford-upon-Avon</city_name>
+		<region>66</region>
+		<country>ru</country>
+		<country_name>Russia</country_name>
+		<region_name>Saint Petersburg City</region_name>
+		<logo>plugins/UserCountry/images/flags/ru.png</logo>
 	</row>
 	<row>
 		<label>not a city, California, United States</label>
@@ -359,6 +369,7 @@
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<lat>1</lat>
 		<long>2</long>
+		<segment>city==not+a+city;regionCode==CA;countryCode==us</segment>
 		<city_name>not a city</city_name>
 		<region>CA</region>
 		<country>us</country>

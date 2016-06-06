@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -18,8 +19,8 @@ use Piwik\IP;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Registry;
 use Piwik\Tracker;
+use Piwik\Cache as PiwikCache;
 
 /**
  * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
@@ -27,6 +28,10 @@ use Piwik\Tracker;
  */
 class Request
 {
+    private $cdtCache;
+    private $idSiteCache;
+    private $paramsCache = array();
+
     /**
      * @var array
      */
@@ -37,6 +42,15 @@ class Request
     private $isEmptyRequest = false;
 
     protected $tokenAuth;
+
+    /**
+     * Stores plugin specific tracking request metadata. RequestProcessors can store
+     * whatever they want in this array, and other RequestProcessors can modify these
+     * values to change tracker behavior.
+     *
+     * @var string[][]
+     */
+    private $requestMetadata = array();
 
     const UNKNOWN_RESOLUTION = 'unknown';
 
@@ -68,6 +82,13 @@ class Request
             if (!empty($url)) {
                 $this->params['url'] = $url;
             }
+        }
+
+        // check for 4byte utf8 characters in url and replace them with �
+        // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
+        if (array_key_exists('url', $this->params) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $this->params['url'])) {
+            Common::printDebug("Unsupport character detected. Replacing with \xEF\xBF\xBD");
+            $this->params['url'] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $this->params['url']);
         }
     }
 
@@ -107,22 +128,38 @@ class Request
         $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication');
 
         if ($shouldAuthenticate) {
+            try {
+                $idSite = $this->getIdSite();
+            } catch (Exception $e) {
+                $this->isAuthenticated = false;
+                return;
+            }
 
             if (empty($tokenAuth)) {
                 $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $this->params);
             }
 
+            $cache = PiwikCache::getTransientCache();
+            $cacheKey = 'tracker_request_authentication_' . $idSite . '_' . $tokenAuth;
+
+            if ($cache->contains($cacheKey)) {
+                Common::printDebug("token_auth is authenticated in cache!");
+                $this->isAuthenticated = $cache->fetch($cacheKey);
+                return;
+            }
+
             try {
-                $idSite = $this->getIdSite();
                 $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
+                $cache->save($cacheKey, $this->isAuthenticated);
             } catch (Exception $e) {
+                Common::printDebug("could not authenticate, caught exception: " . $e->getMessage());
+
                 $this->isAuthenticated = false;
             }
 
             if ($this->isAuthenticated) {
                 Common::printDebug("token_auth is authenticated!");
             }
-
         } else {
             $this->isAuthenticated = true;
             Common::printDebug("token_auth authentication not required");
@@ -138,9 +175,11 @@ class Request
         Piwik::postEvent('Request.initAuthenticationObject');
 
         /** @var \Piwik\Auth $auth */
-        $auth = Registry::get('auth');
+        $auth = StaticContainer::get('Piwik\Auth');
         $auth->setTokenAuth($tokenAuth);
         $auth->setLogin(null);
+        $auth->setPassword(null);
+        $auth->setPasswordHash(null);
         $access = $auth->authenticate();
 
         if (!empty($access) && $access->hasSuperUserAccess()) {
@@ -151,7 +190,7 @@ class Request
         if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
 
-            if (array_key_exists('admin_token_auth', $website) && in_array($tokenAuth, $website['admin_token_auth'])) {
+            if (array_key_exists('admin_token_auth', $website) && in_array((string) $tokenAuth, $website['admin_token_auth'])) {
                 return true;
             }
         }
@@ -249,6 +288,15 @@ class Request
             'i' => (string)Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
             's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
         );
+        if($localTimes['h'] < 0 || $localTimes['h'] > 23) {
+            $localTimes['h'] = 0;
+        }
+        if($localTimes['i'] < 0 || $localTimes['i'] > 59) {
+            $localTimes['i'] = 0;
+        }
+        if($localTimes['s'] < 0 || $localTimes['s'] > 59) {
+            $localTimes['s'] = 0;
+        }
         foreach ($localTimes as $k => $time) {
             if (strlen($time) == 1) {
                 $localTimes[$k] = '0' . $time;
@@ -290,15 +338,16 @@ class Request
             'urlref'       => array('', 'string'),
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),
             'idgoal'       => array(-1, 'int'),
+            'ping'         => array(0, 'int'),
 
             // other
             'bots'         => array(0, 'int'),
             'dp'           => array(0, 'int'),
-            'rec'          => array(false, 'int'),
+            'rec'          => array(0, 'int'),
             'new_visit'    => array(0, 'int'),
 
             // Ecommerce
-            'ec_id'        => array(false, 'string'),
+            'ec_id'        => array('', 'string'),
             'ec_st'        => array(false, 'float'),
             'ec_tx'        => array(false, 'float'),
             'ec_sh'        => array(false, 'float'),
@@ -306,24 +355,24 @@ class Request
             'ec_items'     => array('', 'json'),
 
             // Events
-            'e_c'          => array(false, 'string'),
-            'e_a'          => array(false, 'string'),
-            'e_n'          => array(false, 'string'),
+            'e_c'          => array('', 'string'),
+            'e_a'          => array('', 'string'),
+            'e_n'          => array('', 'string'),
             'e_v'          => array(false, 'float'),
 
             // some visitor attributes can be overwritten
-            'cip'          => array(false, 'string'),
-            'cdt'          => array(false, 'string'),
-            'cid'          => array(false, 'string'),
-            'uid'          => array(false, 'string'),
+            'cip'          => array('', 'string'),
+            'cdt'          => array('', 'string'),
+            'cid'          => array('', 'string'),
+            'uid'          => array('', 'string'),
 
             // Actions / pages
-            'cs'           => array(false, 'string'),
+            'cs'           => array('', 'string'),
             'download'     => array('', 'string'),
             'link'         => array('', 'string'),
             'action_name'  => array('', 'string'),
             'search'       => array('', 'string'),
-            'search_cat'   => array(false, 'string'),
+            'search_cat'   => array('', 'string'),
             'search_count' => array(-1, 'int'),
             'gt_ms'        => array(-1, 'int'),
 
@@ -334,6 +383,10 @@ class Request
             'c_i'          => array('', 'string'),
         );
 
+        if (isset($this->paramsCache[$name])) {
+            return $this->paramsCache[$name];
+        }
+
         if (!isset($supportedParams[$name])) {
             throw new Exception("Requested parameter $name is not a known Tracking API Parameter.");
         }
@@ -341,9 +394,28 @@ class Request
         $paramDefaultValue = $supportedParams[$name][0];
         $paramType = $supportedParams[$name][1];
 
-        $value = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+        if ($this->hasParam($name)) {
+            $this->paramsCache[$name] = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+        } else {
+            $this->paramsCache[$name] = $paramDefaultValue;
+        }
 
-        return $value;
+        return $this->paramsCache[$name];
+    }
+
+    public function setParam($name, $value)
+    {
+        $this->params[$name] = $value;
+        unset($this->paramsCache[$name]);
+
+        if ($name === 'cdt') {
+            $this->cdtCache = null;
+        }
+    }
+
+    private function hasParam($name)
+    {
+        return isset($this->params[$name]);
     }
 
     public function getParams()
@@ -353,10 +425,12 @@ class Request
 
     public function getCurrentTimestamp()
     {
-        $cdt = $this->getCustomTimestamp();
+        if (!isset($this->cdtCache)) {
+            $this->cdtCache = $this->getCustomTimestamp();
+        }
 
-        if (!empty($cdt)) {
-            return $cdt;
+        if (!empty($this->cdtCache)) {
+            return $this->cdtCache;
         }
 
         return $this->timestamp;
@@ -369,6 +443,10 @@ class Request
 
     protected function getCustomTimestamp()
     {
+        if (!$this->hasParam('cdt')) {
+            return false;
+        }
+
         $cdt = $this->getParam('cdt');
 
         if (empty($cdt)) {
@@ -389,7 +467,7 @@ class Request
         $isTimestampRecent = $timeFromNow < self::CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN;
 
         if (!$isTimestampRecent) {
-            if(!$this->isAuthenticated()) {
+            if (!$this->isAuthenticated()) {
                 Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
                 Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
                 return false;
@@ -418,6 +496,10 @@ class Request
 
     public function getIdSite()
     {
+        if (isset($this->idSiteCache)) {
+            return $this->idSiteCache;
+        }
+
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
@@ -437,6 +519,8 @@ class Request
         if ($idSite <= 0) {
             throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
         }
+
+        $this->idSiteCache = $idSite;
 
         return $idSite;
     }
@@ -482,7 +566,7 @@ class Request
         }
 
         $customVariables = array();
-        $maxCustomVars   = CustomVariables::getMaxCustomVariables();
+        $maxCustomVars   = CustomVariables::getNumUsableCustomVariables();
 
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
@@ -693,7 +777,7 @@ class Request
      */
     public function getUserIdHashed($userId)
     {
-        return substr( sha1( $userId ), 0, 16);
+        return substr(sha1($userId), 0, 16);
     }
 
     /**
@@ -714,5 +798,29 @@ class Request
         }
 
         return $cip;
+    }
+
+    /**
+     * Set a request metadata value.
+     *
+     * @param string $pluginName eg, `'Actions'`, `'Goals'`, `'YourPlugin'`
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setMetadata($pluginName, $key, $value)
+    {
+        $this->requestMetadata[$pluginName][$key] = $value;
+    }
+
+    /**
+     * Get a request metadata value. Returns `null` if none exists.
+     *
+     * @param string $pluginName eg, `'Actions'`, `'Goals'`, `'YourPlugin'`
+     * @param string $key
+     * @return mixed
+     */
+    public function getMetadata($pluginName, $key)
+    {
+        return isset($this->requestMetadata[$pluginName][$key]) ? $this->requestMetadata[$pluginName][$key] : null;
     }
 }

@@ -8,9 +8,9 @@
 var Piwik_Overlay = (function () {
 
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
-    var $rowEvolutionLink, $transitionsLink, $fullScreenLink;
+    var $rowEvolutionLink, $transitionsLink, $fullScreenLink, $visitorLogLink;
 
-    var idSite, period, date;
+    var idSite, period, date, segment;
 
     var iframeSrcBase;
     var iframeDomain = '';
@@ -28,20 +28,26 @@ var Piwik_Overlay = (function () {
         iframeCurrentPage = currentUrl;
         iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
 
-        globalAjaxQueue.abort();
-        var ajaxRequest = new ajaxHelper();
-        ajaxRequest.addParams({
+        var params = {
             module: 'Overlay',
             action: 'renderSidebar',
             currentUrl: currentUrl
-        }, 'get');
+        };
+
+        if (segment) {
+            params.segment = segment;
+        }
+
+        globalAjaxQueue.abort();
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams(params, 'get');
         ajaxRequest.setCallback(
             function (response) {
                 hideLoading();
 
                 var $response = $(response);
 
-                var $responseLocation = $response.find('.Overlay_Location');
+                var $responseLocation = $response.find('.overlayLocation');
                 var $url = $responseLocation.find('span');
                 iframeCurrentPageNormalized = $url.data('normalizedUrl');
                 iframeCurrentActionLabel = $url.data('label');
@@ -56,7 +62,7 @@ var Piwik_Overlay = (function () {
                     $locationSpan.tooltip({
                         track: true,
                         items: '*',
-                        tooltipClass: 'Overlay_Tooltip',
+                        tooltipClass: 'overlayTooltip',
                         content: '<strong>' + Piwik_Overlay_Translations.domain + ':</strong> ' +
                                   piwikHelper.addBreakpointsToUrl(iframeDomain),
                         show: false,
@@ -66,10 +72,14 @@ var Piwik_Overlay = (function () {
 
                 $sidebar.empty().append($response).show();
 
-                if ($sidebar.find('.Overlay_NoData').size() == 0) {
+                if ($sidebar.find('.overlayNoData').size() == 0) {
                     $rowEvolutionLink.show();
-                    $transitionsLink.show()
+                    $transitionsLink.show();
+                    if ($('#segment').val()) {
+                        $visitorLogLink.show();
+                    }
                 }
+
             }
         );
         ajaxRequest.setErrorCallback(function () {
@@ -96,6 +106,7 @@ var Piwik_Overlay = (function () {
         $fullScreenLink.hide();
         $rowEvolutionLink.hide();
         $transitionsLink.hide();
+        $visitorLogLink.hide();
 
         $errorNotLoading.hide();
     }
@@ -106,9 +117,29 @@ var Piwik_Overlay = (function () {
         $fullScreenLink.show();
     }
 
+    function getOverlaySegment(url) {
+        var location = broadcast.getParamValue('segment', url);
+
+        // angular will encode the value again since it is added as the fragment path, not the fragment query parameter,
+        // so we have to decode it again after getParamValue
+        location = decodeURIComponent(location);
+
+        return location;
+    }
+
+    function getOverlayLocationFromHash(urlHash) {
+        var location = broadcast.getParamValue('l', urlHash);
+
+        // angular will encode the value again since it is added as the fragment path, not the fragment query parameter,
+        // so we have to decode it again after getParamValue
+        location = decodeURIComponent(location);
+
+        return location;
+    }
+
     /** $.history callback for hash change */
     function hashChangeCallback(urlHash) {
-        var location = broadcast.getParamValue('l', urlHash);
+        var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
 
         if (!updateComesFromInsideFrame) {
@@ -128,23 +159,25 @@ var Piwik_Overlay = (function () {
     return {
 
         /** This method is called when Overlay loads  */
-        init: function (iframeSrc, pIdSite, pPeriod, pDate) {
+        init: function (iframeSrc, pIdSite, pPeriod, pDate, pSegment) {
             iframeSrcBase = iframeSrc;
             idSite = pIdSite;
             period = pPeriod;
             date = pDate;
+            segment = pSegment;
 
             $body = $('body');
-            $iframe = $('#Overlay_Iframe');
-            $sidebar = $('#Overlay_Sidebar');
-            $location = $('#Overlay_Location');
-            $main = $('#Overlay_Main');
-            $loading = $('#Overlay_Loading');
-            $errorNotLoading = $('#Overlay_Error_NotLoading');
+            $iframe = $('#overlayIframe');
+            $sidebar = $('#overlaySidebar');
+            $location = $('#overlayLocation');
+            $main = $('#overlayMain');
+            $loading = $('#overlayLoading');
+            $errorNotLoading = $('#overlayErrorNotLoading');
 
-            $rowEvolutionLink = $('#Overlay_RowEvolution');
-            $transitionsLink = $('#Overlay_Transitions');
-            $fullScreenLink = $('#Overlay_FullScreen');
+            $rowEvolutionLink = $('#overlayRowEvolution');
+            $transitionsLink = $('#overlayTransitions');
+            $fullScreenLink = $('#overlayFullScreen');
+            $visitorLogLink = $('#overlaySegmentedVisitorLog');
 
             adjustDimensions();
 
@@ -170,6 +203,8 @@ var Piwik_Overlay = (function () {
 
             // handle hash change
             broadcast.loadAjaxContent = hashChangeCallback;
+
+            broadcast._isInit = false;
             broadcast.init();
 
             if (window.location.href.split('#').length == 1) {
@@ -178,12 +213,12 @@ var Piwik_Overlay = (function () {
             }
 
             // handle date selection
-            var $select = $('select#Overlay_DateRangeSelect').change(function () {
+            var $select = $('select#overlayDateRangeSelect').change(function () {
                 var parts = $(this).val().split(';');
                 if (parts.length == 2) {
                     period = parts[0];
                     date = parts[1];
-                    window.location.href = Overlay_Helper.getOverlayLink(idSite, period, date, iframeCurrentPage);
+                    window.location.href = Overlay_Helper.getOverlayLink(idSite, period, date, segment, iframeCurrentPage);
                 }
             });
 
@@ -201,13 +236,27 @@ var Piwik_Overlay = (function () {
 
             // handle transitions link
             $transitionsLink.click(function () {
-                DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized);
+                var unescapedSegment = null;
+                if (segment) {
+                    unescapedSegment = unescape(segment);
+                }
+                if (window.DataTable_RowActions_Transitions) {
+                    DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized, unescapedSegment);
+                }
                 return false;
             });
 
             // handle row evolution link
             $rowEvolutionLink.click(function () {
-                DataTable_RowActions_RowEvolution.launch('Actions.getPageUrls', iframeCurrentActionLabel);
+                if (window.DataTable_RowActions_RowEvolution) {
+                    DataTable_RowActions_RowEvolution.launch('Actions.getPageUrls', iframeCurrentActionLabel);
+                }
+                return false;
+            });
+
+            // handle segmented visitor log link
+            $visitorLogLink.click(function () {
+                SegmentedVisitorLog.show('Actions.getPageUrls', $('#segment').val(), {});
                 return false;
             });
 
@@ -229,7 +278,7 @@ var Piwik_Overlay = (function () {
             var locationParts = location.href.split('#');
             var currentLocation = '';
             if (locationParts.length > 1) {
-                currentLocation = broadcast.getParamValue('l', locationParts[1]);
+                currentLocation = getOverlayLocationFromHash(locationParts[1]);
             }
 
             var newLocation = Overlay_Helper.encodeFrameUrl(currentUrl);

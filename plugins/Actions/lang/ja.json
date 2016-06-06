@@ -1,7 +1,8 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "%s ～ %s の間の %s のヒット %s に基づく平均",
+        "AvgGenerationTimeTooltip": "%3$s ～ %4$s の間の %2$s のヒット %1$s に基づく平均",
         "ColumnClickedURL": "クリックされた URL",
+        "ColumnActionURL": "アクション URL",
         "ColumnClicks": "クリック数",
         "ColumnClicksDocumentation": "このリンクがクリックされた回数",
         "ColumnDownloadURL": "ダウンロード URL",
@@ -37,9 +38,9 @@
         "OutlinkDocumentation": "外部リンクとはサイト内から外部のサイトへ（他のドメインへ）のリンクです。",
         "OutlinksReportDocumentation": "訪問者がクリックした外部リンクのURLを階層構造のリストで表示したリポートです。",
         "PagesReportDocumentation": "これは訪問されたページURLについてのリポートです。%s 表は階層構造になっており、URLはフォルダーの階層で表示されています。",
-        "PageTitlesReportDocumentation": "これは訪問されたページタイトルについてのリポートです。%s ページタイトルは多くのブラウザでウインドウのタイトルに表示されるHTMLの %s タグです。",
+        "PageTitlesReportDocumentation": "これは訪問されたページタイトルについてのリポートです。%1$s ページタイトルは多くのブラウザでウインドウのタイトルに表示されるHTMLの %2$s タグです。",
         "PageUrls": "ページURL",
-        "PluginDescription": "ページビュー、外部リンク、ダウンロードについてリポートします。 外部リンクとダウンロードのトラッキングは自動です！",
+        "PluginDescription": "ページ ビューとページのタイトルについてレポートします。内部のウェブサイトの検索エンジンを測定できます。自動的に外部リンクとファイルのダウンロードのクリックを追跡します。",
         "SiteSearchCategories1": "このレポートは、訪問者がサイトで検索した時に選択したカテゴリの一覧です。",
         "SiteSearchCategories2": "例えば、eコマースサイトは一般的に\"カテゴリー\"のセレクトを持っていて、訪問者は製品の検索結果を特定のカテゴリーに絞り込みできます。",
         "SiteSearchFollowingPagesDoc": "訪問者は、特定のページ、コンテンツ、製品、またはサービスを見つけようとして、サイト内で検索を行います。このレポートは、サイト内で検索してから最も多くクリックされたページの一覧です。言い換えれば、サイト内で訪問者が最も検索したページの一覧ということです。",

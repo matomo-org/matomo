@@ -8,10 +8,10 @@
 
 namespace Piwik\Plugins\Goals\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -60,6 +60,13 @@ class APITest extends IntegrationTestCase
         $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', true, 50, true);
 
         $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de', 'exact', 1, 50, 1);
+    }
+
+    public function test_addGoal_ShouldSucceed_IfExactPageTitle()
+    {
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'normal title', 'exact', true, 50, true);
+
+        $this->assertGoal($idGoal, 'MyName', 'title', 'normal title', 'exact', 1, 50, 1);
     }
 
     /**
@@ -224,11 +231,15 @@ class APITest extends IntegrationTestCase
 
     protected function setNonAdminUser()
     {
-        $pseudoMockAccess = new \FakeAccess;
-        \FakeAccess::setSuperUserAccess(false);
-        \FakeAccess::$idSitesView = array(99);
-        \FakeAccess::$identity = 'aUser';
-        Access::setSingletonInstance($pseudoMockAccess);
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = array(99);
+        FakeAccess::$identity = 'aUser';
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

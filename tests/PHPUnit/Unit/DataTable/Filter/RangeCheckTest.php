@@ -11,12 +11,13 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable\Filter\RangeCheck;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Filter_RangeCheckTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Core
-     */
     public function testRangeCheckNormalDataTable()
     {
         $table = new DataTable();
@@ -34,9 +35,6 @@ class DataTable_Filter_RangeCheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrder, $table->getColumn('count'));
     }
 
-    /**
-     * @group Core
-     */
     public function testRangeCheckNormalDataTableNonIntegerValues()
     {
         $table = new DataTable();
@@ -53,5 +51,29 @@ class DataTable_Filter_RangeCheckTest extends \PHPUnit_Framework_TestCase
         $expectedOrder = array(3.97, 3.97, 10, 5, '9test', 3.97);
 
         $this->assertEquals($expectedOrder, $table->getColumn('count'));
+    }
+
+    public function testRangeCheckOnMetadata()
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray(array(
+            array(
+                Row::COLUMNS  => array('label' => 'foo'),
+                Row::METADATA => array('count' => 5),
+            ),
+            array(
+                Row::COLUMNS  => array('label' => 'bar'),
+                Row::METADATA => array('count' => 10),
+            ),
+            array(
+                Row::COLUMNS  => array('label' => 'bar'),
+                Row::METADATA => array('count' => 15),
+            ),
+        ));
+
+        $filter = new RangeCheck($table, 'count', 0, 10);
+        $filter->filter($table);
+
+        $this->assertEquals(array(5, 10, 10), $table->getRowsMetadata('count'));
     }
 }

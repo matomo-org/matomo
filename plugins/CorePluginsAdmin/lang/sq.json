@@ -1,18 +1,26 @@
 {
     "CorePluginsAdmin": {
+        "ActionActivatePlugin": "Aktivizoje shtojcën",
+        "ActionActivateTheme": "Aktivizojeni temën",
+        "ActionUninstall": "Çinstalojeni",
         "Activate": "Aktivizoje",
         "Activated": "E aktivizuar",
         "Active": "Vepruese",
+        "Activity": "Veprimtari",
         "AuthorHomepage": "Faqja Hyrëse e Autorit",
+        "Authors": "Autorë",
         "Deactivate": "Çaktivizoje",
         "Inactive": "Jovepruese",
         "LicenseHomepage": "Faqja Hyrëse e Lejes",
-        "OncePluginIsInstalledYouMayActivateHere": "Pasi një shtojcë të jetë instaluar, mund ta aktivizoni ose çaktivizoni prej këtu.",
-        "PluginDescription": "Ndërfaqe Administrimi Shtojcash.",
-        "PluginHomepage": "Faqe Hyrëse e Shtojcës",
         "PluginsExtendPiwik": "Shtojcat zgjerojnë dhe thellojnë funksionet e Piwik-ut.",
+        "OncePluginIsInstalledYouMayActivateHere": "Pasi një shtojcë të jetë instaluar, mund ta aktivizoni ose çaktivizoni prej këtu.",
+        "PluginHomepage": "Faqe Hyrëse e Shtojcës",
+        "PluginKeywords": "Fjalëkyça",
         "PluginsManagement": "Administrim Shtojcash",
+        "PluginVersionInfo": "%1$s from %2$s",
         "Status": "Gjendje",
-        "Version": "Version"
+        "Support": "Asistencë",
+        "Version": "Version",
+        "Websites": "Sajte"
     }
 }

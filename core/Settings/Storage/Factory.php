@@ -25,5 +25,4 @@ class Factory
 
         return $storage;
     }
-
 }

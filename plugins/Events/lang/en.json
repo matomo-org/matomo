@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Track Events and get reports on your visitors activity.",
         "AvgEventValue": "Average Event value is: %s",
         "AvgValue": "Average value",
         "AvgValueDocumentation": "The average of all values for this event",
@@ -14,7 +15,7 @@
         "EventsWithValue": "Events with a value",
         "EventsWithValueDocumentation": "Number of events where an Event value was set",
         "EventValue": "Event Value",
-        "EventValueTooltip": "Total Event value is the sum of %s events values %s between minimum of %s and maximum of %s.",
+        "EventValueTooltip": "Total Event value is the sum of %1$s events values %2$s between minimum of %3$s and maximum of %4$s.",
         "MaxValue": "Maximum value",
         "MaxValueDocumentation": "The maximum value for this event",
         "MinValue": "Minimum value",

@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
@@ -85,6 +86,7 @@ if (!defined('PIWIK_USER_PATH')) {
  *                  which is outputted in the template, eg, `{{ postEvent('MyPlugin.event') }}`
  * - **isPluginLoaded**: Returns true if the supplied plugin is loaded, false if otherwise.
  *                       `{% if isPluginLoaded('Goals') %}...{% endif %}`
+ * - **arePiwikProAdsEnabled**: Returns true if it is ok to show some Piwik PRO advertising in the UI (from Piwik 2.16.0)
  *
  * ### Examples
  *
@@ -192,7 +194,7 @@ class View implements ViewInterface
     /**
      * Returns true if a template variable has been set or not.
      *
-     * @param $name The name of the template variable.
+     * @param string $name The name of the template variable.
      * @return bool
      */
     public function __isset($name)
@@ -221,27 +223,31 @@ class View implements ViewInterface
             $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();
             $this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+            $this->userIsAnonymous = Piwik::isUserIsAnonymous();
             $this->userIsSuperUser = Piwik::hasUserSuperUserAccess();
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
-            $this->cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
 
+            $piwikProAds = StaticContainer::get('Piwik\PiwikPro\Advertising');
+            $this->arePiwikProAdsEnabled = $piwikProAds->arePiwikProAdsEnabled();
+
+            if (Development::isEnabled()) {
+                $cacheBuster = rand(0, 10000);
+            } else {
+                $cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
+            }
+
+            $this->cacheBuster = $cacheBuster;
+            
             $this->loginModule = Piwik::getLoginPluginName();
 
             $user = APIUsersManager::getInstance()->getUser($this->userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
-            Log::verbose($e);
+            Log::debug($e);
 
             // can fail, for example at installation (no plugin loaded yet)
-        }
-
-        try {
-            $this->totalTimeGeneration = Registry::get('timer')->getTime();
-            $this->totalNumberOfQueries = Profiler::getQueryCount();
-        } catch (Exception $e) {
-            $this->totalNumberOfQueries = 0;
         }
 
         ProxyHttp::overrideCacheControlHeaders('no-store');
@@ -373,7 +379,15 @@ class View implements ViewInterface
     public static function clearCompiledTemplates()
     {
         $twig = new Twig();
-        $twig->getTwigEnvironment()->clearTemplateCache();
+        $environment = $twig->getTwigEnvironment();
+        $environment->clearTemplateCache();
+
+        $cacheDirectory = $environment->getCache();
+        if (!empty($cacheDirectory)
+            && is_dir($cacheDirectory)
+        ) {
+            $environment->clearCacheFiles();
+        }
     }
 
     /**

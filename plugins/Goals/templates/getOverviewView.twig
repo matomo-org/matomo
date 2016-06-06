@@ -11,40 +11,50 @@
     <div class="goalEntry" style="clear:both">
         <h2>
             <a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={{ goal.id }}')">
-                {{ 'Goals_GoalX'|translate("'"~name~"'")|raw }}
+                {{ 'Goals_GoalX'|translate("'"~name~"'") }}
             </a>
         </h2>
 
-        <div id='leftcolumn'>
-            <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
-                {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
-                {% if goal.goalAllowMultipleConversionsPerVisit %}
-                    ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
-                {% endif %}
+        {% if not isWidget %}
+        <div class="row">
+            <div class="col-md-6">
+        {% endif %}
+
+                <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
+                    {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions|number~"</strong>")|raw }}
+                    {% if goal.goalAllowMultipleConversionsPerVisit %}
+                        ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted|number~"</strong>") | raw }})
+                    {% endif %}
+                </div>
+
+        {% if not isWidget %}
+            </div>
+            <div class="col-md-6">
+        {% endif %}
+
+                <div class="sparkline">{{ sparkline(goal.urlSparklineConversionRate) }}
+                    {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong>")|raw }}
+                </div>
+
+        {% if not isWidget %}
             </div>
         </div>
-        <div id='rightcolumn'>
-            <div class="sparkline">{{ sparkline(goal.urlSparklineConversionRate) }}
-                {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
-            </div>
-        </div>
-        <br class="clear"/>
+        {% endif %}
+
     </div>
 {% endfor %}
 
 {% if displayFullReport %}
-    {% if sum_nb_conversions != 0 %}
     <h2 id='titleGoalsByDimension'>
         {% if idGoal is defined %}
-            {{ 'Goals_GoalConversionsBy'|translate(goalName)|raw }}
+            {{ 'Goals_GoalConversionsBy'|translate(goalName) }}
         {% else %}
             {{ 'Goals_ConversionsOverviewBy'|translate }}
         {% endif %}
     </h2>
-    {{ goalReportsByDimension|raw }}
-    {% endif %}
-
-    {% if userCanEditGoals %}
-        {% include "@Goals/_addEditGoal.twig" %}
+    {% if sum_nb_conversions != 0 %}
+        {{ goalReportsByDimension|raw }}
+    {% else %}
+        <p class="alert">{{ 'Goals_NoConversionsNoReportsMessage'|translate }}</p>
     {% endif %}
 {% endif %}

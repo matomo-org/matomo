@@ -16,7 +16,8 @@
 
         {% if properties.show_search %}
             <span class="dataTableSearchPattern">
-                <input type="text" class="searchInput" length="15" />
+        <label for="widgetSearch_{{ properties.report_id }}" style="display:none;"> {{ 'General_Search'|translate }} {{ visualization.config.translations.label|default('') }}</label>
+                <input id="widgetSearch_{{ properties.report_id }}" type="text" class="searchInput" length="15" />
                 <input type="submit" value="{{ 'General_Search'|translate }}" />
             </span>
         {% endif %}
@@ -30,7 +31,7 @@
                 {% for footerIconGroup in footerIcons %}
                     <div class="tableIconsGroup">
                     <span class="{{ footerIconGroup.class }}">
-                    {% for footerIcon in footerIconGroup.buttons %}
+                    {% for footerIcon in footerIconGroup.buttons if footerIcon.icon %}
                         {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
                                 ((footerIcon.id == 'ecommerceOrder' and clientSideParameters.abandonedCarts == 0) or
                                  (footerIcon.id == 'ecommerceAbandonedCart' and clientSideParameters.abandonedCarts == 1)) %}
@@ -56,20 +57,21 @@
                             <img width="16" height="16" src="plugins/Morpheus/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
                         </a>
                     </span>
-				    <span class="exportToFormatItems" style="display:none;">
-					{{ 'General_Export'|translate }}:
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a>
+                    <span class="exportToFormatItems" style="display:none;">
+                    {{ 'General_Export'|translate }}:
+                    {% set requestParams = properties.request_parameters_to_modify|json_encode %}
+                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a> |
+                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a> |
+                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a> |
+                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a> |
+                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a>
                         {% if properties.show_export_as_rss_feed %}
                             |
-                            <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
+                            <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
                                 <img border="0" src="plugins/Morpheus/images/feed.png"/>
                             </a>
                         {% endif %}
-				    </span>
+                    </span>
                     {% if properties.show_export_as_image_icon %}
                         <span id="dataTableFooterExportAsImageIcon">
                             <a class="tableIcon" href="#" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
@@ -81,7 +83,7 @@
 
             </div>
             <div class="limitSelection {% if not properties.show_pagination_control and not properties.show_limit_control %} hidden{% endif %}"
-                 title="{{ 'General_RowsToDisplay'|translate }}"></div>
+                 title="{{ 'General_RowsToDisplay'|translate }}" alt="{{ 'General_RowsToDisplay'|translate }}"></div>
             <div class="tableConfiguration">
                 <a class="tableConfigurationIcon" href="#"></a>
                 <ul>

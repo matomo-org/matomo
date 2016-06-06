@@ -18,11 +18,25 @@ use Piwik\DbHelper;
 class Model
 {
     private static $rawPrefix = 'segment';
-    private $table;
 
-    public function __construct()
+    protected function getTable()
     {
-        $this->table = Common::prefixTable(self::$rawPrefix);
+        return Common::prefixTable(self::$rawPrefix);
+    }
+
+    /**
+     * Returns all stored segments that haven't been deleted. Ignores the site the segments are enabled
+     * for and whether to auto archive or not.
+     *
+     * @return array
+     */
+    public function getAllSegmentsAndIgnoreVisibility()
+    {
+        $sql = "SELECT * FROM " . $this->getTable() . " WHERE deleted = 0";
+
+        $segments = $this->getDb()->fetchAll($sql);
+
+        return $segments;
     }
 
     /**
@@ -84,10 +98,31 @@ class Model
         return $segments;
     }
 
+    /**
+     * This should be used _only_ by Super Users
+     * @param $idSite
+     * @return array
+     */
+    public function getAllSegmentsForAllUsers($idSite = false)
+    {
+        $bind = array();
+        $sqlWhereCondition = '';
+
+        if(!empty($idSite)) {
+            $bind = array($idSite);
+            $sqlWhereCondition = '(enable_only_idsite = ? OR enable_only_idsite = 0) AND';
+        }
+
+        $sqlWhereCondition  = $this->buildQuerySortedByName($sqlWhereCondition . ' deleted = 0');
+        $segments = $this->getDb()->fetchAll($sqlWhereCondition, $bind);
+
+        return $segments;
+    }
+
     public function deleteSegment($idSegment)
     {
         $db = $this->getDb();
-        $db->delete($this->table, 'idsegment = ' . (int) $idSegment);
+        $db->delete($this->getTable(), 'idsegment = ' . (int) $idSegment);
     }
 
     public function updateSegment($idSegment, $segment)
@@ -95,7 +130,7 @@ class Model
         $idSegment = (int) $idSegment;
 
         $db = $this->getDb();
-        $db->update($this->table, $segment, "idsegment = $idSegment");
+        $db->update($this->getTable(), $segment, "idsegment = $idSegment");
 
         return true;
     }
@@ -103,7 +138,7 @@ class Model
     public function createSegment($segment)
     {
         $db = $this->getDb();
-        $db->insert($this->table, $segment);
+        $db->insert($this->getTable(), $segment);
         $id = $db->lastInsertId();
 
         return $id;
@@ -112,7 +147,7 @@ class Model
     public function getSegment($idSegment)
     {
         $db = $this->getDb();
-        $segment = $db->fetchRow("SELECT * FROM " . $this->table . " WHERE idsegment = ?", $idSegment);
+        $segment = $db->fetchRow("SELECT * FROM " . $this->getTable() . " WHERE idsegment = ?", $idSegment);
 
         return $segment;
     }
@@ -124,7 +159,7 @@ class Model
 
     private function buildQuerySortedByName($where)
     {
-        return "SELECT * FROM " . $this->table . " WHERE $where ORDER BY name ASC";
+        return "SELECT * FROM " . $this->getTable() . " WHERE $where ORDER BY name ASC";
     }
 
     public static function install()

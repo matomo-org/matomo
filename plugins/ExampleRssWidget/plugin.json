@@ -1,6 +1,6 @@
 {
     "name": "ExampleRssWidget",
-    "description": "Example Plugin: This plugin showcases how to create a new widget that displays a user submitted RSS feed.",
+    "description": "Piwik Platform showcase: how to create a new widget that displays a user submitted RSS feed.",
     "version": "1.0",
     "keywords": ["example", "feed", "widget"],
     "homepage": "http://piwik.org",

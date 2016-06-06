@@ -10,7 +10,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\CacheFile;
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Option;
@@ -23,19 +23,29 @@ use Piwik\Tracker;
  */
 class Cache
 {
+    private static $cacheIdGeneral = 'general';
+
     /**
      * Public for tests only
-     * @var CacheFile
+     * @var \Piwik\Cache\Lazy
      */
-    public static $trackerCache = null;
+    public static $cache;
 
-    protected static function getInstance()
+    /**
+     * @return \Piwik\Cache\Lazy
+     */
+    private static function getCache()
     {
-        if (is_null(self::$trackerCache)) {
-            $ttl = Config::getInstance()->Tracker['tracker_cache_file_ttl'];
-            self::$trackerCache = new CacheFile('tracker', $ttl);
+        if (is_null(self::$cache)) {
+            self::$cache = PiwikCache::getLazyCache();
         }
-        return self::$trackerCache;
+
+        return self::$cache;
+    }
+
+    private static function getTtl()
+    {
+        return Config::getInstance()->Tracker['tracker_cache_file_ttl'];
     }
 
     /**
@@ -44,19 +54,20 @@ class Cache
      * @param int $idSite
      * @return array
      */
-    static function getCacheWebsiteAttributes($idSite)
+    public static function getCacheWebsiteAttributes($idSite)
     {
         if ('all' == $idSite) {
             return array();
         }
 
-        $idSite = (int)$idSite;
+        $idSite = (int) $idSite;
         if ($idSite <= 0) {
             return array();
         }
 
-        $cache        = self::getInstance();
-        $cacheContent = $cache->get($idSite);
+        $cache = self::getCache();
+        $cacheId = $idSite;
+        $cacheContent = $cache->fetch($cacheId);
 
         if (false !== $cacheContent) {
             return $cacheContent;
@@ -91,8 +102,10 @@ class Cache
         // if nothing is returned from the plugins, we don't save the content
         // this is not expected: all websites are expected to have at least one URL
         if (!empty($content)) {
-            $cache->set($idSite, $content);
+            $cache->save($cacheId, $content, self::getTtl());
         }
+
+        Tracker::restoreTrackerPlugins();
 
         return $content;
     }
@@ -102,7 +115,7 @@ class Cache
      */
     public static function clearCacheGeneral()
     {
-        self::getInstance()->delete('general');
+        self::getCache()->delete(self::$cacheIdGeneral);
     }
 
     /**
@@ -113,10 +126,8 @@ class Cache
      */
     public static function getCacheGeneral()
     {
-        $cache   = self::getInstance();
-        $cacheId = 'general';
-
-        $cacheContent = $cache->get($cacheId);
+        $cache = self::getCache();
+        $cacheContent = $cache->fetch(self::$cacheIdGeneral);
 
         if (false !== $cacheContent) {
             return $cacheContent;
@@ -151,6 +162,9 @@ class Cache
         Piwik::postEvent('Tracker.setTrackerCacheGeneral', array(&$cacheContent));
         self::setCacheGeneral($cacheContent);
         Common::printDebug("General tracker cache was re-created.");
+
+        Tracker::restoreTrackerPlugins();
+
         return $cacheContent;
     }
 
@@ -162,11 +176,9 @@ class Cache
      */
     public static function setCacheGeneral($value)
     {
-        $cache   = self::getInstance();
-        $cacheId = 'general';
-        $cache->set($cacheId, $value);
+        $cache = self::getCache();
 
-        return true;
+        return $cache->save(self::$cacheIdGeneral, $value, self::getTtl());
     }
 
     /**
@@ -193,8 +205,7 @@ class Cache
      */
     public static function deleteCacheWebsiteAttributes($idSite)
     {
-        $idSite = (int)$idSite;
-        self::getInstance()->delete($idSite);
+        self::getCache()->delete((int) $idSite);
     }
 
     /**
@@ -202,6 +213,6 @@ class Cache
      */
     public static function deleteTrackerCache()
     {
-        self::getInstance()->deleteAll();
+        self::getCache()->flushAll();
     }
 }

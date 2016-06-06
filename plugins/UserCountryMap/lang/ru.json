@@ -5,18 +5,20 @@
         "Countries": "Страны",
         "DaysAgo": "%s дней назад",
         "GoalConversions": "%s целей достигнуто",
-        "Hours": "часов",
         "HoursAgo": "%s часов назад",
         "map": "карта",
-        "Minutes": "минуты",
         "MinutesAgo": "%s минут назад",
+        "None": "Нет",
         "NoVisit": "Без посещений",
         "RealTimeMap": "Карта в реальном времени",
         "Regions": "Регионы",
         "Searches": "%s поисковых запросов",
-        "Seconds": "секунд",
         "SecondsAgo": "%s секунд назад",
+        "ShowingVisits": "Последние геолокационные посещения",
+        "Unlocated": "<b>%s<\/b> %p посещения из %c не могут быть геолокализованны.",
         "VisitorMap": "Карта посещений",
-        "WorldWide": "Весь мир"
+        "WorldWide": "Весь мир",
+        "WithUnknownRegion": "%s с неизвестным регионом",
+        "WithUnknownCity": "%s с неизвестным городом"
     }
 }

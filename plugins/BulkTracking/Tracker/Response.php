@@ -15,6 +15,16 @@ use Piwik\Tracker;
 class Response extends Tracker\Response
 {
     /**
+     * @var int[]
+     */
+    private $invalidRequests = array();
+
+    /**
+     * @var bool
+     */
+    private $isAuthenticated = false;
+
+    /**
      * Echos an error message & other information, then exits.
      *
      * @param Tracker $tracker
@@ -55,8 +65,11 @@ class Response extends Tracker\Response
         // when doing bulk tracking we return JSON so the caller will know how many succeeded
         $result = array(
             'status'  => 'error',
-            'tracked' => $tracker->getCountOfLoggedRequests()
+            'tracked' => $tracker->getCountOfLoggedRequests(),
+            'invalid' => count($this->invalidRequests),
         );
+
+        $this->addInvalidIndicesIfAuthenticated($result);
 
         // send error when in debug mode
         if ($tracker->isDebugModeEnabled()) {
@@ -68,10 +81,31 @@ class Response extends Tracker\Response
 
     private function formatResponse(Tracker $tracker)
     {
-        return array(
+        $result = array(
             'status' => 'success',
-            'tracked' => $tracker->getCountOfLoggedRequests()
+            'tracked' => $tracker->getCountOfLoggedRequests(),
+            'invalid' => count($this->invalidRequests),
         );
+
+        $this->addInvalidIndicesIfAuthenticated($result);
+
+        return $result;
     }
 
+    public function setInvalidRequests($invalidRequests)
+    {
+        $this->invalidRequests = $invalidRequests;
+    }
+
+    public function setIsAuthenticated($isAuthenticated)
+    {
+        $this->isAuthenticated = $isAuthenticated;
+    }
+
+    private function addInvalidIndicesIfAuthenticated(&$result)
+    {
+        if ($this->isAuthenticated) {
+            $result['invalid_indices'] = $this->invalidRequests;
+        }
+    }
 }

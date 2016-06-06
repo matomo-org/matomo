@@ -4,21 +4,18 @@
         "Cities": "Miasta",
         "Countries": "Państw",
         "DaysAgo": "%s dni temu",
-        "Hours": "godzin",
         "HoursAgo": "%s godzin temu",
         "map": "mapa",
-        "Minutes": "minut",
         "MinutesAgo": "%s minut temu",
         "None": "Brak",
         "NoVisit": "Brak wizyt",
         "RealTimeMap": "Mapa czasu rzeczywistego",
         "Regions": "Regiony",
         "Searches": "%s wyszukań",
-        "Seconds": "sekund",
         "SecondsAgo": "%s sekund temu",
         "VisitorMap": "Mapa Odwiedzin",
-        "WithUnknownCity": "%s z nieznanego miasta",
+        "WorldWide": "World-Wide",
         "WithUnknownRegion": "%s z nieznanego regionu",
-        "WorldWide": "World-Wide"
+        "WithUnknownCity": "%s z nieznanego miasta"
     }
 }

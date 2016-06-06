@@ -15,16 +15,16 @@ use Piwik\SettingsPiwik;
 use Piwik\View;
 
 /**
- *
+ * HTML report renderer
  */
 class Html extends ReportRenderer
 {
     const IMAGE_GRAPH_WIDTH = 700;
     const IMAGE_GRAPH_HEIGHT = 200;
 
-    const REPORT_TITLE_TEXT_SIZE = 11;
+    const REPORT_TITLE_TEXT_SIZE = 24;
     const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
-    const REPORT_TABLE_ROW_TEXT_SIZE = 11;
+    const REPORT_TABLE_ROW_TEXT_SIZE = '13px';
     const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
     const HTML_CONTENT_TYPE = 'text/html';
@@ -107,6 +107,7 @@ class Html extends ReportRenderer
 
     private function assignCommonParameters(View $view)
     {
+        $view->assign("reportFontFamily", ReportRenderer::DEFAULT_REPORT_FONT_FAMILY);
         $view->assign("reportTitleTextColor", ReportRenderer::REPORT_TITLE_TEXT_COLOR);
         $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
         $view->assign("reportTextColor", ReportRenderer::REPORT_TEXT_COLOR);
@@ -114,7 +115,9 @@ class Html extends ReportRenderer
         $view->assign("tableHeaderTextColor", ReportRenderer::TABLE_HEADER_TEXT_COLOR);
         $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
         $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
+        $view->assign("reportTableHeaderTextWeight", self::TABLE_HEADER_TEXT_WEIGHT);
         $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
+        $view->assign("reportTableHeaderTextTransform", ReportRenderer::TABLE_HEADER_TEXT_TRANSFORM);
         $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
         $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
         $view->assign("currentPath", SettingsPiwik::getPiwikUrl());
@@ -169,7 +172,6 @@ class Html extends ReportRenderer
 
         foreach ($processedReports as $processedReport) {
             if ($processedReport['displayGraph']) {
-
                 $additionalFiles[] = $this->getAttachment($report, $processedReport, $prettyDate);
             }
         }

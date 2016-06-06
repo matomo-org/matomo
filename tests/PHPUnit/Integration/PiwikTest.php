@@ -29,8 +29,14 @@ class PiwikTest extends IntegrationTestCase
             (float)-1, (float)0, (float)1, (float)1.5, (float)-1.5, (float)21111, (float)89898, (float)99999999999, (float)-4565656,
             (int)-1, (int)0, (int)1, (int)1.5, (int)-1.5, (int)21111, (int)89898, (int)99999999999, (int)-4565656,
             '-1', '0', '1', '1.5', '-1.5', '21111', '89898', '99999999999', '-4565656',
-            '1e3', '0x123', "-1e-2",
+            '1e3', 0x123, "-1e-2",
         );
+
+        if (!self::isPhp7orLater()) {
+            // this seems to be no longer considered valid in PHP 7+
+            $value[] = '0x123';
+        }
+
         foreach ($valid as $key => $value) {
             $valid[$key] = array($value);
         }
@@ -86,7 +92,6 @@ class PiwikTest extends IntegrationTestCase
             '',
             '   ',
             'a',
-            'aa',
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             'alpha/beta',
             'alpha:beta',
@@ -117,8 +122,10 @@ class PiwikTest extends IntegrationTestCase
     public function getValidLoginStringData()
     {
         $valid = array(
+            'aa',
             'aaa',
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            'äÄüÜöÖß',
             'shoot_puck@the-goal.com',
         );
         foreach ($valid as $key => $value) {

@@ -1,0 +1,599 @@
+{% extends 'layout.twig' %}
+
+{% set title %}Piwik UI demo{% endset %}
+
+{% block head %}
+    {{ parent() }}
+
+    <style>
+        .grid-demo .row {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .grid-demo [class^=col-] {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #eee;
+            border: 1px solid #ddd;
+        }
+        .demo {
+            margin: 0 0 15px 0;
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 4px 4px 0 0;
+            padding: 25px;
+        }
+        .demo-code {
+            padding: 9px 14px;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            margin: -16px 0 15px;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .demo-code pre {
+            color: inherit;
+            font-size: 14px;
+            padding: 0;
+            background-color: transparent;
+            margin: 0;
+        }
+        .demo .div-block {
+            max-width: 400px;
+            margin-right: auto;
+            margin-left: auto;
+            min-height: 20px;
+            padding: 19px;
+            background-color: #f5f5f5;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+        }
+        .icons h4 {
+            padding-top: 15px;
+            padding-bottom: 10px;
+        }
+        .icons .icon {
+            font-family: monospace, monospace;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block root %}
+
+    <div class="container">
+
+        <h1>{{ title }}</h1>
+        <p>
+            This page is intended to show all the UI components and styles available to use in Piwik.
+        </p>
+
+        <h2>Containers</h2>
+        <p>
+            All HTML should be in a container:
+        </p>
+        <ul>
+            <li><code>.container-fluid</code>: this container is fluid and will take 100% of the width</li>
+            <li><code>.container</code>: this container has a max-width that adapts to the screen size</li>
+        </ul>
+        <p>
+            Read more about <a href="http://getbootstrap.com/css/#overview-container">Bootstrap's containers</a>.
+        </p>
+
+        <h2>Grid system</h2>
+        <p>
+            Bootstrap's grid system allows to organize the content in columns, all the while staying responsive for smaller screens.
+        </p>
+        <div class="grid-demo">
+            <div class="row">
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+                <div class="col-md-1">.col-md-1</div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">.col-md-8</div>
+                <div class="col-md-4">.col-md-4</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">.col-md-4</div>
+                <div class="col-md-4">.col-md-4</div>
+                <div class="col-md-4">.col-md-4</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">.col-md-6</div>
+                <div class="col-md-6">.col-md-6</div>
+            </div>
+        </div>
+        <p>
+            Read more about <a href="http://getbootstrap.com/css/#grid">Bootstrap's grid system</a>.
+        </p>
+
+        <h2>Typography</h2>
+
+        <div class="demo">
+            <h1>h1. heading</h1>
+            <h2>h2. heading</h2>
+            <h3>h3. heading</h3>
+            <h4>h4. heading</h4>
+            <h5>h5. heading</h5>
+            <h6>h6. heading</h6>
+            <p>
+                This is a paragraph, and <a href="#">this is a link</a>.
+            </p>
+            <p>
+                Another paragraph, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+        </div>
+
+        <h3>Alignment classes</h3>
+
+        <div class="demo">
+            <p class="text-left">Left aligned text.</p>
+            <p class="text-center">Center aligned text.</p>
+            <p class="text-right">Right aligned text.</p>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;p class=&quot;text-left&quot;&gt;Left aligned text.&lt;/p&gt;
+&lt;p class=&quot;text-center&quot;&gt;Center aligned text.&lt;/p&gt;
+&lt;p class=&quot;text-right&quot;&gt;Right aligned text.&lt;/p&gt;</pre>
+        </div>
+
+        <h3>Lists</h3>
+
+        <div class="demo">
+            <ul>
+                <li>First item</li>
+                <li>Second item</li>
+            </ul>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;ul&gt;
+  &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        </div>
+
+        <h2>Buttons</h2>
+
+        <div class="demo">
+            <a class="btn" href="#">Link</a>
+            <input type="button" class="btn" value="Input">
+            <input type="submit" value="Submit">
+            <button type="submit">Button</button>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;Link&lt;/a&gt;
+&lt;input type=&quot;button&quot; class=&quot;btn&quot; value=&quot;Input&quot;&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+&lt;button type=&quot;submit&quot;&gt;Button&lt;/button&gt;</pre>
+        </div>
+
+        <div class="demo">
+            <button class="btn btn-lg">Large button</button>
+            <a class="btn btn-lg" href="#">Large button</a>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;button class=&quot;btn btn-lg&quot;&gt;Large button&lt;/button&gt;
+&lt;a class=&quot;btn btn-lg&quot; href=&quot;#&quot;&gt;Large button&lt;/a&gt;</pre>
+        </div>
+
+        <div class="demo">
+            <div class="div-block">
+                <a class="btn btn-block" href="#">Block button</a>
+                <a class="btn btn-lg btn-block" href="#">Large block button</a>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;Block button&lt;/a&gt;
+&lt;a class=&quot;btn btn-lg btn-block&quot; href=&quot;#&quot;&gt;Large block button&lt;/a&gt;</pre>
+        </div>
+
+        <h3>Link buttons</h3>
+
+        <div class="demo">
+            <a class="btn btn-link" href="#">Link button</a>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn btn-link&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;</pre>
+        </div>
+
+        <h3>Flat buttons</h3>
+
+        <div class="demo">
+            <a class="btn btn-flat" href="#">Flat button</a>
+            <a class="btn btn-flat" href="#"><span class="icon-add"></span></a>
+            <a class="btn btn-flat btn-lg" href="#">Flat button</a>
+            <a class="btn btn-flat btn-lg" href="#"><span class="icon-add"></span></a>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn btn-flat&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;a class=&quot;btn btn-flat btn-lg&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn btn-flat btn-lg&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
+        </div>
+
+        <h2>Alerts</h2>
+
+        <div class="demo">
+            <div class="alert alert-info">
+                <strong>Info!</strong> This alert needs <a>your attention</a>, but it's not super important.
+            </div>
+            <div class="alert alert-success">
+                <strong>Success!</strong> You successfully read this important <a>alert message</a>.
+            </div>
+            <div class="alert alert-warning">
+                <strong>Warning!</strong> Better <a>check</a> yourself, you're not looking too good.
+            </div>
+            <div class="alert alert-danger">
+                <strong>Error!</strong> Change <a>a few things</a> up and try submitting again.
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div class=&quot;alert alert-info&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-success&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-warning&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-danger&quot;&gt;...&lt;/div&gt;</pre>
+        </div>
+
+        <p>
+            Read more about <a href="http://getbootstrap.com/components/#alerts">Bootstrap's alerts</a>.
+        </p>
+
+        <h2>Forms</h2>
+
+        <h3>Simple form</h3>
+
+        <div class="demo">
+            <form action="#">
+                <div class="form-group">
+                    <label for="username">
+                        Username
+                    </label>
+                    <input type="text" id="username" placeholder="Some text here..."/>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        Email
+                    </label>
+                    <div class="form-help">
+                        Here is more information.
+                    </div>
+                    <input type="email" id="email" placeholder="Some email here..."/>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Report to load by default
+                    </label>
+                    <div class="form-help">
+                        This is a help text that can be used to describe the field.
+                        This help text may extend over several lines.
+                    </div>
+                    <label class="radio">
+                        <input type="radio" name="defaultReport" value="today">
+                        Today
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="defaultReport" value="yesterday">
+                        Yesterday
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="defaultReport" value="week">
+                        Previous 30 days (not including today)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="language">
+                        Language
+                    </label>
+                    <select id="language">
+                        <option>English</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        Description
+                    </label>
+                    <textarea id="description" rows="5"></textarea>
+                </div>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;form action=&quot;#&quot;&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;username&quot;&gt;
+            Username
+        &lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;username&quot; placeholder=&quot;Some text here...&quot;/&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;email&quot;&gt;
+            Email
+        &lt;/label&gt;
+        &lt;div class=&quot;form-help&quot;&gt;
+            Here is more information.
+        &lt;/div&gt;
+        &lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Some email here...&quot;/&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;
+            Report to load by default
+        &lt;/label&gt;
+        &lt;div class=&quot;form-help&quot;&gt;
+            This is a help text that can be used to describe the field.
+            This help text may extend over several lines.
+        &lt;/div&gt;
+        &lt;label class=&quot;radio&quot;&gt;
+            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;today&quot;&gt;
+            Today
+        &lt;/label&gt;
+        &lt;label class=&quot;radio&quot;&gt;
+            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;yesterday&quot;&gt;
+            Yesterday
+        &lt;/label&gt;
+        &lt;label class=&quot;radio&quot;&gt;
+            &lt;input type=&quot;radio&quot; name=&quot;defaultReport&quot; value=&quot;week&quot;&gt;
+            Previous 30 days (not including today)
+        &lt;/label&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;language&quot;&gt;
+            Language
+        &lt;/label&gt;
+        &lt;select id=&quot;language&quot;&gt;
+            &lt;option&gt;English&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;description&quot;&gt;
+            Description
+        &lt;/label&gt;
+        &lt;textarea id=&quot;description&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+
+    &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+&lt;/form&gt;</pre>
+        </div>
+
+        <h3>Input group</h3>
+
+        <div class="demo">
+            <div class="form-group">
+                <label for="deleteOlderThan">
+                    Input with a text addon
+                </label>
+                <div class="input-group">
+                    <input type="text" id="deleteOlderThan" value="180"/>
+                    <span class="input-group-addon">days</span>
+                </div>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;foo&quot;&gt;
+        Input with a text addon
+    &lt;/label&gt;
+    &lt;div class=&quot;input-group&quot;&gt;
+        &lt;input type=&quot;text&quot; id=&quot;foo&quot; value=&quot;180&quot;/&gt;
+        &lt;span class=&quot;input-group-addon&quot;&gt;days&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <h2>Code</h2>
+
+        <h3>Inline</h3>
+
+        <div class="demo">
+            <p>
+                You can put code in a text using the <code>code</code> tag.
+            </p>
+        </div>
+        <div class="demo-code">
+            <pre>You can put code in a text using the &lt;code&gt;code&lt;/code&gt; tag.</pre>
+        </div>
+
+        <h3>Block</h3>
+
+        <div class="demo">
+            <p>Or you can display a code block:</p>
+            <pre>&lt;!-- Piwik --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;/script&gt;
+&lt;!-- End Piwik Code --&gt;</pre>
+        </div>
+        <div class="demo-code">
+            &lt;pre&gt;...&lt;/pre&gt;
+        </div>
+
+        <h2>Tables</h2>
+
+        <div class="demo">
+            <table>
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;table&gt;...&lt;/table&gt;</pre>
+        </div>
+
+        <h2>Icons</h2>
+
+        <div id="icons" class="demo icons">
+        </div>
+        <div class="demo-code">
+            <pre>&lt;span class=&quot;icon-ok&quot;&gt;&lt;/span&gt;</pre>
+        </div>
+
+        <script>
+            $(function () {
+
+                var icons = {
+                    'Manage': [
+                        'add',
+                        'edit',
+                        'delete',
+                        'plus',
+                        'minus',
+                    ],
+                    'Alerts': [
+                        'error',
+                        'warning',
+                        'info',
+                        'success',
+                        'help',
+                        'help-alt',
+                        'ok',
+                    ],
+                    'Navigation': [
+                        'arrow-left',
+                        'arrow-right',
+                        'arrow-top',
+                        'arrow-bottom',
+                        'arrow-collapsed',
+                        'zoom-in',
+                        'zoom-out',
+                        'show',
+                        'hide',
+                        'search',
+                        'menu-hamburger',
+                        'more-horiz',
+                        'more-verti'
+                    ],
+                    'Window-Widget': [
+                        'minimise',
+                        'fullscreen',
+                        'close',
+                        'maximise',
+                        'newtab',
+                        'refresh',
+                        'reload',
+                    ],
+                    'Reports': [
+                        'table',
+                        'table-more',
+                        'chart-bar',
+                        'chart-pie',
+                        'chart-line',
+                        'chart-line-details',
+                    ],
+                    'Users': [
+                        'user',
+                        'user-add',
+                        'users',
+                        'alien',
+                    ],
+                    'Date-picker': [
+                        'calendar',
+                    ],
+                    'Annotations': [
+                        'annotation',
+                    ],
+                    'E-commerce': [
+                        'ecommerce-order',
+                        'ecommerce-abandoned-cart',
+                    ],
+                    'Goals': [
+                        'goal',
+                    ],
+                    'Insights': [
+                        'insights',
+                    ],
+                    'Segments': [
+                        'segment',
+                    ],
+                    'Visitors': [
+                        'visitor-profile',
+                    ],
+                    'Lock': [
+                        'locked',
+                        'locked-2',
+                        'locked-3',
+                        'locked-4',
+                    ],
+                    'Other': [
+                        'configure',
+                        'document',
+                        'email',
+                        'export',
+                        'feed',
+                        'download',
+                        'image',
+                        'code',
+                        'star',
+                        'drop',
+                        'business',
+                        'finance',
+                        'folder',
+                        'folder-charts',
+                        'open-source',
+                        'puzzle',
+                        'server',
+                        'server-alt',
+                        'tag-cloud',
+                        'play',
+                        'sign-in',
+                        'sign-out'
+                    ],
+                };
+
+                var iconsDiv = $('#icons');
+                for(var category in icons) {
+                    if (icons.hasOwnProperty(category)) {
+                        iconsDiv.append('<h4>' + category + '</h4>');
+                        var row = $('<div class="row"></div>');
+                        icons[category].forEach(function(icon) {
+                            icon = 'icon-' + icon;
+                            row.append('<div class="col-sm-4 icon"><span class="' + icon + '"></span> ' + icon + '</div>');
+                        });
+                        iconsDiv.append(row);
+                    }
+                }
+
+            });
+        </script>
+
+    </div>
+
+{% endblock %}

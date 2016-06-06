@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Report;
+use Piwik\Tests\Framework\Mock\TestConfig;
 
 /**
  * @group Core
@@ -24,7 +25,6 @@ class ComponentFactoryTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Config::getInstance()->setTestEnvironment();
         Config::getInstance()->Plugins['Plugins'] = array();
 
         $this->unloadAllPlugins();

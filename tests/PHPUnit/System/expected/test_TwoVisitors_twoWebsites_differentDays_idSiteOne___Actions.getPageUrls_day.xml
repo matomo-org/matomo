@@ -10,11 +10,19 @@
 			<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 			<min_time_generation>0.123</min_time_generation>
 			<max_time_generation>0.123</max_time_generation>
+			<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+			<entry_nb_visits>1</entry_nb_visits>
+			<entry_nb_actions>1</entry_nb_actions>
+			<entry_sum_visit_length>0</entry_sum_visit_length>
+			<entry_bounce_count>1</entry_bounce_count>
+			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+			<exit_nb_visits>1</exit_nb_visits>
 			<avg_time_on_page>0</avg_time_on_page>
-			<bounce_rate>0%</bounce_rate>
-			<exit_rate>0%</exit_rate>
+			<bounce_rate>100%</bounce_rate>
+			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.123</avg_time_generation>
 			<url>http://example.org/index.htm</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/products</label>
@@ -37,6 +45,7 @@
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.153</avg_time_generation>
 			<url>http://example.org/products</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fproducts</segment>
 		</row>
 	</result>
 	<result date="2010-01-04">
@@ -76,6 +85,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
 			<url>http://example.org/index.htm</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/thankyou</label>
@@ -88,11 +98,12 @@
 			<max_time_generation>0.452</max_time_generation>
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<avg_time_on_page>360</avg_time_on_page>
+			<avg_time_on_page>180</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.313</avg_time_generation>
 			<url>http://example.org/thankyou</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
 		</row>
 		<row>
 			<label>Page URL not defined</label>
@@ -130,6 +141,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
 			<url>http://example.org/index.htm</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/thankyou</label>
@@ -142,11 +154,12 @@
 			<max_time_generation>0.452</max_time_generation>
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<avg_time_on_page>360</avg_time_on_page>
+			<avg_time_on_page>180</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.313</avg_time_generation>
 			<url>http://example.org/thankyou</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
 		</row>
 		<row>
 			<label>Page URL not defined</label>
@@ -184,6 +197,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
 			<url>http://example.org/index.htm</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/thankyou</label>
@@ -196,11 +210,12 @@
 			<max_time_generation>0.452</max_time_generation>
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<avg_time_on_page>360</avg_time_on_page>
+			<avg_time_on_page>180</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.313</avg_time_generation>
 			<url>http://example.org/thankyou</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
 		</row>
 		<row>
 			<label>Page URL not defined</label>
@@ -238,6 +253,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
 			<url>http://example.org/index.htm</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/thankyou</label>
@@ -250,11 +266,12 @@
 			<max_time_generation>0.452</max_time_generation>
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<avg_time_on_page>360</avg_time_on_page>
+			<avg_time_on_page>180</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.313</avg_time_generation>
 			<url>http://example.org/thankyou</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
 		</row>
 		<row>
 			<label>Page URL not defined</label>
@@ -292,6 +309,7 @@
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
 			<url>http://example.org/index.htm</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/thankyou</label>
@@ -304,11 +322,12 @@
 			<max_time_generation>0.452</max_time_generation>
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<avg_time_on_page>360</avg_time_on_page>
+			<avg_time_on_page>180</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.313</avg_time_generation>
 			<url>http://example.org/thankyou</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
 		</row>
 		<row>
 			<label>Page URL not defined</label>

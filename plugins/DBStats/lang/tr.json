@@ -10,7 +10,7 @@
         "MetricDataByYear": "Yıla Göre Metrik Tablosu",
         "MetricTables": "Metrik Tabloları",
         "OtherTables": "Diğer Tablolar",
-        "PluginDescription": "Bu eklenti Piwik tabloları ile MySQL veritabanı kullanım raporu.",
+        "PluginDescription": "Detaylı MySQL veritabanı kullanım raporu sağlar. Super Kullanıcı için Teşhis bölümünün altından ulaşılabilir.",
         "ReportDataByYear": "Yıla Göre Rapor Tabloları",
         "ReportTables": "Rapor Tabloları",
         "RowCount": "Satır sayısı",

@@ -108,13 +108,13 @@ class VisitGoalBuyer extends VisitDimension
 
     private function getBuyerType(Request $request, $existingType = self::TYPE_BUYER_NONE)
     {
-        $goalManager = new GoalManager($request);
-
-        if (!$goalManager->requestIsEcommerce) {
+        $isRequestEcommerce = $request->getMetadata('Ecommerce', 'isRequestEcommerce');
+        if (!$isRequestEcommerce) {
             return $existingType;
         }
 
-        if ($goalManager->isGoalAnOrder()) {
+        $isGoalAnOrder = $request->getMetadata('Ecommerce', 'isGoalAnOrder');
+        if ($isGoalAnOrder) {
             return self::TYPE_BUYER_ORDERED;
         }
 

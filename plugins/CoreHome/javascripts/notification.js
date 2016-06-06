@@ -54,6 +54,16 @@
         this.$node   = placeNotification(template, options);
     };
 
+    /**
+     * Removes a previously shown notification having the given notification id.
+     *
+     *
+     * @param {string}  notificationId   The id of a notification that was previously registered.
+     */
+    Notification.prototype.remove = function (notificationId) {
+        $('[piwik-notification][notification-id=' + notificationId + ']').remove();
+    };
+
     Notification.prototype.scrollToNotification = function () {
         if (this.$node) {
             piwikHelper.lazyScrollTo(this.$node, 250);

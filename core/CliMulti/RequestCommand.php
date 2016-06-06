@@ -8,7 +8,12 @@
 
 namespace Piwik\CliMulti;
 
-use Piwik\Config;
+use Piwik\Application\Environment;
+use Piwik\Access;
+use Piwik\Container\StaticContainer;
+use Piwik\Db;
+use Piwik\Log;
+use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -22,20 +27,29 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class RequestCommand extends ConsoleCommand
 {
+    /**
+     * @var Environment
+     */
+    private $environment;
+
     protected function configure()
     {
         $this->setName('climulti:request');
         $this->setDescription('Parses and executes the given query. See Piwik\CliMulti. Intended only for system usage.');
-        $this->addArgument('url-query', null, InputOption::VALUE_REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
+        $this->addArgument('url-query', InputArgument::REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
+        $this->addOption('superuser', null, InputOption::VALUE_NONE, 'If supplied, runs the code as superuser.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->recreateContainerWithWebEnvironment();
+
         $this->initHostAndQueryString($input);
 
         if ($this->isTestModeEnabled()) {
-            Config::getInstance()->setTestEnvironment();
             $indexFile = '/tests/PHPUnit/proxy/';
+
+            $this->resetDatabase();
         } else {
             $indexFile = '/';
         }
@@ -50,6 +64,16 @@ class RequestCommand extends ConsoleCommand
             }
 
             $process->startProcess();
+        }
+
+        if ($input->getOption('superuser')) {
+            StaticContainer::addDefinitions(array(
+                'observers.global' => \DI\add(array(
+                    array('Environment.bootstrapped', function () {
+                        Access::getInstance()->setSuperUserAccess(true);
+                    })
+                )),
+            ));
         }
 
         require_once PIWIK_INCLUDE_PATH . $indexFile;
@@ -75,10 +99,30 @@ class RequestCommand extends ConsoleCommand
         Url::setHost($hostname);
 
         $query = $input->getArgument('url-query');
-        $query = UrlHelper::getArrayFromQueryString($query);
+        $query = UrlHelper::getArrayFromQueryString($query); // NOTE: this method can create the StaticContainer now
         foreach ($query as $name => $value) {
             $_GET[$name] = $value;
         }
     }
 
+    /**
+     * We will be simulating an HTTP request here (by including index.php).
+     *
+     * To avoid weird side-effects (e.g. the logging output messing up the HTTP response on the CLI output)
+     * we need to recreate the container with the default environment instead of the CLI environment.
+     */
+    private function recreateContainerWithWebEnvironment()
+    {
+        StaticContainer::clearContainer();
+        Log::unsetInstance();
+
+        $this->environment = new Environment(null);
+        $this->environment->init();
+    }
+
+    private function resetDatabase()
+    {
+        Option::clearCache();
+        Db::destroyDatabaseObject();
+    }
 }

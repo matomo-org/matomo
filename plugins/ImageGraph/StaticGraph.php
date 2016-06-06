@@ -9,16 +9,16 @@
 
 namespace Piwik\Plugins\ImageGraph;
 
-use Exception;
 use pData;
 use pImage;
 use Piwik\Container\StaticContainer;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\BaseFactory;
 
-require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
-require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pImage.class.php";
-require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pData.class.php";
+require_once PIWIK_INCLUDE_PATH . "/libs/pChart/class/pDraw.class.php";
+require_once PIWIK_INCLUDE_PATH . "/libs/pChart/class/pImage.class.php";
+require_once PIWIK_INCLUDE_PATH . "/libs/pChart/class/pData.class.php";
 
 /**
  * The StaticGraph abstract class is used as a base class for different types of static graphs.
@@ -229,7 +229,7 @@ abstract class StaticGraph extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $filename;
+        $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);
@@ -248,6 +248,8 @@ abstract class StaticGraph extends BaseFactory
                 $this->pData->setSeriePicture($column, $ordinateLogo);
             }
         }
+
+        $this->pData->setAxisDisplay(0, AXIS_FORMAT_CUSTOM, '\\Piwik\\Plugins\\ImageGraph\\formatYAxis');
 
         $this->pData->addPoints($this->abscissaSeries, self::ABSCISSA_SERIE_NAME);
         $this->pData->setAbscissa(self::ABSCISSA_SERIE_NAME);
@@ -340,4 +342,16 @@ abstract class StaticGraph extends BaseFactory
             return false;
         }
     }
+}
+
+/**
+ * Global format method
+ *
+ * required to format y axis values using pcharts internal format callbacks
+ * @param $value
+ * @return mixed
+ */
+function formatYAxis($value)
+{
+    return NumberFormatter::getInstance()->format($value);
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>new name</website>
-	<prettyDate>Week 1 March - 7 March 2010</prettyDate>
+	<prettyDate>week March 1 – 7, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<name>Page URLs</name>
@@ -28,8 +28,8 @@
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2010-03-06&amp;idSubtable=</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2009-08-10,2010-03-07&amp;idSubtable=</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2010-03-06&amp;idSubtable=1</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2009-08-10,2010-03-07&amp;idSubtable=1</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
 	</metadata>
 	<columns>
@@ -55,6 +55,7 @@
 	<reportMetadata>
 		<row>
 			<url>http://example.org/store/purchase.htm</url>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Fstore%2Fpurchase.htm</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>

@@ -80,10 +80,22 @@
     text-align: left;
 }
 
+#Piwik_Popover .rowevolution .alert-info {
+    margin-left: 0px;
+}
+
+a.rowevolution-startmulti {
+    color: #4183C4 !important;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 .rowevolution h2 {
     font-size: 16px;
     margin: 0;
     padding: 0;
+    border: none;
 }
 
 .rowevolution .metrics-container {
@@ -164,14 +176,6 @@
     color: #f00;
 }
 
-.rowevolution-documentation {
-    font-size: 12px;
-    margin: 2px 0 5px 0;
-    padding: 5px 0 5px 23px;
-    color: #888;
-    background: url(../../Morpheus/images/help.png) no-repeat left center;
-}
-
 .rowevolution .metric-selectbox,
 .rowevolution .compare-container {
     padding: 15px 0 5px 0;
@@ -182,17 +186,6 @@
     color: #444;
     margin: 8px 0 0 0;
     padding: 0;
-}
-
-a.rowevolution-startmulti {
-    font-size: 12px;
-    color: #7E7363;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-a.rowevolution-startmulti:hover {
-    color: #444;
 }
 
 /**

@@ -34,4 +34,12 @@ $(document).ready(function () {
         });
     });
 
+    $('.plugin-donation-link').click(function (event) {
+        event.preventDefault();
+
+        var overlayId = $(this).data('overlay-id');
+
+        piwikHelper.modalConfirm('#'+overlayId, {});
+    });
+
 });

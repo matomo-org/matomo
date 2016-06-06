@@ -8,17 +8,18 @@ define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
 
-// if you prefer not to include 'index.php', you must also define here PIWIK_DOCUMENT_ROOT
-// and include "libs/upgradephp/upgrade.php" and "core/Loader.php"
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
+
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
 
 FrontController::getInstance()->init();
 
 // This inits the API Request with the specified parameters
 $request = new Request('
 			module=API
-			&method=UserSettings.getResolution
+			&method=Resolution.getResolution
 			&idSite=7
 			&date=yesterday
 			&period=week

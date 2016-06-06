@@ -38,7 +38,14 @@ class Adapter
         }
 
         $className = self::getAdapterClassName($adapterName);
-        $adapter   = new $className($dbInfos);
+
+        // make sure not to pass any references otherwise they will modify $dbInfos
+        $infos = array();
+        foreach ($dbInfos as $key => $val) {
+            $infos[$key] = $val;
+        }
+
+        $adapter   = new $className($infos);
 
         if ($connect) {
             $adapter->getConnection();
@@ -56,10 +63,15 @@ class Adapter
      *
      * @param string $adapterName
      * @return string
+     * @throws \Exception
      */
     private static function getAdapterClassName($adapterName)
     {
-        return 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($adapterName))));
+        $className = 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($adapterName))));
+        if (!class_exists($className)) {
+            throw new \Exception("Adapter $adapterName is not valid.");
+        }
+        return $className;
     }
 
     /**

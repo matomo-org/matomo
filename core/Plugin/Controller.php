@@ -24,15 +24,15 @@ use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
+use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period;
+use Piwik\Period\PeriodValidator;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\UsersManager\UserPreferences;
-use Piwik\Registry;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
@@ -187,10 +187,8 @@ abstract class Controller
      */
     protected static function getEnabledPeriodsInUI()
     {
-        $periods = Config::getInstance()->General['enabled_periods_UI'];
-        $periods = explode(",", $periods);
-        $periods = array_map('trim', $periods);
-        return $periods;
+        $periodValidator = new PeriodValidator();
+        return $periodValidator->getPeriodsAllowedForUI();
     }
 
     /**
@@ -201,20 +199,20 @@ abstract class Controller
         $availablePeriods = self::getEnabledPeriodsInUI();
         $periodNames = array(
             'day'   => array(
-                'singular' => Piwik::translate('CoreHome_PeriodDay'),
-                'plural' => Piwik::translate('CoreHome_PeriodDays')
+                'singular' => Piwik::translate('Intl_PeriodDay'),
+                'plural' => Piwik::translate('Intl_PeriodDays')
             ),
             'week'  => array(
-                'singular' => Piwik::translate('CoreHome_PeriodWeek'),
-                'plural' => Piwik::translate('CoreHome_PeriodWeeks')
+                'singular' => Piwik::translate('Intl_PeriodWeek'),
+                'plural' => Piwik::translate('Intl_PeriodWeeks')
             ),
             'month' => array(
-                'singular' => Piwik::translate('CoreHome_PeriodMonth'),
-                'plural' => Piwik::translate('CoreHome_PeriodMonths')
+                'singular' => Piwik::translate('Intl_PeriodMonth'),
+                'plural' => Piwik::translate('Intl_PeriodMonths')
             ),
             'year'  => array(
-                'singular' => Piwik::translate('CoreHome_PeriodYear'),
-                'plural' => Piwik::translate('CoreHome_PeriodYears')
+                'singular' => Piwik::translate('Intl_PeriodYear'),
+                'plural' => Piwik::translate('Intl_PeriodYears')
             ),
             // Note: plural is not used for date range
             'range' => array(
@@ -581,43 +579,58 @@ abstract class Controller
      */
     protected function setGeneralVariablesView($view)
     {
-        $view->date = $this->strDate;
-
         $view->idSite = $this->idSite;
         $this->checkSitePermission();
         $this->setPeriodVariablesView($view);
 
-        $rawDate = Common::getRequestVar('date');
-        $periodStr = Common::getRequestVar('period');
-        if ($periodStr != 'range') {
-            $date = Date::factory($this->strDate);
-            $period = Period\Factory::build($periodStr, $date);
-        } else {
-            $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
-        }
-        $view->rawDate = $rawDate;
-        $view->prettyDate = self::getCalendarPrettyDate($period);
-
         $view->siteName = $this->site->getName();
         $view->siteMainUrl = $this->site->getMainUrl();
 
+        $siteTimezone = $this->site->getTimezone();
+
         $datetimeMinDate = $this->site->getCreationDate()->getDatetime();
-        $minDate = Date::factory($datetimeMinDate, $this->site->getTimezone());
+        $minDate = Date::factory($datetimeMinDate, $siteTimezone);
         $this->setMinDateView($minDate, $view);
 
-        $maxDate = Date::factory('now', $this->site->getTimezone());
+        $maxDate = Date::factory('now', $siteTimezone);
         $this->setMaxDateView($maxDate, $view);
+
+        $rawDate = Common::getRequestVar('date');
+        Period::checkDateFormat($rawDate);
+
+        $periodStr = Common::getRequestVar('period');
+
+        if ($periodStr != 'range') {
+            $date      = Date::factory($this->strDate);
+            $validDate = $this->getValidDate($date, $minDate, $maxDate);
+            $period    = Period\Factory::build($periodStr, $validDate);
+
+            if ($date->toString() !== $validDate->toString()) {
+                // we to not always change date since it could convert a strDate "today" to "YYYY-MM-DD"
+                // only change $this->strDate if it was not valid before
+                $this->setDate($validDate);
+            }
+        } else {
+            $period = new Range($periodStr, $rawDate, $siteTimezone);
+        }
 
         // Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected
         $dateStart = $period->getDateStart();
-        if ($dateStart->isEarlier($minDate)) {
-            $dateStart = $minDate;
-        }
-        $dateEnd = $period->getDateEnd();
-        if ($dateEnd->isLater($maxDate)) {
-            $dateEnd = $maxDate;
+        $dateStart = $this->getValidDate($dateStart, $minDate, $maxDate);
+
+        $dateEnd   = $period->getDateEnd();
+        $dateEnd   = $this->getValidDate($dateEnd, $minDate, $maxDate);
+
+        if ($periodStr == 'range') {
+            // make sure we actually display the correct calendar pretty date
+            $newRawDate = $dateStart->toString() . ',' . $dateEnd->toString();
+            $period = new Range($periodStr, $newRawDate, $siteTimezone);
         }
 
+        $view->date = $this->strDate;
+        $view->prettyDate = self::getCalendarPrettyDate($period);
+        $view->prettyDateLong = $period->getLocalizedLongString();
+        $view->rawDate = $rawDate;
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
 
@@ -636,13 +649,24 @@ abstract class Controller
         }
     }
 
+    private function getValidDate(Date $date, Date $minDate, Date $maxDate)
+    {
+        if ($date->isEarlier($minDate)) {
+            $date = $minDate;
+        }
+
+        if ($date->isLater($maxDate)) {
+            $date = $maxDate;
+        }
+
+        return $date;
+    }
+
     /**
      * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
      *
      * The following variables assigned:
      *
-     * **enableMeasurePiwikForSiteId** - The value of the `[Debug] enable_measure_piwik_usage_in_idsite`
-     *                                     INI config option.
      * **isSuperUser** - True if the current user is the Super User, false if otherwise.
      * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
      *                          false if otherwise.
@@ -662,7 +686,6 @@ abstract class Controller
     protected function setBasicVariablesView($view)
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
-        $view->enableMeasurePiwikForSiteId = PiwikConfig::getInstance()->Debug['enable_measure_piwik_usage_in_idsite'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
@@ -755,7 +778,7 @@ abstract class Controller
                                                                                     $validHost,
                                                                                     '</a>'
                                                                                ));
-            } else if (Piwik::isUserIsAnonymous()) {
+            } elseif (Piwik::isUserIsAnonymous()) {
                 $view->invalidHostMessage = $warningStart . ' '
                     . Piwik::translate('CoreHome_InjectedHostNonSuperUserWarning', array(
                         "<br/><a href=\"$validUrl\">",
@@ -801,12 +824,16 @@ abstract class Controller
             return;
         }
 
+        $periodValidator = new PeriodValidator();
+
         $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
-        $availablePeriods = self::getEnabledPeriodsInUI();
-        if (!in_array($currentPeriod, $availablePeriods)) {
+        $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
+
+        if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
             throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
+
         $found = array_search($currentPeriod, $availablePeriods);
         unset($availablePeriods[$found]);
 
@@ -833,7 +860,7 @@ abstract class Controller
     {
         try {
             $this->doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // no website ID to default to, so could not redirect
         }
 
@@ -852,7 +879,7 @@ abstract class Controller
             $currentLogin = Piwik::getCurrentUserLogin();
             $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
             $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
-            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
+            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Piwik::getLoginPluginName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
 
             $ex = new NoPrivilegesException($errorMessage);
             $ex->setIsHtmlMessage();
@@ -899,8 +926,9 @@ abstract class Controller
      */
     public static function getCalendarPrettyDate($period)
     {
-        if ($period instanceof Month) // show month name when period is for a month
-        {
+        if ($period instanceof Month) {
+            // show month name when period is for a month
+
             return $period->getLocalizedLongString();
         } else {
             return $period->getPrettyString();
@@ -949,7 +977,7 @@ abstract class Controller
         if ($evolutionPercent < 0) {
             $class = "negative-evolution";
             $img = "arrow_down.png";
-        } else if ($evolutionPercent == 0) {
+        } elseif ($evolutionPercent == 0) {
             $class = "neutral-evolution";
             $img = "stop.png";
         } else {
@@ -957,6 +985,9 @@ abstract class Controller
             $img = "arrow_up.png";
             $titleEvolutionPercent = '+' . $titleEvolutionPercent;
         }
+
+        $currentValue = NumberFormatter::getInstance()->format($currentValue);
+        $pastValue    = NumberFormatter::getInstance()->format($pastValue);
 
         $title = Piwik::translate('General_EvolutionSummaryGeneric', array(
                                                                          Piwik::translate('General_NVisits', $currentValue),
@@ -979,7 +1010,9 @@ abstract class Controller
 
     protected function checkSitePermission()
     {
-        if (empty($this->site) || empty($this->idSite)) {
+        if (!empty($this->idSite) && empty($this->site)) {
+            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $this->idSite)));
+        } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Piwik and have permission to access the specified website.");
         }

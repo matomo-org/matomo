@@ -12,9 +12,8 @@ use PDOStatement;
 use Piwik\Config;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
+use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
@@ -38,7 +37,7 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return int
      */
-    public static function updateActionsTableWithRowQuery($query, $fieldQueried, & $actionsTablesByType)
+    public static function updateActionsTableWithRowQuery($query, $fieldQueried, & $actionsTablesByType, $metricsConfig)
     {
         $rowsProcessed = 0;
         while ($row = $query->fetch()) {
@@ -51,10 +50,10 @@ class ArchivingHelper
             }
 
             if ($row['type'] != Action::TYPE_SITE_SEARCH) {
-                unset($row[Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT]);
+                unset($row[PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT]);
             }
 
-            if ($row['type'] == Action::TYPE_CONTENT) {
+            if (in_array($row['type'], array(Action::TYPE_CONTENT, Action::TYPE_EVENT))) {
                 continue;
             }
 
@@ -111,15 +110,15 @@ class ArchivingHelper
                 && !$actionRow->isSummaryRow()
             ) {
                 if (($existingUrl = $actionRow->getMetadata('url')) !== false) {
-                    if (!empty($row[Metrics::INDEX_PAGE_NB_HITS])
-                        && $row[Metrics::INDEX_PAGE_NB_HITS] > $actionRow->maxVisitsSummed
+                    if (!empty($row[PiwikMetrics::INDEX_PAGE_NB_HITS])
+                        && $row[PiwikMetrics::INDEX_PAGE_NB_HITS] > $actionRow->maxVisitsSummed
                     ) {
                         $actionRow->setMetadata('url', $url);
-                        $actionRow->maxVisitsSummed = $row[Metrics::INDEX_PAGE_NB_HITS];
+                        $actionRow->maxVisitsSummed = $row[PiwikMetrics::INDEX_PAGE_NB_HITS];
                     }
                 } else {
                     $actionRow->setMetadata('url', $url);
-                    $actionRow->maxVisitsSummed = !empty($row[Metrics::INDEX_PAGE_NB_HITS]) ? $row[Metrics::INDEX_PAGE_NB_HITS] : 0;
+                    $actionRow->maxVisitsSummed = !empty($row[PiwikMetrics::INDEX_PAGE_NB_HITS]) ? $row[PiwikMetrics::INDEX_PAGE_NB_HITS] : 0;
                 }
             }
 
@@ -127,17 +126,17 @@ class ArchivingHelper
                 && $row['type'] != Action::TYPE_PAGE_TITLE
             ) {
                 // only keep performance metrics when they're used (i.e. for URLs and page titles)
-                if (array_key_exists(Metrics::INDEX_PAGE_SUM_TIME_GENERATION, $row)) {
-                    unset($row[Metrics::INDEX_PAGE_SUM_TIME_GENERATION]);
+                if (array_key_exists(PiwikMetrics::INDEX_PAGE_SUM_TIME_GENERATION, $row)) {
+                    unset($row[PiwikMetrics::INDEX_PAGE_SUM_TIME_GENERATION]);
                 }
-                if (array_key_exists(Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, $row)) {
-                    unset($row[Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION]);
+                if (array_key_exists(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, $row)) {
+                    unset($row[PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION]);
                 }
-                if (array_key_exists(Metrics::INDEX_PAGE_MIN_TIME_GENERATION, $row)) {
-                    unset($row[Metrics::INDEX_PAGE_MIN_TIME_GENERATION]);
+                if (array_key_exists(PiwikMetrics::INDEX_PAGE_MIN_TIME_GENERATION, $row)) {
+                    unset($row[PiwikMetrics::INDEX_PAGE_MIN_TIME_GENERATION]);
                 }
-                if (array_key_exists(Metrics::INDEX_PAGE_MAX_TIME_GENERATION, $row)) {
-                    unset($row[Metrics::INDEX_PAGE_MAX_TIME_GENERATION]);
+                if (array_key_exists(PiwikMetrics::INDEX_PAGE_MAX_TIME_GENERATION, $row)) {
+                    unset($row[PiwikMetrics::INDEX_PAGE_MAX_TIME_GENERATION]);
                 }
             }
 
@@ -151,7 +150,7 @@ class ArchivingHelper
                 // - this happens when 2 visitors visit the same new page at the same time, and 2 actions get recorded for the same name
                 // - this could also happen when 2 URLs end up having the same label (eg. 2 subdomains get aggregated to the "/index" page name)
                 if (($alreadyValue = $actionRow->getColumn($name)) !== false) {
-                    $newValue = self::getColumnValuesMerged($name, $alreadyValue, $value);
+                    $newValue = self::getColumnValuesMerged($name, $alreadyValue, $value, $metricsConfig);
                     $actionRow->setColumn($name, $newValue);
                 } else {
                     $actionRow->addColumn($name, $value);
@@ -161,7 +160,7 @@ class ArchivingHelper
             // if the exit_action was not recorded properly in the log_link_visit_action
             // there would be an error message when getting the nb_hits column
             // we must fake the record and add the columns
-            if ($actionRow->getColumn(Metrics::INDEX_PAGE_NB_HITS) === false) {
+            if ($actionRow->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS) === false) {
                 // to test this code: delete the entries in log_link_action_visit for
                 //  a given exit_idaction_url
                 foreach (self::getDefaultRow()->getColumns() as $name => $value) {
@@ -180,7 +179,7 @@ class ArchivingHelper
     {
         // Delete all columns that have a value of zero
         $dataTable->filter('ColumnDelete', array(
-                                                $columnsToRemove = array(Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
+                                                $columnsToRemove = array(PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
                                                 $columnsToKeep = array(),
                                                 $deleteIfZeroOnly = true
                                            ));
@@ -198,16 +197,16 @@ class ArchivingHelper
             if (($idSubtable = $row->getIdSubDataTable()) !== null
                 || $id === DataTable::ID_SUMMARY_ROW
             ) {
-                if ($idSubtable !== null) {
-                    $subtable = Manager::getInstance()->getTable($idSubtable);
-                    self::deleteInvalidSummedColumnsFromDataTable($subtable);
+                $subTable = $row->getSubtable();
+                if ($subTable) {
+                    self::deleteInvalidSummedColumnsFromDataTable($subTable);
                 }
 
                 if ($row instanceof DataTableSummaryRow) {
                     $row->recalculate();
                 }
 
-                foreach (Archiver::$columnsToDeleteAfterAggregation as $name) {
+                foreach (Metrics::$columnsToDeleteAfterAggregation as $name) {
                     $row->deleteColumn($name);
                 }
             }
@@ -267,21 +266,28 @@ class ArchivingHelper
      * @param $value
      * @return mixed
      */
-    private static function getColumnValuesMerged($columnName, $alreadyValue, $value)
+    private static function getColumnValuesMerged($columnName, $alreadyValue, $value, $metricsConfig)
     {
-        if ($columnName == Metrics::INDEX_PAGE_MIN_TIME_GENERATION) {
-            if (empty($alreadyValue)) {
-                $newValue = $value;
-            } else if (empty($value)) {
-                $newValue = $alreadyValue;
-            } else {
-                $newValue = min($alreadyValue, $value);
+        if (array_key_exists($columnName, $metricsConfig)) {
+            $config = $metricsConfig[$columnName];
+
+            if (!empty($config['aggregation'])) {
+
+                if ($config['aggregation'] == 'min') {
+                    if (empty($alreadyValue)) {
+                        $newValue = $value;
+                    } else if (empty($value)) {
+                        $newValue = $alreadyValue;
+                    } else {
+                        $newValue = min($alreadyValue, $value);
+                    }
+                    return $newValue;
+                }
+                if ($config['aggregation'] == 'max') {
+                    $newValue = max($alreadyValue, $value);
+                    return $newValue;
+                }
             }
-            return $newValue;
-        }
-        if ($columnName == Metrics::INDEX_PAGE_MAX_TIME_GENERATION) {
-            $newValue = max($alreadyValue, $value);
-            return $newValue;
         }
 
         $newValue = $alreadyValue + $value;
@@ -310,7 +316,7 @@ class ArchivingHelper
         }
 
         self::$defaultActionName = Config::getInstance()->General['action_default_name'];
-        self::$columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
+        self::$columnToSortByBeforeTruncation = PiwikMetrics::INDEX_NB_VISITS;
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
 
@@ -333,9 +339,9 @@ class ArchivingHelper
             // so we add this fake row information to make sure there is a nb_hits, etc. column for every action
             $row = new Row(array(
                                 Row::COLUMNS => array(
-                                    Metrics::INDEX_NB_VISITS        => 1,
-                                    Metrics::INDEX_NB_UNIQ_VISITORS => 1,
-                                    Metrics::INDEX_PAGE_NB_HITS     => 1,
+                                    PiwikMetrics::INDEX_NB_VISITS        => 1,
+                                    PiwikMetrics::INDEX_NB_UNIQ_VISITORS => 1,
+                                    PiwikMetrics::INDEX_PAGE_NB_HITS     => 1,
                                 )));
         }
         return $row;
@@ -351,13 +357,13 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return DataTable
      */
-    private static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
+    public static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
     {
         // we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
         /* @var DataTable $currentTable */
         $currentTable =& $actionsTablesByType[$actionType];
 
-        if(is_null($currentTable)) {
+        if (is_null($currentTable)) {
             throw new \Exception("Action table for type '$actionType' was not found during Actions archiving.");
         }
 
@@ -529,10 +535,10 @@ class ArchivingHelper
      */
     private static function getDefaultRowColumns()
     {
-        return array(Metrics::INDEX_NB_VISITS           => 0,
-                     Metrics::INDEX_NB_UNIQ_VISITORS    => 0,
-                     Metrics::INDEX_PAGE_NB_HITS        => 0,
-                     Metrics::INDEX_PAGE_SUM_TIME_SPENT => 0);
+        return array(PiwikMetrics::INDEX_NB_VISITS           => 0,
+                     PiwikMetrics::INDEX_NB_UNIQ_VISITORS    => 0,
+                     PiwikMetrics::INDEX_PAGE_NB_HITS        => 0,
+                     PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT => 0);
     }
 
     /**
@@ -597,7 +603,12 @@ class ArchivingHelper
         $urlFragment = $matches[3];
 
         if (in_array($type, array(Action::TYPE_DOWNLOAD, Action::TYPE_OUTLINK))) {
-            return array(trim($urlHost), '/' . trim($urlPath));
+            $path = '/' . trim($urlPath);
+            if (!empty($urlFragment)) {
+                $path .= '#' . $urlFragment;
+            }
+
+            return array(trim($urlHost), $path);
         }
 
         $name = $urlPath;

@@ -7,6 +7,9 @@
  *
  */
 namespace Piwik\Plugins\VisitsSummary;
+use Piwik\DataTable;
+use Piwik\Plugins\CoreHome\Columns\UserId;
+use Piwik\Plugins\VisitsSummary\Reports\Get;
 
 /**
  * Note: This plugin does not hook on Daily and Period Archiving like other Plugins because it reports the
@@ -18,13 +21,48 @@ namespace Piwik\Plugins\VisitsSummary;
 class VisitsSummary extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'API.API.getProcessedReport.end' => 'enrichProcessedReportIfVisitsSummaryGet',
         );
+    }
+
+    private function isRequestingVisitsSummaryGet($module, $method)
+    {
+        return ($module === 'VisitsSummary' && $method === 'get');
+    }
+
+    public function enrichProcessedReportIfVisitsSummaryGet(&$response, $infos)
+    {
+        if (empty($infos['parameters'][4]) || empty($response['reportData'])) {
+            return;
+        }
+
+        $params  = $infos['parameters'];
+        $idSites = array($params[0]);
+        $period  = $params[1];
+        $date    = $params[2];
+        $module  = $params[3];
+        $method  = $params[4];
+
+        if (!$this->isRequestingVisitsSummaryGet($module, $method)) {
+            return;
+        }
+
+        $userId = new UserId();
+
+        /** @var DataTable|DataTable\Map $dataTable */
+        $dataTable = $response['reportData'];
+
+        if (!$userId->hasDataTableUsers($dataTable) &&
+            !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)) {
+            $report = new Get();
+            $report->removeUsersFromProcessedReport($response);
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

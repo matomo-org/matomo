@@ -14,6 +14,9 @@ use Piwik\DataTable\Renderer\Php;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -93,9 +96,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPTest1()
     {
         $dataTable = $this->_getDataTableTest();
@@ -157,9 +158,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPTest2()
     {
         $dataTable = $this->_getDataTableSimpleTest();
@@ -176,9 +175,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowTest();
@@ -188,9 +185,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPTest4()
     {
         $dataTable = $this->_getDataTableEmpty();
@@ -200,9 +195,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPTest5()
     {
         $dataTable = $this->_getDataTableSimpleOneZeroRowTest();
@@ -212,9 +205,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPTest6()
     {
         $dataTable = $this->_getDataTableSimpleOneFalseRowTest();
@@ -329,9 +320,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         return $table;
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPMapTest1()
     {
         $dataTable = $this->_getDataTableMapTest();
@@ -383,9 +372,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPMapTest2()
     {
         $dataTable = $this->_getDataTableSimpleMapTest();
@@ -410,9 +397,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPMapTest3()
     {
         $dataTable = $this->_getDataTableSimpleOneRowMapTest();
@@ -428,9 +413,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPMapIsMadeOfMapTest1()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
@@ -484,9 +467,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPMapIsMadeOfMapTest2()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
@@ -512,9 +493,7 @@ class DataTable_Renderer_PHPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testPHPMapIsMadeOfMapTest3()
     {
         $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();

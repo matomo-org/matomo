@@ -1,0 +1,7 @@
+{
+    "UserLanguage": {
+        "BrowserLanguage": "Langage du navigateur",
+        "LanguageCode": "Code langue",
+        "PluginDescription": "Affiche la langue configurée au sein du navigateur de vos visiteurs."
+    }
+}

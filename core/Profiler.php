@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Container\StaticContainer;
 use XHProfRuns_Default;
 
 /**
@@ -210,13 +209,9 @@ class Profiler
             return;
         }
 
-        $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
-        if (!file_exists($xhProfPath)) {
-            throw new Exception("Cannot find xhprof, run 'composer install --dev' and build the extension.");
-        }
-
         if (!function_exists('xhprof_enable')) {
-            throw new Exception("Cannot find xhprof_enable, make sure to add 'extension=$xhProfPath' to your php.ini.");
+            $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
+            throw new Exception("Cannot find xhprof_enable, make sure to 1) install xhprof: run 'composer install --dev' and build the extension, and 2) add 'extension=$xhProfPath' to your php.ini.");
         }
 
         $outputDir = ini_get("xhprof.output_dir");
@@ -228,7 +223,8 @@ class Profiler
         }
 
         if (!function_exists('xhprof_error')) {
-            function xhprof_error($out) {
+            function xhprof_error($out)
+            {
                 echo substr($out, 0, 300) . '...';
             }
         }
@@ -239,16 +235,13 @@ class Profiler
             $profilerNamespace .= "-" . $currentGitBranch;
         }
 
-        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
-
-        $baseUrlStored = "";
         if ($mainRun) {
             self::setProfilingRunIds(array());
-
-            $baseUrlStored = SettingsPiwik::getPiwikUrl();
         }
 
-        register_shutdown_function(function () use($profilerNamespace, $mainRun, $baseUrlStored) {
+        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+
+        register_shutdown_function(function () use ($profilerNamespace, $mainRun) {
             $xhprofData = xhprof_disable();
             $xhprofRuns = new XHProfRuns_Default();
             $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
@@ -263,6 +256,8 @@ class Profiler
             if ($mainRun) {
                 Profiler::aggregateXhprofRuns($runs, $profilerNamespace, $saveTo = $runId);
 
+                $baseUrlStored = SettingsPiwik::getPiwikUrl();
+
                 $out = "\n\n";
                 $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
                 if (strlen($baseUrlStored) > strlen($baseUrl)) {
@@ -273,6 +268,12 @@ class Profiler
                 $out .= "Profiler report is available at:\n";
                 $out .= "<a href='$baseUrl'>$baseUrl</a>";
                 $out .= "\n\n";
+
+                if (Development::isEnabled()) {
+                    $out .= "WARNING: Development mode is enabled. Many runtime optimizations are not applied in development mode. ";
+                    $out .= "Unless you intend to profile Piwik in development mode, your profile may not be accurate.";
+                    $out .= "\n\n";
+                }
 
                 echo $out;
             } else {
@@ -319,13 +320,13 @@ class Profiler
 
     public static function setProfilingRunIds($ids)
     {
-        file_put_contents( self::getPathToXHProfRunIds(), json_encode($ids) );
+        file_put_contents(self::getPathToXHProfRunIds(), json_encode($ids));
         @chmod(self::getPathToXHProfRunIds(), 0777);
     }
 
     public static function getProfilingRunIds()
     {
-        $runIds = file_get_contents( self::getPathToXHProfRunIds() );
+        $runIds = file_get_contents(self::getPathToXHProfRunIds());
         $array = json_decode($runIds, $assoc = true);
         if (!is_array($array)) {
             $array = array();
@@ -338,6 +339,6 @@ class Profiler
      */
     private static function getPathToXHProfRunIds()
     {
-        return StaticContainer::getContainer()->get('path.tmp') . '/cache/tests-xhprof-runs';
+        return PIWIK_INCLUDE_PATH . '/tmp/cache/tests-xhprof-runs';
     }
 }

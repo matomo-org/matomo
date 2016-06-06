@@ -12,11 +12,6 @@ namespace Piwik;
 use Exception;
 
 /**
- * @see libs/tcpdf/tcpdf.php
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
-
-/**
  * TCPDF class wrapper.
  *
  */
@@ -30,7 +25,7 @@ class TCPDF extends \TCPDF
      *
      * @see TCPDF::Footer()
      */
-    function Footer()
+    public function Footer()
     {
         //Don't show footer on the frontPage
         if ($this->currentPageNo > 1) {
@@ -45,7 +40,7 @@ class TCPDF extends \TCPDF
      * @param $msg
      * @throws Exception
      */
-    function Error($msg)
+    public function Error($msg)
     {
         $this->_destroy(true);
         throw new Exception($msg);
@@ -54,7 +49,7 @@ class TCPDF extends \TCPDF
     /**
      * Set current page number
      */
-    function setCurrentPageNo()
+    public function setCurrentPageNo()
     {
         if (empty($this->currentPageNo)) {
             $this->currentPageNo = 1;
@@ -73,7 +68,7 @@ class TCPDF extends \TCPDF
      * @param bool $keepmargins
      * @param bool $tocpage
      */
-    function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false)
+    public function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false)
     {
         parent::AddPage($orientation);
         $this->setCurrentPageNo();
@@ -84,7 +79,7 @@ class TCPDF extends \TCPDF
      *
      * @param string $footerContent
      */
-    function SetFooterContent($footerContent)
+    public function SetFooterContent($footerContent)
     {
         $this->footerContent = $footerContent;
     }

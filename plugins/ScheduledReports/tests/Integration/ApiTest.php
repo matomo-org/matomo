@@ -8,16 +8,20 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests;
 
-use Piwik\Access;
+use Piwik\API\Proxy;
+use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\Menu;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\ScheduledTask;
-use Piwik\ScheduledTime\Monthly;
-use Piwik\ScheduledTime;
+use Piwik\ReportRenderer;
+use Piwik\Scheduler\Schedule\Monthly;
+use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Scheduler\Task;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -42,7 +46,8 @@ class ApiTest extends IntegrationTestCase
 
         // setup the access layer
         self::setSuperUser();
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports', 'MobileMessaging'));
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports',
+            'MobileMessaging', 'VisitsSummary', 'Referrers'));
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
@@ -61,7 +66,7 @@ class ApiTest extends IntegrationTestCase
             'idsite'      => $this->idSite,
             'description' => 'test description"',
             'type'        => 'email',
-            'period'      => ScheduledTime::PERIOD_DAY,
+            'period'      => Schedule::PERIOD_DAY,
             'hour'        => '4',
             'format'      => 'pdf',
             'reports'     => array('UserCountry_getCountry'),
@@ -75,7 +80,7 @@ class ApiTest extends IntegrationTestCase
 
         $dataWebsiteTwo = $data;
         $dataWebsiteTwo['idsite'] = 2;
-        $dataWebsiteTwo['period'] = ScheduledTime::PERIOD_MONTH;
+        $dataWebsiteTwo['period'] = Schedule::PERIOD_MONTH;
 
         self::addReport($dataWebsiteTwo);
 
@@ -222,9 +227,7 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetTopMenuTranslationKeyUserIsAnonymous()
     {
-        $anonymousAccess = new FakeAccess;
-        FakeAccess::$identity = 'anonymous';
-        Access::setSingletonInstance($anonymousAccess);
+        $this->setAnonymous();
 
         $pdfReportPlugin = new Menu();
         $this->assertEquals(
@@ -278,7 +281,7 @@ class ApiTest extends IntegrationTestCase
         APIScheduledReports::getInstance()->addReport(
             1,
             '',
-            ScheduledTime::PERIOD_DAY,
+            Schedule::PERIOD_DAY,
             0,
             MobileMessaging::MOBILE_TYPE,
             MobileMessaging::SMS_FORMAT,
@@ -352,7 +355,7 @@ class ApiTest extends IntegrationTestCase
         // test no exception is raised when a scheduled report is set to never send
         $report6 = self::getMonthlyEmailReportData($this->idSite);
         $report6['idreport'] = 6;
-        $report6['period'] = ScheduledTime::PERIOD_NEVER;
+        $report6['period'] = Schedule::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
         $stubbedAPIScheduledReports = $this->getMock('\\Piwik\\Plugins\\ScheduledReports\\API', array('getReports', 'getInstance'), $arguments = array(), $mockClassName = '', $callOriginalConstructor = false);
@@ -368,7 +371,7 @@ class ApiTest extends IntegrationTestCase
         ));
 
         // expected tasks
-        $scheduleTask1 = ScheduledTime::factory('daily');
+        $scheduleTask1 = Schedule::factory('daily');
         $scheduleTask1->setHour(0); // paris is UTC-1, period ends at 23h UTC
         $scheduleTask1->setTimezone('Europe/Paris');
 
@@ -385,10 +388,10 @@ class ApiTest extends IntegrationTestCase
         $scheduleTask4->setTimezone('UTC-6.5');
 
         $expectedTasks = array(
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
-            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
         );
 
         $pdfReportPlugin = new Tasks();
@@ -406,8 +409,8 @@ class ApiTest extends IntegrationTestCase
     public function getGetReportSubjectAndReportTitleTestCases()
     {
         return array(
-            array('<Piwik.org>', '<Piwik.org>', '<Piwik.org>', array('UserSettings_getBrowserType')),
-            array('Piwik.org', 'Piwik.org', 'Piwik.org', array('MultiSites_getAll', 'UserSettings_getBrowserType')),
+            array('<Piwik.org>', '<Piwik.org>', '<Piwik.org>', array('DevicesDetection_getBrowserEngines')),
+            array('Piwik.org', 'Piwik.org', 'Piwik.org', array('MultiSites_getAll', 'DevicesDetection_getBrowserEngines')),
             array('General_MultiSitesSummary', 'General_MultiSitesSummary', 'Piwik.org', array('MultiSites_getAll')),
         );
     }
@@ -427,6 +430,56 @@ class ApiTest extends IntegrationTestCase
         list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
+    }
+
+    public function test_generateReport_CatchesIndividualReportProcessExceptions_WithoutFailingToGenerateWholeReport()
+    {
+        $realProxy = new Proxy();
+
+        $mockProxy = $this->getMock('Piwik\API\Proxy', array('call'));
+        $mockProxy->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parametersRequest) use ($realProxy) {
+            switch ($className) {
+                case '\Piwik\Plugins\VisitsSummary\API':
+                    $result = new DataTable();
+                    $result->addRowFromSimpleArray(array('label' => 'visits label', 'nb_visits' => 1));
+                    return $result;
+                case '\Piwik\Plugins\UserCountry\API':
+                    throw new \Exception("error");
+                case '\Piwik\Plugins\Referrers\API':
+                    $result = new DataTable();
+                    $result->addRowFromSimpleArray(array('label' => 'referrers label', 'nb_visits' => 1));
+                    return $result;
+                case '\Piwik\Plugins\API\API':
+                    return $realProxy->call($className, $methodName, $parametersRequest);
+                default:
+                    throw new \Exception("Unexpected method $className::$methodName.");
+            }
+        });
+        Proxy::setSingletonInstance($mockProxy);
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        ob_start();
+        $result = APIScheduledReports::getInstance()->generateReport($idReport, Date::factory('now')->toString(),
+            $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
+        ob_end_clean();
+
+        $this->assertContains('id="VisitsSummary_get"', $result);
+        $this->assertContains('id="Referrers_getWebsites"', $result);
+        $this->assertNotContains('id="UserCountry_getCountry"', $result);
     }
 
     private function assertReportsEqual($report, $data)
@@ -457,7 +510,7 @@ class ApiTest extends IntegrationTestCase
         return array(
             'idsite'      => $idSite,
             'description' => 'test description"',
-            'period'      => ScheduledTime::PERIOD_DAY,
+            'period'      => Schedule::PERIOD_DAY,
             'hour'        => '7',
             'type'        => 'email',
             'format'      => 'pdf',
@@ -476,7 +529,7 @@ class ApiTest extends IntegrationTestCase
         return array(
             'idsite'      => $idSite,
             'description' => 'very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. ',
-            'period'      => ScheduledTime::PERIOD_MONTH,
+            'period'      => Schedule::PERIOD_MONTH,
             'hour'        => '0',
             'type'        => 'email',
             'format'      => 'pdf',
@@ -492,7 +545,7 @@ class ApiTest extends IntegrationTestCase
 
     private static function updateReport($idReport, $data)
     {
-        $idReport = APIScheduledReports::getInstance()->updateReport(
+        APIScheduledReports::getInstance()->updateReport(
             $idReport,
             $data['idsite'],
             $data['description'],
@@ -507,8 +560,19 @@ class ApiTest extends IntegrationTestCase
 
     private static function setSuperUser()
     {
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
+
+    private function setAnonymous()
+    {
+        FakeAccess::clearAccess();
+        FakeAccess::$identity = 'anonymous';
     }
 }

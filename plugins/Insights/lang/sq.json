@@ -1,0 +1,11 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Rritja e krahasuar me",
+        "DayComparedToPreviousDay": "dita e mëparshme",
+        "DayComparedToPreviousWeek": "e njëjta ditë javën e kaluar",
+        "DayComparedToPreviousYear": "e njëjta ditë vitin e kaluar",
+        "MonthComparedToPreviousMonth": "muaji i mëparshëm",
+        "WeekComparedToPreviousWeek": "java e mëparshme",
+        "YearComparedToPreviousYear": "viti i mëparshëm"
+    }
+}

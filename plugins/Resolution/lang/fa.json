@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "پیکربندی",
+        "ColumnResolution": "رزلوشن",
+        "Configurations": "پیکربندی",
+        "Resolutions": "رزلوشن",
+        "WidgetGlobalVisitors": "پیکربندی بازدیدکنندگان جهانی",
+        "WidgetGlobalVisitorsDocumentation": "این گزارش نشان می دهد پیکربندی کلی شایع ترین است که بازدید کنندگان شما است. پیکربندی ترکیبی از سیستم عامل، نوع مرورگر و صفحه نمایش با وضوح است.",
+        "WidgetResolutions": "رزلوشن نمایشگر"
+    }
+}

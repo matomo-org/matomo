@@ -18,9 +18,10 @@
         "Maximise": "最大化",
         "Minimise": "最小化",
         "NotUndo": "此操作不可撤消。",
-        "PluginDescription": "您的网站分析面板。您可以定制报表面板: 增加新的小工具、修改小工具排序。每位用户都可以使用他们自定义的报表面板。",
+        "PluginDescription": "您的 Web 分析面板。如果需要自定义，您可以添加新的小工具，拖动这些小工具，和更改面板的列数和布局。每个用户都可以独立定制属于他自己的面板。",
         "RemoveDashboard": "删除面板",
         "RemoveDashboardConfirm": "确认要删除面板\"%s\"吗?",
+        "RemoveDefaultDashboardNotPossible": "默认的仪表盘无法删除",
         "RenameDashboard": "重命名面板",
         "ResetDashboard": "重置面板",
         "ResetDashboardConfirm": "确认重置面板布局并且使用默认的小工具？",
@@ -31,7 +32,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "用户创建新面板时，或者使用 \"%s\" 功能时，将使用这些小工具和面板布局。",
         "TopLinkTooltip": "查看%s的统计报表",
         "WidgetNotFound": "找不到小工具",
-        "WidgetPreview": "小工具预览",
-        "WidgetsAndDashboard": "小工具和面板"
+        "WidgetPreview": "小工具预览"
     }
 }

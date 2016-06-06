@@ -9,16 +9,15 @@
 namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 
-class Get extends BaseGoal
+class Get extends Base
 {
     protected function init()
     {
         parent::init();
 
         $this->name = Piwik::translate('Goals_Goals');
-        $this->processedMetrics = array(new ConversionRate());
+        $this->processedMetrics = array('conversion_rate');
         $this->documentation = ''; // TODO
         $this->order = 1;
         $this->orderGoal = 50;

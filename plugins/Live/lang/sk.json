@@ -1,9 +1,22 @@
 {
     "Live": {
+        "ClickToViewMoreAboutVisit": "Klinite pre viac informáciío tejto návšteve.",
+        "FirstVisit": "Prvá návšteva",
         "GoalType": "Typ",
+        "HideMap": "skryť mapu",
+        "LastHours": "Posledných %s hodín",
+        "LastMinutes": "Posledných %s minút",
+        "LastVisit": "Posledná návšteva",
         "LinkVisitorLog": "Zobraziť podrobný záznam návštevníkov",
-        "PluginDescription": "Spy na svojich návštevníkov, naživo, v reálnom čase!",
+        "LoadMoreVisits": "Načítať viac návštev",
+        "NbVisitor": "1 návštevník",
+        "NbVisitors": "%s návštevníkov",
+        "NextVisitor": "Ďalší návštevník",
+        "PreviousVisitor": "Predchádzajúci návštevník",
+        "RealTimeVisitorCount": "Sledovanie návštev v reálnom čase",
         "Referrer_URL": "Referenčné URL",
-        "VisitorLog": "Záznam návštevníka"
+        "SimpleRealTimeWidget_Message": "%1$s a %2$s v posledných %3$s",
+        "VisitorLog": "Záznam návštevníka",
+        "VisitorsInRealTime": "Návštevníci v reálnom čase"
     }
 }

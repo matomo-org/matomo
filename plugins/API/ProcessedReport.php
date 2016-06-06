@@ -11,7 +11,8 @@ namespace Piwik\Plugins\API;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\CacheId;
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -154,10 +155,11 @@ class ProcessedReport
         // as they cache key contains a lot of information there would be an even better cache result by caching parts of
         // this huge method separately but that makes it also more complicated. leaving it like this for now.
         $key   = $this->buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
-        $cache = new PluginAwareStaticCache($key);
+        $key   = CacheId::pluginAware($key);
+        $cache = PiwikCache::getTransientCache();
 
-        if ($cache->has()) {
-            return $cache->get();
+        if ($cache->contains($key)) {
+            return $cache->fetch($key);
         }
 
         $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
@@ -332,7 +334,7 @@ class ProcessedReport
         }
 
         $actualReports = array_values($availableReports);
-        $cache->set($actualReports);
+        $cache->save($key, $actualReports);
 
         return $actualReports; // make sure array has contiguous key values
     }
@@ -354,24 +356,49 @@ class ProcessedReport
                 $order[] = Piwik::translate($category);
             }
         }
-        return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
-            ? (@$a['order'] < @$b['order'] ? -1 : 1)
-            : $category;
+
+        $posA = array_search($a['category'], $order);
+        $posB = array_search($b['category'], $order);
+
+        if ($posA === false && $posB === false) {
+            return strcmp($a['category'], $b['category']);
+        } elseif ($posA === false) {
+            return 1;
+        } elseif ($posB === false) {
+            return -1;
+        }
+
+        $category = strcmp($posA, $posB);
+
+        if ($category == 0) {
+            return (@$a['order'] < @$b['order'] ? -1 : 1);
+        }
+
+        return $category;
     }
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
                                        $apiParameters = false, $idGoal = false, $language = false,
-                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false)
+                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
+                                       $formatMetrics = null, $idDimension = false)
     {
         $timer = new Timer();
         if (empty($apiParameters)) {
             $apiParameters = array();
         }
+
         if (!empty($idGoal)
             && empty($apiParameters['idGoal'])
         ) {
             $apiParameters['idGoal'] = $idGoal;
         }
+
+        if (!empty($idDimension)
+            && empty($apiParameters['idDimension'])
+        ) {
+            $apiParameters['idDimension'] = (int) $idDimension;
+        }
+
         // Is this report found in the Metadata available reports?
         $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
             $period, $date, $hideMetricsDoc, $showSubtableReports = true);
@@ -391,7 +418,6 @@ class ProcessedReport
                                                        'serialize'  => '0',
                                                        'language'   => $language,
                                                        'idSubtable' => $idSubtable,
-                                                       'format_metrics' => 1,
                                                   ));
 
         if (!empty($segment)) $parameters['segment'] = $segment;
@@ -414,7 +440,7 @@ class ProcessedReport
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
+        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
         foreach ($columns as &$name) {
             $name = ucfirst($name);
@@ -452,9 +478,10 @@ class ProcessedReport
      * @param \Piwik\DataTable\Map|\Piwik\DataTable\Simple $dataTable
      * @param array $reportMetadata
      * @param bool $showRawMetrics
+     * @param bool|null $formatMetrics
      * @return array Simple|Set $newReport with human readable format & array $columns list of translated column names & Simple|Set $rowsMetadata
      */
-    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false)
+    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false, $formatMetrics = null)
     {
         $hasDimension = isset($reportMetadata['dimension']);
         $columns = @$reportMetadata['metrics'] ?: array();
@@ -508,7 +535,7 @@ class ProcessedReport
             foreach ($dataTable->getDataTables() as $simpleDataTable) {
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
-                list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
+                list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
                 $enhancedSimpleDataTable->setAllTableMetadata($simpleDataTable->getAllTableMetadata());
 
                 $period = $simpleDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedLongString();
@@ -519,7 +546,7 @@ class ProcessedReport
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
-            list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
+            list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
 
             $totals = $this->aggregateReportTotalValues($dataTable, $totals);
         }
@@ -633,10 +660,10 @@ class ProcessedReport
      * @param array $metadataColumns
      * @param boolean $hasDimension
      * @param bool $returnRawMetrics If set to true, the original metrics will be returned
-     *
+     * @param bool|null $formatMetrics
      * @return array DataTable $enhancedDataTable filtered metrics with human readable format & Simple $rowsMetadata
      */
-    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false)
+    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false, $formatMetrics = null)
     {
         // new DataTable to store metadata
         $rowsMetadata = new DataTable();
@@ -672,14 +699,23 @@ class ProcessedReport
                     // if we handle MultiSites.getAll we do not always have the same idSite but different ones for
                     // each site, see https://github.com/piwik/piwik/issues/5006
                     $idSiteForRow = $idSite;
-                    if ($row->getMetadata('idsite') && is_numeric($row->getMetadata('idsite'))) {
-                        $idSiteForRow = (int) $row->getMetadata('idsite');
+                    $idSiteMetadata = $row->getMetadata('idsite');
+                    if ($idSiteMetadata && is_numeric($idSiteMetadata)) {
+                        $idSiteForRow = (int) $idSiteMetadata;
                     }
 
-                    $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
+                    // format metrics manually here to maintain API.getProcessedReport BC if format_metrics query parameter is
+                    // not supplied. TODO: should be removed for 3.0. should only rely on format_metrics query parameter.
+                    if ($formatMetrics === null
+                        || $formatMetrics == 'bc'
+                    ) {
+                        $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
+                    } else {
+                        $prettyValue = $columnValue;
+                    }
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
-                elseif ($returnRawMetrics) {
+                else if ($returnRawMetrics) {
                     if (!isset($columnValue)) {
                         $columnValue = 0;
                     }
@@ -825,7 +861,8 @@ class ProcessedReport
         }
 
         // Add revenue symbol to revenues
-        if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
+        $isMoneyMetric = strpos($columnName, 'revenue') !== false || strpos($columnName, 'price') !== false;
+        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 

@@ -3,13 +3,27 @@
   font-size: 15px;
 }
 
+.widget {
+  #multisites {
+    padding: 15px;
+  }
+}
+
 #multisites {
   border: 0;
   padding: 0 15px;
   font-size: 14px;
 
+  h2 {
+    border-bottom: 0px;
+    font-size: 24px;
+  }
+
   .notification-error {
     margin-top: 15px;
+    a {
+      text-decoration: underline !important;
+    }
   }
 
   .add_new_site,
@@ -30,11 +44,28 @@
     border: 0 !important;
   }
 
+  .multisites-evolution,
+  .multisites-column {
+    text-align: right;
+  }
+
+  .multisites-evolution {
+    width:170px;
+  }
+
   td, tr, .sparkline {
     text-align: center;
     vertical-align: middle;
-    padding: 1px;
+    padding: 2px 6px 2px 12px;
     margin: 0;
+  }
+
+  th {
+    padding: 12px 6px 12px 12px;
+  }
+
+  td.empty-row {
+    border-bottom: none !important;
   }
 
   .indicator {
@@ -48,6 +79,7 @@
   .paging {
     padding: 5px;
     font-size: 10px;
+    border-bottom: 0px !important;
 
     .previous {
       padding-right: 20px;
@@ -57,10 +89,6 @@
     }
   }
 
-  .top_controls {
-    height: 10px;
-  }
-
   th:first-child {
     text-align:left;
   }
@@ -68,8 +96,12 @@
   th {
     cursor: pointer;
     border-left: 0px;
-    text-align: center;
+    text-align: right;
     border-bottom: 0px;
+
+    &#evolution {
+      text-align: center;
+    }
 
     &.columnSorted {
       font-weight: normal !important;
@@ -79,6 +111,7 @@
   .site_search input {
     margin-right: 0px;
     margin-left: 25px;
+    padding-right: 25px;
   }
 
   .search_ico {
@@ -86,20 +119,13 @@
     left: -25px;
     margin-right: 0px;
     margin-top: -1px;
+    cursor: pointer;
   }
   .reset {
     position: relative;
     left: -25px;
     cursor: pointer;
     margin-right: 0px;
-  }
-
-  tr.columnodd:hover td, tr.columnodd td {
-    background: #F2F2F2 !important;
-  }
-
-  tr:hover td {
-    background: #FFF !important;
   }
 
   tr.group {
@@ -110,7 +136,6 @@
     padding-left: 50px;
   }
   td.multisites-label {
-    padding-left: 15px;
     text-align: left;
     width: 250px;
   }
@@ -166,8 +191,11 @@
   }
 
   #evolution_selector {
-    margin: 0px;
-    margin-top: -3px;
+    margin: -6px 0 0 5px;
+  }
+
+  .label .arrow {
+    margin-left: 2px;
   }
 
   .multisites_asc,

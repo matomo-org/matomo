@@ -10,22 +10,22 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
-use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_0_4_b8 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array();
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             $config = Config::getInstance();
@@ -34,7 +34,6 @@ class Updates_2_0_4_b8 extends Updates
             self::migratePrivacyManagerConfig($config, new PrivacyManagerConfig());
 
             $config->forceSave();
-
         } catch (\Exception $e) {
             throw new UpdaterErrorException($e->getMessage());
         }

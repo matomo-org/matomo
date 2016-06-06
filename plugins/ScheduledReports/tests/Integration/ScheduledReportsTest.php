@@ -7,12 +7,13 @@
  */
 
 namespace Piwik\Plugins\ScheduledReports\tests;
-use Piwik\Access;
+
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -155,10 +156,14 @@ class ScheduledReportsTest extends IntegrationTestCase
 
     private function setIdentity($login)
     {
-        $pseudoMockAccess = new \FakeAccess();
-        $pseudoMockAccess::$identity  = $login;
-        $pseudoMockAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
+        FakeAccess::$identity  = $login;
+        FakeAccess::$superUser = true;
     }
 
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
+    }
 }

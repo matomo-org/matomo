@@ -13,6 +13,9 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -89,9 +92,7 @@ class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray1()
     {
         $data = array();
@@ -104,9 +105,7 @@ class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray2()
     {
         $data = array('a', 'b', 'c');
@@ -121,9 +120,7 @@ class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray3()
     {
         $data = array('a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g');
@@ -136,9 +133,7 @@ class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    /**
-     * @group Core
-     */
+
     public function testRenderArray4()
     {
         $data = array('a' => 'b');

@@ -25,6 +25,9 @@ expect.page = function (url) {
     return chai.expect(url);
 };
 
+// add file keyword to `expect`
+expect.file = expect.screenshot;
+
 expect.current_page = expect.page(null);
 
 function getPageLogsString(pageLogs, indent) {
@@ -40,28 +43,61 @@ function getPageLogsString(pageLogs, indent) {
 }
 
 // add capture assertion
-var pageRenderer = new PageRenderer(path.join(config.piwikUrl, "tests", "PHPUnit", "proxy"));
+var pageRenderer = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"));
 
-function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
+function getProcessedFilePath(fileName) {
+    var dirsBase = app.runner.suite.baseDirectory,
+        processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.processedScreenshotsDir);
+
+    if (!fs.isDirectory(processedScreenshotDir)) {
+        fs.makeTree(processedScreenshotDir);
+    }
+
+    return path.join(processedScreenshotDir, fileName);
+}
+
+
+function failCapture(fileTypeString, pageRenderer, testInfo, expectedFilePath, processedFilePath, message, done) {
+
+    app.diffViewerGenerator.failures.push(testInfo);
+
+    var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) :
+            (expectedFilePath + " (not found)"),
+        processedPath = testInfo.processed ? path.resolve(testInfo.processed) :
+            (processedFilePath + " (not found)");
+
+    var indent = "     ";
+    var failureInfo = message + "\n";
+    failureInfo += indent + "Url to reproduce: " + pageRenderer.getCurrentUrl() + "\n";
+    failureInfo += indent + "Generated " + fileTypeString + " : " + processedPath + "\n";
+    failureInfo += indent + "Expected " + fileTypeString + ": " + expectedPath + "\n";
+
+    failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
+
+    error = new AssertionError(message);
+
+    // stack traces are useless so we avoid the clutter w/ this
+    error.stack = failureInfo;
+
+    done(error);
+}
+
+function getScreenshotDiffDir(dirsBase) {
+    return path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
+}
+
+function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done) {
 
     if (!(done instanceof Function)) {
         throw new Error("No 'done' callback specified in capture assertion.");
     }
 
-    var screenshotFileName = screenName + '.png',
+    var screenshotFileName = screenName,
         dirsBase = app.runner.suite.baseDirectory,
-
         expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
-        expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst + '.png'),
-
-        processedScreenshotDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.processedScreenshotsDir),
-        processedScreenshotPath = path.join(processedScreenshotDir, screenshotFileName),
-
-        screenshotDiffDir = path.join(options['store-in-ui-tests-repo'] ? uiTestsDir : dirsBase, config.screenshotDiffDir);
-
-    if (!fs.isDirectory(processedScreenshotDir)) {
-        fs.makeTree(processedScreenshotDir);
-    }
+        expectedScreenshotPath = path.join(expectedScreenshotDir, compareAgainst),
+        processedScreenshotPath = getProcessedFilePath(screenName),
+        screenshotDiffDir = getScreenshotDiffDir(dirsBase);
 
     if (!fs.isDirectory(screenshotDiffDir)) {
         fs.makeTree(screenshotDiffDir);
@@ -87,27 +123,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
             };
 
             var fail = function (message) {
-                app.diffViewerGenerator.failures.push(testInfo);
-
-                var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) :
-                        (expectedScreenshotPath + " (not found)"),
-                    processedPath = testInfo.processed ? path.resolve(testInfo.processed) :
-                        (processedScreenshotPath + " (not found)");
-
-                var indent = "     ";
-                var failureInfo = message + "\n";
-                failureInfo += indent + "Url to reproduce: " + pageRenderer.getCurrentUrl() + "\n";
-                failureInfo += indent + "Generated screenshot: " + processedPath + "\n";
-                failureInfo += indent + "Expected screenshot: " + expectedPath + "\n";
-
-                failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
-
-                error = new AssertionError(message);
-
-                // stack traces are useless so we avoid the clutter w/ this
-                error.stack = failureInfo;
-
-                done(error);
+                failCapture("screenshot", pageRenderer, testInfo, expectedScreenshotPath, processedScreenshotPath, message, done);
             };
 
             var pass = function () {
@@ -124,28 +140,146 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, done) {
             }
 
             if (!testInfo.expected) {
+                app.appendMissingExpected(screenName);
+
                 fail("No expected screenshot found for " + screenshotFileName + ".");
                 return;
             }
 
-            var expected = fs.read(expectedScreenshotPath),
-                processed = fs.read(processedScreenshotPath);
+            function screenshotMatches(misMatchPercentage) {
+                if (comparisonThreshold) {
+                    return misMatchPercentage <= 100 * (1 - comparisonThreshold);
+                } else {
+                    return misMatchPercentage == 0;
+                }
+            }
 
-            if (processed == expected) {
-                pass();
+            function compareImages(expected, processed)
+            {
+                var args = ["-metric", "AE", expected, processed, 'null:'];
+                var child = require('child_process').spawn('compare', args);
+
+                var testFailure = '';
+
+                function onCommandResponse (numPxDifference) {
+                    // on success we get numPxDifference = '0' meaning no pixel was different
+                    // on different images we get the number of different pixels
+                    // on any error we get an error message (eg image size different)
+                    numPxDifference = numPxDifference.trim();
+
+                    if (numPxDifference && numPxDifference !== '0') {
+                        if (/^(\d+)$/.test(numPxDifference)) {
+                            testFailure += "(" + numPxDifference + "px difference";
+                        } else {
+                            testFailure += "(image magick error: " + numPxDifference;
+                        }
+                        
+                        testFailure += ")\n";
+                    }
+                }
+
+                child.stdout.on("data", onCommandResponse);
+                child.stderr.on("data", onCommandResponse);
+
+                child.on("exit", function (code) {
+                    if (testFailure) {
+                        testFailure = 'Processed screenshot does not match expected for ' + screenshotFileName + ' ' + testFailure;
+                        testFailure += 'TestEnvironment was ' + JSON.stringify(testEnvironment);
+                    }
+
+                    if (code == 0 && !testFailure) {
+                        pass();
+                    } else if (comparisonThreshold) {
+                        // we use image magick only for exact match comparison, if there is a threshold we now check if this one fails
+                        resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
+                            if (!screenshotMatches(data.misMatchPercentage)) {
+                                fail(testFailure + ". (mismatch = " + data.misMatchPercentage + ")");
+                                return;
+                            }
+
+                            pass();
+                        });
+                    } else {
+                        fail(testFailure);
+                    }
+                });
+            }
+
+            compareImages(expectedScreenshotPath, processedScreenshotPath);
+
+        }, selector);
+    } catch (ex) {
+        var err = new Error(ex.message);
+        err.stack = ex.message;
+        done(err);
+    }
+}
+
+function compareContents(compareAgainst, pageSetupFn, done) {
+    if (!(done instanceof Function)) {
+        throw new Error("No 'done' callback specified in 'pageContents' assertion.");
+    }
+
+    var dirsBase = app.runner.suite.baseDirectory,
+        expectedScreenshotDir = path.join(dirsBase, config.expectedScreenshotsDir),
+        expectedFilePath = path.join(expectedScreenshotDir, compareAgainst),
+        processedFilePath = getProcessedFilePath(compareAgainst),
+        screenshotDiffDir = getScreenshotDiffDir(dirsBase);
+
+    if (!fs.isDirectory(screenshotDiffDir)) {
+        fs.makeTree(screenshotDiffDir);
+    }
+
+    pageSetupFn(pageRenderer);
+
+
+    try {
+        pageRenderer.capture(processedFilePath, function (err) {
+            if (err) {
+                var indent = "     ";
+                err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
+
+                done(err);
                 return;
             }
 
-            // if the files are not exact, perform a diff to check if they are truly different
-            resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
-                if (data.misMatchPercentage != 0) {
-                    fail("Processed screenshot does not match expected for " + screenshotFileName + ". (mismatch = " + data.misMatchPercentage + ")");
-                    return;
+            var fail = function (message) {
+                failCapture("file", pageRenderer, testInfo, expectedFilePath, processedFilePath, message, done);
+            };
+
+            var pass = function () {
+                if (options['print-logs']) {
+                    console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
                 }
 
+                done();
+            };
+
+            var processed = pageRenderer.getPageContents();
+
+            fs.write(processedFilePath, processed);
+
+            var filename = processedFilePath.split(/[\\/]/).pop();
+            var testInfo = {
+                name: filename,
+                processed: fs.isFile(processedFilePath) ? processedFilePath : null,
+                expected: fs.isFile(expectedFilePath) ? expectedFilePath : null,
+                baseDirectory: dirsBase
+            };
+
+            if (!fs.isFile(testInfo.expected)) {
+                fail("No expected output file found at " + testInfo.expected + ".");
+                return;
+            }
+
+            var expected = fs.read(testInfo.expected);
+
+            if (processed == expected) {
                 pass();
-            });
-        }, selector);
+            } else {
+                fail("Processed page contents does not equal expected file contents.");
+            }
+        });
     } catch (ex) {
         var err = new Error(ex.message);
         err.stack = ex.message;
@@ -168,7 +302,9 @@ chai.Assertion.addChainableMethod('captureSelector', function () {
             done        = arguments[3];
     }
 
-    capture(screenName, compareAgainst, selector, pageSetupFn, done);
+    var comparisonThreshold = this.__flags['comparisonThreshold'];
+
+    capture(screenName, compareAgainst, selector, pageSetupFn, comparisonThreshold, done);
 });
 
 chai.Assertion.addChainableMethod('capture', function () {
@@ -184,19 +320,32 @@ chai.Assertion.addChainableMethod('capture', function () {
             done        = arguments[2];
     }
 
-    capture(screenName, compareAgainst, null, pageSetupFn, done);
+    var comparisonThreshold = this.__flags['comparisonThreshold'];
+
+    capture(screenName, compareAgainst, null, pageSetupFn, comparisonThreshold, done);
 });
 
 // add `contains` assertion
 chai.Assertion.addChainableMethod('contains', function () {
     var self = this,
-        url = this.__flags['object'],
-        elementSelector = arguments[0],
-        pageSetupFn = arguments[1],
-        done = arguments[2];
+        url = this.__flags['object']
+        ;
 
-    if (url
-        && pageRenderer.getCurrentUrl() != url
+    if (arguments.length == 3) {
+        var elementSelector = arguments[0],
+            pageSetupFn = arguments[1],
+            screenName = null,
+            done = arguments[2];
+    } else {
+        var elementSelector = arguments[0],
+            screenName = app.runner.suite.title + "_" + arguments[1],
+            pageSetupFn = arguments[2],
+            done = arguments[3];
+    }
+
+    if (url !== null
+        && url !== undefined
+        && pageRenderer.getCurrentUrl() !== url
     ) {
         pageRenderer.load(url);
     }
@@ -207,9 +356,10 @@ chai.Assertion.addChainableMethod('contains', function () {
         throw new Error("No 'done' callback specified in 'contains' assertion.");
     }
 
-    pageRenderer.capture(null, function (err) {
-        var obj = self._obj,
-            indent = "     ";
+    var capturePath = screenName ? getProcessedFilePath(screenName) : null;
+
+    pageRenderer.capture(capturePath, function (err) {
+        var indent = "     ";
 
         if (err) {
             err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
@@ -226,9 +376,38 @@ chai.Assertion.addChainableMethod('contains', function () {
             );
 
             done();
-        } catch (error) {
-            error.stack = getPageLogsString(pageRenderer.pageLogs, indent);
+        } catch (originalError) {
+            var stack = originalError.message + "\n\n";
+            if (capturePath) {
+                stack += indent + "View the captured screenshot at '" + capturePath + "'.";
+            } else {
+                stack += indent + "NOTE: No screenshot name was supplied to this '.contains(' assertion. If the second argument is a screenshot name, "
+                      + "the screenshot will be saved so you can debug this failure.";
+            }
+
+            stack += getPageLogsString(pageRenderer.pageLogs, indent);
+
+            var error = new AssertionError(originalError.message);
+            error.stack = stack;
+
             done(error);
         }
     });
+});
+
+chai.Assertion.addChainableMethod('similar', function (comparisonThreshold) {
+    if (comparisonThreshold === null
+        || comparisonThreshold === undefined
+    ) {
+        throw new Error("No comparison threshold supplied to '.similar('!");
+    }
+
+    this.__flags['comparisonThreshold'] = comparisonThreshold;
+});
+
+// add pageContents assertion
+chai.Assertion.addChainableMethod('pageContents', function (pageSetupFn, done) {
+    var compareAgainst = this.__flags['object'];
+
+    compareContents(compareAgainst, pageSetupFn, done);
 });

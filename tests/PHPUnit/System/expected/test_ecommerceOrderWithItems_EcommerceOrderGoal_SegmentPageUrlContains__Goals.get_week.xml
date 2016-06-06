@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_conversions>2</nb_conversions>
+	<nb_visits_converted>1</nb_visits_converted>
+	<revenue>3111.11</revenue>
+	<revenue_subtotal>2500</revenue_subtotal>
+	<revenue_tax>511</revenue_tax>
+	<revenue_shipping>100.11</revenue_shipping>
+	<revenue_discount>666</revenue_discount>
+	<items>10</items>
+	<avg_order_revenue>1555.56</avg_order_revenue>
+	<conversion_rate>100%</conversion_rate>
+	<nb_conversions_new_visit>0</nb_conversions_new_visit>
+	<nb_visits_converted_new_visit>0</nb_visits_converted_new_visit>
+	<revenue_new_visit>0</revenue_new_visit>
+	<revenue_subtotal_new_visit>0</revenue_subtotal_new_visit>
+	<revenue_tax_new_visit>0</revenue_tax_new_visit>
+	<revenue_shipping_new_visit>0</revenue_shipping_new_visit>
+	<revenue_discount_new_visit>0</revenue_discount_new_visit>
+	<items_new_visit>0</items_new_visit>
+	<avg_order_revenue_new_visit>0</avg_order_revenue_new_visit>
+	<conversion_rate_new_visit>0%</conversion_rate_new_visit>
+	<nb_conversions_returning_visit>2</nb_conversions_returning_visit>
+	<nb_visits_converted_returning_visit>1</nb_visits_converted_returning_visit>
+	<revenue_returning_visit>3111.11</revenue_returning_visit>
+	<revenue_subtotal_returning_visit>2500</revenue_subtotal_returning_visit>
+	<revenue_tax_returning_visit>511</revenue_tax_returning_visit>
+	<revenue_shipping_returning_visit>100.11</revenue_shipping_returning_visit>
+	<revenue_discount_returning_visit>666</revenue_discount_returning_visit>
+	<items_returning_visit>10</items_returning_visit>
+	<avg_order_revenue_returning_visit>1555.56</avg_order_revenue_returning_visit>
+	<conversion_rate_returning_visit>100%</conversion_rate_returning_visit>
+</result>

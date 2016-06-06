@@ -14,6 +14,7 @@
         $scope.period = piwik.period;
         $scope.date   = piwik.broadcast.getValueFromUrl('date');
         $scope.sparklineImage = sparklineImage;
+        $scope.website.label  = piwik.helper.htmlDecode($scope.website.label);
 
         this.getWebsite = function () {
             return $scope.website;
@@ -26,7 +27,21 @@
                 append = '&token_auth=' + token_auth;
             }
 
-            return piwik.piwik_url + '?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' +$scope.metric + '&columns=' + $scope.metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
+            var metric = $scope.metric;
+
+            switch ($scope.evolutionMetric) {
+                case 'visits_evolution':
+                    metric = 'nb_visits';
+                    break;
+                case 'pageviews_evolution':
+                    metric = 'nb_pageviews';
+                    break;
+                case 'revenue_evolution':
+                    metric = 'revenue';
+                    break;
+            }
+
+            return piwik.piwik_url + '?module=MultiSites&action=getEvolutionGraph&period=' + $scope.period + '&date=' + $scope.dateSparkline + '&evolutionBy=' + metric + '&columns=' + metric + '&idSite=' + website.idsite + '&idsite=' + website.idsite + '&viewDataTable=sparkline' + append + '&colors=' + encodeURIComponent(JSON.stringify(piwik.getSparklineColors()));
         }
     }
 })();

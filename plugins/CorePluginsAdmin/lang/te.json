@@ -5,8 +5,10 @@
         "Active": "చేతనం",
         "Deactivate": "అచేతనించు",
         "Inactive": "అచేతనం",
+        "PluginKeywords": "కీపదాలు",
         "PluginsManagement": "ప్లగిన్ల నిర్వహణ",
         "Status": "స్థితి",
-        "Version": "సంచిక"
+        "Version": "సంచిక",
+        "Websites": "జాలగూళ్ళు"
     }
 }

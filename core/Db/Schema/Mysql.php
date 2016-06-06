@@ -23,33 +23,6 @@ class Mysql implements SchemaInterface
     private $tablesInstalled = null;
 
     /**
-     * Is this MySQL storage engine available?
-     *
-     * @param string $engineName
-     * @return bool  True if available and enabled; false otherwise
-     */
-    private static function hasStorageEngine($engineName)
-    {
-        $db = Db::get();
-        $allEngines = $db->fetchAssoc('SHOW ENGINES');
-        if (array_key_exists($engineName, $allEngines)) {
-            $support = $allEngines[$engineName]['Support'];
-            return $support == 'DEFAULT' || $support == 'YES';
-        }
-        return false;
-    }
-
-    /**
-     * Is this schema available?
-     *
-     * @return bool  True if schema is available; false otherwise
-     */
-    public static function isAvailable()
-    {
-        return self::hasStorageEngine('InnoDB');
-    }
-
-    /**
      * Get the SQL to create Piwik tables
      *
      * @return array  array of strings containing SQL
@@ -92,6 +65,7 @@ class Mysql implements SchemaInterface
                             sitesearch_category_parameters TEXT NOT NULL,
                             timezone VARCHAR( 50 ) NOT NULL,
                             currency CHAR( 3 ) NOT NULL,
+                            exclude_unknown_urls TINYINT(1) DEFAULT 0,
                             excluded_ips TEXT NOT NULL,
                             excluded_parameters TEXT NOT NULL,
                             excluded_user_agents TEXT NOT NULL,
@@ -99,6 +73,14 @@ class Mysql implements SchemaInterface
                             `type` VARCHAR(255) NOT NULL,
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,
                               PRIMARY KEY(idsite)
+                            ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'site_setting'    => "CREATE TABLE {$prefixTables}site_setting (
+                          idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                          `setting_name` VARCHAR(255) NOT NULL,
+                          `setting_value` LONGTEXT NOT NULL,
+                              PRIMARY KEY(idsite, setting_name)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
@@ -346,7 +328,6 @@ class Mysql implements SchemaInterface
         if (is_null($this->tablesInstalled)
             || $forceReload === true
         ) {
-
             $db = $this->getDb();
             $prefixTables = $this->getTablePrefixEscaped();
 
@@ -483,7 +464,8 @@ class Mysql implements SchemaInterface
         return $this->getDbSettings()->getEngine();
     }
 
-    private function getDb(){
+    private function getDb()
+    {
         return Db::get();
     }
 

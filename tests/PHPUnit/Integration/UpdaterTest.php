@@ -8,33 +8,29 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
 use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group Core
- * @group Core_UpdaterTest
  */
 class UpdaterTest extends IntegrationTestCase
 {
     public function testUpdaterChecksCoreVersionAndDetectsUpdateFile()
     {
-        $updater = new Updater();
-        $updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/';
-        $updater->recordComponentSuccessfullyUpdated('core', '0.1');
-        $updater->addComponentToCheck('core', '0.3');
-        $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
+        $updater = new Updater(PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/');
+        $updater->markComponentSuccessfullyUpdated('core', '0.1');
+        $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array('core' => '0.3'));
         $this->assertEquals(1, count($componentsWithUpdateFile));
     }
 
     public function testUpdaterChecksGivenPluginVersionAndDetectsMultipleUpdateFileInOrder()
     {
-        $updater = new Updater();
-        $updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/';
-        $updater->recordComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
-        $updater->addComponentToCheck('testpluginUpdates', '0.1');
-        $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
+        $updater = new Updater($pathToCoreUpdates = null, PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/');
+        $updater->markComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
+        $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array('testpluginUpdates' => '0.1'));
 
         $this->assertEquals(1, count($componentsWithUpdateFile));
         $updateFiles = $componentsWithUpdateFile['testpluginUpdates'];
@@ -50,17 +46,18 @@ class UpdaterTest extends IntegrationTestCase
 
     public function testUpdaterChecksCoreAndPluginCheckThatCoreIsRanFirst()
     {
-        $updater = new Updater();
-        $updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/';
-        $updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/';
+        $updater = new Updater(
+            PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/',
+            PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/'
+        );
 
-        $updater->recordComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
-        $updater->addComponentToCheck('testpluginUpdates', '0.1');
+        $updater->markComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
+        $updater->markComponentSuccessfullyUpdated('core', '0.1');
 
-        $updater->recordComponentSuccessfullyUpdated('core', '0.1');
-        $updater->addComponentToCheck('core', '0.3');
-
-        $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
+        $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array(
+            'testpluginUpdates' => '0.1',
+            'core' => '0.3'
+        ));
         $this->assertEquals(2, count($componentsWithUpdateFile));
         reset($componentsWithUpdateFile);
         $this->assertEquals('core', key($componentsWithUpdateFile));
@@ -73,4 +70,31 @@ class UpdaterTest extends IntegrationTestCase
             throw new \Exception("Failed to force update (nothing to update).");
         }
     }
+
+    public function testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry()
+    {
+        $updater = $this->createUpdater();
+        $updater->markComponentSuccessfullyUpdated('test_entry', '0.5');
+
+        $value = Option::get('version_test_entry');
+        $this->assertEquals('0.5', $value);
+    }
+
+    /**
+     * @depends testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry
+     */
+    public function testMarkComponentSuccessfullyUninstalled_ShouldCreateAnOptionEntry()
+    {
+        $updater = $this->createUpdater();
+        $updater->markComponentSuccessfullyUninstalled('test_entry');
+
+        $value = Option::get('version_test_entry');
+        $this->assertFalse($value);
+    }
+
+    private function createUpdater()
+    {
+        return new Updater();
+    }
+
 }

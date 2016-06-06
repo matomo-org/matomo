@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "Média com base em %s hit(s) %s entre %s e %s",
+        "AvgGenerationTimeTooltip": "Média com base em %1$s hit(s) %2$s entre %3$s e %4$s",
         "ColumnClickedURL": "Endereço Clicado",
         "ColumnClicks": "Cliques",
         "ColumnClicksDocumentation": "O número de vezes que o link foi clicado.",
@@ -35,9 +35,8 @@
         "OutlinkDocumentation": "Um outlink é um link que leva o visitante para fora do seu website (para outro domínio).",
         "OutlinksReportDocumentation": "Este relatório mostra uma lista hierárquica de URLs de saída que foram clicados pelos visitantes.",
         "PagesReportDocumentation": "Este relatório contém informações sobre URLs das páginas que foram visitadas. %s A tabela está organizada hierarquicamente, as URLs são exibidas como uma estrutura de pastas.",
-        "PageTitlesReportDocumentation": "Este relatório contém informação relativa aos títulos de páginas que foram visitadas. %s O título de página é a Etiqueta HTML %s que a maioria dos navegadores mostram como título de janela.",
+        "PageTitlesReportDocumentation": "Este relatório contém informação relativa aos títulos de páginas que foram visitadas. %1$s O título de página é a Etiqueta HTML %2$s que a maioria dos navegadores mostram como título de janela.",
         "PageUrls": "URLs de páginas",
-        "PluginDescription": "Relatórios sobre páginas vistas, ligações de saída e downloads. O rastreio de ligações de saída e downloads é automático.",
         "SiteSearchCategories1": "Este relatório lista as Categorias que os visitantes selecionaram quando realizaram uma Pesquisa na sua página.",
         "SiteSearchCategories2": "Por exemplo, os sites de comércio electrónico têm tipicamente uma \"Categoria\" seleccionada de modo que os visitantes podem restringir suas pesquisas a todos os produtos em uma categoria específica.",
         "SiteSearchIntro": "Rastrear pesquisas que os visitantes fazem em seu site é uma maneira muito eficaz de aprender mais sobre o que o seu público está procurando, ele pode ajudar a encontrar ideias para novos conteúdos, novos produtos de comércio electrónico que os potenciais clientes podem estar procurando, e em geral, melhorar os visitantes experiência em seu site.",

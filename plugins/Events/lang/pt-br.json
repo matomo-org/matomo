@@ -1,9 +1,32 @@
 {
     "Events": {
+        "PluginDescription": "Acompanhe Eventos e obtenha relatórios das atividades dos seus visitantes.",
+        "AvgEventValue": "O valor médio do Evento é: %s",
+        "AvgValue": "Valor médio",
+        "AvgValueDocumentation": "A média de todos os valores para este evento",
         "Event": "Evento",
+        "EventAction": "Ação do Evento",
+        "EventActions": "Ações do Evento",
+        "EventCategories": "Categorias do Evento",
         "EventCategory": "Categoria do Evento",
         "EventName": "Nome do Evento",
+        "EventNames": "Nomes dos Eventos",
         "Events": "Eventos",
-        "EventValue": "Valor do Evento"
+        "EventsWithValue": "Eventos com um valor",
+        "EventsWithValueDocumentation": "Número de eventos onde foi configurado um valor Event",
+        "EventValue": "Valor do Evento",
+        "EventValueTooltip": "O valor total de Evento é a soma de %1$s valores de eventos %2$s entre o mínimo de %3$s e o máximo de %4$s.",
+        "MaxValue": "Valor máximo",
+        "MaxValueDocumentation": "O valor máximo para este evento",
+        "MinValue": "Valor mínimo",
+        "MinValueDocumentation": "O valor mínimo para este evento",
+        "SecondaryDimension": "Dimensão secundária é %s.",
+        "SwitchToSecondaryDimension": "Mudar para %s",
+        "TopEvents": "Eventos Top",
+        "TotalEvents": "Total de Eventos",
+        "TotalEventsDocumentation": "Número total de eventos",
+        "TotalValue": "Valor total",
+        "TotalValueDocumentation": "A soma dos valores de evento",
+        "ViewEvents": "Ver Eventos"
     }
 }

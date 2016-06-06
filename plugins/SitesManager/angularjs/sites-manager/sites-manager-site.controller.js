@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerSiteController', SitesManagerSiteController);
 
-    SitesManagerSiteController.$inject = ['$scope', '$filter', 'sitesManagerApiHelper'];
+    SitesManagerSiteController.$inject = ['$scope', '$filter', 'sitesManagerApiHelper', 'sitesManagerTypeModel'];
 
-    function SitesManagerSiteController($scope, $filter, sitesManagerApiHelper) {
+    function SitesManagerSiteController($scope, $filter, sitesManagerApiHelper, sitesManagerTypeModel) {
 
         var translate = $filter('translate');
 
@@ -17,6 +17,16 @@
 
             initModel();
             initActions();
+
+            sitesManagerTypeModel.fetchTypeById($scope.site.type).then(function (type) {
+                if (type) {
+                    $scope.currentType = type;
+                    $scope.howToSetupUrl = type.howToSetupUrl;
+                    $scope.isInternalSetupUrl = '?' === ('' + type.howToSetupUrl).substr(0, 1);
+                } else {
+                    $scope.currentType = {name: $scope.site.type};
+                }
+            });
         };
 
         var initActions = function () {
@@ -24,7 +34,7 @@
             $scope.editSite = editSite;
             $scope.saveSite = saveSite;
             $scope.openDeleteDialog = openDeleteDialog;
-            $scope.site.delete = deleteSite;
+            $scope.site['delete'] = deleteSite;
         };
 
         var initModel = function() {
@@ -77,6 +87,16 @@
                 }, 'GET');
             }
 
+            var settings = $('.typeSettings fieldset').serializeArray();
+
+            var flatSettings = '';
+            if (settings.length) {
+                flatSettings = {};
+                angular.forEach(settings, function (setting) {
+                    flatSettings[setting.name] = setting.value;
+                });
+            }
+
             ajaxHandler.addParams({
                 siteName: $scope.site.name,
                 timezone: $scope.site.timezone,
@@ -87,9 +107,12 @@
                 excludedUserAgents: $scope.site.excluded_user_agents.join(','),
                 keepURLFragments: $scope.site.keep_url_fragment,
                 siteSearch: $scope.site.sitesearch,
+                type: $scope.site.type,
                 searchKeywordParameters: sendSiteSearchKeywordParams ? $scope.site.sitesearch_keyword_parameters.join(',') : null,
                 searchCategoryParameters: sendSearchCategoryParameters ? $scope.site.sitesearch_category_parameters.join(',') : null,
-                urls: $scope.site.alias_urls
+                urls: $scope.site.alias_urls,
+                excludeUnknownUrls: $scope.site.exclude_unknown_urls,
+                settings: flatSettings
             }, 'POST');
 
             ajaxHandler.redirectOnSuccess($scope.redirectParams);
@@ -111,22 +134,26 @@
                 "http://siteUrl.com/",
                 "http://siteUrl2.com/"
             ];
-            $scope.site.keep_url_fragment = "0";
+            $scope.site.exclude_unknown_urls = 0;
+            $scope.site.keep_url_fragment = 0;
             $scope.site.excluded_ips = [];
             $scope.site.excluded_parameters = [];
             $scope.site.excluded_user_agents = [];
             $scope.site.sitesearch_keyword_parameters = [];
             $scope.site.sitesearch_category_parameters = [];
-            $scope.site.sitesearch = $scope.globalSettings.searchKeywordParametersGlobal.length ? "1" : "0";
+            $scope.site.sitesearch = $scope.globalSettings.searchKeywordParametersGlobal.length ? 1 : 0;
             $scope.site.timezone = $scope.globalSettings.defaultTimezone;
             $scope.site.currency = $scope.globalSettings.defaultCurrency;
-            $scope.site.ecommerce = "0";
+            $scope.site.ecommerce = 0;
 
             updateSiteWithSiteSearchConfig();
         };
 
         var initExistingSite = function() {
 
+            $scope.site.keep_url_fragment = parseInt($scope.site.keep_url_fragment, 10);
+            $scope.site.ecommerce = parseInt($scope.site.ecommerce, 10);
+            $scope.site.sitesearch = parseInt($scope.site.sitesearch, 10);
             $scope.site.excluded_ips = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_ips);
             $scope.site.excluded_parameters = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_parameters);
             $scope.site.excluded_user_agents = sitesManagerApiHelper.commaDelimitedFieldToArray($scope.site.excluded_user_agents);

@@ -15,6 +15,8 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
 
 class Get extends \Piwik\Plugin\Report
 {
+    private $usersColumn = 'nb_users';
+
     protected function init()
     {
         parent::init();
@@ -29,7 +31,7 @@ class Get extends \Piwik\Plugin\Report
         $this->metrics       = array(
             'nb_uniq_visitors',
             'nb_visits',
-            'nb_users',
+            $this->usersColumn,
             'nb_actions',
             'max_actions'
         );
@@ -43,7 +45,7 @@ class Get extends \Piwik\Plugin\Report
     {
         $metrics = parent::getMetrics();
 
-        $metrics['max_actions']      = Piwik::translate('General_ColumnMaxActions');
+        $metrics['max_actions'] = Piwik::translate('General_ColumnMaxActions');
 
         return $metrics;
     }
@@ -56,4 +58,25 @@ class Get extends \Piwik\Plugin\Report
 
         return $metrics;
     }
+
+    public function removeUsersFromProcessedReport(&$response)
+    {
+        if (!empty($response['metadata']['metrics'][$this->usersColumn])) {
+            unset($response['metadata']['metrics'][$this->usersColumn]);
+        }
+
+        if (!empty($response['metadata']['metricsDocumentation'][$this->usersColumn])) {
+            unset($response['metadata']['metricsDocumentation'][$this->usersColumn]);
+        }
+
+        if (!empty($response['columns'][$this->usersColumn])) {
+            unset($response['columns'][$this->usersColumn]);
+        }
+
+        if (!empty($response['reportData'])) {
+            $dataTable = $response['reportData'];
+            $dataTable->deleteColumn($this->usersColumn, true);
+        }
+    }
+
 }

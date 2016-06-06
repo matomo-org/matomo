@@ -13,9 +13,7 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
-use Piwik\DataTable;
 use Piwik\Plugins\ImageGraph\API;
-use Piwik\BaseFactory;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
@@ -23,13 +21,15 @@ use Piwik\BaseFactory;
  */
 abstract class ReportRenderer extends BaseFactory
 {
-    const DEFAULT_REPORT_FONT = 'dejavusans';
-    const REPORT_TEXT_COLOR = "68,68,68";
-    const REPORT_TITLE_TEXT_COLOR = "126,115,99";
-    const TABLE_HEADER_BG_COLOR = "228,226,215";
-    const TABLE_HEADER_TEXT_COLOR = "37,87,146";
-    const TABLE_CELL_BORDER_COLOR = "231,231,231";
-    const TABLE_BG_COLOR = "249,250,250";
+    const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
+    const REPORT_TEXT_COLOR = "13,13,13";
+    const REPORT_TITLE_TEXT_COLOR = "13,13,13";
+    const TABLE_HEADER_BG_COLOR = "255,255,255";
+    const TABLE_HEADER_TEXT_COLOR = "13,13,13";
+    const TABLE_HEADER_TEXT_TRANSFORM = "uppercase";
+    const TABLE_HEADER_TEXT_WEIGHT = "normal";
+    const TABLE_CELL_BORDER_COLOR = "217,217,217";
+    const TABLE_BG_COLOR = "242,242,242";
 
     const HTML_FORMAT = 'html';
     const PDF_FORMAT = 'pdf';
@@ -131,8 +131,11 @@ abstract class ReportRenderer extends BaseFactory
      * @param  string $extension
      * @return string  filename with extension
      */
-    protected static function appendExtension($filename, $extension)
+    protected static function makeFilenameWithExtension($filename, $extension)
     {
+        // the filename can be used in HTTP headers, remove new lines to prevent HTTP header injection
+        $filename = str_replace(array("\n", "\t"), " ", $filename);
+
         return $filename . "." . $extension;
     }
 
@@ -145,21 +148,25 @@ abstract class ReportRenderer extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = StaticContainer::getContainer()->get('path.tmp') . '/assets/' . $filename;
+        $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
-        @unlink($outputFilename);
+        
+        if(file_exists($outputFilename)){
+            @unlink($outputFilename);
+        }
+        
         return $outputFilename;
     }
 
     protected static function writeFile($filename, $extension, $content)
     {
-        $filename = self::appendExtension($filename, $extension);
+        $filename = self::makeFilenameWithExtension($filename, $extension);
         $outputFilename = self::getOutputPath($filename);
 
         $bytesWritten = file_put_contents($outputFilename, $content);
         if ($bytesWritten === false) {
-            throw new Exception ("ReportRenderer: Could not write to file '" . $outputFilename . "'.");
+            throw new Exception("ReportRenderer: Could not write to file '" . $outputFilename . "'.");
         }
 
         return $outputFilename;
@@ -167,20 +174,20 @@ abstract class ReportRenderer extends BaseFactory
 
     protected static function sendToBrowser($filename, $extension, $contentType, $content)
     {
-        $filename = ReportRenderer::appendExtension($filename, $extension);
+        $filename = ReportRenderer::makeFilenameWithExtension($filename, $extension);
 
         ProxyHttp::overrideCacheControlHeaders();
-        header('Content-Description: File Transfer');
-        header('Content-Type: ' . $contentType);
-        header('Content-Disposition: attachment; filename="' . str_replace('"', '\'', basename($filename)) . '";');
-        header('Content-Length: ' . strlen($content));
+        Common::sendHeader('Content-Description: File Transfer');
+        Common::sendHeader('Content-Type: ' . $contentType);
+        Common::sendHeader('Content-Disposition: attachment; filename="' . str_replace('"', '\'', basename($filename)) . '";');
+        Common::sendHeader('Content-Length: ' . strlen($content));
 
         echo $content;
     }
 
     protected static function inlineToBrowser($contentType, $content)
     {
-        header('Content-Type: ' . $contentType);
+        Common::sendHeader('Content-Type: ' . $contentType);
         echo $content;
     }
 

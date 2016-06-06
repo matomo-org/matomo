@@ -10,7 +10,7 @@
         "MetricDataByYear": "Målingstabeller fordelt på år",
         "MetricTables": "Målingstabeller",
         "OtherTables": "Andre tabeller",
-        "PluginDescription": "Programudvidelsen viser MySQL-database brugen af Piwik tabeller.",
+        "PluginDescription": "Giver detaljerede MySQL database brugerrapporter. Tilgængelig for superbrugere under Diagnostik.",
         "ReportDataByYear": "Rapport tabeller fordelt på år",
         "ReportTables": "Rapport tabeller",
         "RowCount": "Række antal",

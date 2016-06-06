@@ -8,7 +8,6 @@
  */
 namespace Piwik\DataTable\Row;
 
-use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
@@ -35,9 +34,7 @@ class DataTableSummaryRow extends Row
      */
     public function __construct($subTable = null)
     {
-        parent::__construct();
-
-        if ($subTable !== null) {
+        if (isset($subTable)) {
             $this->sumTable($subTable);
         }
     }
@@ -47,9 +44,8 @@ class DataTableSummaryRow extends Row
      */
     public function recalculate()
     {
-        $id = $this->getIdSubDataTable();
-        if ($id !== null) {
-            $subTable = Manager::getInstance()->getTable($id);
+        $subTable = $this->getSubtable();
+        if ($subTable) {
             $this->sumTable($subTable);
         }
     }
@@ -61,8 +57,17 @@ class DataTableSummaryRow extends Row
      */
     private function sumTable($table)
     {
-        foreach ($table->getRows() as $row) {
-            $this->sumRow($row, $enableCopyMetadata = false, $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+        $metadata = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+        $enableCopyMetadata = false;
+
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
+            $this->sumRow($row, $enableCopyMetadata, $metadata);
+        }
+
+        $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
+
+        if ($summaryRow) {
+            $this->sumRow($summaryRow, $enableCopyMetadata, $metadata);
         }
     }
 }

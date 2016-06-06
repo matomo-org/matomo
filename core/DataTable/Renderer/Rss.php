@@ -29,7 +29,7 @@ class Rss extends Renderer
      *
      * @return string
      */
-    function render()
+    public function render()
     {
         return $this->renderTable($this->table);
     }

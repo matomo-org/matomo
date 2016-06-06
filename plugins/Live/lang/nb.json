@@ -1,16 +1,30 @@
 {
     "Live": {
+        "ClickToViewMoreAboutVisit": "Klikk for å se mer informasjon om dette besøket",
+        "ConvertedNGoals": "Konverterte %s mål",
+        "FirstVisit": "Første besøk",
         "GoalType": "Type",
         "HideMap": "skjul kart",
         "LastHours": "Siste %s timer",
         "LastMinutes": "Siste %s minutter",
-        "LinkVisitorLog": "Vis detaljert logg over besøkende",
-        "NbVisitor": "1 besøkende",
-        "NbVisitors": "%s besøkende",
-        "PluginDescription": "Spioner på dine besøkende, live, i sanntid!",
+        "LastVisit": "Siste besøk",
+        "LinkVisitorLog": "Vis detaljert logg over besøkere",
+        "NbVisitor": "1 besøker",
+        "NbVisitors": "%s besøkere",
+        "NextVisitor": "Neste besøker",
+        "PreviousVisitor": "Forrige besøker",
         "RealTimeVisitorCount": "Besøkstall i sanntid",
         "Referrer_URL": "Henvisnings-URL",
         "ShowMap": "vis kart",
-        "VisitorLog": "Logg over besøkende"
+        "SimpleRealTimeWidget_Message": "%1$s og %2$s i de siste %3$s",
+        "ViewVisitorProfile": "Vis besøksprofil",
+        "VisitedPages": "Besøkte sider",
+        "VisitorLog": "Logg over besøkere",
+        "VisitorProfile": "Besøksprofil",
+        "VisitorsInRealTime": "Besøkende i sanntid",
+        "VisitsFrom": "%1$s%2$s besøk%3$s fra",
+        "VisitSummaryWithActionDetails": "Brukte totalt %1$s%2$s på nettsiden%3$s og utførte %4$s handlinger%5$s (%6$s) over %7$s besøk%8$s.",
+        "OnClickPause": "%s er startet. Klikk for å sette på pause.",
+        "OnClickStart": "%s er stoppet. Klikk for å starte."
     }
 }

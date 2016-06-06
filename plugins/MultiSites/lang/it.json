@@ -2,8 +2,8 @@
     "MultiSites": {
         "Evolution": "Evoluzione",
         "LoadingWebsites": "Caricamento siti web",
-        "Pagination": "%s - %s di %s",
-        "PluginDescription": "Mostra un sommario delle statistiche per il multi-sito. Attualmente mantenuto come un plugin Piwik del core.",
-        "TopLinkTooltip": "Compara le statistiche web di tutti i tuoi siti web."
+        "PluginDescription": "Guarda e confronta tutti i siti e le app in questa utile dashboard 'Tutti i Siti'.",
+        "TopLinkTooltip": "Compara le statistiche web di tutti i tuoi siti web.",
+        "Pagination": "%1$s - %2$s di %3$s"
     }
 }

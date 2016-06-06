@@ -32,7 +32,12 @@
             return;
         }
 
-        var $node = $('#' + hash);
+        try {
+            var $node = $('#' + hash);
+        } catch (err) {
+            // on jquery syntax error, ignore so nothing is logged to the console
+            return;
+        }
 
         if ($node && $node.length) {
             scrollToAnchorNode($node);

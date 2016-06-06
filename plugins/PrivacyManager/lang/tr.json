@@ -1,6 +1,13 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Yerel gizlilik kurallarına uymak için ziyaretçi IP adreslerini gizleyin.",
+        "CurrentDBSize": "Güncel veritabanı boyutu",
+        "DeleteOldVisitorLogs": "Eski ziyaretçi kayıtlarını sil",
+        "DeleteOldArchivedReports": "Arşivlenen eski raporları sil",
+        "DeleteMaxRowsNoLimit": "Limit yok",
+        "DeleteDataSettings": "Eski ziyaretçi kayıtlarını ve raporları sil",
+        "MenuPrivacySettings": "Gizlilik",
+        "ReportsDataSavedEstimate": "Veritabanı boyutu",
         "TeaserHeadline": "Gizlilik Ayarları"
     }
 }

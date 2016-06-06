@@ -10,7 +10,7 @@
         "MetricDataByYear": "Metric tabellen per jaar",
         "MetricTables": "Metric tabellen",
         "OtherTables": "Andere tabellen",
-        "PluginDescription": "Deze plugin toont het MySQL database verbruik door de Piwik tabellen.",
+        "PluginDescription": "Toont gedetailleerde rapporten over MySQL database gebruik. Deze zijn beschikbaar voor Super Users onder Diagnose.",
         "ReportDataByYear": "Rapport tabellen per jaar",
         "ReportTables": "Rapport tabellen",
         "RowCount": "Aantal rijen",

@@ -37,10 +37,7 @@ class Proxy extends Singleton
     // when a parameter doesn't have a default value we use this
     private $noDefaultValue;
 
-    /**
-     * protected constructor
-     */
-    protected function __construct()
+    public function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
     }
@@ -78,7 +75,7 @@ class Proxy extends Singleton
         $this->checkClassIsSingleton($className);
 
         $rClass = new ReflectionClass($className);
-        if(!$this->shouldHideAPIMethod($rClass->getDocComment())) {
+        if (!$this->shouldHideAPIMethod($rClass->getDocComment())) {
             foreach ($rClass->getMethods() as $method) {
                 $this->loadMethodMetadata($className, $method);
             }
@@ -265,7 +262,7 @@ class Proxy extends Singleton
              * **Example**
              *
              *     // append (0 hits) to the end of row labels whose row has 0 hits for any report that has the 'nb_hits' metric
-             *     Piwik::addAction('API.Actions.getPageUrls', function (&$returnValue, $info)) {
+             *     Piwik::addAction('API.Actions.getPageUrls.end', function (&$returnValue, $info)) {
              *         // don't process non-DataTable reports and reports that don't have the nb_hits column
              *         if (!($returnValue instanceof DataTableInterface)
              *             || in_array('nb_hits', $returnValue->getColumns())
@@ -388,7 +385,6 @@ class Proxy extends Singleton
                     $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
-
                         if ($name == 'segment' && !empty($parametersRequest['segment'])) {
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);
@@ -415,7 +411,7 @@ class Proxy extends Singleton
     }
 
     /**
-     * Includes the class API by looking up plugins/UserSettings/API.php
+     * Includes the class API by looking up plugins/xxx/API.php
      *
      * @param string $fileName api class name eg. "API"
      * @throws Exception
@@ -490,7 +486,7 @@ class Proxy extends Singleton
         $hideLine = trim($hideLine);
         $hideLine .= ' ';
 
-	$token = trim(strtok($hideLine, " "), "\n");
+        $token = trim(strtok($hideLine, " "), "\n");
 
         $hide = false;
 
@@ -526,18 +522,6 @@ class Proxy extends Singleton
         }
 
         return true;
-    }
-
-    /**
-     * Returns the number of required parameters (parameters without default values).
-     *
-     * @param string $class The class name
-     * @param string $name The method name
-     * @return int The number of required parameters
-     */
-    private function getNumberOfRequiredParameters($class, $name)
-    {
-        return $this->metadataArray[$class][$name]['numberOfRequiredParameters'];
     }
 
     /**

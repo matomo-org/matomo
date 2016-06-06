@@ -8,7 +8,6 @@
  */
 namespace Piwik\Menu;
 
-use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
@@ -31,6 +30,7 @@ abstract class MenuAbstract extends Singleton
     protected $edits = array();
     protected $renames = array();
     protected $orderingApplied = false;
+    protected $menuIcons = array();
     protected static $menus = array();
 
     /**
@@ -50,6 +50,17 @@ abstract class MenuAbstract extends Singleton
     }
 
     /**
+     * Let's you register a menu icon for a certain menu category to replace the default arrow icon.
+     *
+     * @param string $menuName The translation key of a main menu category, eg 'Dashboard_Dashboard'
+     * @param string $iconCssClass   The css class name of an icon, eg 'icon-user'
+     */
+    public function registerMenuIcon($menuName, $iconCssClass)
+    {
+        $this->menuIcons[$menuName] = $iconCssClass;
+    }
+
+    /**
      * Returns a list of available plugin menu instances.
      *
      * @return \Piwik\Plugin\Menu[]
@@ -63,6 +74,16 @@ abstract class MenuAbstract extends Singleton
         self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
 
         return self::$menus;
+    }
+
+    /**
+     * To use only for tests.
+     *
+     * @deprecated The whole $menus cache should be replaced by a real transient cache
+     */
+    public static function clearMenus()
+    {
+        self::$menus = array();
     }
 
     /**
@@ -155,6 +176,11 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName]['_order'] = $order;
             $this->menu[$menuName]['_name']  = $menuName;
             $this->menu[$menuName]['_tooltip'] = $tooltip;
+            if (!empty($this->menuIcons[$menuName])) {
+                $this->menu[$menuName]['_icon'] = $this->menuIcons[$menuName];
+            } else {
+                $this->menu[$menuName]['_icon'] = '';
+            }
         }
         if (!empty($subMenuName)) {
             $this->menu[$menuName][$subMenuName]['_url'] = $url;
@@ -218,9 +244,17 @@ abstract class MenuAbstract extends Singleton
             $newUrl         = $edit[2];
 
             if ($subMenuToEdit === null) {
-                $menuDataToEdit = @$this->menu[$mainMenuToEdit];
+                if (isset($this->menu[$mainMenuToEdit])) {
+                    $menuDataToEdit = &$this->menu[$mainMenuToEdit];
+                } else {
+                    $menuDataToEdit = null;
+                }
             } else {
-                $menuDataToEdit = @$this->menu[$mainMenuToEdit][$subMenuToEdit];
+                if (isset($this->menu[$mainMenuToEdit][$subMenuToEdit])) {
+                    $menuDataToEdit = &$this->menu[$mainMenuToEdit][$subMenuToEdit];
+                } else {
+                    $menuDataToEdit = null;
+                }
             }
 
             if (empty($menuDataToEdit)) {
@@ -233,8 +267,7 @@ abstract class MenuAbstract extends Singleton
 
     private function applyRemoves()
     {
-        foreach($this->menuEntriesToRemove as $menuToDelete) {
-
+        foreach ($this->menuEntriesToRemove as $menuToDelete) {
             if (empty($menuToDelete[1])) {
                 // Delete Main Menu
                 if (isset($this->menu[$menuToDelete[0]])) {
@@ -268,7 +301,7 @@ abstract class MenuAbstract extends Singleton
                     $this->menu[$mainMenuRenamed][$subMenuRenamed] = $save;
                 }
             } // Changing a first-level element
-            else if (isset($this->menu[$mainMenuOriginal])) {
+            elseif (isset($this->menu[$mainMenuOriginal])) {
                 $save = $this->menu[$mainMenuOriginal];
                 $save['_name'] = $mainMenuRenamed;
                 unset($this->menu[$mainMenuOriginal]);
@@ -292,7 +325,7 @@ abstract class MenuAbstract extends Singleton
         foreach ($this->menu as $key => &$element) {
             if (is_null($element)) {
                 unset($this->menu[$key]);
-            } else if ($element['_hasSubmenu']) {
+            } elseif ($element['_hasSubmenu']) {
                 uasort($element, array($this, 'menuCompare'));
             }
         }

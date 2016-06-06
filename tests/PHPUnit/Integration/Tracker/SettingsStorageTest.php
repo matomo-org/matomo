@@ -8,8 +8,7 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Cache\PersistentCache;
-use Piwik\Option;
+use Piwik\Cache as PiwikCache;
 use Piwik\Settings\Storage;
 use Piwik\Tests\Integration\Settings\StorageTest;
 use Piwik\Tracker\Cache;
@@ -43,11 +42,16 @@ class SettingsStorageTest extends StorageTest
     {
         $this->setSettingValueInCache('my0815RandomName');
 
-        $this->assertTrue($this->getCache()->has());
+        $this->assertTrue($this->hasCache());
 
         SettingsStorage::clearCache();
 
-        $this->assertFalse($this->getCache()->has());
+        $this->assertFalse($this->hasCache());
+    }
+
+    private function hasCache()
+    {
+        return $this->getCache()->contains($this->storage->getOptionKey());
     }
 
     public function test_storageShouldNotCastAnyCachedValue()
@@ -62,12 +66,12 @@ class SettingsStorageTest extends StorageTest
         $this->storage->setValue($this->setting, 5);
         $this->storage->save();
 
-        $this->assertFalse($this->getCache()->has());
+        $this->assertFalse($this->hasCache());
         $this->assertNotFalse($this->getValueFromOptionTable()); // make sure saved in db
 
         $storage = $this->buildStorage();
         $this->assertEquals(5, $storage->getValue($this->setting));
-        $this->assertTrue($this->getCache()->has());
+        $this->assertTrue($this->hasCache());
     }
 
     public function test_storageCreateACacheEntryIfNoCacheExistsYet()
@@ -77,7 +81,7 @@ class SettingsStorageTest extends StorageTest
 
         $this->setSettingValueAndMakeSureCacheGetsCreated('myVal');
 
-        $cache = $this->getCache()->get();
+        $cache = $this->getCache()->fetch($this->storage->getOptionKey());
 
         $this->assertEquals(array(
             $this->setting->getKey() => 'myVal'
@@ -91,13 +95,13 @@ class SettingsStorageTest extends StorageTest
 
     private function getCache()
     {
-        return new PersistentCache($this->storage->getOptionKey());
+        return PiwikCache::getEagerCache();
     }
 
     private function setSettingValueInCache($value)
     {
         $cache = $this->getCache();
-        $cache->set(array(
+        $cache->save($this->storage->getOptionKey(), array(
             $this->setting->getKey() => $value
         ));
     }

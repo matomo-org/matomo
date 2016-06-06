@@ -8,7 +8,8 @@
  */
 namespace Piwik\Plugin\Dimension;
 
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\CacheId;
+use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Segment;
@@ -18,7 +19,6 @@ use Piwik\Db;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Translate;
 use Exception;
 
 /**
@@ -36,6 +36,8 @@ use Exception;
  */
 abstract class ActionDimension extends Dimension
 {
+    const INSTALLER_PREFIX = 'log_link_visit_action.';
+
     private $tableName = 'log_link_visit_action';
 
     /**
@@ -208,14 +210,15 @@ abstract class ActionDimension extends Dimension
 
     /**
      * Get all action dimensions that are defined by all activated plugins.
+     * @return ActionDimension[]
      * @ignore
      */
     public static function getAllDimensions()
     {
-        $cache = new PluginAwareStaticCache('ActionDimensions');
+        $cacheId = CacheId::pluginAware('ActionDimensions');
+        $cache   = PiwikCache::getTransientCache();
 
-        if (!$cache->has()) {
-
+        if (!$cache->contains($cacheId)) {
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
 
@@ -225,10 +228,10 @@ abstract class ActionDimension extends Dimension
                 }
             }
 
-            $cache->set($instances);
+            $cache->save($cacheId, $instances);
         }
 
-        return $cache->get();
+        return $cache->fetch($cacheId);
     }
 
     /**
@@ -248,5 +251,4 @@ abstract class ActionDimension extends Dimension
 
         return $instances;
     }
-
 }

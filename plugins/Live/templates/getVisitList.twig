@@ -4,13 +4,14 @@
         <div class="visitor-profile-visit-title-row">
             <h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}" title="{{ 'Live_ClickToViewMoreAboutVisit'|translate }}">
                 {{ 'General_Visit'|translate }} #{{ startCounter }}
+
+                {% if visitInfo.getColumn('visitDuration') != 0 %}
+                    <span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>
+                {% endif %}
+                <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}">
+                    {{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}
+                </span>
             </h2>
-            {% if visitInfo.getColumn('visitDuration') != 0 %}
-                <span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>
-            {% endif %}
-            <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDateTimePrettyFirstAction') }}">
-                {{ visitInfo.getColumn('serverDateTimePrettyFirstAction') }}
-            </span>
         </div>
         <ol class="visitor-profile-actions">
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),

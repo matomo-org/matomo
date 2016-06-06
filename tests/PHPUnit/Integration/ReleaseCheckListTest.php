@@ -10,8 +10,12 @@ namespace Piwik\Tests\Integration;
 
 use Exception;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
+use Piwik\Http;
+use Piwik\Ini\IniReader;
 use Piwik\Plugin\Manager;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -26,7 +30,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
+        $iniReader = new IniReader();
+        $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
     }
@@ -78,8 +83,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Tracker' => 'record_statistics'), '1');
         $this->_checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
         $this->_checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
-        // logging messages are disabled
-        $this->_checkEqual(array('log' => 'log_level'), 'ERROR');
+        $this->_checkEqual(array('log' => 'log_level'), 'WARN');
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
@@ -157,6 +161,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
         foreach($files as $file) {
+            // skip files in these folders
+            if (strpos($file, '/libs/') !== false) {
+                continue;
+            }
+
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
 
@@ -174,6 +183,30 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $start = fgets($handle, strlen($expectedStart) + 1 );
             $this->assertEquals($start, $expectedStart, "File $file does not start with $expectedStart");
         }
+    }
+
+    public function test_jsfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.js');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
+    }
+
+    public function test_phpfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
+    }
+
+    public function test_twigfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.twig');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
+    }
+
+    public function test_htmlfilesDoNotContainFakeSpaces()
+    {
+        $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.html');
+        $this->checkFilesDoNotHaveWeirdSpaces($js);
     }
 
     public function test_directoriesShouldBeChmod755()
@@ -229,7 +262,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             }
             $manager = Manager::getInstance();
             $isGitSubmodule = $manager->isPluginOfficialAndNotBundledWithCore($pluginName);
-            $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
+
+            $pluginList = StaticContainer::get('Piwik\Application\Kernel\PluginList');
+
+            $disabled = in_array($pluginName, $pluginList->getCorePluginsDisabledByDefault())  || $isGitSubmodule;
 
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 
@@ -251,7 +287,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 strpos($file, '/tests/') !== false ||
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
-                strpos($file, '/libs/bower_components') !== false ||
+                strpos($file, '/libs/') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false
             ) {
@@ -259,7 +295,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deb|deflate|exe|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar|pyc|gzip|eot|woff|svg)$/', $file)) {
                 continue;
             }
 
@@ -294,6 +330,23 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(preg_match($pattern, $contents) == 0);
     }
 
+    public function test_piwikJs_minified_isUpToDate()
+    {
+        Http::fetchRemoteFile('https://github.com/downloads/yui/yuicompressor/yuicompressor-2.4.7.zip', PIWIK_DOCUMENT_ROOT .'/tmp/yuicompressor.zip');
+        shell_exec('unzip -n '. PIWIK_DOCUMENT_ROOT .'/tmp/yuicompressor.zip');
+        shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < ". PIWIK_DOCUMENT_ROOT ."/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
+
+        $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
+                                PIWIK_DOCUMENT_ROOT . '/piwik.js',
+                                'minified /piwik.js is out of date, please re-generate the minified /piwik.js using instructions in /js/README'
+        );
+    }
+
+    public function testTmpDirectoryContainsGitKeep()
+    {
+        $this->assertFileExists(PIWIK_DOCUMENT_ROOT . '/tmp/.gitkeep');
+    }
+
     private function checkFilesAreInPngFormat($files)
     {
         $this->checkFilesAreInFormat($files, "png");
@@ -312,6 +365,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $errors = array();
         foreach ($files as $file) {
+            // skip files in these folders
+            if (strpos($file, '/libs/') !== false) {
+                continue;
+            }
+
             $function = "imagecreatefrom" . $format;
             if (!function_exists($function)) {
                 throw new \Exception("Unexpected error: $function function does not exist!");
@@ -324,7 +382,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
 
         if (!empty($errors)) {
-            $icons = "gimp " . implode(" ", $errors);
+            $icons = implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
     }
@@ -353,5 +411,264 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
         $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
         return $addedToGit;
+    }
+
+
+    /**
+     * Tests that the Piwik files are not too big, to ensure the downloadable ZIP package is not too large
+     */
+    public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
+    {
+        if(!SystemTestCase::isTravisCI()) {
+            // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
+            $this->markTestSkipped("Skipped this test on local dev environment.");
+        }
+        $maximumTotalFilesizesExpectedInMb = 50;
+        $minimumTotalFilesizesExpectedInMb = 38;
+        $minimumExpectedFilesCount = 7000;
+
+        $filesizes = $this->getAllFilesizes();
+        $sumFilesizes = array_sum($filesizes);
+
+        $filesOrderedBySize = $filesizes;
+        arsort($filesOrderedBySize);
+
+        $this->assertLessThan(
+            $maximumTotalFilesizesExpectedInMb * 1024 * 1024,
+            $sumFilesizes,
+            sprintf("Sum of all files should be less than $maximumTotalFilesizesExpectedInMb Mb.
+                    \nGot total file sizes of: %d Mb.
+                    \nBiggest files: %s",
+                $sumFilesizes / 1024 / 1024,
+                var_export(array_slice($filesOrderedBySize, 0, 100, $preserveKeys = true), true)
+            )
+        );
+
+        $this->assertGreaterThan($minimumExpectedFilesCount, count($filesizes), "Expected at least $minimumExpectedFilesCount files should be included in Piwik.");
+        $this->assertGreaterThan($minimumTotalFilesizesExpectedInMb * 1024 * 1024, $sumFilesizes, "expected to have at least $minimumTotalFilesizesExpectedInMb Mb of files in Piwik codebase.");
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileIncludedInFinalRelease($file)
+    {
+        if(is_dir($file)) {
+            return false;
+        }
+
+        // in build-package.sh we have: `find ./ -iname 'tests' -type d -prune -exec rm -rf {} \;`
+        if($this->isFileBelongToTests($file)) {
+            return false;
+        }
+        if(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
+            return false;
+        }
+
+        if($this->isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)) {
+            return false;
+        }
+
+        if($this->isFileBelongToComposerDevelopmentPackage($file)) {
+            return false;
+        }
+
+        if($this->isFileDeletedFromPackage($file)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Plugins Submodule in Piwik codebase are not there in the release package,
+     * (the plugins are released on the Marketplace.)
+     *
+     * @param $file
+     * @return bool
+     */
+    private function isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)
+    {
+        if(strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
+            return false;
+        }
+
+        $pluginName = str_replace(PIWIK_INCLUDE_PATH . "/plugins/", "", $file);
+        $pluginName = substr($pluginName, 0, strpos($pluginName, "/"));
+
+        $this->assertNotEmpty($pluginName, "Detected an empty plugin name from path: $file ");
+
+        $pluginManager = Manager::getInstance();
+        $notInPackagedRelease = $pluginManager->isPluginOfficialAndNotBundledWithCore($pluginName);
+
+        // test that the submodule check works
+        if($pluginName == 'VisitorGenerator') {
+            $this->assertTrue($notInPackagedRelease, "Expected isPluginOfficialAndNotBundledWithCore to return true for VisitorGenerator plugin");
+        }
+        return $notInPackagedRelease;
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileBelongToComposerDevelopmentPackage($file)
+    {
+        $composerDependencyDevOnly = $this->getComposerRequireDevPackages();
+
+        return $this->isFilePathFoundInArray($file, $composerDependencyDevOnly);
+    }
+
+    /**
+     * @return array
+     */
+    private function getComposerRequireDevPackages()
+    {
+        $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.json');
+        $composerJson = json_decode($composer, $assoc = true);
+        $composerDependencyDevOnly = array_keys($composerJson["require-dev"]);
+        return $composerDependencyDevOnly;
+    }
+
+    /**
+     * return true if $file is found within any sub-string in $filesToMatchAgainst,
+     *
+     * @param $file
+     * @param $filesToMatchAgainst array
+     * @return bool
+     */
+    private function isFilePathFoundInArray($file, $filesToMatchAgainst)
+    {
+        foreach ($filesToMatchAgainst as $devPackageName) {
+            if (strpos($file, $devPackageName) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileDeletedFromPackage($file)
+    {
+        $filesDeletedFromPackage = array(
+            // Should stay synchronised with: https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh#L104-L116
+            'composer.phar',
+            'vendor/twig/twig/test/',
+            'vendor/twig/twig/doc/',
+            'vendor/symfony/console/Symfony/Component/Console/Resources/bin',
+            'vendor/doctrine/cache/.git',
+            'vendor/mnapoli/php-di/.git',
+            'vendor/mnapoli/php-di/website',
+            'vendor/mnapoli/php-di/news',
+            'vendor/mnapoli/php-di/doc',
+            'vendor/tecnickcom/tcpdf/examples',
+            'vendor/tecnickcom/tcpdf/CHANGELOG.txt',
+            'vendor/guzzle/guzzle/docs/',
+
+            // deleted fonts folders
+            'vendor/tecnickcom/tcpdf/fonts/ae_fonts_2.0',
+            'vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.33',
+            'vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.34',
+            'vendor/tecnickcom/tcpdf/fonts/freefont-20100919',
+            'vendor/tecnickcom/tcpdf/fonts/freefont-20120503',
+
+            // In the package script, there is a trailing * so any font matching will be deleted
+            'vendor/tecnickcom/tcpdf/fonts/freemon',
+            'vendor/tecnickcom/tcpdf/fonts/cid',
+            'vendor/tecnickcom/tcpdf/fonts/courier',
+            'vendor/tecnickcom/tcpdf/fonts/aefurat',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansb',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansi',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansmono',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusanscondensed',
+            'vendor/tecnickcom/tcpdf/fonts/dejavusansextralight',
+            'vendor/tecnickcom/tcpdf/fonts/dejavuserif',
+            'vendor/tecnickcom/tcpdf/fonts/freesansi',
+            'vendor/tecnickcom/tcpdf/fonts/freesansb',
+            'vendor/tecnickcom/tcpdf/fonts/freeserifb',
+            'vendor/tecnickcom/tcpdf/fonts/freeserifi',
+            'vendor/tecnickcom/tcpdf/fonts/pdf',
+            'vendor/tecnickcom/tcpdf/fonts/times',
+            'vendor/tecnickcom/tcpdf/fonts/uni2cid',
+        );
+
+        return $this->isFilePathFoundInArray($file, $filesDeletedFromPackage);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    private function getAllFilesizes()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*');
+
+        $filesizes = array();
+        foreach ($files as $file) {
+
+            if (!$this->isFileIncludedInFinalRelease($file)) {
+                continue;
+            }
+
+            $filesize = filesize($file);
+
+            if ($filesize === false) {
+                throw new Exception("Error getting filesize for file: $file");
+            }
+            $filesizes[$file] = $filesize;
+        }
+        return $filesizes;
+    }
+
+    /**
+     * @param $files
+     * @throws Exception
+     */
+    protected function checkFilesDoNotHaveWeirdSpaces($files)
+    {
+        $weirdSpace = ' ';
+        $this->assertEquals('c2a0', bin2hex($weirdSpace), "Checking that this test file was not tampered with");
+        $this->assertEquals('20', bin2hex(' '), "Checking that this test file was not tampered with");
+
+        $errors = array();
+        $countFileChecked = 0;
+        foreach ($files as $file) {
+
+            if($this->isFileBelongToTests($file)) {
+                continue;
+            }
+
+            if(strpos($file, 'vendor/php-di/php-di/website/') !== false) {
+                continue;
+            }
+
+            $content = file_get_contents($file);
+            $posWeirdSpace = strpos($content, $weirdSpace);
+            if ($posWeirdSpace !== false) {
+                $around = substr($content, $posWeirdSpace - 20, 40);
+                $around = trim($around);
+                $errors[] = "File $file contains an unusual space character, please remove it from here: ...$around...";
+            }
+
+            $countFileChecked++;
+        }
+        $this->assertTrue($countFileChecked > 100, "expected to test at least 100 files, but tested only " . $countFileChecked);
+
+        if (!empty($errors)) {
+            throw new Exception(implode(",\n\n ", $errors));
+        }
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    private function isFileBelongToTests($file)
+    {
+        return stripos($file, "/tests/") !== false;
     }
 }

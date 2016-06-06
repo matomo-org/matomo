@@ -1,84 +1,27 @@
 #dashboard {
-  margin: 0 -7px;
+  margin: 0 -6px;
 }
 
-#root>.top_controls {
-  margin-left:15px;
-  margin-right:15px;
-}
-.top_controls {
-  position: relative;
-  height: 32px;
-  clear: left;
+#standalone #dashboard {
+  margin: -10px -6px 0;
 }
 
-@media all and (max-width: 749px) {
-  .top_controls {
-    height: auto;
+
+#dashboard {
+  .col {
+    min-height: 100px;
+    // Customize Bootstrap gutter between columns
+    padding-right: 6px;
+    padding-left: 6px;
+
+    >.sortable {
+      padding: 5px 0 8px 0;
+    }
   }
-
-  .top_controls #periodString,
-  .top_controls .dashboardSettings,
-  .top_controls #segmentEditorPanel {
-    position: static;
-    margin: 0 0 10px;
-    float: none;
-  }
-}
-
-#dashboardWidgetsArea {
-  padding-bottom: 100px;
-}
-
-.col {
-  float: left;
-  min-height: 100px;
-}
-
-.col.width-100 {
-  width: 100%;
-}
-
-.col.width-75 {
-  width: 75%;
-}
-
-.col.width-67 {
-  width: 66.67%;
-}
-
-.col.width-50 {
-  width: 50%;
-}
-
-.col.width-40 {
-  width: 40%;
-}
-
-.col.width-33 {
-  width: 33.33%;
-}
-
-.col.width-30 {
-  width: 30%;
-}
-
-.col.width-25 {
-  width: 25%;
 }
 
 .hover {
   border: 2px dashed #E3E3E3;
-}
-
-.widget {
-  background: #fff;
-  border: 1px solid #bbb6ad;
-  margin: 10px 7px;
-  border-radius: 4px;
-  overflow: hidden;
-  font-size: 14px;
-  z-index: 1;
 }
 
 .widgetHover {
@@ -93,59 +36,19 @@
   margin-left: 5px;
 }
 
-.widgetContent.hidden {
-  position: absolute;
-  top: -5000px;
-}
-
-.widgetContent.loading {
-  opacity: 0.5;
-  background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat top right;
-}
-
-.widget h2 {
-  font-size: 1.2em;
-  margin-left: 10px;
-  font-weight: bold;
-}
-
-.widget p {
-  margin-left: 10px;
-}
-
-.widgetTop {
-  cursor: move;
-  font-size: 10pt;
-  font-weight: bold;
-  padding-bottom: 4px;
-}
-
-.widgetTopHover {
-}
-
-.widgetName {
-  font-size: 18px;
-  padding: 2px 0 0 10px;
-  font-weight: normal;
-  color: #fff;
-  text-shadow: 1px 1px 2px #7e7363;
-}
-
 // Overriding some dataTable css for better dashboard display
 .widget .dataTableWrapper {
   width: 100% !important;
-}
-
-.widgetTop .button {
-  cursor: pointer;
-  float: right;
-  margin: 6px 6px 0 0;
+  table * {
+    // Because of Bootstrap
+    box-sizing: content-box;
+  }
 }
 
 .ui-confirm {
   display: none;
   width: 630px;
-  background: #fff;
+  background: @theme-color-background-base;
   color: @theme-color-text-light;
   cursor: default;
   font-size: 12px !important;
@@ -204,19 +107,24 @@
   display: none;
 }
 
-.widgetLoading {
-  cursor: wait;
-  text-align: center;
-}
-
 .widgetLoading, .widgetLoadingError, .dimensionLoadingError {
   padding: 10px;
   font-size: 10pt;
 }
 
+.widgetLoadingError {
+  .alert.alert-danger {
+    border: 0;
+  }
+}
+
 .widgetLoadingError, .dimensionLoadingError {
   color: @theme-color-brand;
   text-align: left;
+  a {
+    color: @theme-color-brand;
+    text-decoration: underline;
+  }
 }
 
 #closeMenuIcon {
@@ -235,10 +143,8 @@
   z-index: 120;
   background: #f7f7f7;
   border: 1px solid #e4e5e4;
-  padding: 5px 10px 6px 10px;
   border-radius: 4px;
   color: @theme-color-text-light;
-  font-size: 14px;
   cursor: pointer;
   overflow: hidden;
 }
@@ -248,9 +154,9 @@
   border-color: #a9a399;
 }
 
-.dashboardSettings.visible {
+.dashboardSettings.expanded {
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
-  min-width: 700px;
+  min-width: 800px;
 }
 
 .dashboardSettings > span {
@@ -265,10 +171,9 @@
   float: left;
 }
 
-.dashboardSettings.visible ul.submenu {
+.dashboardSettings.expanded ul.submenu {
   display: block;
   list-style: square outside none;
-  margin-left: 15px;
 }
 
 .dashboardSettings > ul.submenu > li {
@@ -324,31 +229,24 @@
 #columnPreview .width-100 {
   width: 120px;
 }
-
 #columnPreview .width-75 {
   width: 90px;
 }
-
 #columnPreview .width-67 {
   width: 80.4px;
 }
-
 #columnPreview .width-50 {
   width: 60px;
 }
-
 #columnPreview .width-40 {
   width: 48px;
 }
-
 #columnPreview .width-33 {
   width: 40px;
 }
-
 #columnPreview .width-30 {
   width: 36px;
 }
-
 #columnPreview .width-25 {
   width: 30px;
 }
@@ -369,7 +267,7 @@
 
 ul.widgetpreview-widgetlist,
 ul.widgetpreview-categorylist {
-  color: #5d5342;
+  color: @theme-color-text-light;
   list-style: none;
   font-size: 11px;
   line-height: 20px;
@@ -430,7 +328,7 @@ div.widgetpreview-preview {
   font-weight: normal;
   padding-top: 10px;
   margin-left: 10px;
-  color: #5D5342;
+  color: @theme-color-text-light;
   list-style: none;
   font-size: 11px;
   line-height: 20px;
@@ -447,6 +345,11 @@ div.widgetpreview-preview {
   color: @theme-color-link;
 }
 
+.dashboardSettings .submenu li[disabled],
+.dashboardSettings .submenu li[disabled]:hover {
+  color: #d3d3d3;
+}
+
 .dashboardSettings .widgetpreview-widgetlist {
   width: 228px;
   font-weight: normal;
@@ -461,8 +364,8 @@ div.widgetpreview-preview {
   display: none;
 }
 
-.dashboardSettings.visible .widgetpreview-widgetlist,
-.dashboardSettings.visible .widgetpreview-preview {
+.dashboardSettings.expanded .widgetpreview-widgetlist,
+.dashboardSettings.expanded .widgetpreview-preview {
   display: block;
 }
 
@@ -504,6 +407,10 @@ div.widgetpreview-preview {
   float: left;
 }
 
+#dashboardWidgetsArea {
+  margin-top: -5px;
+}
+
 @media all and (max-width: 749px) {
   #dashboardWidgetsArea {
     padding-right: 7px;
@@ -524,22 +431,18 @@ div.widgetpreview-preview {
 
 }
 
-.widgetTop .button {
-  display:none;
-}
-
-.widgetTop.widgetTopHover .button {
-  display:block;
-}
-
-.widget.hiddenContent .widgetTop.widgetTopHover {
-  .button#minimise,.button#refresh {
+.ui-dialog .widget {
+  .button#close,.button#maximise {
     display:none;
   }
 }
 
-.ui-dialog .widget {
-  .button#close,.button#maximise {
-    display:none;
+.ui-button, .ui-dialog-titlebar-close {
+  .btn;
+  color: @theme-color-brand-contrast !important;
+  background-color: @theme-color-brand !important;
+  &:hover {
+    background: none;
+    background-color: transparent;
   }
 }

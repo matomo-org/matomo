@@ -1,0 +1,30 @@
+{% extends '@CoreUpdater/layout.twig' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>{{ 'CoreUpdater_UpdateErrorTitle'|translate }}</h1>
+    </div>
+
+    <div class="content">
+
+        {% for message in feedbackMessages %}
+            <p>&#10003; {{ message }}</p>
+        {% endfor %}
+
+        <div class="alert alert-danger">
+            <strong>{{ 'CoreUpdater_UpdateErrorTitle'|translate }}:</strong>
+            {{ error }}
+        </div>
+
+        <p>
+            {{ 'CoreUpdater_UpdateHasBeenCancelledExplanation'|translate("<br /><br />","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/update/'>","</a>")|raw }}
+        </p>
+
+    </div>
+
+    <div class="footer">
+        <a href="index.php">{{ 'General_ContinueToPiwik'|translate }}</a>
+    </div>
+
+{% endblock %}

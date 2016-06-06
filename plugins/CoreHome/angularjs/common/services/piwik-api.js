@@ -4,6 +4,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+// see https://github.com/piwik/piwik/issues/5094 used to detect an ad blocker
+var hasBlockedContent = false;
+
 (function () {
     angular.module('piwikApp.service').factory('piwikApi', piwikApiService);
 
@@ -72,22 +76,35 @@
                 options.createErrorNotification = true;
             }
 
-            var deferred = $q.defer(),
-                requestPromise = deferred.promise;
+            function onSuccess(response)
+            {
+                response = response.data;
 
-            var onError = function (message) {
-                deferred.reject(message);
-            };
+                if (!angular.isDefined(response) || response === null) {
+                    return $q.reject(null);
 
-            var onSuccess = function (response) {
-                if (isErrorResponse(response)) {
-                    onError(response.message || null);
+                } else if (isErrorResponse(response)) {
 
                     createResponseErrorNotification(response, options);
+
+                    return $q.reject(response.message || null);
                 } else {
-                    deferred.resolve(response);
+                    return response;
                 }
-            };
+            }
+
+            function onError(response)
+            {
+                var message = 'Something went wrong';
+                if (response && (response.status === 0 || response.status === -1)) {
+                    message = 'Request was possibly aborted';
+                }
+
+                return $q.reject(message);
+            }
+
+            var deferred = $q.defer(),
+                requestPromise = deferred.promise;
 
             var headers = {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -105,32 +122,32 @@
                 headers: headers
             };
 
-            $http(ajaxCall).success(onSuccess).error(onError);
+            var promise = $http(ajaxCall).then(onSuccess, onError);
 
             // we can't modify requestPromise directly and add an abort method since for some reason it gets
             // removed after then/finally/catch is called.
-            var addAbortMethod = function (to) {
+            var addAbortMethod = function (to, deferred) {
                 return {
                     then: function () {
-                        return addAbortMethod(to.then.apply(to, arguments));
+                        return addAbortMethod(to.then.apply(to, arguments), deferred);
                     },
 
                     'finally': function () {
-                        return addAbortMethod(to['finally'].apply(to, arguments));
+                        return addAbortMethod(to['finally'].apply(to, arguments), deferred);
                     },
 
                     'catch': function () {
-                        return addAbortMethod(to['catch'].apply(to, arguments));
+                        return addAbortMethod(to['catch'].apply(to, arguments), deferred);
                     },
 
                     abort: function () {
-                        deferred.reject();
+                        deferred.resolve();
                         return this;
                     }
                 };
             };
 
-            var request = addAbortMethod(requestPromise);
+            var request = addAbortMethod(promise, deferred);
 
             allRequests.push(request);
 
@@ -157,11 +174,16 @@
          * @private
          */
         function _mixinDefaultGetParams (getParamsToMixin) {
+            var segment = piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1]);
+
+            // we have to decode the value manually because broadcast will not decode anything itself. if we don't,
+            // angular will encode it again before sending the value in an HTTP request.
+            segment = decodeURIComponent(segment);
 
             var defaultParams = {
                 idSite:  piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'),
                 period:  piwik.period || piwik.broadcast.getValueFromUrl('period'),
-                segment: piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1])
+                segment: segment
             };
 
             // never append token_auth to url
@@ -262,7 +284,7 @@
                     }
 
                     deferred.resolve(response);
-                }).catch(function () {
+                })['catch'](function () {
                     deferred.reject.apply(deferred, arguments);
                 });
 

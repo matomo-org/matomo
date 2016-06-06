@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.26
+ * @license AngularJS v1.2.28
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -1193,7 +1193,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *   data string and returns true if the data is as expected.
    * @param {(Object|function(Object))=} headers HTTP headers or function that receives http header
    *   object and returns true if the headers match the current definition.
-   * @returns {requestHandler} Returns an object with `respond` method that controls how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *   request is handled.
    *
    *  - respond –
@@ -1229,7 +1229,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *
    * @param {string|RegExp} url HTTP url.
    * @param {(Object|function(Object))=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    * request is handled.
    */
 
@@ -1241,7 +1241,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *
    * @param {string|RegExp} url HTTP url.
    * @param {(Object|function(Object))=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    * request is handled.
    */
 
@@ -1253,7 +1253,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *
    * @param {string|RegExp} url HTTP url.
    * @param {(Object|function(Object))=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    * request is handled.
    */
 
@@ -1267,7 +1267,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    * @param {(string|RegExp|function(string))=} data HTTP request body or function that receives
    *   data string and returns true if the data is as expected.
    * @param {(Object|function(Object))=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    * request is handled.
    */
 
@@ -1281,7 +1281,21 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    * @param {(string|RegExp|function(string))=} data HTTP request body or function that receives
    *   data string and returns true if the data is as expected.
    * @param {(Object|function(Object))=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
+   * request is handled.
+   */
+
+  /**
+   * @ngdoc method
+   * @name $httpBackend#whenPATCH
+   * @description
+   * Creates a new backend definition for PATCH requests.  For more info see `when()`.
+   *
+   * @param {string|RegExp} url HTTP url.
+   * @param {(string|RegExp|function(string))=} data HTTP request body or function that receives
+   *   data string and returns true if the data is as expected.
+   * @param {(Object|function(Object))=} headers HTTP headers.
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    * request is handled.
    */
 
@@ -1292,7 +1306,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    * Creates a new backend definition for JSONP requests. For more info see `when()`.
    *
    * @param {string|RegExp} url HTTP url.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    * request is handled.
    */
   createShortMethods('when');
@@ -1311,7 +1325,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *  is in JSON format.
    * @param {(Object|function(Object))=} headers HTTP headers or function that receives http header
    *   object and returns true if the headers match the current expectation.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *  request is handled.
    *
    *  - respond –
@@ -1340,7 +1354,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *
    * @param {string|RegExp} url HTTP url.
    * @param {Object=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    * request is handled. See #expect for more info.
    */
 
@@ -1352,7 +1366,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *
    * @param {string|RegExp} url HTTP url.
    * @param {Object=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *   request is handled.
    */
 
@@ -1364,7 +1378,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *
    * @param {string|RegExp} url HTTP url.
    * @param {Object=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *   request is handled.
    */
 
@@ -1379,7 +1393,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *  receives data string and returns true if the data is as expected, or Object if request body
    *  is in JSON format.
    * @param {Object=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *   request is handled.
    */
 
@@ -1394,7 +1408,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *  receives data string and returns true if the data is as expected, or Object if request body
    *  is in JSON format.
    * @param {Object=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *   request is handled.
    */
 
@@ -1409,7 +1423,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    *  receives data string and returns true if the data is as expected, or Object if request body
    *  is in JSON format.
    * @param {Object=} headers HTTP headers.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *   request is handled.
    */
 
@@ -1420,7 +1434,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    * Creates a new request expectation for JSONP requests. For more info see `expect()`.
    *
    * @param {string|RegExp} url HTTP url.
-   * @returns {requestHandler} Returns an object with `respond` method that control how a matched
+   * @returns {requestHandler} Returns an object with a `respond` method that controls how a matched
    *   request is handled.
    */
   createShortMethods('expect');
@@ -1513,7 +1527,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
 
 
   function createShortMethods(prefix) {
-    angular.forEach(['GET', 'DELETE', 'JSONP'], function(method) {
+    angular.forEach(['GET', 'DELETE', 'JSONP', 'HEAD'], function(method) {
      $httpBackend[prefix + method] = function(url, headers) {
        return $httpBackend[prefix](method, url, undefined, headers);
      };
@@ -1556,7 +1570,9 @@ function MockHttpExpectation(method, url, data, headers) {
     if (angular.isUndefined(data)) return true;
     if (data && angular.isFunction(data.test)) return data.test(d);
     if (data && angular.isFunction(data)) return data(d);
-    if (data && !angular.isString(data)) return angular.equals(data, angular.fromJson(d));
+    if (data && !angular.isString(data)) {
+      return angular.equals(angular.fromJson(angular.toJson(data)), angular.fromJson(d));
+    }
     return data == d;
   };
 

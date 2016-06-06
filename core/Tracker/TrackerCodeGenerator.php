@@ -24,19 +24,27 @@ class TrackerCodeGenerator
      * @param bool $mergeSubdomains
      * @param bool $groupPageTitlesByDomain
      * @param bool $mergeAliasUrls
-     * @param bool $visitorCustomVariables
-     * @param bool $pageCustomVariables
-     * @param bool $customCampaignNameQueryParam
-     * @param bool $customCampaignKeywordParam
+     * @param array $visitorCustomVariables
+     * @param array $pageCustomVariables
+     * @param string $customCampaignNameQueryParam
+     * @param string $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @return string Javascript code.
      */
-    public function generate($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false,
-                             $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
-                             $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                             $doNotTrack = false, $disableCookies = false)
-    {
+    public function generate(
+        $idSite,
+        $piwikUrl,
+        $mergeSubdomains = false,
+        $groupPageTitlesByDomain = false,
+        $mergeAliasUrls = false,
+        $visitorCustomVariables = null,
+        $pageCustomVariables = null,
+        $customCampaignNameQueryParam = null,
+        $customCampaignKeywordParam = null,
+        $doNotTrack = false,
+        $disableCookies = false
+    ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
@@ -50,49 +58,64 @@ class TrackerCodeGenerator
         $options = '';
         $optionsBeforeTrackerUrl = '';
         if ($groupPageTitlesByDomain) {
-            $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
+            $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . "\n";
         }
         if ($mergeSubdomains || $mergeAliasUrls) {
             $options .= $this->getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
         }
-        $maxCustomVars = CustomVariables::getMaxCustomVariables();
+        $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
 
-        if ($visitorCustomVariables) {
-            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . PHP_EOL;
+        if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
+            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . "\n";
             $index = 1;
             foreach ($visitorCustomVariables as $visitorCustomVariable) {
                 if (empty($visitorCustomVariable)) {
                     continue;
                 }
 
-                $options .= '  _paq.push(["setCustomVariable", ' . $index++ . ', "' . $visitorCustomVariable[0] . '", "' . $visitorCustomVariable[1] . '", "visit"]);' . PHP_EOL;
+                $options .= sprintf(
+                    '  _paq.push(["setCustomVariable", %d, %s, %s, "visit"]);%s',
+                    $index++,
+                    json_encode($visitorCustomVariable[0]),
+                    json_encode($visitorCustomVariable[1]),
+                    "\n"
+                );
             }
         }
-        if ($pageCustomVariables) {
-            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . PHP_EOL;
+        if ($pageCustomVariables && count($pageCustomVariables) > 0) {
+            $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . "\n";
             $index = 1;
             foreach ($pageCustomVariables as $pageCustomVariable) {
                 if (empty($pageCustomVariable)) {
                     continue;
                 }
-                $options .= '  _paq.push(["setCustomVariable", ' . $index++ . ', "' . $pageCustomVariable[0] . '", "' . $pageCustomVariable[1] . '", "page"]);' . PHP_EOL;
+                $options .= sprintf(
+                    '  _paq.push(["setCustomVariable", %d, %s, %s, "page"]);%s',
+                    $index++,
+                    json_encode($pageCustomVariable[0]),
+                    json_encode($pageCustomVariable[1]),
+                    "\n"
+                );
             }
         }
         if ($customCampaignNameQueryParam) {
-            $options .= '  _paq.push(["setCampaignNameKey", "' . $customCampaignNameQueryParam . '"]);' . PHP_EOL;
+            $options .= '  _paq.push(["setCampaignNameKey", '
+                . json_encode($customCampaignNameQueryParam) . ']);' . "\n";
         }
         if ($customCampaignKeywordParam) {
-            $options .= '  _paq.push(["setCampaignKeywordKey", "' . $customCampaignKeywordParam . '"]);' . PHP_EOL;
+            $options .= '  _paq.push(["setCampaignKeywordKey", '
+                . json_encode($customCampaignKeywordParam) . ']);' . "\n";
         }
         if ($doNotTrack) {
-            $options .= '  _paq.push(["setDoNotTrack", true]);' . PHP_EOL;
+            $options .= '  _paq.push(["setDoNotTrack", true]);' . "\n";
         }
         if ($disableCookies) {
-            $options .= '  _paq.push(["disableCookies"]);' . PHP_EOL;
+            $options .= '  _paq.push(["disableCookies"]);' . "\n";
         }
 
         $codeImpl = array(
             'idSite'                  => $idSite,
+            // TODO why sanitizeInputValue() and not json_encode?
             'piwikUrl'                => Common::sanitizeInputValue($piwikUrl),
             'options'                 => $options,
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
@@ -149,17 +172,27 @@ class TrackerCodeGenerator
         }
         // We need to parse_url to isolate hosts
         $websiteHosts = array();
+        $firstHost = null;
         foreach ($websiteUrls as $site_url) {
             $referrerParsed = parse_url($site_url);
-            $websiteHosts[] = $referrerParsed['host'];
+
+            if (!isset($firstHost)) {
+                $firstHost = $referrerParsed['host'];
+            }
+
+            $url = $referrerParsed['host'];
+            if (!empty($referrerParsed['path'])) {
+                $url .= $referrerParsed['path'];
+            }
+            $websiteHosts[] = $url;
         }
         $options = '';
-        if ($mergeSubdomains && !empty($websiteHosts)) {
-            $options .= '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
+        if ($mergeSubdomains && !empty($firstHost)) {
+            $options .= '  _paq.push(["setCookieDomain", "*.' . $firstHost . '"]);' . "\n";
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
             $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';
-            $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . PHP_EOL;
+            $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . "\n";
         }
         return $options;
     }

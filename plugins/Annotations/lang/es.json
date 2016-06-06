@@ -3,20 +3,20 @@
         "AddAnnotationsFor": "Añadir anotaciones para %s...",
         "AnnotationOnDate": "Anotaciones en %1$s: %2$s",
         "Annotations": "Anotaciones",
-        "ClickToDelete": "Haz click para borrar esta anotación",
-        "ClickToEdit": "Haz click para editar esta anotación.",
-        "ClickToEditOrAdd": "Clickea para editar o añadir una nueva anotación.",
-        "ClickToStarOrUnstar": "Haz click para destacar o quitar destacado a esta anotación.",
+        "ClickToDelete": "Haz clic para borrar esta anotación",
+        "ClickToEdit": "Haz clic para editar esta anotación.",
+        "ClickToEditOrAdd": "Clic para editar o añadir una nueva anotación.",
+        "ClickToStarOrUnstar": "Haz clic para destacar o quitar destacado a esta anotación.",
         "CreateNewAnnotation": "Crear una nueva anotación...",
-        "EnterAnnotationText": "Ingresa tu nota",
+        "EnterAnnotationText": "Ingrese su nota...",
         "HideAnnotationsFor": "Ocultar anotaciones para %s...",
         "IconDesc": "Ver las notas en este rango de fechas.",
         "IconDescHideNotes": "Ocultar las notas en este rango de fechas.",
-        "InlineQuickHelp": "Puedes crear anotaciones para marcar eventos especiales (como un nuevo artículo en el blog o el rediseño del sitio), para guardar tus análisis de los datos o para guardar cualquier otra cosa que creas importante.",
+        "InlineQuickHelp": "Puede crear anotaciones para señalar eventos especiales (como un nuevo artículo en el blog o el rediseño del sitio de internet), para guardar sus análisis de los datos o para guardar cualquier otra cosa que considere importante.",
         "LoginToAnnotate": "Inicia sesión para crear una anotación.",
         "NoAnnotations": "No existen anotaciones en este rango de fechas.",
-        "PluginDescription": "Te permite adjuntar notas en los días para marcar cambios que hayas realizado en tu sitio, guardar los análisis que hayas hecho sobre los datos y compartir tus ideas con tus colegas. Al agregar anotaciones a tus datos te asegurarás de recordar el por qué de los datos arrojados.",
+        "PluginDescription": "Le permite adjuntar notas en diferentes días para señalar cambios que haya realizado en su sitio de internet, guardar los análisis que haya realizado sobre los datos y compartir sus ideas con sus colegas. Al agregar anotaciones a sus datos se asegurará recordar el por qué de sus datos se vean de ese modo.",
         "ViewAndAddAnnotations": "Ver y añadir anotaciones para %s...",
-        "YouCannotModifyThisNote": "No puedes modificar esta anotación debido a que ni la creaste tú mismo ni tienes privilegios de administrador a este sitio."
+        "YouCannotModifyThisNote": "No puede modificar esta anotación debido a que ni la creó ni posee privilegios de administrador en este sitio."
     }
 }

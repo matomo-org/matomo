@@ -2,30 +2,30 @@
 
 {% block content %}
 
-<script type="text/javascript">
-    $(function () {
-        // client-side test for https to handle the case where the server is behind a reverse proxy
-        if (document.location.protocol === 'https:') {
-            $('p.nextStep a').attr('href', $('p.nextStep a').attr('href') + '&clientProtocol=https');
-        }
-    });
-</script>
+    <script type="text/javascript">
+        $(function () {
+            // client-side test for https to handle the case where the server is behind a reverse proxy
+            if (document.location.protocol === 'https:') {
+                $('p.next-step a').attr('href', $('p.next-step a').attr('href') + '&clientProtocol=https');
+            }
+        });
+    </script>
 
-{% if not showNextStep %}
-    {% include "@Installation/_systemCheckLegend.twig" %}
-    <br style="clear:both;">
-{% endif %}
+    {% if not showNextStep %}
+        {% include "@Installation/_systemCheckLegend.twig" %}
+        <br style="clear:both;">
+    {% endif %}
 
-<h3>{{ 'Installation_SystemCheck'|translate }}</h3>
-<br/>
-{% include "@Installation/_systemCheckSection.twig" %}
+    <h2>{{ 'Installation_SystemCheck'|translate }}</h2>
 
-{% if not showNextStep %}
-    <br/>
-    <p>
-        <img src='plugins/Morpheus/images/link.gif'/> &nbsp;
-        <a href="?module=Proxy&action=redirect&url=http://piwik.org/docs/requirements/" target="_blank">{{ 'Installation_Requirements'|translate }}</a>
-    </p>
-    {% include "@Installation/_systemCheckLegend.twig" %}
-{% endif %}
+    {% include "@Installation/_systemCheckSection.twig" %}
+
+    {% if not showNextStep %}
+        <p>
+            <span class="icon-export"></span>
+            <a href="?module=Proxy&action=redirect&url=http://piwik.org/docs/requirements/" target="_blank">{{ 'Installation_Requirements'|translate }}</a>
+        </p>
+        {% include "@Installation/_systemCheckLegend.twig" %}
+    {% endif %}
+
 {% endblock %}

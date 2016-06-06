@@ -80,22 +80,12 @@ class API extends \Piwik\Plugin\API
 
     private function getEnglishTranslationForFeatureName($featureName)
     {
-        $loadedLanguage = Translate::getLanguageLoaded();
-
-        if ($loadedLanguage == 'en') {
+        if (Translate::getLanguageLoaded() == 'en') {
             return $featureName;
         }
 
         $translationKeyForFeature = Translate::findTranslationKeyForTranslation($featureName);
 
-        if (!empty($translationKeyForFeature)) {
-            Translate::reloadLanguage('en');
-
-            $featureName = Piwik::translate($translationKeyForFeature);
-            Translate::reloadLanguage($loadedLanguage);
-            return $featureName;
-        }
-
-        return $featureName;
+        return Piwik::translate($translationKeyForFeature, array(), 'en');
     }
 }

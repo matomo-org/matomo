@@ -13,8 +13,8 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
-use Piwik\Plugins\Actions\API as APIActions;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -22,13 +22,33 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+
     public function index()
     {
         $view = new View('@VisitsSummary/index');
         $this->setPeriodVariablesView($view);
-        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(array(), array('nb_visits'));
+        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(array(), array('nb_visits'), 'getIndexGraph');
         $this->setSparklinesAndNumbers($view);
         return $view->render();
+    }
+
+    // sparkline.js:81 dataTable.trigger('reload', …); does not remove the old headline,
+    // so when updating this graph (such as when selecting a different metric)
+    // ONLY the graph should be returned
+    public function getIndexGraph()
+    {
+        return $this->getEvolutionGraph(array(), array(), __FUNCTION__);
     }
 
     public function getSparklines()
@@ -39,7 +59,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph(array $columns = array(), array $defaultColumns = array())
+    public function getEvolutionGraph(array $columns = array(), array $defaultColumns = array(), $callingAction = __FUNCTION__)
     {
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns', false);
@@ -48,23 +68,23 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        $documentation = Piwik::translate('VisitsSummary_VisitsSummaryDocumentation') . '<br />'
-            . Piwik::translate('General_BrokenDownReportDocumentation') . '<br /><br />'
+        $documentation = $this->translator->translate('VisitsSummary_VisitsSummaryDocumentation') . '<br />'
+            . $this->translator->translate('General_BrokenDownReportDocumentation') . '<br /><br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbVisits') . ':</b> '
-            . Piwik::translate('General_ColumnNbVisitsDocumentation') . '<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbVisits') . ':</b> '
+            . $this->translator->translate('General_ColumnNbVisitsDocumentation') . '<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbUniqVisitors') . ':</b> '
-            . Piwik::translate('General_ColumnNbUniqVisitorsDocumentation') . '<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbUniqVisitors') . ':</b> '
+            . $this->translator->translate('General_ColumnNbUniqVisitorsDocumentation') . '<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbActions') . ':</b> '
-            . Piwik::translate('General_ColumnNbActionsDocumentation') . '<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbActions') . ':</b> '
+            . $this->translator->translate('General_ColumnNbActionsDocumentation') . '<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnNbUsers') . ':</b> '
-            . Piwik::translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
+            . '<b>' . $this->translator->translate('General_ColumnNbUsers') . ':</b> '
+            . $this->translator->translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer"  target="_blank" href="http://piwik.org/docs/user-id/">User ID</a>)<br />'
 
-            . '<b>' . Piwik::translate('General_ColumnActionsPerVisit') . ':</b> '
-            . Piwik::translate('General_ColumnActionsPerVisitDocumentation');
+            . '<b>' . $this->translator->translate('General_ColumnActionsPerVisit') . ':</b> '
+            . $this->translator->translate('General_ColumnActionsPerVisitDocumentation');
 
         $selectableColumns = array(
             // columns from VisitsSummary.get
@@ -93,8 +113,9 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns[] = 'nb_searches';
             $selectableColumns[] = 'nb_keywords';
         }
-
-        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
+        // $callingAction may be specified to distinguish between
+        // "VisitsSummary_WidgetLastVisits" and "VisitsSummary_WidgetOverviewGraph"
+        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, $callingAction, $columns,
             $selectableColumns, $documentation);
 
         if (empty($view->config->columns_to_display) && !empty($defaultColumns)) {

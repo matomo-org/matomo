@@ -1,0 +1,71 @@
+// Most of this is Bootstrap code and can be removed when switching to Bootstrap
+
+.panel {
+    margin-bottom: 20px;
+    background-color: @color-silver-l95;
+    border: 1px solid @color-silver-l85;
+    .border-radius(3px);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.panel-body {
+    padding: 15px;
+}
+// .clearfix
+.panel-body:before, .panel-body:after {
+    display: table;
+    content: " ";
+}
+.panel-body:after {
+    clear: both;
+}
+
+.panel-heading {
+    padding: 10px 15px;
+    background-color: @theme-color-background-base;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    position: relative;
+
+    // Within heading, strip any `h*` tag of its default margins for spacing.
+    .panel-title {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: inherit;
+        color: inherit;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        &.panel-title-block {
+            height: 26px;
+            > a {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                padding-top: 12px;
+            }
+        }
+
+        > a,
+        > small,
+        > .small,
+        > small > a,
+        > .small > a {
+            color: inherit;
+            text-decoration: none;
+            &:focus, &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.panel-footer {
+    padding: 10px 15px;
+    background-color: @theme-color-background-base;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}

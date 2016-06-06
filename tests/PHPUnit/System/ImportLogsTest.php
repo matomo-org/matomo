@@ -8,9 +8,14 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Access;
+use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\RequestSet;
 
 /**
  * Tests the log importer.
@@ -20,7 +25,15 @@ use Piwik\Tests\Fixtures\ManySitesImportedLogs;
  */
 class ImportLogsTest extends SystemTestCase
 {
+    /** @var ManySitesImportedLogs */
     public static $fixture = null; // initialized below class definition
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->resetTestingEnvironmentChanges();
+    }
 
     /**
      * @dataProvider getApiForTesting
@@ -36,6 +49,11 @@ class ImportLogsTest extends SystemTestCase
             array('all', array('idSite'  => self::$fixture->idSite,
                                'date'    => '2012-08-09',
                                'periods' => 'month')),
+
+            array('Referrers.getNumberOfDistinctWebsites', array('idSite'  => self::$fixture->idSite,
+                                                                 'date'    => '2012-08-09',
+                                                                 'setDateLastN' => true,
+                                                                 'periods' => 'day')),
 
             array('MultiSites.getAll', array('idSite'   => self::$fixture->idSite,
                                              'date'     => '2012-08-09',
@@ -71,16 +89,32 @@ class ImportLogsTest extends SystemTestCase
             'otherRequestParameters' => array(
                 'filter_limit' => 1000
         )));
+
+        // imported via --replay-tracking --idsite=3  should ignore idSite from logs and use fixed idSite instead
+        $apis[] = array($apiMethods, array(
+            'idSite'  => 3,
+            'date'    => '2012-08-09,2014-04-01',
+            'periods' => 'range',
+            'otherRequestParameters' => array(
+                'filter_limit' => 1000
+            ),
+            'testSuffix' => '_siteIdThree_TrackedUsingLogReplayWithFixedSiteId'));
+
         return $apis;
     }
 
     /**
      * NOTE: This test must be last since the new sites that get added are added in
      *       random order.
+     * NOTE: This test combines two tests in order to avoid executing the log importer another time.
+     *       If the log importer were refactored, the invalid requests test could be a unit test in
+     *       python.
      */
-    public function testDynamicResolverSitesCreated()
+    public function test_LogImporter_CreatesSitesWhenDynamicResolverUsed_AndReportsOnInvalidRequests()
     {
-        self::$fixture->logVisitsWithDynamicResolver();
+        $this->simulateInvalidTrackerRequest();
+
+        $output = self::$fixture->logVisitsWithDynamicResolver($maxPayloadSize = 3);
 
         // reload access so new sites are viewable
         Access::getInstance()->setSuperUserAccess(true);
@@ -94,12 +128,108 @@ class ImportLogsTest extends SystemTestCase
 
         $whateverDotCom = API::getInstance()->getSitesIdFromSiteUrl('http://whatever.com');
         $this->assertEquals(1, count($whateverDotCom));
+
+        // make sure invalid requests are reported correctly
+        $this->assertContains('The Piwik tracker identified 2 invalid requests on lines: 10, 11', $output);
+        $this->assertContains("The following lines were not tracked by Piwik, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
+    }
+
+    public function test_LogImporter_RetriesWhenServerFails()
+    {
+        $this->simulateTrackerFailure();
+
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_enable_all.log';
+
+        $options = array(
+            '--idsite'                    => self::$fixture->idSite,
+            '--token-auth'                => Fixture::getTokenAuth(),
+            '--retry-max-attempts'        => 5,
+            '--retry-delay'               => 1
+        );
+
+        $output = Fixture::executeLogImporter($logFile, $options, $allowFailure = true);
+        $output = implode("\n", $output);
+
+        for ($i = 2; $i != 6; ++$i) {
+            $this->assertContains("Retrying request, attempt number $i", $output);
+        }
+
+        $this->assertNotContains("Retrying request, attempt number 6", $output);
+
+        $this->assertContains("Max number of attempts reached, server is unreachable!", $output);
+    }
+
+    private function simulateTrackerFailure()
+    {
+        $testingEnvironment = new TestingEnvironmentVariables();
+        $testingEnvironment->_triggerTrackerFailure = true;
+        $testingEnvironment->save();
     }
 
     public static function getOutputPrefix()
     {
         return 'ImportLogs';
     }
+
+    private function resetTestingEnvironmentChanges()
+    {
+        $testingEnvironment = new TestingEnvironmentVariables();
+        $testingEnvironment->_triggerTrackerFailure = null;
+        $testingEnvironment->_triggerInvalidRequests = null;
+        $testingEnvironment->save();
+    }
+
+    private function simulateInvalidTrackerRequest()
+    {
+        $testEnvironment = new TestingEnvironmentVariables();
+        $testEnvironment->_triggerInvalidRequests = true;
+        $testEnvironment->save();
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        $result = array();
+        $observers = array();
+
+        $testingEnvironment = new TestingEnvironmentVariables();
+        if ($testingEnvironment->_triggerTrackerFailure) {
+            $observers[] = array('Tracker.newHandler', function () {
+                @http_response_code(500);
+
+                throw new \Exception("injected exception");
+            });
+        }
+
+        if ($testingEnvironment->_triggerInvalidRequests) {
+            // we trigger an invalid request by checking for triggerInvalid=1 in a request, and if found replacing the
+            // request w/ a request that has an nonexistent idsite
+            $observers[] = array('Tracker.initRequestSet', function (RequestSet $requestSet) {
+                $requests = $requestSet->getRequests();
+                foreach ($requests as $index => $request) {
+                    $url = $request->getParam('url');
+                    if (strpos($url, 'triggerInvalid=1') !== false) {
+                        $newParams = $request->getParams();
+                        $newParams['idsite'] = 1000;
+
+                        $requests[$index] = new Request($newParams);
+                    }
+                }
+                $requestSet->setRequests($requests);
+            });
+        }
+
+        if (!empty($observers)) {
+            $result['observers.global'] = \DI\add($observers);
+        }
+
+        return $result;
+    }
 }
 
 ImportLogsTest::$fixture = new ManySitesImportedLogs();
+ImportLogsTest::$fixture->includeIisWithCustom = true;
+ImportLogsTest::$fixture->includeNetscaler = true;
+ImportLogsTest::$fixture->includeCloudfront = true;
+ImportLogsTest::$fixture->includeCloudfrontRtmp = true;
+ImportLogsTest::$fixture->includeNginxJson = true;
+ImportLogsTest::$fixture->includeApiCustomVarMapping = true;

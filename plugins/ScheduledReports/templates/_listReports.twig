@@ -12,7 +12,7 @@
         </tr>
         </thead>
 
-        {% if userLogin == 'anonymous' %}
+    {% if userLogin == 'anonymous' %}
         <tr>
             <td colspan='7'>
                 <br/>
@@ -21,18 +21,14 @@
                 <br/><br/>
             </td>
         </tr>
-    </table>
     {% elseif reports is empty %}
-    <tr>
-        <td colspan='7'>
-            <br/>
-            {{ 'ScheduledReports_ThereIsNoReportToManage'|translate(siteName)|raw }}.
-            <br/><br/>
-            <a onclick='' id='linkAddReport'>&rsaquo; {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</a>
-            <br/><br/>
-        </td>
-    </tr>
-    </table>
+        <tr>
+            <td colspan='7'>
+                <br/>
+                {{ 'ScheduledReports_ThereIsNoReportToManage'|translate(siteName)|raw }}.
+                <br/><br/>
+            </td>
+        </tr>
     {% else %}
     {% for report in reports %}
         <tr>
@@ -62,7 +58,7 @@
                         <br/>
                     {% endfor %}
                     {# send now link #}
-                    <a href="#" idreport="{{ report.idreport }}" name="linkSendNow" class="link_but" style="margin-top:3px;">
+                    <a href="#" idreport="{{ report.idreport }}" name="linkSendNow" class="link_but withIcon" style="margin-top:3px;">
                         <img border=0 src='{{ reportTypes[report.type] }}'/>
                         {{ 'ScheduledReports_SendReportNow'|translate }}
                     </a>
@@ -75,33 +71,34 @@
                             'outputType':downloadOutputType, 'language':language,
                             'format': (report.format in ['html', 'csv']) ? report.format : false
                        }) }}"
-                   rel="noreferrer"  target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but">
+                   rel="noreferrer"  target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0"/>
                     {{ 'General_Download'|translate }}
                 </a>
             </td>
-            <td>
-                {# edit link #}
-                <a href='#' name="linkEditReport" id="{{ report.idreport }}" class="link_but">
-                    <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
-                    {{ 'General_Edit'|translate }}
-                </a>
+            <td class="text-center">
+                <button id="{{ report.idreport }}" class="edit-report btn btn-flat btn-lg" title="{{ 'General_Edit'|translate }}">
+                    <span class="icon-edit"></span>
+                </button>
             </td>
-            <td>
-                {# delete link #}
-                <a href='#' name="linkDeleteReport" id="{{ report.idreport }}" class="link_but">
-                    <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
-                    {{ 'General_Delete'|translate }}
-                </a>
+            <td class="text-center">
+                <button id="{{ report.idreport }}" class="delete-report btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
+                    <span class="icon-delete"></span>
+                </button>
             </td>
         </tr>
     {% endfor %}
+    {% endif %}
+
     </table>
+
     {% if userLogin != 'anonymous' %}
-        <br/>
-        <a onclick='' id='linkAddReport'>&rsaquo; {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</a>
-        <br/>
-        <br/>
+        <p>
+            <button id="add-report" class="btn btn-lg btn-flat">
+                <span class="icon-add"></span>
+                {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}
+            </button>
+        </p>
     {% endif %}
-    {% endif %}
+
 </div>

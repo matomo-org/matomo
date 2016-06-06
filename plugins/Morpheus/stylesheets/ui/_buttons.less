@@ -1,0 +1,81 @@
+// We use `button:not(.btn)` because  `button` has a higher priority than CSS classes
+// which makes it impossible to use btn-lg or similar additional classes.
+button:not(.btn),
+input[type="submit"]:not(.btn),
+.btn {
+    display: inline-block;
+    .border-radius(3px);
+    background: none;
+    color: @theme-color-brand-contrast;
+    background-color: @theme-color-brand;
+    box-shadow: 0 1px 1px 0 rgba(13, 13, 13, 0.3);
+    #gradient > .vertical(rgba(255,255,255,.15), rgba(255,255,255,0));
+    .font-default(12px, 16px);
+    font-weight: normal;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+
+    &:hover, &:focus {
+        color: @theme-color-brand-contrast;
+        background: @theme-color-brand;
+        text-decoration: none;
+    }
+
+    em {
+        font-style: normal;
+    }
+}
+
+// Bootstrap classes (can be removed in the future)
+.btn {
+    display: inline-block;
+}
+.btn-lg {
+    padding: 12px 40px;
+    font-size: 14px;
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
+.btn-block + .btn-block {
+    margin-top: 5px;
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    opacity: .65;
+}
+// See http://getbootstrap.com/css/#buttons-options
+.btn.btn-link {
+    background: transparent;
+    color: @theme-color-link;
+    text-decoration: underline;
+    box-shadow: none;
+}
+.btn.btn-noop {
+    background: transparent;
+    color: @theme-color-text;
+    pointer-events: none;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn.btn-flat {
+    background: transparent;
+    border-radius: 0;
+    color: @theme-color-text-light;
+    box-shadow: none;
+    padding: 5px 10px;
+    &:hover {
+        background-color: #eaeaea;
+        text-decoration: none;
+    }
+    &.btn-lg {
+        padding: 12px;
+    }
+}

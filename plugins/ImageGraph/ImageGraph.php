@@ -11,23 +11,16 @@ namespace Piwik\Plugins\ImageGraph;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
-use Piwik\TaskScheduler;
 use Piwik\Url;
+use Piwik\Period\Factory as PeriodFactory;
 
 class ImageGraph extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $suffix = ' Debug: <a href="' . Url::getCurrentQueryStringWithParametersModified(
-                array('module' => 'ImageGraph', 'action' => 'index')) . '">All images</a>';
-        $info = parent::getInformation();
-        $info['description'] .= ' ' . $suffix;
-        return $info;
-    }
-
     private static $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
         'Referrers_getReferrerType',
     );
@@ -38,9 +31,9 @@ class ImageGraph extends \Piwik\Plugin
     );
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'API.getReportMetadata.end' => array('function' => 'getReportMetadata',
@@ -88,20 +81,40 @@ class ImageGraph extends \Piwik\Plugin
 
             $piwikSite = new Site($idSite);
             if ($periodForSinglePeriodGraph == 'range') {
+                // for period=range, show the configured sub-periods
                 $periodForMultiplePeriodGraph = Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
-            } else {
-                $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
-                $dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
-                    $periodForSinglePeriodGraph,
-                    'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
-                    $dateForSinglePeriodGraph,
-                    $piwikSite
-                );
+            } else if ($info['period'] == 'day' || !Config::getInstance()->General['graphs_show_evolution_within_selected_period']) {
+                // for period=day, always show the last n days
+                // if graphs_show_evolution_within_selected_period=false, show the last n periods
+				$periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
+				$dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
+					$periodForSinglePeriodGraph,
+					'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
+					$dateForSinglePeriodGraph,
+					$piwikSite
+				);
+			} else {
+                // if graphs_show_evolution_within_selected_period=true, show the days withing the period
+                // (except if the period is day, see above)
+				$periodForMultiplePeriodGraph = 'day';
+				$period = PeriodFactory::build($info['period'], $info['date']);
+				$start = $period->getDateStart()->toString();
+				$end = $period->getDateEnd()->toString();
+				$dateForMultiplePeriodGraph = $start . ',' . $end;
             }
         }
 
         $token_auth = Common::getRequestVar('token_auth', false);
+
+        $segment = Request::getRawSegmentFromRequest();
+
+        /** @var Scheduler $scheduler */
+        $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+        $isRunningTask = $scheduler->isRunningTask();
+
+        // add the idSubtable if it exists
+        $idSubtable = Common::getRequestVar('idSubtable', false);
 
         $urlPrefix = "index.php?";
         foreach ($reports as &$report) {
@@ -131,17 +144,14 @@ class ImageGraph extends \Piwik\Plugin
                 $parameters['date'] = $dateForSinglePeriodGraph;
             }
 
-            // add the idSubtable if it exists
-            $idSubtable = Common::getRequestVar('idSubtable', false);
             if ($idSubtable !== false) {
                 $parameters['idSubtable'] = $idSubtable;
             }
 
-            if (!empty($_GET['_restrictSitesToLogin']) && TaskScheduler::isTaskBeingExecuted()) {
+            if (!empty($_GET['_restrictSitesToLogin']) && $isRunningTask) {
                 $parameters['_restrictSitesToLogin'] = $_GET['_restrictSitesToLogin'];
             }
 
-            $segment = Request::getRawSegmentFromRequest();
             if (!empty($segment)) {
                 $parameters['segment'] = $segment;
             }

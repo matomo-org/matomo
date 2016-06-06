@@ -88,6 +88,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $layout = $this->getLayout($idDashboard);
 
+        Json::sendHeaderJSON();
         return $layout;
     }
 
@@ -211,6 +212,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkTokenInUrl();
 
         $layout      = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
+        $layout      = strip_tags($layout);
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         $name        = Common::getRequestVar('name', '', 'string');
 
@@ -235,6 +237,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (Piwik::hasUserSuperUserAccess()) {
             $layout = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
+            $layout = strip_tags($layout);
             $this->getModel()->createOrUpdateDashboard('', '1', $layout);
         }
     }

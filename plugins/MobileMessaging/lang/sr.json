@@ -1,6 +1,6 @@
 {
     "MobileMessaging": {
-        "Exception_UnknownProvider": "Ime provajdera '%s' je nepoznato. Pokušajte sa nekim od ovih: %s.",
+        "Exception_UnknownProvider": "Ime provajdera '%1$s' je nepoznato. Pokušajte sa nekim od ovih: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Možete dodati više brojeva telefona preko",
         "MobileReport_MobileMessagingSettingsLink": "stranica sa podešavanjima za SMS",
         "MobileReport_NoPhoneNumbers": "Molimo vas da aktivirate barem jedan broj telefona preko",
@@ -29,13 +29,13 @@
         "Settings_SMSProvider": "SMS provajder",
         "Settings_SuperAdmin": "Podešavanja za superkorisnika",
         "Settings_SuspiciousPhoneNumber": "Ukoliko ne dobijete SMS poruku, pokušajte bez vodećih nula. Na primer %s",
-        "Settings_UpdateOrDeleteAccount": "Ovaj nalog možete i %sažurirati%s ili %sobrisati%s.",
+        "Settings_UpdateOrDeleteAccount": "Ovaj nalog možete i %1$sažurirati%2$s ili %3$sobrisati%4$s.",
         "Settings_ValidatePhoneNumber": "Validacija",
         "Settings_VerificationCodeJustSent": "Upravo je poslata SMS poruka sa kodom na ovaj broj. Molimo vas da upišete kod u polje iznad i kliknete na \"Validacija\".",
         "SettingsMenu": "SMS poruke",
         "SMS_Content_Too_Long": "Sadržaj poruke je predug",
         "TopLinkTooltip": "Neka izveštaji i analitike stižu u vaše poštansko sanduče ili na mobilni!",
         "TopMenu": "Elektronski i SMS izveštaji",
-        "VerificationText": "Kod je %s. Da biste izvršili validaciju broja vašeg telefona i počeli da primate SMS izveštaje, molimo vas da kopirate ovaj kod u Piwik > %s > %s."
+        "VerificationText": "Kod je %1$s. Da biste izvršili validaciju broja vašeg telefona i počeli da primate SMS izveštaje, molimo vas da kopirate ovaj kod u Piwik > %2$s > %3$s."
     }
 }

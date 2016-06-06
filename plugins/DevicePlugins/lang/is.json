@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "PluginDetectionDoesNotWorkInIE": "Ath: uppgötvun á íbótum virkar ekki með Internet Explorer. Þessi skýrsla er aðeins unnin út frá öðrum vöfrum en IE.",
+        "WidgetPlugins": "Listi yfir íbætur"
+    }
+}

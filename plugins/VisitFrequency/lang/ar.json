@@ -5,7 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "متوسط السلوكيات لكل زيارة عائدة",
         "ColumnBounceRateForReturningVisits": "معدل الارتداد للزوار العائدين",
         "ColumnReturningVisits": "الزيارات العائدة",
-        "PluginDescription": "تقارير حول إحصائيات متعددة عن الزوار العائدين في مقابل الزوار الجدد.",
         "ReturnActions": "%s سلوك بواسطة الزيارات المتكررة",
         "ReturnAverageVisitDuration": "%s متوسط طول الزيارة للزائر المتكرر",
         "ReturnAvgActions": "%s سلوك لكل زيارة متكررة",

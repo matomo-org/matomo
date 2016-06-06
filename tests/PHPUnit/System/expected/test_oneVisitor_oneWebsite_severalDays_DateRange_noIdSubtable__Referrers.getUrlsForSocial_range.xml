@@ -11,6 +11,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Ffacebook.com%2Fwhatever</segment>
 			<url>http://facebook.com/whatever</url>
 		</row>
 		<row>
@@ -23,6 +24,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Ffb.me%2F%3Fq%3Dsdlfjs%26n%3Dslfjsd</segment>
 			<url>http://fb.me/?q=sdlfjs&amp;n=slfjsd</url>
 		</row>
 		<row>
@@ -35,6 +37,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Fmixi.jp</segment>
 			<url>http://mixi.jp</url>
 		</row>
 		<row>
@@ -47,6 +50,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Fskyrock.com</segment>
 			<url>http://skyrock.com</url>
 		</row>
 		<row>
@@ -59,6 +63,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Ft.co%2Fid%2F%3Fy%3Ddsfs</segment>
 			<url>http://t.co/id/?y=dsfs</url>
 		</row>
 		<row>
@@ -71,6 +76,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Ftwitter.com%2Fwhatever2</segment>
 			<url>http://twitter.com/whatever2</url>
 		</row>
 		<row>
@@ -83,6 +89,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Fwww.facebook.com%2Fanother%2Fpath</segment>
 			<url>http://www.facebook.com/another/path</url>
 		</row>
 		<row>
@@ -95,6 +102,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Fwww.flickr.com</segment>
 			<url>http://www.flickr.com</url>
 		</row>
 		<row>
@@ -107,6 +115,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Fwww.twitter.com%2Findex%3Fa%3D2334</segment>
 			<url>http://www.twitter.com/index?a=2334</url>
 		</row>
 		<row>
@@ -119,6 +128,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Fxanga.com</segment>
 			<url>http://xanga.com</url>
 		</row>
 	</result>
@@ -133,6 +143,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Ft.co%2Fid%2F%3Fy%3Ddsfs</segment>
 			<url>http://t.co/id/?y=dsfs</url>
 		</row>
 		<row>
@@ -145,6 +156,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Ftwitter.com%2Fwhatever2</segment>
 			<url>http://twitter.com/whatever2</url>
 		</row>
 		<row>
@@ -157,6 +169,7 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerUrl==http%3A%2F%2Fwww.facebook.com%2Fanother%2Fpath</segment>
 			<url>http://www.facebook.com/another/path</url>
 		</row>
 	</result>

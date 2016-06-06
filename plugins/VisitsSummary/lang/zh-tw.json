@@ -8,7 +8,6 @@
         "NbActionsPerVisit": "%s 每個訪客的活動數",
         "NbUniqueVisitors": "不重複訪客 %s 位",
         "NbVisitsBounced": "跳出率 %s（僅瀏覽一頁便離站）",
-        "PluginDescription": "一般分析項目報告：造訪次數、絕對不重複訪客、活動數、跳出率等等。",
         "VisitsSummary": "訪客總覽",
         "WidgetLastVisits": "最近造訪圖表",
         "WidgetOverviewGraph": "圖表總覽",

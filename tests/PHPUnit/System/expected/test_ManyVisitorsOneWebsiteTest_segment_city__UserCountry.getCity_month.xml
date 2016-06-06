@@ -3,9 +3,9 @@
 	<row>
 		<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
 		<nb_visits>4</nb_visits>
-		<nb_actions>8</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>2522</sum_visit_length>
+		<nb_actions>12</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>3242</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -25,6 +25,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
+		<segment>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>

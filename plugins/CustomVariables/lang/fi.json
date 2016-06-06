@@ -3,9 +3,12 @@
         "ColumnCustomVariableName": "Kustomoidun muuttujan nimi",
         "ColumnCustomVariableValue": "Kustomoidun muuttujan arvo",
         "CustomVariables": "Kustomoidut muuttujat",
-        "CustomVariablesReportDocumentation": "Tämä raportti sisältää tietoa kustomoiduista muuttujastasi. Voit tarkastella eri arvojen määrää klikkaamalla muuttujan nimeä. %s Saat lisätietoa kustomoiduista muuttujista %sCustom Variables%s-sivulta piwik.orgista (englanninkielinen)",
-        "PluginDescription": "Kustomoidut muuttujat ovat nimi-arvo-pareja, joita voit asettaa käynnin aikana Javascript-API:n setVisitCustomVariables()-funktiolla. Piwik raportoi, kuinka monta käyntiä, sivua ja konversiota jokaisella kustomoidulla muuttujalla oli.",
+        "CustomVariablesReportDocumentation": "Tämä raportti sisältää tietoa kustomoiduista muuttujastasi. Voit tarkastella eri arvojen määrää klikkaamalla muuttujan nimeä. %1$s Saat lisätietoa kustomoiduista muuttujista %2$sCustom Variables%3$s-sivulta piwik.orgista (englanninkielinen)",
         "ScopePage": "alueena sivu",
-        "ScopeVisit": "alueena käynti"
+        "ScopeVisit": "alueena käynti",
+        "ManageDescription": "Tämä on yleiskatsaus kaikista kustomoiduista muuttujista ja niiden käytöstä verkkosivulla '%s'. Nimet on järjestetty käyttömäärien mukaan.",
+        "Index": "Indeksi",
+        "Usages": "Käytöt",
+        "Unused": "Käyttämätön"
     }
 }

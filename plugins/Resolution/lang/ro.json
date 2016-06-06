@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Configuraţia",
+        "ColumnResolution": "Rezoluţie ecran",
+        "Configurations": "Configurare",
+        "Resolutions": "Rezolutii",
+        "WidgetGlobalVisitors": "Configurare vizitatori globala",
+        "WidgetGlobalVisitorsDocumentation": "Acest raport arată cele mai comune configurații generale,pe care vizitatorii le au avut. O configurație este combinația dintre un sistem de operare, un tip de browser și o rezoluție a ecranului.",
+        "WidgetResolutions": "Rezolutii ecran"
+    }
+}

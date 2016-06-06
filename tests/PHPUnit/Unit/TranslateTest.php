@@ -10,6 +10,9 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Translate;
 
+/**
+ * @group Translation
+ */
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /**

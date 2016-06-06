@@ -1,0 +1,8 @@
+{
+    "MobileMessaging": {
+        "Exception_UnknownProvider": "Emër mundësuesi '%1$s' i panjohur. Provoni më mirë një nga vijuesit: %2$s.",
+        "PhoneNumbers": "Numra Telefonash",
+        "Settings_APIKey": "Kyç API-sh",
+        "Settings_CountryCode": "Kod Vendi"
+    }
+}

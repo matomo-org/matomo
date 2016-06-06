@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\UrlHelper;
 
 class PageUrl
@@ -27,17 +28,13 @@ class PageUrl
         'https://'     => 2
     );
 
-    protected static $queryParametersToExclude = array('gclid', 'fb_xd_fragment', 'fb_comment_id',
-                                                       'phpsessid', 'jsessionid', 'sessionid', 'aspsessionid',
-                                                       'doing_wp_cron');
-
     /**
      * Given the Input URL, will exclude all query parameters set for this site
      *
      * @static
      * @param $originalUrl
      * @param $idSite
-     * @return bool|string
+     * @return bool|string Returned URL is HTML entities decoded
      */
     public static function excludeQueryParametersFromUrl($originalUrl, $idSite)
     {
@@ -49,7 +46,6 @@ class PageUrl
 
         if (empty($parsedUrl['query'])) {
             if (empty($parsedUrl['fragment'])) {
-
                 return UrlHelper::getParseUrlReverse($parsedUrl);
             }
 
@@ -86,16 +82,37 @@ class PageUrl
         $website = Cache::getCacheWebsiteAttributes($idSite);
         $excludedParameters = self::getExcludedParametersFromWebsite($website);
 
-        if (!empty($excludedParameters)) {
-            Common::printDebug('Excluding parameters "' . implode(',', $excludedParameters) . '" from URL');
-        }
-
         $parametersToExclude = array_merge($excludedParameters,
-                                           self::$queryParametersToExclude,
+                                           self::getUrlParameterNamesToExcludeFromUrl(),
                                            $campaignTrackingParameters);
+
+        /**
+         * Triggered before setting the action url in Piwik\Tracker\Action so plugins can register
+         * parameters to be excluded from the tracking URL (e.g. campaign parameters).
+         *
+         * @param array &$parametersToExclude An array of parameters to exclude from the tracking url.
+         */
+        Piwik::postEvent('Tracker.PageUrl.getQueryParametersToExclude', array(&$parametersToExclude));
+
+        if (!empty($parametersToExclude)) {
+            Common::printDebug('Excluding parameters "' . implode(',', $parametersToExclude) . '" from URL');
+        }
 
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;
+    }
+
+    /**
+     * Returns the list of URL query parameters that should be removed from the tracked URL query string.
+     *
+     * @return array
+     */
+    protected static function getUrlParameterNamesToExcludeFromUrl()
+    {
+        $paramsToExclude = Config::getInstance()->Tracker['url_query_parameter_to_exclude_from_url'];
+        $paramsToExclude = explode(",", $paramsToExclude);
+        $paramsToExclude = array_map('trim', $paramsToExclude);
+        return $paramsToExclude;
     }
 
     /**
@@ -110,7 +127,7 @@ class PageUrl
     public static function shouldRemoveURLFragmentFor($idSite)
     {
         $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
-        return !$websiteAttributes['keep_url_fragment'];
+        return empty($websiteAttributes['keep_url_fragment']);
     }
 
     /**
@@ -157,7 +174,7 @@ class PageUrl
         }
 
         if (!empty($parsedUrl['host'])) {
-            $parsedUrl['host'] = mb_strtolower($parsedUrl['host'], 'UTF-8');
+            $parsedUrl['host'] = Common::mb_strtolower($parsedUrl['host'], 'UTF-8');
         }
 
         if (!empty($parsedUrl['fragment'])) {
@@ -219,7 +236,8 @@ class PageUrl
     {
         if (is_string($value)) {
             $decoded = urldecode($value);
-            if (@mb_check_encoding($decoded, $encoding)) {
+            if (function_exists('mb_check_encoding')
+                && @mb_check_encoding($decoded, $encoding)) {
                 $value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
             }
         }
@@ -256,13 +274,18 @@ class PageUrl
      */
     public static function reencodeParameters(&$queryParameters, $encoding = false)
     {
-        // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
-        // encode to UTF-8.
-        if (false !== $encoding
-            && 'utf-8' != strtolower($encoding)
-            && function_exists('mb_check_encoding')
-        ) {
-            $queryParameters = PageUrl::reencodeParametersArray($queryParameters, $encoding);
+        if (function_exists('mb_check_encoding')) {
+            // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
+            // encode to UTF-8.
+            if (strtolower($encoding) != 'utf-8'
+                && $encoding != false
+            ) {
+                Common::printDebug("Encoding page URL query parameters to $encoding.");
+
+                $queryParameters = PageUrl::reencodeParametersArray($queryParameters, $encoding);
+            }
+        } else {
+            Common::printDebug("Page charset supplied in tracking request, but mbstring extension is not available.");
         }
 
         return $queryParameters;
@@ -317,7 +340,6 @@ class PageUrl
     {
         foreach (self::$urlPrefixMap as $prefix => $id) {
             if (strtolower(substr($url, 0, strlen($prefix))) == $prefix) {
-
                 return array(
                     'url'      => substr($url, strlen($prefix)),
                     'prefixId' => $id
@@ -349,5 +371,15 @@ class PageUrl
 
         return array();
     }
-}
 
+    public static function urldecodeValidUtf8($value)
+    {
+        $value = urldecode($value);
+        if (function_exists('mb_check_encoding')
+            && !@mb_check_encoding($value, 'utf-8')
+        ) {
+            return urlencode($value);
+        }
+        return $value;
+    }
+}

@@ -9,14 +9,15 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 11:22:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 11:22:33</serverTimePretty>
 				<pageId>1</pageId>
 				<icon />
+				<timestamp>1267874553</timestamp>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:22:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId />
+		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>2</idVisit>
@@ -27,25 +28,27 @@
 				<url>http://example.org/index2.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>3</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 11:25:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 11:25:33</serverTimePretty>
 				<pageId>2</pageId>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
+				<timestamp>1267874733</timestamp>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index3.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 11:28:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 11:28:33</serverTimePretty>
 				<pageId>3</pageId>
 				<icon />
+				<timestamp>1267874913</timestamp>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:28:33</lastActionDateTime>
-		<actions>2</actions>
 		<userId />
+		<actions>2</actions>
 	</row>
 	<row>
 		<idVisit>3</idVisit>
@@ -56,36 +59,39 @@
 				<url>http://example.org/no-user-id-set-but-should-appear-in-user-id-visit</url>
 				<pageTitle>no User Id set but it should appear in email@example.com!</pageTitle>
 				<pageIdAction>6</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 13:16:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:16:33</serverTimePretty>
 				<pageId>4</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				<timestamp>1267881393</timestamp>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 13:22:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:22:33</serverTimePretty>
 				<pageId>5</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
+				<timestamp>1267881753</timestamp>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>second page</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 13:28:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:28:33</serverTimePretty>
 				<pageId>6</pageId>
 				<icon />
+				<timestamp>1267882113</timestamp>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:28:33</lastActionDateTime>
-		<actions>3</actions>
 		<userId>email@example.com</userId>
+		<actions>3</actions>
 	</row>
 	<row>
 		<idVisit>4</idVisit>
@@ -96,69 +102,15 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>a new user id was set -&gt; new visit</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 13:34:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 13:34:33</serverTimePretty>
 				<pageId>7</pageId>
 				<icon />
+				<timestamp>1267882473</timestamp>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:34:33</lastActionDateTime>
+		<userId>new-email@example.com</userId>
 		<actions>1</actions>
-		<userId>new-email@example.com</userId>
-	</row>
-	<row>
-		<idVisit>5</idVisit>
-		<visitorId>c9ade7a5a103b2ed</visitorId>
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://example.org/home</url>
-				<pageTitle>same user id was set -&gt; this is the same unique user</pageTitle>
-				<pageIdAction>10</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 16:22:33</serverTimePretty>
-				<pageId>8</pageId>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://example.org/home</url>
-				<pageTitle>second pageview - by this user id</pageTitle>
-				<pageIdAction>10</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
-				<pageId>9</pageId>
-				<icon />
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>triggered js</goalName>
-				<goalId>1</goalId>
-				<revenue>0</revenue>
-				<goalPageId />
-				<serverTimePretty>Sat 6 Mar 16:34:33</serverTimePretty>
-				<url>http://example.org/home</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-			</row>
-			<row>
-				<type>ecommerceAbandonedCart</type>
-				<revenue>10000000000</revenue>
-				<items>1</items>
-				<serverTimePretty>Sat 6 Mar 16:40:33</serverTimePretty>
-				<itemDetails>
-					<row>
-						<itemSKU>sku-007-PRISM</itemSKU>
-						<itemName>My secret spy tech</itemName>
-						<itemCategory>Surveillance</itemCategory>
-						<price>10000000000</price>
-						<quantity>1</quantity>
-					</row>
-				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
-			</row>
-		</actionDetails>
-		<lastActionDateTime>2010-03-06 16:40:33</lastActionDateTime>
-		<actions>2</actions>
-		<userId>new-email@example.com</userId>
 	</row>
 	<row>
 		<idVisit>6</idVisit>
@@ -169,14 +121,76 @@
 				<url>http://example.org/home</url>
 				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
 				<pageIdAction>10</pageIdAction>
-				<serverTimePretty>Sat 6 Mar 16:28:33</serverTimePretty>
+				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>10</pageId>
 				<icon />
+				<timestamp>1267892913</timestamp>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId />
+		<actions>1</actions>
+	</row>
+	<row>
+		<idVisit>5</idVisit>
+		<visitorId>c9ade7a5a103b2ed</visitorId>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/home</url>
+				<pageTitle>same user id was set -&gt; this is the same unique user</pageTitle>
+				<pageIdAction>10</pageIdAction>
+				<serverTimePretty>Mar 6, 2010 16:22:33</serverTimePretty>
+				<pageId>8</pageId>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+				<timestamp>1267892553</timestamp>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/home</url>
+				<pageTitle>second pageview - by this user id</pageTitle>
+				<pageIdAction>10</pageIdAction>
+				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
+				<pageId>9</pageId>
+				<timeSpent>721</timeSpent>
+				<timeSpentPretty>12 min 1s</timeSpentPretty>
+				<icon />
+				<timestamp>1267892913</timestamp>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>triggered js</goalName>
+				<goalId>1</goalId>
+				<revenue>0</revenue>
+				<goalPageId />
+				<serverTimePretty>Mar 6, 2010 16:34:33</serverTimePretty>
+				<url>http://example.org/home</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<timestamp>1267893273</timestamp>
+			</row>
+			<row>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>10000000000</revenue>
+				<items>1</items>
+				<serverTimePretty>Mar 6, 2010 16:40:33</serverTimePretty>
+				<itemDetails>
+					<row>
+						<itemSKU>sku-007-PRISM</itemSKU>
+						<itemName>My secret spy tech</itemName>
+						<itemCategory>Surveillance</itemCategory>
+						<price>10000000000</price>
+						<quantity>1</quantity>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
+				<timestamp>1267893633</timestamp>
+			</row>
+		</actionDetails>
+		<lastActionDateTime>2010-03-06 16:40:33</lastActionDateTime>
+		<userId>new-email@example.com</userId>
+		<actions>2</actions>
 	</row>
 	<row>
 		<idVisit>7</idVisit>
@@ -187,14 +201,15 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Page view by email@example.com</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Sun 14 Mar 11:22:33</serverTimePretty>
+				<serverTimePretty>Mar 14, 2010 11:22:33</serverTimePretty>
 				<pageId>11</pageId>
 				<icon />
+				<timestamp>1268565753</timestamp>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:22:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId>email@example.com</userId>
+		<actions>1</actions>
 	</row>
 	<row>
 		<idVisit>8</idVisit>
@@ -205,13 +220,14 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>A page view by new-user-id@one-weeklater</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<serverTimePretty>Sun 14 Mar 11:46:33</serverTimePretty>
+				<serverTimePretty>Mar 14, 2010 11:46:33</serverTimePretty>
 				<pageId>12</pageId>
 				<icon />
+				<timestamp>1268567193</timestamp>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:46:33</lastActionDateTime>
-		<actions>1</actions>
 		<userId>new-user-id@one-weeklater</userId>
+		<actions>1</actions>
 	</row>
 </result>

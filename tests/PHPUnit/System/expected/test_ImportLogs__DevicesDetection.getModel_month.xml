@@ -2,17 +2,17 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>25</nb_visits>
-		<nb_actions>28</nb_actions>
+		<nb_visits>35</nb_visits>
+		<nb_actions>40</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>23</bounce_count>
-		<nb_visits_converted>23</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<sum_visit_length>549</sum_visit_length>
+		<bounce_count>31</bounce_count>
+		<nb_visits_converted>31</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>33</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Vision</label>
+		<label>HTC - Vision</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
 		<max_actions>1</max_actions>
@@ -21,5 +21,27 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+	</row>
+	<row>
+		<label>Apple - iPhone</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+	</row>
+	<row>
+		<label>Samsung - GALAXY S5</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>3</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>2</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 	</row>
 </result>

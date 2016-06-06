@@ -11,6 +11,9 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Filter_PatternRecursiveTest extends \PHPUnit_Framework_TestCase
 {
     /**

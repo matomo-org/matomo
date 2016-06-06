@@ -1,20 +1,27 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'Installation_SystemCheck'|translate }}{% endset %}
+
 {% block content %}
-{% if isSuperUser %}
-    <h2 piwik-enriched-headline>{{ 'Installation_SystemCheck'|translate }}</h2>
-    <p style="margin-left:1em;">
-        {% if infos.has_errors %}
-            <img src="plugins/Morpheus/images/error.png"/>
-            {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }} {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-        {% elseif infos.has_warnings %}
-            <img src="plugins/Morpheus/images/warning.png"/>
-            {{ 'Installation_SystemCheckSummaryThereWereWarnings'|translate }} {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-        {% else %}
-            <img src="plugins/Morpheus/images/ok.png"/>
+
+    <h2 piwik-enriched-headline>{{ title }}</h2>
+
+    {% if diagnosticReport.hasErrors() %}
+        <div class="alert alert-danger">
+            {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }}
+            {{ 'Installation_SeeBelowForMoreInfo'|translate }}
+        </div>
+    {% elseif diagnosticReport.hasWarnings() %}
+        <div class="alert alert-warning">
+            {{ 'Installation_SystemCheckSummaryThereWereWarnings'|translate }}
+            {{ 'Installation_SeeBelowForMoreInfo'|translate }}
+        </div>
+    {% else %}
+        <div class="alert alert-success">
             {{ 'Installation_SystemCheckSummaryNoProblems'|translate }}
-        {% endif %}
-    </p>
+        </div>
+    {% endif %}
+
     {% include "@Installation/_systemCheckSection.twig" %}
-{% endif %}
+
 {% endblock %}

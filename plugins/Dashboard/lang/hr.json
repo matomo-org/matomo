@@ -9,11 +9,9 @@
         "ManageDashboard": "Manage dashboard",
         "Maximise": "Uvečaj",
         "Minimise": "Smanji",
-        "PluginDescription": "Vaša kontrolna ploča analize posjete stranice. Možete podesiti nadzornu ploču: dodavanje novih widgeta, mijenjati redoslijed vaših widgeta. Svaki korisnik može pristupiti vlastitoj prilagođenoj nadzornoj ploči.",
         "RemoveDashboard": "Ukloni kontrolnu ploču",
         "RenameDashboard": "Preimenuj kontrolnu ploču",
         "SelectWidget": "Odaberi widget za dodati na kontrolnu ploču",
-        "WidgetPreview": "Predpregled widgeta",
-        "WidgetsAndDashboard": "Wigeti i kontrolna ploča"
+        "WidgetPreview": "Predpregled widgeta"
     }
 }

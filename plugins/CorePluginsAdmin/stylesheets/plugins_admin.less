@@ -1,9 +1,13 @@
+.pluginsManagement .entityContainer {
+  padding-top: 16px;
+}
+
 table.dataTable tr.active-plugin > td {
-    background-color:#fff !important;
+    background-color:@theme-color-background-base !important;
 }
 
 table.dataTable tr.active-plugin:hover > td {
-    background-color:#fff !important;
+    background-color:@theme-color-background-base !important;
 }
 
 table.dataTable tr.inactive-plugin > td {
@@ -17,6 +21,40 @@ table.dataTable tr.inactive-plugin:hover > td {
 .plugin-desc-text {
     margin-top:0em;
     margin-bottom:1.5em;
+}
+
+.plugin-donation {
+    margin-top:1em;
+}
+
+.donation-overlay {
+    text-align: center;
+    .donation-links {
+        margin-top: 2em;
+        .donation-link {
+            display: inline-block;
+            margin: 0 1em;
+
+            &.bitcoin {
+                margin: 1em 0!important;
+                display: block!important;
+                a {
+                    display: inline-block;
+                    color: #c7254e;
+                    border-radius: 4px;
+                    font-size: 1.1em;
+                    padding: 5px;
+                    text-decoration: none!important;
+                    background-color: #f9f2f4;
+                }
+                span {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    display: block;
+                }
+            }
+        }
+    }
 }
 
 .plugin-author {
@@ -51,4 +89,52 @@ table.entityTable tr td a.uninstall {
     font-size:80%;
     font-style:italic;
     color:#777;
+}
+
+#plugins {
+
+    .inactive-plugin,
+    .active-plugin {
+        .name {
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+    }
+
+    .plugin-desc-missingrequirements {
+        font-weight:bold;
+        font-style: italic;
+        a {
+            text-decoration: underline !important;
+            color: black;
+        }
+    }
+
+    .settingsLink {
+        text-align: right;
+        width: 100%;
+        display: inline-block;
+        font-style: italic;
+    }
+}
+
+.admin .pluginsFilter {
+    color: @theme-color-text-lighter;
+    .active {
+        font-weight: bold;
+    }
+
+    a .counter {
+        color: #999999;
+        font-weight: normal;
+    }
+
+    .status {
+        display: inline-block;
+        margin-left: 20px;
+    }
+
+    .getNewPlugins {
+        float: right;
+    }
 }

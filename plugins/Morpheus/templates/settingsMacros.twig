@@ -1,0 +1,137 @@
+{% macro singleSetting(setting, index = 0) %}
+
+    {% set settingValue = setting.getValue %}
+
+    <div class="form-group">
+
+        {% if setting.introduction %}
+            <p class="settingIntroduction">{{ setting.introduction }}</p>
+        {% endif %}
+
+        {{ _self.field(setting, index) }}
+
+    </div>
+
+{% endmacro %}
+
+{% macro field(setting, index = -1) %}
+
+    {% if index == -1 %}
+        {% set index = setting.getName %}
+    {% endif %}
+
+    {% set settingValue = setting.getValue %}
+
+        {% if setting.uiControlType != 'checkbox' %}
+            <label>{{ setting.title }}</label>
+        {% endif %}
+
+        {% if setting.inlineHelp %}
+            <div class="form-help">
+                {{ setting.inlineHelp }}
+                {% if setting.defaultValue and setting.uiControlType != 'checkbox' and setting.uiControlType != 'radio' %}
+                    <br/>
+                    {{ 'General_Default'|translate }}:
+                    {% if setting.defaultValue is iterable %}
+                        {{ setting.defaultValue|join(', ')|truncate(50) }}
+                    {% else %}
+                        {{ setting.defaultValue|truncate(50) }}
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if setting.uiControlType == 'select' or setting.uiControlType == 'multiselect' %}
+                    <select
+                        {% for attr, val in setting.uiControlAttributes %}
+            {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
+        {% endfor %}
+                        name="{{ setting.getKey|e('html_attr') }}"
+                        {% if setting.uiControlType == 'multiselect' %}multiple{% endif %}>
+
+                        {% for key, value in setting.availableValues %}
+            <option value='{{ key }}'
+                    {% if settingValue is iterable and key in settingValue %}
+                selected='selected'
+            {% elseif settingValue==key %}
+                selected='selected'
+                    {% endif %}>
+                {{ value }}
+            </option>
+        {% endfor %}
+
+                    </select>
+                {% elseif setting.uiControlType == 'textarea' %}
+                    <textarea style="width: 376px; height: 250px;"
+                        {% for attr, val in setting.uiControlAttributes %}
+            {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
+        {% endfor %}
+                        name="{{ setting.getKey|e('html_attr') }}"
+                        >
+                        {{- settingValue -}}
+                    </textarea>
+                {% elseif setting.uiControlType == 'radio' %}
+
+            {% for key, value in setting.availableValues %}
+                <label class="radio">
+                    <input
+                            id="name-value-{{ index }}"
+                    {% for attr, val in setting.uiControlAttributes %}
+                        {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
+                    {% endfor %}
+                    {% if settingValue is sameas(key) %}
+                        checked="checked"
+                    {% endif %}
+                    type="radio"
+                    value="{{ key|e('html_attr') }}"
+                    name="{{ setting.getKey|e('html_attr') }}" />
+
+                    {{ value }}
+
+                    {% if setting.description %}
+                        <span class='form-description'>{{ setting.description }}</span>
+                    {% endif %}
+
+                </label>
+            {% endfor %}
+
+        {% elseif setting.uiControlType == 'checkbox' %}
+
+            <label class="checkbox">
+                <input id="name-value-{{ index }}"
+                {% for attr, val in setting.uiControlAttributes %}
+                    {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
+                {% endfor %}
+                value="1"
+                {% if settingValue %}
+                    checked="checked"
+                {% endif %}
+                type="checkbox"
+                name="{{ setting.getKey|e('html_attr') }}">
+
+                {{ setting.title }}
+
+                {% if setting.description %}
+                    <span class='form-description'>{{ setting.description }}</span>
+                {% endif %}
+            </label>
+
+        {% else %}
+
+            <input
+            {% for attr, val in setting.uiControlAttributes %}
+                {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
+            {% endfor %}
+            class="control_{{ setting.uiControlType|e('html_attr') }}"
+            type="{{ setting.uiControlType|e('html_attr') }}"
+            name="{{ setting.getKey|e('html_attr') }}"
+            value="{{ settingValue|e('html_attr') }}">
+
+        {% endif %}
+
+        {% if setting.uiControlType != 'checkbox' and setting.uiControlType != 'radio' %}
+            <span class='form-description'>{{ setting.description }}</span>
+        {% endif %}
+
+
+{% endmacro %}

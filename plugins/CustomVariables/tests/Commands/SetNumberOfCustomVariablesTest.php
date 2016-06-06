@@ -65,7 +65,7 @@ class SetNumberOfCustomVariablesTest extends IntegrationTestCase
 
     public function testExecute_ShouldAddMaxCustomVars_IfNumberIsHigherThanActual()
     {
-        $this->assertEquals(5, CustomVariables::getMaxCustomVariables());
+        $this->assertEquals(5, CustomVariables::getNumUsableCustomVariables());
 
         $result = $this->executeCommand(6);
 
@@ -77,13 +77,13 @@ class SetNumberOfCustomVariablesTest extends IntegrationTestCase
         $this->assertContains('Added a variable in scope "Conversion" having the index 6', $result);
         $this->assertContains('Your Piwik is now configured for 6 custom variables.', $result);
 
-        $this->assertEquals(6, CustomVariables::getMaxCustomVariables());
+        $this->assertEquals(6, CustomVariables::getNumUsableCustomVariables());
     }
 
     public function testExecute_ShouldRemoveMaxCustomVars_IfNumberIsLessThanActual()
     {
         $this->executeCommand(6, true);
-        $this->assertEquals(6, CustomVariables::getMaxCustomVariables());
+        $this->assertEquals(6, CustomVariables::getNumUsableCustomVariables());
 
         $result = $this->executeCommand(5);
 
@@ -95,18 +95,18 @@ class SetNumberOfCustomVariablesTest extends IntegrationTestCase
         $this->assertContains('Removed a variable in scope "Conversion" having the index 6', $result);
         $this->assertContains('Your Piwik is now configured for 5 custom variables.', $result);
 
-        $this->assertEquals(5, CustomVariables::getMaxCustomVariables());
+        $this->assertEquals(5, CustomVariables::getNumUsableCustomVariables());
     }
 
     public function testExecute_AddMultiple_RemoveMultiple()
     {
-        $this->assertEquals(5, CustomVariables::getMaxCustomVariables());
+        $this->assertEquals(5, CustomVariables::getNumUsableCustomVariables());
 
         $this->executeCommand(9);
-        $this->assertEquals(9, CustomVariables::getMaxCustomVariables());
+        $this->assertEquals(9, CustomVariables::getNumUsableCustomVariables());
 
         $this->executeCommand(6);
-        $this->assertEquals(6, CustomVariables::getMaxCustomVariables());
+        $this->assertEquals(6, CustomVariables::getNumUsableCustomVariables());
     }
 
     /**

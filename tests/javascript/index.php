@@ -5,7 +5,14 @@
     <meta charset="utf-8">
     <title>piwik.js: Unit Tests</title>
 <?php
-require_once(dirname(__FILE__).'/SQLite.php');
+$root = dirname(__FILE__) . '/../..';
+
+try {
+    $mysql = include_once $root . "/tests/PHPUnit/bootstrap.php";
+} catch (Exception $e) {
+    echo 'alert("' . $e->getMessage() .  '")';
+    $mysql = false;
+}
 
 if(file_exists("stub.tpl")) {
     echo file_get_contents("stub.tpl");
@@ -18,18 +25,12 @@ function getToken() {
 function getContentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getHeartbeatToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
-$sqlite = false;
-if (file_exists("enable_sqlite")) {
-    if (class_exists('SQLite')) {
-        $sqlite = true;
-    }
-}
 
-if(!$sqlite) {
-    echo 'alert("WARNING: Javascript integration tests require sqlite, \n1) ensure this PHP extension is enabled to make sure you run all tests \napt-get install php5-sqlite \n2) Then please create an empty file enable_sqlite in tests/javascript/enable_sqlite \n3) Re-execute this page and make sure this popup does not display ");';
-}
-if ($sqlite) {
+if ($mysql) {
   echo '
 var _paq = _paq || [];
 
@@ -51,6 +52,7 @@ testTrackPageViewAsync();
 }
 ?>
  </script>
+ <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
  <script src="../../js/piwik.js?rand=<?php echo md5(uniqid(mt_rand(), true)) ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
@@ -206,11 +208,16 @@ function loadJash() {
      window.scroll(0, 0);
  }
 
-function triggerEvent(element, type) {
+function triggerEvent(element, type, buttonNumber) {
  if ( document.createEvent ) {
-     var event = document.createEvent( "MouseEvents" );
-     event.initMouseEvent(type, true, true, element.ownerDocument.defaultView,
-         0, 0, 0, 0, 0, false, false, false, false, 0, null);
+     if ('undefined' === (typeof buttonNumber)) {
+         buttonNumber = 0;
+     }
+
+     var event = document.createEvent( "MouseEvents" ),
+         docView = element == window ? element : element.ownerDocument.defaultView;
+     event.initMouseEvent(type, true, true, docView,
+         0, 0, 0, 0, 0, false, false, false, false, buttonNumber, null);
      element.dispatchEvent( event );
  } else if ( element.fireEvent ) {
      element.fireEvent( "on" + type );
@@ -227,7 +234,7 @@ function triggerEvent(element, type) {
      }
  }
 
- function fetchTrackedRequests(token)
+ function fetchTrackedRequests(token, parse)
  {
      var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
          window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
@@ -236,7 +243,18 @@ function triggerEvent(element, type) {
      xhr.open("GET", "piwik.php?requests=" + token, false);
      xhr.send(null);
 
-     return xhr.responseText;
+     var response = xhr.responseText;
+     if (parse) {
+         var results = [];
+         $(response).filter('span').each(function (i) {
+             if (i != 0) {
+                 results.push($(this).text());
+             }
+         });
+         return results;
+     }
+
+     return response;
  }
 
  function dropCookie(cookieName, path, domain) {
@@ -364,6 +382,7 @@ function setupContentTrackingFixture(name, targetNode) {
   <iframe name="iframe5"></iframe>
   <iframe name="iframe6"></iframe>
   <iframe name="iframe7"></iframe>
+  <iframe name="iframe9"></iframe>
   <img id="image1" src=""/> <!-- Test require this empty source attribute before image2!! -->
   <img id="image2" data-content-piece src="img.jpg"/>
   <ul>
@@ -375,6 +394,8 @@ function setupContentTrackingFixture(name, targetNode) {
     <li><a id="click6" href="example.pdf" target="iframe6" class="clicktest">download: implicit (file extension)</a></li>
     <li><a id="click7" href="example.word" target="iframe7" class="piwik_download clicktest">download: explicit</a></li>
     <li><a id="click8" href="example.exe" target="iframe8" class="clicktest">no click handler</a></li>
+    <li><a id="click9" href="example.html" target="iframe7" download class="clicktest">download: explicit (attribute)</a></li>
+    <li><a id="click11" href="http://example.co.nz/test-with-%F6%E4%FC/story/0" target="iframe9">outlink: containing iso-8859-1 encoded url</a></li>
   </ul>
   <div id="clickDiv"></div>
  </div>
@@ -407,15 +428,23 @@ function PiwikTest() {
 
     module('externals');
 
+
+    // Delete cookies to prevent cookie store from impacting tests
+    deleteCookies();
+
     test("JSLint", function() {
         expect(1);
         var src = '<?php
             $src = file_get_contents('../../js/piwik.js');
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
+            $src = substr($src, strpos($src, '/* startjslint */'));
             echo "$src"; ?>';
 
         var result = JSLINT(src);
         ok( result, "JSLint" );
+        if (console && console.log && !result) {
+            console.log('JSLINT errors', JSLINT.errors);
+        }
 //      alert(JSLINT.report(true));
     });
 
@@ -569,7 +598,7 @@ function PiwikTest() {
         propEqual(actual, [_e('click7')], "findNodesHavingCssClass, find matching within div different class");
 
         actual = query.findNodesHavingCssClass(_e('other'), 'clicktest');
-        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingCssClass, find many matching within div");
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8'), _e('click9')], "findNodesHavingCssClass, find many matching within div");
 
         actual = query.findNodesHavingCssClass(_e('click7'), 'piwik_download');
         propEqual(actual, [], "findNodesHavingCssClass, should not find if passed node has class itself");
@@ -698,7 +727,7 @@ function PiwikTest() {
         ok(actual.length > 11, "findNodesHavingAttribute, should find many elements within body");
 
         actual = query.findNodesHavingAttribute(_e('other'), 'href');
-        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8')], "findNodesHavingAttribute, should find many elements within node");
+        propEqual(actual, [_e('click1'), _e('click2'), _e('click3'), _e('click4'), _e('click5'), _e('click6'), _e('click7'), _e('click8'), _e('click9'), _e('click11')], "findNodesHavingAttribute, should find many elements within node");
 
         actual = query.findNodesHavingAttribute(_e('other'), 'anyAttribute');
         propEqual(actual, [], "findNodesHavingAttribute, should not find any such attribute within div");
@@ -801,7 +830,7 @@ function PiwikTest() {
         ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
 
         actual = query.find('.clicktest');
-        ok(actual.length === 8, "find, should find many elements by class");
+        ok(actual.length === 9, "find, should find many elements by class");
         ok(-1 !== indexOfArray(actual, _e('click1')), 'find, random check to make sure it contains a link');
 
 
@@ -1555,7 +1584,9 @@ function PiwikTest() {
             }
 
             strictEqual(actual.indexOf(expectedStartsWith), 0, message +  actual + ' should start with ' + expectedStartsWith);
-            strictEqual(actual.indexOf('&idsite=&rec=1'), expectedStartsWith.length);
+
+            var expectedString = '&idsite=1&rec=1';
+            strictEqual(actual.indexOf(expectedString), expectedStartsWith.length, 'did not find ' + expectedString + ' in ' + actual);
             // make sure it contains all those other tracking stuff directly afterwards so we can assume it did append
             // the other request stuff and we also make sure to compare the whole custom string as we check from
             // expectedStartsWith.length
@@ -1611,13 +1642,15 @@ function PiwikTest() {
         strictEqual(actual, undefined, 'nothing set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db', 'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db',
+            'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
-        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db', 'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db',
+            'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
 
         actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, '?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
+        assertTrackingRequest(actual, 'piwik.php?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
 
         trackerUrl = tracker.getTrackerUrl();
         tracker.setTrackerUrl('piwik.php?test=1');
@@ -1725,7 +1758,7 @@ function PiwikTest() {
         strictEqual($(_s('#ex111')).attr('href'), 'piwik.php?xyz=makesnosense', 'trackContentImpressionClickInteraction, a tracking link should not be changed');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex112')))({target: _s('#ex112')});
-        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + originEncoded + '%2Ftests%2Fjavascript%2F%23example', 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
+        assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg&c_t=' + toEncodedAbsoluteUrl('#example'), 'trackContentImpressionClickInteraction, a link that is an anchor should be tracked as XHR and no redirect');
 
         actual = (tracker.trackContentImpressionClickInteraction(_s('#ex113_target')))({target: _s('#ex113_target')});
         assertTrackingRequest(actual, 'c_i=click&c_n=img.jpg&c_p=img.jpg', 'trackContentImpressionClickInteraction, if element is not A or AREA it should always use xhr');
@@ -1895,7 +1928,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(64);
+        expect(69);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
@@ -1924,12 +1957,16 @@ function PiwikTest() {
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
         equal( typeof tracker.setCustomRequestProcessing, 'function', 'setCustomRequestProcessing' );
+        equal( typeof tracker.setCustomDimension, 'function', 'setCustomDimension' );
+        equal( typeof tracker.getCustomDimension, 'function', 'getCustomDimension' );
+        equal( typeof tracker.deleteCustomDimension, 'function', 'deleteCustomDimension' );
         equal( typeof tracker.setCustomVariable, 'function', 'setCustomVariable' );
         equal( typeof tracker.getCustomVariable, 'function', 'getCustomVariable' );
         equal( typeof tracker.deleteCustomVariable, 'function', 'deleteCustomVariable' );
         equal( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
+        equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
         equal( typeof tracker.setDomains, 'function', 'setDomains' );
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
@@ -1951,7 +1988,7 @@ function PiwikTest() {
         equal( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
         equal( typeof tracker.addListener, 'function', 'addListener' );
         equal( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
-        equal( typeof tracker.setHeartBeatTimer, 'function', 'setHeartBeatTimer' );
+        equal( typeof tracker.enableHeartBeatTimer, 'function', 'enableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
         equal( typeof tracker.redirectFile, 'function', 'redirectFile' );
         equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
@@ -1965,6 +2002,7 @@ function PiwikTest() {
         equal( typeof tracker.trackContentImpressionsWithinNode, 'function', 'trackContentImpressionsWithinNode' );
         equal( typeof tracker.trackContentInteraction, 'function', 'trackContentInteraction' );
         equal( typeof tracker.trackContentInteractionNode, 'function', 'trackContentInteractionNode' );
+        equal( typeof tracker.logAllContentBlocksOnPage, 'function', 'logAllContentBlocksOnPage' );
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
@@ -2007,29 +2045,31 @@ function PiwikTest() {
     });
     
     test("Default visitorId should be equal across Trackers", function() {
-        expect(4);
+        expect(5);
 
         deleteCookies();
 
         var asyncTracker = Piwik.getAsyncTracker();
-        var asyncVistorId = asyncTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), asyncVistorId, 'asyncVistorId');
-        
-        wait(2000);
+        var asyncVisitorId = asyncTracker.getVisitorId();
+        equal(Piwik.getAsyncTracker().getSiteId(), asyncTracker.getSiteId(), 'async same site id');
+        equal(Piwik.getAsyncTracker().getTrackerUrl(), asyncTracker.getTrackerUrl(), 'async same getTrackerUrl()');
 
+        wait(2000);
         var delayedTracker = Piwik.getTracker();
         var delayedVisitorId = delayedTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId');
+        equal(Piwik.getAsyncTracker().getVisitorId(), delayedVisitorId, 'delayedVisitorId ' + delayedVisitorId + ' should be the same as ' + Piwik.getAsyncTracker().getVisitorId());
 
         var prefixTracker = Piwik.getTracker();
         prefixTracker.setCookieNamePrefix('_test_cookie_prefix');
 
         var prefixVisitorId = prefixTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'prefixVisitorId');
+        notEqual(Piwik.getAsyncTracker().getVisitorId(), prefixVisitorId, 'Visitor ID are different when using a different cookie prefix');
 
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
         var customVisitorId = customTracker.getVisitorId();
-        equal(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'customVisitorId');
+        notEqual(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'Visitor ID are different on different websites');
+
+
     });
 
     test("AnalyticsTracker alias", function() {
@@ -2039,18 +2079,22 @@ function PiwikTest() {
         equal( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
     });
 
-    test("Tracker encode, decode, urldecode wrappers", function() {
+    test("Tracker encode, decode wrappers", function() {
         expect(6);
 
         var tracker = Piwik.getTracker();
 
         equal( typeof tracker.hook.test._encode, 'function', 'encodeWrapper' );
         equal( typeof tracker.hook.test._decode, 'function', 'decodeWrapper' );
-        equal( typeof tracker.hook.test._urldecode, 'function', 'urldecodeWrapper' );
 
         equal( tracker.hook.test._encode("&=?;/#"), '%26%3D%3F%3B%2F%23', 'encodeWrapper()' );
         equal( tracker.hook.test._decode("%26%3D%3F%3B%2F%23"), '&=?;/#', 'decodeWrapper()' );
-        equal( tracker.hook.test._urldecode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
+        equal( tracker.hook.test._decode("mailto:%69%6e%66%6f@%65%78%61%6d%70%6c%65.%63%6f%6d"), 'mailto:info@example.com', 'decodeWrapper()' );
+        equal( tracker.hook.test._decode(
+            "http://example.org/2013/06/test.php?param[]=1&test2=%D8%A5%D9%86%D8%B4%D8%A7%D8%A1-%D9%86%D8%B3%D8%AE%D8%A9-%D9%85%D8%AE%D8%B5%D8%B5%D8%A9-%D9%86%D8%B8%D8%A7%D9%85-%D8%AA%D8%B4%D8%BA%D9%8A%D9%84-%D8%A3%D9%88%D8%A8%D9%86%D8%AA%D9%88-%D8%A8/"),
+            "http://example.org/2013/06/test.php?param[]=1&test2=إنشاء-نسخة-مخصصة-نظام-تشغيل-أوبنتو-ب/",
+            'decodeWrapper()'
+        );
     });
     
     test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
@@ -2146,7 +2190,7 @@ function PiwikTest() {
 
     // support for setCustomUrl( relativeURI )
     test("getProtocolScheme and resolveRelativeReference", function() {
-        expect(27);
+        expect(28);
 
         var tracker = Piwik.getTracker();
 
@@ -2156,6 +2200,7 @@ function PiwikTest() {
         ok( tracker.hook.test._getProtocolScheme('https://example.com') === 'https', 'https://' );
         ok( tracker.hook.test._getProtocolScheme('file://somefile.txt') === 'file', 'file://' );
         ok( tracker.hook.test._getProtocolScheme('mailto:somebody@example.com') === 'mailto', 'mailto:' );
+        ok( tracker.hook.test._getProtocolScheme('tel:0123456789') === 'tel', 'tel:' );
         ok( tracker.hook.test._getProtocolScheme('javascript:alert(document.cookie)') === 'javascript', 'javascript:' );
         ok( tracker.hook.test._getProtocolScheme('') === null, 'empty string' );
         ok( tracker.hook.test._getProtocolScheme(':') === null, 'unspecified scheme' );
@@ -2198,12 +2243,46 @@ function PiwikTest() {
         }
     });
 
-    test("Tracker setDomains() and isSiteHostName()", function() {
-        expect(13);
+    test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
+        expect(154);
 
         var tracker = Piwik.getTracker();
+        var initialDomains = tracker.getDomains();
+        var domainAlias = initialDomains[0];
 
         equal( typeof tracker.hook.test._isSiteHostName, 'function', "isSiteHostName" );
+        equal( typeof tracker.hook.test._isSiteHostPath, 'function', "isSiteHostPath" );
+        equal( typeof tracker.hook.test._getLinkIfShouldBeProcessed, 'function', "getLinkIfShouldBeProcessed" );
+
+        var isSiteHostName = tracker.hook.test._isSiteHostName;
+        var isSiteHostPath = tracker.hook.test._isSiteHostPath;
+        var getLinkIfShouldBeProcessed = tracker.hook.test._getLinkIfShouldBeProcessed;
+
+        // tracker.setDomain()
+
+        // test wildcards
+        tracker.setDomains( ['*.Example.com'] );
+        propEqual(["*.Example.com", domainAlias], tracker.getDomains()), 'should add domainAlias';
+
+        tracker.setDomains( '*.Example.org' );
+        propEqual(["*.Example.org", domainAlias], tracker.getDomains()), 'should handle a string';
+
+        tracker.setDomains( ['*.Example.com', '*.example.ORG'] );
+        propEqual(["*.Example.com", '*.example.ORG', domainAlias], tracker.getDomains()), 'should be able to set many domains';
+
+        tracker.setDomains( [] );
+        propEqual([domainAlias], tracker.getDomains()), 'setting an empty array should reset the list';
+
+        tracker.setDomains( ['*.Example.com', domainAlias + '/path', '*.example.ORG'] );
+        propEqual(['*.Example.com', domainAlias + '/path', '*.example.ORG'], tracker.getDomains()), 'if domain alias is already given should not add domainAlias';
+
+        tracker.setDomains( ['.' + domainAlias + '/path'] );
+        propEqual(['.' + domainAlias + '/path'], tracker.getDomains()), 'if domain alias with subdomain is already given should not add domainAlias';
+
+
+        /**
+         * isSiteHostName ()
+         */
 
         // test wildcards
         tracker.setDomains( ['*.Example.com'] );
@@ -2211,21 +2290,195 @@ function PiwikTest() {
         // skip test if testing on localhost
         ok( window.location.hostname != 'localhost' ? !tracker.hook.test._isSiteHostName('localhost') : true, '!isSiteHostName("localhost")' );
 
-        ok( !tracker.hook.test._isSiteHostName('google.com'), '!isSiteHostName("google.com")' );
-        ok( tracker.hook.test._isSiteHostName('example.com'), 'isSiteHostName("example.com")' );
-        ok( tracker.hook.test._isSiteHostName('www.example.com'), 'isSiteHostName("www.example.com")' );
-        ok( tracker.hook.test._isSiteHostName('www.sub.example.com'), 'isSiteHostName("www.sub.example.com")' );
+        ok( !isSiteHostName('google.com'), '!isSiteHostName("google.com")' );
+        ok( isSiteHostName('example.com'), 'isSiteHostName("example.com")' );
+        ok( isSiteHostName('www.example.com'), 'isSiteHostName("www.example.com")' );
+        ok( isSiteHostName('www.sub.example.com'), 'isSiteHostName("www.sub.example.com")' );
 
         tracker.setDomains( 'dev.piwik.org' );
-        ok( !tracker.hook.test._isSiteHostName('piwik.org'), '!isSiteHostName("piwik.org")' );
-        ok( tracker.hook.test._isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
-        ok( !tracker.hook.test._isSiteHostName('piwik.example.org'), '!isSiteHostName("piwik.example.org")');
-        ok( !tracker.hook.test._isSiteHostName('dev.piwik.org.com'), '!isSiteHostName("dev.piwik.org.com")');
+        ok( !isSiteHostName('piwik.org'), '!isSiteHostName("piwik.org")' );
+        ok( isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
+        ok( !isSiteHostName('piwik.example.org'), '!isSiteHostName("piwik.example.org")');
+        ok( !isSiteHostName('dev.piwik.org.com'), '!isSiteHostName("dev.piwik.org.com")');
 
         tracker.setDomains( '.piwik.org' );
-        ok( tracker.hook.test._isSiteHostName('piwik.org'), 'isSiteHostName("piwik.org")' );
-        ok( tracker.hook.test._isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
-        ok( !tracker.hook.test._isSiteHostName('piwik.org.com'), '!isSiteHostName("piwik.org.com")');
+        ok( isSiteHostName('piwik.org'), 'isSiteHostName("piwik.org")' );
+        ok( isSiteHostName('dev.piwik.org'), 'isSiteHostName("dev.piwik.org")' );
+        ok( !isSiteHostName('piwik.org.com'), '!isSiteHostName("piwik.org.com")');
+
+        // domain wildcard should not affect behavior
+        tracker.setDomains( '.piwik.net/*' );
+        ok( isSiteHostName('piwik.net'), 'isSiteHostName("piwik.net")' );
+        ok( isSiteHostName('dev.piwik.net'), 'isSiteHostName("dev.piwik.net")' );
+        ok( !isSiteHostName('piwik.net.com'), '!isSiteHostName("piwik.net.com")');
+
+        /**
+         * isSiteHostPath ()
+         */
+
+        // various edge cases with wildcards or 'empty' paths
+        var testCases = [
+            ['piwik.org'],
+            ['piwik.org/'],
+            ['piwik.org/*'],
+            ['piwik.org/*', 'piwik.org/foo' ],
+            ['piwik.org/foo', 'piwik.org/*' ],
+            ['piwik.org/foo', 'piwik.org/*', 'piwik.org/*/bar' ],
+        ];
+        for(var i in testCases) {
+            domainTestCase = testCases[i];
+            tracker.setDomains( domainTestCase );
+
+            ok( isSiteHostPath('piwik.org', '/'), 'isSiteHostPath("piwik.org", "/") for ' +  domainTestCase );
+            ok( isSiteHostPath('piwik.org', ''), 'isSiteHostPath("piwik.org", "") for ' +  domainTestCase );
+            ok( isSiteHostPath('piwik.org', '*'), 'isSiteHostPath("piwik.org", "*") for ' +  domainTestCase);
+            ok( isSiteHostPath('piwik.org', '/*'), 'isSiteHostPath("piwik.org", "/*") for ' +  domainTestCase);
+            ok( isSiteHostPath('piwik.org', '/index'), 'isSiteHostPath("piwik.org", "/index") for ' +  domainTestCase);
+        }
+
+
+        // with path
+        tracker.setDomains( '.piwik.org/path' );
+        ok( isSiteHostPath('piwik.org', '/path'), 'isSiteHostPath("piwik.org", "/path")' );
+        ok( isSiteHostPath('piwik.org', '/path/'), 'isSiteHostPath("piwik.org", "/path/")' );
+        ok( !isSiteHostPath('piwik.org', '/path.htm'), 'isSiteHostPath("piwik.org", "/path.htm")' );
+        ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test)' );
+        ok( isSiteHostPath('dev.piwik.org', '/path'), 'isSiteHostPath("dev.piwik.org", "/path")' );
+        ok( !isSiteHostPath('piwik.org', '/pat'), '!isSiteHostPath("piwik.org", "/pat")');
+        ok( !isSiteHostPath('piwik.org', '.com'), '!isSiteHostPath("piwik.org", ".com")');
+        ok( !isSiteHostPath('piwik.com', '/path'), '!isSiteHostPath("piwik.com", "/path")');
+        ok( !isSiteHostPath('piwik.com', '/path/test'), '!isSiteHostPath("piwik.com", "/path/test")');
+        ok( !isSiteHostPath('piwik.com', ''), '!isSiteHostPath("piwik.com", "/path/test")');
+
+        // no path
+        var domains = ['.piwik.org', 'piwik.org', '*.piwik.org', '.piwik.org/'];
+        for (var i in domains) {
+            var domain = domains[i];
+            tracker.setDomains( domain );
+            ok( isSiteHostPath('piwik.org', '/path'), 'isSiteHostPath("piwik.org", "/path"), domain: ' + domain );
+            ok( isSiteHostPath('piwik.org', '/path/'), 'isSiteHostPath("piwik.org", "/path/"), domain: ' + domain );
+            ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test), domain: ' + domain );
+
+            if (domain === 'piwik.org') {
+                ok( !isSiteHostPath('dev.piwik.org', '/path'), 'isSiteHostPath("dev.piwik.org", "/path"), domain: ' + domain );
+            } else {
+                ok( isSiteHostPath('dev.piwik.org', '/path'), 'isSiteHostPath("dev.piwik.org", "/path"), domain: ' + domain );
+            }
+            ok( isSiteHostPath('piwik.org', '/pat'), '!isSiteHostPath("piwik.org", "/pat"), domain: ' + domain );
+            ok( isSiteHostPath('piwik.org', '.com'), '!isSiteHostPath("piwik.org", ".com"), domain: ' + domain);
+            ok( isSiteHostPath('piwik.org', '/foo'), '!isSiteHostPath("piwik.com", "/foo"), domain: ' + domain);
+            ok( !isSiteHostPath('piwik.com', '/path'), '!isSiteHostPath("piwik.com", "/path"), domain: ' + domain);
+            ok( !isSiteHostPath('piwik.com', '/path/test'), '!isSiteHostPath("piwik.com", "/path/test"), domain: ' + domain);
+            ok( !isSiteHostPath('piwik.com', ''), '!isSiteHostPath("piwik.com", "/path/test"), domain: ' + domain);
+        }
+
+        // multiple paths / domains
+        tracker.setDomains( ['piwik.org/path', 'piwik.org/foo', 'piwik.org/bar/baz', '.piwik.pro/test'] );
+        ok( isSiteHostPath('piwik.pro', '/test/bar'), 'isSiteHostPath("piwik.pro", "/test/bar")' );
+        ok( !isSiteHostPath('piwik.org', '/foobar/'), 'isSiteHostPath("piwik.org", "/foobar/")' );
+        ok( isSiteHostPath('piwik.org', '/foo/bar'), 'isSiteHostPath("piwik.org", "/foo/bar")' );
+        ok( isSiteHostPath('piwik.org', '/bar/baz/foo'), 'isSiteHostPath("piwik.org", "/bar/baz/foo/")' );
+        ok( !isSiteHostPath('piwik.org', '/bar/ba'), 'isSiteHostPath("piwik.org", "/bar/ba")' );
+        ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test")' );
+        ok( isSiteHostPath('piwik.org', '/path/test.htm'), 'isSiteHostPath("piwik.org", "/path/test.htm")' );
+        ok( isSiteHostPath('dev.piwik.pro', '/test'), 'isSiteHostPath("dev.piwik.pro", "/test")' );
+        ok( !isSiteHostPath('dev.piwik.pro', 'something/test.htm'), 'isSiteHostPath("dev.piwik.pro", "something/test")' );
+        ok( !isSiteHostPath('dev.piwik.pro', '/'), 'isSiteHostPath("dev.piwik.pro", "/")' );
+        ok( !isSiteHostPath('piwik.org', '/'), 'isSiteHostPath("piwik.org", "/")' );
+        ok( !isSiteHostPath('piwik.pro', '/'), 'isSiteHostPath("piwik.pro", "/")' );
+        ok( !isSiteHostPath('piwik.org', '/index.htm'), 'isSiteHostPath("piwik.org", "/index.htm")' );
+        ok( !isSiteHostPath('piwik.org', '/anythingelse'), 'isSiteHostPath("piwik.org", "/anythingelse")' );
+        ok( !isSiteHostPath('another.org', '/'), 'isSiteHostPath("another.org", "/")' );
+        ok( !isSiteHostPath('another.org', '/anythingelse'), 'isSiteHostPath("another.org", "/anythingelse")' );
+
+
+        // some subdirectories and some path wildcards
+        tracker.setDomains( ['piwik.org/path', 'piwik.org/path2', 'piwik.org/index*'] );
+        ok( !isSiteHostPath('piwik.org', '/another'), "isSiteHostPath('piwik.org', '/another')" );
+        ok( !isSiteHostPath('piwik.org', '/anotherindex'), "isSiteHostPath('piwik.org', '/anotherindex')" );
+        ok( !isSiteHostPath('piwik.org', '/path.html'), "isSiteHostPath('piwik.org', '/path.html')" );
+        ok( isSiteHostPath('piwik.org', '/index'), "isSiteHostPath('piwik.org', '/index')" );
+        ok( isSiteHostPath('piwik.org', '/index.htm'), "isSiteHostPath('piwik.org', '/index.htm')" );
+        ok( isSiteHostPath('piwik.org', '/index_en.htm'), "isSiteHostPath('piwik.org', '/index_en.htm')" );
+        ok( isSiteHostPath('piwik.org', '/index*page'), "isSiteHostPath('piwik.org', '/index*page')" );
+
+        tracker.setDomains( ['piwik.org/index*', 'piwik.org'] );
+        ok( isSiteHostPath('piwik.org', '/index*page'), "isSiteHostPath('piwik.org', '/index*page')" );
+        ok( isSiteHostPath('piwik.org', ''), "isSiteHostPath('piwik.org', '')" );
+        ok( isSiteHostPath('piwik.org', '/'), "isSiteHostPath('piwik.org', '/')" );
+
+        // all is compared lower case
+        tracker.setDomains( '.piwik.oRg/PaTh' );
+        ok( isSiteHostPath('piwiK.org', '/pAth'), 'isSiteHostPath("piwik.org", "/path")' );
+        ok( isSiteHostPath('piwik.org', '/patH/'), 'isSiteHostPath("piwik.org", "/path/")' );
+        ok( isSiteHostPath('Piwik.ORG', '/PATH/TEST'), 'isSiteHostPath("piwik.org", "/path/test)' );
+
+        /**
+         * getLinkIfShouldBeProcessed ()
+         */
+        var getLinkIfShouldBeProcessed = tracker.hook.test._getLinkIfShouldBeProcessed;
+        function createLink(url) {
+            var link = document.createElement('a');
+            link.href = url;
+            return link;
+        }
+
+        tracker.setDomains( ['.piwik.org/path', '.piwik.org/foo', '.piwik.org/bar/baz', '.piwik.pro/test'] );
+
+        // they should not be detected as outlink as they match one of the domains
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed http://www.piwik.org/foo/bar matches .piwik.org/foo')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed http://piwik.org/foo/bar matches .piwik.org/foo')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed missing protocol only domain given')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('//piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed no protcol but url starts with //')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo?x=1')), 'getLinkIfShouldBeProcessed url with query parameter should detect correct path')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo')), 'getLinkIfShouldBeProcessed path is same as allowed path')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/')), 'getLinkIfShouldBeProcessed path is same as allowed path but with appended slash')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz/')), 'getLinkIfShouldBeProcessed multiple directories with appended slash')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz')), 'getLinkIfShouldBeProcessed multiple directories')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://WWW.PIWIK.ORG/BAR/BAZ')), 'getLinkIfShouldBeProcessed should test everything lowercase')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz/x/y/z')), 'getLinkIfShouldBeProcessed many appended paths')
+        equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz?test=1&foo=bar')), 'getLinkIfShouldBeProcessed another test with query parameter and multiple directories')
+        propEqual({
+                "href": "http://www.piwik.org/foo/download.apk",
+                "type": "download"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/download.apk')), 'getLinkIfShouldBeProcessed should detect download even if it is link to same domain')
+        propEqual({
+            "href": "http://www.piwik.org/foobar/download.apk",
+            "type": "download"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foobar/download.apk')), 'getLinkIfShouldBeProcessed should detect download even if it goes to different domain/path')
+        propEqual({
+            "href": "http://www.piwik.com/foobar/download.apk",
+            "type": "download"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.com/foobar/download.apk')), 'getLinkIfShouldBeProcessed should detect download even if it goes to different domain')
+        propEqual({
+            "href": "http://www.piwik.pro/foo/",
+            "type": "link"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.pro/foo/')), 'getLinkIfShouldBeProcessed path matches but domain not so outlink')
+        propEqual({
+            "href": "http://www.piwik.org/bar",
+            "type": "link"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar')), 'getLinkIfShouldBeProcessed domain matches but path not so outlink')
+        propEqual({
+            "href": "http://www.piwik.org/footer",
+            "type": "link"
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/footer')), 'getLinkIfShouldBeProcessed http://www.piwik.org/footer and there is domain piwik.org/foo but it should be outlink as path is different')
+
+        /**
+         * Test that we don't set a cookie path automatically
+         */
+        tracker.setCookiePath(null);
+        tracker.setDomains( ['.' + domainAlias + '/tests'] );
+        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+
+        tracker.setCookiePath(null);
+        tracker.setDomains( ['.' + domainAlias + '/tests/javascript'] );
+        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+
+        tracker.setCookiePath('/path2');
+        tracker.setDomains( ['.' + domainAlias + '/tests/javascript', '.' + domainAlias + '/tests'] );
+        equal('/path2', tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+
+        tracker.setCookiePath(null);
     });
 
     test("Tracker getClassesRegExp()", function() {
@@ -2284,8 +2537,26 @@ function PiwikTest() {
         equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
     });
 
+    test("Tracker getCookieName() contains website ID", function() {
+        expect(4);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+
+        tracker.setSiteId(1);
+        cookieName = tracker.hook.test._getCookieName('testing');
+        ok( cookieName.indexOf('testing.1.') != -1);
+        ok( cookieName.indexOf('testing.2.') == -1);
+
+        tracker.setSiteId(2);
+        cookieName = tracker.hook.test._getCookieName('testing-another');
+        ok( cookieName.indexOf('testing-another.2.') != -1);
+        ok( cookieName.indexOf('testing-another.1.') == -1);
+
+    });
+
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {
-        expect(54);
+        expect(72);
 
         var tracker = Piwik.getTracker();
 
@@ -2293,40 +2564,55 @@ function PiwikTest() {
 
             equal( typeof tracker.hook.test._getLinkType, 'function', 'getLinkType' );
 
-            equal( tracker.hook.test._getLinkType('something', 'goofy.html', false), 'link', messagePrefix + 'implicit link' );
-            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false), 'download', messagePrefix + 'external PDF files are downloads' );
-            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
-            equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true), 'download', messagePrefix + 'local PDF are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.html', false, false), 'link', messagePrefix + 'implicit link' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', false, false), 'download', messagePrefix + 'external PDF files are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy.pdf', true, false), 'download', messagePrefix + 'local PDF are downloads' );
+            equal( tracker.hook.test._getLinkType('something', 'goofy-with-dash.pdf', true, false), 'download', messagePrefix + 'local PDF are downloads' );
 
-            equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'piwik_download' );
-            equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true), 'download', messagePrefix + 'abc piwik_download xyz' );
-            equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true), 'link', messagePrefix+ 'piwik_link' );
-            equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true), 'link', messagePrefix + 'abc piwik_link xyz' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 'download', messagePrefix + 'download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true), 0, messagePrefix + '[1] link (default)' );
+            equal( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true, false), 'download', messagePrefix + 'piwik_download' );
+            equal( tracker.hook.test._getLinkType('abc piwik_download xyz', 'piwiktest.ext', true, false), 'download', messagePrefix + 'abc piwik_download xyz' );
+            equal( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.asp', true, false), 'link', messagePrefix+ 'piwik_link' );
+            equal( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true, false), 'link', messagePrefix + 'abc piwik_link xyz' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true, false), 'download', messagePrefix + 'download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true, false), 0, messagePrefix + '[1] link (default)' );
 
-            equal( tracker.hook.test._getLinkType('something', 'file.zip', true), 'download', messagePrefix + 'download file.zip' );
-            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true), 'download', messagePrefix + 'download file.zip (anchor)' );
-            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true), 'download', messagePrefix + 'download file.zip (is param)' );
-            equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true), 'download', messagePrefix + 'download file.zip (with param)' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip', true, false), 'download', messagePrefix + 'download file.zip' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true, false), 'download', messagePrefix + 'download file.zip (anchor)' );
+            equal( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true, false), 'download', messagePrefix + 'download file.zip (is param)' );
+            equal( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true, false), 'download', messagePrefix + 'download file.zip (with param)' );
 
             tracker.setDownloadExtensions('pk');
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[1] .pk == download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 0, messagePrefix + '.txt =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true, false), 'download', messagePrefix + '[1] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true, false), 0, messagePrefix + '.txt =! download extension' );
 
             tracker.addDownloadExtensions('xyz');
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', messagePrefix + '[2] .pk == download extension' );
-            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true), 'download', messagePrefix + '.xyz == download extension' );
+            tracker.addDownloadExtensions(['abc','zz']);
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true, false), 'download', messagePrefix + '[2] .pk == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true, false), 'download', messagePrefix + '.xyz == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true, false), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true, false), 'download', messagePrefix + '.zz == download extension' );
+
+            tracker.removeDownloadExtensions(['xyz','pk']);
+            tracker.removeDownloadExtensions('zz');
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true, false), 0, messagePrefix + '[2] .pk =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.xyz', true, false), 0, messagePrefix + '.xyz =! download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.abc', true, false), 'download', messagePrefix + '.abc == download extension' );
+            equal( tracker.hook.test._getLinkType('something', 'piwiktest.zz', true, false), 0, messagePrefix + '.zz =! download extension' );
 
             tracker.setDownloadClasses(['a', 'b']);
-            equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', messagePrefix + 'download (default)' );
-            equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', messagePrefix + 'download (a)' );
-            equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', messagePrefix + 'download (b)' );
+            equal( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true, false), 'download', messagePrefix + 'download (default)' );
+            equal( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true, false), 'download', messagePrefix + 'download (a)' );
+            equal( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true, false), 'download', messagePrefix + 'download (b)' );
 
             tracker.setLinkClasses(['c', 'd']);
-            equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', messagePrefix + 'link (default)' );
-            equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true), 'link', messagePrefix + 'link (c)' );
-            equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', messagePrefix + 'link (d)' );
+            equal( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true, false), 'link', messagePrefix + 'link (default)' );
+            equal( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true, false), 'link', messagePrefix + 'link (c)' );
+            equal( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true, false), 'link', messagePrefix + 'link (d)' );
+
+            // links containing a download attribute are always downloads
+            equal( tracker.hook.test._getLinkType('test', 'index.html', false, true), 'download', 'download attribute' );
+            equal( tracker.hook.test._getLinkType('piwik_link', 'index.html', true, true), 'link', messagePrefix + ' download attribute, but link class' );
+            equal( tracker.hook.test._getLinkType('piwik_download', 'test.pdf', true, true), 'download', messagePrefix + ' download attribute' );
         }
 
         var trackerUrl = tracker.getTrackerUrl();
@@ -2346,11 +2632,93 @@ function PiwikTest() {
 
         runTests('with tracker url, ');
 
-        equal( tracker.hook.test._getLinkType('something', 'piwik.php', true), 0, 'matches tracker url and should never return any tracker Url' );
-        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/test.pdf', true), 0, 'should not match download as is config tracker url' );
-        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/', true), 0, 'should not match link as is config tracker url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php', true, false), 0, 'matches tracker url and should never return any tracker Url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/test.pdf', true, false), 0, 'should not match download as is config tracker url' );
+        equal( tracker.hook.test._getLinkType('something', 'piwik.php?redirecturl=http://example.com/', true, false), 0, 'should not match link as is config tracker url' );
 
         tracker.setTrackerUrl(trackerUrl);
+    });
+
+    function getVisitorIdFromCookie(tracker) {
+        visitorCookieName = tracker.hook.test._getCookieName('id');
+        visitorCookieValue = tracker.hook.test._getCookie(visitorCookieName);
+        return visitorCookieValue.split('.')[0];
+    }
+
+    test("User ID and Visitor UUID", function() {
+        expect(23);
+        deleteCookies();
+
+        var userIdString = 'userid@mydomain.org';
+
+        var tracker = Piwik.getTracker();
+
+        // Force the cookie to be created....
+        var visitorId = tracker.getVisitorId();
+        tracker.trackPageView();
+
+        // Check cookie was created
+        ok(getVisitorIdFromCookie(tracker).length == 16, "Visitor ID from cookie should be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        equal(getVisitorIdFromCookie(tracker), visitorId, "Visitor ID from cookie is the same as Visitor ID in object");
+        equal(tracker.getVisitorId(), visitorId, "After tracking an action and updating the ID cookie, the visitor ID is still the same.");
+
+        // Visitor ID is by default set to a UUID fingerprint
+        var hashUserId = tracker.hook.test._sha1(userIdString).substr(0, 16);
+        notEqual(hashUserId, tracker.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is not yet the hash of User ID " + hashUserId);
+        notEqual("", tracker.getVisitorId(), "Visitor ID is not empty");
+        ok( tracker.getVisitorId().length === 16, "Visitor ID is 16 chars string");
+
+        // Check that Visitor ID is the same when requested multiple times
+        var visitorId = tracker.getVisitorId();
+        equal(visitorId, tracker.getVisitorId(), "Visitor ID is the same when called multiple times");
+
+        // Check that setting an empty user id will not change the visitor ID
+        var userId = '';
+        equal(userId, tracker.getUserId(), "by default user ID is set to empty string");
+        tracker.setUserId(userId);
+        equal(userId, tracker.getUserId(), "after setting to empty string, user id is still empty");
+        equal(getVisitorIdFromCookie(tracker), tracker.getVisitorId(), "visitor id in cookie was not yet changed after setting empty user id");
+        tracker.trackPageView("Track some data to write the cookies...");
+        equal(visitorId, tracker.getVisitorId(), "visitor id was not changed after setting empty user id and tracking an action");
+        equal(getVisitorIdFromCookie(tracker), tracker.getVisitorId(), "visitor id in cookie was not changed");
+
+
+        // Building another 'tracker2' object so we can compare behavior to 'tracker'
+        var tracker2 = Piwik.getTracker();
+        equal(tracker.getVisitorId(), tracker2.getVisitorId(), "Visitor ID " + tracker.getVisitorId() + " is the same as Visitor ID 2 " + tracker2.getVisitorId());
+        notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
+        tracker2.setCookieNamePrefix("differentNamespace");
+        notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
+        notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "Setting a new namespace forces Visitor ID " + tracker.getVisitorId() + " to be different from Visitor ID 2 " + tracker2.getVisitorId());
+
+
+
+        // Set User ID and verify it was set
+        tracker.setUserId(userIdString);
+        equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
+        equal(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is the sha1 of User ID");
+
+        // Check that calling trackPageView does not change the visitor ID
+        var visitorId = tracker.getVisitorId();
+        tracker.trackPageView();
+        equal(getVisitorIdFromCookie(tracker), visitorId, "Visitor ID from cookie is the same as Visitor ID in object ("+ visitorId +"), but got: " + getVisitorIdFromCookie(tracker));
+
+        // Verify that Visitor ID is tied to User ID
+        notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID " + tracker.getVisitorId() + " is now different from Visitor ID2 " + tracker2.getVisitorId());
+
+        // Verify that setting the same user ID on two objects results in the same Visitor ID
+        tracker2.setUserId(userIdString);
+        equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
+
+
+        // Verify that when resetting the User ID, it also changes the Visitor ID
+        tracker.setUserId(false);
+        ok(getVisitorIdFromCookie(tracker).length == 16, "after setting empty user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        equal(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should be the same as previously ("+ visitorId +")");
+        tracker.trackPageView("Track some data to write the cookies...");
+        // Currently it does not work to setUserId(false)
+//        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should different ("+ visitorId +")");
+
     });
 
     test("utf8_encode(), sha1()", function() {
@@ -2370,10 +2738,11 @@ function PiwikTest() {
     test("getRequest()", function() {
         expect(2);
 
-        var tracker = Piwik.getTracker();
+        var tracker = Piwik.getTracker('hostname', 4);
 
         tracker.setCustomData("key is X", "value is Y");
-        equal( tracker.getRequest('hello=world').indexOf('hello=world&idsite=&rec=1&r='), 0);
+        var requestString = tracker.getRequest('hello=world');
+        equal( requestString.indexOf('hello=world&idsite=4&rec=1&r='), 0, "Request string " + requestString);
 
         ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
     });
@@ -2415,7 +2784,7 @@ function PiwikTest() {
           function link() { lastInteractionType = "link"; }
           function load() { lastInteractionType = "load"; }
           function log() { lastInteractionType = "log"; }
-          function ping() { lastInteractionType = "ping"; }
+          function ping() { lastInteractionType = "ping"; return "&dummy=1"; }
           function sitesearch() { lastInteractionType = "sitesearch"; }
           function unload() { lastInteractionType = "unload"; }
           function getLastInteractionType() { return lastInteractionType; }
@@ -2501,7 +2870,7 @@ function PiwikTest() {
     });
 
     test("Overlay URL Normalizer", function() {
-        expect(11);
+        expect(23);
 
         var test = function(testCases) {
             for (var i = 0; i < testCases.length; i++) {
@@ -2566,10 +2935,29 @@ function PiwikTest() {
                 'example3.com/'
             ]
         ]);
+
+
+        var tracker = Piwik.getTracker();
+
+        // test getPiwikUrlForOverlay
+        var getPiwikUrlForOverlay = tracker.hook.test._getPiwikUrlForOverlay;
+
+        equal( typeof getPiwikUrlForOverlay, 'function', 'getPiwikUrlForOverlay' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php?version=232323'), 'http://www.example.com/', 'with query and js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php?version=232323'), 'http://www.example.com/', 'with query and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/js/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/tracker.php'), 'http://www.example.com/', 'no query, custom tracker and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/js/piwik.php'), 'http://www.example.com/', 'with piwik.php and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/piwik.php'), 'http://www.example.com/', 'with piwik.php and no js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/master/js/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
+        equal( getPiwikUrlForOverlay('http://www.example.com/master/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
+        equal( getPiwikUrlForOverlay('/piwik.php'), '/', 'only piwik.php with leading slash' );
+        equal( getPiwikUrlForOverlay('piwik.php'), '', 'only piwik.php' );
+        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), '/', 'only piwik.php with leading slash with query' );
     });
 
 <?php
-if ($sqlite) {
+if ($mysql) {
     ?>
 
     module("request", {
@@ -2586,11 +2974,9 @@ if ($sqlite) {
     });
 
     test("tracking", function() {
-        expect(102);
+        expect(114);
 
-        /*
-         * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
-         */
+        // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
                 evt = evt || window.event;
 
@@ -2644,6 +3030,21 @@ if ($sqlite) {
         deepEqual( tracker.getCustomVariable(5), ["new name", ""], "getting a custom variable with no value" );
         tracker.deleteCustomVariable(5);
 
+        equal(tracker.getCustomDimension(94), null, "if no custom dimension for this index is specified should return null");
+        equal(tracker.getCustomDimension(-1), null, "if custom dimension index is invalid should return null");
+        equal(tracker.getCustomDimension('not valid'), null, "if custom dimension index is invalid should return null");
+        tracker.setCustomDimension(1, 5);
+        equal(tracker.getCustomDimension(1), "5", "set custom dimension should convert any value to a string" );
+        tracker.setCustomDimension(1, "my custom value");
+        equal(tracker.getCustomDimension(1), "my custom value", "should get stored custom dimension value" );
+        tracker.setCustomDimension(2, undefined);
+        equal(tracker.getCustomDimension(2), "", "setCustomDimension should convert undefined to an empty string" );
+
+        tracker.setCustomDimension(3, 'my third value');
+        equal(tracker.getCustomDimension(3), "my third value", "deleteCustomDimension verify a value is set for this dimension" );
+        tracker.deleteCustomDimension(3);
+        equal(tracker.getCustomDimension(3), null, "deleteCustomDimension verify value was removed" );
+
         tracker.setDocumentTitle("PiwikTest");
 
         var referrerUrl = "http://referrer.example.com/page/sub?query=test&test2=test3";
@@ -2652,7 +3053,10 @@ if ($sqlite) {
         referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
-        tracker.trackPageView("CustomTitleTest");
+        equal(tracker.getCustomDimension(1), "my custom value", "custom dimensions should not be cleared after a tracked pageview");
+        equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
+
+        tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
 
         var customUrlShouldNotChangeCampaign = "http://localhost.localdomain/?utm_campaign=NONONONONONONO&utm_term=PLEASE NO!";
         tracker.setCustomUrl(customUrl);
@@ -2681,14 +3085,19 @@ if ($sqlite) {
         tracker.hook.test._addEventListener(_e("click8"), "click", stopEvent);
         triggerEvent(_e("click8"), 'click');
 
-        tracker.enableLinkTracking();
+        tracker.enableLinkTracking(true);
 
         tracker.setRequestMethod("GET");
-        var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
+        var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7", "click11");
         for (var i=0; i < buttons.length; i++) {
             tracker.hook.test._addEventListener(_e(buttons[i]), "click", stopEvent);
             triggerEvent(_e(buttons[i]), 'click');
         }
+
+        triggerEvent(_e('click7'), 'contextmenu');
+
+        triggerEvent(_e('click7'), 'mousedown', 1);
+        triggerEvent(_e('click7'), 'mouseup', 1); // middleclick
 
         var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
             window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
@@ -2697,13 +3106,13 @@ if ($sqlite) {
         var clickDiv = _e("clickDiv"),
             anchor = document.createElement("a");
 
-        anchor.id = "click9";
+        anchor.id = "click10";
         anchor.href = "http://example.us";
         clickDiv.innerHTML = "";
         clickDiv.appendChild(anchor);
         tracker.addListener(anchor);
         tracker.hook.test._addEventListener(anchor, "click", stopEvent);
-        triggerEvent(_e('click9'), 'click');
+        triggerEvent(_e('click10'), 'click');
 
         var visitorId1, visitorId2;
 
@@ -2711,7 +3120,7 @@ if ($sqlite) {
             visitorId1 = Piwik.getAsyncTracker().getVisitorId();
         }]);
         visitorId2 = tracker.getVisitorId();
-        ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" );
+        ok( visitorId1 && visitorId1 != "" && visitorId2 && visitorId2 != "" && (visitorId1 == visitorId2), "getVisitorId()" + visitorId1 + " VS " + visitorId2 );
 
         var visitorInfo1, visitorInfo2;
 
@@ -2723,7 +3132,7 @@ if ($sqlite) {
             referrer1 = Piwik.getAsyncTracker().getAttributionReferrerUrl();
         }]);
         visitorInfo2 = tracker.getVisitorInfo();
-        ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo()" );
+        ok( visitorInfo1 && visitorInfo2 && visitorInfo1.length == visitorInfo2.length, "getVisitorInfo() " );
         for (var i = 0; i < 6; i++) {
             ok( visitorInfo1[i] == visitorInfo2[i], "(loadVisitorId())["+i+"]" );
         }
@@ -2828,8 +3237,6 @@ if ($sqlite) {
         var userIdString = 'userid@mydomain.org';
         tracker3.setUserId(userIdString);
 
-        equal(userIdString, tracker3.getUserId());
-
         // Append tracking url parameter
         tracker3.appendToTrackingUrl("appended=1&appended2=value");
 
@@ -2877,7 +3284,7 @@ if ($sqlite) {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "30", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "33", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -2894,6 +3301,7 @@ if ($sqlite) {
             ok( /example.us/.test( results ), "addListener()" );
 
             ok( /example.net/.test( results ), "setRequestMethod(GET), click: implicit outlink (by outbound URL)" );
+            ok( /example.co.nz/.test( results ), "setRequestMethod(GET), click: outlink with iso-8859-1 encoding" );
             ok( /example.html/.test( results ), "click: explicit outlink" );
             ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
             ok( /example.word/.test( results ), "click: explicit download" );
@@ -2912,6 +3320,12 @@ if ($sqlite) {
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
+
+            // Test CustomDimension (persistent ones across requests)
+            ok( /dimension1=my%20custom%20value&dimension2=&/.test(results), "test custom dimensions are set");
+
+            // send along a page view and ony valid for this pageview (dimension 2 overwrites another one)
+            ok( /dimension2=my%20new%20value&dimension5=another%20dimension&dimension1=my%20custom%20value&data=%7B%22token/.test( results ), "trackPageView(customTitle, customData)" );
 
             // Test campaign parameters set
             ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found");
@@ -2966,8 +3380,93 @@ if ($sqlite) {
         }, 5000);
     });
 
+    // heartbeat tests
+    test("trackingHeartBeat", function () {
+        expect(14);
+
+        var tokenBase = getHeartbeatToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        tracker.enableHeartBeatTimer(3);
+
+        stop();
+        Q.delay(1).then(function () {
+            // test ping heart beat not set up until an initial request tracked
+            tracker.setCustomData('token', 1 + tokenBase);
+
+            return Q.delay(3500);
+        }).then(function () {
+            // test ping not sent on initial page load, and sent if inactive for N secs.
+            tracker.setCustomData('token', 2 + tokenBase);
+            tracker.trackPageView('whatever'); // normal request sent here
+        }).then(function () {
+            triggerEvent(window, 'focus');
+
+            return Q.delay(4000); // ping request sent after this (afterwards 2 secs to next heartbeat)
+        }).then(function () {
+            // test ping not sent after N secs, if tracking request sent in the mean time
+            tracker.setCustomData('token', 3 + tokenBase);
+
+            tracker.trackPageView('whatever2'); // normal request sent here
+            // heart beat will trigger in 2 secs, then reset to 1 sec later, since tracker request
+            // was sent 2 secs ago
+        }).then(function () {
+            return Q.delay(2100); // ping request NOT sent here (heart beat triggered. after, .9s to next heartbeat)
+        }).then(function () {
+            // test ping sent N secs after second tracking request if inactive.
+            tracker.setCustomData('token', 4 + tokenBase);
+
+            return Q.delay(2100); // ping request sent here (heart beat triggered after 1s; 2s to next heart beat)
+        }).then(function () {
+            // test ping not sent N secs after, if window blur event triggered (ie tab switch) and N secs pass.
+            tracker.setCustomData('token', 5 + tokenBase);
+
+            triggerEvent(window, 'blur');
+
+            return Q.delay(3000); // ping request not sent here (heart beat triggered after 2s; 1s to next heart beat)
+        }).then(function () {
+            // test ping sent immediately if tab switched and more than N secs pass, then tab switched back
+            tracker.setCustomData('token', 6 + tokenBase);
+
+            triggerEvent(window, 'focus'); // ping request sent here
+
+            tracker.disableHeartBeatTimer(); // flatline
+
+            return Q.delay(1000); // for the ping request to get sent
+        }).then(function () {
+            var token;
+
+            var requests = fetchTrackedRequests(token = 1 + tokenBase, true);
+            equal(requests.length, 0, "[token = 1] no requests sent before initial non-ping request sent");
+
+            requests = fetchTrackedRequests(token = 2 + tokenBase, true);
+            ok(/action_name=whatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 2] first request is page view not ping");
+            ok(/ping=1/.test(requests[1]), "[token = 2] second request is ping request");
+            equal(requests.length, 2, "[token = 2] only 2 requests sent for normal ping");
+
+            requests = fetchTrackedRequests(token = 3 + tokenBase, true);
+            ok(/action_name=whatever2/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 3] first request is page view not ping");
+            equal(requests.length, 1, "[token = 3] no ping request sent if other request sent in meantime");
+
+            requests = fetchTrackedRequests(token = 4 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 4] ping request sent if no other activity and after heart beat");
+            equal(requests.length, 1, "[token = 4] only ping request sent if no other activity");
+
+            requests = fetchTrackedRequests(token = 5 + tokenBase, true);
+            equal(requests.length, 0, "[token = 5] no requests sent if window not in focus");
+
+            requests = fetchTrackedRequests(token = 6 + tokenBase, true);
+            ok(/ping=1/.test(requests[0]), "[token = 6] ping sent after window regains focus");
+            equal(requests.length, 1, "[token = 6] only one ping request sent after window regains focus");
+
+            start();
+        });
+    });
+
     test("trackingContent", function() {
-        expect(81);
+        expect(83);
 
         function assertTrackingRequest(actual, expectedStartsWith, message)
         {
@@ -3303,6 +3802,101 @@ if ($sqlite) {
             start();
         }, 7000);
 
+        expected =
+            [
+                {
+                    "name": "My Ad 7",
+                    "piece": "Unknown",
+                    "target": "http://img7.example.com"
+                },
+                {
+                    "name": "http://www.example.com/path/xyz.jpg",
+                    "piece": "http://www.example.com/path/xyz.jpg",
+                    "target": "http://img6.example.com"
+                },
+                {
+                    "name": "My Ad 5",
+                    "piece": "http://img5.example.com/path/xyz.jpg",
+                    "target": origin + "/anylink5"
+                },
+                {
+                    "name": "My content 4",
+                    "piece": "My content 4",
+                    "target": "http://img4.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img3-en.jpg"),
+                    "piece": toAbsoluteUrl("img3-en.jpg"),
+                    "target": "http://img3.example.com"
+                },
+                {
+                    "name": "img.jpg",
+                    "piece": "img.jpg",
+                    "target": "http://img2.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img1-en.jpg"),
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                },
+                {
+                    "name": "/tests/javascript/img1-en.jpg",
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                }];
+        
+        var consoleOld = console;
+        var loggedContentBlocks = [];
+        console = {log: function (content){
+            loggedContentBlocks = content;
+        }};
+        tracker.logAllContentBlocksOnPage();
+        console = consoleOld;
+        expected =
+            [
+                {
+                    "name": "My Ad 7",
+                    "piece": "Unknown",
+                    "target": "http://img7.example.com"
+                },
+                {
+                    "name": "http://www.example.com/path/xyz.jpg",
+                    "piece": "http://www.example.com/path/xyz.jpg",
+                    "target": "http://img6.example.com"
+                },
+                {
+                    "name": "My Ad 5",
+                    "piece": "http://img5.example.com/path/xyz.jpg",
+                    "target": origin + "/anylink5"
+                },
+                {
+                    "name": "My content 4",
+                    "piece": "My content 4",
+                    "target": "http://img4.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img3-en.jpg"),
+                    "piece": toAbsoluteUrl("img3-en.jpg"),
+                    "target": "http://img3.example.com"
+                },
+                {
+                    "name": "img.jpg",
+                    "piece": "img.jpg",
+                    "target": "http://img2.example.com"
+                },
+                {
+                    "name": toAbsolutePath("img1-en.jpg"),
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                },
+                {
+                    "name": "/tests/javascript/img1-en.jpg",
+                    "piece": toAbsoluteUrl("img1-en.jpg"),
+                    "target": ""
+                }];
+
+        equal(expected.length, loggedContentBlocks.length, 'logAllContentBlocksOnPage should detect correct number of content blocks');
+        equal(JSON.stringify(expected), JSON.stringify(loggedContentBlocks), 'logAllContentBlocksOnPage should log all content blocks');
     });
 
     test("trackingContentInteractionInteractive", function() {
@@ -3445,15 +4039,14 @@ if ($sqlite) {
 
             start();
         }, 4000);
-
     });
-
     <?php
 }
 ?>
 }
 
-function addEventListener(element, eventType, eventHandler, useCapture) {
+// do not name this addEventListener so it won't overwrite the member in window
+function customAddEventListener(element, eventType, eventHandler, useCapture) {
     if (element.addEventListener) {
         element.addEventListener(eventType, eventHandler, useCapture);
         return true;
@@ -3466,7 +4059,7 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
 
 (function (f) {
     if (document.addEventListener) {
-        addEventListener(document, 'DOMContentLoaded', function ready() {
+        customAddEventListener(document, 'DOMContentLoaded', function ready() {
             document.removeEventListener('DOMContentLoaded', ready, false);
             f();
         });
@@ -3491,8 +4084,9 @@ function addEventListener(element, eventType, eventHandler, useCapture) {
                 }
             }());
         }
+    } else {
+        customAddEventListener(window, 'load', f, false);
     }
-    addEventListener(window, 'load', f, false);
 })(PiwikTest);
  </script>
 

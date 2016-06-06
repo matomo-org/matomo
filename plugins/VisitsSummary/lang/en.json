@@ -17,7 +17,7 @@
         "NbUniquePageviewsDescription": "%s unique pageviews",
         "NbUniqueVisitors": "%s unique visitors",
         "NbVisitsBounced": "%s visits have bounced (left the website after one page)",
-        "PluginDescription": "Reports the general Analytics numbers: visits, unique visitors, number of actions, Bounce Rate, etc.",
+        "PluginDescription": "Reports general analytics metrics: visits, unique visitors, number of actions, bounce rate, etc.",
         "VisitsSummary": "Visits Summary",
         "VisitsSummaryDocumentation": "This is an overview of the visit evolution.",
         "WidgetLastVisits": "Visits Over Time",

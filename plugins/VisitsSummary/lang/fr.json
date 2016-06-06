@@ -17,7 +17,7 @@
         "NbUniquePageviewsDescription": "%s pages vues uniques",
         "NbUniqueVisitors": "%s visiteurs uniques",
         "NbVisitsBounced": "%s visiteurs ont survolé (quitté le site après une page)",
-        "PluginDescription": "Effectue des rapports sur les valeurs générales des statistiques: visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.",
+        "PluginDescription": "Fournit des métriques d'analyse générales : visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.",
         "VisitsSummary": "Récapitulatif des visites",
         "VisitsSummaryDocumentation": "Ceci est un aperçu de l'évolution de la visite.",
         "WidgetLastVisits": "Graphique des dernières visites",

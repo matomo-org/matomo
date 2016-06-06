@@ -29,12 +29,14 @@ class GetReportDataSummaryByYear extends Base
         $this->addPresentationFilters($view);
 
         $view->config->title = $this->name;
-        $view->config->addTranslation('label', Piwik::translate('CoreHome_PeriodYear'));
+        $view->config->addTranslation('label', Piwik::translate('Intl_PeriodYear'));
     }
 
     public function getRelatedReports()
     {
-        return array(new GetReportDataSummary());
+        return array(
+            self::factory('DBStats', 'getReportDataSummary'),
+        );
     }
 
 }

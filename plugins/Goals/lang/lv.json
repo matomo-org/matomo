@@ -9,7 +9,6 @@
         "ColumnAverageQuantityDocumentation": "%s vidējais pārdotais skaits e-komercijas pasūtījumos.",
         "ColumnRevenueDocumentation": "Kopējie ienākumi, kurus veido %s.",
         "Contains": "satur %s",
-        "CreateNewGOal": "Izveidot jaunu mērķi",
         "DefaultRevenue": "Mērķa peļņa pēc noklusējuma ir",
         "DeleteGoalConfirm": "Vai tiešām vēlaties dzēst mērķi %s?",
         "DocumentationRevenueGeneratedByProductSales": "Pārdotie produkti. Neskaitot nodokļus, piegādi un atlaidi.",
@@ -26,7 +25,6 @@
         "GoalIsTriggeredWhen": "Mērķis tiek sasniegts, kad",
         "GoalName": "Mērķa nosaukums",
         "Goals": "Mērķi",
-        "GoalsManagement": "Mērķu pārvaldība",
         "GoalsOverview": "Mērķu pārskats",
         "GoalX": "Mērķis %s",
         "IsExactly": "ir precīzi %s",
@@ -44,7 +42,6 @@
         "UpdateGoal": "Atjaunināt mērķi",
         "URL": "URL",
         "ViewAndEditGoals": "Skatīt un labot mērķus",
-        "ViewGoalsBy": "Skatīt mērķus pēc %s",
         "VisitPageTitle": "Apmeklēt doto lapas virsrakstu",
         "WhenVisitors": "kad apmeklētāji",
         "WhereThe": ", kur"

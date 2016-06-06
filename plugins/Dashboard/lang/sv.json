@@ -18,9 +18,10 @@
         "Maximise": "Maximera",
         "Minimise": "Minimera",
         "NotUndo": "Du kommer inte kunna ångra den här åtgärden.",
-        "PluginDescription": "Din Webbanalys Instrumentpanel. Du kan anpassa din instrumentpanel: lägg till nya widgets, ändra ordningen på dina widgets. Varje användare har tillgång till sin egen anpassade instrumentpanel.",
+        "PluginDescription": "Ditt dashboard för webbanalys. Anpassa ditt dashboard genom att lägga till nya widgets, flytta runt dem och ändra kolumnindelning. Varje användare kan anpassa sin egen dashboard.",
         "RemoveDashboard": "Ta bort instrumentpanel",
         "RemoveDashboardConfirm": "Vill du verkligen radera instrumentpanelen \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "Standardinstrumentpanelen kan inte tas bort",
         "RenameDashboard": "Byt namn på instrumentpanelen",
         "ResetDashboard": "Återställ instrumentpanel",
         "ResetDashboardConfirm": "Vill du verkligen återställa instrumentpanelens layout för Widgets?",
@@ -31,7 +32,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Det här valet av widgets och kolumnlayout kommer att användas när användare skapar en ny instrumentpanel, eller när \"%s\" används.",
         "TopLinkTooltip": "Visa webbanalysrapport för %s.",
         "WidgetNotFound": "Widgeten hittades inte",
-        "WidgetPreview": "Widget förhandsgranskning",
-        "WidgetsAndDashboard": "Widgets & Instrumentpanel"
+        "WidgetPreview": "Widget förhandsgranskning"
     }
 }

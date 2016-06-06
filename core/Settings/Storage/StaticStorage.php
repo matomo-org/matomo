@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings\Storage;
+
 use Piwik\Settings\Storage;
 
 /**
@@ -30,5 +31,4 @@ class StaticStorage extends Storage
     public function save()
     {
     }
-
 }

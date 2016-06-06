@@ -144,7 +144,7 @@ class Process
         }
 
         $lockedPID   = trim($content);
-        $runningPIDs = explode("\n", trim( `ps ex | awk '{print $1}'` ));
+        $runningPIDs = self::getRunningProcesses();
 
         return !empty($lockedPID) && in_array($lockedPID, $runningPIDs);
     }
@@ -173,20 +173,24 @@ class Process
             return false;
         }
 
+        if (!self::commandExists('ps') || !self::returnsSuccessCode('ps') || !self::commandExists('awk')) {
+            return false;
+        }
+
+        if (count(self::getRunningProcesses()) > 0) {
+            return true;
+        }
+
         if (!self::isProcFSMounted()) {
             return false;
         }
 
-        if (static::commandExists('ps') && self::returnsSuccessCode('ps') && self::commandExists('awk')) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     private static function isSystemNotSupported()
     {
-        $uname = @shell_exec('uname -a');
+        $uname = @shell_exec('uname -a 2> /dev/null');
 
         if (empty($uname)) {
             $uname = php_uname();
@@ -203,7 +207,7 @@ class Process
         $command = 'shell_exec';
         $disabled = explode(',', ini_get('disable_functions'));
         $disabled = array_map('trim', $disabled);
-        return in_array($command, $disabled);
+        return in_array($command, $disabled)  || !function_exists($command);
     }
 
     private static function returnsSuccessCode($command)
@@ -236,4 +240,18 @@ class Process
         return strpos($type, 'proc') === 0;
     }
 
+    /**
+     * @return int[] The ids of the currently running processes
+     */
+     public static function getRunningProcesses()
+     {
+         $ids = explode("\n", trim(`ps ex 2>/dev/null | awk '{print $1}' 2>/dev/null`));
+
+         $ids = array_map('intval', $ids);
+         $ids = array_filter($ids, function ($id) {
+            return $id > 0;
+        });
+
+         return $ids;
+     }
 }

@@ -2,33 +2,45 @@
 
 {% block content %}
 
-<h2>{{ 'Installation_Congratulations'|translate|raw }}</h2>
-{{ 'Installation_CongratulationsHelp'|translate|raw }}
-<br/>
+    <h2>{{ 'Installation_Congratulations'|translate|raw }}</h2>
 
-<h2>{{ 'Installation_WelcomeToCommunity'|translate }}</h2>
-<p>
-    {{ 'Installation_CollaborativeProject'|translate }}
-</p>
-<p>
-    {{ 'Installation_GetInvolved'|translate('<a  rel="noreferrer"  target="_blank" href="http://piwik.org/get-involved/">','</a>')|raw }}
-    {{ 'General_HelpTranslatePiwik'|translate("<a rel='noreferrer' target='_blank' href=\'http://piwik.org/translations/\'>","<\/a>")|raw }}
-</p>
-<p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
-<p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
-<br/>
+    {{ 'Installation_CongratulationsHelp'|translate|raw }}
 
-<h2>{{ 'Installation_DefaultSettings'|translate }}</h2>
-<p>{{ 'Installation_DefaultSettingsHelp'|translate }}</p>
-{% if errorMessage is defined %}
-    <div class="error">
-        <img src="plugins/Morpheus/images/error_medium.png"/>
-        {{ 'General_Error'|translate }}:
-        <br/>- {{ errorMessage|raw }}
+    <h3>{{ 'Installation_WelcomeToCommunity'|translate }}</h3>
+    <p>
+        {{ 'Installation_CollaborativeProject'|translate }}
+    </p>
+    <p>
+        {{ 'Installation_GetInvolved'|translate('<a  rel="noreferrer"  target="_blank" href="http://piwik.org/get-involved/">','</a>')|raw }}
+        {{ 'General_HelpTranslatePiwik'|translate("<a rel='noreferrer' target='_blank' href=\'http://piwik.org/translations/\'>","<\/a>")|raw }}
+    </p>
+    <p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
+    <p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
+
+    {% if arePiwikProAdsEnabled %}
+        <h3>{{ 'Installation_PiwikProAdTitle'|translate }}</h3>
+        <p>
+            {% set linkOnPremises = 'Installation_End'|piwikProOnPremisesPromoUrl %}
+            {% set linkOnCloud = 'Installation_End'|piwikProCloudPromoUrl %}
+
+            {{ 'Installation_PiwikProAdText'|translate('<a rel="noreferrer" target="_blank" href="' ~ linkOnPremises ~ '">','</a>', '<a  rel="noreferrer"  target="_blank" href="' ~ linkOnCloud ~ '">','</a>')|raw }}
+        </p>
+    {% endif %}
+
+    <h3>{{ 'Installation_DefaultSettings'|translate }}</h3>
+    <p>{{ 'Installation_DefaultSettingsHelp'|translate }}</p>
+
+    {% if errorMessage is defined %}
+        <div class="alert alert-danger">
+            {{ 'General_Error'|translate }}:
+            <br/>- {{ errorMessage|raw }}
+        </div>
+    {% endif %}
+
+    <div class="installation-finished">
+        {% if form_data is defined %}
+            {% include "genericForm.twig" %}
+        {% endif %}
     </div>
-{% endif %}
-{% if form_data is defined %}
-    {% include "genericForm.twig" %}
-{% endif %}
 
 {% endblock %}

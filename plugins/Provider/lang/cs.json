@@ -1,10 +1,9 @@
 {
     "Provider": {
         "ColumnProvider": "Poskytovatel",
-        "PluginDescription": "Zobrazí poskytovatele připojení návštěvníků",
+        "PluginDescription": "Hlásí poskytovatele internetového připojení návštěvníků.",
         "ProviderReportDocumentation": "Toto hlášení poskytuje informace o tom, jakého poskytovatele internetového připojení vaši návštěvníci při přístupu na stránky použili. Pokud kliknete na jméno poskytovatele, zobrazí se podrobnosti. %s Pokud Piwik nebyl schopen poskytovatele zjistit, je zobrazen jako IP.",
-        "ProviderReportFooter": "Neznámý poskytovatel znamená, že IP adresu nebylo možné vyhledat.",
-        "SubmenuLocationsProvider": "Umístění a poskytovatel",
-        "WidgetProviders": "Poskytovatelé"
+        "WidgetProviders": "Poskytovatelé",
+        "ProviderReportFooter": "Neznámý poskytovatel znamená, že IP adresu nebylo možné vyhledat."
     }
 }

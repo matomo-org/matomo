@@ -1,11 +1,22 @@
 {
     "CustomVariables": {
-        "ColumnCustomVariableName": "Nomi Variabili Personalizzate",
-        "ColumnCustomVariableValue": "Valori Variabili Personalizzate",
-        "CustomVariables": "Variabili Personalizzate",
-        "CustomVariablesReportDocumentation": "Questo report contiene le informazioni sulle variabili personalizzate. Clicca su un nome di variabile per visualizzare la distribuzione dei valori. %s Per ulteriori informazioni sulle variabili personalizzate in generale, leggere il %sCustom Variabili documentazione su piwik.org %s",
-        "PluginDescription": "Le variabili personalizzate sono il nome, coppie di valori che è possibile impostare per una visita con la funzione di Javascript API setVisitCustomVariables(). Piwik poi segnalerà il numero di visite, pagine, conversioni per ciascuno di questi nomi personalizzati e valori.",
-        "ScopePage": "campo di applicazione pagina",
-        "ScopeVisit": "ambito visita"
+        "ColumnCustomVariableName": "Nome Variabile Personalizzata",
+        "ColumnCustomVariableValue": "Valore Variabile Personalizzata",
+        "CustomVariables": "Variabile Personalizzata",
+        "CustomVariablesReportDocumentation": "Questo report contiene le informazioni sulle variabili personalizzate. Clicca su un nome di variabile per visualizzarne la distribuzione dei valori. %1$s Per ulteriori informazioni sulle variabili personalizzate in generale, leggere la %2$sDocumentazione Variabili Personalizzatesu piwik.org %3$s",
+        "PluginDescription": "Le variabili personalizzate sono coppie (nome, valore) che puoi assegnare ai visitatori o a una qualunque loro azione tramite API Javascript. Poi Piwik riporterà le visite, le pagine e le conversioni per questi nomi e valori. Guarda nel dettaglio le Variabili Personalizzate per ciascun utente nel Log Visitatori.<br>Necessario per utilizzare la funzione <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Statistiche Ecommerce<\/a>",
+        "ScopePage": "ambito pagina",
+        "ScopeVisit": "ambito visita",
+        "ManageDescription": "Questa panoramica mostra tutti gli slot di variabili personali e il loro utilizzo nel sito '%s'. I nomi in ciascuno slot vengono ordinati a seconda di quanto sono stati utilizzati in totale.",
+        "ScopeX": "Ambito %s",
+        "Index": "Indice",
+        "Usages": "Usi",
+        "Unused": "Inutilizzate",
+        "CreateNewSlot": "Aumenta il numero degli slot di variabili personali disponibili",
+        "UsageDetails": "%1$s visite e %2$s azioni dalla creazione di questo sito web.",
+        "CreatingCustomVariableTakesTime": "La creazione di un nuovo slot di variabili personali può richiedere un tempo lungo che dipende dalla dimensione del tuo database. Pertanto è possibile fare ciò solo tramite un comando che deve essere eseguito da riga di comando.",
+        "CurrentAvailableCustomVariables": "Attualmente puoi utilizzare fino a %s variabili personali per sito.",
+        "ToCreateCustomVarExecute": "Per creare un nuovo slot di variabili personali esegui il comando seguente nella tua installazione di Piwik.",
+        "SlotsReportIsGeneratedOverTime": "I dati per questo report saranno popolati nel tempo. Ciò può richiedere un giorno o due per vedere dei dati, e qualche settimana perché il report sia totalmente accurato."
     }
 }

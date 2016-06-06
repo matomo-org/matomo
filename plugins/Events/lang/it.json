@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Traccia gli eventi e ottieni dei report sull'attività dei visitatori.",
         "AvgEventValue": "Il Valore Medio Evento è: %s",
         "AvgValue": "Valore medio",
         "AvgValueDocumentation": "Media di tutti i valori per questo evento",
@@ -14,7 +15,7 @@
         "EventsWithValue": "Eventi con un valore",
         "EventsWithValueDocumentation": "Numero di eventi dove è stato impostato un valore Evento",
         "EventValue": "Valore Evento",
-        "EventValueTooltip": "Il valore totale Evento è la somma dei %s valori eventi %s tra il inimo di %s e il massimo di %s.",
+        "EventValueTooltip": "Il valore totale Evento è la somma dei %1$s valori eventi %2$s tra un minimo di %3$s e un massimo di %4$s.",
         "MaxValue": "Valore massimo",
         "MaxValueDocumentation": "Valore massimo per questo evento",
         "MinValue": "Valore minimo",
@@ -25,7 +26,7 @@
         "TotalEvents": "Totale eventi",
         "TotalEventsDocumentation": "Numero totale degli eventi",
         "TotalValue": "Valore totale",
-        "TotalValueDocumentation": "somma dei valori degli eventi",
+        "TotalValueDocumentation": "Somma dei valori degli eventi",
         "ViewEvents": "Vedi Eventi"
     }
 }

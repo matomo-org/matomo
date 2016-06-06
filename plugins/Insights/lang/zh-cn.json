@@ -1,11 +1,16 @@
 {
     "Insights": {
+        "DayComparedToPreviousDay": "前一天",
+        "DayComparedToPreviousWeek": "上一周的同一天",
+        "DayComparedToPreviousYear": "上一年的同一天",
         "Filter": "条件",
         "FilterOnlyDecreaser": "仅限减少的",
         "FilterOnlyDisappeared": "仅限消失的",
         "FilterOnlyIncreaser": "仅限增加的",
         "FilterOnlyMovers": "仅限移动的",
         "FilterOnlyNew": "仅限新的",
+        "MonthComparedToPreviousMonth": "上月",
+        "MonthComparedToPreviousYear": "上一年的同月",
         "WeekComparedToPreviousWeek": "上一周",
         "YearComparedToPreviousYear": "上一年"
     }

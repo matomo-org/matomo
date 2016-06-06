@@ -15,13 +15,18 @@
         "SaveAndApply": "Tallenna ja ota käyttöön",
         "SegmentDisplayedAllWebsites": "kaikki sivut",
         "SegmentDisplayedThisWebsiteOnly": "vain tällä verkkosivulla",
-        "SegmentIsDisplayedForWebsite": "näytetään vain",
         "SegmentNotApplied": "Segmenttiä '%s' ei sovelleta",
-        "SelectSegmentOfVisitors": "Valitse kävijäsegmentti:",
+        "SelectSegmentOfVisits": "Valitse segmentit käynnille:",
         "ThisSegmentIsVisibleTo": "Tämä segmentti näytetään seuraaville:",
         "VisibleToAllUsers": "kaikki käyttäjät",
         "VisibleToMe": "minä",
-        "YouMayChangeSetting": "Vaihtoehtoisesti voit vaihtaa asetuksen tiedostosta %s, tai muuttaa tätä segmenttiä ja valita '%s'.",
-        "YouMustBeLoggedInToCreateSegments": "Sinun täytyy olla sisäänkirjautuneena voidaksesi luoda tai muokata kävijäsegmenttejä."
+        "YouMayChangeSetting": "Vaihtoehtoisesti voit vaihtaa asetuksen tiedostosta %1$s, tai muuttaa tätä segmenttiä ja valita '%2$s'.",
+        "VisibleToSuperUser": "Näkyvissä sinulle, koska sinulla on pääkäyttäjän oikeudet",
+        "SharedWithYou": "Jaettu kanssasi",
+        "YouMustBeLoggedInToCreateSegments": "Sinun täytyy olla sisäänkirjautuneena voidaksesi luoda tai muokata kävijäsegmenttejä.",
+        "AddingSegmentForAllWebsitesDisabled": "Segmenttien lisääminen kaikille verkkosivuille on poistettu käytöstä.",
+        "CustomSegment": "Kustomoidut segmentit",
+        "SegmentOperatorIsNullOrEmpty": "on tyhjä",
+        "SegmentOperatorIsNotNullNorEmpty": "ei ole tyhjä"
     }
 }

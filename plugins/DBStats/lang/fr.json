@@ -10,11 +10,11 @@
         "MetricDataByYear": "Tables de métriques par année",
         "MetricTables": "Tables de métriques",
         "OtherTables": "Autres tables",
-        "PluginDescription": "Ce plugin effectue des rapports sur l'utilisation de la base de données MySQL par les tables de Piwik.",
+        "PluginDescription": "Fournit des rapports détaillés sur l'utilisation de la base de données MySQL. Disponibles pour les super utilisateurs sous Diagnostiques.",
         "ReportDataByYear": "Tables de rapports par année",
         "ReportTables": "Tables de rapport",
         "RowCount": "Nombre de lignes",
-        "Table": "Table",
+        "Table": "Tableau",
         "TotalSize": "Taille totale",
         "TrackerTables": "Tables de suivi"
     }

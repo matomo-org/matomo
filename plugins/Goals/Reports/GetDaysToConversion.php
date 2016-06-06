@@ -13,8 +13,10 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Goals\Columns\DaysToConversion;
 use Piwik\Plugins\Goals\Archiver;
 
-class GetDaysToConversion extends BaseGoal
+class GetDaysToConversion extends Base
 {
+    protected $defaultSortColumn = '';
+
     protected function init()
     {
         parent::init();

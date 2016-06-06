@@ -1,7 +1,5 @@
 {
     "API": {
-        "PluginDescription": "Visi Piwik dati ir pieejami caur vienkāršiem API. Šis spraudnis ir tīkla servisa pieejas punkts, kuru varat izsaukt, lai iegūtu savus tīkla analīzes datus xml, json, php, csv un citos formātos.",
-        "QuickDocumentationTitle": "Ātra API dokumentācija",
         "UserAuthentication": "Lietotāja autentifikācija"
     }
 }

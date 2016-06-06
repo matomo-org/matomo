@@ -1,10 +1,12 @@
 {
     "PrivacyManager": {
         "AnonymizeIpDescription": "Përzgjidhni \"Po\" nëse doni që Piwik-u të mos gjurmojë adresa IP të përcaktuara qartë.",
-        "AnonymizeIpInlineHelp": "Anonimizoje bajtin e fundit të adresave IP të vizitorëve, në pajtim me ligjet\/udhëzimet vendore për vetësinë.",
+        "AnonymizeIpInlineHelp": "Anonimizoje bajtin(et) e fundit të adresave IP të vizitorëve, në pajtim me ligjet\/udhëzimet vendore mbi privatësinë.",
         "AnonymizeIpMaskLengtDescription": "Përzgjidhni sa bajte të maskohen te IP-ja e vizitorit.",
-        "AnonymizeIpMaskLength": "%s bajt(e) - p.sh. %s",
+        "AnonymizeIpMaskLength": "%1$s bajt(e) - p.sh. %2$s",
         "ClickHereSettings": "Klikoni këtu që të shkoni te rregullimet mbi %s.",
+        "CurrentDBSize": "Madhësia e tanishme e bazës së të dhënave",
+        "DeleteDataInterval": "Fshiji të dhënat e vjetra çdo",
         "DeleteLogDescription2": "Kur aktivizoni fshirjen e vetvetishme të regjistrimeve, duhet të siguroheni që janë përpunuar krejt raportet e ditës së mëparshme, që të mos humbni të dhëna.",
         "DeleteLogInfo": "Regjistrimet nga tabelat vijuese do të fshihen: %s",
         "DeleteLogsOlderThan": "Fshi regjistrime më të vjetër se",
@@ -14,8 +16,7 @@
         "LeastDaysInput": "Ju lutem, jepni një numër ditësh më të madh se %s.",
         "MenuPrivacySettings": "Privatësi",
         "NextDelete": "Fshirja pasuese është planifikuar më",
-        "PluginDescription": "Përshtateni Piwik-un për ta bërë privatësinë të përputhshme me legjislacionin ekzistues.",
-        "Teaser": "Në këtë faqe, mund ta përshtatni Piwik-un që privatësi në të të jetë në pajtim me legjislacionin në fuqi, duke: %s anonimizuar IP-të e vizitorëve%s, %s hequr automatikisht nga baza e të dhënave regjistrime të vjetër vizitorësh%s, dhe %s duke ofruar një mekanizëm Opt-out për site-in tuaj web%s.",
+        "Teaser": "Në këtë faqe, mund ta përshtatni Piwik-un që privatësia në të të jetë në pajtim me legjislacionin në fuqi, duke: %1$s anonimizuar IP-të e vizitorëve%2$s, %3$s hequr automatikisht nga baza e të dhënave regjistrime të vjetër vizitorësh%4$s, dhe %5$s duke ofruar një mekanizëm Opt-out për sajtin tuaj%6$s.",
         "TeaserHeadline": "Rregullime Privatësie",
         "UseAnonymizeIp": "Anonimizoni adresat IP të Vizitorëve",
         "UseDeleteLog": "Fshiji rregullisht te baza e të dhënave regjistrimet e vjetra të përdoruesve"

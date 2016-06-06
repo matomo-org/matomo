@@ -16,7 +16,6 @@
         $scope.autocompleteMinSites = AUTOCOMPLETE_MIN_SITES;
         $scope.selectedSite = {id: '', name: ''};
         $scope.activeSiteId = piwik.idSite;
-        $scope.selectedSiteNameHtml = '';
 
         $scope.switchSite = function (site) {
             $scope.selectedSite = {id: site.idsite, name: site.name};
@@ -39,16 +38,5 @@
             return piwik.helper.getCurrentQueryStringWithParametersModified(newParameters) +
             '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
         };
-
-        $scope.$watch('selectedSite', function (site) {
-            if (!site.name) {
-                return;
-            }
-            $scope.selectedSiteNameHtml = site.name.replace(/[\u0000-\u2666]/g, function(c) {
-                return '&#'+c.charCodeAt(0)+';';
-            });
-        });
-
-        siteSelectorModel.loadInitialSites();
     }
 })();

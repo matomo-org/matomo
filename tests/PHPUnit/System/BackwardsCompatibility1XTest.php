@@ -13,6 +13,7 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
@@ -32,6 +33,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         // note: not sure why I have to manually install plugin
         \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomAlerts')->install();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugin('CustomDimensions')->install();
 
         $result = Fixture::updateDatabase();
         if ($result === false) {
@@ -89,6 +91,25 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         $idSite = 1;
         $dateTime = '2012-03-06 11:22:33';
 
+        $defaultOptions = array(
+            'idSite' => $idSite,
+            'date'   => $dateTime,
+            'disableArchiving' => true,
+            'otherRequestParameters' => array(
+                'hideColumns' => 'nb_users',
+            )
+        );
+
+        $reportsToCompareSeparately = array(
+
+            // the label column is not the first column here
+            'MultiSites.getAll',
+
+            // those reports generate a different segment as a different raw value was stored that time
+            'DevicesDetection.getOsVersions',
+            'Goals.get'
+        );
+
         $apiNotToCall = array(
             // in the SQL dump, a referrer is named referer.com, but now in OneVisitorTwoVisits it is referrer.com
             'Referrers',
@@ -104,17 +125,22 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
              // the Action.getPageTitles test fails for unknown reason, so skipping it
              // eg. https://travis-ci.org/piwik/piwik/jobs/24449365
-            'Action.getPageTitles'
+            'Action.getPageTitles',
+
+            // Outlinks now tracked with URL Fragment which was not the case in 1.X
+            'Actions.get',
+            'Actions.getOutlink',
+            'Actions.getOutlinks',
         );
 
+        $apiNotToCall = array_merge($apiNotToCall, $reportsToCompareSeparately);
+
+        $allReportsOptions = $defaultOptions;
+        $allReportsOptions['compareAgainst'] = 'OneVisitorTwoVisits';
+        $allReportsOptions['apiNotToCall']   = $apiNotToCall;
+
         return array(
-            array('all', array('idSite' => $idSite, 'date' => $dateTime,
-                               'compareAgainst' => 'OneVisitorTwoVisits',
-                               'disableArchiving' => true,
-                               'apiNotToCall' => $apiNotToCall,
-                               'otherRequestParameters' => array(
-                                   'hideColumns' => 'nb_users',
-                               ))),
+            array('all', $allReportsOptions),
 
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
                                               'disableArchiving' => true, 'testSuffix' => '_multipleDates')),
@@ -126,8 +152,24 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
                                               'periods' => array('range'), 'disableArchiving' => true)),
 
+            array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
+                                               'otherRequestParameters' => array('expanded' => '1'),
+                                               'testSuffix' => '_expanded',
+                                               'periods' => array('range'), 'disableArchiving' => true)),
+
+            array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',
+                                               'otherRequestParameters' => array('flat' => '1'),
+                                               'testSuffix' => '_flat',
+                                               'periods' => array('range'), 'disableArchiving' => true)),
+
+            array('Actions.getPageUrls', array('idSite' => $idSite, 'date' => '2012-03-06',
+                                               'otherRequestParameters' => array('idSubtable' => '30'),
+                                               'testSuffix' => '_subtable',
+                                               'periods' => array('day'), 'disableArchiving' => true)),
+
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => array('month'),
-                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true))
+                                              'testSuffix' => '_multipleOldNew', 'disableArchiving' => true)),
+            array($reportsToCompareSeparately, $defaultOptions),
         );
     }
 }

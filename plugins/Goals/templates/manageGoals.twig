@@ -1,0 +1,40 @@
+{% extends 'user.twig' %}
+
+{% set title %}{{ 'Goals_ManageGoals'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
+{% block content %}
+
+    <h2 piwik-enriched-headline>
+        <div class="inlineHelp">{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
+
+            {% if not ecommerceEnabled %}
+                <br /><br/>
+                {% set websiteManageText %}
+                <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
+                {% endset %}
+                {% set ecommerceReportText %}
+                <a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
+                {% endset %}
+                {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
+            {% endif %}</div>
+        {{ title }}
+    </h2>
+
+    {% include "@Goals/_addEditGoal.twig" %}
+
+    <style type="text/css">
+        .entityAddContainer {
+            position:relative;
+        }
+
+        .entityAddContainer > .entityCancel:first-child {
+            position: absolute;
+            right:0;
+            bottom:100%;
+        }
+    </style>
+{% endblock %}

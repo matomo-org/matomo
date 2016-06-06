@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Pomoću E-commerce možete da pratite kada posetilac dodaje proizvode u korpu i kada se obavi kupovina. Proizvode i kategorije proizvoda možete da pratite i u napuštenim korpama.",
+        "Sales": "Prodaja",
+        "SalesBy": "Prodaja po %s",
+        "SalesAdjective": "Prodaja %s"
+    }
+}

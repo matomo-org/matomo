@@ -8,8 +8,11 @@
 
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Application\Environment;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Tests\Framework\TestingEnvironmentManipulator;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Url;
 use Piwik\Tests\Framework\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
@@ -88,11 +91,20 @@ class TestsSetupFixture extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!defined('PIWIK_TEST_MODE')) {
+            define('PIWIK_TEST_MODE', true);
+        }
+
+        Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
+
         $serverGlobal = $input->getOption('server-global');
         if ($serverGlobal) {
             $_SERVER = json_decode($serverGlobal, true);
         }
 
+        if(Config::getInstance()->database_tests['tables_prefix'] !== '') {
+            throw new \Exception("To generate OmniFixture for the UI tests, you must set an empty tables_prefix in [database_tests]");
+        }
         $this->requireFixtureFiles($input);
         $this->setIncludePathAsInTestBootstrap();
 
@@ -111,6 +123,10 @@ class TestsSetupFixture extends ConsoleCommand
             }
         }
 
+        if ($input->getOption('set-phantomjs-symlinks')) {
+            $this->createSymbolicLinksForUITests();
+        }
+
         $fixture = $this->createFixture($input, $allowSave = !empty($configDomainToSave));
 
         $this->setupDatabaseOverrides($input, $fixture);
@@ -121,10 +137,6 @@ class TestsSetupFixture extends ConsoleCommand
             $fixture->performTearDown();
         } else {
             $fixture->performSetUp();
-        }
-
-        if ($input->getOption('set-phantomjs-symlinks')) {
-            $this->createSymbolicLinksForUITests();
         }
 
         $this->writeSuccessMessage($output, array("Fixture successfully setup!"));
@@ -142,7 +154,7 @@ class TestsSetupFixture extends ConsoleCommand
     private function createSymbolicLinksForUITests()
     {
         // make sure symbolic links exist (phantomjs doesn't support symlink-ing yet)
-        foreach (array('libs', 'plugins', 'tests', 'piwik.js') as $linkName) {
+        foreach (array('libs', 'plugins', 'tests', 'misc', 'piwik.js') as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
                 symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
@@ -175,14 +187,12 @@ class TestsSetupFixture extends ConsoleCommand
             'dbname' => $fixture->getDbName(),
             'host' => $input->getOption('db-host'),
             'username' => $input->getOption('db-user'),
-            'password' => $input->getOption('db-pass')
+            'password' => $input->getOption('db-pass'),
+            'tables_prefix' => '',
         );
         foreach ($optionsToOverride as $configOption => $value) {
             if ($value) {
-                $configOverride = $testingEnvironment->configOverride;
-                $configOverride['database_tests'][$configOption] = $configOverride['database'][$configOption] = $value;
-                $testingEnvironment->configOverride = $configOverride;
-
+                $testingEnvironment->overrideConfig('database_tests', $configOption, $value);
                 Config::getInstance()->database[$configOption] = $value;
             }
         }
@@ -199,6 +209,7 @@ class TestsSetupFixture extends ConsoleCommand
             throw new \Exception("Cannot find fixture class '$fixtureClass'.");
         }
 
+        /** @var Fixture $fixture */
         $fixture = new $fixtureClass();
         $fixture->printToScreen = true;
 
@@ -220,11 +231,7 @@ class TestsSetupFixture extends ConsoleCommand
             $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
         }
 
-        if ($fixture->createConfig) {
-            Config::getInstance()->setTestEnvironment($pathLocal = null, $pathGlobal = null, $pathCommon = null, $allowSave);
-        }
-
-        $fixture->createConfig = false;
+        $fixture->extraDiEnvironments = array('ui-test');
 
         return $fixture;
     }
@@ -232,22 +239,6 @@ class TestsSetupFixture extends ConsoleCommand
     private function requireFixtureFiles(InputInterface $input)
     {
         require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
-        require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
-
-        $fixturesToLoad = array(
-            '/tests/PHPUnit/Fixtures/*.php',
-            '/tests/PHPUnit/UI/Fixtures/*.php',
-            '/plugins/*/tests/Fixtures/*.php',
-            '/plugins/*/Test/Fixtures/*.php',
-        );
-
-        foreach($fixturesToLoad as $fixturePath) {
-            foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
-                require_once $file;
-            }
-        }
 
         $file = $input->getOption('file');
         if ($file) {

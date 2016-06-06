@@ -10,7 +10,9 @@ namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\IP;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
+use Piwik\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
@@ -65,7 +67,6 @@ class Country extends Base
         $country  = $this->getLocationDetail($userInfo, LocationProvider::COUNTRY_CODE_KEY);
 
         if (!empty($country) && $country != Visit::UNKNOWN_CODE) {
-
             return strtolower($country);
         }
 
@@ -92,7 +93,10 @@ class Country extends Base
             $hostnameDomain = 'gb';
         }
 
-        if (array_key_exists($hostnameDomain, Common::getCountriesList())) {
+        /** @var RegionDataProvider $regionDataProvider */
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
+        if (array_key_exists($hostnameDomain, $regionDataProvider->getCountryList())) {
             return $hostnameDomain;
         }
 
@@ -102,12 +106,17 @@ class Country extends Base
     /**
      * Returns the hostname given the IP address string
      *
-     * @param string $ip IP Address
+     * @param string $ipStr IP Address
      * @return string hostname (or human-readable IP address)
      */
-    private function getHost($ip)
+    private function getHost($ipStr)
     {
-        return trim(strtolower(@IP::getHostByAddr($ip)));
+        $ip = IP::fromStringIP($ipStr);
+
+        $host = $ip->getHostname();
+        $host = ($host === null ? $ipStr : $host);
+
+        return trim(strtolower($host));
     }
 
     /**

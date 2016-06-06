@@ -6,16 +6,16 @@
         "EstimatedSize": "Tamaño estimado",
         "IndexSize": "Tamaño del índice",
         "LearnMore": "Para aprender más sobre cómo Piwik procesa los datos y cómo hacer que Piwik funcione bien para sitios web de mediano y grande trafico, eche un vistazo a la documentación %s.",
-        "MainDescription": "Piwik está almacenando todos sus datos de análisis web en la base de datos MySQL. Actualmente, las tablas de Piwik están usando %s.",
-        "MetricDataByYear": "Tablas de Medición Anuales",
-        "MetricTables": "Tablas de Medición",
+        "MainDescription": "Piwik está almacenando todos sus datos de análisis de internet en la base de datos MySQL. Actualmente, las tablas de Piwik están usando %s de espacio.",
+        "MetricDataByYear": "Tablas de medición anuales",
+        "MetricTables": "Tablas de medición",
         "OtherTables": "Otras tablas",
-        "PluginDescription": "Este plugin reporta el uso de la base de datos MySQL de las tablas de Piwik.",
-        "ReportDataByYear": "Reporte de Tablas Anual",
-        "ReportTables": "Tablas de reportes",
+        "PluginDescription": "Suministra informes detallados de usos de la base de datos MySQL. Disponible para Super Usuarios bajo la función Diagnósticos.",
+        "ReportDataByYear": "Informe de Tablas por año",
+        "ReportTables": "Tablas de informes",
         "RowCount": "Cantidad de filas",
         "Table": "Tabla",
         "TotalSize": "Tamaño total",
-        "TrackerTables": "Tablas de Rastreadores"
+        "TrackerTables": "Tablas de rastreadores"
     }
 }

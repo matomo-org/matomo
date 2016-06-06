@@ -1,9 +1,7 @@
 {
     "API": {
         "LoadedAPIs": "Edukalt laetud %s API-id",
-        "MoreInformation": "Et saada rohkem infot Piwiku API-st, vaata %sPiwiku API tutvustus%s ja %sPiwiku API juhend%s.",
-        "PluginDescription": "Kõik andmed on Piwikus kättesaadavad ka lihtsa API kaudu. Antud moodul on veebiteenuste sisend, mida saad kasutada veebistatistika küsimiseks xml, json, php, csv jne formaatides.",
-        "QuickDocumentationTitle": "API lühidokumentatsioon",
+        "MoreInformation": "Et saada rohkem infot Piwiku API-st, vaata %1$sPiwiku API tutvustus%2$s ja %3$sPiwiku API juhend%4$s.",
         "UserAuthentication": "Kasutaja autentimine"
     }
 }

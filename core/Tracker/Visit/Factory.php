@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-
 namespace Piwik\Tracker\Visit;
+
 use Piwik\Piwik;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
@@ -37,7 +37,7 @@ class Factory
          */
         Piwik::postEvent('Tracker.makeNewVisitObject', array(&$visit));
 
-        if (is_null($visit)) {
+        if (!isset($visit)) {
             $visit = new Visit();
         } elseif (!($visit instanceof VisitInterface)) {
             throw new Exception("The Visit object set in the plugin must implement VisitInterface");

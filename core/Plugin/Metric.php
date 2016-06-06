@@ -108,29 +108,39 @@ abstract class Metric
      */
     public static function getMetric($row, $columnName, $mappingNameToId = null)
     {
-        if (empty($mappingNameToId)) {
-            $mappingNameToId = Metrics::getMappingFromNameToId();
-        }
-
         if ($row instanceof Row) {
             $value = $row->getColumn($columnName);
-            if ($value === false
-                && isset($mappingNameToId[$columnName])
-            ) {
-                $value = $row->getColumn($mappingNameToId[$columnName]);
+
+            if ($value === false) {
+                if (empty($mappingNameToId)) {
+                    $mappingNameToId = Metrics::getMappingFromNameToId();
+                }
+
+                if (isset($mappingNameToId[$columnName])) {
+                    return $row->getColumn($mappingNameToId[$columnName]);
+                }
             }
-        } else {
-            $value = @$row[$columnName];
-            if ($value === null
-                && isset($mappingNameToId[$columnName])
-            ) {
-                $columnName = $mappingNameToId[$columnName];
-                $value = @$row[$columnName];
-            }
+
             return $value;
+        } elseif (!empty($row)) {
+            if (array_key_exists($columnName, $row)) {
+                return $row[$columnName];
+            } else {
+                if (empty($mappingNameToId)) {
+                    $mappingNameToId = Metrics::getMappingFromNameToId();
+                }
+
+                if (isset($mappingNameToId[$columnName])) {
+                    $columnName = $mappingNameToId[$columnName];
+
+                    if (array_key_exists($columnName, $row)) {
+                        return $row[$columnName];
+                    }
+                }
+            }
         }
 
-        return $value;
+        return null;
     }
 
     /**

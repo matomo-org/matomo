@@ -11,17 +11,19 @@ namespace Piwik\Plugins\UserCountry\Columns;
 use Piwik\Common;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
-use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Visitor;
-use Piwik\Tracker\Visit;
 use Piwik\Tracker\Request;
 
 abstract class Base extends VisitDimension
 {
-    private static $cachedLocations = array();
+    /**
+     * @var VisitorGeolocator
+     */
+    private $visitorGeolocator;
 
     protected function getUrlOverrideValueIfAllowed($urlParamToOverride, Request $request)
     {
@@ -44,61 +46,33 @@ abstract class Base extends VisitDimension
 
     protected function getLocationDetail($userInfo, $locationKey)
     {
-        $location = $this->getCachedLocation($userInfo);
+        $useLocationCache = empty($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING']);
+        $location = $this->getVisitorGeolocator()->getLocation($userInfo, $useLocationCache);
 
-        if (!empty($location[$locationKey])) {
-
-            return $location[$locationKey];
+        if (!isset($location[$locationKey])) {
+            return false;
         }
 
-        return false;
+        return $location[$locationKey];
+    }
+
+    protected function getVisitorGeolocator()
+    {
+        if ($this->visitorGeolocator === null) {
+            $this->visitorGeolocator = new VisitorGeolocator();
+        }
+
+        return $this->visitorGeolocator;
     }
 
     protected function getUserInfo(Request $request, Visitor $visitor)
     {
         $ipAddress = $this->getIpAddress($visitor->getVisitorColumn('location_ip'), $request);
-        $language  = $visitor->getVisitorColumn('location_browser_lang');
+        $language  = $request->getBrowserLanguage();
 
         $userInfo  = array('lang' => $language, 'ip' => $ipAddress);
 
         return $userInfo;
-    }
-
-    protected function getCachedLocation($userInfo)
-    {
-        require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
-
-        $key = md5(implode(',', $userInfo));
-
-        if (array_key_exists($key, self::$cachedLocations) && empty($GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'])) {
-            return self::$cachedLocations[$key];
-        }
-
-        $provider = $this->getProvider();
-        $location = $this->getLocation($provider, $userInfo);
-
-        if (empty($location)) {
-            $providerId = $provider->getId();
-            Common::printDebug("GEO: couldn't find a location with Geo Module '$providerId'");
-
-            if (!$this->isDefaultProvider($provider)) {
-                Common::printDebug("Using default provider as fallback...");
-                $provider = $this->getDefaultProvider();
-                $location = $this->getLocation($provider, $userInfo);
-            }
-        }
-
-        if (empty($location)) {
-            $location = array();
-        }
-
-        if (empty($location['country_code'])) { // sanity check
-            $location['country_code'] = Visit::UNKNOWN_CODE;
-        }
-
-        self::$cachedLocations[$key] = $location;
-
-        return $location;
     }
 
     private function getIpAddress($anonymizedIp, \Piwik\Tracker\Request $request)
@@ -115,51 +89,4 @@ abstract class Base extends VisitDimension
 
         return $ipAddress;
     }
-
-    /**
-     * @param \Piwik\Plugins\UserCountry\LocationProvider $provider
-     * @param array $userInfo
-     * @return array|null
-     */
-    private function getLocation($provider, $userInfo)
-    {
-        $location   = $provider->getLocation($userInfo);
-        $providerId = $provider->getId();
-        $ipAddress  = $userInfo['ip'];
-
-        if ($location === false) {
-            return false;
-        }
-
-        Common::printDebug("GEO: Found IP $ipAddress location (provider '" . $providerId . "'): " . var_export($location, true));
-
-        return $location;
-    }
-
-    private function getDefaultProvider()
-    {
-        $id       = DefaultProvider::ID;
-        $provider = LocationProvider::getProviderById($id);
-
-        return $provider;
-    }
-
-    private function isDefaultProvider($provider)
-    {
-        return !empty($provider) && DefaultProvider::ID == $provider->getId();
-    }
-
-    private function getProvider()
-    {
-        $id       = Common::getCurrentLocationProviderId();
-        $provider = LocationProvider::getProviderById($id);
-
-        if ($provider === false) {
-            $provider = $this->getDefaultProvider();
-            Common::printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
-        }
-
-        return $provider;
-    }
-
 }

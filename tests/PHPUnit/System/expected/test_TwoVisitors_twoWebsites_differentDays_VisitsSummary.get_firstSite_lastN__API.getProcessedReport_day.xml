@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1</website>
-	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Visits Summary</category>
 		<name>Visits Summary</name>
@@ -10,14 +10,12 @@
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
-			<nb_users>Users</nb_users>
 			<nb_actions>Actions</nb_actions>
 			<max_actions>Maximum actions in one visit</max_actions>
 		</metrics>
 		<metricsDocumentation>
 			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -35,7 +33,6 @@
 	<columns>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_visits>Visits</nb_visits>
-		<nb_users>Users</nb_users>
 		<nb_actions>Actions</nb_actions>
 		<max_actions>Maximum actions in one visit</max_actions>
 		<bounce_rate>Bounce Rate</bounce_rate>
@@ -43,9 +40,17 @@
 		<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 	</columns>
 	<reportData>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
+			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>2</nb_actions>
+			<max_actions>1</max_actions>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_users>0</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
 			<max_actions>1</max_actions>
@@ -53,19 +58,8 @@
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
 		</result>
-		<result prettyDate="Monday 4 January 2010">
+		<result prettyDate="Tuesday, January 5, 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_users>0</nb_users>
-			<nb_visits>1</nb_visits>
-			<nb_actions>2</nb_actions>
-			<max_actions>2</max_actions>
-			<nb_actions_per_visit>2</nb_actions_per_visit>
-			<avg_time_on_site>00:06:01</avg_time_on_site>
-			<bounce_rate>0%</bounce_rate>
-		</result>
-		<result prettyDate="Tuesday 5 January 2010">
-			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_users>0</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
@@ -73,9 +67,8 @@
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010">
+		<result prettyDate="Wednesday, January 6, 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_users>0</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
@@ -83,9 +76,8 @@
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</result>
-		<result prettyDate="Thursday 7 January 2010">
+		<result prettyDate="Thursday, January 7, 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_users>0</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
@@ -93,9 +85,8 @@
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</result>
-		<result prettyDate="Friday 8 January 2010">
+		<result prettyDate="Friday, January 8, 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_users>0</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
@@ -103,9 +94,8 @@
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</result>
-		<result prettyDate="Saturday 9 January 2010">
+		<result prettyDate="Saturday, January 9, 2010">
 			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_users>0</nb_users>
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
@@ -115,13 +105,13 @@
 		</result>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday 3 January 2010" />
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
 	</reportTotal>

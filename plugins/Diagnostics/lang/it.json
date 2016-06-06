@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "File di configurazione",
+        "ConfigFileIntroduction": "Qui puoi vedere la configurazione di Piwik. Se Piwik viene eseguito in un ambiente a carico bilanciato, la pagina può apparire diversa a seconda del server da cui essa viene caricata. Righe con uno sfondo diverso hanno valori di configurazione diversi specificati per esempio nel file %1$s.",
+        "HideUnchanged": "Se vuoi vedere soltanto i valori cambiati, puoi %1$snascondere tutti quelli che non sono cambiati%2$s.",
+        "Sections": "Sezioni"
+    }
+}

@@ -83,37 +83,33 @@
             {% endif %}
             {% if action.siteSearchKeyword is defined %}
                 {% if action.type == 'search' %}
-                    <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}' class="action-list-action-icon">
+                    <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}' class="action-list-action-icon search">
                 {% endif %}
-                <span class="truncated-text-line">{{ action.siteSearchKeyword }}</span>
+                <span class="truncated-text-line">{{ action.siteSearchKeyword|rawSafeDecoded }}</span>
             {% endif %}
             {% if action.eventCategory|default(false) is not empty %}
-                <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon">
-                <span class="truncated-text-line">{{ action.eventCategory|rawSafeDecoded }} - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
+                <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
+                <span class="truncated-text-line event">{{ action.eventCategory|rawSafeDecoded }} - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
             {% endif %}
             {% if action.url is not empty %}
                 {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
                 {% if action.type == 'download' or action.type == 'outlink' %}
-                    <img src='{{ action.icon }}' class="action-list-action-icon">
+                    <img src='{{ action.icon }}' class="action-list-action-icon {{ action.type }}">
                 {% endif %}
 
                 {% if action.eventCategory|default(false) is not empty
                     and previousAction.url|default(false) == action.url %}
                     {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
                 {% else %}
-                    <a href="{{ action.url }}" rel="noreferrer"  target="_blank" rel="noreferrer" class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
-                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle|default(false) is not empty %}margin-left: 9px;{% endif %}text-decoration:underline;"{% endif %}>
-                       {% if action.eventCategory|default(false) is not empty %}
-                           (url)
-                       {% else %}
-                           {{ action.url }}
-                       {% endif %}
+                    <a href="{{ action.url }}" rel="noreferrer" target="_blank" class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
+                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="text-decoration:underline;"{% endif %}>
+                       {{ action.url }}
                     </a>
                 {% endif %}
                 {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}
             {% elseif action.type != 'search' and action.type != 'event' %}
                 <p>
-                <span style="margin-left: 9px;">{{ clientSideParameters.pageUrlNotDefined }}</span>
+                <span>{{ clientSideParameters.pageUrlNotDefined }}</span>
                 </p>
             {% endif %}
         {% else %}

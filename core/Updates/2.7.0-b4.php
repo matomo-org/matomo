@@ -10,24 +10,24 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_7_0_b4 extends Updates
 {
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {
             $pluginManager->activatePlugin('Contents');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 
-    static function isMajorUpdate()
+    public static function isMajorUpdate()
     {
         return true;
     }
 }
-

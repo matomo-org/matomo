@@ -1,12 +1,13 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
 </head>
-<body style="color: rgb({{ reportTextColor }});">
+<body style="font-family: {{ reportFontFamily }}; color: rgb({{ reportTextColor }});line-height: 1.33;">
 
 <a id="reportTop" rel="noreferrer" target="_blank" href="{{ currentPath }}"><img title="{{ 'General_GoTo'|translate("Piwik") }}" border="0" alt="Piwik" src='{{ logoHeader }}'/></a>
 
-<h1 style="color: rgb({{ reportTitleTextColor }}); font-size: {{ reportTitleTextSize }}pt;">
+<h1 style="font-weight:normal; color: rgb({{ reportTitleTextColor }}); font-size: {{ reportTitleTextSize }}pt;">
     {{ reportTitle }}
 </h1>
 
@@ -21,7 +22,7 @@
 {% endif %}
 
 {% if reportMetadata|length > 1 %}
-    <h2 style="color: rgb({{ reportTitleTextColor }}); font-size: {{ reportTitleTextSize }}pt;">
+    <h2 style="font-weight:normal; color: rgb({{ reportTitleTextColor }}); font-size: {{ reportTitleTextSize }}pt;">
         {{ 'ScheduledReports_TableOfContent'|translate }}
     </h2>
     <ul>

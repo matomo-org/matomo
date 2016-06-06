@@ -16,7 +16,6 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
 
     protected function retrieveFileLocations()
     {
-
         if (!empty($this->plugins)) {
 
             /**
@@ -56,13 +55,10 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             return;
         }
         if (in_array($theme->getThemeName(), $this->plugins)) {
-
             $jsInThemes = $this->getTheme()->getJavaScriptFiles();
 
             if (!empty($jsInThemes)) {
-
-                foreach($jsInThemes as $jsFile) {
-
+                foreach ($jsInThemes as $jsFile) {
                     $this->fileLocations[] = $jsFile;
                 }
             }
@@ -76,6 +72,8 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
             'libs/jquery/jquery.browser.js',
             'libs/',
+            'js/',
+            'piwik.js',
             'plugins/CoreHome/javascripts/require.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
             'plugins/Morpheus/javascripts/jquery.icheck.min.js',

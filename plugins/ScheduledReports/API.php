@@ -9,8 +9,10 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
@@ -23,6 +25,9 @@ use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Tracker;
 use Piwik\Translate;
+use Piwik\Translation\Translator;
+use Piwik\Url;
+use Psr\Log\LoggerInterface;
 
 /**
  * The ScheduledReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -56,6 +61,16 @@ class API extends \Piwik\Plugin\API
 
     // static cache storing reports
     public static $cache = array();
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * Creates a new report and schedules it.
@@ -241,6 +256,10 @@ class API extends \Piwik\Plugin\API
 
             // decode report list
             $report['reports'] = json_decode($report['reports'], true);
+
+            if (!empty($report['parameters']['additionalEmails']) && is_array($report['parameters']['additionalEmails'])) {
+                $report['parameters']['additionalEmails'] = array_values($report['parameters']['additionalEmails']);
+            }
         }
 
         // static cache
@@ -270,7 +289,9 @@ class API extends \Piwik\Plugin\API
             $language = Translate::getLanguageDefault();
         }
 
-        Translate::reloadLanguage($language);
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translator->setCurrentLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
         $report = reset($reports);
@@ -349,11 +370,38 @@ class API extends \Piwik\Plugin\API
                 }
             }
 
-            $processedReport = \Piwik\Plugins\API\API::getInstance()->getProcessedReport(
-                $idSite, $period, $date, $apiModule, $apiAction,
-                $segment != null ? urlencode($segment['definition']) : false,
-                $apiParameters, $idGoal = false, $language
+            $params = array(
+                'idSite' => $idSite,
+                'period' => $period,
+                'date'   => $date,
+                'apiModule' => $apiModule,
+                'apiAction' => $apiAction,
+                'apiParameters' => $apiParameters,
+                'idGoal' => false,
+                'language' => $language,
+                'serialize' => 0,
+                'format' => 'original'
             );
+
+            if ($segment != null) {
+                $params['segment'] = urlencode($segment['definition']);
+            } else {
+                $params['segment'] = false;
+            }
+
+            try {
+                $processedReport = Request::processRequest('API.getProcessedReport', $params);
+            } catch (\Exception $ex) {
+                // NOTE: can't use warning or error because the log message will appear in the UI as a notification
+                $this->logger->info("Error getting '?{report}' when generating scheduled report: {exception}", array(
+                    'report' => http_build_query($params),
+                    'exception' => $ex->getMessage(),
+                ));
+
+                $this->logger->debug($ex);
+
+                continue;
+            }
 
             $processedReport['segment'] = $segment;
 
@@ -426,7 +474,12 @@ class API extends \Piwik\Plugin\API
         // render report
         $description = str_replace(array("\r", "\n"), ' ', $report['description']);
 
-        list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Site::getNameFor($idSite), $report['reports']);
+        list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor($idSite)), $report['reports']);
+
+        // if reporting for a segment, use the segment's name in the title
+        if(is_array($segment) && strlen($segment['name'])) {
+            $reportTitle .= " - ".$segment['name'];
+        }
         $filename = "$reportTitle - $prettyDate - $description";
 
         $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
@@ -680,7 +733,7 @@ class API extends \Piwik\Plugin\API
     private static function validateReportHour($hour)
     {
         if (!is_numeric($hour) || $hour < 0 || $hour > 23) {
-            throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
+            throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
         }
     }
 

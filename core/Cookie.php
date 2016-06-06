@@ -143,7 +143,9 @@ class Cookie
 
             // Remove port information.
             $Port = strpos($Domain, ':');
-            if ($Port !== false) $Domain = substr($Domain, 0, $Port);
+            if ($Port !== false) {
+                $Domain = substr($Domain, 0, $Port);
+            }
         }
 
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)

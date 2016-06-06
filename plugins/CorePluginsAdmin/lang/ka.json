@@ -7,12 +7,13 @@
         "Deactivate": "გამორთვა",
         "Inactive": "არააქტიური",
         "LicenseHomepage": "ლიცენზირების სათაო გვერდი",
-        "OncePluginIsInstalledYouMayActivateHere": "აქედან შესაძლებელია ერთხელ დაინსტალირებული პლაგინის ჩართვა და გამორთვა.",
-        "PluginDescription": "პლაგინების ადმინისტრირების ინტერფეისი",
-        "PluginHomepage": "პლაგინის სათაო გვერდი",
         "PluginsExtendPiwik": "პლაგინები აფართოვებენ და ამრავალფეროვნებენ Piwik–ის ფუნქციებს.",
+        "OncePluginIsInstalledYouMayActivateHere": "აქედან შესაძლებელია ერთხელ დაინსტალირებული პლაგინის ჩართვა და გამორთვა.",
+        "PluginHomepage": "პლაგინის სათაო გვერდი",
+        "PluginKeywords": "საკვანძო სიტყვები",
         "PluginsManagement": "პლაგინების მენეჯმენტი",
         "Status": "სტატუსი",
-        "Version": "ვერსია"
+        "Version": "ვერსია",
+        "Websites": "ვებ საიტები"
     }
 }

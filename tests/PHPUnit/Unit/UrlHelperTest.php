@@ -12,7 +12,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\UrlHelper;
 use Spyc;
 
-class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
+class UrlHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testIsUrl
@@ -30,6 +30,11 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('https://www.tëteâ.org', true),
             array('http://汉语/漢語.cn', true), //chinese
 
+            array('rtp://whatever.com', true),
+            array('testhttp://test.com', true),
+            array('cylon://3.hmn', true),
+            array('://something.com', true),
+
             // valid network-path reference RFC3986
             array('//piwik.org', true),
             array('//piwik/hello?world=test&test', true),
@@ -45,7 +50,7 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('jmleslangues.php', false),
             array('http://', false),
             array(' http://', false),
-            array('testhttp://test.com', false),
+            array('2fer://', false),
         );
     }
 
@@ -122,6 +127,14 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testGetPathAndQueryFromNonUrl()
+    {
+        $this->assertEquals('Others', UrlHelper::getPathAndQueryFromUrl('Others'));
+    }
+
+    /**
+     * @group Core
+     */
     public function testGetArrayFromQueryString()
     {
         $expected = array(
@@ -134,32 +147,6 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
             'g' => array('b', 'c'),
         );
         $this->assertEquals(serialize($expected), serialize(UrlHelper::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')));
-    }
-
-    /**
-     * Dataprovider for testExtractSearchEngineInformationFromUrl
-     */
-    public function getSearchEngineUrls()
-    {
-        return Spyc::YAMLLoad(PIWIK_PATH_TEST_TO_ROOT .'/tests/resources/extractSearchEngineInformationFromUrlTests.yml');
-    }
-
-    /**
-     * @dataProvider getSearchEngineUrls
-     * @group Core
-     */
-    public function testExtractSearchEngineInformationFromUrl($url, $engine, $keywords)
-    {
-        $this->includeDataFilesForSearchEngineTest();
-        $returnedValue = UrlHelper::extractSearchEngineInformationFromUrl($url);
-
-        $exptectedValue = false;
-
-        if (!empty($engine)) {
-            $exptectedValue = array('name' => $engine, 'keywords' => $keywords);
-        }
-
-        $this->assertEquals($exptectedValue, $returnedValue);
     }
 
     /**
@@ -188,12 +175,6 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
     public function testGetLossyUrl($input, $expected)
     {
         $this->assertEquals($expected, UrlHelper::getLossyUrl($input));
-    }
-
-    private function includeDataFilesForSearchEngineTest()
-    {
-        include "DataFiles/SearchEngines.php";
-        include "DataFiles/Countries.php";
     }
 
     /**
@@ -241,6 +222,15 @@ class Core_UrlHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array()));
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('/?foo=bar&foo2=bar2&test[]=1', array()));
         $this->assertEquals('segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', UrlHelper::getQueryFromUrl('/?segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', array()));
+    }
+
+    public function test_getQueryFromUrl_whenUrlParameterIsDuplicatedInQueryString_returnsLastFoundValue()
+    {
+        // Currently when the same parameter is used several times in the query string,
+        // only the last set value is returned by UrlHelper::getParameterFromQueryString
+        // refs https://github.com/piwik/piwik/issues/9842#issue-136043409
+        $this->assertEquals('blue', UrlHelper::getParameterFromQueryString('selected_colors=red&selected_colors=blue&par3=1', 'selected_colors'));
+        $this->assertEquals('selected_colors=red&selected_colors=blue&par3=1', UrlHelper::getQueryFromUrl('http:/mydomain.com?selected_colors=red&selected_colors=blue&par3=1', array()));
     }
 
     /**

@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Konfigurācija",
+        "ColumnResolution": "Ekrāna izšķirtspēja",
+        "Configurations": "Konfigurācijas",
+        "Resolutions": "Ekrāna izšķirtspējas",
+        "WidgetGlobalVisitors": "Globālā apmeklētāju konfigurācija",
+        "WidgetGlobalVisitorsDocumentation": "Šajā atskaitē redzamas visbiežāk izmantotās apmeklētāju konfigurācijas. Konfigurācija ir operētājsistēmas, pārlūka tipa un ekrāna izšķirtspējas kombinācija.",
+        "WidgetResolutions": "Ekrāna izšķirtspējas"
+    }
+}

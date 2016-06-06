@@ -8,7 +8,8 @@
 
 namespace Piwik\Plugins\UserCountry\tests\Unit;
 
-use Piwik\Log;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry;
@@ -17,9 +18,8 @@ use Exception;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
-require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 
-class UserCountryTest extends \PHPUnit_Framework_Testcase
+class UserCountryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @group Plugins
@@ -44,10 +44,11 @@ class UserCountryTest extends \PHPUnit_Framework_Testcase
      */
     public function testFlagsAndContinents()
     {
-        require PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/Countries.php';
+        /** @var RegionDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
-        $continents = $GLOBALS['Piwik_ContinentList'];
-        $countries = array_merge($GLOBALS['Piwik_CountryList'], $GLOBALS['Piwik_CountryList_Extras']);
+        $continents = $dataProvider->getContinentList();
+        $countries = $dataProvider->getCountryList(true);
 
         // Get list of existing flag icons
         $flags = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/UserCountry/images/flags/');
@@ -137,7 +138,7 @@ class UserCountryTest extends \PHPUnit_Framework_Testcase
         foreach ($filesToRemove as $name) {
             $path = $geoIpDirPath . '/' . $name;
             if (file_exists($path)) {
-                unlink($path);
+                @unlink($path);
             }
         }
     }

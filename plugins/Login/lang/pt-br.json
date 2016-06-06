@@ -1,22 +1,23 @@
 {
     "Login": {
-        "ConfirmationLinkSent": "Um link de confirmação foi enviado para sua caixa de entrada. Verifique se o seu e-mail e acesse este link para autorizar o seu pedido de alteração de senha.",
+        "ConfirmationLinkSent": "Um link de confirmação foi enviado para a sua caixa de entrada. Verifique seu e-mail e acesse o link para autorizar seu pedido de alteração de senha.",
         "ContactAdmin": "Possível razão: o seu host desabilitou a função mail(). <br \/>Por favor contacte o administrador do Piwik.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Um usuário com acesso de Super Usuário não pode ser autenticado usando o mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "É esperado que o parâmetro da senha seja um hash MD5 da senha.",
-        "InvalidNonceOrHeadersOrReferrer": "Forma de segurança falhou. Por favor, recarregar o formulário e verifique se seus cookies estão habilitados. Se você usar um servidor proxy, você deve configurar %s Piwik para aceitar cabeçalhos proxy %s encaminhados para Host. Além disso, verifique se o cabeçalho do Referer é enviado corretamente.",
+        "InvalidNonceOrHeadersOrReferrer": "O formulário de segurança falhou. Por favor, recarregue o formulário e verifique se seus cookies estão habilitados. Se você usa um servidor proxy, você deve configurar %1$s Piwik para aceitar proxy header%2$s que encaminhe para o Host header. Além disso, verifique se o header do Referenciador esta sendo enviada corretamente.",
+        "InvalidNonceSSLMisconfigured": "Além disso, você pode %1$s forçar o Piwik a usar uma conexão segura%2$s: em seu arquivo de configuração %3$s configure %4$s abaixo da secção %5$s",
         "InvalidOrExpiredToken": "Token inválido ou expirado",
-        "InvalidUsernameEmail": "Nome de usuário e\/ou e-mail inválido",
+        "InvalidUsernameEmail": "Nome de usuário ou e-mail inválido",
         "LogIn": "Entrar",
         "LoginOrEmail": "Nome de Usuário ou E-mail",
-        "LoginPasswordNotCorrect": "Nome de usuário e senha incorretos",
+        "LoginPasswordNotCorrect": "Combinação errada de Nome de Usuário e senha.",
         "LostYourPassword": "Esqueceu a sua senha?",
-        "MailPasswordChangeBody": "Oi %1$s, um pedido de redefinição de senha foi recebida de %2$s. Para confirmar esta alteração de senha para que você possa fazer o login com suas novas credenciais, visite o seguinte link: %3$s Nota: este token expirará em 24 horas. Obrigado por usar Piwik!",
-        "MailTopicPasswordChange": "Confirme Alteração de senha",
+        "MailTopicPasswordChange": "Confirme Alteração de Senha",
         "PasswordChanged": "Sua senha foi alterada.",
         "PasswordRepeat": "Senha (repetir)",
         "PasswordsDoNotMatch": "Senhas não conferem.",
-        "RememberMe": "Lembrar meu login",
+        "PluginDescription": "Fornece autenticação através do nome de usuário e senha, bem como a funcionalidade de redefinição de senha. O método de autenticação pode ser alterado utilizando outro plug-in, como, por exemplo, o LoginLdap disponível no Mercado.",
+        "RememberMe": "Lembrar-me",
         "ResetPasswordInstructions": "Digite uma nova senha para a sua conta."
     }
 }

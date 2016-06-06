@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>United Kingdom</label>
+		<nb_visits>10</nb_visits>
+		<nb_actions>28</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>8105</sum_visit_length>
+		<bounce_count>5</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>5</nb_conversions>
+				<nb_visits_converted>5</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>15</nb_conversions>
+		<revenue>75</revenue>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>gb</code>
+		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
+		<logoWidth>16</logoWidth>
+		<logoHeight>11</logoHeight>
+	</row>
+	<row>
+		<label>Canada</label>
+		<nb_visits>6</nb_visits>
+		<nb_actions>16</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>4863</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>6</nb_conversions>
+				<nb_visits_converted>6</nb_visits_converted>
+				<revenue>30</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>3</nb_conversions>
+				<nb_visits_converted>3</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>9</nb_conversions>
+		<revenue>45</revenue>
+		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>ca</code>
+		<logo>plugins/UserCountry/images/flags/ca.png</logo>
+		<segment>countryCode==ca</segment>
+		<logoWidth>16</logoWidth>
+		<logoHeight>11</logoHeight>
+	</row>
+</result>

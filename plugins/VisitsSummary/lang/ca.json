@@ -16,7 +16,6 @@
         "NbUniquePageviewsDescription": "%s visualitzacions de pàgina úniques",
         "NbUniqueVisitors": "%s visitants únics",
         "NbVisitsBounced": "%s visites han rebotat (abandonat el lloc després de veure una pàgina)",
-        "PluginDescription": "Informa de les principals analítiques: visitants, visitants únics, nombre d'accions, rati de rebots,etc.",
         "VisitsSummary": "Resum de les visites",
         "VisitsSummaryDocumentation": "Aquesta és una visió general de l'evolució visita.",
         "WidgetLastVisits": "Gràfic de les darreres visites",

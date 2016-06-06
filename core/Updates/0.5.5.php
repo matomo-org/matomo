@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_0_5_5 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         $sqlarray = array(
             'DROP INDEX index_idsite_date ON ' . Common::prefixTable('log_visit')                                                                => 1091,
@@ -38,9 +38,8 @@ class Updates_0_5_5 extends Updates
         return $sqlarray;
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
-
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

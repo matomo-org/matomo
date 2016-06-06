@@ -50,11 +50,19 @@ class TrackGoalsAllowMultipleConversionsPerVisitTest extends SystemTestCase
     {
         $apiToCall = array(
             'VisitTime.getVisitInformationPerServerTime',
-            'VisitsSummary.get'
+            'VisitsSummary.get',
+            'Goals.get'
         );
 
         return array(
-            array($apiToCall, array('idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime))
+            array($apiToCall, array('idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime)),
+            array(array('Goals.get'), array(
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'segment' => 'pageUrl=@/',
+                'testSuffix' => '_withLogLinkVisitActionSegment'
+            )),
+
         );
     }
 

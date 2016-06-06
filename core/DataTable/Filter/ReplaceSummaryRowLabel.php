@@ -10,7 +10,6 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 
 /**
@@ -53,20 +52,20 @@ class ReplaceSummaryRowLabel extends BaseFilter
      */
     public function filter($table)
     {
-        $rows = $table->getRows();
-        foreach ($rows as $id => $row) {
-            if ($row->getColumn('label') == DataTable::LABEL_SUMMARY_ROW
-                || $id == DataTable::ID_SUMMARY_ROW
-            ) {
+        $row = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        if ($row) {
+            $row->setColumn('label', $this->newLabel);
+        } else {
+            $row = $table->getRowFromLabel(DataTable::LABEL_SUMMARY_ROW);
+            if ($row) {
                 $row->setColumn('label', $this->newLabel);
-                break;
             }
         }
 
         // recurse
-        foreach ($rows as $row) {
-            if ($row->isSubtableLoaded()) {
-                $subTable = Manager::getInstance()->getTable($row->getIdSubDataTable());
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
+            $subTable = $row->getSubtable();
+            if ($subTable) {
                 $this->filter($subTable);
             }
         }

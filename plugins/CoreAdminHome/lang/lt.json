@@ -1,7 +1,11 @@
 {
     "CoreAdminHome": {
         "Administration": "Administravimas",
+        "ArchivingSettings": "Archyvavimo nustatymai",
+        "EmailServerSettings": "El. pašto serverio nustatymai",
+        "ForBetaTestersOnly": "Tik beta testuotojams",
         "MenuGeneralSettings": "Pagrindiniai nustatymai",
-        "PluginDescription": "Piwik administravimo sritis"
+        "PluginSettings": "Papildinio nustatymai",
+        "PluginSettingsSaveFailed": "Nepavyko įrašyti papildinio nustatymų"
     }
 }

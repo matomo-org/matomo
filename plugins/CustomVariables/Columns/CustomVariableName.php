@@ -8,11 +8,15 @@
  */
 namespace Piwik\Plugins\CustomVariables\Columns;
 
-use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
-class CustomVariableName extends Dimension
+class CustomVariableName extends Base
 {
+    protected function configureSegments()
+    {
+        $this->configureSegmentsFor('Name');
+    }
+
     public function getName()
     {
         return Piwik::translate('CustomVariables_ColumnCustomVariableName');

@@ -18,6 +18,9 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
  */
 class TwoVisitsWithCustomVariablesTest extends SystemTestCase
 {
+    /**
+     * @var TwoVisitsWithCustomVariables
+     */
     public static $fixture = null; // initialized below class definition
 
     public function getApiForTesting()
@@ -41,6 +44,32 @@ class TwoVisitsWithCustomVariablesTest extends SystemTestCase
                                                   'apiAction'     => 'getCustomVariablesValuesFromNameId',
                                                   'supertableApi' => 'CustomVariables.getCustomVariables',
                                                   'testSuffix'    => '__subtable')),
+
+            // test w/ custom variable segments
+            array('VisitsSummary.get', array(
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'periods' => array('day'),
+                'testSuffix' => '_segmentCustomVarName',
+                'segment' => 'customVariablePageName=@SET WITH',
+            )),
+
+            array('VisitsSummary.get', array(
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'periods' => array('day'),
+                'testSuffix' => '_segmentCustomVarValue',
+                'segment' => 'customVariableValue=@LoggedIn',
+            )),
+
+            array('VisitsSummary.get', array(
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'periods' => array('day'),
+                'testSuffix' => '_segmentAll',
+                'segment' => 'customVariableName=@Othercustom,customVariablePageValue=@abcdefghi',
+            )),
+
         );
 
         return $return;

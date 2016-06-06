@@ -42,14 +42,19 @@ class Mysql extends Db
     {
         if (isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['unix_socket'];
-        } else if (!empty($dbInfo['port']) && $dbInfo['port'][0] == '/') {
+        } elseif (!empty($dbInfo['port']) && $dbInfo['port'][0] == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['port'];
         } else {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';host=' . $dbInfo['host'] . ';port=' . $dbInfo['port'];
         }
+
         $this->username = $dbInfo['username'];
         $this->password = $dbInfo['password'];
-        $this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
+
+        if (isset($dbInfo['charset'])) {
+            $this->charset = $dbInfo['charset'];
+            $this->dsn .= ';charset=' . $this->charset;
+        }
     }
 
     public function __destruct()
@@ -203,9 +208,8 @@ class Mysql extends Db
             }
             return $sth;
         } catch (PDOException $e) {
-            throw new DbException("Error query: " . $e->getMessage() . "
-                                In query: $query
-                                Parameters: " . var_export($parameters, true));
+            $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
+            throw new DbException("Error query: " . $message, (int) $e->getCode());
         }
     }
 
@@ -252,11 +256,11 @@ class Mysql extends Db
      */
     public function beginTransaction()
     {
-        if (!$this->activeTransaction === false ) {
+        if (!$this->activeTransaction === false) {
             return;
         }
 
-        if ( $this->connection->beginTransaction() ) {
+        if ($this->connection->beginTransaction()) {
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }

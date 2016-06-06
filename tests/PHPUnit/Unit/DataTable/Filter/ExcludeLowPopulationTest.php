@@ -12,6 +12,9 @@ use Piwik\DataTable\Filter\ExcludeLowPopulation;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
+/**
+ * @group DataTableTest
+ */
 class DataTable_Filter_ExcludeLowPopulationTest extends \PHPUnit_Framework_TestCase
 {
     protected function getTestDataTable()

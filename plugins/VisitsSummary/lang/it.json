@@ -1,10 +1,10 @@
 {
     "VisitsSummary": {
-        "AverageGenerationTime": "%s media tempo di generazione",
-        "AverageVisitDuration": "%s durata stimata visita",
+        "AverageGenerationTime": "%s tempo medio di generazione",
+        "AverageVisitDuration": "%s durata media della visita",
         "GenerateQueries": "%s queries eseguite",
         "GenerateTime": "%s secondi per generare la pagina",
-        "MaxNbActions": "%s è il massimo delle pagine viste in 1 visita",
+        "MaxNbActions": "%s numero massimo di azioni in 1 visita",
         "NbActionsDescription": "%s azioni",
         "NbActionsPerVisit": "%s azioni (pagine viste, download, link esterni e ricerche interne al sito) per visita",
         "NbDownloadsDescription": "%s downloads",
@@ -17,11 +17,11 @@
         "NbUniquePageviewsDescription": "%s visualizzazioni pagina uniche",
         "NbUniqueVisitors": "%s visitatori unici",
         "NbVisitsBounced": "Il %s dei visitatori hanno visto 1 sola pagina",
-        "PluginDescription": "Riporta i dati generali di Web Analytics: visite, visite uniche, numero di azioni, percentuale dei rimbalzi, ecc.",
+        "PluginDescription": "Riporta le comuni metriche delle statistiche: visite, visitatori unici, numero di azioni, percentuale rimbalzi, ecc.",
         "VisitsSummary": "Sommario delle visite",
         "VisitsSummaryDocumentation": "Questa è una panoramica dell'evoluzione delle visite.",
-        "WidgetLastVisits": "Grafico ultime visite",
-        "WidgetOverviewGraph": "Riepilogo con grafico",
+        "WidgetLastVisits": "Visite nel Periodo",
+        "WidgetOverviewGraph": "Riepilogo Visite (con grafico)",
         "WidgetVisits": "Riepilogo visite"
     }
 }

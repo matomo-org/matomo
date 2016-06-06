@@ -26,7 +26,7 @@ class WatchLog extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $path = StaticContainer::getContainer()->get('path.tmp') . '/logs/';
+        $path = StaticContainer::get('path.tmp') . '/logs/';
         $cmd = sprintf('tail -f %s*.log', $path);
 
         $output->writeln('Executing command: ' . $cmd);

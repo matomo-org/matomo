@@ -316,7 +316,7 @@ abstract class ViewDataTable implements ViewInterface
         return new VizRequest();
     }
 
-    protected function loadDataTableFromAPI($fixedRequestParams = array())
+    protected function loadDataTableFromAPI()
     {
         if (!is_null($this->dataTable)) {
             // data table is already there
@@ -324,7 +324,7 @@ abstract class ViewDataTable implements ViewInterface
             return $this->dataTable;
         }
 
-        $this->dataTable = $this->request->loadDataTableFromAPI($fixedRequestParams);
+        $this->dataTable = $this->request->loadDataTableFromAPI();
 
         return $this->dataTable;
     }
@@ -347,7 +347,7 @@ abstract class ViewDataTable implements ViewInterface
             throw new \Exception($message);
         }
 
-       return $id;
+        return $id;
     }
 
     /**
@@ -513,6 +513,47 @@ abstract class ViewDataTable implements ViewInterface
                 $this->config->custom_parameters[$key] = $value;
             }
         }
+    }
+
+    /**
+     * Display a meaningful error message when any invalid parameter is being set.
+     *
+     * @param $overrideParams
+     * @throws
+     */
+    public function throwWhenSettingNonOverridableParameter($overrideParams)
+    {
+        $nonOverridableParams = $this->getNonOverridableParams($overrideParams);
+        if(count($nonOverridableParams) > 0) {
+            throw new \Exception(sprintf(
+                "Setting parameters %s is not allowed. Please report this bug to the Piwik team.",
+                implode(" and ", $nonOverridableParams)
+            ));
+        }
+    }
+
+    /**
+     * @param $overrideParams
+     * @return array
+     */
+    public function getNonOverridableParams($overrideParams)
+    {
+        $paramsCannotBeOverridden = array();
+        foreach ($overrideParams as $paramName => $paramValue) {
+            if (property_exists($this->requestConfig, $paramName)) {
+                $allowedParams = $this->requestConfig->overridableProperties;
+            } elseif (property_exists($this->config, $paramName)) {
+                $allowedParams = $this->config->overridableProperties;
+            } else {
+                // setting Config.custom_parameters is always allowed
+                continue;
+            }
+
+            if (!in_array($paramName, $allowedParams)) {
+                $paramsCannotBeOverridden[] = $paramName;
+            }
+        }
+        return $paramsCannotBeOverridden;
     }
 
 }

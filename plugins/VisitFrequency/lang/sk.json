@@ -5,7 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "Priemerný čas pre vracajúcich sa návštevníkov (v sekundách)",
         "ColumnBounceRateForReturningVisits": "Miera odskočení vracajúcich sa návštev",
         "ColumnReturningVisits": "Vracajúce sa návštevy",
-        "PluginDescription": "Rôzne štatistiky vracajúci sa návštevník versus návštevník ktorý navštívil stránku prvýkrát.",
         "ReturnActions": "počet akcií vracajúcich sa: %s",
         "ReturnAverageVisitDuration": "%s priemerná dĺžka návštevy u vracajúcich sa návštevníkov",
         "ReturnAvgActions": "%s akcie pre vracajúcej sa návšteve",

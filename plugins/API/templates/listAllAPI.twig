@@ -1,28 +1,28 @@
-{% extends 'dashboard.twig' %}
-{% set showMenu=false %}
+{% extends 'user.twig' %}
+
+{% set title %}{{ 'API_ReportingApiReference'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
 
 {% block content %}
 
-{% include "@CoreHome/_siteSelectHeader.twig" %}
+<div class="api-list">
 
-<div class="page_api pageWrap">
-
-    <div class="top_controls">
-        {% include "@CoreHome/_periodSelect.twig" %}
-    </div>
-
-    <h2>{{ 'API_QuickDocumentationTitle'|translate }}</h2>
+    <h2>{{ title }}</h2>
 
     <p>{{ 'API_PluginDescription'|translate }}</p>
 
     <p>
-        <strong>{{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}</strong>
+        {{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}
     </p>
 
     <h2>{{ 'API_UserAuthentication'|translate }}</h2>
 
     <p>
-        {{ 'API_UsingTokenAuth'|translate('<b>','</b>',"")|raw }}<br/>
+        {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
         <span id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></span><br/>
         {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
         {{ list_api_methods_with_links|raw }}

@@ -1,20 +1,21 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Ota yhteyttä Piwikin tiimiin!",
         "DoYouHaveBugReportOrFeatureRequest": "Onko sinulle virheraportti tai pyyntö uudesta ominaisuudesta?",
         "IWantTo": "Haluan:",
-        "LearnWaysToParticipate": "Katso erilaisia tapoja %s osallistua%s",
+        "LearnWaysToParticipate": "Katso erilaisia tapoja %1$s osallistua%2$s",
         "ManuallySendEmailTo": "Ole hyvä ja lähetä viesti osoitteeseen",
-        "PluginDescription": "Lähetä palautetta Piwikin tiimille. Jaa ideoita kanssamme!",
         "RateFeatureLeaveMessageDislike": "Harmillista kuulla että et pidä siitä! Voisitko kertoa meille, miten voimme korjata tämän?",
         "RateFeatureLeaveMessageLike": "Olemme iloisia että pidit siitä! Kerro meille mistä pidit eniten tai jos sinulla on ehdotuksia uusiksi ominaisuuksiksi.",
         "RateFeatureThankYouTitle": "Kiitos '%s':n arvostelemisesta!",
         "RateFeatureTitle": "Pidätkö ominaisuudesta '%s'? Jätä arvostelu ja kommentti",
         "SendFeedback": "Lähetä palaute",
-        "SpecialRequest": "Onko sinulla erikoispyyntö Piwikin tiimille?",
         "ThankYou": "Kiitos että autat parantamaan Piwikiä!",
         "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi).",
-        "VisitTheForums": "Käy %s foorumeilla %s",
-        "WantToThankConsiderDonating": "Onko Piwik mielestäsi mainio, ja haluat kiittää meitä?"
+        "CommunityHelp": "Yhteisön apu",
+        "ProfessionalHelp": "Ammattilaisapu",
+        "PiwikProReviewPiwikSetup": "Piwik-asennuksesi arviointi",
+        "PiwikProPhoneEmailSupport": "Puhelin- ja sähköpostituki",
+        "PiwikProPremiumFeatures": "Premium-ominaisuudet",
+        "ContactUs": "Ota yhteyttä"
     }
 }

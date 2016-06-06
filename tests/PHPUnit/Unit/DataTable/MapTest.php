@@ -6,13 +6,16 @@ use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Tests\Framework\Mock\TestConfig;
 
+/**
+ * @group DataTableTest
+ */
 class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         parent::setUp();
-        Config::getInstance()->setTestEnvironment();
         Manager::getInstance()->deleteAll();
     }
 

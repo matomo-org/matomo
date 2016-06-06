@@ -9,9 +9,6 @@
 namespace Piwik\Container;
 
 use DI\Container;
-use DI\ContainerBuilder;
-use Doctrine\Common\Cache\ArrayCache;
-use Piwik\Config;
 
 /**
  * This class provides a static access to the container.
@@ -23,49 +20,68 @@ use Piwik\Config;
 class StaticContainer
 {
     /**
-     * @var Container
+     * @var Container[]
      */
-    private static $container;
+    private static $containerStack = array();
+
+    /**
+     * Definitions to register in the container.
+     *
+     * @var array[]
+     */
+    private static $definitions = array();
 
     /**
      * @return Container
      */
     public static function getContainer()
     {
-        if (self::$container === null) {
-            self::$container = self::createContainer();
+        if (empty(self::$containerStack)) {
+            throw new ContainerDoesNotExistException("The root container has not been created yet.");
         }
 
-        return self::$container;
+        return end(self::$containerStack);
+    }
+
+    public static function clearContainer()
+    {
+        self::pop();
     }
 
     /**
-     * @link http://php-di.org/doc/container-configuration.html
+     * Only use this in tests.
+     *
+     * @param Container $container
      */
-    private static function createContainer()
+    public static function push(Container $container)
     {
-        if (!class_exists('DI\ContainerBuilder')) {
-            throw new \Exception('DI\ContainerBuilder could not be found, maybe you are using Piwik from git and need to update Composer: php composer.phar update');
-        }
+        self::$containerStack[] = $container;
+    }
 
-        $builder = new ContainerBuilder();
+    public static function pop()
+    {
+        array_pop(self::$containerStack);
+    }
 
-        $builder->useAnnotations(false);
+    public static function addDefinitions(array $definitions)
+    {
+        self::$definitions[] = $definitions;
+    }
 
-        // TODO set a better cache
-        $builder->setDefinitionCache(new ArrayCache());
+    /**
+     * Proxy to Container::get()
+     *
+     * @param string $name Container entry name.
+     * @return mixed
+     * @throws \DI\NotFoundException
+     */
+    public static function get($name)
+    {
+        return self::getContainer()->get($name);
+    }
 
-        // Old global INI config
-        $builder->addDefinitions(new IniConfigDefinitionSource(Config::getInstance()));
-
-        // Global config
-        $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
-
-        // User config
-        if (file_exists(PIWIK_USER_PATH . '/config/config.php')) {
-            $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
-        }
-
-        return $builder->build();
+    public static function getDefinitions()
+    {
+        return self::$definitions;
     }
 }

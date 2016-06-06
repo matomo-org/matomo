@@ -13,7 +13,7 @@ use Piwik\Piwik;
 
 function getTimeLabel($label)
 {
-    return sprintf(Piwik::translate('VisitTime_NHour'), $label);
+    return sprintf(Piwik::translate('Intl_NHoursShort'), $label);
 }
 
 /**
@@ -36,5 +36,5 @@ function dayOfWeekFromDate($dateStr)
  */
 function translateDayOfWeek($dayOfWeek)
 {
-    return Piwik::translate('General_LongDay_' . $dayOfWeek);
+    return Piwik::translate('Intl_Day_Long_StandAlone_' . $dayOfWeek);
 }

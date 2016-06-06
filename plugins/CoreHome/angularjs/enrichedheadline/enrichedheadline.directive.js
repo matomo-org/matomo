@@ -17,8 +17,11 @@
  * <h2 piwik-enriched-headline help-url="http://piwik.org/guide">All Websites Dashboard</h2>
  * -> shows help icon and links to external url
  *
+ * <h2 piwik-enriched-headline edit-url="index.php?module=Foo&action=bar&id=4">All Websites Dashboard</h2>
+ * -> makes the headline clickable linking to the specified url
+ *
  * <h2 piwik-enriched-headline>All Websites Dashboard
- *     <div class="inlineHelp>My <strong>inline help</strong></div>
+ *     <div class="inlineHelp">My <strong>inline help</strong></div>
  * </h2>
  * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
  */
@@ -29,7 +32,8 @@
 
     function piwikEnrichedHeadline($document, piwik, $filter){
         var defaults = {
-            helpUrl: ''
+            helpUrl: '',
+            editUrl: ''
         };
 
         return {
@@ -37,6 +41,7 @@
             restrict: 'A',
             scope: {
                 helpUrl: '@',
+                editUrl: '@',
                 featureName: '@'
             },
             templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
@@ -63,7 +68,7 @@
                     }
 
                     if (!attrs.featureName) {
-                        attrs.featureName = $.trim(element.text());
+                        attrs.featureName = $.trim(element.find('.title').first().text());
                     }
                 };
             }

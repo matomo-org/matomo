@@ -9,6 +9,7 @@ namespace Piwik\Metrics;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
@@ -19,8 +20,6 @@ use Piwik\Tracker\GoalManager;
 /**
  * Contains methods to format metric values. Passed to the {@link \Piwik\Plugin\Metric::format()}
  * method when formatting Metrics.
- *
- * @api
  */
 class Formatter
 {
@@ -36,6 +35,7 @@ class Formatter
      *
      * @param number $value
      * @return string
+     * @api
      */
     public function getPrettyNumber($value, $precision = 0)
     {
@@ -56,6 +56,7 @@ class Formatter
      * @param bool $displayTimeAsSentence If set to true, will output `"5min 17s"`, if false `"00:05:17"`.
      * @param bool $round Whether to round to the nearest second or not.
      * @return string
+     * @api
      */
     public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = false, $round = false)
     {
@@ -69,10 +70,15 @@ class Formatter
 
         // Display 01:45:17 time format
         if ($displayTimeAsSentence === false) {
-            $hours   = floor($numberOfSeconds / 3600);
-            $minutes = floor(($reminder = ($numberOfSeconds - $hours * 3600)) / 60);
+            $days    = floor($numberOfSeconds / 86400);
+            $hours   = floor(($reminder = ($numberOfSeconds - $days * 86400)) / 3600);
+            $minutes = floor(($reminder = ($reminder - $hours * 3600)) / 60);
             $seconds = floor($reminder - $minutes * 60);
-            $time    = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
+            if ($days == 0) {
+                $time    = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
+            } else {    
+                $time    = sprintf(Piwik::translate('Intl_NDays'), $days) . " " . sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
+            }
             $centiSeconds = ($numberOfSeconds * 100) % 100;
             if ($centiSeconds) {
                 $time .= '.' . sprintf("%02s", $centiSeconds);
@@ -96,7 +102,7 @@ class Formatter
 
         $seconds   = $minusDaysAndHours - $minutes * 60;
         $precision = ($seconds > 0 && $seconds < 0.01 ? 3 : 2);
-        $seconds   = round($seconds, $precision);
+        $seconds   = NumberFormatter::getInstance()->formatNumber(round($seconds, $precision), $precision);
 
         if ($years > 0) {
             $return = sprintf(Piwik::translate('General_YearsDays'), $years, $days);
@@ -107,7 +113,7 @@ class Formatter
         } elseif ($minutes > 0) {
             $return = sprintf(Piwik::translate('General_MinutesSeconds'), $minutes, $seconds);
         } else {
-            $return = sprintf(Piwik::translate('General_Seconds'), $seconds);
+            $return = sprintf(Piwik::translate('Intl_NSecondsShort'), $seconds);
         }
 
         if ($isNegative) {
@@ -124,6 +130,7 @@ class Formatter
      * @param string $unit The specific unit to use, if any. If null, the unit is determined by $size.
      * @param int $precision The precision to use when rounding.
      * @return string eg, `'128 M'` or `'256 K'`.
+     * @api
      */
     public function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
     {
@@ -131,18 +138,8 @@ class Formatter
             return '0 M';
         }
 
-        $units = array('B', 'K', 'M', 'G', 'T');
-
-        $currentUnit = null;
-        foreach ($units as $idx => $currentUnit) {
-            if ($size >= 1024 && $unit != $currentUnit && $idx != count($units) - 1) {
-                $size = $size / 1024;
-            } else {
-                break;
-            }
-        }
-
-        return round($size, $precision) . " " . $currentUnit;
+        list($size, $sizeUnit) = $this->getPrettySizeFromBytesWithUnit($size, $unit, $precision);
+        return $size . " " . $sizeUnit;
     }
 
     /**
@@ -151,25 +148,21 @@ class Formatter
      * @param int|string $value The monetary value to format.
      * @param int $idSite The ID of the site whose currency will be used.
      * @return string
+     * @api
      */
     public function getPrettyMoney($value, $idSite)
     {
         $space = ' ';
-
-        $currencySymbol = self::getCurrencySymbol($idSite);
-
+        $currencySymbol = Site::getCurrencySymbolFor($idSite);
         $currencyBefore =  $currencySymbol . $space;
         $currencyAfter = '';
-
         // (maybe more currencies prefer this notation?)
         $currencySymbolToAppend = array('€', 'kr', 'zł');
-
         // manually put the currency symbol after the amount
         if (in_array($currencySymbol, $currencySymbolToAppend)) {
             $currencyAfter = $space . $currencySymbol;
             $currencyBefore = '';
         }
-
         // if the input is a number (it could be a string or INPUT form),
         // and if this number is not an int, we round to precision 2
         if (is_numeric($value)) {
@@ -181,7 +174,6 @@ class Formatter
                 $value = sprintf("%01." . $precision . "f", $value);
             }
         }
-
         $prettyMoney = $currencyBefore . $value . $currencyAfter;
         return $prettyMoney;
     }
@@ -192,47 +184,12 @@ class Formatter
      *
      * @param float $value
      * @return string
+     * @api
      */
     public function getPrettyPercentFromQuotient($value)
     {
         $result = ($value * 100) . '%';
         return Common::forceDotAsSeparatorForDecimalPoint($result);
-    }
-
-    /**
-     * Returns the currency symbol for a site.
-     *
-     * @param int $idSite The ID of the site to return the currency symbol for.
-     * @return string eg, `'$'`.
-     */
-    public static function getCurrencySymbol($idSite)
-    {
-        $symbols  = self::getCurrencyList();
-        $currency = Site::getCurrencyFor($idSite);
-
-        if (isset($symbols[$currency])) {
-            return $symbols[$currency][0];
-        }
-
-        return '';
-    }
-
-    /**
-     * Returns the list of all known currency symbols.
-     *
-     * @return array An array mapping currency codes to their respective currency symbols
-     *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
-     */
-    public static function getCurrencyList()
-    {
-        static $currenciesList = null;
-
-        if (is_null($currenciesList)) {
-            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Currencies.php';
-            $currenciesList = $GLOBALS['Piwik_CurrencyList'];
-        }
-
-        return $currenciesList;
     }
 
     /**
@@ -242,6 +199,7 @@ class Formatter
      * @param DataTable $dataTable The table to format metrics for.
      * @param Report|null $report The report the table belongs to.
      * @param string[]|null $metricsToFormat Whitelist of names of metrics to format.
+     * @api
      */
     public function formatMetrics(DataTable $dataTable, Report $report = null, $metricsToFormat = null)
     {
@@ -278,6 +236,29 @@ class Formatter
                 }
             }
         }
+    }
+
+    protected function getPrettySizeFromBytesWithUnit($size, $unit = null, $precision = 1)
+    {
+        $units = array('B', 'K', 'M', 'G', 'T');
+        $numUnits = count($units) - 1;
+
+        $currentUnit = null;
+        foreach ($units as $idx => $currentUnit) {
+            if ($unit && $unit !== $currentUnit) {
+                $size = $size / 1024;
+            } elseif ($unit && $unit === $currentUnit) {
+                break;
+            } elseif ($size >= 1024 && $idx != $numUnits) {
+                $size = $size / 1024;
+            } else {
+                break;
+            }
+        }
+
+        $size = round($size, $precision);
+
+        return array($size, $currentUnit);
     }
 
     private function makeRegexToMatchMetrics($metricsToFormat)

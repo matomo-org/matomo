@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\DataAccess\ArchiveTableCreator;
 
@@ -166,7 +165,7 @@ class DbHelper
     /**
      * Get the SQL to create a specific Piwik table
      *
-     * @param string $tableName
+     * @param string $tableName Unprefixed table name.
      * @return string  SQL
      */
     public static function getTableCreateSql($tableName)

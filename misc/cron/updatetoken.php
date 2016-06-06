@@ -11,7 +11,9 @@
 
 namespace Piwik;
 
-use Piwik\Container\StaticContainer;
+use Piwik\Application\Environment;
+use Piwik\Tests\Framework\TestingEnvironmentManipulator;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
@@ -33,10 +35,10 @@ if (!Common::isPhpCliMode()) {
 
 $testmode = in_array('--testmode', $_SERVER['argv']);
 if ($testmode) {
-    require_once PIWIK_INCLUDE_PATH . "/tests/PHPUnit/TestingEnvironment.php";
-    \Piwik_TestingEnvironment::addHooks();
-}
+    define('PIWIK_TEST_MODE', true);
 
+    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
+}
 
 function getPiwikDomain()
 {
@@ -49,6 +51,9 @@ function getPiwikDomain()
     return null;
 }
 
+$environment = new Environment('cli');
+$environment->init();
+
 $piwikDomain = getPiwikDomain();
 if($piwikDomain) {
     Url::setHost($piwikDomain);
@@ -59,7 +64,7 @@ $token = Db::get()->fetchOne("SELECT token_auth
                               WHERE superuser_access = 1
                               ORDER BY date_registered ASC");
 
-$filename = StaticContainer::getContainer()->get('path.tmp') . '/cache/token.php';
+$filename = $environment->getContainer()->get('path.tmp') . '/cache/token.php';
 
 $content  = "<?php exit; //\t" . $token;
 file_put_contents($filename, $content);

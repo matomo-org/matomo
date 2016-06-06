@@ -1,13 +1,21 @@
 {
     "Login": {
+        "ConfirmationLinkSent": "Onaylama bağlantısı gelen kutunuza gönderildi. Şifre değişikliğinı onaylamak için e-posta hesabınızı kontrol edin ve bağlantıyı ziyaret edin.",
+        "ContactAdmin": "Olası nedeni: Sunucunuzda mail() fonksiyonunu devre dışı bırakmış olabilir. <br \/>Lütfen Piwik yöneticinizle iletişime geçiniz.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "'%s' mekanizması kullanılarak bir süper kullanıcı girişi yetkilendirilemez.",
+        "ExceptionPasswordMD5HashExpected": "Bu şifre parametresi şifrenin MD5 ile hashlenmiş halini beklemektedir.",
+        "InvalidNonceOrHeadersOrReferrer": "Form güvenliği sağlanamadı. Lütfen formu tekrar yükleyin ve çerezlerin aktif olduğundan emin olun. Eğer bir proxy sunucusu kullanıyorsanız, %2$s proxy başlığını kabul etmek için Piwik'i %1$s olarak ayarlamalısınız. Bununla birlikte Referans başlaığınızın doğru gönderildiğini kontrol edin.",
         "InvalidOrExpiredToken": "Güvenlik kodu yanlış yada süresi dolmuş.",
         "InvalidUsernameEmail": "Geçersiz kullanıcı adı ve\/veya e-posta adresi",
         "LogIn": "Oturum aç",
         "LoginOrEmail": "Giriş veya E-posta",
         "LoginPasswordNotCorrect": "Kullanıcı adı & Şifre yanlış",
         "LostYourPassword": "Şifrenizi mi unuttunuz?",
+        "MailTopicPasswordChange": "Parola Değişikliğini Onayla",
+        "PasswordChanged": "Parolanız değiştirildi.",
         "PasswordRepeat": "Şifre (Tekrar)",
         "PasswordsDoNotMatch": "Şifre eşleşmedi",
-        "RememberMe": "Beni Hatırla"
+        "RememberMe": "Beni Hatırla",
+        "ResetPasswordInstructions": "Hesabınız için yeni parolanızı giriniz."
     }
 }

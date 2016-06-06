@@ -9,19 +9,21 @@
 namespace Piwik\Container;
 
 use DI\Definition\Exception\DefinitionException;
-use DI\Definition\MergeableDefinition;
-use DI\Definition\Source\ChainableDefinitionSource;
 use DI\Definition\Source\DefinitionSource;
 use DI\Definition\ValueDefinition;
-use Piwik\Config;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 
 /**
- * Import the old INI config into PHP-DI.
+ * Expose the INI config into PHP-DI.
+ *
+ * The INI config can be used by prefixing `ini.` before the setting we want to get:
+ *
+ *     $maintenanceMode = $container->get('ini.General.maintenance_mode');
  */
-class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinitionSource
+class IniConfigDefinitionSource implements DefinitionSource
 {
     /**
-     * @var Config
+     * @var GlobalSettingsProvider
      */
     private $config;
 
@@ -31,29 +33,22 @@ class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinition
     private $prefix;
 
     /**
-     * @var DefinitionSource
-     */
-    private $chainedSource;
-
-    /**
-     * @param Config $config
+     * @param GlobalSettingsProvider $config
      * @param string $prefix Prefix for the container entries.
      */
-    public function __construct(Config $config, $prefix = 'old_config.')
+    public function __construct(GlobalSettingsProvider $config, $prefix = 'ini.')
     {
         $this->config = $config;
         $this->prefix = $prefix;
     }
 
-    public function getDefinition($name, MergeableDefinition $parentDefinition = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefinition($name)
     {
-        // INI only contains values, so no definition merging here
-        if ($parentDefinition) {
-            return $this->notFound($name, $parentDefinition);
-        }
-
         if (strpos($name, $this->prefix) !== 0) {
-            return $this->notFound($name, $parentDefinition);
+            return null;
         }
 
         list($sectionName, $configKey) = $this->parseEntryName($name);
@@ -65,15 +60,10 @@ class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinition
         }
 
         if (! array_key_exists($configKey, $section)) {
-            return $this->notFound($name, $parentDefinition);
+            return null;
         }
 
         return new ValueDefinition($name, $section[$configKey]);
-    }
-
-    public function chain(DefinitionSource $source)
-    {
-        $this->chainedSource = $source;
     }
 
     private function parseEntryName($name)
@@ -91,24 +81,15 @@ class IniConfigDefinitionSource implements DefinitionSource, ChainableDefinition
 
     private function getSection($sectionName)
     {
-        $section = $this->config->$sectionName;
+        $section = $this->config->getSection($sectionName);
 
         if (!is_array($section)) {
             throw new DefinitionException(sprintf(
-                'Piwik\Config did not return an array for the config section %s',
+                'IniFileChain did not return an array for the config section %s',
                 $section
             ));
         }
 
         return $section;
-    }
-
-    private function notFound($name, $parentDefinition)
-    {
-        if ($this->chainedSource) {
-            return $this->chainedSource->getDefinition($name, $parentDefinition);
-        }
-
-        return null;
     }
 }

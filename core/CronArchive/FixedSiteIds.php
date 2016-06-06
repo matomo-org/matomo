@@ -8,7 +8,6 @@
  */
 namespace Piwik\CronArchive;
 
-use Piwik\CronArchive;
 
 class FixedSiteIds
 {
@@ -18,7 +17,7 @@ class FixedSiteIds
     public function __construct($websiteIds)
     {
         if (!empty($websiteIds)) {
-            $this->siteIds = $websiteIds;
+            $this->siteIds = array_values($websiteIds);
         }
     }
 
@@ -63,6 +62,4 @@ class FixedSiteIds
 
         return null;
     }
-
 }
-

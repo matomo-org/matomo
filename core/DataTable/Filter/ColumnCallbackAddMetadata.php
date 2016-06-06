@@ -63,11 +63,13 @@ class ColumnCallbackAddMetadata extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $key => $row) {
-            if (!$this->applyToSummaryRow && $key == DataTable::ID_SUMMARY_ROW) {
-                continue;
-            }
+        if ($this->applyToSummaryRow) {
+            $rows = $table->getRows();
+        } else {
+            $rows = $table->getRowsWithoutSummaryRow();
+        }
 
+        foreach ($rows as $key => $row) {
             $parameters = array();
             foreach ($this->columnsToRead as $columnsToRead) {
                 $parameters[] = $row->getColumn($columnsToRead);

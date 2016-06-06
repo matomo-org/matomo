@@ -1,11 +1,13 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'UserCountry_Geolocation'|translate }}{% endset %}
+
 {% block content %}
 {% import 'macros.twig' as piwik %}
 
 <h2 piwik-enriched-headline
     help-url="http://piwik.org/docs/geo-locate/"
-    id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
+    id="location-providers">{{ title }}</h2>
 
 <div style="width:900px;">
 
@@ -60,36 +62,32 @@
             </td>
             <td width="164">
                 {% if provider.status == 1 %}
-                    {% set currentLocation %}
+                    <div class="form-help">
                         {% if thisIP != '127.0.0.1' %}
                             {{ 'UserCountry_CurrentLocationIntro'|translate }}:
-                            <div style="text-align:left;">
+                            <div>
                                 <br/>
                                 <span class="loadingPiwik" style="display:none;position:absolute;">
                                     <img src="./plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_Loading'|translate }}</span>
-                                <span class="location"><strong><em>{{ provider.location|raw }}</em></strong></span>
+                                <span class="location"><strong>{{ provider.location|raw }}</strong></span>
                             </div>
-                            <div style="text-align:right;">
+                            <div class="text-right">
                                 <a href="#" class="refresh-loc" data-impl-id="{{ id }}"><em>{{ 'General_Refresh'|translate }}</em></a>
                             </div>
                         {% else %}
                             {{ 'UserCountry_CannotLocalizeLocalIP'|translate(thisIP) }}
                         {% endif %}
-                    {% endset %}
-                    {{ piwik.inlineHelp(currentLocation) }}
+                    </div>
                 {% endif %}
                 {% if provider.statusMessage is defined and provider.statusMessage %}
-                    {% set brokenReason %}
-                        {% if provider.status == 2 %}<strong><em>{{ 'General_Error'|translate }}:</em></strong> {% endif %}{{ provider.statusMessage|raw }}
-                    {% endset %}
-                    {{ piwik.inlineHelp(brokenReason) }}
+                    <div class="form-help">
+                        {% if provider.status == 2 %}<strong>{{ 'General_Error'|translate }}:</strong> {% endif %}{{ provider.statusMessage|raw }}
+                    </div>
                 {% endif %}
                 {% if provider.extra_message is defined and provider.extra_message %}
-                    {% set extraMessage %}
+                    <div class="form-help">
                         {{ provider.extra_message|raw }}
-                    {% endset %}
-                    <br/>
-                    {{ piwik.inlineHelp(extraMessage) }}
+                    </div>
                 {% endif %}
             </td>
             {% endfor %}

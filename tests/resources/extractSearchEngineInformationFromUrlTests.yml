@@ -432,6 +432,10 @@
   engine: 'SeeSaa'
   keywords: '日本テレビ放送網'
 
+- url: 'http://en.toppreise.ch/index.php?search=w%FCrzpr%E4nft%DF&sRes=OK'
+  engine: 'Toppreise.ch'
+  keywords: 'würzpränftß'
+
 - url: 'http://chercherfr.aguea.com/s.py?q=piwik'
   engine: 'Aguea'
   keywords: 'piwik'

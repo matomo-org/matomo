@@ -16,13 +16,21 @@ namespace Piwik\Composer;
  */
 class ScriptHandler
 {
+    private static function isPhp7orLater()
+    {
+        return version_compare('7.0.0-dev', PHP_VERSION) < 1;
+    }
+
     public static function cleanXhprof()
     {
         if (! is_dir('vendor/facebook/xhprof/extension')) {
             return;
         }
 
-        passthru('misc/composer/clean-xhprof.sh');
+        if (!self::isPhp7orLater()) {
+            // doesn't work with PHP 7 at the moment
+            passthru('misc/composer/clean-xhprof.sh');
+        }
     }
 
     public static function buildXhprof()
@@ -31,6 +39,9 @@ class ScriptHandler
             return;
         }
 
-        passthru('misc/composer/build-xhprof.sh');
+
+        if (!self::isPhp7orLater()) {
+            passthru('misc/composer/clean-xhprof.sh');
+        }
     }
 }

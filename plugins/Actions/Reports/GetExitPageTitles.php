@@ -24,7 +24,7 @@ class GetExitPageTitles extends Base
 
         $this->dimension     = new ExitPageTitle();
         $this->name          = Piwik::translate('Actions_ExitPageTitles');
-        $this->documentation = Piwik::translate('Actions_EntryPageTitlesReportDocumentation', '<br />')
+        $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
         $this->metrics = array('exit_nb_visits', 'nb_visits');
@@ -86,8 +86,8 @@ class GetExitPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetPageTitles(),
-            new GetExitPageUrls()
+            self::factory('Actions', 'getPageTitles'),
+            self::factory('Actions', 'getExitPageUrls'),
         );
     }
 }

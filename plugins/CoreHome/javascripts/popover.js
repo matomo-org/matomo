@@ -24,7 +24,7 @@ var Piwik_Popover = (function () {
         {
             title: title,
             modal: true,
-            width: '950px',
+            width: '1050px',
             position: ['center', 'center'],
             resizable: false,
             autoOpen: true,
@@ -85,7 +85,7 @@ var Piwik_Popover = (function () {
             var loadingMessage = popoverSubject ? translations.General_LoadingPopoverFor :
                 translations.General_LoadingPopover;
 
-            loadingMessage = loadingMessage.replace(/%s/, popoverName);
+            loadingMessage = sprintf(loadingMessage, popoverName);
 
             var p1 = $(document.createElement('p')).addClass('Piwik_Popover_Loading_Name');
             loading.append(p1.text(loadingMessage));
@@ -142,7 +142,17 @@ var Piwik_Popover = (function () {
 
         /** Set the title of the popover */
         setTitle: function (titleHtml) {
+            var titleText = piwikHelper.htmlDecode(titleHtml);
+            if (titleText.length > 60) {
+                titleHtml = $('<span>').attr('class', 'tooltip').attr('title', titleText).html(titleHtml);
+            }
             container.dialog('option', 'title', titleHtml);
+            try {
+                $('.tooltip', container.parentNode).tooltip('destroy');
+            } catch (e) {}
+            if (titleText.length > 60) {
+                $('.tooltip', container.parentNode).tooltip({track: true, items: '.tooltip'});
+            }
         },
 
         /** Set inner HTML of the popover */

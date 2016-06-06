@@ -10,18 +10,18 @@ namespace Piwik\Tests\Unit\Period;
 
 use Exception;
 use Piwik\Date;
+use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
-use Piwik\Translate;
 
-class Period_RangeTest extends \PHPUnit_Framework_TestCase
+/**
+ * @group Core
+ */
+class RangeTest extends BasePeriodTest
 {
     // test range 1
-    /**
-     * @group Core
-     */
     public function testRangeToday()
     {
         $range = new Range('day', 'last1');
@@ -36,9 +36,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangeTodayUtcPlus12()
     {
         // rather ugly test, UTC+23 doesn't exist, but it's a way to test that last1 in UTC+23 will be "our" UTC tomorrow
@@ -55,9 +52,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range 2
-    /**
-     * @group Core
-     */
     public function testRange2days()
     {
         $range = new Range('day', 'last2');
@@ -74,9 +68,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range 3
-    /**
-     * @group Core
-     */
     public function testRange5days()
     {
         $range = new Range('day', 'last50');
@@ -93,9 +84,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range 4
-    /**
-     * @group Core
-     */
     public function testRangePrevious3days()
     {
         $range = new Range('day', 'previous3');
@@ -112,9 +100,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range date1,date2
-    /**
-     * @group Core
-     */
     public function testRangeComma1()
     {
 
@@ -131,9 +116,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range date1,date2
-    /**
-     * @group Core
-     */
     public function testRangeComma2()
     {
 
@@ -162,9 +144,17 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range date1,date2
-    /**
-     * @group Core
-     */
+    // see https://github.com/piwik/piwik/issues/6194
+    public function testRangeComma3_EndDateIncludesToday()
+    {
+        $range = new Range('day', '2008-01-01,today');
+        $subPeriods = $range->getSubperiods();
+        $this->assertEquals('2008-01-01', $subPeriods[0]->toString());
+        $this->assertEquals('2008-01-02', $subPeriods[1]->toString());
+        $this->assertEquals('2008-01-03', $subPeriods[2]->toString());
+    }
+
+    // test range date1,date2
     public function testRangeWeekcomma1()
     {
         $range = new Range('week', '2007-12-22,2008-01-03');
@@ -209,9 +199,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range date1,date2
-    /**
-     * @group Core
-     */
     public function testRangeYearcomma1()
     {
         $range = new Range('year', '2006-12-22,2007-01-03');
@@ -253,9 +240,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range date1,date2
-    /**
-     * @group Core
-     */
     public function testRangeMonthcomma1()
     {
         $range = new Range('month', '2006-12-22,2007-01-03');
@@ -265,64 +249,80 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
                 '2006-12-01',
                 '2006-12-02',
                 '2006-12-03',
-                '2006-12-04',
-                '2006-12-05',
-                '2006-12-06',
-                '2006-12-07',
-                '2006-12-08',
-                '2006-12-09',
-                '2006-12-10',
-                '2006-12-11',
-                '2006-12-12',
-                '2006-12-13',
-                '2006-12-14',
-                '2006-12-15',
-                '2006-12-16',
-                '2006-12-17',
-                '2006-12-18',
-                '2006-12-19',
-                '2006-12-20',
-                '2006-12-21',
-                '2006-12-22',
-                '2006-12-23',
-                '2006-12-24',
-                '2006-12-25',
-                '2006-12-26',
-                '2006-12-27',
-                '2006-12-28',
-                '2006-12-29',
-                '2006-12-30',
-                '2006-12-31',
+                array(
+                    '2006-12-04',
+                    '2006-12-05',
+                    '2006-12-06',
+                    '2006-12-07',
+                    '2006-12-08',
+                    '2006-12-09',
+                    '2006-12-10'
+                ),
+                array(
+                    '2006-12-11',
+                    '2006-12-12',
+                    '2006-12-13',
+                    '2006-12-14',
+                    '2006-12-15',
+                    '2006-12-16',
+                    '2006-12-17'
+                ),
+                array(
+                    '2006-12-18',
+                    '2006-12-19',
+                    '2006-12-20',
+                    '2006-12-21',
+                    '2006-12-22',
+                    '2006-12-23',
+                    '2006-12-24'
+                ),
+                array(
+                    '2006-12-25',
+                    '2006-12-26',
+                    '2006-12-27',
+                    '2006-12-28',
+                    '2006-12-29',
+                    '2006-12-30',
+                    '2006-12-31'
+                ),
             ),
             array(
-                '2007-01-01',
-                '2007-01-02',
-                '2007-01-03',
-                '2007-01-04',
-                '2007-01-05',
-                '2007-01-06',
-                '2007-01-07',
-                '2007-01-08',
-                '2007-01-09',
-                '2007-01-10',
-                '2007-01-11',
-                '2007-01-12',
-                '2007-01-13',
-                '2007-01-14',
-                '2007-01-15',
-                '2007-01-16',
-                '2007-01-17',
-                '2007-01-18',
-                '2007-01-19',
-                '2007-01-20',
-                '2007-01-21',
-                '2007-01-22',
-                '2007-01-23',
-                '2007-01-24',
-                '2007-01-25',
-                '2007-01-26',
-                '2007-01-27',
-                '2007-01-28',
+                array(
+                    '2007-01-01',
+                    '2007-01-02',
+                    '2007-01-03',
+                    '2007-01-04',
+                    '2007-01-05',
+                    '2007-01-06',
+                    '2007-01-07'
+                ),
+                array(
+                    '2007-01-08',
+                    '2007-01-09',
+                    '2007-01-10',
+                    '2007-01-11',
+                    '2007-01-12',
+                    '2007-01-13',
+                    '2007-01-14'
+                ),
+                array(
+                    '2007-01-15',
+                    '2007-01-16',
+                    '2007-01-17',
+                    '2007-01-18',
+                    '2007-01-19',
+                    '2007-01-20',
+                    '2007-01-21',
+                ),
+                array(
+                    '2007-01-22',
+                    '2007-01-23',
+                    '2007-01-24',
+                    '2007-01-25',
+                    '2007-01-26',
+                    '2007-01-27',
+                    '2007-01-28'
+                ),
                 '2007-01-29',
                 '2007-01-30',
                 '2007-01-31',
@@ -335,9 +335,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range WEEK
-    /**
-     * @group Core
-     */
     public function testRangeWeek()
     {
         $range = new Range('week', 'last50');
@@ -357,9 +354,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range WEEK last1
-    /**
-     * @group Core
-     */
     public function testRangeWeekLast1()
     {
         $range = new Range('week', 'last1');
@@ -369,9 +363,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range MONTH
-    /**
-     * @group Core
-     */
     public function testRangeMonth()
     {
         $range = new Range('month', 'last20');
@@ -391,9 +382,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range MONTH last1
-    /**
-     * @group Core
-     */
     public function testRangeMonthLast1()
     {
         $range = new Range('month', 'last1');
@@ -403,9 +391,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range PREVIOUS MONTH
-    /**
-     * @group Core
-     */
     public function testRangePreviousmonth()
     {
         $range = new Range('month', 'previous10');
@@ -425,9 +410,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangePreviousmonth_onLastDayOfMonth()
     {
         $end = Date::factory('2013-10-31');
@@ -447,9 +429,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangePreviousweek_onLastDayOfWeek()
     {
         $end = Date::factory('2013-11-03');
@@ -466,9 +445,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangePreviousweek_onFirstDayOfWeek()
     {
         $end = Date::factory('2013-11-04');
@@ -485,9 +461,7 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $correct = array_reverse($correct);
         $this->assertEquals($correct, $range->toString());
     }
-    /**
-     * @group Core
-     */
+
     public function testRangeLastweek_onFirstDayOfWeek()
     {
         $end = Date::factory('2013-11-04');
@@ -504,9 +478,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangeLastmonth_onLastDayOfMonth()
     {
         $end = Date::factory('2013-10-31');
@@ -525,9 +496,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function _testRangePreviousmonth_onFirstOfMonth()
     {
         $end = Date::factory('2013-11-01');
@@ -547,9 +515,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function _testRangeLastmonth_onFirstOfMonth()
     {
         $end = Date::factory('2013-11-01');
@@ -569,9 +534,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range YEAR
-    /**
-     * @group Core
-     */
     public function testRangeYear()
     {
         $range = new Range('year', 'last10');
@@ -591,9 +553,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     // test range YEAR last1
-    /**
-     * @group Core
-     */
     public function testRangeYearLast1()
     {
         $range = new Range('year', 'last1');
@@ -602,9 +561,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array($currentYear->toString()), $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeYearUsesYearIfPossible()
     {
         $range = new Range('range', '2005-12-17,2008-01-03', 'UTC', Date::factory('2008-01-03'));
@@ -639,9 +595,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeIsYear_UsesFullYear()
     {
         $range = new Range('range', '2011-01-01,2011-12-31', 'UTC', Date::factory('2012-01-03'));
@@ -655,9 +608,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeYear_UsesCurrentYear()
     {
         $rangeString = '2013-01-01,2013-11-01';
@@ -674,9 +624,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rangeString, $range->getRangeString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeYearUsesCurrentYear_onLastDayOfYear()
     {
         $range = new Range('range', '2013-01-01,2013-12-31', 'UTC', Date::factory('2013-12-31'));
@@ -690,9 +637,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeWeekInsideEndingToday()
     {
         $range = new Range('range', '2007-12-22,2008-01-03', 'UTC', Date::factory('2008-01-03'));
@@ -723,9 +667,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangeEndDateIsTodayAndStartDateNotStartOfTheWeek()
     {
         $range = new Range('range', '2013-10-29,2013-10-30', 'UTC', Date::factory('2013-10-30'));
@@ -739,9 +680,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangeEndDateIsInFuture()
     {
         $range = new Range('range', '2013-10-29,2013-10-31', 'UTC', Date::factory('2013-10-30'));
@@ -756,9 +694,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testRangePreviousmonthEndDateIsInFutureAndEndOfTheWeek()
     {
         $range = new Range('range', '2013-10-29,2013-11-03', 'UTC', Date::factory('2013-10-30'));
@@ -776,9 +711,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeWeekInsideEndingYesterday()
     {
         $todays = array(
@@ -814,9 +746,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeOnlyDaysLessThanOneWeek()
     {
         $range = new Range('range', '2007-12-30,2008-01-01');
@@ -830,9 +759,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeOneWeekOnly()
     {
         $range = new Range('range', '2007-12-31,2008-01-06');
@@ -852,9 +778,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeStartsWithWeek()
     {
         $range = new Range('range', '2007-12-31,2008-01-08');
@@ -876,9 +799,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeEndsWithWeek()
     {
         $range = new Range('range', '2007-12-21,2008-01-06');
@@ -910,9 +830,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeContainsMonthAndWeek()
     {
         $range = new Range('range', '2011-09-18,2011-11-02', 'UTC', Date::factory('2012-01-01'));
@@ -938,34 +855,42 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
             array(
                 "2011-10-01",
                 "2011-10-02",
-                "2011-10-03",
-                "2011-10-04",
-                "2011-10-05",
-                "2011-10-06",
-                "2011-10-07",
-                "2011-10-08",
-                "2011-10-09",
-                "2011-10-10",
-                "2011-10-11",
-                "2011-10-12",
-                "2011-10-13",
-                "2011-10-14",
-                "2011-10-15",
-                "2011-10-16",
-                "2011-10-17",
-                "2011-10-18",
-                "2011-10-19",
-                "2011-10-20",
-                "2011-10-21",
-                "2011-10-22",
-                "2011-10-23",
-                "2011-10-24",
-                "2011-10-25",
-                "2011-10-26",
-                "2011-10-27",
-                "2011-10-28",
-                "2011-10-29",
-                "2011-10-30",
+                array(
+                    "2011-10-03",
+                    "2011-10-04",
+                    "2011-10-05",
+                    "2011-10-06",
+                    "2011-10-07",
+                    "2011-10-08",
+                    "2011-10-09"
+                ),
+                array(
+                    "2011-10-10",
+                    "2011-10-11",
+                    "2011-10-12",
+                    "2011-10-13",
+                    "2011-10-14",
+                    "2011-10-15",
+                    "2011-10-16"
+                ),
+                array(
+                    "2011-10-17",
+                    "2011-10-18",
+                    "2011-10-19",
+                    "2011-10-20",
+                    "2011-10-21",
+                    "2011-10-22",
+                    "2011-10-23"
+                ),
+                array(
+                    "2011-10-24",
+                    "2011-10-25",
+                    "2011-10-26",
+                    "2011-10-27",
+                    "2011-10-28",
+                    "2011-10-29",
+                    "2011-10-30"
+                ),
                 "2011-10-31",
             ),
             "2011-11-01",
@@ -975,9 +900,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeContainsSeveralMonthsAndWeeksStartingWithMonth()
     {
         // Testing when "today" is in the same month, or later in the future
@@ -996,34 +918,42 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
             $correct = array(
 
                 array(
-                    "2011-08-01",
-                    "2011-08-02",
-                    "2011-08-03",
-                    "2011-08-04",
-                    "2011-08-05",
-                    "2011-08-06",
-                    "2011-08-07",
-                    "2011-08-08",
-                    "2011-08-09",
-                    "2011-08-10",
-                    "2011-08-11",
-                    "2011-08-12",
-                    "2011-08-13",
-                    "2011-08-14",
-                    "2011-08-15",
-                    "2011-08-16",
-                    "2011-08-17",
-                    "2011-08-18",
-                    "2011-08-19",
-                    "2011-08-20",
-                    "2011-08-21",
-                    "2011-08-22",
-                    "2011-08-23",
-                    "2011-08-24",
-                    "2011-08-25",
-                    "2011-08-26",
-                    "2011-08-27",
-                    "2011-08-28",
+                    array(
+                        "2011-08-01",
+                        "2011-08-02",
+                        "2011-08-03",
+                        "2011-08-04",
+                        "2011-08-05",
+                        "2011-08-06",
+                        "2011-08-07"
+                    ),
+                    array(
+                        "2011-08-08",
+                        "2011-08-09",
+                        "2011-08-10",
+                        "2011-08-11",
+                        "2011-08-12",
+                        "2011-08-13",
+                        "2011-08-14"
+                    ),
+                    array(
+                        "2011-08-15",
+                        "2011-08-16",
+                        "2011-08-17",
+                        "2011-08-18",
+                        "2011-08-19",
+                        "2011-08-20",
+                        "2011-08-21"
+                    ),
+                    array(
+                        "2011-08-22",
+                        "2011-08-23",
+                        "2011-08-24",
+                        "2011-08-25",
+                        "2011-08-26",
+                        "2011-08-27",
+                        "2011-08-28"
+                    ),
                     "2011-08-29",
                     "2011-08-30",
                     "2011-08-31",
@@ -1033,27 +963,33 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
                     "2011-09-02",
                     "2011-09-03",
                     "2011-09-04",
-                    "2011-09-05",
-                    "2011-09-06",
-                    "2011-09-07",
-                    "2011-09-08",
-                    "2011-09-09",
-                    "2011-09-10",
-                    "2011-09-11",
-                    "2011-09-12",
-                    "2011-09-13",
-                    "2011-09-14",
-                    "2011-09-15",
-                    "2011-09-16",
-                    "2011-09-17",
-                    "2011-09-18",
-                    "2011-09-19",
-                    "2011-09-20",
-                    "2011-09-21",
-                    "2011-09-22",
-                    "2011-09-23",
-                    "2011-09-24",
-                    "2011-09-25",
+                    array(
+                        "2011-09-05",
+                        "2011-09-06",
+                        "2011-09-07",
+                        "2011-09-08",
+                        "2011-09-09",
+                        "2011-09-10",
+                        "2011-09-11"
+                    ),
+                    array(
+                        "2011-09-12",
+                        "2011-09-13",
+                        "2011-09-14",
+                        "2011-09-15",
+                        "2011-09-16",
+                        "2011-09-17",
+                        "2011-09-18"
+                    ),
+                    array(
+                        "2011-09-19",
+                        "2011-09-20",
+                        "2011-09-21",
+                        "2011-09-22",
+                        "2011-09-23",
+                        "2011-09-24",
+                        "2011-09-25"
+                    ),
                     "2011-09-26",
                     "2011-09-27",
                     "2011-09-28",
@@ -1089,9 +1025,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeOneMonthOnly()
     {
         $range = new Range('range', '2011-09-01,2011-09-30');
@@ -1102,27 +1035,33 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
                 "2011-09-02",
                 "2011-09-03",
                 "2011-09-04",
-                "2011-09-05",
-                "2011-09-06",
-                "2011-09-07",
-                "2011-09-08",
-                "2011-09-09",
-                "2011-09-10",
-                "2011-09-11",
-                "2011-09-12",
-                "2011-09-13",
-                "2011-09-14",
-                "2011-09-15",
-                "2011-09-16",
-                "2011-09-17",
-                "2011-09-18",
-                "2011-09-19",
-                "2011-09-20",
-                "2011-09-21",
-                "2011-09-22",
-                "2011-09-23",
-                "2011-09-24",
-                "2011-09-25",
+                array(
+                    "2011-09-05",
+                    "2011-09-06",
+                    "2011-09-07",
+                    "2011-09-08",
+                    "2011-09-09",
+                    "2011-09-10",
+                    "2011-09-11"
+                ),
+                array(
+                    "2011-09-12",
+                    "2011-09-13",
+                    "2011-09-14",
+                    "2011-09-15",
+                    "2011-09-16",
+                    "2011-09-17",
+                    "2011-09-18"
+                ),
+                array(
+                    "2011-09-19",
+                    "2011-09-20",
+                    "2011-09-21",
+                    "2011-09-22",
+                    "2011-09-23",
+                    "2011-09-24",
+                    "2011-09-25"
+                ),
                 "2011-09-26",
                 "2011-09-27",
                 "2011-09-28",
@@ -1133,9 +1072,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function test_CustomRange_startsWithWeek_EndsWithMonth()
     {
         $range = new Range('range', '2011-07-25,2011-08-31');
@@ -1152,34 +1088,42 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
                 '2011-07-31',
             ),
             array(
+                array(
                 "2011-08-01",
                 "2011-08-02",
                 "2011-08-03",
                 "2011-08-04",
                 "2011-08-05",
                 "2011-08-06",
-                "2011-08-07",
-                "2011-08-08",
-                "2011-08-09",
-                "2011-08-10",
-                "2011-08-11",
-                "2011-08-12",
-                "2011-08-13",
-                "2011-08-14",
-                "2011-08-15",
-                "2011-08-16",
-                "2011-08-17",
-                "2011-08-18",
-                "2011-08-19",
-                "2011-08-20",
-                "2011-08-21",
-                "2011-08-22",
-                "2011-08-23",
-                "2011-08-24",
-                "2011-08-25",
-                "2011-08-26",
-                "2011-08-27",
-                "2011-08-28",
+                "2011-08-07"
+                ),
+                array(
+                    "2011-08-08",
+                    "2011-08-09",
+                    "2011-08-10",
+                    "2011-08-11",
+                    "2011-08-12",
+                    "2011-08-13",
+                    "2011-08-14"
+                ),
+                array(
+                    "2011-08-15",
+                    "2011-08-16",
+                    "2011-08-17",
+                    "2011-08-18",
+                    "2011-08-19",
+                    "2011-08-20",
+                    "2011-08-21"
+                ),
+                array(
+                    "2011-08-22",
+                    "2011-08-23",
+                    "2011-08-24",
+                    "2011-08-25",
+                    "2011-08-26",
+                    "2011-08-27",
+                    "2011-08-28"
+                ),
                 "2011-08-29",
                 "2011-08-30",
                 "2011-08-31",
@@ -1188,9 +1132,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeBeforeIsAfterYearRight()
     {
         try {
@@ -1205,9 +1146,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->fail('Expected exception not raised');
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangeLastN()
     {
         $range = new Range('range', 'last4');
@@ -1222,9 +1160,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangePreviousN()
     {
         $range = new Range('range', 'previous3');
@@ -1238,9 +1173,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testCustomRangePreviousNEndToday()
     {
         $range = new Range('range', 'previous3');
@@ -1253,9 +1185,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
-    /**
-     * @group Core
-     */
     public function testInvalidRangeThrows()
     {
         try {
@@ -1267,34 +1196,22 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->fail('Expected exception not raised');
     }
 
-    /**
-     * @group Core
-     */
     public function testGetLocalizedShortString()
     {
-        $this->loadEnglishTranslation();
         $month = new Range('range', '2000-12-09,2001-02-01');
-        $shouldBe = '9 Dec 00 - 1 Feb 01';
+        $shouldBe = 'Dec 9, 2000 – Feb 1, 2001';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
     }
 
-    /**
-     * @group Core
-     */
     public function testGetLocalizedLongString()
     {
-        $this->loadEnglishTranslation();
         $month = new Range('range', '2023-05-09,2023-05-21');
-        $shouldBe = '8 May 23 - 21 May 23';
+        $shouldBe = 'May 8 – 21, 2023';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
     }
 
-    /**
-     * @group Core
-     */
     public function testGetPrettyString()
     {
-        $this->loadEnglishTranslation();
         $month = new Range('range', '2007-02-09,2007-03-15');
         $shouldBe = 'From 2007-02-09 to 2007-03-15';
         $this->assertEquals($shouldBe, $month->getPrettyString());
@@ -1312,9 +1229,6 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
-     *
      * @dataProvider getDataForLastNLimitsTest
      */
     public function testLastNLimits($period, $lastN, $expectedLastN)
@@ -1323,8 +1237,51 @@ class Period_RangeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedLastN, $range->getNumberOfSubperiods());
     }
 
-    private function loadEnglishTranslation()
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testLastWithoutNumber_shouldBehaveLikeLast1()
     {
-        Translate::reloadLanguage('en');
+        $range = new Range('day', 'last');
+        $expected = new Range('day', 'last1');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
+    }
+
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testPreviousWithoutNumber_shouldBehaveLikePrevious1()
+    {
+        $range = new Range('day', 'previous');
+        $expected = new Range('day', 'previous1');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
+    }
+
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testLast0_shouldBehaveLikeLast1()
+    {
+        $range = new Range('day', 'last0');
+        $expected = new Range('day', 'last1');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
+    }
+
+    /**
+     * @link https://github.com/piwik/piwik/pull/7057
+     */
+    public function testPrevious0_shouldBehaveLikePrevious1()
+    {
+        $range = new Range('day', 'previous0');
+        $expected = new Range('day', 'previous1');
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($expected->getRangeString(), $range->getRangeString());
     }
 }

@@ -6,7 +6,6 @@
         "ColumnSocial": "Sotsiaalvõrgustik",
         "ColumnWebsite": "Veebileht",
         "ColumnWebsitePage": "Veebi lehekülg",
-        "DetailsByReferrerType": "Detailid viitaja tüübi alusel",
         "DirectEntry": "Otse sisenetud",
         "Keywords": "Võtmesõnad",
         "Referrer": "Viitaja",
@@ -30,6 +29,6 @@
         "WidgetGetAll": "Kõik viitajad",
         "WidgetSocials": "Nimekiri sotsiaalvõrgustikest",
         "WidgetTopKeywordsForPages": "Lehe URL peamised võtmesõnad",
-        "XPercentOfVisits": "%s%% külastustest"
+        "XPercentOfVisits": "%s külastustest"
     }
 }

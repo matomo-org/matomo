@@ -25,14 +25,9 @@ class Widgets
     protected $category = '';
     protected $widgets  = array();
 
-    private $module = '';
-
-    /**
-     * @ignore
-     */
     public function __construct()
     {
-        $this->module = $this->getModule();
+        // Constructor kept for BC (because called in implementations)
     }
 
     /**
@@ -77,7 +72,7 @@ class Widgets
                                  'name'     => $name,
                                  'params'   => $parameters,
                                  'method'   => $method,
-                                 'module'   => $this->module);
+                                 'module'   => $this->getModule());
     }
 
     /**
@@ -111,7 +106,6 @@ class Widgets
      */
     public function configureWidgetsList(WidgetsList $widgetsList)
     {
-
     }
 
     /**
@@ -125,6 +119,7 @@ class Widgets
 
     /**
      * @ignore
+     * @return Widgets|null
      */
     public static function factory($module, $action)
     {
@@ -181,7 +176,7 @@ class Widgets
             return;
         }
 
-        $controllerClass = '\\Piwik\\Plugins\\' . $this->module . '\\Controller';
+        $controllerClass = 'Piwik\\Plugins\\' . $this->getModule() . '\\Controller';
 
         if (!Development::methodExists($this, $method) &&
             !Development::methodExists($controllerClass, $method)) {

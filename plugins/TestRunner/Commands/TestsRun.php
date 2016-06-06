@@ -44,10 +44,19 @@ class TestsRun extends ConsoleCommand
 
         $groups = $this->getGroupsFromString($groups);
 
-        $command = '../../vendor/phpunit/phpunit/phpunit';
+        // bin is the composer executeable directory, where all vendors (should) place their executables
+        $command = PIWIK_VENDOR_PATH . '/bin/phpunit';
+
+        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+            $command = 'php -dzend.enable_gc=0 ' . $command;
+        }
 
         if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
-            $output->writeln('<comment>Did you know? You can run tests faster by disabling xdebug</comment>');
+            $message = 'Did you know? You can run tests faster by disabling xdebug';
+            if($this->isXdebugCodeCoverageEnabled()) {
+                $message .= ' (if you need xdebug, speed up tests by setting xdebug.coverage_enable=0)</comment>';
+            }
+            $output->writeln('<comment>' . $message .'</comment>');
         }
 
         // force xdebug usage for coverage options
@@ -253,6 +262,11 @@ class TestsRun extends ConsoleCommand
     private function isXdebugLoaded()
     {
         return extension_loaded('xdebug');
+    }
+
+    private function isXdebugCodeCoverageEnabled()
+    {
+        return (bool)ini_get('xdebug.coverage_enable');
     }
 
     private function fixPathToTestFileOrDirectory($testFile)

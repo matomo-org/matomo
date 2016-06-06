@@ -9,26 +9,27 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 class Updates_2_4_0_b3 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
         try {
             $pluginManager->activatePlugin('LeftMenu');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         try {
             $pluginManager->deactivatePlugin('Zeitgeist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         try {
             $pluginManager->uninstallPlugin('Zeitgeist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

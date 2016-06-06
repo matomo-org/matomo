@@ -1,12 +1,15 @@
-{% extends 'dashboard.twig' %}
+{% extends 'user.twig' %}
+
+{% set title %}{{ 'General_Widgets'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
 
 {% block content %}
 
-<div class="pageWrap">
-    <div class="top_controls">
-        {% include "@CoreHome/_siteSelectHeader.twig" %}
-        {% include "@CoreHome/_periodSelect.twig" %}
-    </div>
+<div>
 
     <script type="text/javascript">
     $(function () {
@@ -30,31 +33,34 @@
     });
 </script>
 
+<h2 piwik-enriched-headline>{{ title }}</h2>
+
 <div class="widgetize">
     <p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.
 
+    <h2 class="secondary">Authentication</h2>
     <p>
-        <strong>&rsaquo; Widget authentication:</strong> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions
+        If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions
         to the anonymous user in the <a href='index.php?module=UsersManager' rel='noreferrer' target='_blank'>Users Management section</a>.
         <br/>Alternatively, if you are publishing widgets on a password protected or private page,
         you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the
         <a href='{{ linkTo({'module':'API','action':'listAllAPI'}) }}' rel='noreferrer' target='_blank'>API page</a>) in the widget URL.
     </p>
 
-    <p><strong>&rsaquo; Widgetize the full dashboard:</strong> You can also display the full Piwik dashboard in your application or website in an IFRAME
+    <h2>Widgetize dashboards</h2>
+    <p>You can also display the full Piwik dashboard in your application or website in an IFRAME
         (<a href='' rel='noreferrer' target='_blank' id='linkDashboardUrl'>see example</a>).
         The date parameter can be set to a specific calendar date, "today", or "yesterday". The period parameter can be set to "day", "week", "month", or
         "year".
         The language parameter can be set to the language code of a translation, such as language=fr.
         For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
-    </p>
-
-    <p>
-        <strong>&rsaquo; Widgetize the all websites dashboard in an IFRAME</strong> (<a href='' rel='noreferrer' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
+        <br />
+        You can also widgetize the all websites dashboard in an IFRAME (<a href='' rel='noreferrer' target='_blank' id='linkAllWebsitesDashboardUrl'>see example</a>)
         <span id='exportAllWebsitesDashboard'></span>
     </p>
 
-    <p><strong>&rsaquo; Select a report, and copy paste in your page the embed code below the widget:</strong>
+    <h2>Widgetize reports</h2>
+    <p>Select a report, and copy paste in your page the embed code below the widget:
 
     <div id="widgetPreview"></div>
 

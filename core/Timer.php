@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik;
+
 use Piwik\Metrics\Formatter;
 
 /**

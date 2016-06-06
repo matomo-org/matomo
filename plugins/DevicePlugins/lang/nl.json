@@ -1,0 +1,9 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s zonder plugins ingeschakeld",
+        "BrowserWithPluginsEnabled": "%1$s met plugins %2$s ingeschakeld",
+        "PluginDescription": "Toont de lijst met plugins die ondersteund worden door de browsers van bezoekers.",
+        "WidgetPlugins": "Geïnstalleerde plugins",
+        "WidgetPluginsDocumentation": "Dit rapport laat zien welke browserplugins uw bezoekers haden geïnstalleerd. Deze informatie kan van belang zijn voor het kiezen van de juiste manier om uw content aan te bieden."
+    }
+}

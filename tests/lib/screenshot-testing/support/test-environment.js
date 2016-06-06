@@ -10,6 +10,8 @@
 var fs = require('fs'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
+var DEFAULT_UI_TEST_FIXTURE_NAME = "Piwik\\Tests\\Fixtures\\UITestFixture";
+
 var TestingEnvironment = function () {
     this.reload();
 };
@@ -19,12 +21,45 @@ TestingEnvironment.prototype.reload = function () {
         delete this[key];
     }
 
+    this['useOverrideCss'] = true;
+    this['useOverrideJs'] = true;
+    this['loadRealTranslations'] = true; // UI tests should test w/ real translations, not translation keys
+    this['testUseMockAuth'] = true;
+    this['configOverride'] = {};
+
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
         for (var key in data) {
             this[key] = data[key];
         }
     }
+};
+
+/**
+ * Overrides a config entry.
+ *
+ * You can use this method either to set one specific config value `overrideConfig(group, name, value)`
+ * or you can set a whole group of values `overrideConfig(group, valueObject)`.
+ */
+TestingEnvironment.prototype.overrideConfig = function (group, name, value) {
+    if (!name) {
+        return;
+    }
+
+    if (!this['configOverride']) {
+        this['configOverride'] = {};
+    }
+
+    if ((typeof value) === 'undefined') {
+        this['configOverride'][group] = name;
+        return;
+    }
+
+    if (!this['configOverride'][group]) {
+        this['configOverride'][group] = {};
+    }
+
+    this['configOverride'][group][name] = value;
 };
 
 TestingEnvironment.prototype.save = function () {
@@ -75,11 +110,15 @@ TestingEnvironment.prototype._call = function (params, done) {
             try {
                 response = JSON.parse(response);
             } catch (e) {
+                page.close();
+
                 done(new Error("Unable to parse JSON response: " + response));
                 return;
             }
 
             if (response.result == "error") {
+                page.close();
+
                 done(new Error("API returned error: " + response.message));
                 return;
             }
@@ -93,7 +132,7 @@ TestingEnvironment.prototype._call = function (params, done) {
 
 TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
     var consoleFile = path.join(PIWIK_INCLUDE_PATH, 'console'),
-        commandArgs = [consoleFile, command, '-v'].concat(args),
+        commandArgs = [consoleFile, command].concat(args),
         child = require('child_process').spawn(config.php, commandArgs);
 
     var firstLine = true;
@@ -131,7 +170,11 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 
     this.deleteAndSave();
 
-    var args = [fixtureClass || "UITestFixture", '--set-phantomjs-symlinks', '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [
+        fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME,
+        '--set-phantomjs-symlinks',
+        '--server-global=' + JSON.stringify(config.phpServer)
+    ];
 
     if (options['persist-fixture-data']) {
         args.push('--persist-fixture-data');
@@ -152,6 +195,9 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         self.reload();
         self.addPluginOnCmdLineToTestEnv();
+
+        self.fixtureClass = fixtureClass;
+        self.save();
 
         console.log();
 
@@ -203,7 +249,7 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     console.log();
     console.log("    Tearing down fixture " + fixtureClass + "...");
 
-    var args = [fixtureClass || "UITestFixture", "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
+    var args = [fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME, "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));

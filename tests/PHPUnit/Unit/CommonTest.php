@@ -11,14 +11,15 @@ namespace Piwik\Tests\Unit;
 use Exception;
 use PHPUnit_Framework_TestCase;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 
 /**
  * @backupGlobals enabled
  * @group Common
- * @group Core_CommonTest
  */
-class Core_CommonTest extends PHPUnit_Framework_TestCase
+class CommonTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testSanitizeInputValues
@@ -337,6 +338,8 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function getCountryCodeTestData()
     {
+        /** @var RegionDataProvider $regionDataProvider */
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
         return array( // browser language, valid countries, expected result
             array("", array(), "xx"),
@@ -348,7 +351,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             array("fr-fr,fr-ca", array("us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-fr;q=1.0,fr-ca;q=0.9", array("us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-ca,fr;q=0.1", array("us" => 'amn', "ca" => 'amn'), "ca"),
-            array("en-us,en;q=0.5", Common::getCountriesList(), "us"),
+            array("en-us,en;q=0.5", $regionDataProvider->getCountryList(), "us"),
             array("fr-ca,fr;q=0.1", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-fr,fr-ca", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "fr")
         );
@@ -360,8 +363,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $expected)
     {
-        include 'DataFiles/LanguageToCountry.php';
-
         $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, true));
         $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, false));
     }
@@ -386,8 +387,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractCountryCodeFromBrowserLanguageInfer($browserLanguage, $validCountries, $expected, $expectedInfer)
     {
-        include "DataFiles/LanguageToCountry.php";
-
         // do not infer country from language
         $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess = false));
 
@@ -466,39 +465,4 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($expected, Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
     }
-
-    public function testSearchEnginesDefinedCorrectly()
-    {
-        include "DataFiles/SearchEngines.php";
-
-        $searchEngines = array();
-        foreach ($GLOBALS['Piwik_SearchEngines'] as $host => $info) {
-            if (isset($info[2]) && $info[2] !== false) {
-                $this->assertTrue(strrpos($info[2], "{k}") !== false, $host . " search URL is not defined correctly, must contain the macro {k}");
-            }
-
-            if (!array_key_exists($info[0], $searchEngines)) {
-                $searchEngines[$info[0]] = true;
-
-                $this->assertTrue(strpos($host, '{}') === false, $host . " search URL is the master record and should not contain {}");
-            }
-
-            if (isset($info[3]) && $info[3] !== false) {
-                $this->assertTrue(is_array($info[3]) || is_string($info[3]), $host . ' encoding must be either a string or an array');
-
-                if (is_string($info[3])) {
-                    $this->assertTrue(trim($info[3]) !== '', $host . ' encoding cannot be an empty string');
-                    $this->assertTrue(strpos($info[3], ' ') === false, $host . ' encoding cannot contain spaces');
-
-                }
-
-                if (is_array($info[3])) {
-                    $this->assertTrue(count($info[3]) > 0, $host . ' encodings cannot be an empty array');
-                    $this->assertTrue(strpos(serialize($info[3]), '""') === false, $host . ' encodings in array cannot be empty stringss');
-                    $this->assertTrue(strpos(serialize($info[3]), ' ') === false, $host . ' encodings in array cannot contain spaces');
-                }
-            }
-        }
-    }
-
 }

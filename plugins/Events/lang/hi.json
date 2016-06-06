@@ -1,0 +1,22 @@
+{
+    "Events": {
+        "PluginDescription": "घटनाक्रम पर नज़र रखें और अपने दर्शकों के गतिविधि पर रिपोर्ट मिलता है।",
+        "AvgEventValue": "औसत इवेंट मूल्य है: %s",
+        "AvgValue": "औसत मूल्य",
+        "AvgValueDocumentation": "इस घटना के लिए सभी मूल्यों का औसत",
+        "Event": "घटना",
+        "EventAction": "घटना लड़ाई",
+        "EventActions": "इवेंट प्रक्रिया",
+        "EventCategories": "घटना श्रेणियाँ",
+        "EventCategory": "इवेंट श्रेणी",
+        "EventName": "घटना नाम",
+        "EventNames": "घटना नाम",
+        "Events": "घटनाक्रम",
+        "EventsWithValue": "एक मूल्य के साथ घटनाक्रम",
+        "EventsWithValueDocumentation": "एक घटना मूल्य निर्धारित किया गया था, जहां घटनाओं की संख्या",
+        "EventValue": "घटना मूल्य",
+        "MaxValue": "ज्यादा से ज्यादा मूल्य",
+        "MaxValueDocumentation": "इस घटना के लिए अधिकतम मूल्य",
+        "MinValueDocumentation": "इस घटना के लिए न्यूनतम मूल्य"
+    }
+}

@@ -10,6 +10,7 @@ namespace Piwik\Tests\Fixtures;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use PiwikTracker;
 
 /**
@@ -25,12 +26,20 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 
     public function setUp()
     {
+        $this->setPiwikEnvironmentOverrides();
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
 
     public function tearDown()
     {
+    }
+
+    private function setPiwikEnvironmentOverrides()
+    {
+        $env = new TestingEnvironmentVariables();
+        $env->overrideConfig('Tracker', 'create_new_visit_when_website_referrer_changes', 1);
+        $env->save();
     }
 
     private function setUpWebsitesAndGoals()
@@ -41,6 +50,10 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 2)) {
+            API::getInstance()->addGoal($this->idSite, 'view act', 'url', 'http://mutantregistration.com/act.html', 'exact');
         }
     }
 
@@ -85,6 +98,11 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t3->setUrl('http://example.org/index.htm#pk_campaign=CREDITED TO GOAL PLEASE');
         self::checkResponse($t3->doTrackGoal($idGoal, 42));
 
+        // another action soon after last but with different campaign (should result in new visit)
+        $t3->setForceVisitDateTime(Date::factory($dateTime)->addHour(1.4)->getDatetime());
+        $t3->setUrl('http://example.org/index.html#pk_campaign=CREDITED TO ANOTHER GOAL');
+        self::checkResponse($t3->doTrackGoal($idGoal, 24));
+
         // visitor #4, test for blank referrer campaign keyword
         $t4 = self::getTracker($idSite, $dateTime);
         $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(3)->getDatetime());
@@ -125,6 +143,67 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t4->setUrlReferrer($adwords);
         $t4->setUrl('http://example.org/index.html');
         self::checkResponse($t4->doTrackPageView('Bonjour le monde'));
+
+        // test one action w/ no campaign & then one action w/ a campaign (should result in 2 visits)
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(10)->getDatetime());
+        $t4->setUrlReferrer('');
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('Hallo welt'));
+
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(10.1)->getDatetime());
+        $t4->setUrl('http://example.org/index.html?utm_campaign=GA Campaign&piwik_kwd=Piwik kwd');
+        self::checkResponse($t4->doTrackPageView('¡hola mundo'));
+
+        // right after last action, visit w/ referrer website (should result in another visit)
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(10.2)->getDatetime());
+        $t4->setUrlReferrer('http://myreferrerwebsite.com');
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('Dia duit ar domhan'));
+
+        // test one action w/ no referrer website & then one action w/ referrer website (should result in 2 visits)
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(11)->getDatetime());
+        $t4->setUrlReferrer('');
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('привет мир'));
+
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(11.1)->getDatetime());
+        $t4->setUrlReferrer('http://myotherreferrerwebsite.com');
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('hallå världen'));
+
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(11.2)->getDatetime()); // same referrer in next action, should result in just another action
+        $t4->setUrlReferrer('http://myotherreferrerwebsite.com');
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('halló heimur'));
+
+        // same visitor as last w/ action soon after last action but w/ new referrer website (should result in another visit)
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(11.3)->getDatetime());
+        $t4->setUrlReferrer('http://mutantregistration.com');
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('העלא וועלט'));
+
+        // test campaigns that are specified through _rcn
+        $t5 = self::getTracker($idSite, $dateTime);
+        $t5->setUrlReferrer('http://xavierinstitute.org');
+        $t5->setUrl('http://mutantregistration.com/act.html');
+        $t5->setAttributionInfo(json_encode(array('Gifted Search'))); // rcn supplied, nothing else
+        self::checkResponse($t5->doTrackPageView('Mutant Registration'));
+
+        $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
+        $t5->setUrlReferrer('http://mutantrights.org');
+        $t5->setUrl('http://asteroidm.com');
+        // all params suppplied, one that differs from url referrer
+        $t5->setAttributionInfo(json_encode(array('Recruiting Drive', 'am i a mutant?',
+            Date::factory($dateTime)->addHour(1)->getDatetime(), 'http://sentinelwatch.org')));
+        self::checkResponse($t5->doTrackPageView('Fighting Back'));
+
+        $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
+        $t5->setUrlReferrer('http://apocalypsenow.org');
+        $t5->setUrl('http://mutantrights.org');
+        // params supplied, for existing campaign
+        $t5->setAttributionInfo(json_encode(array('GA Campaign', 'some keyword',
+            Date::factory($dateTime)->addHour(2)->getDatetime())));
+        self::checkResponse($t5->doTrackPageView('Mutant Registration'));
     }
 
     // see updateDomainHash() in piwik.js

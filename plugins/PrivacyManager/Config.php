@@ -27,7 +27,7 @@ use Piwik\Tracker\Cache;
 class Config
 {
     private $properties = array(
-        'useAnonymizedIpForVisitEnrichment' => array('type' => 'boolean', 'default' => true),
+        'useAnonymizedIpForVisitEnrichment' => array('type' => 'boolean', 'default' => false),
         'ipAddressMaskLength'               => array('type' => 'integer', 'default' => 2),
         'doNotTrackEnabled'                 => array('type' => 'boolean', 'default' => true),
         'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => true),

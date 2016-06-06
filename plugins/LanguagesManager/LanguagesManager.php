@@ -10,12 +10,16 @@
 namespace Piwik\Plugins\LanguagesManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Db;
+use Piwik\Intl\Locale;
 use Piwik\Piwik;
 use Piwik\Translate;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -24,17 +28,20 @@ use Piwik\View;
 class LanguagesManager extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'User.getLanguage'                => 'getLanguageToLoad',
-            'UsersManager.deleteUser'         => 'deleteUserLanguage',
-            'Template.topBar'                 => 'addLanguagesManagerToOtherTopBar',
-            'Template.jsGlobalVariables'      => 'jsGlobalVariables'
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
+            'Config.NoConfigurationFile'                 => 'initLanguage',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => 'initLanguage',
+            'Request.dispatch'                           => 'initLanguage',
+            'Platform.initialized'                       => 'initLanguage',
+            'UsersManager.deleteUser'                    => 'deleteUserLanguage',
+            'Template.topBar'                            => 'addLanguagesManagerToOtherTopBar',
+            'Template.jsGlobalVariables'                 => 'jsGlobalVariables'
         );
     }
 
@@ -89,14 +96,24 @@ class LanguagesManager extends \Piwik\Plugin
         return $view->render();
     }
 
-    function getLanguageToLoad(&$language)
+    public function initLanguage()
     {
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        $language = Common::getRequestVar('language', '', 'string');
         if (empty($language)) {
-            $language = self::getLanguageCodeForCurrentUser();
+            $userLanguage = self::getLanguageCodeForCurrentUser();
+            if (API::getInstance()->isLanguageAvailable($userLanguage)) {
+                $language = $userLanguage;
+            }
         }
-        if (!API::getInstance()->isLanguageAvailable($language)) {
-            $language = Translate::getLanguageDefault();
+        if (!empty($language) && API::getInstance()->isLanguageAvailable($language)) {
+            $translator->setCurrentLanguage($language);
         }
+
+        $locale = $translator->translate('General_Locale');
+        Locale::setLocale($locale);
     }
 
     public function deleteUserLanguage($userLogin)
@@ -119,6 +136,19 @@ class LanguagesManager extends \Piwik\Plugin
     public function uninstall()
     {
         Model::uninstall();
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function uses12HourClockForCurrentUser()
+    {
+        try {
+            $currentUser = Piwik::getCurrentUserLogin();
+            return Request::processRequest('LanguagesManager.uses12HourClockForUser', array('login' => $currentUser));
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -49,8 +49,6 @@ class VisitorReturning extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $visitCount = $request->getVisitCount();
-        $daysSinceLastVisit = $request->getDaysSinceLastVisit();
 
         $daysSinceLastOrder = $request->getDaysSinceLastOrder();
         $isReturningCustomer = ($daysSinceLastOrder !== false);
@@ -59,7 +57,11 @@ class VisitorReturning extends VisitDimension
             return self::IS_RETURNING_CUSTOMER;
         }
 
-        if ($visitCount > 1 || $visitor->isVisitorKnown() || $daysSinceLastVisit > 0) {
+        $visitCount = $request->getVisitCount();
+        $daysSinceFirstVisit = $request->getDaysSinceFirstVisit();
+        $daysSinceLastVisit = $request->getDaysSinceLastVisit();
+
+        if ($visitCount > 1 || $visitor->isVisitorKnown() || $daysSinceFirstVisit > 0 || $daysSinceLastVisit > 0) {
             return self::IS_RETURNING;
         }
 

@@ -16,7 +16,7 @@ use Piwik\Updates;
 
 class Updates_2_9_0_b7 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         $sql = array();
         $sql = self::addCreateSequenceTableQuery($sql);
@@ -25,9 +25,9 @@ class Updates_2_9_0_b7 extends Updates
         return $sql;
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 
     private static function addArchivingIdMigrationQueries($sql)
@@ -87,5 +87,4 @@ class Updates_2_9_0_b7 extends Updates
     {
         return Common::prefixTable('sequence');
     }
-
 }

@@ -23,7 +23,7 @@ class Goals extends HtmlTable
 {
     const ID = 'tableGoals';
     const FOOTER_ICON       = 'plugins/Morpheus/images/goal.png';
-    const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
+    const FOOTER_ICON_TITLE = 'General_DisplayTableWithGoalMetrics';
 
     public function beforeLoadDataTable()
     {

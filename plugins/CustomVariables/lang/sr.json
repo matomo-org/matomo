@@ -3,8 +3,8 @@
         "ColumnCustomVariableName": "Ime dodatnog parametra",
         "ColumnCustomVariableValue": "Vrednost dodatnog parametra",
         "CustomVariables": "Dodatni parametri",
-        "CustomVariablesReportDocumentation": "Ovaj izveštaj sadrži informacije o dodatnim parametrima. Kliknite na ime parametra kako biste videli distribuciju vrednosti. %s Za više informacija o dodatnim parametrima pogledajte %sCustom Variables na piwik.org%s",
-        "PluginDescription": "Dodatni parametri predstavljaju uređene parove ime, vrednost koje možete sami postaviti pomoću JavaScript API funkcije setVisitCustomVariables(). U tom slučaju Piwik će prikazati koliko je bilo poseta, otvaranja stranica i ciljeva za svaki od zadatih parova.",
+        "CustomVariablesReportDocumentation": "Ovaj izveštaj sadrži informacije o dodatnim parametrima. Kliknite na ime parametra kako biste videli distribuciju vrednosti. %1$s Za više informacija o dodatnim parametrima pogledajte %2$sCustom Variables na piwik.org%3$s",
+        "PluginDescription": "Dodatni parametri su uređeni parovi (naziv, vrednost) koje možete pomoću JavaScript API-ja da dodelite posetiocima ili bilo kojoj njihovoj akciji. Piwik će onda beležiti koliko ima poseta, stranica i konverzija za svaki od tih parova. Detalje možete videti u logu posetilaca. <br \/>Neophodno za <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">E-commerce analitike<\/a>!",
         "ScopePage": "oblast strana",
         "ScopeVisit": "oblast poseta"
     }

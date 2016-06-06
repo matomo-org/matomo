@@ -1,20 +1,22 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'UsersManager_ManageAccess'|translate }}{% endset %}
+
 {% block content %}
 
 <h2 piwik-enriched-headline
-    help-url="http://piwik.org/docs/manage-users/">{{ 'UsersManager_ManageAccess'|translate }}</h2>
+    help-url="http://piwik.org/docs/manage-users/">{{ title }}</h2>
 <div id="sites" class="usersManager">
     <section class="sites_selector_container">
         <p>{{ 'UsersManager_MainDescription'|translate }}</p>
-
-        <div class="sites_selector_title">{{ 'SitesManager_Sites'|translate }}:</div>
 
         {% set applyAllSitesText %}
             <strong>{{ 'UsersManager_ApplyToAllWebsites'|translate }}</strong>
         {% endset %}
 
         <div piwik-siteselector
+             show-selected-site="true"
+             only-sites-with-admin-access="true"
              class="sites_autocomplete"
              siteid="{{ idSiteSelected }}"
              sitename="{{ defaultReportSiteName }}"
@@ -25,17 +27,20 @@
     </section>
 </div>
 
+{% block websiteAccessTable %}
+
 {% import 'ajaxMacros.twig' as ajax %}
 {{ ajax.errorDiv }}
 {{ ajax.loadingDiv }}
 
-<div class="entityContainer" style="width:600px;">
+<div class="entityContainer" style="width:600px;margin-top:16px;">
     {% if anonymousHasViewAccess %}
-        <div style="display:inline-block;margin-top:10px;" id="usersManagerAnonymousUserHasViewAccess">
-            {{ ['UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'"), 'UsersManager_AnonymousUserHasViewAccess2'|translate]|join(' ')|notification({'placeAt': '#usersManagerAnonymousUserHasViewAccess', 'noclear': true}) }}
+        <br/>
+        <div class="alert alert-warning">
+            {{ ['UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'"), 'UsersManager_AnonymousUserHasViewAccess2'|translate]|join(' ') }}
         </div>
     {% endif %}
-    <table class="entityTable dataTable" id="access" style="display:inline-table;width:500px;">
+    <table class="entityTable dataTable" id="access" style="display:inline-table;width:550px;">
         <thead>
         <tr>
             <th class='first'>{{ 'UsersManager_User'|translate }}</th>
@@ -51,6 +56,7 @@
         {% set accesInvalid %}<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />{% endset %}
         {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
         {% for login,access in usersAccessByWebsite %}
+            {% if userIsSuperUser or (hasOnlyAdminAccess and (access!='noaccess' or idSiteSelected == 'all'))  %}
             <tr>
                 <td id='login'>{{ login }}</td>
                 <td>{{ usersAliasByLogin[login]|raw }}</td>
@@ -80,11 +86,33 @@
                     {% endif %}
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
     <div id="accessUpdated" style="vertical-align:top;"></div>
 </div>
+
+{% if hasOnlyAdminAccess %}
+    <p>
+        <button id="showGiveViewAccessForm" class="add-user btn btn-lg btn-flat">
+            <span class="icon-add"></span>
+            {{ 'UsersManager_GiveViewAccessTitle'|translate('"' ~ defaultReportSiteName ~ '"')|raw }}
+        </button>
+    </p>
+    <form id="giveViewAccessForm">
+        <div class="form-group">
+            <input type="text" name="user_invite"
+                   id="user_invite"
+                   placeholder="{{ 'UsersManager_EnterUsernameOrEmail'|translate|e('html_attr') }}"
+                   title="{{ 'UsersManager_GiveViewAccessInstructions'|translate("'" ~ defaultReportSiteName ~ "'")|e('html_attr') }}">
+        </div>
+
+         <input class="btn" type="button" id="giveUserAccessToViewReports" value="{{ 'UsersManager_GiveViewAccess'|translate|e('html_attr') }}">
+    </form>
+    {{ ajax.errorDiv('ajaxErrorGiveViewAccess') }}
+    {{ ajax.loadingDiv('ajaxLoadingGiveViewAccess') }}
+{% endif %}
 
 <div class="ui-confirm" id="confirm">
     <h2>{{ 'UsersManager_ChangeAllConfirm'|translate("<span id='login'></span>")|raw }}</h2>
@@ -110,7 +138,7 @@
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.errorDiv('ajaxErrorUsersManagement') }}
     {{ ajax.loadingDiv('ajaxLoadingUsersManagement') }}
-    <div class="entityContainer" style="margin-bottom:50px;">
+    <div class="user entityContainer" style="margin-bottom:50px;">
         <table class="entityTable dataTable" id="users">
             <thead>
             <tr>
@@ -139,24 +167,27 @@
                         {% if user.last_seen is defined %}
                         <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
                         {% endif %}
-                        <td>
-                            <span class="edituser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Edit'|translate }}" src='plugins/Morpheus/images/ico_edit.png'/>
-                                <span>{{ 'General_Edit'|translate }}</span>
-                            </span>
+                        <td class="text-center">
+                            <button class="edituser btn btn-flat" id="row{{ i }}" title="{{ 'General_Edit'|translate }}">
+                                <span class="icon-edit"></span>
+                            </button>
                         </td>
-                        <td>
-                            <span class="deleteuser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Delete'|translate }}" src='plugins/Morpheus/images/ico_delete.png'/>
-                                <span>{{ 'General_Delete'|translate }}</span>
-                            </span>
+                        <td class="text-center">
+                            <button class="deleteuser btn btn-flat" id="row{{ i }}" title="{{ 'General_Delete'|translate }}">
+                                <span class="icon-delete"></span>
+                            </button>
                         </td>
                     </tr>
                 {% endif %}
             {% endfor %}
             </tbody>
         </table>
-        <div class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'UsersManager_AddUser'|translate }}</div>
+        <p>
+            <button class="add-user btn btn-lg btn-flat">
+                <span class="icon-add"></span>
+                {{ 'UsersManager_AddUser'|translate }}
+            </button>
+        </p>
     </div>
 
     <h2 id="super_user_access">{{ 'UsersManager_SuperUserAccessManagement'|translate }}</h2>
@@ -207,4 +238,6 @@
     </div>
 
 {% endif %}
+{% endblock %}
+
 {% endblock %}

@@ -1,7 +1,6 @@
 {
     "Provider": {
         "ColumnProvider": "Hornitzailea",
-        "SubmenuLocationsProvider": "Kokalekuak eta hornitzailea",
         "WidgetProviders": "Hornitzaileak"
     }
 }

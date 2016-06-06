@@ -1,15 +1,13 @@
 {
     "SEO": {
+        "PluginDescription": "Tento plugin extrahuje a zobrazuje SEO metriky: pořadí v Alexa web, Google PageRank, počet indexovaných stránek a zpětných odkazů aktuálně vybraného webu.",
         "AlexaRank": "Hodnocení Alexa",
         "Bing_IndexedPages": "Stránek zaindexovaných Bingem",
         "Dmoz": "Záznamů v katalogu DMOZ",
         "DomainAge": "Staří domény",
-        "ExternalBacklinks": "Externí zpětné odkazy (Majestic)",
         "Google_IndexedPages": "Stránek zaindexovaných Googlem",
         "Rank": "Hodnocení",
-        "ReferrerDomains": "Odkazující domény (Majestic)",
         "SeoRankings": "Hodnocení SEO",
-        "SEORankingsFor": "SEO hodnocení pro %s",
-        "ViewBacklinksOnMajesticSEO": "Zobrazit externí zpětné odkazy na MajesticSEO.com"
+        "SEORankingsFor": "SEO hodnocení pro %s"
     }
 }

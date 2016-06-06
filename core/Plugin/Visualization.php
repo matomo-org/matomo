@@ -10,6 +10,8 @@
 namespace Piwik\Plugin;
 
 use Piwik\API\DataTablePostProcessor;
+use Piwik\API\Proxy;
+use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
@@ -19,9 +21,12 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
+use Piwik\Plugin\Manager as PluginManager;
+use Piwik\API\Request as ApiRequest;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.
@@ -172,8 +177,7 @@ class Visualization extends ViewDataTable
 
         try {
             $this->beforeLoadDataTable();
-
-            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1, 'format_metrics' => 0));
+            $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
@@ -207,6 +211,7 @@ class Visualization extends ViewDataTable
         $view->visualization         = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
+        $view->reportMetdadata = $this->getReportMetadata();
 
         if (null === $this->dataTable) {
             $view->dataTable = null;
@@ -231,15 +236,76 @@ class Visualization extends ViewDataTable
         return $view;
     }
 
+    /**
+     * @internal
+     */
+    protected function loadDataTableFromAPI()
+    {
+        if (!is_null($this->dataTable)) {
+            // data table is already there
+            // this happens when setDataTable has been used
+            return $this->dataTable;
+        }
+
+        // we build the request (URL) to call the API
+        $request = $this->buildApiRequestArray();
+
+        $module = $this->requestConfig->getApiModuleToRequest();
+        $method = $this->requestConfig->getApiMethodToRequest();
+
+        PluginManager::getInstance()->checkIsPluginActivated($module);
+
+        $class     = ApiRequest::getClassNameAPI($module);
+        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+
+        $response = new ResponseBuilder($format = 'original', $request);
+        $response->disableSendHeader();
+        $response->disableDataTablePostProcessor();
+
+        $this->dataTable = $response->getResponse($dataTable, $module, $method);
+    }
+
+    private function getReportMetadata()
+    {
+        $request = $this->request->getRequestArray() + $_GET + $_POST;
+
+        $idSite  = Common::getRequestVar('idSite', null, 'string', $request);
+        $module  = $this->requestConfig->getApiModuleToRequest();
+        $action  = $this->requestConfig->getApiMethodToRequest();
+
+        $apiParameters = array();
+        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
+        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
+        if ($idDimension > 0) {
+            $apiParameters['idDimension'] = $idDimension;
+        }
+        if ($idGoal > 0) {
+            $apiParameters['idGoal'] = $idGoal;
+        }
+
+        $metadata = ApiApi::getInstance()->getMetadata($idSite, $module, $action, $apiParameters);
+
+        if (!empty($metadata)) {
+            return array_shift($metadata);
+        }
+
+        return false;
+    }
+
     private function overrideSomeConfigPropertiesIfNeeded()
     {
         if (empty($this->config->footer_icons)) {
             $this->config->footer_icons = ViewDataTableManager::configureFooterIcons($this);
         }
 
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals')) {
+        if (!$this->isPluginActivated('Goals')) {
             $this->config->show_goals = false;
         }
+    }
+
+    private function isPluginActivated($pluginName)
+    {
+        return PluginManager::getInstance()->isPluginActivated($pluginName);
     }
 
     /**
@@ -304,7 +370,7 @@ class Visualization extends ViewDataTable
             $this->metadata = $this->dataTable->getAllTableMetadata();
 
             if (isset($this->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
+                $this->reportLastUpdatedMessage = $this->makePrettyArchivedOnText();
             }
         }
 
@@ -339,48 +405,43 @@ class Visualization extends ViewDataTable
 
     private function applyFilters()
     {
-        list($priorityFilters, $otherFilters) = $this->config->getFiltersToRun();
-
-        // First, filters that delete rows
-        foreach ($priorityFilters as $filter) {
-            $this->dataTable->filter($filter[0], $filter[1]);
-        }
-
-        $this->beforeGenericFiltersAreAppliedToLoadedDataTable();
-
-        if (!in_array($this->requestConfig->filter_sort_column, $this->config->columns_to_display)) {
-            $hasNbUniqVisitors = in_array('nb_uniq_visitors', $this->config->columns_to_display);
-            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors, $this->dataTable->getColumns());
-        }
-
         $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
+        $self = $this;
 
-        if (!$this->requestConfig->areGenericFiltersDisabled()) {
-            $this->dataTable = $postProcessor->applyGenericFilters($this->dataTable);
-        }
+        $postProcessor->setCallbackBeforeGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self, $postProcessor) {
 
-        $postProcessor->applyComputeProcessedMetrics($this->dataTable);
+            $self->setDataTable($dataTable);
 
-        $this->afterGenericFiltersAreAppliedToLoadedDataTable();
+            // First, filters that delete rows
+            foreach ($self->config->getPriorityFilters() as $filter) {
+                $dataTable->filter($filter[0], $filter[1]);
+            }
 
-        // queue other filters so they can be applied later if queued filters are disabled
-        foreach ($otherFilters as $filter) {
-            $this->dataTable->queueFilter($filter[0], $filter[1]);
-        }
+            $self->beforeGenericFiltersAreAppliedToLoadedDataTable();
 
-        // Finally, apply datatable filters that were queued (should be 'presentation' filters that
-        // do not affect the number of rows)
-        if (!$this->requestConfig->areQueuedFiltersDisabled()) {
-            $this->dataTable->applyQueuedFilters();
-        }
+            if (!in_array($self->requestConfig->filter_sort_column, $self->config->columns_to_display)) {
+                $hasNbUniqVisitors = in_array('nb_uniq_visitors', $self->config->columns_to_display);
+                $columns = $dataTable->getColumns();
+                $self->requestConfig->setDefaultSort($self->config->columns_to_display, $hasNbUniqVisitors, $columns);
+            }
 
-        if ($this->requestConfig->shouldFormatMetrics()) {
-            $formatter = $this->metricsFormatter;
-            $report = $this->report;
-            $this->dataTable->filter(function (DataTable $table) use ($formatter, $report) {
-                $formatter->formatMetrics($table, $report);
-            });
-        }
+            $postProcessor->setRequest($self->buildApiRequestArray());
+        });
+
+        $postProcessor->setCallbackAfterGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self) {
+
+            $self->setDataTable($dataTable);
+
+            $self->afterGenericFiltersAreAppliedToLoadedDataTable();
+
+            // queue other filters so they can be applied later if queued filters are disabled
+            foreach ($self->config->getPresentationFilters() as $filter) {
+                $dataTable->queueFilter($filter[0], $filter[1]);
+            }
+
+        });
+
+        $this->dataTable = $postProcessor->process($this->dataTable);
     }
 
     private function removeEmptyColumnsFromDisplay()
@@ -421,9 +482,10 @@ class Visualization extends ViewDataTable
             return Piwik::translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }
 
-        $prettyDate = $date->getLocalized("%longYear%, %longMonth% %day%") . $date->toString('S');
+        $prettyDate = $date->getLocalized(Date::DATE_FORMAT_SHORT);
 
-        return Piwik::translate('CoreHome_ReportGeneratedOn', $prettyDate);
+        $timezoneAppend = ' (UTC)';
+        return Piwik::translate('CoreHome_ReportGeneratedOn', $prettyDate) . $timezoneAppend;
     }
 
     /**
@@ -438,7 +500,7 @@ class Visualization extends ViewDataTable
      */
     private function hasReportBeenPurged()
     {
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('PrivacyManager')) {
+        if (!$this->isPluginActivated('PrivacyManager')) {
             return false;
         }
 
@@ -458,7 +520,7 @@ class Visualization extends ViewDataTable
         foreach ($this->config->clientSideProperties as $name) {
             if (property_exists($this->requestConfig, $name)) {
                 $result[$name] = $this->getIntIfValueIsBool($this->requestConfig->$name);
-            } else if (property_exists($this->config, $name)) {
+            } elseif (property_exists($this->config, $name)) {
                 $result[$name] = $this->getIntIfValueIsBool($this->config->$name);
             }
         }
@@ -512,7 +574,7 @@ class Visualization extends ViewDataTable
 
             if (property_exists($this->requestConfig, $name)) {
                 $valueToConvert = $this->requestConfig->$name;
-            } else if (property_exists($this->config, $name)) {
+            } elseif (property_exists($this->config, $name)) {
                 $valueToConvert = $this->config->$name;
             }
 
@@ -611,15 +673,14 @@ class Visualization extends ViewDataTable
 
     private function makeDataTablePostProcessor()
     {
-        $requestArray = $this->request->getRequestArray();
-        $request      = \Piwik\API\Request::getRequestArrayFromString($requestArray);
+        $request = $this->buildApiRequestArray();
+        $module  = $this->requestConfig->getApiModuleToRequest();
+        $method  = $this->requestConfig->getApiMethodToRequest();
 
-        if (false === $this->config->enable_sort) {
-            $request['filter_sort_column'] = '';
-            $request['filter_sort_order']  = '';
-        }
+        $processor = new DataTablePostProcessor($module, $method, $request);
+        $processor->setFormatter($this->metricsFormatter);
 
-        return new DataTablePostProcessor($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest(), $request);
+        return $processor;
     }
 
     private function logMessageIfRequestPropertiesHaveChanged(array $requestPropertiesBefore)
@@ -666,5 +727,31 @@ class Visualization extends ViewDataTable
         }
 
         return $result;
+    }
+
+    /**
+     * @internal
+     *
+     * @return array
+     */
+    public function buildApiRequestArray()
+    {
+        $requestArray = $this->request->getRequestArray();
+        $request = APIRequest::getRequestArrayFromString($requestArray);
+
+        if (false === $this->config->enable_sort) {
+            $request['filter_sort_column'] = '';
+            $request['filter_sort_order'] = '';
+        }
+
+        if (!array_key_exists('format_metrics', $request) || $request['format_metrics'] === 'bc') {
+            $request['format_metrics'] = '1';
+        }
+
+        if (!$this->requestConfig->disable_queued_filters && array_key_exists('disable_queued_filters', $request)) {
+            unset($request['disable_queued_filters']);
+        }
+
+        return $request;
     }
 }

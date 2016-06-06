@@ -1,11 +1,21 @@
-<h2 piwik-enriched-headline>{{ 'VisitorInterest_VisitsPerDuration'|translate }}</h2>
-{{ dataTableNumberOfVisitsPerVisitDuration|raw }}
+<div class="row">
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'VisitorInterest_VisitsPerDuration'|translate }}</h2>
+        {{ dataTableNumberOfVisitsPerVisitDuration|raw }}
+    </div>
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'VisitorInterest_VisitsPerNbOfPages'|translate }}</h2>
+        {{ dataTableNumberOfVisitsPerPage|raw }}
+    </div>
+</div>
 
-<h2 piwik-enriched-headline>{{ 'VisitorInterest_VisitsPerNbOfPages'|translate }}</h2>
-{{ dataTableNumberOfVisitsPerPage|raw }}
-
-<h2 piwik-enriched-headline>{{ 'VisitorInterest_visitsByVisitCount'|translate }}</h2>
-{{ dataTableNumberOfVisitsByVisitNum|raw }}
-
-<h2 piwik-enriched-headline>{{ 'VisitorInterest_VisitsByDaysSinceLast'|translate }}</h2>
-{{ dataTableNumberOfVisitsByDaysSinceLast|raw }}
+<div class="row">
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'VisitorInterest_visitsByVisitCount'|translate }}</h2>
+        {{ dataTableNumberOfVisitsByVisitNum|raw }}
+    </div>
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'VisitorInterest_VisitsByDaysSinceLast'|translate }}</h2>
+        {{ dataTableNumberOfVisitsByDaysSinceLast|raw }}
+    </div>
+</div>

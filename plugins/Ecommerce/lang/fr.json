@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Ecommerce vous permet de suivre lorsque les utilisateurs ajoutent des produits aux paniers, et quand ils se convertissent en vente de commerce électronique. Il suit également des produits, des catégories de produits vues et les paniers abandonnés.",
+        "Sales": "Ventes",
+        "SalesBy": "Ventes par %s",
+        "SalesAdjective": "Ventes %s"
+    }
+}

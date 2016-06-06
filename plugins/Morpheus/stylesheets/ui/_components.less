@@ -1,5 +1,5 @@
 //colors calendar
-@calendarHeaderBackground: #fff;
+@calendarHeaderBackground: @theme-color-background-base;
 @calendarHeaderColor: #999;
 @calendarCurrentStateHover: #f5f5f5;
 @calendarBorder: #ccc;
@@ -13,7 +13,6 @@
 
     .ui-state-default {
         border-color: @calendarBorder !important;
-        background: @brad-black !important;
     }
 
     .ui-datepicker-header {
@@ -34,7 +33,8 @@
     }
 }
 
-.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
+.ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period,
+.ui-datepicker td .ui-state-default.ui-state-active:hover {
     background: @theme-color-text !important;
 }
 
@@ -42,31 +42,18 @@
     background: @calendarCurrentStateHover;
 }
 
-//add new segment
-.add_new_segment,
-#calendarRangeApply {
-    font-size: 12px !important;
-    padding: 0 10px !important;
-    margin-left: 0px !important;
-}
-
 .segment-element {
     background: @color-white;
     border-color: @color-silver-l80;
+    line-height: 1.33;
 
     .segment-add-row {
         .border-radius(5px);
     }
 
-    .segment-nav {
-        h4.visits {
-            background: url('plugins/Morpheus/images/segment-users.png') no-repeat 3px 0px;
-        }
-    }
-
     .custom_select_search {
         input {
-            margin-top: -10px;
+            margin-top: 1px;
         }
     }
 
@@ -88,8 +75,8 @@
                 .font-default(12px, 14px);
                 color: @theme-color-text;
                 font-weight: 500;
-                margin: 0px;
-                min-height: auto;
+                margin: 0;
+                height: 30px;
             }
         }
     }
@@ -102,15 +89,15 @@
                 text-shadow: none;
             }
             li {
-                padding: 3px 0 ;
+                padding: 3px 0;
                 &:hover {
-                    background: #f2f2f2;
+                    background: @theme-color-background-tinyContrast;
                     border: 0;
-                     padding: 4px 0 3px;
+                    padding: 4px 0 3px;
 
                     a {
                         border: 0;
-                        background-color: #f2f2f2;
+                        background-color: @theme-color-background-tinyContrast;
                         padding-right: 15px;
 
                     }
@@ -137,20 +124,17 @@
         }
 
         a.dropdown {
+            display: inline;
             color: @theme-color-text;
             background: url('plugins/Morpheus/images/sort_subtable_desc.png') 100% -2px no-repeat;
             &.ui-autocomplete-input {
                 background-position: 100% -2px;
             }
+            .font-default(10px, 12px);
         }
     }
     .segment-footer {
         background: @color-white;
-        button {
-            height: auto;
-            font-weight: normal;
-            min-width: 100px;
-        }
 
         a.delete {
             color: @theme-color-brand;
@@ -161,28 +145,17 @@
     }
 }
 
-.available_segments a.dropdown  {
+.available_segments a.dropdown {
     color: @theme-color-text !important;
     text-transform: uppercase;
     .font-default(10px, 12px);
 }
 
 #periodString {
-    border: 1px solid @theme-color-background-lowContrast;
-    .border-radius(0px);
-    background: @theme-color-background-base;
-    &:hover {
-        background: @theme-color-background-base;
-        border-color: @color-silver-l80;
-    }
-
     select {
-      min-height: 0;
-    }
-
-    .calendar-icon {
-        width: 17px;
-        height: 17px;
+        min-height: 0;
+        background-position: 140%;
+        padding-left: 5px;
     }
 
     label.selected-period-label {
@@ -202,35 +175,17 @@
             }
         }
     }
-
-    #date {
-        .border-radius(0px);
-        .box-shadow(~"inset 1px 1px 3px #d8d8d8");
-        padding: 8px 10px;
-        color: @theme-color-text-lighter;
-        text-transform: uppercase;
-        .font-default(10px, 12px);
-
-        strong {
-            color: @theme-color-text;
-
-        }
-    }
 }
 
 #header_message {
-    border: 1px solid @color-silver-l80;
-    padding: 8px 10px 8px 10px;
     height: auto;
-    background: #fff;
     .border-radius(0px);
-    .header_short {
-        .font-default(10px, 12px);
-        text-transform: uppercase;
-    }
 
-    .header_full {
-        .font-default(12px, 18px);
+    &.isPiwikDemo {
+        text-align: right;
+        position: absolute;
+        right: 0;
+        top: 8px;
     }
 }
 
@@ -247,7 +202,7 @@
 
 .loadingPiwikBelow,
 .loadingPiwik {
-    .font-default(10px, 12px);
+    .font-default(13px, 13px);
     color: @color-silver-l60;
     font-weight: normal;
 }
@@ -268,26 +223,26 @@
     .border-radius(6px);
 
     h2 {
-        background: #f2f2f2;
+        background: @theme-color-background-tinyContrast;
         border-bottom: 1px solid @color-gray;
         padding: 11px 15px 10px;
     }
 }
 
 .jqplot-seriespicker-popover {
-    .box-shadow-1(none);
+    box-shadow: none;
 }
 
 // transition box
 #Transitions_Container {
     #Transitions_CenterBox {
         border: 1px solid @color-gray;
-        .box-shadow-1(none);
+        box-shadow: none;
         .border-radius(6px);
         margin: 27px 0 0 319px;
         width: 258px;
         height: 390px;
-        background: #fff;
+        background: @theme-color-background-base;
         h2 {
             color: #1e93d1;
             border-bottom: 1px solid @color-gray;
@@ -339,17 +294,10 @@
 }
 
 table.dataTable tr td .dataTableRowActions {
-  a.rightmost, a {
-    background-color: #f2f2f2 !important;
-    margin: 6px 0px 6px 0;
-    padding: 0px 4px 0px 0px;
-  }
-}
-
-table.dataTable tr td.labeleven .dataTableRowActions {
-  a.rightmost, a {
-    background-color: #fff !important;
-  }
+    a.rightmost, a {
+        margin: 6px 0px 6px 0;
+        padding: 0px 4px 0px 0px;
+    }
 }
 
 table.dataTable th .columnDocumentation {

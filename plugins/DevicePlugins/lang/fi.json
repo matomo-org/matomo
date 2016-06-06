@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s ilman liitännäisiä aktivoitu",
+        "BrowserWithPluginsEnabled": "%1$s liitännäisillä %2$s on aktivoitu",
+        "PluginDescription": "Lista lisäosista joita kävijöiden selaimet tukevat.",
+        "PluginDetectionDoesNotWorkInIE": "Huom. Lisäosien tunnistus ei toimi Internet Explorerissa ennen versiota 11. Tässä raportissa on mukana vain uudet IE:t ja muut selaimet.",
+        "WidgetPlugins": "Lista lisäosista",
+        "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainlisäosia vierailijoillasi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään vierailijoille."
+    }
+}

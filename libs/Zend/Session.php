@@ -202,7 +202,7 @@ class Zend_Session extends Zend_Session_Abstract
         if (!self::$_defaultOptionsSet) {
             foreach (self::$_defaultOptions as $defaultOptionName => $defaultOptionValue) {
                 if (isset(self::$_defaultOptions[$defaultOptionName])) {
-                    ini_set("session.$defaultOptionName", $defaultOptionValue);
+                    @ini_set("session.$defaultOptionName", $defaultOptionValue);
                 }
             }
 
@@ -216,7 +216,7 @@ class Zend_Session extends Zend_Session_Abstract
 
             // set the ini based values
             if (array_key_exists($userOptionName, self::$_defaultOptions)) {
-                ini_set("session.$userOptionName", $userOptionValue);
+                @ini_set("session.$userOptionName", $userOptionValue);
             }
             elseif (isset(self::$_localOptions[$userOptionName])) {
                 self::${self::$_localOptions[$userOptionName]} = $userOptionValue;
@@ -491,6 +491,10 @@ class Zend_Session extends Zend_Session_Abstract
             self::regenerateId();
         }
 
+        if (isset($_SESSION['data']) && is_string($_SESSION['data'])) {
+            $_SESSION = unserialize(base64_decode($_SESSION['data']));
+        }
+
         // run validators if they exist
         if (isset($_SESSION['__ZF']['VALID'])) {
             self::_processValidators();
@@ -688,8 +692,17 @@ class Zend_Session extends Zend_Session_Abstract
             parent::$_writable = false;
         }
 
+        if (isset($_SESSION)) {
+            $sessionBkp = $_SESSION;
+            $_SESSION = array('data' => base64_encode(serialize($_SESSION)));
+        }
+
         session_write_close();
         self::$_writeClosed = true;
+
+        if (isset($sessionBkp)) {
+            $_SESSION = $sessionBkp;
+        }
     }
 
 

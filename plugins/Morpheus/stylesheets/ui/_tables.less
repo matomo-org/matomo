@@ -1,0 +1,16 @@
+// We have to use a class (and not <table> directly) because HTML tables
+// are used for layouts (e.g. forms in the admin section use tables)
+// TODO refactor that: https://github.com/piwik/piwik/issues/8023
+.simple-table {
+    margin: 20px 0;
+    width: 100%;
+    border-top: 1px solid @color-silver-l90;
+
+    th, td {
+        border-bottom: 1px solid @color-silver-l90;
+        padding: 12px;
+    }
+    th {
+        text-align: left;
+    }
+}

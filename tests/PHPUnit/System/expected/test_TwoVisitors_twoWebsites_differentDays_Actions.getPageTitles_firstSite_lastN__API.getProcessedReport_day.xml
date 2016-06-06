@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1</website>
-	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<name>Page titles</name>
@@ -42,18 +42,18 @@
 		<avg_time_generation>Avg. generation time</avg_time_generation>
 	</columns>
 	<reportData>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<label> first page view</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>100%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
-				<exit_rate>50%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.14s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Monday 4 January 2010">
+		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<label>Page Name not defined</label>
 				<nb_visits>1</nb_visits>
@@ -64,7 +64,7 @@
 				<avg_time_generation>0.22s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Tuesday 5 January 2010">
+		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -84,7 +84,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Wednesday 6 January 2010">
+		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -104,7 +104,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Thursday 7 January 2010">
+		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -124,7 +124,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Friday 8 January 2010">
+		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -144,7 +144,7 @@
 				<avg_time_generation>0.45s</avg_time_generation>
 			</row>
 		</result>
-		<result prettyDate="Saturday 9 January 2010">
+		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
@@ -166,46 +166,56 @@
 		</result>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday 3 January 2010" />
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010">
+		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				
+				<idsubdatatable>1956</idsubdatatable>
 			</row>
 			<row>
 				
-			</row>
-		</result>
-		<result prettyDate="Wednesday 6 January 2010">
-			<row>
-				
-			</row>
-			<row>
-				
+				<idsubdatatable>1955</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Thursday 7 January 2010">
+		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				
+				<idsubdatatable>1960</idsubdatatable>
 			</row>
 			<row>
 				
-			</row>
-		</result>
-		<result prettyDate="Friday 8 January 2010">
-			<row>
-				
-			</row>
-			<row>
-				
+				<idsubdatatable>1959</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Saturday 9 January 2010">
+		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				
+				<idsubdatatable>1964</idsubdatatable>
 			</row>
 			<row>
 				
+				<idsubdatatable>1963</idsubdatatable>
+			</row>
+		</result>
+		<result prettyDate="Friday, January 8, 2010">
+			<row>
+				
+				<idsubdatatable>1968</idsubdatatable>
+			</row>
+			<row>
+				
+				<idsubdatatable>1967</idsubdatatable>
+			</row>
+		</result>
+		<result prettyDate="Saturday, January 9, 2010">
+			<row>
+				
+				<idsubdatatable>1972</idsubdatatable>
+			</row>
+			<row>
+				
+				<idsubdatatable>1971</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>
@@ -213,10 +223,10 @@
 		<nb_visits>18</nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<nb_hits>18</nb_hits>
-		<entry_bounce_count>1</entry_bounce_count>
-		<entry_nb_visits>6</entry_nb_visits>
-		<entry_nb_actions>26</entry_nb_actions>
-		<exit_nb_visits>1</exit_nb_visits>
-		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<entry_bounce_count>2</entry_bounce_count>
+		<entry_nb_visits>7</entry_nb_visits>
+		<entry_nb_actions>27</entry_nb_actions>
+		<exit_nb_visits>7</exit_nb_visits>
+		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 	</reportTotal>
 </result>

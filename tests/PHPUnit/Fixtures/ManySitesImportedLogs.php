@@ -7,13 +7,11 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Access;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\OverrideLogin;
 
 /**
  * Imports visits from several log files using the python log importer.
@@ -27,12 +25,12 @@ class ManySitesImportedLogs extends Fixture
     public $segments = null; // should be array mapping segment name => segment definition
 
     public $addSegments = false;
-
-    public static function createAccessInstance()
-    {
-        Access::setSingletonInstance($access = new OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
-    }
+    public $includeIisWithCustom = false;
+    public $includeNetscaler = false;
+    public $includeCloudfront = false;
+    public $includeCloudfrontRtmp = false;
+    public $includeNginxJson = false;
+    public $includeApiCustomVarMapping = false;
 
     public function setUp()
     {
@@ -69,6 +67,11 @@ class ManySitesImportedLogs extends Fixture
             self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
                 $siteUrl = 'http://example-site-two.com');
         }
+
+        if (!self::siteCreated($idSite = 3)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test three',
+                $siteUrl = 'http://example-site-three.com');
+        }
     }
 
     const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50';
@@ -87,15 +90,15 @@ class ManySitesImportedLogs extends Fixture
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
 
-//            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
-//                                                  'idSite'          => 1,
-//                                                  'autoArchive'     => true,
-//                                                  'enabledAllUsers' => true),
-//
-//            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
-//                                                  'idSite'          => 1,
-//                                                  'autoArchive'     => true,
-//                                                  'enabledAllUsers' => true)
+            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
+                                                  'idSite'          => 1,
+                                                  'autoArchive'     => true,
+                                                  'enabledAllUsers' => true),
+
+            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
+                                                  'idSite'          => 1,
+                                                  'autoArchive'     => true,
+                                                  'enabledAllUsers' => true)
 
             // fails randomly and I really could not find why.
 //            'segmentOnlySuperuser' => array('definition'      => 'actions>1;customVariablePageName1=='.urlencode('HTTP-code'),
@@ -110,7 +113,32 @@ class ManySitesImportedLogs extends Fixture
         $this->logVisitsWithStaticResolver();
         $this->logVisitsWithAllEnabled();
         $this->replayLogFile();
+        $this->replayLogFile(array('--idsite' => 3));
         $this->logCustomFormat();
+
+        if ($this->includeIisWithCustom) {
+            $this->logIisWithCustomFormat();
+        }
+
+        if ($this->includeNetscaler) {
+            $this->logNetscaler();
+        }
+
+        if ($this->includeCloudfront) {
+            $this->logCloudfront();
+        }
+
+        if ($this->includeCloudfrontRtmp) {
+            $this->logCloudfrontRtmp();
+        }
+
+        if ($this->includeNginxJson) {
+            $this->logNginxJsonLog();
+        }
+
+        if ($this->includeApiCustomVarMapping) {
+            $this->logIisWithCustomFormat($mapToCustom = true);
+        }
     }
 
     private function setupSegments()
@@ -164,7 +192,7 @@ class ManySitesImportedLogs extends Fixture
      * Logs a couple visits for the site we created and two new sites that do not
      * exist yet. Visits are from Aug 12, 13 & 14 of 2012.
      */
-    public function logVisitsWithDynamicResolver()
+    public function logVisitsWithDynamicResolver($maxPayloadSize = 1)
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_dynamic.log'; # log file
 
@@ -173,8 +201,8 @@ class ManySitesImportedLogs extends Fixture
         $opts = array('--add-sites-new-hosts'       => false,
                       '--enable-testmode'           => false,
                       '--recorders'                 => '1',
-                      '--recorder-max-payload-size' => '1');
-        self::executeLogImporter($logFile, $opts);
+                      '--recorder-max-payload-size' => $maxPayloadSize);
+        return implode("\n", self::executeLogImporter($logFile, $opts));
     }
 
     /**
@@ -202,15 +230,20 @@ class ManySitesImportedLogs extends Fixture
     /**
      * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
      * Adds two visits to idSite=1 and two to non-existant sites.
+     *
+     * @param array $additonalOptions
      */
-    private function replayLogFile()
+    private function replayLogFile($additonalOptions = array())
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
 
-        $opts = array('--token-auth'                => self::getTokenAuth(),
+        $opts = array('--login'                     => 'superUserLogin',
+                      '--password'                  => 'superUserPass',
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
                       '--replay-tracking'           => false);
+
+        $opts = array_merge($opts, $additonalOptions);
 
         self::executeLogImporter($logFile, $opts);
     }
@@ -228,5 +261,70 @@ class ManySitesImportedLogs extends Fixture
                           . '\"\S+ (?P<path>.*?) \S+\" (?P<generation_time_micro>\S+)');
 
         self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logIisWithCustomFormat($mapToCustom = false)
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_custom_iis.log';
+
+        $opts = array('--idsite'           => $this->idSite,
+                      '--token-auth'       => self::getTokenAuth(),
+                      '--w3c-map-field'    => array('date-local=date', 'time-local=time', 'cs(Host)=cs-host', 'TimeTakenMS=time-taken'),
+                      '--enable-http-errors'        => false,
+                      '--enable-http-redirects'     => false);
+
+        if ($mapToCustom) {
+            $opts['--regex-group-to-visit-cvar'] = 'userid=User Name';
+            $opts['--regex-group-to-page-cvar'] = array(
+                'generation_time_milli=Generation Time',
+                'win32_status=Windows Status Code'
+            );
+            $opts['--ignore-groups'] = 'userid';
+            $opts['--w3c-field-regex'] = 'sc-win32-status=(?P<win32_status>\S+)';
+            $opts['--w3c-time-taken-milli'] = false;
+        }
+
+        self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logNetscaler()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_netscaler.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth(),
+                      '--w3c-map-field'             => array(),
+                      '--enable-http-redirects'     => false);
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logCloudfront()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_cloudfront.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logCloudfrontRtmp()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_cloudfront_rtmp.log';
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--token-auth'                => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logNginxJsonLog()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_nginx_json.log';
+
+        $opts = array('--token-auth' => self::getTokenAuth());
+
+        return self::executeLogImporter($logFile, $opts);
     }
 }

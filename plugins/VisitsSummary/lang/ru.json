@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s уникальных просмотров страниц",
         "NbUniqueVisitors": "%s уникальных посетителей",
         "NbVisitsBounced": "%s отказов (ушли после посещения одной страницы)",
-        "PluginDescription": "Показывает общую аналитику: посещения, уникальные посетители, поличество действий, доля отказов и т. д.",
         "VisitsSummary": "Посещения",
         "VisitsSummaryDocumentation": "Это обзор динамики посещений.",
         "WidgetLastVisits": "График последних посещений",

@@ -7,12 +7,13 @@
         "Deactivate": "Slå av",
         "Inactive": "Av",
         "LicenseHomepage": "Lisensen til innstikket",
-        "OncePluginIsInstalledYouMayActivateHere": "Når eit innstikk er lagt til, kan du slå det av og på her.",
-        "PluginDescription": "Administrasjon av innstikk.",
-        "PluginHomepage": "Nettsida til innstikket",
         "PluginsExtendPiwik": "Innstikk utvidar funksjonane til Piwik.",
+        "OncePluginIsInstalledYouMayActivateHere": "Når eit innstikk er lagt til, kan du slå det av og på her.",
+        "PluginHomepage": "Nettsida til innstikket",
+        "PluginKeywords": "Nøkkelord",
         "PluginsManagement": "Innstikkstyring",
         "Status": "Status",
-        "Version": "Versjon"
+        "Version": "Versjon",
+        "Websites": "Nettstadar"
     }
 }

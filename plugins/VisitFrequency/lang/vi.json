@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Các lượt truy cập quay lại",
         "ColumnSumVisitLengthReturning": "Tổng số thời gian dành cho khách truy cập quay lại (tính bằng giây)",
         "ColumnUniqueReturningVisitors": "Các khách truy cập quay lại duy nhất (unique)",
-        "PluginDescription": "Báo cáo thống kê khác nhau về khách quay lại so với khách truy cập trong thời gian đầu.",
         "ReturnActions": "%s hành động của các lượt truy cập quay lại",
         "ReturnAverageVisitDuration": "thời gian truy cập trung bình %s cho các khách truy cập quay lại",
         "ReturnAvgActions": "%s Hành động của mỗi lượt truy cập quay lại",

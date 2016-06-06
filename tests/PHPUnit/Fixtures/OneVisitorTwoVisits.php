@@ -106,7 +106,9 @@ class OneVisitorTwoVisits extends Fixture
 
         // Click on external link after 6 minutes (3rd action)
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
-        self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
+
+        // Testing Outlink that contains a URL Fragment
+        self::checkResponse($t->doTrackAction('https://outlinks.org/#!outlink-with-fragment-<script>', 'link'));
 
         // Click on file download after 12 minutes (4th action)
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
@@ -114,7 +116,7 @@ class OneVisitorTwoVisits extends Fixture
 
         // Click on two more external links, one the same as before (5th & 6th actions)
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.22)->getDateTime());
-        self::checkResponse($t->doTrackAction('http://outlinks.org/other_outlink', 'link'));
+        self::checkResponse($t->doTrackAction('http://outlinks.org/other_outlink#fragment&pk_campaign=Open%20partnership', 'link'));
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.25)->getDateTime());
         self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
 

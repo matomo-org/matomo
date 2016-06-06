@@ -9,8 +9,8 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
-use Piwik\Tracker;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -33,7 +33,11 @@ use Piwik\Tracker;
  */
 class Db
 {
+    const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
+
     private static $connection = null;
+
+    private static $logQueries = true;
 
     /**
      * Returns the database connection and creates it if it hasn't been already.
@@ -84,6 +88,17 @@ class Db
         $dbConfig['profiler'] = @$config->Debug['enable_sql_profiler'];
 
         return $dbConfig;
+    }
+
+    /**
+     * For tests only.
+     * @param $connection
+     * @ignore
+     * @internal
+     */
+    public static function setDatabaseObject($connection)
+    {
+        self::$connection = $connection;
     }
 
     /**
@@ -314,14 +329,17 @@ class Db
      *
      * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
+     * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      * @return \Zend_Db_Statement
      */
-    public static function optimizeTables($tables)
+    public static function optimizeTables($tables, $force = false)
     {
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
 
-        if (empty($optimize)) {
-            return;
+        if (empty($optimize)
+            && !$force
+        ) {
+            return false;
         }
 
         if (empty($tables)) {
@@ -332,22 +350,28 @@ class Db
             $tables = array($tables);
         }
 
-        // filter out all InnoDB tables
-        $myisamDbTables = array();
-        foreach (self::getTableStatus() as $row) {
-            if (strtolower($row['Engine']) == 'myisam'
-                && in_array($row['Name'], $tables)
-            ) {
-                $myisamDbTables[] = $row['Name'];
+        if (!self::isOptimizeInnoDBSupported()
+            && !$force
+        ) {
+            // filter out all InnoDB tables
+            $myisamDbTables = array();
+            foreach (self::getTableStatus() as $row) {
+                if (strtolower($row['Engine']) == 'myisam'
+                    && in_array($row['Name'], $tables)
+                ) {
+                    $myisamDbTables[] = $row['Name'];
+                }
             }
+
+            $tables = $myisamDbTables;
         }
 
-        if (empty($myisamDbTables)) {
+        if (empty($tables)) {
             return false;
         }
 
         // optimize the tables
-        return self::query("OPTIMIZE TABLE " . implode(',', $myisamDbTables));
+        return self::query("OPTIMIZE TABLE " . implode(',', $tables));
     }
 
     private static function getTableStatus()
@@ -385,17 +409,12 @@ class Db
      *
      * @param string|array $table The name of the table you want to get the columns definition for.
      * @return \Zend_Db_Statement
+     * @deprecated since 2.11.0
      */
     public static function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
-
-        $columnNames = array();
-        foreach ($columns as $column) {
-            $columnNames[] = $column['Field'];
-        }
-
-        return $columnNames;
+        $tableMetadataAccess = new TableMetadata();
+        return $tableMetadataAccess->getColumns($table);
     }
 
     /**
@@ -613,26 +632,20 @@ class Db
     }
 
     /**
-     * Returns `true` if a table in the database, `false` if otherwise.
-     *
-     * @param string $tableName The name of the table to check for. Must be prefixed.
-     * @return bool
-     */
-    public static function tableExists($tableName)
-    {
-        return self::query("SHOW TABLES LIKE ?", $tableName)->rowCount() > 0;
-    }
-
-    /**
      * Attempts to get a named lock. This function uses a timeout of 1s, but will
      * retry a set number of times.
      *
      * @param string $lockName The lock name.
      * @param int $maxRetries The max number of times to retry.
      * @return bool `true` if the lock was obtained, `false` if otherwise.
+     * @throws \Exception if Lock name is too long
      */
     public static function getDbLock($lockName, $maxRetries = 30)
     {
+        if (strlen($lockName) > 64) {
+            throw new \Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
+        }
+
         /*
          * the server (e.g., shared hosting) may have a low wait timeout
          * so instead of a single GET_LOCK() with a 30 second timeout,
@@ -644,7 +657,8 @@ class Db
         $db = self::get();
 
         while ($maxRetries > 0) {
-            if ($db->fetchOne($sql, array($lockName)) == '1') {
+            $result = $db->fetchOne($sql, array($lockName));
+            if ($result == '1') {
                 return true;
             }
             $maxRetries--;
@@ -700,17 +714,62 @@ class Db
 
     private static function logExtraInfoIfDeadlock($ex)
     {
-        if (self::get()->isErrNo($ex, 1213)) {
+        if (!self::get()->isErrNo($ex, 1213)) {
+            return;
+        }
+
+        try {
             $deadlockInfo = self::fetchAll("SHOW ENGINE INNODB STATUS");
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
+
+        } catch(\Exception $e) {
+            //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }
     }
 
     private static function logSql($functionName, $sql, $parameters = array())
     {
-        // NOTE: at the moment we dont log bind in order to avoid sensitive information leaks
-        Log::verbose("Db::%s() executing SQL:\n%s", $functionName, $sql);
+        if (self::$logQueries === false
+            || @Config::getInstance()->Debug['log_sql_queries'] != 1
+        ) {
+            return;
+        }
+
+        // NOTE: at the moment we don't log parameters in order to avoid sensitive information leaks
+        Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
+    }
+
+    /**
+     * @param bool $enable
+     */
+    public static function enableQueryLog($enable)
+    {
+        self::$logQueries = $enable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function isQueryLogEnabled()
+    {
+        return self::$logQueries;
+    }
+
+    public static function isOptimizeInnoDBSupported($version = null)
+    {
+        if ($version === null) {
+            $version = Db::fetchOne("SELECT VERSION()");
+        }
+
+        $version = strtolower($version);
+
+        if (strpos($version, "mariadb") === false) {
+            return false;
+        }
+
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '10.1.1', '>=');
     }
 }

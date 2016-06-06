@@ -15,7 +15,6 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
-use Piwik\Translate;
 
 /**
  * @api
@@ -143,7 +142,7 @@ abstract class Dimension
 
     /**
      * Returns a unique string ID for this dimension. The ID is built using the namespaced class name
-     * of the dimension, but is modified to be more human readable
+     * of the dimension, but is modified to be more human readable.
      *
      * @return string eg, `"Referrers.Keywords"`
      * @throws Exception if the plugin and simple class name of this instance cannot be determined.

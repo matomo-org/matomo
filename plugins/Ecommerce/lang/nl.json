@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Ecommerce laat je toe gebruikers te volgen wanneer ze producten toevoegen aan winkelmandjes, en wanneer ze omgezet worden naar een ecommerce verkoop. Houdt ook de product weergave, product categorie weergave en achtergelaten winkelmandjes bij.",
+        "Sales": "Verkopen",
+        "SalesBy": "Verkopen volgens %s",
+        "SalesAdjective": "Verkoop %s"
+    }
+}

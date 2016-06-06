@@ -4,7 +4,6 @@
         "ColumnServerTime": "Tímabelti þjóns",
         "LocalTime": "Heimsóknir miðað við staðartíma",
         "NHour": "%st",
-        "PluginDescription": "Sýnir Staðartíma og tímabelti þjónsins. Þetta getur verið nytsamt til að láta vita um viðhald vefsins.",
         "ServerTime": "Heimsóknir miðað við tíma vefþjóns",
         "SubmenuTimes": "Tímar",
         "WidgetLocalTime": "Heimsóknir skv. staðartíma",

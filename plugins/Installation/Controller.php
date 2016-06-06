@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Db\Adapter;
@@ -22,15 +23,15 @@ use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
+use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
+use Piwik\Translation\Translator;
 use Piwik\Updater;
 use Piwik\Url;
 use Piwik\Version;
@@ -78,26 +79,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Installation Step 1: Welcome
      *
      * Can also display an error message when there is a failure early (eg. DB connection failed)
-     *
-     * @param string Optional error message
      */
-    function welcome($message = false)
+    function welcome()
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
 
-        if (empty($message)) {
-            $this->checkPiwikIsNotInstalled();
-        }
+        $this->checkPiwikIsNotInstalled();
         $view = new View(
             '@Installation/welcome',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
 
-        $view->newInstall = !SettingsPiwik::isPiwikInstalled();
-        $view->errorMessage = $message;
-        $view->showNextStep = $view->newInstall;
+        $view->showNextStep = true;
         return $view->render();
     }
 
@@ -116,18 +111,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             __FUNCTION__
         );
 
-        $view->duringInstall = true;
+        // Do not use dependency injection because this service requires a lot of sub-services across plugins
+        /** @var DiagnosticService $diagnosticService */
+        $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
+        $view->diagnosticReport = $diagnosticService->runDiagnostics();
 
-        $this->setupSystemCheckView($view);
-
-        $view->showNextStep = !$view->problemWithSomeDirectories
-            && $view->infos['phpVersion_ok']
-            && count($view->infos['adapters'])
-            && !count($view->infos['missing_extensions'])
-            && !count($view->infos['missing_functions']);
+        $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
         // On the system check page, if all is green, display Next link at the top
-        $view->showNextStepAtTop = $view->showNextStep;
+        $view->showNextStepAtTop = $view->showNextStep && !$view->diagnosticReport->hasWarnings();
 
         return $view->render();
     }
@@ -237,12 +229,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tablesCreation'
         );
 
+        $oldVersion = Option::get('version_core');
+
         $result = $this->updateComponents();
         if ($result === false) {
             $this->redirectToNextStep('tablesCreation');
         }
-
-        $oldVersion = Option::get('version_core');
 
         $view->coreError       = $result['coreError'];
         $view->warningMessages = $result['warnings'];
@@ -411,7 +403,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
          */
         Piwik::postEvent('Installation.defaultSettingsForm.init', array($form));
 
-        $form->addElement('submit', 'submit', array('value' => Piwik::translate('General_ContinueToPiwik') . ' »', 'class' => 'submit'));
+        $form->addElement('submit', 'submit', array('value' => Piwik::translate('General_ContinueToPiwik') . ' »', 'class' => 'btn btn-lg'));
 
         if ($form->validate()) {
             try {
@@ -450,15 +442,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Get system information
-     */
-    public static function getSystemInformation()
-    {
-        $systemCheck = new SystemCheck();
-        return $systemCheck->getSystemInformation();
-    }
-
-    /**
      * This controller action renders an admin tab that runs the installation
      * system check, so people can see if there are any issues w/ their running
      * Piwik installation.
@@ -476,13 +459,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         );
         $this->setBasicVariablesView($view);
 
-        $view->duringInstall = false;
-
-        $this->setupSystemCheckView($view);
-
-        $infos = $view->infos;
-        $infos['extra'] = SystemCheck::performAdminPageOnlySystemCheck();
-        $view->infos = $infos;
+        /** @var DiagnosticService $diagnosticService */
+        $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
+        $view->diagnosticReport = $diagnosticService->runDiagnostics();
 
         return $view->render();
     }
@@ -492,6 +471,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function saveLanguage()
     {
+        if (DbHelper::isInstalled()) {
+            $this->checkTokenInUrl();
+        }
         $language = $this->getParam('language');
         LanguagesManager::setLanguageForSession($language);
         Url::redirectToReferrer();
@@ -553,6 +535,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $config->forceSave();
+
+        // re-save the currently viewed language (since we saved the config file, there is now a salt which makes the
+        // existing session cookie invalid)
+        $this->resetLanguageCookie();
+    }
+
+    private function resetLanguageCookie()
+    {
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        LanguagesManager::setLanguageForSession($translator->getCurrentLanguage());
     }
 
     private function checkPiwikIsNotInstalled()
@@ -563,7 +556,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         \Piwik\Plugins\Login\Controller::clearSession();
         $message = Piwik::translate('Installation_InvalidStateError',
             array('<br /><strong>',
-                  '</strong><a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
+                  // piwik-is-already-installed is checked against in checkPiwikServerWorking
+                  '</strong><a id="piwik-is-already-installed" href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
                   '</a>')
         );
         Piwik::exitWithErrorMessage($message);
@@ -637,20 +631,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
     }
 
-    /**
-     * Utility function, sets up a view that will display system check info.
-     *
-     * @param View $view
-     */
-    private function setupSystemCheckView($view)
-    {
-        $view->infos = self::getSystemInformation();
-
-        $view->helpMessages = $this->getSystemCheckHelpMessages();
-
-        $view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
-    }
-
     private function createSuperUser($login, $password, $email)
     {
         $self = $this;
@@ -680,6 +660,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config = Config::getInstance();
         if ($config->existsLocalConfig()) {
             $config->deleteLocalConfig();
+
+            // deleting the config file removes the salt, which in turns invalidates existing cookies (including the
+            // one for selected language), so we re-save that cookie now
+            $this->resetLanguageCookie();
         }
     }
 
@@ -697,6 +681,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikorg'  => $newsletterPiwikORG,
             'piwikpro'  => $newsletterPiwikPRO,
             'url'       => Url::getCurrentUrlWithoutQueryString(),
+            'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
         );
         if ($params['piwikorg'] == '1'
             || $params['piwikpro'] == '1'
@@ -725,53 +710,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return Access::doAsSuperUser(function () {
             $updater = new Updater();
-            $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
+            $componentsWithUpdateFile = $updater->getComponentUpdates();
 
             if (empty($componentsWithUpdateFile)) {
                 return false;
             }
-            $result = CoreUpdater::updateComponents($updater, $componentsWithUpdateFile);
+            $result = $updater->updateComponents($componentsWithUpdateFile);
             return $result;
         });
-    }
-
-    /**
-     * @return array
-     */
-    private function getSystemCheckHelpMessages()
-    {
-        $helpMessages = array(
-            // Extensions
-            'zlib' => 'Installation_SystemCheckZlibHelp',
-            'gzopen' => 'Installation_SystemCheckZlibHelp',
-            'SPL' => 'Installation_SystemCheckSplHelp',
-            'iconv' => 'Installation_SystemCheckIconvHelp',
-            'mbstring' => 'Installation_SystemCheckMbstringHelp',
-            'Reflection' => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
-            'json' => 'Installation_SystemCheckWarnJsonHelp',
-            'libxml' => 'Installation_SystemCheckWarnLibXmlHelp',
-            'dom' => 'Installation_SystemCheckWarnDomHelp',
-            'SimpleXML' => 'Installation_SystemCheckWarnSimpleXMLHelp',
-
-            // Functions
-            'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
-            'mail' => 'Installation_SystemCheckMailHelp',
-            'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
-            'glob' => 'Installation_SystemCheckGlobHelp',
-            'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
-            'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
-            'eval' => 'Installation_SystemCheckEvalHelp',
-            'gzcompress' => 'Installation_SystemCheckGzcompressHelp',
-            'gzuncompress' => 'Installation_SystemCheckGzuncompressHelp',
-            'pack' => 'Installation_SystemCheckPackHelp',
-            'php5-json' => 'Installation_SystemCheckJsonHelp',
-        );
-
-        // Add standard message for required PHP.ini settings
-        $requiredSettings = SystemCheck::getRequiredPhpSettings();
-        foreach($requiredSettings as $requiredSetting) {
-            $helpMessages[$requiredSetting] = Piwik::translate('Installation_SystemCheckPhpSetting', $requiredSetting);
-        }
-        return $helpMessages;
     }
 }

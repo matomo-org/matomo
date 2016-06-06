@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveWriter;
@@ -16,9 +17,6 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
-use Piwik\Db;
-use Piwik\Period;
-
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  *
@@ -112,12 +110,10 @@ class ArchiveProcessor
      */
     private $skipUniqueVisitorsCalculationForMultipleSites = true;
 
-    const SKIP_UNIQUE_VISITORS_FOR_MULTIPLE_SITES = 'enable_processing_unique_visitors_multiple_sites';
-
-    public function __construct(Parameters $params, ArchiveWriter $archiveWriter)
+    public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
         $this->params = $params;
-        $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator = $logAggregator;
         $this->archiveWriter = $archiveWriter;
 
         $this->skipUniqueVisitorsCalculationForMultipleSites = Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
@@ -188,6 +184,9 @@ class ArchiveProcessor
      * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
      *                                               when summed because they cannot be summed, eg,
      *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
+     * @param bool|array $countRowsRecursive if set to true, will calculate the recursive rows count for all record names
+     *                                       which makes it slower. If you only need it for some records pass an array of
+     *                                       recordNames that defines for which ones you need a recursive row count.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
      *
      *                   array(
@@ -204,7 +203,8 @@ class ArchiveProcessor
                                               $maximumRowsInSubDataTable = null,
                                               $columnToSortByBeforeTruncation = null,
                                               &$columnsAggregationOperation = null,
-                                              $columnsToRenameAfterAggregation = null)
+                                              $columnsToRenameAfterAggregation = null,
+                                              $countRowsRecursive = true)
     {
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
@@ -216,14 +216,10 @@ class ArchiveProcessor
 
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
-            $rowsCount = $table->getRowsCount();
-            $nameToCount[$recordName]['level0'] = $rowsCount;
-
-            $rowsCountRecursive = $rowsCount;
-            if ($this->isAggregateSubTables()) {
-                $rowsCountRecursive = $table->getRowsCountRecursive();
+            $nameToCount[$recordName]['level0'] = $table->getRowsCount();
+            if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
+                $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
             }
-            $nameToCount[$recordName]['recursive'] = $rowsCountRecursive;
 
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
             Common::destroy($table);
@@ -259,7 +255,7 @@ class ArchiveProcessor
     {
         $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
-        foreach($metrics as $column => $value) {
+        foreach ($metrics as $column => $value) {
             $value = Common::forceDotAsSeparatorForDecimalPoint($value);
             $this->archiveWriter->insertRecord($column, $value);
         }
@@ -348,26 +344,51 @@ class ArchiveProcessor
      */
     protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
     {
-        if ($this->isAggregateSubTables()) {
-            // By default we shall aggregate all sub-tables.
-            $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
-        } else {
-            // In some cases (eg. Actions plugin when period=range),
-            // for better performance we will only aggregate the parent table
-            $dataTable = $this->getArchive()->getDataTable($name, $idSubTable = null);
-        }
+        // By default we shall aggregate all sub-tables.
+        $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+
+        $columnsRenamed = false;
 
         if ($dataTable instanceof Map) {
+            $columnsRenamed = true;
             // see https://github.com/piwik/piwik/issues/4377
             $self = $this;
             $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
-                $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+
+                if ($self->areColumnsNotAlreadyRenamed($table)) {
+                    /**
+                     * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
+                     * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
+                     * week archive. When generating month archives, which uses mostly week archives, we do not have
+                     * to replace those columns for the week archives again since we can be sure they were already
+                     * replaced. Same when aggregating year and range archives. This can save up 10% or more when
+                     * aggregating Month, Year and Range archives.
+                     */
+                    $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
             });
         }
 
         $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
-        $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+
+        if (!$columnsRenamed) {
+            $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+        }
+
         return $dataTable;
+    }
+
+    /**
+     * Note: public only for use in closure in PHP 5.3.
+     *
+     * @param $table
+     * @return \Piwik\Period
+     */
+    public function areColumnsNotAlreadyRenamed($table)
+    {
+        $period = $table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+
+        return !$period || $period->getLabel() === 'day';
     }
 
     protected function getOperationForColumns($columns, $defaultOperation)
@@ -391,19 +412,48 @@ class ArchiveProcessor
         ) {
             return;
         }
-        if ($row->getColumn('nb_uniq_visitors') !== false
-            || $row->getColumn('nb_users') !== false
+
+        if ($row->getColumn('nb_uniq_visitors') === false
+            && $row->getColumn('nb_users') === false
         ) {
-            if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
-                $metrics = array(Metrics::INDEX_NB_UNIQ_VISITORS, Metrics::INDEX_NB_USERS);
-                $uniques = $this->computeNbUniques( $metrics );
-                $row->setColumn('nb_uniq_visitors', $uniques[Metrics::INDEX_NB_UNIQ_VISITORS]);
-                $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
-            } else {
-                $row->deleteColumn('nb_uniq_visitors');
-                $row->deleteColumn('nb_users');
-            }
+            return;
         }
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
+            $row->deleteColumn('nb_uniq_visitors');
+            $row->deleteColumn('nb_users');
+            return;
+        }
+
+        $metrics = array(
+            Metrics::INDEX_NB_USERS
+        );
+
+        if ($this->getParams()->isSingleSite()) {
+            $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_VISITORS;
+        } else {
+            if (!SettingsPiwik::isSameFingerprintAcrossWebsites()) {
+                throw new Exception("Processing unique visitors across websites is enabled for this instance,
+                            but to process this metric you must first set enable_fingerprinting_across_websites=1
+                            in the config file, under the [Tracker] section.");
+            }
+            $uniqueVisitorsMetric = Metrics::INDEX_NB_UNIQ_FINGERPRINTS;
+        }
+        $metrics[] = $uniqueVisitorsMetric;
+
+        $uniques = $this->computeNbUniques($metrics);
+
+        // see edge case as described in https://github.com/piwik/piwik/issues/9357 where uniq_visitors might be higher
+        // than visits because we archive / process it after nb_visits. Between archiving nb_visits and nb_uniq_visitors
+        // there could have been a new visit leading to a higher nb_unique_visitors than nb_visits which is not possible
+        // by definition. In this case we simply use the visits metric instead of unique visitors metric.
+        $visits = $row->getColumn('nb_visits');
+        if ($visits !== false && $uniques[$uniqueVisitorsMetric] !== false) {
+            $uniques[$uniqueVisitorsMetric] = min($uniques[$uniqueVisitorsMetric], $visits);
+        }
+
+        $row->setColumn('nb_uniq_visitors', $uniques[$uniqueVisitorsMetric]);
+        $row->setColumn('nb_users', $uniques[Metrics::INDEX_NB_USERS]);
     }
 
     protected function guessOperationForColumn($column)
@@ -424,7 +474,7 @@ class ArchiveProcessor
      * since unique visitors cannot be summed like other metrics.
      *
      * @param array Metrics Ids for which to aggregates count of values
-     * @return int
+     * @return array of metrics, where the key is metricid and the value is the metric value
      */
     protected function computeNbUniques($metrics)
     {
@@ -454,7 +504,7 @@ class ArchiveProcessor
             // as $date => $tableToSum
             $this->aggregatedDataTableMapsAsOne($data, $table);
         } else {
-            $table->addDataTable($data, $this->isAggregateSubTables());
+            $table->addDataTable($data);
         }
 
         return $table;
@@ -471,7 +521,7 @@ class ArchiveProcessor
             if ($tableToAggregate instanceof Map) {
                 $this->aggregatedDataTableMapsAsOne($tableToAggregate, $aggregated);
             } else {
-                $aggregated->addDataTable($tableToAggregate, $this->isAggregateSubTables());
+                $aggregated->addDataTable($tableToAggregate);
             }
         }
     }
@@ -486,8 +536,15 @@ class ArchiveProcessor
             $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
         }
 
-        foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName, $this->isAggregateSubTables());
+        foreach ($table->getRows() as $row) {
+            foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
+                $row->renameColumn($oldName, $newName);
+            }
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $this->renameColumnsAfterAggregation($subTable, $columnsToRenameAfterAggregation);
+            }
         }
     }
 
@@ -511,7 +568,7 @@ class ArchiveProcessor
             $rowMetrics = new Row;
         }
         $this->enrichWithUniqueVisitorsMetric($rowMetrics);
-        $this->renameColumnsAfterAggregation($results);
+        $this->renameColumnsAfterAggregation($results, self::$columnsToRenameAfterAggregation);
 
         $metrics = $rowMetrics->getColumns();
 
@@ -522,13 +579,5 @@ class ArchiveProcessor
         }
 
         return $metrics;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isAggregateSubTables()
-    {
-        return !$this->getParams()->isSkipAggregationOfSubTables();
     }
 }

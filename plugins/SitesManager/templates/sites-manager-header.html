@@ -1,15 +1,15 @@
 <h2
+        ng-show="availableTypes"
         piwik-enriched-headline
         help-url="http://piwik.org/docs/manage-websites/"
         feature-name="{{ 'SitesManager_WebsitesManagement'|translate }}">
-
-    {{ 'SitesManager_WebsitesManagement'|translate }}
+    {{ 'SitesManager_XManagement'|translate:(availableTypes.length > 1 ? ('General_Measurables'|translate) : ('SitesManager_Sites'|translate)) }}
 </h2>
 
 <p>
     {{ 'SitesManager_MainDescription'|translate }}
 
-    <span ng-bind-html="'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate:'<strong>' + sites.length + '</strong>'"></span>
+    <span ng-bind-html="'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate:'<strong>' + totalNumberOfSites + '</strong>'"></span>
 
     <span ng-show="hasSuperUserAccess">
         <br/>

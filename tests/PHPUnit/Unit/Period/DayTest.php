@@ -8,11 +8,11 @@
 
 namespace Piwik\Tests\Unit\Period;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Day;
-use Piwik\Translate;
 
-class Period_DayTest extends \PHPUnit_Framework_TestCase
+class DayTest extends BasePeriodTest
 {
     /**
      * @group Core
@@ -22,6 +22,8 @@ class Period_DayTest extends \PHPUnit_Framework_TestCase
         try {
             new Day('Invalid Date');
         } catch (\Exception $e) {
+            return;
+        } catch (\Throwable $e) {
             return;
         }
         $this->fail('Expected Exception not raised');
@@ -210,27 +212,46 @@ class Period_DayTest extends \PHPUnit_Framework_TestCase
         $this->fail('Exception not raised');
     }
 
-    /**
-     * @group Core
-     */
-    public function testGetLocalizedShortString()
+    public function getLocalizedShortStrings()
     {
-        $this->loadEnglishTranslation();
-
-        $month = new Day(Date::factory('2024-10-09'));
-        $shouldBe = 'Wed 9 Oct';
-        $this->assertEquals($shouldBe, $month->getLocalizedShortString());
+        return array(
+            array('en', 'Wed, Oct 9'),
+            array('lt', '10-09, Tr'),
+            array('ru', 'Ср, 9 Окт.'),
+            array('zh-cn', '10月9日周三'),
+        );
     }
 
     /**
      * @group Core
+     * @dataProvider getLocalizedShortStrings
      */
-    public function testGetLocalizedLongString()
+    public function testGetLocalizedShortString($language, $shouldBe)
     {
-        $this->loadEnglishTranslation();
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
 
         $month = new Day(Date::factory('2024-10-09'));
-        $shouldBe = 'Wednesday 9 October 2024';
+        $this->assertEquals($shouldBe, $month->getLocalizedShortString());
+    }
+
+    public function getLocalizedLongStrings()
+    {
+        return array(
+            array('en', 'Wednesday, October 9, 2024'),
+            array('lt', '2024 m. Spalio 9 d., Trečiadienis'),
+            array('zh-cn', '2024年10月9日星期三'),
+        );
+    }
+
+    /**
+     * @group Core
+     * @dataProvider getLocalizedLongStrings
+     */
+    public function testGetLocalizedLongString($language, $shouldBe)
+    {
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
+
+        $month = new Day(Date::factory('2024-10-09'));
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
     }
 
@@ -239,15 +260,8 @@ class Period_DayTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        $this->loadEnglishTranslation();
-
         $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = '2024-10-09';
         $this->assertEquals($shouldBe, $month->getPrettyString());
-    }
-
-    private function loadEnglishTranslation()
-    {
-        Translate::reloadLanguage('en');
     }
 }

@@ -1,0 +1,2065 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<totalVisits>31</totalVisits>
+	<totalVisitDuration>0</totalVisitDuration>
+	<totalActions>31</totalActions>
+	<totalEvents>0</totalEvents>
+	<totalOutlinks>0</totalOutlinks>
+	<totalDownloads>0</totalDownloads>
+	<totalSearches>0</totalSearches>
+	<totalPageViews>31</totalPageViews>
+	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<totalGoalConversions>0</totalGoalConversions>
+	<totalConversionsByGoal>
+	</totalConversionsByGoal>
+	<hasLatLong>0</hasLatLong>
+	<searches>
+	</searches>
+	<continents>
+		<row>
+			<continent>eur</continent>
+			<nb_visits>1</nb_visits>
+			<prettyName>Europe</prettyName>
+		</row>
+		<row>
+			<continent>unk</continent>
+			<nb_visits>30</nb_visits>
+			<prettyName>Unknown</prettyName>
+		</row>
+	</continents>
+	<countries>
+		<row>
+			<country>fr</country>
+			<nb_visits>1</nb_visits>
+			<flag>plugins/UserCountry/images/flags/fr.png</flag>
+			<prettyName>France</prettyName>
+		</row>
+		<row>
+			<country>xx</country>
+			<nb_visits>30</nb_visits>
+			<flag>plugins/UserCountry/images/flags/xx.png</flag>
+			<prettyName>Unknown</prettyName>
+		</row>
+	</countries>
+	<totalVisitDurationPretty>0s</totalVisitDurationPretty>
+	<firstVisit>
+		
+		
+		<daysAgo>2148</daysAgo>
+		<referrerType>direct</referrerType>
+		<referralSummary>Direct Entry</referralSummary>
+	</firstVisit>
+	<lastVisit>
+		
+		
+		<daysAgo>2118</daysAgo>
+		<referrerType>direct</referrerType>
+		<referralSummary>Direct Entry</referralSummary>
+	</lastVisit>
+	<visitsAggregated>31</visitsAggregated>
+	
+	
+	<lastVisits>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>31</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>6</pageIdAction>
+					
+					<pageId>31</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>30</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>4</pageIdAction>
+					
+					<pageId>30</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>29</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>2</pageIdAction>
+					
+					<pageId>29</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>28</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>7</pageIdAction>
+					
+					<pageId>28</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>27</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>6</pageIdAction>
+					
+					<pageId>27</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>26</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>4</pageIdAction>
+					
+					<pageId>26</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>25</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>2</pageIdAction>
+					
+					<pageId>25</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>24</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>7</pageIdAction>
+					
+					<pageId>24</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>23</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>6</pageIdAction>
+					
+					<pageId>23</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>22</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>4</pageIdAction>
+					
+					<pageId>22</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>21</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>2</pageIdAction>
+					
+					<pageId>21</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>20</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>7</pageIdAction>
+					
+					<pageId>20</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>19</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>6</pageIdAction>
+					
+					<pageId>19</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>18</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>4</pageIdAction>
+					
+					<pageId>18</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>17</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>2</pageIdAction>
+					
+					<pageId>17</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>16</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>7</pageIdAction>
+					
+					<pageId>16</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>15</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>6</pageIdAction>
+					
+					<pageId>15</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>14</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>4</pageIdAction>
+					
+					<pageId>14</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>13</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>2</pageIdAction>
+					
+					<pageId>13</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>12</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>7</pageIdAction>
+					
+					<pageId>12</pageId>
+					<icon />
+					
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel />
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			
+			
+			
+			
+			
+		</row>
+	</lastVisits>
+	<userId>0</userId>
+</result>

@@ -23,7 +23,8 @@ abstract class DashboardSettingsControlBase extends UIControl
     {
         parent::__construct();
 
-        $this->cssClass = "piwikTopControl dashboardSettings";
+        $this->cssClass = "borderedControl piwikTopControl dashboardSettings";
+        $this->htmlAttributes = array('piwik-expand-on-click' => '');
         $this->dashboardActions = array();
         $this->generalActions = array();
     }

@@ -24,7 +24,7 @@ class GetEntryPageTitles extends Base
 
         $this->dimension     = new EntryPageTitle();
         $this->name          = Piwik::translate('Actions_EntryPageTitles');
-        $this->documentation = Piwik::translate('Actions_ExitPageTitlesReportDocumentation', '<br />')
+        $this->documentation = Piwik::translate('Actions_EntryPageTitlesReportDocumentation', '<br />')
                              . ' ' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
         $this->metrics = array('entry_nb_visits', 'entry_bounce_count');
         $this->processedMetrics = array(
@@ -54,7 +54,7 @@ class GetEntryPageTitles extends Base
     protected function getMetricsDocumentation()
     {
         $metrics = parent::getMetricsDocumentation();
-        $metrics['bounce_rate'] = Piwik::translate('General_ColumnBounceRateForPageDocumentation');
+        $metrics['bounce_rate'] = Piwik::translate('General_ColumnPageBounceRateDocumentation');
 
         // remove these metrics from API.getProcessedReport version of this report
         unset($metrics['avg_time_on_page']);
@@ -79,8 +79,8 @@ class GetEntryPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetPageTitles(),
-            new GetEntryPageUrls()
+            self::factory('Actions', 'getPageTitles'),
+            self::factory('Actions', 'getEntryPageUrls')
         );
     }
 }

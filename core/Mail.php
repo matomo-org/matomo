@@ -8,7 +8,9 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Translation\Translator;
 use Zend_Mail;
 
 /**
@@ -35,10 +37,15 @@ class Mail extends Zend_Mail
     {
         $customLogo = new CustomLogo();
 
-        if ($customLogo->isEnabled()) {
-            $fromEmailName = Piwik::translate('CoreHome_WebAnalyticsReports');
-        } else {
-            $fromEmailName = Piwik::translate('ScheduledReports_PiwikReports');
+        /** @var Translator $translator */
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+
+        $fromEmailName = Config::getInstance()->General['noreply_email_name'];
+
+        if (empty($fromEmailName) && $customLogo->isEnabled()) {
+            $fromEmailName = $translator->translate('CoreHome_WebAnalyticsReports');
+        } elseif (empty($fromEmailName)) {
+            $fromEmailName = $translator->translate('ScheduledReports_PiwikReports');
         }
 
         $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
@@ -105,18 +112,31 @@ class Mail extends Zend_Mail
             $smtpConfig['ssl'] = $mailConfig['encryption'];
         }
 
-        $tr = new \Zend_Mail_Transport_Smtp($mailConfig['host'], $smtpConfig);
+        $host = trim($mailConfig['host']);
+        $tr = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
         Mail::setDefaultTransport($tr);
         @ini_set("smtp_port", $mailConfig['port']);
     }
 
-    public function send($transport = NULL)
+    public function send($transport = null)
     {
         if (defined('PIWIK_TEST_MODE')) { // hack
             Piwik::postTestEvent("Test.Mail.send", array($this));
         } else {
             return parent::send($transport);
         }
+    }
+
+    public function createAttachment($body, $mimeType = null, $disposition = null, $encoding = null, $filename = null)
+    {
+        $filename = $this->sanitiseString($filename);
+        return parent::createAttachment($body, $mimeType, $disposition, $encoding, $filename);
+    }
+
+    public function setSubject($subject)
+    {
+        $subject = $this->sanitiseString($subject);
+        return parent::setSubject($subject);
     }
 
     /**
@@ -144,6 +164,20 @@ class Mail extends Zend_Mail
      */
     protected function isHostDefinedAndNotLocal($url)
     {
-        return isset($url['host']) && !in_array($url['host'], array('localhost', '127.0.0.1'), true);
+        return isset($url['host']) && !Url::isLocalHost($url['host']);
+    }
+
+    /**
+     * Replaces characters known to appear incorrectly in some email clients
+     *
+     * @param $string
+     * @return mixed
+     */
+    function sanitiseString($string)
+    {
+        $search = array('–', '’');
+        $replace = array('-', '\'');
+        $string = str_replace($search, $replace, $string);
+        return $string;
     }
 }

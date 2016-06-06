@@ -1,4 +1,4 @@
-<h2 id="{{ reportId }}" style="color: rgb({{ reportTitleTextColor }}); font-size: {{ reportTitleTextSize }}pt;">
+<h2 id="{{ reportId }}" style="color: rgb({{ reportTitleTextColor }}); font-size: {{ reportTitleTextSize }}pt; font-weight:normal;">
     {{ reportName }}
 </h2>
 
@@ -23,16 +23,16 @@
 
     {% if displayTable %}
         <table style="border-collapse:collapse; margin-left: 5px;">
-            <thead style="background-color: rgb({{ tableHeaderBgColor }}); color: rgb({{ tableHeaderTextColor }}); font-size: {{ reportTableHeaderTextSize }}pt;">
+            <thead style="background-color: rgb({{ tableHeaderBgColor }}); color: rgb({{ tableHeaderTextColor }}); font-size: {{ reportTableHeaderTextSize }}pt; text-transform: {{ reportTableHeaderTextTransform }}; line-height:2.5em;">
             {% for columnName in reportColumns %}
-                <th style="padding: 6px 0;">
+                <th style="font-weight: {{ reportTableHeaderTextWeight }}; font-size:10px; text-align:left; padding: 6px 0;">
                     &nbsp;{{ columnName }}&nbsp;&nbsp;
                 </th>
             {% endfor %}
             </thead>
             <tbody>
             {% set cycleValues=['','background-color: rgb('~tableBgColor~')'] %}
-            {% set cycleIndex=0 %}
+            {% set cycleIndex=1 %}
             {% for rowId,row in reportRows %}
                 {% set rowMetrics=row.columns %}
 
@@ -41,10 +41,10 @@
                 {% else %}
                     {% set rowMetadata=null %}
                 {% endif %}
-                <tr style="{{ cycle(cycleValues, cycleIndex) }}">
+                <tr style="{{ cycle(cycleValues, cycleIndex) }};line-height: 22px;">
                     {% set cycleIndex=cycleIndex+1 %}
                     {% for columnId, columnName in reportColumns %}
-                        <td style="font-size: {{ reportTableRowTextSize }}pt; border-bottom: 1px solid rgb({{ tableCellBorderColor }}); padding: 5px 0 5px 5px;">
+                        <td style="font-size: {{ reportTableRowTextSize }}; {% if columnId == 'label' %}border-right: 1px solid rgb({{ tableCellBorderColor }}); {%  else %}border-left: 1px solid rgb({{ tableCellBorderColor }}); {% endif %} padding: 5px 0 5px 5px;">
                             {% if columnId == 'label' %}
                                 {% if rowMetrics[columnId] is defined %}
                                     {% if rowMetadata.logo is defined %}
@@ -63,7 +63,7 @@
                                 {% if rowMetrics[columnId] is empty %}
                                     0
                                 {% else %}
-                                    {{ rowMetrics[columnId] }}
+                                    {{ rowMetrics[columnId]|number(2) }}
                                 {% endif %}
                             {% endif %}
                         </td>

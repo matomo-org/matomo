@@ -2,11 +2,11 @@
 <result>
 	<row>
 		<label>New visits</label>
-		<nb_visits>30</nb_visits>
+		<nb_visits>40</nb_visits>
 	</row>
 	<row>
 		<label>0 days</label>
-		<nb_visits>3</nb_visits>
+		<nb_visits>5</nb_visits>
 	</row>
 	<row>
 		<label>1 day</label>

@@ -16,7 +16,7 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)
 {
-    $label = str_replace(" ", "_", $label);
+    $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
     $path = dirname(__FILE__) . '/images/brand/' . $label . '.ico';
     if (file_exists($path)) {
         return 'plugins/DevicesDetection/images/brand/' . $label . '.ico';
@@ -49,7 +49,7 @@ function getBrowserNameWithVersion($label)
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
     $browsers = BrowserParser::getAvailableBrowsers();
-    if (array_key_exists($short, $browsers)) {
+    if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]) . ' ' . $ver);
     } else {
         return Piwik::translate('General_Unknown');
@@ -60,7 +60,7 @@ function getBrowserName($label)
 {
     $short = substr($label, 0, 2);
     $browsers = BrowserParser::getAvailableBrowsers();
-    if (array_key_exists($short, $browsers)) {
+    if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]));
     } else {
         return Piwik::translate('General_Unknown');
@@ -80,7 +80,7 @@ function getBrowserName($label)
  */
 function getBrowserLogo($short)
 {
-    $path = 'plugins/UserSettings/images/browsers/%s.gif';
+    $path = 'plugins/DevicesDetection/images/browsers/%s.gif';
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 2) {
@@ -127,12 +127,14 @@ function getDeviceTypeLabel($label)
         'desktop'       => 'General_Desktop',
         'smartphone'    => 'DevicesDetection_Smartphone',
         'tablet'        => 'DevicesDetection_Tablet',
+        'phablet'       => 'DevicesDetection_Phablet',
         'feature phone' => 'DevicesDetection_FeaturePhone',
         'console'       => 'DevicesDetection_Console',
         'tv'            => 'DevicesDetection_TV',
         'car browser'   => 'DevicesDetection_CarBrowser',
         'smart display' => 'DevicesDetection_SmartDisplay',
-        'camera'        => 'DevicesDetection_Camera'
+        'camera'        => 'DevicesDetection_Camera',
+        'portable media player' => 'DevicesDetection_PortableMediaPlayer',
     );
 
     $deviceTypes = DeviceParser::getAvailableDeviceTypes();
@@ -178,10 +180,19 @@ function getDeviceTypeLogo($label)
 
 function getModelName($label)
 {
-    if (!$label) {
-        return Piwik::translate('General_Unknown');
+    if (strpos($label, ';') !== false) {
+        list($brand, $model) = explode(';', $label, 2);
+    } else {
+        $brand = null;
+        $model = $label;
     }
-    return $label;
+    if (!$model) {
+        $model = Piwik::translate('General_Unknown');
+    }
+    if (!$brand) {
+        return $model;
+    }
+    return getDeviceBrandLabel($brand) . ' - ' . $model;
 }
 
 function getOSFamilyFullName($label)
@@ -240,9 +251,22 @@ function _mapLegacyOsShortCodes($shortCode)
         'DSI' => 'NDS', // Nintendo DSi => Nintendo Mobile
         'PSV' => 'PSP', // PlayStation Vita => PlayStation Portable
         'MAE' => 'SMG', // Maemo => MeeGo
+        'W10' => 'WIN',
+        'W2K' => 'WIN',
+        'W31' => 'WIN',
+        'WI7' => 'WIN',
+        'WI8' => 'WIN',
+        'W81' => 'WIN',
+        'W95' => 'WIN',
+        'W98' => 'WIN',
+        'WME' => 'WIN',
+        'WNT' => 'WIN',
+        'WS3' => 'WIN',
+        'WVI' => 'WIN',
+        'WXP' => 'WIN',
         //'VMS' => '', // OpenVMS => ??
     );
-    return array_key_exists($shortCode, $legacyShortCodes) ? $legacyShortCodes[$shortCode] : $shortCode;
+    return ($shortCode && array_key_exists($shortCode, $legacyShortCodes)) ? $legacyShortCodes[$shortCode] : $shortCode;
 }
 
 /**
@@ -258,7 +282,7 @@ function _mapLegacyOsShortCodes($shortCode)
  */
 function getOsLogo($short)
 {
-    $path = 'plugins/UserSettings/images/os/%s.gif';
+    $path = 'plugins/DevicesDetection/images/os/%s.gif';
 
     $short = _mapLegacyOsShortCodes($short);
 
@@ -316,7 +340,7 @@ function getBrowserEngineName($engineName) {
     $displayNames = array(
         'Trident' => 'Trident (IE)',
         'Gecko' => 'Gecko (Firefox)',
-        'KHTML' => 'KHTML (Konquerer)',
+        'KHTML' => 'KHTML (Konqueror)',
         'Presto' => 'Presto (Opera)',
         'WebKit' => 'WebKit (Safari, Chrome)',
         'Blink' => 'Blink (Chrome, Opera)'

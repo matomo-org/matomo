@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\ExampleSettingsPlugin;
 
 use Piwik\Settings\SystemSetting;
@@ -18,7 +18,6 @@ use Piwik\Settings\UserSetting;
  * $settings = new Settings('ExampleSettingsPlugin');
  * $settings->autoRefresh->getValue();
  * $settings->metric->getValue();
- *
  */
 class Settings extends \Piwik\Plugin\Settings
 {

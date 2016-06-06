@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
-use Piwik\ScheduledTime;
+use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Site;
 
 class Tasks extends \Piwik\Plugin\Tasks
@@ -16,11 +16,11 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function schedule()
     {
         foreach (API::getInstance()->getReports() as $report) {
-            if (!$report['deleted'] && $report['period'] != ScheduledTime::PERIOD_NEVER) {
+            if (!$report['deleted'] && $report['period'] != Schedule::PERIOD_NEVER) {
 
                 $timezone = Site::getTimezoneFor($report['idsite']);
 
-                $schedule = ScheduledTime::getScheduledTimeForPeriod($report['period']);
+                $schedule = Schedule::getScheduledTimeForPeriod($report['period']);
                 $schedule->setHour($report['hour']);
                 $schedule->setTimezone($timezone);
 

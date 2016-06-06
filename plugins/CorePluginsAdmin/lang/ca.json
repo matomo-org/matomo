@@ -10,12 +10,13 @@
         "Deactivate": "Desactiva",
         "Inactive": "Inactiu",
         "LicenseHomepage": "Pàgina de la llicència",
-        "OncePluginIsInstalledYouMayActivateHere": "Un cop hi ha un connector instal·lat, podeu activar-lo i desactivar-lo aquí.",
-        "PluginDescription": "Interfíce d'administració d'extensions.",
-        "PluginHomepage": "Pàgina web",
         "PluginsExtendPiwik": "Els connectors augmenten la funcionalitat del Piwik.",
+        "OncePluginIsInstalledYouMayActivateHere": "Un cop hi ha un connector instal·lat, podeu activar-lo i desactivar-lo aquí.",
+        "PluginHomepage": "Pàgina web",
+        "PluginKeywords": "Paraules clau",
         "PluginsManagement": "Gestiona els connectors",
         "Status": "Estat",
-        "Version": "Versió"
+        "Version": "Versió",
+        "Websites": "Llocs"
     }
 }

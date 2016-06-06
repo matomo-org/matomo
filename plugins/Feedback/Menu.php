@@ -15,9 +15,8 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureUserMenu(MenuUser $menu)
     {
-        $menu->addItem(
+        $menu->addPlatformItem(
             'General_Help',
-            null,
             $this->urlForAction('index', array('segment' => false)),
             $order = 99,
             $tooltip = Piwik::translate('Feedback_TopLinkTooltip')

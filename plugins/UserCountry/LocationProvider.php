@@ -18,9 +18,14 @@ use Piwik\Tracker\Cache;
 use ReflectionClass;
 
 /**
- * @see plugins/UserCountry/LocationProvider/Default.php
+ * @see plugins/UserCountry/functions.php
  */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/Default.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
+
+/**
+ * @see plugins/UserCountry/LocationProvider/DefaultProvider.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/DefaultProvider.php';
 
 /**
  * @see plugins/UserCountry/LocationProvider/GeoIp.php
@@ -272,7 +277,7 @@ abstract class LocationProvider
      *
      * This function should not be called by the Tracker.
      *
-     * @return \Piwik\Plugins\UserCountry\LocationProvider
+     * @return \Piwik\Plugins\UserCountry\LocationProvider|null
      */
     public static function getCurrentProvider()
     {
@@ -289,7 +294,7 @@ abstract class LocationProvider
     public static function setCurrentProvider($providerId)
     {
         $provider = self::getProviderById($providerId);
-        if ($provider === false) {
+        if (empty($provider)) {
             throw new Exception(
                 "Invalid provider ID '$providerId'. The provider either does not exist or is not available");
         }
@@ -302,7 +307,7 @@ abstract class LocationProvider
      * Returns a provider instance by ID or false if the ID is invalid or unavailable.
      *
      * @param string $providerId
-     * @return \Piwik\Plugins\UserCountry\LocationProvider|false
+     * @return \Piwik\Plugins\UserCountry\LocationProvider|null
      */
     public static function getProviderById($providerId)
     {
@@ -312,7 +317,7 @@ abstract class LocationProvider
             }
         }
 
-        return false;
+        return null;
     }
 
     public function getId()
@@ -347,7 +352,7 @@ abstract class LocationProvider
             && !empty($location[self::CONTINENT_CODE_KEY])
         ) {
             $continentCode = strtolower($location[self::CONTINENT_CODE_KEY]);
-            $location[self::CONTINENT_NAME_KEY] = Piwik::translate('UserCountry_continent_' . $continentCode);
+            $location[self::CONTINENT_NAME_KEY] = continentTranslate($continentCode);
         }
 
         // fill in country name if country code is present
@@ -355,7 +360,7 @@ abstract class LocationProvider
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
-            $location[self::COUNTRY_NAME_KEY] = Piwik::translate('UserCountry_country_' . $countryCode);
+            $location[self::COUNTRY_NAME_KEY] = countryTranslate($countryCode);
         }
 
         // deal w/ improper latitude/longitude & round proper values

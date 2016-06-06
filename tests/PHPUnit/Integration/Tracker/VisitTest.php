@@ -8,12 +8,16 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Access;
+use Piwik\Cache;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -27,11 +31,11 @@ class VisitTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
-        Manager::getInstance()->loadPlugins(array('SitesManager'));
+        Manager::getInstance()->loadTrackerPlugins();
+        Manager::getInstance()->loadPlugin('SitesManager');
+        Visit::$dimensions = null;
     }
 
     /**
@@ -95,6 +99,105 @@ class VisitTest extends IntegrationTestCase
         }
     }
 
+    public function getExcludeByUrlData()
+    {
+        return array(
+            array(array('http://test.com'), true, array(
+                'http://test.com' => true,
+                'https://test.com' => true,
+                'http://test.com/uri' => true,
+                'http://test.com/?query' => true,
+                'http://xtest.com' => false,
+            )),
+            array(array('http://test.com', 'http://localhost'), true, array(
+                'http://test.com' => true,
+                'http://localhost' => true,
+                'http://x.com' => false,
+            )),
+            array(array('http://test.com'), false, array(
+                'http://x.com' => true,
+            )),
+            array(array('http://test.com', 'http://sub.test2.com'), true, array(
+                'http://sub.test.com' => false, // we do not match subdomains
+                'http://sub.sub.test.com' => false,
+                'http://subtest.com' => false,
+                'http://test.com.org' => false,
+                'http://test2.com' => false,
+                'http://sub.test2.com' => true,
+                'http://test.com' => true,
+                'http://x.sub.test2.com' => false,
+                'http://xsub.test2.com' => false,
+                'http://sub.test2.com.org' => false,
+            )),
+            array(array('http://test.com/path', 'http://test2.com/sub/dir'), true, array(
+                'http://test.com/path' => true, // test matching path
+                'http://test.com/path/' => true,
+                'http://test.com/path/test' => true,
+
+                'http://test.com/path1' => false,
+                'http://test.com/' => false,
+                'http://test.com' => false,
+                'http://test.com/foo' => false,
+                'http://sub.test.com/path' => false,  // we still do not match subdomains
+
+                'http://test2.com/sub/dir' => true,
+                'http://test2.com/sub/dir/' => true,
+                'http://test2.com/sub/dir/test' => true,
+
+                'http://test2.com/sub/foo/' => false,
+                'http://test2.com/sub/' => false,
+                'http://test2.com/' => false,
+                'http://test2.com/dir/sub' => false,
+            )),
+        );
+    }
+
+    /**
+     * @dataProvider getExcludeByUrlData
+     */
+    public function testExcludeByUrl($siteUrls, $excludeUnknownUrls, array $urlsTracked)
+    {
+        $siteId = API::getInstance()->addSite('name', $siteUrls, $ecommerce = null, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, null, null, null, null, null, null, null, null, null, null, $excludeUnknownUrls);
+        foreach ($urlsTracked as $url => $isTracked) {
+            $visitExclude = new VisitExcluded(new Request(array(
+                'idsite' => $siteId,
+                'rec'    => 1,
+                'url'    => $url
+            )));
+            $this->assertEquals($isTracked, !$visitExclude->isExcluded(), $url . ' is not returning expected result');
+        }
+    }
+
+    /**
+     * @dataProvider getChromeDataSaverData
+     */
+    public function testVisitShouldNotBeExcluded_IfMadeViaChromeDataSaverCompressionProxy($ip, $isNonHumanBot)
+    {
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null);
+
+        $request = new Request(array('idsite' => $idsite));
+
+        $testIpIsExcluded = IPUtils::stringToBinaryIP($ip);
+
+        $_SERVER['HTTP_VIA'] = '1.1 Chrome-Compression-Proxy';
+        $excluded = new VisitExcluded_public($request, $testIpIsExcluded);
+        $isBot = $excluded->public_isNonHumanBot($testIpIsExcluded);
+        unset($_SERVER['HTTP_VIA']);
+        $this->assertSame($isNonHumanBot, $isBot);
+    }
+
+    public function getChromeDataSaverData()
+    {
+        return array(
+            array('216.239.32.0', $isNonHumanBot = false), // false because google ips
+            array('66.249.93.251', $isNonHumanBot = false),
+            array('173.194.0.1', $isNonHumanBot = false),
+            array('72.30.198.1', $isNonHumanBot = true), // not a google bot, a yahoo bot
+            array('64.4.0.1', $isNonHumanBot = true), // a MSN bot
+        );
+    }
+
     /**
      * Dataprovider for testIsVisitorUserAgentExcluded.
      */
@@ -151,8 +254,13 @@ class VisitTest extends IntegrationTestCase
             'http://semalt.com' => true,
             'http://semalt.com/random/sub/page' => true,
             'http://semalt.com/out/of/here?mate' => true,
+            'http://buttons-for-website.com/out/of/here?mate' => true,
+            'https://buttons-for-website.com' => true,
+            'https://make-money-online.7makemoneyonline.com' => true,
+            'https://7makemoneyonline.com' => true,
             'http://valid.domain/' => false,
             'http://valid.domain/page' => false,
+            'https://valid.domain/page' => false,
         );
         API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
@@ -181,6 +289,10 @@ class VisitTest extends IntegrationTestCase
             '66.249.85.36' => true,
             '66.249.91.150' => true,
             '64.233.172.1' => true,
+            '64.233.172.200' => true,
+            '66.249.88.216' => true,
+            '66.249.83.204' => true,
+            '64.233.172.6' => true,
 
             // ddos bot
             '1.202.218.8' => true,
@@ -188,6 +300,9 @@ class VisitTest extends IntegrationTestCase
             // Not bots
             '66.248.91.150' => false,
             '66.250.91.150' => false,
+            // almost google range but not google
+            '66.249.2.1' => false,
+            '66.249.60.1' => false,
         );
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
@@ -248,6 +363,100 @@ class VisitTest extends IntegrationTestCase
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $userAgent);
         }
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldRemember_IfRequestWasDoneLongAgo()
+    {
+        $currentActionTime = '2012-01-02 08:12:45';
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array('2012-01-02' => array($idsite));
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldNotRemember_IfRequestWasDoneJustAtStartOfTheDay()
+    {
+        $currentActionTime = Date::today()->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array();
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_ShouldRemember_IfRequestWasDoneAt11PMTheDayBefore()
+    {
+        $currentActionTime = Date::today()->subHour(1)->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $expectedRemembered = array(
+            substr($currentActionTime, 0, 10) => array($idsite)
+        );
+
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
+    }
+
+    public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_shouldConsiderWebsitesTimezone()
+    {
+        $timezone1 = 'UTC+4';
+        $timezone2 = 'UTC+6';
+
+        $currentActionTime1 = Date::today()->setTimezone($timezone1)->getDatetime();
+        $currentActionTime2 = Date::today()->setTimezone($timezone2)->getDatetime();
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/', $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = 'UTC+5');
+
+        $expectedRemembered = array(
+            substr($currentActionTime1, 0, 10) => array($idsite)
+        );
+
+        // if website timezone was von considered both would be today (expected = array())
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime1, array());
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime2, $expectedRemembered);
+    }
+
+    private function assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $requestDate, $expectedRemeberedArchivedReports)
+    {
+        /** @var Visit $visit */
+        list($visit) = $this->prepareVisitWithRequest(array(
+            'idsite' => $idsite,
+            'rec' => 1,
+            'cip' => '156.146.156.146',
+            'token_auth' => Fixture::getTokenAuth()
+        ), $requestDate);
+
+        $visit->handle();
+
+        $archive = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+        $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        $this->assertSame($expectedRemeberedArchivedReports, $remembered);
+    }
+
+    private function prepareVisitWithRequest($requestParams, $requestDate)
+    {
+        $request = new Request($requestParams);
+        $request->setCurrentTimestamp(Date::factory($requestDate)->getTimestamp());
+
+        $visit = new Visit();
+        $visit->setRequest($request);
+
+        $visit->handle();
+
+        return array($visit, $request);
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }
 

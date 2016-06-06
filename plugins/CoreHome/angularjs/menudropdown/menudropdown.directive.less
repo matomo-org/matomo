@@ -15,7 +15,6 @@
       right: -15px;
       color: @theme-color-link;
       display: inline;
-      content: " \25BC";
       font-size: 1px;
       height: 0px;
       width: 0px;
@@ -26,9 +25,9 @@
   }
 
   .items {
-    z-index: 21;
+    z-index: 200;
     position: absolute;
-    border: 1px solid @color-silver-l80 !important;
+    border: 1px solid @color-silver-l80;
     background: @theme-color-background-base;
     max-height: 400px;
     overflow-y: auto;
@@ -42,7 +41,7 @@
       .search_ico {
         position: absolute;
         right: 25px;
-        top: 22px;
+        top: 27px;
         margin: 0px;
         left: initial;
       }
@@ -75,11 +74,11 @@
       text-align: left;
 
       &:hover {
-        background: @color-silver-l80;
+        background: @theme-color-background-tinyContrast;
       }
 
       &.active {
-        background-color: @color-silver-l80;
+        background-color: @theme-color-background-tinyContrast;
       }
 
       &.category {

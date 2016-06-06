@@ -11,6 +11,7 @@ namespace Piwik\Tests\Framework\TestRequest;
 use Piwik\API\Request;
 use PHPUnit_Framework_Assert as Asserts;
 use Exception;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -88,6 +89,8 @@ class Response
 
     private function normalizeApiResponse($apiResponse)
     {
+        $apiResponse = $this->removeSubtableIdsFromXml($apiResponse);
+
         if ($this->shouldDeleteLiveIds()) {
             $apiResponse = $this->removeAllIdsFromXml($apiResponse);
         }
@@ -107,16 +110,12 @@ class Response
             $apiResponse = preg_replace($regex, 'date=', $apiResponse);
         }
 
-        // if idSubtable is in request URL, make sure idSubtable values are not in any urls
-        if (!empty($this->requestUrl['idSubtable'])) {
-            $apiResponse = $this->removeIdSubtableParamFromUrlsInResponse($apiResponse);
-        }
-
         $apiResponse = $this->normalizePdfContent($apiResponse);
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
+        $apiResponse = $this->replacePiwikUrl($apiResponse);
 
         return $apiResponse;
     }
@@ -128,11 +127,6 @@ class Response
             return $apiResponse;
         }
         return str_replace('&amp;#039;', "'", $apiResponse);
-    }
-
-    private function removeIdSubtableParamFromUrlsInResponse($apiResponse)
-    {
-        return preg_replace("/idSubtable=[0-9]+/", 'idSubtable=', $apiResponse);
     }
 
     private function removeAllIdsFromXml($apiResponse)
@@ -155,12 +149,14 @@ class Response
             'lastActionDateTime',
             'serverTimestamp',
             'serverTimePretty',
+            'daysAgo',
             'serverDatePretty',
             'serverDatePrettyFirstAction',
             'serverTimePrettyFirstAction',
             'goalTimePretty',
             'serverTimePretty',
             'visitServerHour',
+            'timestamp',
             'date',
             'prettyDate',
             'serverDateTimePrettyFirstAction'
@@ -196,8 +192,10 @@ class Response
             $fieldsToRemove = @$this->params['xmlFieldsToRemove'];
         }
 
-        $fieldsToRemove[] = 'idsubdatatable';
-
+        if (!is_array($fieldsToRemove)) {
+            $fieldsToRemove = array();
+        }
+        
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }
@@ -261,5 +259,24 @@ class Response
         }
 
         return $apiResponse;
+    }
+
+    private function removeSubtableIdsFromXml($apiResponse)
+    {
+        return $this->removeXmlFields($apiResponse, array('idsubdatatable_in_db'));
+    }
+
+    /**
+     * To allow tests to pass no matter what port Piwik is on, we replace the test URL w/ another
+     * one in the response. We don't remove the URL outright, because then we would not be able
+     * to detect regressions where the root URL went missing.
+     *
+     * @param $apiResponse
+     * @return mixed
+     * @throws Exception
+     */
+    private function replacePiwikUrl($apiResponse)
+    {
+        return str_replace(Fixture::getRootUrl(), "http://example.com/piwik/", $apiResponse);
     }
 }

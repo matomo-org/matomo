@@ -8,10 +8,13 @@
 
 namespace Piwik\Tests\Framework\TestCase;
 
-use Piwik\Cache\StaticCache;
+use Piwik\Access;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Menu\MenuAbstract;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Cache as PiwikCache;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests extending IntegrationTestCase are much slower to run: the setUp will
@@ -56,6 +59,7 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         static::configureFixture(static::$fixture);
         parent::setUpBeforeClass();
+        static::beforeTableDataCached();
 
         self::$tableData = self::getDbTablesWithData();
     }
@@ -72,13 +76,21 @@ abstract class IntegrationTestCase extends SystemTestCase
     {
         parent::setUp();
 
-        Config::getInstance()->setTestEnvironment();
+        static::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
+        static::$fixture->createEnvironmentInstance();
 
+        Db::createDatabaseObject();
+        Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
+
+        Access::getInstance()->setSuperUserAccess(true);
+        
         if (!empty(self::$tableData)) {
             self::restoreDbTables(self::$tableData);
         }
 
-        StaticCache::clearAll();
+        PiwikCache::getEagerCache()->flushAll();
+        PiwikCache::getTransientCache()->flushAll();
+        MenuAbstract::clearMenus();
     }
 
     /**
@@ -86,18 +98,34 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     public function tearDown()
     {
-        StaticCache::clearAll();
-
-        self::$fixture->clearInMemoryCaches();
+        static::$fixture->clearInMemoryCaches();
+        static::$fixture->destroyEnvironment();
 
         parent::tearDown();
     }
 
     protected static function configureFixture($fixture)
     {
-        $fixture->loadTranslations    = false;
         $fixture->createSuperUser     = false;
         $fixture->configureComponents = false;
+
+        $fixture->extraTestEnvVars['loadRealTranslations'] = false;
+    }
+
+    protected static function beforeTableDataCached()
+    {
+        // empty
+    }
+
+    /**
+     * Use this method to return custom container configuration that you want to apply for the tests.
+     * This configuration will override Fixture config and config specified in SystemTestCase::provideContainerConfig().
+     *
+     * @return array
+     */
+    public function provideContainerConfig()
+    {
+        return array();
     }
 }
 

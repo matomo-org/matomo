@@ -8,7 +8,7 @@
  */
 namespace Piwik;
 
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\Widgets;
 
@@ -63,14 +63,15 @@ class WidgetsList extends Singleton
      */
     public static function get()
     {
-        $cache = self::getCacheForCompleteList();
-        if (!self::$listCacheToBeInvalidated && $cache->has()) {
-            return $cache->get();
+        $cache   = self::getCacheForCompleteList();
+        $cacheId = self::getCacheId();
+
+        if (!self::$listCacheToBeInvalidated && $cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
         }
 
         self::addWidgets();
-
-        uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
+        self::sortWidgets();
 
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
@@ -83,10 +84,15 @@ class WidgetsList extends Singleton
             $widgets[$category] = $v;
         }
 
-        $cache->set($widgets);
+        $cache->save($cacheId, $widgets);
         self::$listCacheToBeInvalidated = false;
 
         return $widgets;
+    }
+
+    private static function sortWidgets()
+    {
+        uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
     }
 
     private static function addWidgets()
@@ -136,7 +142,7 @@ class WidgetsList extends Singleton
             'VisitsSummary_VisitsSummary',
             'Live!',
             'General_Visitors',
-            'UserSettings_VisitorSettings',
+            'General_VisitorSettings',
             'DevicesDetection_DevicesDetection',
             'General_Actions',
             'Events_Events',
@@ -145,7 +151,7 @@ class WidgetsList extends Singleton
             'Goals_Goals',
             'Goals_Ecommerce',
             '_others_',
-            'Example Widgets',
+            'About Piwik',
             'ExamplePlugin_exampleWidgets',
         );
 
@@ -270,11 +276,16 @@ class WidgetsList extends Singleton
     {
         self::$widgets    = array();
         self::$hookCalled = false;
-        self::getCacheForCompleteList()->clear();
+        self::getCacheForCompleteList()->delete(self::getCacheId());
+    }
+
+    private static function getCacheId()
+    {
+        return CacheId::pluginAware('WidgetsList');
     }
 
     private static function getCacheForCompleteList()
     {
-        return new PluginAwareStaticCache('WidgetsList');
+        return PiwikCache::getTransientCache();
     }
 }

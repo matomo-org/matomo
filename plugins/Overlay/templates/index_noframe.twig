@@ -3,10 +3,10 @@
 {% block content %}
 <h1>{{ 'Overlay_Overlay'|translate }}</h1>
 
-<div id="Overlay_NoFrame">
+<div id="overlayNoFrame">
 
     <script type="text/javascript">
-        var newLocation = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}';
+        var newLocation = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}&segment={{ segment }}';
 
         var locationParts = window.location.href.split('#');
         if (locationParts.length > 1) {

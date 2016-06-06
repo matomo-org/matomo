@@ -12,13 +12,13 @@ use Exception;
 
 /**
  * Base class for all factory types.
- * 
+ *
  * Factory types are base classes that contain a **factory** method. This method is used to instantiate
  * concrete instances by a specified string ID. Fatal errors do not occur if a class does not exist.
  * Instead an exception is thrown.
  *
  * Derived classes should override the **getClassNameFromClassId** and **getInvalidClassIdExceptionMessage**
- * static methods. 
+ * static methods.
  */
 abstract class BaseFactory
 {
@@ -34,11 +34,16 @@ abstract class BaseFactory
         $className = static::getClassNameFromClassId($classId);
 
         if (!class_exists($className)) {
-            Common::sendHeader('Content-Type: text/plain; charset=utf-8');
+            self::sendPlainHeader();
             throw new Exception(static::getInvalidClassIdExceptionMessage($classId));
         }
 
         return new $className;
+    }
+
+    private static function sendPlainHeader()
+    {
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
 
     /**

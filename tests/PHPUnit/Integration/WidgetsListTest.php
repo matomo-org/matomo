@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\Access;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
@@ -17,16 +16,15 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
+ * @group WidgetsListTest
  * @group Core
  */
-class Core_WidgetsListTest extends IntegrationTestCase
+class WidgetsListTest extends IntegrationTestCase
 {
     public function testGet()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42');
 
@@ -40,15 +38,15 @@ class Core_WidgetsListTest extends IntegrationTestCase
         $numberOfWidgets = array(
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 4,
-            'General_Visitors'             => 12,
-            'UserSettings_VisitorSettings' => 5,
+            'General_Visitors'             => 11,
+            'General_VisitorSettings'      => 5,
             'General_Actions'              => 10,
             'Events_Events'                => 3,
             'Actions_SubmenuSitesearch'    => 5,
-            'Referrers_Referrers'            => 7,
+            'Referrers_Referrers'          => 7,
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
-            'Example Widgets'              => 4,
+            'About Piwik'                  => 6,
             'DevicesDetection_DevicesDetection' => 8,
             'Insights_WidgetCategory' => 2
         );
@@ -64,9 +62,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
     public function testGetWithGoals()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42');
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -93,9 +89,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
     public function testGetWithGoalsAndEcommerce()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -123,9 +117,7 @@ class Core_WidgetsListTest extends IntegrationTestCase
     public function testRemove()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -160,11 +152,9 @@ class Core_WidgetsListTest extends IntegrationTestCase
     public function testIsDefined()
     {
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
 
         Fixture::createWebsite('2009-01-04 00:11:42', true);
 
@@ -175,5 +165,14 @@ class Core_WidgetsListTest extends IntegrationTestCase
 
         $this->assertTrue(WidgetsList::isDefined('Actions', 'getPageUrls'));
         $this->assertFalse(WidgetsList::isDefined('Actions', 'inValiD'));
+
+        Translate::reset();
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

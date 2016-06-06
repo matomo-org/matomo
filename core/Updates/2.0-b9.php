@@ -18,7 +18,7 @@ use Piwik\Updates;
  */
 class Updates_2_0_b9 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             "ALTER TABLE `" . Common::prefixTable('site')
@@ -26,8 +26,8 @@ class Updates_2_0_b9 extends Updates
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

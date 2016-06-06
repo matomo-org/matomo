@@ -18,7 +18,7 @@
         "Maximise": "Maximitza",
         "Minimise": "Minimitza",
         "NotUndo": "No podreu desfer aquesta operació",
-        "PluginDescription": "El teu tauler d'analítica web. Podeu personalitzar el vostre tauler: afegir nous ginys, canviar l'ordre dels ginys. Cada usuari pot accedir al seu propi tauler personalitzat.",
+        "PluginDescription": "El teu taulell d'analítica web. Personalitza el teu taulell afegint nous ginys, arrossega i solta per a moure'ls i canvia l'estructura de columnes. Cada usuari pot tenir el seu taulell personalitzat.",
         "RemoveDashboard": "Elimina el tauler",
         "RemoveDashboardConfirm": "Esteu segurs que voleu eliminar el tauler \"%s\"?",
         "RenameDashboard": "Reanomena el tauler",
@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Aquesta selecció de ginys i la disposició de columnes del tauler es faran servir quan qualsevol usuari crei un nou tauler o quan s'utiltiza la funció \"%s\".",
         "TopLinkTooltip": "Mostra els informes d'analítica web per %s.",
         "WidgetNotFound": "Aquest giny no s'ha trobat",
-        "WidgetPreview": "Previsualitza el giny",
-        "WidgetsAndDashboard": "Tauler & Ginys"
+        "WidgetPreview": "Previsualitza el giny"
     }
 }

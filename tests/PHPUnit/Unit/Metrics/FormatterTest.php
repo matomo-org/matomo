@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Unit\Metrics;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -50,18 +51,14 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Formatter();
 
-        setlocale(LC_ALL, null);
-
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
         $this->unsetSiteManagerApiMock();
-
-        setlocale(LC_ALL, null);
     }
 
     /**
@@ -77,11 +74,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_getPrettyNumber_ReturnsCorrectResult_WhenLocaleIsEuropean($number, $expected)
     {
-        $locale = setlocale(LC_ALL, array('de', 'de_DE', 'ge', 'de_DE.utf8'));
-        if (empty($locale)) {
-            $this->markTestSkipped("de_DE locale is not present on this system");
-        }
-
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage('de');
         $this->assertEquals($expected, $this->formatter->getPrettyNumber($number, 2));
     }
 
@@ -114,7 +107,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_getPrettyTimeFromSeconds_ReturnsCorrectResult($seconds, $expected)
     {
-        if (($seconds * 100) > PHP_INT_MAX) {
+        if (($seconds * 100) > PHP_INT_MAX || ($seconds * 100 * -1) > PHP_INT_MAX) {
             $this->markTestSkipped("Will not pass on 32-bit machine.");
         }
 
@@ -139,11 +132,11 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function getPrettyNumberLocaleTestData()
     {
         return array(
-            array(0.14, '0,14'),
-            array(0.14567, '0,15'),
-            array(100.1234, '100,12'),
-            array(1000.45, '1.000,45'),
-            array(23456789.00, '23.456.789,00')
+            array(0.14, '0.14'),
+            array(0.14567, '0.15'),
+            array(100.1234, '100.12'),
+            array(1000.45, '1,000.45'),
+            array(23456789.00, '23,456,789.00'),
         );
     }
 
@@ -197,9 +190,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             array(100, array('1 min 40s', '00:01:40')),
             array(3600, array('1 hours 0 min', '01:00:00')),
             array(3700, array('1 hours 1 min', '01:01:40')),
-            array(86400 + 3600 * 10, array('1 days 10 hours', '34:00:00')),
-            array(86400 * 365, array('365 days 0 hours', '8760:00:00')),
-            array((86400 * (365.25 + 10)), array('1 years 10 days', '9006:00:00')),
+            array(86400 + 3600 * 10, array('1 days 10 hours', '1 days 10:00:00')),
+            array(86400 * 365, array('365 days 0 hours', '365 days 00:00:00')),
+            array((86400 * (365.25 + 10)), array('1 years 10 days', '375 days 06:00:00')),
             array(1.342, array('1.34s', '00:00:01.34')),
             array(.342, array('0.34s', '00:00:00.34')),
             array(.02, array('0.02s', '00:00:00.02')),
@@ -209,7 +202,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             array(1.2, array('1.2s', '00:00:01.20')),
             array(122.1, array('2 min 2.1s', '00:02:02.10')),
             array(-122.1, array('-2 min 2.1s', '-00:02:02.10')),
-            array(86400 * -365, array('-365 days 0 hours', '-8760:00:00'))
+            array(86400 * -365, array('-365 days 0 hours', '-365 days 00:00:00'))
         );
     }
 

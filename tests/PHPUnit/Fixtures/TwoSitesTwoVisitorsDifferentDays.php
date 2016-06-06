@@ -77,7 +77,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1); // KEEP_URL_FRAGMENT_YES Yes for idSite 2
     }
 
-    private function trackVisits()
+    public function trackVisits()
     {
         $dateTime = $this->dateTime;
         $idSite = $this->idSite1;

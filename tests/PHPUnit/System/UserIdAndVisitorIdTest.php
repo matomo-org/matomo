@@ -62,7 +62,6 @@ class UserIdAndVisitorIdTest extends SystemTestCase
                                                      'keepLiveDates' => true,
                                                      'otherRequestParameters' => array(
                                                          'showColumns' => 'idVisit,visitorId,userId,lastActionDateTime,actions,actionDetails',
-                                                         'filter_sort_column' => 'idVisit',
                                                          'filter_sort_order' => 'asc',
                                                      )
             )),
@@ -75,16 +74,6 @@ class UserIdAndVisitorIdTest extends SystemTestCase
                                              'segment'    => 'userId==' . urlencode('new-email@example.com'),
                                              'testSuffix' => '_segmentUserId',
             )),
-
-            // Test invalid segment match type throws exception
-            array('VisitsSummary.get',
-                  array('idSite'     => self::$fixture->idSite,
-                        'date'       => self::$fixture->dateTime,
-                        'periods'    => 'day',
-                        'segment'    => 'userId=@invalidSegment',
-                        'testSuffix' => '_invalidSegmentUserId',
-            )),
-
 
             // Testing userId segment matches both log_visits and log_conversion
             array('Goals.getItemsName',

@@ -21,6 +21,10 @@ class Piwik_LocalTracker extends PiwikTracker
 {
     protected function sendRequest($url, $method = 'GET', $data = null, $force = false)
     {
+        if ($this->DEBUG_APPEND_URL) {
+            $url .= $this->DEBUG_APPEND_URL;
+        }
+
         // if doing a bulk request, store the url
         if ($this->doBulkRequests && !$force) {
             $this->storedTrackingActions[] = $url;
@@ -40,7 +44,8 @@ class Piwik_LocalTracker extends PiwikTracker
         }
 
         // unset cached values
-        Cache::$trackerCache = null;
+        Cache::$cache = null;
+        Tracker\Visit::$dimensions = null;
 
         // save some values
         $plugins = Config::getInstance()->Plugins['Plugins'];
@@ -73,6 +78,7 @@ class Piwik_LocalTracker extends PiwikTracker
         $request = new Tracker\RequestSet();
         $request->setRequests($requests);
 
+        \Piwik\Plugin\Manager::getInstance()->loadTrackerPlugins();
         $handler = Tracker\Handler\Factory::make();
 
         $response = $localTracker->main($handler, $request);

@@ -5,7 +5,6 @@
         "IndexSize": "Indeksa izmērs",
         "LearnMore": "Lai uzzinātu vairāk par to, kā Piwik apstrādā datus un kā Piwik tiek galā ar vidēja un augsta apmeklējuma vietnēm, apskatiet dokumentāciju %s.",
         "MainDescription": "Piwik glabā visus Jūsu tīkla analīzes datus MySQL datubāzē. Pašlaik Piwik tabulas lieto %s.",
-        "PluginDescription": "Šis spraudnis sniedz MySQL datubāzes Piwik tabulu lietojuma atskaites.",
         "RowCount": "Rindu skaits",
         "Table": "Tabula",
         "TotalSize": "Kopējais izmērs"

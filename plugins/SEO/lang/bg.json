@@ -1,14 +1,13 @@
 {
     "SEO": {
+        "PluginDescription": "Този плъгин извлича и показва SEO метрики: Alexa уеб ранк, Google Pagerank, брой индексирани страници и брой обратни връзки за избраната уеб страница.",
         "AlexaRank": "Alexa ранг",
         "Bing_IndexedPages": "Bing индексирани страници",
         "Dmoz": "DMOZ записи",
         "DomainAge": "Възраст на домейна",
-        "ExternalBacklinks": "Външни препратки (Majestic)",
         "Google_IndexedPages": "Google индексирани страници",
         "Rank": "Ранг",
         "SeoRankings": "SEO ранг",
-        "SEORankingsFor": "SEO ранг за %s",
-        "ViewBacklinksOnMajesticSEO": "Преглед на доклада за външните препратки в MajesticSEO.com"
+        "SEORankingsFor": "SEO ранг за %s"
     }
 }

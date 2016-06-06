@@ -18,20 +18,20 @@
         "Maximise": "Vergrößern",
         "Minimise": "Minimieren",
         "NotUndo": "Sie können diese Aktion nicht rückgängig machen.",
-        "PluginDescription": "Ihr Dashboard. Sie können es sich individuell anpassen: neue Widgets hinzufügen oder deren Reihenfolge ändern. Jeder Benutzer hat ein eigenes Dashboard.",
+        "PluginDescription": "Ihr Web Analyse Dashboard. Personalisieren Sie Ihr Dashboard, in dem Sie neue Widgets hinzufügen, per Drag und Drop herumschieben, und das Dashboard Spaltenlayout ändern. Jeder Benutzer kann sein eigenes personalisiertes Dashboard verwalten.",
         "RemoveDashboard": "Dashboard entfernen",
         "RemoveDashboardConfirm": "Sind Sie sicher, dass Sie das Dashboard \"%s\" löschen möchten?",
+        "RemoveDefaultDashboardNotPossible": "Das Standard-Dashboard kann nicht entfernt werden.",
         "RenameDashboard": "Dashboard umbenennen",
         "ResetDashboard": "Dashboard zurücksetzen",
         "ResetDashboardConfirm": "Wollen Sie wirklich das Dashboardlayout auf die Standardeinstellungen zurücksetzen?",
         "SelectDashboardLayout": "Bitte wählen Sie ein neues Dashboardlayout",
-        "SelectWidget": "Wählen Sie das hier das Widget aus, welches zum Dashboard hinzugefügt werden soll",
+        "SelectWidget": "Wählen Sie hier das Widget aus, welches zum Dashboard hinzugefügt werden soll",
         "SetAsDefaultWidgets": "Als Standard Widgetauswahl speichern",
         "SetAsDefaultWidgetsConfirm": "Sind Sie sicher, dass Sie die aktuelle Widgetauswahl und das Layout als das Standard Dashboardtemplate speichern möchten?",
         "SetAsDefaultWidgetsConfirmHelp": "Diese Widgetauswahl und das aktuelle Spaltenlayout werden verwendet, wenn ein neues Dashboard erstellt wird oder wenn \"%s\" verwendet wird.",
         "TopLinkTooltip": "Zeige Webanalytik Berichte für %s.",
         "WidgetNotFound": "Widget nicht gefunden",
-        "WidgetPreview": "Widget-Vorschau",
-        "WidgetsAndDashboard": "Widgets & Dashboard"
+        "WidgetPreview": "Widget-Vorschau"
     }
 }

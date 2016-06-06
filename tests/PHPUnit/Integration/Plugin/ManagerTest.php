@@ -8,10 +8,10 @@
 
 namespace Piwik\Tests\Integration\Plugin;
 
-use Piwik\Cache\PersistentCache;
 use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Settings\Storage;
+use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 
 /**
@@ -20,6 +20,8 @@ use Piwik\Tests\Integration\Settings\IntegrationTestCase;
  */
 class ManagerTest extends IntegrationTestCase
 {
+    private $trackerCacheId = 'PluginsTracker';
+
     /**
      * @var Plugin\Manager
      */
@@ -43,18 +45,18 @@ class ManagerTest extends IntegrationTestCase
     public function test_loadTrackerPlugins_shouldCacheListOfPlugins()
     {
         $cache = $this->getCacheForTrackerPlugins();
-        $this->assertFalse($cache->has());
+        $this->assertFalse($cache->contains($this->trackerCacheId));
 
         $pluginsToLoad = $this->manager->loadTrackerPlugins();
 
-        $this->assertTrue($cache->has());
-        $this->assertEquals($pluginsToLoad, $cache->get());
+        $this->assertTrue($cache->contains($this->trackerCacheId));
+        $this->assertEquals($pluginsToLoad, $cache->fetch($this->trackerCacheId));
     }
 
     public function test_loadTrackerPlugins_shouldBeAbleToLoadPluginsCorrectWhenItIsCached()
     {
-        $pluginsToLoad = array('CoreHome', 'UserSettings', 'Login', 'CoreAdminHome');
-        $this->getCacheForTrackerPlugins()->set($pluginsToLoad);
+        $pluginsToLoad = array('CoreAdminHome', 'CoreHome', 'UserLanguage', 'Login');
+        $this->getCacheForTrackerPlugins()->save($this->trackerCacheId, $pluginsToLoad);
 
         $pluginsToLoad = $this->manager->loadTrackerPlugins();
 
@@ -65,7 +67,7 @@ class ManagerTest extends IntegrationTestCase
     public function test_loadTrackerPlugins_shouldUnloadAllPlugins_IfThereAreNoneToLoad()
     {
         $pluginsToLoad = array();
-        $this->getCacheForTrackerPlugins()->set($pluginsToLoad);
+        $this->getCacheForTrackerPlugins()->save($this->trackerCacheId, $pluginsToLoad);
 
         $pluginsToLoad = $this->manager->loadTrackerPlugins();
 
@@ -73,9 +75,48 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->manager->getLoadedPlugins());
     }
 
+    public function test_deactivatePlugin()
+    {
+        $this->assertFalse($this->manager->isPluginActivated('ExampleTheme'));
+        $this->manager->activatePlugin('ExampleTheme');
+        $this->assertTrue($this->manager->isPluginActivated('ExampleTheme'));
+        $this->manager->deactivatePlugin('ExampleTheme');
+        $this->assertFalse($this->manager->isPluginActivated('ExampleTheme'));
+    }
+
+    /**
+     * @dataProvider getPluginNameProvider
+     */
+    public function test_isValidPluginName($expectedIsValid, $pluginName)
+    {
+        $valid = $this->manager->isValidPluginName($pluginName);
+        $this->assertSame($expectedIsValid, $valid);
+    }
+
+    public function getPluginNameProvider()
+    {
+        return array(
+            array(true, 'a'),
+            array(true, 'a0'),
+            array(true, 'pluginNameTest'),
+            array(true, 'PluginNameTest'),
+            array(true, 'PluginNameTest92323232eerwrwere938'),
+            array(false, ''),
+            array(false, '0'),
+            array(false, '0a'),
+            array(false, 'a.'),
+            array(false, 'a-'),
+            array(false, 'a_'),
+            array(false, 'a-ererer'),
+            array(false, 'a_ererer'),
+            array(false, '..'),
+            array(false, '/'),
+        );
+    }
+
     private function getCacheForTrackerPlugins()
     {
-        return new PersistentCache('PluginsTracker');
+        return PiwikCache::getEagerCache();
     }
 
     private function assertOnlyTrackerPluginsAreLoaded($expectedPluginNamesLoaded)

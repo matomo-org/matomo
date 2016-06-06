@@ -7,10 +7,13 @@
  *
  */
 
+use Piwik\Application\Environment;
 use Piwik\DataTable\Manager;
 use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Site;
+use Piwik\Tests\Framework\TestingEnvironmentManipulator;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tracker;
 
 require realpath(dirname(__FILE__)) . "/includes.php";
@@ -20,14 +23,18 @@ require realpath(dirname(__FILE__)) . "/includes.php";
 ob_start();
 
 try {
-    Piwik_TestingEnvironment::addHooks();
+    $globalObservers = array(
+        array('Environment.bootstrapped', function () {
+            Tracker::setTestEnvironment();
+            Manager::getInstance()->deleteAll();
+            Option::clearCache();
+            Site::clearCache();
+        })
+    );
+
+    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables(), $globalObservers));
 
     GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-
-    Tracker::setTestEnvironment();
-    Manager::getInstance()->deleteAll();
-    Option::clearCache();
-    Site::clearCache();
 
     include PIWIK_INCLUDE_PATH . '/piwik.php';
 } catch (Exception $ex) {

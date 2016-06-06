@@ -1,13 +1,11 @@
 {
     "Feedback": {
-        "ContactThePiwikTeam": "Kontaktirajte Piwik tim!",
         "DoYouHaveBugReportOrFeatureRequest": "Da li želite da prijavite grešku u programu ili imate neku želju?",
-        "GetInTouch": "Zahvaljujemo vam na interesovanju, mi uvek pročitamo sve poruke. Možda želite da podelite sa nama poslovnu ponudu, unajmite Piwik konsultanta, da nam ispričate uspešnu priču ili jednostavno da nas pozdravite!",
         "HowToCreateTicket": "Molimo vas da pročitate preporuke kako se piše dobra %1$sprijava problema%2$s ili %3$szahtev za novom funkcionalnošću%4$s. Nakon toga se %5$sregistrujte ili prijavite%6$s i kreirajte %7$snovi zahtev%8$s.",
         "IWantTo": "Želim da:",
-        "LearnWaysToParticipate": "Pogledajte kako sve možete da %s uzmete učešće%s",
+        "LearnWaysToParticipate": "Pogledajte kako sve možete da %1$s uzmete učešće%2$s",
         "ManuallySendEmailTo": "Molimo vas da pošaljete poruku na",
-        "PluginDescription": "Pošaljite vaša opažanja Piwik timu. Podelite sa nama vaše ideje i sugestije!",
+        "PluginDescription": "Pošaljite vaše komentare Piwik timu. Podelite vaše ideje i predloge kako bismo učinili Piwik najboljom analitičkom platformom na svetu!",
         "PrivacyClaim": "Piwik poštuje vašu %1$sprivatnost%2$s i daje vam potpunu kontrolu nad vašim podacima.",
         "RateFeatureLeaveMessageDislike": "Šao nam je da vam se ne dopada! Molimo vas da nam javite kako možemo da ga poboljšamo.",
         "RateFeatureLeaveMessageLike": "Drago nam je da vam se dopada! Molimo vas da nam javite šta vam se najviše sviđa ili da li imate neki zahtev.",
@@ -15,12 +13,21 @@
         "RateFeatureThankYouTitle": "Hvala vam na oceni '%s'!",
         "RateFeatureTitle": "Da li vam se sviđa '%s'? Molimo vas da date ocenu i ostavite komentar",
         "SendFeedback": "Pošaljite vaše zapažanje",
-        "SpecialRequest": "Da li imate neki specijalan zahtev za Piwik tim?",
         "ThankYou": "Hvala vam što nam pomažete da učinimo Piwik boljim!",
         "TopLinkTooltip": "Recite nam šta mislite ili zatražite profesionalnu pomoć.",
-        "ViewAnswersToFAQ": "Prikaži odgovore na %sčesto postavljana pitanja%s",
+        "ViewAnswersToFAQ": "Prikaži odgovore na %1$sčesto postavljana pitanja%2$s",
         "ViewUserGuides": "Naučite kako da podesite Piwik i kako da efikasno analizirate vaše podatke prateći %1$skorisničko uputstvo%2$s",
-        "VisitTheForums": "Posetite %s Forum%s",
-        "WantToThankConsiderDonating": "Da li smatrate da je Piwik fenomenalan i želite da nam se zahvalite?"
+        "CommunityHelp": "Pomoć zajednice",
+        "ProfessionalHelp": "Profesionalna pomoć",
+        "PiwikProIntro": "Piwik PRO omogućuje podršku i konsalting eksperata klijentima koji hostuju Piwik na sopstvenim platformama.",
+        "PiwikProOfferIntro": "Naša ponuda uključuje",
+        "PiwikProReviewPiwikSetup": "Proveru vaše Piwik instalacije",
+        "PiwikProOptimizationMaintenance": "Usluge optimizacije i održavanja Piwik-a",
+        "PiwikProPhoneEmailSupport": "Telefonsku i podršku putem mejla",
+        "PiwikProTraining": "Korisnički, tehnički i razvojni trening",
+        "PiwikProPremiumFeatures": "Premium sadržaje",
+        "PiwikProCustomDevelopment": "Razvoj usluga po vašoj želji",
+        "PiwikProAnalystConsulting": "Usluge analitičkog konsaltinga",
+        "ContactUs": "Kontaktirajte nas"
     }
 }

@@ -1,15 +1,13 @@
 {
     "SEO": {
+        "PluginDescription": "Tämä lisäosa hakee ja näyttää SEO-tietoja: Alexan web ranking, Googlen Pagerank, indeksoitujen sivujen lukumäärän, ja takaisin osoittavien linkkien määrän valitulle sivulle.",
         "AlexaRank": "Alexa-tulos",
         "Bing_IndexedPages": "Bingin indeksoidut sivut",
         "Dmoz": "DMOZ tulossivut",
         "DomainAge": "Sivun ikä",
-        "ExternalBacklinks": "Ulkoiset paluulinkit (Majestic)",
         "Google_IndexedPages": "Googlen indeksoimat sivut",
         "Rank": "Sijoitus",
-        "ReferrerDomains": "Viittaavat domainit (Majestic)",
         "SeoRankings": "SEO-tulos",
-        "SEORankingsFor": "SEO-sijoitus %s:lle",
-        "ViewBacklinksOnMajesticSEO": "Näe ulkoiset paluulinkit raportissa MajesticSEO.com"
+        "SEORankingsFor": "SEO-sijoitus %s:lle"
     }
 }

@@ -10,7 +10,7 @@
         "MetricDataByYear": "Metrika po godinama",
         "MetricTables": "Metrika",
         "OtherTables": "Ostalo",
-        "PluginDescription": "Ovaj dodatak prikazuje iskorišćenost MySQL baze od strane Piwik tabela.",
+        "PluginDescription": "Omogućuje detaljne izveštaje oko iskorišćenosti MySQL baze podataka. Dostupno superkorisnicima pod Dijagnostikom.",
         "ReportDataByYear": "Izveštaji po godinama",
         "ReportTables": "Izveštaji",
         "RowCount": "Broj redova",

@@ -4,13 +4,17 @@
         "ColumnCampaign": "Kampanya",
         "ColumnSearchEngine": "Arama Motoru",
         "ColumnSocial": "Sosyal medya",
+        "ColumnWebsite": "Web sayfası",
         "DirectEntry": "Doğrudan Giriş",
         "DirectEntryDocumentation": "Ziyaretçiniz web adresini yazarak siteye doğrudan giriş yapmış.",
         "DistinctCampaigns": "farklı kampanyalar",
         "Keywords": "Anahtar Kelimeler",
+        "Referrers": "Yönlendirmeler",
+        "Socials": "Sosyal Ağlar",
         "SubmenuSearchEngines": "Arama Motorları ve Anahtar Kelimeler",
         "SubmenuWebsites": "Websiteleri ve Sosyal Platform",
         "TypeCampaigns": "%s kampanyalarından",
+        "Websites": "Websiteler",
         "WidgetExternalWebsites": "Yönlendiren Siteler"
     }
 }

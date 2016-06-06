@@ -2,7 +2,6 @@
     "CoreUpdater": {
         "DownloadX": "Preuzmi %s",
         "ExceptionArchiveEmpty": "Prazna arhiva",
-        "ExceptionArchiveIncompatible": "Nekompatibilna arhiva: %s",
-        "PluginDescription": "Pwikijev mehanizam za ažuriranje"
+        "ExceptionArchiveIncompatible": "Nekompatibilna arhiva: %s"
     }
 }

@@ -23,8 +23,8 @@ class CreatePull extends TranslationBase
     {
         $this->setName('translations:createpull')
             ->setDescription('Updates translation files')
-            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'oTrance username')
-            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password')
+            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
+            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
@@ -49,7 +49,7 @@ class CreatePull extends TranslationBase
         chdir(PIWIK_DOCUMENT_ROOT);
 
         shell_exec('
-            git checkout master > /dev/null 2>&1
+            git checkout -f master > /dev/null 2>&1
             git pull > /dev/null 2>&1
             git submodule init > /dev/null 2>&1
             git submodule update > /dev/null 2>&1
@@ -75,7 +75,7 @@ class CreatePull extends TranslationBase
 
         // switch to branch and update it to latest master
         shell_exec('
-            git checkout translationupdates > /dev/null 2>&1
+            git checkout -f translationupdates > /dev/null 2>&1
             git merge master > /dev/null 2>&1
             git push origin translationupdates > /dev/null 2>&1
         ');
@@ -113,7 +113,7 @@ class CreatePull extends TranslationBase
 
         $stats = shell_exec('git diff --numstat HEAD');
 
-        preg_match_all('/([0-9]+)\t([0-9]+)\t[a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $stats, $lineChanges);
+        preg_match_all('/([0-9]+)\t([0-9]+)\t[a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $stats, $lineChanges);
 
         $addedLinesSum = 0;
         if (!empty($lineChanges[1])) {
@@ -121,12 +121,13 @@ class CreatePull extends TranslationBase
         }
 
         $linesSumByLang = array();
-        for($i=0; $i<count($lineChanges[0]); $i++) {
+        $lineChangesCount = count($lineChanges[0]);
+        for ($i = 0; $i < $lineChangesCount; $i++) {
             @$linesSumByLang[$lineChanges[3][$i]] += $lineChanges[1][$i];
         }
 
-        preg_match_all('/M  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
-        preg_match_all('/A  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $addedFiles);
+        preg_match_all('/M  [a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $changes, $modifiedFiles);
+        preg_match_all('/A  [a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $changes, $addedFiles);
 
         $messages = array();
 
@@ -149,6 +150,8 @@ class CreatePull extends TranslationBase
 
         $message = implode('', $messages);
 
+        $message .= '\n\nHelp us translate Piwik in your language!\nSignup at https://www.transifex.com/piwik/piwik/\nIf you have any questions, get in touch with us at translations@piwik.org';
+
         $languageCodesTouched = array_unique($languageCodesTouched, SORT_REGULAR);
 
         $title = sprintf(
@@ -158,7 +161,7 @@ class CreatePull extends TranslationBase
             implode(', ', $languageCodesTouched)
         );
 
-        shell_exec('git commit -m "language update ${pluginName} refs #3430"');
+        shell_exec('git commit -m "language update ${pluginName}"');
         shell_exec('git push');
         shell_exec('git checkout master > /dev/null 2>&1');
 

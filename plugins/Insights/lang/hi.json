@@ -1,0 +1,23 @@
+{
+    "Insights": {
+        "PluginDescription": "अपने यातायात के बारे में अंतर्दृष्टि प्रदान करता है। इनसाइट्स डैशबोर्ड विजेट के साथ ही आप अपने डेटा में सबसे महत्वपूर्ण रुझान देखने जाने के लिए रिपोर्ट में एक नया प्रतीक के रूप में उपलब्ध हैं।",
+        "ControlComparedToDescription": "की तुलना में वृद्धि",
+        "ControlFilterByDescription": "केवल नए या केवल गायब हो गया है, सब केवल मूवर्स, दिखाएँ",
+        "DatePeriodCombinationNotSupported": "यह इस तारीख और अवधि संयोजन के लिए अंतर्दृष्टि उत्पन्न करने के लिए संभव नहीं है।",
+        "DayComparedToPreviousDay": "पिछले दिन",
+        "DayComparedToPreviousWeek": "इससे पिछले सप्ताह में एक ही दिन",
+        "DayComparedToPreviousYear": "पिछले साल इसी दिन",
+        "Filter": "फ़िल्टर",
+        "FilterIncreaserAndDecreaser": "Increaser और decreaser",
+        "FilterOnlyDecreaser": "केवल decreaser",
+        "FilterOnlyDisappeared": "केवल गायब हो गया",
+        "FilterOnlyIncreaser": "केवल Increaser",
+        "FilterOnlyMovers": "केवल मूवर्स",
+        "FilterOnlyNew": "केवल नए",
+        "IgnoredChanges": "%s की यात्राओं की तुलना में कम प्रभावित करने वाले परिवर्तनों पर ध्यान नहीं दिया गया।",
+        "MonthComparedToPreviousMonth": "पिछले महीने",
+        "MonthComparedToPreviousYear": "पिछले वर्ष के इसी माह",
+        "MoversAndShakersWidgetTitle": "एक घटना भेजें",
+        "NoResultMatchesCriteria": "कोई पंक्तियों मानदंड से मेल खाते हैं"
+    }
+}

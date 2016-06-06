@@ -10,7 +10,6 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Archive\DataTableFactory;
-use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Period\Range;
@@ -63,7 +62,7 @@ abstract class DataTableManipulator
     {
         if ($dataTable instanceof DataTable\Map) {
             return $this->manipulateDataTableMap($dataTable);
-        } else if ($dataTable instanceof DataTable) {
+        } elseif ($dataTable instanceof DataTable) {
             return $this->manipulateDataTable($dataTable);
         } else {
             return $dataTable;
@@ -90,7 +89,7 @@ abstract class DataTableManipulator
      * Manipulates a single DataTable instance. Derived classes must define
      * this function.
      */
-    protected abstract function manipulateDataTable($dataTable);
+    abstract protected function manipulateDataTable($dataTable);
 
     /**
      * Load the subtable for a row.
@@ -124,7 +123,7 @@ abstract class DataTableManipulator
             }
         }
 
-        $method = $this->getApiMethodForSubtable();
+        $method = $this->getApiMethodForSubtable($request);
         return $this->callApiAndReturnDataTable($this->apiModule, $method, $request);
     }
 
@@ -136,7 +135,7 @@ abstract class DataTableManipulator
      * @param $request
      * @return
      */
-    protected abstract function manipulateSubtableRequest($request);
+    abstract protected function manipulateSubtableRequest($request);
 
     /**
      * Extract the API method for loading subtables from the meta data
@@ -144,10 +143,29 @@ abstract class DataTableManipulator
      * @throws Exception
      * @return string
      */
-    private function getApiMethodForSubtable()
+    private function getApiMethodForSubtable($request)
     {
         if (!$this->apiMethodForSubtable) {
-            $meta = API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
+            if (!empty($request['idSite'])) {
+                $idSite = $request['idSite'];
+            } else {
+                $idSite = 'all';
+            }
+
+            $apiParameters = array();
+            if (!empty($request['idDimension'])) {
+                $apiParameters['idDimension'] = $request['idDimension'];
+            }
+            if (!empty($request['idGoal'])) {
+                $apiParameters['idGoal'] = $request['idGoal'];
+            }
+
+            $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod, $apiParameters);
+
+            if (empty($meta) && array_key_exists('idGoal', $apiParameters)) {
+                unset($apiParameters['idGoal']);
+                $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod, $apiParameters);
+            }
 
             if (empty($meta)) {
                 throw new Exception(sprintf(

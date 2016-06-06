@@ -35,7 +35,7 @@ class OneVisitorLongUrlsTruncatedTest extends SystemTestCase
             'Actions.getPageUrls',
 
             // Specifically testing getPlugin filter_truncate works
-            'UserSettings.getPlugin');
+            'DevicePlugins.getPlugin');
 
         return array(
             array($apiToCall, array('idSite'                 => self::$fixture->idSite,

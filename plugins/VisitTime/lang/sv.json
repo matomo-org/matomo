@@ -5,14 +5,14 @@
         "DayOfWeek": "Veckodag",
         "LocalTime": "Besök efter lokal tid",
         "NHour": "%sh",
-        "PluginDescription": "Rapporterar den lokala tiden och servertiden. Servertid kan vara användbart för att kunna schemalägga ett underhåll på webbplatsen.",
+        "PluginDescription": "Rapporterar lokaltid och servertid när besökarna visa din webbplats eller app.",
         "ServerTime": "Besök efter servertid",
         "SubmenuTimes": "Tider",
         "VisitsByDayOfWeek": "Besök efter veckodag",
         "WidgetByDayOfWeekDocumentation": "Den här grafen visar antalet besök din webbplats fått per veckodag.",
         "WidgetLocalTime": "Besök efter lokal tid",
-        "WidgetLocalTimeDocumentation": "Denna graf visar vad klockan var i %s besökarens tidszon %s vid deras besök.",
+        "WidgetLocalTimeDocumentation": "Denna graf visar vad klockan var i %1$s besökarens tidszon %2$s vid deras besök.",
         "WidgetServerTime": "Besök efter servertid",
-        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %s serverns tidszon %s vid besöket."
+        "WidgetServerTimeDocumentation": "Denna graf visar vad klockan var i %1$s serverns tidszon %2$s vid besöket."
     }
 }

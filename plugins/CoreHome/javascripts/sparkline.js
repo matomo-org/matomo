@@ -42,10 +42,14 @@ window.initializeSparklines = function () {
 
         // try to find sparklines and add them clickable behaviour
         graph.parent().find('div.sparkline').each(function () {
+
             // find the sparkline and get it's src attribute
             var sparklineUrl = $('img', this).attr('data-src');
 
             if (sparklineUrl != "") {
+
+                $(this).addClass('linked');
+
                 var params = broadcast.getValuesFromUrl(sparklineUrl);
                 for (var i = 0; i != sparklineUrlParamsToIgnore.length; ++i) {
                     delete params[sparklineUrlParamsToIgnore[i]];
@@ -60,7 +64,8 @@ window.initializeSparklines = function () {
                 }
 
                 // on click, reload the graph with the new url
-                $(this).click(function () {
+                $(this).off('click.sparkline');
+                $(this).on('click.sparkline', function () {
                     var reportId = graph.attr('data-graph-id'),
                         dataTable = $(require('piwik/UI').DataTable.getDataTableByReport(reportId));
 
@@ -69,7 +74,11 @@ window.initializeSparklines = function () {
                     // if this happens, we can't find the graph using $('#'+idDataTable+"Chart");
                     // instead, we just use the first evolution graph we can find.
                     if (dataTable.length == 0) {
-                        dataTable = $('div.dataTableVizEvolution');
+                        if ($(this).closest('.widget').length) {
+                            dataTable = $(this).closest('.widget').find('div.dataTableVizEvolution');
+                        } else {
+                            dataTable = $('div.dataTableVizEvolution');
+                        }
                     }
 
                     // reload the datatable w/ a new column & scroll to the graph

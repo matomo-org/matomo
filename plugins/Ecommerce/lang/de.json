@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Mit Ecommerce haben Sie die Möglichkeit zu Erfassen wenn ein Besucher Produkte in den Warenkorb legt, und wann es zu einem Verkauf kommt. Zusätzlich lassen sich auch Besuche von Produkt- sowie Kategorieseiten und verlassene Warenkörbe erfassen.",
+        "Sales": "Umsatz",
+        "SalesBy": "Umsatz nach %s",
+        "SalesAdjective": "Umsatz %s"
+    }
+}

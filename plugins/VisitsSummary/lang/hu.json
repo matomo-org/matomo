@@ -8,7 +8,6 @@
         "NbActionsPerVisit": "%s akció látogatásonként",
         "NbUniqueVisitors": "%s egyedi látogatás",
         "NbVisitsBounced": "%s látogatás csak egy weblap megtekintésével",
-        "PluginDescription": "Jelentések webanalitikai alapadatokról: látogatások, egyedi látogatások, akciók gyakorisága, visszafordulások aránya, stb.",
         "VisitsSummary": "Látogatások összesítése",
         "VisitsSummaryDocumentation": "Ez egy összefoglaló nézet a látogatások folyamatáról.",
         "WidgetLastVisits": "Utolsó látogatások grafikonja",

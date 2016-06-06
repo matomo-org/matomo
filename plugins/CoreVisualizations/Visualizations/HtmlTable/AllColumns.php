@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 use Piwik\DataTable;
+use Piwik\Metrics;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\View;
 
@@ -40,11 +41,13 @@ class AllColumns extends HtmlTable
         $this->dataTable->filter(function (DataTable $dataTable) use ($properties) {
             $columnsToDisplay = array('label', 'nb_visits');
 
-            if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
+            $columns = $dataTable->getColumns();
+
+            if (in_array('nb_uniq_visitors', $columns)) {
                 $columnsToDisplay[] = 'nb_uniq_visitors';
             }
 
-            if (in_array('nb_users', $dataTable->getColumns())) {
+            if (in_array('nb_users', $columns)) {
                 $columnsToDisplay[] = 'nb_users';
             }
 
@@ -60,5 +63,15 @@ class AllColumns extends HtmlTable
 
             $properties->columns_to_display = $columnsToDisplay;
         });
+    }
+
+    public function beforeLoadDataTable()
+    {
+        $this->requestConfig->request_parameters_to_modify['pivotBy'] = null; // always unset pivotBy
+    }
+
+    protected function isPivoted()
+    {
+        return false; // Pivot not supported
     }
 }

@@ -36,7 +36,6 @@ class RequestSet
         $this->requests = array();
 
         foreach ($requests as $request) {
-
             if (empty($request) && !is_array($request)) {
                 continue;
             }
@@ -253,6 +252,4 @@ class RequestSet
             'server' => $_SERVER
         );
     }
-
-
 }

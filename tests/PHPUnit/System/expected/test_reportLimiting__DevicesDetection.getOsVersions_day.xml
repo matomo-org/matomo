@@ -10,7 +10,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<logo>plugins/UserSettings/images/os/LIN.gif</logo>
+		<segment>operatingSystemCode==LIN;operatingSystemVersion==</segment>
+		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
 	</row>
 	<row>
 		<label>Android 4.0</label>
@@ -22,7 +23,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<logo>plugins/UserSettings/images/os/AND.gif</logo>
+		<segment>operatingSystemCode==AND;operatingSystemVersion==4.0</segment>
+		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
 	</row>
 	<row>
 		<label>Others</label>
@@ -34,6 +36,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>40</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<logo>plugins/UserSettings/images/os/UNK.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/UNK.gif</logo>
 	</row>
 </result>

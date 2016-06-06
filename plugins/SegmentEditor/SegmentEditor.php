@@ -10,31 +10,15 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\DbHelper;
-use Piwik\Version;
 
 /**
  */
 class SegmentEditor extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getInformation
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getInformation()
-    {
-        return array(
-            'description'      => 'Create and reuse custom visitor Segments with the Segment Editor.',
-            'authors'          => array(array('name' => 'Piwik', 'homepage' => 'http://piwik.org/')),
-            'version'          => Version::VERSION,
-            'license'          => 'GPL v3+',
-            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
-        );
-    }
-
-    /**
-     * @see Piwik\Plugin::getListHooksRegistered
-     */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Segments.getKnownSegmentsToArchiveForSite'  => 'getKnownSegmentsToArchiveForSite',
@@ -42,6 +26,7 @@ class SegmentEditor extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
             'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
+            'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
         );
     }
 
@@ -98,5 +83,12 @@ class SegmentEditor extends \Piwik\Plugin
     public static function isAddingSegmentsForAllWebsitesEnabled()
     {
         return Config::getInstance()->General['allow_adding_segments_for_all_websites'] == 1;
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'SegmentEditor_CustomSegment';
+        $translationKeys[] = 'SegmentEditor_VisibleToSuperUser';
+        $translationKeys[] = 'SegmentEditor_SharedWithYou';
     }
 }

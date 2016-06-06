@@ -1,0 +1,56 @@
+{% extends 'layout.twig' %}
+
+{% set categoryTitle %}{{ 'CoreAdminHome_Administration'|translate }}{% endset %}
+
+{% set bodyClass = postEvent('Template.bodyClass', 'admin') %}
+
+{% block body %}
+    {% if userIsAnonymous %}
+        {% set topMenuModule = 'ScheduledReports' %}
+        {% set topMenuAction = 'index' %}
+    {% else %}
+        {% if currentModule != 'Feedback' %}
+            {% set topMenuModule = 'UsersManager' %}
+            {% set topMenuAction = 'userSettings' %}
+        {% endif %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block root %}
+    {% include "@CoreHome/_topScreen.twig" %}
+
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.requestErrorDiv(emailSuperUser|default(''), arePiwikProAdsEnabled) }}
+    {{ postEvent("Template.beforeContent", "user", currentModule) }}
+
+    <div class="page">
+
+        {% if showMenu is not defined or showMenu %}
+            {% import '@CoreHome/_menu.twig' as menu %}
+            {{ menu.menu(userMenu, false, 'Menu--admin') }}
+        {% endif %}
+
+        <div class="pageWrap">
+
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
+            </div>
+
+            <div id="content" class="admin user">
+
+                {% include "@CoreHome/_notifications.twig" %}
+
+                <div class="ui-confirm" id="alert">
+                    <h2></h2>
+                    <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+                </div>
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

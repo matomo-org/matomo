@@ -1,28 +1,95 @@
-.trackingHelp ul {
-    padding-left: 40px;
-    list-style-type: square;
+.trackingHelp {
+    ul {
+        padding-left: 40px;
+        list-style-type: square;
+        li {
+            margin-bottom: 10px;
+        }
+    }
+    h2 {
+        margin-top: 20px;
+    }
+    p {
+        text-align: justify;
+    }
 }
 
-.trackingHelp ul li {
-    margin-bottom: 10px;
-}
+.SitesManager {
 
-.trackingHelp h2 {
-    margin-top: 20px;
-}
+    .sitesManagerList {
 
-.trackingHelp p {
-    text-align: justify;
-}
+        .site {
+            .card;
+            .title {
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+            h4, .link_but {
+                color: @theme-color-text;
+            }
+        }
+        .editingSite {
+            background-color: @theme-color-background-tinyContrast;
+            .editingSiteFooter {
+                background-color: @theme-color-background-base;
+                padding: 15px;
+                margin: 0 -15px -15px;
+                border-top: solid 1px #E5E5E5;
+            }
+        }
+    }
 
-.addRowSite {
-  text-decoration: none;
-}
+    .visible {
+        visibility: visible;
+    }
+    .hide_only {
+        visibility: hidden;
+    }
 
-.addRowSite:before {
-  display: inline-block;
-  content: url(plugins/Morpheus/images/add.png);
-  vertical-align: middle;
+    .search_ico {
+        cursor: pointer;
+        display: block;
+        left: 205px;
+        margin: -32px 0 17px -21px;
+        position: relative;
+    }
+
+    .sitesButtonBar {
+        width: 100%;
+        text-align: center;
+    }
+    .bottomButtonBar {
+        margin-top: 7px;
+    }
+    .addSite {
+        float: left;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .paging {
+        text-align: center;
+        display: inline-block;
+        min-width: 400px;
+        margin-top: 8px;
+
+        .counter {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+
+    .search {
+        display: inline-block;
+        text-align: right;
+        float: right;
+
+        input {
+            padding-right: 29px;
+            width: 205px;
+            margin-bottom: 7px;
+        }
+    }
 }
 
 td.editable-site-field:hover {
@@ -30,9 +97,30 @@ td.editable-site-field:hover {
 }
 
 .link_but:hover {
-  cursor: pointer;
+    cursor: pointer;
+}
+.link_but:hover > span {
+    text-decoration: underline;
 }
 
-.link_but:hover > span {
-  text-decoration: underline;
+.site-without-data {
+    h2 {
+        border-bottom: 1px solid @theme-color-background-tinyContrast;
+        margin: 25px 0;
+        padding: 0 0 5px 0;
+        font-size: 24px;
+    }
+    h3 {
+        margin: 15px 0;
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: normal;
+        color: black;
+    }
+}
+
+#js-visitor-cv-extra th {
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 11px;
 }

@@ -37,7 +37,6 @@ class Manager
         }
 
         if (empty(static::$settings)) {
-
             $settings = PluginManager::getInstance()->findComponents('Settings', 'Piwik\\Plugin\\Settings');
             $byPluginName = array();
 
@@ -102,23 +101,57 @@ class Manager
         return $settingsForUser;
     }
 
-    public static function hasPluginSettingsForCurrentUser($pluginName)
+    public static function hasSystemPluginSettingsForCurrentUser($pluginName)
     {
-        $pluginNames = array_keys(static::getPluginSettingsForCurrentUser());
+        $pluginNames = static::getPluginNamesHavingSystemSettings();
 
         return in_array($pluginName, $pluginNames);
     }
 
     /**
-     * Detects whether there are settings for activated plugins available that the current user can change.
+     * Detects whether there are user settings for activated plugins available that the current user can change.
      *
      * @return bool
      */
-    public static function hasPluginsSettingsForCurrentUser()
+    public static function hasUserPluginsSettingsForCurrentUser()
     {
         $settings = static::getPluginSettingsForCurrentUser();
 
-        return !empty($settings);
+        foreach ($settings as $setting) {
+            foreach ($setting->getSettingsForCurrentUser() as $set) {
+                if ($set instanceof UserSetting) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
+    public static function getPluginNamesHavingSystemSettings()
+    {
+        $settings = static::getPluginSettingsForCurrentUser();
+        $plugins  = array();
+
+        foreach ($settings as $pluginName => $setting) {
+            foreach ($setting->getSettingsForCurrentUser() as $set) {
+                if ($set instanceof SystemSetting) {
+                    $plugins[] = $pluginName;
+                }
+            }
+        }
+
+        return array_unique($plugins);
+    }
+    /**
+     * Detects whether there are system settings for activated plugins available that the current user can change.
+     *
+     * @return bool
+     */
+    public static function hasSystemPluginsSettingsForCurrentUser()
+    {
+        $settings = static::getPluginNamesHavingSystemSettings();
+
+        return !empty($settings);
+    }
 }

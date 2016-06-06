@@ -18,7 +18,7 @@
         "MainDescription": "Sinu veebianalüütika vajab veebilehti, mida hallata! Lisa, uuenda, kustuta veebilehti, ja näita Javascript koodi mida lisada veebilehtedele.",
         "NotAnEcommerceSite": "Ei ole e-äri lehekülg",
         "NoWebsites": "Sul pole veebilehti, mida administreerida.",
-        "PiwikOffersEcommerceAnalytics": "Piwik võimaldab detailsemat e-äri analüüsi ja raporteid. Loe rohkem %s e-äri analüüsist%s.",
+        "PiwikOffersEcommerceAnalytics": "Piwik võimaldab detailsemat e-äri analüüsi ja raporteid. Loe rohkem %1$s e-äri analüüsist%2$s.",
         "SearchCategoryLabel": "Kategooria parameeter",
         "SearchKeywordLabel": "Päringu parameeter",
         "SelectACity": "Vali linn",

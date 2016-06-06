@@ -2,85 +2,76 @@
     data-graph-id="{{ nameGraphEvolutionReferrers }}">{{ 'General_EvolutionOverPeriod'|translate }}</h2>
 {{ graphEvolutionReferrers|raw }}
 
-<br/>
 <h2 piwik-enriched-headline>{{ 'Referrers_Type'|translate }}</h2>
 
-<div id='leftcolumn'>
-    <div class="sparkline" style="padding-left: 12px;">{{ sparkline(urlSparklineDirectEntry) }}
-        {{ 'Referrers_TypeDirectEntries'|translate("<strong>"~visitorsFromDirectEntry~"</strong>")|raw }}
-        {% if visitorsFromDirectEntryPercent|default is not empty %},
-            {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromDirectEntryPercent~"</strong>")|raw }}
-        {% endif %}
-        {% if visitorsFromDirectEntryEvolution|default is not empty %}
-            {{ visitorsFromDirectEntryEvolution|raw }}
-        {% endif %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="sparkline" style="padding-left: 12px;">{{ sparkline(urlSparklineDirectEntry) }}
+            {{ 'Referrers_TypeDirectEntries'|translate("<strong>"~visitorsFromDirectEntry|number~"</strong>")|raw }}
+            {% if visitorsFromDirectEntryPercent|default is not empty %},
+                {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromDirectEntryPercent|percent~"</strong>")|raw }}
+            {% endif %}
+            {% if visitorsFromDirectEntryEvolution|default is not empty %}
+                {{ visitorsFromDirectEntryEvolution|raw }}
+            {% endif %}
+        </div>
+        <div class="sparkline" style="padding-left: 12px;">{{ sparkline(urlSparklineSearchEngines) }}
+            {{ 'Referrers_TypeSearchEngines'|translate("<strong>"~visitorsFromSearchEngines|number~"</strong>")|raw }}
+            {% if visitorsFromSearchEnginesPercent|default is not empty %},
+                {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromSearchEnginesPercent|percent~"</strong>")|raw }}
+            {% endif %}
+            {% if visitorsFromSearchEnginesEvolution|default is not empty %}
+                {{ visitorsFromSearchEnginesEvolution|raw }}
+            {% endif %}
+        </div>
     </div>
-    <div class="sparkline" style="padding-left: 12px;">{{ sparkline(urlSparklineSearchEngines) }}
-        {{ 'Referrers_TypeSearchEngines'|translate("<strong>"~visitorsFromSearchEngines~"</strong>")|raw }}
-        {% if visitorsFromSearchEnginesPercent|default is not empty %},
-            {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromSearchEnginesPercent~"</strong>")|raw }}
-        {% endif %}
-        {% if visitorsFromSearchEnginesEvolution|default is not empty %}
-            {{ visitorsFromSearchEnginesEvolution|raw }}
-        {% endif %}
+    <div class="col-md-6">
+        <div class="sparkline">{{ sparkline(urlSparklineWebsites) }}
+            {{ 'Referrers_TypeWebsites'|translate("<strong>"~visitorsFromWebsites|number~"</strong>")|raw }}
+            {% if visitorsFromWebsitesPercent|default is not empty %},
+                {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromWebsitesPercent|percent~"</strong>")|raw }}
+            {% endif %}
+            {% if visitorsFromWebsitesEvolution|default is not empty %}
+                {{ visitorsFromWebsitesEvolution|raw }}
+            {% endif %}
+        </div>
+        <div class="sparkline">{{ sparkline(urlSparklineCampaigns) }}
+            {{ 'Referrers_TypeCampaigns'|translate("<strong>"~visitorsFromCampaigns|number~"</strong>")|raw }}
+            {% if visitorsFromCampaignsPercent|default is not empty %},
+                {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromCampaignsPercent|percent~"</strong>")|raw }}
+            {% endif %}
+            {% if visitorsFromCampaignsEvolution|default is not empty %}
+                {{ visitorsFromCampaignsEvolution|raw }}
+            {% endif %}
+        </div>
     </div>
 </div>
-<div id='rightcolumn'>
-    <div class="sparkline">{{ sparkline(urlSparklineWebsites) }}
-        {{ 'Referrers_TypeWebsites'|translate("<strong>"~visitorsFromWebsites~"</strong>")|raw }}
-        {% if visitorsFromWebsitesPercent|default is not empty %},
-            {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromWebsitesPercent~"</strong>")|raw }}
-        {% endif %}
-        {% if visitorsFromWebsitesEvolution|default is not empty %}
-            {{ visitorsFromWebsitesEvolution|raw }}
-        {% endif %}
-    </div>
-    <div class="sparkline">{{ sparkline(urlSparklineCampaigns) }}
-        {{ 'Referrers_TypeCampaigns'|translate("<strong>"~visitorsFromCampaigns~"</strong>")|raw }}
-        {% if visitorsFromCampaignsPercent|default is not empty %},
-            {{ 'Referrers_XPercentOfVisits'|translate("<strong>"~visitorsFromCampaignsPercent~"</strong>")|raw }}
-        {% endif %}
-        {% if visitorsFromCampaignsEvolution|default is not empty %}
-            {{ visitorsFromCampaignsEvolution|raw }}
-        {% endif %}
-    </div>
-</div>
 
-<div style="clear:both;"/>
-
-<div style="padding-left:12px;">
-    <br/>
-
-    <strong>{{ 'General_MoreDetails'|translate }}&nbsp;
-        <a href="#" class="section-toggler-link" data-section-id="distinctReferrersByType">({{ 'General_Show'|translate }})</a>
-    </strong>
-</div>
-
-<div id="distinctReferrersByType" style="display:none;">
-    <div id='leftcolumn'>
+<div id="distinctReferrersByType" class="row">
+    <div class="col-md-6">
         <div class="sparkline" style="padding-left: 12px;">{{ sparkline(urlSparklineDistinctSearchEngines) }}
-            <strong>{{ numberDistinctSearchEngines }}</strong> {{ 'Referrers_DistinctSearchEngines'|translate }}
+            <strong>{{ numberDistinctSearchEngines|number }}</strong> {{ 'Referrers_DistinctSearchEngines'|translate }}
             {% if numberDistinctSearchEnginesEvolution|default is not empty %}
                 {{ numberDistinctSearchEnginesEvolution|raw }}
             {% endif %}
         </div>
         <div class="sparkline" style="padding-left: 12px;">{{ sparkline(urlSparklineDistinctKeywords) }}
-            <strong>{{ numberDistinctKeywords }}</strong> {{ 'Referrers_DistinctKeywords'|translate }}
+            <strong>{{ numberDistinctKeywords|number }}</strong> {{ 'Referrers_DistinctKeywords'|translate }}
             {% if numberDistinctKeywordsEvolution|default is not empty %}
                 {{ numberDistinctKeywordsEvolution|raw }}
             {% endif %}
         </div>
     </div>
-    <div id='rightcolumn'>
+    <div class="col-md-6">
         <div class="sparkline">{{ sparkline(urlSparklineDistinctWebsites) }}
-            <strong>{{ numberDistinctWebsites }}</strong> {{ 'Referrers_DistinctWebsites'|translate }}
-            {{ 'Referrers_UsingNDistinctUrls'|translate("<strong>"~numberDistinctWebsitesUrls~"</strong>")|raw }}
+            <strong>{{ numberDistinctWebsites|number }}</strong> {{ 'Referrers_DistinctWebsites'|translate }}
+            {{ 'Referrers_UsingNDistinctUrls'|translate("<strong>"~numberDistinctWebsitesUrls|number~"</strong>")|raw }}
             {% if numberDistinctWebsitesEvolution|default is not empty %}
                 {{ numberDistinctWebsitesEvolution|raw }}
             {% endif %}
         </div>
         <div class="sparkline">{{ sparkline(urlSparklineDistinctCampaigns) }}
-            <strong>{{ numberDistinctCampaigns }}</strong> {{ 'Referrers_DistinctCampaigns'|translate }}
+            <strong>{{ numberDistinctCampaigns|number }}</strong> {{ 'Referrers_DistinctCampaigns'|translate }}
             {% if numberDistinctCampaignsEvolution|default is not empty %}
                 {{ numberDistinctCampaignsEvolution|raw }}
             {% endif %}
@@ -89,22 +80,10 @@
     <br/>
 </div>
 
-<p style="clear:both;"/>
-
 <div style="float:left;" class="relatedReferrerReports">{{ 'General_View'|translate }}
     <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getSearchEnginesAndKeywords')">{{ 'Referrers_SubmenuSearchEngines'|translate }}</a>,
     <a href="javascript:broadcast.propagateAjax('module=Referrers&action=indexWebsites')">{{ 'Referrers_SubmenuWebsites'|translate }}</a>,
     <a href="javascript:broadcast.propagateAjax('module=Referrers&action=indexCampaigns')">{{ 'Referrers_Campaigns'|translate }}</a>.
 </div>
-
-<h2 piwik-enriched-headline>{{ 'Referrers_DetailsByReferrerType'|translate }}</h2>
-{{ dataTableReferrerType|raw }}
-
-<div style="clear:both;"></div>
-
-{% if totalVisits > 0 %}
-    <h2 piwik-enriched-headline>{{ 'Referrers_ReferrersOverview'|translate }}</h2>
-    {{ referrersReportsByDimension|raw }}
-{% endif %}
 
 {% include "_sparklineFooter.twig" %}

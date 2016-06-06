@@ -1,8 +1,10 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'DBStats_DatabaseUsage'|translate }}{% endset %}
+
 {% block content %}
 
-<h2 id="databaseUsageSummary">{{ 'DBStats_DatabaseUsage'|translate }}</h2>
+<h2 id="databaseUsageSummary">{{ title }}</h2>
 <p>
     {{ 'DBStats_MainDescription'|translate(totalSpaceUsed) }}<br/>
     {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>")|raw }}
@@ -42,7 +44,7 @@
     <tbody>
     <tr>
         <td>
-            <h2>{{ 'DBStats_TrackerTables'|translate }}</h2>
+            <h2 class="secondary">{{ 'DBStats_TrackerTables'|translate }}</h2>
             {{ trackerDataSummary|raw }}
         </td>
         <td>&nbsp;</td>
@@ -54,11 +56,11 @@
     <tbody>
     <tr>
         <td>
-            <h2>{{ 'DBStats_ReportTables'|translate }}</h2>
+            <h2 class="secondary">{{ 'DBStats_ReportTables'|translate }}</h2>
             {{ reportDataSummary|raw }}
         </td>
         <td>
-            <h2>{{ 'General_Reports'|translate }}</h2>
+            <h2 class="secondary">{{ 'General_Reports'|translate }}</h2>
 
             <div class="ajaxLoad" action="getIndividualReportsSummary">
                 <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
@@ -72,11 +74,11 @@
     <tbody>
     <tr>
         <td>
-            <h2>{{ 'DBStats_MetricTables'|translate }}</h2>
+            <h2 class="secondary">{{ 'DBStats_MetricTables'|translate }}</h2>
             {{ metricDataSummary|raw }}
         </td>
         <td>
-            <h2>{{ 'General_Metrics'|translate }}</h2>
+            <h2 class="secondary">{{ 'General_Metrics'|translate }}</h2>
 
             <div class="ajaxLoad" action="getIndividualMetricsSummary">
                 <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
@@ -90,7 +92,7 @@
     <tbody>
     <tr>
         <td>
-            <h2>{{ 'DBStats_OtherTables'|translate }}</h2>
+            <h2 class="secondary">{{ 'DBStats_OtherTables'|translate }}</h2>
             {{ adminDataSummary|raw }}
         </td>
         <td>&nbsp;</td>

@@ -9,23 +9,11 @@
 namespace Piwik\Tests\Unit\Container;
 
 use DI\Definition\ValueDefinition;
-use Piwik\Config;
+use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\IniConfigDefinitionSource;
 
 class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @test
-     */
-    public function getDefinition_withMergeableDefinition_shouldReturnNull()
-    {
-        $definition = $this->getMockForAbstractClass('DI\Definition\MergeableDefinition');
-
-        $definitionSource = new IniConfigDefinitionSource($this->createConfig());
-
-        $this->assertNull($definitionSource->getDefinition('foo', $definition));
-    }
-
     /**
      * @test
      */
@@ -41,13 +29,13 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigSection_shouldReturnEmptyArray()
     {
-        $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         /** @var ValueDefinition $definition */
-        $definition = $definitionSource->getDefinition('old_config.foo');
+        $definition = $definitionSource->getDefinition('ini.foo');
 
         $this->assertTrue($definition instanceof ValueDefinition);
-        $this->assertEquals('old_config.foo', $definition->getName());
+        $this->assertEquals('ini.foo', $definition->getName());
         $this->assertSame(array(), $definition->getValue());
     }
 
@@ -56,9 +44,9 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigSectionAndKey_shouldReturnNull()
     {
-        $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
-        $this->assertNull($definitionSource->getDefinition('old_config.foo.bar'));
+        $this->assertNull($definitionSource->getDefinition('ini.foo.bar'));
     }
 
     /**
@@ -66,9 +54,9 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefinition_withUnknownConfigKey_shouldReturnNull()
     {
-        $definitionSource = new IniConfigDefinitionSource(Config::getInstance());
+        $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
-        $this->assertNull($definitionSource->getDefinition('old_config.General.foo'));
+        $this->assertNull($definitionSource->getDefinition('ini.General.foo'));
     }
 
     /**
@@ -78,17 +66,17 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->createConfig();
         $config->expects($this->once())
-            ->method('__get')
+            ->method('getSection')
             ->with('General')
             ->willReturn(array('foo' => 'bar'));
 
         $definitionSource = new IniConfigDefinitionSource($config);
 
         /** @var ValueDefinition $definition */
-        $definition = $definitionSource->getDefinition('old_config.General');
+        $definition = $definitionSource->getDefinition('ini.General');
 
         $this->assertTrue($definition instanceof ValueDefinition);
-        $this->assertEquals('old_config.General', $definition->getName());
+        $this->assertEquals('ini.General', $definition->getName());
         $this->assertInternalType('array', $definition->getValue());
         $this->assertEquals(array('foo' => 'bar'), $definition->getValue());
     }
@@ -100,25 +88,25 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->createConfig();
         $config->expects($this->once())
-            ->method('__get')
+            ->method('getSection')
             ->with('General')
             ->willReturn(array('foo' => 'bar'));
 
         $definitionSource = new IniConfigDefinitionSource($config);
 
         /** @var ValueDefinition $definition */
-        $definition = $definitionSource->getDefinition('old_config.General.foo');
+        $definition = $definitionSource->getDefinition('ini.General.foo');
 
         $this->assertTrue($definition instanceof ValueDefinition);
-        $this->assertEquals('old_config.General.foo', $definition->getName());
+        $this->assertEquals('ini.General.foo', $definition->getName());
         $this->assertEquals('bar', $definition->getValue());
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Config
+     * @return \PHPUnit_Framework_MockObject_MockObject|GlobalSettingsProvider
      */
     private function createConfig()
     {
-        return $this->getMock('Piwik\Config', array(), array(), '', false);
+        return $this->getMock('Piwik\Application\Kernel\GlobalSettingsProvider', array(), array(), '', false);
     }
 }

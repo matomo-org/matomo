@@ -12,17 +12,10 @@ use Piwik\Piwik;
 
 class MultiSites extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $info = parent::getInformation();
-        $info['authors'] = array(array('name' => 'Piwik PRO', 'homepage' => 'http://piwik.pro'));
-        return $info;
-    }
-
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
@@ -54,7 +47,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'General_ColumnNbVisits';
         $translations[] = 'General_ColumnPageviews';
         $translations[] = 'General_ColumnRevenue';
-        $translations[] = 'General_TotalVisitsPageviewsRevenue';
+        $translations[] = 'General_TotalVisitsPageviewsActionsRevenue';
         $translations[] = 'General_EvolutionSummaryGeneric';
         $translations[] = 'General_AllWebsitesDashboard';
         $translations[] = 'General_NVisits';
@@ -67,14 +60,18 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'Actions_SubmenuSitesearch';
         $translations[] = 'MultiSites_LoadingWebsites';
         $translations[] = 'General_ErrorRequest';
-        $translations[] = 'MultiSites_Pagination';
+        $translations[] = 'General_Pagination';
+        $translations[] = 'General_ClickToSearch';
+        $translations[] = 'General_NeedMoreHelp';
+        $translations[] = 'General_Faq';
+        $translations[] = 'Feedback_CommunityHelp';
+        $translations[] = 'Feedback_ProfessionalHelp';
     }
 
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-model.service.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard.controller.js";
-        $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard-group.filter.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/dashboard/dashboard.directive.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/site/site.controller.js";
         $jsFiles[] = "plugins/MultiSites/angularjs/site/site.directive.js";

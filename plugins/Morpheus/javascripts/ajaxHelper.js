@@ -100,6 +100,11 @@ function ajaxHelper() {
     this.errorCallback =  this.defaultErrorCallback;
 
     /**
+     * Callback function to be executed on complete (after error or success)
+     */
+    this.completeCallback =  function () {};
+
+    /**
      * Params to be passed as GET params
      * @type {Object}
      * @see ajaxHelper._mixinDefaultGetParams
@@ -245,6 +250,16 @@ function ajaxHelper() {
     };
 
     /**
+     * Sets the complete callback which is called after an error or success callback.
+     *
+     * @param {function} callback  Callback function
+     * @return {void}
+     */
+    this.setCompleteCallback = function (callback) {
+        this.completeCallback = callback;
+    };
+
+    /**
      * error callback to use by default
      *
      * @param deferred
@@ -359,8 +374,15 @@ function ajaxHelper() {
             async:    this.async !== false,
             url:      url,
             dataType: this.format || 'json',
-            error:    this.errorCallback,
-            success:  function (response) {
+            complete: this.completeCallback,
+            error:    function () {
+                --globalAjaxQueue.active;
+
+                if (that.errorCallback) {
+                    that.errorCallback.apply(this, arguments);
+                }
+            },
+            success:  function (response, status, request) {
                 if (that.loadingElement) {
                     $(that.loadingElement).hide();
                 }
@@ -389,7 +411,7 @@ function ajaxHelper() {
                     }
 
                 } else {
-                    that.callback(response);
+                    that.callback(response, status, request);
                 }
 
                 --globalAjaxQueue.active;
@@ -410,6 +432,12 @@ function ajaxHelper() {
         return $.ajax(ajaxCall);
     };
 
+    this._getDefaultPostParams = function () {
+        return {
+            token_auth: piwik.token_auth
+        };
+    }
+
     /**
      * Mixin the default parameters to send as POST
      *
@@ -419,9 +447,7 @@ function ajaxHelper() {
      */
     this._mixinDefaultPostParams = function (params) {
 
-        var defaultParams = {
-            token_auth: piwik.token_auth
-        };
+        var defaultParams = this._getDefaultPostParams();
 
         for (var index in defaultParams) {
 

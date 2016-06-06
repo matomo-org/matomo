@@ -1,8 +1,9 @@
 {
     "Insights": {
-        "ControlComparedToDescription": "Wachstum verglichen zu",
+        "PluginDescription": "Stellt Einblicke in ihren Traffic zur Verfügung. Diese \"Einblicke\" sind verfügbar als Dashboard Widgets sowie über ein neues Icon in den Berichten, dass Ihnen die Möglichkeit gibt die wichtigsten Trends ihrer Daten zu sehen.",
+        "ControlComparedToDescription": "Wachstum verglichen mit",
         "ControlFilterByDescription": "Zeige alle, nur Verschiebungen, nur neue oder nur Ausstiege",
-        "DatePeriodCombinationNotSupported": "Es ist nicht möglich, Ansichten für dieses Datums- und Zeitbereichskombination zu generieren.",
+        "DatePeriodCombinationNotSupported": "Es ist nicht möglich, Ansichten für diese Datums- und Zeitraumskombination zu generieren.",
         "DayComparedToPreviousDay": "vorheriger Tag",
         "DayComparedToPreviousWeek": "gleicher Tag in vorheriger Woche",
         "DayComparedToPreviousYear": "gleicher Tag im vorherigen Jahr",

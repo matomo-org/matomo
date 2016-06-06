@@ -40,7 +40,6 @@ class Filechecks
     {
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {
-
             if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)) {
                 $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
             }
@@ -48,11 +47,8 @@ class Filechecks
             Filesystem::mkdir($directoryToCheck);
 
             $directory = Filesystem::realpath($directoryToCheck);
-            $resultCheck[$directory] = false;
-            if ($directory !== false // realpath() returns FALSE on failure
-                && is_writable($directoryToCheck)
-            ) {
-                $resultCheck[$directory] = true;
+            if ($directory !== false) {
+                $resultCheck[$directory] = is_writable($directoryToCheck);
             }
         }
         return $resultCheck;
@@ -139,7 +135,7 @@ class Filechecks
 
             if (!file_exists($file) || !is_readable($file)) {
                 $messages[] = Piwik::translate('General_ExceptionMissingFile', $file);
-            } else if (filesize($file) != $props[0]) {
+            } elseif (filesize($file) != $props[0]) {
                 if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
                     // files that contain binary data (e.g., images) must match the file size
                     $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
@@ -153,7 +149,7 @@ class Filechecks
                         $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                     }
                 }
-            } else if ($hasMd5file && (@md5_file($file) !== $props[1])) {
+            } elseif ($hasMd5file && (@md5_file($file) !== $props[1])) {
                 $messages[] = Piwik::translate('General_ExceptionFileIntegrity', $file);
             }
         }

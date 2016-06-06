@@ -17,7 +17,6 @@
         "NbUniquePageviewsDescription": "%s vizualizări unice de pagină",
         "NbUniqueVisitors": "%s vizitatori unici",
         "NbVisitsBounced": "%s vizite care au sarit(a părăsit site-ul după o singură pagină)",
-        "PluginDescription": "Raportează general Analytics numerele: vizite, vizitatori unici, numărul de acțiuni, Bounce Rate, etc",
         "VisitsSummary": "Rezumatul vizitelor",
         "VisitsSummaryDocumentation": "Acesta este un rezumat a evoluţiei vizitelor.",
         "WidgetLastVisits": "Grafic ultima vizita",

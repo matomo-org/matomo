@@ -9,12 +9,14 @@
 
 /* on admin screen, Save button aligned on the left */
 .admin .submit {
-  margin-left: 50px;
+  margin-left: 0px;
+  margin-top: 20px;
   float: none;
 }
 
 .admin .entityContainer .submit {
   margin: 0;
+  margin-top: 20px;
 }
 
 .entityContainer .link_but {
@@ -35,6 +37,7 @@
 
 .entityAddContainer .entityTable tr td.first {
   font-weight: bold;
+  vertical-align: top !important;
 }
 
 .entityAddContainer tr:hover {
@@ -43,7 +46,9 @@
 
 /* Add / Edit / List entities */
 .entityContainer {
-  width: 800px;
+  width: 100%;
+  max-width: 850px;
+  min-width: 600px;
   font-size: 14px;
 }
 
@@ -52,30 +57,40 @@
   margin-top: 5px;
 }
 
-.entityTable {
-  border-radius: 4px !important;
-  border-top: 1px solid #cdc8bf !important;
-  border-bottom: 1px solid #948c7d !important;
-}
+table.entityTable {
+  thead {
+    tr {
+      th {
+        background-color: @color-silver-l98 !important;
+        text-align: left !important;
+        font-size: 16px;
+      }
 
-.entityTable tr th {
-  font-size: 16px;
+      td {
+        padding: 10px;
+      }
+    }
+  }
+
+  tr {
+    td {
+      padding:10px;
+    }
+  }
 }
 
 .entityTable tr td.first, .entityTable tr th.first {
   border-left: 0 !important;
-  vertical-align: middle;
+  vertical-align: top !important;
 }
 
 .entityTable tr th {
   white-space: nowrap;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding: 16px 10px !important;
 }
 
 .entityTable tr td, .entityTable tr th {
   border-bottom: 0 !important;
-  border-top: 1px solid #E7E7E7 !important;
 }
 
 table.entityTable tr td a {
@@ -88,8 +103,6 @@ table.entityTable tr td a {
 
 /* cancel button below Forms */
 .entityCancel {
-  float: right;
-  clear: both;
   padding: 10px 0;
   font-size: 12px;
 }
@@ -102,7 +115,7 @@ table.entityTable tr td a {
 }
 
 .entityList ul li {
-  background: #fff url(plugins/Morpheus/images/li_dbl_gray.gif) no-repeat 6px 10px;
+  background: @theme-color-background-base url(plugins/Morpheus/images/li_dbl_gray.gif) no-repeat 6px 10px;
   padding: 0 0 0 21px;
   line-height: 22px;
 }

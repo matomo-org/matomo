@@ -1,12 +1,12 @@
 {
     "Contents": {
-        "ContentName": "Sisällön nimi",
-        "ContentPiece": "Sisällön osa",
-        "Contents": "Sisällöt",
-        "ContentTarget": "Sisällön kohde",
         "Impressions": "Näkymät",
+        "Interactions": "Interaktiot",
         "Interaction": "Interaktio",
         "InteractionRate": "Interaktioiden määrä",
-        "Interactions": "Interaktiot"
+        "ContentName": "Sisällön nimi",
+        "ContentPiece": "Sisällön osa",
+        "ContentTarget": "Sisällön kohde",
+        "Contents": "Sisällöt"
     }
 }

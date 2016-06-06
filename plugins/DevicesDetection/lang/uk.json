@@ -1,9 +1,11 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Веб-оглядач",
         "BrowserFamily": "Родина веб-оглядача",
         "Browsers": "Веб-оглядачі",
         "ColumnBrowser": "Веб-оглядач",
         "ColumnOperatingSystem": "Операційна система",
+        "dataTableLabelTypes": "Тип",
         "OperatingSystems": "Операційні системи",
         "WidgetBrowsers": "Веб-оглядачі відвідувачів"
     }

@@ -18,9 +18,10 @@
         "Maximise": "最大化",
         "Minimise": "最小化",
         "NotUndo": "この操作は取り消せません。",
-        "PluginDescription": "ウェブ解析のダッシュボードです。 新しいウィジェットを追加したり、ウィジェットの並び順を変更することで、あなたのダッシュボードをカスタマイズすることができます。 各ユーザーは、ユーザー自身のカスタムダッシュボードにアクセスすることができます。",
+        "PluginDescription": "ユーザーの Web Analytics のダッシュ ボード。新しいウィジェットを追加することによって、ダッシュ ボードをカスタマイズ、ドラッグ アンドドロップしでダッシュ ボードのカラムのレイアウトを変更します。各ユーザーは、独自のカスタム ダッシュ ボードを管理できます。",
         "RemoveDashboard": "ダッシュボードの削除",
         "RemoveDashboardConfirm": "本当にダッシュボード \"%s\" を削除しますか？",
+        "RemoveDefaultDashboardNotPossible": "既定のダッシュ ボードを削除できません。",
         "RenameDashboard": "ダッシュボードの名称変更",
         "ResetDashboard": "ダッシュボードのリセット",
         "ResetDashboardConfirm": "ダッシュボードのレイアウトをリセットしてデフォルトのウィジェットに戻しますか？",
@@ -31,7 +32,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "これらのウィジェットとダッシュボードのレイアウトは、新規ダッシュボードの作成時か、あるいは %s 機能の使用時に使われれます。",
         "TopLinkTooltip": "%s のウェブ解析レポートを表示",
         "WidgetNotFound": "ウィジェットが見つかりませんでした",
-        "WidgetPreview": "ウィジェットのプレビュー",
-        "WidgetsAndDashboard": "ウィジェットとダッシュボード"
+        "WidgetPreview": "ウィジェットのプレビュー"
     }
 }

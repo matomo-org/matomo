@@ -1,106 +1,99 @@
 {% extends '@CoreUpdater/layout.twig' %}
 
 {% block content %}
-{% spaceless %}
-<span style="float:right;">{{ postEvent('Template.topBar')|raw }}</span>
-{% set helpMessage %}
-    {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
-{% endset %}
 
-{% if coreError %}
-    <br/>
-    <br/>
-    <div class="error">
-        <img src="plugins/Morpheus/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
-        {% for message in errorMessages %}
-            <pre>{{ message|raw }}</pre>
-        {% endfor %}
-    </div>
-    <br/>
-    <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}
-    <ul>
-        <li>{{ helpMessage|raw }}</li>
-    </ul>
-    </p>
-{% else %}
-    {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0 %}
-        <p style='font-size:110%;padding-top:1em;'><strong id='titleUpdate'>{{ 'CoreUpdater_DatabaseUpgradeRequired'|translate }}</strong></p>
+    <div class="header">
+        <h1>{{ 'CoreUpdater_DatabaseUpgradeRequired'|translate }}</h1>
         <p>{{ 'CoreUpdater_YourDatabaseIsOutOfDate'|translate }}</p>
-        {% if coreToUpdate %}
-            <p>{{ 'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate(current_piwik_version,new_piwik_version) }}</p>
-        {% endif %}
+        {{ postEvent('Template.topBar')|raw }}
+    </div>
 
-        {% if pluginNamesToUpdate|length > 0 %}
-            {% set listOfPlugins=pluginNamesToUpdate|join(', ') %}
-            <p>{{ 'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate(listOfPlugins) }}</p>
-        {% endif %}
+    <div class="content text-left">
 
-        {% if dimensionsToUpdate|length > 0 %}
-            {% set listOfDimensions=dimensionsToUpdate|join(', ') %}
-            <p>{{ 'CoreUpdater_TheFollowingDimensionsWillBeUpgradedX'|translate(listOfDimensions) }}</p>
-        {% endif %}
+        {% set helpMessage %}
+            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
+        {% endset %}
 
-        <h3 id='titleUpdate'>{{ 'CoreUpdater_NoteForLargePiwikInstances'|translate }}</h3>
-        {% if isMajor %}
-            <p class="warning normalFontSize">
-                {{ 'CoreUpdater_MajorUpdateWarning1'|translate }}<br/>
-                {{ 'CoreUpdater_MajorUpdateWarning2'|translate }}
-            </p>
-        {% endif %}
-        <ul>
-            <li>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate(commandUpgradePiwik)|raw }}</li>
-            <li>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fpiwik.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</li>
-            <li>{{ 'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate }}<br/>
-                <a href="#titleUpdate" id="showSql" style="margin-left:20px;">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a>
+        {% if coreError %}
+            <div class="alert alert-danger">
+                {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
+                {% for message in errorMessages %}
+                    <br/><strong>{{ message|raw }}</strong>
+                {% endfor %}
+            </div>
+            <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}</p>
+            <ul>
+                <li>{{ helpMessage|raw }}</li>
+            </ul>
+        {% else %}
 
+            {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0 %}
+                {% if coreToUpdate %}
+                    <p>{{ 'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate(current_piwik_version,new_piwik_version) }}</p>
+                {% endif %}
+
+                {% if pluginNamesToUpdate|length > 0 %}
+                    {% set listOfPlugins=pluginNamesToUpdate|join(', ') %}
+                    <p>{{ 'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate(listOfPlugins) }}</p>
+                {% endif %}
+
+                {% if dimensionsToUpdate|length > 0 %}
+                    {% set listOfDimensions=dimensionsToUpdate|join(', ') %}
+                    <p>{{ 'CoreUpdater_TheFollowingDimensionsWillBeUpgradedX'|translate(listOfDimensions) }}</p>
+                {% endif %}
+
+                <h2>{{ 'CoreUpdater_NoteForLargePiwikInstances'|translate }}</h2>
+                {% if isMajor %}
+                    <div class="alert alert-danger">
+                        {{ 'CoreUpdater_MajorUpdateWarning1'|translate }}
+                        {{ 'CoreUpdater_MajorUpdateWarning2'|translate }}
+                    </div>
+                {% endif %}
+                <p>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate('') }}</p>
+                <pre>{{ commandUpgradePiwik }}</pre>
+                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fpiwik.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</p>
+                <p>{{ 'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate }}</p>
+                <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
                 <div id="sqlQueries" style="display:none;">
-                    <br/>
-                    <code>
-                        # {{ 'CoreUpdater_NoteItIsExpectedThatQueriesFail'|translate }}<br/><br/>
-                        {% for query in queries %}
-                        &nbsp;&nbsp;&nbsp;{{ query }}
-                            <br/>
-                        {% endfor %}
-                    </code>
+                    <pre># {{ 'CoreUpdater_NoteItIsExpectedThatQueriesFail'|translate }}<br/>{% for query in queries %}{{ query }}<br/>{% endfor %}</pre>
                 </div>
-            </li>
-        </ul>
-        <br/>
-        <br/>
-        <h4 id="titleUpdate">{{ 'CoreUpdater_ReadyToGo'|translate }}</h4>
-        <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>
-    {% endif %}
 
-    {% if warningMessages|length > 0 %}
-        <p><em>{{ warningMessages[0] }}</em>
-            {% if warningMessages|length > 1 %}
-                <button id="more-results" class="ui-button ui-state-default ui-corner-all">{{ 'General_Details'|translate }}</button>
+                <h2>{{ 'CoreUpdater_ReadyToGo'|translate }}</h2>
+                <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>
             {% endif %}
-        </p>
-    {% endif %}
 
-    {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0  %}
-        <br/>
-        <form action="index.php" id="upgradeCorePluginsForm">
-            <input type="hidden" name="updateCorePlugins" value="1"/>
-            {% if queries|length == 1 %}
-                <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+            {% if warningMessages|length > 0 %}
+                <div class="alert alert-info">
+                    {{ warningMessages[0] }}
+                    {% if warningMessages|length > 1 %}
+                        <button id="more-results" class="ui-button ui-state-default ui-corner-all">{{ 'General_Details'|translate }}</button>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0  %}
+                <form action="index.php" id="upgradeCorePluginsForm" class="clearfix" data-updating="{{ 'CoreUpdater_Updating'|translate }}...">
+                    <input type="hidden" name="updateCorePlugins" value="1"/>
+                    {% if queries|length == 1 %}
+                        <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+                    {% else %}
+                        <input type="submit" class="submit" value="{{ 'CoreUpdater_UpgradePiwik'|translate }}"/>
+                    {% endif %}
+                </form>
             {% else %}
-                <input type="submit" class="submit" value="{{ 'CoreUpdater_UpgradePiwik'|translate }}"/>
+                {% if warningMessages|length >= 0 %}
+                    <div class="alert alert-success">
+                        {{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}
+                    </div>
+                {% endif %}
+                <form action="index.php" class="clearfix">
+                    <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+                </form>
             {% endif %}
-        </form>
-    {% else %}
-        {% if warningMessages|length == 0 %}
-            <p class="success">{{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}</p>
         {% endif %}
-        <br/>
-        <form action="index.php">
-            <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
-        </form>
-    {% endif %}
-{% endif %}
 
-{% include "@Installation/_integrityDetails.twig" %}
+        {% include "@Installation/_integrityDetails.twig" %}
 
-{% endspaceless %}
+    </div>
+
 {% endblock %}

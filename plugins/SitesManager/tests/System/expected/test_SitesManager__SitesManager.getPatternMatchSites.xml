@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idsite>1</idsite>
+		<name>SiteTest1</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>10</idsite>
+		<name>SiteTest10</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>11</idsite>
+		<name>SiteTest11</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>12</idsite>
+		<name>SiteTest12</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>13</idsite>
+		<name>SiteTest13</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>14</idsite>
+		<name>SiteTest14</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>15</idsite>
+		<name>SiteTest15</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>16</idsite>
+		<name>SiteTest16</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>17</idsite>
+		<name>SiteTest17</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>18</idsite>
+		<name>SiteTest18</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+	<row>
+		<idsite>19</idsite>
+		<name>SiteTest19</name>
+		<main_url>http://piwik.net</main_url>
+		<ts_created>2010-01-02 11:22:33</ts_created>
+		<ecommerce>0</ecommerce>
+		<sitesearch>1</sitesearch>
+		<sitesearch_keyword_parameters />
+		<sitesearch_category_parameters />
+		<timezone>UTC</timezone>
+		<currency>USD</currency>
+		<exclude_unknown_urls>0</exclude_unknown_urls>
+		<excluded_ips />
+		<excluded_parameters />
+		<excluded_user_agents />
+		<group />
+		<type>website</type>
+		<keep_url_fragment>0</keep_url_fragment>
+	</row>
+</result>

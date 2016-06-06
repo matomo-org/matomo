@@ -5,7 +5,6 @@
         "ColumnSearchEngine": "Paieškos sistema",
         "ColumnWebsite": "Svetainė",
         "ColumnWebsitePage": "Svetainės puslapis",
-        "DetailsByReferrerType": "Duomenys pagal šaltinio tipą",
         "DirectEntry": "Tiesioginis apsilankymas",
         "Distinct": "Atskirti šaltinius pagal tipą",
         "DistinctCampaigns": "atskirti kampanijas",
@@ -13,7 +12,6 @@
         "DistinctSearchEngines": "atskirti paieškos sistemas",
         "DistinctWebsites": "atskirti svetaines",
         "Keywords": "Raktiniai žodžiai",
-        "PluginDescription": "Nurodo šaltinio duomenis: paieškos variklius, raktinius žodžius, svetaines, tiesioginius apsilankymus ir t.t.",
         "ReferrerName": "Šaltinio pavadinimas",
         "Referrers": "Šaltiniai",
         "SearchEngines": "Paieškos sistemos",
@@ -26,6 +24,7 @@
         "TypeWebsites": "%s iš svetainių",
         "UsingNDistinctUrls": "(naudojant %s skirtingus URL)",
         "Websites": "Svetainės",
-        "WidgetExternalWebsites": "Išorinių svetainių sąrašas"
+        "WidgetExternalWebsites": "Išorinių svetainių sąrašas",
+        "WidgetSocials": "Socialinių tinklų sąrašas"
     }
 }

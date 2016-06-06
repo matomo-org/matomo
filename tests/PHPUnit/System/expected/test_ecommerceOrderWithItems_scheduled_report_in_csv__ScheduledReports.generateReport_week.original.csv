@@ -4,8 +4,8 @@ Piwik test,5,16,16,$ 13361.11,5,4,$ 13351.11,100%,100%,100%,100%,100%,100%,100%
 Piwik test,2,1,1,$ 250,1,0,$ 0,100%,100%,100%,100%,100%,0,0
 
 Visits Summary
-nb_uniq_visitors,nb_users,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
-1,0,5,16,6,3.2,00:22:49,20%
+nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
+1,5,16,6,3.2,00:22:49,20%
 
 Visits by Server Time
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -90,7 +90,7 @@ Windowsmedia,0,0%
 
 Visitor Configuration
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Windows XP / Firefox / 1024x768,5,16,80%,3.2,00:22:49,20%
+Windows / Firefox / 1024x768,5,16,80%,3.2,00:22:49,20%
 
 Browser language
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -210,7 +210,7 @@ nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uni
 
 Page URLs
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
-/index.htm,4,16,0%,00:13:30,100%
+/index.htm,4,16,0%,00:03:23,100%
 
 Entry pages
 label,entry_nb_visits,entry_bounce_count,bounce_rate
@@ -222,7 +222,7 @@ label,nb_visits,exit_nb_visits,exit_rate
 
 Page titles
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
- View product left in cart,3,9,0%,00:06:00,100%
+ View product left in cart,3,9,0%,00:02:00,100%
  Another Product page,1,1,0%,00:06:00,0%
  Another Product page with multiple categories,1,1,0%,00:00:00,100%
  Another Product page with no category,1,1,0%,00:00:00,0%
@@ -462,10 +462,6 @@ Returning Visits
 nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
 1,0,4,12,6,25%,3,00:25:32
 
-Provider
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
-
 Device type
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Desktop,5,16,80%,3.2,00:22:49,20%
@@ -478,13 +474,13 @@ Device brand
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Unknown,5,16,80%,3.2,00:22:49,20%
 
-Device model
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,80%,3.2,00:22:49,20%
-
 Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 Firefox 3.6,5,16,80%,3.2,00:22:49,20%
+
+Device model
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,5,16,80%,3.2,00:22:49,20%
 
 Operating System families
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

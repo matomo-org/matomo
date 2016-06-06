@@ -2,8 +2,10 @@
 
 {% import '@CorePluginsAdmin/macros.twig' as plugins %}
 
+{% set title %}{{ 'CorePluginsAdmin_PluginsManagement'|translate }}{% endset %}
+
 {% block content %}
-<div style="max-width:980px;">
+<div class="pluginsManagement">
 
     {% if pluginsHavingUpdate|length %}
         <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
@@ -13,7 +15,7 @@
         {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
     {% endif %}
 
-    <h2 piwik-enriched-headline>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
+    <h2 piwik-enriched-headline>{{ title }}</h2>
 
     <p>{{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
         {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}
@@ -22,6 +24,8 @@
         <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
     {% endif %}
 
+        <br />
+        {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}
     </p>
 
     {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}

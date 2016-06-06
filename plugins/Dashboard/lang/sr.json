@@ -18,7 +18,7 @@
         "Maximise": "Povećaj",
         "Minimise": "Smanji",
         "NotUndo": "Nećete moći da poništite ovu operaciju",
-        "PluginDescription": "Vaša Konzola za web analitiku. Ovde možete personalizovati vašu Konzolu: dodajte vidžete ili im izmenite redosled. Svaki korisnik ima sopstvenu Konzolu.",
+        "PluginDescription": "Vaša konzola za veb analitiku. Prilagodite je svojim potrebama dodavanjem novih vidžeta, prevlačenjem istih i menjanjem rasporeda. Svaki korisnik može da upravlja svojom konzolom.",
         "RemoveDashboard": "Ukloni konzolu",
         "RemoveDashboardConfirm": "Da li ste sigurni da želite da uklonite konzolu \"%s\"?",
         "RenameDashboard": "Promena naziva",
@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Ovi vidžeti i raspored kolona će biti upotrebljeni kada neki korisnik kreira novu konzolu ili kada se klikne na \"%s\"",
         "TopLinkTooltip": "Prikaži izveštaj za %s.",
         "WidgetNotFound": "Vidžet nije pronađen",
-        "WidgetPreview": "Prikaz vidžeta",
-        "WidgetsAndDashboard": "Vidžeti i konzola"
+        "WidgetPreview": "Prikaz vidžeta"
     }
 }

@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "مرورگر",
         "BrowserFamily": "خانواده مرورگر",
         "Browsers": "مرورگر ها",
         "BrowserVersion": "نسخه مرورگر",
@@ -26,7 +27,7 @@
         "OperatingSystemVersions": "نسخه سیستم عامل",
         "SmartDisplay": "صفحه نمایش هوشمند",
         "Smartphone": "تلفن هوشمند",
-        "submenu": "وسایل",
+        "Devices": "وسایل",
         "Tablet": "تبلت",
         "TV": "تلویزیون",
         "UserAgent": "کاربر-نمایندگی",

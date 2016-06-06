@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Asia</label>
+		<nb_visits>22</nb_visits>
+		<nb_actions>60</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>17831</sum_visit_length>
+		<bounce_count>11</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>22</nb_conversions>
+				<nb_visits_converted>22</nb_visits_converted>
+				<revenue>110</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>11</nb_conversions>
+				<nb_visits_converted>11</nb_visits_converted>
+				<revenue>55</revenue>
+			</row>
+		</goals>
+		<nb_conversions>33</nb_conversions>
+		<revenue>165</revenue>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>Asia</code>
+	</row>
+	<row>
+		<label>North America</label>
+		<nb_visits>8</nb_visits>
+		<nb_actions>22</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>6484</sum_visit_length>
+		<bounce_count>4</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>8</nb_conversions>
+				<nb_visits_converted>8</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>4</nb_conversions>
+				<nb_visits_converted>4</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>12</nb_conversions>
+		<revenue>60</revenue>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>North America</code>
+	</row>
+	<row>
+		<label>Europe</label>
+		<nb_visits>5</nb_visits>
+		<nb_actions>13</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>3242</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>5</nb_conversions>
+				<nb_visits_converted>5</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>7</nb_conversions>
+		<revenue>35</revenue>
+		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<code>Europe</code>
+	</row>
+</result>

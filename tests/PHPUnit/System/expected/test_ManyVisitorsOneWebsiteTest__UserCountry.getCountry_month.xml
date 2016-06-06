@@ -3,9 +3,9 @@
 	<row>
 		<label>United Kingdom</label>
 		<nb_visits>10</nb_visits>
-		<nb_actions>18</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>6305</sum_visit_length>
+		<nb_actions>28</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>8105</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -25,15 +25,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>gb</code>
 		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
 		<label>Canada</label>
 		<nb_visits>6</nb_visits>
-		<nb_actions>10</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>3783</sum_visit_length>
+		<nb_actions>16</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>4863</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -53,15 +54,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>ca</code>
 		<logo>plugins/UserCountry/images/flags/ca.png</logo>
+		<segment>countryCode==ca</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
-		<label>Russian Federation</label>
+		<label>Russia</label>
 		<nb_visits>4</nb_visits>
-		<nb_actions>7</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>2522</sum_visit_length>
+		<nb_actions>11</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>3242</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -81,15 +83,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>ru</code>
 		<logo>plugins/UserCountry/images/flags/ru.png</logo>
+		<segment>countryCode==ru</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
 		<label>United States</label>
 		<nb_visits>3</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>7</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -109,15 +112,16 @@
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>us</code>
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
+		<segment>countryCode==us</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
 		<label>France</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -137,15 +141,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>fr</code>
 		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
 		<label>Indonesia</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -165,15 +170,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>id</code>
 		<logo>plugins/UserCountry/images/flags/id.png</logo>
+		<segment>countryCode==id</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
 		<label>Italy</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -193,15 +199,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>it</code>
 		<logo>plugins/UserCountry/images/flags/it.png</logo>
+		<segment>countryCode==it</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
-		<label>Macedonia, the Former Yugoslav Republic of</label>
+		<label>Macedonia</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -221,15 +228,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>mk</code>
 		<logo>plugins/UserCountry/images/flags/mk.png</logo>
+		<segment>countryCode==mk</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
 		<label>Tibet</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -249,15 +257,16 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>ti</code>
 		<logo>plugins/UserCountry/images/flags/ti.png</logo>
+		<segment>countryCode==ti</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
 	<row>
 		<label>Unknown</label>
 		<nb_visits>2</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>1261</sum_visit_length>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -277,6 +286,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>xx</code>
 		<logo>plugins/UserCountry/images/flags/xx.png</logo>
+		<segment>countryCode==xx</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>

@@ -10,12 +10,13 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_1_9_3_b3 extends Updates
 {
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         // Insight was a temporary code name for Overlay
         $pluginToDelete = 'Insight';

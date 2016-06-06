@@ -8,7 +8,14 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Cache;
+use Piwik\DataTable;
+use Piwik\DataTable\Map;
+use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Segment;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -27,6 +34,19 @@ class UserId extends VisitDimension
      * @var string
      */
     protected $columnType = 'VARCHAR(200) NULL';
+
+    protected function configureSegments()
+    {
+        $segment = new Segment();
+        $segment->setType('dimension');
+        $segment->setSegment('userId');
+        $segment->setCategory(Piwik::translate('General_Visit'));
+        $segment->setName('General_UserId');
+        $segment->setAcceptedValues('any non empty unique string identifying the user (such as an email address or a username).');
+        $segment->setSqlSegment('log_visit.user_id');
+        $segment->setRequiresAtLeastViewAccess(true);
+        $this->addSegment($segment);
+    }
 
     /**
      * @param Request $request
@@ -49,6 +69,72 @@ class UserId extends VisitDimension
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         return $request->getForcedUserId();
+    }
+
+    public function isUsedInAtLeastOneSite($idSites, $period, $date)
+    {
+        if ($period === 'day' || $period === 'week') {
+            $period = 'month';
+        }
+
+        if ($period === 'range') {
+            $period = 'day';
+        }
+
+        foreach ($idSites as $idSite) {
+            if ($this->isUsedInSiteCached($idSite, $period, $date)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isUsedInSiteCached($idSite, $period, $date)
+    {
+        $cache = Cache::getTransientCache();
+        $key   = sprintf('%d.%s.%s', $idSite, $period, $date);
+
+        if (!$cache->contains($key)) {
+            $result = $this->isUsedInSite($idSite, $period, $date);
+            $cache->save($key, $result);
+        }
+
+        return $cache->fetch($key);
+    }
+
+    private function isUsedInSite($idSite, $period, $date)
+    {
+        $result = VisitsSummaryApi::getInstance()->get($idSite, $period, $date, false, 'nb_users');
+
+        return $this->hasDataTableUsers($result);
+    }
+
+    public function hasDataTableUsers(DataTable\DataTableInterface $result)
+    {
+        if ($result instanceof Map) {
+            foreach ($result->getDataTables() as $table) {
+                if ($this->hasDataTableUsers($table)) {
+                    return true;
+                }
+            }
+        }
+
+        if (!$result->getRowsCount()) {
+            return false;
+        }
+
+        $firstRow = $result->getFirstRow();
+        if ($firstRow instanceof DataTable\Row && $firstRow->hasColumn(Metrics::INDEX_NB_USERS)) {
+            $metric = Metrics::INDEX_NB_USERS;
+        } else {
+            $metric = 'nb_users';
+        }
+
+        $numUsers = $result->getColumn($metric);
+        $numUsers = array_sum($numUsers);
+
+        return !empty($numUsers);
     }
 
 }

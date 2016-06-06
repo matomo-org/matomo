@@ -19,7 +19,7 @@ class Menu extends \Piwik\Plugin\Menu
         if (UserCountry::isGeoLocationAdminEnabled() && Piwik::hasUserSuperUserAccess()) {
             $menu->addSettingsItem('UserCountry_Geolocation',
                                    $this->urlForAction('adminIndex'),
-                                   $order = 8);
+                                   $order = 9);
         }
     }
 

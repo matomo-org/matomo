@@ -1,0 +1,190 @@
+/* LOGO
+***********************/
+#loginPage {
+    #logo {
+        float: none;
+        margin: 100px auto 0 auto;
+        width: 240px;
+        position: relative;
+    }
+
+    #logo .description {
+        position: absolute;
+        left: -40px !important;
+        top: -30px !important;
+        -webkit-transform: rotate(-6deg);
+        -moz-transform: rotate(-6deg);
+        -ms-transform: rotate(-6deg);
+        -o-transform: rotate(-6deg);
+    }
+
+    #logo .description a {
+        font: 16px/16px 'Patrick Hand';
+        color: #666666;
+        right: auto;
+        text-decoration: none;
+    }
+
+    #logo .description .arrow {
+        background: url(../../Morpheus/images/affix-arrow.png);
+        width: 50px;
+        height: 68px;
+        position: absolute;
+        left: -35px;
+    }
+
+    #logo img {
+        border: 0;
+        vertical-align: bottom;
+        height: auto;
+        width: 240px;
+        margin-right: 20px;
+    }
+
+    /* LAYOUT
+    ***********************/
+    #loginPage a {
+        text-decoration: none;
+    }
+
+    .loadingPiwik {
+        float: left;
+        margin-left: 16px;
+    }
+
+    .loginSection {
+        background-color: @login-section-background;
+        width: 420px;
+        padding: 30px;
+        margin: 50px auto 0 auto;
+        border-radius: 3px;
+        -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, .2);
+        -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 1px 1px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, .2);
+    }
+
+    .loginSection h1 {
+        text-align: center;
+        color: #666;
+        margin: 0 0 30px 0;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 26px;
+        line-height: 1;
+        position: relative;
+    }
+
+    /* FORM
+    ***********************/
+    .loginSection form {
+        margin: 0 5px;
+        padding: 15px;
+        position: relative;
+    }
+
+    .loginSection form div {
+        margin-bottom: 24px;
+    }
+
+    .loginSection .submit {
+        margin-top: 0;
+    }
+
+    .loginSection fieldset {
+        border: 0;
+    }
+
+    .loginSection fieldset.actions {
+        line-height: 35px;
+        width: 315px;
+        margin-top: 10px;
+    }
+
+    #login_form_rememberme {
+        vertical-align: middle;
+    }
+
+    /* FIELDS
+    ***********************/
+    .loginSection form input[type="text"],
+    .loginSection form input[type="password"] {
+        font-size: 20px;
+        padding: 10px 15px 10px 45px;
+        margin: 0 0 15px 0;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        color: #555;
+        -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 @theme-color-background-base;
+        -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 @theme-color-background-base;
+        box-shadow: 0 1px 1px #ccc inset, 0 1px 0 @theme-color-background-base;
+    }
+
+    #login_form_password,
+    #reset_form_password,
+    #reset_form_password_bis,
+    #login_form_login,
+    #reset_form_login {
+        background: @theme-color-background-base url(../../Morpheus/images/login-sprite.png) no-repeat;
+        outline: 0;
+    }
+
+    #login_form_password,
+    #reset_form_password,
+    #reset_form_password_bis {
+        background-position: 10px -51px;
+    }
+
+    #login_form_login,
+    #reset_form_login {
+        background-position: 10px 11px;
+    }
+
+    /* MESSAGE
+    ***********************/
+    .message_error,
+    .message {
+        margin: 0 auto;
+        border: 1px solid;
+        padding: 12px;
+    }
+
+    .message_error {
+        background-color: #ffebe8;
+        border-color: #c00;
+    }
+
+    .message {
+        background-color: #ffffe0;
+        border-color: #e6db55;
+    }
+
+    /* NAVIGATION
+    ***********************/
+    #nav,
+    #piwik {
+        margin: 0 0 0 8px;
+        padding: 16px;
+    }
+
+    #nav {
+        text-align: center;
+    }
+
+    #nav a:hover {
+        text-decoration: underline;
+    }
+
+    #nav a {
+        color: #777;
+    }
+
+    #piwik a {
+        color: #CDCDCD;
+    }
+
+    /* IE < 9 will use this */
+    body.old-ie .ie-hide {
+        display: none;
+    }
+}

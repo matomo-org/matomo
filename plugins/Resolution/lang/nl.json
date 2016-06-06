@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Configuratie",
+        "ColumnResolution": "Resolutie",
+        "Configurations": "Configuraties",
+        "PluginDescription": "Toont de schermresolutie van de bezoekers.",
+        "Resolutions": "Schermresoluties",
+        "WidgetGlobalVisitors": "Algemene configuratie",
+        "WidgetGlobalVisitorsDocumentation": "Dit rapport toont de meest voorkomende configuraties die uw bezoekers hadden. Een configuratie is de combinatie van een besturingssysteem, een browser type en een schermresolutie.",
+        "WidgetResolutions": "Schermresoluties"
+    }
+}

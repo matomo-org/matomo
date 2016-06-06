@@ -23,6 +23,9 @@ use Piwik\DataTable\BaseFilter;
  */
 class Pattern extends BaseFilter
 {
+    /**
+     * @var string|array
+     */
     private $columnToFilter;
     private $patternToSearch;
     private $patternToSearchQuoted;
@@ -92,5 +95,31 @@ class Pattern extends BaseFilter
                 $table->deleteRow($key);
             }
         }
+    }
+
+    /**
+     * See {@link Pattern}.
+     *
+     * @param array $array
+     * @return array
+     */
+    public function filterArray($array)
+    {
+        $newArray = array();
+
+        foreach ($array as $key => $row) {
+            foreach ($this->columnToFilter as $column) {
+                if (!array_key_exists($column, $row)) {
+                    continue;
+                }
+
+                if (self::match($this->patternToSearchQuoted, $row[$column], $this->invertedMatch)) {
+                    $newArray[$key] = $row;
+                    continue 2;
+                }
+            }
+        }
+
+        return $newArray;
     }
 }

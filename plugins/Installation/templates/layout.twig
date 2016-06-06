@@ -2,10 +2,15 @@
 <html id="ng-app" ng-app="piwikApp">
 <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
     <title>Piwik &rsaquo; {{ 'Installation_Installation'|translate }}</title>
+
     <link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.min.css"/>
     <link rel="stylesheet" type="text/css" href="index.php?module=Installation&action=getBaseCss"/>
-    <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="plugins/Installation/stylesheets/installation.css"/>
+
+    <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.png"/>
+
     <script type="text/javascript" src="libs/bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
     <script type="text/javascript" src="libs/bower_components/angular/angular.min.js"></script>
@@ -21,57 +26,71 @@
     <script type="text/javascript" src="plugins/CoreHome/angularjs/piwikApp.config.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/angularjs/piwikApp.js"></script>
     <script type="text/javascript" src="plugins/Installation/javascripts/installation.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="plugins/Installation/stylesheets/installation.css"/>
-    {% if 'General_LayoutDirection'|translate =='rtl' %}
-        <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/rtl.css"/>
-    {% endif %}
 </head>
 <!--[if lt IE 9 ]>
 <body ng-app="app" class="old-ie"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
 <body ng-app="app"><!--<![endif]-->
-<div id="installationPage">
-    <div id="content">
-        <div id="logo">
-            <img id="title" src="plugins/Morpheus/images/logo.png"/> &nbsp;&nbsp;&nbsp;<span
-                    id="subtitle"># {{ 'General_OpenSourceWebAnalytics'|translate }}</span>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">
+            <img src="plugins/Morpheus/images/logo.png"/>
+            <p>{{ 'General_OpenSourceWebAnalytics'|translate }}</p>
         </div>
-        <div style="float:right;" id="topRightBar">
-            <br/>
+        <div class="language-selector">
             {{ postEvent('Template.topBar')|raw }}
         </div>
-        <div class="both"></div>
 
-        <div id="generalInstall">
-            {% include "@Installation/_allSteps.twig" %}
+        <div class="installation-progress">
+            <h4>
+                {{ 'Installation_InstallationStatus'|translate }}
+                <small>{{ percentDone }}%</small>
+            </h4>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentDone }}%;"></div>
+            </div>
         </div>
 
-        <div id="detailInstall">
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <ul class="list-group">
+                {% for stepId,stepName in allStepsTitle %}
+                    {% if currentStepId > stepId %}
+                        {% set stepClass = 'disabled' %}
+                    {% elseif currentStepId == stepId %}
+                        {% set stepClass = 'active' %}
+                    {% else %}
+                        {% set stepClass = '' %}
+                    {% endif %}
+                    <li class="list-group-item {{ stepClass }}">{{ stepId + 1 }}. {{ stepName|translate }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-9 content">
             {% set nextButton %}
-            <p class="nextStep">
-                <a class="submit" href="{{ linkTo({'action':nextModuleName, 'token_auth':null, 'method':null }) }}">{{ 'General_Next'|translate }} &raquo;</a>
-            </p>
-            {%  endset %}
+                <p class="next-step">
+                    <a class="btn btn-lg" href="{{ linkTo({'action':nextModuleName, 'token_auth':null, 'method':null }) }}">
+                        {{ 'General_Next'|translate }} &raquo;</a>
+                </p>
+            {% endset %}
             {% if showNextStepAtTop is defined and showNextStepAtTop %}
                 {{ nextButton }}
             {% endif %}
+
             {% block content %}{% endblock %}
+
             {% if showNextStep %}
                 {{ nextButton }}
             {% endif %}
         </div>
-
-        <div class="both"></div>
-
-        <br/>
-        <br/>
-
-        <h3>{{ 'Installation_InstallationStatus'|translate }}</h3>
-
-        <div id="progressbar" data-progress="{{ percentDone }}"></div>
-        {{ 'Installation_PercentDone'|translate(percentDone) }}
     </div>
+
 </div>
+
 </body>
 </html>

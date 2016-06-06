@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Interop\Container\ContainerInterface;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -25,31 +26,29 @@ use Exception;
  */
 class ArchiveCronTest extends SystemTestCase
 {
+    /**
+     * @var ManySitesImportedLogs
+     */
     public static $fixture = null; // initialized below class definition
 
     public function getApiForTesting()
     {
         $results = array();
 
-        // First, API calls for Segmented reports
-        // Disabling these tests as they randomly fail... This could actually be a bug.
-        // FIXME - I have failed finding the cause for these test to randomly fail
-        // eg.
-//        foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
-//            $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
-//                                                          'date'       => '2012-08-09',
-//                                                          'periods'    => array('day', 'week', 'month', 'year'),
-//                                                          'segment'    => $info['definition'],
-//                                                          'testSuffix' => '_' . $segmentName));
-//
-//
-//        }
+        foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
+            $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
+                                                          'date'       => '2012-08-09',
+                                                          'periods'    => array('day', 'week', 'month', 'year'),
+                                                          'segment'    => $info['definition'],
+                                                          'testSuffix' => '_' . $segmentName));
+
+
+        }
 
         // API Call Without segments
-        // TODO uncomment week and year period
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
-                                                      'periods' => array('day', 'month', /* 'year',  'week' */)));
+                                                      'periods' => array('day', 'month', 'year',  'week')));
 
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
@@ -61,16 +60,17 @@ class ArchiveCronTest extends SystemTestCase
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
         foreach($segments as $segment) {
-            // TODO debugging travis
-            continue;
-
             // Test with a pre-processed segment
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
                                      'date'       => '2012-08-09',
                                      'periods'    => array('day', 'year'),
                                      'segment'    => $segment,
-                                     'testSuffix' => '_preArchivedSegment'));
+                                     'testSuffix' => '_preArchivedSegment',
+                                     'otherRequestParameters' => array(
+                                        'hideColumns' => 'latitude,longitude'
+                                     ))
+            );
         }
 
         return $results;
@@ -105,6 +105,15 @@ class ArchiveCronTest extends SystemTestCase
         }
     }
 
+    public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
+    {
+        $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
+        $output = implode("\n", $output);
+
+        $this->assertRegExp('/Usage:\s*core:archive/', $output);
+        $this->assertNotContains("Starting Piwik reports archiving...", $output);
+    }
+
     private function setLastRunArchiveOptions()
     {
         $periodTypes = array('day', 'periods');
@@ -123,20 +132,25 @@ class ArchiveCronTest extends SystemTestCase
         }
     }
 
-    private function runArchivePhpCron()
+    private function runArchivePhpCron($options = array(), $archivePhpScript = false)
     {
-        $archivePhpScript = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
+        $archivePhpScript = $archivePhpScript ?: PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';
         $urlToProxy = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
 
         // create the command
-        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\" 2>&1";
+        $cmd = "php \"$archivePhpScript\" --url=\"$urlToProxy\"";
+        foreach ($options as $name => $value) {
+            $cmd .= " $name";
+            if ($value !== null) {
+                $cmd .= "=" . escapeshellarg($value);
+            }
+        }
+        $cmd .= " 2>&1";
 
         // run the command
         exec($cmd, $output, $result);
         if ($result !== 0 || stripos($result, "error")) {
-            $message = 'This failed once after a lunar eclipse, and it has again randomly failed.';
-            $message .= "\n\narchive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd";
-            $this->markTestSkipped($message);
+            $this->fail("archive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
         }
 
         return $output;
@@ -160,6 +174,19 @@ class ArchiveCronTest extends SystemTestCase
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+
+            // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
+            // is a translation token, and nothing else.
+            'Piwik\Translation\Translator' => function (ContainerInterface $c) {
+                return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
+            }
+        );
     }
 }
 

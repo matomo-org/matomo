@@ -1,27 +1,29 @@
 {% extends '@Installation/layout.twig' %}
 
 {% block content %}
-{% if displayGeneralSetupSuccess is defined %}
-    <span id="toFade" class="success">
-	    {{ 'Installation_SuperUserSetupSuccess'|translate }}
-        <img src="plugins/Morpheus/images/success_medium.png"/>
-    </span>
-{% endif %}
 
-<h2>{{ 'Installation_SetupWebsite'|translate }}</h2>
-<p>{{ 'Installation_SiteSetup'|translate }}</p>
-{% if errorMessage is defined %}
-    <div class="error">
-        <img src="plugins/Morpheus/images/error_medium.png"/>
-        {{ 'Installation_SetupWebsiteError'|translate }}:
-        <br/>- {{ errorMessage|raw }}
+    <h2>{{ 'Installation_SetupWebsite'|translate }}</h2>
 
-    </div>
-{% endif %}
+    {% if displayGeneralSetupSuccess is defined %}
+        <div id="feedback" class="alert alert-success">
+            {{ 'Installation_SuperUserSetupSuccess'|translate }}
+        </div>
+    {% endif %}
 
-{% if form_data is defined %}
-    {% include "genericForm.twig" %}
-{% endif %}
-<br/>
-<p><em>{{ 'Installation_SiteSetupFootnote'|translate }}</em></p>
+    <p>{{ 'Installation_SiteSetup'|translate }}</p>
+
+    {% if errorMessage is defined %}
+        <div class="alert alert-danger">
+            {{ 'Installation_SetupWebsiteError'|translate }}:
+            <br/>- {{ errorMessage|raw }}
+        </div>
+    {% endif %}
+
+    {% if form_data is defined %}
+        {% include "genericForm.twig" %}
+    {% endif %}
+    <div class="clearfix"></div>
+
+    <p><em>{{ 'Installation_SiteSetupFootnote'|translate }}</em></p>
+
 {% endblock %}

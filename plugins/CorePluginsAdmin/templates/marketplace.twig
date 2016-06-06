@@ -1,0 +1,77 @@
+{% extends mode is defined and mode == 'user' ? "user.twig" : "admin.twig" %}
+{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
+
+{% set title %}{{ 'CorePluginsAdmin_Marketplace'|translate }}{% endset %}
+
+{% block content %}
+
+    <div class="marketplace">
+
+        <h2 piwik-enriched-headline feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}">
+            {{ title }}
+        </h2>
+
+        <ul class="nav nav-pills">
+            <li {% if not showThemes %}class="active"{% endif %}>
+                <a href="{{ linkTo({'show': 'plugins'}) }}">{{ 'General_Plugins'|translate }}</a>
+            </li>
+            <li {% if showThemes %}class="active"{% endif %}>
+                <a href="{{ linkTo({'show': 'themes'}) }}">{{ 'CorePluginsAdmin_Themes'|translate }}</a>
+            </li>
+        </ul>
+
+        <div class="marketplace-max-width">
+
+            <p>
+                {% if showThemes %}
+                    {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+                    {{ 'CorePluginsAdmin_InstallingNewPluginViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">','</a>')|raw }}
+                    <br/>
+                    {{ 'CorePluginsAdmin_BeCarefulUsingThemes'|translate }}
+                {% else %}
+                    {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
+                    {{ 'CorePluginsAdmin_InstallingNewPluginViaMarketplaceOrUpload'|translate('<a href="#" class="uploadPlugin">','</a>')|raw }}
+                    <br/>
+                    {{ 'CorePluginsAdmin_BeCarefulUsingPlugins'|translate }}
+                {% endif %}
+            </p>
+
+            {% if not isSuperUser %}
+                <p>
+                    {% if showThemes %}
+                        {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplaceThemes'|translate }}
+                    {% else %}
+                        {{ 'CorePluginsAdmin_NotAllowedToBrowseMarketplacePlugins'|translate }}
+                    {% endif %}
+                </p>
+            {% endif %}
+
+        </div>
+
+        <hr/>
+
+        <div class="ui-confirm" id="installPluginByUpload">
+            <h2>{{ 'CorePluginsAdmin_TeaserExtendPiwikByUpload'|translate }}</h2>
+
+            <p class="description"> {{ 'CorePluginsAdmin_AllowedUploadFormats'|translate }} </p>
+
+            <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
+                  action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
+                <input type="file" name="pluginZip">
+                <br />
+                <input class="startUpload" type="submit" value="{{ 'CorePluginsAdmin_UploadZipFile'|translate }}">
+            </form>
+        </div>
+
+        {% include '@CorePluginsAdmin/marketplace/plugin-list.twig' %}
+
+        <div class="footer-message">
+            {% set marketplaceSellPluginSubject = 'CorePluginsAdmin_MarketplaceSellPluginSubject'|translate %}
+            {{ 'CorePluginsAdmin_GetEarlyAccessForPaidPlugins'|translate("<a href='mailto:hello@piwik.org?subject=" ~ marketplaceSellPluginSubject ~ "'>", "</a>")|raw }}
+            <br/>
+            {{ 'CorePluginsAdmin_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=http://developer.piwik.org/plugins" target="_blank">', '</a>')|raw }}
+        </div>
+
+    </div>
+
+{% endblock %}

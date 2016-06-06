@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\SEO\tests\Integration;
 
-use Piwik\Access;
 use Piwik\DataTable\Renderer;
 use Piwik\Plugins\SEO\API;
 use Exception;
@@ -26,13 +25,11 @@ class SEOTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         $user_agents = array(
             'Mozilla/6.0 (Macintosh; I; Intel Mac OS X 11_7_9; de-LI; rv:1.9b4) Gecko/2012010317 Firefox/10.0a4',
@@ -64,5 +61,12 @@ class SEOTest extends \PHPUnit_Framework_TestCase
             }
             $this->assertNotEmpty($rank['rank'], $message);
         }
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

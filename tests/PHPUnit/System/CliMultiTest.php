@@ -5,20 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+namespace Piwik\Tests\System;
 
+use Piwik\Archiver\Request;
 use Piwik\CliMulti;
 use Piwik\Version;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
 
 /**
- * Class Core_CliMultiTest
- *
  * @group Core
- * @group Core_CliMultiTest
  * @group CliMulti
  */
-class Core_CliMultiTest extends SystemTestCase
+class CliMultiTest extends SystemTestCase
 {
     /**
      * @var \Piwik\CliMulti
@@ -145,6 +144,7 @@ class Core_CliMultiTest extends SystemTestCase
     public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
     {
         $this->skipWhenPhp53();
+        $this->cliMulti->runAsSuperUser();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
         $this->assertStringStartsWith('Error in Piwik: Error: no website was found', $response[0]);
     }
@@ -199,6 +199,19 @@ class Core_CliMultiTest extends SystemTestCase
         $this->assertFileNotExists($tmpDir . 'toberemoved.output');
     }
 
+    public function test_shouldSupportRequestObjects()
+    {
+        $wasCalled = false;
+        $request = new Request('url');
+        $request->before(function () use (&$wasCalled) {
+            $wasCalled = true;
+        });
+
+        $this->cliMulti->request(array($request));
+
+        $this->assertTrue($wasCalled, 'The request "before" handler was not called');
+    }
+
     private function assertRequestReturnsValidResponses($urls, $expectedResponseIds)
     {
         $actualResponse = $this->cliMulti->request($urls);
@@ -227,15 +240,13 @@ class Core_CliMultiTest extends SystemTestCase
 
     private function completeUrl($query)
     {
-        $host = Fixture::getRootUrl();
-
         if (false === strpos($query, '?')) {
             $query .= '?';
         } else {
             $query .= '&';
         }
 
-        return $host . 'tests/PHPUnit/proxy/index.php' . $query . 'testmode=1&token_auth=' . $this->authToken;
+        return $query . 'testmode=1&token_auth=' . $this->authToken;
     }
 
     private function getFilesInTmpFolder()

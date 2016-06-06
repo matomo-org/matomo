@@ -76,17 +76,12 @@ class GroupBy extends BaseFilter
         $groupByRows = array();
         $nonGroupByRowIds = array();
 
-        foreach ($table->getRows() as $rowId => $row) {
-            // skip the summary row
-            if ($rowId == DataTable::ID_SUMMARY_ROW) {
-                continue;
-            }
-
+        foreach ($table->getRowsWithoutSummaryRow() as $rowId => $row) {
             $groupByColumnValue = $row->getColumn($this->groupByColumn);
             $groupByValue = $groupByColumnValue;
 
             // reduce the group by column of this row
-            if($this->reduceFunction) {
+            if ($this->reduceFunction) {
                 $parameters   = array_merge(array($groupByColumnValue), $this->parameters);
                 $groupByValue = call_user_func_array($this->reduceFunction, $parameters);
             }
@@ -102,6 +97,10 @@ class GroupBy extends BaseFilter
                 $groupByRows[$groupByValue]->sumRow($row, $copyMeta = true, $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
                 $nonGroupByRowIds[] = $rowId;
             }
+        }
+
+        if ($this->groupByColumn === 'label') {
+            $table->setLabelsHaveChanged();
         }
 
         // delete the unneeded rows.

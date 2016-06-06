@@ -6,7 +6,6 @@
         "EstimatedSize": "Ocenjena velikost",
         "IndexSize": "Velikost indeksa",
         "MainDescription": "Piwik shranjuje vse vaše podatke v MySQL bazo podatkov. Trenutna poraba podatkovne baze je %s.",
-        "PluginDescription": "Ta vtičnik poroča o Piwik-ovi uporabi MySQL podatkovne baze.",
         "RowCount": "Število vrst",
         "Table": "Tabela",
         "TotalSize": "Skupna velikost"

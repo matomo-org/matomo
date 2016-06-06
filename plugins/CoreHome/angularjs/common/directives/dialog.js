@@ -29,7 +29,9 @@
                 element.css('display', 'none');
 
                 element.on( "dialogclose", function() {
-                    scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+                    setTimeout(function () {
+                        scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+                    }, 0);
                 });
 
                 scope.$watch(attrs.piwikDialog, function(newValue, oldValue) {
@@ -37,6 +39,7 @@
                         piwik.helper.modalConfirm(element, {yes: function() {
                             if (attrs.yes) {
                                 scope.$eval(attrs.yes);
+                                setTimeout(function () { scope.$apply(); }, 0);
                             }
                         }});
                     }

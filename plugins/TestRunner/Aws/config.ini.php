@@ -12,10 +12,12 @@ charset = "utf8"
 request_uri = "/"
 
 [database_tests]
+username = "root"
 password = "secure"
 tables_prefix = ""
 
 [General]
+session_save_handler = "dbtable"
 salt = "ad40b992685bd402cdddaa46bdff537e"
 enable_update_communication = 0
 trusted_hosts[] = "amazonaws.com"

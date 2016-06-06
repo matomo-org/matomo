@@ -1,0 +1,104 @@
+
+-------------------------------------------------------
+Using this 'archive.php' script is no longer recommended.
+Please use '/path/to/php /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console core:archive --url=http://localhost/tests/PHPUnit/proxy/index.php' instead.
+To get help use '/path/to/php /home/travis/build/piwik/piwik/tests/PHPUnit/proxy/../../..//console core:archive --help'
+See also: http://piwik.org/docs/setup-auto-archiving/
+
+If you cannot use the console because it requires CLI
+try 'php archive.php --url=http://your.piwik/path'
+-------------------------------------------------------
+
+
+INFO [2015-09-21 23:00:55] ---------------------------
+INFO [2015-09-21 23:00:55] INIT
+INFO [2015-09-21 23:00:55] Running Piwik 2.15.0-b8 as Super User
+INFO [2015-09-21 23:00:55] ---------------------------
+INFO [2015-09-21 23:00:55] NOTES
+INFO [2015-09-21 23:00:55] - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
+INFO [2015-09-21 23:00:55]   See the doc at: http://piwik.org/docs/setup-auto-archiving/
+INFO [2015-09-21 23:00:55] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
+INFO [2015-09-21 23:00:55] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
+INFO [2015-09-21 23:00:55] Will invalidate archived reports for 2012-08-09 for following websites ids: 1
+INFO [2015-09-21 23:00:55] Will invalidate archived reports for 2012-08-10 for following websites ids: 1
+INFO [2015-09-21 23:00:55] Will invalidate archived reports for 2012-08-11 for following websites ids: 1
+INFO [2015-09-21 23:00:55] Will invalidate archived reports for 2012-08-15 for following websites ids: 1,2,3
+INFO [2015-09-21 23:00:55] Will invalidate archived reports for 2012-09-30 for following websites ids: 1
+INFO [2015-09-21 23:00:55] Will invalidate archived reports for 2014-03-12 for following websites ids: 1,3
+INFO [2015-09-21 23:00:55] Will invalidate archived reports for 2014-03-13 for following websites ids: 1,3
+INFO [2015-09-21 23:00:55] - Will process 3 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2, 3
+INFO [2015-09-21 23:00:55] ---------------------------
+INFO [2015-09-21 23:00:55] START
+INFO [2015-09-21 23:00:55] Starting Piwik reports archiving...
+INFO [2015-09-21 23:00:55] Old report was invalidated for website id 1
+INFO [2015-09-21 23:00:55] Will pre-process for website id = 1, period = day, date = last52
+INFO [2015-09-21 23:00:55] - pre-processing all visits
+INFO [2015-09-21 23:00:57] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-09-21 23:00:57] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:00:57] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:01:00] Archived website id = 1, period = day, 3 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 5.119s
+INFO [2015-09-21 23:01:00] Will pre-process for website id = 1, period = week, date = last260
+INFO [2015-09-21 23:01:00] - pre-processing all visits
+INFO [2015-09-21 23:01:00] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-09-21 23:01:00] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:01:32] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:02:02] Archived website id = 1, period = week, 3 segments, 40 visits in last 260 weeks, 0 visits this week, Time elapsed: 61.934s
+INFO [2015-09-21 23:02:02] Will pre-process for website id = 1, period = month, date = last52
+INFO [2015-09-21 23:02:02] - pre-processing all visits
+INFO [2015-09-21 23:02:02] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-09-21 23:02:02] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:02:10] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:02:17] Archived website id = 1, period = month, 3 segments, 40 visits in last 52 months, 0 visits this month, Time elapsed: 15.041s
+INFO [2015-09-21 23:02:17] Will pre-process for website id = 1, period = year, date = last7
+INFO [2015-09-21 23:02:17] - pre-processing all visits
+INFO [2015-09-21 23:02:17] - pre-processing segment 1/3 browserCode==IE
+INFO [2015-09-21 23:02:17] - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:02:20] - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2015-09-21 23:02:23] Archived website id = 1, period = year, 3 segments, 40 visits in last 7 years, 0 visits this year, Time elapsed: 6.248s
+INFO [2015-09-21 23:02:23] Archived website id = 1, 16 API requests, Time elapsed: 88.352s [1/3 done]
+INFO [2015-09-21 23:02:24] Old report was invalidated for website id 2
+INFO [2015-09-21 23:02:24] Will pre-process for website id = 2, period = day, date = last52
+INFO [2015-09-21 23:02:24] - pre-processing all visits
+INFO [2015-09-21 23:02:26] Archived website id = 2, period = day, 0 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 2.241s
+INFO [2015-09-21 23:02:26] Will pre-process for website id = 2, period = week, date = last260
+INFO [2015-09-21 23:02:26] - pre-processing all visits
+INFO [2015-09-21 23:02:46] Archived website id = 2, period = week, 0 segments, 1 visits in last 260 weeks, 0 visits this week, Time elapsed: 20.727s
+INFO [2015-09-21 23:02:46] Will pre-process for website id = 2, period = month, date = last52
+INFO [2015-09-21 23:02:46] - pre-processing all visits
+INFO [2015-09-21 23:02:51] Archived website id = 2, period = month, 0 segments, 1 visits in last 52 months, 0 visits this month, Time elapsed: 4.933s
+INFO [2015-09-21 23:02:51] Will pre-process for website id = 2, period = year, date = last7
+INFO [2015-09-21 23:02:51] - pre-processing all visits
+INFO [2015-09-21 23:02:53] Archived website id = 2, period = year, 0 segments, 1 visits in last 7 years, 0 visits this year, Time elapsed: 1.760s
+INFO [2015-09-21 23:02:53] Archived website id = 2, 4 API requests, Time elapsed: 29.666s [2/3 done]
+INFO [2015-09-21 23:02:53] Old report was invalidated for website id 3
+INFO [2015-09-21 23:02:53] Will pre-process for website id = 3, period = day, date = last52
+INFO [2015-09-21 23:02:53] - pre-processing all visits
+INFO [2015-09-21 23:02:56] Archived website id = 3, period = day, 0 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 2.356s
+INFO [2015-09-21 23:02:56] Will pre-process for website id = 3, period = week, date = last260
+INFO [2015-09-21 23:02:56] - pre-processing all visits
+INFO [2015-09-21 23:03:18] Archived website id = 3, period = week, 0 segments, 15 visits in last 260 weeks, 0 visits this week, Time elapsed: 22.395s
+INFO [2015-09-21 23:03:18] Will pre-process for website id = 3, period = month, date = last52
+INFO [2015-09-21 23:03:18] - pre-processing all visits
+INFO [2015-09-21 23:03:24] Archived website id = 3, period = month, 0 segments, 15 visits in last 52 months, 0 visits this month, Time elapsed: 5.837s
+INFO [2015-09-21 23:03:24] Will pre-process for website id = 3, period = year, date = last7
+INFO [2015-09-21 23:03:24] - pre-processing all visits
+INFO [2015-09-21 23:03:27] Archived website id = 3, period = year, 0 segments, 15 visits in last 7 years, 0 visits this year, Time elapsed: 2.929s
+INFO [2015-09-21 23:03:27] Archived website id = 3, 4 API requests, Time elapsed: 33.525s [3/3 done]
+INFO [2015-09-21 23:03:27] Done archiving!
+INFO [2015-09-21 23:03:27] ---------------------------
+INFO [2015-09-21 23:03:27] SUMMARY
+INFO [2015-09-21 23:03:27] Total visits for today across archived websites: 0
+INFO [2015-09-21 23:03:27] Archived today's reports for 3 websites
+INFO [2015-09-21 23:03:27] Archived week/month/year for 3 websites
+INFO [2015-09-21 23:03:27] Skipped 0 websites
+INFO [2015-09-21 23:03:27] - 0 skipped because no new visit since the last script execution
+INFO [2015-09-21 23:03:27] - 0 skipped because existing daily reports are less than 150 seconds old
+INFO [2015-09-21 23:03:27] - 0 skipped because existing week/month/year periods reports are less than 3600 seconds old
+INFO [2015-09-21 23:03:27] Total API requests: 24
+INFO [2015-09-21 23:03:27] done: 3/3 100%, 0 vtoday, 3 wtoday, 3 wperiods, 24 req, 151815 ms, no error
+INFO [2015-09-21 23:03:27] Time elapsed: 151.815s
+INFO [2015-09-21 23:03:27] ---------------------------
+INFO [2015-09-21 23:03:27] SCHEDULED TASKS
+INFO [2015-09-21 23:03:27] Starting Scheduled tasks...
+INFO [2015-09-21 23:03:27] done
+INFO [2015-09-21 23:03:27] ---------------------------

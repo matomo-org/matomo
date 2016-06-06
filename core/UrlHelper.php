@@ -8,6 +8,9 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
+
 /**
  * Contains less commonly needed URL helper methods.
  *
@@ -42,7 +45,7 @@ class UrlHelper
                             $validQuery .= $name . '[]=' . $param . $separator;
                         }
                     }
-                } else if ($value === false) {
+                } elseif ($value === false) {
                     $validQuery .= $name . $separator;
                 } else {
                     $validQuery .= $name . '=' . $value . $separator;
@@ -72,7 +75,9 @@ class UrlHelper
     {
         static $countries;
         if (!isset($countries)) {
-            $countries = implode('|', array_keys(Common::getCountriesList(true)));
+            /** @var RegionDataProvider $regionDataProvider */
+            $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+            $countries = implode('|', array_keys($regionDataProvider->getCountryList(true)));
         }
 
         return preg_replace(
@@ -96,13 +101,14 @@ class UrlHelper
      * We don't need a precise test here because the value comes from the website
      * tracked source code and the URLs may look very strange.
      *
+     * @api
      * @param string $url
      * @return bool
      */
     public static function isLookLikeUrl($url)
     {
-        return preg_match('~^((ftp|news|http|https)?:)?//(.*)$~D', $url, $matches) !== 0
-        && strlen($matches[3]) > 0;
+        return preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
+            && strlen($matches[3]) > 0;
     }
 
     /**
@@ -149,6 +155,17 @@ class UrlHelper
         if (strlen($urlQuery) == 0) {
             return array();
         }
+
+        // TODO: this method should not use a cache. callers should instead have their own cache, configured through DI.
+        //       one undesirable side effect of using a cache here, is that this method can now init the StaticContainer, which makes setting
+        //       test environment for RequestCommand more complicated.
+        $cache    = Cache::getTransientCache();
+        $cacheKey = 'arrayFromQuery' . $urlQuery;
+
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
+        }
+
         if ($urlQuery[0] == '?') {
             $urlQuery = substr($urlQuery, 1);
         }
@@ -190,10 +207,13 @@ class UrlHelper
                     $nameToValue[$name] = array();
                 }
                 array_push($nameToValue[$name], $value);
-            } else if (!empty($name)) {
+            } elseif (!empty($name)) {
                 $nameToValue[$name] = $value;
             }
         }
+
+        $cache->save($cacheKey, $nameToValue);
+
         return $nameToValue;
     }
 
@@ -208,6 +228,7 @@ class UrlHelper
     public static function getParameterFromQueryString($urlQuery, $parameter)
     {
         $nameToValue = self::getArrayFromQueryString($urlQuery);
+
         if (isset($nameToValue[$parameter])) {
             return $nameToValue[$parameter];
         }
@@ -226,247 +247,15 @@ class UrlHelper
         $parsedUrl = parse_url($url);
         $result = '';
         if (isset($parsedUrl['path'])) {
-            $result .= substr($parsedUrl['path'], 1);
+            if (substr($parsedUrl['path'], 0, 1) == '/') {
+                $parsedUrl['path'] = substr($parsedUrl['path'], 1);
+            }
+            $result .= $parsedUrl['path'];
         }
         if (isset($parsedUrl['query'])) {
             $result .= '?' . $parsedUrl['query'];
         }
         return $result;
-    }
-
-    /**
-     * Extracts a keyword from a raw not encoded URL.
-     * Will only extract keyword if a known search engine has been detected.
-     * Returns the keyword:
-     * - in UTF8: automatically converted from other charsets when applicable
-     * - strtolowered: "QUErY test!" will return "query test!"
-     * - trimmed: extra spaces before and after are removed
-     *
-     * Lists of supported search engines can be found in /core/DataFiles/SearchEngines.php
-     * The function returns false when a keyword couldn't be found.
-     *     eg. if the url is "http://www.google.com/partners.html" this will return false,
-     *       as the google keyword parameter couldn't be found.
-     *
-     * @see unit tests in /tests/core/Common.test.php
-     * @param string $referrerUrl URL referrer URL, eg. $_SERVER['HTTP_REFERER']
-     * @return array|bool   false if a keyword couldn't be extracted,
-     *                        or array(
-     *                            'name' => 'Google',
-     *                            'keywords' => 'my searched keywords')
-     */
-    public static function extractSearchEngineInformationFromUrl($referrerUrl)
-    {
-        $referrerParsed = @parse_url($referrerUrl);
-        $referrerHost = '';
-        if (isset($referrerParsed['host'])) {
-            $referrerHost = $referrerParsed['host'];
-        }
-        if (empty($referrerHost)) {
-            return false;
-        }
-        // some search engines (eg. Bing Images) use the same domain
-        // as an existing search engine (eg. Bing), we must also use the url path
-        $referrerPath = '';
-        if (isset($referrerParsed['path'])) {
-            $referrerPath = $referrerParsed['path'];
-        }
-
-        // no search query
-        if (!isset($referrerParsed['query'])) {
-            $referrerParsed['query'] = '';
-        }
-        $query = $referrerParsed['query'];
-
-        // Google Referrers URLs sometimes have the fragment which contains the keyword
-        if (!empty($referrerParsed['fragment'])) {
-            $query .= '&' . $referrerParsed['fragment'];
-        }
-
-        $searchEngines = Common::getSearchEngineUrls();
-
-        $hostPattern = self::getLossyUrl($referrerHost);
-        /*
-         * Try to get the best matching 'host' in definitions
-         * 1. check if host + path matches an definition
-         * 2. check if host only matches
-         * 3. check if host pattern + path matches
-         * 4. check if host pattern matches
-         * 5. special handling
-         */
-        if (array_key_exists($referrerHost . $referrerPath, $searchEngines)) {
-            $referrerHost = $referrerHost . $referrerPath;
-        } elseif (array_key_exists($referrerHost, $searchEngines)) {
-            // no need to change host
-        } elseif (array_key_exists($hostPattern . $referrerPath, $searchEngines)) {
-            $referrerHost = $hostPattern . $referrerPath;
-        } elseif (array_key_exists($hostPattern, $searchEngines)) {
-            $referrerHost = $hostPattern;
-        } elseif (!array_key_exists($referrerHost, $searchEngines)) {
-            if (!strncmp($query, 'cx=partner-pub-', 15)) {
-                // Google custom search engine
-                $referrerHost = 'google.com/cse';
-            } elseif (!strncmp($referrerPath, '/pemonitorhosted/ws/results/', 28)) {
-                // private-label search powered by InfoSpace Metasearch
-                $referrerHost = 'wsdsold.infospace.com';
-            } elseif (strpos($referrerHost, '.images.search.yahoo.com') != false) {
-                // Yahoo! Images
-                $referrerHost = 'images.search.yahoo.com';
-            } elseif (strpos($referrerHost, '.search.yahoo.com') != false) {
-                // Yahoo!
-                $referrerHost = 'search.yahoo.com';
-            } else {
-                return false;
-            }
-        }
-        $searchEngineName = $searchEngines[$referrerHost][0];
-        $variableNames = null;
-        if (isset($searchEngines[$referrerHost][1])) {
-            $variableNames = $searchEngines[$referrerHost][1];
-        }
-        if (!$variableNames) {
-            $searchEngineNames = Common::getSearchEngineNames();
-            $url = $searchEngineNames[$searchEngineName];
-            $variableNames = $searchEngines[$url][1];
-        }
-        if (!is_array($variableNames)) {
-            $variableNames = array($variableNames);
-        }
-
-        $key = null;
-        if ($searchEngineName === 'Google Images'
-            || ($searchEngineName === 'Google' && strpos($referrerUrl, '/imgres') !== false)
-        ) {
-            if (strpos($query, '&prev') !== false) {
-                $query = urldecode(trim(self::getParameterFromQueryString($query, 'prev')));
-                $query = str_replace('&', '&amp;', strstr($query, '?'));
-            }
-            $searchEngineName = 'Google Images';
-        } else if ($searchEngineName === 'Google'
-            && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0)
-        ) {
-            $keys = array();
-            $key = self::getParameterFromQueryString($query, 'as_q');
-            if (!empty($key)) {
-                array_push($keys, $key);
-            }
-            $key = self::getParameterFromQueryString($query, 'as_oq');
-            if (!empty($key)) {
-                array_push($keys, str_replace('+', ' OR ', $key));
-            }
-            $key = self::getParameterFromQueryString($query, 'as_epq');
-            if (!empty($key)) {
-                array_push($keys, "\"$key\"");
-            }
-            $key = self::getParameterFromQueryString($query, 'as_eq');
-            if (!empty($key)) {
-                array_push($keys, "-$key");
-            }
-            $key = trim(urldecode(implode(' ', $keys)));
-        }
-
-        if ($searchEngineName === 'Google') {
-            // top bar menu
-            $tbm = self::getParameterFromQueryString($query, 'tbm');
-            switch ($tbm) {
-                case 'isch':
-                    $searchEngineName = 'Google Images';
-                    break;
-                case 'vid':
-                    $searchEngineName = 'Google Video';
-                    break;
-                case 'shop':
-                    $searchEngineName = 'Google Shopping';
-                    break;
-            }
-        }
-
-        if (empty($key)) {
-            foreach ($variableNames as $variableName) {
-                if ($variableName[0] == '/') {
-                    // regular expression match
-                    if (preg_match($variableName, $referrerUrl, $matches)) {
-                        $key = trim(urldecode($matches[1]));
-                        break;
-                    }
-                } else {
-                    // search for keywords now &vname=keyword
-                    $key = self::getParameterFromQueryString($query, $variableName);
-                    $key = trim(urldecode($key));
-
-                    // Special cases: empty or no keywords
-                    if (empty($key)
-                        && (
-                            // Google search with no keyword
-                            ($searchEngineName == 'Google'
-                                && (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
-                            )
-
-                            // Yahoo search with no keyword
-                            || ($searchEngineName == 'Yahoo!'
-                                && ($referrerParsed['host'] == 'r.search.yahoo.com')
-                            )
-
-                            // empty keyword parameter
-                            || strpos($query, sprintf('&%s=', $variableName)) !== false
-                            || strpos($query, sprintf('?%s=', $variableName)) !== false
-
-                            // search engines with no keyword
-                            || $searchEngineName == 'Google Images'
-                            || $searchEngineName == 'DuckDuckGo')
-                    ) {
-                        $key = false;
-                    }
-                    if (!empty($key)
-                        || $key === false
-                    ) {
-                        break;
-                    }
-                }
-            }
-        }
-
-        // $key === false is the special case "No keyword provided" which is a Search engine match
-        if ($key === null
-            || $key === ''
-        ) {
-            return false;
-        }
-
-        if (!empty($key)) {
-            if (function_exists('iconv')
-                && isset($searchEngines[$referrerHost][3])
-            ) {
-                // accepts string, array, or comma-separated list string in preferred order
-                $charsets = $searchEngines[$referrerHost][3];
-                if (!is_array($charsets)) {
-                    $charsets = explode(',', $charsets);
-                }
-
-                if (!empty($charsets)) {
-                    $charset = $charsets[0];
-                    if (count($charsets) > 1
-                        && function_exists('mb_detect_encoding')
-                    ) {
-                        $charset = mb_detect_encoding($key, $charsets);
-                        if ($charset === false) {
-                            $charset = $charsets[0];
-                        }
-                    }
-
-                    $newkey = @iconv($charset, 'UTF-8//IGNORE', $key);
-                    if (!empty($newkey)) {
-                        $key = $newkey;
-                    }
-                }
-            }
-
-            $key = Common::mb_strtolower($key);
-        }
-
-        return array(
-            'name'     => $searchEngineName,
-            'keywords' => $key,
-        );
     }
 
     /**

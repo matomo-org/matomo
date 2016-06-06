@@ -8,7 +8,8 @@
  */
 namespace Piwik\Plugin\Dimension;
 
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\CacheId;
+use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Common;
@@ -17,7 +18,6 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Translate;
 use Piwik\Plugin\Segment;
 use Piwik\Plugin;
 use Exception;
@@ -38,6 +38,8 @@ use Exception;
  */
 abstract class ConversionDimension extends Dimension
 {
+    const INSTALLER_PREFIX = 'log_conversion.';
+
     private $tableName = 'log_conversion';
 
     /**
@@ -155,10 +157,10 @@ abstract class ConversionDimension extends Dimension
      */
     public static function getAllDimensions()
     {
-        $cache = new PluginAwareStaticCache('ConversionDimensions');
+        $cacheId = CacheId::pluginAware('ConversionDimensions');
+        $cache   = PiwikCache::getTransientCache();
 
-        if (!$cache->has()) {
-
+        if (!$cache->contains($cacheId)) {
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
 
@@ -168,10 +170,10 @@ abstract class ConversionDimension extends Dimension
                 }
             }
 
-            $cache->set($instances);
+            $cache->save($cacheId, $instances);
         }
 
-        return $cache->get();
+        return $cache->fetch($cacheId);
     }
 
     /**
@@ -242,5 +244,4 @@ abstract class ConversionDimension extends Dimension
     {
         return false;
     }
-
 }

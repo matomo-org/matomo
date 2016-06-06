@@ -9,27 +9,16 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Tracker\GoalManager;
-use Piwik\Translate;
 
 /**
  *
  */
 class Goals extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $suffix = Piwik::translate('SitesManager_PiwikOffersEcommerceAnalytics',
-            array('<a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer"  target="_blank">', '</a>'));
-        $info = parent::getInformation();
-        $info['description'] .= ' ' . $suffix;
-        return $info;
-    }
-
     public static function getReportsWithGoalMetrics()
     {
         $dimensions = self::getAllReportsWithGoalMetrics();
@@ -37,6 +26,10 @@ class Goals extends \Piwik\Plugin
         $dimensionsByGroup = array();
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
+            // move "Custom Variables" report to the "Goals/Sales by User attribute" category
+            if ($dimension['module'] === 'CustomVariables') {
+                $group = 'VisitsSummary_VisitsSummary';
+            }
             unset($dimension['category']);
             $dimensionsByGroup[$group][] = $dimension;
         }
@@ -51,11 +44,11 @@ class Goals extends \Piwik\Plugin
 
         if (is_null($order)) {
             $order = array(
-                Piwik::translate('Referrers_Referrers'),
-                Piwik::translate('General_Visit'),
-                Piwik::translate('General_Visitors'),
-                Piwik::translate('VisitsSummary_VisitsSummary'),
-                Piwik::translate('VisitTime_ColumnServerTime'),
+                'Referrers_Referrers',
+                'General_Visit',
+                'General_Visitors',
+                'VisitsSummary_VisitsSummary',
+                'VisitTime_ColumnServerTime',
             );
         }
 
@@ -91,9 +84,9 @@ class Goals extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         $hooks = array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
@@ -184,7 +177,7 @@ class Goals extends \Piwik\Plugin
         foreach (Report::getAllReports() as $report) {
             if ($report->hasGoalMetrics()) {
                 $reportsWithGoals[] = array(
-                    'category' => $report->getCategory(),
+                    'category' => $report->getCategoryKey(),
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
@@ -235,13 +228,13 @@ class Goals extends \Piwik\Plugin
     public function getActualReportsWithGoalMetrics(&$dimensions)
     {
         $reportWithGoalMetrics = array(
-            array('category' => Piwik::translate('General_Visit'),
+            array('category' => 'General_Visit',
                   'name'     => Piwik::translate('Goals_VisitsUntilConv'),
                   'module'   => 'Goals',
                   'action'   => 'getVisitsUntilConversion',
                   'viewDataTable' => 'table',
             ),
-            array('category' => Piwik::translate('General_Visit'),
+            array('category' => 'General_Visit',
                   'name'     => Piwik::translate('Goals_DaysToConv'),
                   'module'   => 'Goals',
                   'action'   => 'getDaysToConversion',

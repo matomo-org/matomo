@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Unit\Metrics\Formatter;
 
+use Piwik\Intl\Locale;
 use Piwik\Metrics\Formatter\Html;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -34,18 +35,14 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter = new Html();
 
-        setlocale(LC_ALL, null);
-
-        Translate::loadEnglishTranslation();
+        Translate::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
 
     public function tearDown()
     {
-        Translate::unloadEnglishTranslation();
+        Translate::reset();
         $this->unsetSiteManagerApiMock();
-
-        setlocale(LC_ALL, null);
     }
 
     public function test_getPrettyTimeFromSeconds_DefaultsToShowingSentences_AndUsesNonBreakingSpaces()
@@ -60,6 +57,22 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $expected = '1.5&nbsp;K';
         $value = $this->formatter->getPrettySizeFromBytes(1536);
+
+        $this->assertEquals($expected, $value);
+    }
+
+    public function test_getPrettySizeFromBytes_InFixedUnitThatIsHigherThanBestUnit()
+    {
+        $expected = '0.001465&nbsp;M';
+        $value = $this->formatter->getPrettySizeFromBytes(1536, 'M', 6);
+
+        $this->assertEquals($expected, $value);
+    }
+
+    public function test_getPrettySizeFromBytes_InUnitThatIsLowerThanBestUnit()
+    {
+        $expected = '1536&nbsp;B';
+        $value = $this->formatter->getPrettySizeFromBytes(1536, 'B');
 
         $this->assertEquals($expected, $value);
     }

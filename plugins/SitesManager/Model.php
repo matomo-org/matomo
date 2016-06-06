@@ -41,8 +41,9 @@ class Model
      */
     public function getSitesFromGroup($group)
     {
-        $sites = $this->getDb()->fetchAll("SELECT * FROM " . $this->table . "
-                                           WHERE `group` = ?", $group);
+        $db = $this->getDb();
+        $sites = $db->fetchAll("SELECT * FROM " . $this->table . "
+                                WHERE `group` = ?", $group);
 
         return $sites;
     }
@@ -55,7 +56,8 @@ class Model
      */
     public function getSitesGroups()
     {
-        $groups = $this->getDb()->fetchAll("SELECT DISTINCT `group` FROM " . $this->table);
+        $db = $this->getDb();
+        $groups = $db->fetchAll("SELECT DISTINCT `group` FROM " . $this->table);
 
         $cleanedGroups = array();
         foreach ($groups as $group) {
@@ -72,7 +74,8 @@ class Model
      */
     public function getAllSites()
     {
-        $sites = $this->getDb()->fetchAll("SELECT * FROM " . $this->table . " ORDER BY idsite ASC");
+        $db = $this->getDb();
+        $sites = $db->fetchAll("SELECT * FROM " . $this->table . " ORDER BY idsite ASC");
 
         return $sites;
     }
@@ -80,8 +83,8 @@ class Model
     /**
      * Returns the list of the website IDs that received some visits since the specified timestamp.
      *
-     * @param \Piwik\Date $time
-     * @param \Piwik\Date $now
+     * @param string $time
+     * @param string $now
      * @return array The list of website IDs
      */
     public function getSitesWithVisits($time, $now)
@@ -104,20 +107,24 @@ class Model
     /**
      * Returns the list of websites ID associated with a URL.
      *
-     * @param string $url
-     * @param string $urlBis
+     * @param array $urls
      * @return array list of websites ID
      */
-    public function getAllSitesIdFromSiteUrl($url, $urlBis)
+    public function getAllSitesIdFromSiteUrl(array $urls)
     {
         $siteUrlTable = Common::prefixTable('site_url');
 
-        $ids = $this->getDb()->fetchAll(
+        $db = $this->getDb();
+        $ids = $db->fetchAll(
             'SELECT idsite FROM ' . $this->table . '
-                    WHERE (main_url = ? OR main_url = ?) ' .
+                    WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ' .
             'UNION
                 SELECT idsite FROM ' . $siteUrlTable . '
-                    WHERE (url = ? OR url = ?) ', array($url, $urlBis, $url, $urlBis));
+                    WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ',
+
+            // Bind
+            array_merge( $urls, $urls)
+        );
 
         return $ids;
     }
@@ -125,25 +132,34 @@ class Model
     /**
      * Returns the list of websites ID associated with a URL.
      *
-     * @param string $url
+     * @param string $login
+     * @param array $urls
      * @return array list of websites ID
      */
-    public function getSitesIdFromSiteUrlHavingAccess($url, $urlBis, $login)
+    public function getSitesIdFromSiteUrlHavingAccess($login, $urls)
     {
         $siteUrlTable  = Common::prefixTable('site_url');
         $sqlAccessSite = Access::getSqlAccessSite('idsite');
 
-        $ids = $this->getDb()->fetchAll(
+        $db = $this->getDb();
+        $ids = $db->fetchAll(
             'SELECT idsite
                 FROM ' . $this->table . '
-                    WHERE (main_url = ? OR main_url = ?)' .
+                    WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ') ' .
             'UNION
                 SELECT idsite
                 FROM ' . $siteUrlTable . '
-                    WHERE (url = ? OR url = ?)' .
+                    WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ')',
-            array($url, $urlBis, $login, $url, $urlBis, $login));
+
+            // Bind
+            array_merge(    $urls,
+                            array( $login ),
+                            $urls,
+                            array( $login )
+            )
+        );
 
         return $ids;
     }
@@ -160,7 +176,8 @@ class Model
         $query = 'SELECT idsite FROM ' . $this->table . '
                   WHERE timezone IN (' . Common::getSqlStringFieldsArray($timezones) . ')
                   ORDER BY idsite ASC';
-        $sites = $this->getDb()->fetchAll($query, $timezones);
+        $db = $this->getDb();
+        $sites = $db->fetchAll($query, $timezones);
 
         return $sites;
     }
@@ -212,8 +229,9 @@ class Model
      */
     public function getSiteFromId($idSite)
     {
-        $site = $this->getDb()->fetchRow("SELECT * FROM " . $this->table . "
-                                          WHERE idsite = ?", $idSite);
+        $db = $this->getDb();
+        $site = $db->fetchRow("SELECT * FROM " . $this->table . "
+                               WHERE idsite = ?", $idSite);
 
         return $site;
     }
@@ -226,7 +244,7 @@ class Model
      */
     public function getSitesId()
     {
-        $result  = Db::fetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
+        $result = Db::fetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
 
         $idSites = array();
         foreach ($result as $idSite) {
@@ -266,13 +284,30 @@ class Model
     {
         $db     = $this->getDb();
         $result = $db->fetchAll("SELECT url FROM " . Common::prefixTable("site_url") . "
-                                WHERE idsite = ?", $idSite);
+                                 WHERE idsite = ?", $idSite);
+
         $urls = array();
         foreach ($result as $url) {
             $urls[] = $url['url'];
         }
 
         return $urls;
+    }
+
+    /**
+     * Returns the list of alias URLs registered for the given idSite.
+     * The website ID must be valid when calling this method!
+     *
+     * @param int $idSite
+     * @return array list of alias URLs
+     */
+    public function getAllKnownUrlsForAllSites()
+    {
+        $db        = $this->getDb();
+        $mainUrls  = $db->fetchAll("SELECT idsite, main_url as url FROM " . Common::prefixTable("site"));
+        $aliasUrls = $db->fetchAll("SELECT idsite, url FROM " . Common::prefixTable("site_url"));
+
+        return array_merge($mainUrls, $aliasUrls);
     }
 
     public function updateSite($site, $idSite)
@@ -303,7 +338,7 @@ class Model
     /**
      * Updates the field ts_created for the specified websites.
      *
-     * @param $idSites int Id Site to update ts_created
+     * @param $idSites int[] Id Site to update ts_created
      * @param string Date to set as creation date.
      *
      * @ignore
@@ -318,6 +353,24 @@ class Model
         $bind  = array($minDateSql, $minDateSql);
 
         Db::query($query, $bind);
+    }
+
+    /**
+     * Returns all used type ids (unique)
+     * @return array of used type ids
+     */
+    public function getUsedTypeIds()
+    {
+        $types = array();
+
+        $db   = $this->getDb();
+        $rows = $db->fetchAll("SELECT DISTINCT `type` as typeid FROM " . $this->table);
+
+        foreach ($rows as $row) {
+            $types[] = $row['typeid'];
+        }
+
+        return $types;
     }
 
     /**
@@ -351,14 +404,17 @@ class Model
             $where  = 'OR s.idsite = ?';
         }
 
-        $query = "SELECT idsite, name, main_url, `group`
+        $query = "SELECT *
                   FROM " . $this->table . " s
                   WHERE (    s.name like ?
                           OR s.main_url like ?
                           OR s.`group` like ?
                           $where )
-                     AND idsite in ($ids_str)
-                 LIMIT " . (int) $limit;
+                     AND idsite in ($ids_str)";
+
+        if ($limit !== false) {
+            $query .= " LIMIT " . (int) $limit;
+        }
 
         $db    = $this->getDb();
         $sites = $db->fetchAll($query, $bind);

@@ -22,6 +22,9 @@ use Exception;
  */
 class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
 {
+    /**
+     * @var TwoSitesVisitsInPast
+     */
     public static $fixture = null; // initialized below class definition
 
     /**
@@ -39,8 +42,8 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
     {
         $idSite = self::$fixture->idSite;
         $idSite2 = self::$fixture->idSite2;
-        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
-        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
+        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeInPastWebsite1;
+        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeInPastWebsite2;
 
         // We test a typical Numeric and a Recursive blob reports
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
@@ -121,8 +124,8 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
     {
         $idSite = self::$fixture->idSite;
         $idSite2 = self::$fixture->idSite2;
-        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
-        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
+        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeInPastWebsite1;
+        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeInPastWebsite2;
 
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
 

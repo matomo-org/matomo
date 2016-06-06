@@ -1,0 +1,8 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s dengan tanpa pengaya diaktifkan",
+        "BrowserWithPluginsEnabled": "%1$s dengan %2$s pengaya diaktifkan",
+        "WidgetPlugins": "Daftar Pengaya",
+        "WidgetPluginsDocumentation": "Laporan ini menunjukkan pengaya peramban yang diaktifkan oleh pengunjung. Informasi yang tersedia kemungkinan penting untuk memilih cara terbaik untuk menyampaikan konten Anda."
+    }
+}

@@ -22,18 +22,16 @@ class DeviceDetectorFactory
     public static function getInstance($userAgent)
     {
         if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
-
             return self::$deviceDetectorInstances[$userAgent];
         }
 
         $deviceDetector = new DeviceDetector($userAgent);
         $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new DeviceDetectorCache('tracker', 86400));
+        $deviceDetector->setCache(new DeviceDetectorCache(86400));
         $deviceDetector->parse();
 
         self::$deviceDetectorInstances[$userAgent] = $deviceDetector;
 
         return $deviceDetector;
     }
-
 }

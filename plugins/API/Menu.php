@@ -26,10 +26,18 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureUserMenu(MenuUser $menu)
     {
-        $apiUrlParams = $this->urlForAction('listAllAPI', array('segment' => false));
-        $tooltip      = Piwik::translate('API_TopLinkTooltip');
+        $menu->addPlatformItem('General_API',
+            $this->urlForAction('listAllAPI', array('segment' => false)),
+            6,
+            Piwik::translate('API_TopLinkTooltip')
+        );
 
-        $menu->addPlatformItem('General_API', $apiUrlParams, 6, $tooltip);
+        if(Piwik::isUserIsAnonymous()) {
+            $menu->addPlatformItem('API_Glossary',
+                $this->urlForAction('glossary', array('segment' => false)),
+                50
+            );
+        }
     }
 
     private function addTopMenuMobileApp(MenuTop $menu)
@@ -43,7 +51,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         $ua = new OperatingSystem($_SERVER['HTTP_USER_AGENT']);
-        $ua->setCache(new DeviceDetectorCache('tracker', 86400));
+        $ua->setCache(new DeviceDetectorCache(86400));
         $parsedOS = $ua->parse();
 
         if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {

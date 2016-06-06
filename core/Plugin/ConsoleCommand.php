@@ -21,19 +21,12 @@ class ConsoleCommand extends SymfonyCommand
 {
     public function writeSuccessMessage(OutputInterface $output, $messages)
     {
-        $lengths = array_map('strlen', $messages);
-        $maxLen = max($lengths) + 4;
-
-        $separator = str_pad('', $maxLen, '*');
-
         $output->writeln('');
-        $output->writeln('<info>' . $separator . '</info>');
 
         foreach ($messages as $message) {
-            $output->writeln('  ' . $message . '  ');
+            $output->writeln('<info>' . $message . '</info>');
         }
 
-        $output->writeln('<info>' . $separator . '</info>');
         $output->writeln('');
     }
 

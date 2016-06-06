@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Configuració",
+        "ColumnResolution": "Resolució",
+        "Configurations": "Configuracions",
+        "Resolutions": "Resolucions",
+        "WidgetGlobalVisitors": "Configuracions globals dels visitants",
+        "WidgetGlobalVisitorsDocumentation": "Aquest informe mostra les configuracions més comuns que tenen els vostres visitants. Una configuració es la combinació de Sistema Operatiu, tipus de navegador i resolució de pantalla.",
+        "WidgetResolutions": "Resolucions"
+    }
+}

@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
+use Piwik\API\Request;
 use Piwik\Archive;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
@@ -32,12 +34,16 @@ class API extends \Piwik\Plugin\API
      *
      * @return DataTable|DataTable\Map
      */
-    protected function getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable)
+    protected function getDataTable($idSite, $period, $date, $segment, $expanded, $flat, $idSubtable)
     {
-        $dataTable = Archive::getDataTableFromArchive(Archiver::CUSTOM_VARIABLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $dataTable->filter('Sort', array(Metrics::INDEX_NB_ACTIONS, 'desc', $naturalSort = false, $expanded));
-        $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable = Archive::createDataTableFromArchive(Archiver::CUSTOM_VARIABLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
         $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');
+
+        if ($flat) {
+            $dataTable->filterSubtables('Sort', array(Metrics::INDEX_NB_ACTIONS, 'desc', $naturalSort = false, $expanded));
+            $dataTable->queueFilterSubtables('ColumnDelete', 'nb_uniq_visitors');
+        }
+
         return $dataTable;
     }
 
@@ -48,12 +54,13 @@ class API extends \Piwik\Plugin\API
      * @param string|bool $segment
      * @param bool $expanded
      * @param bool $_leavePiwikCoreVariables
+     * @param bool $flat
      *
      * @return DataTable|DataTable\Map
      */
-    public function getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = false)
+    public function getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = false, $flat = false)
     {
-        $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable = null);
+        $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded, $flat, $idSubtable = null);
 
         if ($dataTable instanceof DataTable
             && !$_leavePiwikCoreVariables
@@ -66,6 +73,14 @@ class API extends \Piwik\Plugin\API
                 }
             }
         }
+
+
+        if ($flat) {
+            $dataTable->filterSubtables('Piwik\Plugins\CustomVariables\DataTable\Filter\CustomVariablesValuesFromNameId');
+        } else {
+            $dataTable->filter('AddSegmentByLabel', array('customVariableName'));
+        }
+
         return $dataTable;
     }
 
@@ -90,7 +105,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false, $_leavePriceViewedColumn = false)
     {
-        $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
 
         if (!$_leavePriceViewedColumn) {
             $dataTable->deleteColumn('price_viewed');
@@ -98,12 +113,64 @@ class API extends \Piwik\Plugin\API
             // Hack Ecommerce product price tracking to display correctly
             $dataTable->renameColumn('price_viewed', 'price');
         }
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', function ($label) {
-            return $label == \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED
-                ? Piwik::translate('General_NotDefined', Piwik::translate('CustomVariables_ColumnCustomVariableValue'))
-                : $label;
-        }));
+
+        $dataTable->filter('Piwik\Plugins\CustomVariables\DataTable\Filter\CustomVariablesValuesFromNameId');
+
         return $dataTable;
+    }
+
+    /**
+     * Get a list of all available custom variable slots (scope + index) and which names have been used so far in
+     * each slot since the beginning of the website.
+     *
+     * @param int $idSite
+     * @return array
+     */
+    public function getUsagesOfSlots($idSite)
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        $numVars = CustomVariables::getNumUsableCustomVariables();
+
+        $usedCustomVariables = array(
+            'visit' => array_fill(1, $numVars, array()),
+            'page'  => array_fill(1, $numVars, array()),
+        );
+
+        /** @var DataTable $customVarUsages */
+        $today = StaticContainer::get('CustomVariables.today');
+        $date = '2008-12-12,' . $today;
+        $customVarUsages = Request::processRequest('CustomVariables.getCustomVariables',
+            array('idSite' => $idSite, 'period' => 'range', 'date' => $date,
+                  'format' => 'original')
+        );
+
+        foreach ($customVarUsages->getRows() as $row) {
+            $slots = $row->getMetadata('slots');
+
+            if (!empty($slots)) {
+                foreach ($slots as $slot) {
+                    $usedCustomVariables[$slot['scope']][$slot['index']][] = array(
+                        'name' => $row->getColumn('label'),
+                        'nb_visits' => $row->getColumn('nb_visits'),
+                        'nb_actions' => $row->getColumn('nb_actions'),
+                    );
+                }
+            }
+        }
+
+        $grouped = array();
+        foreach ($usedCustomVariables as $scope => $scopes) {
+            foreach ($scopes as $index => $cvars) {
+                $grouped[] = array(
+                    'scope' => $scope,
+                    'index' => $index,
+                    'usages' => $cvars
+                );
+            }
+        }
+
+        return $grouped;
     }
 }
 

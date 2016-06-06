@@ -1,5 +1,15 @@
 {
     "UserCountryMap": {
-        "map": "hartë"
+        "AndNOthers": "dhe %s të tjerë",
+        "Cities": "Qytete",
+        "Countries": "Vende",
+        "DaysAgo": "%s ditë më parë",
+        "HoursAgo": "%s orë më parë",
+        "map": "hartë",
+        "MinutesAgo": "%s minuta më parë",
+        "None": "Asnjë",
+        "NoVisit": "Pa vizita",
+        "RealTimeMap": "Hartë e Atypëratyshme",
+        "Regions": "Rajone"
     }
 }

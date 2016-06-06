@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
@@ -223,7 +222,8 @@ class API extends \Piwik\Plugin\API
         if ($actionType != 'title') {
             // specific setup for page urls
             $types[Action::TYPE_PAGE_URL] = 'followingPages';
-            $dimension = 'if ( idaction_url IS NULL, idaction_name, idaction_url )';
+            $dimension = 'if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )';
+            $dimension = sprintf($dimension, 'log_link_visit_action' );
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
             $joinLogActionColumn = $dimension;
@@ -406,7 +406,8 @@ class API extends \Piwik\Plugin\API
         if ($dimension == 'idaction_url_ref') {
             // site search referrers are logged with url_ref=NULL
             // when we find one, we have to join on name_ref
-            $dimension = 'if ( idaction_url_ref IS NULL, idaction_name_ref, idaction_url_ref )';
+            $dimension = 'if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )';
+            $dimension = sprintf($dimension, 'log_link_visit_action');
             $joinLogActionOn = $dimension;
         } else {
             $joinLogActionOn = $dimension;
@@ -489,7 +490,7 @@ class API extends \Piwik\Plugin\API
     }
 
     private $limitBeforeGrouping = 5;
-    private $totalTransitionsToFollowingActions = 0;
+    private $totalTransitionsToFollowingPages = 0;
 
     /**
      * Get the sum of all transitions to following actions (pages, outlinks, downloads).
@@ -497,7 +498,7 @@ class API extends \Piwik\Plugin\API
      */
     protected function getTotalTransitionsToFollowingActions()
     {
-        return $this->totalTransitionsToFollowingActions;
+        return $this->totalTransitionsToFollowingPages;
     }
 
     /**
@@ -523,8 +524,8 @@ class API extends \Piwik\Plugin\API
             if ($visits) {
                 // load details (i.e. subtables)
                 $details = array();
-                if ($idSubTable = $row->getIdSubDataTable()) {
-                    $subTable = Manager::getInstance()->getTable($idSubTable);
+                $subTable = $row->getSubtable();
+                if ($subTable) {
                     foreach ($subTable->getRows() as $subRow) {
                         $details[] = array(
                             'label'     => $subRow->getColumn('label'),
@@ -578,7 +579,7 @@ class API extends \Piwik\Plugin\API
 
     protected function makeDataTablesFollowingActions($types, $data)
     {
-        $this->totalTransitionsToFollowingActions = 0;
+        $this->totalTransitionsToFollowingPages = 0;
         $dataTables = array();
         foreach ($types as $type => $recordName) {
             $dataTable = new DataTable;
@@ -591,11 +592,25 @@ class API extends \Piwik\Plugin\API
                                                         Metrics::INDEX_NB_ACTIONS => $actions
                                                     )
                                                )));
-                    $this->totalTransitionsToFollowingActions += $actions;
+
+                    $this->processTransitionsToFollowingPages($type, $actions);
                 }
             }
             $dataTables[$recordName] = $dataTable;
         }
         return $dataTables;
+    }
+
+    protected function processTransitionsToFollowingPages($type, $actions)
+    {
+        // Downloads and Outlinks are not included as these actions count towards a Visit Exit
+        $actionTypesNotExitActions = array(
+            Action::TYPE_SITE_SEARCH,
+            Action::TYPE_PAGE_TITLE,
+            Action::TYPE_PAGE_URL
+        );
+        if(in_array($type, $actionTypesNotExitActions)) {
+            $this->totalTransitionsToFollowingPages += $actions;
+        }
     }
 }

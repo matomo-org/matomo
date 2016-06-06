@@ -35,9 +35,10 @@ class TestsRunOnAws extends ConsoleCommand
     {
         $this->setName('tests:run-aws');
         $this->addArgument('testsuite', InputArgument::OPTIONAL, 'Allowed values: ' . implode(', ', $this->allowedTestSuites));
+        $this->addArgument('arguments', InputArgument::IS_ARRAY, 'Any additional argument will be passed to the test command.');
         $this->addOption('launch-only', null, InputOption::VALUE_NONE, 'Only launches an instance and outputs the connection parameters. Useful if you want to connect via SSH.');
         $this->addOption('update-only', null, InputOption::VALUE_NONE, 'Launches an instance, outputs the connection parameters and prepares the instance for a test run but does not actually run the tests. It will also checkout the specified version.');
-        $this->addOption('one-instance-per-testsuite', null, InputOption::VALUE_NONE, 'Launches an instance, outputs the connection parameters and prepares the instance for a test run but does not actually run the tests. It will also checkout the specified version.');
+        $this->addOption('one-instance-per-testsuite', null, InputOption::VALUE_NONE, 'Launches one instance for system tests and one for ui tests.');
         $this->addOption('checkout', null, InputOption::VALUE_REQUIRED, 'Git hash, tag or branch to checkout. Defaults to current hash', $this->getCurrentGitHash());
         $this->addOption('patch-file', null, InputOption::VALUE_REQUIRED, 'Apply the given patch file after performing a checkout');
         $this->setDescription('Run a specific testsuite on AWS');
@@ -57,15 +58,15 @@ If you want to apply a patch on top of the checked out version you can apply the
 <comment>./console tests:run-aws --patch-file=test.patch ui</comment>
 This will checkout the same revision as you are currently on and then apply the patch. To generate a diff use for instance the command <comment>git diff > test.patch</comment>.
 This feature is still beta and there might be problems with pictures and/or binaries etc.
+
+You can also pass any argument to the command and they will be forwarded to the test command, for example to run a specific UI test: <comment>./console tests:run-aws ui Dashboard</comment>.
 ');
     }
 
-    /**
-     * Execute command like: ./console core:clear-caches
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $testSuite  = $this->getTestSuite($input);
+        $arguments  = $input->getArgument('arguments');
         $patchFile  = $this->getPatchFile($input);
         $launchOnly = $input->getOption('launch-only');
         $updateOnly = $input->getOption('update-only');
@@ -102,7 +103,7 @@ This feature is still beta and there might be problems with pictures and/or bina
             return 0;
         }
 
-        $testRunner->runTests($host, $testSuite);
+        $testRunner->runTests($host, $testSuite, $arguments);
 
         $message = $this->buildFinishedMessage($testSuite, $host);
         $output->writeln("\n$message\n");
@@ -155,7 +156,7 @@ This feature is still beta and there might be problems with pictures and/or bina
         if (in_array($testSuite, array('system', 'all'))) {
             $message = "<info>Tests finished. You can browse processed files and download artifacts at </info><comment>http://$host/tests/PHPUnit/System/processed/</comment>";
         } elseif ('ui' === $testSuite) {
-            $message = "<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/PHPUnit/UI/screenshot-diffs/diffviewer.html</comment>";
+            $message = "<info>Tests finished. You can browse processed screenshots at </info><comment>http://$host/tests/UI/screenshot-diffs/diffviewer.html</comment>";
         } else {
             $message = "<info>Tests finished</info>";
         }

@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>55</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==direct</segment>
 	</row>
 	<row>
 		<label>Search Engines</label>
@@ -21,18 +22,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>12</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search</segment>
 		<subtable>
-			<row>
-				<label>this search term</label>
-				<nb_uniq_visitors>3</nb_uniq_visitors>
-				<nb_visits>3</nb_visits>
-				<nb_actions>3</nb_actions>
-				<nb_users>0</nb_users>
-				<max_actions>1</max_actions>
-				<sum_visit_length>0</sum_visit_length>
-				<bounce_count>3</bounce_count>
-				<nb_visits_converted>0</nb_visits_converted>
-			</row>
 			<row>
 				<label>search term 2</label>
 				<nb_uniq_visitors>2</nb_uniq_visitors>
@@ -42,6 +33,17 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>2</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+			</row>
+			<row>
+				<label>this search term</label>
+				<nb_uniq_visitors>3</nb_uniq_visitors>
+				<nb_visits>3</nb_visits>
+				<nb_actions>3</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>3</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 			</row>
 			<row>
@@ -67,6 +69,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>8</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==website</segment>
 		<subtable>
 			<row>
 				<label>whatever0.com</label>

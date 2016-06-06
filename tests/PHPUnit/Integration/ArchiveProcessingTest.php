@@ -17,6 +17,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
+use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
@@ -54,16 +55,13 @@ class ArchiveProcessingTest extends IntegrationTestCase
         parent::setUp();
 
         // setup the access layer
-        $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Access::setSingletonInstance($pseudoMockAccess);
 
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
     public function tearDown()
     {
-        Access::setSingletonInstance(null);
         ArchiveTableCreator::$tablesAlreadyInstalled = null;
     }
 
@@ -309,11 +307,12 @@ class ArchiveProcessingTest extends IntegrationTestCase
             $didWeUseBulk = BatchInsert::tableInsertBatch($table,
                 array('idsite', 'url'),
                 $data,
-                $throwException = true);
+                $throwException = true, 'utf8');
 
         } catch (Exception $e) {
             $didWeUseBulk = $e->getMessage();
         }
+
         $this->_checkLoadDataInFileWasUsed($didWeUseBulk);
 
         if ($didWeUseBulk === true) {
@@ -380,7 +379,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             $didWeUseBulk = BatchInsert::tableInsertBatch($table,
                 array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'),
                 $data,
-                $throwException = true);
+                $throwException = true, $charset = 'latin1');
         } catch (Exception $e) {
             $didWeUseBulk = $e->getMessage();
         }
@@ -391,7 +390,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             $this->_checkTableIsExpectedBlob($table, $data);
         }
         // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
-        $didWeUseBulk = BatchInsert::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
+        $didWeUseBulk = BatchInsert::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $throw = false, $charset = 'latin1');
         if ($didWeUseBulk === true) {
             $this->_checkTableIsExpectedBlob($table, $data);
         }
@@ -424,9 +423,10 @@ class ArchiveProcessingTest extends IntegrationTestCase
     protected function _checkTableIsExpected($table, $data)
     {
         $fetched = Db::fetchAll('SELECT * FROM ' . $table);
+
         foreach ($data as $id => $row) {
-            $this->assertEquals($fetched[$id]['idsite'], $data[$id][0], "record $id is not {$data[$id][0]}");
-            $this->assertEquals($fetched[$id]['url'], $data[$id][1], "Record $id bug, not {$data[$id][1]} BUT {$fetched[$id]['url']}");
+            $this->assertEquals($data[$id][0], $fetched[$id]['idsite'], "record $id is not {$data[$id][0]}");
+            $this->assertEquals($data[$id][1], $fetched[$id]['url'], "Record $id bug, not {$data[$id][1]} BUT {$fetched[$id]['url']}");
         }
     }
 
@@ -487,6 +487,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         for ($i = 0; $i < 256; $i++) {
             $str .= chr($i);
         }
+
         $array[] = array(1, 'bytes 0-255', 1, '2011-03-31', '2011-03-31', Piwik::$idPeriods['day'], $ts, $str);
 
         $array[] = array(2, 'compressed string', 1, '2011-03-31', '2011-03-31', Piwik::$idPeriods['day'], $ts, gzcompress(" \n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942\n \r \t teste eigaj oegheao geaoh guoea98742983 2 342942"));
@@ -497,5 +498,12 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $array[] = array(4, 'lorem ipsum compressed', 1, '2011-03-31', '2011-03-31', Piwik::$idPeriods['day'], $ts, gzcompress($str));
 
         return $array;
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess()
+        );
     }
 }

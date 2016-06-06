@@ -10,10 +10,12 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 
+/**
+ * @group Core
+ */
 class IPTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -64,17 +66,6 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getLong2IPTestData
-     * @group Core
-     */
-    public function testLong2ip($N, $P)
-    {
-        $this->assertEquals($P, IP::long2ip($N), bin2hex($N));
-        // this is our compatibility function
-        $this->assertEquals($P, Common::long2ip($N), bin2hex($N));
-    }
-
-    /**
      * Dataprovider for ip from header tests
      */
     public function getIpFromHeaderTestData()
@@ -93,12 +84,9 @@ class IPTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getIpFromHeaderTestData
-     * @group Core
      */
     public function testGetIpFromHeader($description, $test)
     {
-        Config::getInstance()->setTestEnvironment();
-
         $_SERVER['REMOTE_ADDR'] = $test[0];
         $_SERVER['HTTP_X_FORWARDED_FOR'] = $test[1];
         Config::getInstance()->General['proxy_client_headers'] = array($test[2]);
@@ -123,8 +111,6 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader($ip)
@@ -133,8 +119,6 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader2($ip)
@@ -146,8 +130,6 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader3($ip)
@@ -167,6 +149,20 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * See https://github.com/piwik/piwik/issues/8721
+     */
+    public function testGetNonProxyIpFromHeader4_ShouldReturnDefaultIp_IfDefaultIpIsGivenMultipleTimes()
+    {
+        // 1.1.1.1 is a trusted proxy
+        $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = $_SERVER['REMOTE_ADDR'];
+        $_SERVER['HTTP_CF_CONNECTING_IP'] = $_SERVER['REMOTE_ADDR'];
+
+        $this->assertEquals('1.1.1.1', IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR', 'HTTP_CF_CONNECTING_IP')));
+        unset($_SERVER['HTTP_CF_CONNECTING_IP']);
+    }
+
+    /**
      * Dataprovider for testGetLastIpFromList
      */
     public function getLastIpFromListTestData()
@@ -182,8 +178,6 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group Core
-     *
      * @dataProvider getLastIpFromListTestData
      */
     public function testGetLastIpFromList($csv, $expected)
@@ -193,5 +187,11 @@ class IPTest extends \PHPUnit_Framework_TestCase
 
         // with excluded Ips
         $this->assertEquals($expected, IP::getLastIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')));
+    }
+
+    public function testGetLastIpFromList_shouldReturnAnEmptyString_IfMultipleIpsAreGivenButAllAreExcluded()
+    {
+        // with excluded Ips
+        $this->assertEquals('', IP::getLastIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
     }
 }

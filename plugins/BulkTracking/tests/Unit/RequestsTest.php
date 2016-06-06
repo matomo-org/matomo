@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\BulkTracking\tests\Unit;
 
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Piwik\Tracker\Request;
 
 /**
@@ -17,7 +16,7 @@ use Piwik\Tracker\Request;
  * @group RequestsTest
  * @group Plugins
  */
-class RequestsTest extends UnitTestCase
+class RequestsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Requests

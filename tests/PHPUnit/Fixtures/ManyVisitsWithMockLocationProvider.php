@@ -33,6 +33,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->setUpWebsitesAndGoals();
         $this->setMockLocationProvider();
         $this->trackVisits();
+
+        ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
     public function tearDown()

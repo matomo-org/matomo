@@ -17,6 +17,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
+		<segment>referrerName==referrer.com</segment>
 		<subtable>
 			<row>
 				<label>http://referrer.com/page.htm?param=valuewith some spaces</label>

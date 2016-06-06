@@ -5,14 +5,14 @@
         "DayOfWeek": "Jour de la semaine",
         "LocalTime": "Visites par heure locale",
         "NHour": "%sh",
-        "PluginDescription": "Effectue des rapports sur la date locale et serveur. Les informations serveur peuvent être utiles pour planifier une maintenance sur un site web.",
+        "PluginDescription": "Fournit des informations sur l'heure locale et de serveur à laquelle vos visiteurs on visité votre site web ou app.",
         "ServerTime": "Visites par heure du serveur",
         "SubmenuTimes": "Horaires",
         "VisitsByDayOfWeek": "Visites par Jour de la Semaine",
         "WidgetByDayOfWeekDocumentation": "Ce graphique affiche le nombre de visites que votre site web a reçu durant chaque jour de la semaine.",
         "WidgetLocalTime": "Visites par fuseau horaire local",
-        "WidgetLocalTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %s fuseau horaire du visiteur %s.",
+        "WidgetLocalTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %1$s fuseau horaire du visiteur %2$s.",
         "WidgetServerTime": "Visites par fuseau horaire du serveur",
-        "WidgetServerTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %s fuseau horaire du serveur %s."
+        "WidgetServerTimeDocumentation": "Ce graphique affiche la répartition horaire basée sur le %1$s fuseau horaire du serveur %2$s."
     }
 }

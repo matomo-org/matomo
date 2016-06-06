@@ -13,35 +13,14 @@ use Piwik\Common;
 use Piwik\ProxyHttp;
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__).'/../../');
-if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php'))
-{
+if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
-
-error_reporting(E_ALL|E_NOTICE);
-@ini_set('display_errors', defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : @ini_get('display_errors'));
-@ini_set('xdebug.show_exception_trace', 0);
-@ini_set('magic_quotes_runtime', 0);
-
-if(!defined('PIWIK_USER_PATH'))
-{
-    define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
-}
-if(!defined('PIWIK_INCLUDE_PATH'))
-{
+if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
-
-// NOTE: the code above this comment must be PHP4 compatible
-
-session_cache_limiter('nocache');
-@date_default_timezone_set('UTC');
-
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-\Piwik\Loader::init();
+require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 // This is Piwik logo, the static file used in this test suit
 define("TEST_FILE_LOCATION", dirname(__FILE__) . "/lipsum.txt");
@@ -76,6 +55,9 @@ if ($staticFileServerMode === "") {
     throw new Exception("When this testing file is used as a static file server, the request parameter " .
         SRV_MODE_REQUEST_VAR . " must be provided.");
 }
+
+$environment = new \Piwik\Application\Environment(null);
+$environment->init();
 
 switch ($staticFileServerMode) {
     // The static file server calls Piwik::serverStaticFile with a null file

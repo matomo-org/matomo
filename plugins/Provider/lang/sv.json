@@ -1,9 +1,8 @@
 {
     "Provider": {
         "ColumnProvider": "Internetleverantör",
-        "PluginDescription": "Rapporterar Internetleverantören som besökaren använder.",
+        "PluginDescription": "Rapporterar besökarnas Internetleverantör.",
         "ProviderReportDocumentation": "Denna rapport visar vilka Internetleverantörer dina besökare använde för att få åtkomst till webbplatsen. Du kan klicka på en leverantörs namn för mer information. %s Om Piwik inte kan avgöra en besökares leverantör, så listas den som IP.",
-        "SubmenuLocationsProvider": "Ursprung och operatör",
         "WidgetProviders": "Internetleverantör"
     }
 }

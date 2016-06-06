@@ -1,0 +1,129 @@
+{% extends 'user.twig' %}
+
+{% set title %}{{ 'MobileMessaging_Settings_SMSProvider'|translate }}{% endset %}
+
+{% block content %}
+
+    {% import 'ajaxMacros.twig' as ajax %}
+
+    <div style="margin-top:10px">
+        {{ ajax.errorDiv('ajaxErrorMobileMessagingSettings') }}
+    </div>
+
+    {% import '@MobileMessaging/macros.twig' as macro %}
+
+    {% if accountManagedByCurrentUser and delegatedManagement %}
+        <h2 piwik-enriched-headline>{{ title }}</h2>
+
+        {{ macro.manageSmsApi(credentialSupplied, creditLeft, smsProviders, provider) }}
+    {% endif %}
+
+    <h2>{{ 'MobileMessaging_PhoneNumbers'|translate }}</h2>
+    {% if not credentialSupplied %}
+        {% if accountManagedByCurrentUser and delegatedManagement %}
+            {{ 'MobileMessaging_Settings_CredentialNotProvided'|translate }}
+        {% elseif accountManagedByCurrentUser %}
+            Before you can create and manage phone numbers, please setup an SMS provider in <a href="{{ linkTo({'action': 'index'}) }}">admin mobile messaging settings</a>.
+        {% else %}
+            {{ 'MobileMessaging_Settings_CredentialNotProvidedByAdmin'|translate }}
+        {% endif %}
+    {% else %}
+        {{ 'MobileMessaging_Settings_PhoneNumbers_Help'|translate }}
+        <span class="form-group">
+            <div class="form-help">
+                {{ strHelpAddPhone }}
+            </div>
+            <span>
+                <p><strong>{{ 'MobileMessaging_Settings_PhoneNumbers_Add'|translate }}</strong></p>
+            </span>
+            <span id="suspiciousPhoneNumber" style="display:none;">
+                {{ 'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate('54184032') }}
+                <br/><br/>
+            </span>
+
+        </span>
+
+        + <input id="countryCallingCode" size="4" maxlength="4"/>&nbsp;
+        <input id="newPhoneNumber"/>
+        <input type="submit" value='{{ 'General_Add'|translate }}'
+               id="addPhoneNumberSubmit"/>
+        <br/>
+
+		<span style=' font-size: 11px;'><span
+                    class="form-description">{{ 'MobileMessaging_Settings_CountryCode'|translate }}</span>
+			<span class="form-description"
+                  style="margin-left:50px;">{{ 'MobileMessaging_Settings_PhoneNumber'|translate }}</span></span>
+
+        <br/><br/>
+
+        {{ 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate }}
+
+        <select id="countries">
+            {# this is a trick to avoid selecting the first country when no default could be found #}
+            <option value="">&nbsp;</option>
+            {% for countryCode, country in countries %}
+                <option value='{{ country.countryCallingCode }}'
+                        {% if defaultCountry==countryCode %} selected="selected" {% endif %}
+                        >
+                    {{ country.countryName }}
+                </option>
+            {% endfor %}
+        </select>
+
+
+        {% if phoneNumbers|length > 0 %}
+            <br/>
+            <br/>
+            <strong>{{ 'MobileMessaging_Settings_ManagePhoneNumbers'|translate }}</strong>
+            <br/>
+            <br/>
+        {% endif %}
+
+        {{ ajax.errorDiv('invalidVerificationCodeAjaxError') }}
+
+        <div id='phoneNumberActivated' style="display:none;">
+            {{ 'MobileMessaging_Settings_PhoneActivated'|translate }}
+        </div>
+
+        <div id='invalidActivationCode' style="display:none;">
+            {{ 'MobileMessaging_Settings_InvalidActivationCode'|translate }}
+        </div>
+
+        <ul>
+            {% for phoneNumber, validated in phoneNumbers %}
+                <li>
+                    <span class='phoneNumber'>{{ phoneNumber }}</span>
+                    {% if not validated %}
+                        <input class='verificationCode'/>
+                        <input
+                                type='submit'
+                                value='{{ 'MobileMessaging_Settings_ValidatePhoneNumber'|translate }}'
+                                class='validatePhoneNumberSubmit'
+                                />
+                    {% endif %}
+                    <input
+                            type='submit'
+                            value='{{ 'General_Remove'|translate }}'
+                            class='removePhoneNumberSubmit'
+                            />
+                    {% if not validated %}
+                        <br/>
+                        <span class='form-description'>{{ 'MobileMessaging_Settings_VerificationCodeJustSent'|translate }}</span>
+                    {% endif %}
+                    <br/>
+                    <br/>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+    {{ ajax.loadingDiv('ajaxLoadingMobileMessagingSettings') }}
+
+    <div class='ui-confirm' id='confirmDeleteAccount'>
+        <h2>{{ 'MobileMessaging_Settings_DeleteAccountConfirm'|translate }}</h2>
+        <input role='yes' type='button' value='{{ 'General_Yes'|translate }}'/>
+        <input role='no' type='button' value='{{ 'General_No'|translate }}'/>
+    </div>
+
+{% endblock %}

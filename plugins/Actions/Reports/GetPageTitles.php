@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Plugins\Actions\Columns\PageTitle;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
@@ -63,12 +62,9 @@ class GetPageTitles extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        // link to the page, not just the report, but only if not a widget
-        $widget = Common::getRequestVar('widget', false);
-
         $view->config->self_url = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => $this->module,
-            'action' => $widget === false ? 'indexPageTitles' : 'getPageTitles'
+            'action' => 'getPageTitles',
         ));
 
         $view->config->title = $this->name;
@@ -84,8 +80,8 @@ class GetPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetEntryPageTitles(),
-            new GetExitPageTitles()
+            self::factory('Actions', 'getEntryPageTitles'),
+            self::factory('Actions', 'getExitPageTitles'),
         );
     }
 }

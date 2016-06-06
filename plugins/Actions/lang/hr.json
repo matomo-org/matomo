@@ -37,7 +37,6 @@
         "OutlinksReportDocumentation": "Ovo izvješće prikazuje hijerarhijski popis odlaznih URL adresa na koje su kliknuli vaši posjetitelji.",
         "PagesReportDocumentation": "Ovo izvješće sadrži informacije o linkovima stranica koje su posjećene. %s Tablica je organizirana hijerarhijski, URL-ovi su prikazani kao struktura mapa.",
         "PageUrls": "URL stranica",
-        "PluginDescription": "Izvješća o pregledima stranica, vanjskim poveznicama i preuzimanjima. Praćenje vanjskih poveznica i preuzimanja je automatsko! Također, možete pratiti pretraživanja vaše vlastite tražilice.",
         "SiteSearchCategories1": "Ovo izvješće prikazuje kategorije koje su posjetitelji odabrali kod pretraživanja vaše web-stranice",
         "SiteSearchCategories2": "Web-stranice kataloške prodaje najčešće imaju omogućen odabir \"kategorija\" kako bi posjetitelji pretraživali proizvode u željenoj kategoriji.",
         "SiteSearchKeyword": "Ključne riječi",
@@ -51,6 +50,9 @@
         "WidgetPagesExit": "Izlazne stranice",
         "WidgetPageTitles": "Naslovi stranica",
         "WidgetPageTitlesFollowingSearch": "Naslovi stranica kod pretraživanja",
-        "WidgetSearchCategories": "Pretraži kategoije"
+        "WidgetPageUrlsFollowingSearch": "Stranice kod pretraživanja",
+        "WidgetSearchCategories": "Pretraži kategoije",
+        "WidgetSearchKeywords": "Ključne riječi pretraživanja",
+        "WidgetSearchNoResultKeywords": "Ključne riječi pretraživanja bez rezultata"
     }
 }

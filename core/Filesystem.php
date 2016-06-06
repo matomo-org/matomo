@@ -10,7 +10,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
-use Piwik\Tracker\Cache;
+use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Cache as PiwikCache;
 
 /**
  * Contains helper functions that deal with the filesystem.
@@ -26,7 +27,8 @@ class Filesystem
     {
         AssetManager::getInstance()->removeMergedAssets($pluginName);
         View::clearCompiledTemplates();
-        Cache::deleteTrackerCache();
+        TrackerCache::deleteTrackerCache();
+        PiwikCache::flushAll();
         self::clearPhpCaches();
     }
 
@@ -116,8 +118,9 @@ class Filesystem
         // and the return code 1. if NFS, it will return 0 and at least 2 lines of text.
         $command = "df -T -t nfs \"$sessionsPath\" 2>&1";
 
-        if (function_exists('exec')) // use exec
-        {
+        if (function_exists('exec')) {
+            // use exec
+
             $output = $returnCode = null;
             @exec($command, $output, $returnCode);
 
@@ -127,13 +130,16 @@ class Filesystem
             ) {
                 return true;
             }
-        } else if (function_exists('shell_exec')) // use shell_exec
-        {
+        } elseif (function_exists('shell_exec')) {
+            // use shell_exec
+
             $output = @shell_exec($command);
             if ($output) {
-                $output = explode("\n", $output);
-                if (count($output) > 1) // check if filesystem is NFS
-                {
+                $commandFailed = (false !== strpos($output, "no file systems processed"));
+                $output = explode("\n", trim($output));
+                if (!$commandFailed
+                    && count($output) > 1) {
+                    // check if filesystem is NFS
                     return true;
                 }
             }
@@ -316,7 +322,6 @@ class Filesystem
 
         if (!empty($path_parts['extension'])
             && in_array($path_parts['extension'], $phpExtensions)) {
-
             return true;
         }
 
@@ -409,12 +414,36 @@ class Filesystem
     }
 
     /**
+     * Remove a file.
+     *
+     * @param string $file
+     * @param bool $silenceErrors If true, no exception will be thrown in case removing fails.
+     */
+    public static function remove($file, $silenceErrors = false)
+    {
+        if (!file_exists($file)) {
+            return;
+        }
+
+        $result = @unlink($file);
+
+        // Testing if the file still exist avoids race conditions
+        if (!$result && file_exists($file)) {
+            if ($silenceErrors) {
+                Log::warning('Failed to delete file ' . $file);
+            } else {
+                throw new \RuntimeException('Unable to delete file ' . $file);
+            }
+        }
+    }
+
+    /**
      * @param $path
      * @return int
      */
     private static function getChmodForPath($path)
     {
-        $pathIsTmp = StaticContainer::getContainer()->get('path.tmp');
+        $pathIsTmp = StaticContainer::get('path.tmp');
         if (strpos($path, $pathIsTmp) === 0) {
             // tmp/* folder
             return 0750;
@@ -438,7 +467,6 @@ class Filesystem
         }
 
         if (function_exists('xcache_clear_cache') && defined('XC_TYPE_VAR')) {
-
             if (ini_get('xcache.admin.enable_auth')) {
                 // XCache will not be cleared because "xcache.admin.enable_auth" is enabled in php.ini.
             } else {
@@ -450,7 +478,6 @@ class Filesystem
     private static function havePhpFilesSameContent($file1, $file2)
     {
         if (self::hasPHPExtension($file1)) {
-
             $sourceMd5 = md5_file($file1);
             $destMd5   = md5_file($file2);
 
@@ -477,5 +504,4 @@ class Filesystem
 
         return true;
     }
-
 }

@@ -7,12 +7,14 @@
  *
  */
 namespace Piwik\ArchiveProcessor;
+
 use Piwik\Archive;
-use Piwik\ArchiveProcessor;
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
 use Piwik\Period;
+use Piwik\Piwik;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -118,7 +120,9 @@ class Loader
             $visitsConverted = $metrics['nb_visits_converted'];
         }
 
-        if ($this->isThereSomeVisits($visits)) {
+        if ($this->isThereSomeVisits($visits)
+            || $this->shouldArchiveForSiteEvenWhenNoVisits()
+        ) {
             $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
         }
 
@@ -224,5 +228,26 @@ class Loader
         return $this->temporaryArchive;
     }
 
-}
+    private function shouldArchiveForSiteEvenWhenNoVisits()
+    {
+        $idSitesToArchive = $this->getIdSitesToArchiveWhenNoVisits();
+        return in_array($this->params->getSite()->getId(), $idSitesToArchive);
+    }
 
+    private function getIdSitesToArchiveWhenNoVisits()
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKey = 'Archiving.getIdSitesToArchiveWhenNoVisits';
+
+        if (!$cache->contains($cacheKey)) {
+            $idSites = array();
+
+            // leaving undocumented unless decided otherwise
+            Piwik::postEvent('Archiving.getIdSitesToArchiveWhenNoVisits', array(&$idSites));
+
+            $cache->save($cacheKey, $idSites);
+        }
+
+        return $cache->fetch($cacheKey);
+    }
+}

@@ -12,27 +12,29 @@
                 <td><input type="text" name="name" value="" size="28" id="goal_name" class="inp"/></td>
             </tr>
             <tr>
-                <td style='width:260px;' class="first">{{ 'Goals_GoalIsTriggered'|translate }}
+                <td style='width:260px;' class="first">{{ 'Goals_GoalIsTriggered'|translate }}</td>
+                <td>
                     <select name="trigger_type" class="inp">
                         <option value="visitors">{{ 'Goals_WhenVisitors'|translate }}</option>
                         <option value="manually">{{ 'Goals_Manually'|translate }}</option>
                     </select>
-                </td>
-                <td>
-                    <input type="radio" id="match_attribute_url" value="url" name="match_attribute"/>
-                    <label for="match_attribute_url">{{ 'Goals_VisitUrl'|translate }}</label>
-                    <br/>
-                    <input type="radio" id="match_attribute_title" value="title" name="match_attribute"/>
-                    <label for="match_attribute_title">{{ 'Goals_VisitPageTitle'|translate }}</label>
-                    <br/>
-                    <input type="radio" id="match_attribute_event" value="event" name="match_attribute"/>
-                    <label for="match_attribute_event">{{ 'Goals_SendEvent'|translate }}</label>
-                    <br/>
-                    <input type="radio" id="match_attribute_file" value="file" name="match_attribute"/>
-                    <label for="match_attribute_file">{{ 'Goals_Download'|translate }}</label>
-                    <br/>
-                    <input type="radio" id="match_attribute_external_website" value="external_website" name="match_attribute"/>
-                    <label for="match_attribute_external_website">{{ 'Goals_ClickOutlink'|translate }}</label>
+
+                    <p id="match_attribute_section2">
+                        <input type="radio" id="match_attribute_url" value="url" name="match_attribute"/>
+                        <label for="match_attribute_url">{{ 'Goals_VisitUrl'|translate }}</label>
+                        <br/>
+                        <input type="radio" id="match_attribute_title" value="title" name="match_attribute"/>
+                        <label for="match_attribute_title">{{ 'Goals_VisitPageTitle'|translate }}</label>
+                        <br/>
+                        <input type="radio" id="match_attribute_event" value="event" name="match_attribute"/>
+                        <label for="match_attribute_event">{{ 'Goals_SendEvent'|translate }}</label>
+                        <br/>
+                        <input type="radio" id="match_attribute_file" value="file" name="match_attribute"/>
+                        <label for="match_attribute_file">{{ 'Goals_Download'|translate }}</label>
+                        <br/>
+                        <input type="radio" id="match_attribute_external_website" value="external_website" name="match_attribute"/>
+                        <label for="match_attribute_external_website">{{ 'Goals_ClickOutlink'|translate }}</label>
+                    </p>
                 </td>
             </tr>
             </tbody>
@@ -103,4 +105,5 @@
         <input type="hidden" name="goalIdUpdate" value=""/>
         <input type="submit" value="" name="submit" id="goal_submit" class="submit"/>
     </form>
+
 </div>

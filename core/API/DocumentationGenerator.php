@@ -273,9 +273,14 @@ class DocumentationGenerator
         $aParameters['label'] = false;
         $aParameters['flat'] = false;
         $aParameters['include_aggregate_rows'] = false;
+        $aParameters['filter_offset'] = false; //@review without adding this, I can not set filter_offset in $otherRequestParameters system tests
         $aParameters['filter_limit'] = false; //@review without adding this, I can not set filter_limit in $otherRequestParameters system tests
         $aParameters['filter_sort_column'] = false; //@review without adding this, I can not set filter_sort_column in $otherRequestParameters system tests
         $aParameters['filter_sort_order'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters system tests
+        $aParameters['filter_excludelowpop'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters system tests
+        $aParameters['filter_excludelowpop_value'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters system tests
+        $aParameters['filter_column_recursive'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters system tests
+        $aParameters['filter_pattern_recursive'] = false; //@review without adding this, I can not set filter_sort_order in $otherRequestParameters system tests
         $aParameters['filter_truncate'] = false;
         $aParameters['hideColumns'] = false;
         $aParameters['showColumns'] = false;
@@ -285,6 +290,8 @@ class DocumentationGenerator
         $aParameters['pivotByColumnLimit'] = false;
         $aParameters['disable_queued_filters'] = false;
         $aParameters['disable_generic_filters'] = false;
+        $aParameters['expanded'] = false;
+        $aParameters['idDimenson'] = false;
 
         $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
         $aParameters = array_merge(array('module' => 'API', 'method' => $moduleName . '.' . $methodName), $aParameters);

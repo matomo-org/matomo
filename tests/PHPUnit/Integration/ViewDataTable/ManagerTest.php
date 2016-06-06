@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Integration\ViewDataTable;
 
-use Piwik\Access;
+use Piwik\Option;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -18,12 +18,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ManagerTest extends IntegrationTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        Access::setSingletonInstance(null);
-    }
-
     public function test_getViewDataTableParameters_shouldReturnEmptyArray_IfNothingPersisted()
     {
         $login        = 'mylogin';
@@ -45,6 +39,84 @@ class ManagerTest extends IntegrationTestCase
 
         $storedParams = ViewDataTableManager::getViewDataTableParameters($params['login'], $params['method']);
         $this->assertEquals($params['params'], $storedParams);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Setting parameters translations is not allowed. Please report this bug to the Piwik team.
+     */
+    public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams()
+    {
+        $login  = 'mylogin';
+        $method = 'API.get';
+        $params = array(
+            'flat' => '0',
+            'translations' => 'this is not overridable param and should fail',
+            'viewDataTable' => 'tableAllColumns'
+        );
+
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Setting parameters filters is not allowed. Please report this bug to the Piwik team.
+     */
+    public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams_bis()
+    {
+        $login  = 'mylogin';
+        $method = 'API.get';
+        $params = array(
+            'flat' => '0',
+            'filters' => 'this is not overridable param and should fail',
+            'viewDataTable' => 'tableAllColumns'
+        );
+
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Setting parameters apiMethodToRequestDataTable is not allowed. Please report this bug to the Piwik team.
+     */
+    public function test_setViewDataTableParameters_inRequestConfigProperty_shouldOnlyAllowOverridableParams()
+    {
+        $login  = 'mylogin';
+        $method = 'API.get';
+        $params = array(
+            'flat' => '0',
+            'apiMethodToRequestDataTable' => 'this is not overridable in RequestConfig param and should fail',
+            'viewDataTable' => 'tableAllColumns'
+        );
+
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
+    }
+
+    public function test_getViewDataTableParameters_removesNonOverridableParameter()
+    {
+        $params = array(
+            'flat' => '0',
+            'filters' => 'this is not overridable param and should fail',
+            'viewDataTable' => 'tableAllColumns'
+        );
+
+        // 'filters' was removed
+        $paramsExpectedWhenFetched = array(
+            'flat' => '0',
+            'viewDataTable' => 'tableAllColumns'
+        );
+
+        $login  = 'mylogin';
+        $controllerAction = 'API.get';
+
+        // simulate an invalid list of parameters (contains 'filters')
+        $paramsKey = sprintf('viewDataTableParameters_%s_%s', $login, $controllerAction);
+        Option::set($paramsKey, json_encode($params));
+
+        // check the invalid list is fetched without the overridable parameter
+        $processed = ViewDataTableManager::getViewDataTableParameters($login, $controllerAction);
+        $this->assertEquals($paramsExpectedWhenFetched, $processed);
+
     }
 
     public function test_clearAllViewDataTableParameters_shouldRemoveAllPersistedParameters()

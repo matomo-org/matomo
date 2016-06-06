@@ -9,7 +9,6 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;

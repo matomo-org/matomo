@@ -1,4 +1,15 @@
-<div id="header">
-    {% include "@CoreHome/_logo.twig" %}
-    {% include "@CoreHome/_topBar.twig" %}
+<div id="header" class="container-fluid">
+    <a href="#main" tabindex="1" class="accessibility-skip-to-content">{{'CoreHome_SkipToContent'|translate}}</a>
+    <div id="topRightBar" class="navbar row">
+        <div class="navbar-header col-md-3">
+            <span class="toggle-second-menu icon-menu-hamburger"></span>
+            {% include "@CoreHome/_logo.twig" %}
+
+            <!-- we need to put button to toggle nav for responsiveness here -->
+
+        </div>
+        <div class="collapse navbar-collapse col-md-9" id="navbar-collapse1">
+            {% include "@CoreHome/_topBar.twig" %}
+        </div>
+    </div>
 </div>

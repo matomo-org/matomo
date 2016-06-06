@@ -17,7 +17,7 @@ use Piwik\Updates;
  */
 class Updates_1_9_3_b8 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             // ignore existing column name error (1060)
@@ -26,9 +26,9 @@ class Updates_1_9_3_b8 extends Updates
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         // add excluded_user_agents column to site table
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
     }
 }

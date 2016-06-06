@@ -1,26 +1,29 @@
-<div id="leftcolumn">
-    {{ postEvent("Template.leftColumnUserCountry") }}
+<div class="row">
 
-    <h2 piwik-enriched-headline>{{ 'UserCountry_Continent'|translate }}</h2>
-    {{ dataTableContinent|raw }}
+    <div class="col-md-6">
+        {{ postEvent("Template.leftColumnUserCountry") }}
 
-    <div class="sparkline">
-        {{ sparkline(urlSparklineCountries) }}
-        {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries~"</strong>")|raw }}
+        <h2 piwik-enriched-headline>{{ 'UserCountry_Continent'|translate }}</h2>
+        {{ dataTableContinent|raw }}
+
+        <div class="sparkline">
+            {{ sparkline(urlSparklineCountries) }}
+            {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries|number~"</strong>")|raw }}
+        </div>
+        <div style="clear:left"></div>
+
+        {{ postEvent("Template.footerUserCountry") }}
     </div>
 
-    {{ postEvent("Template.footerUserCountry") }}
+    <div class="col-md-6">
+        <h2 piwik-enriched-headline>{{ 'UserCountry_Country'|translate }}</h2>
+        {{ dataTableCountry|raw }}
+
+        <h2 piwik-enriched-headline>{{ 'UserCountry_Region'|translate }}</h2>
+        {{ dataTableRegion|raw }}
+
+        <h2 piwik-enriched-headline>{{ 'UserCountry_City'|translate }}</h2>
+        {{ dataTableCity|raw }}
+    </div>
 
 </div>
-
-<div id="rightcolumn">
-    <h2 piwik-enriched-headline>{{ 'UserCountry_Country'|translate }}</h2>
-    {{ dataTableCountry|raw }}
-
-    <h2 piwik-enriched-headline>{{ 'UserCountry_Region'|translate }}</h2>
-    {{ dataTableRegion|raw }}
-
-    <h2 piwik-enriched-headline>{{ 'UserCountry_City'|translate }}</h2>
-    {{ dataTableCity|raw }}
-</div>
-

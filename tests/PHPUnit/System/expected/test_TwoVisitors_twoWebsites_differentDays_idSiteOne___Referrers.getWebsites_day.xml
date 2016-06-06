@@ -1,27 +1,54 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result date="2010-01-03" />
-	<result date="2010-01-04">
+	<result date="2010-01-03">
 		<row>
 			<label>referrer.com</label>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
-			<nb_actions>2</nb_actions>
+			<nb_actions>1</nb_actions>
 			<nb_users>0</nb_users>
-			<max_actions>2</max_actions>
-			<sum_visit_length>361</sum_visit_length>
-			<bounce_count>0</bounce_count>
+			<max_actions>1</max_actions>
+			<sum_visit_length>0</sum_visit_length>
+			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
 					<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_visits>1</nb_visits>
-					<nb_actions>2</nb_actions>
+					<nb_actions>1</nb_actions>
 					<nb_users>0</nb_users>
-					<max_actions>2</max_actions>
-					<sum_visit_length>361</sum_visit_length>
-					<bounce_count>0</bounce_count>
+					<max_actions>1</max_actions>
+					<sum_visit_length>0</sum_visit_length>
+					<bounce_count>1</bounce_count>
+					<nb_visits_converted>0</nb_visits_converted>
+				</row>
+			</subtable>
+		</row>
+	</result>
+	<result date="2010-01-04">
+		<row>
+			<label>referrer.com</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>1</max_actions>
+			<sum_visit_length>0</sum_visit_length>
+			<bounce_count>1</bounce_count>
+			<nb_visits_converted>0</nb_visits_converted>
+			<segment>referrerName==referrer.com</segment>
+			<subtable>
+				<row>
+					<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
+					<nb_uniq_visitors>1</nb_uniq_visitors>
+					<nb_visits>1</nb_visits>
+					<nb_actions>1</nb_actions>
+					<nb_users>0</nb_users>
+					<max_actions>1</max_actions>
+					<sum_visit_length>0</sum_visit_length>
+					<bounce_count>1</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
 				</row>
 			</subtable>
@@ -41,6 +68,7 @@
 			<sum_visit_length>901</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
 					<label>http://referrer.com/Other_Page.htm</label>
@@ -67,6 +95,7 @@
 			<sum_visit_length>901</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
 					<label>http://referrer.com/Other_Page.htm</label>

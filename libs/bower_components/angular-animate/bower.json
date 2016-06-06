@@ -1,8 +1,9 @@
 {
   "name": "angular-animate",
-  "version": "1.2.26",
+  "version": "1.2.28",
   "main": "./angular-animate.js",
+  "ignore": [],
   "dependencies": {
-    "angular": "1.2.26"
+    "angular": "1.2.28"
   }
 }

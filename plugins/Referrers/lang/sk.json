@@ -3,9 +3,8 @@
         "Campaigns": "Kampane",
         "ColumnCampaign": "Kampaň",
         "ColumnSearchEngine": "Vyhľadávač",
-        "ColumnWebsite": "Portál",
+        "ColumnWebsite": "Webová stránka",
         "ColumnWebsitePage": "Stránka portálu",
-        "DetailsByReferrerType": "Detaily za typ odkazu",
         "DirectEntry": "Priamy vstup",
         "Distinct": "Rozlíšiť odkazy podľa typu odkazu",
         "DistinctCampaigns": "rôzne kampane",
@@ -13,7 +12,6 @@
         "DistinctSearchEngines": "rôzne vyhľadávače",
         "DistinctWebsites": "rôzne portály",
         "Keywords": "Kľúčové slová",
-        "PluginDescription": "Report o odkazoch: Vyhľadávače, Kľúčové slová, webové stránky, monitorovanie kampaní, priamy vstup.",
         "Referrers": "Odkazy",
         "SearchEngines": "Vyhľadávače",
         "SubmenuSearchEngines": "Vyhľadávače a kľúčové slová",
@@ -24,7 +22,7 @@
         "TypeSearchEngines": "%s z vyhľadávačov",
         "TypeWebsites": "%s zo stránok",
         "UsingNDistinctUrls": "(pomocou %s rôznych adries URL)",
-        "Websites": "Webstránky",
+        "Websites": "Stránky",
         "WidgetExternalWebsites": "Zoznam externých stránok"
     }
 }

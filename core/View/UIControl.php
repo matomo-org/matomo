@@ -60,6 +60,13 @@ class UIControl extends \Piwik\View
     public $cssClass = "";
 
     /**
+     * HTML Attributes for the root element
+     *
+     * @var string
+     */
+    public $htmlAttributes = array();
+
+    /**
      * The inner view that renders the actual control content.
      *
      * @var View
@@ -125,6 +132,7 @@ class UIControl extends \Piwik\View
         $this->templateVars['cssIdentifier'] = $this->cssIdentifier;
         $this->templateVars['cssClass'] = $this->cssClass;
         $this->templateVars['jsClass'] = $this->jsClass;
+        $this->templateVars['htmlAttributes'] = $this->htmlAttributes;
         $this->templateVars['jsNamespace'] = $this->jsNamespace;
         $this->templateVars['implOverride'] = $override;
 

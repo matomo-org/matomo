@@ -125,7 +125,7 @@ class PivotByQueryParamTest extends SystemTestCase
 
         $this->markTestSkipped("Not working right now.");
 
-        $this->assertApiResponseEqualsExpected("UserSettings.getBrowser", array( // should have logo metadata in output
+        $this->assertApiResponseEqualsExpected("DevicesDetection.getBrowsers", array( // should have logo metadata in output
             'idSite' => self::$fixture->idSite,
             'date' => Date::factory(self::$fixture->dateTime)->toString(),
             'period' => 'week',

@@ -1,5 +1,7 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Åpne i nytt vindu"
+        "OpenInNewWindow": "Åpne i nytt vindu",
+        "PluginDescription": "Vis alle Piwik-rapporter du vil på ditt nettsted eller i din app med en enkel embed HTML-tagg.",
+        "TopLinkTooltip": "Eksporter Piwik-rapporter som widgeter og bygg dem inn kontrollpanelet i din app som en iframe."
     }
 }

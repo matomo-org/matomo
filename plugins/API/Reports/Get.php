@@ -67,7 +67,10 @@ class Get extends Report
     {
         $processedMetrics = array();
         foreach ($this->reportsToMerge as $report) {
-            $processedMetrics = array_merge($processedMetrics, $report->getProcessedMetrics());
+            $reportMetrics = $report->getProcessedMetrics();
+            if (is_array($reportMetrics)) {
+                $processedMetrics = array_merge($processedMetrics, $reportMetrics);
+            }
         }
         return $processedMetrics;
     }

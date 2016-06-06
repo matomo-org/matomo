@@ -1,15 +1,20 @@
-<div id="systemCheckLegend">
-    <span style="font-size: small;">
-        <h2>{{ 'Installation_Legend'|translate }}</h2>
-        <br/>
-        <img src='plugins/Morpheus/images/warning.png'/> <span class="warn">{{ 'General_Warning'|translate }}: {{ 'Installation_SystemCheckWarning'|translate }}</span>
-        <br/>
-        <img src='plugins/Morpheus/images/error.png'/> <span style="color:red;font-weight:bold;">{{ 'General_Error'|translate }}
-            : {{ 'Installation_SystemCheckError'|translate }} </span><br/>
-        <img src='plugins/Morpheus/images/ok.png'/> <span style="color:#26981C;font-weight:bold;">{{ 'General_Ok'|translate }}</span><br/>
-    </span>
+<div class="system-check-legend">
+    <h2>{{ 'Installation_Legend'|translate }}</h2>
+
+    <p>
+        <span class="icon-ok"></span>
+        {{ 'General_Ok'|translate }}
+    </p>
+    <p>
+        <span class="icon-warning"></span>
+        {{ 'General_Warning'|translate }}: {{ 'Installation_SystemCheckWarning'|translate }}
+    </p>
+    <p>
+        <span class="icon-error"></span>
+        {{ 'General_Error'|translate }}: {{ 'Installation_SystemCheckError'|translate }}
+    </p>
 </div>
 
-<p class="nextStep">
+<p class="next-step">
     <a href="{{ url }}">{{ 'General_RefreshPage'|translate }} &raquo;</a>
 </p>

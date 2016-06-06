@@ -1,22 +1,20 @@
-{% macro submenuItem(name, url) %}
+{% macro submenuItem(name, url, anchorlink, tooltip) %}
     {% if name|slice(0,1) != '_' %}
-        <li>
-            <a href='#{{ url|urlRewriteWithParameters|slice(1) }}'
-               onclick='return piwikMenu.onItemClick(this);'>
+        <li role="menuitem" title="{{ tooltip|default("")|translate|e('html_attr') }}">
+            <a class="item" href="{% if anchorlink %}#{% else %}index.php?{% endif %}{{ url|urlRewriteWithParameters|slice(1) }}" tabindex="5">
                 {{ name|translate }}
             </a>
         </li>
     {% endif %}
 {% endmacro %}
 
-{% macro groupedItem(name, group) %}
-    <li>
+{% macro groupedItem(name, group, anchorlink) %}
+    <li role="menuitem" title="{{ name|translate|e('html_attr') }}">
         <div piwik-menudropdown show-search="true" menu-title="{{ name|translate|e('html_attr') }}">
             {% for item in group.getItems %}
-                <a class="item"
-                   href='#{{ item.url|urlRewriteWithParameters|slice(1) }}'
-                   {% if item.tooltip %}title="{{ item.tooltip|e('html_attr') }}"{% endif %}
-                   onclick='return piwikMenu.onItemClick(this);'>
+                <a class="item menuItem"
+                   href='{% if anchorlink %}#?{% else %}index.php?{% endif %}{{ item.url|urlRewriteWithParameters|slice(1) }}'
+                   title="{% if item.tooltip %}{{ item.tooltip|e('html_attr') }}{% endif %}">
                     {{ item.name|translate }}
                 </a>
             {% endfor %}
@@ -30,36 +28,40 @@
     {%- endif %}
 {%- endmacro %}
 
-{% macro getFirstUrl(urlParameters) -%}
-    {% if urlParameters is iterable -%}
-        {{ urlParameters|urlRewriteWithParameters|slice(1)  }}
-    {%- endif %}
-{%- endmacro %}
-
-<div class="Menu--dashboard">
-
-    <ul class="Menu-tabList">
-        {% for level1,level2 in menu %}
-            <li id="{% if level2._url is defined %}{{ _self.getId(level2._url) }}{% endif %}">
-                <a {% if level2._url is defined %}href="#{{ _self.getFirstUrl(level2._url) }}"{% endif %}
-                   onclick="return piwikMenu.onItemClick(this);">{{ level1|translate }}</a>
-                <ul>
-
+{% macro menu(menu, anchorlink, cssClass) %}
+    <div id="secondNavBar" class="{{ cssClass }}">
+        <div id="search" ng-cloak>
+            <div piwik-quick-access class="borderedControl"></div>
+        </div>
+        <ul role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" class="navbar">
+            {% for level1,level2 in menu %}
+                {% set hasSubmenuItem = false %}
                 {% for name,urlParameters in level2 %}
                     {% if urlParameters._url is defined and urlParameters._url is not iterable %}
-                        {{ _self.groupedItem(name,urlParameters._url) }}
+                        {% set hasSubmenuItem = true %}
                     {% elseif name|slice(0,1) != '_' %}
-                        {{ _self.submenuItem(name,urlParameters._url) }}
+                        {% set hasSubmenuItem = true %}
                     {% endif %}
                 {% endfor %}
 
-                </ul>
-            </li>
-        {% endfor %}
-        <li id="Searchmenu">
-            <span piwik-quick-access></span>
-        </li>
-    </ul>
+                {% if hasSubmenuItem %}
+                    <li role="menuitem" class="menuTab" id="{% if level2._url is defined and level2._url is not empty %}{{ _self.getId(level2._url) }}{% endif %}">
+                        <a class="item" href="" tabindex="5">
+                            <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
+                        </a>
 
-</div>
-<div class="nav_sep"></div>
+                        <ul role="menu" title="{{ level1|translate|e('html_attr') }}">
+                            {% for name,urlParameters in level2 %}
+                                {% if urlParameters._url is defined and urlParameters._url is not iterable %}
+                                    {{ _self.groupedItem(name,urlParameters._url, anchorlink) }}
+                                {% elseif name|slice(0,1) != '_' %}
+                                    {{ _self.submenuItem(name,urlParameters._url, anchorlink, urlParameters._tooltip) }}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}

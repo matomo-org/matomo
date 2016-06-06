@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Podešavanja",
+        "ColumnResolution": "Rezolucija",
+        "Configurations": "Podešavanja",
+        "PluginDescription": "Prikazuje ekransku rezoluciju posetilaca.",
+        "Resolutions": "Rezolucije",
+        "WidgetGlobalVisitors": "Globalna podešavanja posetilaca",
+        "WidgetGlobalVisitorsDocumentation": "Ovaj izveštaj prikazuje najčešća podešavanja vaših posetilaca. Pod podešavanjem podrazumevamo kombinaciju operativnog sistema, tipa brauzera i ekranske rezolucije.",
+        "WidgetResolutions": "Rezolucije ekrana"
+    }
+}

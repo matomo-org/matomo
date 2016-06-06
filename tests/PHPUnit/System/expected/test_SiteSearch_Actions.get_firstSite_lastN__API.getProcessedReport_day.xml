@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Site 1 - Site search</website>
-	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
 		<name>Actions - Main metrics</name>
@@ -44,40 +44,40 @@
 		<nb_keywords>Unique Keywords</nb_keywords>
 	</columns>
 	<reportData>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
 			<nb_pageviews>4</nb_pageviews>
 			<nb_uniq_pageviews>3</nb_uniq_pageviews>
 			<nb_downloads>0</nb_downloads>
 			<nb_uniq_downloads>0</nb_uniq_downloads>
 			<nb_outlinks>0</nb_outlinks>
 			<nb_uniq_outlinks>0</nb_uniq_outlinks>
-			<nb_searches>5</nb_searches>
+			<nb_searches>9</nb_searches>
 			<nb_keywords>3</nb_keywords>
 		</result>
-		<result prettyDate="Monday 4 January 2010">
+		<result prettyDate="Monday, January 4, 2010">
 			<nb_pageviews>0</nb_pageviews>
 			<nb_uniq_pageviews>0</nb_uniq_pageviews>
 			<nb_downloads>0</nb_downloads>
 			<nb_uniq_downloads>0</nb_uniq_downloads>
 			<nb_outlinks>0</nb_outlinks>
 			<nb_uniq_outlinks>0</nb_uniq_outlinks>
-			<nb_searches>3</nb_searches>
+			<nb_searches>4</nb_searches>
 			<nb_keywords>3</nb_keywords>
 		</result>
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday 3 January 2010" />
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
 	</reportTotal>

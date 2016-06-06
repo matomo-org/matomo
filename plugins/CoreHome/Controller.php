@@ -13,7 +13,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
-use Piwik\Menu\MenuMain;
 use Piwik\Menu\MenuReporting;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
@@ -24,6 +23,7 @@ use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
@@ -32,21 +32,27 @@ use Piwik\Plugin\Widgets as PluginWidgets;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    function getDefaultAction()
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+    
+    public function getDefaultAction()
     {
         return 'redirectToCoreHomeIndex';
     }
 
-    public function renderReportMenu($reportModule = null, $reportAction = null)
+    public function renderReportMenu(Report $report)
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkSitePermission();
-
-        $report = Report::factory($reportModule, $reportAction);
-
-        if (empty($report)) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
-        }
 
         $report->checkIsEnabled();
 
@@ -56,39 +62,27 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report.');
         }
 
-        $menuTitle = Piwik::translate($menuTitle);
-        $content   = $this->renderReportWidget($reportModule, $reportAction);
+        $menuTitle = $this->translator->translate($menuTitle);
+        $content   = $this->renderReportWidget($report);
 
         return View::singleReport($menuTitle, $content);
     }
 
-    public function renderReportWidget($reportModule = null, $reportAction = null)
+    public function renderReportWidget(Report $report)
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkSitePermission();
-
-        $report = Report::factory($reportModule, $reportAction);
-
-        if (empty($report)) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
-        }
 
         $report->checkIsEnabled();
 
         return $report->render();
     }
 
-    public function renderWidget($widgetModule = null, $widgetAction = null)
+    public function renderWidget(PluginWidgets $widget, $method)
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $widget = PluginWidgets::factory($widgetModule, $widgetAction);
-
-        if (!empty($widget)) {
-            return $widget->$widgetAction();
-        }
-
-        throw new Exception(Piwik::translate('General_ExceptionWidgetNotFound'));
+        return $widget->$method();
     }
 
     function redirectToCoreHomeIndex()
@@ -117,6 +111,9 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerName = Common::getRequestVar('moduleToLoad');
         $actionName     = Common::getRequestVar('actionToLoad', 'index');
 
+        if($controllerName == 'API') {
+            throw new Exception("Showing API requests in context is not supported for security reasons. Please change query parameter 'moduleToLoad'.");
+        }
         if ($actionName == 'showInContext') {
             throw new Exception("Preventing infinite recursion...");
         }

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
@@ -17,9 +18,8 @@ use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\TaskScheduler;
+use Piwik\Scheduler\Scheduler;
 use Piwik\View;
 
 /**
@@ -166,8 +166,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $settings = PrivacyManager::getPurgeDataSettings();
         if ($settings['delete_logs_enable']) {
-            $logDataPurger = LogDataPurger::make($settings);
-            $logDataPurger->purgeData();
+            /** @var LogDataPurger $logDataPurger */
+            $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
+            $logDataPurger->purgeData($settings['delete_logs_older_than']);
         }
         if ($settings['delete_reports_enable']) {
             $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
@@ -189,7 +190,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $doDatabaseSizeEstimate = PiwikConfig::getInstance()->Deletelogs['enable_auto_database_size_estimate'];
 
         // determine the DB size & purged DB size
-        $metadataProvider = new MySQLMetadataProvider();
+        $metadataProvider = StaticContainer::get('Piwik\Plugins\DBStats\MySQLMetadataProvider');
         $tableStatuses = $metadataProvider->getAllTablesStatus();
 
         $totalBytes = 0;
@@ -250,12 +251,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
         $deleteDataInfos = array();
-        $taskScheduler = new TaskScheduler();
         $deleteDataInfos["config"] = PrivacyManager::getPurgeDataSettings();
         $deleteDataInfos["deleteTables"] =
             "<br/>" . implode(", ", LogDataPurger::getDeleteTableLogTables());
 
-        $scheduleTimetable = $taskScheduler->getScheduledTimeForMethod("PrivacyManager", "deleteLogTables");
+        /** @var Scheduler $scheduler */
+        $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
+
+        $scheduleTimetable = $scheduler->getScheduledTimeForMethod("PrivacyManager", "deleteLogTables");
 
         $optionTable = Option::get(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 
@@ -276,7 +279,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $deleteDataInfos["nextScheduleTime"] = $nextPossibleSchedule;
         } else {
             $deleteDataInfos["lastRun"] = $optionTable;
-                $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
+                $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized(Date::DATE_FORMAT_SHORT);
 
             //Calculate next run based on last run + interval
             $nextScheduleRun = (int)($deleteDataInfos["lastRun"] + $deleteDataInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60);

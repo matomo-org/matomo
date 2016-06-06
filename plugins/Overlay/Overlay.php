@@ -11,18 +11,10 @@ namespace Piwik\Plugins\Overlay;
 
 class Overlay extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $suffix = ' Note: Requires the Transitions plugin enabled.';
-        $info = parent::getInformation();
-        $info['description'] .= ' ' . $suffix;
-        return $info;
-    }
-
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    function getListHooksRegistered()
+    function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',

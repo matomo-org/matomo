@@ -62,6 +62,7 @@ abstract class Action
 
     private $idLinkVisitAction;
     private $actionIdsCached = array();
+    private $customFields = array();
     private $actionName;
     private $actionType;
 
@@ -125,7 +126,12 @@ abstract class Action
 
     private static function getAllActions(Request $request)
     {
-        $actions   = Manager::getInstance()->findMultipleComponents('Actions', '\\Piwik\\Tracker\\Action');
+        static $actions;
+
+        if (is_null($actions)) {
+            $actions = Manager::getInstance()->findMultipleComponents('Actions', '\\Piwik\\Tracker\\Action');
+        }
+
         $instances = array();
 
         foreach ($actions as $action) {
@@ -201,6 +207,13 @@ abstract class Action
         }
     }
 
+    protected function setActionUrlWithoutExcludingParameters($url)
+    {
+        $url = PageUrl::getUrlIfLookValid($url);
+        $this->rawActionUrl = $url;
+        $this->actionUrl = $url;
+    }
+
     abstract protected function getActionsToLookup();
 
     protected function getUrlAndType()
@@ -214,6 +227,16 @@ abstract class Action
         }
 
         return false;
+    }
+
+    public function setCustomField($field, $value)
+    {
+        $this->customFields[$field] = $value;
+    }
+
+    public function getCustomFields()
+    {
+        return $this->customFields;
     }
 
     public function getIdActionUrl()
@@ -236,7 +259,6 @@ abstract class Action
     public function getIdActionName()
     {
         if (!isset($this->actionIdsCached['idaction_name'])) {
-
             return false;
         }
 
@@ -290,7 +312,6 @@ abstract class Action
             $value = $dimension->onLookupAction($this->request, $this);
 
             if (false !== $value) {
-
                 if (is_float($value)) {
                     $value = Common::forceDotAsSeparatorForDecimalPoint($value);
                 }
@@ -347,7 +368,6 @@ abstract class Action
             $value = $dimension->onNewAction($this->request, $visitor, $this);
 
             if ($value !== false) {
-
                 if (is_float($value)) {
                     $value = Common::forceDotAsSeparatorForDecimalPoint($value);
                 }
@@ -370,13 +390,7 @@ abstract class Action
             $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = Common::forceDotAsSeparatorForDecimalPoint($customValue);
         }
 
-        $customVariables = $this->getCustomVariables();
-        if (!empty($customVariables)) {
-            Common::printDebug("Page level Custom Variables: ");
-            Common::printDebug($customVariables);
-        }
-
-        $visitAction = array_merge($visitAction, $customVariables);
+        $visitAction = array_merge($visitAction, $this->customFields);
 
         $this->idLinkVisitAction = $this->getModel()->createAction($visitAction);
 
@@ -390,9 +404,12 @@ abstract class Action
         /**
          * Triggered after successfully persisting a [visit action entity](/guides/persistence-and-the-mysql-backend#visit-actions).
          *
+         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
+         *
          * @param Action $tracker Action The Action tracker instance.
          * @param array $visitAction The visit action entity that was persisted. Read
          *                           [this](/guides/persistence-and-the-mysql-backend#visit-actions) to see what it contains.
+         * @deprecated
          */
         Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $visitAction));
     }

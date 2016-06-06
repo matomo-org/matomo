@@ -24,6 +24,13 @@ class CORSHandler
 
     public function handle()
     {
+        // allow Piwik to serve data to all domains
+        if (in_array("*", $this->domains)) {
+            header('Access-Control-Allow-Origin: *');
+            return;
+        }
+
+        // specifically allow if it is one of the whitelisted CORS domains
         if (!empty($_SERVER['HTTP_ORIGIN'])) {
             $origin = $_SERVER['HTTP_ORIGIN'];
             if (in_array($origin, $this->domains, true)) {
@@ -31,4 +38,4 @@ class CORSHandler
             }
         }
     }
-} 
+}

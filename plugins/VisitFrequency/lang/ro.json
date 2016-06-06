@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "Reintoarcere vizite",
         "ColumnSumVisitLengthReturning": "Timpul total petrecut de vizitatori reintorsi (în secunde",
         "ColumnUniqueReturningVisitors": "Vizitatori unici se reîntorc",
-        "PluginDescription": "Rapoarteaza diverse statistici despre reintoarcerea Vizitei față de vizitatorii pentru prima dată.",
         "ReturnActions": "%s actiuni ale vizitatorilor intorsi",
         "ReturnAverageVisitDuration": "%s Durata medie de vizita pentru retintoacerea vizitelor",
         "ReturnAvgActions": "%s acțiuni pe revenirea vizita",

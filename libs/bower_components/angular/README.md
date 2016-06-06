@@ -1,18 +1,37 @@
-# bower-angular
+# packaged angular
 
-This repo is for distribution on `bower`. The source for this module is in the
+This repo is for distribution on `npm` and `bower`. The source for this module is in the
 [main AngularJS repo](https://github.com/angular/angular.js).
 Please file issues and pull requests against that repo.
 
 ## Install
 
-Install with `bower`:
+You can install this package either with `npm` or with `bower`.
+
+### npm
+
+```shell
+npm install angular
+```
+
+Then add a `<script>` to your `index.html`:
+
+```html
+<script src="/node_modules/angular/angular.js"></script>
+```
+
+Note that this package is not in CommonJS format, so doing `require('angular')` will return `undefined`.
+If you're using [Browserify](https://github.com/substack/node-browserify), you can use
+[exposify](https://github.com/thlorenz/exposify) to have `require('angular')` return the `angular`
+global.
+
+### bower
 
 ```shell
 bower install angular
 ```
 
-Add a `<script>` to your `index.html`:
+Then add a `<script>` to your `index.html`:
 
 ```html
 <script src="/bower_components/angular/angular.js"></script>

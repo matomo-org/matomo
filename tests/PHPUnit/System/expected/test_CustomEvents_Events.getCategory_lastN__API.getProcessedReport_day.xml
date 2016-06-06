@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Events</category>
 		<name>Event Categories</name>
@@ -41,7 +41,7 @@
 		<avg_event_value>The average of all values for this event</avg_event_value>
 	</columns>
 	<reportData>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<label>Movie</label>
 				<nb_events>28</nb_events>
@@ -65,36 +65,42 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>19.32</sum_event_value>
-				<min_event_value>0</min_event_value>
+				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</result>
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday 3 January 2010">
+		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				
+				<segment>eventCategory==Movie</segment>
+				<idsubdatatable>745</idsubdatatable>
 			</row>
 			<row>
 				
+				<segment>eventCategory==Music</segment>
+				<idsubdatatable>746</idsubdatatable>
 			</row>
 			<row>
 				
+				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+				<idsubdatatable>747</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Monday 4 January 2010" />
-		<result prettyDate="Tuesday 5 January 2010" />
-		<result prettyDate="Wednesday 6 January 2010" />
-		<result prettyDate="Thursday 7 January 2010" />
-		<result prettyDate="Friday 8 January 2010" />
-		<result prettyDate="Saturday 9 January 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>42</nb_visits>

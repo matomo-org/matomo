@@ -8,7 +8,7 @@
 function sendGeneralSettingsAJAX() {
     var enableBrowserTriggerArchiving = $('input[name=enableBrowserTriggerArchiving]:checked').val();
     var enablePluginUpdateCommunication = $('input[name=enablePluginUpdateCommunication]:checked').val();
-    var enableBetaReleaseCheck = $('input[name=enableBetaReleaseCheck]:checked').val();
+    var releaseChannel = $('input[name=releaseChannel]:checked').val();
     var todayArchiveTimeToLive = $('#todayArchiveTimeToLive').val();
 
     var trustedHosts = [];
@@ -22,7 +22,7 @@ function sendGeneralSettingsAJAX() {
         format: 'json',
         enableBrowserTriggerArchiving: enableBrowserTriggerArchiving,
         enablePluginUpdateCommunication: enablePluginUpdateCommunication,
-        enableBetaReleaseCheck: enableBetaReleaseCheck,
+        releaseChannel: releaseChannel,
         todayArchiveTimeToLive: todayArchiveTimeToLive,
         mailUseSmtp: isSmtpEnabled(),
         mailPort: $('#mailPort').val(),
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
     showSmtpSettings(isSmtpEnabled());
     showCustomLogoSettings(isCustomLogoEnabled());
-    $('#generalSettingsSubmit').click(function () {
+    $('.generalSettingsSubmit').click(function () {
         var doSubmit = function () {
             sendGeneralSettingsAJAX();
         };
@@ -106,20 +106,31 @@ $(document).ready(function () {
     $('input').keypress(function (e) {
             var key = e.keyCode || e.which;
             if (key == 13) {
-                $('#generalSettingsSubmit').click();
+                $('.generalSettingsSubmit').click();
             }
         }
     );
 
     $("#logoUploadForm").submit(function (data) {
         var submittingForm = $(this);
+        $('.uploaderror').fadeOut();
         var frameName = "upload" + (new Date()).getTime();
         var uploadFrame = $("<iframe name=\"" + frameName + "\" />");
         uploadFrame.css("display", "none");
         uploadFrame.load(function (data) {
             setTimeout(function () {
                 refreshCustomLogo();
-                uploadFrame.remove();
+
+                var frameContent = $(uploadFrame.contents()).find('body').html();
+                frameContent = $.trim(frameContent);
+
+                if ('0' === frameContent) {
+                    $('.uploaderror').show();
+                }
+
+                if ('1' === frameContent || '0' === frameContent) {
+                    uploadFrame.remove();
+                }
             }, 1000);
         });
         $("body:first").append(uploadFrame);
@@ -143,7 +154,7 @@ $(document).ready(function () {
 
         // append new row to the table
         trustedHostSettings.find('ul').append(trustedHostSettings.find('li:last').clone());
-        trustedHostSettings.find('li:last input').val('');
+        trustedHostSettings.find('li:last input').val('').focus();
         return false;
     });
 

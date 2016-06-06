@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "イベントを追跡し、ビジターアクティビティのレポートを取得します。",
         "AvgEventValue": "イベントの平均値: %s",
         "AvgValue": "平均値",
         "AvgValueDocumentation": "このイベントのすべての値の平均値",
@@ -14,6 +15,7 @@
         "EventsWithValue": "値を持つイベント",
         "EventsWithValueDocumentation": "イベントの値が設定されたイベント数",
         "EventValue": "イベントの値",
+        "EventValueTooltip": "総イベント値は %1$s 件のイベント値の合計です。 %2$s 最小値は %3$s 、最大値は %4$s です 。",
         "MaxValue": "最大値",
         "MaxValueDocumentation": "このイベントの最大値",
         "MinValue": "最小値",

@@ -1,4 +1,4 @@
-<div id='entityEditContainer' style="display:none;">
+<div id='entityEditContainer' class="managegoals" style="display:none;">
     <table class="dataTable entityTable">
         <thead>
         <tr>
@@ -6,36 +6,59 @@
             <th>{{ 'Goals_GoalName'|translate }}</th>
             <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
             <th>{{ 'General_ColumnRevenue'|translate }}</th>
-            <th>{{ 'General_Edit'|translate }}</th>
-            <th>{{ 'General_Delete'|translate }}</th>
+            {% if userCanEditGoals %}
+                <th>{{ 'General_Edit'|translate }}</th>
+                <th>{{ 'General_Delete'|translate }}</th>
+            {% endif %}
         </tr>
         </thead>
-        {% for goal in goals %}
+        {% if goals is empty %}
             <tr>
-                <td class="first">{{ goal.idgoal }}</td>
-                <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
-                <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
-                    {% if goal.pattern_type is defined %}
-                        <br/>
-                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}
-                    {% endif %}
-                </td>
-                <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
-                <td>
-                    <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but">
-                        <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
-                        {{ 'General_Edit'|translate }}
-                    </a>
-                </td>
-                <td>
-                    <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but">
-                        <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
-                        {{ 'General_Delete'|translate }}
-                    </a>
+                <td colspan='7'>
+                    <br/>
+                    {{ 'Goals_ThereIsNoGoalToManage'|translate(siteName)|raw }}.
+                    <br/><br/>
                 </td>
             </tr>
-        {% endfor %}
+        {% else %}
+            {% for goal in goals %}
+                <tr>
+                    <td class="first">{{ goal.idgoal }}</td>
+                    <td>{{ goal.name }}</td>
+                    <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
+                        {% if goal.pattern_type is defined %}
+                            <br/>
+                            {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern }}
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}
+                    </td>
+                    {% if userCanEditGoals %}
+                        <td class="text-center">
+                            <button id="{{ goal.idgoal }}" class="edit-goal btn btn-flat btn-lg" title="{{ 'General_Edit'|translate }}">
+                                <span class="icon-edit"></span>
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <button id="{{ goal.idgoal }}" class="delete-goal btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
+                                <span class="icon-delete"></span>
+                            </button>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        {% endif %}
     </table>
+
+    {% if userCanEditGoals and onlyShowAddNewGoal is not defined %}
+        <p>
+            <button id="add-goal" class="btn btn-lg btn-flat">
+                <span class="icon-add"></span>
+                {{ 'Goals_AddNewGoal'|translate }}
+            </button>
+        </p>
+    {% endif %}
 </div>
 
 <div class="ui-confirm" id="confirm">

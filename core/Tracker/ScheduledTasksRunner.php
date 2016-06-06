@@ -9,15 +9,10 @@
 
 namespace Piwik\Tracker;
 
-
+use Piwik\CliMulti;
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\CronArchive;
 use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\SettingsPiwik;
 use Piwik\Tracker;
-use Piwik\Translate;
 
 class ScheduledTasksRunner
 {
@@ -68,34 +63,18 @@ class ScheduledTasksRunner
         ) {
             $cache['lastTrackerCronRun'] = $now;
             Cache::setCacheGeneral($cache);
-            Tracker::initCorePiwikInTrackerMode();
+
             Option::set('lastTrackerCronRun', $cache['lastTrackerCronRun']);
             Common::printDebug('-> Scheduled Tasks: Starting...');
 
-            // save current user privilege and temporarily assume Super User privilege
-            $isSuperUser = Piwik::hasUserSuperUserAccess();
+            $invokeScheduledTasksUrl = "?module=API&format=csv&convertToUnicode=0&method=CoreAdminHome.runScheduledTasks&trigger=archivephp";
 
-            // Scheduled tasks assume Super User is running
-            Piwik::setUserHasSuperUserAccess();
+            $cliMulti = new CliMulti();
+            $cliMulti->runAsSuperUser();
+            $responses = $cliMulti->request(array($invokeScheduledTasksUrl));
+            $resultTasks = reset($responses);
 
-            // While each plugins should ensure that necessary languages are loaded,
-            // we ensure English translations at least are loaded
-            Translate::loadEnglishTranslation();
-
-            ob_start();
-            CronArchive::$url = SettingsPiwik::getPiwikUrl();
-            $cronArchive = new CronArchive();
-            $cronArchive->runScheduledTasksInTrackerMode();
-
-            $resultTasks = ob_get_contents();
-            ob_clean();
-
-            // restore original user privilege
-            Piwik::setUserHasSuperUserAccess($isSuperUser);
-
-            foreach (explode('</pre>', $resultTasks) as $resultTask) {
-                Common::printDebug(str_replace('<pre>', '', $resultTask));
-            }
+            Common::printDebug($resultTasks);
 
             Common::printDebug('Finished Scheduled Tasks.');
         } else {

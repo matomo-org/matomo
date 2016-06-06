@@ -10,7 +10,6 @@
         "ColumnReturningVisits": "老访客的访问次数",
         "ColumnSumVisitLengthReturning": "老访客总的停留时间 (秒)",
         "ColumnUniqueReturningVisitors": "独立重访客数",
-        "PluginDescription": "关于老访客与新访客的报表。",
         "ReturnActions": "%s 个老访客的活动次数",
         "ReturnAverageVisitDuration": "%s 老访客的平均停留时间",
         "ReturnAvgActions": "%s 个老访客的平均活动次数",

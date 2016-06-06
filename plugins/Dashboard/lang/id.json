@@ -18,7 +18,6 @@
         "Maximise": "Maksimalkan",
         "Minimise": "Minimalkan",
         "NotUndo": "Anda tak dapat mengembalikan tidakan ini.",
-        "PluginDescription": "Panel Kendali Analisis Ramatraya Anda. Anda dapat meneyesuaikan Panel Kendali Anda: menambah gawit baru, mengubah urutan gawit Anda. Setiap pengguna dapat mengakses Panel Kendali miliknya sendiri.",
         "RemoveDashboard": "Hapus panel kendali",
         "RemoveDashboardConfirm": "Apakah Anda yakin ingin menghapus panel kendali \"%s\"?",
         "RenameDashboard": "Ubah nama panel kendali",
@@ -31,7 +30,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Pengaturan gawit dan tata letak kolom panel kendali akan digunakan saat pengguna membuat panel kendali baru, atau saat fitur \"%s\" digunakan.",
         "TopLinkTooltip": "Tampilkn laporan Analitus Ramatraya untuk %s.",
         "WidgetNotFound": "Gawit tak ditemukan",
-        "WidgetPreview": "Pratinjau Gawit",
-        "WidgetsAndDashboard": "Gawit & Penel Kendali"
+        "WidgetPreview": "Pratinjau Gawit"
     }
 }

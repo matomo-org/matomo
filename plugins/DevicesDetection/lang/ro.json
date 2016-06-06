@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Browser",
         "BrowserEngineDocumentation": "Acest grafic arată browserele vizitatorilor dvs. defalcate în familii browser. %s Cele mai importante informații pentru dezvoltatori web este ce fel de motor de cautare au utilizat vizitatorii lor . Etichetele conțin numele motoarelor urmate de cele mai comune browsere folosind motorul în paranteze.",
         "BrowserFamily": "Browser după familie",
         "Browsers": "Browsere",
@@ -25,10 +26,9 @@
         "OperatingSystemFamily": "Sistem de operare după familie",
         "OperatingSystems": "Sisteme operare",
         "OperatingSystemVersions": "Versiunile Sistemului de Operare",
-        "PluginDescription": "Acest plug-in oferă informații extinse despre dispozitive mobile, cum ar fi marcă (producător), model (versiune dispozitiv), o mai bună detectare tip de dispozitiv (TV, console, telefoane inteligente, desktop, etc), și mai multe. Acest plugin adaugă un nou raport în \"Vizitatori> Devices\".",
         "SmartDisplay": "Display inteligent",
         "Smartphone": "Smartphone",
-        "submenu": "Dispozitive",
+        "Devices": "Dispozitive",
         "Tablet": "Tableta",
         "TV": "Tv",
         "UserAgent": "User-Agent",

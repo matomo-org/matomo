@@ -2,36 +2,51 @@
 <result>
 	<row>
 		<label>WebKit (Safari, Chrome)</label>
-		<nb_visits>17</nb_visits>
-		<nb_actions>20</nb_actions>
+		<nb_visits>18</nb_visits>
+		<nb_actions>21</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>15</bounce_count>
-		<nb_visits_converted>16</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>17</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<bounce_count>16</bounce_count>
+		<nb_visits_converted>17</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>browserEngine==WebKit</segment>
 	</row>
 	<row>
 		<label>Trident (IE)</label>
-		<nb_visits>6</nb_visits>
-		<nb_actions>6</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>6</bounce_count>
-		<nb_visits_converted>6</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<nb_visits>8</nb_visits>
+		<nb_actions>9</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>242</sum_visit_length>
+		<bounce_count>7</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserEngine==Trident</segment>
+	</row>
+	<row>
+		<label>Blink (Chrome, Opera)</label>
+		<nb_visits>6</nb_visits>
+		<nb_actions>9</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>4</sum_visit_length>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<segment>browserEngine==Blink</segment>
 	</row>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<nb_visits_converted>1</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<bounce_count>5</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserEngine==</segment>
 	</row>
 	<row>
 		<label>Gecko (Firefox)</label>
@@ -43,5 +58,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserEngine==Gecko</segment>
 	</row>
 </result>

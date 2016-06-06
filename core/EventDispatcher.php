@@ -9,16 +9,22 @@
 
 namespace Piwik;
 
-use Piwik\Plugin;
+use Piwik\Container\StaticContainer;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
- *
- * @method static \Piwik\EventDispatcher getInstance()
  */
-class EventDispatcher extends Singleton
+class EventDispatcher
 {
+    /**
+     * @return EventDispatcher
+     */
+    public static function getInstance()
+    {
+        return StaticContainer::get('Piwik\EventDispatcher');
+    }
+
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;
     const EVENT_CALLBACK_GROUP_SECOND = 1;
@@ -52,12 +58,19 @@ class EventDispatcher extends Singleton
      */
     private $pluginManager;
 
+    private $pluginHooks = array();
+
     /**
      * Constructor.
      */
-    public function __construct($pluginManager = null)
+    public function __construct(Plugin\Manager $pluginManager, array $observers = array())
     {
         $this->pluginManager = $pluginManager;
+
+        foreach ($observers as $observerInfo) {
+            list($eventName, $callback) = $observerInfo;
+            $this->extraObservers[$eventName][] = $callback;
+        }
     }
 
     /**
@@ -78,29 +91,36 @@ class EventDispatcher extends Singleton
             $this->pendingEvents[] = array($eventName, $params);
         }
 
+        $manager = $this->pluginManager;
+
         if (empty($plugins)) {
-            $plugins = $this->getPluginManager()->getPluginsLoadedAndActivated();
+            $plugins = $manager->getPluginsLoadedAndActivated();
         }
 
         $callbacks = array();
 
         // collect all callbacks to execute
-        foreach ($plugins as $plugin) {
-            if (is_string($plugin)) {
-                $plugin = $this->getPluginManager()->getLoadedPlugin($plugin);
+        foreach ($plugins as $pluginName) {
+            if (!is_string($pluginName)) {
+                $pluginName = $pluginName->getPluginName();
             }
 
-            if (empty($plugin)) {
-                return; // may happen in unit tests
+            if (!isset($this->pluginHooks[$pluginName])) {
+                $plugin = $manager->getLoadedPlugin($pluginName);
+                $this->pluginHooks[$pluginName] = $plugin->getListHooksRegistered();
             }
 
-
-            $hooks = $plugin->getListHooksRegistered();
+            $hooks = $this->pluginHooks[$pluginName];
 
             if (isset($hooks[$eventName])) {
                 list($pluginFunction, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($hooks[$eventName]);
 
-                $callbacks[$callbackGroup][] = is_string($pluginFunction) ? array($plugin, $pluginFunction) : $pluginFunction;
+                if (is_string($pluginFunction)) {
+                    $plugin = $manager->getLoadedPlugin($pluginName);
+                    $callbacks[$callbackGroup][] = array($plugin, $pluginFunction) ;
+                } else {
+                    $callbacks[$callbackGroup][] = $pluginFunction;
+                }
             }
         }
 
@@ -149,30 +169,6 @@ class EventDispatcher extends Singleton
     }
 
     /**
-     * Removes all registered extra observers for an event name. Only used for testing.
-     *
-     * @param string $eventName
-     */
-    public function clearObservers($eventName)
-    {
-        $this->extraObservers[$eventName] = array();
-    }
-
-    /**
-     * Removes all registered extra observers. Only used for testing.
-     */
-    public function clearAllObservers()
-    {
-        foreach ($this->extraObservers as $eventName => $eventObservers) {
-            if (strpos($eventName, 'Log.format') === 0) {
-                continue;
-            }
-
-            $this->extraObservers[$eventName] = array();
-        }
-    }
-
-    /**
      * Re-posts all pending events to the given plugin.
      *
      * @param Plugin $plugin
@@ -193,28 +189,16 @@ class EventDispatcher extends Singleton
             $pluginFunction = $hookInfo['function'];
             if (!empty($hookInfo['before'])) {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_FIRST;
-            } else if (!empty($hookInfo['after'])) {
+            } elseif (!empty($hookInfo['after'])) {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_THIRD;
             } else {
-                $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;            }
+                $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
+            }
         } else {
             $pluginFunction = $hookInfo;
             $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
         }
 
         return array($pluginFunction, $callbackGroup);
-    }
-
-    /**
-     * Returns the Plugin\Manager instance used by the event dispatcher.
-     *
-     * @return Plugin\Manager
-     */
-    private function getPluginManager()
-    {
-        if ($this->pluginManager === null) {
-            $this->pluginManager = Plugin\Manager::getInstance();
-        }
-        return $this->pluginManager;
     }
 }

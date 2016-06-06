@@ -9,7 +9,6 @@
 namespace Piwik\Plugin;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Version;
 
@@ -50,9 +49,17 @@ class MetadataLoader
      */
     public function load()
     {
+        $defaults = $this->getDefaultPluginInformation();
+        $plugin   = $this->loadPluginInfoJson();
+
+        // use translated plugin description if available
+        if ($defaults['description'] != Piwik::translate($defaults['description'])) {
+            unset($plugin['description']);
+        }
+
         return array_merge(
-            $this->getDefaultPluginInformation(),
-            $this->loadPluginInfoJson()
+            $defaults,
+            $plugin
         );
     }
 
@@ -67,7 +74,7 @@ class MetadataLoader
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';
         return array(
-            'description'      => Piwik::translate($descriptionKey),
+            'description'      => $descriptionKey,
             'homepage'         => 'http://piwik.org/',
             'authors'          => array(array('name' => 'Piwik', 'homepage'  => 'http://piwik.org/')),
             'license'          => 'GPL v3+',

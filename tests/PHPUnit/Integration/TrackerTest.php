@@ -9,34 +9,16 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
-use Piwik\EventDispatcher;
+use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\Mock\Tracker\Handler;
+use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
 use Piwik\Tracker;
-use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\Request;
-use Piwik\Translate;
-
-class TestTracker extends Tracker
-{
-    public function __construct()
-    {
-        $this->isInstalled = true;
-    }
-
-    public function setIsNotInstalled()
-    {
-        $this->isInstalled = false;
-    }
-
-    public function disconnectDatabase()
-    {
-        parent::disconnectDatabase();
-    }
-}
 
 /**
  * @group TrackerTest
@@ -66,11 +48,16 @@ class TrackerTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        $this->tracker->disconnectDatabase();
-        EventDispatcher::getInstance()->clearObservers('Tracker.makeNewVisitObject');
+        $this->restoreConfigFile();
+        
+        if($this->tracker) {
+            $this->tracker->disconnectDatabase();
+        }
+        
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
+        
         parent::tearDown();
     }
 
@@ -126,11 +113,33 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_loadTrackerEnvironment_shouldEnableTrackerMode()
     {
+        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+
         $this->assertFalse(SettingsServer::isTrackerApiRequest());
 
         Tracker::loadTrackerEnvironment();
 
         $this->assertTrue(SettingsServer::isTrackerApiRequest());
+    }
+
+    public function test_loadTrackerEnvironment_shouldNotThrow_whenConfigNotFound()
+    {
+        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+
+        $this->assertFalse(SettingsServer::isTrackerApiRequest());
+
+        $this->assertTrue(is_readable(Config::getInstance()->getLocalPath()));
+
+        $this->removeConfigFile();
+
+        $this->assertFalse(is_readable(Config::getInstance()->getLocalPath()));
+
+        Tracker::loadTrackerEnvironment();
+
+        $this->assertTrue(SettingsServer::isTrackerApiRequest());
+        
+        //always reset on the test itself
+        $this->restoreConfigFile();
     }
 
     public function test_isDatabaseConnected_shouldReturnFalse_IfNotConnected()
@@ -219,6 +228,22 @@ class TrackerTest extends IntegrationTestCase
         $this->assertActionEquals('example.com', 2);
     }
 
+    public function test_trackRequest_shouldTrackOutlinkWithFragment()
+    {
+        $request = $this->buildRequest(array('idsite' => 1, 'link' => 'http://example.com/outlink#fragment-here', 'rec' => 1));
+        $this->tracker->trackRequest($request);
+
+        $this->assertActionEquals('http://example.com/outlink#fragment-here', 1);
+    }
+
+    public function test_trackRequest_shouldTrackDownloadWithFragment()
+    {
+        $request = $this->buildRequest(array('idsite' => 1, 'download' => 'http://example.com/file.zip#fragment-here&pk_campaign=Campaign param accepted here', 'rec' => 1));
+        $this->tracker->trackRequest($request);
+
+        $this->assertActionEquals('http://example.com/file.zip#fragment-here&amp;pk_campaign=Campaign param accepted here', 1);
+    }
+
     public function test_main_shouldReturnEmptyPiwikResponse_IfNoRequestsAreGiven()
     {
         $requestSet = $this->getEmptyRequestSet();
@@ -286,6 +311,53 @@ class TrackerTest extends IntegrationTestCase
                             $identifiedRequests[0]->getParams());
     }
 
+    public function test_main_shouldPostEndEvent()
+    {
+        $called = false;
+        Piwik::addAction('Tracker.end', function () use (&$called) {
+            $called = true;
+        });
+
+        $this->tracker->main(new Handler(), new RequestSet());
+
+        $this->assertTrue($called);
+    }
+
+    public function test_main_shouldPostEndEvent_EvenIfShouldNotRecordStats()
+    {
+        $called = false;
+        Piwik::addAction('Tracker.end', function () use (&$called) {
+            $called = true;
+        });
+
+        $handler = new Handler();
+
+        $this->tracker->disableRecordStatistics();
+        $this->tracker->main($handler, new RequestSet());
+
+        $this->assertFalse($handler->isProcessed);
+        $this->assertTrue($called);
+    }
+
+    public function test_main_shouldPostEndEvent_EvenIfThereIsAnException()
+    {
+        $called = false;
+        Piwik::addAction('Tracker.end', function () use (&$called) {
+            $called = true;
+        });
+
+        $handler = new Handler();
+        $handler->enableTriggerExceptionInProcess();
+
+        $requestSet = new RequestSet();
+        $requestSet->setRequests(array($this->buildRequest(1), $this->buildRequest(1)));
+
+        $this->tracker->main($handler, $requestSet);
+
+        $this->assertTrue($handler->isOnException);
+        $this->assertTrue($called);
+    }
+
     private function getDefaultHandler()
     {
         return new Tracker\Handler();
@@ -318,4 +390,63 @@ class TrackerTest extends IntegrationTestCase
         return new Request($params);
     }
 
+    /**
+     * @return string
+     */
+    protected function getLocalConfigPath()
+    {
+        return PIWIK_USER_PATH . '/config/config.ini.php';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLocalConfigPathMoved()
+    {
+        return PIWIK_USER_PATH . '/config/tmp-config.ini.php';
+    }
+
+    protected function removeConfigFile()
+    {
+        rename($this->getLocalConfigPath(), $this->getLocalConfigPathMoved());
+    }
+    
+    protected function restoreConfigFile()
+    {
+        if(file_exists($this->getLocalConfigPathMoved())){
+            rename($this->getLocalConfigPathMoved(), $this->getLocalConfigPath());
+        }
+    }
+}
+
+class TestTracker extends Tracker
+{
+    public function __construct()
+    {
+        $this->isInstalled = true;
+        $this->record = true;
+    }
+
+    public function setIsNotInstalled()
+    {
+        $this->isInstalled = false;
+    }
+
+    public function disconnectDatabase()
+    {
+        parent::disconnectDatabase();
+    }
+
+    public function shouldRecordStatistics()
+    {
+        if (! $this->record) {
+            return false;
+        }
+        return parent::shouldRecordStatistics();
+    }
+
+    public function disableRecordStatistics()
+    {
+        $this->record = false;
+    }
 }

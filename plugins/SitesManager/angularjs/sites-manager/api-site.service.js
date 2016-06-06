@@ -13,18 +13,19 @@
 
         return {
             getCurrencyList: getCurrencyList(),
-            getSitesWithAdminAccess: getSitesWithAdminAccess(),
             getTimezonesList: getTimezonesList(),
             isTimezoneSupportEnabled: isTimezoneSupportEnabled(),
-            getGlobalSettings: getGlobalSettings()
+            getGlobalSettings: getGlobalSettings(),
+            getSitesIdWithAdminAccess: getSitesIdWithAdminAccess()
         };
 
+        function getSitesIdWithAdminAccess () {
+            return api.fetchApi('SitesManager.getSitesIdWithAdminAccess', api.noop, {
+                filter_limit: '-1',
+            });
+        }
         function getCurrencyList () {
             return api.fetchApi('SitesManager.getCurrencyList', api.noop);
-        }
-
-        function getSitesWithAdminAccess () {
-            return api.fetchApi('SitesManager.getSitesWithAdminAccess', api.noop, {fetchAliasUrls: true});
         }
 
         function getTimezonesList () {

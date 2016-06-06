@@ -22,15 +22,22 @@ The js/ folder contains:
   attempt to block tracking, you can change your tracking code to use "js/"
   instead of "piwik.js" and "piwik.php", respectively.
 
+  Note that in order for [Page Overlay](https://piwik.org/docs/page-overlay/) to work, the Piwik tracker method `setAPIUrl()` needs to be called with its parameter pointing to the root directory of Piwik. E.g.:
+
+  ```js
+  _paq.push(['setAPIUrl', u]);
+
+  ```
+
 ## Deployment
 
-* piwik.js is minified using YUICompressor 2.4.2.
+* piwik.js is minified using YUICompressor 2.4.7.
   To install YUICompressor run:
 
   ```bash
   $ cd /path/to/piwik/js/
-  $ wget http://www.julienlecomte.net/yuicompressor/yuicompressor-2.4.2.zip
-  $ unzip yuicompressor-2.4.2.zip
+  $ wget https://github.com/downloads/yui/yuicompressor/yuicompressor-2.4.7.zip
+  $ unzip yuicompressor-2.4.7.zip
   ```
 
   To compress the code containing the evil "eval", either apply the patch from
@@ -39,7 +46,7 @@ The js/ folder contains:
 
   ```bash
   $ cd /path/to/piwik/js/
-  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js
+  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js
   ```
 
   This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to
@@ -47,9 +54,6 @@ The js/ folder contains:
 
 * In a production environment, the tests/javascript folder is not used and can
   be removed (if present).
-
-  Note: if the file "js/tests/enable_sqlite" exists, additional unit tests
-  (requires the sqlite extension) are enabled.
 
 * We use /*! to include Piwik's license header in the minified source. Read
   Stallman's "The JavaScript Trap" for more information.

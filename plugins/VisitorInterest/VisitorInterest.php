@@ -19,9 +19,9 @@ class VisitorInterest extends \Piwik\Plugin
 {
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Live.getAllVisitorDetails' => 'extendVisitorDetails',
@@ -30,22 +30,12 @@ class VisitorInterest extends \Piwik\Plugin
 
     function postLoad()
     {
-        Piwik::addAction('Template.headerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'headerVisitsFrequency'));
         Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    public static function headerVisitsFrequency(&$out)
+   public static function footerVisitsFrequency(&$out)
     {
-        $out = '<div id="leftcolumn">';
-    }
-
-    public static function footerVisitsFrequency(&$out)
-    {
-        $out = '</div>
-			<div id="rightcolumn">
-			';
         $out .= FrontController::getInstance()->fetchDispatch('VisitorInterest', 'index');
-        $out .= '</div>';
     }
 
     public function extendVisitorDetails(&$visitor, $details)

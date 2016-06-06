@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search;referrerKeyword==this+search+term</segment>
 		<subtable>
 			<row>
 				<label>Ask</label>
@@ -45,6 +46,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search;referrerKeyword==search+term+2</segment>
 		<subtable>
 			<row>
 				<label>Alexa</label>

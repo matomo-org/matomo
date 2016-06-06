@@ -1,11 +1,13 @@
 {
     "Events": {
+        "PluginDescription": "Houd gebeurtenissen bij en ontvang rapporten over gebruikersactiviteiten.",
         "AvgEventValue": "Gemiddelde gebeurtenis waarde is: %s",
         "AvgValue": "Gemiddelde waarde",
         "AvgValueDocumentation": "Het gemiddelde voor alle waardes van deze gebeurtenis",
         "Event": "Gebeurtenis",
         "EventAction": "Gebeurtenis Actie",
         "EventActions": "Gebeurtenis acties",
+        "EventCategories": "Gebeurtenis Categorieën",
         "EventCategory": "Gebeurtenis Categorie",
         "EventName": "Gebeurtenis Naam",
         "EventNames": "Gebeurtenis Namen",
@@ -13,6 +15,7 @@
         "EventsWithValue": "Gebeurtenissen met een waarde",
         "EventsWithValueDocumentation": "Aantal events waar een Event waarde is bepaald",
         "EventValue": "Gebeurtenis Waarde",
+        "EventValueTooltip": "Totale gebeurtenis waarde is de som van %1$s gebeurtenis waarden %2$s tussen minima van %3$s en maxima van %4$s.",
         "MaxValue": "Maximale waarde",
         "MaxValueDocumentation": "De maximale waarde voor deze gebeurtenis",
         "MinValue": "Minimale waarde",

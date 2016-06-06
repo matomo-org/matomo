@@ -1,0 +1,8 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s pa shtojca të aktivizuara",
+        "BrowserWithPluginsEnabled": "%1$s me shtojca %2$s të aktivizuara",
+        "WidgetPlugins": "Listë e Shtojcave",
+        "WidgetPluginsDocumentation": "Ky raport tregon se cilat shtojca shfletuesi kanë të aktivizuara vizitorët tuaj. Ky informacion mund të jetë i vlefshëm për zgjedhjen e mënyrës më të përshtatshme për ofrimin e lëndës suaj."
+    }
+}

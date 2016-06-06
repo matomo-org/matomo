@@ -9,10 +9,15 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Period;
+use Piwik\Segment;
 use Piwik\Sequence;
+use Psr\Log\LoggerInterface;
 
 /**
  * Cleans up outdated archives
@@ -21,6 +26,15 @@ use Piwik\Sequence;
  */
 class Model
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+    }
 
     /**
      * Returns the archives IDs that have already been invalidated and have been since re-processed.
@@ -34,64 +48,105 @@ class Model
      */
     public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, array $idSites)
     {
-        // prevent error 'The SELECT would examine more than MAX_JOIN_SIZE rows'
-        Db::get()->query('SET SQL_BIG_SELECTS=1');
+        try {
+            Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+        } catch (\Exception $ex) {
+            $this->logger->info("Could not set group_concat_max_len MySQL session variable.");
+        }
 
-        $query = 'SELECT t1.idarchive FROM `' . $archiveTable . '` t1
-                  INNER JOIN `' . $archiveTable . '` t2
-                      ON t1.name    = t2.name
-                      AND t1.idsite = t2.idsite
-                      AND t1.date1  = t2.date1
-                      AND t1.date2  = t2.date2
-                      AND t1.period = t2.period
-                  WHERE t1.value = ' . ArchiveWriter::DONE_INVALIDATED . '
-                  AND t1.idsite IN (' . implode(",", $idSites) . ')
-                  AND t2.value IN(' . ArchiveWriter::DONE_OK . ', ' . ArchiveWriter::DONE_OK_TEMPORARY . ')
-                  AND t1.ts_archived < t2.ts_archived
-                  AND t1.name LIKE \'done%\'
-        ';
+        $idSites = array_map(function ($v) { return (int)$v; }, $idSites);
 
-        $result = Db::fetchAll($query);
+        $sql = "SELECT idsite, date1, date2, period, name,
+                       GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
+                  FROM `$archiveTable`
+                 WHERE name LIKE 'done%'
+                   AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ','
+                                   . ArchiveWriter::DONE_OK . ','
+                                   . ArchiveWriter::DONE_OK_TEMPORARY . ")
+                   AND idsite IN (" . implode(',', $idSites) . ")
+                 GROUP BY idsite, date1, date2, period, name";
 
-        $archiveIds = array_map(
-            function ($elm) {
-                return $elm['idarchive'];
-            },
-            $result
-        );
+        $archiveIds = array();
+
+        $rows = Db::fetchAll($sql);
+        foreach ($rows as $row) {
+            $duplicateArchives = explode(',', $row['archives']);
+
+            $firstArchive = array_shift($duplicateArchives);
+            list($firstArchiveId, $firstArchiveValue) = explode('.', $firstArchive);
+
+            // if the first archive (ie, the newest) is an 'ok' or 'ok temporary' archive, then
+            // all invalidated archives after it can be deleted
+            if ($firstArchiveValue == ArchiveWriter::DONE_OK
+                || $firstArchiveValue == ArchiveWriter::DONE_OK_TEMPORARY
+            ) {
+                foreach ($duplicateArchives as $pair) {
+                    if (strpos($pair, '.') === false) {
+                        $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");
+                        break;
+                    }
+
+                    list($idarchive, $value) = explode('.', $pair);
+                    if ($value == ArchiveWriter::DONE_INVALIDATED) {
+                        $archiveIds[] = $idarchive;
+                    }
+                }
+            }
+        }
+
         return $archiveIds;
     }
 
     /**
-     * @param $archiveTable
-     * @param $idSites
-     * @param $periodId
-     * @param $datesToDelete
+     * @param string $archiveTable Prefixed table name
+     * @param int[] $idSites
+     * @param string[][] $datesByPeriodType
+     * @param Segment $segment
+     * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $periodId, $datesToDelete)
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $datesByPeriodType, Segment $segment = null)
     {
-        $sql = $bind = array();
-        $datesToDelete = array_unique($datesToDelete);
-        foreach ($datesToDelete as $dateToDelete) {
-            $sql[] = '(date1 <= ? AND ? <= date2 AND name LIKE \'done%\')';
-            $bind[] = $dateToDelete;
-            $bind[] = $dateToDelete;
-        }
-        $sql = implode(" OR ", $sql);
+        $idSites = array_map('intval', $idSites);
 
-        $sqlPeriod = "";
-        if ($periodId) {
-            $sqlPeriod = " AND period = ? ";
-            $bind[] = $periodId;
+        $bind = array();
+
+        $periodConditions = array();
+        foreach ($datesByPeriodType as $periodType => $dates) {
+            $dateConditions = array();
+
+            foreach ($dates as $date) {
+                $dateConditions[] = "(date1 <= ? AND ? <= date2)";
+                $bind[] = $date;
+                $bind[] = $date;
+            }
+
+            $dateConditionsSql = implode(" OR ", $dateConditions);
+            if (empty($periodType)
+                || $periodType == Period\Day::PERIOD_ID
+            ) {
+                // invalidate all periods if no period supplied or period is day
+                $periodConditions[] = "($dateConditionsSql)";
+            } else if ($periodType == Period\Range::PERIOD_ID) {
+                $periodConditions[] = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
+            } else {
+                // for non-day periods, invalidate greater periods, but not range periods
+                $periodConditions[] = "(period >= " . (int)$periodType . " AND period < " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
+            }
         }
 
-        $query = "UPDATE $archiveTable " .
-            " SET value = " . ArchiveWriter::DONE_INVALIDATED .
-            " WHERE ( $sql ) " .
-            " AND idsite IN (" . implode(",", $idSites) . ")" .
-            $sqlPeriod;
-        Db::query($query, $bind);
+        if ($segment) {
+            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
+        } else {
+            $nameCondition = "name LIKE 'done%'";
+        }
+
+        $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+             . " WHERE $nameCondition
+                   AND idsite IN (" . implode(", ", $idSites) . ")
+                   AND (" . implode(" OR ", $periodConditions) . ")";
+
+        return Db::query($sql, $bind);
     }
 
 
@@ -111,26 +166,43 @@ class Model
         $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
         $bind  = array($period, $date);
 
-        Db::query(sprintf($query, $numericTable), $bind);
+        $queryObj = Db::query(sprintf($query, $numericTable), $bind);
+        $deletedRows = $queryObj->rowCount();
 
         try {
-            Db::query(sprintf($query, $blobTable), $bind);
+            $queryObj = Db::query(sprintf($query, $blobTable), $bind);
+            $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
+            $this->logger->debug("Unable to delete archives by period from {blobTable}.", array(
+                'blobTable' => $blobTable,
+                'exception' => $e,
+            ));
         }
+
+        return $deletedRows;
     }
 
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
-        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+        $idsToDelete = array_values($idsToDelete);
+        $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
-        Db::query(sprintf($query, $numericTable));
+        $queryObj = Db::query(sprintf($query, $numericTable), $idsToDelete);
+        $deletedRows = $queryObj->rowCount();
 
         try {
-            Db::query(sprintf($query, $blobTable));
+            $queryObj = Db::query(sprintf($query, $blobTable), $idsToDelete);
+            $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
+            $this->logger->debug("Unable to delete archive IDs from {blobTable}.", array(
+                'blobTable' => $blobTable,
+                'exception' => $e,
+            ));
         }
+
+        return $deletedRows;
     }
 
     public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
@@ -188,21 +260,35 @@ class Model
                 $sequence->create();
             }
         } catch (Exception $e) {
-
         }
     }
 
     public function allocateNewArchiveId($numericTable)
     {
         $sequence  = new Sequence($numericTable);
-        $idarchive = $sequence->getNextId();
+
+        try {
+            $idarchive = $sequence->getNextId();
+        } catch (Exception $e) {
+            // edge case: sequence was not found, create it now
+            $sequence->create();
+
+            $idarchive = $sequence->getNextId();
+        }
 
         return $idarchive;
     }
 
     public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
     {
-        $dbLockName = "deletePreviousArchiveStatus.$numericTable.$archiveId";
+        $tableWithoutLeadingPrefix = $numericTable;
+        $lenNumericTableWithoutPrefix = strlen('archive_numeric_MM_YYYY');
+
+        if (strlen($numericTable) >= $lenNumericTableWithoutPrefix) {
+            $tableWithoutLeadingPrefix = substr($numericTable, strlen($numericTable) - $lenNumericTableWithoutPrefix);
+            // we need to make sure lock name is less than 64 characters see https://github.com/piwik/piwik/issues/9131
+        }
+        $dbLockName = "rmPrevArchiveStatus.$tableWithoutLeadingPrefix.$archiveId";
 
         // without advisory lock here, the DELETE would acquire Exclusive Lock
         $this->acquireArchiveTableLock($dbLockName);
@@ -230,6 +316,23 @@ class Model
     }
 
     /**
+     * Returns the site IDs for invalidated archives in an archive table.
+     *
+     * @param string $numericTable The numeric table to search through.
+     * @return int[]
+     */
+    public function getSitesWithInvalidatedArchive($numericTable)
+    {
+        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE name LIKE 'done%' AND value = " . ArchiveWriter::DONE_INVALIDATED);
+
+        $result = array();
+        foreach ($rows as $row) {
+            $result[] = $row['idsite'];
+        }
+        return $result;
+    }
+
+    /**
      * Returns the SQL condition used to find successfully completed archives that
      * this instance is querying for.
      */
@@ -252,5 +355,4 @@ class Model
     {
         Db::releaseDbLock($dbLockName);
     }
-
 }

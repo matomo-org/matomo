@@ -9,6 +9,7 @@
 namespace Piwik\Notification;
 
 use Piwik\Notification;
+use Piwik\Session;
 use Piwik\Session\SessionNamespace;
 
 /**
@@ -21,6 +22,11 @@ class Manager
      * @var SessionNamespace
      */
     private static $session = null;
+
+    /**
+     * @var Notification[]
+     */
+    private static $notifications = array();
 
     /**
      * Posts a notification that will be shown in Piwik's status bar. If a notification with the same ID
@@ -36,13 +42,14 @@ class Manager
     {
         self::checkId($id);
 
+        self::removeOldestNotificationsIfThereAreTooMany();
         self::addNotification($id, $notification);
     }
 
     /**
      * Removes a posted notification by ID.
      *
-     * @param $id The notification ID, see {@link notify()}.
+     * @param string $id The notification ID, see {@link notify()}.
      */
     public static function cancel($id)
     {
@@ -103,23 +110,75 @@ class Manager
 
     private static function addNotification($id, Notification $notification)
     {
+        self::saveNotificationAcrossUiRequestsIfNeeded($id, $notification);
+
+        // we store all kinda notifications here so in case the session is not enabled or disabled later there is still
+        // a chance it gets delivered to the UI during the same request.
+        self::$notifications[$id] = $notification;
+    }
+
+    private static function saveNotificationAcrossUiRequestsIfNeeded($id, Notification $notification)
+    {
+        $isPersistent = $notification->type === Notification::TYPE_PERSISTENT;
+
+        if ($isPersistent && self::isSessionEnabled()) {
+            $session = static::getSession();
+            $session->notifications[$id] = $notification;
+        }
+    }
+
+    private static function removeOldestNotificationsIfThereAreTooMany()
+    {
+        $maxNotificationsInSession = 30;
+
         $session = static::getSession();
-        $session->notifications[$id] = $notification;
+
+        while (count($session->notifications) >= $maxNotificationsInSession) {
+            array_shift($session->notifications);
+        }
     }
 
     private static function getAllNotifications()
     {
-        $session = static::getSession();
+        if (!self::isSessionEnabled()) {
+            return array();
+        }
 
-        return $session->notifications;
+        $notifications = self::$notifications;
+
+        foreach ($notifications as $id => $notification) {
+            // we copy them over to the session if possible and persist it in case the session was not yet
+            // writable / enabled at the time the notification was added.
+            self::saveNotificationAcrossUiRequestsIfNeeded($id, $notification);
+        }
+
+        if (self::isSessionEnabled()) {
+            $session = static::getSession();
+            foreach ($session->notifications as $id => $notification) {
+                $notifications[$id] = $notification;
+            }
+        }
+
+        return $notifications;
     }
 
     private static function removeNotification($id)
     {
-        $session = static::getSession();
-        if (array_key_exists($id, $session->notifications)) {
-            unset($session->notifications[$id]);
+        if (array_key_exists($id, self::$notifications)) {
+            unset(self::$notifications[$id]);
         }
+
+        if (self::isSessionEnabled()) {
+            $session = static::getSession();
+            if (array_key_exists($id, $session->notifications)) {
+                unset($session->notifications[$id]);
+            }
+        }
+    }
+
+    private static function isSessionEnabled()
+    {
+        return Session::isWritable() && Session::isReadable();
     }
 
     /**
@@ -131,7 +190,7 @@ class Manager
             static::$session = new SessionNamespace('notification');
         }
 
-        if (empty(static::$session->notifications)) {
+        if (empty(static::$session->notifications) && self::isSessionEnabled()) {
             static::$session->notifications = array();
         }
 

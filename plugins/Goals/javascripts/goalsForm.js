@@ -9,14 +9,15 @@ function showAddNewGoal() {
     hideForms();
     $(".entityAddContainer").show();
     showCancel();
+    hideCreateGoal();
     piwikHelper.lazyScrollTo(".entityContainer", 400);
     return false;
 }
 
 function showEditGoals() {
     hideForms();
+    showCreateGoal();
     $("#entityEditContainer").show();
-    showCancel();
     piwikHelper.lazyScrollTo(".entityContainer", 400);
     return false;
 }
@@ -31,7 +32,16 @@ function showCancel() {
     $('.entityCancelLink').click(function () {
         hideForms();
         $(".entityCancel").hide();
+        showEditGoals();
     });
+}
+
+function showCreateGoal() {
+    $("#add-goal").show();
+}
+
+function hideCreateGoal() {
+    $("#add-goal").hide();
 }
 
 function onMatchAttributeChange(matchAttribute)
@@ -60,6 +70,7 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
         $('select[name=trigger_type] option[value=manually]').prop('selected', true);
         $('input[name=match_attribute]').prop('disabled', true);
         $('#match_attribute_section').hide();
+        $('#match_attribute_section2').hide();
         $('#manual_trigger_section').show();
         matchAttribute = 'url';
     } else {
@@ -94,16 +105,21 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 
 function bindGoalForm() {
 
-    $('select[name=trigger_type]').click(function () {
+    $('select[name=trigger_type]').change(function () {
         var triggerTypeId = $(this).val();
         if (triggerTypeId == "manually") {
             $('input[name=match_attribute]').prop('disabled', true);
             $('#match_attribute_section').hide();
+            $('#match_attribute_section2').hide();
             $('#manual_trigger_section').show();
         } else {
             $('input[name=match_attribute]').removeProp('disabled');
             $('#match_attribute_section').show();
+            $('#match_attribute_section2').show();
             $('#manual_trigger_section').hide();
+            // force re-run of iCheck
+            $('.entityAddContainer div.form-radio').removeClass('form-radio');
+            $(document).trigger('Goals.edit', {});
         }
     });
 
@@ -118,7 +134,7 @@ function bindGoalForm() {
         return false;
     });
 
-    $('a[name=linkAddNewGoal]').click(function () {
+    $('#add-goal').click(function () {
         initAndShowAddGoalForm();
         piwikHelper.lazyScrollTo('#goal_name');
     });
@@ -173,20 +189,27 @@ function ajaxAddGoal() {
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(parameters, 'get');
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
-    ajaxRequest.setCallback(function () { location.reload(); });
+    ajaxRequest.setCallback(function () {
+        location.reload();
+    });
     ajaxRequest.send(true);
 }
 
+function editGoal(goalId)
+{
+    var goal = piwik.goals[goalId];
+    initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
+    showAddNewGoal();
+}
+
 function bindListGoalEdit() {
-    $('a[name=linkEditGoal]').click(function () {
+    $('.edit-goal').click(function () {
         var goalId = $(this).attr('id');
-        var goal = piwik.goals[goalId];
-        initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
-        showAddNewGoal();
+        editGoal(goalId);
         return false;
     });
 
-    $('a[name=linkDeleteGoal]').click(function () {
+    $('.delete-goal').click(function () {
         var goalId = $(this).attr('id');
         var goal = piwik.goals[goalId];
 

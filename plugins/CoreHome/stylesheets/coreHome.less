@@ -1,56 +1,35 @@
-h1 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #7e7363;
-    padding: 3px 0 7px 0;
-    clear: both;
-}
+.home {
+    h2 {
+        font-size: 18px;
+        padding: 16px 0 16px 0;
+        border: none;
+        margin: 0;
+    }
 
-h2 {
-    font-size: 18px;
-    font-weight: normal;
-    color: #7e7363;
-    padding: 12px 0 7px 0;
-    clear: both;
-}
-
-h2 a {
-    text-decoration: none;
-    color: #7e7363;
-}
-
-h3 {
-    font-size: 1.3em;
-    margin-top: 2em;
-    color: #1D3256;
-}
-
-.home p {
-    padding-bottom: 1em;
-    margin-right: 1em;
-    margin-left: 1em;
-}
-
-.nav_sep {
-    height: 39px;
-    border-radius: 0 4px 0 0;
-    border: 1px solid #DDD;
-}
-
-.pageWrap {
-  border-left: 1px solid #DDDDDD;
-  border-right: 1px solid #DDDDDD;
-  min-height: 10px;
-  overflow: visible;
-  padding: 15px 15px 0;
-  position: relative;
-  font-size: 13px;
+    h3 {
+        font-size: 1.3em;
+        margin-top: 2em;
+    }
+    p {
+        padding-bottom: 1em;
+        margin-right: 1em;
+        margin-left: 1em;
+    }
 }
 
 /* Content */
 #content.home {
-    padding-top: 5px;
     font-size: 14px;
+    display: inline-block;
+    width: 100%;
+
+    > h2:first-child {
+        padding-top: 7px;
+    }
+}
+
+#content.admin {
+    display: inline-block;
 }
 
 /* 2 columns reports */
@@ -69,6 +48,18 @@ h3 {
     float: left;
     padding: 0 10px;
     width: auto;
+}
+
+.accessibility-skip-to-content {
+    font-size: 14px;
+    position: absolute;
+    left: -10000px;
+    top: 21px;
+}
+.accessibility-skip-to-content:focus {
+    display: block;
+    position: absolute;
+    left: 140px;
 }
 
 /* Calendar*/
@@ -111,12 +102,13 @@ div.ui-datepicker {
 #inputCalendarFrom, #inputCalendarTo {
     margin-left: 10px;
     width: 95px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 12px;
 }
 
-#calendarRangeApply {
-    display: none;
+#calendarApply {
     margin-top: 10px;
-    margin-left: 10px;
 }
 
 #invalidDateRange {
@@ -128,7 +120,6 @@ div .sparkline {
     clear: both;
     padding-bottom: 1px;
     margin-top: 10px;
-    border-bottom: 1px solid white;
 }
 
 .sparkline img {
@@ -148,6 +139,12 @@ div.pk-emptyGraph {
  * Popover
  * @see popover.js
  */
+#Piwik_Popover {
+    min-height: 0 !important;
+}
+#Piwik_Popover .alert {
+    margin: 20px;
+}
 .Piwik_Popover_Loading_Name {
     padding: 50px 0 65px 0;
     font-size: 16px;
@@ -174,37 +171,29 @@ div.pk-emptyGraph {
 }
 
 .Piwik_Popover_Error_Title {
-    color: @theme-color-link;
-    font-weight: bold;
     font-size: 16px;
 }
 
 .Piwik_Popover_Error_Title span {
-    color: #222;
     font-weight: normal;
     font-size: 16px;
 }
 
 .Piwik_Popover_Error_Message {
-    color: #7e7363;
     padding: 20px 0 0 0;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 a.Piwik_Popover_Error_Back {
     display: block;
     margin: 20px 0 0 0;
-    color: #1D3256;
-    font-size: 14px;
+    font-size: 13px;
+    text-decoration: underline;
 }
 
 #alert.ui-confirm input {
     display: block;
     margin: 10px auto 5px !important;
-}
-
-.header_short #updateCheckLinkContainer .icon {
-  display: none;
 }
 
 .header_full #updateCheckLinkContainer {
@@ -218,43 +207,22 @@ a.Piwik_Popover_Error_Back {
 }
 
 #userMenu .items {
-  margin-left: -50px;
+  margin-left: -117px;
   width: 160px;
-}
-
-#updateCheckLinkContainer {
-  opacity: 0.7;
-}
-
-#updateCheckLinkContainer:hover {
-  opacity: 1;
-}
-
-#updateCheckLinkContainer {
-    float: right;
-    cursor: pointer;
-}
-
-#updateCheckLinkContainer>* {
-    vertical-align: middle;
-}
-
-#header_message #checkForUpdates {
-    font-size: 10px;
-    line-height: 16px;
-    display: inline-block;
-    vertical-align: middle;
-    text-transform: uppercase;
-}
-
-#header_message #checkForUpdates {
-  text-decoration: none;
-}
-
-#header_message #checkForUpdates:hover {
-    text-decoration: underline;
 }
 
 /* Used to link within content text, without adding visual clutter */
 .linkContent { color:#333; text-decoration:none}
 .linkContent:hover { text-decoration:underline;}
+
+.ui-confirm h2 {
+  border-bottom: 0 none;
+  margin:0;
+  font-size:18px;
+}
+
+#pluginSettings {
+    .settingIntroduction {
+        font-weight: bold;
+    } 
+}

@@ -19,10 +19,6 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
-use Piwik\Plugins\UserCountry\Reports\GetCity;
-use Piwik\Plugins\UserCountry\Reports\GetContinent;
-use Piwik\Plugins\UserCountry\Reports\GetCountry;
-use Piwik\Plugins\UserCountry\Reports\GetRegion;
 use Piwik\View;
 
 /**
@@ -37,10 +33,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
 
-        $view->dataTableCountry = $this->renderReport(new GetCountry());
-        $view->dataTableContinent = $this->renderReport(new GetContinent());
-        $view->dataTableRegion = $this->renderReport(new GetRegion());
-        $view->dataTableCity = $this->renderReport(new GetCity());
+        $view->dataTableCountry = $this->renderReport('getCountry');
+        $view->dataTableContinent = $this->renderReport('getContinent');
+        $view->dataTableRegion = $this->renderReport('getRegion');
+        $view->dataTableCity = $this->renderReport('getCity');
 
         return $view->render();
     }
@@ -318,8 +314,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function getLocationUsingProvider()
     {
         $providerId = Common::getRequestVar('id');
-        $provider = $provider = LocationProvider::getProviderById($providerId);
-        if ($provider === false) {
+        $provider = LocationProvider::getProviderById($providerId);
+        if (empty($provider)) {
             throw new Exception("Invalid provider ID: '$providerId'.");
         }
 

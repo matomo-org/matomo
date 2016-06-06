@@ -17,17 +17,17 @@ use Piwik\Updates;
  */
 class Updates_1_9_1_b2 extends Updates
 {
-    static function getSql()
+    public function getMigrationQueries(Updater $updater)
     {
         return array(
             'ALTER TABLE ' . Common::prefixTable('site') . " DROP `feedburnerName`" => 1091
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         // manually remove ExampleFeedburner column
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
 
         // remove ExampleFeedburner plugin
         $pluginToDelete = 'ExampleFeedburner';

@@ -1,17 +1,21 @@
 {% extends '@Installation/layout.twig' %}
 
 {% block content %}
-{% if displayfirstWebsiteSetupSuccess is defined %}
-    <span id="toFade" class="success">
-	{{ 'Installation_SetupWebsiteSetupSuccess'|translate(displaySiteName) }}
-        <img src="plugins/Morpheus/images/success_medium.png"/>
-</span>
-{% endif %}
 
-{{ trackingHelp|raw }}
-<br/><br/>
-<h2>{{ 'Installation_LargePiwikInstances'|translate }}</h2>
-{{ 'Installation_JsTagArchivingHelp1'|translate('<a rel="noreferrer" target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">','</a>')|raw }}
-{{ 'General_ReadThisToLearnMore'|translate('<a rel="noreferrer" target="_blank" href="http://piwik.org/docs/optimize/">','</a>')|raw }}
+    {% if displayfirstWebsiteSetupSuccess is defined %}
+        <div id="feedback" class="alert alert-success">
+            {{ 'Installation_SetupWebsiteSetupSuccess'|translate(displaySiteName) }}
+        </div>
+    {% endif %}
+
+    {{ trackingHelp|raw }}
+
+    <h3>{{ 'Installation_LargePiwikInstances'|translate }}</h3>
+    <p>
+        {{ 'Installation_JsTagArchivingHelp1'|translate('<a rel="noreferrer" target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">','</a>')|raw }}
+    </p>
+    <p>
+        {{ 'General_ReadThisToLearnMore'|translate('<a rel="noreferrer" target="_blank" href="http://piwik.org/docs/optimize/">','</a>')|raw }}
+    </p>
 
 {% endblock %}

@@ -11,35 +11,19 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
-use Piwik\Piwik;
-use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugins\DevicesDetection\Visitor;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class DevicesDetection extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getInformation
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getInformation()
+    public function registerEvents()
     {
         return array(
-            'description'      => Piwik::translate("DevicesDetection_PluginDescription"),
-            'authors'          => array(array('name' => 'Piwik PRO', 'homepage' => 'http://piwik.pro')),
-            'version'          => '1.14',
-            'license'          => 'GPL v3+',
-            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html'
-        );
-    }
-
-    /**
-     * @see Piwik\Plugin::getListHooksRegistered
-     */
-    public function getListHooksRegistered()
-    {
-        return array(
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails'
+            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
+            'Request.getRenamedModuleAndAction' => 'renameUserSettingsModuleAndAction',
         );
     }
 
@@ -48,9 +32,14 @@ class DevicesDetection extends \Piwik\Plugin
         $instance = new Visitor($details);
 
         $visitor['deviceType']               = $instance->getDeviceType();
+        $visitor['deviceTypeIcon']           = $instance->getDeviceTypeIcon();
+        $visitor['deviceBrand']              = $instance->getDeviceBrand();
+        $visitor['deviceModel']              = $instance->getDeviceModel();
         $visitor['operatingSystem']          = $instance->getOperatingSystem();
-        $visitor['operatingSystemCode']      = $instance->getOperatingSystemCode();
+        $visitor['operatingSystemName']      = $instance->getOperatingSystemName();
         $visitor['operatingSystemIcon']      = $instance->getOperatingSystemIcon();
+        $visitor['operatingSystemCode']      = $instance->getOperatingSystemCode();
+        $visitor['operatingSystemVersion']   = $instance->getOperatingSystemVersion();
         $visitor['browserFamily']            = $instance->getBrowserEngine();
         $visitor['browserFamilyDescription'] = $instance->getBrowserEngineDescription();
         $visitor['browser']                  = $instance->getBrowser();
@@ -60,4 +49,21 @@ class DevicesDetection extends \Piwik\Plugin
         $visitor['browserVersion']           = $instance->getBrowserVersion();
     }
 
+    public function renameUserSettingsModuleAndAction(&$module, &$action)
+    {
+        $movedMethods = array(
+            'index' => 'software',
+            'getBrowser' => 'getBrowsers',
+            'getBrowserVersion' => 'getBrowserVersions',
+            'getMobileVsDesktop' => 'getType',
+            'getOS' => 'getOsVersions',
+            'getOSFamily' => 'getOsFamilies',
+            'getBrowserType' => 'getBrowserEngines',
+        );
+
+        if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
+            $module = 'DevicesDetection';
+            $action = $movedMethods[$action];
+        }
+    }
 }

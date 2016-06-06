@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>new name</website>
-	<prettyDate>Saturday 6 March 2010</prettyDate>
+	<prettyDate>Saturday, March 6, 2010</prettyDate>
 	<metadata>
 		<category>Visits Summary</category>
 		<name>Visits by Server Time</name>
@@ -153,8 +153,82 @@
 			<revenue>$ 0</revenue>
 		</row>
 	</reportData>
-	<reportMetadata />
+	<reportMetadata>
+		<row>
+			<segment>visitServerHour==0</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==1</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==2</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==3</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==4</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==5</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==6</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==7</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==8</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==9</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==10</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==11</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==12</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==13</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==14</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==15</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==16</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==17</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==18</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==19</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==20</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==21</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==22</segment>
+		</row>
+		<row>
+			<segment>visitServerHour==23</segment>
+		</row>
+	</reportMetadata>
 	<reportTotal>
 		<nb_visits>2</nb_visits>
+		<revenue>43</revenue>
 	</reportTotal>
 </result>

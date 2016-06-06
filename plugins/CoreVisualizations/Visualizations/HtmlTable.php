@@ -71,9 +71,24 @@ class HtmlTable extends Visualization
             $this->assignTemplateVar('siteSummary', $dataTable);
         }
 
-        if ($this->requestConfig->pivotBy) {
+        if ($this->isPivoted()) {
             $this->config->columns_to_display = $this->dataTable->getColumns();
         }
     }
 
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
+    {
+        if ($this->isPivoted()) {
+            $this->config->columns_to_display = $this->dataTable->getColumns();
+
+            $this->dataTable->applyQueuedFilters();
+        }
+
+        parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
+    }
+
+    protected function isPivoted()
+    {
+        return $this->requestConfig->pivotBy || Common::getRequestVar('pivotBy', '');
+    }
 }

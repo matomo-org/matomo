@@ -18,7 +18,7 @@
         "Maximise": "Maksimer",
         "Minimise": "Minimer",
         "NotUndo": "Handlingen kan ikke fortrydes.",
-        "PluginDescription": "Kontrolpanelet kan tilpasses: tilføj nye moduler, ændre rækkefølgen af dem. Hver bruger kan få adgang til sit eget brugerdefinerede kontrolpanel.",
+        "PluginDescription": "Webanalyse kontrolpanel. Tilpas dit kontrolpanel ved at tilføje nye moduler, træk og slip dem rundt, og ændre kontrolpanelets kolonnelayout. Hver bruger kan styre deres eget brugerdefinerede kontrolpanel.",
         "RemoveDashboard": "Fjern kontrolpanel",
         "RemoveDashboardConfirm": "Bekræft fjernelse af kontrolpanel \"%s\"?",
         "RenameDashboard": "Omdøb kontrolpanel",
@@ -31,7 +31,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Modul udvælgelse og kontrolpanelets udformning vil blive brugt når en bruger opretter et nyt kontrolpanel, eller når \"%s\" -funktionen bruges.",
         "TopLinkTooltip": "Vis webanalyse-rapporter for %s.",
         "WidgetNotFound": "Fandt ikke modul",
-        "WidgetPreview": "Forhåndsvisning af modul",
-        "WidgetsAndDashboard": "Kontrolpanel & moduler"
+        "WidgetPreview": "Forhåndsvisning af modul"
     }
 }

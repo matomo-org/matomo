@@ -1,62 +1,58 @@
-<!DOCTYPE html>
-<html id="ng-app" ng-app="piwikApp">
-    <head>
-{% block head %}
-            <meta charset="utf-8">
-			<meta http-equiv="x-ua-compatible" content="IE=EDGE,chrome=1" >
-            <title>{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}</title>
-            <meta name="generator" content="Piwik - free/libre analytics platform"/>
-            <link rel="shortcut icon" href="{{ customFavicon|default('plugins/CoreHome/images/favicon.ico') }}"/>
+{% extends 'layout.twig' %}
 
-{% include "@CoreHome/_favicon.twig" %}
-{% include "_jsGlobalVariables.twig" %}
-{% include "_piwikTag.twig" %}
-{% include "_jsCssIncludes.twig" %}
+{% set categoryTitle %}{{ 'CoreAdminHome_Administration'|translate }}{% endset %}
 
-            <!--[if IE]>
-            <link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/ieonly.css"/>
-            <![endif]-->
-        {% endblock %}
-    </head>
-    <!--[if lt IE 9 ]>
-    <body ng-app="app" class="old-ie {{ postEvent('Template.bodyClass', 'admin') }}">
-    <![endif]-->
-    <!--[if (gte IE 9)|!(IE)]><!-->
-    <body ng-app="app" class="{{ postEvent('Template.bodyClass', 'admin') }}"><!--<![endif]-->
-    {% set isAdminLayout = true %}
-    {% include "_iframeBuster.twig" %}
-    {% include "@CoreHome/_javaScriptDisabled.twig" %}
+{% set bodyClass = postEvent('Template.bodyClass', 'admin') %}
 
-        <div id="root">
-            {% include "@CoreHome/_topScreen.twig" %}
+{% block body %}
+    {% if isSuperUser %}
+        {% set topMenuModule = 'CoreAdminHome' %}
+        {% set topMenuAction = 'generalSettings' %}
+    {% else %}
+        {% set topMenuModule = 'SitesManager' %}
+        {% set topMenuAction = 'index' %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
 
-            {% import 'ajaxMacros.twig' as ajax %}
-            {{ ajax.requestErrorDiv(emailSuperUser|default('')) }}
-            {{ postEvent("Template.beforeContent", "admin", currentModule) }}
+{% block root %}
+    {% include "@CoreHome/_topScreen.twig" %}
 
-            <div id="container">
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.requestErrorDiv(emailSuperUser|default(''), arePiwikProAdsEnabled) }}
+    {{ postEvent("Template.beforeContent", "admin", currentModule) }}
 
-                {% if showMenu is not defined or showMenu %}
-                    {% include "@CoreAdminHome/_menu.twig" %}
-                {% endif %}
+    <div class="page">
 
-                <div id="content" class="admin">
+        {% if showMenu is not defined or showMenu %}
+            {% import '@CoreHome/_menu.twig' as menu %}
+            {{ menu.menu(adminMenu, false, 'Menu--admin') }}
+        {% endif %}
 
-                    {% include "@CoreHome/_headerMessage.twig" %}
-                    {% include "@CoreHome/_notifications.twig" %}
+        <div class="pageWrap">
 
-                    <div class="ui-confirm" id="alert">
-                        <h2></h2>
-                        <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
-                    </div>
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
 
-                    {% include "@CoreHome/_warningInvalidHost.twig" %}
+                {% include "@CoreHome/_headerMessage.twig" %}
+            </div>
 
-                    {% block content %}
-                    {% endblock %}
+            <div class="admin" id="content">
+                {% include "@CoreHome/_notifications.twig" %}
+                {% include "@CoreHome/_warningInvalidHost.twig" %}
 
+                <div class="ui-confirm" id="alert">
+                    <h2></h2>
+                    <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
                 </div>
+
+                {% block content %}
+                {% endblock %}
+
             </div>
         </div>
-    </body>
-</html>
+    </div>
+
+
+{% endblock %}

@@ -12,9 +12,9 @@ namespace Piwik\Plugins\VisitTime;
 class VisitTime extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Live.getAllVisitorDetails' => 'extendVisitorDetails',

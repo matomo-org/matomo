@@ -1,0 +1,13 @@
+{
+    "Contents": {
+        "PluginDescription": "Innehålls- och bannertracking ger dig möjlighet att mäta prestanda (visningar, klick, CTR) för alla typer av innehåll på dina sidor (bannerannonser, bilder mm).",
+        "Impressions": "Visningar",
+        "Interactions": "Interaktioner",
+        "Interaction": "Interaktion",
+        "InteractionRate": "Andel interaktioner",
+        "ContentName": "Namn på innehåll",
+        "ContentPiece": "Innehållsdel",
+        "ContentTarget": "Innehållsmål",
+        "Contents": "Innehåll"
+    }
+}

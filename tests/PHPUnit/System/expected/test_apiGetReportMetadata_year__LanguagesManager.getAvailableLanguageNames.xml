@@ -22,12 +22,12 @@
 	</row>
 	<row>
 		<code>bn</code>
-		<name>ইংরেজি</name>
+		<name>বাংলা</name>
 		<english_name>Bengali</english_name>
 	</row>
 	<row>
 		<code>bs</code>
-		<name>bosanski jezik</name>
+		<name>Bosanski</name>
 		<english_name>Bosnian</english_name>
 	</row>
 	<row>
@@ -37,7 +37,7 @@
 	</row>
 	<row>
 		<code>cs</code>
-		<name>Česky</name>
+		<name>Čeština</name>
 		<english_name>Czech</english_name>
 	</row>
 	<row>
@@ -58,7 +58,7 @@
 	<row>
 		<code>el</code>
 		<name>Ελληνικά</name>
-		<english_name>Hellenic</english_name>
+		<english_name>Greek</english_name>
 	</row>
 	<row>
 		<code>en</code>
@@ -72,7 +72,7 @@
 	</row>
 	<row>
 		<code>et</code>
-		<name>Eesti keel</name>
+		<name>Eesti</name>
 		<english_name>Estonian</english_name>
 	</row>
 	<row>
@@ -122,7 +122,7 @@
 	</row>
 	<row>
 		<code>id</code>
-		<name>Bahasa Indonesia</name>
+		<name>Indonesia</name>
 		<english_name>Indonesian</english_name>
 	</row>
 	<row>
@@ -162,7 +162,7 @@
 	</row>
 	<row>
 		<code>nb</code>
-		<name>Norsk (bokmål)</name>
+		<name>Norsk bokmål</name>
 		<english_name>Norwegian Bokmål</english_name>
 	</row>
 	<row>
@@ -172,7 +172,7 @@
 	</row>
 	<row>
 		<code>nn</code>
-		<name>Norsk (nynorsk)</name>
+		<name>Nynorsk</name>
 		<english_name>Norwegian Nynorsk</english_name>
 	</row>
 	<row>
@@ -182,7 +182,7 @@
 	</row>
 	<row>
 		<code>pt-br</code>
-		<name>Português brasileiro</name>
+		<name>Português do Brasil</name>
 		<english_name>Brazilian Portuguese</english_name>
 	</row>
 	<row>
@@ -202,7 +202,7 @@
 	</row>
 	<row>
 		<code>sk</code>
-		<name>Slovensky</name>
+		<name>Slovenčina</name>
 		<english_name>Slovak</english_name>
 	</row>
 	<row>
@@ -217,7 +217,7 @@
 	</row>
 	<row>
 		<code>sr</code>
-		<name>Srpski</name>
+		<name>Српски</name>
 		<english_name>Serbian</english_name>
 	</row>
 	<row>
@@ -237,12 +237,12 @@
 	</row>
 	<row>
 		<code>th</code>
-		<name>ภาษาไทย</name>
+		<name>ไทย</name>
 		<english_name>Thai</english_name>
 	</row>
 	<row>
 		<code>tl</code>
-		<name>Tagalog</name>
+		<name>Filipino</name>
 		<english_name>Tagalog</english_name>
 	</row>
 	<row>
@@ -257,7 +257,7 @@
 	</row>
 	<row>
 		<code>vi</code>
-		<name>Việt</name>
+		<name>Tiếng Việt</name>
 		<english_name>Vietnamese</english_name>
 	</row>
 	<row>
@@ -268,6 +268,6 @@
 	<row>
 		<code>zh-tw</code>
 		<name>繁體中文</name>
-		<english_name>Traditional Chinese (Taiwan)</english_name>
+		<english_name>Traditional Chinese</english_name>
 	</row>
 </result>

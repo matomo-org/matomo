@@ -3,14 +3,14 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
-		<visitIp>74.125.31.147</visitIp>
+		<visitIp>24.125.31.147</visitIp>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
-				<serverTimePretty>Sun 7 Apr 10:00:00</serverTimePretty>
+				<serverTimePretty>Apr 7, 2013 10:00:00</serverTimePretty>
 				<pageId>1</pageId>
 				<customVariables>
 					<row>
@@ -19,6 +19,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				<timestamp>1365328800</timestamp>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -28,8 +29,6 @@
 		<visitServerHour>10</visitServerHour>
 		<lastActionTimestamp>1365328800</lastActionTimestamp>
 		<lastActionDateTime>2013-04-07 10:00:00</lastActionDateTime>
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -43,23 +42,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserFamily>Trident</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browser>Internet Explorer 7.0</browser>
-		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>7.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -68,6 +52,25 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -79,29 +82,31 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>10:00:00</visitLocalTime>
 		<visitLocalHour>10</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<serverTimestamp>1365328800</serverTimestamp>
 		<serverTimePretty>10:00:00</serverTimePretty>
-		<serverDatePretty>Sun 7 Apr</serverDatePretty>
-		<serverDatePrettyFirstAction>Sun 7 Apr</serverDatePrettyFirstAction>
+		<serverDatePretty>Sunday, April 7, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Sunday, April 7, 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>10:00:00</serverTimePrettyFirstAction>
 	</row>
 	<row>
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
-		<visitIp>74.125.31.147</visitIp>
+		<visitIp>24.125.31.147</visitIp>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
-				<serverTimePretty>Sat 6 Apr 11:00:00</serverTimePretty>
+				<serverTimePretty>Apr 6, 2013 11:00:00</serverTimePretty>
 				<pageId>2</pageId>
 				<customVariables>
 					<row>
@@ -110,6 +115,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				<timestamp>1365246000</timestamp>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -119,8 +125,6 @@
 		<visitServerHour>11</visitServerHour>
 		<lastActionTimestamp>1365246000</lastActionTimestamp>
 		<lastActionDateTime>2013-04-06 11:00:00</lastActionDateTime>
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -134,23 +138,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserFamily>Trident</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browser>Internet Explorer 7.0</browser>
-		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>7.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -159,6 +148,25 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -170,29 +178,31 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>11:00:00</visitLocalTime>
 		<visitLocalHour>11</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<serverTimestamp>1365246000</serverTimestamp>
 		<serverTimePretty>11:00:00</serverTimePretty>
-		<serverDatePretty>Sat 6 Apr</serverDatePretty>
-		<serverDatePrettyFirstAction>Sat 6 Apr</serverDatePrettyFirstAction>
+		<serverDatePretty>Saturday, April 6, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Saturday, April 6, 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>11:00:00</serverTimePrettyFirstAction>
 	</row>
 	<row>
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
-		<visitIp>74.125.31.147</visitIp>
+		<visitIp>24.125.31.147</visitIp>
 		<actionDetails>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
-				<serverTimePretty>Fri 5 Apr 12:00:00</serverTimePretty>
+				<serverTimePretty>Apr 5, 2013 12:00:00</serverTimePretty>
 				<pageId>3</pageId>
 				<customVariables>
 					<row>
@@ -201,6 +211,7 @@
 					</row>
 				</customVariables>
 				<icon />
+				<timestamp>1365163200</timestamp>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -210,8 +221,6 @@
 		<visitServerHour>12</visitServerHour>
 		<lastActionTimestamp>1365163200</lastActionTimestamp>
 		<lastActionDateTime>2013-04-05 12:00:00</lastActionDateTime>
-		<searches>0</searches>
-		<actions>1</actions>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -225,23 +234,8 @@
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
-		<customVariables>
-		</customVariables>
-		<deviceType>Desktop</deviceType>
-		<operatingSystem>Windows Vista</operatingSystem>
-		<operatingSystemCode>WVI</operatingSystemCode>
-		<operatingSystemIcon>plugins/UserSettings/images/os/WVI.gif</operatingSystemIcon>
-		<browserFamily>Trident</browserFamily>
-		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
-		<browser>Internet Explorer 7.0</browser>
-		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/UserSettings/images/browsers/IE.gif</browserIcon>
-		<browserCode>IE</browserCode>
-		<browserVersion>7.0</browserVersion>
-		<events>0</events>
-		<provider>Unknown</provider>
-		<providerName>Unknown</providerName>
-		<providerUrl />
+		<searches>0</searches>
+		<actions>1</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -250,6 +244,25 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
@@ -261,16 +274,18 @@
 		<location>Unknown</location>
 		<latitude />
 		<longitude />
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
 		<visitLocalTime>12:00:00</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 		<serverTimestamp>1365163200</serverTimestamp>
 		<serverTimePretty>12:00:00</serverTimePretty>
-		<serverDatePretty>Fri 5 Apr</serverDatePretty>
-		<serverDatePrettyFirstAction>Fri 5 Apr</serverDatePrettyFirstAction>
+		<serverDatePretty>Friday, April 5, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Friday, April 5, 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>12:00:00</serverTimePrettyFirstAction>
 	</row>
 </result>

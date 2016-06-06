@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>0-10s</label>
-		<nb_visits>35</nb_visits>
+		<nb_visits>46</nb_visits>
 	</row>
 	<row>
 		<label>11-30s</label>
@@ -22,7 +22,7 @@
 	</row>
 	<row>
 		<label>4-7 min</label>
-		<nb_visits>0</nb_visits>
+		<nb_visits>1</nb_visits>
 	</row>
 	<row>
 		<label>7-10 min</label>

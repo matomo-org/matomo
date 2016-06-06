@@ -12,7 +12,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugins\Live\Reports\GetLastVisitsDetails;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Url;
 use Piwik\View;
@@ -57,7 +56,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function indexVisitorLog()
     {
         $view = new View('@Live/indexVisitorLog.twig');
-        $view->visitorLog = $this->renderReport(new GetLastVisitsDetails());
+        $view->visitorLog = $this->renderReport('getLastVisitsDetails');
         return $view->render();
     }
 
@@ -66,7 +65,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getVisitorLog()
     {
-        return $this->renderReport(new GetLastVisitsDetails());
+        return $this->renderReport('getLastVisitsDetails');
     }
 
     public function getLastVisitsStart()
@@ -88,9 +87,9 @@ class Controller extends \Piwik\Plugin\Controller
     private function setCounters($view)
     {
         $segment = Request::getRawSegmentFromRequest();
-        $last30min = API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment);
+        $last30min = API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment, array('visits', 'actions'));
         $last30min = $last30min[0];
-        $today = API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment);
+        $today = API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment, array('visits', 'actions'));
         $today = $today[0];
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];
@@ -145,18 +144,20 @@ class Controller extends \Piwik\Plugin\Controller
         $startCounter = Common::getRequestVar('filter_offset', 0, 'int');
         $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
                                                                                 'segment'                 => self::getSegmentWithVisitorId(),
-                                                                                'filter_limit'            => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
+                                                                                'filter_limit'            => VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
                                                                                 'filter_offset'           => $startCounter,
                                                                                 'period'                  => false,
                                                                                 'date'                    => false
                                                                            ));
+
+        $idSite = Common::getRequestVar('idSite', null, 'int');
 
         if (empty($nextVisits)) {
             return;
         }
 
         $view = new View('@Live/getVisitList.twig');
-        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->idSite = $idSite;
         $view->startCounter = $startCounter + 1;
         $view->visits = $nextVisits;
         return $view->render();

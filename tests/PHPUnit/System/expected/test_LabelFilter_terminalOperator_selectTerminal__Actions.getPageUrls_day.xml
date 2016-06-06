@@ -14,5 +14,6 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.333</avg_time_generation>
 		<url>http://example.org/dir/subdir</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir%2Fsubdir</segment>
 	</row>
 </result>

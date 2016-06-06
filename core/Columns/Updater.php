@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Columns;
+
 use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -14,95 +15,119 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Db;
 use Piwik\Updater as PiwikUpdater;
-use Piwik\Cache\PersistentCache;
 use Piwik\Filesystem;
+use Piwik\Cache as PiwikCache;
 
 /**
  * Class that handles dimension updates
  */
 class Updater extends \Piwik\Updates
 {
-    /**
-     * @var Updater
-     */
-    private static $updater;
+    private static $cacheId = 'AllDimensionModifyTime';
 
     /**
-     * Return SQL to be executed in this update
-     *
-     * @return array(
-     *              'ALTER .... ' => '1234', // if the query fails, it will be ignored if the error code is 1234
-     *              'ALTER .... ' => false,  // if an error occurs, the update will stop and fail
-     *                                       // and user will have to manually run the query
-     *         )
+     * @var VisitDimension[]
      */
-    public static function getSql()
+    public $visitDimensions;
+
+    /**
+     * @var ActionDimension[]
+     */
+    private $actionDimensions;
+
+    /**
+     * @var ConversionDimension[]
+     */
+    private $conversionDimensions;
+
+    /**
+     * @param VisitDimension[]|null $visitDimensions
+     * @param ActionDimension[]|null $actionDimensions
+     * @param ConversionDimension[]|null $conversionDimensions
+     */
+    public function __construct(array $visitDimensions = null, array $actionDimensions = null, array $conversionDimensions = null)
+    {
+        $this->visitDimensions = $visitDimensions;
+        $this->actionDimensions = $actionDimensions;
+        $this->conversionDimensions = $conversionDimensions;
+    }
+
+    public function getMigrationQueries(PiwikUpdater $updater)
     {
         $sqls = array();
 
-        $changingColumns = self::getUpdates();
+        $changingColumns = $this->getUpdates($updater);
 
         foreach ($changingColumns as $table => $columns) {
             if (empty($columns) || !is_array($columns)) {
                 continue;
             }
 
-            $sqls["ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns)] = false;
+            $sqls["ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns)] = array('1091', '1060');
         }
 
         return $sqls;
     }
 
-    /**
-     * Incremental version update
-     */
-    public static function update()
+    public function doUpdate(PiwikUpdater $updater)
     {
-        foreach (self::getSql() as $sql => $errorCode) {
-            try {
-                Db::exec($sql);
-            } catch (\Exception $e) {
-                if (!Db::get()->isErrNo($e, '1091') && !Db::get()->isErrNo($e, '1060')) {
-                    PiwikUpdater::handleQueryError($e, $sql, false, __FILE__);
-                }
-            }
+        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+    }
+
+    private function getVisitDimensions()
+    {
+        // see eg https://github.com/piwik/piwik/issues/8399 we fetch them only on demand to improve performance
+        if (!isset($this->visitDimensions)) {
+            $this->visitDimensions = VisitDimension::getAllDimensions();
         }
+
+        return $this->visitDimensions;
     }
 
-    public static function setUpdater($updater)
+    private function getActionDimensions()
     {
-        self::$updater = $updater;
+        // see eg https://github.com/piwik/piwik/issues/8399 we fetch them only on demand to improve performance
+        if (!isset($this->actionDimensions)) {
+            $this->actionDimensions = ActionDimension::getAllDimensions();
+        }
+
+        return $this->actionDimensions;
     }
 
-    private static function hasComponentNewVersion($component)
+    private function getConversionDimensions()
     {
-        return empty(self::$updater) || self::$updater->hasNewVersion($component);
+        // see eg https://github.com/piwik/piwik/issues/8399 we fetch them only on demand to improve performance
+        if (!isset($this->conversionDimensions)) {
+            $this->conversionDimensions = ConversionDimension::getAllDimensions();
+        }
+
+        return $this->conversionDimensions;
     }
 
-    private static function getUpdates()
+    private function getUpdates(PiwikUpdater $updater)
     {
         $visitColumns      = DbHelper::getTableColumns(Common::prefixTable('log_visit'));
         $actionColumns     = DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action'));
         $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
 
-        $changingColumns = array();
+        $allUpdatesToRun = array();
 
-        foreach (self::getVisitDimensions() as $dimension) {
-            $updates         = self::getUpdatesForDimension($dimension, 'log_visit.', $visitColumns, $conversionColumns);
-            $changingColumns = self::mixinUpdates($changingColumns, $updates);
+        foreach ($this->getVisitDimensions() as $dimension) {
+            $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_visit.', $visitColumns, $conversionColumns);
+            $allUpdatesToRun = $this->mixinUpdates($allUpdatesToRun, $updates);
         }
 
-        foreach (self::getActionDimensions() as $dimension) {
-            $updates         = self::getUpdatesForDimension($dimension, 'log_link_visit_action.', $actionColumns);
-            $changingColumns = self::mixinUpdates($changingColumns, $updates);
+        foreach ($this->getActionDimensions() as $dimension) {
+            $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_link_visit_action.', $actionColumns);
+            $allUpdatesToRun = $this->mixinUpdates($allUpdatesToRun, $updates);
         }
 
-        foreach (self::getConversionDimensions() as $dimension) {
-            $updates         = self::getUpdatesForDimension($dimension, 'log_conversion.', $conversionColumns);
-            $changingColumns = self::mixinUpdates($changingColumns, $updates);
+        foreach ($this->getConversionDimensions() as $dimension) {
+            $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_conversion.', $conversionColumns);
+            $allUpdatesToRun = $this->mixinUpdates($allUpdatesToRun, $updates);
         }
 
-        return $changingColumns;
+        return $allUpdatesToRun;
     }
 
     /**
@@ -112,12 +137,12 @@ class Updater extends \Piwik\Updates
      * @param array $conversionColumns
      * @return array
      */
-    private static function getUpdatesForDimension($dimension, $componentPrefix, $existingColumnsInDb, $conversionColumns = array())
+    private function getUpdatesForDimension(PiwikUpdater $updater, $dimension, $componentPrefix, $existingColumnsInDb, $conversionColumns = array())
     {
         $column = $dimension->getColumnName();
         $componentName = $componentPrefix . $column;
 
-        if (!self::hasComponentNewVersion($componentName)) {
+        if (!$updater->hasNewVersion($componentName)) {
             return array();
         }
 
@@ -134,22 +159,22 @@ class Updater extends \Piwik\Updates
         return $sqlUpdates;
     }
 
-    private static function mixinUpdates($changingColumns, $updatesFromDimension)
+    private function mixinUpdates($allUpdatesToRun, $updatesFromDimension)
     {
         if (!empty($updatesFromDimension)) {
             foreach ($updatesFromDimension as $table => $col) {
-                if (empty($changingColumns[$table])) {
-                    $changingColumns[$table] = $col;
+                if (empty($allUpdatesToRun[$table])) {
+                    $allUpdatesToRun[$table] = $col;
                 } else {
-                    $changingColumns[$table] = array_merge($changingColumns[$table], $col);
+                    $allUpdatesToRun[$table] = array_merge($allUpdatesToRun[$table], $col);
                 }
             }
         }
 
-        return $changingColumns;
+        return $allUpdatesToRun;
     }
 
-    public static function getAllVersions()
+    public function getAllVersions(PiwikUpdater $updater)
     {
         // to avoid having to load all dimensions on each request we check if there were any changes on the file system
         // can easily save > 100ms for each request
@@ -167,16 +192,16 @@ class Updater extends \Piwik\Updates
         $actionColumns     = DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action'));
         $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
 
-        foreach (self::getVisitDimensions() as $dimension) {
-            $versions = self::mixinVersions($dimension, 'log_visit.', $visitColumns, $versions);
+        foreach ($this->getVisitDimensions() as $dimension) {
+            $versions = $this->mixinVersions($updater, $dimension, VisitDimension::INSTALLER_PREFIX, $visitColumns, $versions);
         }
 
-        foreach (self::getActionDimensions() as $dimension) {
-            $versions = self::mixinVersions($dimension, 'log_link_visit_action.', $actionColumns, $versions);
+        foreach ($this->getActionDimensions() as $dimension) {
+            $versions = $this->mixinVersions($updater, $dimension, ActionDimension::INSTALLER_PREFIX, $actionColumns, $versions);
         }
 
-        foreach (self::getConversionDimensions() as $dimension) {
-            $versions = self::mixinVersions($dimension, 'log_conversion.', $conversionColumns, $versions);
+        foreach ($this->getConversionDimensions() as $dimension) {
+            $versions = $this->mixinVersions($updater, $dimension, ConversionDimension::INSTALLER_PREFIX, $conversionColumns, $versions);
         }
 
         return $versions;
@@ -189,10 +214,11 @@ class Updater extends \Piwik\Updates
      * @param array $versions
      * @return array The modified versions array
      */
-    private static function mixinVersions($dimension, $componentPrefix, $columns, $versions)
+    private function mixinVersions(PiwikUpdater $updater, $dimension, $componentPrefix, $columns, $versions)
     {
         $columnName = $dimension->getColumnName();
 
+        // dimensions w/o columns do not need DB updates
         if (!$columnName || !$dimension->hasColumnType()) {
             return $versions;
         }
@@ -200,10 +226,15 @@ class Updater extends \Piwik\Updates
         $component = $componentPrefix . $columnName;
         $version   = $dimension->getVersion();
 
+        // if the column exists in the table, but has no associated version, and was one of the core columns
+        // that was moved when the dimension refactor took place, then:
+        // - set the installed version in the DB to the current code version
+        // - and do not check for updates since we just set the version to the latest
         if (array_key_exists($columnName, $columns)
-            && false === PiwikUpdater::getCurrentRecordedComponentVersion($component)
-            && self::wasDimensionMovedFromCoreToPlugin($component, $version)) {
-            PiwikUpdater::recordComponentSuccessfullyUpdated($component, $version);
+            && false === $updater->getCurrentComponentVersion($component)
+            && self::wasDimensionMovedFromCoreToPlugin($component, $version)
+        ) {
+            $updater->markComponentSuccessfullyUpdated($component, $version);
             return $versions;
         }
 
@@ -222,7 +253,10 @@ class Updater extends \Piwik\Updates
 
     public static function wasDimensionMovedFromCoreToPlugin($name, $version)
     {
-        $dimensions = array (
+        // maps names of core dimension columns that were part of the original dimension refactor with their
+        // initial "version" strings. The '1' that is sometimes appended to the end of the string (sometimes seen as
+        // NULL1) is from individual dimension "versioning" logic (eg, see VisitDimension::getVersion())
+        $initialCoreDimensionVersions = array(
             'log_visit.config_resolution' => 'VARCHAR(9) NOT NULL',
             'log_visit.config_device_brand' => 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL',
             'log_visit.config_device_model' => 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL',
@@ -283,14 +317,14 @@ class Updater extends \Piwik\Updates
             'log_conversion.revenue_tax' => 'float default NULL',
         );
 
-        if (!array_key_exists($name, $dimensions)) {
+        if (!array_key_exists($name, $initialCoreDimensionVersions)) {
             return false;
         }
 
-        return strtolower($dimensions[$name]) === strtolower($version);
+        return strtolower($initialCoreDimensionVersions[$name]) === strtolower($version);
     }
 
-    public static function onNoUpdateAvailable($versionsThatWereChecked)
+    public function onNoUpdateAvailable($versionsThatWereChecked)
     {
         if (!empty($versionsThatWereChecked)) {
             // invalidate cache only if there were actually file changes before, otherwise we write the cache on each
@@ -315,38 +349,24 @@ class Updater extends \Piwik\Updates
     private static function cacheCurrentDimensionFileChanges()
     {
         $changes = self::getCurrentDimensionFileChanges();
-        $persistentCache = new PersistentCache('AllDimensionModifyTime');
-        $persistentCache->set($changes);
+
+        $cache = self::buildCache();
+        $cache->save(self::$cacheId, $changes);
+    }
+
+    private static function buildCache()
+    {
+        return PiwikCache::getEagerCache();
     }
 
     private static function getCachedDimensionFileChanges()
     {
-        $persistentCache = new PersistentCache('AllDimensionModifyTime');
-        if ($persistentCache->has()) {
-            return $persistentCache->get();
+        $cache = self::buildCache();
+
+        if ($cache->contains(self::$cacheId)) {
+            return $cache->fetch(self::$cacheId);
         }
 
         return array();
-    }
-
-    private static function getVisitDimensions()
-    {
-        return VisitDimension::getAllDimensions();
-    }
-
-    /**
-     * @return mixed|Dimension[]
-     */
-    private static function getActionDimensions()
-    {
-        return ActionDimension::getAllDimensions();
-    }
-
-    /**
-     * @return mixed|Dimension[]
-     */
-    private static function getConversionDimensions()
-    {
-        return ConversionDimension::getAllDimensions();
     }
 }
