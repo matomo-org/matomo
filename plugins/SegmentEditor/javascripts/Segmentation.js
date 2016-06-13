@@ -1077,7 +1077,7 @@ Segmentation = (function($) {
                 });
 
                 if(segmentStr != getSegmentFromId(segmentId).definition) {
-                    piwikHelper.modalConfirm(self.target.find('.segment-change-confirm'), {
+                    piwikHelper.modalConfirm(self.target.find('.segment-definition-change-confirm'), {
                         yes: function () {
                             self.updateMethod(params);
                         }
