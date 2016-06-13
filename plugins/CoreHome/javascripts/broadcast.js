@@ -404,6 +404,19 @@ var broadcast = {
     },
 
     /**
+     * Checks if the given url is being allowed to be loaded using ajax
+     *
+     * @param {string} url
+     * @returns {boolean}
+     * @private
+     */
+    _isAllowedAjaxUrl: function (url) {
+        var module = broadcast.getParamValue('module', url);
+        var action = broadcast.getParamValue('action', url);
+        return !(module == 'API' || (module == 'Proxy' && action == 'callApiWithCurrentSession'));
+    },
+
+    /**
      * Loads the given url with ajax and replaces the content
      *
      * Note: the method is replaced in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
@@ -433,7 +446,7 @@ var broadcast = {
             });
         }
 
-        if(broadcast.getParamValue('module', urlAjax) == 'API' || broadcast.getParamValue('module', urlAjax) == 'Proxy' && broadcast.getParamValue('action', urlAjax) == 'callApi') {
+        if(!broadcast._isAllowedAjaxUrl(urlAjax)) {
             broadcast.lastUrlRequested = null;
             $('#content').html("Loading content from the API and displaying it within Piwik is not allowed.");
             piwikHelper.hideAjaxLoading();

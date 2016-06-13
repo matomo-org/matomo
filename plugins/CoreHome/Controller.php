@@ -111,7 +111,7 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerName = Common::getRequestVar('moduleToLoad');
         $actionName     = Common::getRequestVar('actionToLoad', 'index');
 
-        if($controllerName == 'API' || ($controllerName == 'Proxy' && $actionName == 'callApi')) {
+        if(!$this->isAllowedContextRequest($controllerName, $actionName)) {
             throw new Exception("Showing API requests in context is not supported for security reasons. Please change query parameter 'moduleToLoad'.");
         }
         if ($actionName == 'showInContext') {
@@ -121,6 +121,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view = $this->getDefaultIndexView();
         $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
         return $view->render();
+    }
+
+    protected function isAllowedContextRequest($controller, $action)
+    {
+        return $controller != 'API' && ($controller != 'Proxy' || $action != 'callApiWithCurrentSession');
     }
 
     public function markNotificationAsRead()

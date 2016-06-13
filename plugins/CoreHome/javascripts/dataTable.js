@@ -1100,7 +1100,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
 
                 var str = 'index.php?module=Proxy'
-                    + '&action=callApi'
+                    + '&action=callApiWithCurrentSession'
                     + '&method=' + method
                     + '&format=' + format
                     + '&idSite=' + self.param.idSite

@@ -29,7 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * Proxy method to call API methods using current session for authentication
      */
-    public function callApi()
+    public function callApiWithCurrentSession()
     {
         echo FrontController::getInstance()->dispatch('API', 'index');
         exit;
