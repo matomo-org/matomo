@@ -18,11 +18,9 @@ class Tasks extends \Piwik\Plugin\Tasks
         foreach (API::getInstance()->getReports() as $report) {
             if (!$report['deleted'] && $report['period'] != Schedule::PERIOD_NEVER) {
 
-                $timezone = Site::getTimezoneFor($report['idsite']);
-
                 $schedule = Schedule::getScheduledTimeForPeriod($report['period']);
                 $schedule->setHour($report['hour']);
-                $schedule->setTimezone($timezone);
+                $schedule->setTimezone('UTC'); // saved hour is UTC always
 
                 $this->custom(API::getInstance(), 'sendReport', $report['idreport'], $schedule);
             }
