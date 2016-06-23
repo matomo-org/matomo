@@ -271,7 +271,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -361,7 +361,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_conversion.idvisit = log_visit.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -524,7 +524,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                 WHERE
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
                       AND (
@@ -693,7 +693,7 @@ class SegmentTest extends IntegrationTestCase
              SELECT log_conversion.idgoal AS `idgoal`, log_conversion.custom_dimension_1 AS `custom_dimension_1`, count(*) AS `1`, count(distinct log_conversion.idvisit) AS `3`,
              FROM $logConversionsTable AS log_conversion
                   LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action
-                       ON log_conversion.idvisit = log_link_visit_action.idvisit
+                       ON log_link_visit_action.idvisit = log_conversion.idvisit
                   LEFT JOIN $logActionTable AS log_action
                        ON log_link_visit_action.idaction_url = log_action.idaction
              WHERE ( log_conversion.server_time >= ?
@@ -761,7 +761,7 @@ class SegmentTest extends IntegrationTestCase
                     SUM(log_conversion.items) AS `8`
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                 WHERE
                     ( log_conversion.idsite IN (?) )
                     AND
@@ -1289,7 +1289,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM (
                       SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue, log_conversion.items
                       FROM $logConversionTable AS log_conversion
-                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
@@ -1340,7 +1340,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM (
                       SELECT log_conversion.idgoal, log_conversion.referer_type, log_conversion.referer_name, log_conversion.referer_keyword, log_conversion.idvisit, log_conversion.revenue
                       FROM $logConversionTable AS log_conversion
-                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
@@ -1385,8 +1385,8 @@ class SegmentTest extends IntegrationTestCase
                 FROM (
                     SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue
                     FROM $logConversionTable AS log_conversion
-                       LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
-                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+                       LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                     WHERE ( log_conversion.server_time >= ?
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
