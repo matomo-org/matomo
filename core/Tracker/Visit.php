@@ -397,6 +397,11 @@ class Visit implements VisitInterface
      */
     protected function updateExistingVisit($valuesToUpdate)
     {
+        if (empty($valuesToUpdate)) {
+            Common::printDebug('There are no values to be updated for this visit');
+            return;
+        }
+
         $idSite = $this->request->getIdSite();
         $idVisit = (int)$this->visitProperties->getProperty('idvisit');
 
