@@ -53,11 +53,13 @@ class JoinGenerator
             if (!$logTable->getColumnToJoinOnIdVisit()) {
                 $tableNameToJoin = $logTable->getLinkTableToBeAbleToJoinOnVisit();
 
-                if (!$this->tables->hasJoinedTable($tableNameToJoin)) {
+                if ($index > 0 && !$this->tables->hasJoinedTable($tableNameToJoin)) {
                     $this->tables->addTableToJoin($tableNameToJoin);
                 }
 
-                $this->generateNonVisitJoins($table, $tableNameToJoin, $index);
+                if ($this->tables->hasJoinedTable($tableNameToJoin)) {
+                    $this->generateNonVisitJoins($table, $tableNameToJoin, $index);
+                }
             }
         }
     }

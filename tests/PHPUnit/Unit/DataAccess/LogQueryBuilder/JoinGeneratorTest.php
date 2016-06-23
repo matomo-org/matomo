@@ -59,7 +59,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function test_generate_getJoinString()
     {
-        $generator = $this->generate(array('log_action', 'log_visit'));
+        $generator = $this->generate(array('log_action', 'log_link_visit_action', 'log_visit'));
 
         $expected  = 'log_action AS log_action ';
         $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idaction_url = log_action.idaction ';
@@ -71,6 +71,12 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $generator = $this->generate(array('log_visit'));
         $this->assertEquals('log_visit AS log_visit', $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_OnlyOneActionTable()
+    {
+        $generator = $this->generate(array('log_action'));
+        $this->assertEquals('log_action AS log_action', $generator->getJoinString());
     }
 
     public function test_generate_getJoinString_OnlyActionTables()

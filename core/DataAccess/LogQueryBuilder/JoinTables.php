@@ -32,7 +32,7 @@ class JoinTables extends \ArrayObject
             $this->checkTableCanBeUsedForSegmentation($table);
         }
 
-        $this->exchangeArray($tables);
+        $this->exchangeArray(array_values($tables));
     }
 
     public function getTables()
