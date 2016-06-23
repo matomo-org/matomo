@@ -45,7 +45,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   (function() {
     var u=&quot;//localhost/piwik/&quot;;
     _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 1]);
+    _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
@@ -92,7 +92,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   (function() {
     var u=&quot;https://localhost/piwik/&quot;;
     _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 1]);
+    _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
@@ -140,7 +140,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     var u=&quot;//localhost/piwik/&quot;;
     _paq.push(['setAPIUrl', 'http://localhost/statistics']);
     _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 1]);
+    _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
@@ -183,7 +183,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   (function() {
     var u=&quot;//abc&quot;def/&quot;;
     _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
-    _paq.push([\'setSiteId\', 1]);
+    _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
     g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
   })();
