@@ -101,10 +101,14 @@
                     and previousAction.url|default(false) == action.url %}
                     {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
                 {% else %}
+                    {% if action.url|trim|lower starts with 'javascript://' %}
+                        {{ action.url }}
+                    {%  else %}
                     <a href="{{ action.url }}" rel="noreferrer" target="_blank" class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
                        {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="text-decoration:underline;"{% endif %}>
                        {{ action.url }}
                     </a>
+                    {%  endif %}
                 {% endif %}
                 {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}
             {% elseif action.type != 'search' and action.type != 'event' %}
