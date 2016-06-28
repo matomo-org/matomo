@@ -41,7 +41,7 @@
 
     <div id="logo">
         {% if isCustomLogo == false %}
-            <a href="http://piwik.org" title="{{ linkTitle }}">
+            <a href="http://piwik.pro" title="{{ linkTitle }}">
         {% endif %}
         {% if hasSVGLogo %}
             <img src='{{ logoSVG }}' title="{{ linkTitle }}" alt="Piwik" class="ie-hide"/>
@@ -50,18 +50,8 @@
         <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" />
         {% if hasSVGLogo %}<![endif]-->{% endif %}
 
-        {% if isCustomLogo %}
-            {% set poweredByPiwik %}
-            <i><a href="http://piwik.org/" rel="noreferrer"  target="_blank">{{ linkTitle }}</a></i>
-            {% endset %}
-        {% endif %}
-
         {% if isCustomLogo == false %}
             </a>
-            <div class="description">
-                <a href="http://piwik.org" title="{{ linkTitle }}">{{ linkTitle }}</a>
-                <div class="arrow"></div>
-            </div>
         {% endif %}
     </div>
 
@@ -142,11 +132,6 @@
                    title="{{ 'Mobile_NavigationBack'|translate }}">{{ 'General_Cancel'|translate }}</a>
                 {{ postEvent("Template.loginNav", "bottom") }}
             </p>
-            {% if poweredByPiwik is defined %}
-                <p id="piwik">
-                    {{ poweredByPiwik }}
-                </p>
-            {% endif %}
             <div id="lost_password_instructions" style="display:none;">
                 <p class="message">{{ 'Login_ResetPasswordInstructions'|translate }}</p>
             </div>
