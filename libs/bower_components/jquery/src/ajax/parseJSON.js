@@ -1,12 +1,14 @@
-define([
+define( [
 	"../core"
 ], function( jQuery ) {
 
 var rvalidtokens = /(,)|(\[|{)|(}|])|"(?:[^"\\\r\n]|\\["\\\/bfnrt]|\\u[\da-fA-F]{4})*"\s*:?|true|false|null|-?(?!0\d)\d+(?:\.\d+|)(?:[eE][+-]?\d+|)/g;
 
 jQuery.parseJSON = function( data ) {
+
 	// Attempt to parse using the native JSON parser first
 	if ( window.JSON && window.JSON.parse ) {
+
 		// Support: Android 2.3
 		// Workaround failure to string-cast null input
 		return window.JSON.parse( data + "" );
@@ -41,11 +43,11 @@ jQuery.parseJSON = function( data ) {
 
 		// Remove this token
 		return "";
-	}) ) ?
+	} ) ) ?
 		( Function( "return " + str ) )() :
 		jQuery.error( "Invalid JSON: " + data );
 };
 
 return jQuery.parseJSON;
 
-});
+} );
