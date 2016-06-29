@@ -121,6 +121,68 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function getTemplateFileExtensions()
+    {
+        $extensions = array(
+            array('htm'),
+            array('html'),
+            array('twig'),
+            array('tpl'),
+        );
+        return $extensions;
+    }
+
+    /**
+     * @dataProvider getTemplateFileExtensions
+     */
+    public function testTemplatesDontContainJquery($extension)
+    {
+        $patternFailIfFound = 'jquery.';
+
+        // known files that will for sure not contain a "buggy" $patternFailIfFound
+        $whiteListedFiles = array(
+            PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/login.twig',
+            PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/index.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-1.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-2.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-3.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-4.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-5.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-6.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/index.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-1.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-2.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-3.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-4.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-5.html',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-6.html',
+        );
+
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
+        $this->assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles);
+    }
+
+    /**
+     * @param $files
+     * @param $patternFailIfFound
+     * @param $whiteListedFiles
+     */
+    private function assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles)
+    {
+        foreach ($files as $file) {
+            if (in_array($file, $whiteListedFiles)) {
+                continue;
+            }
+
+            $content = file_get_contents($file);
+            $this->assertFalse(strpos($content, $patternFailIfFound), sprintf('forbidden pattern "%s" was found in the file: %s ---> please delete this file from Git.', $patternFailIfFound, $file));
+        }
+    }
+
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
         $pluginsShouldBeDisabled = array(
@@ -671,4 +733,5 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         return stripos($file, "/tests/") !== false;
     }
+
 }
