@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Spor begivenheder og få rapporter om dine besøgendes aktiviteter.",
         "AvgEventValue": "Genomsnitlig værdi for hændelsen er: %s",
         "AvgValue": "Gennemsnitsværdi",
         "AvgValueDocumentation": "Gennemsnittet af alle værdier for denne hændelse",

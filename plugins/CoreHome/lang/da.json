@@ -24,6 +24,7 @@
         "InjectedHostSuperUserWarning": "Piwik kan være konfigureret forkert (f.eks. Hvis Piwik for nylig blev flyttet til en ny server eller en URL-adresse). Du kan enten %1$sklikke her og føje %2$s som gyldigt Piwik værtsnavn (hvis du har tillid til det) %3$s eller %4$sklikke her og få %5$s adgang til Piwik sikkert %6$s.",
         "InjectedHostWarningIntro": "Du tilgår Piwik fra %1$s, men Piwik er konfigureret til at køre på denne adresse: %2$s.",
         "JavascriptDisabled": "JavaSript skal være aktiveret for at Piwik kan bruges i standardvisning. JavaScript er enten deaktiveret eller ikke understøttet i netlæseren.<br \/>For at bruge standardvisning, aktiver JavaScript i indstillingerne for netlæseren, og %1$s prøv igen %2$s.<br \/>",
+        "MainNavigation": "Hovednavigation",
         "MakeADifference": "Gør en forskel: %1$sGiv et bidrag nu%2$s og støt Piwik 2.0!",
         "MakeOneTimeDonation": "Foretag engangsdonation, i stedet.",
         "Menu": "Menu",
@@ -48,6 +49,11 @@
         "YouAreUsingTheLatestVersion": "Du bruger den seneste version af Piwik!",
         "ClickRowToExpandOrContract": "Klik på rækken for at udvide eller sammentrække undertabelen.",
         "UndoPivotBySubtable": "Rapporten er blevet pivoteret %s Fortryd pivot.",
-        "PivotBySubtable": "Rapporten er ikke pivoteret %1$s Pivoter med %2$s."
+        "PivotBySubtable": "Rapporten er ikke pivoteret %1$s Pivoter med %2$s.",
+        "QuickAccessTitle": "Søg efter %s. Brug pil-tasterne for at navigere igennem søgeresultaterne. Genvej: Tryk 'f' for at søge.",
+        "MenuEntries": "Menu indgange",
+        "Segments": "Segmenter",
+        "AdblockIsMaybeUsed": "Hvis du bruger en annonce blokering skal du deaktivere denne for at sikre, at Piwik arbejder uden problemer.",
+        "ChangeCurrentWebsite": "Vælg et website. Det aktuelle website er: %s"
     }
 }

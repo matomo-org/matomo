@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Giver indsigt i din trafik. Indsigt findes som kontrolpanel widgets og som nyt ikon i rapporter for at lade dig se de vigtigste tendenser i dine data.",
         "ControlComparedToDescription": "Vækst i forhold til",
         "ControlFilterByDescription": "Vis alle, kun ændringer, kun nye eller kun forsvundne",
         "DatePeriodCombinationNotSupported": "Det er ikke muligt at generere rapporter til disse datoer og kombination af perioder.",

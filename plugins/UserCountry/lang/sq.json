@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "AssumingNonApache": "S’gjendet dot funksioni find apache_get_modules function, po merret i mirëqenë si shërbyes non-Apache.",
+        "AssumingNonApache": "S’gjendet dot funksioni apache_get_modules function, po merret i mirëqenë si shërbyes non-Apache.",
         "City": "Qytet",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",
@@ -9,8 +9,26 @@
         "country_a2": "Mundësues Satelitor",
         "country_cat": "Bashkësi që flasin Katalançe",
         "country_o1": "Vend Tjetër",
+        "country_ti": "Tibet",
+        "CurrentLocationIntro": "Sipas këtij mundësuesi, vendi juaj i tanishëm është",
         "DistinctCountries": "%s vende ndaras",
+        "DownloadingDb": "Po shkarkohet %s",
+        "FromDifferentCities": "qytete të ndryshme",
+        "GeoIPDatabases": "Baza të dhënash GeoIP",
+        "GeoIpLocationProviderNotRecomnended": "Gjeovendëzimi funksionon, por nuk po përdorni një nga mundësuesit e këshilluar.",
+        "Geolocation": "Gjeovendëzim",
+        "GeolocationPageDesc": "Në këtë faqe mund të ndryshoni mënyrën se si përcakton Piwik-u vendndodhjet e vizitorëve.",
+        "HowToInstallGeoIpPecl": "Si ta instaloj zgjerimin GeoIP PECL?",
+        "HttpServerModule": "Modul Shërbyesi HTTP",
+        "ISPDatabase": "Bazë të Dhënash MShI",
         "Location": "Vend",
-        "SubmenuLocations": "Vende"
+        "LocationProvider": "Furnizues Vendndodhjesh",
+        "Organization": "Organizëm",
+        "OrgDatabase": "Bazë të dhënash Organizmi",
+        "Region": "Rajon",
+        "SubmenuLocations": "Vende",
+        "UpdaterHasNotBeenRun": "Përditësuesi s’është xhiruar ndonjëherë.",
+        "UpdaterIsNotScheduledToRun": "S’është vënë në plan të xhirohet në të ardhmen.",
+        "WidgetLocation": "Vendndodhje Vizitori"
     }
 }
