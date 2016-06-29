@@ -146,20 +146,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Login/templates/login.twig',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/index.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-1.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-2.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-3.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-4.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-5.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/page-6.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/index.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-1.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-2.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-3.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-4.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-5.html',
-            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/page-6.html',
+
+            // Note: entries below are paths and any file within these paths will be automatically whitelisted
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
+            PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
         );
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
@@ -174,14 +165,29 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     private function assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles)
     {
         foreach ($files as $file) {
-            if (in_array($file, $whiteListedFiles)) {
+            if($this->isFileOrPathWhitelisted($whiteListedFiles, $file)) {
                 continue;
             }
-
             $content = file_get_contents($file);
             $this->assertFalse(strpos($content, $patternFailIfFound), sprintf('forbidden pattern "%s" was found in the file: %s ---> please delete this file from Git.', $patternFailIfFound, $file));
         }
     }
+
+    /**
+     * @param $whiteListedFiles
+     * @param $file
+     * @return bool
+     */
+    private function isFileOrPathWhitelisted($whiteListedFiles, $file)
+    {
+        foreach ($whiteListedFiles as $whitelistFile) {
+            if (strpos($file, $whitelistFile) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
@@ -733,5 +739,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         return stripos($file, "/tests/") !== false;
     }
+
 
 }
