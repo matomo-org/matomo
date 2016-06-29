@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserEngine": "محرّك المتصفح",
+        "BrowserEngineDocumentation": "يظهر هذا التقرير مستعرضات زوارك مقسمة حسب محركاتها. %s أكثر المعلومات أهمية لمطوري الوب هي نوع محرك التصيير الذي يستخدمه الزوار. إن المسميات تحوي أسماء المحركات متبوعة بأكثر المستعرضات شعبية الذي يستخدم هذا المحرك بين قوسين.",
         "BrowserEngines": "محرّكات المتصفح",
         "BrowserFamily": "عائلة المتصفح",
         "Browsers": "المتصفحات",
@@ -12,6 +13,7 @@
         "ColumnBrowser": "المتصفح",
         "ColumnOperatingSystem": "نظام التشغيل",
         "ColumnOperatingSystemVersion": "إصدار نظام التشغيل",
+        "Console": "وحدة التحكُّم",
         "dataTableLabelBrands": "العلامة",
         "dataTableLabelModels": "الطراز",
         "dataTableLabelSystemVersion": "إصدار نظام التشغيل",
@@ -27,13 +29,16 @@
         "OperatingSystemFamily": "عائلة نظام التشغيل",
         "OperatingSystems": "أنظمة التشغيل",
         "OperatingSystemVersions": "إصدارات نظام التشغيل",
+        "PluginDescription": "يزودك بمعلومات تفصيلية عن أجهزة الزائر ، مثل العلامة التجارية (الصانع) والطراز (إصدار الجهاز) و نوع الجهاز (تلفاز، وحدة متخصصة ، هاتف ذكي ، حاسب مكتبي ...الخ) والمزيد من المعلومات.",
         "SmartDisplay": "شاشة ذكية",
         "Smartphone": "هاتف ذكي",
         "PortableMediaPlayer": "مشغل وسائط محمول",
         "Devices": "الأجهزة",
         "Tablet": "لوحي",
+        "Phablet": "هاتف لوحي",
         "TV": "تلفاز",
         "UserAgent": "وكيل-المستخدم",
-        "WidgetBrowsers": "متصفحات الزوار"
+        "WidgetBrowsers": "متصفحات الزوار",
+        "WidgetBrowsersDocumentation": "يحوي هذا التقرير معلومات عن ماهية نوع المستعرض الذي استخدمه زوارك. يُذكَر كل إصدار من المستعرض لوحده."
     }
 }

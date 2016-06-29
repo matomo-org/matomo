@@ -1,0 +1,8 @@
+{
+    "Events": {
+        "Event": "حَدَث",
+        "TotalEventsDocumentation": "عدد الأحداث الإجمالي",
+        "TotalValueDocumentation": "مجموع قيم الأحداث",
+        "ViewEvents": "عرض الأحداث"
+    }
+}

@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Gennemsnit baseret på %1$s hits %2$s mellem %3$s og %4$s",
         "ColumnClickedURL": "Klikkede URL",
+        "ColumnActionURL": "Handlings URL",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Antal gange linket blev klikket på.",
         "ColumnDownloadURL": "Hentet URL",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "Sider efter en webstedssøgning",
         "WidgetSearchCategories": "Søge kategorier",
         "WidgetSearchKeywords": "Websted søgeord",
-        "WidgetSearchNoResultKeywords": "Søgeord uden nogen resultater"
+        "WidgetSearchNoResultKeywords": "Søgeord uden nogen resultater",
+        "ActionType": "Handlings type"
     }
 }

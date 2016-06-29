@@ -21,6 +21,7 @@
         "PluginDescription": "Su tablero de análisis de internet. Personalize su tablero agregando nuevos reproductores, arrastre y suéltelos; cambie la disposición de las columnas del tablero. Cada usuario puede administrar su propio tablero personalizado.",
         "RemoveDashboard": "Elimina el tablero",
         "RemoveDashboardConfirm": "¿Está seguro que desea eliminar el tablero \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "El cuadro de mando por defecto no puede ser eliminado",
         "RenameDashboard": "Renombrar el tablero",
         "ResetDashboard": "Reinicia el tablero",
         "ResetDashboardConfirm": "¿Realmente desea reiniciar la distribución del tablero y regresar a la selección de reproductores por defecto?",

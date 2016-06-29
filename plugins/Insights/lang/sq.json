@@ -4,7 +4,9 @@
         "DayComparedToPreviousDay": "dita e mëparshme",
         "DayComparedToPreviousWeek": "e njëjta ditë javën e kaluar",
         "DayComparedToPreviousYear": "e njëjta ditë vitin e kaluar",
+        "IgnoredChanges": "Janë shpërfillur ndryshimet që u takojnë më pak se %s vizitave.",
         "MonthComparedToPreviousMonth": "muaji i mëparshëm",
+        "MonthComparedToPreviousYear": "i njëjti muaj vitin e shkuar",
         "WeekComparedToPreviousWeek": "java e mëparshme",
         "YearComparedToPreviousYear": "viti i mëparshëm"
     }

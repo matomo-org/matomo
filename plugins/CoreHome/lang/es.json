@@ -24,6 +24,7 @@
         "InjectedHostSuperUserWarning": "Piwik puede estar desconfigurado (por ejemplo, si Piwik fue mudado recientemente a un nuevo servidor o cambió su dirección de internet). Puede %1$scliquear aquí y agregar %2$s como servidores válidos Piwik (si los considera confiables)%3$s, o %4$s cliquee aquí y vaya a %5$s para acceder de forma segura a Piwik%6$s.",
         "InjectedHostWarningIntro": "Está accediendo a Piwik desde %1$s, pero Piwik ha sido configurado para ejecutarse en esta dirección: %2$s.",
         "JavascriptDisabled": "JavaScript debe estar habilitado para que pueda utilizar la vista estándar de Piwik .<br \/>Sin embargo, para ser que JavaScript está deshabilitado o no es respaldado por su navegador. <br \/>Para usar la vista estándar, habilite JavaScript cambiando las opciones de su navegador, luego%1$sintente nuevamente%2$s.<br \/>",
+        "MainNavigation": "Menú de navegación",
         "MakeADifference": "Marque la diferencia: %1$sDone ahora%2$s para financiar Piwik 2.0!",
         "MakeOneTimeDonation": "Entonces, haga una sola donación",
         "Menu": "Menú",
@@ -48,6 +49,9 @@
         "YouAreUsingTheLatestVersion": "¡Está utilizando la última versión de Piwik!",
         "ClickRowToExpandOrContract": "Clic en esta fila para expandir o contraer la subtabla.",
         "UndoPivotBySubtable": "Este informe ha sido girado %s Deshacer giro",
-        "PivotBySubtable": "Este informe no es girado %1$s Giro por %2$s"
+        "PivotBySubtable": "Este informe no es girado %1$s Giro por %2$s",
+        "QuickAccessTitle": "Buscar por %s. Utilice las teclas de dirección para navegar a través de los resultados. Atajo de teclado: Click 'f' para buscar.",
+        "Segments": "Segmentos",
+        "ChangeCurrentWebsite": "Elige un sitio web, actualmente el sitio web seleccionado es: %s"
     }
 }

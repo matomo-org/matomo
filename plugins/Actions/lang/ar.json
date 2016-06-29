@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "متوسط على أساس %1$s كبسة %2$s ما بين %3$s و %4$s",
         "ColumnClickedURL": "الرابط المتبوع",
+        "ColumnActionURL": "رابط الأمر",
         "ColumnClicks": "النقرات",
         "ColumnClicksDocumentation": "عدد مرات النقر على هذا الرابط.",
         "ColumnDownloadURL": "رابط التحميل",
@@ -60,6 +61,7 @@
         "WidgetPageUrlsFollowingSearch": "الصفحات بعد بحث بالموقع",
         "WidgetSearchCategories": "فئات البحث",
         "WidgetSearchKeywords": "كلمات البحث الدلالية",
-        "WidgetSearchNoResultKeywords": "كلمات البحث الدلالية بلا نتائج"
+        "WidgetSearchNoResultKeywords": "كلمات البحث الدلالية بلا نتائج",
+        "ActionType": "نوع الأمر"
     }
 }
