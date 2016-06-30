@@ -2882,7 +2882,7 @@ if (typeof window.Piwik !== 'object') {
                 customVariableMaximumLength = 200,
 
                 // Ecommerce items
-                ecommerceItems = {},
+                ecommerceItems = [],
 
                 // Browser features via client-side data collection
                 browserFeatures = {},
@@ -3996,36 +3996,19 @@ if (typeof window.Piwik !== 'object') {
                     request += '&ec_dt=' + discount;
                 }
 
-                if (ecommerceItems) {
-                    // Removing the SKU index in the array before JSON encoding
-                    for (sku in ecommerceItems) {
-                        if (Object.prototype.hasOwnProperty.call(ecommerceItems, sku)) {
-                            // Ensure name and category default to healthy value
-                            if (!isDefined(ecommerceItems[sku][1])) {
-                                ecommerceItems[sku][1] = "";
+                if (ecommerceItems.length) {
+                    ecommerceItems.forEach(function(ecommerceItem) {
+                        // Ensure healthy default values where undefined
+                        [undefined, "", "", 0, 1].forEach(function(sDefault, nIndex) {
+                            if (sDefault !== undefined && ecommerceItem[nIndex] === undefined) {
+                                ecommerceItem[nIndex] = sDefault;
                             }
-
-                            if (!isDefined(ecommerceItems[sku][2])) {
-                                ecommerceItems[sku][2] = "";
-                            }
-
-                            // Set price to zero
-                            if (!isDefined(ecommerceItems[sku][3])
-                                    || String(ecommerceItems[sku][3]).length === 0) {
-                                ecommerceItems[sku][3] = 0;
-                            }
-
-                            // Set quantity to 1
-                            if (!isDefined(ecommerceItems[sku][4])
-                                    || String(ecommerceItems[sku][4]).length === 0) {
-                                ecommerceItems[sku][4] = 1;
-                            }
-
-                            items.push(ecommerceItems[sku]);
-                        }
-                    }
-                    request += '&ec_items=' + encodeWrapper(JSON2.stringify(items));
+                        });
+                    });
+                    request += '&ec_items=' + encodeWrapper(JSON2.stringify(ecommerceItems));
                 }
+                // Clear down items after logging
+                ecommerceItems = [];
                 request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
                 sendRequest(request, configTrackerPause);
             }
@@ -6329,7 +6312,7 @@ if (typeof window.Piwik !== 'object') {
                  */
                 addEcommerceItem: function (sku, name, category, price, quantity) {
                     if (sku.length) {
-                        ecommerceItems[sku] = [ sku, name, category, price, quantity ];
+                        ecommerceItems.push([ sku, name, category, price, quantity ]);
                     }
                 },
 
