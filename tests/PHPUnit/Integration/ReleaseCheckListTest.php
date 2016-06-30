@@ -137,7 +137,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     public function testTemplatesDontContainJquery($extension)
     {
-        $patternFailIfFound = 'jquery.';
+        $patternFailIfFound = 'jquery';
 
         // known files that will for sure not contain a "buggy" $patternFailIfFound
         $whiteListedFiles = array(
@@ -164,13 +164,25 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     private function assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles)
     {
+        $foundPatterns = array();
         foreach ($files as $file) {
             if($this->isFileOrPathWhitelisted($whiteListedFiles, $file)) {
                 continue;
             }
             $content = file_get_contents($file);
-            $this->assertFalse(strpos($content, $patternFailIfFound), sprintf('forbidden pattern "%s" was found in the file: %s ---> please delete this file from Git.', $patternFailIfFound, $file));
+            $foundPattern = strpos($content, $patternFailIfFound) !== false;
+
+            if($foundPattern) {
+                $foundPatterns[] = $file;
+            }
         }
+
+        $this->assertEmpty($foundPatterns,
+                sprintf("Forbidden pattern \"%s\" was found in the following files ---> please manually delete these files from Git. \n\n\t%s",
+                    $patternFailIfFound,
+                    implode("\n\t", $foundPatterns)
+                )
+        );
     }
 
     /**
