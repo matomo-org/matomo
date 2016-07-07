@@ -336,9 +336,11 @@ class View implements ViewInterface
     {
         if ($option === 'deny' || $option === 'sameorigin') {
             $this->xFrameOptions = $option;
+            return;
         }
-        if ($option == 'allow') {
-            $this->xFrameOptions = null;
+        if (stripos($option, 'allow-from') !== false) {
+            $this->xFrameOptions = $option;
+            return;
         }
     }
 
