@@ -283,7 +283,7 @@ abstract class Action
         $typeId = array_search($type, $constants);
 
         if (false === $typeId) {
-            throw new Exception("Unexpected action type " . $type);
+            return $type;
         }
 
         return str_replace('TYPE_', '', $typeId);
