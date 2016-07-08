@@ -306,7 +306,7 @@ class Csv extends Renderer
             } elseif (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
             } else {
-                $period = Period\Factory::build($period, Date::factory($date));
+                $period = Period\Factory::build($period, $date);
             }
 
             $prettyDate = $period->getLocalizedLongString();
