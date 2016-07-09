@@ -41,6 +41,9 @@ class FormDatabaseSetup extends QuickForm2
         $adapters = array();
         foreach ($availableAdapters as $adapter => $port) {
             $adapters[$adapter] = $adapter;
+            if ($adapter == 'PDO\MYSQL') {
+                $adapters[$adapter] .= ' (Recommended)';
+            }
         }
 
         $this->addElement('text', 'host')
