@@ -308,6 +308,39 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($subtable, $row1->getIdSubDataTable());
     }
 
+    public function testSumRow_CustomAggregationOperation()
+    {
+        $columns = array('test_int' => 145, 'test_float' => 145.5);
+
+        $row1 = new Row(array(Row::COLUMNS => $columns));
+
+        $columns2 = array('test_int' => 5);
+        $finalRow = new Row(array(Row::COLUMNS => $columns2));
+        $finalRow->sumRow($row1, $copyMetadata = true, $operation = array('test_int' => function ($thisValue, $otherValue) {
+            if (!is_array($thisValue)) {
+                $thisValue = array($thisValue);
+            }
+
+            $thisValue[] = $otherValue;
+            return $thisValue;
+        }));
+
+        $this->assertEquals(array(5, 145), $finalRow->getColumn('test_int'));
+    }
+
+    /**
+     * @expectedException  \Exception
+     * @expectedExceptionMessage Unknown operation 'foobarinvalid'
+     */
+    public function testSumRow_ShouldThrowExceptionIfInvalidOperationIsGiven()
+    {
+        $row1 = new Row(array(Row::COLUMNS => array('test_int' => 145)));
+        $finalRow = new Row(array(Row::COLUMNS => array('test_int' => 5)));
+        $finalRow->sumRow($row1, $copyMetadata = true, $operation = array('test_int' => 'fooBarInvalid'));
+
+        $this->assertEquals(array(5, 145), $finalRow->getColumn('test_int'));
+    }
+
     public function unserializeTestsDataProvider()
     {
         return array(
