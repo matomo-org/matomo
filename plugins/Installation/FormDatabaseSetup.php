@@ -42,7 +42,7 @@ class FormDatabaseSetup extends QuickForm2
         foreach ($availableAdapters as $adapter => $port) {
             $adapters[$adapter] = $adapter;
             if ($adapter == 'PDO\MYSQL') {
-                $adapters[$adapter] .= ' (Recommended)';
+                $adapters[$adapter] .= ' (' . Piwik::translate('General_Recommended') . ')';
             }
         }
 
