@@ -1631,16 +1631,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             tooltip.next().hover(function () {
                     var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
-                    var top = -1 * (tooltip.outerHeight() + 10);
+                    var top = -1 * tooltip.outerHeight();
 
                     if (th.next().size() == 0) {
                         left = (-1 * tooltip.outerWidth()) + th.width() +
                             parseInt(th.css('padding-right'), 10);
                     }
 
+                    if (th.offset().top + top < 0) {
+                        top = th.outerHeight();
+                    }
+
                     tooltip.css({
                         marginLeft: left,
-                        marginTop: top
+                        marginTop: top,
+                        top: 0
                     });
 
                     tooltip.stop(true, true).fadeIn(250);
