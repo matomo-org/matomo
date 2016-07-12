@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -78,6 +79,7 @@ class SegmentSelectorControl extends UIControl
         $this->authorizedToCreateSegments = SegmentEditorAPI::getInstance()->isUserCanAddNewSegment($this->idSite);
         $this->isUserAnonymous = Piwik::isUserIsAnonymous();
         $this->segmentTranslations = $this->getTranslations();
+        $this->segmentProcessedOnRequest = Rules::isBrowserArchivingAvailableForSegments();
     }
 
     public function getClientSideProperties()

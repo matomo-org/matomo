@@ -167,8 +167,15 @@
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
-<div class="ui-confirm segment-definition-change-confirm">
-    <h2>{{ 'SegmentEditor_ChangingSegmentDefinitionConfirmation'|translate }}</h2>
+<div class="ui-confirm segment-definition-change-confirm" data-segment-processed-on-request="{{ segmentProcessedOnRequest|number_format }}">
+    <h2>
+        <span class="process-on-request">
+            {{ 'SegmentEditor_ChangingSegmentDefinitionConfirmationProcessedOnRequest'|translate }}
+        </span>
+        <span class="no-process-on-request">
+            {{ 'SegmentEditor_ChangingSegmentDefinitionConfirmationNotProcessedOnRequest'|translate }}
+        </span>
+    </h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>

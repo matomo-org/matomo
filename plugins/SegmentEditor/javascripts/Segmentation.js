@@ -1077,7 +1077,17 @@ Segmentation = (function($) {
                 });
 
                 if(segmentStr != getSegmentFromId(segmentId).definition) {
-                    piwikHelper.modalConfirm(self.target.find('.segment-definition-change-confirm'), {
+                    var segmentProcessedOnRequest = $('.segment-definition-change-confirm').data('segmentProcessedOnRequest');
+
+                    $('.process-on-request, .no-process-on-request').hide();
+
+                    if (segmentProcessedOnRequest == 1 && autoArchive == 0) {
+                        $('.process-on-request').show();
+                    } else {
+                        $('.no-process-on-request').show();
+                    }
+
+                    piwikHelper.modalConfirm('.segment-definition-change-confirm', {
                         yes: function () {
                             self.updateMethod(params);
                         }
