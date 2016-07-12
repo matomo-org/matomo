@@ -435,14 +435,31 @@ function PiwikTest() {
     test("JSLint", function() {
         expect(1);
         var src = '<?php
+
             $src = file_get_contents('../../js/piwik.js');
+
+            //Once we use JSHint instead of jslint, we could remove this code and use the following feature instead:
+//             /* jshint ignore:start */
+//             // Code here will be linted with ignored by JSHint.
+//             /* jshint ignore:end */
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
-            $src = substr($src, strpos($src, '/* startjslint */'));
-            echo "$src"; ?>';
+            $contentRemovedFromPos = strpos($src, '/* startjslint */');
+            $contentRemoved=substr($src, 0, $contentRemovedFromPos);
+            $contentToJslint = substr($src, $contentRemovedFromPos);
+
+            $countOfLinesRemoved = count(explode('\n', $contentRemoved));
+            echo "$contentToJslint"; ?>';
 
         var result = JSLINT(src);
         ok( result, "JSLint did not validate, please check the browser console for the list of jslint errors." );
         if (console && console.log && !result) {
+            var countOfLinesRemoved = <?php echo $countOfLinesRemoved; ?>;
+            // to find the real line number, add  countOfLinesRemoved  to the line number from JSLint
+            JSLINT.errors.forEach( function (item, index) {
+                item.line += countOfLinesRemoved;
+                console.log(item);
+            });
+
             console.log('JSLINT errors', JSLINT.errors);
         }
 //      alert(JSLINT.report(true));
