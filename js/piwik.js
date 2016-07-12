@@ -3177,7 +3177,9 @@ if (typeof window.Piwik !== 'object') {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(); }
                 };
-                image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request.replace("&send_image=0","");
+                // make sure to actually load an image so callback gets invoked
+                request = request.replace("send_image=0","send_image=1");
+                image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
             /*
