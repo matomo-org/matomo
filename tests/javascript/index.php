@@ -441,7 +441,7 @@ function PiwikTest() {
             echo "$src"; ?>';
 
         var result = JSLINT(src);
-        ok( result, "JSLint" );
+        ok( result, "JSLint did not validate, please check the browser console for the list of jslint errors." );
         if (console && console.log && !result) {
             console.log('JSLINT errors', JSLINT.errors);
         }
