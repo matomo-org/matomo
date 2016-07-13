@@ -3987,6 +3987,34 @@ if (typeof window.Piwik !== 'object') {
                 return false;
             };
 
+
+            function getEcommerceItems()
+            {
+                if (!ecommerceItems || !ecommerceItems.length) {
+                    return [];
+                }
+
+                var ecommerceItemDefaultValues = [undefined, "", "", 0, 1],
+                    ecommerceItem,
+                    defaultValue,
+                    i,
+                    j;
+
+                for(i = 0; i < ecommerceItems.length; i++) {
+                    ecommerceItem = ecommerceItems[i];
+
+                    for(j = 0; j < ecommerceItemDefaultValues.length; j++) {
+                        defaultValue = ecommerceItemDefaultValues[j];
+                        // Ensure name and category default to healthy value
+                        if (isDefined(defaultValue) && !isDefined(ecommerceItem[j])) {
+                            ecommerceItem[j] = defaultValue;
+                        }
+                    }
+                }
+
+                return ecommerceItems;
+            }
+
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
                     lastEcommerceOrderTs,
@@ -4017,21 +4045,8 @@ if (typeof window.Piwik !== 'object') {
                     request += '&ec_dt=' + discount;
                 }
 
-                if (ecommerceItems.length) {
 
-                    // Removing the SKU index in the array before JSON encoding
-                    ecommerceItems.forEach(function(ecommerceItem) {
-
-                        // Ensure healthy default values where undefined
-                        [undefined, "", "", 0, 1].forEach(function (sDefault, nIndex) {
-                            // Ensure name and category default to healthy value
-                            if (isDefined(sDefault) && !isDefined(ecommerceItem[nIndex])) {
-                                ecommerceItem[nIndex] = sDefault;
-                            }
-                        });
-                    });
-                }
-
+                ecommerceItems = getEcommerceItems();
                 request += '&ec_items=' + encodeWrapper(JSON2.stringify(ecommerceItems));
 
                 request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
@@ -4042,7 +4057,6 @@ if (typeof window.Piwik !== 'object') {
                 }
 
             }
-
             function logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 if (String(orderId).length
                         && isDefined(grandTotal)) {
