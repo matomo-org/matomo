@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c626c8222bfb8b791a16c0cf0af156e",
+    "hash": "de61be52972a0fe8fe751306c271f4b8",
     "content-hash": "68130b067cdceef8346b47d858b763a3",
     "packages": [
         {
@@ -300,6 +300,7 @@
                 "phpdoc",
                 "reflection"
             ],
+            "abandoned": "php-di/phpdoc-reader",
             "time": "2014-08-21 08:20:45"
         },
         {
@@ -939,16 +940,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/piwik-php-tracker.git",
-                "reference": "f026613f8137c014030c96a22491ede5f5f1676b"
+                "reference": "eb4df1e223d4b377d06785c9b5fb3723d16d4465"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/f026613f8137c014030c96a22491ede5f5f1676b",
-                "reference": "f026613f8137c014030c96a22491ede5f5f1676b",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/eb4df1e223d4b377d06785c9b5fb3723d16d4465",
+                "reference": "eb4df1e223d4b377d06785c9b5fb3723d16d4465",
                 "shasum": ""
             },
             "type": "library",
@@ -975,7 +976,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2016-01-12 21:44:22"
+            "time": "2016-07-13 05:26:45"
         },
         {
             "name": "piwik/referrer-spam-blacklist",
