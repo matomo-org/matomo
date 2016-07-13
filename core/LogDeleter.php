@@ -46,7 +46,10 @@ class LogDeleter
 
         foreach ($this->logTablesProvider->getAllLogTables() as $logTable) {
             if ($logTable->getColumnToJoinOnIdVisit()) {
-                $numDeletedVisits += $this->rawLogDao->deleteFromLogTable($logTable->getName(), $visitIds);
+                $numVisits = $this->rawLogDao->deleteFromLogTable($logTable->getName(), $visitIds);
+                if ($logTable->getName() === 'log_visit') {
+                    $numDeletedVisits = $numVisits;
+                }
             }
         }
 
