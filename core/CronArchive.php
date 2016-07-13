@@ -969,7 +969,13 @@ class CronArchive
     {
         $message = "Got invalid response from API request: $url. ";
         if (empty($response)) {
-            $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
+            $message .= "The response was empty. This usually means a server error. A solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. ";
+
+            if($this->makeCliMulti()->supportsAsync()) {
+                $message .= " For more information and the error message please check in your PHP CLI error log file. As this core:archive command triggers PHP processes over the CLI, you can find where PHP CLI logs are stored by running this command: php -i | grep error_log";
+            } else {
+                $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Piwik's web server error logs. ";
+            }
         } else {
             $message .= "Response was '$response'";
         }
@@ -1092,7 +1098,7 @@ class CronArchive
             $listSiteIds = implode(',', $siteIds);
 
             try {
-                $this->logger->info('Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
+                $this->logger->info('- Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIds, $date);
             } catch (Exception $e) {
                 $this->logger->info('Failed to invalidate archived reports: ' . $e->getMessage());

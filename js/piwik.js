@@ -3197,6 +3197,8 @@ if (typeof window.Piwik !== 'object') {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(); }
                 };
+                // make sure to actually load an image so callback gets invoked
+                request = request.replace("send_image=0","send_image=1");
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
@@ -3990,9 +3992,10 @@ if (typeof window.Piwik !== 'object') {
                     lastEcommerceOrderTs,
                     now = new Date(),
                     items = [],
-                    sku;
+                    sku,
+                    isEcommerceOrder = String(orderId).length;
 
-                if (String(orderId).length) {
+                if (isEcommerceOrder) {
                     request += '&ec_id=' + encodeWrapper(orderId);
                     // Record date of order in the visitor cookie
                     lastEcommerceOrderTs = Math.round(now.getTime() / 1000);
@@ -4048,6 +4051,10 @@ if (typeof window.Piwik !== 'object') {
                 }
                 request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
                 sendRequest(request, configTrackerPause);
+
+                if (isEcommerceOrder) {
+                    ecommerceItems = {};
+                }
             }
 
             function logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount) {
@@ -4066,10 +4073,10 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the page view / visit
              */
-            function logPageView(customTitle, customData) {
+            function logPageView(customTitle, customData, callback) {
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -5395,8 +5402,8 @@ if (typeof window.Piwik !== 'object') {
                 },
 
                 /**
-                 * Set Custom Dimensions. Any set Custom Dimension will be cleared after a tracked pageview. Make
-                 * sure to set them again if needed.
+                 * Set Custom Dimensions. Set Custom Dimensions will not be cleared after a tracked pageview and will
+                 * be sent along all following tracking requests. It is possible to remove/clear a value via `deleteCustomDimension`.
                  *
                  * @param int index A Custom Dimension index
                  * @param string value
@@ -6036,8 +6043,9 @@ if (typeof window.Piwik !== 'object') {
                  *
                  * @param string customTitle
                  * @param mixed customData
+                 * @param function callback
                  */
-                trackPageView: function (customTitle, customData) {
+                trackPageView: function (customTitle, customData, callback) {
                     trackedContentImpressions = [];
 
                     if (isOverlaySession(configTrackerSiteId)) {
@@ -6046,7 +6054,7 @@ if (typeof window.Piwik !== 'object') {
                         });
                     } else {
                         trackCallback(function () {
-                            logPageView(customTitle, customData);
+                            logPageView(customTitle, customData, callback);
                         });
                     }
                 },
@@ -6339,6 +6347,7 @@ if (typeof window.Piwik !== 'object') {
                  * Adds an item (product) that is in the current Cart or in the Ecommerce order.
                  * This function is called for every item (product) in the Cart or the Order.
                  * The only required parameter is sku.
+                 * The items are deleted from this JavaScript object when the Ecommerce order is tracked via the method trackEcommerceOrder.
                  *
                  * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
                  * @param string name (optional) Item's name
@@ -6357,6 +6366,7 @@ if (typeof window.Piwik !== 'object') {
                  * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
                  * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
                  * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
+                 * After calling this method, items added to the cart will be removed from this JavaScript object.
                  *
                  * @param string|int orderId (required) Unique Order ID.
                  *                   This will be used to count this order only once in the event the order page is reloaded several times.
@@ -6375,6 +6385,7 @@ if (typeof window.Piwik !== 'object') {
                  * Tracks a Cart Update (add item, remove item, update item).
                  * On every Cart update, you must call addEcommerceItem() for each item (product) in the cart, including the items that haven't been updated since the last cart update.
                  * Then you can call this function with the Cart grandTotal (typically the sum of all items' prices)
+                 * Calling this method does not remove from this JavaScript object the items that were added to the cart via addEcommerceItem
                  *
                  * @param float grandTotal (required) Items (products) amount in the Cart
                  */

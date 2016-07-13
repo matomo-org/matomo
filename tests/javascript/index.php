@@ -435,17 +435,43 @@ function PiwikTest() {
     test("JSLint", function() {
         expect(1);
         var src = '<?php
+
+            // Once we use JSHint instead of jslint, we could remove a few lines below,
+            // to use instead the feature to disable jshint for the JSON2 block
+//             /* jshint ignore:start */
+//             // Code here will be linted with ignored by JSHint.
+//             /* jshint ignore:end */
+
+
+            function getLineCountJsLintStarted($src,$contentRemovedFromPos) {
+                $contentRemoved = substr($src, 0, $contentRemovedFromPos);
+                // the JS code contain \n within the JS code, but these are not new lines
+                $contentRemovedWithoutBackslash = str_replace('\\\n', '', $contentRemoved);
+                $countOfLinesRemoved = count(explode('\\n', $contentRemovedWithoutBackslash)) - 1;
+                return $countOfLinesRemoved;
+            }
+
             $src = file_get_contents('../../js/piwik.js');
+
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
-            $src = substr($src, strpos($src, '/* startjslint */'));
-            echo "$src"; ?>';
+            $contentRemovedFromPos = strpos($src, '/* startjslint */');
+            $contentToJslint = substr($src, $contentRemovedFromPos);
+
+            echo "$contentToJslint"; ?>';
 
         var result = JSLINT(src);
-        ok( result, "JSLint" );
+        ok( result, "JSLint did not validate, please check the browser console for the list of jslint errors." );
         if (console && console.log && !result) {
+            var countOfLinesRemoved = <?php echo getLineCountJsLintStarted($src,$contentRemovedFromPos); ?>;
+
+            // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
+            JSLINT.errors.forEach( function (item, index) {
+                item.line += countOfLinesRemoved;
+                console.log(item);
+            });
+
             console.log('JSLINT errors', JSLINT.errors);
         }
-//      alert(JSLINT.report(true));
     });
 
     test("JSON", function() {
@@ -3055,7 +3081,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(117);
+        expect(118);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3309,7 +3335,11 @@ if ($mysql) {
         tracker3.addEcommerceItem("SKU NO PRICE NO QUANTITY", "PRODUCT NAME 3", "CATEGORY", "", "" );
         tracker3.addEcommerceItem("SKU ONLY" );
         tracker3.trackEcommerceCartUpdate( 555.55 );
+
         tracker3.trackEcommerceOrder( "ORDER ID YES", 666.66, 333, 222, 111, 1 );
+
+        // the same order tracked once more, should have no items
+        tracker3.trackEcommerceOrder( "ORDER WITHOUT ANY ITEM", 777, 444, 222, 111, 1 );
 
         // do not track
         tracker3.setDoNotTrack(false);
@@ -3374,7 +3404,7 @@ if ($mysql) {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "35", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "36", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -3450,6 +3480,9 @@ if ($mysql) {
 
             // Cart update
             ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceCartUpdate() with items" );
+
+            // Ecommerce order recorded twice, but each order empties the cart/list of items, so this order is empty of items
+            ok( /idgoal=0&ec_id=ORDER%20WITHOUT%20ANY%20ITEM&revenue=777&ec_st=444&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5D/.test( results ), "logEcommerceOrder() called twice, second time has no item" );
 
             // parameters inserted by plugin hooks
             ok( /testlog/.test( results ), "plugin hook log" );
@@ -4182,6 +4215,14 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
     }
 })(PiwikTest);
  </script>
+ 
+<?php
+    include_once $root . '/core/Filesystem.php';
+    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'index.php');
+    foreach ($files as $file) {
+        include_once $file;
+    }
+?>
 
  <div id="jashDiv">
  <a href="#" onclick="javascript:loadJash();" title="Open JavaScript Shell"><img id="title" src="gnome-terminal.png" border="0" width="24" height="24" /></a>

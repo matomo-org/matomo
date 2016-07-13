@@ -107,8 +107,5 @@
         "post-install-cmd": [
             "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ]
-    },
-    "config": {
-        "disable-tls": true
     }
 }

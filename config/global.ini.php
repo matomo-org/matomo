@@ -264,7 +264,7 @@ API_datatable_default_limit = 100
 ; (ie. there will be a new "date" column). For example set to: "rss,tsv,csv"
 datatable_export_range_as_day = "rss"
 
-; This setting is overriden in the UI, under "User Settings".
+; This setting is overridden in the UI, under "User Settings".
 ; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday
 ; Possible values: day, week, month, year.
@@ -277,7 +277,7 @@ time_before_today_archive_considered_outdated = 150
 
 ; This setting is overriden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Piwik archiving process.
-; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
+; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
 
 ; By default, Piwik will force archiving of range periods from browser requests, even if enable_browser_archiving_triggering
@@ -587,7 +587,7 @@ use_third_party_id_cookie = 0
 debug = 0
 
 ; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
-; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled. For security reasons this
+; a debug=1 query parameter in the URL. All other HTTP requests will not have debug enabled. For security reasons this
 ; option should be only enabled if really needed and only for a short time frame. Otherwise anyone can set debug=1 and
 ; see the log output as well.
 debug_on_demand = 0

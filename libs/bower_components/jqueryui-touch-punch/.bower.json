@@ -1,0 +1,19 @@
+{
+  "name": "jqueryui-touch-punch",
+  "main": "jquery.ui.touch-punch.min.js",
+  "ignore": [],
+  "dependencies": {
+    "jquery": ">=1.6",
+    "jquery-ui": ">=1.8"
+  },
+  "homepage": "https://github.com/furf/jquery-ui-touch-punch",
+  "_release": "4bc0091452",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "4bc009145202d9c7483ba85f3a236a8f3470354d"
+  },
+  "_source": "https://github.com/furf/jquery-ui-touch-punch.git",
+  "_target": "master",
+  "_originalSource": "jqueryui-touch-punch"
+}
