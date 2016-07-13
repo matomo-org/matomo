@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\DataAccess\RawLogDao;
+use Piwik\Plugin\LogTablesProvider;
 
 /**
  * Service that deletes log entries. Methods in this class cascade, so deleting visits will delete visit actions,
@@ -21,9 +22,15 @@ class LogDeleter
      */
     private $rawLogDao;
 
-    public function __construct(RawLogDao $rawLogDao)
+    /**
+     * @var LogTablesProvider
+     */
+    private $logTablesProvider;
+
+    public function __construct(RawLogDao $rawLogDao, LogTablesProvider $logTablesProvider)
     {
         $this->rawLogDao = $rawLogDao;
+        $this->logTablesProvider = $logTablesProvider;
     }
 
     /**
@@ -35,33 +42,11 @@ class LogDeleter
      */
     public function deleteVisits($visitIds)
     {
-        $this->deleteConversions($visitIds);
-        $this->rawLogDao->deleteVisitActionsForVisits($visitIds);
-
-        return $this->rawLogDao->deleteVisits($visitIds);
-    }
-
-    /**
-     * Deletes conversions by visit ID. This method cascades, so conversion items are also deleted.
-     *
-     * @param int[] $visitIds The list of visits to delete conversions for.
-     * @return int The number rows deleted.
-     */
-    public function deleteConversions($visitIds)
-    {
-        $this->deleteConversionItems($visitIds);
-        return $this->rawLogDao->deleteConversions($visitIds);
-    }
-
-    /**
-     * Deletes conversion items by visit ID.
-     *
-     * @param int[] $visitIds The list of visits to delete conversions for.
-     * @return int The number rows deleted.
-     */
-    public function deleteConversionItems($visitIds)
-    {
-        return $this->rawLogDao->deleteConversionItems($visitIds);
+        foreach ($this->logTablesProvider->getAllLogTables() as $logTable) {
+            if ($logTable->getColumnToJoinOnIdVisit()) {
+                $this->rawLogDao->deleteFromLogTable($logTable->getName(), $visitIds);
+            }
+        }
     }
 
     /**
