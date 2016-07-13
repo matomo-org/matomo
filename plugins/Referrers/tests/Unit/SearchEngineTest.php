@@ -121,7 +121,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
     public function testMissingSearchEngineKeyword($url, $searchEngine)
     {
         $name = parse_url('http://' . $url);
-        $this->assertTrue(!empty($searchEngine['params']), $name['host']);
+        $this->assertTrue(!empty($searchEngine['params']) || !empty($searchEngine['hiddenkeyword']), $name['host']);
     }
 
     /**
