@@ -3329,7 +3329,8 @@ if ($mysql) {
 
         //Ecommerce tests
         tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "PRODUCT CATEGORY", 11.1111, 2);
-        tracker3.addEcommerceItem("SKU PRODUCT", "random", "random PRODUCT CATEGORY", 11.1111, 2);
+        // Adding same SKU twice should add the same items twice to the cart
+        tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "Another PRODUCT CATEGORY for the same product!", 22.2223, 42);
         tracker3.addEcommerceItem("SKU ONLY SKU", "", "", "", "");
         tracker3.addEcommerceItem("SKU ONLY NAME", "PRODUCT NAME 2", "", "");
         tracker3.addEcommerceItem("SKU NO PRICE NO QUANTITY", "PRODUCT NAME 3", "CATEGORY", "", "" );
@@ -3470,7 +3471,7 @@ if ($mysql) {
             || /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%7D)/.test(results), "ecommerce view multiple categories");
 
             // Ecommerce order
-            ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with items" );
+            ok( /idgoal=0&ec_id=ORDER%20ID%20YES&revenue=666.66&ec_st=333&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22PRODUCT%20NAME%22%2C%22PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20PRODUCT%22%2C%22PRODUCT%20NAME%22%2C%22Another%20PRODUCT%20CATEGORY%20for%20the%20same%20product!%22%2C22.2223%2C42%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C%22%22%2C%22%22%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C%22%22%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C%22%22%2C%22%22%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceOrder() with all items including duplicate SKU" );
 
             // Not set for the first ecommerce order
             ok( ! /idgoal=0&ec_id=ORDER%20ID.*_ects=1/.test(results), "Ecommerce last timestamp set");
@@ -3479,10 +3480,10 @@ if ($mysql) {
             ok( /DoTrack.*_ects=1/.test(results), "Ecommerce last timestamp set");
 
             // Cart update
-            ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceCartUpdate() with items" );
+            ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22PRODUCT%20NAME%22%2C%22PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20PRODUCT%22%2C%22PRODUCT%20NAME%22%2C%22Another%20PRODUCT%20CATEGORY%20for%20the%20same%20product!%22%2C22.2223%2C42%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C%22%22%2C%22%22%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C%22%22%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C%22%22%2C%22%22%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceCartUpdate() with items" );
 
             // Ecommerce order recorded twice, but each order empties the cart/list of items, so this order is empty of items
-            ok( /idgoal=0&ec_id=ORDER%20WITHOUT%20ANY%20ITEM&revenue=777&ec_st=444&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5D/.test( results ), "logEcommerceOrder() called twice, second time has no item" );
+            ok( /idgoal=0&ec_id=ORDER%20WITHOUT%20ANY%20ITEM&revenue=777&ec_st=444&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5D&idsite=1&rec=1/.test( results ), "logEcommerceOrder() called twice, second time has no item" );
 
             // parameters inserted by plugin hooks
             ok( /testlog/.test( results ), "plugin hook log" );
