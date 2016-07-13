@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SegmentEditor\tests\Unit;
 use Piwik\Plugins\SegmentEditor\SegmentQueryDecorator;
 use Piwik\Plugins\SegmentEditor\Services\StoredSegmentService;
 use Piwik\Segment\SegmentExpression;
+use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 
 /**
  * @group SegmentEditor
@@ -36,7 +37,8 @@ class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
 
         /** @var StoredSegmentService $service */
         $service = $this->getMockSegmentEditorService();
-        $this->decorator = new SegmentQueryDecorator($service);
+        $logTables = new LogTablesProvider();
+        $this->decorator = new SegmentQueryDecorator($service, $logTables);
     }
 
     public function test_getSelectQueryString_DoesNotDecorateSql_WhenNoSegmentUsed()
@@ -86,4 +88,5 @@ class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->willReturn(self::$storedSegments);
         return $mock;
     }
+
 }
