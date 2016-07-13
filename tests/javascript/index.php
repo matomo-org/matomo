@@ -436,25 +436,35 @@ function PiwikTest() {
         expect(1);
         var src = '<?php
 
-            $src = file_get_contents('../../js/piwik.js');
-
-            //Once we use JSHint instead of jslint, we could remove this code and use the following feature instead:
+            // Once we use JSHint instead of jslint, we could remove a few lines below,
+            // to use instead the feature to disable jshint for the JSON2 block
 //             /* jshint ignore:start */
 //             // Code here will be linted with ignored by JSHint.
 //             /* jshint ignore:end */
+
+
+            function getLineCountJsLintStarted($src,$contentRemovedFromPos) {
+                $contentRemoved = substr($src, 0, $contentRemovedFromPos);
+                // the JS code contain \n within the JS code, but these are not new lines
+                $contentRemovedWithoutBackslash = str_replace('\\\n', '', $contentRemoved);
+                $countOfLinesRemoved = count(explode('\\n', $contentRemovedWithoutBackslash)) - 1;
+                return $countOfLinesRemoved;
+            }
+
+            $src = file_get_contents('../../js/piwik.js');
+
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
             $contentRemovedFromPos = strpos($src, '/* startjslint */');
-            $contentRemoved=substr($src, 0, $contentRemovedFromPos);
             $contentToJslint = substr($src, $contentRemovedFromPos);
 
-            $countOfLinesRemoved = count(explode('\n', $contentRemoved));
             echo "$contentToJslint"; ?>';
 
         var result = JSLINT(src);
         ok( result, "JSLint did not validate, please check the browser console for the list of jslint errors." );
         if (console && console.log && !result) {
-            var countOfLinesRemoved = <?php echo $countOfLinesRemoved; ?>;
-            // to find the real line number, add  countOfLinesRemoved  to the line number from JSLint
+            var countOfLinesRemoved = <?php echo getLineCountJsLintStarted($src,$contentRemovedFromPos); ?>;
+
+            // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
             JSLINT.errors.forEach( function (item, index) {
                 item.line += countOfLinesRemoved;
                 console.log(item);
@@ -462,7 +472,6 @@ function PiwikTest() {
 
             console.log('JSLINT errors', JSLINT.errors);
         }
-//      alert(JSLINT.report(true));
     });
 
     test("JSON", function() {
