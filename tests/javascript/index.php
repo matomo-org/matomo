@@ -2928,6 +2928,28 @@ function PiwikTest() {
         ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
     });
 
+    test("Generate error messages when calling an undefined API method", function() {
+        expect(2);
+
+        // temporarily reset the console error logger so our errors don't show up in the console log while running tests.
+        var console = {};
+        var errorCallBack = console.error;
+        window.console.error = function() {};
+
+        // Calling undefined methods should generate an error
+        function callNonExistingMethod() {
+            _paq.push(['NonExistingFunction should error and display the error in the console.']);
+        }
+        function callNonExistingMethodWithParameter() {
+            _paq.push(['NonExistingFunction should not error', 'this is a parameter']);
+        }
+
+        throws( callNonExistingMethod, /was not found in "_paq" variable/, 'Expected to raise an error when calling an undefined method.');
+        throws( callNonExistingMethodWithParameter, /was not found in "_paq" variable/, 'Expected to raise an error when calling an undefined method with parameters.');
+
+        window.console.error = errorCallBack;
+    });
+
     test("Overlay URL Normalizer", function() {
         expect(23);
 
@@ -3130,10 +3152,6 @@ if ($mysql) {
 
         // async tracker proxy
         _paq.push(["trackLink", "http://example.fr/async.zip", "download",  { "token" : getToken() }]);
-
-        // Calling undefined methods should not error
-        _paq.push(['NonExistingFunction should not error']);
-        _paq.push(['NonExistingFunction should not error', 'this is a parameter']);
 
         // push function
         _paq.push([ function(t) {

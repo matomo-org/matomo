@@ -1156,6 +1156,11 @@ if (typeof window.Piwik !== 'object') {
             return isEmpty;
         }
 
+        /**
+         * Logs an error in the console.
+         *  Note: it does not generate a JavaScript error, so make sure to also generate an error if needed.
+         * @param message
+         */
         function logConsoleError(message) {
             if (console !== undefined && console && console.error) {
                 console.error(message);
@@ -1183,7 +1188,9 @@ if (typeof window.Piwik !== 'object') {
                         if(asyncTrackers[j][f]) {
                             asyncTrackers[j][f].apply(asyncTrackers[j], parameterArray);
                         } else {
-                            logConsoleError('The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript');
+                            var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript';
+                            logConsoleError(message);
+                            throw new TypeError(message);
                         }
 
                         if (f === 'addTracker') {
