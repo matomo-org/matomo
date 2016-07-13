@@ -972,7 +972,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     onload, src,
     min, round, random,
     exec,
-    res, width, height, devicePixelRatio,
+    res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
     hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -5014,8 +5014,7 @@ if (typeof window.Piwik !== 'object') {
                         java: 'application/x-java-vm',
                         gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
-                    },
-                    devicePixelRatio = windowAlias.devicePixelRatio || 1;
+                    };
 
                 // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
@@ -5046,8 +5045,8 @@ if (typeof window.Piwik !== 'object') {
                     browserFeatures.cookie = hasCookies();
                 }
 
-                var width = parseInt(screenAlias.width, 10) * devicePixelRatio;
-                var height = parseInt(screenAlias.height, 10) * devicePixelRatio;
+                var width = parseInt(screenAlias.width, 10);
+                var height = parseInt(screenAlias.height, 10);
                 browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
             }
 
