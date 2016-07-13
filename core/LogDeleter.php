@@ -42,11 +42,15 @@ class LogDeleter
      */
     public function deleteVisits($visitIds)
     {
+        $numDeletedVisits = 0;
+
         foreach ($this->logTablesProvider->getAllLogTables() as $logTable) {
             if ($logTable->getColumnToJoinOnIdVisit()) {
-                $this->rawLogDao->deleteFromLogTable($logTable->getName(), $visitIds);
+                $numDeletedVisits += $this->rawLogDao->deleteFromLogTable($logTable->getName(), $visitIds);
             }
         }
+
+        return $numDeletedVisits;
     }
 
     /**
