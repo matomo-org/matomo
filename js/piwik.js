@@ -1156,6 +1156,17 @@ if (typeof window.Piwik !== 'object') {
             return isEmpty;
         }
 
+        /**
+         * Logs an error in the console.
+         *  Note: it does not generate a JavaScript error, so make sure to also generate an error if needed.
+         * @param message
+         */
+        function logConsoleError(message) {
+            if (console !== undefined && console && console.error) {
+                console.error(message);
+            }
+        }
+
         /*
          * apply wrapper
          *
@@ -1173,11 +1184,20 @@ if (typeof window.Piwik !== 'object') {
 
                 for (j = 0; j < asyncTrackers.length; j++) {
                     if (isString(f)) {
-                        asyncTrackers[j][f].apply(asyncTrackers[j], parameterArray);
+
+                        if(asyncTrackers[j][f]) {
+                            asyncTrackers[j][f].apply(asyncTrackers[j], parameterArray);
+                        } else {
+                            var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript';
+                            logConsoleError(message);
+                            throw new TypeError(message);
+                        }
+
                         if (f === 'addTracker') {
                             // addTracker adds an entry to asyncTrackers and would otherwise result in an endless loop
                             break;
                         }
+
                         if (f === 'setTrackerUrl' || f === 'setSiteId') {
                             // these two methods should be only executed on the first tracker
                             break;
@@ -6414,9 +6434,7 @@ if (typeof window.Piwik !== 'object') {
                             delete paq[iterator];
 
                             if (appliedMethods[methodName] > 1) {
-                                if (console !== undefined && console && console.error) {
-                                    console.error('The method ' + methodName + ' is registered more than once in "paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
-                                }
+                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
                             appliedMethods[methodName]++;
