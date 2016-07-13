@@ -2902,7 +2902,7 @@ if (typeof window.Piwik !== 'object') {
                 customVariableMaximumLength = 200,
 
                 // Ecommerce items
-                ecommerceItems = {},
+                ecommerceItems = [],
 
                 // Browser features via client-side data collection
                 browserFeatures = {},
@@ -3987,12 +3987,38 @@ if (typeof window.Piwik !== 'object') {
                 return false;
             };
 
+
+            function getEcommerceItems()
+            {
+                if (!ecommerceItems || !ecommerceItems.length) {
+                    return [];
+                }
+
+                var ecommerceItemDefaultValues = [undefined, "", "", 0, 1],
+                    ecommerceItem,
+                    defaultValue,
+                    i,
+                    j;
+
+                for(i = 0; i < ecommerceItems.length; i++) {
+                    ecommerceItem = ecommerceItems[i];
+
+                    for(j = 0; j < ecommerceItemDefaultValues.length; j++) {
+                        defaultValue = ecommerceItemDefaultValues[j];
+                        // Ensure name and category default to healthy value
+                        if (isDefined(defaultValue) && !isDefined(ecommerceItem[j])) {
+                            ecommerceItem[j] = defaultValue;
+                        }
+                    }
+                }
+
+                return ecommerceItems;
+            }
+
             function logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 var request = 'idgoal=0',
                     lastEcommerceOrderTs,
                     now = new Date(),
-                    items = [],
-                    sku,
                     isEcommerceOrder = String(orderId).length;
 
                 if (isEcommerceOrder) {
@@ -4019,44 +4045,18 @@ if (typeof window.Piwik !== 'object') {
                     request += '&ec_dt=' + discount;
                 }
 
-                if (ecommerceItems) {
-                    // Removing the SKU index in the array before JSON encoding
-                    for (sku in ecommerceItems) {
-                        if (Object.prototype.hasOwnProperty.call(ecommerceItems, sku)) {
-                            // Ensure name and category default to healthy value
-                            if (!isDefined(ecommerceItems[sku][1])) {
-                                ecommerceItems[sku][1] = "";
-                            }
 
-                            if (!isDefined(ecommerceItems[sku][2])) {
-                                ecommerceItems[sku][2] = "";
-                            }
+                ecommerceItems = getEcommerceItems();
+                request += '&ec_items=' + encodeWrapper(JSON2.stringify(ecommerceItems));
 
-                            // Set price to zero
-                            if (!isDefined(ecommerceItems[sku][3])
-                                    || String(ecommerceItems[sku][3]).length === 0) {
-                                ecommerceItems[sku][3] = 0;
-                            }
-
-                            // Set quantity to 1
-                            if (!isDefined(ecommerceItems[sku][4])
-                                    || String(ecommerceItems[sku][4]).length === 0) {
-                                ecommerceItems[sku][4] = 1;
-                            }
-
-                            items.push(ecommerceItems[sku]);
-                        }
-                    }
-                    request += '&ec_items=' + encodeWrapper(JSON2.stringify(items));
-                }
                 request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
                 sendRequest(request, configTrackerPause);
 
                 if (isEcommerceOrder) {
-                    ecommerceItems = {};
+                    ecommerceItems = [];
                 }
-            }
 
+            }
             function logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 if (String(orderId).length
                         && isDefined(grandTotal)) {
@@ -6357,7 +6357,7 @@ if (typeof window.Piwik !== 'object') {
                  */
                 addEcommerceItem: function (sku, name, category, price, quantity) {
                     if (sku.length) {
-                        ecommerceItems[sku] = [ sku, name, category, price, quantity ];
+                        ecommerceItems.push( [ sku, name, category, price, quantity ] );
                     }
                 },
 
