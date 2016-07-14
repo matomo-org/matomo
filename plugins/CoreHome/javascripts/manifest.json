@@ -1,0 +1,39 @@
+{
+  "short_name": "Piwik",
+  "name": "Piwik - Open Source Analytics",
+  "icons": [
+    {
+      "src": "../images/applogo_32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "../images/applogo_72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "../images/applogo_128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "../images/applogo_144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "../images/applogo_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "../images/applogo_256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "../../../",
+  "display": "standalone",
+  "orientation": "portrait"
+}
