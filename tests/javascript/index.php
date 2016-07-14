@@ -53,7 +53,8 @@ testTrackPageViewAsync();
 ?>
  </script>
  <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
- <script src="../../js/piwik.js?rand=<?php echo md5(uniqid(mt_rand(), true)) ?>" type="text/javascript"></script>
+ <script src="../../js/piwik.js?rand=<?php $cacheBuster = md5(uniqid(mt_rand(), true));
+ echo $cacheBuster ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
@@ -3079,7 +3080,7 @@ function PiwikTest() {
         iframe.style= "display : none";
         var html = '\
             <html><body> \
-            <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=' + Math.random() + '" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + 'piwiktest.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
             window.isInsideIframe = function () { \
