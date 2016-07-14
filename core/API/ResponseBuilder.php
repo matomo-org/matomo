@@ -123,11 +123,11 @@ class ResponseBuilder
     /**
      * Returns an error $message in the requested $format
      *
-     * @param Exception $e
+     * @param Exception|\Throwable $e
      * @throws Exception
      * @return string
      */
-    public function getResponseException(Exception $e)
+    public function getResponseException($e)
     {
         $e       = $this->decorateExceptionWithDebugTrace($e);
         $message = $this->formatExceptionMessage($e);
