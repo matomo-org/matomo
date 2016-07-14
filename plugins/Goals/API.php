@@ -63,12 +63,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
         
-        $goals = $this->getGoals($idSite);
+        $goal = $this->getModel()->getActiveGoal($idSite, $idGoal);
 
-        foreach ($goals as $goal) {
-            if ((int)$goal['idgoal'] === (int)$idGoal) {
-                return $goal;
-            }
+        if (!empty($goal)) {
+            return $this->formatGoal($goal);
         }
     }
 
@@ -95,18 +93,24 @@ class API extends \Piwik\Plugin\API
 
             $cleanedGoals = array();
             foreach ($goals as &$goal) {
-                if ($goal['match_attribute'] == 'manually') {
-                    unset($goal['pattern']);
-                    unset($goal['pattern_type']);
-                    unset($goal['case_sensitive']);
-                }
-                $cleanedGoals[$goal['idgoal']] = $goal;
+                $cleanedGoals[$goal['idgoal']] = $this->formatGoal($goal);
             }
 
             $cache->save($cacheId, $cleanedGoals);
         }
 
         return $cache->fetch($cacheId);
+    }
+
+    private function formatGoal($goal)
+    {
+        if ($goal['match_attribute'] == 'manually') {
+            unset($goal['pattern']);
+            unset($goal['pattern_type']);
+            unset($goal['case_sensitive']);
+        }
+
+        return $goal;
     }
 
     /**
