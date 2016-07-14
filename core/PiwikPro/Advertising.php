@@ -12,7 +12,7 @@ use Piwik\Config;
 
 /**
  * Piwik PRO Advertising related methods. Lets you for example check whether advertising is enabled, generate
- * links for differnt landing pages etc.
+ * links for different landing pages etc.
  *
  * @api
  * @since 2.16.0

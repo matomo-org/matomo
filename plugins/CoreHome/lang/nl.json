@@ -24,6 +24,7 @@
         "InjectedHostSuperUserWarning": "Piwik is waarschijnlijk verkeerd geconfigureerd (bijv. Piwik werd verplaatst naar een nieuwe server of URL). %1$sKlik hier en voeg %2$s toe als een toegestane Piwik hostnaam indien je die vertrouwd%3$s, of %4$sklik hier en ga naar %5$s om Piwik veilig te banaderen%6$s.",
         "InjectedHostWarningIntro": "Je bezoekt nu Piwik van %1$s, maar Piwik is geconfigureerd om op dit adres te draaien: %2$s.",
         "JavascriptDisabled": "JavaScript moet ingeschakeld zijn om Piwik in standaard weergave te bekijken. <br\/> Het lijkt erop dat JavaScript is uitgeschakeld of niet ondersteund wordt door uw browser.<br\/> Om de standaard weergave te gebruiken, schakel JavaScript in door uw browser instellingen te wijzigen, probeer het daarna %1$s opnieuw %2$s.<br\/>",
+        "MainNavigation": "Hoofd navigatie",
         "MakeADifference": "Maak een verschil: %1$sDoneer nu%2$s om Piwik 2.0 te steunen!",
         "MakeOneTimeDonation": "Doe een eennmalige donatie in de plaats.",
         "Menu": "Menu",
@@ -48,6 +49,10 @@
         "YouAreUsingTheLatestVersion": "Je gebruikt de laatste versie van Piwik!",
         "ClickRowToExpandOrContract": "Klik deze regel om de tabel te openen of te sluiten.",
         "UndoPivotBySubtable": "Dit rapport wordt als een draaitabel getoond, %s schakel de draaitabel uit.",
-        "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %1$s maak een draaitabel op basis van %2$s"
+        "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %1$s maak een draaitabel op basis van %2$s",
+        "QuickAccessTitle": "Zoeken naar %s. Gebruik de pijltjestoetsen om door de zoekopdrachten te navigeren. Shortcut: Druk 'f' om te zoeken.",
+        "Segments": "Segmenten",
+        "AdblockIsMaybeUsed": "Als je gebruik maakt van een reclame blokker, schakel deze a.u.b. uit zodat je zeker weet dat Piwik werkt zonder problemen.",
+        "ChangeCurrentWebsite": "Kies een website, de nu geselecteerde website is: %s"
     }
 }

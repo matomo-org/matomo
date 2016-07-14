@@ -224,11 +224,10 @@ class SearchEngine extends Singleton
 
         $searchEngineName = $definitions['name'];
         $variableNames    = $definitions['params'];
+        $keywordsHiddenFor = !empty($definitions['hiddenkeyword']) ? $definitions['hiddenkeyword'] : array();
 
         $key = null;
-        if ($searchEngineName === 'Google Images'
-            || ($searchEngineName === 'Google' && strpos($referrerUrl, '/imgres') !== false)
-        ) {
+        if ($searchEngineName === 'Google Images') {
             if (strpos($query, '&prev') !== false) {
                 $query = urldecode(trim(UrlHelper::getParameterFromQueryString($query, 'prev')));
                 $query = str_replace('&', '&amp;', strstr($query, '?'));
@@ -286,27 +285,13 @@ class SearchEngine extends Singleton
                     $key = UrlHelper::getParameterFromQueryString($query, $variableName);
                     $key = trim(urldecode($key));
 
-                    // Special cases: empty or no keywords
+                    // Special cases: empty keywords
                     if (empty($key)
                         && (
-                            // Google search with no keyword
-                            ($searchEngineName == 'Google'
-                                && (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
-                            )
-
-                            // Yahoo search with no keyword
-                            || ($searchEngineName == 'Yahoo!'
-                                && ($referrerParsed['host'] == 'r.search.yahoo.com')
-                            )
-
                             // empty keyword parameter
-                            || strpos($query, sprintf('&%s=', $variableName)) !== false
+                            strpos($query, sprintf('&%s=', $variableName)) !== false
                             || strpos($query, sprintf('?%s=', $variableName)) !== false
-
-                            // search engines with no keyword
-                            || $searchEngineName == 'Ixquick'
-                            || $searchEngineName == 'Google Images'
-                            || $searchEngineName == 'DuckDuckGo')
+                        )
                     ) {
                         $key = false;
                     }
@@ -315,6 +300,30 @@ class SearchEngine extends Singleton
                     ) {
                         break;
                     }
+                }
+            }
+        }
+
+        // if no keyword found, but empty keywords are allowed
+        if (!empty($keywordsHiddenFor) && ($key === null || $key === '')) {
+
+            $pathWithQueryAndFragment = $referrerPath;
+            if (!empty($query)) {
+                $pathWithQueryAndFragment .= '?'.$query;
+            }
+            if (!empty($referrerParsed['fragment'])) {
+                $pathWithQueryAndFragment .= '#'.$referrerParsed['fragment'];
+            }
+
+            foreach ($keywordsHiddenFor as $path) {
+                if (strlen($path) > 1 && substr($path, 0, 1) == '/' && substr($path, -1, 1) == '/') {
+                    if (preg_match($path, $pathWithQueryAndFragment)) {
+                        $key = false;
+                        break;
+                    }
+                } elseif ($path == $pathWithQueryAndFragment) {
+                    $key = false;
+                    break;
                 }
             }
         }

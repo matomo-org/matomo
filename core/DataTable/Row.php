@@ -461,7 +461,11 @@ class Row implements \ArrayAccess, \IteratorAggregate
 
             $operation = 'sum';
             if (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName])) {
-                $operation = strtolower($aggregationOperations[$columnToSumName]);
+                if (is_string($aggregationOperations[$columnToSumName])) {
+                    $operation = strtolower($aggregationOperations[$columnToSumName]);
+                } elseif (is_callable($aggregationOperations[$columnToSumName])) {
+                    $operation = $aggregationOperations[$columnToSumName];
+                }
             }
 
             // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
@@ -520,6 +524,10 @@ class Row implements \ArrayAccess, \IteratorAggregate
                 $newValue = $thisColumnValue;
                 break;
             default:
+                if (is_callable($operation)) {
+                    return call_user_func($operation, $thisColumnValue, $columnToSumValue);
+                }
+
                 throw new Exception("Unknown operation '$operation'.");
         }
         return $newValue;

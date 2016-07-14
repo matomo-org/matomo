@@ -133,7 +133,7 @@ class Controller extends \Piwik\Plugin\Controller
                                                                        ));
         $view->visitData = $visits->getFirstRow()->getColumns();
         $view->visitReferralSummary = VisitorProfile::getReferrerSummaryForVisit($visits->getFirstRow());
-        $view->showLocation = true;
+        $view->showLocation =  \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountry');
         $this->setWidgetizedVisitorProfileUrl($view);
         $view->exportLink = $this->getVisitorProfileExportLink();
         return $view->render();

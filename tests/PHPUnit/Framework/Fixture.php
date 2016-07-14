@@ -28,6 +28,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
@@ -255,6 +256,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         Cache::deleteTrackerCache();
 
+        ProcessedReport::reset();
+
         self::resetPluginsInstalledConfig();
 
         $testEnvironment = $this->getTestEnvironment();
@@ -466,11 +469,14 @@ class Fixture extends \PHPUnit_Framework_Assert
      * @param null|string $searchCategoryParameters
      * @param null|string $timezone
      * @param null|string $type eg 'website' or 'mobileapp'
+     * @param null|string $settings eg 'website' or 'mobileapp'
+     * @param int $excludeUnknownUrls
      * @return int    idSite of website created
      */
     public static function createWebsite($dateTime, $ecommerce = 0, $siteName = false, $siteUrl = false,
                                          $siteSearch = 1, $searchKeywordParameters = null,
-                                         $searchCategoryParameters = null, $timezone = null, $type = null)
+                                         $searchCategoryParameters = null, $timezone = null, $type = null,
+                                         $excludeUnknownUrls = 0)
     {
         if($siteName === false) {
             $siteName = self::DEFAULT_SITE_NAME;
@@ -488,7 +494,9 @@ class Fixture extends \PHPUnit_Framework_Assert
             $startDate = null,
             $excludedUserAgents = null,
             $keepURLFragments = null,
-            $type
+            $type,
+            $settings = null,
+            $excludeUnknownUrls
         );
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for

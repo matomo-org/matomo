@@ -401,7 +401,7 @@ class DataTableFactory
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
                 // we edit the subtable ID so that it matches the newly table created in memory
-                // NB: we dont overwrite the datatableid in the case we are displaying the table expanded.
+                // NB: we don't overwrite the datatableid in the case we are displaying the table expanded.
                 if ($this->addMetadataSubtableId) {
                     // this will be written back to the column 'idsubdatatable' just before rendering,
                     // see Renderer/Php.php

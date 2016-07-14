@@ -306,7 +306,7 @@ class RowEvolution
         ob_end_clean();
 
         // undo header change by sparkline renderer
-        header('Content-type: text/html');
+        Common::sendHeader('Content-type: text/html');
 
         // base64 encode the image and put it in an img tag
         $spark = base64_encode($spark);

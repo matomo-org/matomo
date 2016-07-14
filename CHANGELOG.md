@@ -4,6 +4,19 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 2.16.2
+
+### New APIs
+ * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers)
+ * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
+
+### Internal change
+ * `piwik.js`, if you call the method `setDomains` note that that the behavior has slightly changed. The current page domain (hostname) will now be added automatically if none of the given host alias passed as a parameter to `setDomains` contain a path and if no host alias is already given for the current host alias. 
+ Say you are on "example.org" and set `hostAlias = ['example.com', 'example.org/test']` then the current "example.org" domain will not be added as there is already a more restrictive hostAlias 'example.org/test' given. 
+ We also do not add the current page domain (hostname) automatically if there was any other host specifying any path such as `['example.com', 'example2.com/test']`. 
+ In this case we also do not add the current page domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts manually. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
+ * `piwik.js`: after an ecommerce order is tracked using `trackEcommerceOrder`, the items in the cart will now be removed from the JavaScript object. Calling `trackEcommerceCartUpdate` will not remove the items in the cart.   
+
 ## Piwik 2.16.1
 
 ### New features

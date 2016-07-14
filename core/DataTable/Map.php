@@ -28,7 +28,7 @@ use Piwik\DataTable\Renderer\Console;
 class Map implements DataTableInterface
 {
     /**
-     * Array containing the DataTable withing this Set
+     * Array containing the DataTable within this Set
      *
      * @var DataTable[]
      */

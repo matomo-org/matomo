@@ -50,6 +50,7 @@
         "ClickRowToExpandOrContract": "Cliquez sur cette rangée pour afficher ou masquer le sous-tableau",
         "UndoPivotBySubtable": "Ce rapport a été pivoté %s Annuler le pivot",
         "PivotBySubtable": "Ce rapport n'a pas été pivoté %1$s Pivoter par %2$s",
+        "QuickAccessTitle": "Recherche pour %s. Utilisez les flèches de navigation pour parcourir les résultats de recherche. Raccourci : appuyez sur 'f' pour rechercher.",
         "MenuEntries": "Entrées de menu",
         "Segments": "Segments",
         "AdblockIsMaybeUsed": "Dans le cas où vous utiliseriez un bloqueur de publicités, veuillez le désactiver pour ce site afin de vous assurer que Piwik fonctionne correctement.",

@@ -3,7 +3,7 @@
 
     {% macro menuItemLabel(label, icon) %}
         {% if icon is defined and icon and icon starts with 'icon-' %}
-            <span class="{{ icon|striptags }}"></span>
+            <span class="{{ icon|striptags }}" aria-label="{{ label|translate|e('html_attr') }}"></span>
         {% else %}
             {{ label|translate }}
         {% endif %}

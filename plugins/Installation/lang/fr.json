@@ -43,6 +43,7 @@
         "PasswordRepeat": "Mot de passe (répétez)",
         "PercentDone": "%s %% complété",
         "PiwikProAdTitle": "Services et statistiques avancés",
+        "PiwikProAdText": "Ajoutez les fonctionnalités prenium et délboquez toutes les capacités de %1$s Piwik PRO hébergé chez vous%2$s ou obtenez votre propre version sans-soucis de Piwik hébergées sur le %3$sCloud de Piwik PRO%4$s.",
         "PleaseFixTheFollowingErrors": "Merci de corriger les erreurs suivantes",
         "DefaultSettings": "Paramétrage par défaut",
         "DefaultSettingsHelp": "Piwik est installé avec un paramétrage par défaut. Vous pouvez personnaliser ces réglages maintenant ou le faire plus tard dans l'espace d'administration.",

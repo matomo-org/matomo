@@ -280,7 +280,7 @@
          * creating span elements with ticks and adding their width.
          * Rendered ticks have to be visible to get their real width. But it
          * is too fast for user to notice it. If total ticks width is bigger
-         * than container width then half of ticks is beeing cut out and their
+         * than container width then half of ticks is being cut out and their
          * width is tested again. Until their total width is smaller than chart
          * div. There is a failsafe so check will be performed no more than 20
          * times, which is I think more than enough. Each tick have its own

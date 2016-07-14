@@ -1,17 +1,29 @@
-define([
+define( [
 	"exports",
 	"../core",
+	"../var/documentElement",
 	"./var/rnumnonpx",
 	"./var/rmargin",
+	"./support",
 	"../selector" // contains
-], function( exports, jQuery, rnumnonpx, rmargin ) {
+], function( exports, jQuery, documentElement, rnumnonpx, rmargin, support ) {
 
 var getStyles, curCSS,
 	rposition = /^(top|right|bottom|left)$/;
 
 if ( window.getComputedStyle ) {
 	getStyles = function( elem ) {
-		return elem.ownerDocument.defaultView.getComputedStyle( elem, null );
+
+		// Support: IE<=11+, Firefox<=30+ (#15098, #14150)
+		// IE throws on elements created in popups
+		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
+		var view = elem.ownerDocument.defaultView;
+
+		if ( !view || !view.opener ) {
+			view = window;
+		}
+
+		return view.getComputedStyle( elem );
 	};
 
 	curCSS = function( elem, name, computed ) {
@@ -23,17 +35,23 @@ if ( window.getComputedStyle ) {
 		// getPropertyValue is only needed for .css('filter') in IE9, see #12537
 		ret = computed ? computed.getPropertyValue( name ) || computed[ name ] : undefined;
 
+		// Support: Opera 12.1x only
+		// Fall back to style even without computed
+		// computed is undefined for elems on document fragments
+		if ( ( ret === "" || ret === undefined ) && !jQuery.contains( elem.ownerDocument, elem ) ) {
+			ret = jQuery.style( elem, name );
+		}
+
 		if ( computed ) {
 
-			if ( ret === "" && !jQuery.contains( elem.ownerDocument, elem ) ) {
-				ret = jQuery.style( elem, name );
-			}
-
 			// A tribute to the "awesome hack by Dean Edwards"
-			// Chrome < 17 and Safari 5.0 uses "computed value" instead of "used value" for margin-right
-			// Safari 5.1.7 (at least) returns percentage for a larger set of values, but width seems to be reliably pixels
-			// this is against the CSSOM draft spec: http://dev.w3.org/csswg/cssom/#resolved-values
-			if ( rnumnonpx.test( ret ) && rmargin.test( name ) ) {
+			// Chrome < 17 and Safari 5.0 uses "computed value"
+			// instead of "used value" for margin-right
+			// Safari 5.1.7 (at least) returns percentage for a larger set of values,
+			// but width seems to be reliably pixels
+			// this is against the CSSOM draft spec:
+			// http://dev.w3.org/csswg/cssom/#resolved-values
+			if ( !support.pixelMarginRight() && rnumnonpx.test( ret ) && rmargin.test( name ) ) {
 
 				// Remember the original values
 				width = style.width;
@@ -57,7 +75,7 @@ if ( window.getComputedStyle ) {
 			ret :
 			ret + "";
 	};
-} else if ( document.documentElement.currentStyle ) {
+} else if ( documentElement.currentStyle ) {
 	getStyles = function( elem ) {
 		return elem.currentStyle;
 	};
@@ -80,8 +98,10 @@ if ( window.getComputedStyle ) {
 
 		// If we're not dealing with a regular pixel number
 		// but a number that has a weird ending, we need to convert it to pixels
-		// but not position css attributes, as those are proportional to the parent element instead
-		// and we can't measure the parent instead because it might trigger a "stacking dolls" problem
+		// but not position css attributes, as those are
+		// proportional to the parent element instead
+		// and we can't measure the parent instead because it
+		// might trigger a "stacking dolls" problem
 		if ( rnumnonpx.test( ret ) && !rposition.test( name ) ) {
 
 			// Remember the original values
@@ -114,4 +134,4 @@ if ( window.getComputedStyle ) {
 exports.getStyles = getStyles;
 exports.curCSS = curCSS;
 
-});
+} );

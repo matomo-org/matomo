@@ -8,6 +8,8 @@
         "ContentName": "Emër Lënde",
         "ContentPiece": "Copëz Lënde",
         "ContentTarget": "Lëndë e Synuar",
-        "Contents": "Lëndë"
+        "Contents": "Lëndë",
+        "InteractionsMetricDocumentation": "Numri i herëve që për një bllok lënde ka patur ndërveprime (p.sh., një 'klikim' mbi një banderolë apo reklamë).",
+        "ImpressionsMetricDocumentation": "Numri i herëve që një bllok lënde, i tillë si banderolë apo reklamë, është shfaqur në një faqe."
     }
 }

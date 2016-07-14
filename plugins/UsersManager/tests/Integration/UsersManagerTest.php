@@ -345,7 +345,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertInternalType('string', $user['date_registered']);
         $this->assertEquals($email, $user['email']);
 
-        //alias shouldnt be empty even if no alias specified
+        //alias shouldn't be empty even if no alias specified
         $this->assertGreaterThan(0, strlen($user['alias']));
     }
 

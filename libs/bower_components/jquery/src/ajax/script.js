@@ -1,15 +1,17 @@
-define([
+define( [
 	"../core",
+	"../var/document",
 	"../ajax"
-], function( jQuery ) {
+], function( jQuery, document ) {
 
 // Install script dataType
-jQuery.ajaxSetup({
+jQuery.ajaxSetup( {
 	accepts: {
-		script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
+		script: "text/javascript, application/javascript, " +
+			"application/ecmascript, application/x-ecmascript"
 	},
 	contents: {
-		script: /(?:java|ecma)script/
+		script: /\b(?:java|ecma)script\b/
 	},
 	converters: {
 		"text script": function( text ) {
@@ -17,7 +19,7 @@ jQuery.ajaxSetup({
 			return text;
 		}
 	}
-});
+} );
 
 // Handle cache's special case and global
 jQuery.ajaxPrefilter( "script", function( s ) {
@@ -28,22 +30,22 @@ jQuery.ajaxPrefilter( "script", function( s ) {
 		s.type = "GET";
 		s.global = false;
 	}
-});
+} );
 
 // Bind script tag hack transport
-jQuery.ajaxTransport( "script", function(s) {
+jQuery.ajaxTransport( "script", function( s ) {
 
 	// This transport only deals with cross domain requests
 	if ( s.crossDomain ) {
 
 		var script,
-			head = document.head || jQuery("head")[0] || document.documentElement;
+			head = document.head || jQuery( "head" )[ 0 ] || document.documentElement;
 
 		return {
 
 			send: function( _, callback ) {
 
-				script = document.createElement("script");
+				script = document.createElement( "script" );
 
 				script.async = true;
 
@@ -88,6 +90,6 @@ jQuery.ajaxTransport( "script", function(s) {
 			}
 		};
 	}
-});
+} );
 
-});
+} );

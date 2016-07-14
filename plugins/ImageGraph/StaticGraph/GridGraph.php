@@ -194,7 +194,7 @@ abstract class GridGraph extends StaticGraph
 
             // $legendTopLeftYValue = y coordinate of the top edge of the legend's icons
             // Caution :
-            //  - pChart will silently add some value (see $paddingAddedByPChart) to $legendTopLeftYValue depending on multiple criterias
+            //  - pChart will silently add some value (see $paddingAddedByPChart) to $legendTopLeftYValue depending on multiple criteria
             //  - pChart will not take into account the size of the text. Setting $legendTopLeftYValue = 0 will crop the legend's labels
             // The following section of code determines the value of $legendTopLeftYValue while taking into account the following paremeters :
             //  - whether legend items have icons

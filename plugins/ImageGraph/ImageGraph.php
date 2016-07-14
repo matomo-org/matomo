@@ -95,7 +95,7 @@ class ImageGraph extends \Piwik\Plugin
 					$piwikSite
 				);
 			} else {
-                // if graphs_show_evolution_within_selected_period=true, show the days withing the period
+                // if graphs_show_evolution_within_selected_period=true, show the days within the period
                 // (except if the period is day, see above)
 				$periodForMultiplePeriodGraph = 'day';
 				$period = PeriodFactory::build($info['period'], $info['date']);
