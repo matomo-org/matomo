@@ -1,5 +1,7 @@
 {
     "General": {
+        "12HourClock": "زمان 12 ساعته",
+        "24HourClock": "زمان 24 ساعته",
         "AbandonedCarts": "سبد خرید رهاشده",
         "AboutPiwikX": "درباره ی پیویک %s",
         "Action": "فعالیت",

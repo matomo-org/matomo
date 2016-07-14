@@ -28,6 +28,7 @@
         "PiwikProPremiumFeatures": "Fonctionnalités premium",
         "PiwikProCustomDevelopment": "Services de développement personnalisés",
         "PiwikProAnalystConsulting": "Services de consultation en analyse",
-        "ContactUs": "Nous contacter"
+        "ContactUs": "Nous contacter",
+        "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Piwik."
     }
 }

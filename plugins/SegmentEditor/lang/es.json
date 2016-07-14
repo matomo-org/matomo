@@ -7,6 +7,7 @@
         "AutoArchivePreProcessed": "los informes segmentados son pre-procesados (rápidamente, requiere cron)",
         "AutoArchiveRealTime": "los informes segmentados son procesados en tiempo real",
         "ChooseASegment": "Elegir un segmento",
+        "CurrentlySelectedSegment": "Segmento seleccionado actualmente: %s",
         "DataAvailableAtLaterDate": "Sus informes analíticos segmentados estarán disponibles más tarde. Lamentamos la inconveniencia.",
         "DefaultAllVisits": "Todas las visitas",
         "DragDropCondition": "Arrastrar & soltar condición",

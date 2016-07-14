@@ -1,4 +1,4 @@
-define([
+define( [
 	"../core"
 ], function( jQuery ) {
 
@@ -10,14 +10,14 @@ jQuery.parseXML = function( data ) {
 	}
 	try {
 		if ( window.DOMParser ) { // Standard
-			tmp = new DOMParser();
+			tmp = new window.DOMParser();
 			xml = tmp.parseFromString( data, "text/xml" );
 		} else { // IE
-			xml = new ActiveXObject( "Microsoft.XMLDOM" );
+			xml = new window.ActiveXObject( "Microsoft.XMLDOM" );
 			xml.async = "false";
 			xml.loadXML( data );
 		}
-	} catch( e ) {
+	} catch ( e ) {
 		xml = undefined;
 	}
 	if ( !xml || !xml.documentElement || xml.getElementsByTagName( "parsererror" ).length ) {
@@ -28,4 +28,4 @@ jQuery.parseXML = function( data ) {
 
 return jQuery.parseXML;
 
-});
+} );

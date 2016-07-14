@@ -53,7 +53,7 @@ class SegmentSelectorControl extends UIControl
                 && ($segment['type'] == 'metric' && $segment['segment'] != 'visitIp')
             ) {
                 $metricsLabel = Piwik::translate('General_Metrics');
-                $metricsLabel[0] = strtolower($metricsLabel[0]);
+                $metricsLabel[0] = Common::mb_strtolower($metricsLabel[0]);
                 $segment['category'] .= ' (' . $metricsLabel . ')';
             }
             $segmentsByCategory[$segment['category']][] = $segment;

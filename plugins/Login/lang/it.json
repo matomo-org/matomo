@@ -12,6 +12,7 @@
         "LoginOrEmail": "Nome utente o E-mail",
         "LoginPasswordNotCorrect": "Combinazione Nome utente e Password non corretta",
         "LostYourPassword": "Hai perso la password?",
+        "MailPasswordChangeBody": "Salve %1$s,\n\nÈ stata ricevuta una richiesta di cambio password da parte di %2$s. Per confermare questo cambio password puoi accedere con le tue nuove credenziali, seguendo questo link:\n\n%3$s\n\nAttenzione: Il cambio di password cambierà anche il tuo token_auth. Puoi vedere il nuovo token_auth nella tua pagina delle impostazioni.\n\nSe stai utilizzando il tuo token_auth API in applicazioni esterne o per archiviazione, assicurati di aggiornarlo, altrimenti le richieste API falliranno.\n\nNota: questo link scadrà tra 24 ore.\n\nE grazie per utilizzare Piwik!",
         "MailTopicPasswordChange": "Conferma Cambio Password",
         "PasswordChanged": "La tua password è stata cambiata.",
         "PasswordRepeat": "Password (ripeti)",

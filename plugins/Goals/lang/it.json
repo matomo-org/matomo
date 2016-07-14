@@ -77,6 +77,7 @@
         "NewGoalIntro": "Il tracciamento delle Conversioni Goal è uno dei modi più efficaci per misurare e migliorare i vostri obiettivi di business.",
         "NewVisitorsConversionRateIs": "Il rapporto di conversione dei nuovi visitatori è %s",
         "NoGoalsNeedAccess": "Solo un Amministratore con privilegi di Super User può gestire gli Obiettivi di un dato sito web. Chiedi al tuo amministratore di Piwik di impostare un Goal per il tuo sito. <br>Tracciare i Goal è un grande modo per aiutare a capire e a massimizzare le prestazioni del tuo sito web!",
+        "NoConversionsNoReportsMessage": "I reporr non vengono visualizzati perché non ci sono dati di conversione per il goal e il periodo selezionati.",
         "NeedAccess": "Solo un Amministratore o un utente con privilegi di Super User può gestire gli Obiettivi di un dato sito.",
         "Optional": "(opzionale)",
         "OverallConversionRate": "%s rapporto di conversione complessivo (visite con un obiettivo completato)",

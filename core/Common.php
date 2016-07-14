@@ -1189,7 +1189,7 @@ class Common
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
             if (!headers_sent()) {
                 // prevent XSS in tracker debug output
-                header('Content-type: text/plain');
+                Common::sendHeader('Content-type: text/plain');
             }
 
             if (is_object($info)) {

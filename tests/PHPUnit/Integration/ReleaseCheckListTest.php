@@ -121,6 +121,86 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function getTemplateFileExtensions()
+    {
+        $extensions = array(
+            array('htm'),
+            array('html'),
+            array('twig'),
+            array('tpl'),
+        );
+        return $extensions;
+    }
+
+    /**
+     * @dataProvider getTemplateFileExtensions
+     */
+    public function testTemplatesDontContainJquery($extension)
+    {
+        $patternFailIfFound = 'jquery';
+
+        // known files that will for sure not contain a "buggy" $patternFailIfFound
+        $whiteListedFiles = array(
+            PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/login.twig',
+            PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
+
+            // Note: entries below are paths and any file within these paths will be automatically whitelisted
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
+            PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
+            PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
+        );
+
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
+        $this->assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles);
+    }
+
+    /**
+     * @param $files
+     * @param $patternFailIfFound
+     * @param $whiteListedFiles
+     */
+    private function assertFilesDoNotContain($files, $patternFailIfFound, $whiteListedFiles)
+    {
+        $foundPatterns = array();
+        foreach ($files as $file) {
+            if($this->isFileOrPathWhitelisted($whiteListedFiles, $file)) {
+                continue;
+            }
+            $content = file_get_contents($file);
+            $foundPattern = strpos($content, $patternFailIfFound) !== false;
+
+            if($foundPattern) {
+                $foundPatterns[] = $file;
+            }
+        }
+
+        $this->assertEmpty($foundPatterns,
+                sprintf("Forbidden pattern \"%s\" was found in the following files ---> please manually delete these files from Git. \n\n\t%s",
+                    $patternFailIfFound,
+                    implode("\n\t", $foundPatterns)
+                )
+        );
+    }
+
+    /**
+     * @param $whiteListedFiles
+     * @param $file
+     * @return bool
+     */
+    private function isFileOrPathWhitelisted($whiteListedFiles, $file)
+    {
+        foreach ($whiteListedFiles as $whitelistFile) {
+            if (strpos($file, $whitelistFile) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
         $pluginsShouldBeDisabled = array(
@@ -656,7 +736,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
             $countFileChecked++;
         }
-        $this->assertTrue($countFileChecked > 100, "expected to test at least 100 files, but tested only " . $countFileChecked);
+        $this->assertTrue($countFileChecked > 42, "expected to test at least 100 files, but tested only " . $countFileChecked);
 
         if (!empty($errors)) {
             throw new Exception(implode(",\n\n ", $errors));
@@ -671,4 +751,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         return stripos($file, "/tests/") !== false;
     }
+
+
 }

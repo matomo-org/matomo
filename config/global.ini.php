@@ -264,7 +264,7 @@ API_datatable_default_limit = 100
 ; (ie. there will be a new "date" column). For example set to: "rss,tsv,csv"
 datatable_export_range_as_day = "rss"
 
-; This setting is overriden in the UI, under "User Settings".
+; This setting is overridden in the UI, under "User Settings".
 ; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday
 ; Possible values: day, week, month, year.
@@ -277,7 +277,7 @@ time_before_today_archive_considered_outdated = 150
 
 ; This setting is overriden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Piwik archiving process.
-; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
+; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
 
 ; By default, Piwik will force archiving of range periods from browser requests, even if enable_browser_archiving_triggering
@@ -304,7 +304,7 @@ minimum_mysql_version = 4.1
 ; PostgreSQL minimum required version
 minimum_pgsql_version = 8.3
 
-; Minimum adviced memory limit in php.ini file (see memory_limit value)
+; Minimum advised memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
 ; Minimum memory limit enforced when archived via ./console core:archive
@@ -389,6 +389,9 @@ scheduled_reports_truncate = 23
 datatable_archiving_maximum_rows_referrers = 1000
 ; maximum number of rows for any of the Referrers subtable (search engines by keyword, keyword by campaign, etc.)
 datatable_archiving_maximum_rows_subtable_referrers = 50
+
+; maximum number of rows for the Users report
+datatable_archiving_maximum_rows_userid_users = 50000
 
 ; maximum number of rows for the Custom Variables names report
 ; Note: if the website is Ecommerce enabled, the two values below will be automatically set to 50000
@@ -513,7 +516,7 @@ overlay_disable_framed_mode = 0
 enable_custom_logo_check = 1
 
 ; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
-; Mysql will try to load the chrooted path (which is imcomplete). To prevent an error, here you can specify the
+; Mysql will try to load the chrooted path (which is incomplete). To prevent an error, here you can specify the
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
 absolute_chroot_path =
 
@@ -584,7 +587,7 @@ use_third_party_id_cookie = 0
 debug = 0
 
 ; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
-; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled. For security reasons this
+; a debug=1 query parameter in the URL. All other HTTP requests will not have debug enabled. For security reasons this
 ; option should be only enabled if really needed and only for a short time frame. Otherwise anyone can set debug=1 and
 ; see the log output as well.
 debug_on_demand = 0
@@ -611,7 +614,9 @@ cookie_path =
 record_statistics = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
-; after his last page view, it will be recorded as a new visit
+; after his last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to 
+; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg 
+; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 
 ; The window to look back for a previous visit by this current visitor. Defaults to visit_standard_length.
@@ -800,6 +805,7 @@ Plugins[] = DevicePlugins
 Plugins[] = Heartbeat
 Plugins[] = Intl
 Plugins[] = PiwikPro
+Plugins[] = UserId
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

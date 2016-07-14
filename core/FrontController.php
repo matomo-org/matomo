@@ -43,14 +43,14 @@ use Piwik\Plugins\CoreAdminHome\CustomLogo;
  *         $_GET['changeVisitAlpha'] = false;
  *         $_GET['removeOldVisits'] = false;
  *         $_GET['showFooterMessage'] = false;
- *         $realtimeMap = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap');
+ *         $realtimeMap = FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
  *
  *         $view = new View('@MyPlugin/myPopupWithRealtimeMap.twig');
  *         $view->realtimeMap = $realtimeMap;
  *         return $realtimeMap->render();
  *     }
  *
- * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
+ * For a detailed explanation, see the documentation [here](https://developer.piwik.org/guides/how-piwik-works).
  *
  * @method static \Piwik\FrontController getInstance()
  */

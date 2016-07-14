@@ -9,7 +9,7 @@ This is the technical concept for implementing content tracking. We won't plan a
 | ------------- | ------------- |
 | Plugin name | Contents |
 | Content block | Is a container which consists of a content name, piece, target and an interaction. |
-| Content name | A name that represents a content block. The name will be visible in reports. One name can belong to differnt content pieces. |
+| Content name | A name that represents a content block. The name will be visible in reports. One name can belong to different content pieces. |
 | Content piece | This is the actual content that was displayed, eg a path to a video/image/audio file, a text, ... |
 | Content target | For instance the URL of a landing page where the user was led to after interacting with the content block. |
 | Content impression | Any content block that was displayed on a page, such as a banner or an ad. Optionally you can tell Piwik to track only impressions for content blocks that were actually visible. |
@@ -494,7 +494,7 @@ There would be two reports:
 Nested content makes sense (users will do this). How would it work when several contents are nested?
 Note: we don't need to handle this case in MVP but maybe worth thinking about it.
 
-6. FYI: We would probably also need an attribute like data-target="$target" and/or the possiblity for data-trackclick="$target" since not all links might be defined via href but onclick javascript links. See next section
+6. FYI: We would probably also need an attribute like data-target="$target" and/or the possibility for data-trackclick="$target" since not all links might be defined via href but onclick javascript links. See next section
 
 +1
 
@@ -520,7 +520,7 @@ Yes.
 Sounds good: this would make Contents plugin more generic.
 
 
-    * We'd probably have to offer a mode to rescan all banners again at a certain time and only track those content pieces now that were not visibile before but are now
+    * We'd probably have to offer a mode to rescan all banners again at a certain time and only track those content pieces now that were not visible before but are now
 
 In ticket I wrote `function trackContentPieces() that will let users re-scan the page for Content pieces when DOM has changed.` but maybe instead the function should be called `rescanPageForContents` ?
 
@@ -535,7 +535,7 @@ so +1
 I think that should be the default mode, ie. on page load we detect impressions, and then we also attach to events like scrolling to check ie. every 500ms whether a given Contents is visible. Would that be work?
 
 10. FYI: "you may add a CSS class or attribute to the link element to track" => It could be also a span, a div or something else
-11. FYI: There is way to much magic how content-name is found and it is neither predicatble nor understandable by users, I will simplify this and rather require users to set specific attributes! See next section
+11. FYI: There is way to much magic how content-name is found and it is neither predictable nor understandable by users, I will simplify this and rather require users to set specific attributes! See next section
 
 OK
 

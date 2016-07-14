@@ -435,17 +435,43 @@ function PiwikTest() {
     test("JSLint", function() {
         expect(1);
         var src = '<?php
+
+            // Once we use JSHint instead of jslint, we could remove a few lines below,
+            // to use instead the feature to disable jshint for the JSON2 block
+//             /* jshint ignore:start */
+//             // Code here will be linted with ignored by JSHint.
+//             /* jshint ignore:end */
+
+
+            function getLineCountJsLintStarted($src,$contentRemovedFromPos) {
+                $contentRemoved = substr($src, 0, $contentRemovedFromPos);
+                // the JS code contain \n within the JS code, but these are not new lines
+                $contentRemovedWithoutBackslash = str_replace('\\\n', '', $contentRemoved);
+                $countOfLinesRemoved = count(explode('\\n', $contentRemovedWithoutBackslash)) - 1;
+                return $countOfLinesRemoved;
+            }
+
             $src = file_get_contents('../../js/piwik.js');
+
             $src = strtr($src, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
-            $src = substr($src, strpos($src, '/* startjslint */'));
-            echo "$src"; ?>';
+            $contentRemovedFromPos = strpos($src, '/* startjslint */');
+            $contentToJslint = substr($src, $contentRemovedFromPos);
+
+            echo "$contentToJslint"; ?>';
 
         var result = JSLINT(src);
-        ok( result, "JSLint" );
+        ok( result, "JSLint did not validate, please check the browser console for the list of jslint errors." );
         if (console && console.log && !result) {
+            var countOfLinesRemoved = <?php echo getLineCountJsLintStarted($src,$contentRemovedFromPos); ?>;
+
+            // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
+            JSLINT.errors.forEach( function (item, index) {
+                item.line += countOfLinesRemoved;
+                console.log(item);
+            });
+
             console.log('JSLINT errors', JSLINT.errors);
         }
-//      alert(JSLINT.report(true));
     });
 
     test("JSON", function() {
@@ -1928,9 +1954,10 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(69);
+        expect(70);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
+        equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
         equal( typeof Piwik.getAsyncTracker, 'function', 'getAsyncTracker' );
 
@@ -2068,8 +2095,66 @@ function PiwikTest() {
         var customTracker = Piwik.getTracker('customTrackerUrl', '71');
         var customVisitorId = customTracker.getVisitorId();
         notEqual(Piwik.getAsyncTracker().getVisitorId(), customVisitorId, 'Visitor ID are different on different websites');
+    });
+
+    test("Managing multiple trackers", function() {
+        expect(23);
+
+        var asyncTracker = Piwik.getAsyncTracker();
+        var i, tracker;
+
+        // TEST addTracker()
+
+        var trackers = [
+            {idSite: '71', url: 'customTrackerUrl', expectedIdSite: '71', expectedUrl: 'customTrackerUrl'},
+            {idSite: 72, url: 'customTrackerUrl', expectedIdSite: 72, expectedUrl: 'customTrackerUrl'},
+            {idSite: 72, url: 'anotherTrackerUrl', expectedIdSite: 72, expectedUrl: 'anotherTrackerUrl'},
+            {idSite: 73, url: null, expectedIdSite: 73, expectedUrl: asyncTracker.getTrackerUrl()}
+        ]
+
+        // add Tracker returns created tracker instance
+        for (i = 0; i < trackers.length; i++) {
+            tracker = trackers[i];
+            var createdTracker = asyncTracker.addTracker(tracker.url, tracker.idSite);
+            equal(tracker.expectedIdSite, createdTracker.getSiteId(), 'addTracker() was created with correct idsite ' + tracker.expectedIdSite);
+            equal(tracker.expectedUrl, createdTracker.getTrackerUrl(), 'addTracker() was created with correct piwikUrl ' + tracker.expectedUrl);
+        }
+
+        // TEST getAsyncTracker()
+
+        // by default still returns first tracker
+        var firstTracker = Piwik.getAsyncTracker();
+        equal(firstTracker.getSiteId(), asyncTracker.getSiteId(), 'getAsyncTracker() async same site id');
+        equal(firstTracker.getTrackerUrl(), asyncTracker.getTrackerUrl(), 'getAsyncTracker() async same getTrackerUrl()');
+        equal(firstTracker, asyncTracker, 'getAsyncTracker() async same tracker instance');
 
 
+        try {
+            // should throw exception when no idSite given
+            asyncTracker.addTracker(tracker.url);
+            ok(false, 'addTracker() without siteId expected exception has not been triggered');
+        } catch (e) {
+            ok(true, 'addTracker() siteId expected exception has been triggered');
+        }
+
+        // getting a specific tracker instance
+
+        for (i = 0; i < trackers.length; i++) {
+            tracker = trackers[i];
+            var fetchedTracker = Piwik.getAsyncTracker(tracker.url, tracker.idSite);
+            equal(tracker.expectedIdSite, fetchedTracker.getSiteId(), 'getAsyncTracker() correct site id ' + tracker.expectedIdSite);
+            equal(tracker.expectedUrl, fetchedTracker.getTrackerUrl(), 'getAsyncTracker() correct tracker url ' + tracker.expectedUrl);
+        }
+
+        // getting an unknown instance
+        equal(null, Piwik.getAsyncTracker('unknownUrl', 72), 'getAsyncTracker() piwikUrl not known');
+        equal(null, Piwik.getAsyncTracker('customTrackerUrl', 999982), 'getAsyncTracker() piwikSiteId not known');
+
+        var fetchedTracker = Piwik.getAsyncTracker('customTrackerUrl', '71');
+        var createdTracker = fetchedTracker.addTracker(null, 55);
+        equal('customTrackerUrl', createdTracker.getTrackerUrl(), 'addTracker() should be default use tracker url of current tracker, not first tracker');
+
+        asyncTracker.removeAllAsyncTrackersButFirst();
     });
 
     test("AnalyticsTracker alias", function() {
@@ -2878,6 +2963,28 @@ function PiwikTest() {
         ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
     });
 
+    test("Generate error messages when calling an undefined API method", function() {
+        expect(2);
+
+        // temporarily reset the console error logger so our errors don't show up in the console log while running tests.
+        var console = {};
+        var errorCallBack = console.error;
+        window.console.error = function() {};
+
+        // Calling undefined methods should generate an error
+        function callNonExistingMethod() {
+            _paq.push(['NonExistingFunction should error and display the error in the console.']);
+        }
+        function callNonExistingMethodWithParameter() {
+            _paq.push(['NonExistingFunction should not error', 'this is a parameter']);
+        }
+
+        throws( callNonExistingMethod, /was not found in "_paq" variable/, 'Expected to raise an error when calling an undefined method.');
+        throws( callNonExistingMethodWithParameter, /was not found in "_paq" variable/, 'Expected to raise an error when calling an undefined method with parameters.');
+
+        window.console.error = errorCallBack;
+    });
+
     test("Overlay URL Normalizer", function() {
         expect(23);
 
@@ -2983,7 +3090,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(114);
+        expect(118);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3237,7 +3344,11 @@ if ($mysql) {
         tracker3.addEcommerceItem("SKU NO PRICE NO QUANTITY", "PRODUCT NAME 3", "CATEGORY", "", "" );
         tracker3.addEcommerceItem("SKU ONLY" );
         tracker3.trackEcommerceCartUpdate( 555.55 );
+
         tracker3.trackEcommerceOrder( "ORDER ID YES", 666.66, 333, 222, 111, 1 );
+
+        // the same order tracked once more, should have no items
+        tracker3.trackEcommerceOrder( "ORDER WITHOUT ANY ITEM", 777, 444, 222, 111, 1 );
 
         // do not track
         tracker3.setDoNotTrack(false);
@@ -3288,12 +3399,21 @@ if ($mysql) {
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
 
+        // add tracker
+        _paq.push(["addTracker", null, 13]);
+        var createdNewTracker = Piwik.getAsyncTracker(null, 13);
+        equal(13, createdNewTracker.getSiteId(), "addTracker() was actually added");
+
+        createdNewTracker.setCustomData({ "token" : getToken() });
+        _paq.push(['trackPageView', 'twoTrackers']);
+        tracker.removeAllAsyncTrackersButFirst();
+
         stop();
         setTimeout(function() {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "33", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "36", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -3370,6 +3490,9 @@ if ($mysql) {
             // Cart update
             ok( /idgoal=0&revenue=555.55&ec_items=%5B%5B%22SKU%20PRODUCT%22%2C%22random%22%2C%22random%20PRODUCT%20CATEGORY%22%2C11.1111%2C2%5D%2C%5B%22SKU%20ONLY%20SKU%22%2C%22%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%20NAME%22%2C%22PRODUCT%20NAME%202%22%2C%22%22%2C0%2C1%5D%2C%5B%22SKU%20NO%20PRICE%20NO%20QUANTITY%22%2C%22PRODUCT%20NAME%203%22%2C%22CATEGORY%22%2C0%2C1%5D%2C%5B%22SKU%20ONLY%22%2C%22%22%2C%22%22%2C0%2C1%5D%5D/.test( results ), "logEcommerceCartUpdate() with items" );
 
+            // Ecommerce order recorded twice, but each order empties the cart/list of items, so this order is empty of items
+            ok( /idgoal=0&ec_id=ORDER%20WITHOUT%20ANY%20ITEM&revenue=777&ec_st=444&ec_tx=222&ec_sh=111&ec_dt=1&ec_items=%5B%5D/.test( results ), "logEcommerceOrder() called twice, second time has no item" );
+
             // parameters inserted by plugin hooks
             ok( /testlog/.test( results ), "plugin hook log" );
             ok( /testlink/.test( results ), "plugin hook link" );
@@ -3384,6 +3507,9 @@ if ($mysql) {
             // Testing the JavaScript Error Tracking
             ok( /e_c=JavaScript%20Errors&e_a=http%3A%2F%2Fpiwik.org%2Fpath%2Fto%2Ffile.js%3Fcb%3D34343%3A44%3A12&e_n=Uncaught%20Error%3A%20The%20message&idsite=1/.test( results ), "enableJSErrorTracking() function with predefined onerror event");
             ok( /e_c=JavaScript%20Errors&e_a=http%3A%2F%2Fpiwik.org%2Fpath%2Fto%2Ffile.js%3Fcb%3D3kfkf%3A45&e_n=Second%20Error%3A%20With%20less%20data&idsite=1/.test( results ), "enableJSErrorTracking() function without predefined onerror event and less parameters");
+
+            ok( /piwik.php\?action_name=twoTrackers&idsite=1&/.test( results ), "addTracker() trackPageView() sends request to both Piwik instances");
+            ok( /piwik.php\?action_name=twoTrackers&idsite=13&/.test( results ), "addTracker() trackPageView() sends request to both Piwik instances");
 
             start();
         }, 5000);
@@ -4098,6 +4224,14 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
     }
 })(PiwikTest);
  </script>
+ 
+<?php
+    include_once $root . '/core/Filesystem.php';
+    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'index.php');
+    foreach ($files as $file) {
+        include_once $file;
+    }
+?>
 
  <div id="jashDiv">
  <a href="#" onclick="javascript:loadJash();" title="Open JavaScript Shell"><img id="title" src="gnome-terminal.png" border="0" width="24" height="24" /></a>

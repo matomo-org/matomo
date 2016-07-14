@@ -1,6 +1,17 @@
 # Piwik Platform Changelog
 
-This is a changelog for Piwik platform developers. All changes for our HTTP API's, Plugins, Themes, etc will be listed here.
+This is the Developer Changelog for Piwik platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
+
+The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
+
+## Piwik 2.16.2
+
+### New APIs
+ * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers.
+ * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
+
+### Internal change
+ * `piwik.js`: after an ecommerce order is tracked using `trackEcommerceOrder`, the items in the cart will now be removed from the JavaScript object. Calling `trackEcommerceCartUpdate` will not remove the items in the cart.   
 
 ## Piwik 2.16.1
 

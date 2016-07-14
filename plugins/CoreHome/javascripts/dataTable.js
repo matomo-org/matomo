@@ -473,7 +473,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var tableRowLimits = piwik.config.datatable_row_limits,
             evolutionLimits =
             {
-                day: [30, 60, 90, 180, 365, 500],
+                day: [8, 30, 60, 90, 180, 365, 500],
                 week: [4, 12, 26, 52, 104, 500],
                 month: [3, 6, 12, 24, 36, 120],
                 year: [3, 5, 10]
@@ -711,7 +711,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 if (self.param.keep_summary_row == 1) --totalRows;
 
-                if (offsetEnd > totalRows) offsetEndDisp = totalRows;
+                if (offsetEnd > totalRows || Number(self.param.filter_limit) == -1) offsetEndDisp = totalRows;
 
                 // only show this string if there is some rows in the datatable
                 if (totalRows != 0) {
@@ -731,7 +731,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 + Number(self.param.filter_limit);
             var totalRows = Number(self.param.totalRows);
             if (self.param.keep_summary_row == 1) --totalRows;
-            if (offsetEnd < totalRows) {
+            if (offsetEnd < totalRows && Number(self.param.filter_limit) != -1) {
                 $(this).css('display', 'inline');
             }
         });
@@ -1631,16 +1631,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             tooltip.next().hover(function () {
                     var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
-                    var top = -1 * (tooltip.outerHeight() + 10);
+                    var top = -1 * tooltip.outerHeight();
 
                     if (th.next().size() == 0) {
                         left = (-1 * tooltip.outerWidth()) + th.width() +
                             parseInt(th.css('padding-right'), 10);
                     }
 
+                    if (th.offset().top + top < 0) {
+                        top = th.outerHeight();
+                    }
+
                     tooltip.css({
                         marginLeft: left,
-                        marginTop: top
+                        marginTop: top,
+                        top: 0
                     });
 
                     tooltip.stop(true, true).fadeIn(250);

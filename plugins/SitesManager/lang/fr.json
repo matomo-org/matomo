@@ -78,6 +78,7 @@
         "UTCTimeIs": "L'heure UTC est %s.",
         "OnlyMatchedUrlsAllowed": "Effectue le suivi des visites et actions uniquement quand l'URL d'action commence avec une des URLs ci-dessus.",
         "OnlyMatchedUrlsAllowedHelp": "Quand activé, Piwik va effectuer le suivi des actions uniquement quand l'URL de la page est une des URLs de votre site web. Ceci empêche les gens de spammer vos données d'analyse avec des URLs d'autres sites web.",
+        "OnlyMatchedUrlsAllowedHelpExamples": "Le domaine et le chemin doivent être exacts et chaque sous-domaine valide doit être précisé séparément. Par exemple quand les URLs connues sont \"http:\/\/exemple.com\/chemin\" et \"http:\/\/bon.exemple.com\", les requêtes de suivit pour \"http:\/\/exemple.com\/autrechemin\" ou \"http:\/\/mauvais.exemple.com\" sont ignorées.",
         "WebsitesManagement": "Gestion des sites",
         "XManagement": "Gérer %s",
         "ChooseMeasurableTypeHeadline": "Que voudriez-vous mesurer ?",

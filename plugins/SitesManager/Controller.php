@@ -139,8 +139,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $path = PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/';
         $filename = 'PiwikTracker.php';
-        header('Content-type: text/php');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        Common::sendHeader('Content-type: text/php');
+        Common::sendHeader('Content-Disposition: attachment; filename="' . $filename . '"');
         return file_get_contents($path . $filename);
     }
 

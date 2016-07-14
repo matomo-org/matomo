@@ -46,6 +46,7 @@
         "JSTrackingIntro5": "Si desea hacer más que rastrear vistas de páginas, revise la %1$sDocumentación de Javascript de Piwik%2$s acerca de las funciones disponibles. Utilizando estas funciones puede rastrear objetivos, variables personalizadas, órdenes de comercio electrónico, carritos abandonados y más.",
         "LogoNotWriteableInstruction": "Para utilizar su logo personalizado en lugar del logo estándar de Piwik puede conceder permisos de escritura a este directorio: %1$s Piwik necesita el permiso de escritura para sus logos guardados en los archivos %2$s.",
         "FileUploadDisabled": "La carga de archivos no está habilitada en su configuración de PHP. Para cargar su logotipo personalizado, por favor ingrese %s en el php.ini y reinicie su servidor de internet.",
+        "LogoUploadFailed": "El fichero no ha podido subirse de forma correcta. Por favor, comprueba si el fichero tiene un formato correcto.",
         "LogoUpload": "Seleccione un logo para subir",
         "FaviconUpload": "Selecciona un Favicon para subir",
         "LogoUploadHelp": "Sube un archivo en formato %1$s con una altura mínima de %2$s píxeles.",
@@ -83,6 +84,7 @@
         "YouAreOptedOut": "Actualmente no hay optado.",
         "YouMayOptOut": "Puede escojer no tener un único número de identificación de la cookie de análisis de internet asignado a su ordenador para prevenir la agregación y el análisis de datos recogidos en este sitio de internet.",
         "YouMayOptOutBis": "Para escoger esto, por favor haga clic debajo para recibir una cookie opt-out (para no ser seguido).",
-        "OptingYouOut": "Opción a salir, por favor espere..."
+        "OptingYouOut": "Opción a salir, por favor espere...",
+        "ProtocolNotDetectedCorrectly": "Actualmente estás usando Piwik sobre una conexión SSL (usando HTTPs), pero Piwik solo puede detectar una conexión insegura en el servidor."
     }
 }

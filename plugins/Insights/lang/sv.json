@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "PluginDescription": "Ger tillgång till i insikter om din trafik. Insikter finns tillgänglig som en instrumentpanel men även som en ny ikon i rapporter för att du ska få tillgång till de viktigaste trenderna i din data.",
         "ControlComparedToDescription": "Tillväxt jämfört med",
         "ControlFilterByDescription": "Visa alla, endast förändringar, endast nya eller endast försvunna",
         "DatePeriodCombinationNotSupported": "Det är inte möjligt att generera insikter för datum och tid tillsammans.",
