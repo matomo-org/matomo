@@ -3071,7 +3071,54 @@ function PiwikTest() {
         equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), '/', 'only piwik.php with leading slash with query' );
     });
 
-<?php
+    function generateAnIframeInDocument() {
+        // Generate an iframe, and call the method inside the iframe to check it returns true
+        var hostAndPath = $(location).attr('origin') + $(location).attr('pathname');
+        var iframe = document.createElement('iframe');
+        iframe.id = "iframeTesting";
+        iframe.style= "display : none";
+        var html = '\
+            <html><body> \
+            <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=' + Math.random() + '" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + 'piwiktest.js" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt type="text/javascript"> \
+            window.isInsideIframe = function () { \
+                var tracker = Piwik.getTracker(); \
+                return tracker.hook.test._isInsideAnIframe(); \
+            }; \
+            \
+            </sc' + 'ript> \
+            </body></html>\
+        ';
+
+        document.body.appendChild(iframe);
+        iframe.contentWindow.document.open();
+        iframe.contentWindow.document.write(html);
+        iframe.contentWindow.document.close();
+    }
+
+    asyncTest("isInsideAnIframe", function() {
+
+        generateAnIframeInDocument();
+
+
+        stop();
+        setTimeout(function() {
+            expect(4);
+            var tracker = Piwik.getTracker();
+            var isInsideAnIframe = tracker.hook.test._isInsideAnIframe;
+            equal( typeof isInsideAnIframe, 'function', 'isInsideAnIframe' );
+            equal( isInsideAnIframe(), null, 'these tests are not running inside an iframe');
+            equal( !isInsideAnIframe(), true, 'these tests are not running inside an iframe');
+
+            equal( document.getElementById("iframeTesting").contentWindow.isInsideIframe(), true, 'inside an iframe, isInsideAnIframe() returns true');
+
+            start();
+        }, 1000); // wait for iframe to load
+
+    });
+
+    <?php
 if ($mysql) {
     ?>
 
