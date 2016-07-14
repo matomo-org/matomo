@@ -1666,6 +1666,11 @@ if (typeof window.Piwik !== 'object') {
             return -1;
         }
 
+        function stringStartsWith(str, prefix) {
+            str = String(str);
+            return str.lastIndexOf(prefix, 0) === 0;
+        }
+
         function stringEndsWith(str, suffix) {
             str = String(str);
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -3083,7 +3088,15 @@ if (typeof window.Piwik !== 'object') {
 
             function isSitePath (path, pathAlias)
             {
-                var matchesAnyPath = (!pathAlias || pathAlias === '/' || pathAlias === '/*');
+                if(!stringStartsWith(pathAlias, '/')) {
+                    pathAlias = '/' + pathAlias;
+                }
+
+                if(!stringStartsWith(path, '/')) {
+                    path = '/' + path;
+                }
+
+                var matchesAnyPath = (pathAlias === '/' || pathAlias === '/*');
 
                 if (matchesAnyPath) {
                     return true;
@@ -3091,10 +3104,6 @@ if (typeof window.Piwik !== 'object') {
 
                 if (path === pathAlias) {
                     return true;
-                }
-
-                if (!path) {
-                    return false;
                 }
 
                 pathAlias = String(pathAlias).toLowerCase();
