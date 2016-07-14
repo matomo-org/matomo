@@ -5630,13 +5630,14 @@ if (typeof window.Piwik !== 'object') {
                         }
 
                         var pathName = getPathName(alias);
-
                         if (pathName && pathName !== '/' && pathName !== '/*') {
                             hasDomainAliasAlready = true;
                             break;
                         }
                     }
 
+                    // The current domain will be added automatically if no given host alias contains a path
+                    // and if no host alias is already given for the current host alias.
                     if (!hasDomainAliasAlready) {
                         /**
                          * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should

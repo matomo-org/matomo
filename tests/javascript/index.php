@@ -2347,32 +2347,31 @@ function PiwikTest() {
 
         // test wildcards
         tracker.setDomains( ['*.Example.com'] );
-        propEqual(["*.Example.com", domainAlias], tracker.getDomains(), 'should add domainAlias');
-
-        tracker.setDomains( ['*.Example.com/path'] );
-        propEqual(["*.Example.com/path"], tracker.getDomains(), 'if any other domain has path should not add domainAlias');
+        propEqual(tracker.getDomains(), ["*.Example.com", domainAlias], 'should add domainAlias');
 
         tracker.setDomains( ['*.Example.com/'] );
-        propEqual(["*.Example.com/", domainAlias], tracker.getDomains(), 'should add domainAlias if domain has a slash as it is not a path');
+        propEqual(tracker.getDomains(), ["*.Example.com/", domainAlias], 'should add domainAlias if domain has a slash as it is not a path');
 
         tracker.setDomains( ['*.Example.com/*'] );
-        propEqual(["*.Example.com/*", domainAlias], tracker.getDomains(), 'should add domainAlias if domain has /* as it is not a path');
+        propEqual(tracker.getDomains(), ["*.Example.com/*", domainAlias], 'should add domainAlias if domain has /* as it is not a path');
 
         tracker.setDomains( '*.Example.org' );
-        propEqual(["*.Example.org", domainAlias], tracker.getDomains(), 'should handle a string');
+        propEqual(tracker.getDomains(), ["*.Example.org", domainAlias], 'should handle a string');
+
+        tracker.setDomains( ['*.Example.com/path'] );
+        propEqual(tracker.getDomains(), ["*.Example.com/path"], 'if any other domain has path should not add domainAlias');
 
         tracker.setDomains( ['*.Example.com', '*.example.ORG'] );
-        propEqual(["*.Example.com", '*.example.ORG', domainAlias], tracker.getDomains(), 'should be able to set many domains');
+        propEqual(tracker.getDomains(), ["*.Example.com", '*.example.ORG', domainAlias], 'should be able to set many domains');
 
         tracker.setDomains( [] );
-        propEqual([domainAlias], tracker.getDomains(), 'setting an empty array should reset the list');
+        propEqual(tracker.getDomains(), [domainAlias], 'setting an empty array should reset the list');
 
         tracker.setDomains( ['*.Example.com', domainAlias + '/path', '*.example.ORG'] );
-        propEqual(['*.Example.com', domainAlias + '/path', '*.example.ORG'], tracker.getDomains(), 'if domain alias is already given should not add domainAlias');
+        propEqual(tracker.getDomains(), ['*.Example.com', domainAlias + '/path', '*.example.ORG'], 'if domain alias is already given should not add domainAlias');
 
         tracker.setDomains( ['.' + domainAlias + '/path'] );
-        propEqual(['.' + domainAlias + '/path'], tracker.getDomains(), 'if domain alias with subdomain is already given should not add domainAlias');
-
+        propEqual(tracker.getDomains(), ['.' + domainAlias + '/path'], 'if domain alias with subdomain is already given should not add domainAlias');
 
         /**
          * isSiteHostName ()
