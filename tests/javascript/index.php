@@ -3097,24 +3097,24 @@ function PiwikTest() {
         iframe.contentWindow.document.close();
     }
 
-    asyncTest("isInsideAnIframe", function() {
+    test("isInsideAnIframe", function() {
 
         generateAnIframeInDocument();
 
-
         stop();
         setTimeout(function() {
+
             expect(4);
             var tracker = Piwik.getTracker();
             var isInsideAnIframe = tracker.hook.test._isInsideAnIframe;
             equal( typeof isInsideAnIframe, 'function', 'isInsideAnIframe' );
             equal( isInsideAnIframe(), null, 'these tests are not running inside an iframe');
             equal( !isInsideAnIframe(), true, 'these tests are not running inside an iframe');
-
             equal( document.getElementById("iframeTesting").contentWindow.isInsideIframe(), true, 'inside an iframe, isInsideAnIframe() returns true');
 
             start();
-        }, 1000); // wait for iframe to load
+
+        }, 2000); // wait for iframe to load
 
     });
 
