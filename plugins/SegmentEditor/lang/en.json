@@ -13,6 +13,7 @@
         "DataAvailableAtLaterDate": "Your segmented analytics reports will be available later. We apologize for the inconvenience.",
         "DefaultAllVisits": "All visits",
         "DragDropCondition": "Drag & Drop condition",
+        "HideMessageInFuture": "Hide this message in the future",
         "LoadingSegmentedDataMayTakeSomeTime": "Processing segmented visitor data may take a few minutes...",
         "OperatorAND": "AND",
         "OperatorOR": "OR",
