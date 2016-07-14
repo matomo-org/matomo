@@ -67,7 +67,8 @@ class AllColumns extends HtmlTable
 
     public function beforeLoadDataTable()
     {
-        $this->requestConfig->request_parameters_to_modify['pivotBy'] = null; // always unset pivotBy
+        unset($this->requestConfig->request_parameters_to_modify['pivotBy']);
+        unset($this->requestConfig->request_parameters_to_modify['pivotByColumn']);
     }
 
     protected function isPivoted()
