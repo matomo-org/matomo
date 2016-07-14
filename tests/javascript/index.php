@@ -2329,7 +2329,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
-        expect(154);
+        expect(157);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2347,23 +2347,31 @@ function PiwikTest() {
 
         // test wildcards
         tracker.setDomains( ['*.Example.com'] );
-        propEqual(["*.Example.com", domainAlias], tracker.getDomains()), 'should add domainAlias';
+        propEqual(tracker.getDomains(), ["*.Example.com", domainAlias], 'should add domainAlias');
+
+        tracker.setDomains( ['*.Example.com/'] );
+        propEqual(tracker.getDomains(), ["*.Example.com/", domainAlias], 'should add domainAlias if domain has a slash as it is not a path');
+
+        tracker.setDomains( ['*.Example.com/*'] );
+        propEqual(tracker.getDomains(), ["*.Example.com/*", domainAlias], 'should add domainAlias if domain has /* as it is not a path');
 
         tracker.setDomains( '*.Example.org' );
-        propEqual(["*.Example.org", domainAlias], tracker.getDomains()), 'should handle a string';
+        propEqual(tracker.getDomains(), ["*.Example.org", domainAlias], 'should handle a string');
+
+        tracker.setDomains( ['*.Example.com/path'] );
+        propEqual(tracker.getDomains(), ["*.Example.com/path"], 'if any other domain has path should not add domainAlias');
 
         tracker.setDomains( ['*.Example.com', '*.example.ORG'] );
-        propEqual(["*.Example.com", '*.example.ORG', domainAlias], tracker.getDomains()), 'should be able to set many domains';
+        propEqual(tracker.getDomains(), ["*.Example.com", '*.example.ORG', domainAlias], 'should be able to set many domains');
 
         tracker.setDomains( [] );
-        propEqual([domainAlias], tracker.getDomains()), 'setting an empty array should reset the list';
+        propEqual(tracker.getDomains(), [domainAlias], 'setting an empty array should reset the list');
 
         tracker.setDomains( ['*.Example.com', domainAlias + '/path', '*.example.ORG'] );
-        propEqual(['*.Example.com', domainAlias + '/path', '*.example.ORG'], tracker.getDomains()), 'if domain alias is already given should not add domainAlias';
+        propEqual(tracker.getDomains(), ['*.Example.com', domainAlias + '/path', '*.example.ORG'], 'if domain alias is already given should not add domainAlias');
 
         tracker.setDomains( ['.' + domainAlias + '/path'] );
-        propEqual(['.' + domainAlias + '/path'], tracker.getDomains()), 'if domain alias with subdomain is already given should not add domainAlias';
-
+        propEqual(tracker.getDomains(), ['.' + domainAlias + '/path'], 'if domain alias with subdomain is already given should not add domainAlias');
 
         /**
          * isSiteHostName ()
@@ -2513,7 +2521,6 @@ function PiwikTest() {
         // they should not be detected as outlink as they match one of the domains
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed http://www.piwik.org/foo/bar matches .piwik.org/foo')
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed http://piwik.org/foo/bar matches .piwik.org/foo')
-        equal(undefined, getLinkIfShouldBeProcessed(createLink('piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed missing protocol only domain given')
         equal(undefined, getLinkIfShouldBeProcessed(createLink('//piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed no protcol but url starts with //')
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo?x=1')), 'getLinkIfShouldBeProcessed url with query parameter should detect correct path')
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo')), 'getLinkIfShouldBeProcessed path is same as allowed path')
@@ -2523,6 +2530,7 @@ function PiwikTest() {
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://WWW.PIWIK.ORG/BAR/BAZ')), 'getLinkIfShouldBeProcessed should test everything lowercase')
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz/x/y/z')), 'getLinkIfShouldBeProcessed many appended paths')
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/bar/baz?test=1&foo=bar')), 'getLinkIfShouldBeProcessed another test with query parameter and multiple directories')
+        equal('link', getLinkIfShouldBeProcessed(createLink('piwik.org/foo/bar')).type, 'getLinkIfShouldBeProcessed missing protocol only domain given should be outlink as current domain not given in setDomains')
         propEqual({
                 "href": "http://www.piwik.org/foo/download.apk",
                 "type": "download"

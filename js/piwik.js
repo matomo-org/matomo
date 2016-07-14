@@ -3063,10 +3063,17 @@ if (typeof window.Piwik !== 'object') {
             function getPathName(url) {
                 var parser = document.createElement('a');
                 if (url.indexOf('//') !== 0 && url.indexOf('http') !== 0) {
+                    if (url.indexOf('*') === 0) {
+                        url = url.substr(1);
+                    }
+                    if (url.indexOf('.') === 0) {
+                        url = url.substr(1);
+                    }
                     url = 'http://' + url;
                 }
 
                 parser.href = content.toAbsoluteUrl(url);
+
                 if (parser.pathname) {
                     return parser.pathname;
                 }
@@ -5598,19 +5605,39 @@ if (typeof window.Piwik !== 'object') {
                  * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
                  * that don't go to piwik.org/index* would be treated as outlinks.
                  *
+                 * The current domain will be added automatically if no given host alias contains a path and if no host
+                 * alias is already given for the current host alias. Say you are on "example.org" and set
+                 * "hostAlias = ['example.com', 'example.org/test']" then the current "example.org" domain will not be
+                 * added as there is already a more restrictive hostAlias 'example.org/test' given. We also do not add
+                 * it automatically if there was any other host specifying any path like
+                 * "['example.com', 'example2.com/test']". In this case we would also not add the current
+                 * domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path
+                 * feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts
+                 * manually.
+                 *
                  * @param string|array hostsAlias
                  */
                 setDomains: function (hostsAlias) {
                     configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
 
-                    var hasDomainAliasAlready = false, i;
-                    for (i in configHostsAlias) {
-                        if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
-                            && isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
+                    var hasDomainAliasAlready = false, i = 0, alias;
+                    for (i; i < configHostsAlias.length; i++) {
+                        alias = String(configHostsAlias[i]);
+
+                        if (isSameHost(domainAlias, domainFixup(alias))) {
                             hasDomainAliasAlready = true;
+                            break;
+                        }
+
+                        var pathName = getPathName(alias);
+                        if (pathName && pathName !== '/' && pathName !== '/*') {
+                            hasDomainAliasAlready = true;
+                            break;
                         }
                     }
 
+                    // The current domain will be added automatically if no given host alias contains a path
+                    // and if no host alias is already given for the current host alias.
                     if (!hasDomainAliasAlready) {
                         /**
                          * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
