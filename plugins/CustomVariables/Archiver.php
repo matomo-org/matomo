@@ -13,8 +13,8 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
+use Piwik\Tracker\EcommerceItems;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -199,7 +199,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $count = 0;
                 foreach ($decoded as $category) {
                     if (empty($category)
-                        || $count >= GoalManager::MAXIMUM_PRODUCT_CATEGORIES
+                        || $count >= EcommerceItems::MAXIMUM_PRODUCT_CATEGORIES
                     ) {
                         continue;
                     }
