@@ -3109,7 +3109,7 @@ function PiwikTest() {
             var tracker = Piwik.getTracker();
             var isInsideAnIframe = tracker.hook.test._isInsideAnIframe;
             equal( typeof isInsideAnIframe, 'function', 'isInsideAnIframe' );
-            equal( isInsideAnIframe(), null, 'these tests are not running inside an iframe, got: ' + isInsideAnIframe());
+            equal( isInsideAnIframe(), false, 'these tests are not running inside an iframe, got: ' + isInsideAnIframe());
             equal( !isInsideAnIframe(), true, 'these tests are not running inside an iframe');
             equal( document.getElementById("iframeTesting").contentWindow.isInsideIframe(), true, 'inside an iframe, isInsideAnIframe() returns true');
 
