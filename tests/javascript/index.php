@@ -3099,11 +3099,14 @@ function PiwikTest() {
             <html><body> \
             <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + 'piwiktest.js" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + '../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
-            window.isInsideIframe = function () { \
-                var tracker = Piwik.getTracker(); \
-                return tracker.hook.test._isInsideAnIframe(); \
-            }; \
+            $(document).ready(function() { \
+                window.isInsideIframe = function () { \
+                    var tracker = Piwik.getTracker(); \
+                    return tracker.hook.test._isInsideAnIframe(); \
+                }; \
+            });\
             \
             </sc' + 'ript> \
             </body></html>\
@@ -3113,6 +3116,7 @@ function PiwikTest() {
         iframe.contentWindow.document.open();
         iframe.contentWindow.document.write(html);
         iframe.contentWindow.document.close();
+
     }
 
     test("isInsideAnIframe", function() {
