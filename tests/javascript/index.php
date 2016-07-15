@@ -5,6 +5,13 @@
     <meta charset="utf-8">
     <title>piwik.js: Unit Tests</title>
 <?php
+
+$cacheBuster = md5(uniqid(mt_rand(), true));
+
+// Note: when you want to debug the piwik.js during the tests, you need to set a cache buster that is always the same
+// between requests so the browser knows it is the same file and know where to breakpoint.
+//$cacheBuster= 'nocb'; // uncomment to debug
+
 $root = dirname(__FILE__) . '/../..';
 
 try {
@@ -53,8 +60,7 @@ testTrackPageViewAsync();
 ?>
  </script>
  <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
- <script src="../../js/piwik.js?rand=<?php $cacheBuster = md5(uniqid(mt_rand(), true));
- echo $cacheBuster ?>" type="text/javascript"></script>
+ <script src="../../js/piwik.js?rand=<?php echo $cacheBuster ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
@@ -80,6 +86,7 @@ testTrackPageViewAsync();
 
  <script type="text/javascript">
  QUnit.config.reorder = false;
+ QUnit.config.altertitle = false;
 function _e(id){
     if (document.getElementById)
         return document.getElementById(id);
@@ -3102,11 +3109,13 @@ function PiwikTest() {
             <scr' + 'ipt src="' + hostAndPath + '../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
             $(document).ready(function() { \
+                window.iframeIsLoaded = true; \
                 window.isInsideIframe = function () { \
                     var tracker = Piwik.getTracker(); \
                     return tracker.hook.test._isInsideAnIframe(); \
                 }; \
-            });\
+            });    \
+            window.iframeIsLoaded = false; \
             \
             </sc' + 'ript> \
             </body></html>\
@@ -3117,26 +3126,29 @@ function PiwikTest() {
         iframe.contentWindow.document.write(html);
         iframe.contentWindow.document.close();
 
-    }
+    };
 
     test("isInsideAnIframe", function() {
 
+        expect(6);
+        var tracker = Piwik.getTracker();
+        var isInsideAnIframe = tracker.hook.test._isInsideAnIframe;
+        equal( typeof isInsideAnIframe, 'function', 'isInsideAnIframe' );
+        equal( isInsideAnIframe(), false, 'these tests are not running inside an iframe, got: ' + isInsideAnIframe());
+        equal( !isInsideAnIframe(), true, 'these tests are not running inside an iframe');
+        equal( document.getElementById("iframeTesting"), undefined, 'the iframe is not loaded yet...');
+
         generateAnIframeInDocument();
+
 
         stop();
         setTimeout(function() {
-
-            expect(4);
-            var tracker = Piwik.getTracker();
-            var isInsideAnIframe = tracker.hook.test._isInsideAnIframe;
-            equal( typeof isInsideAnIframe, 'function', 'isInsideAnIframe' );
-            equal( isInsideAnIframe(), false, 'these tests are not running inside an iframe, got: ' + isInsideAnIframe());
-            equal( !isInsideAnIframe(), true, 'these tests are not running inside an iframe');
+            equal( document.getElementById("iframeTesting").contentWindow.iframeIsLoaded, true, 'the iframe is loaded now!');
             equal( document.getElementById("iframeTesting").contentWindow.isInsideIframe(), true, 'inside an iframe, isInsideAnIframe() returns true');
 
             start();
 
-        }, 2000); // wait for iframe to load
+        }, 4000); // wait for iframe to load
 
     });
 
