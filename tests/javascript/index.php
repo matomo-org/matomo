@@ -3101,20 +3101,22 @@ function PiwikTest() {
         var hostAndPath = $(location).attr('pathname');
         var iframe = document.createElement('iframe');
         iframe.id = "iframeTesting";
-        iframe.style= "display : none";
+        iframe.style = "display : none";
         var html = '\
             <html><body> \
             <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + 'piwiktest.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + '../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
-            $(document).ready(function() { \
-                window.iframeIsLoaded = true; \
-                window.isInsideIframe = function () { \
-                    var tracker = Piwik.getTracker(); \
-                    return tracker.hook.test._isInsideAnIframe(); \
-                }; \
-            });    \
+            window.onload = function() { \
+                $(document).ready(function () { \
+                    window.iframeIsLoaded = true; \
+                    window.isInsideIframe = function () { \
+                        var tracker = Piwik.getTracker(); \
+                        return tracker.hook.test._isInsideAnIframe(); \
+                    }; \
+                });\
+            }; \
             window.iframeIsLoaded = false; \
             \
             </sc' + 'ript> \
