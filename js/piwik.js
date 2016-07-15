@@ -2731,13 +2731,24 @@ if (typeof window.Piwik !== 'object') {
         }
 
         function isInsideAnIframe () {
-            if (isDefined(windowAlias.frameElement)) {
-                return (windowAlias.frameElement && String(windowAlias.frameElement.nodeName).toLowerCase() === 'iframe') ? true : false;
+            var frameElement;
+
+            try {
+                // If the parent window has another origin, then accessing frameElement
+                // throws an Error in IE. see issue #10105.
+                frameElement = windowAlias.frameElement;
+            } catch(e) {
+                // When there was an Error, then we know we are inside an iframe.
+                return true;
+            }
+
+            if (isDefined(frameElement)) {
+                return (frameElement && String(frameElement.nodeName).toLowerCase() === 'iframe') ? true : false;
             }
 
             try {
                 return windowAlias.self !== windowAlias.top;
-            } catch (e) {
+            } catch (e2) {
                 return true;
             }
         }
