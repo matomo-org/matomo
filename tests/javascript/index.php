@@ -77,7 +77,7 @@ testTrackPageViewAsync();
 </style>
  <script src="../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
- <script src="jslint/jslint.js" type="text/javascript"></script>
+
  <script type="text/javascript">
  QUnit.config.reorder = false;
 function _e(id){
@@ -435,7 +435,12 @@ function PiwikTest() {
 
     test("JSLint", function() {
         expect(1);
-        var src = '<?php
+
+        stop();
+
+        $.getScript("jslint/jslint.js", function(){
+
+            var src = '<?php
 
             // Once we use JSHint instead of jslint, we could remove a few lines below,
             // to use instead the feature to disable jshint for the JSON2 block
@@ -460,19 +465,23 @@ function PiwikTest() {
 
             echo "$contentToJslint"; ?>';
 
-        var result = JSLINT(src);
-        ok( result, "JSLint did not validate, please check the browser console for the list of jslint errors." );
-        if (console && console.log && !result) {
-            var countOfLinesRemoved = <?php echo getLineCountJsLintStarted($src,$contentRemovedFromPos); ?>;
+            var result = JSLINT(src);
+            ok( result, "JSLint validation: please check the browser console for the list of jslint errors." );
+            if (console && console.log && !result) {
+                var countOfLinesRemoved = <?php echo getLineCountJsLintStarted($src,$contentRemovedFromPos); ?>;
 
-            // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
-            JSLINT.errors.forEach( function (item, index) {
-                item.line += countOfLinesRemoved;
-                console.log(item);
-            });
+                // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
+                JSLINT.errors.forEach( function (item, index) {
+                    item.line += countOfLinesRemoved;
+                    console.log(item);
+                });
 
-            console.log('JSLINT errors', JSLINT.errors);
-        }
+                console.log('JSLINT errors', JSLINT.errors);
+            }
+
+            start();
+        });
+
     });
 
     test("JSON", function() {
