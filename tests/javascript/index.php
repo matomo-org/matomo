@@ -3098,7 +3098,7 @@ function PiwikTest() {
 
     function generateAnIframeInDocument() {
         // Generate an iframe, and call the method inside the iframe to check it returns true
-        var hostAndPath = $(location).attr('origin') + $(location).attr('pathname');
+        var hostAndPath = $(location).attr('pathname');
         var iframe = document.createElement('iframe');
         iframe.id = "iframeTesting";
         iframe.style= "display : none";
