@@ -53,7 +53,8 @@ testTrackPageViewAsync();
 ?>
  </script>
  <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
- <script src="../../js/piwik.js?rand=<?php echo md5(uniqid(mt_rand(), true)) ?>" type="text/javascript"></script>
+ <script src="../../js/piwik.js?rand=<?php $cacheBuster = md5(uniqid(mt_rand(), true));
+ echo $cacheBuster ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
@@ -3071,7 +3072,54 @@ function PiwikTest() {
         equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), '/', 'only piwik.php with leading slash with query' );
     });
 
-<?php
+    function generateAnIframeInDocument() {
+        // Generate an iframe, and call the method inside the iframe to check it returns true
+        var hostAndPath = $(location).attr('origin') + $(location).attr('pathname');
+        var iframe = document.createElement('iframe');
+        iframe.id = "iframeTesting";
+        iframe.style= "display : none";
+        var html = '\
+            <html><body> \
+            <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + 'piwiktest.js" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt type="text/javascript"> \
+            window.isInsideIframe = function () { \
+                var tracker = Piwik.getTracker(); \
+                return tracker.hook.test._isInsideAnIframe(); \
+            }; \
+            \
+            </sc' + 'ript> \
+            </body></html>\
+        ';
+
+        document.body.appendChild(iframe);
+        iframe.contentWindow.document.open();
+        iframe.contentWindow.document.write(html);
+        iframe.contentWindow.document.close();
+    }
+
+    test("isInsideAnIframe", function() {
+
+        generateAnIframeInDocument();
+
+        stop();
+        setTimeout(function() {
+
+            expect(4);
+            var tracker = Piwik.getTracker();
+            var isInsideAnIframe = tracker.hook.test._isInsideAnIframe;
+            equal( typeof isInsideAnIframe, 'function', 'isInsideAnIframe' );
+            equal( isInsideAnIframe(), false, 'these tests are not running inside an iframe, got: ' + isInsideAnIframe());
+            equal( !isInsideAnIframe(), true, 'these tests are not running inside an iframe');
+            equal( document.getElementById("iframeTesting").contentWindow.isInsideIframe(), true, 'inside an iframe, isInsideAnIframe() returns true');
+
+            start();
+
+        }, 2000); // wait for iframe to load
+
+    });
+
+    <?php
 if ($mysql) {
     ?>
 
