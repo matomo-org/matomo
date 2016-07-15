@@ -119,4 +119,23 @@ class Adapter
 
         return $adapters;
     }
+
+    /**
+     * Checks if the available adapters are recommended by Piwik or not.
+     * @param string $adapterName
+     * @return bool
+     */
+    public static function isRecommendedAdapter($adapterName)
+    {
+        static $recommendedAdapters = array(
+            // Adapters recommended by Piwik. Needs to be in uppercase for string checking using in_array()
+            'PDO\MYSQL'
+        );
+        if(in_array($adapterName,$recommendedAdapters)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
