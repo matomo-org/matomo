@@ -1722,7 +1722,11 @@ class CronArchive
             return true;
         }
 
-        return !empty($this->segmentsToForce) && !in_array($segment, $this->segmentsToForce);
+        if(empty($this->segmentsToForce)) {
+            return false;
+        }
+
+        return !in_array($segment, $this->segmentsToForce);
     }
 
     private function logForcedSegmentInfo()
