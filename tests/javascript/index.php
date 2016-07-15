@@ -2753,7 +2753,7 @@ function PiwikTest() {
     function getVisitorIdFromCookie(tracker) {
         visitorCookieName = tracker.hook.test._getCookieName('id');
         visitorCookieValue = tracker.hook.test._getCookie(visitorCookieName);
-        return visitorCookieValue.split('.')[0];
+        return visitorCookieValue ? visitorCookieValue.split('.')[0] : '';
     }
 
     test("User ID and Visitor UUID", function() {
