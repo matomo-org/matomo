@@ -44,7 +44,8 @@ Piwik.addPlugin('testPlugin', {
 				'_resolveRelativeReference : resolveRelativeReference,' +
 				'_addEventListener : addEventListener,' +
 				'_prefixPropertyName : prefixPropertyName,' +
-				'_getPiwikUrlForOverlay : getPiwikUrlForOverlay' +
+				'_getPiwikUrlForOverlay : getPiwikUrlForOverlay, ' +
+				'_isInsideAnIframe : isInsideAnIframe' +
 			'}'
 		);
 	},

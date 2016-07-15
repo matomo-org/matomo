@@ -2732,7 +2732,7 @@ if (typeof window.Piwik !== 'object') {
 
         function isInsideAnIframe () {
             if (isDefined(windowAlias.frameElement)) {
-                return (windowAlias.frameElement && String(windowAlias.frameElement.nodeName).toLowerCase() === 'iframe');
+                return (windowAlias.frameElement && String(windowAlias.frameElement.nodeName).toLowerCase() === 'iframe') ? true : false;
             }
 
             try {
@@ -2859,7 +2859,7 @@ if (typeof window.Piwik !== 'object') {
                 // Default is user agent defined.
                 configCookiePath,
 
-                // Cookies are disabled
+                // First-party cookies are disabled
                 configCookiesDisabled = false,
 
                 // Do Not Track
