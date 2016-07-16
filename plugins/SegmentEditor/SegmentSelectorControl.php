@@ -9,11 +9,13 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
+use Piwik\Plugins\UsersManager\API AS UsersManagerAPI;
 use Piwik\View\UIControl;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 
@@ -78,6 +80,8 @@ class SegmentSelectorControl extends UIControl
         $this->authorizedToCreateSegments = SegmentEditorAPI::getInstance()->isUserCanAddNewSegment($this->idSite);
         $this->isUserAnonymous = Piwik::isUserIsAnonymous();
         $this->segmentTranslations = $this->getTranslations();
+        $this->segmentProcessedOnRequest = Rules::isBrowserArchivingAvailableForSegments();
+        $this->hideSegmentDefinitionChangeMessage = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), 'hideSegmentDefinitionChangeMessage');
     }
 
     public function getClientSideProperties()

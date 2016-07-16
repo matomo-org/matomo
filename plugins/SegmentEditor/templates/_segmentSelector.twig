@@ -167,6 +167,24 @@
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
+<div class="ui-confirm segment-definition-change-confirm" data-segment-processed-on-request="{{ segmentProcessedOnRequest|number_format }}" data-hide-message="{{ hideSegmentDefinitionChangeMessage }}">
+    <h2>
+        <span class="process-on-request">
+            {{ 'SegmentEditor_ChangingSegmentDefinitionConfirmationProcessedOnRequest'|translate }}
+        </span>
+        <span class="no-process-on-request">
+            {{ 'SegmentEditor_ChangingSegmentDefinitionConfirmationNotProcessedOnRequest'|translate }}
+        </span>
+    </h2>
+    <p class="description">
+        <span>
+            <input type="checkbox" id="hideSegmentMessage" name="hideSegmentMessage" />
+            <label for="hideSegmentMessage">{{ 'SegmentEditor_HideMessageInFuture'|translate }}</label>
+        </span>
+    </p>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>
 <div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
     <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
     {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}

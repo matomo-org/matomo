@@ -1075,7 +1075,44 @@ Segmentation = (function($) {
                 jQuery.extend(params, {
                     "idSegment": segmentId
                 });
-                self.updateMethod(params);
+
+                if(segmentStr != getSegmentFromId(segmentId).definition && $('.segment-definition-change-confirm').data('hideMessage') != 1) {
+                    var segmentProcessedOnRequest = $('.segment-definition-change-confirm').data('segmentProcessedOnRequest');
+
+                    $('.process-on-request, .no-process-on-request').hide();
+
+                    if (segmentProcessedOnRequest == 1 && autoArchive == 0) {
+                        $('.process-on-request').show();
+                    } else {
+                        $('.no-process-on-request').show();
+                    }
+
+                    piwikHelper.modalConfirm('.segment-definition-change-confirm', {
+                        yes: function () {
+                            if ($('#hideSegmentMessage:checked').length) {
+                                var ajaxHandler = new ajaxHelper();
+                                ajaxHandler.setLoadingElement();
+                                ajaxHandler.addParams({
+                                    "module": 'API',
+                                    "format": 'json',
+                                    "method": 'UsersManager.setUserPreference',
+                                    "userLogin": piwik.userLogin,
+                                    "preferenceName": "hideSegmentDefinitionChangeMessage",
+                                    "preferenceValue": "1"
+                                }, 'GET');
+                                ajaxHandler.useCallbackInCaseOfError();
+                                ajaxHandler.setCallback(function (response) {
+                                    self.updateMethod(params);
+                                });
+                                ajaxHandler.send(true);
+                            } else {
+                                self.updateMethod(params);
+                            }
+                        }
+                    });
+                } else {
+                    self.updateMethod(params);
+                }
             }
         };
 

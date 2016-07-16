@@ -130,8 +130,8 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should correctly update the segment when its details are changed and saved", function (done) {
-        expect.screenshot("updated").to.be.captureSelector(selectorsToCapture, function (page) {
+    it("should correctly should show a confirmation when changing segment definition", function (done) {
+        expect.screenshot("update_confirmation").to.be.captureSelector('.ui-dialog', function (page) {
             page.click('.segmentEditorPanel .editSegmentName');
             page.evaluate(function () {
                 $('input.edit_segment_name').val('');
@@ -150,7 +150,12 @@ describe("SegmentSelectorEditorTest", function () {
             });
 
             page.click('button.saveAndApply');
+        }, done);
+    });
 
+    it("should correctly update the segment when saving confirmed", function (done) {
+        expect.screenshot("updated").to.be.captureSelector(selectorsToCapture, function (page) {
+            page.click('.ui-dialog button:contains(Yes)');
             page.click('.segmentationContainer');
         }, done);
     });

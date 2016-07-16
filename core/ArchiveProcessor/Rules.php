@@ -163,6 +163,12 @@ class Rules
         return Config::getInstance()->General['time_before_today_archive_considered_outdated'];
     }
 
+    public static function isBrowserArchivingAvailableForSegments()
+    {
+        $generalConfig = Config::getInstance()->General;
+        return (self::isRequestAuthorizedToArchive() && !$generalConfig['browser_archiving_disabled_enforce']);
+    }
+
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
     {
         $generalConfig = Config::getInstance()->General;
