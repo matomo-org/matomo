@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
@@ -100,7 +101,7 @@ class LogDataPurger
         // deal w/ log tables that will be purged
         $maxIdVisit = $this->getDeleteIdVisitOffset($deleteLogsOlderThan);
         if (!empty($maxIdVisit)) {
-            foreach ($this->getDeleteTableLogTables() as $table) {
+            foreach (self::getDeleteTableLogTables() as $table) {
                 // getting an estimate for log_action is not supported since it can take too long
                 if ($table != Common::prefixTable('log_action')) {
                     $rowCount = $this->getLogTableDeleteCount($table, $maxIdVisit);
@@ -150,13 +151,20 @@ class LogDataPurger
     // let's hardcode, since these are not dynamically created tables
     public static function getDeleteTableLogTables()
     {
-        $result = Common::prefixTables('log_conversion',
-            'log_link_visit_action',
-            'log_visit',
-            'log_conversion_item');
+        $provider = StaticContainer::get('Piwik\Plugin\LogTablesProvider');
+
+        $result = array();
+        foreach ($provider->getAllLogTables() as $logTable) {
+
+            if ($logTable->getColumnToJoinOnIdVisit()) {
+                $result[] = Common::prefixTable($logTable->getName());
+            }
+        }
+
         if (Db::isLockPrivilegeGranted()) {
             $result[] = Common::prefixTable('log_action');
         }
+
         return $result;
     }
 }
