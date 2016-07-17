@@ -9,6 +9,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ### New APIs
  * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers)
  * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
+ * Added a new API method `Goals.getGoal($idSite, $idGoal)` to fetch a single goal.
 
 ### Internal change
  * `piwik.js`, if you call the method `setDomains` note that that the behavior has slightly changed. The current page domain (hostname) will now be added automatically if none of the given host alias passed as a parameter to `setDomains` contain a path and if no host alias is already given for the current host alias. 
