@@ -53,6 +53,24 @@ class API extends \Piwik\Plugin\API
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
 
     /**
+     * Return a single goal.
+     *
+     * @param int $idSite
+     * @param int $idGoal
+     * @return array An array of goal attributes.
+     */
+    public function getGoal($idSite, $idGoal)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+        
+        $goal = $this->getModel()->getActiveGoal($idSite, $idGoal);
+
+        if (!empty($goal)) {
+            return $this->formatGoal($goal);
+        }
+    }
+
+    /**
      * Returns all Goals for a given website, or list of websites
      *
      * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
@@ -75,18 +93,24 @@ class API extends \Piwik\Plugin\API
 
             $cleanedGoals = array();
             foreach ($goals as &$goal) {
-                if ($goal['match_attribute'] == 'manually') {
-                    unset($goal['pattern']);
-                    unset($goal['pattern_type']);
-                    unset($goal['case_sensitive']);
-                }
-                $cleanedGoals[$goal['idgoal']] = $goal;
+                $cleanedGoals[$goal['idgoal']] = $this->formatGoal($goal);
             }
 
             $cache->save($cacheId, $cleanedGoals);
         }
 
         return $cache->fetch($cacheId);
+    }
+
+    private function formatGoal($goal)
+    {
+        if ($goal['match_attribute'] == 'manually') {
+            unset($goal['pattern']);
+            unset($goal['pattern_type']);
+            unset($goal['case_sensitive']);
+        }
+
+        return $goal;
     }
 
     /**
