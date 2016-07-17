@@ -53,7 +53,14 @@ function piwik_fix_lbrace($string)
         $replace = array_map(function ($val) { return $val . '&#8291;' . $val; }, $chars);
     }
 
-    return str_replace($search, $replace, $string);
+    $replacedString = str_replace($search, $replace, $string);
+
+    // try to replace characters until there are no changes
+    if ($string !== $replacedString) {
+        return piwik_fix_lbrace($replacedString);
+    }
+
+    return $string;
 }
 
 function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
