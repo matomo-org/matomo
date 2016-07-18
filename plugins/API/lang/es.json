@@ -1,6 +1,6 @@
 {
     "API": {
-        "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el complemento %1$s. Puede habilitar el complemento %2$s, a continuación, haga clic en el menú 'Generador de Visitas' en la area Administrativa de Piwik.",
+        "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el complemento %1$s. Puede habilitar el complemento %2$s, a continuación, haga clic en el menú 'Generador de Visitas' en el área Administrativa de Piwik.",
         "KeepTokenSecret": "Este token_auth es tan secreto como su nombre de usuario y contraseña, %1$s no lo comparta %2$s!",
         "LoadedAPIs": "Se han cargado %s APIs exitosamente",
         "MoreInformation": "Para mayor información acerca de las APIs de Piwik, por favor lea la %1$s Introducción a las API Piwik %2$s y la %3$s Referencia de las API Piwik %4$s.",

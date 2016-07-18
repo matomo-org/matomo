@@ -42,6 +42,7 @@
         "PasswordDoNotMatch": "contraseña no coincide",
         "PasswordRepeat": "Contraseña (repetir)",
         "PercentDone": "%s %% Hecho",
+        "PiwikProAdTitle": "Analíticas avanzadas y Servicios",
         "PleaseFixTheFollowingErrors": "Por favor solucione los siguientes errores",
         "DefaultSettings": "Ajustes predeterminados Piwik",
         "DefaultSettingsHelp": "Piwik ya incluye ajustes predeterminados. Puede personalizarlos ahora o llevarlos a cabo posteriormente en la pantalla de administración.",
