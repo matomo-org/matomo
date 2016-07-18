@@ -841,7 +841,7 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
 
-        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer);
+        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer, $visitsToday, $visitsLastDays);
 
         return true;
     }
@@ -881,14 +881,17 @@ class CronArchive
      * @param $date string
      * @param $archiveSegments bool Whether to pre-process all custom segments
      * @param Timer $periodTimer
+     * @param $visitsToday int Visits for the "day" period of today
+     * @param $visitsLastDays int Visits for the last N days periods
      * @return bool True on success, false if some request failed
      */
-    private function archiveReportsFor($idSite, $period, $date, $archiveSegments, Timer $periodTimer)
+    private function archiveReportsFor($idSite, $period, $date, $archiveSegments, Timer $periodTimer, $visitsToday = 0, $visitsLastDays = 0)
     {
         $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment = false);
         $url = $this->makeRequestUrl($url);
 
-        $visitsInLastPeriods = $visitsLastPeriod = 0;
+        $visitsInLastPeriod = $visitsToday;
+        $visitsInLastPeriods = $visitsLastDays;
         $success = true;
 
         $urls = array();
@@ -933,11 +936,11 @@ class CronArchive
                 }
 
                 $visitsInLastPeriods = $this->getVisitsFromApiResponse($stats);
-                $visitsLastPeriod = $this->getVisitsLastPeriodFromApiResponse($stats);
+                $visitsInLastPeriod = $this->getVisitsLastPeriodFromApiResponse($stats);
             }
         }
 
-        $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsLastPeriod, $periodTimer);
+        $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsInLastPeriod, $periodTimer);
 
         return $success;
     }
