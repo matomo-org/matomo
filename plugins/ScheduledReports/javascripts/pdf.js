@@ -9,6 +9,10 @@ var getReportParametersFunctions = Object();
 var updateReportParametersFunctions = Object();
 var resetReportParametersFunctions = Object();
 
+function adjustHourToTimezone(hour, difference) {
+    return (24 + parseInt(hour) + difference) % 24;
+}
+
 function formSetEditReport(idReport) {
     var report = {
         'type': ReportPlugin.defaultReportType,
@@ -29,14 +33,14 @@ function formSetEditReport(idReport) {
 
     toggleReportType(report.type);
 
-    var hour = (24 + parseInt(report.hour) - timeZoneDifference) % 24;
+    var hour = adjustHourToTimezone(report.hour, timeZoneDifference);
 
     $('#report_description').html(report.description);
     $('#report_segment').find('option[value=' + report.idsegment + ']').prop('selected', 'selected');
     $('#report_type').find('option[value=' + report.type + ']').prop('selected', 'selected');
     $('#report_period').find('option[value=' + report.period + ']').prop('selected', 'selected');
     $('#report_hour').val(hour).bind('change', function() {
-        $('#hour_utc').text((24 + parseInt($(this).val()) + timeZoneDifference) % 24);
+        $('#hour_utc').text(adjustHourToTimezone($(this).val(), -timeZoneDifference));
     });
     $('#hour_utc').text(report.hour);
     $('[name=report_format].' + report.type + ' option[value=' + report.format + ']').prop('selected', 'selected');
@@ -127,7 +131,7 @@ function initManagePdf() {
 
         apiParameters.parameters = getReportParametersFunctions[apiParameters.reportType]();
 
-        var hour = (24 + parseInt($('#report_hour').val()) + timeZoneDifference) % 24;
+        var hour = adjustHourToTimezone($('#report_hour').val());
 
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams(apiParameters, 'POST');
