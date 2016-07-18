@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Db;
 
@@ -51,7 +52,17 @@ class SegmentEditor extends \Piwik\Plugin
     public function getKnownSegmentsToArchiveForSite(&$segments, $idSite)
     {
         $model = new Model();
-        $segmentToAutoArchive = $model->getSegmentsToAutoArchive($idSite);
+
+        // By default, when segments can be archived in the browser (browser_archiving_disabled_enforce=0)
+        //    -> we need to only pre-archive segments that are specifically configured to be pre-archived
+        // But when the browser archiving is disabled and enforced for segments (browser_archiving_disabled_enforce=1)
+        //    -> then we need to pre-process all segments, event those set as real time
+        $archiveOnlySegmentsSetToAutoArchive = Rules::isBrowserArchivingAvailableForSegments();
+        if($archiveOnlySegmentsSetToAutoArchive) {
+            $segmentToAutoArchive = $model->getSegmentsToAutoArchive($idSite);
+        } else {
+            $segmentToAutoArchive = $model->getAllSegmentsForAllUsers($idSite);
+        }
 
         foreach ($segmentToAutoArchive as $segmentInfo) {
             $segments[] = $segmentInfo['definition'];
