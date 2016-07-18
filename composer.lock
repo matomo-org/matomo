@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "de61be52972a0fe8fe751306c271f4b8",
-    "content-hash": "68130b067cdceef8346b47d858b763a3",
+    "hash": "a51a1c88dd57ca43ed73ebc837c3c272",
+    "content-hash": "c9e1b12d01d2a5ff455b811e779fe1ae",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -300,6 +300,7 @@
                 "phpdoc",
                 "reflection"
             ],
+            "abandoned": "php-di/phpdoc-reader",
             "time": "2014-08-21 08:20:45"
         },
         {
@@ -907,16 +908,16 @@
         },
         {
             "name": "piwik/network",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-network.git",
-                "reference": "9037fa29509f86767e02ba58a57d4deb1d01a844"
+                "reference": "b270d14d9b4ddc9d63bfee4e85f08899a215ef20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-network/zipball/9037fa29509f86767e02ba58a57d4deb1d01a844",
-                "reference": "9037fa29509f86767e02ba58a57d4deb1d01a844",
+                "url": "https://api.github.com/repos/piwik/component-network/zipball/b270d14d9b4ddc9d63bfee4e85f08899a215ef20",
+                "reference": "b270d14d9b4ddc9d63bfee4e85f08899a215ef20",
                 "shasum": ""
             },
             "require": {
@@ -935,7 +936,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2014-10-23 03:30:23"
+            "time": "2016-07-18 04:10:33"
         },
         {
             "name": "piwik/piwik-php-tracker",
@@ -1645,6 +1646,7 @@
                 "rest",
                 "web service"
             ],
+            "abandoned": "guzzlehttp/guzzle",
             "time": "2015-03-18 18:23:50"
         },
         {
