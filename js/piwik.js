@@ -3929,7 +3929,7 @@ if (typeof window.Piwik !== 'object') {
                 // custom dimensions
                 for (i in customDimensions) {
                     if (Object.prototype.hasOwnProperty.call(customDimensions, i)) {
-                        var isNotSetYet = (-1 === customDimensionIdsAlreadyHandled.indexOf(i));
+                        var isNotSetYet = (-1 === indexOfArray(customDimensionIdsAlreadyHandled, i));
                         if (isNotSetYet) {
                             request += '&dimension' + i + '=' + customDimensions[i];
                         }
