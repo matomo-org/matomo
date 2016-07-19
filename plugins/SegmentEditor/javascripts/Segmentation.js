@@ -1077,15 +1077,20 @@ Segmentation = (function($) {
                 });
 
                 if(segmentStr != getSegmentFromId(segmentId).definition && $('.segment-definition-change-confirm').data('hideMessage') != 1) {
-                    var segmentProcessedOnRequest = $('.segment-definition-change-confirm').data('segmentProcessedOnRequest');
+                    var isBrowserArchivingAvailableForSegments = $('.segment-definition-change-confirm').data('segmentProcessedOnRequest');
+                    var isRealTimeSegment = (autoArchive == 0);
+                    var segmentNotProcessedOnRequest = !isBrowserArchivingAvailableForSegments || !isRealTimeSegment;
 
                     $('.process-on-request, .no-process-on-request').hide();
 
-                    if (segmentProcessedOnRequest == 1 && autoArchive == 0) {
-                        $('.process-on-request').show();
-                    } else {
+                    if (segmentNotProcessedOnRequest) {
                         $('.no-process-on-request').show();
+                    } else {
+                        $('.process-on-request').show();
                     }
+
+                    //bug: real time + isBrowserArchivingAvailableForSegments ---> see pre processed, expect real time
+
 
                     piwikHelper.modalConfirm('.segment-definition-change-confirm', {
                         yes: function () {

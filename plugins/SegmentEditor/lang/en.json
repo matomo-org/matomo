@@ -7,7 +7,7 @@
         "AutoArchivePreProcessed": "segmented reports are pre-processed (faster, requires cron)",
         "AutoArchiveRealTime": "segmented reports are processed in real time",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "You're about to change the segment definition. Your analytics reports for this new segment won't be available until the reports are re-processed. It may take a few hours for reports data to show for this segment. Proceed anyway?",
-        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "You're about to change the segment definition. Your analytics reports for this new segment will be re-processed the next time you request them, which may take some time. Proceed anyway?",
+        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "You're about to change the segment definition. Your analytics reports for this new segment will be re-processed on demand the next time you request them. Your reports may take a few minutes to appear. Proceed anyway?",
         "ChooseASegment": "Choose a segment",
         "CurrentlySelectedSegment": "Currently selected segment: %s",
         "DataAvailableAtLaterDate": "Your segmented analytics reports will be available later. We apologize for the inconvenience.",

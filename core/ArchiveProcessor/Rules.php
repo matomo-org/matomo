@@ -166,7 +166,7 @@ class Rules
     public static function isBrowserArchivingAvailableForSegments()
     {
         $generalConfig = Config::getInstance()->General;
-        return (self::isRequestAuthorizedToArchive() && !$generalConfig['browser_archiving_disabled_enforce']);
+        return !$generalConfig['browser_archiving_disabled_enforce'];
     }
 
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
@@ -193,7 +193,7 @@ class Rules
             // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
             if (!$segment->isEmpty()
                 && !$isArchivingEnabled
-                && $generalConfig['browser_archiving_disabled_enforce']
+                && !self::isBrowserArchivingAvailableForSegments()
                 && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
