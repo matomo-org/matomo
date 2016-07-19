@@ -1089,9 +1089,6 @@ Segmentation = (function($) {
                         $('.process-on-request').show();
                     }
 
-                    //bug: real time + isBrowserArchivingAvailableForSegments ---> see pre processed, expect real time
-
-
                     piwikHelper.modalConfirm('.segment-definition-change-confirm', {
                         yes: function () {
                             if ($('#hideSegmentMessage:checked').length) {
