@@ -30,4 +30,3 @@ $request = new Request('
 // Calls the API and fetch XML data back
 $result = $request->process();
 echo $result;
-

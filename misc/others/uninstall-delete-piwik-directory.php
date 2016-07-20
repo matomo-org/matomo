@@ -12,7 +12,9 @@ exit; // Remove this line before using the script
 // please let us know at hello@piwik.org - we are interested by your experience
 function unlinkRecursive($dir)
 {
-    if (!$dh = @opendir($dir)) return "Warning: folder $dir couldn't be read by PHP";
+    if (!$dh = @opendir($dir)) {
+        return "Warning: folder $dir couldn't be read by PHP";
+    }
     while (false !== ($obj = readdir($dh))) {
         if ($obj == '.' || $obj == '..') {
             continue;

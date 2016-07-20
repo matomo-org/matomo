@@ -42,9 +42,9 @@ if ($testmode) {
 
 function getPiwikDomain()
 {
-    foreach($_SERVER['argv'] as $param) {
+    foreach ($_SERVER['argv'] as $param) {
         $pattern = '--piwik-domain=';
-        if(false !== strpos($param, $pattern)) {
+        if (false !== strpos($param, $pattern)) {
             return substr($param, strlen($pattern));
         }
     }
@@ -55,7 +55,7 @@ $environment = new Environment('cli');
 $environment->init();
 
 $piwikDomain = getPiwikDomain();
-if($piwikDomain) {
+if ($piwikDomain) {
     Url::setHost($piwikDomain);
 }
 
