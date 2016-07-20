@@ -1,0 +1,35 @@
+.ui-dialog.ui-widget-content {
+	z-index: 1003!important;
+}
+
+.ui-widget-overlay {
+    z-index: 1002!important;
+}
+
+.widgetContent {
+	width: 99.8%;
+	overflow: hidden;
+}
+
+#topBars {
+    z-index: 300!important;
+}
+
+.sites_autocomplete, .sites_autocomplete .custom_select {
+    z-index: 200!important;
+}
+
+.submit {
+    height: 30px;
+}
+
+input[type=checkbox], input[type=radio] {
+    border: none;
+    background: transparent none;
+}
+
+.jqplot-seriespicker-popover p input {
+	width: 15px;
+	margin: 0;
+	padding: 0;
+}

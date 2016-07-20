@@ -1,0 +1,39 @@
+<script type="text/javascript">
+    var piwik = {};
+    piwik.token_auth = "{{ token_auth }}";
+    piwik.piwik_url = "{{ piwikUrl }}";
+    piwik.cacheBuster = "{{ cacheBuster }}";
+    {% if userLogin %}piwik.userLogin = "{{ userLogin|e('js')}}";{% endif %}
+
+    {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}
+
+    {% if siteName is defined %}piwik.siteName = "{{ siteName|e('js') }}";{% endif %}
+
+    {% if siteMainUrl is defined %}piwik.siteMainUrl = "{{ siteMainUrl|e('js') }}";{% endif %}
+
+    {% if period is defined %}piwik.period = "{{ period }}";{% endif %}
+
+{# piwik.currentDateString should not be used other than by the calendar Javascript
+            (it is not set to the expected value when period=range)
+        Use broadcast.getValueFromUrl('date') instead
+#}
+    piwik.currentDateString = "{{ date|default(endDate|default('')) }}";
+{% if startDate is defined %}
+    piwik.startDateString = "{{ startDate }}";
+    piwik.endDateString = "{{ endDate }}";
+    piwik.minDateYear = {{ minDateYear }};
+    piwik.minDateMonth = parseInt("{{ minDateMonth }}", 10);
+    piwik.minDateDay = parseInt("{{ minDateDay }}", 10);
+    piwik.maxDateYear = {{ maxDateYear }};
+    piwik.maxDateMonth = parseInt("{{ maxDateMonth }}", 10);
+    piwik.maxDateDay = parseInt("{{ maxDateDay }}", 10);
+{% endif %}
+    {% if language is defined %}piwik.language = "{{ language }}";{% endif %}
+
+    piwik.hasSuperUserAccess = {{ hasSuperUserAccess|default(0)|e('js')}};
+    piwik.config = {};
+{% if clientSideConfig is defined %}
+    piwik.config = {{ clientSideConfig|json_encode|raw }};
+{% endif %}
+    {{ postEvent("Template.jsGlobalVariables") }}
+</script>

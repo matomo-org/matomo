@@ -1,0 +1,11 @@
+{% if (enableFrames is defined and enableFrames == false) %}
+    <script type="text/javascript">
+        $(function () {
+        $('body').css("display", "none");
+        if (self == top) {
+            var theBody = document.getElementsByTagName('body')[0];
+            theBody.style.display = 'block';
+        } else { top.location = self.location; }
+    });
+    </script>
+{% endif %}

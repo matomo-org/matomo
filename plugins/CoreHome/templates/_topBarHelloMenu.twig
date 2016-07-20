@@ -1,0 +1,25 @@
+<div id="topRightBar">
+    {% set helloAlias %}
+        {% if userAlias is not empty %}
+            <strong>{{ userAlias }}</strong>
+        {% else %}
+            <strong>{{ userLogin }}</strong>
+        {% endif %}
+    {% endset %}
+    <span class="topBarElem">{{ 'General_HelloUser'|translate(helloAlias|trim)|raw }}</span>
+    {% if userLogin != 'anonymous' %}
+        |
+        {% if isAdminLayout is defined %}
+            <span class="topBarElem topBarElemActive">{{ 'General_Settings'|translate }}</span>
+        {% else %}
+            <span class="topBarElem"><a href='index.php?module=CoreAdminHome'>{{ 'General_Settings'|translate }}</a></span>
+        {% endif %}
+    {% endif %}
+    | <span class="topBarElem">
+        {% if userLogin == 'anonymous' %}
+            <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a>
+        {% else %}
+            <a href='index.php?module={{ loginModule }}&amp;action=logout'>{{ 'General_Logout'|translate }}</a>
+        {% endif %}
+    </span>
+</div>

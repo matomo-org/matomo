@@ -1,0 +1,23 @@
+{% macro logoHtml(metadata, alt='') %}
+    {% if metadata['logo'] is defined %}
+        {% if metadata['logoWidth'] is defined %}
+            {% set width %}width="{{ metadata['logoWidth'] }}"{% endset %}
+        {% endif %}
+        {% if metadata['logoHeight'] is defined %}
+            {% set height %}height="{{ metadata['logoHeight'] }}"{% endset %}
+        {% endif %}
+        {% if metadata['logoWidth'] is defined %}
+            {% set width %}width="{{ metadata['logoWidth'] }}"{% endset %}
+        {% endif %}
+        {% if alt is not empty %}
+            {% set alt %}title='{{ alt }}' alt='{{ alt }}'{% endset %}
+        {% endif %}
+        <img {{ alt }} {{ width|default('') }} {{ height|default('') }} src='{{ metadata['logo'] }}' />
+    {% endif %}
+{% endmacro %}
+
+{% macro inlineHelp(text) %}
+    <div class="ui-inline-help" >
+        {{ text|raw }}
+    </div>
+{% endmacro %}
