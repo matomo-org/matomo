@@ -37,7 +37,7 @@
         "NfsFilesystemWarningSuffixAdmin": "This means Piwik will be extremely slow when using file based sessions.",
         "NfsFilesystemWarningSuffixInstall": "Using file based sessions on NFS is extremely slow, so Piwik will use database sessions. If you have many concurrent dashboard users, you may need to increase the maximum number of client connections to the database server.",
         "NoConfigFileFound": "The Piwik configuration file couldn't be found and you are trying to access a Piwik page.",
-        "YouMayInstallPiwikNow": "You may %sinstall Piwik now%s",
+        "YouMayInstallPiwikNow": "You may %1$sinstall Piwik now%2$s",
         "IfPiwikInstalledBeforeTablesCanBeKept": "If you installed Piwik before and have some tables in your DB, don't worry, you can reuse the same tables and keep your existing data!",
         "Optional": "Optional",
         "Password": "Password",
