@@ -105,9 +105,28 @@ class Console extends Application
     private function getAvailableCommands()
     {
         $commands = $this->getDefaultPiwikCommands();
-        $detected = PluginManager::getInstance()->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand');
+        $commandsClasses = array('Piwik\\Plugin\\ConsoleCommand');
 
-        $commands = array_merge($commands, $detected);
+        /**
+         * Triggered to gather all class names for components finder.
+         *
+         * **Example**
+         *
+         *     public function detectCommands(&$commandsClasses)
+         *     {
+         *         $commandsClasses[] = 'CustomCommand';
+         *     }
+         *
+         * @param array &$commandsClasses An array containing a list of command class names.
+         */
+        Piwik::postEvent('Console.detectCommands', array(&$commandsClasses));
+
+        foreach ($commandsClasses as $className) {
+            $commands = array_merge(
+                $commands,
+                PluginManager::getInstance()->findMultipleComponents('Commands', $className)
+            );
+        }
 
         /**
          * Triggered to filter / restrict console commands. Plugins that want to restrict commands
@@ -209,11 +228,6 @@ class Console extends Application
         $commands = array(
             'Piwik\CliMulti\RequestCommand'
         );
-
-        if (class_exists('Piwik\Plugins\EnterpriseAdmin\EnterpriseAdmin')) {
-            $extra = new \Piwik\Plugins\EnterpriseAdmin\EnterpriseAdmin();
-            $extra->addConsoleCommands($commands);
-        }
 
         return $commands;
     }
