@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  */
@@ -75,13 +76,9 @@ class Controller extends \Piwik\Plugin\Controller
         \Piwik\Period\Factory::checkPeriodIsEnabled('day');
         $_GET['period'] = 'day';
 
-        $view = new View('@Live/getLastVisitsStart');
-        $view->idSite = $this->idSite;
-        $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
-        $visitors = $api->process();
-        $view->visitors = $visitors;
+        $this->checkSitePermission();
 
-        return $this->render($view);
+        return $this->renderReport('getVisitorsInRealTime');
     }
 
     private function setCounters($view)

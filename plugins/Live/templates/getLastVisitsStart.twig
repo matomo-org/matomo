@@ -2,7 +2,8 @@
 {% set maxPagesDisplayedByVisitor=100 %}
 
 <ul id='visitsLive'>
-    {% for visitor in visitors %}
+    {% for visitor in dataTable.getRows() %}
+        {% set idSite = visitor.idSite %}
         <li id="{{ visitor.idVisit }}" class="visit">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
             <div title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}" class="datetime">
