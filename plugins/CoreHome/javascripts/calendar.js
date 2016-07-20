@@ -47,6 +47,10 @@
 // we start w/ the current period
     var selectedPeriod = piwik.period;
 
+    // set to true when changing the page so the UI will look a bit cleaner. shouldn't be set
+    // for any other reason.
+    var disableHighlightChange = false;
+
     function isDateInCurrentPeriod(date) {
         // if the selected period isn't the current period, don't highlight any dates
         if (selectedPeriod != piwik.period) {
@@ -218,6 +222,11 @@
 
         // 'this' is the table cell
         var highlightCurrentPeriod = function () {
+            if (disableHighlightChange) {
+                $('a', $(this)).removeClass('ui-state-hover'); // remove the hover added for the hovered day
+                return;
+            }
+
             switch (selectedPeriod) {
                 case 'day':
                     // highlight this link
@@ -280,6 +289,8 @@
             // Let broadcast do its job:
             // It will replace date value to both search query and hash and load the new page.
             broadcast.propagateNewPage('date=' + dateText + '&period=' + selectedPeriod);
+
+            disableHighlightChange = true;
         };
 
         var toggleMonthDropdown = function (disable) {
