@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
 use Piwik\Version;
@@ -46,13 +47,18 @@ class GeneratePlugin extends GeneratePluginBase
         $info   = $plugin->getInformation();
         $exampleDescription = $info['description'];
 
+        $piwikVersion = '>=' . Version::VERSION;
+        if (Development::isPiwikProDeveloper()) {
+            $piwikVersion .= ',<=' . Version::VERSION;
+        }
+
         if ($isTheme) {
             $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleTheme';
             $replace       = array(
                 'ExampleTheme'       => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                'PIWIK_VERSION'      => $piwikVersion
             );
             $whitelistFiles = array();
 
@@ -63,7 +69,7 @@ class GeneratePlugin extends GeneratePluginBase
                 'ExamplePlugin'      => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                'PIWIK_VERSION'      => $piwikVersion
             );
             $whitelistFiles = array(
                 '/ExamplePlugin.php',
