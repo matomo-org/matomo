@@ -477,7 +477,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
                 throw new Exception("Unknown aggregation operation for column $columnToSumName.");
             }
 
-            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
+            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum);
 
             $this->setColumn($columnToSumName, $newValue);
         }
@@ -489,7 +489,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
 
     /**
      */
-    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue)
+    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum)
     {
         switch ($operation) {
             case 'skip':
@@ -525,7 +525,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
                 break;
             default:
                 if (is_callable($operation)) {
-                    return call_user_func($operation, $thisColumnValue, $columnToSumValue);
+                    return call_user_func($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum);
                 }
 
                 throw new Exception("Unknown operation '$operation'.");
@@ -556,7 +556,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
                         continue;
                     }
 
-                    $aggregatedMetadata[$columnn] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata);
+                    $aggregatedMetadata[$columnn] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata, $this, $rowToSum);
                 }
             }
 
