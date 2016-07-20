@@ -104,7 +104,7 @@
                 ecommerce: $scope.site.ecommerce,
                 excludedIps: $scope.site.excluded_ips.join(','),
                 excludedQueryParameters: $scope.site.excluded_parameters.join(','),
-                excludedUserAgents: $scope.site.excluded_user_agents.join(','),
+                excludedUserAgents: $scope.site.excluded_user_agents.replace(/,/g, ';').join(','),
                 keepURLFragments: $scope.site.keep_url_fragment,
                 siteSearch: $scope.site.sitesearch,
                 type: $scope.site.type,
