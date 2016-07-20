@@ -49,9 +49,8 @@ class EnvironmentValidator
         $startInstaller = true;
 
         if(SettingsServer::isTrackerApiRequest()) {
-            // if Piwik is not installed yet, the piwik.php is expected to do nothing
-            // if piwik.php would return a 500 http error code, the Piwik installer would fail the 'Tracker status' diagnostic
-            return;
+            // if Piwik is not installed yet, the piwik.php should do nothing and not return an error
+            throw new \Exception("As Piwik is not installed yet, the Tracking API will now exit without error.");
         }
 
         if(Common::isPhpCliMode()) {
