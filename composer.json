@@ -18,21 +18,9 @@
         "wiki": "https://github.com/piwik/piwik/wiki",
         "source": "https://github.com/piwik/piwik"
     },
-    "autoload": {
-        "psr-4": {
-            "Piwik\\Plugins\\": "plugins/",
-            "Piwik\\": "core/"
-        },
-        "psr-0": {
-            "Zend_": "libs/",
-            "HTML_": "libs/",
-            "PEAR_": "libs/",
-            "Archive_": "libs/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Piwik\\Tests\\": "tests/PHPUnit/"
+    "config":{
+        "platform": {
+            "php": "5.3.3"
         }
     },
     "require": {
@@ -107,5 +95,22 @@
         "post-install-cmd": [
             "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Piwik\\Plugins\\": "plugins/",
+            "Piwik\\": "core/"
+        },
+        "psr-0": {
+            "Zend_": "libs/",
+            "HTML_": "libs/",
+            "PEAR_": "libs/",
+            "Archive_": "libs/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Piwik\\Tests\\": "tests/PHPUnit/"
+        }
     }
 }
