@@ -2958,7 +2958,10 @@ if (typeof window.Piwik !== 'object') {
                 hash = sha1,
 
                 // Domain hash value
-                domainHash;
+                domainHash,
+
+                // Cache for events
+                listEventToBulk = [];
 
             // Document title
             try {
@@ -3434,7 +3437,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Send requests using bulk
              */
-            function sendBulkRequest(requests, delay)
+            function sendBulkRequest(requests, delay, callback)
             {
                 if (!canSendBulkRequest(requests)) {
                     return;
@@ -3443,7 +3446,7 @@ if (typeof window.Piwik !== 'object') {
                 var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
 
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    sendXmlHttpRequest(bulk, null, false);
+                    sendXmlHttpRequest(bulk, callback, false);
                     setExpireDateTime(delay);
                 });
             }
@@ -4609,21 +4612,34 @@ if (typeof window.Piwik !== 'object') {
                      + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
             }
 
+            /**
+             * Create a request URL for an event
+             * @param  {String} category
+             * @param  {String} action
+             * @param  {String} name
+             * @param  {String} value
+             * @param  {Object} customData
+             * @return {String}
+             */
+            function createRequestEventUrl(category, action, name, value, customData) {
+                // Category and Action are required parameters
+                if (String(category).length === 0 || String(action).length === 0) {
+                    return false;
+                }
+
+                return getRequest(
+                    buildEventRequest(category, action, name, value),
+                    customData,
+                    'event'
+                );
+            }
+
             /*
              * Log the event
              */
             function logEvent(category, action, name, value, customData)
             {
-                // Category and Action are required parameters
-                if (String(category).length === 0 || String(action).length === 0) {
-                    return false;
-                }
-                var request = getRequest(
-                        buildEventRequest(category, action, name, value),
-                        customData,
-                        'event'
-                    );
-
+                var request = createRequestEventUrl(category, action, name, value, customData);
                 sendRequest(request, configTrackerPause);
             }
 
@@ -6334,6 +6350,35 @@ if (typeof window.Piwik !== 'object') {
                     trackCallback(function () {
                         logEvent(category, action, name, value, customData);
                     });
+                },
+
+                /**
+                 * Records an event and store it into a list
+                 *
+                 * @param string category The Event Category (Videos, Music, Games...)
+                 * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
+                 * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+                 * @param float value (optional) The Event's value
+                 */
+                trackEventList: function (category, action, name, value) {
+                    var request = createRequestEventUrl(category, action, name, value, customData);
+                    listEventToBulk.push(request);
+                },
+
+                /**
+                 * Send to the API each requests
+                 * @return {void}
+                 */
+                bulkEventList: function() {
+                    var self = this;
+                    sendBulkRequest(
+                        listEventToBulk,
+                        configTrackerPause,
+                        function() {
+                            // Flush event already send after the request
+                            listEventToBulk = [];
+                        }
+                    );
                 },
 
                 /**
