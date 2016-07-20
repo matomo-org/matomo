@@ -28,12 +28,29 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 {
     private $globalConfig;
 
+    const MINIMUM_PHP_VERSION = '5.3.3';
+
     public function setUp()
     {
         $iniReader = new IniReader();
         $this->globalConfig = $iniReader->readFile(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php');
 
         parent::setUp();
+    }
+
+    public function test_minimumPHPVersion_isEnforced()
+    {
+        global $piwik_minimumPHPVersion;
+        $this->assertEquals(self::MINIMUM_PHP_VERSION, $piwik_minimumPHPVersion, 'minimum PHP version global variable correctly defined');
+    }
+
+    public function test_minimumPhpVersion_isDefinedInComposerJson()
+    {
+        $composerJson = $this->getComposerJsonAsArray();
+        $this->assertEquals(self::MINIMUM_PHP_VERSION, $composerJson['config']['platform']['php']);
+
+        $expectedRequirePhp = '>=' . self::MINIMUM_PHP_VERSION;
+        $this->assertEquals($expectedRequirePhp, $composerJson['require']['php']);
     }
 
     public function test_icoFilesIconsShouldBeInPngFormat()
@@ -605,8 +622,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
      */
     private function getComposerRequireDevPackages()
     {
-        $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.json');
-        $composerJson = json_decode($composer, $assoc = true);
+        $composerJson = $this->getComposerJsonAsArray();
         $composerDependencyDevOnly = array_keys($composerJson["require-dev"]);
         return $composerDependencyDevOnly;
     }
@@ -752,5 +768,14 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         return stripos($file, "/tests/") !== false;
     }
 
+    /**
+     * @return mixed
+     */
+    private function getComposerJsonAsArray()
+    {
+        $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.json');
+        $composerJson = json_decode($composer, $assoc = true);
+        return $composerJson;
+    }
 
 }
