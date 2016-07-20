@@ -429,16 +429,16 @@
         },
         {
             "name": "pear/archive_tar",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/Archive_Tar.git",
-                "reference": "fc2937c0e5a2a1c62a378d16394893172f970064"
+                "reference": "bdd47347df76dbaa89227c5e1afd6f6809985b4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/fc2937c0e5a2a1c62a378d16394893172f970064",
-                "reference": "fc2937c0e5a2a1c62a378d16394893172f970064",
+                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/bdd47347df76dbaa89227c5e1afd6f6809985b4c",
+                "reference": "bdd47347df76dbaa89227c5e1afd6f6809985b4c",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +491,7 @@
                 "archive",
                 "tar"
             ],
-            "time": "2015-08-05 12:31:03"
+            "time": "2016-02-25 10:30:39"
         },
         {
             "name": "pear/console_getopt",
