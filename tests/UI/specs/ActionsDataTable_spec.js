@@ -36,6 +36,9 @@ describe("ActionsDataTable", function () {
 
     it("should flatten table when flatten link clicked", function (done) {
         expect.screenshot('flattened').to.be.capture(function (page) {
+            page.evaluate(function () {
+                $('.foldDataTableFooterDrawer').click(); // open the footer icons controls
+            });
             page.mouseMove('.tableConfiguration');
             page.click('.dataTableFlatten');
         }, done);
