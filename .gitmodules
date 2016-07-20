@@ -22,10 +22,10 @@
     path = plugins/LoginHttpAuth
     url = https://github.com/piwik/plugin-LoginHttpAuth.git
     branch = master
-[submodule "plugins/QueuedTracking"]
-    path = plugins/QueuedTracking
-    url = https://github.com/piwik/plugin-QueuedTracking.git
-    branch = master
+#[submodule "plugins/QueuedTracking"]
+#    path = plugins/QueuedTracking
+#    url = https://github.com/piwik/plugin-QueuedTracking.git
+#    branch = master
 [submodule "tests/UI/expected-ui-screenshots"]
     path = tests/UI/expected-ui-screenshots
     url = https://github.com/piwik/piwik-ui-tests.git
