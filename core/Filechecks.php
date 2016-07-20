@@ -220,12 +220,18 @@ class Filechecks
         return $user . ':' . $group;
     }
 
-    private static function getUser()
+    public static function getUser()
     {
-        if (!function_exists('shell_exec')) {
-            return 'www-data';
+        if (function_exists('shell_exec')) {
+            return trim(shell_exec('whoami'));
         }
-        return trim(shell_exec('whoami'));
+
+        $currentUser = get_current_user();
+        if(!empty($currentUser)) {
+            return $currentUser;
+        }
+
+        return 'www-data';
     }
 
     /**
@@ -237,7 +243,7 @@ class Filechecks
     private static function getMakeWritableCommand($realpath)
     {
         if (SettingsServer::isWindows()) {
-            return "<code>cacls $realpath /t /g " . get_current_user() . ":f</code><br />\n";
+            return "<code>cacls $realpath /t /g " . self::getUser() . ":f</code><br />\n";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
     }
