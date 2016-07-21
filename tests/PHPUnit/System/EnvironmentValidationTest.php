@@ -46,7 +46,9 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateAbsentConfigFile('global.ini.php');
 
         $output = $this->triggerPiwikFrom($entryPoint);
+
         $this->assertOutputContainsConfigFileMissingError('global.ini.php', $output);
+
     }
 
     public function test_NoLocalConfigFile_TriggersError_inTracker()
@@ -101,6 +103,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateBadConfigFile($configFile);
 
         $output = $this->triggerPiwikFrom($entryPoint);
+
         $this->assertOutputContainsBadConfigFileError($output);
     }
 

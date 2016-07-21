@@ -57,6 +57,12 @@ class Db
         return self::$connection;
     }
 
+    /**
+     * Returns an array with the Database connection information.
+     *
+     * @param array|null $dbConfig
+     * @return array
+     */
     public static function getDatabaseConfig($dbConfig = null)
     {
         $config = Config::getInstance();
@@ -87,9 +93,6 @@ class Db
 
         $dbConfig['profiler'] = @$config->Debug['enable_sql_profiler'];
 
-        if(empty($dbConfig)) {
-            throw new \Exception("The Piwik database connection details could not be loaded from your config/*.ini.php configuration files.");
-        }
         return $dbConfig;
     }
 
