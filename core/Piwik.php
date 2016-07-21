@@ -77,11 +77,18 @@ class Piwik
     {
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
-        $output = "<style>a{color:red;}</style>\n" .
-            "<div style='color:red;font-size:120%'>" .
-            "<p><img src='plugins/Morpheus/images/error_medium.png' style='vertical-align:middle; float:left;padding:20px' />" .
+        $message = str_replace("\n", "<br/>", $message);
+
+        $output = "<html><body>".
+            "<style>a{color:red;}</style>\n" .
+            "<div style='color:red;font-size:120%; width:100%;margin: 30px;'>" .
+            " <div style='width: 50px; float: left;'><img src='plugins/Morpheus/images/error_medium.png' /></div>" .
+            "  <div style='margin-left: 70px; min-width: 950px;'>" .
             $message .
-            "</p></div>";
+            "  </div>" .
+            " </div>" .
+            "</div>".
+            "</body></html>";
         print($output);
         exit;
     }

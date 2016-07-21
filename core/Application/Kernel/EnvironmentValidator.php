@@ -9,7 +9,9 @@
 namespace Piwik\Application\Kernel;
 
 use Piwik\Common;
+use Piwik\Filechecks;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 
@@ -37,11 +39,28 @@ class EnvironmentValidator
 
     public function validate()
     {
-        $inTrackerRequest = SettingsServer::isTrackerApiRequest();
-        $inConsole = Common::isPhpCliMode();
-
         $this->checkConfigFileExists($this->settingsProvider->getPathGlobal());
-        $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller = !$inTrackerRequest && !$inConsole);
+
+        if(SettingsPiwik::isPiwikInstalled()) {
+            $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller = false);
+            return;
+        }
+
+        $startInstaller = true;
+
+        if(SettingsServer::isTrackerApiRequest()) {
+            // if Piwik is not installed yet, the piwik.php should do nothing and not return an error
+            throw new \Exception("As Piwik is not installed yet, the Tracking API will now exit without error.");
+        }
+
+        if(Common::isPhpCliMode()) {
+            // in CLI, do not start/redirect to installer, simply output the exception at the top
+            $startInstaller = false;
+        }
+
+        // Start the installation when config file not found
+        $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller);
+
     }
 
     /**
@@ -55,25 +74,69 @@ class EnvironmentValidator
             return;
         }
 
-        $message = $this->translator->translate('General_ExceptionConfigurationFileNotFound', array($path));
-        if (Common::isPhpCliMode()) {
-            $message .= "\n" . $this->translator->translate('General_ExceptionConfigurationFileNotFound2', array($path, get_current_user()));
-        }
+        $message = $this->getSpecificMessageWhetherFileExistsOrNot($path);
 
         $exception = new \Exception($message);
 
         if ($startInstaller) {
-            /**
-             * Triggered when the configuration file cannot be found or read, which usually
-             * means Piwik is not installed yet.
-             *
-             * This event can be used to start the installation process or to display a custom error message.
-             *
-             * @param \Exception $exception The exception that was thrown by `Config::getInstance()`.
-             */
-            Piwik::postEvent('Config.NoConfigurationFile', array($exception), $pending = true);
+            $this->startInstallation($exception);
         } else {
             throw $exception;
         }
+    }
+
+    /**
+     * @param $exception
+     */
+    private function startInstallation($exception)
+    {
+        /**
+         * Triggered when the configuration file cannot be found or read, which usually
+         * means Piwik is not installed yet.
+         *
+         * This event can be used to start the installation process or to display a custom error message.
+         *
+         * @param \Exception $exception The exception that was thrown by `Config::getInstance()`.
+         */
+        Piwik::postEvent('Config.NoConfigurationFile', array($exception), $pending = true);
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    private function getMessageWhenFileExistsButNotReadable($path)
+    {
+        $format = " \n<b>» %s </b>";
+        if(Common::isPhpCliMode()) {
+            $format = "\n » %s \n";
+        }
+
+        return sprintf($format,
+            $this->translator->translate('General_ExceptionConfigurationFilePleaseCheckReadableByUser',
+                array($path, Filechecks::getUser())));
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    private function getSpecificMessageWhetherFileExistsOrNot($path)
+    {
+        if (!file_exists($path)) {
+            $message = $this->translator->translate('General_ExceptionConfigurationFileNotFound', array($path));
+            if (Common::isPhpCliMode()) {
+                $message .= $this->getMessageWhenFileExistsButNotReadable($path);
+            }
+        } else {
+            $message = $this->translator->translate('General_ExceptionConfigurationFileExistsButNotReadable',
+                array($path));
+            $message .= $this->getMessageWhenFileExistsButNotReadable($path);
+        }
+
+        if (Common::isPhpCliMode()) {
+            $message = "\n" . $message;
+        }
+        return $message;
     }
 }

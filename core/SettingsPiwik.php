@@ -210,7 +210,7 @@ class SettingsPiwik
         $config = Config::getInstance()->getLocalPath();
         $exists = file_exists($config);
 
-        // Piwik is installed if the config file is found
+        // Piwik is not installed if the config file is not found
         if (!$exists) {
             return false;
         }
