@@ -4612,7 +4612,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the event
              */
-            function logEvent(category, action, name, value, customData)
+            function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
                 if (String(category).length === 0 || String(action).length === 0) {
@@ -4624,7 +4624,7 @@ if (typeof window.Piwik !== 'object') {
                         'event'
                     );
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -6330,9 +6330,9 @@ if (typeof window.Piwik !== 'object') {
                  * @param float value (optional) The Event's value
                  * @param mixed customData
                  */
-                trackEvent: function (category, action, name, value, customData) {
+                trackEvent: function (category, action, name, value, customData, callback) {
                     trackCallback(function () {
-                        logEvent(category, action, name, value, customData);
+                        logEvent(category, action, name, value, customData, callback);
                     });
                 },
 
