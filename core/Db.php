@@ -87,6 +87,9 @@ class Db
 
         $dbConfig['profiler'] = @$config->Debug['enable_sql_profiler'];
 
+        if(empty($dbConfig)) {
+            throw new \Exception("The Piwik database connection details could not be loaded from your config/*.ini.php configuration files.");
+        }
         return $dbConfig;
     }
 

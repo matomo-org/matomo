@@ -71,6 +71,28 @@ class FrontController extends Singleton
     private $initialized = false;
 
     /**
+     * @param $lastError
+     * @return mixed|void
+     * @throws AuthenticationFailedException
+     * @throws Exception
+     */
+    private static function generateSafeModeOutput($lastError)
+    {
+        Common::sendResponseCode(500);
+
+        $controller = FrontController::getInstance();
+        try {
+            $controller->init();
+            $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
+        } catch(Exception $e) {
+            // may fail in safe mode (eg. global.ini.php not found)
+            $message = sprintf("Piwik encoutered an error: %s", $e->getMessage());
+        }
+
+        return $message;
+    }
+
+    /**
      * Executes the requested plugin controller method.
      *
      * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
@@ -179,12 +201,7 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            Common::sendResponseCode(500);
-
-            $controller = FrontController::getInstance();
-            $controller->init();
-            $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
-
+            $message = self::generateSafeModeOutput($lastError);
             echo $message;
         }
     }
