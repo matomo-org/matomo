@@ -52,7 +52,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 SettingsServer::setIsTrackerApiRequest();
 
 $environment = new \Piwik\Application\Environment('tracker');
-$environment->init();
+try {
+    $environment->init();
+} catch(\Piwik\Exception\NotYetInstalledException $e) {
+    die($e->getMessage());
+}
 
 Tracker::loadTrackerEnvironment();
 
