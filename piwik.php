@@ -31,6 +31,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 @ignore_user_abort(true);
 
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Controller.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Exception/NotYetInstalledException.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/ControllerAdmin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Singleton.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Manager.php';
