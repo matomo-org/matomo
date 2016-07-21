@@ -101,10 +101,8 @@ install:
 
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
-
-  # Install composer (Note: we do not install 'require-dev' packages as they run on PHP 5.3 where PHPunit dependencies can't be met)
-  - 'if [ "$SKIP_COMPOSER_INSTALL" != "1" ]; then if [ "$TEST_SUITE" = "UITests" ]; then travis_retry composer install --no-dev; else travis_retry composer install; fi; fi;'
-
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install' 
+ 
 
 
 before_script:
