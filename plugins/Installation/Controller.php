@@ -279,8 +279,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 $email = $form->getSubmitValue('email');
                 $newsletterPiwikORG = $form->getSubmitValue('subscribe_newsletter_piwikorg');
-                $newsletterPiwikPRO = $form->getSubmitValue('subscribe_newsletter_piwikpro');
-                $this->registerNewsletter($email, $newsletterPiwikORG, $newsletterPiwikPRO);
+                $newsletterProfessionalServices = $form->getSubmitValue('subscribe_newsletter_professionalservices');
+                $this->registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices);
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {
@@ -425,6 +425,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->addForm($form);
 
         $view->showNextStep = false;
+        $view->linkToProfessionalServices = StaticContainer::get('Piwik\ProfessionalServices\Advertising')->getPromoUrlForProfessionalServices($medium = 'App_InstallationFinished');
         $output = $view->render();
 
         return $output;
@@ -670,16 +671,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * @param $email
      * @param $newsletterPiwikORG
-     * @param $newsletterPiwikPRO
+     * @param $newsletterProfessionalServices
      */
-    protected function registerNewsletter($email, $newsletterPiwikORG, $newsletterPiwikPRO)
+    protected function registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices)
     {
         $url = Config::getInstance()->General['api_service_url'];
         $url .= '/1.0/subscribeNewsletter/';
         $params = array(
             'email'     => $email,
             'piwikorg'  => $newsletterPiwikORG,
-            'piwikpro'  => $newsletterPiwikPRO,
+            'piwikpro'  => $newsletterProfessionalServices,
             'url'       => Url::getCurrentUrlWithoutQueryString(),
             'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
         );

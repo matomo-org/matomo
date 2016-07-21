@@ -5,22 +5,22 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\PiwikPro;
+namespace Piwik\ProfessionalServices;
 
 use Piwik\Plugin;
 use Piwik\Config;
 
 /**
- * Piwik PRO Advertising related methods. Lets you for example check whether advertising is enabled, generate
- * links for different landing pages etc.
+ * Advertising for providers of Professional Support for Piwik.
+ *
+ * Lets you for example check whether advertising is enabled, generate links for different landing pages etc.
  *
  * @api
  * @since 2.16.0
  */
 class Advertising
 {
-    const CAMPAIGN_NAME_UPGRADE_TO_PRO = 'Upgrade_to_Pro';
-    const CAMPAIGN_NAME_UPGRADE_TO_CLOUD = 'Upgrade_to_Cloud';
+    const CAMPAIGN_NAME_PROFESSIONAL_SERVICES = 'App_ProfessionalServices';
 
     /**
      * @var Plugin\Manager
@@ -39,36 +39,27 @@ class Advertising
     }
 
     /**
-     * Returns true if it is ok to show some Piwik PRO advertising in the Piwik UI.
+     * Returns true if it is ok to show some advertising in the Piwik UI.
      * @return bool
      */
-    public function arePiwikProAdsEnabled()
+    public function areAdsForProfessionalServicesEnabled()
     {
-        if ($this->pluginManager->isPluginActivated('EnterpriseAdmin')
-            || $this->pluginManager->isPluginActivated('LoginAdmin')
-            || $this->pluginManager->isPluginActivated('CloudAdmin')
-            || $this->pluginManager->isPluginActivated('WhiteLabel')) {
-            return false;
-        }
-
-        $showAds = $this->config->General['piwik_pro_ads_enabled'];
-
-        return !empty($showAds);
+        return $this->isAdsEnabledInConfig($this->config->General);
     }
 
     /**
-     * Get URL for promoting the Piwik Cloud.
+     * Get URL for promoting Professional Services for Piwik
      *
      * @param string $campaignMedium
      * @param string $campaignContent
      * @return string
      */
-    public function getPromoUrlForCloud($campaignMedium, $campaignContent = '')
+    public function getPromoUrlForProfessionalServices($campaignMedium, $campaignContent = '')
     {
-        $url = 'https://piwik.pro/cloud/?';
+        $url = 'https://piwik.org/consulting/?';
 
         $campaign = $this->getCampaignParametersForPromoUrl(
-            $name = self::CAMPAIGN_NAME_UPGRADE_TO_CLOUD,
+            $name = self::CAMPAIGN_NAME_PROFESSIONAL_SERVICES,
             $campaignMedium,
             $campaignContent
         );
@@ -77,26 +68,18 @@ class Advertising
     }
 
     /**
-     * Get URL for promoting Piwik On Premises.
-     * @param string $campaignMedium
-     * @param string $campaignContent
+     * Get URL for letting people know about upgrade to On premises
+     *
      * @return string
      */
-    public function getPromoUrlForOnPremises($campaignMedium, $campaignContent = '')
+    public function getPromoUrlForPiwikProUpgrade()
     {
-        $url = 'https://piwik.pro/c/upgrade/?';
-
-        $campaign = $this->getCampaignParametersForPromoUrl(
-            $name = self::CAMPAIGN_NAME_UPGRADE_TO_PRO,
-            $campaignMedium,
-            $campaignContent
-        );
-
-        return $url . $campaign;
+        return 'https://piwik.org/recommends/piwik-pro-from-app';
     }
 
     /**
-     * Appends campaign parameters to the given URL for promoting any Piwik PRO service.
+     * Appends campaign parameters to the given URL for promoting any Professional Support for Piwik service.
+     *
      * @param string $url
      * @param string $campaignName
      * @param string $campaignMedium
@@ -121,7 +104,7 @@ class Advertising
     }
 
     /**
-     * Generates campaign URL parameters that can be used with any promotion link for Piwik PRO.
+     * Generates campaign URL parameters that can be used with promoting Professional Support service.
      *
      * @param string $campaignName
      * @param string $campaignMedium
@@ -137,5 +120,16 @@ class Advertising
         }
 
         return $campaignName;
+    }
+
+    /**
+     * @param $configGeneralSection
+     * @return bool
+     */
+    public static function isAdsEnabledInConfig($configGeneralSection)
+    {
+        $oldSettingValue = @$configGeneralSection['piwik_pro_ads_enabled'];
+        $newSettingValue = @$configGeneralSection['piwik_professional_support_ads_enabled'];
+        return (bool) ($newSettingValue || $oldSettingValue);
     }
 }

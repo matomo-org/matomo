@@ -58,20 +58,17 @@ If you do not have a server, consider our Piwik Hosting partner: http://piwik.or
 
 For the list of all tickets closed in the current and past releases, see http://piwik.org/changelog/. For the list of technical changes in the Piwik platform, see [http://developer.piwik.org/changelog](http://developer.piwik.org/changelog).
 
-## Participate!
+## Get involved!
 
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Piwik was built by dozens of people like you,
-and we need your help to make Piwik better… Why not participate in a useful project today?
-
-You will find pointers on how you can participate in Piwik at http://piwik.org/get-involved/
+and we need your help to make Piwik better… Why not participate in a useful project today? [Learn how you can contribute to Piwik.](https://piwik.org/get-involved)
 
 ## Quality Assurance
 
-The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance.
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://piwik.org/qa/)
 
 We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help check the Piwik user interface is compatible with many browsers.
 
-[Learn more](https://piwik.org/qa/)
 
 ## Security
 
@@ -79,14 +76,20 @@ Security is a top priority at Piwik. As potential issues are discovered, we vali
 
 [Learn more](https://piwik.org/security/)
 
+## Support for Piwik
+
+For **Free support**, post a message in our community forums: [forum.piwik.org](http://forum.piwik.org/)
+
+For **Professional paid support**, send a message to our network of Piwik professionals: [piwik.org/support](http://piwik.org/contact/)  
 
 ## Contact
 
-http://piwik.org
+Website: [piwik.org](https://piwik.org)
 
-Contact us: http://piwik.org/contact/ or hello@piwik.org
+About us: [piwik.org/team/](https://piwik.org/team/)
 
-About us: http://piwik.org/team/
+Contact us: [piwik.org/contact/](https://piwik.org/contact/)
+
 
 ## More information
 

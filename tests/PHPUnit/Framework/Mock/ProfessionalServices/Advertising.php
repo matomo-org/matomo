@@ -5,15 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\Framework\Mock\PiwikPro;
+namespace Piwik\Tests\Framework\Mock\ProfessionalServices;
 
-class Advertising extends \Piwik\PiwikPro\Advertising
+class Advertising extends \Piwik\ProfessionalServices\Advertising
 {
     public function __construct()
     {
     }
 
-    public function arePiwikProAdsEnabled()
+    public function areAdsForProfessionalServicesEnabled()
     {
         return true;
     }

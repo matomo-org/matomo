@@ -56,7 +56,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateAbsentConfigFile('config.ini.php');
 
         $output = $this->triggerPiwikFrom('tracker');
-        $this->assertContains('As Piwik is not installed yet, the Tracking API will now exit without error', $output);
+        $this->assertContains('As Piwik is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
     }
 
     public function test_NoLocalConfigFile_TriggersError_inConsole()
@@ -191,17 +191,24 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function sendRequestToTracker()
     {
-        return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php?idsite=1&rec=1&action_name=something');
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php?idsite=1&rec=1&action_name=something');
+
+        // Check Tracker requests return 200
+        $this->assertEquals(200, $info["http_code"], 'Ok response');
+
+        return $response;
     }
 
     private function sendRequestToWeb()
     {
-        return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        return $response;
     }
 
     private function sendArchiveWebRequest()
     {
-        return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/archive.php?token_auth=' . Fixture::getTokenAuth());
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/archive.php?token_auth=' . Fixture::getTokenAuth());
+        return $response;
     }
 
     private function startConsoleProcess()
@@ -226,8 +233,10 @@ class EnvironmentValidationTest extends SystemTestCase
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $response = substr($response, $headerSize);
 
+        $responseInfo = curl_getinfo($ch);
+
         curl_close($ch);
 
-        return $response;
+        return array($response, $responseInfo);
     }
 }

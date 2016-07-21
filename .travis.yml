@@ -169,7 +169,6 @@ notifications:
   slack:
     rooms:
       - piwik:3HWhNh21qPfDACQXTrJOb0mW
-      - piwikpro:7OABSbDrywSTo2nv9lD2svXG
     on_success: :change
     on_failure: :change
 

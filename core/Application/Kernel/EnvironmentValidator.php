@@ -9,6 +9,7 @@
 namespace Piwik\Application\Kernel;
 
 use Piwik\Common;
+use Piwik\Exception\NotYetInstalledException;
 use Piwik\Filechecks;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -50,7 +51,7 @@ class EnvironmentValidator
 
         if(SettingsServer::isTrackerApiRequest()) {
             // if Piwik is not installed yet, the piwik.php should do nothing and not return an error
-            throw new \Exception("As Piwik is not installed yet, the Tracking API will now exit without error.");
+            throw new NotYetInstalledException("As Piwik is not installed yet, the Tracking API cannot proceed and will exit without error.");
         }
 
         if(Common::isPhpCliMode()) {

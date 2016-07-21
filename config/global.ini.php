@@ -565,9 +565,8 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; on a per-request basis;
 pivot_by_filter_default_column_limit = 10
 
-; If set to 0 it will disable Piwik Pro advertisements in some places. For example in the installation screen, the
-; Piwik Pro Ad widget will be removed etc.
-piwik_pro_ads_enabled = 1
+; If set to 0 it will disable advertisements for providers of Professional Support for Piwik.
+piwik_professional_support_ads_enabled = 1
 
 [Tracker]
 
@@ -804,7 +803,7 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 Plugins[] = Heartbeat
 Plugins[] = Intl
-Plugins[] = PiwikPro
+Plugins[] = ProfessionalServices
 Plugins[] = UserId
 
 [PluginsInstalled]
