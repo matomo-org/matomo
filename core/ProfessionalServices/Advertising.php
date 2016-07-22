@@ -15,7 +15,6 @@ use Piwik\Config;
  *
  * Lets you for example check whether advertising is enabled, generate links for different landing pages etc.
  *
- * @api
  * @since 2.16.0
  */
 class Advertising
