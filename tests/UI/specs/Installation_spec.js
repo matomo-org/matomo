@@ -88,7 +88,7 @@ describe("Installation", function () {
 
     var pageUrl, pageUrlDe;
 
-    it("should show Piwik PRO GmbH when language is German", function (done) {
+    it("should un-select Professional Services newsletter checkbox when language is German", function (done) {
         expect.screenshot("superuser_de").to.be.capture(function (page) {
             pageUrl = page.getCurrentUrl();
             pageUrlDe = pageUrl + '&language=de'

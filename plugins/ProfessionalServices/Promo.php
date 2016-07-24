@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PiwikPro;
+namespace Piwik\Plugins\ProfessionalServices;
 
 class Promo
 {
@@ -19,27 +19,27 @@ class Promo
         ),
         array(
             'campaignContent' => 'bringEnterpriseLevel',
-            'text' => 'Bring your analytics to enterprise level. Upgrade your Piwik platform and receive access to numerous premium features and assistance from our experts.'
+            'text' => 'Bring your analytics to enterprise level. Upgrade your Piwik platform and receive access to numerous premium features and assistance from experts.'
         ),
         array(
             'campaignContent' => 'funnelAnalytics',
-            'text' => 'Want Funnel Analytics? Get Premium features and enterprise-grade support from the makers of Piwik.'
+            'text' => 'Want Funnel Analytics? Get Premium features and enterprise-grade support.'
         ),
         array(
             'campaignContent' => 'monitoringAndIncident',
-            'text' => 'Do you need 24/7 Monitoring and Incident Handling for your Piwik? Get Premium features and enterprise-grade support from the makers of Piwik.'
+            'text' => 'Do you need 24/7 Monitoring and Incident Handling for your Piwik? Get Premium features and enterprise-grade support.'
         ),
         array(
             'campaignContent' => 'slowingDown',
-            'text' => 'Is your Piwik slowing down? The Piwik makers can help with your server setup!'
+            'text' => 'Is your Piwik slowing down? Piwik experts can help with your server setup!'
         ),
         array(
             'campaignContent' => 'excitingFeatures',
-            'text' => 'Want to know how to use all the exciting features in Piwik? Try our User training to be up to speed with working with Piwik.'
+            'text' => 'Want to know how to use all the exciting features in Piwik? Try a User training to be up to speed with working with Piwik.'
         ),
         array(
             'campaignContent' => 'slowingDown',
-            'text' => 'Did you know you can adjust the look and feel of Piwik to your brand, and even replace "Piwik" with your product name? Try our White Label product!',
+            'text' => 'Did you know you can adjust the look and feel of Piwik to your brand, and even replace "Piwik" with your product name? Try the White Label product!',
         ),
         array(
             'campaignContent' => 'metaSites',

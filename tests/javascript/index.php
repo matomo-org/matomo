@@ -2487,9 +2487,9 @@ function PiwikTest() {
         }
 
         // multiple paths / domains
-        tracker.setDomains( ['piwik.org/path', 'piwik.org/foo', 'piwik.org/bar/baz', '.piwik.pro/test'] );
-        ok( isSiteHostPath('piwik.pro', 'test/bar'), 'isSiteHostPath("piwik.pro", "test/bar")' );
-        ok( isSiteHostPath('piwik.pro', '/test/bar'), 'isSiteHostPath("piwik.pro", "/test/bar")' );
+        tracker.setDomains( ['piwik.org/path', 'piwik.org/foo', 'piwik.org/bar/baz', '.piwik.xyz/test'] );
+        ok( isSiteHostPath('piwik.xyz', 'test/bar'), 'isSiteHostPath("piwik.xyz", "test/bar")' );
+        ok( isSiteHostPath('piwik.xyz', '/test/bar'), 'isSiteHostPath("piwik.xyz", "/test/bar")' );
         ok( !isSiteHostPath('piwik.org', '/foobar/'), 'isSiteHostPath("piwik.org", "/foobar/")' );
         ok( !isSiteHostPath('piwik.org', 'foobar/'), 'isSiteHostPath("piwik.org", "foobar/")' );
         ok( !isSiteHostPath('piwik.org', 'foobar'), 'isSiteHostPath("piwik.org", "foobar")' );
@@ -2498,12 +2498,12 @@ function PiwikTest() {
         ok( !isSiteHostPath('piwik.org', '/bar/ba'), 'isSiteHostPath("piwik.org", "/bar/ba")' );
         ok( isSiteHostPath('piwik.org', '/path/test'), 'isSiteHostPath("piwik.org", "/path/test")' );
         ok( isSiteHostPath('piwik.org', '/path/test.htm'), 'isSiteHostPath("piwik.org", "/path/test.htm")' );
-        ok( isSiteHostPath('dev.piwik.pro', '/test'), 'isSiteHostPath("dev.piwik.pro", "/test")' );
-        ok( !isSiteHostPath('dev.piwik.pro', 'something/test.htm'), 'isSiteHostPath("dev.piwik.pro", "something/test")' );
-        ok( !isSiteHostPath('dev.piwik.pro', '/'), 'isSiteHostPath("dev.piwik.pro", "/")' );
-        ok( !isSiteHostPath('dev.piwik.pro', ''), 'isSiteHostPath("dev.piwik.pro", "")' );
+        ok( isSiteHostPath('dev.piwik.xyz', '/test'), 'isSiteHostPath("dev.piwik.xyz", "/test")' );
+        ok( !isSiteHostPath('dev.piwik.xyz', 'something/test.htm'), 'isSiteHostPath("dev.piwik.xyz", "something/test")' );
+        ok( !isSiteHostPath('dev.piwik.xyz', '/'), 'isSiteHostPath("dev.piwik.xyz", "/")' );
+        ok( !isSiteHostPath('dev.piwik.xyz', ''), 'isSiteHostPath("dev.piwik.xyz", "")' );
         ok( !isSiteHostPath('piwik.org', '/'), 'isSiteHostPath("piwik.org", "/")' );
-        ok( !isSiteHostPath('piwik.pro', '/'), 'isSiteHostPath("piwik.pro", "/")' );
+        ok( !isSiteHostPath('piwik.xyz', '/'), 'isSiteHostPath("piwik.xyz", "/")' );
         ok( !isSiteHostPath('piwik.org', '/index.htm'), 'isSiteHostPath("piwik.org", "/index.htm")' );
         ok( !isSiteHostPath('piwik.org', '/anythingelse'), 'isSiteHostPath("piwik.org", "/anythingelse")' );
         ok( !isSiteHostPath('another.org', '/'), 'isSiteHostPath("another.org", "/")' );
@@ -2541,7 +2541,7 @@ function PiwikTest() {
             return link;
         }
 
-        tracker.setDomains( ['.piwik.org/path', '.piwik.org/foo', '.piwik.org/bar/baz', '.piwik.pro/test'] );
+        tracker.setDomains( ['.piwik.org/path', '.piwik.org/foo', '.piwik.org/bar/baz', '.piwik.xyz/test'] );
 
         // they should not be detected as outlink as they match one of the domains
         equal(undefined, getLinkIfShouldBeProcessed(createLink('http://www.piwik.org/foo/bar')), 'getLinkIfShouldBeProcessed http://www.piwik.org/foo/bar matches .piwik.org/foo')
@@ -2569,9 +2569,9 @@ function PiwikTest() {
             "type": "download"
         }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.com/foobar/download.apk')), 'getLinkIfShouldBeProcessed should detect download even if it goes to different domain')
         propEqual({
-            "href": "http://www.piwik.pro/foo/",
+            "href": "http://www.piwik.xyz/foo/",
             "type": "link"
-        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.pro/foo/')), 'getLinkIfShouldBeProcessed path matches but domain not so outlink')
+        }, getLinkIfShouldBeProcessed(createLink('http://www.piwik.xyz/foo/')), 'getLinkIfShouldBeProcessed path matches but domain not so outlink')
         propEqual({
             "href": "http://www.piwik.org/bar",
             "type": "link"

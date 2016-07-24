@@ -44,7 +44,7 @@ class ReferrerNameTest extends IntegrationTestCase
 
         Fixture::createWebsite($date, $ecommerce, $name = 'test1', $url = 'http://piwik.org/foo/bar');
         Fixture::createWebsite($date, $ecommerce, $name = 'test2', $url = 'http://piwik.org/');
-        Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.pro/');
+        Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.xyz/');
 
         $this->referrerName = new ReferrerName();
     }
