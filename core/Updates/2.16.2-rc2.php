@@ -13,9 +13,9 @@ use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 
 /**
- * Update for version 2.16.2-b5
+ * Update for version 2.16.2-rc2
  */
-class Updates_2_16_2_b5 extends PiwikUpdates
+class Updates_2_16_2_rc2 extends PiwikUpdates
 {
 
     public function doUpdate(Updater $updater)
@@ -26,8 +26,8 @@ class Updates_2_16_2_b5 extends PiwikUpdates
         }
 
         try {
-            \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('ProfessionalServices');
-            self::deletePluginFromConfigFile('ProfessionalServices');
+            \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('PiwikPro');
+            self::deletePluginFromConfigFile('PiwikPro');
         } catch (\Exception $e) {
         }
     }
