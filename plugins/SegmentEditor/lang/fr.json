@@ -11,6 +11,7 @@
         "DataAvailableAtLaterDate": "Votre rapport d'analyse segmenté sera disponible plus tard. Veuillez nous excuser pour le désagrément.",
         "DefaultAllVisits": "Toutes les visites",
         "DragDropCondition": "Condition de Drag & Drop",
+        "HideMessageInFuture": "Cacher ce message à l'avenir",
         "LoadingSegmentedDataMayTakeSomeTime": "Le traitement des données visiteurs segmentées peut prendre quelques minutes...",
         "OperatorAND": "ET",
         "OperatorOR": "OU",

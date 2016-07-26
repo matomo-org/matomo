@@ -52,7 +52,6 @@
         "ThankYouUpdatePiwik": "感謝您使用Piwik並保持更新！",
         "PostUpdateMessage": "Piwik將永遠是免費下載並使用，但它需要你們繼續的支持成長及茁壯。",
         "PostUpdateSupport": "如果你需要幫助使用Piwik，你可以從作者那邊獲得支持：",
-        "EnterpriseSolutions": "企業解決方案",
         "CloudHosting": "雲端代管",
         "Updating": "更新中",
         "UpdateUsingHttpsFailed": "在安全的HTTPS連線中下載最新的Piwik版本並沒有成功，因為下面的錯誤：",

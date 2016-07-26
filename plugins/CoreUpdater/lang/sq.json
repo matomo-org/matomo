@@ -57,7 +57,6 @@
         "ThankYouUpdatePiwik": "Faleminderit për përdorimin dhe mbajtjen e Piwik-ut të përditësuar!",
         "PostUpdateMessage": "Shkarkimi dhe përdorimi i Piwik-ut do të jenë gjithnjë të lirë, por i duhet përkrahja juaj e vazhdueshme për t’u rritur dhe përmirësuar.",
         "PostUpdateSupport": "Nëse ju duhet ndihmë mbi përdorimin e Piwik-ut, mund të merrni asistencë nga krijuesit e tij:",
-        "EnterpriseSolutions": "Zgjidhje ndërrmarrjesh",
         "CloudHosting": "Strehim në re",
         "Updating": "Përditësim",
         "UpdateUsingHttpsFailed": "Shkarkimi i versionit më të ri të Piwik-ut përmes një lidhje të sigurt HTTPS nuk pati sukses, për shkak të gabimit vijues:",
