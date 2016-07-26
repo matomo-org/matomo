@@ -22,7 +22,6 @@
         "Installation": "Inštalácia",
         "InstallationStatus": "Stav inštalácie",
         "Legend": "Legenda",
-        "NoConfigFound": "Piwik konfiguračný súbor nie je možné nájsť a vy sa pokúšate pripojiť k Piwik stránke. <br \/><b>  » Môžete <a href='index.php'>teraz nainštalovať Piwik<\/a><\/b><br \/><small>Ak ste nainštalovali Piwik už skôr, a máte nejaké tabuľky s dátami v databáze, nemusíte sa báť, budete ich ďalej používať!<\/small>",
         "Optional": "Voliteľné",
         "PasswordDoNotMatch": "heslo nie je zhodné",
         "PercentDone": "%s %% Dokončené",

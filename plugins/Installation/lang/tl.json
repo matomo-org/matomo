@@ -32,7 +32,6 @@
         "NfsFilesystemWarning": "Ang iyong server ay gumagamit ng isang NFS filesystem",
         "NfsFilesystemWarningSuffixAdmin": "Ito ay nangangahulugan na ang Piwik ay lubhang babagal kapag gumagamit ng file na batay sa session.",
         "NfsFilesystemWarningSuffixInstall": "Ang pag-gamit ng file based session sa NFS ay sobrang mabagal iyong kakailanganin ang pag dag-dag ng maximum number na komokonekta sa iyong database server.",
-        "NoConfigFound": "Ang Piwik configuration file ay hindi makita at iyong sinusubukang pumasok sa pahina ng Piwik.<br \/><b> » Maari mong <a href='index.php'>I-install ang Piwik ngayon<\/a><\/b><br \/><small>Kung iyo ng nainstall ang piwik dati at at meron ka nang mga tables sa iyong DB wag mabahala maari mo paring gamitin ang parehong mga tables at mapanatili ang mga datus na meron ka na!<\/small>",
         "Optional": "Opsyonal",
         "PasswordDoNotMatch": "password ay hindi tumutugma",
         "PercentDone": "%s %% Tapos na",

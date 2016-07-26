@@ -57,7 +57,6 @@
         "ThankYouUpdatePiwik": "Tak fordi du benytter Piwik og holder den opdateret!",
         "PostUpdateMessage": "Piwik vil altid være gratis at downloade, men den behøver din fortsatte støtte for at vokse og blive bedre.",
         "PostUpdateSupport": "If du behøver hjælp til at bruge Piwik, kan du få support fra skaberne:",
-        "EnterpriseSolutions": "Enterprise løsninger",
         "CloudHosting": "Cloud hosting",
         "Updating": "Opdaterer",
         "UpdateUsingHttpsFailed": "Downloader den seneste Piwik version over en sikker HTTPS forbindelse lykkedes ikke, på grund af følgende fejl:",

@@ -27,7 +27,6 @@
         "NfsFilesystemWarning": "El vostre servidor està utiltizant un sistema de fitxers NFS.",
         "NfsFilesystemWarningSuffixAdmin": "Això vol dir que el Piwik serà extremadament lent quan utilitzi les sessions basades en fitxers.",
         "NfsFilesystemWarningSuffixInstall": "Utilitzar sessions basades en fitxers amb NFS es extremadament lent, per això Piwik utilizarà les sessions de bases de dades. Si teniu molt usuaris concurrents, potser haureu d'incrementar el nombre de conexions concurrens al servidor de bases de dades.",
-        "NoConfigFound": "No s'ha trobat el fitxer de configuració del Piwik i esteu intentant accedir una pàgina del Piwik.<br \/><strong>  »Podeu <a href='index.php'>instal·lar el Piwik ara<\/a><\/strong>.<br \/><small>Si heu instal·lat el Piwik abans i teniu algunes taules a la vostra base de dades, no us amoïneu; podeu continuar fent servir les mateixes taules i les dades existents es conservaran!<\/small>",
         "Optional": "Opcional",
         "PasswordDoNotMatch": "Les contrasenyes no coincideixen",
         "PercentDone": "%s%% fet",

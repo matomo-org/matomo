@@ -57,7 +57,6 @@
         "ThankYouUpdatePiwik": "Vielen Dank, dass Sie Piwik nutzen und es aktuell halten!",
         "PostUpdateMessage": "Piwik wird immer frei herunterzuladen und zu nutzen sein, aber es braucht Ihre dauerhafte Unterstützung um zu wachsen und zu gedeihen.",
         "PostUpdateSupport": "Wenn Sie beim Einsatz von Piwik Hilfe benötigen, holen Sie sich Support von dessen Schöpfer:",
-        "EnterpriseSolutions": "Enterprise-Lösungen",
         "CloudHosting": "Cloud-Hosting",
         "Updating": "Aktualisiere",
         "UpdateUsingHttpsFailed": "Das Herunterladen der neuesten Piwik Version über eine sichere HTTPS-Verbindung war aufgrund des folgenden Fehlers nicht erfolgreich:",

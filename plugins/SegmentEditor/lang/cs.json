@@ -7,7 +7,7 @@
         "AutoArchivePreProcessed": "Segmentovaná hlášení jsou předzpracována rychleji (vyžadují cron)",
         "AutoArchiveRealTime": "Segmentovaná hlášení jsou zpracována v reálném čase",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Chystáte se změnit definici segmentu. Analytická data pro tento nový segment budou zobrazena až po novém vypracování reportů. Zobrazení nových dat pro upravený segment může zabrat až několik hodin. Přesto pokračovat?",
-        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Chystáte se změnit definici segmentu. Analytické reporty pro tento nový segment budou nově vypracovány při jejich prvním vyžádání, což zabere nějaký čas. Přesto pokračovat?",
+        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Chystáte se změnit definici segmentu. Analytická data pro tento nový segment budou zpracována dle potřeby při jejich vyžádání. Zobrazení reportů může trvat několik minut. Přesto pokračovat?",
         "ChooseASegment": "Zvolte segment",
         "CurrentlySelectedSegment": "Aktuálně vybraný segment: %s",
         "DataAvailableAtLaterDate": "Vaše segmentovaná analytická hlášení budou dostupná později. Omlouváme se za tuto nepříjemnost.",

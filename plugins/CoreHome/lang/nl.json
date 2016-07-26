@@ -51,6 +51,7 @@
         "UndoPivotBySubtable": "Dit rapport wordt als een draaitabel getoond, %s schakel de draaitabel uit.",
         "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %1$s maak een draaitabel op basis van %2$s",
         "QuickAccessTitle": "Zoeken naar %s. Gebruik de pijltjestoetsen om door de zoekopdrachten te navigeren. Shortcut: Druk 'f' om te zoeken.",
+        "MenuEntries": "Menu-items",
         "Segments": "Segmenten",
         "AdblockIsMaybeUsed": "Als je gebruik maakt van een reclame blokker, schakel deze a.u.b. uit zodat je zeker weet dat Piwik werkt zonder problemen.",
         "ChangeCurrentWebsite": "Kies een website, de nu geselecteerde website is: %s"
