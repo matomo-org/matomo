@@ -41,10 +41,6 @@ class FormDatabaseSetup extends QuickForm2
         $adapters = array();
         foreach ($availableAdapters as $adapter => $port) {
             $adapters[$adapter] = $adapter;
-            if (Adapter::isRecommendedAdapter($adapter)) {
-                
-                $adapters[$adapter] .= ' (' . Piwik::translate('General_Recommended') . ')';
-            }
         }
 
         $this->addElement('text', 'host')
