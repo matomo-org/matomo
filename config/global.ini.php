@@ -28,7 +28,7 @@ charset = utf8
 
 [database_tests]
 host = localhost
-username = "@USERNAME@"
+username = pranav
 password =
 dbname = piwik_tests
 tables_prefix = piwiktests_

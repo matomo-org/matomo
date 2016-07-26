@@ -1,3 +1,4 @@
+/config/global.ini.php
 php_errors.log
 *.tmp
 *.pyc
