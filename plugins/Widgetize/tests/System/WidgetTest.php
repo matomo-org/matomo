@@ -984,6 +984,30 @@ class WidgetTest extends SystemTestCase
                         'module' => 'Goals',
                         'action' => 'getItemsCategory',
                     ),
+            ), array (
+                'name' => 'Latest Piwik Plugin Updates',
+                'uniqueId' => 'widgetCorePluginsAdmingetNewPlugins',
+                'parameters' =>
+                    array (
+                        'module' => 'CorePluginsAdmin',
+                        'action' => 'getNewPlugins',
+                    ),
+            ), array (
+                'name' => 'System Check',
+                'uniqueId' => 'widgetInstallationgetSystemCheck',
+                'parameters' =>
+                    array (
+                        'module' => 'Installation',
+                        'action' => 'getSystemCheck',
+                    ),
+            ), array (
+                'name' => 'System Summary',
+                'uniqueId' => 'widgetCoreHomegetSystemSummary',
+                'parameters' =>
+                    array (
+                        'module' => 'CoreHome',
+                        'action' => 'getSystemSummary',
+                    ),
             ),
         );
     }

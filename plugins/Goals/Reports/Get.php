@@ -59,7 +59,12 @@ class Get extends Base
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
-        $idSite  = $this->getIdSite();
+        $idSite  = Common::getRequestVar('idSite', 0, 'int');
+
+        if (empty($idSite)) {
+            return;
+        }
+        
         $goals   = $this->getGoals();
         $reports = Goals::getReportsWithGoalMetrics();
 
