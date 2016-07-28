@@ -125,12 +125,8 @@ class Adapter
      * @param string $adapterName
      * @return bool
      */
-    public static function isRecommendedAdapter($adapterName)
+    public function isRecommendedAdapter($adapterName)
     {
-        static $recommendedAdapters = array(
-            // Adapters recommended by Piwik. Needs to be in uppercase for string checking using in_array()
-            'PDO\MYSQL'
-        );
-        return in_array($adapterName,$recommendedAdapters);
+        return strtolower($adapterName) === 'pdo/mysql';
     }
 }
