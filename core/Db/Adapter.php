@@ -119,4 +119,5 @@ class Adapter
 
         return $adapters;
     }
+
 }

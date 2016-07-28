@@ -330,15 +330,17 @@ class View implements ViewInterface
      * _Note: setting this allows you to make sure the View **cannot** be
      * embedded in iframes. Learn more [here](https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options)._
      *
-     * @param string $option ('deny' or 'sameorigin')
+     * @param string $option ('deny' or 'sameorigin' or 'allow-from URI')
      */
     public function setXFrameOptions($option = 'deny')
     {
         if ($option === 'deny' || $option === 'sameorigin') {
             $this->xFrameOptions = $option;
+            return;
         }
-        if ($option == 'allow') {
-            $this->xFrameOptions = null;
+        if (stripos($option, 'allow-from') !== false) {
+            $this->xFrameOptions = $option;
+            return;
         }
     }
 
