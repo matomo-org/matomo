@@ -119,4 +119,14 @@ class Adapter
 
         return $adapters;
     }
+
+    /**
+     * Checks if the available adapters are recommended by Piwik or not.
+     * @param string $adapterName
+     * @return bool
+     */
+    public function isRecommendedAdapter($adapterName)
+    {
+        return strtolower($adapterName) === 'pdo/mysql';
+    }
 }
