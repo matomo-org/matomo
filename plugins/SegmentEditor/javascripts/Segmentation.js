@@ -1282,7 +1282,6 @@ $(document).ready(function() {
                     self.props.availableSegments.push(params);
                     self.rebuild();
 
-                    self.impl.setSegment(params.definition);
                     self.impl.markCurrentSegment();
 
                     self.$element.find('a.close').click();
@@ -1321,7 +1320,6 @@ $(document).ready(function() {
                     $.extend( self.props.availableSegments[idx], params);
                     self.rebuild();
 
-                    self.impl.setSegment(params.definition);
                     self.impl.markCurrentSegment();
 
                     self.$element.find('a.close').click();

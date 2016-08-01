@@ -515,7 +515,7 @@ class AccessTest extends IntegrationTestCase
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));
 
-        $mock = $this->getMock('Piwik\Access', $methods);
+        $mock = $this->getMockBuilder('Piwik\Access')->setMethods($methods)->getMock();
         $mock->reloadAccess($authMock);
 
         return $mock;

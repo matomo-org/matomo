@@ -21,6 +21,10 @@ describe("PeriodSelector", function () {
 
             // disable broadcast.propagateNewPage & remove loading gif
             page.evaluate(function () {
+                piwikHelper.isAngularRenderingThePage = function () {
+                    return false;
+                };
+
                 broadcast.propagateNewPage = function () {};
                 $('#ajaxLoadingCalendar').remove();
             });
