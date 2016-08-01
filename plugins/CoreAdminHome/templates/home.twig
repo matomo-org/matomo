@@ -16,7 +16,6 @@
         </div>
     {% endset %}
 
-
     {% if isSuperUser %}
         <div class="row">
             <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
@@ -57,16 +56,24 @@
             margin: -10px -15px;
         }
     </style>
-    <div class="row">
-        <div class="col s12 m6">
-            <div piwik-content-block content-title="{{ 'CoreHome_SupportPiwik'|translate }}">
-                <div piwik-widget-loader='{"module":"CoreHome","action":"getDonateForm","widget": "0"}'></div>
-            </div>
+
+    {% if hasDonateForm or hasPiwikBlog %}
+        <div class="row">
+            {% if hasDonateForm %}
+                <div class="col s12 {% if hasPiwikBlog %}m6{% endif %}">
+                    <div piwik-content-block content-title="{{ 'CoreHome_SupportPiwik'|translate }}">
+                        <div piwik-widget-loader='{"module":"CoreHome","action":"getDonateForm","widget": "0"}'></div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if hasPiwikBlog %}
+                <div class="col s12 {% if hasDonateForm %}m6{% endif %}">
+                    <div piwik-content-block content-title="Piwik.org Blog">
+                        <div piwik-widget-loader='{"module":"ExampleRssWidget","action":"rssPiwik"}'></div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-        <div class="col s12 m6">
-            <div piwik-content-block content-title="Piwik.org Blog">
-                <div piwik-widget-loader='{"module":"ExampleRssWidget","action":"rssPiwik"}'></div>
-            </div>
-        </div>
-    </div>
+    {% endif %}
+
 {% endblock %}

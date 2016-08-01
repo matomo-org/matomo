@@ -416,6 +416,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load the Admin home page correct', function (done) {
+        expect.screenshot('admin_home').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + generalParams + "&module=CoreAdminHome&action=home");
+        }, done);
+    });
+
     // Admin user settings (plugins not displayed)
     it('should load the Manage > Websites admin page correctly', function (done) {
         expect.screenshot('admin_manage_websites').to.be.captureSelector('.pageWrap', function (page) {

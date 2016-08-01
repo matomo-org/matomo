@@ -27,6 +27,7 @@ use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Widget\WidgetsList;
 
 class Controller extends ControllerAdmin
 {
@@ -50,10 +51,16 @@ class Controller extends ControllerAdmin
     {
         $isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
         $isFeedbackEnabled = Plugin\Manager::getInstance()->isPluginLoaded('Feedback');
+        $widgetsList = WidgetsList::get();
+
+        $hasDonateForm = $widgetsList->isDefined('CoreHome', 'getDonateForm');
+        $hasPiwikBlog = $widgetsList->isDefined('ExampleRssWidget', 'rssPiwik');
 
         return $this->renderTemplate('home', array(
             'isMarketplaceEnabled' => $isMarketplaceEnabled,
-            'isFeedbackEnabled' => $isFeedbackEnabled
+            'isFeedbackEnabled' => $isFeedbackEnabled,
+            'hasDonateForm' => $hasDonateForm,
+            'hasPiwikBlog' => $hasPiwikBlog
         ));
     }
 
