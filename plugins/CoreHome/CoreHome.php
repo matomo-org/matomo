@@ -344,6 +344,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'General_LearnMore';
+        $translationKeys[] = 'General_ChooseDate';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
         $translationKeys[] = 'General_LearnMore';
@@ -355,5 +356,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_MainNavigation';
         $translationKeys[] = 'CoreHome_ChangeCurrentWebsite';
         $translationKeys[] = 'General_CreatedByUser';
+        $translationKeys[] = 'General_DateRangeFromTo';
     }
 }

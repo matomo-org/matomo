@@ -71,26 +71,44 @@ Segmentation = (function($) {
             this.currentSegmentStr = segmentStr;
         };
 
+        segmentation.prototype.setTooltip = function (segmentDescription) {
+
+            var title = _pk_translate('SegmentEditor_ChooseASegment') + '.';
+            title += ' '+ _pk_translate('SegmentEditor_CurrentlySelectedSegment', [segmentDescription]);
+
+            $(this.content).attr('title', title);
+        }
+
         segmentation.prototype.markCurrentSegment = function(){
             var current = this.getSegment();
 
             var segmentationTitle = $(this.content).find(".segmentationTitle");
+            var title;
             if( current != "")
             {
                 var currentDecoded = piwikHelper.htmlDecode(current);
                 var selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
                 var foundItems = $(selector, this.target);
 
-                if( foundItems.length > 0) {
+                if (foundItems.length === 0) {
+                    currentDecoded = piwikHelper.htmlDecode(decodeURIComponent(current));
+                    selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
+                    foundItems = $(selector, this.target);
+                }
+
+                if (foundItems.length > 0) {
                     var idSegment = $(foundItems).first().attr('data-idsegment');
-                    var title = getSegmentName( getSegmentFromId(idSegment));
+                    title = getSegmentName(getSegmentFromId(idSegment));
                 } else {
                     title = _pk_translate('SegmentEditor_CustomSegment');
                 }
                 segmentationTitle.addClass('segment-clicked').html( title );
+                this.setTooltip(title);
             }
             else {
-                $(this.content).find(".segmentationTitle").text(this.translations['SegmentEditor_DefaultAllVisits']);
+                title = this.translations['SegmentEditor_DefaultAllVisits'];
+                segmentationTitle.text(title);
+                this.setTooltip(title);
             }
         };
 
@@ -241,7 +259,9 @@ Segmentation = (function($) {
                         checkSelected = encodeURIComponent(checkSelected);
                     }
 
-                    if( checkSelected == self.currentSegmentStr){
+                    if( checkSelected == self.currentSegmentStr
+                        || checkSelected == decodeURIComponent(self.currentSegmentStr)
+                        || checkSelected == decodeURIComponent(decodeURIComponent(self.currentSegmentStr))){
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
@@ -505,7 +525,11 @@ Segmentation = (function($) {
                     var idsegment = $(this).attr("data-idsegment");
                     segmentDefinition = $(this).data("definition");
 
-                    self.setSegment(segmentDefinition);
+                    if (!piwikHelper.isAngularRenderingThePage()) {
+                        // we update segment on location change success
+                        self.setSegment(segmentDefinition);
+                    }
+
                     self.markCurrentSegment();
                     self.segmentSelectMethod( segmentDefinition );
                     toggleLoadingMessage(segmentDefinition.length);
@@ -1161,6 +1185,23 @@ Segmentation = (function($) {
             toggleLoadingMessage(segmentIsSet);
         };
 
+        if (piwikHelper.isAngularRenderingThePage()) {
+            angular.element(document).injector().invoke(function ($rootScope, $location) {
+                $rootScope.$on('$locationChangeSuccess', function () {
+                    var $search = $location.search();
+                    if ('undefined' !== typeof $search.segment && null !== $search.segment) {
+                        var segm = $search.segment;
+                        segm = decodeURIComponent(segm);
+
+                        if (self.getSegment() !== segm) {
+                            self.setSegment(segm);
+                            self.initHtml();
+                        }
+                    }
+                });
+            });
+        }
+
         this.initHtml();
         bindEvents();
     };
@@ -1194,7 +1235,24 @@ $(document).ready(function() {
         this.changeSegment = function(segmentDefinition) {
             segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
             segmentDefinition = encodeURIComponent(segmentDefinition);
-            return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
+
+            if (piwikHelper.isAngularRenderingThePage()) {
+
+                angular.element(document).injector().invoke(function ($location) {
+                    var $search = $location.search();
+
+                    if (segmentDefinition !== $search.segment) {
+                        // eg when using back button the date might be actually already changed in the URL and we do not
+                        // want to change the URL again
+                        $search.segment = segmentDefinition;
+                        $location.search($search);
+                    }
+
+                });
+                return false;
+            } else {
+                return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
+            }
         };
 
         this.changeSegmentList = function () {};
@@ -1316,12 +1374,28 @@ $(document).ready(function() {
             ajaxHandler.send();
         };
 
-        var segmentFromRequest = encodeURIComponent(self.props.selectedSegment)
-            || broadcast.getValueFromHash('segment')
-            || broadcast.getValueFromUrl('segment');
-        if($.browser.mozilla) {
-            segmentFromRequest = decodeURIComponent(segmentFromRequest);
+        function getSegmentFromRequest()
+        {
+            var hashStr = broadcast.getHashFromUrl();
+            var segmentFromRequest;
+
+            if (hashStr && hashStr.indexOf('segment=') !== -1) {
+                // needed in case "segment = ''" in hash but set in query via 'segment=foo==bar'.
+                segmentFromRequest = broadcast.getValueFromHash('segment');
+            } else {
+                segmentFromRequest = broadcast.getValueFromHash('segment')
+                    || encodeURIComponent(self.props.selectedSegment)
+                    || broadcast.getValueFromUrl('segment');
+            }
+
+            if ($.browser.mozilla) {
+                segmentFromRequest = decodeURIComponent(segmentFromRequest);
+            }
+
+            return segmentFromRequest;
         }
+
+        var segmentFromRequest = getSegmentFromRequest();
 
         var userSegmentAccess = (this.props.authorizedToCreateSegments) ? "write" : "read";
 

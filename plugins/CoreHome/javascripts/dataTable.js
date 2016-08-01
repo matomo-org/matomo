@@ -1328,7 +1328,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         var icon = $('a.dropdownConfigureIcon', domElem);
-        icon.click(function () { return false; });
         var iconHighlighted = false;
 
         var generateClickCallback = function (paramName, callbackAfterToggle, setParamCallback) {

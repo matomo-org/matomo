@@ -15,6 +15,9 @@
 
         var currentCategory = null;
         var currentSubcategory = null;
+        var currentPeriod = null;
+        var currentDate = null;
+        var currentSegment = null;
 
         $scope.renderPage = function (category, subcategory) {
             if (!category || !subcategory) {
@@ -51,11 +54,20 @@
         $scope.renderPage($location.search().category, $location.search().subcategory);
 
         $rootScope.$on('$locationChangeSuccess', function () {
-            // should be handled by $route
-            var category = $location.search().category;
-            var subcategory = $location.search().subcategory;
+            var $search = $location.search();
 
-            if (category === currentCategory && subcategory === currentSubcategory) {
+            // should be handled by $route
+            var category = $search.category;
+            var subcategory = $search.subcategory;
+            var period = $search.period;
+            var date = $search.date;
+            var segment = $search.segment;
+
+            if (category === currentCategory
+                && subcategory === currentSubcategory
+                && period === currentPeriod
+                && date === currentDate
+                && segment === currentSegment) {
                 // this page is already loaded
                 return;
             }
