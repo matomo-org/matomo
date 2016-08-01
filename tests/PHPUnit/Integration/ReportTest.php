@@ -356,7 +356,7 @@ class ReportTest extends IntegrationTestCase
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'ExampleReport'));
 
-        $proxyMock = $this->getMock('stdClass', array('call', '__construct'));
+        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
             '\\Piwik\\Plugins\\ExampleReport\\API', 'getExampleReport', array(
                 'idSite' => 1,
@@ -379,7 +379,7 @@ class ReportTest extends IntegrationTestCase
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'Referrers'));
 
-        $proxyMock = $this->getMock('stdClass', array('call', '__construct'));
+        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
             '\\Piwik\\Plugins\\Referrers\\API', 'getSearchEnginesFromKeywordId', array(
                 'idSubtable' => 23,

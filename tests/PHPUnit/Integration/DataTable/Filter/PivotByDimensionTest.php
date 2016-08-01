@@ -43,7 +43,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
         $self = $this;
 
-        $proxyMock = $this->getMock('stdClass', array('call'));
+        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call'))->getMock();
         $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) use ($self) {
             if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
                 && $methodName == 'getCity'

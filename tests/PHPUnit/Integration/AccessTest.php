@@ -249,10 +249,7 @@ class AccessTest extends IntegrationTestCase
      */
     public function testCheckUserHasViewAccessWithSomeAccessFailure()
     {
-        $mock = $this->getMock(
-            'Piwik\Access',
-            array('getSitesIdWithAtLeastViewAccess')
-        );
+        $mock = $this->getMockBuilder('Piwik\Access')->setMethods(array('getSitesIdWithAtLeastViewAccess'))->getMock();
 
         $mock->expects($this->once())
             ->method('getSitesIdWithAtLeastViewAccess')
@@ -484,13 +481,17 @@ class AccessTest extends IntegrationTestCase
 
     private function createPiwikAuthMockInstance()
     {
-        return $this->getMock('Piwik\\Auth', array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
-            'setPassword', 'setPasswordHash'));
+        return $this->getMockBuilder('Piwik\\Auth')
+                    ->setMethods(array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
+            'setPassword', 'setPasswordHash'))
+                    ->getMock();
     }
 
     private function createAccessMockWithAccessToSitesButUnauthenticated($idSites)
     {
-        $mock = $this->getMock('Piwik\Access', array('getRawSitesWithSomeViewAccess', 'loadSitesIfNeeded'));
+        $mock = $this->getMockBuilder('Piwik\Access')
+                     ->setMethods(array('getRawSitesWithSomeViewAccess', 'loadSitesIfNeeded'))
+                     ->getMock();
 
         // this method will be actually never called as it is unauthenticated. The tests are supposed to fail if it
         // suddenly does get called as we should not query for sites if it is not authenticated.

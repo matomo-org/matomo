@@ -1454,8 +1454,11 @@ class SegmentTest extends IntegrationTestCase
     {
         $self = $this;
 
-        $cacheProxy = $this->getMock('Piwik\Cache\Lazy', array('fetch', 'contains', 'save', 'delete', 'flushAll'),
-            array(), '', $callOriginalConstructor = false);
+        $cacheProxy = $this->getMockBuilder('Piwik\Cache\Lazy')
+                           ->setMethods(array('fetch', 'contains', 'save', 'delete', 'flushAll'))
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
         $cacheProxy->expects($this->any())->method('fetch')->willReturnCallback(function ($id) {
             $realCache = StaticContainer::get('Piwik\Cache\Lazy');
             return $realCache->fetch($id);

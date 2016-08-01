@@ -155,9 +155,10 @@ Installation_HappyAnalysing";
      */
     private function getCommunicationMock($pluginsHavingUpdate)
     {
-        $mock = $this->getMock('\Piwik\Plugins\CorePluginsAdmin\UpdateCommunication',
-                              array('getPluginsHavingUpdate', 'sendEmailNotification'),
-                               array($this->settings));
+        $mock = $this->getMockBuilder('\Piwik\Plugins\CorePluginsAdmin\UpdateCommunication')
+                     ->setMethods(array('getPluginsHavingUpdate', 'sendEmailNotification'))
+                     ->setConstructorArgs(array($this->settings))
+                     ->getMock();
 
         $mock->expects($this->any())
              ->method('getPluginsHavingUpdate')
