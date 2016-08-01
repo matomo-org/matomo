@@ -6,13 +6,8 @@
 {% set isAdminArea = true %}
 
 {% block body %}
-    {% if userIsAnonymous %}
-        {% set topMenuModule = 'ScheduledReports' %}
-        {% set topMenuAction = 'index' %}
-    {% else %}
-        {% set topMenuModule = 'UsersManager' %}
-        {% set topMenuAction = 'userSettings' %}
-    {% endif %}
+    {% set topMenuModule = 'CoreAdminHome' %}
+    {% set topMenuAction = 'home' %}
     {{ parent() }}
 {% endblock %}
 

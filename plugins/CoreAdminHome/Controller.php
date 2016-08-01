@@ -15,7 +15,9 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
@@ -42,6 +44,17 @@ class Controller extends ControllerAdmin
         $this->optOutManager = $optOutManager;
 
         parent::__construct();
+    }
+
+    public function home()
+    {
+        $isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
+        $isFeedbackEnabled = Plugin\Manager::getInstance()->isPluginLoaded('Feedback');
+
+        return $this->renderTemplate('home', array(
+            'isMarketplaceEnabled' => $isMarketplaceEnabled,
+            'isFeedbackEnabled' => $isFeedbackEnabled
+        ));
     }
 
     public function index()

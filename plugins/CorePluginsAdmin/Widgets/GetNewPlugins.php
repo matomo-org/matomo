@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin\Widgets;
 
+use Piwik\Common;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
@@ -37,11 +38,17 @@ class GetNewPlugins extends Widget
 
     public function render()
     {
-        $view = new View('@CorePluginsAdmin/getNewPlugins');
+        $isAdminPage = Common::getRequestVar('isAdminPage', 0, 'int');
+
+        if (!empty($isAdminPage)) {
+            $view = new View('@CorePluginsAdmin/getNewPluginsAdmin');
+        } else {
+            $view = new View('@CorePluginsAdmin/getNewPlugins');
+        }
 
         $plugins = $this->marketplaceApiClient->searchForPlugins('', '', 'newest');
         $view->plugins = array_splice($plugins, 0, 3);
-        
+
         return $view->render();
     }
 

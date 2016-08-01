@@ -51,7 +51,7 @@ class Controller extends Plugin\ControllerAdmin
 
         parent::__construct();
     }
-
+    
     public function marketplace()
     {
         self::dieIfMarketplaceIsDisabled();

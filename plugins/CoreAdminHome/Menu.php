@@ -40,15 +40,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureTopMenu(MenuTop $menu)
     {
-        if (Piwik::isUserIsAnonymous()) {
-            if (Plugin\Manager::getInstance()->isPluginActivated('ScheduledReports')) {
-                $url = $this->urlForModuleAction('ScheduledReports', 'index');
-            } else {
-                $url = $this->urlForModuleAction('API', 'listAllAPI');
-            }
-        } else {
-            $url = $this->urlForModuleAction('UsersManager', 'userSettings');
-        }
+        $url = $this->urlForModuleAction('CoreAdminHome', 'home');
 
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-configure');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));

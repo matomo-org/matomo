@@ -89,7 +89,7 @@
         "SystemCheckMemoryLimit": "Memory limit",
         "SystemCheckMemoryLimitHelp": "On a high traffic website, the archiving process may require more memory than currently allowed. If necessary, change the memory_limit directive in your php.ini file.",
         "SystemCheckNoErrorsOrWarnings": "There are no errors or warnings",
-        "SystemCheckClickHereToGoToFullSystemCheck": "Click here to go to the full system check report",
+        "SystemCheckViewFullSystemCheck": "View the full system check report",
         "SystemCheckOpenURL": "Open URL",
         "SystemCheckOpenURLHelp": "Newsletter subscriptions, update notifications, and one-click updates requires the \"curl\" extension, allow_url_fopen=On, or fsockopen() enabled.",
         "SystemCheckOtherExtensions": "Other extensions",
