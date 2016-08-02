@@ -7,6 +7,15 @@
     "homepage": "",
     "license": "GPL v3+",
     "keywords": [],
+    "support": {
+	    "email": "",
+	    "issues": "",
+	    "forum": "",
+	    "irc": "",
+	    "source": "",
+	    "docs": "",
+	    "rss": ""
+    },
     "authors": [
         {
             "name": "",
