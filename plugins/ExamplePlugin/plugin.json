@@ -13,6 +13,15 @@
       "homepage": ""
     }
   ],
+  "support": {
+	    "email": "",
+	    "issues": "",
+	    "forum": "",
+	    "irc": "",
+	    "source": "",
+	    "docs": "",
+	    "rss": ""
+  },
   "homepage": "",
   "license": "GPL v3+",
   "keywords": []
