@@ -66,35 +66,16 @@ function initTopControls() {
     }
 }
 
-//Keyboard controls for Top Controls Calendar through tab and enter. 
-$( document ).ready(function() {
-    $('.periodSelector').keydown(function(e){
-        toggleCalendar(e);
-    })
+function toggleTopControlsMenu(e, element, itemsToIndex){
+    var elementOpen = $(element).hasClass('expanded');
 
-    blockPropegation();
-
-    $('.periodSelector .form-radio').keydown(function(e){
-        e.stopPropagation();
-        if(e.which==13){
-            selectPeriodRadioButton($(this));
-        }
-    })
-});
-
-function toggleCalendar(e){
-    var calendarOpen = $('.periodSelector').hasClass('expanded');
-    
-    $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
-    $('.periodSelector td a').attr('tabindex','4');
-    $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
-    $('.periodSelector .form-radio').attr('tabindex','4');
+    applyTabIndexs(itemsToIndex, '4');
 
     if(e.which==13){
-        if(calendarOpen){
-            $('.periodSelector').removeClass('expanded');
+        if(elementOpen){
+            $(element).removeClass('expanded')
         }else{
-            $('.periodSelector').addClass('expanded');
+            $(element).addClass('expanded')
         }
     }
 }
@@ -104,11 +85,17 @@ function selectPeriodRadioButton(button){
     button.addClass('checked');
     button.find('input').click();
 
-    blockPropegation();
+    blockPropagation('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a');
 }
 
-function blockPropegation(){
-    $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
+function blockPropagation(elements){
+    $(elements).keydown(function(e){
         e.stopPropagation();
     })
+}
+
+function applyTabIndexs(elementsArray, indexAsString){
+    for (var i = 0; i < elementsArray.length; i++) {
+        $(elementsArray[i]).attr('tabindex', indexAsString)
+    };
 }

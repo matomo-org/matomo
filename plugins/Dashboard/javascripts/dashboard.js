@@ -313,3 +313,10 @@ function copyDashboardToUser() {
 
     exports.DashboardManagerControl = DashboardManagerControl;
 }());
+
+//Applying keyboard controls
+$( document ).ready(function() {
+    $('.dashboard-manager').keydown(function(e){
+        toggleTopControlsMenu(e, '.dashboard-manager', []);
+    });
+});
