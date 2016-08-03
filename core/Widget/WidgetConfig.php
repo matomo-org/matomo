@@ -201,7 +201,6 @@ class WidgetConfig
      * return `true` or `false`. If your report is only available to users having super user access you can do the
      * following: `return Piwik::hasUserSuperUserAccess();`
      * @return bool
-     * @api
      */
     public function isEnabled()
     {
@@ -246,7 +245,6 @@ class WidgetConfig
      * }
      * ```
      * @throws \Exception
-     * @api
      */
     public function checkIsEnabled()
     {
