@@ -1189,14 +1189,17 @@ Segmentation = (function($) {
             angular.element(document).injector().invoke(function ($rootScope, $location) {
                 $rootScope.$on('$locationChangeSuccess', function () {
                     var $search = $location.search();
-                    if ('undefined' !== typeof $search.segment && null !== $search.segment) {
-                        var segm = $search.segment;
-                        segm = decodeURIComponent(segm);
 
-                        if (self.getSegment() !== segm) {
-                            self.setSegment(segm);
-                            self.initHtml();
-                        }
+                    var segment = '';
+                    if ('undefined' !== typeof $search.segment && null !== $search.segment) {
+                        segment = $search.segment
+                    }
+
+                    segment = decodeURIComponent(segment);
+
+                    if (self.getSegment() != segment) {
+                        self.setSegment(segment);
+                        self.initHtml();
                     }
                 });
             });

@@ -1,6 +1,7 @@
 {% if plugins|length > 0 %}
     <div class="row">
     {% for plugin in plugins %}
+        {% if plugin.isDownloadable %}
         <div class="col s12 m6 l4">
             {% embed 'contentBlock.twig' with {'title': ''} %}
             {% block content %}
@@ -64,6 +65,7 @@
             {% endblock %}
             {% endembed %}
         </div>
+        {% endif %}
 {% endfor %}
     </div>
 {% endif %}

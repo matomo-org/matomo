@@ -162,8 +162,11 @@ var Piwik_Popover = (function () {
                 closeCallback = false;
             }
 
-            container[0].innerHTML = ''; // IE8 fix
             container.html(html);
+            
+            container.children().each(function (i, childNode) {
+                piwikHelper.compileAngularComponents(childNode);
+            })
             centerPopover();
         },
 

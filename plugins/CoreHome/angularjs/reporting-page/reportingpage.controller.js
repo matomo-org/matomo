@@ -19,6 +19,15 @@
         var currentDate = null;
         var currentSegment = null;
 
+        function renderInitialPage()
+        {
+            var $search = $location.search();
+            currentPeriod = $search.period;
+            currentDate = $search.date;
+            currentSegment = $search.segment;
+            $scope.renderPage($search.category, $search.subcategory);
+        }
+
         $scope.renderPage = function (category, subcategory) {
             if (!category || !subcategory) {
                 pageModel.resetPage();
@@ -50,8 +59,8 @@
         }
 
         $scope.loading = true; // we only set loading on initial load
-
-        $scope.renderPage($location.search().category, $location.search().subcategory);
+        
+        renderInitialPage();
 
         $rootScope.$on('$locationChangeSuccess', function () {
             var $search = $location.search();
@@ -71,6 +80,10 @@
                 // this page is already loaded
                 return;
             }
+
+            currentPeriod = period;
+            currentDate = date;
+            currentSegment = segment;
 
             $scope.renderPage(category, subcategory);
         });

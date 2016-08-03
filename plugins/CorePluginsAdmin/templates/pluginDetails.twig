@@ -5,7 +5,7 @@
     <div class="pluginDetails">
         {% if errorMessage %}
             {{ errorMessage }}
-        {% elseif plugin %}
+        {% elseif plugin and plugin.isDownloadable %}
 
             {% set latestVersion = plugin.versions[plugin.versions|length - 1] %}
 
@@ -52,7 +52,7 @@
                                     <li class="tab col s3"><a href="#tabs-screenshots">{{ 'CorePluginsAdmin_Screenshots'|translate }}</a></li>
                                 {% endif %}
 
-                                {% if latestVersion.readmeHtml.support %}
+                                {% if latestVersion.readmeHtml.support is defined and latestVersion.readmeHtml.support %}
                                     <li class="tab col s3"><a href="#tabs-support">{{ 'CorePluginsAdmin_Support'|translate }}</a></li>
                                 {% endif %}
                             </ul>
@@ -117,7 +117,7 @@
                             </div>
                         {% endif %}
 
-                        {% if latestVersion.readmeHtml.support %}
+                        {% if latestVersion.readmeHtml.support is defined and latestVersion.readmeHtml.support %}
                             <div id="tabs-support" class="tab-content col s12">
 
                                 {{ latestVersion.readmeHtml.support|raw }}

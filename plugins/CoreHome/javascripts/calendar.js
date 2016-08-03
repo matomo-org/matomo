@@ -658,6 +658,11 @@
                 return;
             }
 
+            if (!/^(\d){4}/.test(dateHash)) {
+                // it's not an actual date, it is 'yesterday' or so meaning date was not changed in calendar
+                return;
+            }
+
             if (piwik.period === periodHash && piwik.currentDateString === dateHash) {
                 // this period / date is already loaded
                 return;
