@@ -40,9 +40,8 @@ class FormSuperUser extends QuickForm2
             ->setLabel(Piwik::translate('Installation_Password'));
         $password->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_Password')));
         $pwMinLen = UsersManager::PASSWORD_MIN_LENGTH;
-        $pwMaxLen = UsersManager::PASSWORD_MAX_LENGTH;
-        $pwLenInvalidMessage = Piwik::translate('UsersManager_ExceptionInvalidPassword', array($pwMinLen, $pwMaxLen));
-        $password->addRule('length', $pwLenInvalidMessage, array('min' => $pwMinLen, 'max' => $pwMaxLen));
+        $pwLenInvalidMessage = Piwik::translate('UsersManager_ExceptionInvalidPassword', array($pwMinLen));
+        $password->addRule('length', $pwLenInvalidMessage, array('min' => $pwMinLen));
 
         $passwordBis = $this->addElement('password', 'password_bis')
             ->setLabel(Piwik::translate('Installation_PasswordRepeat'));

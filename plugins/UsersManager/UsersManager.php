@@ -21,7 +21,6 @@ use Piwik\SettingsPiwik;
 class UsersManager extends \Piwik\Plugin
 {
     const PASSWORD_MIN_LENGTH = 6;
-    const PASSWORD_MAX_LENGTH = 80;
 
     /**
      * @see Piwik\Plugin::registerEvents
@@ -121,7 +120,7 @@ class UsersManager extends \Piwik\Plugin
 
         $l = strlen($input);
 
-        return $l >= self::PASSWORD_MIN_LENGTH && $l <= self::PASSWORD_MAX_LENGTH;
+        return $l >= self::PASSWORD_MIN_LENGTH;
     }
 
     public static function checkPassword($password)
@@ -145,8 +144,8 @@ class UsersManager extends \Piwik\Plugin
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
-                self::PASSWORD_MAX_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH
+            )));
         }
     }
 
