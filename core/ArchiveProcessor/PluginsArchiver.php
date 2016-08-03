@@ -14,6 +14,7 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
 use Piwik\Log;
 use Piwik\Timer;
@@ -194,6 +195,14 @@ class PluginsArchiver
      */
     protected function shouldProcessReportsForPlugin($pluginName)
     {
+        $shouldPreventProcessing = false;
+
+        Piwik::postEvent('PluginsArchiver.shouldProcessReportsForPlugin',[$pluginName, $this->params, &$shouldPreventProcessing]);
+
+        if($shouldPreventProcessing === true){
+            return false;
+        }
+
         if ($this->params->getRequestedPlugin() == $pluginName) {
             return true;
         }
