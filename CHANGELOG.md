@@ -11,7 +11,11 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
  * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
  * Added a new API method `Goals.getGoal($idSite, $idGoal)` to fetch a single goal.
 
+### New feature
+ * Plugin developers can now write automated tests for `piwik.js` by creating the test file in `tests/javascript/index.php` within a plugin. [More info.](https://github.com/piwik/piwik/pull/10270#issue-163696771)
+ 
 ### Internal change
+ * Piwik is now compatible with PHP7. 
  * `piwik.js`, if you call the method `setDomains` note that that the behavior has slightly changed. The current page domain (hostname) will now be added automatically if none of the given host alias passed as a parameter to `setDomains` contain a path and if no host alias is already given for the current host alias. 
  Say you are on "example.org" and set `hostAlias = ['example.com', 'example.org/test']` then the current "example.org" domain will not be added as there is already a more restrictive hostAlias 'example.org/test' given. 
  We also do not add the current page domain (hostname) automatically if there was any other host specifying any path such as `['example.com', 'example2.com/test']`. 
