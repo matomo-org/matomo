@@ -10,9 +10,6 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
  * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers)
  * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
  * Added a new API method `Goals.getGoal($idSite, $idGoal)` to fetch a single goal.
-
-### New feature
- * Plugin developers can now write automated tests for `piwik.js` by creating the test file in `tests/javascript/index.php` within a plugin. [More info.](https://github.com/piwik/piwik/pull/10270#issue-163696771)
  
 ### Internal change
  * Piwik is now compatible with PHP7. 
