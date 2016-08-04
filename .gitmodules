@@ -26,14 +26,10 @@
     path = plugins/QueuedTracking
     url = https://github.com/piwik/plugin-QueuedTracking.git
     branch = master
-[submodule "tests/UI/expected-ui-screenshots"]
-    path = tests/UI/expected-ui-screenshots
-    url = https://github.com/piwik/piwik-ui-tests.git
-    branch = master
 [submodule "tests/travis"]
     path = tests/travis
     url = https://github.com/piwik/travis-scripts
-    branch = git-lfs
+    branch = master
 [submodule "plugins/LogViewer"]
 	path = plugins/LogViewer
 	url = https://github.com/piwik/plugin-LogViewer.git
