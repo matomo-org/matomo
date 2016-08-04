@@ -197,9 +197,9 @@ class PluginsArchiver
     {
         $shouldPreventProcessing = false;
 
-        Piwik::postEvent('PluginsArchiver.shouldProcessReportsForPlugin',[$pluginName, $this->params, &$shouldPreventProcessing]);
+        Piwik::postEvent('PluginsArchiver.shouldProcessReportsForPlugin', array($pluginName, $this->params, &$shouldPreventProcessing));
 
-        if($shouldPreventProcessing === true){
+        if ($shouldPreventProcessing === true) {
             return false;
         }
 
