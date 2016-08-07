@@ -331,7 +331,7 @@ class DataTableFactory
                 $newTable = $this->createDataTable($value, $keyMetadata);
             }
 
-            $result->addTable($newTable, $this->prettifyIndexLabel($resultIndex, $label));
+            $result->addTable($newTable, $label);
         }
 
         return $result;
@@ -490,7 +490,7 @@ class DataTableFactory
             }
 
             $table->setAllTableMetadata($metadata);
-            $map->addTable($table, $this->prettifyIndexLabel(self::TABLE_METADATA_PERIOD_INDEX, $range));
+            $map->addTable($table, $range);
 
             $tables[$range] = $table;
         }
