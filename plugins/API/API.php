@@ -276,7 +276,11 @@ class API extends \Piwik\Plugin\API
                                       $showSubtableReports = false, $idSite = false)
     {
         if (empty($idSite) && !empty($idSites)) {
-            $idSite = array_shift($idSites);
+            if (is_array($idSites)) {
+                $idSite = array_shift($idSites);
+            } else {
+                $idSite = $idSites;
+            }
         } elseif (empty($idSites)) {
             throw new \Exception('Calling API.getReportMetadata without any idSite is no longer supported since Piwik 3.0.0. Please specifiy at least one idSite via the "idSite" parameter.');
         }
