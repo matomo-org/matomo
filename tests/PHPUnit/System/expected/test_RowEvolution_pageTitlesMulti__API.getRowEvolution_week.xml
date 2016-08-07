@@ -2,31 +2,31 @@
 <result>
 	<column>nb_hits</column>
 	<reportData>
-		<result date="From 2010-02-01 to 2010-02-07">
+		<result date="2010-02-01,2010-02-07">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>1</nb_hits_1>
 			</row>
 		</result>
-		<result date="From 2010-02-08 to 2010-02-14">
+		<result date="2010-02-08,2010-02-14">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>3</nb_hits_1>
 			</row>
 		</result>
-		<result date="From 2010-02-15 to 2010-02-21">
+		<result date="2010-02-15,2010-02-21">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>2</nb_hits_1>
 			</row>
 		</result>
-		<result date="From 2010-02-22 to 2010-02-28">
+		<result date="2010-02-22,2010-02-28">
 			<row>
 				<nb_hits_0>3</nb_hits_0>
 				<nb_hits_1>2</nb_hits_1>
 			</row>
 		</result>
-		<result date="From 2010-03-01 to 2010-03-07">
+		<result date="2010-03-01,2010-03-07">
 			<row>
 				<nb_hits_0>2</nb_hits_0>
 				<nb_hits_1>2</nb_hits_1>
