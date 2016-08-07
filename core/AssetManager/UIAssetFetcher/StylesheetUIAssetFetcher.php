@@ -19,7 +19,6 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         $themeName = $theme->getThemeName();
 
         $order = array(
-            'plugins/Morpheus/stylesheets/base/font.css',
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
             'libs/',
