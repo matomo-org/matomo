@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Widget;
+use Piwik\View;
 
 /**
  * Defines a new widget. You can create a new widget using the console command `./console generate:widget`.
@@ -32,6 +33,45 @@ class Widget
     public function render()
     {
         return '';
+    }
+
+    /**
+     * Assigns the given variables to the template and renders it.
+     *
+     * Example:
+     *
+     *     public function myControllerAction () {
+     *        return $this->renderTemplate('index', array(
+     *            'answerToLife' => '42'
+     *        ));
+     *     }
+     *
+     * This will render the 'index.twig' file within the plugin templates folder and assign the view variable
+     * `answerToLife` to `42`.
+     *
+     * @param string $template   The name of the template file. If only a name is given it will automatically use
+     *                           the template within the plugin folder. For instance 'myTemplate' will result in
+     *                           '@$pluginName/myTemplate.twig'. Alternatively you can include the full path:
+     *                           '@anyOtherFolder/otherTemplate'. The trailing '.twig' is not needed.
+     * @param array $variables   For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
+     * @return string
+     * @api
+     */
+    protected function renderTemplate($template, array $variables = array())
+    {
+        if (false === strpos($template, '@') || false === strpos($template, '/')) {
+            $aPluginName = explode('\\', get_class($this));
+            $aPluginName = $aPluginName[2];
+            $template = '@' . $aPluginName . '/' . $template;
+        }
+
+        $view = new View($template);
+
+        foreach ($variables as $key => $value) {
+            $view->$key = $value;
+        }
+
+        return $view->render();
     }
 
 }

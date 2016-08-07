@@ -46,20 +46,18 @@ class GetSystemSummary extends Widget
 
     public function render()
     {
-        $view = new View('@CoreHome/getSystemSummary');
-
         $users = Request::processRequest('UsersManager.getUsers', array('filter_limit' => '-1'));
         $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
 
-        $view->numWebsites = count($websites);
-        $view->numUsers = count($users);
-        $view->numSegments = $this->getNumSegments();
-        $view->numPlugins = $this->getNumPlugins();
-        $view->piwikVersion = Version::VERSION;
-        $view->mySqlVersion = $this->getMySqlVersion();
-        $view->phpVersion = phpversion();
-
-        return $view->render();
+        return $this->renderTemplate('getSystemSummary', array(
+            'numWebsites' => count($websites),
+            'numUsers' => count($users),
+            'numSegments' => $this->getNumSegments(),
+            'numPlugins' => $this->getNumPlugins(),
+            'piwikVersion' => Version::VERSION,
+            'mySqlVersion' => $this->getMySqlVersion(),
+            'phpVersion' => phpversion()
+        ));
     }
 
     private function getNumSegments()

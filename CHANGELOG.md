@@ -26,6 +26,8 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no possible to define an introduction text for settings.
 
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
+
 ### Deprecations
 * The method `Piwik\Updates::getMigrationQueries()` has been deprecated and renamed to `getMigrations()`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0
 * The method `Piwik\Updater::executeMigrationQueries()` has been deprecated and renamed to `executeMigrations`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0.

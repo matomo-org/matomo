@@ -66,6 +66,10 @@ class WidgetConfig
         return $this;
     }
 
+    /**
+     * Get the currently set category ID.
+     * @return string
+     */
     public function getSubcategoryId()
     {
         return $this->subcategoryId;
@@ -104,6 +108,10 @@ class WidgetConfig
         return $this;
     }
 
+    /**
+     * Get the currently set action.
+     * @return string
+     */
     public function getAction()
     {
         return $this->action;

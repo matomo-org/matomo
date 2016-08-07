@@ -39,24 +39,28 @@ class GetSystemCheck extends Widget
 
     public function render()
     {
-        $view = new View('@Installation/getSystemCheckWidget');
-
         $report = $this->diagnosticService->runDiagnostics();
-        $view->numErrors = $report->getErrorCount();
-        $view->numWarnings = $report->getWarningCount();
+        $numErrors = $report->getErrorCount();
+        $numWarnings = $report->getWarningCount();
 
-        $view->errors = array();
-        $view->warnings = array();
+        $errors = array();
+        $warnings = array();
 
         if ($report->hasErrors()) {
-            $view->errors = $this->getResults($report, DiagnosticResult::STATUS_ERROR);
+            $errors = $this->getResults($report, DiagnosticResult::STATUS_ERROR);
         }
 
         if ($report->hasWarnings()) {
-            $view->warnings = $this->getResults($report, DiagnosticResult::STATUS_WARNING);
+            $warnings = $this->getResults($report, DiagnosticResult::STATUS_WARNING);
         }
 
-        return $view->render();
+        return $this->renderTemplate('getSystemCheckWidget', array(
+            'numErrors' => $numErrors,
+            'numWarnings' => $numWarnings,
+            'errors' => $errors,
+            'warnings' => $warnings,
+
+        ));
     }
 
     private function getResults(DiagnosticReport $report, $type)

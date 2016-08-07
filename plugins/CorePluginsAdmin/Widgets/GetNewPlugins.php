@@ -41,15 +41,16 @@ class GetNewPlugins extends Widget
         $isAdminPage = Common::getRequestVar('isAdminPage', 0, 'int');
 
         if (!empty($isAdminPage)) {
-            $view = new View('@CorePluginsAdmin/getNewPluginsAdmin');
+            $template = 'getNewPluginsAdmin';
         } else {
-            $view = new View('@CorePluginsAdmin/getNewPlugins');
+            $template = 'getNewPlugins';
         }
 
         $plugins = $this->marketplaceApiClient->searchForPlugins('', '', 'newest');
-        $view->plugins = array_splice($plugins, 0, 3);
 
-        return $view->render();
+        return $this->renderTemplate($template, array(
+            'plugins' => array_splice($plugins, 0, 3)
+        ));
     }
 
 }
