@@ -20,7 +20,6 @@
         "ExceptionEditAnonymous": "Người dùng ẩn danh không thể chỉnh sửa hoặc xóa. Nó được sử dụng bởi Piwik để xác định một người dùng đã không đăng nhập lúc này. Ví dụ, bạn có thể làm cho số liệu thống kê công cộng(public) của bạn bằng cách cho phép truy cập \"xem\" đến người dùng 'ẩn danh'.",
         "ExceptionEmailExists": "Người dùng với email '%s' đã tồn tại.",
         "ExceptionInvalidEmail": "Email không có một định dạng hợp lệ.",
-        "ExceptionInvalidPassword": "Độ dài mật khẩu phải từ %1$s và %2$s ký tự.",
         "ExceptionLoginExists": "Tên người dùng '%s' đã tồn tại sẵn.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth là yêu cầu một mật khẩu băm MD5 (chuỗi 32 char long). Xin vui lòng gọi hàm md5() trên mật khẩu trước khi gọi phương thức này.",
         "ExceptionUserDoesNotExist": "Người dùng '%s' không tồn tại.",

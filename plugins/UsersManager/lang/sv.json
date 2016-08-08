@@ -26,7 +26,6 @@
         "ExceptionEmailExists": "Användaren med e-postadressen '%s' finns redan.",
         "ExceptionInvalidEmail": "E-postadressen har inte ett giltigt format.",
         "ExceptionInvalidLoginFormat": "Användarnamnet måste vara mellan %1$s och %2$s tecken långt och får endast innehålla bokstäver, siffror och tecknen _ - . @ +",
-        "ExceptionInvalidPassword": "Lösenordets längd måste vara mellan %1$s och %2$s tecken.",
         "ExceptionLoginExists": "Användaren '%s' finns redan.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth förväntar sig MD5-hashar av lösenorden (32 tecken lång sträng). Anropa gärna md5() funktionen på lösenord innan du anropar den här metoden.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Att ta bort Superanvändarbehörigheten från användare '%s' är inte möjligt.",

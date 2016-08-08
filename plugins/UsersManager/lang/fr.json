@@ -26,7 +26,7 @@
         "ExceptionEmailExists": "L'utilisateur avec l'e-mail '%s' existe déjà.",
         "ExceptionInvalidEmail": "L'adresse courriel est invalide.",
         "ExceptionInvalidLoginFormat": "Le nom d'utilisateur doit contenir entre %1$s et %2$s caractères et être composé uniquement de lettres, chiffres, ou les caractères '_' ou '-' ou '.' ou '@' ou '+'",
-        "ExceptionInvalidPassword": "La longueur du mot de passe doit être entre %1$s et %2$s caractères.",
+        "ExceptionInvalidPassword": "La longueur du mot de passe doit être supérieure à %1$s caractères.",
         "ExceptionLoginExists": "Le nom d'usager \"%s\" existe déjà.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth attend un mot de passe haché en MD5 (chaine de 32 caractères). Veuillez appeler la fonction md5() sur le mot de passe avant d'appeler cette méthode.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Retirer l'accès Super Utilisateur à l'utilisateur \"%s\" est impossible.",
