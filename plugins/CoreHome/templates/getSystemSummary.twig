@@ -1,31 +1,28 @@
 <div class="widgetBody systemSummary">
     <div>
-        <span>{{ 'CoreHome_SystemSummaryNumUsersTotal'|translate }}: </span>
-        <strong>{{ numUsers }}</strong>
+        <span class="icon icon-user"></span>
+          <a href="{{ linkTo({'module': 'UsersManager', 'action': 'index'}) }}">{{ 'General_NUsers'|translate(numUsers) }}</a>
     </div>
     <div>
-        <span>{{ 'CoreHome_SystemSummaryNumWebsitesTotal'|translate }}:</span>
-        <strong>{{ numWebsites }}</strong>
+        <span><span class="icon icon-segment"></span> {{ 'CoreHome_SystemSummaryNSegments'|translate(numSegments) }}</span>
     </div>
     <div>
-        <span>{{ 'CoreHome_SystemSummaryNumSegmentsTotal'|translate }}:</span>
-        <strong>{{ numSegments }}</strong>
+        <a href="{{ linkTo({'module': 'SitesManager', 'action': 'index'}) }}">{{ 'CoreHome_SystemSummaryNWebsites'|translate(numWebsites) }}</a>
     </div>
     <div>
-        <span>{{ 'CoreHome_SystemSummaryNumPlugins'|translate }}:</span>
-        <strong>{{ numPlugins }}</strong>
+        <a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'plugins'}) }}">{{ 'CoreHome_SystemSummaryNActivatedPlugins'|translate(numPlugins) }}</a>
     </div>
     <div>
         <span>{{ 'CoreHome_SystemSummaryPiwikVersion'|translate }}:</span>
-        <strong>{{ piwikVersion }}</strong>
+        <span>{{ piwikVersion }}</span>
     </div>
     <div>
         <span>{{ 'CoreHome_SystemSummaryMysqlVersion'|translate }}:</span>
-        <strong>{{ mySqlVersion }}</strong>
+        <span>{{ mySqlVersion }}</span>
     </div>
     <div>
         <span>{{ 'CoreHome_SystemSummaryPhpVersion'|translate }}:</span>
-        <strong>{{ phpVersion }}</strong>
+        <span>{{ phpVersion }}</span>
     </div>
     <br />
 </div>
