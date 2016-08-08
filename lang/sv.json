@@ -1,7 +1,7 @@
 {
     "General": {
-        "12HourClock": "12-timmars klocka",
-        "24HourClock": "24-timmars klocka",
+        "12HourClock": "12-timmarsklocka",
+        "24HourClock": "24-timmarsklocka",
         "AbandonedCarts": "Övergivna varukorgar",
         "AboutPiwikX": "Om Piwik %s",
         "Action": "Handling",
@@ -416,7 +416,7 @@
         "YourChangesHaveBeenSaved": "Dina ändringar har sparats."
     },
     "Mobile": {
-        "AboutPiwikMobile": "Om Piwik Mobil",
+        "AboutPiwikMobile": "Om Piwik Mobile",
         "AccessUrlLabel": "Piwik URL",
         "Account": "Konto",
         "Accounts": "Konton",

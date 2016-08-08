@@ -22,7 +22,6 @@
         "ExceptionEditAnonymous": "Podaci o anonimnom korisniku ne mogu biti menjani ili obrisani. Anonimni korisnik služi da bi Piwik mogao da razlikuje korisnika koji se još nije prijavio na sistem. Primera radi, svoju statistiku možete učiniti javnom tako što ćete anonimnom korisniku dozvoliti 'prikaz' pristup.",
         "ExceptionEmailExists": "Korisnik sa elektronskom adresom '%s' već postoji.",
         "ExceptionInvalidEmail": "Elektronska adresa nije validna.",
-        "ExceptionInvalidPassword": "Dužina lozinke mora biti između %1$s i %2$s znakova.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth očekuje MD5 hash lozinku (niz od 32 znaka). Molimo vas da primenite funkciju md5() nad lozinkom pre poziva ovog metoda. Hvala.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Uklanjanje superkorisničkog nivoa pristupa korisniku '%s' nije moguće.",
         "ExceptionSuperUserAccess": "Ovaj korisnik već ima superkorisnički nivo pristupa. Možete mu ukloniti taj nivo i pokušati ponovo.",

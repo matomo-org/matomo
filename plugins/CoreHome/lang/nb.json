@@ -29,7 +29,6 @@
         "MakeOneTimeDonation": "Bidra med en engangsdonasjon i stedet.",
         "Menu": "Meny",
         "NoPrivilegesAskPiwikAdmin": "Du er logget inn som «%1$s», men det ser ut til at du ikke har noen rettigheter satt i Piwik. %2$s Be din Piwik-administrator (klikk for å sende e-post)%3$s å gi deg «vis»-tilgang til et nettsted.",
-        "OnlyForSuperUserAccess": "Denne widgeten vises kun til brukere som har superbruker-tilgang.",
         "PageOf": "%1$s av %2$s",
         "PeriodRange": "Periode",
         "ReportGeneratedOn": "Rapport generert %s",

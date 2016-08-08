@@ -23,7 +23,6 @@
         "ExceptionEditAnonymous": "De anonieme gebruiker kan niet gewijzigd of verwijderd worden. Deze wordt door Piwik gebruikt voor gebruikers die nog niet zijn ingelogd. U kunt bijvoorbeeld uw statistieken publiekelijk maken door de 'anonieme' gebruiker 'kijkers rechten' te geven.",
         "ExceptionEmailExists": "Er is reeds een gebruiker met '%s' als e-mail adres.",
         "ExceptionInvalidEmail": "Het e-mail adres is ongeldig.",
-        "ExceptionInvalidPassword": "De lengte van het wachtwoord moet tussen %1$s en %2$s tekens lang zijn.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth verwacht een MD5-hash wachtwoord (32 tekens lange reeks). Vraag de md5()functie op het wachtwoord op alvorens deze methode aan te roepen.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Het verwijderen van de Super User rechten van gebruiker '%s' is niet toegestaan.",
         "ExceptionUserDoesNotExist": "Gebruiker '%s' bestaat niet.",

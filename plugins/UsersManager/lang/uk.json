@@ -26,7 +26,6 @@
         "ExceptionEmailExists": "Користувач з Email '%s' вже існує.",
         "ExceptionInvalidEmail": "Email неправильного формату",
         "ExceptionInvalidLoginFormat": "Ім'я користувача повинне бути від %1$s до %2$s символів і містити тільки літери, цифри, чи знаки '_' або '-' або '.' або '@' або '+'",
-        "ExceptionInvalidPassword": "Довжина пароля повинна бути від %1$s до %2$s символів.",
         "ExceptionLoginExists": "Ім'я користувача '%s' вже існує.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth очікує MD5-хешваний пароль (рядок в 32 символи). Будь ласка, викличте функцію md5() до паролю перед викликом цього методу.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Видалення прав суперкористувача у користувача «%s» не уявляється можливим.",

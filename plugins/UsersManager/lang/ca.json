@@ -16,7 +16,6 @@
         "ExceptionEditAnonymous": "L'usuari anònim no es pot editar o esborrar. El Piwik el fa servir per als usuaris que no han iniciat encara la sessió. Per exemple, podeu fer públiques les vostres estadístiques garantint el permís 'vista' a l'usuari 'anonymous' (anònim).",
         "ExceptionEmailExists": "La direcció de correu-e '%s' ja està en un altre compte.",
         "ExceptionInvalidEmail": "La direcció de correu-e no té un format vàlid.",
-        "ExceptionInvalidPassword": "La longitud de la contrasenya ha de estar entre %1$s i %2$s caràcters.",
         "ExceptionUserDoesNotExist": "L'usuari '%s' no existeix.",
         "ExcludeVisitsViaCookie": "Exclou les teues visites utilitzant cookies",
         "ForAnonymousUsersReportDateToLoadByDefault": "Pels usuaris anònims, introduïu la data dels informes per defecte",

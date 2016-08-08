@@ -26,7 +26,6 @@
         "ExceptionEmailExists": "Ein Benutzer mit der E-Mail-Adresse '%s' existiert bereits.",
         "ExceptionInvalidEmail": "Die E-Mail-Adresse hat ein ungültiges Format.",
         "ExceptionInvalidLoginFormat": "Der Benutzername muss zwischen %1$s und %2$s Zeichen lang sein und darf nur Buchstaben, Zahlen oder die Zeichen '_', '-', '.', '@' oder '+' enthalten.",
-        "ExceptionInvalidPassword": "Das Passwort muss zwischen %1$s und %2$s Zeichen lang sein.",
         "ExceptionLoginExists": "Der Benutzername '%s' existiert bereits.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth erwartet ein MD5-verschlüsseltes Passwort (32 Zeichen). Bitte wenden Sie die md5()-Funktion auf das Passwort an, bevor Sie diese Methode aufrufen.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Es ist nicht möglich die Hauptadministrator-Berechtigung von Benutzer '%s' zu entfernen.",
