@@ -133,7 +133,7 @@
 
                 <div class="alert alert-warning" style="width: 50%;">
                     {% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
-                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
+                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('','')|raw }}
                     <span ng-show="deleteReports.enabled">
                         <br/><br/>
                         {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
@@ -228,16 +228,16 @@
                     {{ deleteData.nextRunPretty|raw }}
                     <br/>
                     <br/>
-                    <em><a id="purgeDataNowLink" href="#"
+                    <a id="purgeDataNowLink" href="#"
                            ng-show="reportDeletionSchedule.showPurgeNowLink"
-                           ng-click="reportDeletionSchedule.executeDataPurgeNow()">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
+                           ng-click="reportDeletionSchedule.executeDataPurgeNow()">{{ 'PrivacyManager_PurgeNow'|translate }}</a>
 
                         <div piwik-activity-indicator
                              loading-message="'{{ 'PrivacyManager_PurgingData'|translate|e('html_attr') }}'"
                              loading="reportDeletionSchedule.loadingDataPurge"></div>
                     <span id="db-purged-message"
                           ng-show="reportDeletionSchedule.dataWasPurged"
-                    ><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
+                    >{{ 'PrivacyManager_DBPurged'|translate }}</span>
                 </div>
 
                 <div piwik-field uicontrol="select" name="deleteLowestInterval"

@@ -175,7 +175,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $lastRunTime = GeoIPAutoUpdater::getLastRunTime();
         if ($lastRunTime !== false) {
-            $view->lastTimeUpdaterRun = '<strong><em>' . $lastRunTime->toString() . '</em></strong>';
+            $view->lastTimeUpdaterRun = '<strong>' . $lastRunTime->toString() . '</strong>';
         }
 
         $view->nextRunTime = GeoIPAutoUpdater::getNextRunTime();

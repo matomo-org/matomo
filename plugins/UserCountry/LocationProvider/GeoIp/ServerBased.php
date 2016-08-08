@@ -169,9 +169,9 @@ class ServerBased extends GeoIp
             return Piwik::translate('General_Note') . ':&nbsp;' . Piwik::translate('UserCountry_AssumingNonApache');
         }
 
-        $message = "<strong><em>" . Piwik::translate('General_Note') . ':&nbsp;'
+        $message = "<strong>" . Piwik::translate('General_Note') . ':&nbsp;'
             . Piwik::translate('UserCountry_FoundApacheModules')
-            . "</em></strong>:<br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
+            . "</strong>:<br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
         foreach (apache_get_modules() as $name) {
             $message .= "<li>$name</li>\n";
         }
@@ -218,7 +218,7 @@ class ServerBased extends GeoIp
         $title = sprintf(self::TITLE, $serverDesc);
         $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased1', array('<strong>', '</strong>'))
             . '<br/><br/>'
-            . '<em>' . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn') . '</em>'
+             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn')
             . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
                 array('<strong>', '</strong>', '<strong>', '</strong>'));
@@ -238,10 +238,10 @@ class ServerBased extends GeoIp
         }
 
         if (empty($geoipServerVars)) {
-            $extraMessage = '<strong><em>' . Piwik::translate('UserCountry_GeoIPNoServerVars', '$_SERVER') . '</em></strong>';
+            $extraMessage = '<strong>' . Piwik::translate('UserCountry_GeoIPNoServerVars', '$_SERVER') . '</strong>';
         } else {
-            $extraMessage = '<strong><em>' . Piwik::translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
-                . ":</em></strong><br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
+            $extraMessage = '<strong>' . Piwik::translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
+                . ":</strong><br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
             foreach ($geoipServerVars as $key) {
                 $extraMessage .= '<li>' . $key . "</li>\n";
             }

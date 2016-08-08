@@ -222,7 +222,7 @@
                     // User ID
                     (r.userId ? _pk_translate('General_UserId') + ':&nbsp;' + r.userId + '<br/>' : '') +
                     // last action
-                    (ad && ad.length && ad[ad.length - 1].pageTitle ? '<em>' + ad[ad.length - 1].pageTitle + '</em><br/>' : '') +
+                    (ad && ad.length && ad[ad.length - 1].pageTitle ? '' + ad[ad.length - 1].pageTitle + '<br/>' : '') +
                     // time of visit
                     '<div class="rel-time" data-actiontime="' + r.lastActionTimestamp + '">' + relativeTime(ds) + '</div>' +
                     // either from or direct

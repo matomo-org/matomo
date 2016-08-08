@@ -8,7 +8,7 @@
 
         {% if diagnosticReport.hasErrors() %}
             <div class="alert alert-danger">
-                {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }}
+                {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong>','</strong>')|raw }}
                 {{ 'Installation_SeeBelowForMoreInfo'|translate }}
             </div>
         {% elseif diagnosticReport.hasWarnings() %}

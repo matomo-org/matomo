@@ -32,7 +32,7 @@
                 format: 'html'
             }).then(function (response) {
                 self.updateLoading[providerId] = false;
-                $locationNode.html('<strong><em>' + response + '</em></strong>').css('visibility', 'visible');
+                $locationNode.html('<strong>' + response + '</strong>').css('visibility', 'visible');
             }, function () {
                 self.updateLoading[providerId] = false;
             });

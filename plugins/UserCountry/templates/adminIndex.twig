@@ -72,7 +72,7 @@
                         </div>
                         <div class="text-right">
                             <a href="javascript:;"
-                               ng-click='locationSelector.refreshProviderInfo({{ id|json_encode }})'><em>{{ 'General_Refresh'|translate }}</em></a>
+                               ng-click='locationSelector.refreshProviderInfo({{ id|json_encode }})'>{{ 'General_Refresh'|translate }}</a>
                         </div>
                     {% else %}
                         {{ 'UserCountry_CannotLocalizeLocalIP'|translate(thisIP) }}
