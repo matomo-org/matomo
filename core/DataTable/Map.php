@@ -228,6 +228,16 @@ class Map implements DataTableInterface
     }
 
     /**
+     * See {@link DataTable::disableFilter()}.
+     */
+    public function disableFilter($className)
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->disableFilter($className);
+        }
+    }
+
+    /**
      * @ignore
      */
     public function disableRecursiveFilters()
