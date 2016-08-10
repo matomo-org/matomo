@@ -98,7 +98,7 @@
                             var idSite = broadcast.getValueFromUrl('idSite', url);
                             var period = broadcast.getValueFromUrl('period', url);
                             var date   = broadcast.getValueFromUrl('date', url);
-                            var segment = broadcast.getValueFromUrl('segment');
+                            var segment = broadcast.getValueFromUrl('segment', url);
 
                             if (module && action) {
                                 url += '#?module=' + module + '&action=' + action;
@@ -124,7 +124,7 @@
                                 }
 
                                 if (segment) {
-                                    url += '&segment=' + encodeURI(decodeURI(segment)); // ensure segment is encoded only once
+                                    url += '&segment=' + encodeURIComponent(decodeURIComponent(segment)); // ensure segment is encoded once
                                 }
                             }
                         }
