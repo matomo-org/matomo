@@ -993,7 +993,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -6444,8 +6444,23 @@ if (typeof window.Piwik !== 'object') {
                  */
                 trackEcommerceCartUpdate: function (grandTotal) {
                     logEcommerceCartUpdate(grandTotal);
-                }
+                },
 
+                /**
+                 * Sends a tracking request with custom request parameters.
+                 * Piwik will prepend the hostname and path to Piwik, as well as all other needed tracking request
+                 * parameters prior to sending the request. Useful eg if you track custom dimensions via a plugin.
+                 *
+                 * @param request eg. "param=value&param2=value2"
+                 * @param customData
+                 * @param callback
+                 */
+                trackRequest: function (request, customData, callback) {
+                    trackCallback(function () {
+                        var fullRequest = getRequest(request, customData);
+                        sendRequest(fullRequest, configTrackerPause, callback);
+                    });
+                }
             };
         }
 

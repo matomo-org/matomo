@@ -26,7 +26,6 @@ class AllColumns extends HtmlTable
     public function beforeRender()
     {
         $this->config->show_extra_columns  = true;
-        $this->config->datatable_css_class = 'dataTableVizAllColumns';
         $this->config->show_exclude_low_population = true;
 
         parent::beforeRender();
@@ -34,6 +33,8 @@ class AllColumns extends HtmlTable
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
+        $this->config->datatable_css_class = 'dataTableVizAllColumns';
+        
         $this->dataTable->filter('AddColumnsProcessedMetrics');
 
         $properties = $this->config;
