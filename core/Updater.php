@@ -226,7 +226,7 @@ class Updater
             return '\\Piwik\\Columns\\Updater';
         }
 
-        return '\\Piwik\\Plugins\\' . $componentName . '\\' . $className;
+        return '\\Piwik\\Plugins\\' . $componentName . '\\Updates\\' . $className;
     }
 
     /**
