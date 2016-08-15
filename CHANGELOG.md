@@ -347,7 +347,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
     If your Auth implementation implements its own session logic you will have to extend and override SessionInitializer.
   * The following methods have been added: setPassword, setPasswordHash, getTokenAuthSecret and getLogin.
   * Clarifying semantics of each method and what they must support and can support.
-  * **Read the documentation for the [Auth interface](http://developer.piwik.org/api-reference/Piwik/Auth) to learn more.**
+  * **Read the documentation for the [Auth interface](http://developer.piwik.org/2.x/api-reference/Piwik/Auth) to learn more.**
 * The `Piwik\Unzip\*` classes have been extracted out of the Piwik repository into a separate component named [Decompress](https://github.com/piwik/component-decompress).
   * `Piwik\Unzip` has not moved, it is kept for backward compatibility. If you have been using that class, you don't need to change anything.
   * The `Piwik\Unzip\*` classes (Tar, PclZip, Gzip, ZipArchive) have moved to the `Piwik\Decompress\*` namespace (inside the new repository).
@@ -386,7 +386,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/piwik/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
 
 ### New APIs
-* It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
+* It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
 
 ### New commands
 * `core:clear-caches` Lets you easily delete all caches. This command can be useful for instance after updating Piwik files manually.
@@ -422,10 +422,10 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Deprecations
 The following events are considered as deprecated and the new structure should be used in the future. We have not scheduled when those events will be removed but probably in Piwik 3.0 which is not scheduled yet and won't be soon. New features will be added only to the new classes.
 
-* `API.getReportMetadata`, `API.getSegmentDimensionMetadata`, `Goals.getReportsWithGoalMetrics`, `ViewDataTable.configure`, `ViewDataTable.getDefaultType`: use [Report](http://developer.piwik.org/api-reference/Piwik/Plugin/Report) class instead to define new reports. There is an updated guide as well [Part1](http://developer.piwik.org/guides/getting-started-part-1)
-* `WidgetsList.addWidgets`: use [Widgets](http://developer.piwik.org/api-reference/Piwik/Plugin/Widgets) class instead to define new widgets
+* `API.getReportMetadata`, `API.getSegmentDimensionMetadata`, `Goals.getReportsWithGoalMetrics`, `ViewDataTable.configure`, `ViewDataTable.getDefaultType`: use [Report](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Report) class instead to define new reports. There is an updated guide as well [Part1](http://developer.piwik.org/guides/getting-started-part-1)
+* `WidgetsList.addWidgets`: use [Widgets](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Widgets) class instead to define new widgets
 * `Menu.Admin.addItems`, `Menu.Reporting.addItems`, `Menu.Top.addItems`: use [Menu](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu) class instead
-* `TaskScheduler.getScheduledTasks`: use [Tasks](http://developer.piwik.org/api-reference/Piwik/Plugin/Tasks) class instead to define new tasks
+* `TaskScheduler.getScheduledTasks`: use [Tasks](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Tasks) class instead to define new tasks
 * `Tracker.recordEcommerceGoal`, `Tracker.recordStandardGoals`, `Tracker.newConversionInformation`: use [Conversion Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/ConversionDimension) class instead
 * `Tracker.existingVisitInformation`, `Tracker.newVisitorInformation`, `Tracker.getVisitFieldsToPersist`: use [Visit Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/VisitDimension) class instead
 * `ViewDataTable.addViewDataTable`: This event is no longer needed. Visualizations are automatically discovered if they are placed within a `Visualizations` directory inside the plugin.
@@ -442,17 +442,17 @@ It is now possible to use the `filter_sort_column` parameter when requesting `Li
 We are using `@since` annotations in case we are introducing new API's to make it easy to see in which Piwik version a new method was added. This information is now displayed in the [Classes API-Reference](http://developer.piwik.org/api-reference/classes). 
 
 ### New APIs
-* [Report](http://developer.piwik.org/api-reference/Piwik/Plugin/Report) to add a new report
-* [Action Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/ActionDimension) to add a dimension that tracks action related information
-* [Visit Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/VisitDimension) to add a dimension that tracks visit related information
-* [Conversion Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/ConversionDimension) to add a dimension that tracks conversion related information
-* [Dimension](http://developer.piwik.org/api-reference/Piwik/Columns/Dimension) to add a basic non tracking dimension that can be used in `Reports`
-* [Widgets](http://developer.piwik.org/api-reference/Piwik/Plugin/Widgets) to add or modfiy widgets
+* [Report](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Report) to add a new report
+* [Action Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Dimension/ActionDimension) to add a dimension that tracks action related information
+* [Visit Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Dimension/VisitDimension) to add a dimension that tracks visit related information
+* [Conversion Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Dimension/ConversionDimension) to add a dimension that tracks conversion related information
+* [Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Columns/Dimension) to add a basic non tracking dimension that can be used in `Reports`
+* [Widgets](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Widgets) to add or modfiy widgets
 * These Menu classes got new methods that make it easier to add new items to a specific section
-  * [MenuAdmin](http://developer.piwik.org/api-reference/Piwik/Menu/MenuAdmin) to add or modify admin menu items. 
-  * [MenuReporting](http://developer.piwik.org/api-reference/Piwik/Menu/MenuReporting) to add or modify reporting menu items
-  * [MenuUser](http://developer.piwik.org/api-reference/Piwik/Menu/MenuUser) to add or modify user menu items
-* [Tasks](http://developer.piwik.org/api-reference/Piwik/Plugin/Tasks) to add scheduled tasks
+  * [MenuAdmin](http://developer.piwik.org/2.x/api-reference/Piwik/Menu/MenuAdmin) to add or modify admin menu items. 
+  * [MenuReporting](http://developer.piwik.org/2.x/api-reference/Piwik/Menu/MenuReporting) to add or modify reporting menu items
+  * [MenuUser](http://developer.piwik.org/2.x/api-reference/Piwik/Menu/MenuUser) to add or modify user menu items
+* [Tasks](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Tasks) to add scheduled tasks
 
 ### New commands
 * `generate:theme` Let's you easily generate a new theme and customize colors, see the [Theming guide](http://developer.piwik.org/guides/theming)
