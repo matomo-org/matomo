@@ -74,7 +74,7 @@ class IPTest extends \PHPUnit_Framework_TestCase
             array('localhost inside LAN', array('127.0.0.1', '', null, null, '127.0.0.1')),
             array('outside LAN, no proxy', array('128.252.135.4', '', null, null, '128.252.135.4')),
             array('outside LAN, no (trusted) proxy', array('128.252.135.4', '137.18.2.13, 128.252.135.4', '', null, '128.252.135.4')),
-            array('outside LAN, one trusted proxy', array('192.168.1.10', '137.18.2.13, 128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4')),
+            array('outside LAN, one trusted proxy', array('137.18.2.13', '137.18.2.13, 128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4')),
             array('outside LAN, proxy', array('192.168.1.10', '128.252.135.4, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4')),
             array('outside LAN, misconfigured proxy', array('192.168.1.10', '128.252.135.4, 192.168.1.10, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', null, '128.252.135.4')),
             array('outside LAN, multiple proxies', array('192.168.1.10', '128.252.135.4, 192.168.1.20, 192.168.1.10', 'HTTP_X_FORWARDED_FOR', '192.168.1.*', '128.252.135.4')),
@@ -138,14 +138,14 @@ class IPTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
 
         $_SERVER['HTTP_X_FORWARDED_FOR'] = $ip;
-        $this->assertEquals($ip, IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')));
+        $this->assertEquals($ip, IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), 'case 1');
 
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '1.2.3.4, ' . $ip;
-        $this->assertEquals($ip, IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')));
+        $this->assertEquals('1.2.3.4', IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), 'case 2');
 
         // misconfiguration
         $_SERVER['HTTP_X_FORWARDED_FOR'] = $ip . ', 1.1.1.1';
-        $this->assertEquals($ip, IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')));
+        $this->assertEquals($ip, IP::getNonProxyIpFromHeader('1.1.1.1', array('HTTP_X_FORWARDED_FOR')), 'case 3');
     }
 
     /**

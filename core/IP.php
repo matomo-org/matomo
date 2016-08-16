@@ -108,8 +108,8 @@ class IP
         $p = strrpos($csv, ',');
         if ($p !== false) {
             $elements = explode(',', $csv);
-            for ($i = count($elements); $i--;) {
-                $element = trim(Common::sanitizeInputValue($elements[$i]));
+            foreach ($elements as $ipString) {
+                $element = trim(Common::sanitizeInputValue($ipString));
                 $ip = \Piwik\Network\IP::fromStringIP(IPUtils::sanitizeIp($element));
                 if (empty($excludedIps) || (!in_array($element, $excludedIps) && !$ip->isInRanges($excludedIps))) {
                     return $element;
