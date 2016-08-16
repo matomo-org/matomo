@@ -81,11 +81,6 @@ class GenerateUpdate extends GeneratePluginBase
         $className = $updater->getUpdateClassName($component, 'xx');
         $className = str_replace('Updates_xx', '', $className);
         $className = trim($className, '\\');
-
-        if ($component !== 'core') {
-            $className .= '\Updates';
-        }
-
         return $className;
     }
 

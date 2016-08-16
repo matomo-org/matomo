@@ -226,6 +226,14 @@ class Updater
             return '\\Piwik\\Columns\\Updater';
         }
 
+        $backwardCompatibleClass = '\\Piwik\\Plugins\\' . $componentName . '\\' . $className;
+
+        // as of Piwik 3.0.0, we expect plugin updates within an Updates\ namespace
+        // this could be @deprecated in Piwik 4.0.0
+        if(class_exists($backwardCompatibleClass, false)) {
+            return $backwardCompatibleClass;
+        }
+
         return '\\Piwik\\Plugins\\' . $componentName . '\\Updates\\' . $className;
     }
 
