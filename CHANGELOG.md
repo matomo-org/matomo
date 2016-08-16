@@ -24,6 +24,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no possible to define an introduction text for settings.
+* If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 
 ### Deprecations
 * The method `Piwik\Updates::getMigrationQueries()` has been deprecated and renamed to `getMigrations()`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0

@@ -11,6 +11,7 @@ namespace Piwik\Archive;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Period\Week;
 use Piwik\Site;
 
 /**
@@ -431,7 +432,13 @@ class DataTableFactory
     private function prettifyIndexLabel($labelType, $label)
     {
         if ($labelType == self::TABLE_METADATA_PERIOD_INDEX) { // prettify period labels
-            return $this->periods[$label]->getPrettyString();
+            $period = $this->periods[$label];
+            $label = $period->getLabel();
+            if ($label === 'week' || $label === 'range') {
+                return $period->getRangeString();
+            }
+
+            return $period->getPrettyString();
         }
         return $label;
     }

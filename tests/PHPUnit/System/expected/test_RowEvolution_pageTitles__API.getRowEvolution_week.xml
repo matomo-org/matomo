@@ -2,7 +2,7 @@
 <result>
 	<label>incredible title 0</label>
 	<reportData>
-		<result date="From 2010-02-01 to 2010-02-07">
+		<result date="2010-02-01,2010-02-07">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
@@ -12,7 +12,7 @@
 				<avg_time_generation>2.95</avg_time_generation>
 			</row>
 		</result>
-		<result date="From 2010-02-08 to 2010-02-14">
+		<result date="2010-02-08,2010-02-14">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
@@ -22,7 +22,7 @@
 				<avg_time_generation>2.35</avg_time_generation>
 			</row>
 		</result>
-		<result date="From 2010-02-15 to 2010-02-21">
+		<result date="2010-02-15,2010-02-21">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
@@ -32,7 +32,7 @@
 				<avg_time_generation>1.75</avg_time_generation>
 			</row>
 		</result>
-		<result date="From 2010-02-22 to 2010-02-28">
+		<result date="2010-02-22,2010-02-28">
 			<row>
 				<nb_visits>3</nb_visits>
 				<nb_hits>3</nb_hits>
@@ -42,7 +42,7 @@
 				<avg_time_generation>1</avg_time_generation>
 			</row>
 		</result>
-		<result date="From 2010-03-01 to 2010-03-07">
+		<result date="2010-03-01,2010-03-07">
 			<row>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>

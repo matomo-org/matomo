@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result date="From 2009-12-28 to 2010-01-03">
+	<result date="2009-12-28,2010-01-03">
 		<row>
 			<label> first page view</label>
 			<nb_visits>2</nb_visits>
@@ -23,7 +23,7 @@
 			<avg_time_generation>0.138</avg_time_generation>
 		</row>
 	</result>
-	<result date="From 2010-01-04 to 2010-01-10">
+	<result date="2010-01-04,2010-01-10">
 		<row>
 			<label>second visitor</label>
 			<nb_visits>12</nb_visits>
@@ -142,7 +142,7 @@
 			<avg_time_generation>0.223</avg_time_generation>
 		</row>
 	</result>
-	<result date="From 2010-01-11 to 2010-01-17">
+	<result date="2010-01-11,2010-01-17">
 		<row>
 			<label>second visitor</label>
 			<nb_visits>4</nb_visits>
@@ -247,8 +247,8 @@
 			</subtable>
 		</row>
 	</result>
-	<result date="From 2010-01-18 to 2010-01-24" />
-	<result date="From 2010-01-25 to 2010-01-31" />
-	<result date="From 2010-02-01 to 2010-02-07" />
-	<result date="From 2010-02-08 to 2010-02-14" />
+	<result date="2010-01-18,2010-01-24" />
+	<result date="2010-01-25,2010-01-31" />
+	<result date="2010-02-01,2010-02-07" />
+	<result date="2010-02-08,2010-02-14" />
 </results>
