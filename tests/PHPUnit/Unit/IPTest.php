@@ -163,35 +163,37 @@ class IPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Dataprovider for testGetLastIpFromList
+     * Dataprovider for testGetFirstIpFromList
      */
-    public function getLastIpFromListTestData()
+    public function getFirstIpFromListTestData()
     {
         return array(
             array('', ''),
             array('127.0.0.1', '127.0.0.1'),
             array(' 127.0.0.1 ', '127.0.0.1'),
-            array(' 192.168.1.1, 127.0.0.1', '127.0.0.1'),
-            array('192.168.1.1 ,127.0.0.1 ', '127.0.0.1'),
-            array('192.168.1.1,', ''),
+            array(' 192.168.1.1, 127.0.0.1', '192.168.1.1'),
+            array('192.168.1.1 ,127.0.0.1 ', '192.168.1.1'),
+            array('2001:db8:cafe::17 , 192.168.1.1', '2001:db8:cafe::17'),
+            array('192.168.1.1,', '192.168.1.1'),
+            array(',192.168.1.1,', ''),
         );
     }
 
     /**
-     * @dataProvider getLastIpFromListTestData
+     * @dataProvider getFirstIpFromListTestData
      */
-    public function testGetLastIpFromList($csv, $expected)
+    public function testGetFirstIpFromList($csv, $expected)
     {
         // without excluded IPs
-        $this->assertEquals($expected, IP::getLastIpFromList($csv));
+        $this->assertEquals($expected, IP::getFirstIpFromList($csv));
 
         // with excluded Ips
-        $this->assertEquals($expected, IP::getLastIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')));
+        $this->assertEquals($expected, IP::getFirstIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')));
     }
 
-    public function testGetLastIpFromList_shouldReturnAnEmptyString_IfMultipleIpsAreGivenButAllAreExcluded()
+    public function testGetFirstIpFromList_shouldReturnAnEmptyString_IfMultipleIpsAreGivenButAllAreExcluded()
     {
         // with excluded Ips
-        $this->assertEquals('', IP::getLastIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
+        $this->assertEquals('', IP::getFirstIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
     }
 }
