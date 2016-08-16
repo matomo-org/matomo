@@ -70,6 +70,7 @@ class MultiSitesTest extends IntegrationTestCase
 
         $this->assertContains('<item>', $output);
         $this->assertContains('</rss>', $output);
+        $this->assertNotContains('error', $output);
 
         $_GET = array();
     }
