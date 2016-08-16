@@ -31,7 +31,12 @@ class Json extends ApiRenderer
         return $this->applyJsonpIfNeeded($result);
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         $exceptionMessage = str_replace(array("\r\n", "\n"), "", $message);
 
