@@ -445,7 +445,7 @@ class Manager
     public function installLoadedPlugins()
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
-        
+
         foreach ($this->getLoadedPlugins() as $plugin) {
             $this->installPluginIfNecessary($plugin);
         }
@@ -475,6 +475,9 @@ class Manager
             throw new \Exception("The plugin '$pluginName' was found in the filesystem, but could not be loaded.'");
         }
         $this->installPluginIfNecessary($plugin);
+
+        $this->throwIfPluginMissingDependencies($plugin);
+
         $plugin->activate();
 
         EventDispatcher::getInstance()->postPendingEventsTo($plugin);
@@ -1093,7 +1096,7 @@ class Manager
         if (!$this->isPluginInstalled($plugin->getPluginName())) {
             return false;
         }
-        
+
         if ($plugin->isTrackerPlugin()) {
             return true;
         }
@@ -1373,5 +1376,25 @@ class Manager
         foreach ($this->getAllPluginsNames() as $pluginName) {
             $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
         }
+    }
+
+    /**
+     * @param $plugin Plugin
+     * @throws \Exception
+     */
+    private function throwIfPluginMissingDependencies($plugin)
+    {
+        $missingDependencies = $plugin->getMissingDependencies();
+        if (empty($missingDependencies)) {
+            return;
+        }
+
+        $causedBy = array();
+        foreach($missingDependencies as $dependency) {
+            $causedBy[] = strtoupper($dependency['requirement']) . ' ' . $dependency['causedBy'];
+        }
+        $causedBy = implode(', ', $causedBy);
+
+        throw new \Exception(Piwik::translate("CorePluginsAdmin_PluginRequirement", array($plugin->getPluginName(), $causedBy)));
     }
 }
