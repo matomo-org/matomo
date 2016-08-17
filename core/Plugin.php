@@ -424,6 +424,26 @@ class Plugin
     }
 
     /**
+     * @return string
+     */
+    public function getMissingDependenciesAsString($piwikVersion = null)
+    {
+        if(!$this->hasMissingDependencies($piwikVersion)) {
+            return '';
+        }
+        $missingDependencies = $this->getMissingDependencies($piwikVersion);
+        $causedBy = array();
+        foreach ($missingDependencies as $dependency) {
+            $causedBy[] = strtoupper($dependency['requirement']) . ' ' . $dependency['causedBy'];
+        }
+        $causedBy = implode(', ', $causedBy);
+
+        $message = Piwik::translate("CorePluginsAdmin_PluginRequirement", array($this->getPluginName(), $causedBy));
+        return $message;
+    }
+
+
+    /**
      * Extracts the plugin name from a backtrace array. Returns `false` if we can't find one.
      *
      * @param array $backtrace The result of {@link debug_backtrace()} or
