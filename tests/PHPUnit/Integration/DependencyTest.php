@@ -134,7 +134,7 @@ class DependencyTest extends IntegrationTestCase
     {
         return array(
             array( array('Annotations' => '>=9.2'), 'ANNOTATIONS >=9.2'),
-            array( array('php' => '>=70', 'Annotations' => '>=11.11'), 'PHP >= 70, ANNOTATIONS >=11.11'),
+            array( array('php' => '>=70', 'Annotations' => '>=11.11'), 'PHP >=70, ANNOTATIONS >=11.11'),
             array( array(), ''),
         );
     }

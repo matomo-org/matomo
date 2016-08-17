@@ -103,6 +103,6 @@
         "Version": "Version",
         "ViewRepositoryChangelog": "View the changes",
         "Websites": "Websites",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "We deactivated the plugin %s as it has missing dependencies: %s"
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "We deactivated the plugin %1$s as it has missing dependencies: %2$s"
     }
 }
