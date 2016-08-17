@@ -424,13 +424,16 @@ class Plugin
     }
 
     /**
-     * @return string
+     * Returns a string (translated) describing the missing requirements for this plugin and the given Piwik version
+     *
+     * @return string "AnonymousPiwikUsageMeasurement requires PIWIK >=3.0.0"
      */
     public function getMissingDependenciesAsString($piwikVersion = null)
     {
         if(!$this->hasMissingDependencies($piwikVersion)) {
             return '';
         }
+
         $missingDependencies = $this->getMissingDependencies($piwikVersion);
         $causedBy = array();
         foreach ($missingDependencies as $dependency) {
@@ -440,6 +443,7 @@ class Plugin
 
         $message = Piwik::translate("CorePluginsAdmin_PluginRequirement", array($this->getPluginName(), $causedBy));
         return $message;
+
     }
 
 

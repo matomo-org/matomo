@@ -102,6 +102,7 @@
         "UploadZipFile": "Upload ZIP file",
         "Version": "Version",
         "ViewRepositoryChangelog": "View the changes",
-        "Websites": "Websites"
+        "Websites": "Websites",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "We deactivated the plugin %s as it has missing dependencies: %s"
     }
 }

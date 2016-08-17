@@ -37,6 +37,11 @@ class ActivatePlugin extends ConsoleCommand
             return;
         }
 
+        if ($dependencies = $pluginManager->getPluginMissingDependenciesAsString($plugin)) {
+            $output->writeln("<error>$dependencies</error>");
+            return;
+        }
+
         $pluginManager->activatePlugin($plugin);
 
         $output->writeln("Activated plugin <info>$plugin</info>");

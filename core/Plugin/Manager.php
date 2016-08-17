@@ -473,9 +473,8 @@ class Manager
         if ($plugin === null) {
             throw new \Exception("The plugin '$pluginName' was found in the filesystem, but could not be loaded.'");
         }
-        $this->installPluginIfNecessary($plugin);
 
-        $this->throwIfPluginMissingDependencies($plugin);
+        $this->installPluginIfNecessary($plugin);
 
         $plugin->activate();
 
@@ -839,9 +838,9 @@ class Manager
 
                     // at this state we do not know yet whether current user has super user access. We do not even know
                     // if someone is actually logged in.
-                    $message  = sprintf('We disabled the plugin %s as it has missing dependencies.', $pluginName);
-
-                    $message .= ' Please contact your Piwik administrator.';
+                    $message  = Piwik::translate('CorePluginsAdmin_WeDeactivatedThePluginAsItHasMissingDependencies', array($pluginName, $newPlugin->getMissingDependenciesAsString()));
+                    $message .= ' ';
+                    $message .= Piwik::translate('General_PleaseContactYourPiwikAdministrator');
 
                     $notification = new Notification($message);
                     $notification->context = Notification::CONTEXT_ERROR;
@@ -1378,18 +1377,13 @@ class Manager
         }
     }
 
-    /**
-     * @param $plugin Plugin
-     * @throws \Exception
-     */
-    private function throwIfPluginMissingDependencies($plugin)
+    public function getPluginMissingDependenciesAsString($pluginName)
     {
-        if (!$plugin->hasMissingDependencies()) {
-            return;
+        $plugin = $this->loadPlugin($pluginName);
+        if ($plugin === null) {
+            return '';
         }
-
-        $message = $plugin->getMissingDependenciesAsString();
-        throw new \Exception($message);
+        return $plugin->getMissingDependenciesAsString();
     }
 
 }
