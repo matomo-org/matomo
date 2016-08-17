@@ -3,6 +3,9 @@
     "description": "Piwik Platform showcase: example of how to create a simple Theme.",
     "version": "0.1.0",
     "theme": true,
+    "require": {
+       "piwik": ">=PIWIK_VERSION,<3.0.0-b1"
+    },
     "stylesheet": "stylesheets/theme.less",
     "homepage": "",
     "license": "GPL v3+",
