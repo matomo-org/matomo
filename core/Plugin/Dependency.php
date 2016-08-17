@@ -96,8 +96,7 @@ class Dependency
         return $causedBy;
     }
 
-
-private function getCurrentVersion($name)
+    private function getCurrentVersion($name)
     {
         switch (strtolower($name)) {
             case 'piwik':
