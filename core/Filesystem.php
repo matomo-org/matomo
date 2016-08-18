@@ -94,6 +94,8 @@ class Filesystem
                 // enough! we're not going to make the directory world-writeable
             }
         }
+
+        self::createIndexFilesToPreventDirectoryListing($path);
     }
 
     /**
@@ -443,8 +445,7 @@ class Filesystem
      */
     private static function getChmodForPath($path)
     {
-        $pathIsTmp = StaticContainer::get('path.tmp');
-        if (strpos($path, $pathIsTmp) === 0) {
+        if (self::isPathWithinTmpFolder($path)) {
             // tmp/* folder
             return 0750;
         }
@@ -503,5 +504,35 @@ class Filesystem
         }
 
         return true;
+    }
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    private static function isPathWithinTmpFolder($path)
+    {
+        $pathIsTmp = StaticContainer::get('path.tmp');
+        $isPathWithinTmpFolder = strpos($path, $pathIsTmp) === 0;
+        return $isPathWithinTmpFolder;
+    }
+
+    /**
+     * in tmp/ (sub-)folder(s) we create empty index.htm|php files
+     *
+     * @param $path
+     */
+    private static function createIndexFilesToPreventDirectoryListing($path)
+    {
+        if (!self::isPathWithinTmpFolder($path)) {
+            return;
+        }
+        $filesToCreate = array(
+            $path . '/index.htm',
+            $path . '/index.php'
+        );
+        foreach ($filesToCreate as $file) {
+            file_put_contents($file, 'Nothing to see here.');
+        }
     }
 }

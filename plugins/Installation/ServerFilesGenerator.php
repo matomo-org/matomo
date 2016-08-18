@@ -64,11 +64,6 @@ class ServerFilesGenerator
         }
     }
 
-    public static function createHtAccessDenyAll($path)
-    {
-        self::createHtAccess($path, $overwrite = false, self::getDenyAllHtaccessContent());
-    }
-
     /**
      * Create .htaccess file in specified directory
      *

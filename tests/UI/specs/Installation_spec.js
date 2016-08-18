@@ -155,4 +155,12 @@ describe("Installation", function () {
             page.click('.btn');
         }, done);
     });
+
+    it("should have created an index.htm file within the tmp/sessions directory to prevent directory listing", function (done) {
+        expect.screenshot('nothing_to_see_here').to.be.capture(function (page) {
+            // page.load will load by default the proxy ie. http://localhost/piwik/tests/PHPUnit/proxy/
+            // but we need here to check in: http://localhost/piwik/tmp/sessions/
+            page.load("../../../tmp/sessions/index.htm");
+        }, done);
+    });
 });
