@@ -300,6 +300,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkPiwikIsNotInstalled();
 
+        ServerFilesGenerator::createFilesForSecurity();
+
         $siteIdsCount = Access::doAsSuperUser(function () {
             return count(APISitesManager::getInstance()->getAllSitesId());
         });
@@ -720,4 +722,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $result;
         });
     }
+
 }

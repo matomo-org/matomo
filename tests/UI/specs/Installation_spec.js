@@ -51,6 +51,14 @@ describe("Installation", function () {
         }, done);
     });
 
+    it("should have already created a tmp/sessions/index.htm file to prevent directory listing", function (done) {
+        expect.screenshot('nothing_to_see_here').to.be.capture(function (page) {
+            // page.load will load by default the proxy ie. http://localhost/piwik/tests/PHPUnit/proxy/
+            // but we need here to check in: http://localhost/piwik/tmp/sessions/
+            page.load("../../../tmp/sessions/index.htm");
+        }, done);
+    });
+
     it("should display the database setup page when next is clicked on the system check page", function (done) {
         expect.screenshot("db_setup").to.be.capture(function (page) {
             page.click('.next-step .btn');
@@ -153,14 +161,6 @@ describe("Installation", function () {
     it("should continue to piwik after submitting on the privacy settings form in the congrats page", function (done) {
         expect.screenshot('login_form', 'Login').to.be.capture(function (page) {
             page.click('.btn');
-        }, done);
-    });
-
-    it("should have created an index.htm file within the tmp/sessions directory to prevent directory listing", function (done) {
-        expect.screenshot('nothing_to_see_here').to.be.capture(function (page) {
-            // page.load will load by default the proxy ie. http://localhost/piwik/tests/PHPUnit/proxy/
-            // but we need here to check in: http://localhost/piwik/tmp/sessions/
-            page.load("../../../tmp/sessions/index.htm");
         }, done);
     });
 });
