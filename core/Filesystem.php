@@ -532,7 +532,7 @@ class Filesystem
             $path . '/index.php'
         );
         foreach ($filesToCreate as $file) {
-            file_put_contents($file, 'Nothing to see here.');
+            @file_put_contents($file, 'Nothing to see here.');
         }
     }
 }
