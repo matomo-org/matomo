@@ -282,9 +282,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($start, $expectedStart, "File $file does not start with $expectedStart");
             $tested++;
         }
-        var_dump($tested);
 
-        $this->assertGreaterThan(2100, $tested, 'should have tested at least thousand of  php files');
+        $this->assertGreaterThan(2000, $tested, 'should have tested at least thousand of  php files');
     }
 
     public function test_jsfilesDoNotContainFakeSpaces()
