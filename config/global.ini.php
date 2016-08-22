@@ -281,10 +281,10 @@ time_before_today_archive_considered_outdated = 150
 enable_browser_archiving_triggering = 1
 
 ; By default, Piwik will force archiving of range periods from browser requests, even if enable_browser_archiving_triggering
-; is set to 0. This can sometimes create too much of a demand on system resources. Setting this option to 0 and setting
-; enable_browser_archiving_triggering to 0 will make sure ranges are not archived on browser request. Since the cron
-; archiver does not archive ranges, you must either disable ranges or make sure the ranges users' want to see will be
-; processed somehow.
+; is set to 0. This can sometimes create too much of a demand on system resources. Setting this option to 0 and
+; disabling browser trigger archiving will make sure ranges are not archived on browser request. Since the cron
+; archiver does not archive any custom date ranges, you must either disable range (using enabled_periods_API and enabled_periods_UI)
+; or make sure the date ranges users' want to see will be processed somehow.
 archiving_range_force_on_browser_request = 1
 
 ; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
