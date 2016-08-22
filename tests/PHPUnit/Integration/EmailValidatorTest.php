@@ -42,7 +42,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
     private function skipTestIfIdnNotAvailable()
     {
         if (!function_exists('idn_to_utf8')) {
-            $this->markTestSkipped("Couldn't get TLD list");
+            $this->markTestSkipped("Function idn_to_utf8 does not exist, skip test");
         }
     }
 
@@ -64,13 +64,18 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
             $email = 'test@example.' . $domainNameExtension;
 
             if(!$this->isValid($email)) {
-                $errors[] = "email $email is not valid, but expected to be valid. Add this domain extension to  libs/Zend/Validate/Hostname.php";
+                $errors[] = $domainNameExtension;
             }
         }
 
-        // only fail when at least 5 domains are failing the test, so it does not fail every time IANA adds a new domain extension...
-        if(count($errors) > 5) {
-            $this->fail( implode(", ", $errors));
+        // only fail when at least 10 domains are failing the test, so it does not fail every time IANA adds a new domain extension...
+        if(count($errors) > 5)
+        {
+            $out = '';
+            foreach($errors as $domainNameExtension) {
+                $out .= "\t'$domainNameExtension' => array(1 => self::VALID_UNICODE_DOMAIN),\n";
+            }
+            $this->fail( "Some email extensions are not supported yet, you can add these domain extensions in libs/Zend/Validate/Hostname.php: \n\n" . $out);
         }
     }
 
