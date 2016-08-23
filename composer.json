@@ -56,7 +56,8 @@
         "piwik/referrer-spam-blacklist": "~1.0",
         "piwik/searchengine-and-social-list": "~1.0",
         "tecnickcom/tcpdf": "~6.0",
-        "piwik/piwik-php-tracker": "^1.0"
+        "piwik/piwik-php-tracker": "^1.0",
+        "geoip2/geoip2": "^2.4"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",
