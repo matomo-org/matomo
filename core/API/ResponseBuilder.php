@@ -138,10 +138,10 @@ class ResponseBuilder
     }
 
     /**
-     * @param Exception $e
+     * @param Exception|\Throwable $e
      * @return Exception
      */
-    private function decorateExceptionWithDebugTrace(Exception $e)
+    private function decorateExceptionWithDebugTrace($e)
     {
         // If we are in tests, show full backtrace
         if (defined('PIWIK_PATH_TEST_TO_ROOT')) {
@@ -157,7 +157,11 @@ class ResponseBuilder
         return $e;
     }
 
-    private function formatExceptionMessage(Exception $exception)
+    /**
+     * @param Exception|\Throwable $exception
+     * @return string
+     */
+    private function formatExceptionMessage($exception)
     {
         $message = $exception->getMessage();
         if (\Piwik_ShouldPrintBackTraceWithMessage()) {

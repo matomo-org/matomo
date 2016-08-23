@@ -16,7 +16,12 @@ use Piwik\DataTable;
 class Html extends ApiRenderer
 {
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         Common::sendHeader('Content-Type: text/plain; charset=utf-8', true);
 

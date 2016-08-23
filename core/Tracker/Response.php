@@ -175,7 +175,7 @@ class Response
         return $e->getMessage();
     }
 
-    protected function logExceptionToErrorLog(Exception $e)
+    protected function logExceptionToErrorLog($e)
     {
         error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
     }

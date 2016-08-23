@@ -23,7 +23,12 @@ class Php extends ApiRenderer
         return $this->serializeIfNeeded($success);
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         $message = array('result' => 'error', 'message' => $message);
 
