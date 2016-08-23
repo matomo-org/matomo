@@ -93,6 +93,8 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             '/DataTable/Bridges.php',
             '/DataTable/DataTableInterface.php',
             '/DataTable/Filter',
+            '/DataTable/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Manager.php',
             '/DataTable/Map.php',
             '/DataTable/Renderer',
@@ -100,17 +102,26 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             '/DataTable/Row',
             '/DataTable/Row.php',
             '/DataTable/Simple.php',
+            '/DataTable/Filter/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/Filter/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Renderer/Console.php',
             '/DataTable/Renderer/Csv.php',
             '/DataTable/Renderer/Html.php',
+            '/DataTable/Renderer/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/Renderer/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Renderer/Json.php',
             '/DataTable/Renderer/Php.php',
             '/DataTable/Renderer/Rss.php',
             '/DataTable/Renderer/Tsv.php',
             '/DataTable/Renderer/Xml',
             '/DataTable/Renderer/Xml.php',
+            '/DataTable/Renderer/Xml/index.htm',  // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/Renderer/Xml/index.php',  // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Renderer/Xml/Other.php',
-            '/DataTable/Row/DataTableSummaryRow.php'
+            '/DataTable/Row/DataTableSummaryRow.php',
+            '/DataTable/Row/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/Row/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+
         ), $result);
     }
 
@@ -121,12 +132,18 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             '/DataTable/Filter',
             '/DataTable/Row',
+            '/DataTable/Filter/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/Filter/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Renderer/Json.php',
             '/DataTable/Renderer/Php.php',
             '/DataTable/Renderer/Rss.php',
             '/DataTable/Renderer/Xml',
+            '/DataTable/Renderer/Xml/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/Renderer/Xml/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
             '/DataTable/Renderer/Xml/Other.php',
             '/DataTable/Row/DataTableSummaryRow.php',
+            '/DataTable/Row/index.htm', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
+            '/DataTable/Row/index.php', // this was is created as side effect of "Target files" being within the tmp/ folder, @see createIndexFilesToPreventDirectoryListing
         ), $result);
     }
 
@@ -137,7 +154,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
         // make sure there is a difference between those folders
         $result = Filesystem::directoryDiff($source, $target);
-        $this->assertCount(8, $result);
+        $this->assertCount(14, $result);
 
         Filesystem::unlinkTargetFilesNotPresentInSource($source, $target);
 
