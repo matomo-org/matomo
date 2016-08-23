@@ -13,15 +13,19 @@ namespace Piwik\Plugins\UserCountry\LocationProvider;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use Piwik\Piwik;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * A LocationProvider that uses the PHP implementation of GeoIP.
  *
  */
-class GeoIp2 extends GeoIp
+class GeoIp2 extends LocationProvider
 {
     const ID = 'geoip2_php';
     const TITLE = 'GeoIP 2';
+
+    public static $geoIPDatabaseDir = 'misc';
+
     /**
      * Stores possible database file names categorized by the type of information, sorted by accuracy
      *
@@ -55,6 +59,7 @@ class GeoIp2 extends GeoIp
      * @var array
      */
     private $customDbNames;
+    private $_isoRegionCodes;
 
     /**
      * Constructor.
@@ -157,10 +162,11 @@ class GeoIp2 extends GeoIp
                     $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
                     $regions                          = $lookupResult->subdivisions;
                     if (isset($regions[0])) {
-                        /**
-                         * @todo - ISO 3166-2 to FIPS 10.2
-                         */
-                        $result[self::REGION_CODE_KEY] = strtoupper($lookupResult->subdivisions[0]->isoCode);
+
+                        $result[self::REGION_CODE_KEY] = $this->isoRegionCodeToFIPS(
+                            $result[self::COUNTRY_CODE_KEY],
+                            $lookupResult->subdivisions[0]->isoCode
+                        );
                         $result[self::REGION_NAME_KEY] = $lookupResult->subdivisions[0]->name;
                     }
                     break;
@@ -196,6 +202,27 @@ class GeoIp2 extends GeoIp
         return $this->reader;
     }
 
+    /**
+     * Convert ISO 3166-2 Code to FIPS 10.2
+     *
+     * @param $countryCode
+     * @param $regionIsoCode
+     * @return string|null
+     */
+    private function isoRegionCodeToFIPS($countryCode, $regionIsoCode)
+    {
+        $regionIsoCode = strtoupper($regionIsoCode);
+
+        if (empty($this->_isoRegionCodes)) {
+            $this->_isoRegionCodes = json_decode(
+                file_get_contents(PIWIK_INCLUDE_PATH.'/libs/MaxMindGeoIP/ISO3166-2_to_FIPS.json'),
+                true
+            );
+        }
+
+        return (isset($this->_isoRegionCodes[$countryCode][$regionIsoCode])) ? $this->_isoRegionCodes[$countryCode][$regionIsoCode] : null;
+
+    }
 
     /**
      * Returns an array describing the types of location information this provider will
@@ -267,5 +294,36 @@ class GeoIp2 extends GeoIp
 
         return 'None of supported databases was found.';
     }
+
+    /**
+     * Returns the path of an existing GeoIP database or false if none can be found.
+     *
+     * @param array $possibleFileNames The list of possible file names for the GeoIP database.
+     * @return string|false
+     */
+    public static function getPathToGeoIpDatabase($possibleFileNames)
+    {
+        foreach ($possibleFileNames as $filename) {
+            $path = self::getPathForGeoIpDatabase($filename);
+            if (file_exists($path)) {
+                return $path;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns full path for a GeoIP database managed by Piwik.
+     *
+     * @param string $filename Name of the .dat file.
+     * @return string
+     */
+    public static function getPathForGeoIpDatabase($filename)
+    {
+        return PIWIK_INCLUDE_PATH.'/'.self::$geoIPDatabaseDir.'/'.$filename;
+    }
 }
 
+require_once PIWIK_INCLUDE_PATH.'/plugins/UserCountry/LocationProvider/GeoIp.php';
+require_once PIWIK_INCLUDE_PATH.'/plugins/UserCountry/LocationProvider.php';

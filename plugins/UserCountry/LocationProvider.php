@@ -35,7 +35,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp.p
 /**
  * @see plugins/UserCountry/LocationProvider/GeoIp2.php
  */
-require_once PIWIK_INCLUDE_PATH.'/plugins/UserCountry/LocationProvider/GeoIp2.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp2.php';
 
 /**
  * The base class of all LocationProviders.
