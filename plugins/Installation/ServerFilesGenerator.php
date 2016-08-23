@@ -28,7 +28,7 @@ class ServerFilesGenerator
      * Generate Apache .htaccess files to restrict access
      * .htaccess files are created on all webservers even Nginx, as sometimes Nginx knows how to handle .htaccess files
      */
-    protected static function createHtAccessFiles()
+    public static function createHtAccessFiles()
     {
         $denyAll = self::getDenyAllHtaccessContent();
         $allow = self::getAllowHtaccessContent();
@@ -168,7 +168,7 @@ class ServerFilesGenerator
         }
     }
 
-    protected static function deleteWebConfigFiles()
+    public static function deleteWebConfigFiles()
     {
         $path = PIWIK_INCLUDE_PATH;
         @unlink($path . '/web.config');
@@ -184,7 +184,7 @@ class ServerFilesGenerator
      *
      * @see misc/crossdomain.xml
      */
-    protected static function createWebRootFiles()
+    public static function createWebRootFiles()
     {
         $filesToCreate = array(
             '/robots.txt',
@@ -280,7 +280,7 @@ HTACCESS_ALLOW;
     /**
      * Deletes all existing .htaccess files and web.config files that Piwik may have created,
      */
-    protected static function deleteHtAccessFiles()
+    public static function deleteHtAccessFiles()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, ".htaccess");
 
