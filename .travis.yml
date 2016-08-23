@@ -80,6 +80,8 @@ matrix:
     - php: 5.3
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
 
+sudo: required
+
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
 before_install:
@@ -111,6 +113,14 @@ before_script:
 
   # disable opcache to avoid random failures on travis
   - echo "opcache.enable=0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # make tmpfs and run MySQL on it for reasonnable performance
+  - sudo mkdir /mnt/ramdisk
+  - sudo mount -t tmpfs -o size=1024m tmpfs /mnt/ramdisk
+  - sudo stop mysql
+  - sudo mv /var/lib/mysql /mnt/ramdisk
+  - sudo ln -s /mnt/ramdisk/mysql /var/lib/mysql
+  - sudo start mysql
 
   # print out mysql information
   - mysql --version
