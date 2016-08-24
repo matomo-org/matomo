@@ -145,15 +145,15 @@ class GeoIp2 extends LocationProvider
                 case 'GeoIP2-Country':
                     $lookupResult                     = $reader->country($ip);
                     $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-                    $result[self::CONTINENT_CODE_KEY] = $lookupResult->continent->code;
-                    $result[self::COUNTRY_CODE_KEY]   = $lookupResult->country->isoCode;
+                    $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
+                    $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
                     $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
                     break;
                 case 'GeoLite2-City':
                 case 'GeoIP2-City':
                     $lookupResult                     = $reader->city($ip);
                     $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-                    $result[self::CONTINENT_CODE_KEY] = $lookupResult->continent->code;
+                    $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
                     $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
                     $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
                     $result[self::CITY_NAME_KEY]      = $lookupResult->city->name;
@@ -162,11 +162,20 @@ class GeoIp2 extends LocationProvider
                     $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
                     $regions                          = $lookupResult->subdivisions;
                     if (isset($regions[0])) {
-
-                        $result[self::REGION_CODE_KEY] = $this->isoRegionCodeToFIPS(
-                            $result[self::COUNTRY_CODE_KEY],
-                            $lookupResult->subdivisions[0]->isoCode
-                        );
+                        switch ($result[self::COUNTRY_CODE_KEY]) {
+                            case 'US':
+                            case 'CA':
+                                $result[self::REGION_CODE_KEY] = strtoupper($lookupResult->subdivisions[0]->isoCode);
+                                break;
+                            default:
+                                $result[self::REGION_CODE_KEY] = strtoupper(
+                                    $this->isoRegionCodeToFIPS(
+                                        $result[self::COUNTRY_CODE_KEY],
+                                        $lookupResult->subdivisions[0]->isoCode
+                                    )
+                                );
+                                break;
+                        }
                         $result[self::REGION_NAME_KEY] = $lookupResult->subdivisions[0]->name;
                     }
                     break;
