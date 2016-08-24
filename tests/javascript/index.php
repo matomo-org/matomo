@@ -21,6 +21,20 @@ try {
     $mysql = false;
 }
 
+use \Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
+use \Piwik\Plugins\CustomPiwikJs\TrackingCode\JsTestPluginTrackerFiles;
+
+$targetFileName = '/tests/resources/piwik.test.js';
+$sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
+$targetFile = PIWIK_DOCUMENT_ROOT . $targetFileName;
+
+file_put_contents($targetFile, '');
+
+$updater = new TrackerUpdater($sourceFile, $targetFile);
+$updater->setTrackerFiles(new JsTestPluginTrackerFiles());
+$updater->checkWillSucceed();
+$updater->update();
+
 if(file_exists("stub.tpl")) {
     echo file_get_contents("stub.tpl");
 }
@@ -60,7 +74,7 @@ testTrackPageViewAsync();
 ?>
  </script>
  <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
- <script src="../../js/piwik.js?rand=<?php echo $cacheBuster ?>" type="text/javascript"></script>
+ <script src="../..<?php echo $targetFileName ?>?rand=<?php echo $cacheBuster ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
@@ -2998,7 +3012,7 @@ function PiwikTest() {
 
         // Calling undefined methods should generate an error
         function callNonExistingMethod() {
-            _paq.push(['NonExistingFunction should error and display the error in the console.']);
+            _paq.push(['NonExistingFunction should error and display the error in the console']);
         }
         function callNonExistingMethodWithParameter() {
             _paq.push(['NonExistingFunction should not error', 'this is a parameter']);

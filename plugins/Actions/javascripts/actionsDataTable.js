@@ -54,6 +54,7 @@
             var self = this;
 
             self.cleanParams();
+            self.preBindEventsAndApplyStyleHook(domElem, rows);
 
             if (!rows) {
                 rows = $('tr', domElem);
@@ -92,6 +93,7 @@
             self.setFixWidthToMakeEllipsisWork(domElem);
             self.handleSummaryRow(domElem);
             self.openSubtableFromLevel0IfOnlyOneSubtableGiven(domElem);
+            self.postBindEventsAndApplyStyleHook(domElem, rows);
         },
 
         openSubtableFromLevel0IfOnlyOneSubtableGiven: function (domElem) {

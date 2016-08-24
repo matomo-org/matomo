@@ -544,6 +544,10 @@ class Report
         }
     }
 
+    /**
+     * Get report documentation.
+     * @return string
+     */
     public function getDocumentation()
     {
         return $this->documentation;
