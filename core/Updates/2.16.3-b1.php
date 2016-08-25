@@ -13,9 +13,9 @@ use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 
 /**
- * Update for version 2.16.3
+ * Update for version 2.16.3b1
  */
-class Updates_2_16_4_b1 extends PiwikUpdates
+class Updates_2_16_3_b1 extends PiwikUpdates
 {
 
     public function doUpdate(Updater $updater)

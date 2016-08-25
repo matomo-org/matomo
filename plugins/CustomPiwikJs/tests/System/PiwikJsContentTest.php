@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\CustomPiwikJs\tests\System;
 
 use Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
-use Piwik\Plugins\CustomPiwikJs\TrackingCodeFile;
+use Piwik\Plugins\CustomPiwikJs\TrackingCode\PiwikJsManipulator;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -33,7 +33,7 @@ class PiwikJsContentTest extends SystemTestCase
         $piwikMin = PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js';
         $content  = file_get_contents($piwikMin);
 
-        $this->assertContains(TrackingCodeFile::HOOK, $content);
+        $this->assertContains(PiwikJsManipulator::HOOK, $content);
     }
 
 }

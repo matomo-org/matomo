@@ -58,17 +58,15 @@ class TrackerUpdater
 
     public function checkWillSucceed()
     {
+        $this->fromFile->checkReadable();
         $this->toFile->checkWritable();
     }
 
     public function update()
     {
-        if (!$this->toFile->hasWriteAccess()) {
+        if (!$this->toFile->hasWriteAccess() || !$this->fromFile->hasReadAccess()) {
             return;
         }
-
-        $this->fromFile->checkReadable();
-        $this->toFile->checkReadable();
 
         $trackingCode = new PiwikJsManipulator($this->fromFile->getContent(), $this->trackerFiles);
         $newContent = $trackingCode->manipulateContent();

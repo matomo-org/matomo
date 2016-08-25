@@ -4,6 +4,11 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 2.16.3
+
+### New APIs
+* The Piwik JavaScript tracker has a new method `trackRequest` that allows you to send any tracking parameters to Piwik. For example  `_paq.push(['trackRequest', 'te=foo&bar=baz'])`
+
 ## Piwik 2.16.2
 
 ### New APIs
