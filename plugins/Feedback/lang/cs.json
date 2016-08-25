@@ -19,6 +19,11 @@
         "ViewUserGuides": "Naučte se, jak konfigurovat Piwik a efektivně analyzovat data s našimi %1$suživatelskými příručkami%2$s",
         "CommunityHelp": "Komunitní pomoc",
         "ProfessionalHelp": "Profesionální pomoc",
+        "ProfessionalServicesReviewPiwikSetup": "Kontrola vaší instalace Piwiku",
+        "ProfessionalServicesPhoneEmailSupport": "Telefonická a e-mailová podpora",
+        "ProfessionalServicesTraining": "Školení uživatelů, techniků a vývoářů",
+        "ProfessionalServicesPremiumFeatures": "Prémiové funkce",
+        "ProfessionalServicesAnalystConsulting": "Služby konzultace analytika",
         "ContactUs": "Kontaktujte nás",
         "VisitTheForums": "Navštivte %1$s fóra%2$s a nechte si pomoci komunitou uživatelů aplikace Piwik"
     }

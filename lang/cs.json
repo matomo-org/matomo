@@ -286,6 +286,7 @@
         "Password": "Heslo",
         "Period": "Období",
         "Piechart": "Koláčový graf",
+        "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$sPiwik%2$s je společný projekt zajištěný členy %7$stýmem Piwiku%8$s, stejně jako mnoha dalšími přispěvateli z celého světa. <br\/> Pokud jste fanoušek Piwiku, můžete zjistit, %3$sjak se zapojit%4$s, nebo %5$spřispějte%6$s na vývoj Piwiku 3.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s je dostupný. Prosím, upozorněte %2$sadministrátora Piwiku%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Je k dispozici Piwik %1$s. %2$s Prosím aktualizujte jej!%3$s (viz %4$s změny%5$s).",
         "PleaseSpecifyValue": "Prosím zapiště hodnotu pro '%s'.",
