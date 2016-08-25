@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -89,10 +90,10 @@ class Controller extends \Piwik\Plugin\Controller
         $selectableColumns = array(
             // columns from VisitsSummary.get
             'nb_visits',
-            'nb_uniq_visitors',
             'nb_users',
             'avg_time_on_site',
             'bounce_rate',
+            'nb_actions',
             'nb_actions_per_visit',
             'max_actions',
             'nb_visits_converted',
@@ -105,6 +106,17 @@ class Controller extends \Piwik\Plugin\Controller
             'nb_uniq_outlinks',
             'avg_time_generation'
         );
+
+        $period = Common::getRequestVar('period', false);
+
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+            // add number of unique visitors if available
+            $selectableColumns = array_merge(
+                array($selectableColumns[0]),
+                array('nb_uniq_visitors'),
+                array_slice($selectableColumns, 1)
+            );
+        }
 
         $idSite = Common::getRequestVar('idSite');
         $displaySiteSearch = Site::isSiteSearchEnabledFor($idSite);

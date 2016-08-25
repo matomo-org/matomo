@@ -8,73 +8,73 @@ nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_
 2,11,43,5,3.9,00:10:55,27%
 
 Visits by Server Time
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-0h,1,1,1,00:00:00,100%,$ 0
-1h,0,0,0,00:00:00,0%,$ 0
-2h,0,0,0,00:00:00,0%,$ 0
-3h,0,0,0,00:00:00,0%,$ 0
-4h,0,0,0,00:00:00,0%,$ 0
-5h,0,0,0,00:00:00,0%,$ 0
-6h,0,0,0,00:00:00,0%,$ 0
-7h,0,0,0,00:00:00,0%,$ 0
-8h,0,0,0,00:00:00,0%,$ 0
-9h,0,0,0,00:00:00,0%,$ 0
-10h,0,0,0,00:00:00,0%,$ 0
-11h,8,40,5,00:15:01,0%,$ 0
-12h,1,1,1,00:00:00,100%,$ 0
-13h,0,0,0,00:00:00,0%,$ 0
-14h,0,0,0,00:00:00,0%,$ 0
-15h,0,0,0,00:00:00,0%,$ 0
-16h,0,0,0,00:00:00,0%,$ 0
-17h,0,0,0,00:00:00,0%,$ 0
-18h,0,0,0,00:00:00,0%,$ 0
-19h,0,0,0,00:00:00,0%,$ 0
-20h,0,0,0,00:00:00,0%,$ 0
-21h,0,0,0,00:00:00,0%,$ 0
-22h,0,0,0,00:00:00,0%,$ 0
-23h,1,1,1,00:00:00,100%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users,revenue
+0h,1,1,1,00:00:00,100%,0,0,$ 0
+1h,0,0,0,00:00:00,0%,0,0,$ 0
+2h,0,0,0,00:00:00,0%,0,0,$ 0
+3h,0,0,0,00:00:00,0%,0,0,$ 0
+4h,0,0,0,00:00:00,0%,0,0,$ 0
+5h,0,0,0,00:00:00,0%,0,0,$ 0
+6h,0,0,0,00:00:00,0%,0,0,$ 0
+7h,0,0,0,00:00:00,0%,0,0,$ 0
+8h,0,0,0,00:00:00,0%,0,0,$ 0
+9h,0,0,0,00:00:00,0%,0,0,$ 0
+10h,0,0,0,00:00:00,0%,0,0,$ 0
+11h,8,40,5,00:15:01,0%,0,0,$ 0
+12h,1,1,1,00:00:00,100%,0,0,$ 0
+13h,0,0,0,00:00:00,0%,0,0,$ 0
+14h,0,0,0,00:00:00,0%,0,0,$ 0
+15h,0,0,0,00:00:00,0%,0,0,$ 0
+16h,0,0,0,00:00:00,0%,0,0,$ 0
+17h,0,0,0,00:00:00,0%,0,0,$ 0
+18h,0,0,0,00:00:00,0%,0,0,$ 0
+19h,0,0,0,00:00:00,0%,0,0,$ 0
+20h,0,0,0,00:00:00,0%,0,0,$ 0
+21h,0,0,0,00:00:00,0%,0,0,$ 0
+22h,0,0,0,00:00:00,0%,0,0,$ 0
+23h,1,1,1,00:00:00,100%,0,0,$ 0
 
 Visits by Local Time
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-0h,0,0,0%,0,00:00:00,0%
-1h,0,0,0%,0,00:00:00,0%
-2h,0,0,0%,0,00:00:00,0%
-3h,0,0,0%,0,00:00:00,0%
-4h,0,0,0%,0,00:00:00,0%
-5h,0,0,0%,0,00:00:00,0%
-6h,0,0,0%,0,00:00:00,0%
-7h,0,0,0%,0,00:00:00,0%
-8h,0,0,0%,0,00:00:00,0%
-9h,0,0,0%,0,00:00:00,0%
-10h,0,0,0%,0,00:00:00,0%
-11h,0,0,0%,0,00:00:00,0%
-12h,11,43,0%,3.9,00:10:55,27%
-13h,0,0,0%,0,00:00:00,0%
-14h,0,0,0%,0,00:00:00,0%
-15h,0,0,0%,0,00:00:00,0%
-16h,0,0,0%,0,00:00:00,0%
-17h,0,0,0%,0,00:00:00,0%
-18h,0,0,0%,0,00:00:00,0%
-19h,0,0,0%,0,00:00:00,0%
-20h,0,0,0%,0,00:00:00,0%
-21h,0,0,0%,0,00:00:00,0%
-22h,0,0,0%,0,00:00:00,0%
-23h,0,0,0%,0,00:00:00,0%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+0h,0,0,0%,0,00:00:00,0%,0,0
+1h,0,0,0%,0,00:00:00,0%,0,0
+2h,0,0,0%,0,00:00:00,0%,0,0
+3h,0,0,0%,0,00:00:00,0%,0,0
+4h,0,0,0%,0,00:00:00,0%,0,0
+5h,0,0,0%,0,00:00:00,0%,0,0
+6h,0,0,0%,0,00:00:00,0%,0,0
+7h,0,0,0%,0,00:00:00,0%,0,0
+8h,0,0,0%,0,00:00:00,0%,0,0
+9h,0,0,0%,0,00:00:00,0%,0,0
+10h,0,0,0%,0,00:00:00,0%,0,0
+11h,0,0,0%,0,00:00:00,0%,0,0
+12h,11,43,0%,3.9,00:10:55,27%,0,0
+13h,0,0,0%,0,00:00:00,0%,0,0
+14h,0,0,0%,0,00:00:00,0%,0,0
+15h,0,0,0%,0,00:00:00,0%,0,0
+16h,0,0,0%,0,00:00:00,0%,0,0
+17h,0,0,0%,0,00:00:00,0%,0,0
+18h,0,0,0%,0,00:00:00,0%,0,0
+19h,0,0,0%,0,00:00:00,0%,0,0
+20h,0,0,0%,0,00:00:00,0%,0,0
+21h,0,0,0%,0,00:00:00,0%,0,0
+22h,0,0,0%,0,00:00:00,0%,0,0
+23h,0,0,0%,0,00:00:00,0%,0,0
 
 Visits by Day of Week
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Monday,2,6,0%,3,00:07:31,50%
-Tuesday,2,10,0%,5,00:15:01,0%
-Wednesday,1,5,0%,5,00:15:01,0%
-Thursday,1,5,0%,5,00:15:01,0%
-Friday,1,5,0%,5,00:15:01,0%
-Saturday,1,5,0%,5,00:15:01,0%
-Sunday,3,7,0%,2.3,00:05:00,67%
+label,nb_visits,nb_uniq_visitors,nb_actions,nb_users,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Monday,2,2,6,0,0%,3,00:07:31,50%
+Tuesday,2,2,10,0,0%,5,00:15:01,0%
+Wednesday,1,1,5,0,0%,5,00:15:01,0%
+Thursday,1,1,5,0,0%,5,00:15:01,0%
+Friday,1,1,5,0,0%,5,00:15:01,0%
+Saturday,1,1,5,0,0%,5,00:15:01,0%
+Sunday,3,3,7,0,0%,2.3,00:05:00,67%
 
 Screen Resolution
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-800x300,9,41,0%,4.6,00:13:21,11%
-1024x768,2,2,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+800x300,9,41,0%,4.6,00:13:21,11%,0,0
+1024x768,2,2,0%,1,00:00:00,100%,0,0
 
 Browser Plugins
 label,nb_visits,nb_visits_percentage
@@ -90,20 +90,20 @@ Silverlight,0,0%
 Windowsmedia,0,0%
 
 Visitor Configuration
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown / Unknown / 800x300,8,40,0%,5,00:15:01,0%
-Windows / Firefox / 1024x768,2,2,0%,1,00:00:00,100%
-Windows / Opera / 800x300,1,1,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown / Unknown / 800x300,8,40,0%,5,00:15:01,0%,0,0
+Windows / Firefox / 1024x768,2,2,0%,1,00:00:00,100%,0,0
+Windows / Opera / 800x300,1,1,0%,1,00:00:00,100%,0,0
 
 Browser language
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-French,3,3,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,8,40,0%,5,00:15:01,0%,0,0
+French,3,3,0%,1,00:00:00,100%,0,0
 
 Language code
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown (xx),8,40,0%,5,00:15:01,0%
-French (fr),3,3,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown (xx),8,40,0%,5,00:15:01,0%,0,0
+French (fr),3,3,0%,1,00:00:00,100%,0,0
 
 Actions - Main metrics
 nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords,avg_time_generation
@@ -181,29 +181,29 @@ Page Titles Following a Site Search
 No data available
 
 Referrer Type
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Websites,6,22,3.7,00:10:01,33%,$ 0
-Campaigns,4,20,5,00:15:01,0%,$ 0
-Direct Entry,1,1,1,00:00:00,100%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users,revenue
+Websites,6,22,3.7,00:10:01,33%,0,0,$ 0
+Campaigns,4,20,5,00:15:01,0%,0,0,$ 0
+Direct Entry,1,1,1,00:00:00,100%,0,0,$ 0
 
 All Referrers
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-referrer.com,6,22,0%,3.7,00:10:01,33%
-goal-matching-url-parameter,4,20,0%,5,00:15:01,0%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+referrer.com,6,22,0%,3.7,00:10:01,33%,0,0
+goal-matching-url-parameter,4,20,0%,5,00:15:01,0%,0,0
 
 Keywords
 No data available
 
 Websites
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-referrer.com,6,22,3.7,00:10:01,33%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users,revenue
+referrer.com,6,22,3.7,00:10:01,33%,0,0,$ 0
 
 Search Engines
 No data available
 
 Campaigns
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-goal-matching-url-parameter,4,20,5,00:15:01,0%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users,revenue
+goal-matching-url-parameter,4,20,5,00:15:01,0%,0,0,$ 0
 
 Social Networks
 No data available
@@ -219,22 +219,22 @@ Days to Conversion
 No data available
 
 Country
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,8,40,5,00:15:01,0%,$ 0
-France,3,3,1,00:00:00,100%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,revenue
+Unknown,8,40,5,00:15:01,0%,0,$ 0
+France,3,3,1,00:00:00,100%,0,$ 0
 
 Continent
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,8,40,5,00:15:01,0%,$ 0
-Europe,3,3,1,00:00:00,100%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,revenue
+Unknown,8,40,5,00:15:01,0%,0,$ 0
+Europe,3,3,1,00:00:00,100%,0,$ 0
 
 Region
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,11,43,3.9,00:10:55,27%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,revenue
+Unknown,11,43,3.9,00:10:55,27%,0,$ 0
 
 City
-label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,11,43,3.9,00:10:55,27%,$ 0
+label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,revenue
+Unknown,11,43,3.9,00:10:55,27%,0,$ 0
 
 Users
 No data available
@@ -308,43 +308,43 @@ nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_ret
 2,0,9,41,5,11%,4.6,00:13:21
 
 Device type
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Desktop,3,3,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,8,40,0%,5,00:15:01,0%,0,0
+Desktop,3,3,0%,1,00:00:00,100%,0,0
 
 Device brand
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,11,43,0%,3.9,00:10:55,27%,0,0
 
 Device model
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,11,43,0%,3.9,00:10:55,27%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,11,43,0%,3.9,00:10:55,27%,0,0
 
 Operating System families
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Windows,3,3,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,8,40,0%,5,00:15:01,0%,0,0
+Windows,3,3,0%,1,00:00:00,100%,0,0
 
 Operating System versions
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Windows XP,3,3,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,8,40,0%,5,00:15:01,0%,0,0
+Windows XP,3,3,0%,1,00:00:00,100%,0,0
 
 Visitor Browser
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Firefox,2,2,0%,1,00:00:00,100%
-Opera,1,1,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,8,40,0%,5,00:15:01,0%,0,0
+Firefox,2,2,0%,1,00:00:00,100%,0,0
+Opera,1,1,0%,1,00:00:00,100%,0,0
 
 Browser version
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Firefox 3.6,2,2,0%,1,00:00:00,100%
-Opera 9.63,1,1,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,8,40,0%,5,00:15:01,0%,0,0
+Firefox 3.6,2,2,0%,1,00:00:00,100%,0,0
+Opera 9.63,1,1,0%,1,00:00:00,100%,0,0
 
 Browser engines
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,8,40,0%,5,00:15:01,0%
-Gecko (Firefox),2,2,0%,1,00:00:00,100%
-Presto (Opera),1,1,0%,1,00:00:00,100%
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_uniq_visitors,nb_users
+Unknown,8,40,0%,5,00:15:01,0%,0,0
+Gecko (Firefox),2,2,0%,1,00:00:00,100%,0,0
+Presto (Opera),1,1,0%,1,00:00:00,100%,0,0
 
