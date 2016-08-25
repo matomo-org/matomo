@@ -17,7 +17,7 @@
         "NoDataForActionDetails": "O l'azione non ha avuto pagine viste durante il periodo di %s o non è valida.",
         "OutgoingTraffic": "Traffico uscente",
         "PluginDescription": "Restituisce le azioni precedenti e seguenti per ciascun URL di pagina in un nuovo report Transizioni, disponibile tra i report Azioni con una nuova icona.",
-        "ShareOfAllPageviews": "Questa pagina ha %1$s visualizzazioni (%2$s di tutte le visualizzazioni)",
+        "ShareOfAllPageviews": "Questa pagina ha avuto %1$s visualizzazioni (%2$s di tutte le visualizzazioni)",
         "ToFollowingPages": "A Pagine Interne",
         "ToFollowingPagesInline": "%s a pagine interne",
         "ToFollowingSiteSearches": "Ricerche Interne",
