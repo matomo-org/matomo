@@ -2785,6 +2785,10 @@ if (typeof window.Piwik !== 'object') {
                 configReferrerUrl = safeDecodeWrapper(locationArray[2]),
 
                 enableJSErrorTracking = false,
+                enableBulkTracking = false,
+                bulkTrackingDelay = 300,
+
+                bulkTrackingCollection = [],
 
                 defaultRequestMethod = 'GET',
 
@@ -3399,10 +3403,34 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
+            /**
+             * Send each bulk tracks to the server
+             * @return {void}
+             */
+            function sendBulkTrackingRequests() {
+
+                // Work on a local copy
+                var tmp = JSON.parse(JSON.stringify(bulkTrackingCollection));
+                bulkTrackingCollection.length = 0;
+
+                // Do a request only if we have to
+                if(tmp.length >= 1) {
+                  var bulk = '{"requests":["?' + tmp.join('","?') + '"]}';
+                  sendRequest(bulk, configTrackerPause, null, true);
+                }
+            }
+
             /*
              * Send request
              */
-            function sendRequest(request, delay, callback) {
+            function sendRequest(request, delay, callback, force) {
+
+
+                if(enableBulkTracking && !force) {
+                  bulkTrackingCollection.push(request);
+                  return false;
+                }
+
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST') {
@@ -5690,6 +5718,18 @@ if (typeof window.Piwik !== 'object') {
                  */
                 setRequestMethod: function (method) {
                     configRequestMethod = method || defaultRequestMethod;
+                },
+
+                activeBulkTracking: function(active) {
+                    enableBulkTracking = !!active;
+
+                    if(enableBulkTracking) {
+                      setInterval(sendBulkTrackingRequests, bulkTrackingDelay);
+                    }
+                },
+
+                setBulkTrackingDelay: function(delay) {
+                    bulkTrackingDelay = delay;
                 },
 
                 /**
