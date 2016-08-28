@@ -174,7 +174,7 @@ class Filechecks
     {
         $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
         $message = '';
-        $message .= "<code>chown -R ". self::getUserAndGroup() ." " . $realpath . "</code><br />";
+        $message .= "<code>" . self::getCommandToChangeOwnerOfPiwikFiles() . "</code><br />";
         $message .= "<code>chmod -R 0755 " . $realpath . "</code><br />";
         $message .= 'After you execute these commands (or change permissions via your FTP software), refresh the page and you should be able to use the "Automatic Update" feature.';
         return $message;
@@ -246,5 +246,31 @@ class Filechecks
             return "<code>cacls $realpath /t /g " . self::getUser() . ":f</code><br />\n";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCommandToChangeOwnerOfPiwikFiles()
+    {
+        $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
+        return "chown -R " . self::getUserAndGroup() . " " . $realpath;
+    }
+
+    public static function getOwnerOfPiwikFiles()
+    {
+        $index = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/index.php');
+        $stat = stat($index);
+        if(!$stat) {
+            return '';
+        }
+
+        $group = posix_getgrgid($stat[5]);
+        $group = $group['name'];
+
+        $user = posix_getpwuid($stat[4]);
+        $user = $user['name'];
+
+        return "$user:$group";
     }
 }
