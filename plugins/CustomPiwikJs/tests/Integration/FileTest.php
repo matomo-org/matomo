@@ -46,7 +46,7 @@ class FileTest extends IntegrationTestCase
         return new File($this->dir . $fileName);
     }
 
-    private function makeNotReabableFile()
+    private function makeNotReadableFile()
     {
         return $this->makeFile(self::NOT_EXISTING_FILE);
     }
@@ -54,19 +54,19 @@ class FileTest extends IntegrationTestCase
     public function test_getName()
     {
         $this->assertSame('test.js', $this->makeFile()->getName());
-        $this->assertSame('notExisTinGFile.js', $this->makeNotReabableFile()->getName());
+        $this->assertSame('notExisTinGFile.js', $this->makeNotReadableFile()->getName());
     }
 
     public function test_hasReadAccess()
     {
         $this->assertTrue($this->makeFile()->hasReadAccess());
-        $this->assertFalse($this->makeNotReabableFile()->hasReadAccess());
+        $this->assertFalse($this->makeNotReadableFile()->hasReadAccess());
     }
 
     public function test_hasWriteAccess()
     {
         $this->assertTrue($this->makeFile()->hasWriteAccess());
-        $this->assertFalse($this->makeNotReabableFile()->hasWriteAccess());
+        $this->assertFalse($this->makeNotReadableFile()->hasWriteAccess());
     }
 
     public function test_checkReadable_shouldNotThrowException_IfIsReadable()
@@ -87,7 +87,7 @@ class FileTest extends IntegrationTestCase
      */
     public function test_checkReadable_shouldThrowException_IfNotIsReadable()
     {
-        $this->makeNotReabableFile()->checkReadable();
+        $this->makeNotReadableFile()->checkReadable();
     }
 
     /**
@@ -96,7 +96,7 @@ class FileTest extends IntegrationTestCase
      */
     public function test_checkWritable_shouldThrowException_IfNotIsWritable()
     {
-        $this->makeNotReabableFile()->checkWritable();
+        $this->makeNotReadableFile()->checkWritable();
     }
 
     public function test_getContent()
@@ -106,12 +106,12 @@ class FileTest extends IntegrationTestCase
 
     public function test_getContent_returnsNull_IfFileIsNotReadableOrNotExists()
     {
-        $this->assertNull($this->makeNotReabableFile()->getContent());
+        $this->assertNull($this->makeNotReadableFile()->getContent());
     }
 
     public function test_save()
     {
-        $notExistingFile = $this->makeNotReabableFile();
+        $notExistingFile = $this->makeNotReadableFile();
         $this->assertFalse($notExistingFile->hasReadAccess());
         $this->assertFalse($notExistingFile->hasWriteAccess());
 
