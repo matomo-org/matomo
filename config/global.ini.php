@@ -807,6 +807,7 @@ Plugins[] = Heartbeat
 Plugins[] = Intl
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
+Plugins[] = CustomPiwikJs
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

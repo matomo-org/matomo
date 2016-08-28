@@ -21,6 +21,20 @@ try {
     $mysql = false;
 }
 
+use \Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
+use \Piwik\Plugins\CustomPiwikJs\TrackingCode\JsTestPluginTrackerFiles;
+
+$targetFileName = '/tests/resources/piwik.test.js';
+$sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
+$targetFile = PIWIK_DOCUMENT_ROOT . $targetFileName;
+
+file_put_contents($targetFile, '');
+
+$updater = new TrackerUpdater($sourceFile, $targetFile);
+$updater->setTrackerFiles(new JsTestPluginTrackerFiles());
+$updater->checkWillSucceed();
+$updater->update();
+
 if(file_exists("stub.tpl")) {
     echo file_get_contents("stub.tpl");
 }
@@ -60,7 +74,7 @@ testTrackPageViewAsync();
 ?>
  </script>
  <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
- <script src="../../js/piwik.js?rand=<?php echo $cacheBuster ?>" type="text/javascript"></script>
+ <script src="../..<?php echo $targetFileName ?>?rand=<?php echo $cacheBuster ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
@@ -1971,7 +1985,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(70);
+        expect(71);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2039,6 +2053,7 @@ function PiwikTest() {
         equal( typeof tracker.trackGoal, 'function', 'trackGoal' );
         equal( typeof tracker.trackLink, 'function', 'trackLink' );
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
+        equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
         // content
         equal( typeof tracker.trackAllContentImpressions, 'function', 'trackAllContentImpressions' );
         equal( typeof tracker.trackVisibleContentImpressions, 'function', 'trackVisibleContentImpressions' );
@@ -2997,7 +3012,7 @@ function PiwikTest() {
 
         // Calling undefined methods should generate an error
         function callNonExistingMethod() {
-            _paq.push(['NonExistingFunction should error and display the error in the console.']);
+            _paq.push(['NonExistingFunction should error and display the error in the console']);
         }
         function callNonExistingMethodWithParameter() {
             _paq.push(['NonExistingFunction should not error', 'this is a parameter']);
@@ -3172,7 +3187,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(118);
+        expect(119);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3351,6 +3366,9 @@ if ($mysql) {
         var visitorIdEnd = tracker.getVisitorId();
         ok( visitorIdStart == visitorIdEnd, "tracker.getVisitorId() same at the start and end of process");
 
+        // Tracker custom request
+        tracker.trackRequest('myFoo=bar&baz=1');
+
         // Custom variables
         tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");
@@ -3495,7 +3513,7 @@ if ($mysql) {
             xhr.open("GET", "piwik.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "36", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "37", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -3528,6 +3546,9 @@ if ($mysql) {
             ok( /DeleteCustomVariableCookie/.test( results ), "tracking request deleting custom variable" );
             ok( /DoTrack/.test( results ), "setDoNotTrack(false)" );
             ok( ! /DoNotTrack/.test( results ), "setDoNotTrack(true)" );
+
+            // custom tracking request
+            ok( /myFoo=bar&baz=1&idsite=1/.test( results ), "trackRequest sends custom parameters");
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");

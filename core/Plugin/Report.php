@@ -545,6 +545,15 @@ class Report
     }
 
     /**
+     * Get report documentation.
+     * @return string
+     */
+    public function getDocumentation()
+    {
+        return $this->documentation;
+    }
+
+    /**
      * Builts the report metadata for this report. Can be useful in case you want to change the behavior of
      * {@link configureReportMetadata()}.
      * @return array

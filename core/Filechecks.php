@@ -205,7 +205,7 @@ class Filechecks
         return $message;
     }
 
-    private static function getUserAndGroup()
+    public static function getUserAndGroup()
     {
         $user = self::getUser();
         if (!function_exists('shell_exec')) {

@@ -438,8 +438,12 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < ". PIWIK_DOCUMENT_ROOT ."/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
 
         $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
-                                PIWIK_DOCUMENT_ROOT . '/piwik.js',
-                                'minified /piwik.js is out of date, please re-generate the minified /piwik.js using instructions in /js/README'
+            PIWIK_DOCUMENT_ROOT . '/piwik.js',
+            'minified /piwik.js is out of date, please re-generate the minified files using instructions in /js/README'
+        );
+        $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
+            PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js',
+            'minified /js/piwik.min.js is out of date, please re-generate the minified files using instructions in /js/README'
         );
     }
 

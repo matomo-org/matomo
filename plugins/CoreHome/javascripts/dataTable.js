@@ -302,6 +302,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     bindEventsAndApplyStyle: function (domElem) {
         var self = this;
         self.cleanParams();
+        self.preBindEventsAndApplyStyleHook(domElem);
         self.handleSort(domElem);
         self.handleLimit(domElem);
         self.handleSearchBox(domElem);
@@ -321,6 +322,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleExpandFooter(domElem);
         self.setFixWidthToMakeEllipsisWork(domElem);
         self.handleSummaryRow(domElem);
+        self.postBindEventsAndApplyStyleHook(domElem);
+    },
+
+    preBindEventsAndApplyStyleHook: function (domElem) {
+
+    },
+    postBindEventsAndApplyStyleHook: function (domElem) {
+
     },
 
     setFixWidthToMakeEllipsisWork: function (domElem) {
