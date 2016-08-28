@@ -7,9 +7,12 @@
  */
 namespace Piwik\Plugins\CustomPiwikJs\Diagnostic;
 
+use Piwik\Filechecks;
+use Piwik\Filesystem;
 use Piwik\Plugins\CustomPiwikJs\File;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
+use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 
 /**
@@ -38,6 +41,13 @@ class PiwikJsCheck implements Diagnostic
         }
 
         $comment = $this->translator->translate('CustomPiwikJs_DiagnosticPiwikJsNotWritable');
+
+        if(!SettingsServer::isWindows()) {
+            $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/piwik.js');
+            $command = "<br/><code> chmod +w $realpath<br/> chown ". Filechecks::getUserAndGroup() ." " . $realpath . "</code><br />";
+            $comment .= $this->translator->translate('CustomPiwikJs_DiagnosticPiwikJsMakeWritable', $command);
+        }
+
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }
 
