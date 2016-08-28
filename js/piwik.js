@@ -6577,6 +6577,8 @@ if (typeof window.Piwik !== 'object') {
          ************************************************************/
 
         Piwik = {
+            initialized: false,
+
             /**
              * Listen to an event and invoke the handler when a the event is triggered.
              *
@@ -6753,6 +6755,7 @@ if (typeof window.Piwik !== 'object') {
     window.Piwik.addTracker();
 
     window.Piwik.trigger('PiwikInitialized', []);
+    window.Piwik.initialized = true;
 }());
 
 if (window && window.piwikAsyncInit) {
