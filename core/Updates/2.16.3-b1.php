@@ -9,20 +9,14 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 
-/**
- * Update for version 2.16.3b1
- */
 class Updates_2_16_3_b1 extends PiwikUpdates
 {
-
     public function doUpdate(Updater $updater)
     {
-        try {
-            \Piwik\Plugin\Manager::getInstance()->activatePlugin('CustomPiwikJs');
-        } catch (\Exception $e) {
-        }
+        ServerFilesGenerator::createFilesForSecurity();
     }
 }

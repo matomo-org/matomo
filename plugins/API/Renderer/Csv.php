@@ -23,7 +23,12 @@ class Csv extends ApiRenderer
         return "message\n" . $message;
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
         return 'Error: ' . $message;

@@ -51,8 +51,22 @@ describe("Installation", function () {
         }, done);
     });
 
+    var pageUrl;
+    it("should have already created a tmp/sessions/index.htm file to prevent directory listing", function (done) {
+        expect.screenshot('nothing_to_see_here').to.be.capture(function (page) {
+            pageUrl = page.getCurrentUrl();
+
+            // page.load will load by default the proxy ie. http://localhost/piwik/tests/PHPUnit/proxy/
+            // but we need here to check in: http://localhost/piwik/tmp/sessions/
+            page.load("../../../tmp/sessions/index.htm");
+
+        }, done);
+    });
+
     it("should display the database setup page when next is clicked on the system check page", function (done) {
         expect.screenshot("db_setup").to.be.capture(function (page) {
+            page.load(pageUrl);
+
             page.click('.next-step .btn');
         }, done);
     });

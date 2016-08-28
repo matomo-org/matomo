@@ -257,6 +257,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
+        $tested = 0;
         foreach($files as $file) {
             // skip files in these folders
             if (strpos($file, '/libs/') !== false) {
@@ -279,7 +280,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
             $start = fgets($handle, strlen($expectedStart) + 1 );
             $this->assertEquals($start, $expectedStart, "File $file does not start with $expectedStart");
+            $tested++;
         }
+
+        $this->assertGreaterThan(2000, $tested, 'should have tested at least thousand of  php files');
     }
 
     public function test_jsfilesDoNotContainFakeSpaces()
@@ -494,7 +498,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             || strpos($file, "tests/resources/Updater/") !== false
             || strpos($file, "Twig/Tests/") !== false
             || strpos($file, "processed/") !== false
-            || strpos($file, "/vendor/") !== false;
+            || strpos($file, "/vendor/") !== false
+            || (strpos($file, "tmp/") !== false && strpos($file, 'index.php') !== false);
         $isLib = strpos($file, "lib/xhprof") !== false || strpos($file, "phpunit/phpunit") !== false;
 
         return ($isIniFile && $isIniFileInTests) || $isTestResultFile || $isLib;
