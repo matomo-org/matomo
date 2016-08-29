@@ -45,6 +45,21 @@ class Factory
     }
 
     /**
+     * @param string $section
+     * @return mixed
+     */
+    public function getConfigStorage($section)
+    {
+        $id = 'config' . $section;
+        if (!isset($this->cache[$id])) {
+            $backend = new Backend\Config($section);
+            $this->cache[$id] = $this->makeStorage($backend);
+        }
+
+        return $this->cache[$id];
+    }
+
+    /**
      * Get a storage instance for measurable settings.
      *
      * The storage will hold values that belong to the given idSite and plugin name. Be aware that a storage instance

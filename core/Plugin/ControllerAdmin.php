@@ -97,10 +97,13 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        if(Url::isLocalHost(Url::getCurrentHost())) {
+        if (Url::isLocalHost(Url::getCurrentHost())) {
             return;
         }
 
+        if (Development::isEnabled()) {
+            return;
+        }
 
         $message = Piwik::translate('General_CurrentlyUsingUnsecureHttp');
 

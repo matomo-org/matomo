@@ -109,6 +109,10 @@ sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
+cache:
+  directories:
+    - "travis_phantomjs"
+
 install:
   - git fetch -q
 
@@ -156,6 +160,8 @@ before_script:
 
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
+  - ./tests/travis/install_phantomjs.sh
+  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
 
   - cd tests/PHPUnit
 

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\ViewDataTable;
@@ -70,6 +71,12 @@ class Sparklines extends ViewDataTable
         }
 
         $view->sparklines = $this->config->getSortedSparklines();
+        $view->isWidget = Common::getRequestVar('widget', 0, 'int');
+
+        $view->title = '';
+        if ($_GET['showtitle'] === '1') {
+            $view->title = $this->config->title;
+        }
 
         return $view->render();
     }

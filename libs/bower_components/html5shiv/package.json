@@ -1,11 +1,11 @@
 {
 	"name": "html5shiv",
-	"version": "3.7.2",
+	"version": "3.7.3",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/aFarkas/html5shiv.git"
 	},
-	"main": "dist/",
+	"main": "dist/html5shiv.js",
 	"devDependencies": {
 		"grunt-bytesize": ">=0.1.0",
 		"grunt-contrib-watch": ">=0.3.0",

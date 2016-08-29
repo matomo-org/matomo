@@ -502,6 +502,7 @@
 
                 // reload annotation manager for new date/period
                 annotationsApi.getAnnotationManager(idSite, date, period, lastN, function (response) {
+
                     replaceAnnotationManager(manager, response);
 
                     createDatePickers(manager);

@@ -1,5 +1,5 @@
-define([
-	"./deletedIds"
-], function( deletedIds ) {
-	return deletedIds.push;
-});
+define( [
+	"./arr"
+], function( arr ) {
+	return arr.push;
+} );

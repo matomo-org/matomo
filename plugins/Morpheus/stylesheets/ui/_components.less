@@ -1,5 +1,5 @@
 //colors calendar
-@calendarHeaderBackground: @theme-color-background-base;
+@calendarHeaderBackground: @theme-color-background-contrast;
 @calendarHeaderColor: #999;
 @calendarCurrentStateHover: #f5f5f5;
 @calendarBorder: #ccc;
@@ -46,6 +46,7 @@
     background: @color-white;
     border-color: @color-silver-l80;
     line-height: 1.33;
+    box-shadow: 4px 7px 25px rgba(0,0,0,0.3);
 
     .segment-add-row {
         .border-radius(5px);
@@ -53,7 +54,7 @@
 
     .custom_select_search {
         input {
-            margin-top: 1px;
+            margin-top: 4px;
         }
     }
 
@@ -74,7 +75,7 @@
             select, input {
                 .font-default(12px, 14px);
                 color: @theme-color-text;
-                font-weight: 500;
+                font-weight: 600;
                 margin: 0;
                 height: 30px;
             }
@@ -151,12 +152,20 @@
     .font-default(10px, 12px);
 }
 
-#periodString {
-    select {
+.ui-datepicker {
+    .ui-datepicker-month,
+    .ui-datepicker-year {
         min-height: 0;
         background-position: 140%;
         padding-left: 5px;
+        display: inline-block;
+        color: #666;
+        border: 0;
+        height: 19px;
+        line-height: 19px;
     }
+}
+#periodString {
 
     label.selected-period-label {
         text-decoration: none !important;
@@ -184,8 +193,11 @@
     &.isPiwikDemo {
         text-align: right;
         position: absolute;
-        right: 0;
+        right: 16px;
         top: 8px;
+        .dropdown {
+            min-width: 280px;
+        }
     }
 }
 
@@ -242,7 +254,7 @@
         margin: 27px 0 0 319px;
         width: 258px;
         height: 390px;
-        background: @theme-color-background-base;
+        background: @theme-color-background-contrast;
         h2 {
             color: #1e93d1;
             border-bottom: 1px solid @color-gray;
@@ -295,8 +307,8 @@
 
 table.dataTable tr td .dataTableRowActions {
     a.rightmost, a {
-        margin: 6px 0px 6px 0;
-        padding: 0px 4px 0px 0px;
+        margin: 6px 0 6px 0;
+        padding: 0 4px 0 0;
     }
 }
 

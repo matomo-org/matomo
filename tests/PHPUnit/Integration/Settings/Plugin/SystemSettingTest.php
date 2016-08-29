@@ -32,7 +32,7 @@ class SystemSettingTest extends IntegrationTestCase
     {
         $this->assertNotDbConnectionCreated();
 
-        new SystemSetting('name', $default = 5, FieldConfig::TYPE_INT, 'MyPlugin');
+        $this->buildSetting('name', FieldConfig::TYPE_INT, 'MyPlugin');
 
         $this->assertNotDbConnectionCreated();
     }

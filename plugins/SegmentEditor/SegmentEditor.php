@@ -90,5 +90,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_CustomSegment';
         $translationKeys[] = 'SegmentEditor_VisibleToSuperUser';
         $translationKeys[] = 'SegmentEditor_SharedWithYou';
+        $translationKeys[] = 'SegmentEditor_ChooseASegment';
+        $translationKeys[] = 'SegmentEditor_CurrentlySelectedSegment';
     }
 }

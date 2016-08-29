@@ -316,6 +316,10 @@ class RequestConfig
 
     public function getApiModuleToRequest()
     {
+        if (strpos($this->apiMethodToRequestDataTable, '.') === false) {
+            return '';
+        }
+
         list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
 
         return $module;
@@ -323,6 +327,10 @@ class RequestConfig
 
     public function getApiMethodToRequest()
     {
+        if (strpos($this->apiMethodToRequestDataTable, '.') === false) {
+            return '';
+        }
+
         list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
 
         return $method;

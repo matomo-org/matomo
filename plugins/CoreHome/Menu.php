@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Db;
-use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -26,13 +25,6 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->registerMenuIcon('General_Logout', 'icon-sign-out');
             $menu->addItem('General_Logout', null, array('module' => $module, 'action' => 'logout', 'idSite' => null), 1000, Piwik::translate('General_Logout'));
         }
-    }
-
-    public function configureAdminMenu(MenuAdmin $menu)
-    {
-        $menu->addPersonalItem(null, array(), 1, false);
-        $menu->addManageItem(null, array(), 2, false);
-        $menu->addPlatformItem(null, array(), 3, false);
     }
 
     private function getLoginModule()

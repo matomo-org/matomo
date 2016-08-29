@@ -9,7 +9,7 @@
 		<link type="text/css" href="style/demo.css" rel="stylesheet" media="all" />
 
 		<!-- latest jQuery direct from google's CDN -->
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<!-- scripts specific to this demo site -->
 		<script type="text/javascript" src="script/demo.js"></script>
 	</head>
@@ -115,7 +115,7 @@ var api = element.data('jsp');</pre>
 				this). animate is optional and if not passed then the value of animateScroll from the settings
 				object this jScrollPane was initialised with is used.
 			</p>
-			<h2 id="animate">animate(ele, prop, value, stepCallback)</h2>
+			<h2 id="animate">animate(ele, prop, value, stepCallback, completeCallback)</h2>
 			<p>
 				This method is called when jScrollPane is trying to animate to a new position. You can override
 				it if you want to provide advanced animation functionality. It is passed the following arguments:
@@ -125,6 +125,7 @@ var api = element.data('jsp');</pre>
 				<li><strong>prop</strong> - the property that is being animated</li>
 				<li><strong>value</strong> - the value it's being animated to</li>
 				<li><strong>stepCallback</strong> - a function that you must execute each time you update the value of the property</li>
+				<li><strong>completeCallback</strong> - a function that will be executed after the animation had finished</li>
 			</ul>
 			<p>
 				You can use the default implementation (see <a href="script/jquery.jscrollpane.js">sourcecode</a>) as a

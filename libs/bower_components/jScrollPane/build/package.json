@@ -1,0 +1,30 @@
+{
+  "name": "jScrollPane-build",
+  "description": "Keep track of what you spend",
+  "version": "0.1.0",
+  "homepage": "http://jscrollpane.kelvinluck.com",
+  "author": {
+    "name": "Kelvin Luck",
+    "email": "git+jsp@kelvinluck.com"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/haggerstonjs/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-connect": "~0.2.0",
+    "grunt-contrib-watch": "~0.2.0"
+  },
+  "peerDependencies": {},
+  "keywords": []
+}

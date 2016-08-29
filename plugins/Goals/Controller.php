@@ -47,6 +47,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @var Translator
      */
     private $translator;
+    private $goals;
 
     private function formatConversionRate($conversionRate, $columnName = 'conversion_rate')
     {
@@ -82,7 +83,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
-        $this->setUserCanEditGoals($view);
+        $this->setGoalOptions($view);
         return $view->render();
     }
 
@@ -125,7 +126,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Goals/addNewGoal');
         $this->setGeneralVariablesView($view);
-        $this->setUserCanEditGoals($view);
+        $this->setGoalOptions($view);
         $view->onlyShowAddNewGoal = true;
         return $view->render();
     }
@@ -135,7 +136,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Goals/editGoals');
         $this->setGeneralVariablesView($view);
         $this->setEditGoalsViewVariables($view);
-        $this->setUserCanEditGoals($view);
+        $this->setGoalOptions($view);
         return $view->render();
     }
 
@@ -346,9 +347,34 @@ class Controller extends \Piwik\Plugin\Controller
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
     }
 
-    private function setUserCanEditGoals(View $view)
+    private function setGoalOptions(View $view)
     {
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $view->goalTriggerTypeOptions = array(
+            'visitors' => Piwik::translate('Goals_WhenVisitors'),
+            'manually' => Piwik::translate('Goals_Manually')
+        );
+        $view->goalMatchAttributeOptions = array(
+            array('key' => 'url', 'value' => Piwik::translate('Goals_VisitUrl')),
+            array('key' => 'title', 'value' => Piwik::translate('Goals_VisitPageTitle')),
+            array('key' => 'event', 'value' => Piwik::translate('Goals_SendEvent')),
+            array('key' => 'file', 'value' => Piwik::translate('Goals_Download')),
+            array('key' => 'external_website', 'value' => Piwik::translate('Goals_ClickOutlink')),
+        );
+        $view->allowMultipleOptions = array(
+            array('key' => '0', 'value' => Piwik::translate('Goals_DefaultGoalConvertedOncePerVisit')),
+            array('key' => '1', 'value' => Piwik::translate('Goals_AllowGoalConvertedMoreThanOncePerVisit'))
+        );
+        $view->eventTypeOptions = array(
+            array('key' => 'event_category', 'value' => Piwik::translate('Events_EventCategory')),
+            array('key' => 'event_action', 'value' => Piwik::translate('Events_EventAction')),
+            array('key' => 'event_name', 'value' => Piwik::translate('Events_EventName'))
+        );
+        $view->patternTypeOptions = array(
+            array('key' => 'contains', 'value' => Piwik::translate('Goals_Contains', '')),
+            array('key' => 'exact', 'value' => Piwik::translate('Goals_IsExactly', '')),
+            array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', ''))
+        );
     }
 
     /**

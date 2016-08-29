@@ -14,6 +14,10 @@ span.plugin-version {
     visibility:hidden;
 }
 
+.realTimeMap_datetime {
+    visibility: hidden;
+}
+
 /* add some space around the segment editor & other controls so screenshots are clearer */
 .widget>.segmentEditorPanel, .widget>.dashboardSettings, .widget>.sites_autocomplete, .widget>.periodSelector {
     margin-top:1em;
@@ -29,15 +33,6 @@ body > .widget {
     overflow-y: hidden !important;
 }
 
-/* Verdana does not have the down arrow U+2193 */
-.dashboard-manager .addWidget, .dashboard-manager .manageDashboard {
-    font-family: Arial !important;
-}
-
-#logo .description a {
-    font-family: Arial !important;
-}
-
 .providerDescription {
     border-style: solid;
 }
@@ -45,4 +40,11 @@ body > .widget {
 /* do not display RSS feed widget's contents */
 #widgetExampleRssWidgetrssPiwik .rss {
     display:none;
+}
+
+body * {
+    -webkit-transition: none !important;
+    transition: none !important;
+    -webkit-animation: none !important;
+    animation: none !important;
 }

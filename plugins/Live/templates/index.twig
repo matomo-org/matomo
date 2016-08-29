@@ -1,6 +1,9 @@
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        var segment = broadcast.getValueFromUrl('segment');
+        var segment = broadcast.getValueFromHash('segment');
+        if (!segment) {
+            segment = broadcast.getValueFromUrl('segment');
+        }
 
         $('#visitsLive').liveWidget({
             interval: {{ liveRefreshAfterMs }},

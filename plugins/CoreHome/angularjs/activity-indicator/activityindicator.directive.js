@@ -11,7 +11,7 @@
  * @param {Boolean} loading  If true, the activity indicator is shown, otherwise the indicator is hidden.
  *
  * Example:
- * <div piwik-activity-indicator loading="true|false"></div>
+ * <div piwik-activity-indicator loading-message="'My custom message'" loading="true|false"></div>
  */
 (function () {
     angular.module('piwikApp').directive('piwikActivityIndicator', piwikActivityIndicator);
@@ -19,13 +19,24 @@
     piwikActivityIndicator.$inject = ['piwik'];
 
     function piwikActivityIndicator(piwik){
+
         return {
             restrict: 'A',
             transclude: true,
             scope: {
-                loading: '='
+                loading: '=',
+                loadingMessage: '=?'
             },
-            templateUrl: 'plugins/CoreHome/angularjs/activity-indicator/activityindicator.html?cb=' + piwik.cacheBuster
+            templateUrl: 'plugins/CoreHome/angularjs/activity-indicator/activityindicator.html?cb=' + piwik.cacheBuster,
+            compile: function (element, attrs) {
+
+                return function (scope, element, attrs) {
+                    if (!scope.loadingMessage) {
+                        scope.loadingMessage = _pk_translate('General_LoadingData');
+                    }
+
+                };
+            }
         };
     }
 })();

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DBStats\Reports;
 
+use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
@@ -17,6 +18,11 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
  */
 class GetTrackerDataSummary extends Base
 {
+    protected function init()
+    {
+        $this->name = Piwik::translate('DBStats_TrackerTables');
+    }
+
     public function configureView(ViewDataTable $view)
     {
         $this->addBaseDisplayProperties($view);

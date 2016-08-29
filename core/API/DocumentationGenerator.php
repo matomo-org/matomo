@@ -90,8 +90,8 @@ class DocumentationGenerator
             }
         }
 
-        $str = "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>
-				$toc
+        $str = "<div piwik-content-block content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
+				$toc</div>
 				$str";
 
         return $str;
@@ -105,7 +105,7 @@ class DocumentationGenerator
     public function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls)
     {
         $str = '';
-        $str .= "\n<a name='$moduleName' id='$moduleName'></a><h2>Module " . $moduleName . "</h2>";
+        $str .= "\n<a name='$moduleName' id='$moduleName'></a><div piwik-content-block content-title='Module " . $moduleName . "'>";
         $info['__documentation'] = $this->checkDocumentation($info['__documentation']);
         $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
         foreach ($methods as $methodName) {
@@ -124,7 +124,7 @@ class DocumentationGenerator
             $str .= "</div>\n";
         }
 
-        return $str;
+        return $str . "</div>";
     }
 
     public function prepareModulesAndMethods($info, $moduleName)

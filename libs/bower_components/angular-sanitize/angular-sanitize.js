@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.4.3
+ * @license AngularJS v1.4.10
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -631,7 +631,7 @@ angular.module('ngSanitize', []).provider('$sanitize', $SanitizeProvider);
  */
 angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
   var LINKY_URL_REGEXP =
-        /((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"”’]/i,
+        /((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,
       MAILTO_REGEXP = /^mailto:/i;
 
   return function(text, target) {

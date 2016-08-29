@@ -9,7 +9,7 @@
 		<link type="text/css" href="style/demo.css" rel="stylesheet" media="all" />
 
 		<!-- latest jQuery direct from google's CDN -->
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<!-- scripts specific to this demo site -->
 		<script type="text/javascript" src="script/demo.js"></script>
 	</head>
@@ -132,7 +132,9 @@
 			<h2 id="mouseWheelSpeed">mouseWheelSpeed <span class="setting-type">- int (default 10)</span></h2>
 			<p>
 				A multiplier which is used to control the amount that the scrollpane scrolls each time the mouse wheel
-				is turned.
+				is turned. If a recent version of the mousewheel plugin is used then the `deltaFactor` from that is used
+				to get a [more reliable](https://github.com/brandonaaron/jquery-mousewheel#getting-the-scroll-distance)
+				indication of how far the user wanted to scroll.
 			</p>
 			<h2 id="arrowButtonSpeed">arrowButtonSpeed <span class="setting-type">- int (default 10)</span></h2>
 			<p>

@@ -1,0 +1,124 @@
+.alert-icon-center-vertically(@font-size) {
+  @half-height: @font-size / 2;
+  // IE8 doesn't support calc(): it's OK, the icon will just be aligned to the top
+  top: calc(~'50% - @{half-height}');
+  // phantomjs only supports -webkit-calc()
+  top: -webkit-calc(~'50% - @{half-height}');
+}
+
+.alert {
+  padding: 20px 20px 20px 60px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-size: 14px;
+  position: relative;
+  &:before {
+    font-family: "piwik";
+    content: "\e625";
+    position: absolute;
+    left: 20px;
+    line-height: 100%; // line-height = font-size
+    font-size: 24px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+body #content .alert-success p {
+  color: #009874;
+}
+
+.alert-success {
+  color: #009874;
+  border-color: #1AA282;
+  &:before {
+    content: "\e63d";
+    color: #1AA282;
+  }
+  p {
+    color: #009874;
+  }
+  a {
+    color: #009874;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+body #content .alert-info p {
+  color: #838383;
+}
+
+.alert-info {
+  color: #838383;
+  background-color: #F5F5F5;
+  font-size: 14px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  p {
+    color: #838383;
+  }
+  &:before {
+    color: #afafaf;
+    font-size: 20px;
+  }
+  a {
+    color: #838383;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+body #content .alert-warning p {
+  color: #CA8100;
+}
+
+.alert-warning {
+  color: #CA8100;
+  border-color: #DF9D27;
+  &:before {
+    content: "\e621";
+    color: #DF9D27;
+  }
+  p {
+    color: #CA8100;
+  }
+  a {
+    color: #CA8100;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+body #content .alert-danger p {
+  color: #D4291F;
+}
+
+.alert-danger {
+  color: #D4291F;
+  border-color: #D73F36;
+  &:before {
+    content: "\e616";
+    color: #D73F36;
+  }
+  p {
+    color: #D4291F;
+  }
+  a {
+    color: #D4291F;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

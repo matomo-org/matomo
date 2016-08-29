@@ -7,36 +7,34 @@
 (function ($) {
 
     $(function() {
-        var switchForm = function (fromFormId, toFormId, message, callback) {
-            var fromLoginInputId = '#' + fromFormId + '_login',
-                toLoginInputId = '#' + toFormId + '_login',
-                toPasswordInputId = '#' + toFormId + '_password',
-                fromLoginNavId = '#' + fromFormId + '_nav',
-                toLoginNavId = '#' + toFormId + '_nav';
+        var switchForm = function (fromFormId, toFormId) {
+            var fromFormSelector = '#' + fromFormId;
+            var toFormSelector = '#' + toFormId;
+
+            var fromLoginInputId = fromFormSelector + '_login',
+                toLoginInputId = toFormSelector + '_login',
+                toPasswordInputId = toFormSelector + '_password';
 
             if ($(toLoginInputId).val() === '') {
                 $(toLoginInputId).val($(fromLoginInputId).val());
             }
 
-            // hide the bottom portion of the login screen & show the password reset bits
-            $('#' + fromFormId + ',#message_container').fadeOut(500, function () {
-                // show lost password instructions
-                $('#message_container').html(message);
+            var contentFrom = $(fromFormSelector).parents('.contentForm').first();
+            var contentTo = $(toFormSelector).parents('.contentForm').first();
 
-                $(fromLoginNavId).hide();
-                $(toLoginNavId).show();
-                $('#' + toFormId + ',#message_container').fadeIn(500, function () {
-                    // focus on login or password control based on whether a login exists
+            // hide the bottom portion of the login screen & show the password reset bits
+            $(contentFrom).fadeOut(500, function () {
+                // focus on login or password control based on whether a login exists
+                Materialize.updateTextFields();
+
+                $(contentTo).fadeIn(500, function () {
+
                     if ($(toLoginInputId).val() === '') {
                         $(toLoginInputId).focus();
-                    }
-                    else {
+                    } else {
                         $(toPasswordInputId).focus();
                     }
 
-                    if (callback) {
-                        callback();
-                    }
                 });
             });
         };
@@ -44,15 +42,14 @@
         // 'lost your password?' on click
         $('#login_form_nav').click(function (e) {
             e.preventDefault();
-            switchForm('login_form', 'reset_form', $('#lost_password_instructions').html());
+            switchForm('login_form', 'reset_form');
             return false;
         });
 
         // 'cancel' on click
         $('#reset_form_nav,#alternate_reset_nav').click(function (e) {
             e.preventDefault();
-            $('#alternate_reset_nav').hide();
-            switchForm('reset_form', 'login_form', '');
+            switchForm('reset_form', 'login_form');
             return false;
         });
 
@@ -64,7 +61,7 @@
                 $('.loadingPiwik').hide();
 
                 var isSuccess = response.indexOf('message_error') === -1,
-                    fadeOutIds = '#message_container';
+                    fadeOutIds = '.resetForm .message_container';
                 if (isSuccess) {
                     fadeOutIds += ',#reset_form,#reset_form_nav';
                 }
@@ -74,7 +71,7 @@
                         $('#alternate_reset_nav').show();
                     }
 
-                    $('#message_container').html(response).fadeIn(300);
+                    $('.resetForm .message_container').html(response).fadeIn(300);
                 });
             };
 
@@ -95,6 +92,8 @@
         });
 
         $('#login_form_login').focus();
+
+        Materialize.updateTextFields();
     });
 
 }(jQuery));

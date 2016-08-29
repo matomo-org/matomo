@@ -63,6 +63,26 @@ abstract class SystemSettings extends Settings
     }
 
     /**
+     * This is only meant for some core features used by some core plugins that are shipped with Piwik
+     * @internal
+     * @ignore
+     * @param string $configSectionName
+     * @param $name
+     * @param $defaultValue
+     * @param $type
+     * @param $fieldConfigCallback
+     * @return SystemSetting
+     * @throws \Exception
+     */
+    protected function makeSettingManagedInConfigOnly($configSectionName, $name, $defaultValue, $type, $fieldConfigCallback)
+    {
+        $setting = new SystemConfigSetting($name, $defaultValue, $type, $this->pluginName, $configSectionName);
+        $setting->setConfigureCallback($fieldConfigCallback);
+        $this->addSetting($setting);
+        return $setting;
+    }
+
+    /**
      * Saves (persists) the current setting values in the database.
      *
      * Will trigger an event to notify plugins that a value has been changed.

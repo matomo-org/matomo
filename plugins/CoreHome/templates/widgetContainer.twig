@@ -7,11 +7,14 @@
         $(function () {
 
             var piwikWidget = $('[piwik-widget][containerid={{ containerId|e('js') }}]');
+            var isExportedAsWidget = $('body > .widget').size();
 
-            angular.element(document).injector().invoke(function($compile) {
-                var scope = angular.element(piwikWidget).scope();
-                $compile(piwikWidget)(scope.$new());
-            });
+            if (!isExportedAsWidget) {
+                angular.element(document).injector().invoke(function($compile) {
+                    var scope = angular.element(piwikWidget).scope();
+                    $compile(piwikWidget)(scope.$new());
+                });
+            }
 
         });
     </script>

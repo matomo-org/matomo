@@ -268,7 +268,7 @@ $(function() {
 
             scheduleAnotherRequest();
         });
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     };
 
     var exports = require("piwik/Live");

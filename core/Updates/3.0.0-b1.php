@@ -9,8 +9,12 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Access;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Option;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -56,6 +60,22 @@ class Updates_3_0_0_b1 extends Updates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $this->migratePluginEmailUpdateSetting();
+
+        // added .woff and woff2 whitelisted file for apache webserver
+        ServerFilesGenerator::deleteHtAccessFiles();
+        ServerFilesGenerator::createHtAccessFiles();
+    }
+
+    private function migratePluginEmailUpdateSetting()
+    {
+        $isEnabled = Option::get('enableUpdateCommunicationPlugins');
+
+        Access::doAsSuperUser(function () use ($isEnabled) {
+            $settings = StaticContainer::get('Piwik\Plugins\CoreUpdater\SystemSettings');
+            $settings->sendPluginUpdateEmail->setValue(!empty($isEnabled));
+            $settings->save();
+        });
     }
 
     /**
@@ -285,21 +305,18 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getVisitInformationPerServerTime',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                     ),
             ),array (
                 'module' => 'VisitTime',
                 'action' => 'getVisitInformationPerLocalTime',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                     ),
             ),array (
                 'module' => 'VisitTime',
                 'action' => 'getByDayOfWeek',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar'
                     ),
             ),array (
                 'module' => 'VisitsSummary',
@@ -331,7 +348,7 @@ class Updates_3_0_0_b1 extends Updates
                 'params' =>
                     array (
                         'forceView' => '1',
-                        'viewDataTable' => 'Piwik\\Plugins\\Live\\VisitorLog',
+                        'viewDataTable' => 'VisitorLog',
                         'small' => '1',
                     ),
             ),array (
@@ -339,14 +356,12 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getNumberOfVisitsPerVisitDuration',
                 'params' =>
                     array (
-                        'viewDataTable' => 'cloud',
                     ),
             ),array (
                 'module' => 'VisitorInterest',
                 'action' => 'getNumberOfVisitsPerPage',
                 'params' =>
                     array (
-                        'viewDataTable' => 'cloud',
                     ),
             ),array (
                 'module' => 'VisitFrequency',
@@ -369,28 +384,24 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getBrowserEngines',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getReferrerType',
                 'params' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getAll',
                 'params' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getSocials',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                     ),
             ),array (
                 'module' => 'CoreHome',

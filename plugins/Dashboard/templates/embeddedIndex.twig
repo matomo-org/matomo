@@ -2,7 +2,7 @@
     <div class="ui-confirm" id="confirm">
         <h2>{{ 'Dashboard_DeleteWidgetConfirm'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
 
     <div class="ui-confirm" id="setAsDefaultWidgetsConfirm">
@@ -10,13 +10,13 @@
         {% set resetDashboard %}{{ 'Dashboard_ResetDashboard'|translate }}{% endset %}
         <div class="popoverSubMessage">{{ 'Dashboard_SetAsDefaultWidgetsConfirmHelp'|translate(resetDashboard) }}</div>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
 
     <div class="ui-confirm" id="resetDashboardConfirm">
         <h2>{{ 'Dashboard_ResetDashboardConfirm'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
 
     <div class="ui-confirm" id="dashboardEmptyNotification">
@@ -36,15 +36,18 @@
                 {% endfor %}
             </div>
             {% endfor %}
+            <br class="clearfix" />
         </div>
         <input role="yes" type="button" value="{{ 'General_Save'|translate }}"/>
+        <input role="cancel" type="button" value="{{ 'General_Cancel'|translate }}"/>
     </div>
 
     <div class="ui-confirm" id="renameDashboardConfirm">
         <h2>{{ 'Dashboard_RenameDashboard'|translate }}</h2>
 
-        <div id="newDashboardNameInput"><label for="newDashboardName">{{ 'Dashboard_DashboardName'|translate }} </label>
-            <input type="input" name="newDashboardName" id="newDashboardName" value=""/>
+        <div id="newDashboardNameInput">
+            <label for="newDashboardName">{{ 'Dashboard_DashboardName'|translate }} </label>
+            <input type="text" name="newDashboardName" id="newDashboardName" value=""/>
         </div>
         <input role="yes" type="button" value="{{ 'General_Save'|translate }}"/>
         <input role="cancel" type="button" value="{{ 'General_Cancel'|translate }}"/>
@@ -55,11 +58,16 @@
             <h2>{{ 'Dashboard_CopyDashboardToUser'|translate }}</h2>
 
             <div class="inputs">
-                <label for="copyDashboardName">{{ 'Dashboard_DashboardName'|translate }} </label>
-                <input type="input" name="copyDashboardName" id="copyDashboardName" value=""/>
-                <label for="copyDashboardUser">{{ 'General_Username'|translate }} </label>
-                <select name="copyDashboardUser" id="copyDashboardUser"></select>
+                <div class="row">
+                    <div class="col s12 m6"><label for="copyDashboardName">{{ 'Dashboard_DashboardName'|translate }} </label></div>
+                    <div class="col s12 m6"><input type="text" name="copyDashboardName" id="copyDashboardName" value=""/></div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6"><label for="copyDashboardUser">{{ 'General_Username'|translate }} </label></div>
+                    <div class="col s12 m6"><select class="browser-default" name="copyDashboardUser" id="copyDashboardUser"></select></div>
+                </div>
             </div>
+
             <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
             <input role="cancel" type="button" value="{{ 'General_Cancel'|translate }}"/>
         </div>
@@ -69,20 +77,21 @@
         <h2>{{ 'Dashboard_CreateNewDashboard'|translate }}</h2>
 
         <div id="createDashboardNameInput">
-            <label>{{ 'Dashboard_DashboardName'|translate }} <input type="input" name="newDashboardName" id="createDashboardName" value=""/></label><br/>
-
-            <label for="dashboard_type_default">
+            <p>
+                <label>{{ 'Dashboard_DashboardName'|translate }} </label>
+                <input type="text" name="newDashboardName" id="createDashboardName" value=""/>
+            </p>
+            <p>
                 <input type="radio" checked="checked" name="type" value="default" id="dashboard_type_default" />
-                {{ 'Dashboard_DefaultDashboard'|translate }}
-            </label>
-            <br/><br/>
-
-            <label for="dashboard_type_empty">
+                <label for="dashboard_type_default">{{ 'Dashboard_DefaultDashboard'|translate }}</label>
+            </p>
+            <p>
                 <input type="radio" name="type" value="empty" id="dashboard_type_empty" />
-                {{ 'Dashboard_EmptyDashboard'|translate }}
-            </label>
+                <label for="dashboard_type_empty">{{ 'Dashboard_EmptyDashboard'|translate }}</label>
+            </p>
+
         </div>
-        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
     </div>
 
@@ -91,10 +100,10 @@
 
         <div class="popoverSubMessage">{{ 'Dashboard_NotUndo'|translate(resetDashboard) }}</div>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
 
     {% include "@Dashboard/_widgetFactoryTemplate.twig" %}
 
-    <div id="dashboardWidgetsArea"></div>
+    <div id="dashboardWidgetsArea" class="row"></div>
 </div>

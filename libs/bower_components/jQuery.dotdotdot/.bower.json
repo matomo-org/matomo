@@ -1,7 +1,7 @@
 {
   "name": "jQuery.dotdotdot",
   "main": "src/js/jquery.dotdotdot.js",
-  "version": "1.7.2",
+  "version": "1.7.4",
   "homepage": "http://dotdotdot.frebsite.nl/",
   "authors": [
     "Fred Heusschen <info@frebsite.nl>"
@@ -26,13 +26,13 @@
   "dependencies": {
     "jquery": ">= 1.4.3"
   },
-  "_release": "1.7.2",
+  "_release": "1.7.4",
   "_resolution": {
     "type": "version",
-    "tag": "v1.7.2",
-    "commit": "a8590b57d88d5ef2d3a3e1ccb70b01cdf5ef8f96"
+    "tag": "v1.7.4",
+    "commit": "a4e7172e57994c2c2c5e456c943d2281eb6f7332"
   },
-  "_source": "git://github.com/BeSite/jQuery.dotdotdot.git",
+  "_source": "https://github.com/BeSite/jQuery.dotdotdot.git",
   "_target": "~1.7.2",
   "_originalSource": "jQuery.dotdotdot"
 }

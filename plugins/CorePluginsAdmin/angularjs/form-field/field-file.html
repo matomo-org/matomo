@@ -1,0 +1,10 @@
+<div>
+    <div class="btn">
+        <span for="{{ formField.name }}" ng-bind-html="formField.title"></span>
+        <input name="{{ formField.name }}" type="file" id="{{ formField.name }}">
+    </div>
+
+    <div class="file-path-wrapper">
+        <input class="file-path validate" ng-model="formField.value" type="text">
+    </div>
+</div>

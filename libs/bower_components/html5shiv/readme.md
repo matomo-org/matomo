@@ -12,7 +12,7 @@ The HTML5 Shiv enables use of HTML5 sectioning elements in legacy Internet Explo
 
 ### Who can I get mad at now?
 
-HTML5 Shiv is maintained by [Alexander Farkas](https://github.com/aFarkas/), [Jonathan Neal](https://twitter.com/jon_neal) and [Paul Irish](https://twitter.com/paul_irish), with many contributions from [John-David Dalton](https://twitter.com/jdalton). It is also distributed with [Modernizr](http://modernizr.com/), and the two google code projects, [html5shiv](https://code.google.com/p/html5shiv/) and [html5shim](https://code.google.com/p/html5shim/), maintained by [Remy Sharp](https://twitter.com/rem).
+HTML5 Shiv is maintained by [Alexander Farkas](https://github.com/aFarkas/), [Jonathan Neal](https://twitter.com/jon_neal) and [Paul Irish](https://twitter.com/paul_irish), with many contributions from [John-David Dalton](https://twitter.com/jdalton). It is also distributed with [Modernizr](http://modernizr.com/).
 
 If you have any issues in these implementations, you can report them here! :)
 
@@ -30,7 +30,7 @@ Include the HTML5 shiv in the `<head>` of your page in a conditional comment and
 
 ```html
 <!--[if lt IE 9]>
-	<script src="bower_components/html5shiv/html5shiv.js"></script>
+	<script src="bower_components/html5shiv/dist/html5shiv.js"></script>
 <![endif]-->
 ```
 
@@ -149,4 +149,4 @@ A [detailed changelog of html5shiv](https://github.com/aFarkas/html5shiv/wiki) i
 
 ### Why is it called a *shiv*?
 
-The term **shiv** [originates](http://ejohn.org/blog/html5-shiv/) from [John Resig](https://github.com/jeresig), who was thought to have used the word for its slang meaning, *a sharp object used as a knife-like weapon*, intended for Internet Explorer. Truth be known, John probably intended to use the word [shim](http://en.wikipedia.org/wiki/Shim_(computing\)), which in computing means *an application compatibility workaround*. Rather than correct his mispelling, most developers familiar with Internet Explorer appreciated the visual imagery. And that, [kids](http://html5homi.es/), is [etymology](https://en.wikipedia.org/wiki/Etymology).
+The term **shiv** [originates](http://ejohn.org/blog/html5-shiv/) from [John Resig](https://github.com/jeresig), who was thought to have used the word for its slang meaning, *a sharp object used as a knife-like weapon*, intended for Internet Explorer. Truth be known, John probably intended to use the word [shim](http://en.wikipedia.org/wiki/Shim_(computing)), which in computing means *an application compatibility workaround*. Rather than correct his mispelling, most developers familiar with Internet Explorer appreciated the visual imagery. And that, [kids](http://html5homi.es/), is [etymology](https://en.wikipedia.org/wiki/Etymology).

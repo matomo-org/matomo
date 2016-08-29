@@ -1,7 +1,7 @@
 {
   "name": "chroma-js",
   "description": "JavaScript library for color conversions",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": [
     "./chroma.js"
   ],
@@ -31,13 +31,13 @@
     "lab"
   ],
   "license": "MIT",
-  "_release": "0.6.0",
+  "_release": "0.6.1",
   "_resolution": {
     "type": "version",
-    "tag": "v0.6.0",
-    "commit": "63b6204afa51563eae1e2d38cf10471adb2982e8"
+    "tag": "v0.6.1",
+    "commit": "dcca4c5dcc1eec8400ae02b6b51fbb44a2ae0d77"
   },
-  "_source": "git://github.com/gka/chroma.js.git",
+  "_source": "https://github.com/gka/chroma.js.git",
   "_target": "~0.6.0",
   "_originalSource": "chroma-js"
 }

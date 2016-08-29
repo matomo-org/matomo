@@ -68,17 +68,6 @@ class ReleaseChannels
         return reset($channels);
     }
 
-    /**
-     * Sets the given release channel in config but does not save id. $config->forceSave() still needs to be called
-     * @param string $channel
-     */
-    public function setActiveReleaseChannelId($channel)
-    {
-        $general = Config::getInstance()->General;
-        $general['release_channel'] = $channel;
-        Config::getInstance()->General = $general;
-    }
-
     public function isValidReleaseChannelId($releaseChannelId)
     {
         $channel = $this->factory($releaseChannelId);

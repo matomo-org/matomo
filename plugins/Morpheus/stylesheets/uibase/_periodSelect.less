@@ -10,9 +10,30 @@
   background-color: #f7f7f7;
 }
 
+#ajaxLoadingCalendar {
+  white-space: nowrap;
+}
+
 #periodString:hover {
   background-color: #f1f0eb;
   border-color: #a9a399;
+}
+
+#periodString td {
+  vertical-align: top;
+  border-radius: 0
+}
+
+#periodString {
+  .ui-widget-header,
+  .ui-datepicker {
+    &.ui-helper-clearfix:before, &.ui-helper-clearfix:after {
+      display: inline;
+      clear: none;
+      content: none !important;
+    }
+  }
+
 }
 
 #periodString .calendar-icon {
@@ -41,24 +62,15 @@
 
 #periodString .period-date,
 #periodString .period-range {
-  float: left;
   padding: 0 16px 0 0;
 }
 
 #periodString .period-type {
-  float: left;
   padding: 0;
 }
 
 #periodString .period-type label {
-  font-size: 12px;
-  display: inline-block;
-  padding: 2px 0 3px 0;
-  vertical-align: top;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  font-size: 13px;
 }
 
 #periodString label.selected-period-label {

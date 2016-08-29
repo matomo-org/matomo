@@ -1,6 +1,6 @@
 {
   "name": "visibilityjs",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "homepage": "https://github.com/ai/visibilityjs",
   "authors": ["Andrey A.I. Sitnik <andrey@sitnik.ru>"],
   "description": "Wrapper for the Page Visibility API",

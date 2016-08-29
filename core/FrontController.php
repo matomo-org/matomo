@@ -290,7 +290,12 @@ class FrontController extends Singleton
 
         $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
-        \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+        if (empty($_GET['module'])
+            || empty($_GET['action'])
+            || $_GET['module'] !== 'Installation'
+            || !in_array($_GET['action'], array('getInstallationCss', 'getInstallationJs'))) {
+            \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+        }
 
         // ensure the current Piwik URL is known for later use
         if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {

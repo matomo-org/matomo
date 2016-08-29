@@ -21,7 +21,7 @@ class Menu extends \Piwik\Plugin\Menu
         $idSite = $this->getIdSite($userPreferences->getDefaultWebsiteId());
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addManageItem('Goals_Goals', $this->urlForAction('manage', array('idSite' => $idSite)), 40);
+            $menu->addMeasurableItem('Goals_Goals', $this->urlForAction('manage', array('idSite' => $idSite)), 40);
         }
     }
 

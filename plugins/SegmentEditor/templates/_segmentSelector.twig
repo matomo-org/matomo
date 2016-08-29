@@ -3,7 +3,7 @@
         <a class="title" tabindex="4"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
         <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
-                <input class="segmentFilter" type="text" value="{{ 'General_Search'|translate }}"/>
+                <input class="segmentFilter browser-default" type="text" value="{{ 'General_Search'|translate }}"/>
                 <span/>
             </div>
             <ul class="submenu">
@@ -43,7 +43,7 @@
 
     <div class="segment-row-inputs">
         <div class="segment-input metricListBlock">
-            <select title="{{ 'SegmentEditor_ChooseASegment'|translate }}" class="metricList">
+            <select title="{{ 'SegmentEditor_ChooseASegment'|translate }}" class="metricList browser-default">
                 {% for category,segmentsInCategory in segmentsByCategory %}
                 <optgroup label="{{ category }}">
                     {% for segmentInCategory in segmentsInCategory %}
@@ -54,7 +54,7 @@
             </select>
         </div>
         <div class="segment-input metricMatchBlock">
-            <select title="{{ 'General_Matches'|translate }}">
+            <select title="{{ 'General_Matches'|translate }}" class="browser-default">
                 <option value="==">{{ 'General_OperationEquals'|translate }}</option>
                 <option value="!=">{{ 'General_OperationNotEquals'|translate }}</option>
                 <option value="<=">{{ 'General_OperationAtMost'|translate }}</option>
@@ -68,7 +68,7 @@
             </select>
         </div>
         <div class="segment-input metricValueBlock">
-            <input type="text" title="{{ 'General_Value'|translate }}">
+            <input type="text" class="browser-default" title="{{ 'General_Value'|translate }}">
         </div>
         <div class="clear"></div>
     </div>
@@ -94,8 +94,14 @@
         <div class="segment-nav">
             <h4 class="visits">
                 <span class="icon-segment"></span><span class="available_segments"><strong>
-                <select class="available_segments_select"></select>
+                <select class="available_segments_select browser-default"></select>
             </strong></span></h4>
+
+            <div class="custom_select_search">
+                <a href="#"></a>
+                <input type="text" aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" class="inp ui-autocomplete-input segmentSearch browser-default" value="{{ 'General_Search'|translate }}" length="15">
+            </div>
+
             <div class="scrollable">
             <ul>
                 {% for category,segmentsInCategory in segmentsByCategory %}
@@ -119,10 +125,6 @@
                 </li>
                 {% endfor %}
             </ul>
-            </div>
-            <div class="custom_select_search">
-                <a href="#"></a>
-                <input type="text" aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" class="inp ui-autocomplete-input segmentSearch" value="{{ 'General_Search'|translate }}" length="15">
             </div>
         </div>
         <div class="segment-content">
@@ -155,9 +157,9 @@
         <div class="segment-footer">
             <div piwik-rate-feature title="Segment Editor" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>
             <span class="segmentFooterNote">The Segment Editor was <a class='crowdfundingLink' href='http://crowdfunding.piwik.org/custom-segments-editor/' rel='noreferrer' target='_blank'>crowdfunded</a> with the awesome support of 80 companies and Piwik users worldwide!</span>
-            <a class="delete" href="#">{{ 'General_Delete'|translate }}</a>
-            <a class="close" href="#">{{ 'General_Close'|translate }}</a>
-            <button class="saveAndApply">{{ 'SegmentEditor_SaveAndApply'|translate }}</button>
+            <a class="btn-flat delete" href="#">{{ 'General_Delete'|translate }}</a>
+            <a class="btn-flat close" href="#">{{ 'General_Close'|translate }}</a>
+            <button class="btn saveAndApply">{{ 'SegmentEditor_SaveAndApply'|translate }}</button>
         </div>
     </div>
 </div>
@@ -170,7 +172,6 @@
 <div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
     <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
     {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
-    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
     <p class="description">
         {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|raw }}
         <br/>
@@ -179,5 +180,7 @@
             <br/> <br/> {{ 'SegmentEditor_YouMayChangeSetting'|translate('browser_archiving_disabled_enforce', segmentSetting) }}
         {% endif %}
     </p>
+
+    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
 </div>
 </div>

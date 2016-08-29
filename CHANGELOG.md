@@ -20,11 +20,14 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 * The visibility of private properties and methods in `Piwik\Plugins\Login\Controller` were changed to `protected`
 * Controller actions are now case sensitive. This means the URL and events have to use the same case as the name of the action defined in a controller.
 * The "User Menu" was removed and should be replaced by "Admin Menu". Change `configureUserMenu(MenuUser $menu)` to `configureAdminMenu(MenuAdmin $menu)` in your `Menu.php`.
-* The method `Piwik\Menu\MenuAdmin::addSettingsItem()` was removed, use  `Piwik\Menu\MenuAdmin::addManageItem()` instead.
+* The method `Piwik\Menu\MenuAdmin::addSettingsItem()` was removed, use  `Piwik\Menu\MenuAdmin::addSystemItem()` instead.
+* A new methd `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
 * The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no possible to define an introduction text for settings.
 * If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
+
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Deprecations
 * The method `Piwik\Updates::getMigrationQueries()` has been deprecated and renamed to `getMigrations()`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0
@@ -51,6 +54,7 @@ This is a changelog for Piwik platform developers. All changes for our HTTP API'
 ### Internal change
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
 * Required PHP version was changed from 5.3 to 5.5
+* We have updated PhantomJS 1.9 to 2.1.1 for our screenshot tests.
 
 
 ## Piwik 2.16.1

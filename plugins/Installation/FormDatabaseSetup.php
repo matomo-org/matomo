@@ -71,7 +71,7 @@ class FormDatabaseSetup extends QuickForm2
             ->loadOptions($adapters)
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupAdapter')));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn btn-lg'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         $defaultDatabaseType = Config::getInstance()->database['type'];
         $this->addElement( 'hidden', 'type')->setLabel('Database engine');

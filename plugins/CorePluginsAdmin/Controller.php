@@ -51,7 +51,7 @@ class Controller extends Plugin\ControllerAdmin
 
         parent::__construct();
     }
-
+    
     public function marketplace()
     {
         self::dieIfMarketplaceIsDisabled();
@@ -72,6 +72,16 @@ class Controller extends Plugin\ControllerAdmin
         $view->showThemes = $showThemes;
         $view->query = $query;
         $view->sort = $sort;
+        $view->pluginType = $show;
+        $view->pluginTypeOptions = array(
+            'plugins' => Piwik::translate('General_Plugins'),
+            'themes' => Piwik::translate('CorePluginsAdmin_Themes')
+        );
+        $view->pluginSortOptions = array(
+            'popular' => Piwik::translate('CorePluginsAdmin_SortByPopular'),
+            'newest' => Piwik::translate('CorePluginsAdmin_SortByNewest'),
+            'alpha' => Piwik::translate('CorePluginsAdmin_SortByAlpha'),
+        );
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
@@ -325,11 +335,10 @@ class Controller extends Plugin\ControllerAdmin
                     $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
                 }
 
-                $description = '<strong><em>'
+                $description = '<strong>'
                     . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
                     . '</strong><br/>'
-                    . $suffix
-                    . '</em>';
+                    . $suffix;
                 $plugin['info'] = array(
                     'description' => $description,
                     'version'     => $this->translator->translate('General_Unknown'),

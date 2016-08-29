@@ -1,89 +1,28 @@
-<div class="form-group" ng-show="formField.showField">
-    <p ng-if="formField.introduction"  class="settingIntroduction">{{ formField.introduction }}</p>
+<div class="form-group row" ng-show="formField.showField">
 
-    <label ng-if="formField.uiControl != 'checkbox'" ng-bind-html="formField.title"></label>
+    <h3 ng-if="formField.introduction" class="col s12">{{ formField.introduction }}</h3>
 
-    <div class="form-help" ng-show="formField.inlineHelp">
-        <span ng-bind-html="formField.inlineHelp"></span>
+    <div class="col s12"
+         ng-class="{'input-field': formField.uiControl != 'checkbox' && formField.uiControl != 'radio', 'file-field': formField.uiControl == 'file', 'm6': !formField.fullWidth}"
+         ng-include="formField.templateFile" onload="templateLoaded()"
+    >
 
-        <span ng-show="formField.defaultValue && formField.uiControl != 'checkbox' && formField.uiControl != 'radio'">
-            <br />
-            {{ 'General_Default'|translate }}:
-            <span>{{formField.defaultValue|limitTo:50}}</span>
-        </span>
     </div>
+    <div class="col s12"
+         ng-class="{'m6': !formField.fullWidth}">
+        <div ng-if="formField.description || formField.inlineHelp || (formField.defaultValue && formField.uiControl != 'checkbox' && formField.uiControl != 'radio')"
+             class="form-help">
 
-    <select ng-if="formField.uiControl == 'select'"
-            name="{{ formField.name }}"
-            ng-model="formField.value"
-            ng-options="t.key as t.value group by t.group for t in formField.availableValues"
-            piwik-attributes="{{formField.uiControlAttributes}}">
-    </select>
+            <div ng-show="formField.description"
+                  class='form-description'>{{ formField.description }}</div>
 
-    <select ng-if="formField.uiControl == 'multiselect'"
-            multiple
-            name="{{ formField.name }}"
-            ng-model="formField.value"
-            ng-options="t.key as t.value for t in formField.availableValues"
-            piwik-attributes="{{formField.uiControlAttributes}}">
-    </select>
+            <span class="inline-help" ng-bind-html="formField.inlineHelp"></span>
 
-    <textarea ng-if="formField.uiControl == 'textarea' && formField.type !== 'array'"
-              name="{{ formField.name }}"
-              piwik-attributes="{{formField.uiControlAttributes}}"
-              ng-model="formField.value"
-    ></textarea>
-
-    <textarea ng-if="formField.uiControl == 'textarea' && formField.type === 'array'"
-              name="{{ formField.name }}"
-              ng-list="&#10;" ng-trim="false"
-              piwik-attributes="{{formField.uiControlAttributes}}"
-              ng-model="formField.value"
-    ></textarea>
-
-    <label ng-if="formField.uiControl == 'radio'"
-            ng-repeat="(key,value) in formField.availableValues"
-            class="radio">
-        <input ng-model="formField.value"
-               ng-value="key"
-               type="radio"
-               name="{{ formField.name }}"
-               piwik-attributes="{{formField.uiControlAttributes}}"
-        >
-        {{ value }}
-        <span ng-show="formField.description" class='form-description'>{{ formField.description }}</span>
-    </label>
-
-    <label ng-if="formField.uiControl == 'checkbox'" class="checkbox">
-        <input ng-model="formField.value"
-               piwik-attributes="{{formField.uiControlAttributes}}"
-               ng-value="1"
-               type="checkbox"
-               name="{{ formField.name }}">
-
-        <span ng-bind-html="formField.title"></span>
-
-        <span ng-show="formField.description" class='form-description'>{{ formField.description }}</span>
-    </label>
-
-    <input ng-if="(formField.uiControl == 'text' || formField.uiControl == 'password') && formField.type !== 'array'"
-           class="control_{{ formField.uiControl }}"
-           type="{{ formField.uiControl }}"
-           name="{{ formField.name }}"
-           ng-model="formField.value"
-           piwik-attributes="{{formField.uiControlAttributes}}"
-    >
-
-    <input ng-if="(formField.uiControl == 'text' || formField.uiControl == 'password') && formField.type === 'array'"
-           class="control_{{ formField.uiControl }}"
-           type="{{ formField.uiControl }}"
-           name="{{ formField.name }}"
-           ng-list
-           ng-model="formField.value"
-           piwik-attributes="{{formField.uiControlAttributes}}"
-    >
-
-    <span ng-show="formField.uiControl != 'checkbox' && formField.uiControl != 'radio'"
-          class='form-description'>{{ formField.description }}</span>
-
+            <span ng-show="formField.defaultValue && formField.uiControl != 'checkbox' && formField.uiControl != 'radio'">
+                <br />
+                {{ 'General_Default'|translate }}:
+                <span>{{formField.defaultValue|limitTo:50}}</span>
+            </span>
+        </div>
+    </div>
 </div>

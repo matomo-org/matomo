@@ -1,78 +1,52 @@
-<tr class='{{ reportType }}'>
-    <td style='width:240px;' class="first">{{ 'ScheduledReports_SendReportTo'|translate }}
-    </td>
-    <td>
-        <input type="checkbox" id="report_email_me"/>
-        <label for="report_email_me">{{ 'ScheduledReports_SentToMe'|translate }} (<em>{{ currentUserEmail }}</em>) </label>
-        <br/><br/>
-        {{ 'ScheduledReports_AlsoSendReportToTheseEmails'|translate }}<br/>
-        <textarea cols="30" rows="3" id="report_additional_emails" class="inp"></textarea>
-        <script>
-            function updateEvolutionGraphParameterVisibility() {
-                var evolutionGraphParameterInput = $('.report_evolution_graph');
-                var nonApplicableDisplayFormats = ['1', '4'];
-                $.inArray($('#display_format').find('option:selected').val(), nonApplicableDisplayFormats) != -1 ?
-                        evolutionGraphParameterInput.hide() : evolutionGraphParameterInput.show();
+<div piwik-field uicontrol="checkbox"
+     name="report_email_me"
+     introduction="{{ 'ScheduledReports_SendReportTo'|translate|e('html_attr') }}"
+     ng-show="manageScheduledReport.report.type == 'email'"
+     ng-model="manageScheduledReport.report.emailMe"
+     title="{{ 'ScheduledReports_SentToMe'|translate|e('html_attr') }} ({{ currentUserEmail|e('html_attr') }})">
+</div>
+
+<div piwik-field uicontrol="textarea" var-type="array"
+     ng-show="manageScheduledReport.report.type == 'email'"
+     ng-model="manageScheduledReport.report.additionalEmails"
+     title="{{ 'ScheduledReports_AlsoSendReportToTheseEmails'|translate|e('html_attr') }}">
+</div>
+
+<script>
+
+    $(function () {
+
+        resetReportParametersFunctions ['{{ reportType }}'] = function (report) {
+            report.displayFormat = '{{ defaultDisplayFormat }}';
+            report.emailMe = {{ defaultEmailMe }};
+            report.evolutionGraph = {{ defaultEvolutionGraph }};
+            report.additionalEmails = '';
+        };
+
+        updateReportParametersFunctions['{{ reportType }}'] = function (report) {
+            if (report == null || report.parameters == null) {
+                return;
             }
 
-            $(function () {
+            var i, field, fields = ['displayFormat', 'emailMe', 'evolutionGraph', 'additionalEmails'];
+            for (i in fields) {
+                field = fields[i];
+                if (report.parameters[field]) {
+                    report[field] = report.parameters[field];
+                }
+            }
+        };
 
-                resetReportParametersFunctions ['{{ reportType }}'] =
-                        function () {
+        getReportParametersFunctions['{{ reportType }}'] = function (report) {
 
-                            var reportParameters = {
-                                'displayFormat': '{{ defaultDisplayFormat }}',
-                                'emailMe': {{ defaultEmailMe }},
-                                'evolutionGraph': {{ defaultEvolutionGraph }},
-                                'additionalEmails': null
-                            };
-                            updateReportParametersFunctions['{{ reportType }}'](reportParameters);
-                        };
+            var parameters = {};
 
-                updateReportParametersFunctions['{{ reportType }}'] =
-                        function (reportParameters) {
+            parameters.displayFormat = report.displayFormat;
+            parameters.emailMe = report.emailMe;
+            parameters.evolutionGraph = report.evolutionGraph;
+            parameters.additionalEmails = report.additionalEmails ? report.additionalEmails : [];
 
-                            if (reportParameters == null) return;
-
-                            $('#display_format').find('option[value=' + reportParameters.displayFormat + ']').prop('selected', 'selected');
-                            updateEvolutionGraphParameterVisibility();
-
-                            if (reportParameters.emailMe === true)
-                                $('#report_email_me').prop('checked', 'checked');
-                            else
-                                $('#report_email_me').removeProp('checked');
-
-                            if (reportParameters.evolutionGraph === true)
-                                $('#report_evolution_graph').prop('checked', 'checked');
-                            else
-                                $('#report_evolution_graph').removeProp('checked');
-
-                            if (reportParameters.additionalEmails != null)
-                                $('#report_additional_emails').text(reportParameters.additionalEmails.join('\n'));
-                            else
-                                $('#report_additional_emails').html('');
-
-                            $(document).trigger('ScheduledReport.edit', {});
-                        };
-
-                getReportParametersFunctions['{{ reportType }}'] =
-                        function () {
-
-                            var parameters = Object();
-
-                            parameters.displayFormat = $('#display_format').find('option:selected').val();
-                            parameters.emailMe = $('#report_email_me').prop('checked');
-                            parameters.evolutionGraph = $('#report_evolution_graph').prop('checked');
-
-                            var additionalEmails = $('#report_additional_emails').val();
-                            parameters.additionalEmails =
-                                    additionalEmails != '' ? additionalEmails.split('\n') : [];
-
-                            return parameters;
-                        };
-
-                $('#display_format').change(updateEvolutionGraphParameterVisibility);
-            });
-        </script>
-    </td>
-</tr>
+            return parameters;
+        };
+    });
+</script>

@@ -18,34 +18,29 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->addDevelopmentItem(null, array(), $order = 40);
-        $menu->addManageItem(null, array(), $order = 1);
+        $menu->addPersonalItem(null, array(), 1, false);
+        $menu->addSystemItem(null, array(), 2, false);
+        $menu->addMeasurableItem(null, array(), $order = 3);
+        $menu->addPlatformItem(null, array(), 4, false);
         $menu->addDiagnosticItem(null, array(), $order = 5);
+        $menu->addDevelopmentItem(null, array(), $order = 40);
 
         if (Piwik::hasUserSuperUserAccess()) {
-            $menu->addManageItem('General_GeneralSettings',
+            $menu->addSystemItem('General_GeneralSettings',
                 $this->urlForAction('generalSettings'),
                 $order = 5);
         }
 
         if (!Piwik::isUserIsAnonymous()) {
-            $menu->addManageItem('CoreAdminHome_TrackingCode',
+            $menu->addMeasurableItem('CoreAdminHome_TrackingCode',
                 $this->urlForAction('trackingCodeGenerator'),
-                $order = 11);
+                $order = 12);
         }
     }
 
     public function configureTopMenu(MenuTop $menu)
     {
-        if (Piwik::isUserIsAnonymous()) {
-            if (Plugin\Manager::getInstance()->isPluginActivated('ScheduledReports')) {
-                $url = $this->urlForModuleAction('ScheduledReports', 'index');
-            } else {
-                $url = $this->urlForModuleAction('API', 'listAllAPI');
-            }
-        } else {
-            $url = $this->urlForModuleAction('UsersManager', 'userSettings');
-        }
+        $url = $this->urlForModuleAction('CoreAdminHome', 'home');
 
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-configure');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
