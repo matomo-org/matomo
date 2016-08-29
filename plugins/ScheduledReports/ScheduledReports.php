@@ -191,14 +191,7 @@ class ScheduledReports extends \Piwik\Plugin
 
         $filteredReportMetadata = array();
         foreach ($availableReportMetadata as $reportMetadata) {
-            // removing reports from the API category and MultiSites.getOne
-            if (empty($reportMetadata['category'])) {
-                var_dump($reportMetadata);exit;
-            }
-            if (
-                $reportMetadata['category'] == 'API' ||
-                $reportMetadata['category'] == Piwik::translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik::translate('General_SingleWebsitesDashboard')
-            ) {
+            if ($this->shouldReportBeIgnored($reportMetadata)) {
                 continue;
             }
 
@@ -206,6 +199,18 @@ class ScheduledReports extends \Piwik\Plugin
         }
 
         $reportMetadata = $filteredReportMetadata;
+    }
+
+    private function shouldReportBeIgnored($reportMetadata)
+    {
+        // Some plugins may not define report categories
+        if(empty($reportMetadata['category'])) {
+            return false;
+        }
+
+        $isAPI = $reportMetadata['category'] == 'API';
+        $isMultiSitesGetOne = $reportMetadata['category'] == Piwik::translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik::translate('General_SingleWebsitesDashboard');
+        return $isAPI || $isMultiSitesGetOne;
     }
 
     public function getReportTypes(&$reportTypes)
