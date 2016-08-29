@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;

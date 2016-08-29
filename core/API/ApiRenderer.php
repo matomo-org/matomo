@@ -91,8 +91,15 @@ abstract class ApiRenderer
             $format = 'json';
         }
 
+        $idSite = Common::getRequestVar('idSite', 0, 'int', $this->request);
+
+        if (empty($idSite)) {
+            $idSite = 'all';
+        }
+
         $renderer = Renderer::factory($format);
         $renderer->setTable($dataTable);
+        $renderer->setIdSite($idSite);
         $renderer->setRenderSubTables(Common::getRequestVar('expanded', false, 'int', $this->request));
         $renderer->setHideIdSubDatableFromResponse(Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
 

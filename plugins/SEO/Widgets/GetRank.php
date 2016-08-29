@@ -14,7 +14,6 @@ use Piwik\Widget\WidgetConfig;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\View;
 use Piwik\Plugins\SEO\API;
 
 class GetRank extends \Piwik\Widget\Widget
