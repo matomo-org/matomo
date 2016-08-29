@@ -281,11 +281,11 @@ class API extends \Piwik\Plugin\API
             } else {
                 $idSite = $idSites;
             }
-        } elseif (empty($idSites)) {
+        } elseif (empty($idSite) && empty($idSites)) {
             throw new \Exception('Calling API.getReportMetadata without any idSite is no longer supported since Piwik 3.0.0. Please specifiy at least one idSite via the "idSite" parameter.');
         }
 
-        Piwik::checkUserHasViewAccess($idSites);
+        Piwik::checkUserHasViewAccess($idSite);
 
         $metadata = $this->processedReport->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
