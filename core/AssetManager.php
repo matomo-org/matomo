@@ -68,12 +68,13 @@ class AssetManager extends Singleton
     public function __construct()
     {
         $this->cacheBuster = UIAssetCacheBuster::getInstance();
-        $this->minimalStylesheetFetcher = new StaticUIAssetFetcher(array(), array(), $this->theme);
 
         $theme = Manager::getInstance()->getThemeEnabled();
         if (!empty($theme)) {
             $this->theme = new Theme();
         }
+
+        $this->minimalStylesheetFetcher = new StaticUIAssetFetcher(array(), array(), $this->theme);
     }
 
     /**

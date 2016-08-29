@@ -23,7 +23,6 @@
         "ExceptionEditAnonymous": "Den anonyme brukeren kan ikke bli redigert eller slettet. Den blir brukt av Piwik for å definere en bruker som ikke har blitt logget inn ennå. Du kan for eksempel gjøre statistikken din offentlig ved å gi 'view'-tilgang til 'anonymous'-brukeren.",
         "ExceptionEmailExists": "Bruker med e-post «%s» eksisterer allerede.",
         "ExceptionInvalidEmail": "Epost-adressen er ikke i gyldig format.",
-        "ExceptionInvalidPassword": "Passordet må være mellom %1$s og %2$s tegn.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth forventer et MD5-hashet passord (32 tegn lang streng). Vennligst kall md5()-funksjonen på passordet før du kaller denne metoden.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Det er ikke mulig å fjerne superbrukertilgang fra brukeren «%s».",
         "ExceptionSuperUserAccess": "Denne brukeren har superbrukertilgang og har allerede tilgang til å se og modifisere alle nettsteder i Piwik. Du kan også fjerne superbrukertilgangen fra denne brukeren og prøve igjen.",

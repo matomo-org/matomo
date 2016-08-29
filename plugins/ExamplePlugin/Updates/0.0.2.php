@@ -56,7 +56,7 @@ class Updates_0_0_2 extends PiwikUpdates
     /**
      * Perform the incremental version update.
      *
-     * This method should preform all updating logic. If you define queries in the `getMigrations()` method,
+     * This method should perform all updating logic. If you define queries in the `getMigrations()` method,
      * you must call {@link Updater::executeMigrations()} here.
      *
      * @param Updater $updater

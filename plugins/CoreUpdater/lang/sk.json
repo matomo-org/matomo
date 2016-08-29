@@ -57,7 +57,6 @@
         "ThankYouUpdatePiwik": "Ďakujeme za to, že používate Piwik a že ho udržiavate aktualizovaný!",
         "PostUpdateMessage": "Piwik bude vždy voľne dostupný na stiahnutie a používanie, ale potrebuje Vašu neustálu podporu, aby rástol a zlepšoval sa.",
         "PostUpdateSupport": "Ak potrebujete pomoc pri používaní projektu Piwik, môžete získať podporu od jeho tvorcov:",
-        "EnterpriseSolutions": "Podnikové riešenia",
         "CloudHosting": "Cloud hosting",
         "Updating": "Aktualizovanie",
         "UpdateUsingHttpsFailed": "Stiahnutie najnovšej Piwik-verzie cez bezpečné HTTPS spojenie nebolo úspešné kvôli nasledujúcej chybe:",

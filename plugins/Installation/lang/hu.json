@@ -19,7 +19,6 @@
         "InstallationStatus": "Telepítés állása",
         "LargePiwikInstances": "Súgó nagyobb weboldalakra telepítéshez",
         "Legend": "Magyarázó felirat",
-        "NoConfigFound": "Megpróbáltál belépni a Piwik oldalra, de a konfigurációs fájl nem található.<br \/><b>  » <a href='index.php'>(Újra)telepítheted a Piwik-et most.<\/a><\/b><br \/><small>Ha már telepítetted a Piwik-et korábban és voltak már táblák az adatbázisodban, ne aggódj, tudod használni azokat a táblákat és így megmaradnak a meglévő adataid !<\/small>",
         "Optional": "Opcionális",
         "PasswordDoNotMatch": "jelszó nem egyezik",
         "PercentDone": "%s %% kész",

@@ -64,9 +64,13 @@ class Rss extends Renderer
 
             $pudDate = date('r', $timestamp);
 
-            $dateInSiteTimezone = Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
+            $dateInSiteTimezone = Date::factory($timestamp);
+            if($site) {
+                $dateInSiteTimezone = $dateInSiteTimezone->setTimezone($site->getTimezone());
+            }
+            $dateInSiteTimezone = $dateInSiteTimezone->toString('Y-m-d');
             $thisPiwikUrl = Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
-            $siteName = $site->getName();
+            $siteName = $site ? $site->getName() : '';
             $title = $siteName . " on " . $date;
 
             $out .= "\t<item>

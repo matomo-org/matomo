@@ -19,15 +19,7 @@
         "ViewUserGuides": "Mësoni përmes %1$sudhërëfyesit tonë për përdoruesit%2$s se si ta formësoni Piwik-un dhe si të analizoni me efektshmëri të dhënat tuaja",
         "CommunityHelp": "Ndihmë nga Bashkësia",
         "ProfessionalHelp": "Ndihmë Profesionale",
-        "PiwikProIntro": "Piwik PRO ofron për klientë që e kanë Piwik-un të strehuar në infrastrukturë të tyre asistencë dhe konsulencë.",
-        "PiwikProOfferIntro": "Në ofertën tonë përfshihet",
-        "PiwikProReviewPiwikSetup": "Një përmbledhje e rregullimeve tuaja për Piwik-un",
-        "PiwikProOptimizationMaintenance": "Shërbime optimizimi & mirëmbajtjeje Piwik-u",
-        "PiwikProPhoneEmailSupport": "Asistencë Telefonike dhe me Email",
-        "PiwikProTraining": "Trajnim Teknik, Përdoruesi, Zhvilluesi",
-        "PiwikProPremiumFeatures": "Veçori Me Pagesë",
-        "PiwikProCustomDevelopment": "Shërbime Personalizimesh",
-        "PiwikProAnalystConsulting": "Shërbime konsulence analizash",
-        "ContactUs": "Lidhuni me ne"
+        "ContactUs": "Lidhuni me ne",
+        "VisitTheForums": "Vizitoni %1$s Forumet%2$s dhe merrni ndihmë prej bashkësisë së përdoruesve të Piwik-ut"
     }
 }

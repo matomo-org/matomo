@@ -114,46 +114,15 @@ class RawLogDao
     }
 
     /**
-     * Deletes visits with the supplied IDs from log_visit. This method does not cascade, so rows in other tables w/
-     * the same visit ID will still exist.
-     *
-     * @param int[] $idVisits
-     * @return int The number of deleted rows.
-     */
-    public function deleteVisits($idVisits)
-    {
-        $sql = "DELETE FROM `" . Common::prefixTable('log_visit') . "` WHERE idvisit IN "
-             . $this->getInFieldExpressionWithInts($idVisits);
-
-        $statement = Db::query($sql);
-        return $statement->rowCount();
-    }
-
-    /**
-     * Deletes visit actions for the supplied visit IDs from log_link_visit_action.
-     *
-     * @param int[] $visitIds
-     * @return int The number of deleted rows.
-     */
-    public function deleteVisitActionsForVisits($visitIds)
-    {
-        $sql = "DELETE FROM `" . Common::prefixTable('log_link_visit_action') . "` WHERE idvisit IN "
-             . $this->getInFieldExpressionWithInts($visitIds);
-
-        $statement = Db::query($sql);
-        return $statement->rowCount();
-    }
-
-    /**
      * Deletes conversions for the supplied visit IDs from log_conversion. This method does not cascade, so
      * conversion items will not be deleted.
      *
      * @param int[] $visitIds
      * @return int The number of deleted rows.
      */
-    public function deleteConversions($visitIds)
+    public function deleteFromLogTable($tableName, $visitIds)
     {
-        $sql = "DELETE FROM `" . Common::prefixTable('log_conversion') . "` WHERE idvisit IN "
+        $sql = "DELETE FROM `" . Common::prefixTable($tableName) . "` WHERE idvisit IN "
              . $this->getInFieldExpressionWithInts($visitIds);
 
         $statement = Db::query($sql);

@@ -34,7 +34,6 @@
         "NfsFilesystemWarning": "Server-ul dvs. foloseste ca si sistem de fisiere NFS.",
         "NfsFilesystemWarningSuffixAdmin": "Acest lucru înseamnă că Piwik va fi extrem de lent atunci când se utilizează sesiuni bazate pe fișiere.",
         "NfsFilesystemWarningSuffixInstall": "Folosind sesiuni bazate pe fișiere NFS sunt extrem de lente, astfel Piwik va folosi sesiuni de baze de date. Dacă aveți mai mulți utilizatori de tablou de bord, ar putea fi necesar sa se creasca numărul maxim de conexiuni client la serverul de baze de date.",
-        "NoConfigFound": "Fișierul de configurare Piwik nu a putut fi găsit și se încearcă să se acceseze o pagină Piwik.<br \/><b> » Puteți a href='index.php'> instala Piwik acum <\/a><\/b><br \/><mic> Dacă ați instalat Piwik înainte și au aveti unele tabele din DB , nu vă faceți griji, aveți posibilitatea să reutilizați aceleași tabele și să se păstreze datele existente!<\/mic>",
         "Optional": "Opţional",
         "PasswordDoNotMatch": "Parola nu se potriveste",
         "PercentDone": "%s %% Done",

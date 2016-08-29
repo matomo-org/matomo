@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\DataAccess\LogQueryBuilder;
+use Piwik\Plugin\LogTablesProvider;
 use Piwik\Plugins\SegmentEditor\Services\StoredSegmentService;
 use Piwik\Segment\SegmentExpression;
 use Piwik\SettingsServer;
@@ -26,9 +27,10 @@ class SegmentQueryDecorator extends LogQueryBuilder
      */
     private $storedSegmentService;
 
-    public function __construct(StoredSegmentService $storedSegmentService)
+    public function __construct(StoredSegmentService $storedSegmentService, LogTablesProvider $logTablesProvider)
     {
         $this->storedSegmentService = $storedSegmentService;
+        parent::__construct($logTablesProvider);
     }
 
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,

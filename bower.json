@@ -30,7 +30,8 @@
     "jQuery.dotdotdot": "~1.7.2",
     "jquery.scrollTo": "~1.4.13",
     "chroma-js": "~0.6.0",
-    "visibilityjs": "~1.2.1"
+    "visibilityjs": "~1.2.1",
+    "jqueryui-touch-punch": "#master"
   },
   "license": "GPLv3 or later",
   "ignore": [

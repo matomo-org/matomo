@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\StaticContainer;
+use Piwik\ProfessionalServices\Advertising;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -158,7 +159,7 @@ class Config
             'autocomplete_min_sites' => $general['autocomplete_min_sites'],
             'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
             'datatable_row_limits' => $this->getDatatableRowLimits(),
-            'are_ads_enabled' => $general['piwik_pro_ads_enabled']
+            'are_ads_enabled' => Advertising::isAdsEnabledInConfig($general)
         );
     }
 

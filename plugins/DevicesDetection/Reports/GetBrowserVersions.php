@@ -22,7 +22,6 @@ class GetBrowserVersions extends Base
         $this->name          = Piwik::translate('DevicesDetection_BrowserVersion');
         $this->documentation = ''; // TODO
         $this->order = 6;
-
         $this->subcategoryId = 'DevicesDetection_Software';
     }
 

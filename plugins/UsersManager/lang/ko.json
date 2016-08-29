@@ -23,7 +23,6 @@
         "ExceptionEditAnonymous": "익명 사용자는 편집이나 삭제를 할 수 없습니다. Piwik에서 아직 로그인하지 않은 사용자를 골라낼 때 사용하기 때문입니다. 예를 들어, '보기' 접근을 '익명' 사용자에게 주어서 당신의 상태를 공개할 수 있습니다.",
         "ExceptionEmailExists": "'%s' 의 이메일을 가진 사용자는 이미 존재합니다.",
         "ExceptionInvalidEmail": "이메일이 유효한 형식이 아닙니다.",
-        "ExceptionInvalidPassword": "비밀번호 길이는 %1$s〜%2$s 문자이어야합니다.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth는 MD5 해시 값의 비밀번호 (32자 길이의 문자열)을 사용하고 있습니다. 이 메소드를 호출하기 전에 암호에 md5() 함수를 호출합니다.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "사용자 '%s'의 슈퍼 유저 권한 제거가 가능하지 않습니다.",
         "ExceptionSuperUserAccess": "해당 사용자는 슈퍼 유저 권한을 가지고 있기에 Piwik 내 모든 웹사이트에 대해서 접근 가능하고 수정 역시 가능합니다. 해당 유저의 슈퍼 유저 권한을 제거한 후 다시 시도해보세요.",

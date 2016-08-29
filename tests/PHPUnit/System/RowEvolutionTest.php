@@ -118,17 +118,18 @@ class RowEvolutionTest extends SystemTestCase
         // Goals > Visits Until Conversion, idGoal != 0
         $config['testSuffix'] = '_goals_visitsUntilConversion';
         $config['periods'] = array('day');
+        $config['idGoal'] = '2';
         $config['otherRequestParameters']['date'] = '2010-02-06,2010-03-06';
         $config['otherRequestParameters']['period'] = 'day';
         $config['otherRequestParameters']['apiModule'] = 'Goals';
         $config['otherRequestParameters']['apiAction'] = 'getVisitsUntilConversion';
         $config['otherRequestParameters']['label'] = ('1 visit, 2 visits');
-        $config['otherRequestParameters']['idGoal'] = '2';
         $return[] = array('API.getRowEvolution', $config);
 
         // Goals > Visits Until Conversion, idGoal != 0, without specifying labels
         $config['testSuffix'] = '_goals_visitsUntilConversion_WithoutLabels';
         $config['periods'] = array('day');
+        $config['idGoal'] = '2';
         $config['otherRequestParameters']['date'] = '2010-02-06,2010-03-06';
         $config['otherRequestParameters']['period'] = 'day';
         $config['otherRequestParameters']['apiModule'] = 'Goals';
@@ -136,7 +137,6 @@ class RowEvolutionTest extends SystemTestCase
         $config['otherRequestParameters']['label'] = false;
         $config['otherRequestParameters']['filter_limit'] = 2;
         $config['otherRequestParameters']['filter_sort_column'] = 'nb_conversions';
-        $config['otherRequestParameters']['idGoal'] = '2';
         $return[] = array('API.getRowEvolution', $config);
 
         // test date range where most recent date has no data (for #3465)

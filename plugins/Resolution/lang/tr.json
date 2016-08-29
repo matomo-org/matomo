@@ -1,11 +1,12 @@
 {
     "Resolution": {
-        "ColumnConfiguration": "Konfigürasyon",
+        "ColumnConfiguration": "Yapılandırma",
         "ColumnResolution": "Çözünürlük",
-        "Configurations": "Konfigürasyonları",
-        "PluginDescription": "Ziyaretçinin ekran çözünürlüklerini raporla",
+        "Configurations": "Yapılandırmalar",
+        "PluginDescription": "Ziyaretçinin ekran çözünürlüklerini bildirir.",
         "Resolutions": "Çözünürlükler",
-        "WidgetGlobalVisitors": "Global ziyaretçi konfikasyonu",
-        "WidgetResolutions": "Ekran çözünürlükleri"
+        "WidgetGlobalVisitors": "Ziyaretçi Yapılandırması",
+        "WidgetGlobalVisitorsDocumentation": "Bu rapor ziyaretçilerinizin genel yapılandırmasını görüntüler. Yapılandırma bilgilerinde, işletim sistemi, web tarayıcı türü ve ekran çözünürlüğü bulunur.",
+        "WidgetResolutions": "Ekran Çözünürlüğü"
     }
 }

@@ -18,21 +18,9 @@
         "wiki": "https://github.com/piwik/piwik/wiki",
         "source": "https://github.com/piwik/piwik"
     },
-    "autoload": {
-        "psr-4": {
-            "Piwik\\Plugins\\": "plugins/",
-            "Piwik\\": "core/"
-        },
-        "psr-0": {
-            "Zend_": "libs/",
-            "HTML_": "libs/",
-            "PEAR_": "libs/",
-            "Archive_": "libs/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Piwik\\Tests\\": "tests/PHPUnit/"
+    "config":{
+        "platform": {
+            "php": "5.3.3"
         }
     },
     "require": {
@@ -44,7 +32,7 @@
         "mustangostang/spyc": "~0.5.0",
         "piwik/device-detector": "~3.0",
         "piwik/decompress": "~1.0",
-        "piwik/network": "~0.1.0",
+        "piwik/network": "~0",
         "piwik/cache": "~0.2.5",
         "piwik/ini": "^1.0.6",
         "php-di/php-di": "^5.0.0",
@@ -108,7 +96,21 @@
             "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ]
     },
-    "config": {
-        "disable-tls": true
+    "autoload": {
+        "psr-4": {
+            "Piwik\\Plugins\\": "plugins/",
+            "Piwik\\": "core/"
+        },
+        "psr-0": {
+            "Zend_": "libs/",
+            "HTML_": "libs/",
+            "PEAR_": "libs/",
+            "Archive_": "libs/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Piwik\\Tests\\": "tests/PHPUnit/"
+        }
     }
 }

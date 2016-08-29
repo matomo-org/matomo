@@ -17,7 +17,6 @@
         "Installation": "Installasjon",
         "InstallationStatus": "Installasjonstatus",
         "LargePiwikInstances": "Hjelp for større Piwik-installasjonar",
-        "NoConfigFound": "Du prøvar å nå ein Piwikside, men konfigurasjonen vart ikkje funnen.<br \/><b>  » Du kan <a href='index.php'>installera Piwik no<\/a><\/b><br \/><small>Om du allereie har hatt Piwik installert og har nokre tabellar i databasen, treng du ikkje bekymra deg. Du kan nytta dei same tabellane og data!<\/small>",
         "Optional": "Valfri",
         "PasswordDoNotMatch": "Passorda samsvarer ikkje",
         "PercentDone": "%s %% Ferdig",
