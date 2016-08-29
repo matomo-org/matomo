@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\CustomVariables\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Plugins\CustomVariables\Segment;
 
 class CustomVariableName extends Base
 {
@@ -24,25 +22,4 @@ class CustomVariableName extends Base
         return Piwik::translate('CustomVariables_ColumnCustomVariableName');
     }
 
-    protected function configureSegments()
-    {
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
-
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-
-            $segment = new Segment();
-            $segment->setSegment('customVariableName' . $i);
-            $segment->setSqlSegment('log_visit.custom_var_k' . $i);
-            $segment->setName(Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')');
-            $this->addSegment($segment);
-
-            $segment = new Segment();
-            $segment->setSegment('customVariablePageName' . $i);
-            $segment->setSqlSegment('log_link_visit_action.custom_var_k' . $i);
-            $segment->setName(Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')');
-            $this->addSegment($segment);
-        }
-    }
 }
