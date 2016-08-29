@@ -36,7 +36,17 @@
     function updateDisplayDate(selectedPeriod, dateText)
     {
         piwik.period = selectedPeriod;
-        piwik.currentDateString = dateText;
+
+        if (dateText && dateText.indexOf(',') > -1) {
+            var dateParts = dateText.split(',');
+            if (dateParts[1]) {
+                piwik.currentDateString = dateParts[1];
+            } else if (dateParts[0]) {
+                piwik.currentDateString = dateParts[0];
+            }
+        } else {
+            piwik.currentDateString = dateText;
+        }
 
         if (selectedPeriod === 'week') {
             var millisecondsPerDay = 24 * 60 * 60 * 1000;
@@ -291,6 +301,9 @@
     }
 
     $(function () {
+
+        var reloading = false;
+
         var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions()),
             periodLabels = $('#periodString').find('.period-type label'),
             periodTooltip = $('#periodString').find('.period-click-tooltip').html();
@@ -376,6 +389,7 @@
 
             propagateNewUrlParams(dateText, selectedPeriod);
             initTopControls();
+            reloading = false;
         };
 
         var toggleMonthDropdown = function (disable) {
@@ -449,12 +463,7 @@
             }
         });
 
-        var reloading = false;
-
         var changePeriodWithPageReload = function (periodInput) {
-            if (piwikHelper.isAngularRenderingThePage()) {
-                return false;
-            }
 
             var url = periodInput.val(),
                 period = broadcast.getValueFromUrl('period', url);

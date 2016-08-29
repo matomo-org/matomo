@@ -1241,7 +1241,7 @@ $(document).ready(function() {
 
             if (piwikHelper.isAngularRenderingThePage()) {
 
-                angular.element(document).injector().invoke(function ($location) {
+                angular.element(document).injector().invoke(function ($location, $rootScope) {
                     var $search = $location.search();
 
                     if (segmentDefinition !== $search.segment) {
@@ -1249,6 +1249,11 @@ $(document).ready(function() {
                         // want to change the URL again
                         $search.segment = segmentDefinition;
                         $location.search($search);
+                        setTimeout(function () {
+                            try {
+                                $rootScope.$apply();
+                            } catch (e) {}
+                        }, 1);
                     }
 
                 });
