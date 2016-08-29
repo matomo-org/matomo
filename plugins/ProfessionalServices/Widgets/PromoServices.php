@@ -6,16 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\PiwikPro\Widgets;
+namespace Piwik\Plugins\ProfessionalServices\Widgets;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
-use Piwik\PiwikPro\Advertising;
-use Piwik\Plugins\PiwikPro\Promo;
+use Piwik\Plugins\ProfessionalServices\Promo;
+use Piwik\ProfessionalServices\Advertising;
 use Piwik\View;
 use Piwik\Widget\WidgetConfig;
 
-class PromoPiwikPro extends \Piwik\Widget\Widget
+class PromoServices extends \Piwik\Widget\Widget
 {
     /**
      * @var Advertising
@@ -36,17 +35,19 @@ class PromoPiwikPro extends \Piwik\Widget\Widget
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('About Piwik');
-        $config->setName('PiwikPro_WidgetPiwikProAd');
-        $config->setIsEnabled(StaticContainer::get('Piwik\PiwikPro\Advertising')->arePiwikProAdsEnabled());
+        $config->setName('ProfessionalServices_WidgetProfessionalServicesForPiwik');
+
+        $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+        $config->setIsEnabled($advertising->areAdsForProfessionalServicesEnabled());
     }
 
     public function render()
     {
-        $view = new View('@PiwikPro/promoPiwikProWidget');
+        $view = new View('@ProfessionalServices/promoServicesWidget');
 
         $promo = $this->promo->getContent();
 
-        $view->ctaLinkUrl = $this->advertising->getPromoUrlForOnPremises('PromoWidget', $promo['campaignContent']);
+        $view->ctaLinkUrl = $this->advertising->getPromoUrlForPiwikProUpgrade();
         $view->ctaText = $promo['text'];
         $view->ctaLinkTitle = $this->promo->getLinkTitle();
 

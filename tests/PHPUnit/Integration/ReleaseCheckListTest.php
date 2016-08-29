@@ -28,7 +28,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 {
     private $globalConfig;
 
-    const MINIMUM_PHP_VERSION = '5.3.3';
+    const MINIMUM_PHP_VERSION = '5.5.0';
 
     public function setUp()
     {

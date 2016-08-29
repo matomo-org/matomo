@@ -1673,29 +1673,40 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var tooltip = th.find('.columnDocumentation');
 
             tooltip.next().hover(function () {
-                    var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
-                    var top = -1 * tooltip.outerHeight();
+                var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
+                var top = -1 * tooltip.outerHeight();
 
-                    if (th.next().size() == 0) {
-                        left = (-1 * tooltip.outerWidth()) + th.width() +
-                            parseInt(th.css('padding-right'), 10);
-                    }
+                var thPos = th.position();
+                var thPosTop = 0;
 
-                    if (th.offset().top + top < 0) {
-                        top = th.outerHeight();
-                    }
+                if (thPos && thPos.top) {
+                    thPosTop = thPosTop.top;
+                }
 
-                    tooltip.css({
-                        marginLeft: left,
-                        marginTop: top,
-                        top: 0
-                    });
+                // we need to add thPosTop because the parent th is not position:relative. There may be a gap for the
+                // headline
+                top = top + thPosTop;
 
-                    tooltip.stop(true, true).fadeIn(250);
-                },
-                function () {
-                    $(this).prev().stop(true, true).fadeOut(400);
+                if (th.next().size() == 0) {
+                    left = (-1 * tooltip.outerWidth()) + th.width() +
+                        parseInt(th.css('padding-right'), 10);
+                }
+
+                if (th.offset().top + top < 0) {
+                    top = thPosTop + th.outerHeight();
+                }
+
+                tooltip.css({
+                    marginLeft: left,
+                    marginTop: top,
+                    top: 0
                 });
+
+                tooltip.stop(true, true).fadeIn(250);
+            },
+            function () {
+                $(this).prev().stop(true, true).fadeOut(400);
+            });
         });
     },
 

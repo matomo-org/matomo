@@ -16,11 +16,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
     protected function getPriorityOrder()
     {
         $theme = $this->getTheme();
-        if (empty($theme)) {
-            $themeName = 'Morpheus';
-        } else {
-            $themeName = $theme->getThemeName();
-        }
+        $themeName = $theme->getThemeName();
 
         $order = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',

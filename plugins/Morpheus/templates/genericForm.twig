@@ -34,5 +34,11 @@
         {% endif %}
     {% endfor %}
 
-	{{ form_data.submit.html|raw }}
+    {% if form_data.submit.html %}
+        <div class="row">
+            <div class="col s12">
+                {{ form_data.submit.html|raw }}
+            </div>
+        </div>
+    {% endif %}
 </form>
