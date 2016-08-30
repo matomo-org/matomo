@@ -204,7 +204,10 @@ class ResponseBuilder
             $limit  = Common::getRequestVar('filter_limit', -1, 'integer', $this->request);
             $offset = Common::getRequestVar('filter_offset', '0', 'integer', $this->request);
 
-            if ($this->shouldApplyLimitOnArray($limit, $offset)) {
+            if ($limit >= 0 || $offset > 0) {
+                if ($limit < 0) {
+                    $limit = null; // make sure to return all results from offset
+                }
                 $array = array_slice($array, $offset, $limit, $preserveKeys = false);
             }
         }
@@ -219,38 +222,6 @@ class ResponseBuilder
         }
 
         return $this->apiRenderer->renderArray($array);
-    }
-
-    private function shouldApplyLimitOnArray($limit, $offset)
-    {
-        if ($limit === -1) {
-            // all fields are requested
-            return false;
-        }
-
-        if ($offset > 0) {
-            // an offset is specified, we have to apply the limit
-            return true;
-        }
-
-        // "api_datatable_default_limit" is set by API\Controller if no filter_limit is specified by the user.
-        // it holds the number of the configured default limit.
-        $limitSetBySystem = Common::getRequestVar('api_datatable_default_limit', -2, 'integer', $this->request);
-
-        // we ignore the limit if the datatable_default_limit was set by the system as this default filter_limit is
-        // only meant for dataTables but not for arrays. This way we stay BC as filter_limit was not applied pre
-        // Piwik 2.6 and some fixes were made in Piwik 2.13.
-        $wasFilterLimitSetBySystem = $limitSetBySystem !== -2;
-
-        // we check for "$limitSetBySystem === $limit" as an API method could request another API method with
-        // another limit. In this case we need to apply it again.
-        $isLimitStillDefaultLimit = $limitSetBySystem === $limit;
-
-        if ($wasFilterLimitSetBySystem && $isLimitStillDefaultLimit) {
-            return false;
-        }
-
-        return true;
     }
 
     private function sendHeaderIfEnabled()

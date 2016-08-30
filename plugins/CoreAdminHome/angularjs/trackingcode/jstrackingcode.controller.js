@@ -58,7 +58,8 @@
             piwikApi.fetch({
                 module: 'API',
                 method: 'SitesManager.getSiteUrlsFromId',
-                idSite: idSite
+                idSite: idSite,
+                filter_limit: '-1'
             }).then(function (data) {
                 self.siteUrls[idSite] = data || [];
 

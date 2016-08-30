@@ -585,7 +585,8 @@
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams({
             module: 'Dashboard',
-            action: 'getAllDashboards'
+            action: 'getAllDashboards',
+            filter_limit: '-1'
         }, 'get');
         ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(success);

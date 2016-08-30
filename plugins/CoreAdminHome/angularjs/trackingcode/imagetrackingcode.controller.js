@@ -47,6 +47,7 @@
                 goalPromises[idSite] = piwikApi.fetch({
                     module: 'API',
                     method: 'Goals.getGoals',
+                    filter_limit: '-1',
                     idSite: idSite
                 });
             }
