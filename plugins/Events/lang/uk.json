@@ -1,0 +1,32 @@
+{
+    "Events": {
+        "PluginDescription": "Відстежуйте події і отримуйте звіти про активність своїх відвідувачів.",
+        "AvgEventValue": "Середнє значення події: %s",
+        "AvgValue": "Середнє значення",
+        "AvgValueDocumentation": "Середнє всіх значень для цієї події",
+        "Event": "Подія",
+        "EventAction": "Дія події",
+        "EventActions": "Дії подій",
+        "EventCategories": "Категорії подій",
+        "EventCategory": "Категорія події",
+        "EventName": "Назва події",
+        "EventNames": "Назви подій",
+        "Events": "Події",
+        "EventsWithValue": "Події зі значенням",
+        "EventsWithValueDocumentation": "Кількість подій, де було встановлено значення для Події",
+        "EventValue": "Значення події",
+        "EventValueTooltip": "Загальні значення подій дорівнюють сумі %1$s значенням (подій) %2$s між мінімумом %3$s і максимумом %4$s.",
+        "MaxValue": "Максимальне значення",
+        "MaxValueDocumentation": "Максимальна значення для цієї події",
+        "MinValue": "Мінімальне значення",
+        "MinValueDocumentation": "Мінімальне значення для цієї події",
+        "SecondaryDimension": "Вторичний вимір %s.",
+        "SwitchToSecondaryDimension": "Переключитися на %s",
+        "TopEvents": "Топ подій",
+        "TotalEvents": "Усього подій",
+        "TotalEventsDocumentation": "Загальна кількість подій",
+        "TotalValue": "Загальне значення",
+        "TotalValueDocumentation": "Сума значень подій",
+        "ViewEvents": "Перегляд подій"
+    }
+}

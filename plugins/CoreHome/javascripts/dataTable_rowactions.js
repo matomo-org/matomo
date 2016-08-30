@@ -221,6 +221,11 @@ DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
     return value;
 };
 
+/** Get row metadata object */
+DataTable_RowAction.prototype.getRowMetadata = function (tr) {
+    return tr.data('row-metadata') || {};
+};
+
 /**
  * Base method for opening popovers.
  * This method will remember the parameter in the url and call doOpenPopover().

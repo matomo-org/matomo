@@ -32,7 +32,6 @@
         "NfsFilesystemWarning": "Máy chủ của bạn đang sử dụng một tập tin hệ thống NFS",
         "NfsFilesystemWarningSuffixAdmin": "Điều này tức là Piwik sẽ rất chậm khi sử dụng tập tin dựa trên phiên.",
         "NfsFilesystemWarningSuffixInstall": "Sử dụng tập tin dựa trên các phiên trên NFS là rất chậm, vì vậy Piwik sẽ sử dụng các phiên cơ sở dữ liệu. Nếu bạn có nhiều người sử dụng bảng điều khiển đồng thời, bạn có thể cần phải tăng số lượng tối đa các kết nối client đến máy chủ cơ sở dữ liệu.",
-        "NoConfigFound": "Tập tin cấu hình Piwik không thể được tìm thấy và bạn đang cố gắng truy cập vào một trang Piwik. <br\/><b> »Bạn có thể <a href='index.php'> cài đặt Piwik ngay bây giờ <\/a> <\/b> <br \/> <small> Nếu bạn cài đặt Piwik trước và có một số bảng trong DB của bạn, đừng lo lắng, bạn có thể sử dụng lại các bảng giống nhau và giữ dữ liệu hiện tại của bạn! <\/small>",
         "Optional": "Tùy chọn",
         "PasswordDoNotMatch": "Mật khẩu không phù hợp",
         "PercentDone": "%s %% thực hiện",

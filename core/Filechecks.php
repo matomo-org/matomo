@@ -174,7 +174,7 @@ class Filechecks
     {
         $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
         $message = '';
-        $message .= "<code>chown -R ". self::getUserAndGroup() ." " . $realpath . "</code><br />";
+        $message .= "<code>" . self::getCommandToChangeOwnerOfPiwikFiles() . "</code><br />";
         $message .= "<code>chmod -R 0755 " . $realpath . "</code><br />";
         $message .= 'After you execute these commands (or change permissions via your FTP software), refresh the page and you should be able to use the "Automatic Update" feature.';
         return $message;
@@ -205,7 +205,7 @@ class Filechecks
         return $message;
     }
 
-    private static function getUserAndGroup()
+    public static function getUserAndGroup()
     {
         $user = self::getUser();
         if (!function_exists('shell_exec')) {
@@ -220,12 +220,18 @@ class Filechecks
         return $user . ':' . $group;
     }
 
-    private static function getUser()
+    public static function getUser()
     {
-        if (!function_exists('shell_exec')) {
-            return 'www-data';
+        if (function_exists('shell_exec')) {
+            return trim(shell_exec('whoami'));
         }
-        return trim(shell_exec('whoami'));
+
+        $currentUser = get_current_user();
+        if(!empty($currentUser)) {
+            return $currentUser;
+        }
+
+        return 'www-data';
     }
 
     /**
@@ -237,8 +243,34 @@ class Filechecks
     private static function getMakeWritableCommand($realpath)
     {
         if (SettingsServer::isWindows()) {
-            return "<code>cacls $realpath /t /g " . get_current_user() . ":f</code><br />\n";
+            return "<code>cacls $realpath /t /g " . self::getUser() . ":f</code><br />\n";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCommandToChangeOwnerOfPiwikFiles()
+    {
+        $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
+        return "chown -R " . self::getUserAndGroup() . " " . $realpath;
+    }
+
+    public static function getOwnerOfPiwikFiles()
+    {
+        $index = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/index.php');
+        $stat = stat($index);
+        if(!$stat) {
+            return '';
+        }
+
+        $group = posix_getgrgid($stat[5]);
+        $group = $group['name'];
+
+        $user = posix_getpwuid($stat[4]);
+        $user = $user['name'];
+
+        return "$user:$group";
     }
 }

@@ -136,10 +136,10 @@ class Dashboard extends \Piwik\Plugin
         if (empty($defaultLayout)) {
             $topWidget = '';
 
-            $advertising = StaticContainer::get('Piwik\PiwikPro\Advertising');
-            if ($advertising->arePiwikProAdsEnabled() && Plugin\Manager::getInstance()->isPluginActivated('PiwikPro')) {
-                $topWidget .= '{"uniqueId":"widgetPiwikPropromoPiwikPro",'
-                    . '"parameters":{"module":"PiwikPro","action":"promoPiwikPro"}},';
+            $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+            if ($advertising->areAdsForProfessionalServicesEnabled() && Plugin\Manager::getInstance()->isPluginActivated('ProfessionalServices')) {
+                $topWidget .= '{"uniqueId":"widgetProfessionalServicespromoServices",'
+                    . '"parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
             }
 
             if (Piwik::hasUserSuperUserAccess()) {

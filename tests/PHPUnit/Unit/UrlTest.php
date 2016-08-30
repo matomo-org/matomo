@@ -73,6 +73,43 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getProtocol
+     */
+    public function test_getCurrentScheme_ProtoHeaderShouldPrecedenceHttpsHeader($proto)
+    {
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = $proto;
+        $this->assertEquals($proto, Url::getCurrentScheme());
+
+        unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
+        unset($_SERVER['HTTPS']);
+    }
+
+    /**
+     * @dataProvider getProtocol
+     */
+    public function test_getCurrentScheme_shouldDetectSecureFromHttpsHeader()
+    {
+        $_SERVER['HTTPS'] = 'on';
+        $this->assertEquals('https', Url::getCurrentScheme());
+
+        unset($_SERVER['HTTPS']);
+    }
+
+    /**
+     * @dataProvider getProtocol
+     */
+    public function test_getCurrentScheme_shouldBeHttpByDefault()
+    {
+        $this->assertEquals('http', Url::getCurrentScheme());
+    }
+
+    public function getProtocol()
+    {
+        return array(array('http'), array('https'));
+    }
+
+    /**
      * Dataprovider for testIsLocalUrl
      */
     public function getLocalUrls()

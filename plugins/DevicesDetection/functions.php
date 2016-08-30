@@ -72,7 +72,7 @@ function getBrowserName($label)
  *
  * First try to find a logo for the given short code
  * If none can be found try to find a logo for the browser family
- * Return unkown logo otherwise
+ * Return unknown logo otherwise
  *
  * @param string  $short  Shortcode or name of browser
  *

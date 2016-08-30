@@ -30,7 +30,6 @@
         "NfsFilesystemWarning": "Peladen Anda menggunakan berkas sistem NFS.",
         "NfsFilesystemWarningSuffixAdmin": "Ini berarti Piwik akan sangat lambat ketika menggunakan sesi berdasar berkas.",
         "NfsFilesystemWarningSuffixInstall": "Menggunakan sesi berdasar berkas dalam sisten berkas dalam NFS sangat lambat, sehingga Piwik akan menggunakan sesi berdasar basisdata. Bila Anda memiliki pengguna panel kendali secara bersamaan, Anda munkin membutuhkan peningkatan jumlah sambungan pengguna ke peladen basisdata.",
-        "NoConfigFound": "Berkas konfigurasi tak dapat ditemukan dan Anda mencoba untuk mengakses halaman Piwik. <br \/><strong>» Anda dapat <a href='index.php'>memasang Piwik sekarang<\/a><\/strong> <br \/><small>Jika Anda memasang Piwik sebelumnya dan memiliki beberapa tabel di basisdata Anda, jangan khawatir. Anda dapat menggunakan tabel lainnya dan menjaga data Anda saat ini!<\/small>",
         "Optional": "Pilihan",
         "PasswordDoNotMatch": "sandi tak sama",
         "PercentDone": "%s%% Selesai",

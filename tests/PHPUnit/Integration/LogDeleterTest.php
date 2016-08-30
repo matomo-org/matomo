@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Db;
 use Piwik\LogDeleter;
+use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestDataHelper\LogHelper;
 
@@ -34,7 +35,7 @@ class LogDeleterTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->logDeleter = new LogDeleter(new RawLogDao());
+        $this->logDeleter = new LogDeleter(new RawLogDao(), new LogTablesProvider());
 
         $this->logInserter = new LogHelper();
         $this->insertTestData();
@@ -47,35 +48,6 @@ class LogDeleterTest extends IntegrationTestCase
         $this->assertVisitExists(1);
         $this->assertVisitNotExists(2);
         $this->assertVisitNotExists(3);
-        $this->assertVisitExists(4);
-    }
-
-    public function test_deleteConversions_RemovesConversionsAndConversionItems()
-    {
-        $this->logDeleter->deleteConversions(array(2, 3));
-
-        $this->assertConversionsNotExists(2);
-        $this->assertConversionsNotExists(3);
-
-        $this->assertVisitExists(1);
-        $this->assertVisitExists(2, $checkAggregates = false);
-        $this->assertVisitExists(3, $checkAggregates = false);
-        $this->assertVisitExists(4);
-    }
-
-    public function test_deleteConversionItems_RemovesConversionItems()
-    {
-        $this->logDeleter->deleteConversionItems(array(2, 3));
-
-        $this->assertConversionItemsNotExist(2);
-        $this->assertConversionItemsNotExist(3);
-
-        $this->assertConversionsExists(2, $checkAggregates = false);
-        $this->assertConversionsExists(3, $checkAggregates = false);
-
-        $this->assertVisitExists(1);
-        $this->assertVisitExists(2, $checkAggregates = false);
-        $this->assertVisitExists(3, $checkAggregates = false);
         $this->assertVisitExists(4);
     }
 

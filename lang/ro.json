@@ -258,7 +258,6 @@
         "Password": "Parola",
         "Period": "Perioada",
         "Piechart": "Diagrama",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$sPiwik%2$s este un proiect colaborativ realizat de membrii %7$sPiwik team%8$s ca și de mulți alți contributori de pe mapamond. Dacă ești un fan Piwik, poți ajuta: află %3$sCum poți participa la Piwik%4$s, sau %5$sdonează acum%6$s pentru a ajuta la finanțarea Piwik 3.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s este disponibil. Va rugam instiintati %2$sAdministratorul dvs al Piwik%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s este disponibil. %2$s Actualizeaza-l acum!%3$s (see %4$s changes%5$s).",
         "PleaseSpecifyValue": "Va rugam specificati o valoare pentru '%s'.",

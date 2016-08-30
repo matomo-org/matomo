@@ -16,7 +16,12 @@ use Piwik\DataTable;
 class Console extends ApiRenderer
 {
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         self::sendHeader();
 

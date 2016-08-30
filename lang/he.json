@@ -9,6 +9,7 @@
         "AllWebsitesDashboard": "פאנל סקירה לכל האתרים",
         "And": "ו",
         "API": "API",
+        "Apply": "החל",
         "ArchivingInlineHelp": "עבור אתרים בעלי תעבורה בינוניתעד גבוהה, מומלץ לבטל את ארכיון Piwik בעת צפייה דרך הדפדפן בדוחות. במקום זאת, מומלץ להגדיר עבודה כרונית (cron job) שתעבד דוחות Piwik בכל שעה.",
         "ArchivingTriggerDescription": "מומלץ להתקנות גדולות יותר של Piwik, צריך %1$sלהגדיר עבודה כרונית%2$s שתעבד את הדוחות אוטומטית.",
         "AuthenticationMethodSmtp": "שיטת אימות עבור SMTP",
@@ -147,6 +148,7 @@
         "Others": "אחרים",
         "Outlinks": "קישורים יוצאים",
         "Overview": "מבט כללי",
+        "Pages": "עמודים",
         "Password": "סיסמה",
         "Period": "תקופה",
         "Piechart": "גרף עוגה",
@@ -237,7 +239,8 @@
         "HelpUsToImprovePiwikMobile": "האם ברצונך לשפעל איסוף נתונים אנונימי ב-Piwik בנייד?",
         "HowtoDeleteAnAccount": "לחץ לחיצה ארוכה כדי להסיר את החשבון",
         "HowtoDeleteAnAccountOniOS": "גרור שמאלה כדי למחוק את החשבון",
-        "HowtoLoginAnonymous": "השאר את שם המשתמש והסיסמא ריקים כדי להתחבר אנונימית"
+        "HowtoLoginAnonymous": "השאר את שם המשתמש והסיסמא ריקים כדי להתחבר אנונימית",
+        "NavigationBack": "חזרה"
     },
     "RowEvolution": {
         "AvailableMetrics": "מדדים זמינים",

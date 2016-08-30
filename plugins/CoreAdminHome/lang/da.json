@@ -1,8 +1,10 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Tilføj en ny betroet host",
         "Administration": "Administration",
         "ArchivingSettings": "Arkivering indstillinger",
         "BrandingSettings": "Branding indstillinger",
+        "ReleaseChannel": "Frigiv kanal",
         "ClickHereToOptIn": "Klik her for at vælge.",
         "ClickHereToOptOut": "Klik her for at fravælge.",
         "CustomLogoFeedbackInfo": "Hvis du tilpasser Piwik logoet, kan du også være interesseret i at skjule %1$s linket i topmenuen. For at gøre dette, kan du deaktivere tilbagemeldingsmodulet på %2$sUdvidelsesmodul administration%3$s siden.",
@@ -22,6 +24,7 @@
         "JavaScriptTracking": "Sporing med JavaScript",
         "JSTracking_CampaignKwdParam": "Kampagne nøgleord parameter",
         "JSTracking_CampaignNameParam": "Kampagnenavn parameter",
+        "JSTracking_CodeNoteBeforeClosingHead": "Sørg for, at denne kode er på alle side på dit website. Vi anbefaler at indsætte koden lige før det afsluttende %1$s tag.",
         "JSTracking_CustomCampaignQueryParam": "Brug brugerdefineret forespørgsel parameternavne for kampagnenavnet & søgeord",
         "JSTracking_CustomCampaignQueryParamDesc": "Note: %1$sPiwik registrerer automatisk Google Analytics parametre.%2$s",
         "JSTracking_DisableCookies": "Deaktivere alle sporingscookies",
@@ -46,6 +49,7 @@
         "JSTrackingIntro5": "Hvis du vil gøre mere end at spore sidevisninger, kan du checke %1$sPiwik Javascript sporingsdokumentation%2$s for listen over tilgængelige funktioner. Ved hjælp af disse funktioner kan du spore mål, brugerdefinerede variabler, e-handels ordrer, afbrudte ordrer og meget mere.",
         "LogoNotWriteableInstruction": "Hvis du vil bruge din brugerdefinerede logo i stedet for standard Piwik logoet, giver skriverettigheder til denne mappe: %1$s Piwik brug skriveadgang til dine logoer gemt i filer %2$s.",
         "FileUploadDisabled": "Overførelse af filer er ikke aktiveret i PHP-konfiguration. For at overføre dit brugerdefinerede logo skal du indstille %s i php.ini og genstarte webserveren.",
+        "LogoUploadFailed": "Den uploadede fil kunne ikke behandles. Kontroller at filen har et gyldigt format.",
         "LogoUpload": "Vælg et logo til overførelse",
         "FaviconUpload": "Vælg Favicon til overførelse",
         "LogoUploadHelp": "Overfør en fil i %1$s formater med en højde på mindst %2$s pixels.",
@@ -67,8 +71,10 @@
         "PluginSettingsIntro": "Her kan du ændre indstillingerne for følgende 3. parts udvidelsesmoduler:",
         "PluginSettingsValueNotAllowed": "Værdien for feltet \"%1$s\" i udvidelsen \"%2$s\" er ikke tilladt",
         "PluginSettingsSaveFailed": "Kunne ikke gemme udvidelsesmodul indstillinger",
+        "SendPluginUpdateCommunication": "Send en e-mail når der er en opdatering til et plugin",
         "SendPluginUpdateCommunicationHelp": "En e-mail vil blive sendt til Superbrugere, når der er en ny version tilgængelig for denne programudvidelse.",
         "StableReleases": "Hvis Piwik er en kritisk del af virksomheden, anbefaler vi at man bruger den nyeste stabile udgave. Hvis man bruger den nyeste beta, og finder en fejl eller har et forslag, %1$sse her%2$s.",
+        "LtsReleases": "LTS (Long Term Support) versioner modtager kun sikkerheds- og fejlrettelser.",
         "SystemPluginSettings": "Indstillinger for system udvidelsesmoduler",
         "TrackAGoal": "Spor et mål",
         "TrackingCode": "Sporingskode",
@@ -81,6 +87,9 @@
         "YouAreOptedIn": "Du er i øjeblikket tilmeldt.",
         "YouAreOptedOut": "Du har i øjeblikket frameldt.",
         "YouMayOptOut": "Du kan vælge ikke at have en unik web analyse cookie identifikationsnummer tildelt til computeren for at undgå aggregering og analyse af data indsamlet på denne hjemmesider.",
-        "YouMayOptOutBis": "Vælg muligheden, klik nedenfor for at modtage en opt out-cookie."
+        "YouMayOptOutBis": "Vælg muligheden, klik nedenfor for at modtage en opt out-cookie.",
+        "OptingYouOut": "Vælger dig fra, vent venligst.....",
+        "ProtocolNotDetectedCorrectly": "Du ser Piwik over a sikker SSL forbindelse (med https) men Piwik kan kun finde en usikker forbindelse på serveren.",
+        "ProtocolNotDetectedCorrectlySolution": "For at sikre at Piwik behandler anmodninger og dit indhold over HTTPS, skal du måske redigere din %1$s fil og enten konfigurere dine proxy indstillinger, eller du kan tilføje linjen %2$s under sektionen %3$s. %4$sLæs mere%5$s"
     }
 }

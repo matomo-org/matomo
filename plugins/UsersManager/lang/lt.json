@@ -21,7 +21,6 @@
         "ExceptionEditAnonymous": "Naudotojas 'anonimas' negali būti keičiamas ar šalinamas. Jis naudojamas nustatyti naudotoją, kuris dar neprisijungęs. Pavyzdžiui, Jūs galite padaryti savo statistinius duomenis viešais suteikdami 'matyti' teises naudotojui 'anonimas'.",
         "ExceptionEmailExists": "Naudotojas su tokiu el. paštu '%s' jau yra.",
         "ExceptionInvalidEmail": "Netinkamas el. pašto formatas.",
-        "ExceptionInvalidPassword": "Slaptažodžio ilgis privalo būti tarp %1$s ir %2$s simbolių.",
         "ExceptionLoginExists": "Naudotojo vardas \"%s\" jau yra.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Super naudotojo prieigos teisių pašalinimas iš naudotojo \"%s\" yra negalimas.",
         "ExceptionUserDoesNotExist": "Naudotojas '%s' neegzistuoja.",

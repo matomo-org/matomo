@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Gelişme",
+        "LoadingWebsites": "Web siteleri yükleniyor",
+        "PluginDescription": "Tüm web sitesi ve uygulamalarınızı kullanışlı 'Tüm Web Siteleri' panosu ile görüp karşılaştırabilirsiniz.",
+        "TopLinkTooltip": "Tüm web sitelerinizin istatistiklerini karşılaştırın.",
+        "Pagination": "%1$s - %2$s of %3$s"
+    }
+}

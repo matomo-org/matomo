@@ -52,7 +52,7 @@ class GeneratePlugin extends GeneratePluginBase
                 'ExampleTheme'       => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                '3.0.0-b1'           => Version::VERSION
             );
             $whitelistFiles = array();
 
@@ -63,7 +63,7 @@ class GeneratePlugin extends GeneratePluginBase
                 'ExamplePlugin'      => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                '3.0.0-b1'           => Version::VERSION
             );
             $whitelistFiles = array(
                 '/ExamplePlugin.php',

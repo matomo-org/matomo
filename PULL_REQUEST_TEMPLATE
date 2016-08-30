@@ -1,0 +1,3 @@
+Please issue pull request against the `3.x-dev` branch as the `master` branch currently represents our `2.X` version which is in LTS mode. 
+
+Important fixes will be merged into `master` if needed after it was merged to `3.x-dev`.

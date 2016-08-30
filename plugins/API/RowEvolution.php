@@ -209,7 +209,7 @@ class RowEvolution
             $result = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
         }
 
-        // remove @ terminal operator occurances
+        // remove @ terminal operator occurrences
         return str_replace(LabelFilter::TERMINAL_OPERATOR, '', $result);
     }
 

@@ -76,7 +76,7 @@ class StylesheetUIAssetFetcher extends UIAssetFetcher
         if (!$theme) {
             return;
         }
-        $themeStylesheet = $this->getTheme()->getStylesheet();
+        $themeStylesheet = $theme->getStylesheet();
 
         if ($themeStylesheet) {
             $this->fileLocations[] = $themeStylesheet;

@@ -28,7 +28,6 @@
         "MakeOneTimeDonation": "또는, 한 번만 기부합니다.",
         "Menu": "메뉴",
         "NoPrivilegesAskPiwikAdmin": "'%1$s'로 로그인되었지만 권한이 설정되어 있지 않습니다. %2$s Piwik 관리자(클릭 이메일) %3$s에 '보기'권한을 부여 받으세요.",
-        "OnlyForSuperUserAccess": "해당 위젯은 유저가 수퍼 유저일 경우에만 나타납니다.",
         "PageOf": "%1$s \/ %2$s",
         "PeriodRange": "기간",
         "ReportGeneratedOn": "%s에 생성된 보고서",

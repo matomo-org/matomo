@@ -57,7 +57,6 @@
         "ThankYouUpdatePiwik": "Piwik を利用し、最新の状態を維持して頂きありがとうございます！",
         "PostUpdateMessage": "Piwik は、常に無料でダウンロードして自由に使用できますが、成長し、改善するためには皆様のご支援が必要です。",
         "PostUpdateSupport": "Piwik の使い方で助けが必要な場合は、そのクリエイターからサポートを得ることができます：",
-        "EnterpriseSolutions": "エンタープライズソリューション",
         "CloudHosting": "クラウドホスティング",
         "Updating": "アップデート",
         "UpdateUsingHttpsFailed": "以下のエラーにより、セキュリティで保護された HTTPS 接続で Piwik の最新バージョンをダウンロードできませんでした。",

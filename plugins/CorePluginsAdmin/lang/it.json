@@ -21,7 +21,7 @@
         "CorePluginTooltip": "I plugins di base non hanno versione dato che sono distribuiti con Piweik.",
         "Deactivate": "Disattiva",
         "Developer": "Sviluppatore",
-        "DevelopersLearnHowToDevelopPlugins": "Sviluppatori: Impara come ampliare e personalizzare Piwik %1$ssviluppando plugins e temi%2$s.",
+        "DevelopersLearnHowToDevelopPlugins": "Per gli sviluppatori: Imparate come ampliare e personalizzare Piwik %1$ssviluppando plugins e temi%2$s.",
         "DoMoreContactPiwikAdmins": "Per installare un nuovo plugin o un nuovo tema, rimani in contatto con il tuo amministratore di Piwik.",
         "EmailToEnquireUpdatedVersion": "Manda un'email a %1$s per informarti su una versione aggiornata di %2$s.",
         "FeaturedPlugin": "Plugin rappresentativo",

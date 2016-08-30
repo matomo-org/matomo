@@ -86,7 +86,7 @@ if (!defined('PIWIK_USER_PATH')) {
  *                  which is outputted in the template, eg, `{{ postEvent('MyPlugin.event') }}`
  * - **isPluginLoaded**: Returns true if the supplied plugin is loaded, false if otherwise.
  *                       `{% if isPluginLoaded('Goals') %}...{% endif %}`
- * - **arePiwikProAdsEnabled**: Returns true if it is ok to show some Piwik PRO advertising in the UI (from Piwik 2.16.0)
+ * - **areAdsForProfessionalServicesEnabled**: Returns true if it is ok to show some advertising in the UI for providers of Professional Support for Piwik (from Piwik 2.16.0)
  *
  * ### Examples
  *
@@ -229,8 +229,8 @@ class View implements ViewInterface
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
 
-            $piwikProAds = StaticContainer::get('Piwik\PiwikPro\Advertising');
-            $this->arePiwikProAdsEnabled = $piwikProAds->arePiwikProAdsEnabled();
+            $piwikAds = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+            $this->areAdsForProfessionalServicesEnabled = $piwikAds->areAdsForProfessionalServicesEnabled();
 
             if (Development::isEnabled()) {
                 $cacheBuster = rand(0, 10000);
@@ -253,7 +253,8 @@ class View implements ViewInterface
         ProxyHttp::overrideCacheControlHeaders('no-store');
 
         Common::sendHeader('Content-Type: ' . $this->contentType);
-        // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
+        // always sending this header, sometimes empty, to ensure that Dashboard embed loads
+        // - when calling sendHeader() multiple times, the last one prevails
         Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
 
         return $this->renderTwigTemplate();

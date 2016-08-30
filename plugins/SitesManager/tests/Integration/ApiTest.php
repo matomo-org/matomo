@@ -545,7 +545,7 @@ class ApiTest extends IntegrationTestCase
 
         $sites = API::getInstance()->getSitesWithAdminAccess();
 
-        // we dont test the ts_created
+        // we don't test the ts_created
         unset($sites[0]['ts_created']);
         unset($sites[1]['ts_created']);
         $this->assertEquals($resultWanted, $sites);
@@ -655,7 +655,8 @@ class ApiTest extends IntegrationTestCase
 
         $sites = API::getInstance()->getSitesWithViewAccess();
 
-        // we dont test the ts_created
+        // we don't test the ts_created
+
         unset($sites[0]['ts_created']);
         unset($sites[1]['ts_created']);
         $this->assertEquals($resultWanted, $sites);
@@ -691,7 +692,7 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::setIdSitesAdmin(array());
 
         $sites = API::getInstance()->getSitesWithAtLeastViewAccess();
-        // we dont test the ts_created
+        // we don't test the ts_created
         unset($sites[0]['ts_created']);
         unset($sites[1]['ts_created']);
         $this->assertEquals($resultWanted, $sites);

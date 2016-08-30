@@ -19,7 +19,6 @@
         "InstallationStatus": "Estado da Instalação",
         "LargePiwikInstances": "Ajuda para grandes instâncias Piwik",
         "Legend": "Legenda",
-        "NoConfigFound": "O ficheiro de configuração Piwik não foi encontrado e está a tentar aceder a uma página Piwik.<br \/><b>  » Pode <a href='index.php'>instalar o Piwik agora<\/a><\/b><br \/><small>Se instalou o Piwik antes e possui algumas tabelas na sua base de dados, não se preocupe, pode reutilizar as mesmas tabelas e manter os dados existentes!<\/small>",
         "Optional": "Opcional",
         "PasswordDoNotMatch": "palavras-passe não coincidem",
         "PercentDone": "%s %% Completado",
