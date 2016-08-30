@@ -51,8 +51,6 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 * If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 * The following deprecated events have been removed as mentioned.
  * `Tracker.existingVisitInformation` Use [dimensions](http://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
- * `Tracker.getVisitFieldsToPersist`
- * `Tracker.newConversionInformation`
  * `Tracker.newVisitorInformation`
  * `Tracker.recordAction`
  * `Tracker.recordEcommerceGoal`

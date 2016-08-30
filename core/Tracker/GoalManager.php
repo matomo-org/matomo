@@ -689,6 +689,23 @@ class GoalManager
      */
     protected function insertNewConversion($conversion, $visitInformation, Request $request)
     {
+        /**
+         * Triggered before persisting a new [conversion entity](/guides/persistence-and-the-mysql-backend#conversions).
+         *
+         * This event can be used to modify conversion information or to add new information to be persisted.
+         *
+         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
+         *
+         * @param array $conversion The conversion entity. Read [this](/guides/persistence-and-the-mysql-backend#conversions)
+         *                          to see what it contains.
+         * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
+         *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
+         * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
+         * @deprecated
+         * @ignore
+         */
+        Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request));
+
         $newGoalDebug = $conversion;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);
