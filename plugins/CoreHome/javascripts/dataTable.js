@@ -1662,7 +1662,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $('th:has(.columnDocumentation)', domElem).each(function () {
             var th = $(this);
             var tooltip = th.find('.columnDocumentation');
-
+            
             tooltip.next().hover(function () {
                     var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
                     var top = -1 * (tooltip.outerHeight() + 10);
