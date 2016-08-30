@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
+use Piwik\Common;
 use Piwik\Metrics;
 
 class Archiver extends \Piwik\Plugin\Archiver
@@ -92,8 +93,11 @@ class Archiver extends \Piwik\Plugin\Archiver
             $metrics->enrichMetricsWithConversions();
         }
 
-        $report = $metrics->asDataTable()->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        $table = $metrics->asDataTable();
+        $report = $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        Common::destroy($table);
         $this->getProcessor()->insertBlobRecord($recordName, $report);
+        unset($table, $report);
     }
 
 }
