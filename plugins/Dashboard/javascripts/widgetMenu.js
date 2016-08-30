@@ -69,6 +69,7 @@ widgetsHelper.getAvailableWidgets = function (callback) {
         ajaxRequest.addParams({
             module: 'API',
             method: 'API.getWidgetMetadata',
+            filter_limit: '-1',
             format: 'JSON',
             deep: '1',
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite')
