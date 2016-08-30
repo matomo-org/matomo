@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CustomVariables\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
+use Piwik\Plugins\CustomVariables\Segment;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 
 class Base extends VisitDimension
@@ -23,7 +23,6 @@ class Base extends VisitDimension
         $segment->setType('dimension');
         $segment->setSegment('customVariable' . $segmentNameSuffix);
         $segment->setName($this->getName() . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')');
-        $segment->setCategory('CustomVariables_CustomVariables');
         $segment->setUnionOfSegments($this->getSegmentColumns('customVariable' . $segmentNameSuffix, $numCustomVariables));
         $this->addSegment($segment);
 
@@ -31,7 +30,6 @@ class Base extends VisitDimension
         $segment->setType('dimension');
         $segment->setSegment('customVariablePage' . $segmentNameSuffix);
         $segment->setName($this->getName() . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')');
-        $segment->setCategory('CustomVariables_CustomVariables');
         $segment->setUnionOfSegments($this->getSegmentColumns('customVariablePage' . $segmentNameSuffix, $numCustomVariables));
         $this->addSegment($segment);
 
