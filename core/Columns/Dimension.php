@@ -10,6 +10,7 @@ namespace Piwik\Columns;
 
 use Exception;
 use Piwik\CacheId;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -181,11 +182,47 @@ abstract class Dimension
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
 
+            /**
+             * Triggered to add new dimensions that cannot be picked up automatically by the platform.
+             * This is useful if the plugin allows a user to create reports / dimensions dynamically. For example
+             * CustomDimensions or CustomVariables. There are a variable number of dimensions in this case and it
+             * wouldn't be really possible to create a report file for one of these dimensions as it is not known
+             * how many Custom Dimensions will exist.
+             *
+             * **Example**
+             *
+             *     public function addDimension(&$dimensions)
+             *     {
+             *         $dimensions[] = new MyCustomDimension();
+             *     }
+             *
+             * @param Dimension[] $reports An array of dimensions
+             */
+            Piwik::postEvent('Dimension.addDimensions', array(&$instances));
+
             foreach ($plugins as $plugin) {
                 foreach (self::getDimensions($plugin) as $instance) {
                     $instances[] = $instance;
                 }
             }
+
+            /**
+             * Triggered to filter / restrict dimensions.
+             *
+             * **Example**
+             *
+             *     public function filterDimensions(&$dimensions)
+             *     {
+             *         foreach ($dimensions as $index => $dimension) {
+             *              if ($dimension->getName() === 'Page URL') {}
+             *                  unset($dimensions[$index]); // remove this dimension
+             *              }
+             *         }
+             *     }
+             *
+             * @param Dimension[] $dimensions An array of dimensions
+             */
+            Piwik::postEvent('Dimension.filterDimensions', array(&$instances));
 
             $cache->save($cacheId, $instances);
         }

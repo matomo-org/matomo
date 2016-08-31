@@ -83,7 +83,12 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * The JavaScript AjaxHelper has a new method `ajaxHelper.withTokenInUrl()` to easily send a token along a XHR. Within the Controller the existence of this token can be checked via `$this->checkTokenInUrl();` to prevent CSRF attacks.
 * The new class `Piwik\Updater\Migration\Factory` lets you easily create migrations that can be executed during an update. For example database or plugin related migrations. To generate a new update with migrations execute `./console generate:update`.
 * The new method `Piwik\Updater::executeMigration` lets you execute a single migration.
-* New event `ViewDataTable.filterViewDataTable` let's you filter available visualizations
+* The following events have been added:
+ * `ViewDataTable.filterViewDataTable` let's you filter available visualizations
+ * `Dimension.addDimension` let's you add custom dimensions
+ * `Dimension.filterDimension` let's you filter any dimensions
+ * `Report.addReports` let's you add dynamically created reports
+ * `Report.filterReports` let's you filter any report
 
 ### New features
 * New "Sparklines" visualization that let's you create a widget showing multiple sparklines
