@@ -1538,6 +1538,90 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Device type</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getType</action>
+						<order>201</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getType</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device model</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getModel</action>
+						<order>202</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getModel</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device brand</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrand</action>
+						<order>203</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrand</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Country</name>
 						<category>
 							<id>Goals by User location</id>
@@ -1552,7 +1636,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>204</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1580,7 +1664,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>205</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1608,7 +1692,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>206</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -1636,7 +1720,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>207</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2040,6 +2124,90 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Device type</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getType</action>
+						<order>201</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getType</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device model</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getModel</action>
+						<order>202</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getModel</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device brand</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrand</action>
+						<order>203</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrand</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Country</name>
 						<category>
 							<id>Goals by User location</id>
@@ -2054,7 +2222,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>204</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2082,7 +2250,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>205</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2110,7 +2278,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>206</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2138,7 +2306,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>207</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2542,6 +2710,90 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Device type</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getType</action>
+						<order>201</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getType</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device model</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getModel</action>
+						<order>202</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getModel</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device brand</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrand</action>
+						<order>203</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrand</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Country</name>
 						<category>
 							<id>Goals by User location</id>
@@ -2556,7 +2808,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>204</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2584,7 +2836,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>205</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2612,7 +2864,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>206</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -2640,7 +2892,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>207</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3097,6 +3349,90 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Device type</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getType</action>
+						<order>201</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getType</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device model</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getModel</action>
+						<order>202</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getModel</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device brand</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrand</action>
+						<order>203</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrand</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Country</name>
 						<category>
 							<id>Goals by User location</id>
@@ -3111,7 +3447,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>204</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3139,7 +3475,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>205</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3167,7 +3503,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>206</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3195,7 +3531,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>207</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3768,6 +4104,90 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Device type</name>
+						<category>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getType</action>
+						<order>201</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getType</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device model</name>
+						<category>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getModel</action>
+						<order>202</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getModel</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Device brand</name>
+						<category>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrand</action>
+						<order>203</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrand</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Country</name>
 						<category>
 							<id>Sales by User location</id>
@@ -3782,7 +4202,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCountry</action>
-						<order>201</order>
+						<order>204</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3810,7 +4230,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
-						<order>202</order>
+						<order>205</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3838,7 +4258,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getRegion</action>
-						<order>203</order>
+						<order>206</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3866,7 +4286,7 @@
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getCity</action>
-						<order>204</order>
+						<order>207</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
