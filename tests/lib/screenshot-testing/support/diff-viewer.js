@@ -58,10 +58,10 @@ DiffViewerGenerator.prototype.generate = function (callback) {
 
                 var filename       = entry.name,
                     expectedUrl    = filename,
-                    screenshotRepo = options['screenshot-repo'] || 'piwik/piwik-ui-tests',
-                    pathPrefix     = options['screenshot-repo'] ? '/Test/UI' : '',
+                    screenshotRepo = options['screenshot-repo'] || 'piwik/piwik',
+                    pathPrefix     = options['screenshot-repo'] ? '/Test/UI' : '/tests/UI',
                     expectedUrlGithub = 'https://raw.githubusercontent.com/' + screenshotRepo + '/master' + pathPrefix
-                                      + '/expected-ui-screenshots/' + filename;
+                                      + '/expected-screenshots/' + filename;
 
                 var expectedHtml = '';
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2008" />
+	<result date="2009" />
+	<result date="2010" />
+	<result date="2011" />
+	<result date="2012">
+		<row>
+			<label>referrer.com</label>
+			<nb_visits>9</nb_visits>
+			<nb_actions>43</nb_actions>
+			<max_actions>7</max_actions>
+			<sum_visit_length>7398</sum_visit_length>
+			<bounce_count>0</bounce_count>
+			<goals>
+				<row idgoal='1'>
+					<nb_conversions>21</nb_conversions>
+					<nb_visits_converted>9</nb_visits_converted>
+					<revenue>105</revenue>
+				</row>
+			</goals>
+			<nb_conversions>21</nb_conversions>
+			<revenue>105</revenue>
+			<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<segment>referrerName==referrer.com</segment>
+			<idsubdatatable>8</idsubdatatable>
+		</row>
+	</result>
+</results>

@@ -288,6 +288,17 @@ class ProcessedReport
         return $actualReports; // make sure array has contiguous key values
     }
 
+    private static $translatedOrderOfReports = null;
+
+    /**
+     * Resets translated reports.
+     * FOR TESTING ONLY
+     */
+    public static function reset()
+    {
+        self::$translatedOrderOfReports = null;
+    }
+
     /**
      * API metadata are sorted by category/name,
      * with a little tweak to replicate the standard Piwik category ordering
