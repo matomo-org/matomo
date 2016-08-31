@@ -1,9 +1,5 @@
 @font-face {
     font-family: 'piwik';
-    src: url('plugins/Morpheus/fonts/piwik.eot');
-}
-@font-face {
-    font-family: 'piwik';
     src: url('plugins/Morpheus/fonts/piwik.ttf');
     font-weight: normal;
     font-style: normal;
