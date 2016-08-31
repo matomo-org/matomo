@@ -35,7 +35,7 @@
             model.isLoading = true;
 
             fetchCustomVariables().then(function () {
-                return piwikApi.fetch({method: 'CustomVariables.getUsagesOfSlots'});
+                return piwikApi.fetch({method: 'CustomVariables.getUsagesOfSlots', filter_limit: '-1'});
 
             }).then(function (customVariables) {
                 model.customVariables = customVariables;

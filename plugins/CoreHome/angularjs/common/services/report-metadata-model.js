@@ -40,6 +40,7 @@
                 reportsPromise = piwikApi.fetch({
                     method: 'API.getReportMetadata',
                     idSites: piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'),
+                    filter_limit: '-1'
                 }).then(function (response) {
                     model.reports = response;
                     return response;

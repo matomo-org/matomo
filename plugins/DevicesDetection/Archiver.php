@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
+use Piwik\Common;
 use Piwik\Metrics;
 
 class Archiver extends \Piwik\Plugin\Archiver
@@ -73,9 +74,30 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private function aggregateByLabel($labelSQL, $recordName)
     {
-        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL)->asDataTable();
-        $report = $metrics->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL);
+
+        if (in_array($recordName, array(self::DEVICE_TYPE_RECORD_NAME, self::DEVICE_BRAND_RECORD_NAME, self::DEVICE_MODEL_RECORD_NAME))) {
+
+            $labelSQL = str_replace('log_visit.', 'log_conversion.', $labelSQL);
+
+            $query = $this->getLogAggregator()->queryConversionsByDimension(array($labelSQL));
+
+            if ($query === false) {
+                return;
+            }
+
+            while ($conversionRow = $query->fetch()) {
+
+                $metrics->sumMetricsGoals($conversionRow[$labelSQL], $conversionRow);
+            }
+            $metrics->enrichMetricsWithConversions();
+        }
+
+        $table = $metrics->asDataTable();
+        $report = $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        Common::destroy($table);
         $this->getProcessor()->insertBlobRecord($recordName, $report);
+        unset($table, $report);
     }
 
 }

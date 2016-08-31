@@ -17,7 +17,8 @@
                 action: 'getAnnotationManager',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;
@@ -102,7 +103,8 @@
                 action: 'getEvolutionIcons',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;

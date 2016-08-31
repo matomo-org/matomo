@@ -4689,7 +4689,7 @@ if (typeof window.Piwik !== 'object') {
 
                 var request = getRequest(linkParams, customData, 'link');
 
-                sendRequest(request, (callback ? 0 : configTrackerPause), callback);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*

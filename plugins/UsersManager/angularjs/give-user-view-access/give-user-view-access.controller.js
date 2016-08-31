@@ -79,7 +79,8 @@
             piwikApi.fetch({
                 method: 'UsersManager.getUsersAccessFromSite',
                 userLogin: userLogin,
-                idSite: idSites
+                idSite: idSites,
+                filter_limit: '-1'
             }, requestOptions).then(function (users) {
                 var userLogins = [];
                 if (users) {
@@ -103,7 +104,7 @@
         {
             return piwikApi.fetch({
                 method: 'UsersManager.userExists',
-                userLogin: usernameOrEmail,
+                userLogin: usernameOrEmail
             }, requestOptions).then(function (response) {
 
                 return response;
@@ -117,7 +118,7 @@
         {
             return piwikApi.fetch({
                 method: 'UsersManager.getUserLoginFromUserEmail',
-                userEmail: usernameOrEmail,
+                userEmail: usernameOrEmail
             }, requestOptions).then(function (response) {
                 return response;
             }, function () {
