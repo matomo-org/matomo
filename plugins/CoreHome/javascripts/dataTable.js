@@ -1,4 +1,3 @@
-
 /*!
  * Piwik - free/libre analytics platform
  *
@@ -811,7 +810,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $searchAction.find('.icon-search').off('click', searchForPattern);
 
             $searchInput.val('');
-            
+
             if (currentPattern) {
                 // we search for this pattern so if there was a search term before, and someone closes the search
                 // we show all results again

@@ -256,6 +256,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         Cache::deleteTrackerCache();
 
+        ProcessedReport::reset();
+
         self::resetPluginsInstalledConfig();
 
         $testEnvironment = $this->getTestEnvironment();

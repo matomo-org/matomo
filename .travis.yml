@@ -79,7 +79,7 @@ matrix:
     # AngularJS tests need to run only on one PHP version
     - php: 5.5
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
-      
+
 sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
@@ -87,6 +87,9 @@ script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 cache:
   directories:
     - "travis_phantomjs"
+
+before_install:
+  - ./tests/travis/install_git_lfs.sh
 
 install:
   - git fetch -q
@@ -102,8 +105,8 @@ install:
 
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
-  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install' 
- 
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
+
 
 
 before_script:

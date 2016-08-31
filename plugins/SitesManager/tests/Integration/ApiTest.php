@@ -656,7 +656,6 @@ class ApiTest extends IntegrationTestCase
         $sites = API::getInstance()->getSitesWithViewAccess();
 
         // we don't test the ts_created
-
         unset($sites[0]['ts_created']);
         unset($sites[1]['ts_created']);
         $this->assertEquals($resultWanted, $sites);
