@@ -156,8 +156,8 @@ class GenerateTest extends GeneratePluginBase
                 '/tests',
                 '/tests/UI',
                 '/tests/UI/.gitignore',
-                '/tests/UI/expected-ui-screenshots',
-                '/tests/UI/expected-ui-screenshots/.gitkeep',
+                '/tests/UI/expected-screenshots',
+                '/tests/UI/expected-screenshots/.gitkeep',
                 '/tests/UI/SimpleUITest_spec.js',
             );
         }
