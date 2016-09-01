@@ -9,12 +9,16 @@
 namespace Piwik\Columns;
 
 use Exception;
+use Piwik\CacheId;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ComponentFactory;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
+use Piwik\Cache as PiwikCache;
+use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * @api
@@ -171,40 +175,71 @@ abstract class Dimension
      */
     public static function getAllDimensions()
     {
-        $dimensions = array();
+        $cacheId = CacheId::pluginAware('AllDimensions');
+        $cache   = PiwikCache::getTransientCache();
 
-        foreach (VisitDimension::getAllDimensions() as $dimension) {
-            $dimensions[] = $dimension;
+        if (!$cache->contains($cacheId)) {
+            $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
+            $instances = array();
+
+            /**
+             * Triggered to add new dimensions that cannot be picked up automatically by the platform.
+             * This is useful if the plugin allows a user to create reports / dimensions dynamically. For example
+             * CustomDimensions or CustomVariables. There are a variable number of dimensions in this case and it
+             * wouldn't be really possible to create a report file for one of these dimensions as it is not known
+             * how many Custom Dimensions will exist.
+             *
+             * **Example**
+             *
+             *     public function addDimension(&$dimensions)
+             *     {
+             *         $dimensions[] = new MyCustomDimension();
+             *     }
+             *
+             * @param Dimension[] $reports An array of dimensions
+             */
+            Piwik::postEvent('Dimension.addDimensions', array(&$instances));
+
+            foreach ($plugins as $plugin) {
+                foreach (self::getDimensions($plugin) as $instance) {
+                    $instances[] = $instance;
+                }
+            }
+
+            /**
+             * Triggered to filter / restrict dimensions.
+             *
+             * **Example**
+             *
+             *     public function filterDimensions(&$dimensions)
+             *     {
+             *         foreach ($dimensions as $index => $dimension) {
+             *              if ($dimension->getName() === 'Page URL') {}
+             *                  unset($dimensions[$index]); // remove this dimension
+             *              }
+             *         }
+             *     }
+             *
+             * @param Dimension[] $dimensions An array of dimensions
+             */
+            Piwik::postEvent('Dimension.filterDimensions', array(&$instances));
+
+            $cache->save($cacheId, $instances);
         }
 
-        foreach (ActionDimension::getAllDimensions() as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        foreach (ConversionDimension::getAllDimensions() as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        return $dimensions;
+        return $cache->fetch($cacheId);
     }
 
     public static function getDimensions(Plugin $plugin)
     {
-        $dimensions = array();
+        $dimensions = $plugin->findMultipleComponents('Columns', '\\Piwik\\Columns\\Dimension');
+        $instances  = array();
 
-        foreach (VisitDimension::getDimensions($plugin) as $dimension) {
-            $dimensions[] = $dimension;
+        foreach ($dimensions as $dimension) {
+            $instances[] = new $dimension();
         }
 
-        foreach (ActionDimension::getDimensions($plugin) as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        foreach (ConversionDimension::getDimensions($plugin) as $dimension) {
-            $dimensions[] = $dimension;
-        }
-
-        return $dimensions;
+        return $instances;
     }
 
     /**

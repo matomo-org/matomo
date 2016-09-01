@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\CacheId;
 use Piwik\Category\CategoryList;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Cache as PiwikCache;
 
@@ -86,9 +87,45 @@ class ReportsProvider
         if (!$cache->contains($cacheId)) {
             $instances = array();
 
+            /**
+             * Triggered to add new reports that cannot be picked up automatically by the platform.
+             * This is useful if the plugin allows a user to create reports / dimensions dynamically. For example
+             * CustomDimensions or CustomVariables. There are a variable number of dimensions in this case and it
+             * wouldn't be really possible to create a report file for one of these dimensions as it is not known
+             * how many Custom Dimensions will exist.
+             *
+             * **Example**
+             *
+             *     public function addReport(&$reports)
+             *     {
+             *         $reports[] = new MyCustomReport();
+             *     }
+             *
+             * @param Report[] $reports An array of reports
+             */
+            Piwik::postEvent('Report.addReports', array(&$instances));
+
             foreach ($reports as $report) {
                 $instances[] = new $report();
             }
+
+            /**
+             * Triggered to filter / restrict reports.
+             *
+             * **Example**
+             *
+             *     public function filterReports(&$reports)
+             *     {
+             *         foreach ($reports as $index => $report) {
+             *              if ($report->getCategory() === 'Actions') {}
+             *                  unset($reports[$index]); // remove all reports having this action
+             *              }
+             *         }
+             *     }
+             *
+             * @param Report[] $reports An array of reports
+             */
+            Piwik::postEvent('Report.filterReports', array(&$instances));
 
             usort($instances, array($this, 'sort'));
 
