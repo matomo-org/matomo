@@ -10,8 +10,6 @@ namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
 use Piwik\Common;
-use Piwik\DataTable\Renderer;
-use Piwik\DataTable;
 use Piwik\Piwik;
 
 class Php extends ApiRenderer
@@ -25,7 +23,7 @@ class Php extends ApiRenderer
 
     /**
      * @param $message
-     * @param Exception|\Throwable $exception
+     * @param \Exception|\Throwable $exception
      * @return string
      */
     public function renderException($message, $exception)

@@ -469,6 +469,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // init report renderer
+        $reportRenderer->setIdSite($idSite);
         $reportRenderer->setLocale($language);
 
         // render report
