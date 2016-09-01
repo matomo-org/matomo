@@ -10,6 +10,7 @@
         "MetricDataByYear": "Variabler per år",
         "MetricTables": "Variabeltabeller",
         "OtherTables": "Övriga tabeller",
+        "PluginDescription": "Ger detaljerade rapporter över användning av MySQL databasen. Finns tillgängligt för Administratörer under Diagnostik.",
         "ReportDataByYear": "Raporttabeller per år",
         "ReportTables": "Rapporttabeller",
         "RowCount": "Radantal",

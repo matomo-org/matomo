@@ -24,7 +24,6 @@
         "InstallationStatus": "Įdiegimo būklė",
         "LargePiwikInstances": "Pagalba dideliems Piwik pavyzdžiams",
         "Legend": "Sutartinis ženklas",
-        "NoConfigFound": "Jūs bandote pasiekti Piwik puslapį, tačiau negalima rasti Piwik konfigūracinio failo.<br \/><b>  » Galite <a href='index.php'>įdiegti Piwik dabar<\/a><\/b><br \/><small>Jei Piwik duombazėje liko lentelių iš ankstesnių diegimų, nesijaudinkite, nes galite naudoti tas pačias lenteles ir išsaugoti turimus duomenis!<\/small>",
         "Optional": "Pasirenkama",
         "Password": "Slaptažodis",
         "PasswordDoNotMatch": "slaptažodis nesutampa",

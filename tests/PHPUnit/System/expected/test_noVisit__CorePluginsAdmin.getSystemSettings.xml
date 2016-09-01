@@ -159,7 +159,7 @@ Another line</defaultValue>
 				<availableValues />
 				<description>If enabled, anonymized usage data will be sent to demo-anonymous.piwik.org and the tracked data can be viewed there (the data is public). The collected data is used to improve Piwik. Thank you for making Piwik better!</description>
 				<inlineHelp />
-				<introduction>Send anonmyized usage data to the creator of Piwik</introduction>
+				<introduction>Send anonmyized usage data to the creators of Piwik</introduction>
 				<condition />
 			</row>
 			<row>

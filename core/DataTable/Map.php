@@ -28,7 +28,7 @@ use Piwik\DataTable\Renderer\Console;
 class Map implements DataTableInterface
 {
     /**
-     * Array containing the DataTable withing this Set
+     * Array containing the DataTable within this Set
      *
      * @var DataTable[]
      */
@@ -224,6 +224,16 @@ class Map implements DataTableInterface
     {
         foreach ($this->getDataTables() as $table) {
             $table->enableRecursiveSort();
+        }
+    }
+
+    /**
+     * See {@link DataTable::disableFilter()}.
+     */
+    public function disableFilter($className)
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->disableFilter($className);
         }
     }
 

@@ -10,6 +10,8 @@
         "None": "Asnjë",
         "NoVisit": "Pa vizita",
         "RealTimeMap": "Hartë e Atypëratyshme",
-        "Regions": "Rajone"
+        "Regions": "Rajone",
+        "SecondsAgo": "%s sekonda më parë",
+        "VisitorMap": "Hartë Vizitorësh"
     }
 }

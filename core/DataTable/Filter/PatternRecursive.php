@@ -56,7 +56,7 @@ class PatternRecursive extends BaseFilter
 
         foreach ($rows as $key => $row) {
             // A row is deleted if
-            // 1 - its label doesnt contain the pattern
+            // 1 - its label doesn't contain the pattern
             // AND 2 - the label is not found in the children
             $patternNotFoundInChildren = false;
 

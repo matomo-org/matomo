@@ -246,7 +246,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should display metric tooltip correctly', function (done) {
-        expect.screenshot("metric_tooltip").to.be.captureSelector('.pageWrap', function (page) {
+        expect.screenshot("metric_tooltip").to.be.captureSelector('.pageWrap,.columnDocumentation:visible', function (page) {
             page.mouseMove('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV', 500);
         }, done);
     });

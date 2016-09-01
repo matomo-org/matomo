@@ -1,7 +1,7 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Yeni pencerede aç",
-        "PluginDescription": "Basit Gömülü HTML tag'i ile Piwik raporunu websitende veya uygulamada göster.",
-        "TopLinkTooltip": "Piwik Raporunu Widgetlara dönüştür ve Uygulamandaki göstergene iframe olarak ekle"
+        "OpenInNewWindow": "Yeni pencerede açılsın",
+        "PluginDescription": "Piwik raporlarını web sitenizde ya da uygulamanızda basit gömülmüş HTML kod imi ile görüntüleyin.",
+        "TopLinkTooltip": "Piwik Raporlarını Gereç olarak verin ve uygulamanızın panosuna iframe olarak gömün."
     }
 }

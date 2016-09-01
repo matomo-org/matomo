@@ -46,25 +46,24 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateAbsentConfigFile('global.ini.php');
 
         $output = $this->triggerPiwikFrom($entryPoint);
+
         $this->assertOutputContainsConfigFileMissingError('global.ini.php', $output);
+
     }
 
-    public function getEntryPointsThatErrorWithNoLocal()
-    {
-        return array(
-            array('tracker'),
-            array('console')
-        );
-    }
-
-    /**
-     * @dataProvider getEntryPointsThatErrorWithNoLocal
-     */
-    public function test_NoLocalConfigFile_TriggersError($entryPoint)
+    public function test_NoLocalConfigFile_TriggersError_inTracker()
     {
         $this->simulateAbsentConfigFile('config.ini.php');
 
-        $output = $this->triggerPiwikFrom($entryPoint);
+        $output = $this->triggerPiwikFrom('tracker');
+        $this->assertContains('As Piwik is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
+    }
+
+    public function test_NoLocalConfigFile_TriggersError_inConsole()
+    {
+        $this->simulateAbsentConfigFile('config.ini.php');
+
+        $output = $this->triggerPiwikFrom('console');
         $this->assertOutputContainsConfigFileMissingError('config.ini.php', $output);
     }
 
@@ -104,6 +103,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateBadConfigFile($configFile);
 
         $output = $this->triggerPiwikFrom($entryPoint);
+
         $this->assertOutputContainsBadConfigFileError($output);
     }
 
@@ -123,7 +123,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsConfigFileMissingError($fileName, $output)
     {
-        $this->assertRegExp("/The configuration file \\{.*\\/" . preg_quote($fileName) . "\\} has not been found or could not be read\\./", $output);
+        $this->assertRegExp("/.*The configuration file \\{.*\\/" . preg_quote($fileName) . "\\} has not been found or could not be read\\..*/", $output, "Output did not contain the expected exception for $fileName --- Output was --- $output");
     }
 
     private function assertOutputContainsBadConfigFileError($output)
@@ -191,17 +191,24 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function sendRequestToTracker()
     {
-        return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php?idsite=1&rec=1&action_name=something');
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php?idsite=1&rec=1&action_name=something');
+
+        // Check Tracker requests return 200
+        $this->assertEquals(200, $info["http_code"], 'Ok response');
+
+        return $response;
     }
 
     private function sendRequestToWeb()
     {
-        return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        return $response;
     }
 
     private function sendArchiveWebRequest()
     {
-        return $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/archive.php?token_auth=' . Fixture::getTokenAuth());
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/archive.php?token_auth=' . Fixture::getTokenAuth());
+        return $response;
     }
 
     private function startConsoleProcess()
@@ -226,8 +233,10 @@ class EnvironmentValidationTest extends SystemTestCase
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $response = substr($response, $headerSize);
 
+        $responseInfo = curl_getinfo($ch);
+
         curl_close($ch);
 
-        return $response;
+        return array($response, $responseInfo);
     }
 }

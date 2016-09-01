@@ -24,7 +24,12 @@ class Xml extends ApiRenderer
                "</result>";
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param \Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         return '<?xml version="1.0" encoding="utf-8" ?>' . "\n" .
                "<result>\n" .

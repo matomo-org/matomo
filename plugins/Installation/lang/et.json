@@ -26,7 +26,6 @@
         "LoadDataInfileRecommended": "Kui sinu Piwiku server kogub andmeid kõrge külastatavusega veebilehtede kohta (näiteks rohkem kui 100 000 külastust kuus), siis soovitame antud probleemi kõrvaldada.",
         "NfsFilesystemWarning": "Sinu server kasutab NFS failisüsteemi",
         "NfsFilesystemWarningSuffixAdmin": "See tähendab, et Piwik on väga aeglane faili põhiste sessioonidega töötamisel.",
-        "NoConfigFound": "Piwiku konfguratsioonifaili ei leitud, kuid sa üritasid minna Piwiku lehele.<br \/><b>  » Võid <a href='index.php'>paigaldada Piwiku<\/a><\/b><br \/><small>Kui Piwik on varem installeeritud ja sul on andmebaasis tabeleid, siis ei ole põhjust muretsemiseks, sest saad taaskasutada ja säilitada olemasolevad andmed!<\/small>",
         "Optional": "Valikuline",
         "PasswordDoNotMatch": "salasõnad ei kattu",
         "PercentDone": "%s %% Tehtud",

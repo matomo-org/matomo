@@ -1360,21 +1360,12 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Piwik PRO Blog',
-                    'uniqueId' => 'widgetPiwikProrssPiwikPro',
+                    'name' => 'Professional Services for Piwik',
+                    'uniqueId' => 'widgetProfessionalServicespromoServices',
                     'parameters' =>
                         array (
-                            'module' => 'PiwikPro',
-                            'action' => 'rssPiwikPro',
-                        ),
-                ),
-                array (
-                    'name' => 'Piwik PRO: Advanced Analytics & Services',
-                    'uniqueId' => 'widgetPiwikPropromoPiwikProPiwikPro',
-                    'parameters' =>
-                        array (
-                            'module' => 'PiwikPro',
-                            'action' => 'promoPiwikPro',
+                            'module' => 'ProfessionalServices',
+                            'action' => 'promoServices',
                         ),
                 )
         );

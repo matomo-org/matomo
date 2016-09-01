@@ -54,12 +54,13 @@
             var self = this;
 
             self.cleanParams();
+            self.preBindEventsAndApplyStyleHook(domElem, rows);
 
             if (!rows) {
                 rows = $('tr', domElem);
             }
 
-            // we dont display the link on the row with subDataTable when we are already
+            // we don't display the link on the row with subDataTable when we are already
             // printing all the subTables (case of recursive search when the content is
             // including recursively all the subtables
             if (!self.param.filter_pattern_recursive) {
@@ -91,6 +92,7 @@
             self.setFixWidthToMakeEllipsisWork(domElem);
             self.handleSummaryRow(domElem);
             self.openSubtableFromLevel0IfOnlyOneSubtableGiven(domElem);
+            self.postBindEventsAndApplyStyleHook(domElem, rows);
         },
 
         openSubtableFromLevel0IfOnlyOneSubtableGiven: function (domElem) {

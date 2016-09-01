@@ -18,7 +18,13 @@ class Original extends ApiRenderer
         return true;
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param \Exception|\Throwable $exception
+     * @throws \Exception|\Throwable
+     * @return void
+     */
+    public function renderException($message, $exception)
     {
         throw $exception;
     }

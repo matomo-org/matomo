@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "მიზნის დამატება",
         "AddNewGoal": "დაამატეთ ახალი მიზანი",
-        "AddNewGoalOrEditExistingGoal": "%sდაამატეთ ახალი მიზანი%s ან %sშეცვალეთ%s არსებული მიზნები",
+        "AddNewGoalOrEditExistingGoal": "%1$sდაამატეთ ახალი მიზანი%2$s ან %3$sშეცვალეთ%4$s არსებული მიზნები",
         "BestCountries": "საუკეთესო კონვერციის ქვეყნებია:",
         "BestKeywords": "საუკეთესო კონვერციის საკვანძო სიტყვებია:",
         "BestReferrers": "საუკეთესო კინვერციის ვებ საიტების რეფერერებია:",
@@ -17,7 +17,7 @@
         "DefaultRevenueHelp": "მაგალითად, კონტაქტების ფორმა, რომელსაც აგზავნის ვიზიტორი, შეიძლება ღირდეს საშუალოდ $10. Piwik დაგეხმარებათ გაიგოთ რამდენად კარგად არის წარმოდგენილნი თქვენი ვიზიტორების სეგმენტები.",
         "DeleteGoalConfirm": "დარწმუნებული ხართ, რომ გსურთ %s მიზნის წაშლა?",
         "Download": "ჩამოტვირთავს ფაილი",
-        "ExceptionInvalidMatchingString": "თუ თქვენ აირჩევთ \"ზუსტი დამთხვევა\", შესადარებელი სტრიქონი უნდა იყოს URL დაწყებული %s. მაგალითად, '%s'.",
+        "ExceptionInvalidMatchingString": "თუ თქვენ აირჩევთ \"ზუსტი დამთხვევა\", შესადარებელი სტრიქონი უნდა იყოს URL დაწყებული %1$s. მაგალითად, '%2$s'.",
         "ExternalWebsiteUrl": "გარე ვებ საიტის URL",
         "Filename": "filename",
         "GoalConversion": "მიზნის კონვერსია",
@@ -43,6 +43,6 @@
         "VisitUrl": "ეწვევა მოცემულ URL–ს (გვერდი ან გვერდების ჯგუფი)",
         "WhenVisitors": "როდესაც ვიზიტორი",
         "WhereThe": "სადაც",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "როდესაც მონახულებული გვედი შეიცავს JavaScript piwikTracker.trackGoal() მეთოდის (%sდამატებითი ინფორმაცია%s) გამოძახებას"
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "როდესაც მონახულებული გვედი შეიცავს JavaScript 'trackGoal' მეთოდის (%1$sდამატებითი ინფორმაცია%2$s) გამოძახებას"
     }
 }

@@ -57,6 +57,12 @@ class Db
         return self::$connection;
     }
 
+    /**
+     * Returns an array with the Database connection information.
+     *
+     * @param array|null $dbConfig
+     * @return array
+     */
     public static function getDatabaseConfig($dbConfig = null)
     {
         $config = Config::getInstance();

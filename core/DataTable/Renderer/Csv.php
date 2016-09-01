@@ -148,7 +148,7 @@ class Csv extends Renderer
             // get rid of the columns names
             $returned = array_slice($returned, 1);
 
-            // case empty datatable we dont print anything in the CSV export
+            // case empty datatable we don't print anything in the CSV export
             // when in xml we would output <result date="2008-01-15" />
             if (!empty($returned)) {
                 foreach ($returned as &$row) {
@@ -306,7 +306,7 @@ class Csv extends Renderer
             } elseif (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
             } else {
-                $period = Period\Factory::build($period, Date::factory($date));
+                $period = Period\Factory::build($period, $date);
             }
 
             $prettyDate = $period->getLocalizedLongString();
@@ -417,7 +417,7 @@ class Csv extends Renderer
                     if ($name == 'idsubdatatable_in_db') {
                         continue;
                     }
-                    //if a metadata and a column have the same name make sure they dont overwrite
+                    //if a metadata and a column have the same name make sure they don't overwrite
                     if ($this->translateColumnNames) {
                         $name = Piwik::translate('General_Metadata') . ': ' . $name;
                     } else {

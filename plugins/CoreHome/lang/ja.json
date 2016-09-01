@@ -28,7 +28,6 @@
         "MakeOneTimeDonation": "代わりに寄与をする",
         "Menu": "メニュー",
         "NoPrivilegesAskPiwikAdmin": "'%1$s'としてログインしていますが、権限が設定されていないようです。 %2$s Piwikの管理者(クリックしてEメール)%3$s に'表示'の権限を与えてもらってください。",
-        "OnlyForSuperUserAccess": "このウィジェットは、スーパーユーザのアクセス権を持つユーザにのみ表示されます",
         "PageOf": "%1$s \/ %2$s",
         "PeriodRange": "期間",
         "ReportGeneratedOn": "%s に生成されたリポート",

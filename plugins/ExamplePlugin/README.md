@@ -13,7 +13,3 @@ My answer
 ## Changelog
 
 Here goes the changelog text.
-
-## Support
-
-Please direct any feedback to ...

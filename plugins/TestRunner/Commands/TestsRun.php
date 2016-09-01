@@ -190,7 +190,7 @@ class TestsRun extends ConsoleCommand
 
     private function getTestsSuites()
     {
-        return array('unit', 'integration', 'system');
+        return array('unit', 'integration', 'system', 'plugin');
     }
 
     /**

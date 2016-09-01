@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "E-ticaret kullanıcıların ürünleri sepete atmalarının ve satın almalarının izlenmesini sağlar. Ayrıca ürün, ürün kategorileri görünümü ve iptal edilen sepetleri de izler.",
+        "Sales": "Satışlar",
+        "SalesBy": "%s bazında satışlar",
+        "SalesAdjective": "Satışlar %s"
+    }
+}

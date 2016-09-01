@@ -29,7 +29,6 @@
         "MakeOneTimeDonation": "Em vez disso, faça uma doação.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Você está logado como '%1$s', mas parece que você não tem nenhuma permissão definida no Piwik. %2$s Pergunte ao seu administrador Piwik (clique para e-mail) %3$s para lhe dar acesso de 'visão' para um site.",
-        "OnlyForSuperUserAccess": "Este widget só é exibido para os usuários com privilégios de Super Usuário.",
         "PageOf": "%1$s de %2$s",
         "PeriodRange": "Alcance",
         "ReportGeneratedOn": "Relatório gerado em %s",

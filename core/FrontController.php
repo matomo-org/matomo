@@ -43,14 +43,14 @@ use Piwik\Plugins\CoreAdminHome\CustomLogo;
  *         $_GET['changeVisitAlpha'] = false;
  *         $_GET['removeOldVisits'] = false;
  *         $_GET['showFooterMessage'] = false;
- *         $realtimeMap = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap');
+ *         $realtimeMap = FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
  *
  *         $view = new View('@MyPlugin/myPopupWithRealtimeMap.twig');
  *         $view->realtimeMap = $realtimeMap;
  *         return $realtimeMap->render();
  *     }
  *
- * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
+ * For a detailed explanation, see the documentation [here](https://developer.piwik.org/guides/how-piwik-works).
  *
  * @method static \Piwik\FrontController getInstance()
  */
@@ -69,6 +69,28 @@ class FrontController extends Singleton
      * @var bool
      */
     private $initialized = false;
+
+    /**
+     * @param $lastError
+     * @return mixed|void
+     * @throws AuthenticationFailedException
+     * @throws Exception
+     */
+    private static function generateSafeModeOutput($lastError)
+    {
+        Common::sendResponseCode(500);
+
+        $controller = FrontController::getInstance();
+        try {
+            $controller->init();
+            $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
+        } catch(Exception $e) {
+            // may fail in safe mode (eg. global.ini.php not found)
+            $message = sprintf("Piwik encoutered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
+        }
+
+        return $message;
+    }
 
     /**
      * Executes the requested plugin controller method.
@@ -179,12 +201,7 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            Common::sendResponseCode(500);
-
-            $controller = FrontController::getInstance();
-            $controller->init();
-            $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
-
+            $message = self::generateSafeModeOutput($lastError);
             echo $message;
         }
     }

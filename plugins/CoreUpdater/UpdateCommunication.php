@@ -24,7 +24,7 @@ class UpdateCommunication
 {
 
     /**
-     * Checks whether update communciation in general is enabled or not.
+     * Checks whether update communication in general is enabled or not.
      *
      * @return bool
      */

@@ -1,16 +1,14 @@
 # Piwik - piwik.org
 
-[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://packagist.org/packages/piwik/piwik)
+[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://piwik.org/download/)
 [![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
-[![Total Downloads](https://poser.pugx.org/piwik/piwik/downloads)](https://packagist.org/packages/piwik/piwik)
-[![License](https://poser.pugx.org/piwik/piwik/license)](https://packagist.org/packages/piwik/piwik)
+[![License](https://poser.pugx.org/piwik/piwik/license)](http://piwik.org/free-software/)
 
 ## Code Status
 
-[![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik)
+[![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik/branches)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master "Unit tests code coverage. Does not include coverage of integration tests, system tests or UI screenshot tests.")
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
 [![Dependency Status](https://gemnasium.com/piwik/piwik.svg)](https://gemnasium.com/piwik/piwik)
 
@@ -35,15 +33,6 @@ Or in short:
 
 Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
 
-## We’re seeking a talented Software Engineer
-
-Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
-
-[View Job Description](https://piwik.org/blog/2016/01/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
-
-This is for a full time position to work on the open source Piwik platform, either remotely or we can help the right candidate relocate to beautiful New Zealand (Wellington) or Poland (Wroclaw).
-
-We are grateful if you can share the job description with your friends and wider network! 
 
 ## Requirements
 
@@ -69,20 +58,38 @@ If you do not have a server, consider our Piwik Hosting partner: http://piwik.or
 
 For the list of all tickets closed in the current and past releases, see http://piwik.org/changelog/. For the list of technical changes in the Piwik platform, see [http://developer.piwik.org/changelog](http://developer.piwik.org/changelog).
 
-## Participate!
+## Get involved!
 
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Piwik was built by dozens of people like you,
-and we need your help to make Piwik better… Why not participate in a useful project today?
+and we need your help to make Piwik better… Why not participate in a useful project today? [Learn how you can contribute to Piwik.](https://piwik.org/get-involved)
 
-You will find pointers on how you can participate in Piwik at http://piwik.org/get-involved/
+## Quality Assurance
+
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://piwik.org/qa/)
+
+We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help check the Piwik user interface is compatible with many browsers.
+
+
+## Security
+
+Security is a top priority at Piwik. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us. 
+
+[Learn more](https://piwik.org/security/)
+
+## Support for Piwik
+
+For **Free support**, post a message in our community forums: [forum.piwik.org](http://forum.piwik.org/)
+
+For **Professional paid support**, send a message to our network of Piwik professionals: [piwik.org/support](http://piwik.org/contact/)  
 
 ## Contact
 
-http://piwik.org
+Website: [piwik.org](https://piwik.org)
 
-hello@piwik.org
+About us: [piwik.org/team/](https://piwik.org/team/)
 
-About us: http://piwik.org/the-piwik-team/
+Contact us: [piwik.org/contact/](https://piwik.org/contact/)
+
 
 ## More information
 
@@ -91,8 +98,7 @@ What makes Piwik unique from the competition:
   * Real time web analytics reports: in Piwik, reports are by default generated in real time.
     For high traffic websites, you can choose the frequency for reports to be processed.
 
-  * You own your web analytics data: since Piwik is installed on your server, the data is stored in your own database and you can get all the statistics
-  using the powerful Piwik Analytics API.
+  * You own your web analytics data: since Piwik is installed on your server, the data is stored in your own database and you can get all the statistics using the powerful Piwik Analytics API.
 
   * Piwik is a Free Software which can easily be configured to respect your visitors privacy.
 

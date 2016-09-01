@@ -77,6 +77,7 @@
         "NewGoalIntro": "Gjurmimi i Shndërrimeve të Objektivave është një rrugët më të efektshme për të matu dhe përmirësuar objektivat e biznesit tuaj.",
         "NewVisitorsConversionRateIs": "Koeficienti i shndërrimit për vizitorë të rinj është %s",
         "NoGoalsNeedAccess": "Objektivat për një sajt të dhënë mund t’i administrojë vetëm Përgjegjësi ose një përdorues me leje Superpërdoruesi. Ju lutemi, kërkojini përgjegjësit të Piwik-ut tuaj të caktojë një Objektiv për sajtin tuaj. <br>Gjurmimi i Objektivave është një rrugë e fuqishme për të ndihmuar të kuptohet dhe maksimizohet suksesshmëria e sajtit tuaj!",
+        "NoConversionsNoReportsMessage": "Raportet nuk shfaqen, ngaqë nuk ka të dhëna shndërrimesh për objektivin dhe periudhën e zgjedhur.",
         "NeedAccess": "Objektivat për një sajt të dhënë mund t’i administrojë vetëm Përgjegjësi ose një përdorues me leje Superpërdoruesi.",
         "Optional": "(opsionale)",
         "OverallConversionRate": "Koeficient shndërrimesh %s gjithsej (vizita me objektiv të plotësuar)",

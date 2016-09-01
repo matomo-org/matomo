@@ -26,7 +26,6 @@
         "MakeADifference": "Fa o diferenta: %1$sDoneaza acum%2$s pentru a sponsoriza Piwik 2.0!",
         "MakeOneTimeDonation": "În schimb, donează o dată (fără subscriere).",
         "NoPrivilegesAskPiwikAdmin": "Sunteti logat ca '%1$s' dar se pare ca nu aveti nici o permisiune setata in Piwik. %2$s Solicitati administratorului dvs al Piwik (click pentru email)%3$s sa va permita accesul tip 'vizualizare' pentru un site.",
-        "OnlyForSuperUserAccess": "Acest widget este afișat numai pentru utilizatorii care au acces la Super utilizator.",
         "PageOf": "%1$s din %2$s",
         "PeriodRange": "Perioadă",
         "ReportGeneratedOn": "Raport creat la %s",

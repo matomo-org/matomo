@@ -64,6 +64,17 @@ class Model
         Db::deleteAllRows($table, "WHERE idgoal = ? AND idsite = ?", "idvisit", 100000, array($idGoal, $idSite));
     }
 
+    public function getActiveGoal($idSite, $idGoal)
+    {
+        $idSite = (int) $idSite;
+        $idGoal = (int) $idGoal;
+        $goals  = Db::fetchRow("SELECT * FROM " . $this->table . "
+                                WHERE idsite = $idSite AND idgoal = $idGoal
+                                      AND deleted = 0 LIMIT 1");
+
+        return $goals;
+    }
+
     public function getActiveGoals($idSite)
     {
         $idSite = array_map('intval', $idSite);

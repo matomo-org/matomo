@@ -650,7 +650,7 @@ class CronArchive
          */
         $success = $this->processArchiveForPeriods($idSite, $lastTimestampWebsiteProcessedPeriods);
 
-        // Record succesful run of this website's periods archiving
+        // Record successful run of this website's periods archiving
         if ($success) {
             Option::set($this->lastRunKey($idSite, "periods"), time());
         }
@@ -795,7 +795,7 @@ class CronArchive
             || !is_array($daysResponse)
             || count($daysResponse) == 0
         ) {
-            // cancel the succesful run flag
+            // cancel the successful run flag
             Option::set($this->lastRunKey($idSite, "day"), 0);
 
             // cancel marking the site as reprocessed
@@ -841,7 +841,7 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
 
-        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer);
+        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer, $visitsToday, $visitsLastDays);
 
         return true;
     }
@@ -881,14 +881,17 @@ class CronArchive
      * @param $date string
      * @param $archiveSegments bool Whether to pre-process all custom segments
      * @param Timer $periodTimer
+     * @param $visitsToday int Visits for the "day" period of today
+     * @param $visitsLastDays int Visits for the last N days periods
      * @return bool True on success, false if some request failed
      */
-    private function archiveReportsFor($idSite, $period, $date, $archiveSegments, Timer $periodTimer)
+    private function archiveReportsFor($idSite, $period, $date, $archiveSegments, Timer $periodTimer, $visitsToday = 0, $visitsLastDays = 0)
     {
         $url = $this->getVisitsRequestUrl($idSite, $period, $date, $segment = false);
         $url = $this->makeRequestUrl($url);
 
-        $visitsInLastPeriods = $visitsLastPeriod = 0;
+        $visitsInLastPeriod = $visitsToday;
+        $visitsInLastPeriods = $visitsLastDays;
         $success = true;
 
         $urls = array();
@@ -933,11 +936,11 @@ class CronArchive
                 }
 
                 $visitsInLastPeriods = $this->getVisitsFromApiResponse($stats);
-                $visitsLastPeriod = $this->getVisitsLastPeriodFromApiResponse($stats);
+                $visitsInLastPeriod = $this->getVisitsLastPeriodFromApiResponse($stats);
             }
         }
 
-        $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsLastPeriod, $periodTimer);
+        $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsInLastPeriod, $periodTimer);
 
         return $success;
     }
@@ -969,7 +972,13 @@ class CronArchive
     {
         $message = "Got invalid response from API request: $url. ";
         if (empty($response)) {
-            $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
+            $message .= "The response was empty. This usually means a server error. A solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. ";
+
+            if($this->makeCliMulti()->supportsAsync()) {
+                $message .= " For more information and the error message please check in your PHP CLI error log file. As this core:archive command triggers PHP processes over the CLI, you can find where PHP CLI logs are stored by running this command: php -i | grep error_log";
+            } else {
+                $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Piwik's web server error logs. ";
+            }
         } else {
             $message .= "Response was '$response'";
         }
@@ -1092,7 +1101,7 @@ class CronArchive
             $listSiteIds = implode(',', $siteIds);
 
             try {
-                $this->logger->info('Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
+                $this->logger->info('- Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($siteIds, $date);
             } catch (Exception $e) {
                 $this->logger->info('Failed to invalidate archived reports: ' . $e->getMessage());

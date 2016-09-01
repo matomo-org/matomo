@@ -141,8 +141,8 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should correctly update the segment when its details are changed and saved", function (done) {
-        expect.screenshot("updated").to.be.captureSelector(selectorsToCapture, function (page) {
+    it("should correctly should show a confirmation when changing segment definition", function (done) {
+        expect.screenshot("update_confirmation").to.be.captureSelector('.modal.open', function (page) {
             page.click('.segmentEditorPanel .editSegmentName');
             page.evaluate(function () {
                 $('input.edit_segment_name').val('');
@@ -163,7 +163,12 @@ describe("SegmentSelectorEditorTest", function () {
             page.evaluate(function () {
                 $('button.saveAndApply').click();
             });
+        }, done);
+    });
 
+    it("should correctly update the segment when saving confirmed", function (done) {
+        expect.screenshot("updated").to.be.captureSelector(selectorsToCapture, function (page) {
+            page.click('.modal.open .modal-footer a:contains(Yes):visible');
             page.click('.segmentationContainer');
         }, done);
     });
@@ -190,7 +195,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should correctly remove the segment when the delete dialog is confirmed", function (done) {
-        expect.screenshot('deleted').to.be.captureSelector(selectorsToCapture + ',.ui-dialog,.modal.open', function (page) {
+        expect.screenshot('deleted').to.be.captureSelector(selectorsToCapture + ',.modal.open', function (page) {
             page.click('.modal.open .modal-footer a:contains(Yes):visible');
 
             page.click('.segmentationContainer .title');

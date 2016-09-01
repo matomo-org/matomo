@@ -39,7 +39,12 @@ abstract class ApiRenderer
         return 'Success:' . $message;
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param Exception|\Throwable $exception
+     * @return mixed
+     */
+    public function renderException($message, $exception)
     {
         return $message;
     }
