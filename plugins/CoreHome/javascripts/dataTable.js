@@ -1680,7 +1680,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var thPosTop = 0;
 
                 if (thPos && thPos.top) {
-                    thPosTop = thPosTop.top;
+                    thPosTop = thPos.top;
                 }
 
                 // we need to add thPosTop because the parent th is not position:relative. There may be a gap for the
