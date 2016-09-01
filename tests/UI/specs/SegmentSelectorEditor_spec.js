@@ -174,7 +174,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should show the updated segment after page reload", function (done) {
-        expect.screenshot("updated").to.be.captureSelector("updated_reload", selectorsToCapture, function (page) {
+        expect.screenshot("updated_reload").to.be.captureSelector("updated_reload", selectorsToCapture, function (page) {
             page.reload();
             page.click('.segmentationContainer .title');
         }, done);
