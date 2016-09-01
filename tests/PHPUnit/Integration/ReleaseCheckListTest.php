@@ -64,6 +64,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     public function test_pngFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.png');
+        // filter expected screenshots as they might not be checked out and downloaded when stored in git-lfs
+        $files = array_filter($files, function($value) { return !preg_match('/expected-screenshots/', $value); });
         $this->checkFilesAreInPngFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.png');
         $this->checkFilesAreInPngFormat($files);

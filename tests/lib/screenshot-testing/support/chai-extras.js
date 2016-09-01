@@ -60,13 +60,26 @@ function getPageLogsString(pageLogs, indent) {
 // add capture assertion
 var pageRenderer = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"));
 
+function getExpectedScreenshotPath() {
+
+    if (typeof config.expectedScreenshotsDir == 'string') {
+        config.expectedScreenshotsDir = [config.expectedScreenshotsDir];
+    }
+    for (var dir in config.expectedScreenshotsDir) {
+        var expectedScreenshotDir = path.join(app.runner.suite.baseDirectory, config.expectedScreenshotsDir[dir]);
+        if (fs.isDirectory(expectedScreenshotDir)) {
+            break;
+        }
+    }
+
+    return expectedScreenshotDir;
+}
 
 function getExpectedFilePath(fileName) {
-    var expectedScreenshotDir = path.join(app.runner.suite.baseDirectory, config.expectedScreenshotsDir);
 
     fileName = assumeFileIsImageIfNotSpecified(fileName);
 
-    return path.join(expectedScreenshotDir, fileName);
+    return path.join(getExpectedScreenshotPath(), fileName);
 }
 
 function getProcessedFilePath(fileName) {
