@@ -13,6 +13,6 @@
 		<max_actions>20</max_actions>
 		<bounce_rate>70%</bounce_rate>
 		<nb_actions_per_visit>2</nb_actions_per_visit>
-		<avg_time_on_site>00:05:01</avg_time_on_site>
+		<avg_time_on_site>5 min 1s</avg_time_on_site>
 	</result>
 </results>
