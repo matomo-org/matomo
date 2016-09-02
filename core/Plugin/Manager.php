@@ -419,6 +419,14 @@ class Manager
         if ($this->isPluginInFilesystem($pluginName)) {
             return false;
         }
+
+        /**
+         * Event triggered after a plugin has been uninstalled.
+         *
+         * @param string $pluginName The plugin that has been uninstalled.
+         */
+        Piwik::postEvent('PluginManager.pluginUninstalled', array($pluginName));
+
         return true;
     }
 
@@ -1080,6 +1088,13 @@ class Manager
             $updater = new Updater();
             $updater->markComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
             $saveConfig = true;
+
+            /**
+             * Event triggered after a new plugin has been installed.
+             *
+             * @param string $pluginName The plugin that has been installed.
+             */
+            Piwik::postEvent('PluginManager.pluginInstalled', array($plugin));
         }
 
         if ($saveConfig) {
