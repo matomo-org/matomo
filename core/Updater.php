@@ -279,6 +279,15 @@ class Updater
 
         $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
 
+        /**
+         * Event triggered after a component has been updated.
+         *
+         * @param string $componentName 'core', or plugin name
+         * @param string $updatedVersion version updated to
+         * @param array  $warningMessages warnings occurred during update
+         */
+        Piwik::postEvent('Updater.componentUpdated', array($componentName, $updatedVersion, $warningMessages));
+
         return $warningMessages;
     }
 
