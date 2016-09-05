@@ -28,7 +28,7 @@
     branch = master
 [submodule "tests/travis"]
     path = tests/travis
-    url = https://github.com/piwik/travis-scripts
+    url = https://github.com/piwik/travis-scripts.git
     branch = master
 [submodule "plugins/LogViewer"]
 	path = plugins/LogViewer
