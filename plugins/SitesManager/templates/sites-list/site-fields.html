@@ -7,7 +7,7 @@
             <h4>{{ site.name }}</h4>
             <ul>
                 <li><span class="title">{{ 'General_Id'|translate }}:</span> {{ site.idsite }}</li>
-                <li ng-show="availableTypes.length > 1"><span class="title">Type:</span> {{ currentType.name }}</li>
+                <li ng-show="availableTypes.length > 1"><span class="title">{{ 'SitesManager_Type'|translate }}:</span> {{ currentType.name }}</li>
                 <li ng-show="site.idsite && howToSetupUrl">
                     <a target="{{ isInternalSetupUrl ? '_self' : '_blank' }}" title="{{ 'SitesManager_ShowTrackingTag'|translate }}"
                        ng-href="{{ howToSetupUrl }}{{ isInternalSetupUrl ? '&idSite=' + site.idsite + '&period=' + period + '&date=' + date +'&updated=false' : ''}}">
