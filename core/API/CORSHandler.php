@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Piwik\Common;
 use Piwik\Url;
+use Piwik\ProxyHttp;
 
 class CORSHandler
 {
@@ -35,7 +36,11 @@ class CORSHandler
         if (!empty($_SERVER['HTTP_ORIGIN'])) {
             $origin = $_SERVER['HTTP_ORIGIN'];
             if (in_array($origin, $this->domains, true)) {
-                Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+                $domain = $_SERVER['HTTP_ORIGIN'];
+                if (ProxyHttp::isHttps()) {
+                    $domain = str_replace('http://', 'https://', $domain);
+                }
+                Common::sendHeader('Access-Control-Allow-Origin: ' . $domain);
             }
         }
     }
