@@ -17,7 +17,7 @@ use Piwik\Tracker\Action;
 class PluginQuickTime extends VisitDimension
 {
     protected $columnName = 'config_quicktime';
-    protected $columnType = 'TINYINT(1) NOT NULL';
+    protected $columnType = 'TINYINT(1) NULL';
 
     /**
      * @param Request $request

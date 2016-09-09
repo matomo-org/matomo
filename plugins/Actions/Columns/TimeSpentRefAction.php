@@ -16,7 +16,7 @@ use Piwik\Tracker\Visitor;
 class TimeSpentRefAction extends ActionDimension
 {
     protected $columnName = 'time_spent_ref_action';
-    protected $columnType = 'INTEGER(10) UNSIGNED NOT NULL';
+    protected $columnType = 'INTEGER(10) UNSIGNED NULL';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

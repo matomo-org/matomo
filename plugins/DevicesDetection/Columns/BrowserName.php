@@ -17,7 +17,7 @@ use Piwik\Tracker\Action;
 class BrowserName extends Base
 {
     protected $columnName = 'config_browser_name';
-    protected $columnType = 'VARCHAR(10) NOT NULL';
+    protected $columnType = 'VARCHAR(10) NULL';
 
     protected function configureSegments()
     {

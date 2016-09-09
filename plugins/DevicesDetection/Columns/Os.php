@@ -18,7 +18,7 @@ use Piwik\Tracker\Action;
 class Os extends Base
 {
     protected $columnName = 'config_os';
-    protected $columnType = 'CHAR(3) NOT NULL';
+    protected $columnType = 'CHAR(3) NULL';
 
     protected function configureSegments()
     {

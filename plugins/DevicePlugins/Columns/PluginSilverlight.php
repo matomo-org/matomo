@@ -17,7 +17,7 @@ use Piwik\Tracker\Action;
 class PluginSilverlight extends VisitDimension
 {
     protected $columnName = 'config_silverlight';
-    protected $columnType = 'TINYINT(1) NOT NULL';
+    protected $columnType = 'TINYINT(1) NULL';
 
     /**
      * @param Request $request

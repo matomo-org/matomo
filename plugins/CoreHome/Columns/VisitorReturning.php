@@ -22,7 +22,7 @@ class VisitorReturning extends VisitDimension
     const IS_NEW = 0;
 
     protected $columnName = 'visitor_returning';
-    protected $columnType = 'TINYINT(1) NOT NULL';
+    protected $columnType = 'TINYINT(1) NULL';
     protected $conversionField = true;
 
     protected function configureSegments()

@@ -53,6 +53,7 @@ class Updates_3_0_0_b1 extends Updates
         $migrations = $this->getDashboardMigrations($allDashboards, $allGoals);
         $migrations = $this->getPluginSettingsMigrations($migrations);
         $migrations = $this->getSiteSettingsMigrations($migrations);
+        $migrations[] = $this->migration->db->changeColumnType('log_link_visit_action', 'idaction_name_ref', 'INTEGER(10) UNSIGNED NULL');
 
         return $migrations;
     }
