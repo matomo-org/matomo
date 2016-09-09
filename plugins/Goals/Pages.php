@@ -296,6 +296,9 @@ class Pages
                 }
 
                 $widget = $this->createWidgetForReport($report['module'], $report['action']);
+                if (!empty($report['name'])) {
+                    $widget->setName($report['name']);
+                }
                 $widget->setParameters($params);
                 $widget->setCategoryId($categoryText);
                 $widget->setSubcategoryId($categoryText);

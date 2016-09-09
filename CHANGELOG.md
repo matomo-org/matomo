@@ -61,7 +61,6 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
  * `Menu.Top.addItems`
  * `ViewDataTable.addViewDataTable` Create a [Visualization](http://developer.piwik.org/guides/visualizing-report-data) instead
  * `ViewDataTable.getDefaultType` Specify the default type in a [Report](http://developer.piwik.org/guides/custom-reports) instead
- * `Goals.getReportsWithGoalMetrics` Specify a report has goal metrics in a [Report](http://developer.piwik.org/guides/custom-reports) instead
  * `Login.authenticate`  Create a custom SessionInitializer instead of using `Login` events
  * `Login.initSession.end`
  * `Login.authenticate.successful`
