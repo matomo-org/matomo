@@ -10,6 +10,7 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -51,8 +52,8 @@ class PluginsArchiver
     public function __construct(Parameters $params, $isTemporaryArchive)
     {
         $this->params = $params;
-
-        $this->archiveWriter = new ArchiveWriter($this->params, $isTemporaryArchive);
+        $this->isTemporaryArchive = $isTemporaryArchive;
+        $this->archiveWriter = new ArchiveWriter($this->params, $this->isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);
@@ -107,7 +108,7 @@ class PluginsArchiver
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
 
             /** @var Archiver $archiver */
-            $archiver = new $archiverClass($this->archiveProcessor);
+            $archiver = $this->makeNewArchiverObject($archiverClass, $pluginName);
 
             if (!$archiver->isEnabled()) {
                 Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -195,21 +196,13 @@ class PluginsArchiver
      */
     protected function shouldProcessReportsForPlugin($pluginName)
     {
-        $shouldPreventProcessing = false;
-
-        Piwik::postEvent('PluginsArchiver.shouldProcessReportsForPlugin', array($pluginName, $this->params, &$shouldPreventProcessing));
-
-        if ($shouldPreventProcessing === true) {
-            return false;
-        }
-
         if ($this->params->getRequestedPlugin() == $pluginName) {
             return true;
         }
         if (Rules::shouldProcessReportsAllPlugins(
-                            $this->params->getIdSites(),
-                            $this->params->getSegment(),
-                            $this->params->getPeriod()->getLabel())) {
+            $this->params->getIdSites(),
+            $this->params->getSegment(),
+            $this->params->getPeriod()->getLabel())) {
             return true;
         }
 
@@ -244,5 +237,19 @@ class PluginsArchiver
         $toSum = Metrics::getVisitsMetricNames();
         $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
         return $metrics;
+    }
+
+
+    /**
+     * @param $archiverClass
+     * @return Archiver
+     */
+    private function makeNewArchiverObject($archiverClass, $pluginName)
+    {
+        $archiver = new $archiverClass($this->archiveProcessor);
+
+        Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
+
+        return $archiver;
     }
 }
