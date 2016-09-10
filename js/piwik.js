@@ -1030,7 +1030,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
 /*global _paq:true */
 /*members push */
 /*global Piwik:true */
-/*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off */
+/*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -1086,7 +1086,9 @@ if (typeof window.Piwik !== 'object') {
             iterator,
 
             /* local Piwik */
-            Piwik;
+            Piwik,
+
+            missedPluginTrackerCalls = [];
 
         /************************************************************
          * Private methods
@@ -1178,62 +1180,81 @@ if (typeof window.Piwik !== 'object') {
          *      [ functionObject, optional_parameters ]
          */
         function apply() {
-            var i, j, f, parameterArray;
+            var i, j, f, parameterArray, trackerCall;
 
             for (i = 0; i < arguments.length; i += 1) {
+                trackerCall = null;
+                if (arguments[i] && arguments[i].slice) {
+                    trackerCall = arguments[i].slice();
+                }
                 parameterArray = arguments[i];
                 f = parameterArray.shift();
 
-                for (j = 0; j < asyncTrackers.length; j++) {
-                    if (isString(f)) {
-                        var context = asyncTrackers[j];
-                        var fParts;
+                var fParts, context;
 
-                        var isStaticPluginCall = f.indexOf('::') > 0;
-                        if (isStaticPluginCall) {
-                            fParts = f.split('::');
-                            context = fParts[0];
-                            f = fParts[1];
+                var isStaticPluginCall = isString(f) && f.indexOf('::') > 0;
+                if (isStaticPluginCall) {
+                    // a static method will not be called on a tracker and is not dependent on the existance of a
+                    // tracker etc
+                    fParts = f.split('::');
+                    context = fParts[0];
+                    f = fParts[1];
 
-                            if ('object' === typeof Piwik[context] && 'function' === typeof Piwik[context][f]) {
-                                Piwik[context][f].apply(Piwik[context], parameterArray);
+                    if ('object' === typeof Piwik[context] && 'function' === typeof Piwik[context][f]) {
+                        Piwik[context][f].apply(Piwik[context], parameterArray);
+                    } else if (trackerCall) {
+                        // we try to call that method again later as the plugin might not be loaded yet
+                        // a plugin can call "Piwik.retryMissedPluginCalls();" once it has been loaded and then the
+                        // method call to "Piwik[context][f]" may be executed
+                        missedPluginTrackerCalls.push(trackerCall);
+                    }
+
+                } else {
+                    for (j = 0; j < asyncTrackers.length; j++) {
+                        if (isString(f)) {
+                            context = asyncTrackers[j];
+
+                            var isPluginTrackerCall = f.indexOf('.') > 0;
+
+                            if (isPluginTrackerCall) {
+                                fParts = f.split('.');
+                                if (context && 'object' === typeof context[fParts[0]]) {
+                                    context = context[fParts[0]];
+                                    f = fParts[1];
+                                } else if (trackerCall) {
+                                    // we try to call that method again later as the plugin might not be loaded yet
+                                    missedPluginTrackerCalls.push(trackerCall);
+                                    break;
+                                }
                             }
 
-                            return;
-                        }
+                            if (context[f]) {
+                                context[f].apply(context, parameterArray);
+                            } else {
+                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript';
+                                logConsoleError(message);
 
-                        var isPluginTrackerCall = f.indexOf('.') > 0;
+                                if (!isPluginTrackerCall) {
+                                    // do not trigger an error if it is a call to a plugin as the plugin may just not be
+                                    // loaded yet etc
+                                    throw new TypeError(message);
+                                }
+                            }
 
-                        if (isPluginTrackerCall) {
-                            fParts = f.split('.');
-                            context = context[fParts[0]];
-                            f = fParts[1];
-                        }
+                            if (f === 'addTracker') {
+                                // addTracker adds an entry to asyncTrackers and would otherwise result in an endless loop
+                                break;
+                            }
 
-                        if (context[f]) {
-                            context[f].apply(context, parameterArray);
+                            if (f === 'setTrackerUrl' || f === 'setSiteId') {
+                                // these two methods should be only executed on the first tracker
+                                break;
+                            }
                         } else {
-                            var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript';
-                            logConsoleError(message);
-                            if (!isPluginTrackerCall) {
-                                throw new TypeError(message);
-                            }
+                            f.apply(asyncTrackers[j], parameterArray);
                         }
-
-                        if (f === 'addTracker') {
-                            // addTracker adds an entry to asyncTrackers and would otherwise result in an endless loop
-                            break;
-                        }
-
-                        if (f === 'setTrackerUrl' || f === 'setSiteId') {
-                            // these two methods should be only executed on the first tracker
-                            break;
-                        }
-                    } else {
-                        f.apply(asyncTrackers[j], parameterArray);
                     }
                 }
-
             }
         }
 
@@ -6607,7 +6628,7 @@ if (typeof window.Piwik !== 'object') {
                 var i = 0;
                 for (i; i < eventHandlers[event].length; i++) {
                     if (eventHandlers[event][i] === handler) {
-                        delete eventHandlers[event][i];
+                        eventHandlers[event].splice(i, 1);
                     }
                 }
             },
@@ -6723,6 +6744,26 @@ if (typeof window.Piwik !== 'object') {
 
                         return tracker;
                     }
+                }
+            },
+
+            /**
+             * When calling plugin methods via "_paq.push(['...'])" and the plugin is loaded separately because
+             * piwik.js is not writable then there is a chance that first piwik.js is loaded and later the plugin.
+             * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
+             * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
+             * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
+             *
+             * @param string piwikUrl
+             * @param int|string siteId
+             * @return Tracker
+             */
+            retryMissedPluginCalls: function () {
+                var missedCalls = missedPluginTrackerCalls;
+                missedPluginTrackerCalls = [];
+                var i = 0;
+                for (i; i < missedCalls.length; i++) {
+                    apply(missedCalls[i]);
                 }
             }
         };
