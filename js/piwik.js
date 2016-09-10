@@ -2985,7 +2985,9 @@ if (typeof window.Piwik !== 'object') {
                 hash = sha1,
 
                 // Domain hash value
-                domainHash;
+                domainHash,
+
+                configIdPageView;
 
             // Document title
             try {
@@ -3789,6 +3791,18 @@ if (typeof window.Piwik !== 'object') {
                 setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
             }
 
+            function generateUniqueId() {
+                var id = '';
+                var chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                var charLen = chars.length;
+
+                for (var i = 0; i < 16; i++) {
+                    id += chars.charAt(Math.floor(Math.random() * charLen));
+                }
+
+                return id;
+            }
+
             /**
              * Returns the URL to call piwik.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
@@ -4013,6 +4027,10 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
 
+                if (configIdPageView) {
+                    request += '&pv_id=' + configIdPageView;
+                }
+
                 // update cookies
                 cookieVisitorIdValues.lastEcommerceOrderTs = isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : cookieVisitorIdValues.lastEcommerceOrderTs;
                 setVisitorIdCookie(cookieVisitorIdValues);
@@ -4135,6 +4153,8 @@ if (typeof window.Piwik !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData, callback) {
+                configIdPageView = generateUniqueId();
+
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
                 sendRequest(request, configTrackerPause, callback);

@@ -373,6 +373,7 @@ class Request
             'action_name'  => array('', 'string'),
             'search'       => array('', 'string'),
             'search_cat'   => array('', 'string'),
+            'pv_id'        => array('', 'string'),
             'search_count' => array(-1, 'int'),
             'gt_ms'        => array(-1, 'int'),
 
