@@ -814,7 +814,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `login` varchar(100) NOT NULL,
-  `password` char(32) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `alias` varchar(45) NOT NULL,
   `email` varchar(100) NOT NULL,
   `token_auth` char(32) NOT NULL,
