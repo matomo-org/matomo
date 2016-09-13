@@ -238,17 +238,18 @@ class UsersManagerTest extends IntegrationTestCase
             "the date_registered " . strtotime($user['date_registered']) . " is different from the time() " . time());
         $this->assertTrue($user['date_registered'] <= time());
 
-        // check that token is 32 chars
-        $this->assertEquals(32, strlen($user['password']));
+        // check that token is 60 chars
+        $this->assertEquals(60, strlen($user['password']));
 
         // that the password has been md5
         $this->assertEquals(md5($login . md5($password)), $user['token_auth']);
 
         // check that all fields are the same
         $this->assertEquals($login, $user['login']);
-        $this->assertEquals(md5($password), $user['password']);
         $this->assertEquals($email, $user['email']);
         $this->assertEquals($alias, $user['alias']);
+
+        $this->assertTrue(password_verify(md5($password), $user['password']));
     }
 
     /**
@@ -381,9 +382,9 @@ class UsersManagerTest extends IntegrationTestCase
 
         $users = $this->api->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
-        $user1 = array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"), 'alias' => "alias", 'email' => "tegst@tesgt.com", 'superuser_access' => 0);
-        $user2 = array('login' => "geggeqge632ge56a4qag", 'password' => md5("geqgegeagae"), 'alias' => "alias", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0);
-        $user3 = array('login' => "geggeqgeqagqegg", 'password' => md5("geqgeaggggae"), 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0);
+        $user1 = array('login' => "gegg4564eqgeqag", 'alias' => "alias", 'email' => "tegst@tesgt.com", 'superuser_access' => 0);
+        $user2 = array('login' => "geggeqge632ge56a4qag", 'alias' => "alias", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0);
+        $user3 = array('login' => "geggeqgeqagqegg", 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0);
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
         $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag')));
@@ -408,6 +409,7 @@ class UsersManagerTest extends IntegrationTestCase
     protected function _removeNonTestableFieldsFromUsers($users)
     {
         foreach ($users as &$user) {
+            unset($user['password']);
             unset($user['token_auth']);
             unset($user['date_registered']);
         }

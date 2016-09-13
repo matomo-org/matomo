@@ -187,7 +187,7 @@ class Model
     {
         $user = array(
             'login'            => $userLogin,
-            'password'         => $passwordTransformed,
+            'password'         => password_hash($passwordTransformed, PASSWORD_BCRYPT),
             'alias'            => $alias,
             'email'            => $email,
             'token_auth'       => $tokenAuth,
@@ -241,10 +241,10 @@ class Model
     public function updateUser($userLogin, $password, $email, $alias, $tokenAuth)
     {
         $this->updateUserFields($userLogin, array(
-             'password'   => $password,
-             'alias'      => $alias,
-             'email'      => $email,
-             'token_auth' => $tokenAuth
+            'password'   => password_hash($password, PASSWORD_BCRYPT),
+            'alias'      => $alias,
+            'email'      => $email,
+            'token_auth' => $tokenAuth
         ));
     }
 

@@ -831,7 +831,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('superUserLogin','1e56c228742c0189d261500852e27a02','superUserLogin','hello@example.org','9ad1de7f8b329ab919d854c556f860c1',1,'2016-03-09 09:10:19');
+INSERT INTO `user` VALUES ('superUserLogin','$2y$10$vh5d/W6S9M7u.1G2gc1TOeetRi.6HN6OG1jq47j5JhixtqTxkdGVi','superUserLogin','hello@example.org','9ad1de7f8b329ab919d854c556f860c1',1,'2016-03-09 09:10:19');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 

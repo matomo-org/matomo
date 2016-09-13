@@ -50,15 +50,46 @@ class Updates_3_0_0_b4 extends Updates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $updater->executeMigrations(__FILE__, $this->getUserPasswordMigrations([]));
     }
 
-      /**
+    /**
+     * Returns database migrations for this update.
      * @param Migration[] $queries
      * @return Migration[]
      */
     private function getUserDatabaseMigrations($queries)
     {
         $queries[] = $this->migration->db->changeColumn($this->userTable, 'password', 'password', 'VARCHAR(255) NOT NULL');
+
+        return $queries;
+    }
+
+    /**
+     * Returns migrations to hash existing password with bcrypt.
+     * @param Migration[] $queries
+     * @return Migration[]
+     */
+    private function getUserPasswordMigrations($queries)
+    {
+        $db        = Db::get();
+        $userTable = Common::prefixTable($this->userTable);
+
+        $users = $db->fetchAll(
+            'SELECT `login`, `password` FROM `' . $userTable . '` WHERE LENGTH(`password`) = 32'
+        );
+
+        foreach ($users as $user) {
+            $queries[] = $this->migration->db->boundSql(
+                'UPDATE `' . $userTable . '`'
+                . ' SET `password` = ?'
+                . ' WHERE `login` = ?',
+                [
+                    password_hash($user['password'], PASSWORD_BCRYPT),
+                    $user['login'],
+                ]
+            );
+        }
 
         return $queries;
     }
