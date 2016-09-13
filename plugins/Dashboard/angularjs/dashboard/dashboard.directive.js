@@ -29,6 +29,7 @@
 
             widgetsHelper.getAvailableWidgets();
 
+            $('#dashboardWidgetsArea').off('dashboardempty', showEmptyDashboardNotification);
             $('#dashboardWidgetsArea')
                 .on('dashboardempty', showEmptyDashboardNotification)
                 .dashboard({
