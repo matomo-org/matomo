@@ -23,7 +23,6 @@
         "Developer": "Developer",
         "DevelopersLearnHowToDevelopPlugins": "Developers: Learn how you can extend and customize Piwik by %1$sdeveloping plugins or themes%2$s.",
         "DoMoreContactPiwikAdmins": "To install a new plugin or a new theme, please get in touch with your Piwik admins.",
-        "EmailToEnquireUpdatedVersion": "Please email %1$s and enquire an updated version of %2$s.",
         "FeaturedPlugin": "Featured plugin",
         "ChangeLookByManageThemes": "You can change the appearance of Piwik by %1$sManaging Themes%2$s.",
         "GetEarlyAccessForPaidPlugins": "Note: all plugins are available for free at present; in the future we will enable Paid Plugins in the Marketplace (%1$scontact us%2$s for early access).",
