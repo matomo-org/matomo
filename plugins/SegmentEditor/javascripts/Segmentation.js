@@ -677,9 +677,9 @@ Segmentation = (function($) {
                 var params = {
                     "idsegment" : segmentId
                 };
-                $('.segment-delete-confirm', self.target).find('#name').text( segmentName );
+                $('#segment-delete-confirm').find('#name').text( segmentName );
                 if(segmentId != ""){
-                    piwikHelper.modalConfirm(self.target.find('.segment-delete-confirm'), {
+                    piwikHelper.modalConfirm($('#segment-delete-confirm'), {
                         yes: function(){
                             self.deleteMethod(params);
                         }
