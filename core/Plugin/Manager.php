@@ -1092,9 +1092,11 @@ class Manager
             /**
              * Event triggered after a new plugin has been installed.
              *
+             * Note: Might be triggered more than once if the config file is not writable
+             *
              * @param string $pluginName The plugin that has been installed.
              */
-            Piwik::postEvent('PluginManager.pluginInstalled', array($plugin));
+            Piwik::postEvent('PluginManager.pluginInstalled', array($pluginName));
         }
 
         if ($saveConfig) {
