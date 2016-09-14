@@ -88,6 +88,9 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `Dimension.filterDimension` let's you filter any dimensions
  * `Report.addReports` let's you add dynamically created reports
  * `Report.filterReports` let's you filter any report
+ * `Updater.componentUpdated` triggered after core or a plugin has been updated
+ * `PluginManager.pluginInstalled` triggered after a plugin was installed
+ * `PluginManager.pluginUninstalled` triggered after a plugin was uninstalled
 
 ### New features
 * New "Sparklines" visualization that let's you create a widget showing multiple sparklines
