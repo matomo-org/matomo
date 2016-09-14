@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e3b5357f6315b1a03325c648dc67d5b7",
-    "content-hash": "98e1e060db654a356e483ba494b807f7",
+    "hash": "61a08a5c10bb59b2393cf377e4b24ae1",
+    "content-hash": "c5fe163547c252253f90483675909316",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -624,21 +624,21 @@
         },
         {
             "name": "piwik/cache",
-            "version": "0.2.8",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-cache.git",
-                "reference": "254db008633ac86d06e5c250c7cf270fd721a7b6"
+                "reference": "4cae40390a6fe8269e334d1204c51cf79c5e15e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-cache/zipball/254db008633ac86d06e5c250c7cf270fd721a7b6",
-                "reference": "254db008633ac86d06e5c250c7cf270fd721a7b6",
+                "url": "https://api.github.com/repos/piwik/component-cache/zipball/4cae40390a6fe8269e334d1204c51cf79c5e15e1",
+                "reference": "4cae40390a6fe8269e334d1204c51cf79c5e15e1",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "~1.4",
-                "php": ">=5.3.2"
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
@@ -667,7 +667,7 @@
                 "file",
                 "redis"
             ],
-            "time": "2016-08-09 02:16:11"
+            "time": "2016-09-14 20:19:56"
         },
         {
             "name": "piwik/decompress",
