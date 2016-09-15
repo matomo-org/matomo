@@ -45,12 +45,21 @@ class EntryPageUrl extends VisitDimension
         return (int) $idActionUrl;
     }
 
+    /*
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        $idActionUrl = $visitor->getVisitorColumn('visit_entry_idaction_url');
+        $idAction = $visitor->getVisitorColumn('visit_entry_idaction_url');
 
-        if (empty($idActionUrl) && !empty($action)) {
-            return $action->getIdActionUrlForEntryAndExitIds();
+        if (empty($idAction) && !empty($action)) {
+            $idAction = $action->getIdActionUrlForEntryAndExitIds();
+            if (!empty($idAction)) {
+                return $idAction;
+            }
         }
 
         return false;
