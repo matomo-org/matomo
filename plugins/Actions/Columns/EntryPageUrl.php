@@ -45,6 +45,17 @@ class EntryPageUrl extends VisitDimension
         return (int) $idActionUrl;
     }
 
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $idActionUrl = $visitor->getVisitorColumn('visit_entry_idaction_url');
+
+        if (empty($idActionUrl) && !empty($action)) {
+            return $action->getIdActionUrlForEntryAndExitIds();
+        }
+
+        return false;
+    }
+
     public function getName()
     {
         return Piwik::translate('Actions_ColumnEntryPageURL');
