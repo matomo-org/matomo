@@ -885,16 +885,16 @@
         },
         {
             "name": "piwik/searchengine-and-social-list",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/searchengine-and-social-list.git",
-                "reference": "e987612793b64b96e32144a2ef8420749ef4e421"
+                "reference": "07046e6c6472f3cf7751f45f7b1f1657dcf920e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/e987612793b64b96e32144a2ef8420749ef4e421",
-                "reference": "e987612793b64b96e32144a2ef8420749ef4e421",
+                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/07046e6c6472f3cf7751f45f7b1f1657dcf920e7",
+                "reference": "07046e6c6472f3cf7751f45f7b1f1657dcf920e7",
                 "shasum": ""
             },
             "type": "library",
@@ -903,7 +903,7 @@
                 "Public Domain"
             ],
             "description": "Search engine and social network definitions used by Piwik",
-            "time": "2016-09-18 13:48:45"
+            "time": "2016-09-18 14:28:00"
         },
         {
             "name": "psr/log",
