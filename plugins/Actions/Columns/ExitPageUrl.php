@@ -42,6 +42,10 @@ class ExitPageUrl extends VisitDimension
             $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
         }
 
+        if($idActionUrl === false) {
+            return false;
+        }
+
         return (int) $idActionUrl;
     }
 
