@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "61a08a5c10bb59b2393cf377e4b24ae1",
-    "content-hash": "c5fe163547c252253f90483675909316",
+    "hash": "75544710dc04491e5d39085ee8b7ae05",
+    "content-hash": "6c07c2bb4f82daef6519c9ac18c642c4",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -707,16 +707,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.7.2",
+            "version": "3.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "0487a6752211b8e458e9744908c6925d88e5c575"
+                "reference": "64f60998c31cebbec01b3b47247b96d742973f1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/0487a6752211b8e458e9744908c6925d88e5c575",
-                "reference": "0487a6752211b8e458e9744908c6925d88e5c575",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/64f60998c31cebbec01b3b47247b96d742973f1c",
+                "reference": "64f60998c31cebbec01b3b47247b96d742973f1c",
                 "shasum": ""
             },
             "require": {
@@ -754,7 +754,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2016-09-04 16:45:07"
+            "time": "2016-09-16 22:16:58"
         },
         {
             "name": "piwik/ini",
@@ -885,16 +885,16 @@
         },
         {
             "name": "piwik/searchengine-and-social-list",
-            "version": "1.3.0",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/searchengine-and-social-list.git",
-                "reference": "e5e09544e99cc1568d50f84ac90d1bf27d7444a0"
+                "reference": "e987612793b64b96e32144a2ef8420749ef4e421"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/e5e09544e99cc1568d50f84ac90d1bf27d7444a0",
-                "reference": "e5e09544e99cc1568d50f84ac90d1bf27d7444a0",
+                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/e987612793b64b96e32144a2ef8420749ef4e421",
+                "reference": "e987612793b64b96e32144a2ef8420749ef4e421",
                 "shasum": ""
             },
             "type": "library",
@@ -903,7 +903,7 @@
                 "Public Domain"
             ],
             "description": "Search engine and social network definitions used by Piwik",
-            "time": "2016-07-13 17:20:30"
+            "time": "2016-09-18 13:48:45"
         },
         {
             "name": "psr/log",
@@ -1434,7 +1434,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2014-08-28 17:34:52"
+            "time": "2015-02-26 14:37:51"
         },
         {
             "name": "guzzle/guzzle",
