@@ -465,7 +465,7 @@
   keywords: false
 
 - url: 'https://ixquick.com/do/asearch'
-  engine: 'Ixquick'
+  engine: 'IxQuick'
   keywords: false
 
 # DuckDuckGo never provides a keyword
