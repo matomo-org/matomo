@@ -55,7 +55,7 @@ class EntryPageUrl extends VisitDimension
     {
         $idAction = $visitor->getVisitorColumn('visit_entry_idaction_url');
 
-        if (empty($idAction) && !empty($action)) {
+        if ($idAction === false && !empty($action)) {
             $idAction = $action->getIdActionUrlForEntryAndExitIds();
             if (!empty($idAction)) {
                 return $idAction;
