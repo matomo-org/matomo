@@ -119,7 +119,8 @@ class TrackerCodeGenerator
             'piwikUrl'                => Common::sanitizeInputValue($piwikUrl),
             'options'                 => $options,
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
-            'protocol'                => '//'
+            'protocol'                => '//',
+            'loadAsync'               => true
         );
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
             'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
@@ -141,12 +142,19 @@ class TrackerCodeGenerator
          *                                        the JavaScript tracker inside of anonymous function before
          *                                        adding setTrackerUrl into paq.
          *                         - **protocol**: Piwik url protocol.
+         *                         - **loadAsync**: boolean whether piwik.js should be loaded syncronous or asynchronous
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.
          * @param array $parameters The parameters supplied to `TrackerCodeGenerator::generate()`.
          */
         Piwik::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
+
+        if (!empty($codeImpl['loadAsync'])) {
+            $codeImpl['loadAsync'] = 'true';
+        } else {
+            $codeImpl['loadAsync'] = 'false';
+        }
 
         $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
 

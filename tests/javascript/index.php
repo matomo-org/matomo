@@ -611,6 +611,91 @@ function PiwikTest() {
         }
     });
 
+    test("Piwik plugin methods", function() {
+        expect(19);
+        
+        // TESTS FOR retryMissedPluginCalls
+
+        // these 2 calls should fail because they do not exist
+        _paq.push(['MyCustomPlugin::myCustomStaticMethod']);
+        _paq.push(['MyCustomPlugin::myCustomStaticMethod2']);
+        _paq.push(['MyCustomPlugin.myCustomMethod']);
+        
+        // now we define these method
+        var called = 0;
+        var calledStatic = 0;
+        var calledStatic2 = 0;
+        Piwik.MyCustomPlugin = {myCustomStaticMethod: function () { calledStatic++; }};
+        var asyncTrackers = Piwik.getAsyncTrackers();
+        var i = 0;
+        for (i; i < asyncTrackers.length; i++) {
+            asyncTrackers[i].MyCustomPlugin = {myCustomMethod: function () { called++; }};
+        }
+        
+        // now we retry those calls
+        Piwik.retryMissedPluginCalls();
+        
+        strictEqual(1, called, "retryMissedPluginCalls, successfully executed non static method once it is defined");
+        strictEqual(1, calledStatic, "retryMissedPluginCalls, successfully executed static method once it is defined");
+        strictEqual(0, calledStatic2, "retryMissedPluginCalls, should not have executed not defined method");
+
+        // defining another method
+        Piwik.MyCustomPlugin.myCustomStaticMethod2 = function () { calledStatic2++; };
+
+        // retrying again should not call the missed plugin calls again because they are now defined
+        Piwik.retryMissedPluginCalls();
+
+        strictEqual(1, called, "retryMissedPluginCalls, should not execute a resolved missed call again");
+        strictEqual(1, calledStatic, "retryMissedPluginCalls, should not execute a resolved missed call again");
+        strictEqual(1, calledStatic2, "retryMissedPluginCalls, successfully executed static method 2 once it is defined");
+        
+        // calling them now that they are defined increases the counter immediately
+        _paq.push(['MyCustomPlugin::myCustomStaticMethod']);
+        _paq.push(['MyCustomPlugin.myCustomMethod']);
+
+        strictEqual(2, called, "executing static plugin method works directly if defined");
+        strictEqual(2, calledStatic, "executing plugin method works directly if defined");
+        strictEqual(1, calledStatic2, "a method is only executed when actually pushed");
+
+        // TESTS FOR events
+        var calledEvent1 = 0;
+        var calledEvent1_1 = 0;
+        var calledEvent2 = 0;
+        var passedArgs = null;
+
+        function callEvent1() { calledEvent1++; }
+        function callEvent1_1() { calledEvent1_1++; }
+        function callEvent2(arg1, arg2) { calledEvent2++; passedArgs = [arg1, arg2]; }
+
+        Piwik.on('myEvent1', callEvent1);
+        Piwik.on('myEvent2', callEvent2);
+        
+        Piwik.trigger('myEvent1', []);
+        strictEqual(1, calledEvent1, "event, should trigger event and call handler callEvent1");
+
+        Piwik.trigger('myEvent1', []);
+        strictEqual(2, calledEvent1, "event, should trigger event whenever it is called and call handler callEvent1 again");
+        strictEqual(0, calledEvent2, "event, should only execute event listeners that listen to that triggered event");
+
+        Piwik.trigger('myEvent2', ['arg1', 'arg2']);
+        strictEqual(2, calledEvent1, "event, should not have executed that event because it has different name");
+        strictEqual(1, calledEvent2, "event, should have executed different handler this time");
+        deepEqual(['arg1', 'arg2'], passedArgs, "event, should be possible to pass arguments to events");
+
+        Piwik.on('myEvent1', callEvent1_1);
+
+        Piwik.trigger('myEvent1', []);
+        strictEqual(3, calledEvent1, "event, should call multiple event handlers when many listen to same event");
+        strictEqual(1, calledEvent1_1, "event, should call multiple event handlers when many listen to same event");
+
+        Piwik.off('myEvent1', callEvent1);
+
+        Piwik.trigger('myEvent1', []);
+        strictEqual(3, calledEvent1, "event, it is possible to remove an event listener and it will not be executed anymore");
+        strictEqual(2, calledEvent1_1, "event, should still call other event listeners when others were removed");
+
+    });
+    
     test("Query", function() {
         var tracker = Piwik.getTracker();
         var query   = tracker.getQuery();
