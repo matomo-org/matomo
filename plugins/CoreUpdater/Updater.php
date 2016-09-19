@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -25,7 +24,6 @@ use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
-use Piwik\UpdateCheck;
 use Piwik\Version;
 
 class Updater
@@ -135,7 +133,7 @@ class Updater
             if (CorePluginsAdmin::isMarketplaceEnabled()) {
                 $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
 
-                $pluginManager = \Piwik\Plugin\Manager::getInstance();
+                $pluginManager = PluginManager::getInstance();
                 $pluginManager->loadAllPluginsAndGetTheirInfo();
                 $loadedPlugins = $pluginManager->getLoadedPlugins();
 
