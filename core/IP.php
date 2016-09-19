@@ -86,7 +86,7 @@ class IP
                 // this may be buggy if someone has proxy IPs and proxy host headers configured as
                 // `$_SERVER[$proxyHeader]` could be eg $_SERVER['HTTP_X_FORWARDED_HOST'] and
                 // include an actual host name, not an IP
-                $proxyIp = self::getLastIpFromList($_SERVER[$proxyHeader], $proxyIps);
+                $proxyIp = self::getFirstIpFromList($_SERVER[$proxyHeader], $proxyIps);
                 if (strlen($proxyIp) && stripos($proxyIp, 'unknown') === false) {
                     return $proxyIp;
                 }
@@ -103,13 +103,16 @@ class IP
      * @param array $excludedIps Optional list of excluded IP addresses (or IP address ranges).
      * @return string Last (non-excluded) IP address in the list or an empty string if all given IPs are excluded.
      */
-    public static function getLastIpFromList($csv, $excludedIps = null)
+    public static function getFirstIpFromList($csv, $excludedIps = null)
     {
         $p = strrpos($csv, ',');
         if ($p !== false) {
             $elements = explode(',', $csv);
-            for ($i = count($elements); $i--;) {
-                $element = trim(Common::sanitizeInputValue($elements[$i]));
+            foreach ($elements as $ipString) {
+                $element = trim(Common::sanitizeInputValue($ipString));
+                if(empty($element)) {
+                    continue;
+                }
                 $ip = \Piwik\Network\IP::fromStringIP(IPUtils::sanitizeIp($element));
                 if (empty($excludedIps) || (!in_array($element, $excludedIps) && !$ip->isInRanges($excludedIps))) {
                     return $element;
