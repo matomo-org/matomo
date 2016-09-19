@@ -110,6 +110,9 @@ class IP
             $elements = explode(',', $csv);
             foreach ($elements as $ipString) {
                 $element = trim(Common::sanitizeInputValue($ipString));
+                if(empty($element)) {
+                    continue;
+                }
                 $ip = \Piwik\Network\IP::fromStringIP(IPUtils::sanitizeIp($element));
                 if (empty($excludedIps) || (!in_array($element, $excludedIps) && !$ip->isInRanges($excludedIps))) {
                     return $element;
