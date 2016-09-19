@@ -1,5 +1,6 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Checking for new plugin updates",
         "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries that will get executed",
         "CriticalErrorDuringTheUpgradeProcess": "Critical Error during the update process:",
         "DatabaseUpgradeRequired": "Database Upgrade Required",
@@ -52,6 +53,7 @@
         "UpdateAutomatically": "Update Automatically",
         "UpdateHasBeenCancelledExplanation": "Piwik One Click Update has been cancelled. If you can't fix the above error message, it is recommended that you manually update Piwik. %1$s Please check out the %2$sUpdate documentation%3$s to get started!",
         "UpdateTitle": "Update",
+        "UpdatingPluginXToVersionY": "Updating plugin %1$s to version %2$s",
         "UpdateSuccessTitle": "Piwik has been successfully updated!",
         "UpdateErrorTitle": "Update error",
         "ThankYouUpdatePiwik": "Thank you for using Piwik and keeping it up to date!",

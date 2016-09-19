@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Cache;
+use Piwik\Container\StaticContainer;
 use Piwik\Http;
 use Piwik\Version;
 
@@ -126,6 +127,8 @@ class MarketplaceApiClient
     private function fetch($action, $params)
     {
         ksort($params);
+        $params['piwik'] = StaticContainer::get('marketplacePiwikVersion');
+        $params['php'] = phpversion();
         $query = http_build_query($params);
 
         $cacheId = $this->getCacheKey($action, $query);

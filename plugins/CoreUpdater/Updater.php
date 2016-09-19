@@ -11,12 +11,17 @@ namespace Piwik\Plugins\CoreUpdater;
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
+use Piwik\Plugins\CorePluginsAdmin\Marketplace;
+use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
@@ -119,6 +124,27 @@ class Updater
 
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
+
+            if (CorePluginsAdmin::isMarketplaceEnabled()) {
+                $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
+
+                $pluginManager = \Piwik\Plugin\Manager::getInstance();
+                $pluginManager->loadAllPluginsAndGetTheirInfo();
+                $loadedPlugins = $pluginManager->getLoadedPlugins();
+
+                StaticContainer::getContainer()->set('marketplacePiwikVersion', $newVersion);
+
+                $marketplace = new MarketplaceApiClient();
+                $pluginsWithUpdate = $marketplace->checkUpdates($loadedPlugins);
+
+                foreach ($pluginsWithUpdate as $pluginWithUpdate) {
+                    $messages[] = $this->translator->translate('CoreUpdater_UpdatingPluginXToVersionY', array($pluginWithUpdate['name'], $pluginWithUpdate['version']));
+
+                    $pluginInstaller = new PluginInstaller($pluginWithUpdate['name']);
+                    $pluginInstaller->installOrUpdatePluginFromMarketplace();
+                }
+            }
+
         } catch (ArchiveDownloadException $e) {
             throw $e;
         } catch (Exception $e) {
