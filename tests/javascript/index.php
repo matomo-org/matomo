@@ -612,7 +612,7 @@ function PiwikTest() {
     });
 
     test("Piwik plugin methods", function() {
-        expect(19);
+        expect(26);
         
         // TESTS FOR retryMissedPluginCalls
 
@@ -694,6 +694,34 @@ function PiwikTest() {
         strictEqual(3, calledEvent1, "event, it is possible to remove an event listener and it will not be executed anymore");
         strictEqual(2, calledEvent1_1, "event, should still call other event listeners when others were removed");
 
+        /**
+         * TESTING DOM
+         **/
+        var loaded = false;
+        var ready = false;
+        var customEvent = false;
+
+        strictEqual('object', typeof Piwik.DOM, "Piwik.DOM object is defined");
+        strictEqual('function', typeof Piwik.DOM.onReady, "DOM.onReady method is defined");
+        strictEqual('function', typeof Piwik.DOM.onLoad, "DOM.onLoad method is defined");
+        strictEqual('function', typeof Piwik.DOM.addEventListener, "DOM.addEventListener method is defined");
+
+        Piwik.DOM.onLoad(function () {
+            loaded = true;
+        });
+        Piwik.DOM.onReady(function () {
+            ready = true;
+        });
+        
+        strictEqual(true, ready, "onReady, DOM should be ready");
+        strictEqual(true, loaded, "event, DOM should be loaded");
+
+        Piwik.DOM.addEventListener(_e('click7'), 'myCustomEvent', function () {
+            customEvent = true;
+        });
+        triggerEvent(_e('click7'), 'myCustomEvent');
+
+        strictEqual(true, customEvent, "DOM.addEventListener works");
     });
     
     test("Query", function() {
