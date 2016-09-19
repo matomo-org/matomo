@@ -19,7 +19,6 @@ use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
-use Piwik\Plugins\CorePluginsAdmin\Marketplace;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\SettingsServer;
@@ -117,10 +116,9 @@ class Updater
             $this->verifyDecompressedArchive($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_VerifyingUnpackedFiles');
 
-            $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
-            if (!empty($disabledPluginNames)) {
-                $messages[] = $this->translator->translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $disabledPluginNames));
-            }
+            // we need to load the marketplace already here, otherwise it will use the new, updated file in Piwik 3
+            $marketplace = new MarketplaceApiClient();
+            require_once PIWIK_DOCUMENT_ROOT . '/plugins/CorePluginsAdmin/PluginInstaller.php';
 
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
@@ -132,9 +130,9 @@ class Updater
                 $pluginManager->loadAllPluginsAndGetTheirInfo();
                 $loadedPlugins = $pluginManager->getLoadedPlugins();
 
+                MarketplaceApiClient::clearAllCacheEntries();
                 StaticContainer::getContainer()->set('marketplacePiwikVersion', $newVersion);
 
-                $marketplace = new MarketplaceApiClient();
                 $pluginsWithUpdate = $marketplace->checkUpdates($loadedPlugins);
 
                 foreach ($pluginsWithUpdate as $pluginWithUpdate) {
@@ -151,6 +149,14 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
 
+        try {
+            $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
+            if (!empty($disabledPluginNames)) {
+                $messages[] = $this->translator->translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $disabledPluginNames));
+            }
+        } catch (Exception $e) {
+            throw new UpdaterException($e, $messages);
+        }
         return $messages;
     }
 

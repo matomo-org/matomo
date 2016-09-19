@@ -124,10 +124,15 @@ class MarketplaceApiClient
         return array();
     }
 
+    public static function getPiwikVersion()
+    {
+        return StaticContainer::get('marketplacePiwikVersion');
+    }
+
     private function fetch($action, $params)
     {
         ksort($params);
-        $params['piwik'] = StaticContainer::get('marketplacePiwikVersion');
+        $params['piwik'] = self::getPiwikVersion();
         $params['php'] = phpversion();
         $query = http_build_query($params);
 
@@ -183,7 +188,7 @@ class MarketplaceApiClient
         $latestVersion = array_pop($plugin['versions']);
         $downloadUrl = $latestVersion['download'];
 
-        return $this->domain . $downloadUrl . '?coreVersion=' . Version::VERSION;
+        return $this->domain . $downloadUrl . '?coreVersion=' . self::getPiwikVersion();
     }
 
 }

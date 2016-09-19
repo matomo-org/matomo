@@ -160,7 +160,10 @@ class PluginInstaller
             $requires = (array) $metadata->require;
         }
 
+        $piwikVersion = MarketplaceApiClient::getPiwikVersion();
+
         $dependency = new PluginDependency();
+        $dependency->setPiwikVersion($piwikVersion);
         $missingDependencies = $dependency->getMissingDependencies($requires);
 
         if (!empty($missingDependencies)) {
