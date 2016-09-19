@@ -143,20 +143,17 @@ class Updater
                 }
             }
 
+            $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
+            if (!empty($disabledPluginNames)) {
+                $messages[] = $this->translator->translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $disabledPluginNames));
+            }
+
         } catch (ArchiveDownloadException $e) {
             throw $e;
         } catch (Exception $e) {
             throw new UpdaterException($e, $messages);
         }
 
-        try {
-            $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
-            if (!empty($disabledPluginNames)) {
-                $messages[] = $this->translator->translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $disabledPluginNames));
-            }
-        } catch (Exception $e) {
-            throw new UpdaterException($e, $messages);
-        }
         return $messages;
     }
 
