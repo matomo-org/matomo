@@ -970,7 +970,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
-    min, round, random,
+    min, round, random, floor,
     exec,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
@@ -1022,7 +1022,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
+    getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
@@ -3795,8 +3795,9 @@ if (typeof window.Piwik !== 'object') {
                 var id = '';
                 var chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 var charLen = chars.length;
+                var i;
 
-                for (var i = 0; i < 16; i++) {
+                for (i = 0; i < 16; i++) {
                     id += chars.charAt(Math.floor(Math.random() * charLen));
                 }
 
@@ -5214,6 +5215,9 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getConfigCookiePath = function () {
                 return configCookiePath;
+            };
+            this.getConfigIdPageView = function () {
+                return configIdPageView;
             };
             this.getConfigDownloadExtensions = function () {
                 return configDownloadExtensions;
