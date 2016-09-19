@@ -1030,7 +1030,8 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
 /*global _paq:true */
 /*members push */
 /*global Piwik:true */
-/*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls */
+/*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
+          DOM, onLoad, onReady*/
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -1275,6 +1276,79 @@ if (typeof window.Piwik !== 'object') {
             element['on' + eventType] = eventHandler;
         }
 
+        function trackCallbackOnLoad(callback)
+        {
+            if (documentAlias.readyState === 'complete') {
+                callback();
+            } else if (windowAlias.addEventListener) {
+                windowAlias.addEventListener('load', callback);
+            } else if (windowAlias.attachEvent) {
+                windowAlias.attachEvent('onload', callback);
+            }
+        }
+
+        function trackCallbackOnReady(callback)
+        {
+            var loaded = false;
+
+            if (documentAlias.attachEvent) {
+                loaded = documentAlias.readyState === 'complete';
+            } else {
+                loaded = documentAlias.readyState !== 'loading';
+            }
+
+            if (loaded) {
+                callback();
+                return;
+            }
+
+            var _timer;
+
+            if (documentAlias.addEventListener) {
+                addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
+                    documentAlias.removeEventListener('DOMContentLoaded', ready, false);
+                    if (!loaded) {
+                        loaded = true;
+                        callback();
+                    }
+                });
+            } else if (documentAlias.attachEvent) {
+                documentAlias.attachEvent('onreadystatechange', function ready() {
+                    if (documentAlias.readyState === 'complete') {
+                        documentAlias.detachEvent('onreadystatechange', ready);
+                        if (!loaded) {
+                            loaded = true;
+                            callback();
+                        }
+                    }
+                });
+
+                if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
+                    (function ready() {
+                        if (!loaded) {
+                            try {
+                                documentAlias.documentElement.doScroll('left');
+                            } catch (error) {
+                                setTimeout(ready, 0);
+
+                                return;
+                            }
+                            loaded = true;
+                            callback();
+                        }
+                    }());
+                }
+            }
+
+            // fallback
+            addEventListener(windowAlias, 'load', function () {
+                if (!loaded) {
+                    loaded = true;
+                    callback();
+                }
+            }, false);
+        }
+
         /*
          * Call plugin hook methods
          */
@@ -1310,7 +1384,6 @@ if (typeof window.Piwik !== 'object') {
             var now;
 
             executePluginMethod('unload');
-
             /*
              * Delay/pause (blocks UI)
              */
@@ -4766,79 +4839,6 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
-            function trackCallbackOnLoad(callback)
-            {
-                if (documentAlias.readyState === 'complete') {
-                    callback();
-                } else if (windowAlias.addEventListener) {
-                    windowAlias.addEventListener('load', callback);
-                } else if (windowAlias.attachEvent) {
-                    windowAlias.attachEvent('onload', callback);
-                }
-            }
-
-            function trackCallbackOnReady(callback)
-            {
-                var loaded = false;
-
-                if (documentAlias.attachEvent) {
-                    loaded = documentAlias.readyState === 'complete';
-                } else {
-                    loaded = documentAlias.readyState !== 'loading';
-                }
-
-                if (loaded) {
-                    callback();
-                    return;
-                }
-
-                var _timer;
-
-                if (documentAlias.addEventListener) {
-                    addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
-                        documentAlias.removeEventListener('DOMContentLoaded', ready, false);
-                        if (!loaded) {
-                            loaded = true;
-                            callback();
-                        }
-                    });
-                } else if (documentAlias.attachEvent) {
-                    documentAlias.attachEvent('onreadystatechange', function ready() {
-                        if (documentAlias.readyState === 'complete') {
-                            documentAlias.detachEvent('onreadystatechange', ready);
-                            if (!loaded) {
-                                loaded = true;
-                                callback();
-                            }
-                        }
-                    });
-
-                    if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
-                        (function ready() {
-                            if (!loaded) {
-                                try {
-                                    documentAlias.documentElement.doScroll('left');
-                                } catch (error) {
-                                    setTimeout(ready, 0);
-
-                                    return;
-                                }
-                                loaded = true;
-                                callback();
-                            }
-                        }());
-                    }
-                }
-
-                // fallback
-                addEventListener(windowAlias, 'load', function () {
-                    if (!loaded) {
-                        loaded = true;
-                        callback();
-                    }
-                }, false);
-            }
-
             /*
              * Process clicks
              */
@@ -6599,6 +6599,44 @@ if (typeof window.Piwik !== 'object') {
 
         Piwik = {
             initialized: false,
+
+            /**
+             * DOM Document related methods
+             */
+            DOM: {
+                /**
+                 * Adds an event listener to the given element.
+                 * @param element
+                 * @param eventType
+                 * @param eventHandler
+                 * @param useCapture  Optional
+                 */
+                addEventListener: function (element, eventType, eventHandler, useCapture) {
+                    var captureType = typeof useCapture;
+                    if (captureType === 'undefined') {
+                        useCapture = false;
+                    }
+
+                    addEventListener(element, eventType, eventHandler, useCapture);
+                },
+                /**
+                 * Specify a function to execute when the DOM is fully loaded.
+                 *
+                 * If the DOM is already loaded, the function will be executed immediately.
+                 *
+                 * @param function callback
+                 */
+                onLoad: trackCallbackOnLoad,
+
+                /**
+                 * Specify a function to execute when the DOM is ready.
+                 *
+                 * If the DOM is already ready, the function will be executed immediately.
+                 *
+                 * @param function callback
+                 */
+                onReady: trackCallbackOnReady
+            },
 
             /**
              * Listen to an event and invoke the handler when a the event is triggered.
