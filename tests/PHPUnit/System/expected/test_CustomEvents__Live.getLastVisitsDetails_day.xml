@@ -1357,7 +1357,7 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>26</pageId>
@@ -1377,7 +1377,7 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>27</pageId>
@@ -1397,7 +1397,7 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>28</pageId>
@@ -1417,7 +1417,7 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>29</pageId>
@@ -1437,7 +1437,7 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>30</pageId>
@@ -1457,7 +1457,7 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>31</pageId>
@@ -1478,7 +1478,7 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://localhost/piwik-master/</url>
+				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
 				<pageId>32</pageId>
