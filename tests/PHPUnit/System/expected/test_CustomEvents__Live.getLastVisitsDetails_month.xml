@@ -883,7 +883,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>46</pageId>
+				<pageId>45</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -984,7 +984,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>45</pageId>
+				<pageId>44</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1085,7 +1085,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>41</pageId>
+				<pageId>40</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1099,7 +1099,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>42</pageId>
+				<pageId>41</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1113,7 +1113,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>44</pageId>
+				<pageId>43</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<eventName>Search query here</eventName>
@@ -1127,7 +1127,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>47</pageId>
+				<pageId>46</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1141,7 +1141,7 @@
 				<url />
 				<pageIdAction />
 				
-				<pageId>48</pageId>
+				<pageId>47</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1156,7 +1156,7 @@
 				<url>http://example.org/finishedMovie</url>
 				<pageIdAction>27</pageIdAction>
 				
-				<pageId>49</pageId>
+				<pageId>48</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
@@ -1259,7 +1259,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>43</pageId>
+				<pageId>42</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<icon>plugins/Morpheus/images/event.png</icon>
@@ -1356,35 +1356,11 @@
 		
 		<actionDetails>
 			<row>
-				<type>action</type>
-				<url>http://example.org/webradio</url>
-				<pageTitle>Welcome!</pageTitle>
-				<pageIdAction>2</pageIdAction>
+				<type>event</type>
+				<url>http://example.com/piwik/</url>
+				<pageIdAction>31</pageIdAction>
 				
 				<pageId>26</pageId>
-				<generationTime>0.33s</generationTime>
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
-				
-			</row>
-			<row>
-				<type>goal</type>
-				<goalName>triggered js</goalName>
-				<goalId>1</goalId>
-				<revenue>0</revenue>
-				<goalPageId>26</goalPageId>
-				
-				<url>http://example.org/webradio</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>event</type>
-				<url>http://example.org/webradio</url>
-				<pageIdAction>3</pageIdAction>
-				
-				<pageId>27</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play</eventAction>
 				<customVariables>
@@ -1401,10 +1377,10 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/webradio</url>
-				<pageIdAction>3</pageIdAction>
+				<url>http://example.com/piwik/</url>
+				<pageIdAction>31</pageIdAction>
 				
-				<pageId>28</pageId>
+				<pageId>27</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play25%</eventAction>
 				<customVariables>
@@ -1421,10 +1397,10 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/webradio</url>
-				<pageIdAction>3</pageIdAction>
+				<url>http://example.com/piwik/</url>
+				<pageIdAction>31</pageIdAction>
 				
-				<pageId>29</pageId>
+				<pageId>28</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play50%</eventAction>
 				<customVariables>
@@ -1441,10 +1417,10 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/webradio</url>
-				<pageIdAction>3</pageIdAction>
+				<url>http://example.com/piwik/</url>
+				<pageIdAction>31</pageIdAction>
 				
-				<pageId>30</pageId>
+				<pageId>29</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play75%</eventAction>
 				<customVariables>
@@ -1461,10 +1437,10 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/webradio</url>
-				<pageIdAction>3</pageIdAction>
+				<url>http://example.com/piwik/</url>
+				<pageIdAction>31</pageIdAction>
 				
-				<pageId>31</pageId>
+				<pageId>30</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<customVariables>
@@ -1481,10 +1457,10 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/webradio</url>
-				<pageIdAction>3</pageIdAction>
+				<url>http://example.com/piwik/</url>
+				<pageIdAction>31</pageIdAction>
 				
-				<pageId>32</pageId>
+				<pageId>31</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
 				<customVariables>
@@ -1502,10 +1478,10 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/webradio</url>
-				<pageIdAction>3</pageIdAction>
+				<url>http://example.com/piwik/</url>
+				<pageIdAction>31</pageIdAction>
 				
-				<pageId>33</pageId>
+				<pageId>32</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
 				<customVariables>
@@ -1527,7 +1503,7 @@
 				<pageTitle>Movie Theater</pageTitle>
 				<pageIdAction>15</pageIdAction>
 				
-				<pageId>34</pageId>
+				<pageId>33</pageId>
 				<generationTime>0.67s</generationTime>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
@@ -1539,7 +1515,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>35</pageId>
+				<pageId>34</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
@@ -1553,7 +1529,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>36</pageId>
+				<pageId>35</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
@@ -1567,7 +1543,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>37</pageId>
+				<pageId>36</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1581,7 +1557,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>38</pageId>
+				<pageId>37</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>clickBuyNow</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1595,7 +1571,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>39</pageId>
+				<pageId>38</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playStart</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1609,7 +1585,7 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
-				<pageId>40</pageId>
+				<pageId>39</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1617,7 +1593,7 @@
 				
 			</row>
 		</actionDetails>
-		<goalConversions>1</goalConversions>
+		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
@@ -1627,18 +1603,18 @@
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>3601</visitDuration>
-		<visitDurationPretty>1 hours 0 min</visitDurationPretty>
+		<visitDuration>3541</visitDuration>
+		<visitDurationPretty>59 min 1s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>15</actions>
+		<actions>14</actions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
