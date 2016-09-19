@@ -60,7 +60,7 @@ class File
      */
     public function hasWriteAccess()
     {
-        return $this->hasReadAccess() && is_writable($this->file);
+        return is_writable($this->file);
     }
 
     /**

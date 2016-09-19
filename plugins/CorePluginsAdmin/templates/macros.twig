@@ -120,6 +120,7 @@
 
     {% if metadata is defined
         and metadata.support is defined
+        and metadata.support.email is defined
         and metadata.support.email
         and pluginName not in marketplacePluginNames %}
         {{ 'CorePluginsAdmin_EmailToEnquireUpdatedVersion'|translate('<a href="mailto:' ~ metadata.support.email|e('html_attr') ~'">' ~ metadata.support.email ~ '</a>', pluginName)|raw }}
