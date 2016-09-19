@@ -131,7 +131,7 @@ function initManagePdf() {
 
         apiParameters.parameters = getReportParametersFunctions[apiParameters.reportType]();
 
-        var hour = adjustHourToTimezone($('#report_hour').val());
+        var hour = adjustHourToTimezone($('#report_hour').val(), -timeZoneDifference);
 
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams(apiParameters, 'POST');
