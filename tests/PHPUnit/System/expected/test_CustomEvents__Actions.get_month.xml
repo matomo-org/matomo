@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<nb_pageviews>4</nb_pageviews>
-	<nb_uniq_pageviews>4</nb_uniq_pageviews>
+	<nb_pageviews>3</nb_pageviews>
+	<nb_uniq_pageviews>3</nb_uniq_pageviews>
 	<nb_downloads>0</nb_downloads>
 	<nb_uniq_downloads>0</nb_uniq_downloads>
 	<nb_outlinks>0</nb_outlinks>
 	<nb_uniq_outlinks>0</nb_uniq_outlinks>
 	<nb_searches>0</nb_searches>
 	<nb_keywords>0</nb_keywords>
-	<avg_time_generation>0.5</avg_time_generation>
+	<avg_time_generation>0.557</avg_time_generation>
 </result>

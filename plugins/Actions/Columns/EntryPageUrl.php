@@ -18,7 +18,7 @@ use Piwik\Tracker\Visitor;
 class EntryPageUrl extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_url';
-    protected $columnType = 'INTEGER(11) UNSIGNED NOT NULL';
+    protected $columnType = 'INTEGER(11) UNSIGNED NULL  DEFAULT NULL';
 
     protected function configureSegments()
     {
@@ -42,6 +42,10 @@ class EntryPageUrl extends VisitDimension
             $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
         }
 
+        if($idActionUrl === false) {
+            return false;
+        }
+
         return (int) $idActionUrl;
     }
 
@@ -55,7 +59,7 @@ class EntryPageUrl extends VisitDimension
     {
         $idAction = $visitor->getVisitorColumn('visit_entry_idaction_url');
 
-        if ($idAction === false && !empty($action)) {
+        if (is_null($idAction) && !empty($action)) {
             $idAction = $action->getIdActionUrlForEntryAndExitIds();
             if (!empty($idAction)) {
                 return $idAction;
