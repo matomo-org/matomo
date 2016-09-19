@@ -49,6 +49,11 @@ class TwoVisitsWithCustomEvents extends Fixture
         $uselocal = false;
         $vis = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
 
+        // $vis will start with a pageview, while $vis2 will directly start with the event
+        $vis->setUrl('http://example.org/webradio');
+        $vis->setGenerationTime(333);
+        self::checkResponse($vis->doTrackPageView('Welcome!'));
+
         $this->trackMusicPlaying($vis);
         $this->trackMusicRatings($vis);
         $this->trackEventWithoutUrl($vis);
@@ -81,10 +86,6 @@ class TwoVisitsWithCustomEvents extends Fixture
 
     protected function trackMusicPlaying(PiwikTracker $vis)
     {
-        $vis->setUrl('http://example.org/webradio');
-        $vis->setGenerationTime(333);
-        self::checkResponse($vis->doTrackPageView('Welcome!'));
-
         $this->moveTimeForward($vis, 1);
         $this->setMusicEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Music', 'play', 'La fiancée de l\'eau'));
