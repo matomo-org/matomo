@@ -165,7 +165,7 @@ class Dashboard extends \Piwik\Plugin
                     {"uniqueId":"widgetUserCountryMapvisitorMap","parameters":{"module":"UserCountryMap","action":"visitorMap"}},
                     {"uniqueId":"widgetDevicesDetectiongetBrowsers","parameters":{"module":"DevicesDetection","action":"getBrowsers"}},
                     {"uniqueId":"widgetReferrersgetSearchEngines","parameters":{"module":"Referrers","action":"getSearchEngines"}},
-                    {"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
+                    {"uniqueId":"widgetRssWidgetrssPiwik","parameters":{"module":"RssWidget","action":"rssPiwik"}}
                 ]
             ]';
         }

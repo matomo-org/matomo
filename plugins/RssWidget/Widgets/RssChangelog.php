@@ -6,11 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\ExampleRssWidget\Widgets;
+namespace Piwik\Plugins\RssWidget\Widgets;
 
 use Piwik\Piwik;
 use Piwik\Widget\WidgetConfig;
-use Piwik\Plugins\ExampleRssWidget\RssRenderer;
+use Piwik\Plugins\RssWidget\RssRenderer;
 
 class RssChangelog extends \Piwik\Widget\Widget
 {
