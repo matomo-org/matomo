@@ -482,12 +482,6 @@ class Model
                 }
             } else {
                 $processedDate = Date::factory($date);
-                if ($date == 'today'
-                    || $date == 'now'
-                    || $processedDate->toString() == Date::factory('now', $currentTimezone)->toString()
-                ) {
-                    $processedDate = $processedDate->subDay(1);
-                }
                 $processedPeriod = Period\Factory::build($period, $processedDate);
             }
             $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
