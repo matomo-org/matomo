@@ -105,13 +105,6 @@
     {% endfor %}
 
     {{ 'CorePluginsAdmin_PluginRequirement'|translate(pluginName, causedBy) }}
-
-    {% if metadata is defined
-        and metadata.support is defined
-        and metadata.support.email
-        and pluginName not in marketplacePluginNames %}
-        {{ 'CorePluginsAdmin_EmailToEnquireUpdatedVersion'|translate('<a href="mailto:' ~ metadata.support.email|e('html_attr') ~'">' ~ metadata.support.email ~ '</a>', pluginName)|raw }}
-    {% endif %}
 {% endmacro %}
 
 {% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames, displayAdminLinks) %}
