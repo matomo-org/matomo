@@ -249,15 +249,14 @@ class PluginsArchiver
         $archiver = new $archiverClass($this->archiveProcessor);
 
         /**
-         * Triggered right after new **Plugin Archiver instance** is created.
-         * Subscribers to thisevent can influence created instance by for ex.
-         * calling $archiver->disable() method to prevent current archiver from
-         * processing its data.
+         * Triggered right after a new **plugin archiver instance** is created.
+         * Subscribers to this event can configure the plugin archiver, for example prevent the archiving of a plugin's data
+         * by calling `$archiver->disable()` method.
          *
-         * @param \Piwik\Plugin\Archiver &$archiver Newly created plugin archiver instance
-         * @param string $pluginName name of plugin of which archiver instance was created
-         * @param array $this->params array containing archive parameters (such as idSite, period, date)
-         * @param bool $this->isTemporaryArchive flag indicating if archive being processed now is temporary or final
+         * @param \Piwik\Plugin\Archiver &$archiver The newly created plugin archiver instance.
+         * @param string $pluginName The name of plugin of which archiver instance was created.
+         * @param array $this->params Array containing archive parameters (Site, Period, Date and Segment)
+         * @param bool $this->isTemporaryArchive Flag indicating whether the archive being processed is temporary (ie. the period isn't finished yet) or final (the period is already finished and in the past).
          */
         Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
 
