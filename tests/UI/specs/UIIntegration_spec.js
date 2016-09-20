@@ -43,6 +43,28 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
     });
 
+    it('should not apply current segmented when opening visitor log', function (done) {
+        var url = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog&segment=visitCount==2&enableAnimation=0";
+
+        expect.screenshot("visitor_profile_not_segmented").to.be.capture(function (page) {
+            page.load(url);
+
+            page.wait(1000);
+            page.evaluate(function () {
+                $('.visitor-log-visitor-profile-link:first').click();
+            });
+
+            page.wait(1000);
+
+            page.evaluate(function () {
+                $(document).ready(function () {
+                    $('.visitor-profile-show-map').click();
+                });
+            });
+
+            page.wait(1000);
+        }, done);
+    });
 
     // dashboard tests
     it("should load dashboard1 correctly", function (done) {
@@ -699,4 +721,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.click('a.actionSegmentVisitorLog:visible');
         }, done);
     });
+
+
+
 });
