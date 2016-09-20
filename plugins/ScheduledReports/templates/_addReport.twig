@@ -59,7 +59,20 @@
                         <br/>
                         {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
                         <br/>
-                        {{ 'ScheduledReports_ReportHour'|translate('<input type="text" id="report_hour" class="inp" size="2">')|raw }}
+
+                        {% set hourInput %}
+                            <select id="report_hour">
+                            {% for i in 0..23 %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                            </select>
+                        {% endset %}
+
+                        {% if timeZoneDifference != 0 %}
+                            {{ 'ScheduledReports_ReportHourWithUTC'|translate(hourInput, '<span id="hour_utc"></span>')|raw }}
+                        {% else %}
+                            {{ 'ScheduledReports_ReportHour'|translate(hourInput)|raw }}
+                        {% endif %}
                     </div>
                 </td>
             </tr>
