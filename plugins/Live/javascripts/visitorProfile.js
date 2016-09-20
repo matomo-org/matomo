@@ -51,7 +51,10 @@
             url += '&showMap=0';
         }
 
-        Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.removeDefaultParameter('segment');
+
+        Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup', ajaxRequest);
     };
 
     $.extend(VisitorProfileControl.prototype, UIControl.prototype, {
