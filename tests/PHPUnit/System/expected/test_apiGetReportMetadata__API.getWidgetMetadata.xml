@@ -2650,14 +2650,14 @@
 			<icon />
 		</category>
 		<subcategory />
-		<module>ExampleRssWidget</module>
+		<module>RssWidget</module>
 		<action>rssChangelog</action>
 		<order>99</order>
 		<parameters>
-			<module>ExampleRssWidget</module>
+			<module>RssWidget</module>
 			<action>rssChangelog</action>
 		</parameters>
-		<uniqueId>widgetExampleRssWidgetrssChangelog</uniqueId>
+		<uniqueId>widgetRssWidgetrssChangelog</uniqueId>
 	</row>
 	<row>
 		<name>System Summary</name>
@@ -2704,14 +2704,14 @@
 			<icon />
 		</category>
 		<subcategory />
-		<module>ExampleRssWidget</module>
+		<module>RssWidget</module>
 		<action>rssPiwik</action>
 		<order>99</order>
 		<parameters>
-			<module>ExampleRssWidget</module>
+			<module>RssWidget</module>
 			<action>rssPiwik</action>
 		</parameters>
-		<uniqueId>widgetExampleRssWidgetrssPiwik</uniqueId>
+		<uniqueId>widgetRssWidgetrssPiwik</uniqueId>
 	</row>
 	<row>
 		<name>Latest Piwik Plugin Updates</name>
