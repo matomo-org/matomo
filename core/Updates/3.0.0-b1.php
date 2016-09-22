@@ -66,6 +66,12 @@ class Updates_3_0_0_b1 extends Updates
         // added .woff and woff2 whitelisted file for apache webserver
         ServerFilesGenerator::deleteHtAccessFiles();
         ServerFilesGenerator::createHtAccessFiles();
+
+        // Renamed plugin ExampleRssWidget -> RssWidget
+        try {
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('RssWidget');
+        } catch (\Exception $e) {
+        }
     }
 
     private function migratePluginEmailUpdateSetting()

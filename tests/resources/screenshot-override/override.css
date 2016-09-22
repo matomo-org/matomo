@@ -42,7 +42,7 @@ body > .widget {
 }
 
 /* do not display RSS feed widget's contents */
-#widgetExampleRssWidgetrssPiwik .rss {
+#widgetRssWidgetrssPiwik .rss {
     display:none;
 }
 

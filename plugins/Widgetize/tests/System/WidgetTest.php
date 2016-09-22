@@ -174,18 +174,18 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Piwik Changelog',
-                'uniqueId' => 'widgetExampleRssWidgetrssChangelog',
+                'uniqueId' => 'widgetRssWidgetrssChangelog',
                 'parameters' =>
                     array (
-                        'module' => 'ExampleRssWidget',
+                        'module' => 'RssWidget',
                         'action' => 'rssChangelog',
                     ),
             ),array (
                 'name' => 'Piwik.org Blog',
-                'uniqueId' => 'widgetExampleRssWidgetrssPiwik',
+                'uniqueId' => 'widgetRssWidgetrssPiwik',
                 'parameters' =>
                     array (
-                        'module' => 'ExampleRssWidget',
+                        'module' => 'RssWidget',
                         'action' => 'rssPiwik',
                     ),
             ),array (
@@ -1343,19 +1343,19 @@ class WidgetTest extends SystemTestCase
                 ),
                 array (
                     'name' => 'Piwik.org Blog',
-                    'uniqueId' => 'widgetExampleRssWidgetrssPiwik',
+                    'uniqueId' => 'widgetRssWidgetrssPiwik',
                     'parameters' =>
                         array (
-                            'module' => 'ExampleRssWidget',
+                            'module' => 'RssWidget',
                             'action' => 'rssPiwik',
                         ),
                 ),
                 array (
                     'name' => 'Piwik Changelog',
-                    'uniqueId' => 'widgetExampleRssWidgetrssChangelog',
+                    'uniqueId' => 'widgetRssWidgetrssChangelog',
                     'parameters' =>
                         array (
-                            'module' => 'ExampleRssWidget',
+                            'module' => 'RssWidget',
                             'action' => 'rssChangelog',
                         ),
                 ),
