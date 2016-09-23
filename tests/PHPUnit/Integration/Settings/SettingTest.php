@@ -216,7 +216,7 @@ class SettingTest extends IntegrationTestCase
         }
 
         $setting = new Setting($name, $default, $type, 'MyPluginName');
-        $setting->setStorage(new Storage(new Backend\Null('myId')));
+        $setting->setStorage(new Storage(new Backend\NullBackend('myId')));
         $setting->setIsWritableByCurrentUser(true);
 
         if (isset($configure)) {
