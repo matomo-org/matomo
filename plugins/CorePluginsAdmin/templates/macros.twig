@@ -95,18 +95,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro missingRequirementsInfo(pluginName, metadata, missingRequirements, marketplacePluginNames) %}
-    {% set causedBy = '' %}
-    {% for dependency in missingRequirements %}
-        {% set causedBy = causedBy ~ dependency.requirement|capitalize ~ ' ' ~ dependency.causedBy  %}
-        {% if not loop.last %}
-            {% set causedBy = causedBy ~ ', '  %}
-        {% endif %}
-    {% endfor %}
-
-    {{ 'CorePluginsAdmin_PluginRequirement'|translate(pluginName, causedBy) }}
-{% endmacro %}
-
 {% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme, marketplacePluginNames, displayAdminLinks) %}
 
 <div id="confirmUninstallPlugin" class="ui-confirm">
@@ -152,7 +140,7 @@
                 <td class="desc">
                     <div class="plugin-desc-missingrequirements">
                         {% if plugin.missingRequirements is defined and plugin.missingRequirements %}
-                            {{ _self.missingRequirementsInfo(name, plugin.info, plugin.missingRequirements, marketplacePluginNames) }}
+                            {{  plugin.missingRequirements }}
                             <br />
                         {% endif %}
                     </div>
