@@ -133,8 +133,8 @@ class DependencyTest extends IntegrationTestCase
     public function getDependenciesForStringTest()
     {
         return array(
-            array( array('Annotations' => '>=9.2'), 'ANNOTATIONS >=9.2'),
-            array( array('php' => '>=70', 'Annotations' => '>=11.11'), 'PHP >=70, ANNOTATIONS >=11.11'),
+            array( array('Annotations' => '>=9.2'), 'Annotations >=9.2'),
+            array( array('php' => '>=70', 'Annotations' => '>=11.11'), 'Php >=70, Annotations >=11.11'),
             array( array(), ''),
         );
     }
