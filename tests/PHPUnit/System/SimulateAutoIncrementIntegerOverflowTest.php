@@ -13,11 +13,11 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
- * Simulates the case where there are more than 2 billion visits and pages, and check that Piwik
- * can handle this use case without hitting MySQL INT overflow.
+ * Simulates the case where there are more than 4 billion visits and pages, and check that Piwik
+ * can handle this use case without hitting MySQL INT UNSIGNED overflow.
  *
  * This system test will compare against the OneVisitorTwoVisitsWithCookieSupportTest system test
- * (OneVisitorTwoVisits_withCookieSupport* expected api responses)
+ * (OneVisitorTwoVisits_withCookieSupport* expected api responses) and expect the same API responses.
  *
  * @group SimulateAutoIncrementIntegerOverflowTest
  * @group Core
