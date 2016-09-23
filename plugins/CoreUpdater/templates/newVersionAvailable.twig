@@ -35,7 +35,7 @@
 
             <ul>
                 {% for plugin in incompatiblePlugins %}
-                    <li>{{ pluginsMacro.missingRequirementsInfo(plugin.getPluginName, plugin.getInformation, plugin.getMissingDependencies(piwik_new_version), marketplacePlugins) }}</li>
+                    <li>{{ pluginsMacro.missingRequirementsInfo(plugin.getPluginName, plugin.getInformation, plugin.getMissingDependenciesAsString(piwik_new_version), marketplacePlugins) }}</li>
                 {% endfor %}
             </ul>
         {% endif %}
