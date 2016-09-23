@@ -70,6 +70,7 @@ class Updates_3_0_0_b1 extends Updates
         // Renamed plugin ExampleRssWidget -> RssWidget
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('RssWidget');
+            \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('ExampleRssWidget');
         } catch (\Exception $e) {
         }
     }
