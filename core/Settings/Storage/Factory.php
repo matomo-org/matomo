@@ -122,7 +122,7 @@ class Factory
      */
     public function getNonPersistentStorage($key)
     {
-        return new Storage(new Backend\Null($key));
+        return new Storage(new Backend\NullBackend($key));
     }
 
     private function makeStorage(BackendInterface $backend)

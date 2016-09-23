@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration\Settings\Storage\Backend;
 
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\Settings\Storage\Backend\Null;
+use Piwik\Settings\Storage\Backend\NullBackend;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -30,7 +30,7 @@ class NullTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->backend = new Null('storageId1FooBar');
+        $this->backend = new NullBackend('storageId1FooBar');
     }
 
     public function test_getStorageId_shouldReturnStorageId()
