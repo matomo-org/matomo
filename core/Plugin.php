@@ -414,14 +414,40 @@ class Plugin
             return array();
         }
 
-        $dependency = new Dependency();
-
-        if (!is_null($piwikVersion)) {
-            $dependency->setPiwikVersion($piwikVersion);
-        }
-
+        $dependency = $this->makeDependency($piwikVersion);
         return $dependency->getMissingDependencies($this->pluginInformation['require']);
     }
+
+    /**
+     * Returns a string (translated) describing the missing requirements for this plugin and the given Piwik version
+     *
+     * @param string $piwikVersion
+     * @return string "AnonymousPiwikUsageMeasurement requires PIWIK >=3.0.0"
+     */
+    public function getMissingDependenciesAsString($piwikVersion = null)
+    {
+        if (empty($this->pluginInformation['require'])) {
+            return '';
+        }
+        $dependency = $this->makeDependency($piwikVersion);
+
+        $missingDependencies = $dependency->getMissingDependencies($this->pluginInformation['require']);
+
+        if(empty($missingDependencies)) {
+            return '';
+        }
+
+        $causedBy = array();
+        foreach ($missingDependencies as $dependency) {
+            $causedBy[] = ucfirst($dependency['requirement']) . ' ' . $dependency['causedBy'];
+        }
+
+        return Piwik::translate("CorePluginsAdmin_PluginRequirement", array(
+            $this->getPluginName(),
+            implode(', ', $causedBy)
+        ));
+    }
+
 
     /**
      * Extracts the plugin name from a backtrace array. Returns `false` if we can't find one.
@@ -526,5 +552,19 @@ class Plugin
             include_once $file;
         }
         return true;
+    }
+
+    /**
+     * @param $piwikVersion
+     * @return Dependency
+     */
+    private function makeDependency($piwikVersion)
+    {
+        $dependency = new Dependency();
+
+        if (!is_null($piwikVersion)) {
+            $dependency->setPiwikVersion($piwikVersion);
+        }
+        return $dependency;
     }
 }

@@ -291,6 +291,7 @@
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$sPiwik%2$s is a collaborative project brought to you by the %7$sPiwik team%8$s members as well as many other contributors around the globe. <br/> If you're a fan of Piwik, you can help: find out %3$sHow to participate in Piwik%4$s, or %5$sdonate now%6$s to help fund Piwik 3.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s is available. Please notify the %2$sPiwik administrator%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s is available. %2$sPlease update now!%3$s (see %4$schanges%5$s).",
+        "PleaseContactYourPiwikAdministrator": "Please contact your Piwik administrator.",
         "PleaseSpecifyValue": "Please specify a value for '%s'.",
         "PleaseUpdatePiwik": "Please update your Piwik",
         "Plugin": "Plugin",

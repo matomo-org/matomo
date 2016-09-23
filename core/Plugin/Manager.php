@@ -12,7 +12,6 @@ namespace Piwik\Plugin;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Cache;
 use Piwik\Columns\Dimension;
-use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Db;
@@ -453,7 +452,7 @@ class Manager
     public function installLoadedPlugins()
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
-        
+
         foreach ($this->getLoadedPlugins() as $plugin) {
             $this->installPluginIfNecessary($plugin);
         }
@@ -482,7 +481,9 @@ class Manager
         if ($plugin === null) {
             throw new \Exception("The plugin '$pluginName' was found in the filesystem, but could not be loaded.'");
         }
+
         $this->installPluginIfNecessary($plugin);
+
         $plugin->activate();
 
         EventDispatcher::getInstance()->postPendingEventsTo($plugin);
@@ -631,7 +632,7 @@ class Manager
                 'info' => $oPlugin->getInformation(),
                 'activated'       => $this->isPluginActivated($pluginName),
                 'alwaysActivated' => $this->isPluginAlwaysActivated($pluginName),
-                'missingRequirements' => $oPlugin->getMissingDependencies(),
+                'missingRequirements' => $oPlugin->getMissingDependenciesAsString(),
                 'uninstallable' => $this->isPluginUninstallable($pluginName),
             );
             $plugins[$pluginName] = $info;
@@ -843,10 +844,11 @@ class Manager
                 if ($newPlugin->hasMissingDependencies()) {
                     $this->deactivatePlugin($pluginName);
 
-                    // add this state we do not know yet whether current user has super user access. We do not even know
+                    // at this state we do not know yet whether current user has super user access. We do not even know
                     // if someone is actually logged in.
-                    $message  = sprintf('We disabled the plugin %s as it has missing dependencies.', $pluginName);
-                    $message .= ' Please contact your Piwik administrator.';
+                    $message  = Piwik::translate('CorePluginsAdmin_WeDeactivatedThePluginAsItHasMissingDependencies', array($pluginName, $newPlugin->getMissingDependenciesAsString()));
+                    $message .= ' ';
+                    $message .= Piwik::translate('General_PleaseContactYourPiwikAdministrator');
 
                     $notification = new Notification($message);
                     $notification->context = Notification::CONTEXT_ERROR;
@@ -1110,7 +1112,7 @@ class Manager
         if (!$this->isPluginInstalled($plugin->getPluginName())) {
             return false;
         }
-        
+
         if ($plugin->isTrackerPlugin()) {
             return true;
         }
@@ -1391,4 +1393,5 @@ class Manager
             $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
         }
     }
+
 }
