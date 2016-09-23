@@ -20,13 +20,12 @@ use Piwik\View;
 class AllColumns extends HtmlTable
 {
     const ID = 'tableAllColumns';
-    const FOOTER_ICON       = 'plugins/Morpheus/images/table_more.png';
+    const FOOTER_ICON       = 'icon-table-more';
     const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeRender()
     {
         $this->config->show_extra_columns  = true;
-        $this->config->datatable_css_class = 'dataTableVizAllColumns';
         $this->config->show_exclude_low_population = true;
 
         parent::beforeRender();
@@ -34,6 +33,8 @@ class AllColumns extends HtmlTable
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
+        $this->config->datatable_css_class = 'dataTableVizAllColumns';
+        
         $this->dataTable->filter('AddColumnsProcessedMetrics');
 
         $properties = $this->config;
@@ -67,7 +68,8 @@ class AllColumns extends HtmlTable
 
     public function beforeLoadDataTable()
     {
-        $this->requestConfig->request_parameters_to_modify['pivotBy'] = null; // always unset pivotBy
+        unset($this->requestConfig->request_parameters_to_modify['pivotBy']);
+        unset($this->requestConfig->request_parameters_to_modify['pivotByColumn']);
     }
 
     protected function isPivoted()

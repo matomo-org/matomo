@@ -11,6 +11,7 @@
         "LoginOrEmail": "Login of E-mail",
         "LoginPasswordNotCorrect": "Gebruikersnaam & Wachtwoord niet correct",
         "LostYourPassword": "Wachtwoord vergeten?",
+        "MailPasswordChangeBody": "Hi %1$s,\n\nWe hebben een verzoek ontvangen om het wachtwoord te wijzigen van %2$s. Bezoek de volgende link om dit te bevestigen: \n\n%3$s\n\nBelangrijk: Het veranderen van het wachtwoord veranderd ook je token_auth. Je kunt je nieuwe token_auth bekijken op je instellingen pagina.\n\nAls je een API token_auth gebruikt bij externe applicaties of voor het archieven, vergeet dan niet om de token_auth te updaten want anders zullen API aanvragen mislukken. \n\nLet op: de link verloopt over 24 uur.\n\nEn dank je wel voor het gebruiken van Piwik!",
         "MailTopicPasswordChange": "Bevestig wachtwoord wijziging",
         "PasswordChanged": "Je wachtwoord is veranderd.",
         "PasswordRepeat": "Wachtwoord (herhaal)",

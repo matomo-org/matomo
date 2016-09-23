@@ -1,4 +1,4 @@
-<ul class="navbar" role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate }}">
+<div><ul class="navbar hide-on-med-and-down" role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate }}">
     <li ng-repeat="category in menuModel.menu"
         class="menuTab"
         role="menuitem"
@@ -36,3 +36,27 @@
         </ul>
     </li>
 </ul>
+<ul id="mobile-left-menu" class="side-nav hide-on-large-only">
+    <li class="no-padding" ng-repeat="category in menuModel.menu">
+        <ul class="collapsible collapsible-accordion" piwik-side-nav="nav .activateLeftMenu">
+            <li>
+                <a class="collapsible-header">{{ category.name }}<i class="{{ category.icon ? category.icon : 'icon-arrow-bottom' }}"></i></a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li ng-repeat="subcategory in category.subcategories">
+                            <a ng-if="subcategory.isGroup"
+                               ng-repeat="subcat in subcategory.subcategories"
+                               ng-click='loadSubcategory(category, subcat)'
+                               ng-href="#?{{ makeUrl(category,subcat) }}">{{ subcat.name }}</a>
+                            <a ng-if="!subcategory.isGroup"
+                               ng-click='loadSubcategory(category, subcategory)'
+                               ng-href="#?{{ makeUrl(category,subcategory) }}">{{ subcategory.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+</div>

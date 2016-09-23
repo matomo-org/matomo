@@ -2,6 +2,12 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js',
+                autoWatch: true
+            }
+        },
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             scripts: {
@@ -13,7 +19,14 @@ module.exports = function(grunt) {
             },
             piwikjs: {
                 files: ['js/piwik.js'],
-                tasks: ["shell:compilePiwikJs"],
+                tasks: ["shell:compilePiwikJs", "shell:updateTracker"],
+                options: {
+                    spawn: false,
+                },
+            },
+            piwikjs2: {
+                files: ['plugins/*/tracker.js',],
+                tasks: ["shell:updateTracker"],
                 options: {
                     spawn: false,
                 },
@@ -25,6 +38,14 @@ module.exports = function(grunt) {
                 options: {
                     execOptions: {
                         cwd: 'js'
+                    }
+                }
+            },
+            updateTracker: {
+                command: "php console custom-piwik-js:update --ignore-minified",
+                options: {
+                    execOptions: {
+                        cwd: ''
                     }
                 }
             }

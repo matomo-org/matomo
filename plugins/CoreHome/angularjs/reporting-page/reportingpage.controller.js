@@ -15,6 +15,18 @@
 
         var currentCategory = null;
         var currentSubcategory = null;
+        var currentPeriod = null;
+        var currentDate = null;
+        var currentSegment = null;
+
+        function renderInitialPage()
+        {
+            var $search = $location.search();
+            currentPeriod = $search.period;
+            currentDate = $search.date;
+            currentSegment = $search.segment;
+            $scope.renderPage($search.category, $search.subcategory);
+        }
 
         $scope.renderPage = function (category, subcategory) {
             if (!category || !subcategory) {
@@ -22,6 +34,8 @@
                 $scope.loading = false;
                 return;
             }
+
+            $rootScope.$emit('piwikPageChange', {});
 
             currentCategory = category;
             currentSubcategory = subcategory;
@@ -45,18 +59,31 @@
         }
 
         $scope.loading = true; // we only set loading on initial load
-
-        $scope.renderPage($location.search().category, $location.search().subcategory);
+        
+        renderInitialPage();
 
         $rootScope.$on('$locationChangeSuccess', function () {
-            // should be handled by $route
-            var category = $location.search().category;
-            var subcategory = $location.search().subcategory;
+            var $search = $location.search();
 
-            if (category === currentCategory && subcategory === currentSubcategory) {
+            // should be handled by $route
+            var category = $search.category;
+            var subcategory = $search.subcategory;
+            var period = $search.period;
+            var date = $search.date;
+            var segment = $search.segment;
+
+            if (category === currentCategory
+                && subcategory === currentSubcategory
+                && period === currentPeriod
+                && date === currentDate
+                && segment === currentSegment) {
                 // this page is already loaded
                 return;
             }
+
+            currentPeriod = period;
+            currentDate = date;
+            currentSegment = segment;
 
             $scope.renderPage(category, subcategory);
         });

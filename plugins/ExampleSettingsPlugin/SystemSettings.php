@@ -54,7 +54,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = 'Metric to display';
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = array('nb_visits' => 'Visits', 'nb_actions' => 'Actions', 'visitors' => 'Visitors');
-            $field->introduction = 'Only Super Users can change the following settings:';
             $field->description = 'Choose the metric that should be displayed in the browser tab';
         });
     }

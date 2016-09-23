@@ -1,12 +1,12 @@
 {% import _self as local %}
 
-<table class="simple-table system-check" id="systemCheckRequired">
+<table class="entityTable system-check" id="systemCheckRequired" piwik-content-table>
     {{ local.diagnosticTable(diagnosticReport.getMandatoryDiagnosticResults()) }}
 </table>
 
 <h3>{{ 'Installation_Optional'|translate }}</h3>
 
-<table class="simple-table system-check" id="systemCheckOptional">
+<table class="entityTable system-check" id="systemCheckOptional" piwik-content-table>
     {{ local.diagnosticTable(diagnosticReport.getOptionalDiagnosticResults()) }}
 </table>
 

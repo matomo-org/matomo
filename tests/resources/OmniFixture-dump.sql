@@ -739,6 +739,21 @@ LOCK TABLES `site_setting` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `plugin_setting`
+--
+
+DROP TABLE IF EXISTS `plugin_setting`;
+CREATE TABLE `plugin_setting` (
+  `plugin_name` varchar(60) NOT NULL,
+  `setting_name` varchar(255) NOT NULL,
+  `setting_value` longtext NOT NULL,
+  `user_login` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`plugin_name`,`setting_name`,`user_login`),
+  INDEX(plugin_name, user_login)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
 -- Table structure for table `site_url`
 --
 

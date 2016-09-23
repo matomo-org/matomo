@@ -6,7 +6,6 @@
         "GoBackAndDefinePrefix": "ወደኋላ ተመለስና ለፒዊክ ሰንጠረዦቹ ቅድም ቅጥያውን በይን",
         "Installation": "መጫኛ",
         "InstallationStatus": "የመጫኛ ሁኔታ",
-        "NoConfigFound": "የፒዊክ ውቅረት ፋይል ሊገኝ አልቻለም እና እርስዎ የፒዊክ ገፅ ለመድረስ እየሞከሩ ነው። <br \/><b>  » እርስዎ <a href='index.php'>ፒዊክን አሁን መጫን ይችላሉ<\/a><\/b><br \/><small>ፒዊክን ከዚህ ቀደም ጭነው ከነበረ እና በዲቢዎ ላይ የተወሰኑ ሰንጠረዦች ካለዎ የነበሩትን ሰንጠረዦች ደግመው መጠቀምና የነበረዎትን ውሂብ ማስቀመጥ ይችላሉ!<\/small>",
         "PasswordDoNotMatch": "የይለፍ ቃሉ አቻ አይደለም",
         "PercentDone": "%s %% አልቋል",
         "SetupWebsite": "ድር ጣቢያ ጫን",

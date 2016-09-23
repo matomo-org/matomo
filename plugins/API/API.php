@@ -83,7 +83,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the most accurate IP address availble for the current user, in
+     * Returns the most accurate IP address available for the current user, in
      * IPv4 format. This could be the proxy client's IP address.
      *
      * @return string IP address in presentation format.
@@ -264,19 +264,30 @@ class API extends \Piwik\Plugin\API
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
-     * @param string $idSites Comma separated list of website Ids
+     * @param string $idSites THIS PARAMETER IS DEPRECATED AND WILL BE REMOVED IN PIWIK 4
      * @param bool|string $period
      * @param bool|Date $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
+     * @param int $idSite
      * @return array
      */
     public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false,
-                                      $showSubtableReports = false)
+                                      $showSubtableReports = false, $idSite = false)
     {
-        Piwik::checkUserHasViewAccess($idSites);
+        if (empty($idSite) && !empty($idSites)) {
+            if (is_array($idSites)) {
+                $idSite = array_shift($idSites);
+            } else {
+                $idSite = $idSites;
+            }
+        } elseif (empty($idSite) && empty($idSites)) {
+            throw new \Exception('Calling API.getReportMetadata without any idSite is no longer supported since Piwik 3.0.0. Please specifiy at least one idSite via the "idSite" parameter.');
+        }
 
-        $metadata = $this->processedReport->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $metadata = $this->processedReport->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 

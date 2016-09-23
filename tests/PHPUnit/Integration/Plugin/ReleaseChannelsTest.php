@@ -88,29 +88,6 @@ class ReleaseChannelsTest extends IntegrationTestCase
         );
     }
 
-    public function test_setActiveReleaseChannelId_shouldSetChannelIdInGeneralConfig()
-    {
-        $backupId = Config::getInstance()->General['release_channel'];
-
-        $this->channels->setActiveReleaseChannelId('myTestValue');
-        $this->assertSame('myTestValue', Config::getInstance()->General['release_channel']);
-
-        $this->channels->setActiveReleaseChannelId($backupId);
-    }
-
-    /**
-     * @dataProvider getTestActiveReleaseChannel
-     */
-    public function test_getActiveReleaseChannel_shouldReturnCorrectReleaseChannelForId($expectedId, $activeId)
-    {
-        $backupId = Config::getInstance()->General['release_channel'];
-        $this->channels->setActiveReleaseChannelId($activeId);
-
-        $this->assertSame($expectedId, $this->channels->getActiveReleaseChannel()->getId());
-
-        $this->channels->setActiveReleaseChannelId($backupId);
-    }
-
     public function getTestActiveReleaseChannel()
     {
         return array(

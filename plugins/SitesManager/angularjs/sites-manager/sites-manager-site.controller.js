@@ -7,11 +7,18 @@
 (function () {
     angular.module('piwikApp').controller('SitesManagerSiteController', SitesManagerSiteController);
 
-    SitesManagerSiteController.$inject = ['$scope', '$filter', 'sitesManagerApiHelper', 'sitesManagerTypeModel', 'piwikApi'];
+    SitesManagerSiteController.$inject = ['$scope', '$filter', 'sitesManagerApiHelper', 'sitesManagerTypeModel', 'piwikApi', '$timeout'];
 
-    function SitesManagerSiteController($scope, $filter, sitesManagerApiHelper, sitesManagerTypeModel, piwikApi) {
+    function SitesManagerSiteController($scope, $filter, sitesManagerApiHelper, sitesManagerTypeModel, piwikApi, $timeout) {
 
         var translate = $filter('translate');
+
+        var updateView = function () {
+            $timeout(function () {
+                $('.editingSite').find('select').material_select();
+                Materialize.updateTextFields();
+            });
+        }
 
         var init = function () {
 
@@ -58,6 +65,8 @@
             }
 
             $scope.site.removeDialog = {};
+
+            updateView();
         };
 
         var editSite = function () {
@@ -71,6 +80,8 @@
             }, function () {
                 $scope.site.isLoading = false;
             });
+
+            updateView();
         };
 
         var saveSite = function() {
@@ -189,7 +200,7 @@
 
             ajaxHandler.redirectOnSuccess($scope.redirectParams);
             ajaxHandler.setLoadingElement();
-            ajaxHandler.send(true);
+            ajaxHandler.send();
         };
 
         init();

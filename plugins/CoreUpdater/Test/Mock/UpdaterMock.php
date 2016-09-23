@@ -26,7 +26,7 @@ class UpdaterMock extends Updater
 
     public function getLatestVersion()
     {
-        return '4.0.0';
+        return '40.0.0';
     }
 
     public function isNewVersionAvailable()

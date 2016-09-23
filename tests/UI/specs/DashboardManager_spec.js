@@ -11,7 +11,7 @@ describe("DashboardManager", function () {
 
     this.timeout(0);
 
-    var selectorToCapture = '.dashboard-manager';
+    var selectorToCapture = '.dashboard-manager,.dashboard-manager .dropdown';
 
     var generalParams = 'idSite=1&period=day&date=2012-01-01';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=5';
@@ -32,6 +32,7 @@ describe("DashboardManager", function () {
         expect.screenshot("widget_list_shown").to.be.captureSelector(selectorToCapture, function (page) {
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors):first');
+            page.click('.widgetpreview-categorylist>li:contains(Visitors):first');
         }, done);
     });
 
@@ -57,7 +58,7 @@ describe("DashboardManager", function () {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');
             page.sendKeys('#createDashboardName', 'newdash2');
-            page.click('.ui-dialog[aria-describedby=createDashboardConfirm] button>span:contains(Yes)');
+            page.click('.modal.open .modal-footer a:contains(Ok)');
         }, done);
     });
 
@@ -66,7 +67,7 @@ describe("DashboardManager", function () {
             page.contains('ul.navbar ul li.sfActive:contains(newdash2)');
             page.click('.dashboard-manager .title');
             page.click('li[data-action=removeDashboard]');
-            page.click('.ui-dialog[aria-describedby=removeDashboardConfirm] button>span:contains(Yes)');
+            page.click('.modal.open .modal-footer a:contains(Yes)');
             page.mouseMove('.dashboard-manager');
             page.evaluate(function () {
                 $('.widgetTop').removeClass('widgetTopHover');

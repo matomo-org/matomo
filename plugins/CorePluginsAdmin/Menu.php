@@ -40,7 +40,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if ($hasSuperUserAcess) {
-            $menu->addManageItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
+            $menu->addSystemItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
                 $this->urlForAction('plugins', array('activated' => '')),
                 $order = 20);
         }

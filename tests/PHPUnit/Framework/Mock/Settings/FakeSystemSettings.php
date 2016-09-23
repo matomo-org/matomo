@@ -18,6 +18,11 @@ class FakeSystemSettings extends \Piwik\Plugins\ExampleSettingsPlugin\SystemSett
 
     }
 
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
     public function makeSetting($name, $defaultValue, $type, $configureCallback)
     {
         return parent::makeSetting($name, $defaultValue, $type, $configureCallback);

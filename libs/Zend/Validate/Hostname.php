@@ -491,6 +491,13 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         '家電' => array(1 => self::VALID_UNICODE_DOMAIN),
         '微博' => array(1 => self::VALID_UNICODE_DOMAIN),
         'ابوظبي' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '网站' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '大众汽车' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '香格里拉' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'бг' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '電訊盈科' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'العليان' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '嘉里' => array(1 => self::VALID_UNICODE_DOMAIN),
     );
 
 

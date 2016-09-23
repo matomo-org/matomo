@@ -30,17 +30,27 @@ class Controller extends \Piwik\Plugin\Controller
 
         // get report types
         $reportTypes = API::getReportTypes();
+        $reportTypeOptions = array();
+        foreach ($reportTypes as $reportType => $icon) {
+            $reportTypeOptions[$reportType] = mb_strtoupper($reportType);
+        }
         $view->reportTypes = $reportTypes;
+        $view->reportTypeOptions = $reportTypeOptions;
         $view->defaultReportType = self::DEFAULT_REPORT_TYPE;
         $view->defaultReportFormat = ScheduledReports::DEFAULT_REPORT_FORMAT;
         $view->displayFormats = ScheduledReports::getDisplayFormats();
 
         $reportsByCategoryByType = array();
+        $reportFormatsByReportTypeOptions = array();
         $reportFormatsByReportType = array();
         $allowMultipleReportsByReportType = array();
         foreach ($reportTypes as $reportType => $reportTypeIcon) {
             // get report formats
             $reportFormatsByReportType[$reportType] = API::getReportFormats($reportType);
+            $reportFormatsByReportTypeOptions[$reportType] = $reportFormatsByReportType[$reportType];
+            foreach ($reportFormatsByReportTypeOptions[$reportType] as $type => $icon) {
+                $reportFormatsByReportTypeOptions[$reportType][$type] = mb_strtoupper($type);
+            }
             $allowMultipleReportsByReportType[$reportType] = API::allowMultipleReports($reportType);
 
             // get report metadata
@@ -53,6 +63,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $view->reportsByCategoryByReportType = $reportsByCategoryByType;
         $view->reportFormatsByReportType = $reportFormatsByReportType;
+        $view->reportFormatsByReportTypeOptions = $reportFormatsByReportTypeOptions;
         $view->allowMultipleReportsByReportType = $allowMultipleReportsByReportType;
 
         $reports = array();
@@ -78,7 +89,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view->segmentEditorActivated = false;
         if (API::isSegmentEditorActivated()) {
 
-            $savedSegmentsById = array();
+            $savedSegmentsById = array(
+                '' => Piwik::translate('SegmentEditor_DefaultAllVisits')
+             );
             foreach (APISegmentEditor::getInstance()->getAll($this->idSite) as $savedSegment) {
                 $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
             }

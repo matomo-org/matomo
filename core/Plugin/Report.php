@@ -20,7 +20,6 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugin\ReportsProvider;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
 use Piwik\Widget\WidgetsList;
@@ -136,7 +135,7 @@ class Report
     protected $isSubtableReport = false;
 
     /**
-     * Some reports may require additonal URL parameters that need to be sent when a report is requested. For instance
+     * Some reports may require additional URL parameters that need to be sent when a report is requested. For instance
      * a "goal" report might need a "goalId": `array('idgoal' => 5)`.
      * @var null|array
      * @api
@@ -501,6 +500,15 @@ class Report
         if (!empty($report)) {
             $availableReports[] = $report;
         }
+    }
+
+    /**
+     * Get report documentation.
+     * @return string
+     */
+    public function getDocumentation()
+    {
+        return $this->documentation;
     }
 
     /**

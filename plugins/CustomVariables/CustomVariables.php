@@ -8,24 +8,22 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Piwik;
 use Piwik\Tracker\Cache;
-use Piwik\Tracker;
 
 class CustomVariables extends \Piwik\Plugin
 {
+    const MAX_NUM_CUSTOMVARS_CACHEKEY = 'CustomVariables.MaxNumCustomVariables';
+
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata',
             'Live.getAllVisitorDetails'       => 'extendVisitorDetails',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
         );
     }
 
@@ -77,7 +75,7 @@ class CustomVariables extends \Piwik\Plugin
     public static function getNumUsableCustomVariables()
     {
         $cache    = Cache::getCacheGeneral();
-        $cacheKey = 'CustomVariables.NumUsableCustomVariables';
+        $cacheKey = self::MAX_NUM_CUSTOMVARS_CACHEKEY;
 
         if (!array_key_exists($cacheKey, $cache)) {
 
@@ -105,46 +103,6 @@ class CustomVariables extends \Piwik\Plugin
         }
 
         return $cache[$cacheKey];
-    }
-
-    public function getSegmentsMetadata(&$segments)
-    {
-        $maxCustomVariables = self::getNumUsableCustomVariables();
-
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
-                'segment'    => 'customVariableName' . $i,
-                'sqlSegment' => 'log_visit.custom_var_k' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
-                'segment'    => 'customVariableValue' . $i,
-                'sqlSegment' => 'log_visit.custom_var_v' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
-                'segment'    => 'customVariablePageName' . $i,
-                'sqlSegment' => 'log_link_visit_action.custom_var_k' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
-                'segment'    => 'customVariablePageValue' . $i,
-                'sqlSegment' => 'log_link_visit_action.custom_var_v' . $i,
-            );
-        }
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

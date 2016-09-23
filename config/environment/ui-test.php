@@ -54,7 +54,7 @@ return array(
             $result = str_replace(realpath(PIWIK_INCLUDE_PATH), '', $result);
         }),
 
-        array('Controller.ExampleRssWidget.rssPiwik.end', function (&$result, $parameters) {
+        array('Controller.RssWidget.rssPiwik.end', function (&$result, $parameters) {
             $result = "";
         }),
     )),

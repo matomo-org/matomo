@@ -10,13 +10,16 @@ namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
 use Piwik\Common;
-use Piwik\DataTable\Renderer;
-use Piwik\DataTable;
 
 class Rss extends ApiRenderer
 {
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param \Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         self::sendHeader('plain');
 

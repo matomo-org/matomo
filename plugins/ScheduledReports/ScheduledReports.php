@@ -128,7 +128,8 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/ScheduledReports/javascripts/pdf.js";
+        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.controller.js";
+        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -191,9 +192,6 @@ class ScheduledReports extends \Piwik\Plugin
         $filteredReportMetadata = array();
         foreach ($availableReportMetadata as $reportMetadata) {
             // removing reports from the API category and MultiSites.getOne
-            if (empty($reportMetadata['category'])) {
-                var_dump($reportMetadata);exit;
-            }
             if (
                 $reportMetadata['category'] == 'API' ||
                 $reportMetadata['category'] == Piwik::translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik::translate('General_SingleWebsitesDashboard')
@@ -436,7 +434,7 @@ class ScheduledReports extends \Piwik\Plugin
                 // If running from piwik.php with debug, we ignore the 'email not sent' error
                 $tracker = new Tracker();
                 if (!$tracker->isDebugModeEnabled()) {
-                    throw new Exception("An error occured while sending '$filename' " .
+                    throw new Exception("An error occurred while sending '$filename' " .
                         " to " . implode(', ', $mail->getRecipients()) .
                         ". Error was '" . $e->getMessage() . "'");
                 }

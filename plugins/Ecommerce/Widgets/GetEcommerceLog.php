@@ -20,8 +20,13 @@ class GetEcommerceLog extends \Piwik\Widget\Widget
         $config->setSubcategoryId('Goals_EcommerceLog');
         $config->setName('Goals_EcommerceLog');
 
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-        $site   = new Site($idSite);
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+        if (empty($idSite)) {
+            $config->disable();
+            return;
+        }
+
+        $site  = new Site($idSite);
         $config->setIsEnabled($site->isEcommerceEnabled());
     }
 

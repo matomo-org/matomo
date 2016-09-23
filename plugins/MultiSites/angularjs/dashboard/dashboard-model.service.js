@@ -24,6 +24,7 @@
             lastVisits   : '?',
             lastVisitsDate : '?',
             numberOfSites : 0,
+            loadingMessage: _pk_translate('MultiSites_LoadingWebsites'),
             updateWebsitesList: updateWebsitesList,
             getNumberOfFilteredSites: getNumberOfFilteredSites,
             getNumberOfPages: getNumberOfPages,

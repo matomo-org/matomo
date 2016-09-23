@@ -264,7 +264,7 @@ API_datatable_default_limit = 100
 ; (ie. there will be a new "date" column). For example set to: "rss,tsv,csv"
 datatable_export_range_as_day = "rss"
 
-; This setting is overriden in the UI, under "User Settings".
+; This setting is overridden in the UI, under "User Settings".
 ; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday
 ; Possible values: day, week, month, year.
@@ -277,14 +277,14 @@ time_before_today_archive_considered_outdated = 150
 
 ; This setting is overriden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Piwik archiving process.
-; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
+; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
 
 ; By default, Piwik will force archiving of range periods from browser requests, even if enable_browser_archiving_triggering
-; is set to 0. This can sometimes create too much of a demand on system resources. Setting this option to 0 and setting
-; enable_browser_archiving_triggering to 0 will make sure ranges are not archived on browser request. Since the cron
-; archiver does not archive ranges, you must either disable ranges or make sure the ranges users' want to see will be
-; processed somehow.
+; is set to 0. This can sometimes create too much of a demand on system resources. Setting this option to 0 and
+; disabling browser trigger archiving will make sure ranges are not archived on browser request. Since the cron
+; archiver does not archive any custom date ranges, you must either disable range (using enabled_periods_API and enabled_periods_UI)
+; or make sure the date ranges users' want to see will be processed somehow.
 archiving_range_force_on_browser_request = 1
 
 ; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
@@ -304,10 +304,12 @@ minimum_mysql_version = 4.1
 ; PostgreSQL minimum required version
 minimum_pgsql_version = 8.3
 
-; Minimum adviced memory limit in php.ini file (see memory_limit value)
+; Minimum advised memory limit in php.ini file (see memory_limit value)
+; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit = 128
 
 ; Minimum memory limit enforced when archived via ./console core:archive
+; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit_when_archiving = 768
 
 ; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
@@ -390,6 +392,9 @@ datatable_archiving_maximum_rows_referrers = 1000
 ; maximum number of rows for any of the Referrers subtable (search engines by keyword, keyword by campaign, etc.)
 datatable_archiving_maximum_rows_subtable_referrers = 50
 
+; maximum number of rows for the Users report
+datatable_archiving_maximum_rows_userid_users = 50000
+
 ; maximum number of rows for the Custom Variables names report
 ; Note: if the website is Ecommerce enabled, the two values below will be automatically set to 50000
 datatable_archiving_maximum_rows_custom_variables = 1000
@@ -438,6 +443,7 @@ multisites_refresh_after_seconds = 300
 assume_secure_protocol = 0
 
 ; List of proxy headers for client IP addresses
+; Piwik will determine the user IP by extracting the first IP address found in this proxy header.
 ;
 ; CloudFlare (CF-Connecting-IP)
 ;proxy_client_headers[] = HTTP_CF_CONNECTING_IP
@@ -513,7 +519,7 @@ overlay_disable_framed_mode = 0
 enable_custom_logo_check = 1
 
 ; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
-; Mysql will try to load the chrooted path (which is imcomplete). To prevent an error, here you can specify the
+; Mysql will try to load the chrooted path (which is incomplete). To prevent an error, here you can specify the
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
 absolute_chroot_path =
 
@@ -562,9 +568,8 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; on a per-request basis;
 pivot_by_filter_default_column_limit = 10
 
-; If set to 0 it will disable Piwik Pro advertisements in some places. For example in the installation screen, the
-; Piwik Pro Ad widget will be removed etc.
-piwik_pro_ads_enabled = 1
+; If set to 0 it will disable advertisements for providers of Professional Support for Piwik.
+piwik_professional_support_ads_enabled = 1
 
 [Tracker]
 
@@ -584,7 +589,7 @@ use_third_party_id_cookie = 0
 debug = 0
 
 ; This option is an alternative to the debug option above. When set to 1, you can debug tracker request by adding
-; a debug=1 query paramater in the URL. All other HTTP requests will not have debug enabled. For security reasons this
+; a debug=1 query parameter in the URL. All other HTTP requests will not have debug enabled. For security reasons this
 ; option should be only enabled if really needed and only for a short time frame. Otherwise anyone can set debug=1 and
 ; see the log output as well.
 debug_on_demand = 0
@@ -611,7 +616,9 @@ cookie_path =
 record_statistics = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
-; after his last page view, it will be recorded as a new visit
+; after his last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to 
+; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg 
+; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 
 ; The window to look back for a previous visit by this current visitor. Defaults to visit_standard_length.
@@ -770,7 +777,7 @@ Plugins[] = VisitFrequency
 Plugins[] = VisitTime
 Plugins[] = VisitorInterest
 Plugins[] = ExampleAPI
-Plugins[] = ExampleRssWidget
+Plugins[] = RssWidget
 Plugins[] = Feedback
 Plugins[] = Monolog
 
@@ -799,7 +806,9 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 Plugins[] = Heartbeat
 Plugins[] = Intl
-Plugins[] = PiwikPro
+Plugins[] = ProfessionalServices
+Plugins[] = UserId
+Plugins[] = CustomPiwikJs
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

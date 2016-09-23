@@ -16,6 +16,7 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
+use Piwik\Url;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.

@@ -41,7 +41,7 @@ class Get extends \Piwik\Plugin\Report
             new ActionsPerVisit(),
             new AverageTimeOnSite()
         );
-        $this->metrics       = array(
+        $this->metrics = array(
             'nb_uniq_visitors',
             'nb_visits',
             $this->usersColumn,

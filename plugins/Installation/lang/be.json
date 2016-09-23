@@ -19,7 +19,6 @@
         "InstallationStatus": "Статут усталёўкі",
         "LargePiwikInstances": "Дапамога для буйных усталёвак Piwik",
         "Legend": "Легенда",
-        "NoConfigFound": "Канфігурацыйны файл Piwik не можа быць знойдзены, аднак вы спрабуеце зайсці ў сістэму.<br \/><b>  » Вы можаце <a href='index.php'>усталяваць Piwik цяпер<\/a><\/b><br \/><small>. Калі Piwik ужо быў усталяваны і вы маеце дадзеныя ў БД, вы можаце выкарыстоўваць іх.<\/small>",
         "Optional": "Апцыянальна",
         "PasswordDoNotMatch": "пароль не супадае",
         "PercentDone": "%s %% Завершана",

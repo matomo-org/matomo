@@ -14,6 +14,7 @@
 
 #content.admin {
     font-size: 13px;
+    margin-top: 0;
 
     // Fix the <pre> blocks because of the display: table
     pre {
@@ -26,81 +27,9 @@
     margin-right: 8px;
 }
 
-table.admin {
-    font-size: 0.9em;
-    background-color: @theme-color-background-base;
-    border-collapse: collapse;
-}
-
-table.admin thead th {
-    border-right: 1px solid @theme-color-background-base;
-    color: @theme-color-background-base;
-    text-align: center;
-    padding: 5px;
-    text-transform: uppercase;
-    height: 25px;
-    background-color: #a3c159;
-    font-weight: bold;
-}
-
-table.admin tbody tr {
-    background-color: #fff;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-table.admin tbody td {
-    color: #414141;
-    text-align: left;
-    vertical-align: top;
-}
-
-table.admin tbody th {
-    text-align: left;
-    padding: 2px;
-}
-
-table.admin tbody td, table.admin tbody th {
-    color: #536C2A;
-    text-decoration: none;
-    font-weight: normal;
-    padding: 10px;
-}
-
-table.admin tbody td:hover, table.admin tbody th:hover {
-    color: #009193;
-    text-decoration: none;
-}
-
 .access_error {
     font-size: .7em;
     padding: 15px;
-}
-
-.admin p + h2 {
-    margin-top: 35px;
-    // .admin p defines a margin-bottom of 10px, we make sure we still have a margin-top of 45px this way
-}
-
-.admin h2 {
-    border-bottom: 0px;
-    margin: 45px -15px 11px 0;
-    padding: 0 0 5px 0;
-    font-size: 24px;
-    width: 100%;
-
-    &:first-of-type:not(.secondary) {
-        margin-top: 7px;
-        margin-bottom: 16px;
-        border-bottom: 1px solid @theme-color-background-tinyContrast;
-    }
-}
-
-.admin h2 + h3 {
-    margin-top: 0px;
-}
-
-.admin h3 {
-    margin-top: 30px;
 }
 
 .admin p, .admin section {
@@ -109,58 +38,8 @@ table.admin tbody td:hover, table.admin tbody th:hover {
     padding-bottom: 10px;
 }
 
-.adminTable {
-    width: 100%;
-    clear: both;
-    margin: 0;
-}
-
-.adminTable a {
-    text-decoration: none;
-    color: #2B5C97;
-}
-
-.adminTable abbr {
-    white-space: nowrap;
-}
-
-.adminTable td {
-    font-size: 13px;
-    vertical-align: top;
-    padding: 7px 15px 9px 10px;
-    vertical-align: top;
-}
-
-.adminTable td.action-links {
-    text-align: right;
-}
-
-.adminTable .check-column {
-    text-align: right;
-    width: 1.5em;
-    padding: 0;
-}
-
-.adminTable .num {
-    text-align: center;
-}
-
-.adminTable .name {
-    font-weight: bold;
-}
-
-.adminTable .ui-inline-help {
-    margin-top: 0;
-    width: 100%;
-    margin-left: 50px;
-}
-
-.adminTable .columnHelp .ui-inline-help {
-    margin-left: 0px;
-}
-
 /* trusted host styles */
-#trustedHostSettings input {
+#trustedHostSettings input:not(.btn) {
     width: 238px;
 }
 

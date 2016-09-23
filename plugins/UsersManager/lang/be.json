@@ -14,7 +14,6 @@
         "ExceptionEditAnonymous": "Ананімны карыстач не можа быць выдалены. Ён неабходзен Piwik для ідэнтыфікацыі карыстачоў, якія не ўвайшлі ў сістэму. Дапушчальна, вы можаце зрабіць статыстыку публічнай, падаючы права 'Прагляд' ананімнаму карыстачу.",
         "ExceptionEmailExists": "Карыстач з Email '%s' ужо існуе.",
         "ExceptionInvalidEmail": "Email няправільнага фармату",
-        "ExceptionInvalidPassword": "Даўжыня пароля павінна быць паміж %1$s і %2$s знакаў.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth партабуе MD5-хэшаваны пароль ( даужыней ў 32 знака). Калі ласка, запытайце md5() функцыю перад выклікам гэтага метаду.",
         "ExceptionUserDoesNotExist": "Карыстач '%s' не існуе.",
         "ExcludeVisitsViaCookie": "Сключыць вашыя наведванні выкарыстоўваючы cookie",

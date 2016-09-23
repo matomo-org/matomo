@@ -37,8 +37,7 @@
     function piwikEnrichedHeadline($document, piwik, $filter){
         var defaults = {
             helpUrl: '',
-            editUrl: '',
-            inlineHelp: ''
+            editUrl: ''
         };
 
         return {
@@ -48,7 +47,7 @@
                 helpUrl: '@',
                 editUrl: '@',
                 featureName: '@',
-                inlineHelp: '@'
+                inlineHelp: '@?'
             },
             templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
@@ -61,6 +60,11 @@
                     if (!scope.inlineHelp) {
 
                         var helpNode = $('[ng-transclude] .inlineHelp', element);
+
+                        if ((!helpNode || !helpNode.length) && element.next()) {
+                            // hack for reports :(
+                            helpNode = element.next().find('.reportDocumentation');
+                        }
 
                         if (helpNode && helpNode.length) {
                             if ($.trim(helpNode.text())) {

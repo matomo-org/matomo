@@ -10,8 +10,6 @@ namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
 use Piwik\Common;
-use Piwik\DataTable\Renderer;
-use Piwik\DataTable;
 use Piwik\ProxyHttp;
 
 class Csv extends ApiRenderer
@@ -23,7 +21,12 @@ class Csv extends ApiRenderer
         return "message\n" . $message;
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
         return 'Error: ' . $message;

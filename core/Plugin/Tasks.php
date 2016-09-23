@@ -14,7 +14,7 @@ use Piwik\Scheduler\Task;
 
 /**
  * Base class for all Tasks declarations.
- * Tasks are usually meant as scheduled tasks that are executed regularily by Piwik in the background. For instance
+ * Tasks are usually meant as scheduled tasks that are executed regularly by Piwik in the background. For instance
  * once every hour or every day. This could be for instance checking for updates, sending email reports, etc.
  * Please don't mix up tasks with console commands which can be executed on the CLI.
  */
@@ -33,7 +33,7 @@ class Tasks
 
     /**
      * This method is called to collect all schedule tasks. Register all your tasks here that should be executed
-     * regularily such as daily or monthly.
+     * regularly such as daily or monthly.
      */
     public function schedule()
     {

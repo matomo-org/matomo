@@ -46,11 +46,11 @@ The js/ folder contains:
 
   ```bash
   $ cd /path/to/piwik/js/
-  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js
+  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik.min.js && cp piwik.min.js ../piwik.js
   ```
 
-  This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to
-  /path/to/piwik/piwik.js
+  This will generate the minify /path/to/piwik/js/piwik.min.js and copy it to
+  /path/to/piwik/piwik.js. Both "js/piwik.min.js" and "piwik.js" need to be committed.
 
 * In a production environment, the tests/javascript folder is not used and can
   be removed (if present).

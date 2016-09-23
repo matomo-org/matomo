@@ -26,12 +26,21 @@
             restrict: 'A',
             transclude: true,
             scope: {
-                piwikWidgetLoader: '='
+                piwikWidgetLoader: '=',
+                widgetName: '@'
             },
             templateUrl: 'plugins/CoreHome/angularjs/widget-loader/widgetloader.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
 
                 return function (scope, element, attrs, ngModel) {
+                    scope.widgetName = attrs.widgetName;
+
+                    if (!attrs.widgetName) {
+                        scope.loadingMessage = _pk_translate('General_LoadingData');
+                    } else {
+                        scope.loadingMessage = _pk_translate('General_LoadingPopover', [attrs.widgetName]);
+                    }
+
                     var changeCounter = 0,
                         currentScope,
                         currentElement,
@@ -61,15 +70,31 @@
                         var url = $.param(parameters);
 
                         var $urlParams = $location.search();
-                        $urlParams = angular.copy($urlParams);
-                        delete $urlParams['category'];
-                        delete $urlParams['subcategory'];
+
+                        if ($.isEmptyObject($urlParams) || !$urlParams || !$urlParams['idSite']) {
+                            // happens eg in exported widget etc when URL does not have #?...
+                            $urlParams = {idSite: 'idSite', period: 'period',date: 'date'};
+                            if (piwikUrl.getSearchParam('widget')) {
+                                $urlParams['widget'] = 'widget';
+                            }
+                            if (piwikUrl.getSearchParam('segment')) {
+                                $urlParams['segment'] = 'segment';
+                            }
+                        } else {
+                            $urlParams = angular.copy($urlParams);
+                            delete $urlParams['category'];
+                            delete $urlParams['subcategory'];
+                        }
 
                         angular.forEach($urlParams, function (value, key) {
                             if (!(key in parameters)) {
                                 url += '&' + key + '=' + piwikUrl.getSearchParam(key);
                             }
                         });
+
+                        if (!parameters || !('showtitle' in parameters)) {
+                            url += '&showtitle=1';
+                        }
 
                         url += '&random=' + parseInt(Math.random() * 10000);
 
@@ -102,6 +127,19 @@
                             scope.loadingFailed = false;
 
                             currentElement = contentNode.html(response).children();
+
+                            if (scope.widgetName) {
+                                var $title = currentElement.find('> .card-content .card-title');
+                                if ($title.size()) {
+                                    $title.text(scope.widgetName);
+                                } else {
+                                    $title = currentElement.find('> h2');
+                                    if ($title.size()) {
+                                        $title.text(scope.widgetName);
+                                    }
+                                }
+                            }
+
                             $compile(currentElement)(newScope);
 
                         }).error(function () {

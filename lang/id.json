@@ -137,7 +137,6 @@
         "ExceptionContactSupportGeneric": "Bila Anda tetap mengalami kendala, silakan %1$shubungi pengelola Piwik Anda%2$s untuk bantuan.",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Pengguna harus menjadi Pengguna Super atau pengguna '%s' itu sendiri.",
         "ExceptionConfigurationFileNotFound": "Berkas konfigurasi {%s} tak ditemukan.",
-        "ExceptionConfigurationFileNotFound2": "Bila berkas tersebut ada, harap memeriksa bahwa berkas %1$s dapat dibaca oleh pengguna '%2$s'.",
         "ExceptionDatabaseVersion": "Versi %1$s Anda adalah %2$s, tetapi Piwik membtuhkan setidaknya versi %3$s.",
         "ExceptionFileIntegrity": "Pemerikasaa intergritas gagal: %s",
         "ExceptionFilesizeMismatch": "Ukuran berkas tak sesuai: %1$s (diharapkan panjang: %2$s, ditemukan: %3$s)",

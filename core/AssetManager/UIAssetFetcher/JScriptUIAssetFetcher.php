@@ -76,8 +76,6 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'piwik.js',
             'plugins/CoreHome/javascripts/require.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
-            'plugins/Morpheus/javascripts/jquery.icheck.min.js',
-            'plugins/Morpheus/javascripts/morpheus.js',
             'plugins/Morpheus/javascripts/',
             'plugins/CoreHome/javascripts/uiControl.js',
             'plugins/CoreHome/javascripts/broadcast.js',

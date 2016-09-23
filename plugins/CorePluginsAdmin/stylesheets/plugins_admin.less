@@ -1,22 +1,3 @@
-.pluginsManagement .entityContainer {
-  padding-top: 16px;
-}
-
-table.dataTable tr.active-plugin > td {
-    background-color:@theme-color-background-base !important;
-}
-
-table.dataTable tr.active-plugin:hover > td {
-    background-color:@theme-color-background-base !important;
-}
-
-table.dataTable tr.inactive-plugin > td {
-    background-color:#ddd !important;
-}
-
-table.dataTable tr.inactive-plugin:hover > td {
-    background-color:#ddd !important;
-}
 
 .plugin-desc-text {
     margin-top:0em;
@@ -86,9 +67,7 @@ table.entityTable tr td a.uninstall {
 }
 
 .plugin-version {
-    font-size:80%;
-    font-style:italic;
-    color:#777;
+    color: #999;
 }
 
 #plugins {
@@ -99,6 +78,20 @@ table.entityTable tr td a.uninstall {
             max-width: 200px;
             word-wrap: break-word;
         }
+    }
+
+    .inactive-plugin {
+        td {
+            background-color: rgba(230, 230, 230, 0.3);
+        }
+
+        &:hover td {
+            background-color: #f2f2f2;
+        }
+    }
+
+    td.vers {
+        white-space: nowrap;
     }
 
     .plugin-desc-missingrequirements {
@@ -119,7 +112,8 @@ table.entityTable tr td a.uninstall {
 }
 
 .admin .pluginsFilter {
-    color: @theme-color-text-lighter;
+    margin-top: 20px;
+
     .active {
         font-weight: bold;
     }
@@ -132,9 +126,5 @@ table.entityTable tr td a.uninstall {
     .status {
         display: inline-block;
         margin-left: 20px;
-    }
-
-    .getNewPlugins {
-        float: right;
     }
 }

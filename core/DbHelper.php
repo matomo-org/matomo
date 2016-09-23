@@ -186,4 +186,19 @@ class DbHelper
 
         ArchiveTableCreator::refreshTableList($forceReload = true);
     }
+
+    /**
+     * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
+     * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
+     * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).
+     * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
+     *
+     * @param string $dbname
+     * @return bool
+     */
+    public static function isValidDbname($dbname)
+    {
+        return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-\+]*))$/D', $dbname));
+    }
+
 }

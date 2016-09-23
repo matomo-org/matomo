@@ -8,6 +8,7 @@
         "ReportingApiReference": "Tham chiếu API báo cáo",
         "TopLinkTooltip": "Truy cập dữ liệu lập trình Web Analytics của bạn thông qua một API đơn giản trong JSON, xml, vv",
         "UserAuthentication": "Xác thực người dùng",
-        "UsingTokenAuth": "Nếu bạn muốn %1$s truy vấn dữ liệu trong script hoặc crontab, ... %2$s bạn cần phải thêm tham số %3$s vào các API call URL yêu cầu xác thực."
+        "UsingTokenAuth": "Nếu bạn muốn %1$s truy vấn dữ liệu trong script hoặc crontab, ... %2$s bạn cần phải thêm tham số %3$s vào các API call URL yêu cầu xác thực.",
+        "Glossary": "Thuật ngữ"
     }
 }

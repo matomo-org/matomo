@@ -34,26 +34,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('index');
     }
-
-    public function getMeasurableTypeSettings()
+    
+    public function globalSettings()
     {
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $idType = Common::getRequestVar('idType', '', 'string');
+        Piwik::checkUserHasSuperUserAccess();
 
-        if ($idSite >= 1) {
-            Piwik::checkUserHasAdminAccess($idSite);
-        } else if ($idSite === 0) {
-            Piwik::checkUserHasSomeAdminAccess();
-        } else {
-            throw new Exception('Invalid idSite parameter. IdSite has to be zero or higher');
-        }
-
-        $view = new View('@SitesManager/measurable_type_settings');
-
-//        $propSettings   = new MeasurableSettings($idSite, $idType);
-        $view->settings = array();
-
-        return $view->render();
+        return $this->renderTemplate('globalSettings');
     }
 
     public function getGlobalSettings()
@@ -139,8 +125,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $path = PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/';
         $filename = 'PiwikTracker.php';
-        header('Content-type: text/php');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        Common::sendHeader('Content-type: text/php');
+        Common::sendHeader('Content-Disposition: attachment; filename="' . $filename . '"');
         return file_get_contents($path . $filename);
     }
 

@@ -2,6 +2,7 @@
 <result>
 	<row>
 		<pluginName>ExampleSettingsPlugin</pluginName>
+		<title>ExampleSettingsPlugin</title>
 		<settings>
 			<row>
 				<name>autoRefresh</name>
@@ -57,6 +58,7 @@
 	</row>
 	<row>
 		<pluginName>AnonymousPiwikUsageMeasurement</pluginName>
+		<title>AnonymousPiwikUsageMeasurement</title>
 		<settings>
 			<row>
 				<name>userTrackingEnabled</name>

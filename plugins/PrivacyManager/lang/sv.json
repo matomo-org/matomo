@@ -2,6 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpDescription": "Välj \"Ja\" om du vill att Piwik inte ska spåra fullständiga IP-adresser.",
         "AnonymizeIpInlineHelp": "Anonymisera den sista byten av besökarnas IP-adress för att följa lokala lagar om personlig integritet\/riktlinjer.",
+        "AnonymizeIpExtendedHelp": "När användare besöker din webbplats kommer inte Piwik använda deras fullständiga IP-adress (exempelvis %1$s). Istället kommer Piwik anonymisera den först (till %2$s). Anonymisering av IP-adresser är ett krav enligt personuppgiftslagen i några länder såsom Tyskland.",
         "AnonymizeIpMaskLengtDescription": "Välj hur många bytes av besökares IP-adresser som ska döljas.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - t.ex. %2$s",
         "CannotLockSoDeleteLogActions": "Tabellen log_action kommer inte att rensas: vänligen lägg till behörigheten LOCK TABLES till MYSQL-användaren '%s'",
@@ -48,6 +49,7 @@
         "LeastMonthsInput": "Ange ett antal månader mer än %s.",
         "MenuPrivacySettings": "Integritet",
         "NextDelete": "Nästa schemalagda borttagning",
+        "PluginDescription": "Förbättra sekretessen för dina användare och gör så att din Piwik miljös sekretess uppfyller kraven som ställs enligt lokal lagstiftning.",
         "PurgeNow": "Rensa databasen nu",
         "PurgeNowConfirm": "Du är på väg att permanent radera data från din databas. Är du säker på att du vill fortsätta?",
         "PurgingData": "Rensar data...",

@@ -8,27 +8,23 @@
 {% block content %}
 
     <div id="feedback-faq" class="admin">
-        <h2 piwik-enriched-headline
-            feature-name="{{ 'General_Help'|translate }}"
-            >{{ headline }}</h2>
-
-        <div class="header_full">
+        <div piwik-content-block
+             content-title="{{ headline|e('html_attr') }}"
+             feature="{{ 'General_Help'|translate|e('html_attr') }}">
             <p>{{ 'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate(
-            "<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>",
-            "</a>",
-            "<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/get-involved/'>",
-            "</a>",
-            "<a href='#donate'>",
-            "</a>",
-            "<a href='?module=Proxy&action=redirect&url=http://piwik.org/team/' target='_blank'>",
-            "</a>"
-            )|raw }}
+                "<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>",
+                "</a>",
+                "<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/get-involved/'>",
+                "</a>",
+                "<a href='#donate'>",
+                "</a>",
+                "<a href='?module=Proxy&action=redirect&url=http://piwik.org/team/' target='_blank'>",
+                "</a>"
+                )|raw }}
             </p>
         </div>
 
-        <h2>{{ 'Feedback_CommunityHelp'|translate }}</h2>
-
-        <div class="header_full">
+        <div piwik-content-block content-title="{{ 'Feedback_CommunityHelp'|translate|e('html_attr') }}">
             <p> &bull; {{ 'Feedback_ViewUserGuides'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/'>","</a>")|raw }}.</p>
             <p> &bull; {{ 'Feedback_ViewAnswersToFAQ'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/faq/'>","</a>")|raw }}.</p>
             <p> &bull; {{ 'Feedback_VisitTheForums'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://forum.piwik.org/'>","</a>")|raw }}.</p>
@@ -38,46 +34,41 @@
                 }} ({{ 'API_Glossary'|translate }})</p>
         </div>
 
-        <h2>{{ 'Feedback_ProfessionalHelp'|translate }}</h2>
+        <div piwik-content-block content-title="{{ 'Feedback_ProfessionalHelp'|translate|e('html_attr') }}">
+            <p>{{ 'Feedback_ProfessionalServicesIntro'|translate }}</p>
 
-        <div class="header_full">
-            <p>{{ 'Feedback_PiwikProIntro'|translate }}</p>
+            <p>{{ 'Feedback_ProfessionalServicesOfferIntro'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesReviewPiwikSetup'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesOptimizationMaintenance'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesPhoneEmailSupport'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesTraining'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesPremiumFeatures'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesCustomDevelopment'|translate }}</p>
+            <p> &bull; {{ 'Feedback_ProfessionalServicesAnalystConsulting'|translate }}</p>
 
-            <p>{{ 'Feedback_PiwikProOfferIntro'|translate }}:</p>
-            <p> &bull; {{ 'Feedback_PiwikProReviewPiwikSetup'|translate }}</p>
-            <p> &bull; {{ 'Feedback_PiwikProOptimizationMaintenance'|translate }}</p>
-            <p> &bull; {{ 'Feedback_PiwikProPhoneEmailSupport'|translate }}</p>
-            <p> &bull; {{ 'Feedback_PiwikProTraining'|translate }}</p>
-            <p> &bull; {{ 'Feedback_PiwikProPremiumFeatures'|translate }}</p>
-            <p> &bull; {{ 'Feedback_PiwikProCustomDevelopment'|translate }}</p>
-            <p> &bull; {{ 'Feedback_PiwikProAnalystConsulting'|translate }}</p>
+            <form target="_blank" action="https://piwik.org/support/">
+                <input type="hidden" name="pk_campaign" value="App_Help">
+                <input type="hidden" name="pk_source" value="Piwik_App">
+                <input type="hidden" name="pk_medium" value="App_ContactUs_button">
+                <br />
+                <input type="submit" class="btn" value="{{ 'Feedback_ContactUs'|translate }}">
+            </form>
         </div>
 
-        <form target="_blank" action="https://piwik.pro/contact#contact-form">
-            <input type="hidden" name="pk_campaign" value="App_Help">
-            <input type="hidden" name="pk_source" value="Piwik_App">
-            <input type="hidden" name="pk_medium" value="App_ContactUs_button">
-            <br />
-            <input type="submit" value="{{ 'Feedback_ContactUs'|translate }}">
-        </form>
-
-        <h2>{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate }}</h2>
-
-        <div class="header_full">
-                <p>{{ 'Feedback_HowToCreateTicket'|translate(
-                "<a target='_blank' href='?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/core-team-workflow%23submitting-a-bug-report'>",
-                "</a>",
-                "<a target='_blank' href='?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/core-team-workflow%23submitting-a-feature-request'>",
-                "</a>",
-                "<a target='_blank' href='?module=Proxy&action=redirect&url=https://github.com/piwik/piwik/issues'>",
-                "</a>",
-                "<a target='_blank' href='?module=Proxy&action=redirect&url=https://github.com/piwik/piwik/issues/new'>",
-                "</a>"
-                )|raw }}</p>
+        <div piwik-content-block content-title="{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate|e('html_attr') }}">
+            <p>{{ 'Feedback_HowToCreateTicket'|translate(
+            "<a target='_blank' href='?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/core-team-workflow%23submitting-a-bug-report'>",
+            "</a>",
+            "<a target='_blank' href='?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/core-team-workflow%23submitting-a-feature-request'>",
+            "</a>",
+            "<a target='_blank' href='?module=Proxy&action=redirect&url=https://github.com/piwik/piwik/issues'>",
+            "</a>",
+            "<a target='_blank' href='?module=Proxy&action=redirect&url=https://github.com/piwik/piwik/issues/new'>",
+            "</a>"
+            )|raw }}</p>
         </div>
 
         <div class="footer">
-            <hr/>
             <ul class="social">
                 <li>
                     <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.png"></a>

@@ -11,6 +11,7 @@ namespace Piwik\Archive;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Period\Week;
 use Piwik\Site;
 
 /**
@@ -401,7 +402,7 @@ class DataTableFactory
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
                 // we edit the subtable ID so that it matches the newly table created in memory
-                // NB: we dont overwrite the datatableid in the case we are displaying the table expanded.
+                // NB: we don't overwrite the datatableid in the case we are displaying the table expanded.
                 if ($this->addMetadataSubtableId) {
                     // this will be written back to the column 'idsubdatatable' just before rendering,
                     // see Renderer/Php.php
@@ -431,7 +432,13 @@ class DataTableFactory
     private function prettifyIndexLabel($labelType, $label)
     {
         if ($labelType == self::TABLE_METADATA_PERIOD_INDEX) { // prettify period labels
-            return $this->periods[$label]->getPrettyString();
+            $period = $this->periods[$label];
+            $label = $period->getLabel();
+            if ($label === 'week' || $label === 'range') {
+                return $period->getRangeString();
+            }
+
+            return $period->getPrettyString();
         }
         return $label;
     }

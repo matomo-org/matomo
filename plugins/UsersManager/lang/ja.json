@@ -22,7 +22,6 @@
         "ExceptionEditAnonymous": "anonymous ユーザーは、Piwik がログインしていないユーザーを定義するために使用するため、編集や削除はできません。 例えば、'anonymous' ユーザーに '表示' 権限を与えることによって、統計をパブリックにすることができます。",
         "ExceptionEmailExists": "メールアドレスが '%s' のユーザーはすでに存在します。",
         "ExceptionInvalidEmail": "メールアドレスが有効な形式ではありません。",
-        "ExceptionInvalidPassword": "パスワードの長さは %1$s〜%2$s 文字である必要があります。",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth は、MD5 ハッシュ値のパスワード（32文字長の文字列）を想定しています。 このメソッドをコールする前に、パスワードに対して md5() 関数をコールしてください。",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "スーパーユーザーアクセスをユーザー '%s' から削除することができません。",
         "ExceptionSuperUserAccess": "このユーザーはスーパーユーザーアクセス権を持ち、既に Piwik の全ウェブサイトへのアクセスおよび修正の権限を持っています。このユーザーからスーパーユーザーアクセス権を削除し、再度試すことができます。",

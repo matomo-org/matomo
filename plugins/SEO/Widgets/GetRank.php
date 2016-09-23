@@ -14,7 +14,6 @@ use Piwik\Widget\WidgetConfig;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\View;
 use Piwik\Plugins\SEO\API;
 
 class GetRank extends \Piwik\Widget\Widget
@@ -41,16 +40,15 @@ class GetRank extends \Piwik\Widget\Widget
         }
 
         $dataTable = API::getInstance()->getRank($url);
-
-        $view = new View('@SEO/getRank');
-        $view->urlToRank = Url::getHostFromUrl($url);
-
+        
         /** @var \Piwik\DataTable\Renderer\Php $renderer */
         $renderer = Renderer::factory('php');
         $renderer->setSerialize(false);
-        $view->ranks = $renderer->render($dataTable);
 
-        return $view->render();
+        return $this->renderTemplate('getRank', array(
+            'urlToRank' => Url::getHostFromUrl($url),
+            'ranks' => $renderer->render($dataTable)
+        ));
     }
 
 }

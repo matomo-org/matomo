@@ -29,6 +29,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@DBStats/index');
         $this->setBasicVariablesView($view);
 
+        $_GET['showtitle'] = '1';
+
         $view->databaseUsageSummary = $this->renderReport('getDatabaseUsageSummary');
         $view->trackerDataSummary   = $this->renderReport('getTrackerDataSummary');
         $view->metricDataSummary    = $this->renderReport('getMetricDataSummary');

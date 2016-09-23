@@ -15,12 +15,14 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        if (Piwik::hasUserSuperUserAccess()) {
-            $menu->addManageItem('MobileMessaging_SettingsMenu', $this->urlForAction('index'), $order = 35);
-        }
+        $title = 'MobileMessaging_SettingsMenu';
+        $url = $this->urlForAction('index');
+        $order = 35;
 
-        if (!Piwik::isUserIsAnonymous()) {
-            $menu->addPersonalItem('MobileMessaging_SettingsMenu', $this->urlForAction('userSettings'), $order = 12);
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addSystemItem($title, $url, $order);
+        } else if (!Piwik::isUserIsAnonymous()) {
+            $menu->addPersonalItem($title, $url, $order);
         }
     }
 }

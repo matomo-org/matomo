@@ -1,0 +1,11 @@
+<div>
+    <label for="{{ formField.name }}" class="siteSelectorLabel" ng-bind-html="formField.title"></label>
+    <div piwik-siteselector
+         class="sites_autocomplete"
+         ng-model="formField.value"
+         id="{{ formField.name }}"
+         show-all-sites-item="false"
+         switch-site-on-select="false"
+         show-selected-site="true"
+         piwik-attributes="{{formField.uiControlAttributes}}"></div>
+</div>

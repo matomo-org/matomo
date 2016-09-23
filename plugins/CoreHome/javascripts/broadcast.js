@@ -365,7 +365,7 @@ var broadcast = {
             valFromUrl = getQuotedRegex(valFromUrl);
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
-                // if new value is empty remove leading &, aswell
+                // if new value is empty remove leading &, as well
                 regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
@@ -443,27 +443,6 @@ var broadcast = {
      * @return {Boolean}
      */
     loadAjaxContent: function (urlAjax) {
-        if (typeof piwikMenu !== 'undefined') {
-            // we have to use a $timeout since menu groups are displayed using an angular directive, and on initial
-            // page load, the dropdown will not be completely rendered at this point. using 2 $timeouts (to push
-            // the menu activation logic to the end of the event queue twice), seems to work.
-            angular.element(document).injector().invoke(function ($timeout) {
-                $timeout(function () {
-                    $timeout(function () {
-                        piwikMenu.activateMenu(
-                            broadcast.getParamValue('module', urlAjax),
-                            broadcast.getParamValue('action', urlAjax),
-                            {
-                                idGoal: broadcast.getParamValue('idGoal', urlAjax),
-                                idDashboard: broadcast.getParamValue('idDashboard', urlAjax),
-                                idDimension: broadcast.getParamValue('idDimension', urlAjax)
-                            }
-                        );
-                    });
-                });
-            });
-        }
-
         if(broadcast.getParamValue('module', urlAjax) == 'API') {
             broadcast.lastUrlRequested = null;
             $('#content').html("Loading content from the API and displaying it within Piwik is not allowed.");

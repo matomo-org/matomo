@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\CustomVariables\tests;
+namespace Piwik\Plugins\CustomVariables\tests\Integration;
+
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tracker\Cache;
@@ -30,13 +31,13 @@ class CustomVariablesTest extends IntegrationTestCase
         CustomVariables::getNumUsableCustomVariables();
         $cache = Cache::getCacheGeneral();
 
-        $this->assertSame(5, $cache['CustomVariables.NumUsableCustomVariables']);
+        $this->assertSame(5, $cache[CustomVariables::MAX_NUM_CUSTOMVARS_CACHEKEY]);
     }
 
     public function test_getNumUsableCustomVariables_ShouldReadFromCacheIfPossible()
     {
         $cache = Cache::getCacheGeneral();
-        $cache['CustomVariables.NumUsableCustomVariables'] = 10;
+        $cache[CustomVariables::MAX_NUM_CUSTOMVARS_CACHEKEY] = 10;
         Cache::setCacheGeneral($cache);
 
         $this->assertSame(10, CustomVariables::getNumUsableCustomVariables());

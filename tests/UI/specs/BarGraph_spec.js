@@ -35,7 +35,7 @@ describe("BarGraph", function () {
 
     it("should display multiple metrics when another metric picked", function (done) {
         expect.screenshot('other_metric').to.be.capture(function (page) {
-            page.click('.jqplot-seriespicker-popover input:not(:checked)');
+            page.click('.jqplot-seriespicker-popover input:not(:checked):first + label');
         }, done);
     });
 });

@@ -41,13 +41,11 @@ abstract class Base extends \Piwik\Plugin\Report
 
     protected function getIdSiteFromInfos($infos)
     {
-        $idSites = $infos['idSites'];
+        $idSite = $infos['idSite'];
 
-        if (count($idSites) != 1) {
+        if (empty($idSite)) {
             return null;
         }
-
-        $idSite = reset($idSites);
 
         return $idSite;
     }

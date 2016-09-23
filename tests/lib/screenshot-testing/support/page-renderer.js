@@ -241,12 +241,24 @@ PageRenderer.prototype._load = function (url, callback) {
     var self = this;
     this.webpage.open(url, function (status) {
 
+        if (VERBOSE) {
+            self._logMessage('Webpage open event');
+        }
+
         self._isInitializing = false;
+        self._isLoading = false;
 
         this.evaluate(function () {
             var $ = window.jQuery;
+
             if ($) {
                 $('html').addClass('uiTest');
+                $.fx.off = true;
+
+                var css = document.createElement('style');
+                css.type = 'text/css';
+                css.innerHTML = '* { -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }';
+                document.body.appendChild(css);
             }
         });
 
@@ -354,6 +366,10 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             return;
         }
 
+        if (self.aborted) {
+            return false;
+        }
+
         var result = page.evaluate(function(selector) {
             var docWidth = $(document).width(),
                 docHeight = $(document).height();
@@ -431,11 +447,12 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
     }
 
     this._executeEvents(events, function () {
+
+        clearTimeout(timeout);
+
         if (self.aborted) {
             return;
         }
-
-        clearTimeout(timeout);
 
         try {
             if (outputPath) {
@@ -444,17 +461,30 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
 
                 // _setCorrectViewportSize might cause a re-render. We should wait for a while for the re-render to
                 // finish before capturing a screenshot to avoid possible random failures.
-                var timeInMsToWaitForReRenderToFinish = 400;
+                var timeInMsToWaitForReRenderToFinish = 500;
                 setTimeout(function () {
                     var previousClipRect = self.webpage.clipRect;
 
-                    setClipRect(self.webpage, selector);
+                    try {
+                        if (self.aborted) {
+                            return;
+                        }
 
-                    self.webpage.render(outputPath);
-                    self._viewportSizeOverride = null;
-                    self.webpage.clipRect = previousClipRect;
+                        setClipRect(self.webpage, selector);
 
-                    callback();
+                        self.webpage.render(outputPath);
+                        self._viewportSizeOverride = null;
+                        self.webpage.clipRect = previousClipRect;
+
+                        if (!self.aborted) {
+                            callback();
+                        }
+
+                    } catch (e) {
+                        if (previousClipRect) {
+                            self.webpage.clipRect = previousClipRect;
+                        }
+                    }
 
                 }, timeInMsToWaitForReRenderToFinish);
 
@@ -463,7 +493,10 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             }
 
         } catch (e) {
-            self.webpage.clipRect = previousClipRect;
+
+            if (self.aborted) {
+                return;
+            }
 
             callback(e);
         }
@@ -479,7 +512,7 @@ PageRenderer.prototype._executeEvents = function (events, callback, i) {
     i = i || 0;
 
     var evt = events[i];
-    if (!evt) {
+    if (!evt || this.aborted) {
         callback();
         return;
     }
@@ -581,6 +614,10 @@ PageRenderer.prototype._getImageLoadingCount = function () {
 
 PageRenderer.prototype._waitForNextEvent = function (events, callback, i, waitTime) {
 
+    if (this.aborted) {
+        return;
+    }
+
     function hasPendingResources(self)
     {
         function isEmpty(obj) {
@@ -608,6 +645,12 @@ PageRenderer.prototype._waitForNextEvent = function (events, callback, i, waitTi
     var self = this;
 
     setTimeout(function () {
+        if (self.aborted) {
+            // call execute events one more time so it can trigger its callback and finish the test
+            self._executeEvents(events, callback, i + 1);
+            return;
+        }
+
         if (!self._isLoading && !self._isInitializing && !self._isNavigationRequested && !hasPendingResources(self)) {
             self._executeEvents(events, callback, i + 1);
         } else {
@@ -739,21 +782,36 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     };
 
     this.webpage.onLoadStarted = function () {
+        if (VERBOSE) {
+            self._logMessage('onLoadStarted');
+        }
+
         self._isInitializing = false;
         self._isLoading = true;
     };
 
     this.webpage.onPageCreated = function onPageCreated(popupPage) {
+        if (VERBOSE) {
+            self._logMessage('onPageCreated');
+        }
+
         popupPage.onLoadFinished = function onLoadFinished() {
             self._isNavigationRequested = false;
         };
     };
 
     this.webpage.onUrlChanged = function onUrlChanged(url) {
+        if (VERBOSE) {
+            self._logMessage('onUrlChanged: ' + url);
+        }
         self._isNavigationRequested = false;
     };
 
     this.webpage.onNavigationRequested = function (url, type, willNavigate, isMainFrame) {
+        if (VERBOSE) {
+            self._logMessage('onNavigationRequested: ' + url);
+        }
+
         self._isInitializing = false;
 
         if (isMainFrame && self._requestedUrl !== url && willNavigate) {
@@ -778,6 +836,8 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     this.webpage.onLoadFinished = function (status) {
         if (status !== 'success' && VERBOSE) {
             self._logMessage('Page did not load successfully (it could be on purpose if a tests wants to test this behaviour): ' + status);
+        } else if (VERBOSE) {
+            self._logMessage('onLoadFinished: ' + status);
         }
 
         self._isInitializing = false;

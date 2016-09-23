@@ -71,10 +71,9 @@ class MyExampleWidget extends Widget
      */
     public function render()
     {
-        // $view = new View('@ExamplePlugin/myViewTemplate');
-        // return $view->render();
+        // or: return $this->renderTemplate('myViewTemplate', array(...view variables...));
 
-        return '<div>My Widget Text</div>';
+        return '<div class="widgetBody">My Widget Text</div>';
     }
 
 }

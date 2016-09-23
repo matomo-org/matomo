@@ -26,7 +26,7 @@
         "ExceptionEmailExists": "Uživatel s e-mailem '%s' již existuje.",
         "ExceptionInvalidEmail": "E-mail nemá platný formát.",
         "ExceptionInvalidLoginFormat": "Uživatelské jméno musí být v rozmezí %1$s až %2$s znaků a obsahovat pouze písmena, čísla, či následující znaky '_' '-' '.' '@' '+'",
-        "ExceptionInvalidPassword": "Délka hesla musí být mezi %1$s a %2$s znaky.",
+        "ExceptionInvalidPassword": "Délka hesla msí být větší, než %1$s znaků.",
         "ExceptionLoginExists": "Uživatel '%s' již existuje.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth očekává heslo v podobě MD5 hashe (32 znaků dlouhého řetězce). Prosím nejprve zavoltejte metodu md5() na tomto hesle.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Odebrání super-uživatelského přístupu uživateli %s není možné.",

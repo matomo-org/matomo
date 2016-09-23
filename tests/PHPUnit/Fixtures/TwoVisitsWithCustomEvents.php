@@ -19,7 +19,7 @@ class TwoVisitsWithCustomEvents extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;
-    public $idGoal1 = 1;
+    public static $idGoalTriggeredOnEventCategory = 3;
 
     public function setUp()
     {
@@ -38,6 +38,9 @@ class TwoVisitsWithCustomEvents extends Fixture
             // These two goals are to check events don't trigger for URL or Title matching
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'url', 'webradio', 'contains');
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'title', 'Music', 'contains');
+            $idGoalTriggeredOnEventCategory = APIGoals::getInstance()->addGoal($this->idSite, 'event matching', 'event_category', 'CategoryTriggersGoal', 'contains');
+
+            $this->assertEquals($idGoalTriggeredOnEventCategory, self::$idGoalTriggeredOnEventCategory);
         }
     }
 
@@ -48,6 +51,7 @@ class TwoVisitsWithCustomEvents extends Fixture
 
         $this->trackMusicPlaying($vis);
         $this->trackMusicRatings($vis);
+        $this->trackEventWithoutUrl($vis);
         $this->trackMovieWatchingIncludingInterval($vis);
 
         $this->dateTime = Date::factory($this->dateTime)->addHour(0.5);
@@ -65,6 +69,14 @@ class TwoVisitsWithCustomEvents extends Fixture
     {
         $hour = $minutes / 60;
         return $vis->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hour)->getDatetime());
+    }
+
+    protected function trackEventWithoutUrl(PiwikTracker $vis)
+    {
+        $url = $vis->pageUrl;
+        $vis->setUrl('');
+        self::checkResponse($vis->doTrackEvent('CategoryTriggersGoal here', 'This is an event without a URL'));
+        $vis->setUrl($url);
     }
 
     protected function trackMusicPlaying(PiwikTracker $vis)

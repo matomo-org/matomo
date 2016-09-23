@@ -21,4 +21,5 @@ class CustomVariableValue extends Base
     {
         return Piwik::translate('CustomVariables_ColumnCustomVariableValue');
     }
+
 }

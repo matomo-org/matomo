@@ -136,10 +136,10 @@ class Dashboard extends \Piwik\Plugin
         if (empty($defaultLayout)) {
             $topWidget = '';
 
-            $advertising = StaticContainer::get('Piwik\PiwikPro\Advertising');
-            if ($advertising->arePiwikProAdsEnabled() && Plugin\Manager::getInstance()->isPluginActivated('PiwikPro')) {
-                $topWidget .= '{"uniqueId":"widgetPiwikPropromoPiwikPro",'
-                    . '"parameters":{"module":"PiwikPro","action":"promoPiwikPro"}},';
+            $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+            if ($advertising->areAdsForProfessionalServicesEnabled() && Plugin\Manager::getInstance()->isPluginActivated('ProfessionalServices')) {
+                $topWidget .= '{"uniqueId":"widgetProfessionalServicespromoServices",'
+                    . '"parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
             }
 
             if (Piwik::hasUserSuperUserAccess()) {
@@ -154,18 +154,18 @@ class Dashboard extends \Piwik\Plugin
                 [
                     {"uniqueId":"widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution","parameters":{"forceView":"1","viewDataTable":"graphEvolution","module":"VisitsSummary","action":"getEvolutionGraph"}},
                     {"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
-                    {"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDurationviewDataTablecloud","parameters":{"viewDataTable":"cloud","module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
+                    {"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"viewDataTable":"cloud","module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
                 ],
                 [
                     ' . $topWidget . '
                     {"uniqueId":"widgetReferrersgetWebsites","parameters":{"module":"Referrers","action":"getWebsites"}},
-                    {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTimeviewDataTablegraphVerticalBar","parameters":{"viewDataTable": "graphVerticalBar","module":"VisitTime","action":"getVisitInformationPerServerTime"}}
+                    {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"viewDataTable": "graphVerticalBar","module":"VisitTime","action":"getVisitInformationPerServerTime"}}
                 ],
                 [
                     {"uniqueId":"widgetUserCountryMapvisitorMap","parameters":{"module":"UserCountryMap","action":"visitorMap"}},
                     {"uniqueId":"widgetDevicesDetectiongetBrowsers","parameters":{"module":"DevicesDetection","action":"getBrowsers"}},
                     {"uniqueId":"widgetReferrersgetSearchEngines","parameters":{"module":"Referrers","action":"getSearchEngines"}},
-                    {"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
+                    {"uniqueId":"widgetRssWidgetrssPiwik","parameters":{"module":"RssWidget","action":"rssPiwik"}}
                 ]
             ]';
         }
