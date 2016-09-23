@@ -18,7 +18,7 @@ use Piwik\Tracker\Action;
 class Latitude extends Base
 {
     protected $columnName = 'location_latitude';
-    protected $columnType = 'float(10, 6) DEFAULT NULL';
+    protected $columnType = 'decimal(9, 6) DEFAULT NULL';
 
     protected function configureSegments()
     {
