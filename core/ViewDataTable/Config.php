@@ -275,6 +275,11 @@ class Config
     public $title = '';
 
     /**
+     * The report description. eg like a goal description
+     */
+    public $description = '';
+
+    /**
      * Controls whether a report's related reports are listed with the view or not.
      */
     public $show_related_reports = true;

@@ -26,6 +26,10 @@
     <div class="card-content">
 {% endif %}
 
+{% if properties.description %}
+    <div class="card-description">{{ properties.description }}</div>
+{% endif %}
+
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
 <div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %}"
