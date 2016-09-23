@@ -28,6 +28,7 @@ class OneVisitorTwoVisits extends Fixture
     public $useSiteSearch = false;
     public $excludeMozilla = false;
     public $simulateIntegerOverflow = false;
+    public $maxUnsignedIntegerValue = '4294967295';
 
     public function setUp()
     {
@@ -47,7 +48,7 @@ class OneVisitorTwoVisits extends Fixture
             return;
         }
 
-        $overflow = '4294967295';
+        $overflow = $this->maxUnsignedIntegerValue;
 
         $table = Common::prefixTable('log_visit');
         Db::query("INSERT INTO $table (idvisit) VALUES ($overflow)");

@@ -24,6 +24,7 @@ use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
  */
 class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
 {
+    /** OneVisitorTwoVisits */
     public static $fixture = null; // initialized below class
 
     /**
@@ -32,9 +33,7 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
     public function testApi($api, $params)
     {
         $this->runApiTests($api, $params);
-
         $this->checkAutoIncrementIdsAreMoreThanFourBillion();
-
     }
 
     private function checkAutoIncrementIdsAreMoreThanFourBillion()
@@ -44,10 +43,12 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
             'log_action' => 'idaction',
             'log_link_visit_action' => 'idlink_va'
         );
+        $this->assertGreaterThan(4294967294, self::$fixture->maxUnsignedIntegerValue);
+
         foreach($fieldsThatShouldNotOverflow as $table => $autoIncrementField) {
             $table = Common::prefixTable($table);
             $value = Db::fetchOne("SELECT MAX($autoIncrementField) FROM $table ");
-            $this->assertGreaterThan(4294967295, $value, 'in ' . $table);
+            $this->assertGreaterThan(self::$fixture->maxUnsignedIntegerValue, $value, 'in ' . $table);
         }
     }
 
@@ -55,8 +56,9 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
     {
         $apiToCall = array(
             'VisitTime', 'VisitsSummary', 'VisitorInterest', 'VisitFrequency', 'DevicesDetection',
-            'UserCountry', 'Referrers', 'Actions',
+            'UserCountry',
             'Provider', 'Goals', 'CustomVariables', 'CoreAdminHome', 'DevicePlugins',
+            'Actions',  'Referrers',
         );
 
         return array(
@@ -67,6 +69,7 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
             ))
         );
     }
+
 }
 
 SimulateAutoIncrementIntegerOverflowTest::$fixture = new OneVisitorTwoVisits();
