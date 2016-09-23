@@ -89,7 +89,7 @@ class Dependency
 
         $causedBy = array();
         foreach ($missingDependencies as $dependency) {
-            $causedBy[] = strtoupper($dependency['requirement']) . ' ' . $dependency['causedBy'];
+            $causedBy[] = ucfirst($dependency['requirement']) . ' ' . $dependency['causedBy'];
         }
         $causedBy = implode(', ', $causedBy);
 
