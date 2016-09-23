@@ -130,24 +130,6 @@ class DependencyTest extends IntegrationTestCase
         ));
     }
 
-    public function getDependenciesForStringTest()
-    {
-        return array(
-            array( array('Annotations' => '>=9.2'), 'Annotations >=9.2'),
-            array( array('php' => '>=70', 'Annotations' => '>=11.11'), 'Php >=70, Annotations >=11.11'),
-            array( array(), ''),
-        );
-    }
-
-    /**
-     * @dataProvider getDependenciesForStringTest
-     */
-    public function test_getMissingDependenciesAsString($requires, $expected)
-    {
-        $processed = $this->dependency->getMissingDependenciesAsString($requires);
-        $this->assertEquals($expected, $processed);
-    }
-
     public function test_getMissingDependencies_setPiwikVersion()
     {
         $this->assertMissingDependency(array('piwik' => '>=9.2'), array($this->missingPiwik('>=9.2')));
