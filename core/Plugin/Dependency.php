@@ -77,25 +77,6 @@ class Dependency
         $this->piwikVersion = $piwikVersion;
     }
 
-    /**
-     * Returns a string describing the missing requirements for this plugin
-     *
-     * @param array $requires
-     * @return string "PIWIK >=3.0.0, PHP >= 5.5"
-     */
-    public function getMissingDependenciesAsString($requires)
-    {
-        $missingDependencies = $this->getMissingDependencies($requires);
-
-        $causedBy = array();
-        foreach ($missingDependencies as $dependency) {
-            $causedBy[] = ucfirst($dependency['requirement']) . ' ' . $dependency['causedBy'];
-        }
-        $causedBy = implode(', ', $causedBy);
-
-        return $causedBy;
-    }
-
     private function getCurrentVersion($name)
     {
         switch (strtolower($name)) {

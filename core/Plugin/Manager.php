@@ -1377,13 +1377,4 @@ class Manager
         }
     }
 
-    public function getPluginMissingDependenciesAsString($pluginName)
-    {
-        $plugin = $this->loadPlugin($pluginName);
-        if ($plugin === null) {
-            return '';
-        }
-        return $plugin->getMissingDependenciesAsString();
-    }
-
 }

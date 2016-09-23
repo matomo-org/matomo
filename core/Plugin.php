@@ -430,11 +430,22 @@ class Plugin
             return '';
         }
         $dependency = $this->makeDependency($piwikVersion);
-        $missingDependencies = $dependency->getMissingDependenciesAsString($this->pluginInformation['require']);
+
+        $missingDependencies = $dependency->getMissingDependencies($this->pluginInformation['require']);
+
         if(empty($missingDependencies)) {
             return '';
         }
-        return Piwik::translate("CorePluginsAdmin_PluginRequirement", array($this->getPluginName(), $missingDependencies));
+
+        $causedBy = array();
+        foreach ($missingDependencies as $dependency) {
+            $causedBy[] = ucfirst($dependency['requirement']) . ' ' . $dependency['causedBy'];
+        }
+
+        return Piwik::translate("CorePluginsAdmin_PluginRequirement", array(
+            $this->getPluginName(),
+            implode(', ', $causedBy)
+        ));
     }
 
 
