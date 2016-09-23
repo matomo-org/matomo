@@ -213,6 +213,7 @@ class APITest extends IntegrationTestCase
             'idsite' => '1',
             'idgoal' => '1',
             'name' => 'MyName1',
+            'description' => '',
             'match_attribute' => 'event_action',
             'pattern' => 'test',
             'pattern_type' => 'exact',
