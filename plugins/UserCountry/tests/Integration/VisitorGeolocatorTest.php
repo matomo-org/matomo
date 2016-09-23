@@ -39,6 +39,11 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         parent::setUp();
 
         $this->logInserter = new LogHelper();
+
+        // ensure all providers are loaded and add mock provider
+        LocationProvider::$providers = null;
+        $providers = LocationProvider::getAllProviders();
+        LocationProvider::$providers[] = new MockLocationProvider();
     }
 
     public function test_getLocation_shouldReturnLocationForProvider_IfLocationIsSetForCurrentProvider()

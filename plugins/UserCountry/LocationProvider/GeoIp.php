@@ -256,19 +256,3 @@ abstract class GeoIp extends LocationProvider
         return false;
     }
 }
-
-/**
- * @see plugins/UserCountry/LocationProvider/GeoIp/ServerBased.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp/ServerBased.php';
-
-/**
- * @see plugins/UserCountry/LocationProvider/GeoIp/Php.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp/Php.php';
-
-/**
- * @see plugins/UserCountry/LocationProvider/GeoIp/Pecl.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp/Pecl.php';
-
