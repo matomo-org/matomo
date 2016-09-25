@@ -53,7 +53,7 @@ class Updates_3_0_0_b1 extends Updates
         $migrations = $this->getDashboardMigrations($allDashboards, $allGoals);
         $migrations = $this->getPluginSettingsMigrations($migrations);
         $migrations = $this->getSiteSettingsMigrations($migrations);
-        $migrations[] = $this->migration->db->changeColumnType('log_link_visit_action', 'idaction_name_ref', 'INTEGER(10) UNSIGNED NULL');
+        $migrations = $this->getBigIntPreventOverflowMigrations($migrations);
 
         return $migrations;
     }
@@ -84,6 +84,48 @@ class Updates_3_0_0_b1 extends Updates
             $settings->sendPluginUpdateEmail->setValue(!empty($isEnabled));
             $settings->save();
         });
+    }
+
+    /**
+     * @param Migration[] $queries
+     * @return Migration[]
+     */
+    private function getBigIntPreventOverflowMigrations($queries)
+    {
+        $queries[] = $this->migration->db->changeColumnTypes('log_action', array(
+            'idaction' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT'
+        ));
+
+        $queries[] = $this->migration->db->changeColumnTypes('log_visit', array(
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT'
+        ));
+
+        $queries[] = $this->migration->db->changeColumnTypes('log_conversion_item', array(
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_sku' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_name' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_category' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_category2' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_category3' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_category4' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_category5' => 'BIGINT(10) UNSIGNED NOT NULL',
+        ));
+
+        $queries[] = $this->migration->db->changeColumnTypes('log_conversion', array(
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_url' => 'BIGINT(10) UNSIGNED default NULL',
+            'idlink_va' => 'BIGINT(10) UNSIGNED default NULL',
+        ));
+
+        $queries[] = $this->migration->db->changeColumnTypes('log_link_visit_action', array(
+            'idlink_va' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT',
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idaction_url_ref' => 'BIGINT(10) UNSIGNED NULL DEFAULT 0',
+            // Note; this column is also made NULLable #9231
+            'idaction_name_ref' => 'BIGINT(10) UNSIGNED NULL',
+        ));
+
+        return $queries;
     }
 
     /**
