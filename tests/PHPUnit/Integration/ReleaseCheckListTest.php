@@ -91,6 +91,25 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->checkFilesAreInJpgFormat($files);
     }
 
+    public function test_screenshotsStoredInLfs()
+    {
+        $screenshots = Filesystem::globr(PIWIK_INCLUDE_PATH . '/tests/UI/expected-screenshots', '*.png');
+        $cleanPath   = function ($value) {
+            return str_replace(PIWIK_INCLUDE_PATH . '/', '', $value);
+        };
+        $screenshots = array_map($cleanPath, $screenshots);
+
+        $storedLfsFiles = explode("\n", `git lfs ls-files`);
+        $cleanRevision  = function ($value) {
+            $parts = explode(' - ', $value);
+            return array_pop($parts);
+        };
+        $storedLfsFiles = array_map($cleanRevision, $storedLfsFiles);
+
+        $diff = array_diff($screenshots, $storedLfsFiles);
+        $this->assertEmpty($diff, 'Some Screenshots are not stored in LFS: ' . implode("\n", $diff));
+    }
+
     public function testCheckThatConfigurationValuesAreProductionValues()
     {
         $this->_checkEqual(array('Debug' => 'always_archive_data_day'), '0');

@@ -100,7 +100,7 @@ What makes Piwik unique from the competition:
 
   * You own your web analytics data: since Piwik is installed on your server, the data is stored in your own database and you can get all the statistics using the powerful Piwik Analytics API.
 
-  * Piwik is a Free Software which can easily be configured to respect your visitors privacy.
+  * Piwik is a Free Software which can easily be configured to respect your visitors' privacy.
 
   * Modern, easy to use User Interface: you can fully customize your dashboard, drag and drop widgets and more.
 
