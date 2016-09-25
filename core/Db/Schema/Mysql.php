@@ -177,8 +177,8 @@ class Mysql implements SchemaInterface
                                       idsite int(10) unsigned NOT NULL,
                                       idvisitor BINARY(8) NOT NULL,
                                       server_time datetime NOT NULL,
-                                      idaction_url BIGINT(11) default NULL,
-                                      idlink_va BIGINT(11) default NULL,
+                                      idaction_url BIGINT(10) UNSIGNED default NULL,
+                                      idlink_va BIGINT(10) UNSIGNED default NULL,
                                       idgoal int(10) NOT NULL,
                                       buster int unsigned NOT NULL,
                                       idorder varchar(100) default NULL,
@@ -191,7 +191,7 @@ class Mysql implements SchemaInterface
             ",
 
             'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
-                                        idlink_va BIGINT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                        idlink_va BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                                         idsite int(10) UNSIGNED NOT NULL,
                                         idvisitor BINARY(8) NOT NULL,
                                         idvisit BIGINT(10) UNSIGNED NOT NULL,
