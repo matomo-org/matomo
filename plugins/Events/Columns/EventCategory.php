@@ -18,7 +18,7 @@ use Piwik\Tracker\Request;
 class EventCategory extends ActionDimension
 {
     protected $columnName = 'idaction_event_category';
-    protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $columnType = 'BIGINT(10) UNSIGNED DEFAULT NULL';
 
     protected function configureSegments()
     {
