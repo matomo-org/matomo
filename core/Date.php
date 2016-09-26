@@ -621,8 +621,6 @@ class Date
      */
     public function getLocalized($template)
     {
-        $template = $this->replaceLegacyPlaceholders($template);
-
         $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
 
         $template = $dateTimeFormatProvider->getFormatPattern($template);
@@ -641,40 +639,6 @@ class Date
         }
 
         return $out;
-    }
-
-    /**
-     * Replaces legacy placeholders
-     *
-     * @deprecated should be removed in Piwik 3.0.0 or later
-     *
-     * - **%day%**: replaced with the day of the month without leading zeros, eg, **1** or **20**.
-     * - **%shortMonth%**: the short month in the current language, eg, **Jan**, **Feb**.
-     * - **%longMonth%**: the whole month name in the current language, eg, **January**, **February**.
-     * - **%shortDay%**: the short day name in the current language, eg, **Mon**, **Tue**.
-     * - **%longDay%**: the long day name in the current language, eg, **Monday**, **Tuesday**.
-     * - **%longYear%**: the four digit year, eg, **2007**, **2013**.
-     * - **%shortYear%**: the two digit year, eg, **07**, **13**.
-     * - **%time%**: the time of day, eg, **07:35:00**, or **15:45:00**.
-     */
-    protected function replaceLegacyPlaceholders($template)
-    {
-        if (strpos($template, '%') === false) {
-            return $template;
-        }
-
-        $mapping = array(
-            '%day%' => 'd',
-            '%shortMonth%' => 'MMM',
-            '%longMonth%' => 'MMMM',
-            '%shortDay%' => 'EEE',
-            '%longDay%' => 'EEEE',
-            '%longYear%' => 'y',
-            '%shortYear%' => 'yy',
-            '%time%' => 'HH:mm:ss'
-        );
-
-        return str_replace(array_keys($mapping), array_values($mapping), $template);
     }
 
     protected function formatToken($token)
