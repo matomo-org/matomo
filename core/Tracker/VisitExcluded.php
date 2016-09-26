@@ -89,9 +89,9 @@ class VisitExcluded
          * @param bool &$excluded Whether the request should be excluded or not. Initialized
          *                        to `false`. Event subscribers should set it to `true` in
          *                        order to exclude the request.
-         * @param Request $request Additional Informations for plugins to decide, if the visit is excluded
-         * @param bool|string $userAgent Additional Informations for plugins to decide, if the visit is excluded
-         * @param bool|string $ip Additional Informations for plugins to decide, if the visit is excluded       
+         * @param Request $request The request object which contains all of the request's information
+         * @param bool|string $userAgent The user-agent used by the visitor
+         * @param bool|string $ip The IP-address of the visitor
          */
         Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded, $this->request, $this->userAgent, $this->ip));
 
