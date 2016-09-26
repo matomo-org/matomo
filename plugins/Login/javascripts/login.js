@@ -60,7 +60,7 @@
             var ajaxDone = function (response) {
                 $('.loadingPiwik').hide();
 
-                var isSuccess = response.indexOf('message_error') === -1,
+                var isSuccess = response.indexOf('piwik-notification') === -1,
                     fadeOutIds = '.resetForm .message_container';
                 if (isSuccess) {
                     fadeOutIds += ',#reset_form,#reset_form_nav';
@@ -72,6 +72,7 @@
                     }
 
                     $('.resetForm .message_container').html(response).fadeIn(300);
+                    piwikHelper.compileAngularComponents('.resetForm .message_container');
                 });
             };
 

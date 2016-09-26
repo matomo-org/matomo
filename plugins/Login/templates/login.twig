@@ -72,7 +72,9 @@
                         {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}
 
                         {% if AccessErrorString %}
-                            <div class="message_error">
+                            <div piwik-notification
+                                 noclear="true"
+                                 context="error">
                                 <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
                             </div>
                         {% endif %}
