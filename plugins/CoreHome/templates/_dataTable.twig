@@ -12,6 +12,7 @@
 <div class="card-content">
     {% if properties.title %}
         <h2 class="card-title"
+            {% if properties.title_edit_entity_url %}edit-url="{{ properties.title_edit_entity_url }}"{% endif %}
               piwik-enriched-headline
         >{{ properties.title }}</h2>
     {% endif %}

@@ -23,6 +23,7 @@ use Piwik\Plugins\Goals\Pages;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
+use Piwik\Url;
 use Piwik\Widget\WidgetsList;
 
 class Get extends Base
@@ -101,9 +102,10 @@ class Get extends Base
     {
         $idGoal = Common::getRequestVar('idGoal', 0, 'string');
 
+        $idSite = $this->getIdSite();
+
         if ($view->isViewDataTableId(Sparklines::ID)) {
             /** @var Sparklines $view */
-            $idSite = $this->getIdSite();
             $isEcommerceEnabled = $this->isEcommerceEnabled($idSite);
 
             $onlySummary = Common::getRequestVar('only_summary', 0, 'int');
@@ -182,6 +184,17 @@ class Get extends Base
                 }
             }
         } else if ($view->isViewDataTableId(Evolution::ID)) {
+            if (!empty($idSite) && Piwik::isUserHasAdminAccess($idSite)) {
+                $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified(array(
+                    'module' => 'Goals',
+                    'action' => 'manage',
+                    'forceView' => null,
+                    'viewDataTable' => null,
+                    'showtitle' => null,
+                    'random' => null
+                ));
+            }
+
             $goal = $this->getGoal($idGoal);
             if (!empty($goal['name'])) {
                 $view->config->title = Piwik::translate('Goals_GoalX', "'" . $goal['name'] . "'");

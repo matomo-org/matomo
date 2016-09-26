@@ -275,6 +275,14 @@ class Config
     public $title = '';
 
     /**
+     * If a URL is set, the title of the report will be clickable. Is supposed to be set for entities that can be
+     * configured (edited) such as goal. Eg when there is a goal report, and someone is allowed to edit the goal entity,
+     * a link is supposed to be with a URL to the edit goal form.
+     * @var string
+     */
+    public $title_edit_entity_url = '';
+
+    /**
      * The report description. eg like a goal description
      */
     public $description = '';
