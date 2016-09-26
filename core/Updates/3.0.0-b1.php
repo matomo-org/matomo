@@ -92,37 +92,25 @@ class Updates_3_0_0_b1 extends Updates
      */
     private function getBigIntPreventOverflowMigrations($queries)
     {
-        $queries[] = $this->migration->db->changeColumnTypes('log_action', array(
-            'idaction' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT'
-        ));
-
         $queries[] = $this->migration->db->changeColumnTypes('log_visit', array(
             'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT'
         ));
 
         $queries[] = $this->migration->db->changeColumnTypes('log_conversion_item', array(
             'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_sku' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_name' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_category' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_category2' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_category3' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_category4' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_category5' => 'BIGINT(10) UNSIGNED NOT NULL',
         ));
 
         $queries[] = $this->migration->db->changeColumnTypes('log_conversion', array(
             'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_url' => 'BIGINT(10) UNSIGNED default NULL',
             'idlink_va' => 'BIGINT(10) UNSIGNED default NULL',
         ));
 
         $queries[] = $this->migration->db->changeColumnTypes('log_link_visit_action', array(
             'idlink_va' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT',
             'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
-            'idaction_url_ref' => 'BIGINT(10) UNSIGNED NULL DEFAULT 0',
-            // Note; this column is also made NULLable #9231
-            'idaction_name_ref' => 'BIGINT(10) UNSIGNED NULL',
+
+            // Note; this column is made NULLable for #9231
+            'idaction_name_ref' => 'INTEGER(10) UNSIGNED NULL',
         ));
 
         return $queries;

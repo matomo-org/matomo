@@ -17,7 +17,7 @@ use Piwik\Tracker\Request;
 class ContentInteraction extends ActionDimension
 {
     protected $columnName = 'idaction_content_interaction';
-    protected $columnType = 'BIGINT(10) UNSIGNED DEFAULT NULL';
+    protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
 
     protected function configureSegments()
     {

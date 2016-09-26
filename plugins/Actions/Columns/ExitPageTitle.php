@@ -18,7 +18,7 @@ use Piwik\Tracker\Visitor;
 class ExitPageTitle extends VisitDimension
 {
     protected $columnName = 'visit_exit_idaction_name';
-    protected $columnType = 'BIGINT(10) UNSIGNED NULL';
+    protected $columnType = 'INTEGER(10) UNSIGNED NULL';
 
     protected function configureSegments()
     {
