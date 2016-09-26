@@ -17,7 +17,7 @@ use Piwik\Plugin\Dimension\ActionDimension;
 class IdPageview extends ActionDimension
 {
     protected $columnName = 'idpageview';
-    protected $columnType = 'CHAR(16) NULL DEFAULT NULL';
+    protected $columnType = 'CHAR(6) NULL DEFAULT NULL';
 
     /**
      * @param Request $request

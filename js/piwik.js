@@ -3797,7 +3797,7 @@ if (typeof window.Piwik !== 'object') {
                 var charLen = chars.length;
                 var i;
 
-                for (i = 0; i < 16; i++) {
+                for (i = 0; i < 6; i++) {
                     id += chars.charAt(Math.floor(Math.random() * charLen));
                 }
 

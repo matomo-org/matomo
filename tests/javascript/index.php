@@ -3267,7 +3267,7 @@ if ($mysql) {
         tracker.trackPageView();
 
         var idPageview = tracker.getConfigIdPageView();
-        ok(/([0-9a-zA-Z]){16}/.test(idPageview), 'trackPageview, should generate a random pageview id');
+        ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
 
         equal(tracker.getCustomDimension(1), "my custom value", "custom dimensions should not be cleared after a tracked pageview");
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
@@ -3276,7 +3276,7 @@ if ($mysql) {
 
         var idPageviewCustomTitle = tracker.getConfigIdPageView();
         ok(idPageviewCustomTitle != idPageview, 'trackPageview, should generate a new random pageview id whenever it is called');
-        ok(/([0-9a-zA-Z]){16}/.test(idPageviewCustomTitle), 'trackPageview, new generated random pageview id should be 16 char a-Z0-9 as well');
+        ok(/([0-9a-zA-Z]){6}/.test(idPageviewCustomTitle), 'trackPageview, new generated random pageview id should be 16 char a-Z0-9 as well');
 
         var customUrlShouldNotChangeCampaign = "http://localhost.localdomain/?utm_campaign=NONONONONONONO&utm_term=PLEASE NO!";
         tracker.setCustomUrl(customUrl);
