@@ -480,7 +480,7 @@ class Config
             Metrics::getDefaultProcessedMetrics()
         );
 
-        $this->show_title = Common::getRequestVar('showtitle', 0, 'int');
+        $this->show_title = (bool)Common::getRequestVar('showtitle', 0, 'int');
     }
 
     /**

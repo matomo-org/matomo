@@ -74,7 +74,7 @@ class Sparklines extends ViewDataTable
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
         $view->title = '';
-        if ($_GET['showtitle'] === '1') {
+        if ($this->config->show_title) {
             $view->title = $this->config->title;
         }
 
