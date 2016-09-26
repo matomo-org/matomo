@@ -10,10 +10,12 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
 use Piwik\Log;
 use Piwik\Timer;
@@ -50,8 +52,8 @@ class PluginsArchiver
     public function __construct(Parameters $params, $isTemporaryArchive)
     {
         $this->params = $params;
-
-        $this->archiveWriter = new ArchiveWriter($this->params, $isTemporaryArchive);
+        $this->isTemporaryArchive = $isTemporaryArchive;
+        $this->archiveWriter = new ArchiveWriter($this->params, $this->isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);
@@ -106,7 +108,7 @@ class PluginsArchiver
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
 
             /** @var Archiver $archiver */
-            $archiver = new $archiverClass($this->archiveProcessor);
+            $archiver = $this->makeNewArchiverObject($archiverClass, $pluginName);
 
             if (!$archiver->isEnabled()) {
                 Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -198,9 +200,9 @@ class PluginsArchiver
             return true;
         }
         if (Rules::shouldProcessReportsAllPlugins(
-                            $this->params->getIdSites(),
-                            $this->params->getSegment(),
-                            $this->params->getPeriod()->getLabel())) {
+            $this->params->getIdSites(),
+            $this->params->getSegment(),
+            $this->params->getPeriod()->getLabel())) {
             return true;
         }
 
@@ -235,5 +237,29 @@ class PluginsArchiver
         $toSum = Metrics::getVisitsMetricNames();
         $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
         return $metrics;
+    }
+
+
+    /**
+     * @param $archiverClass
+     * @return Archiver
+     */
+    private function makeNewArchiverObject($archiverClass, $pluginName)
+    {
+        $archiver = new $archiverClass($this->archiveProcessor);
+
+        /**
+         * Triggered right after a new **plugin archiver instance** is created.
+         * Subscribers to this event can configure the plugin archiver, for example prevent the archiving of a plugin's data
+         * by calling `$archiver->disable()` method.
+         *
+         * @param \Piwik\Plugin\Archiver &$archiver The newly created plugin archiver instance.
+         * @param string $pluginName The name of plugin of which archiver instance was created.
+         * @param array $this->params Array containing archive parameters (Site, Period, Date and Segment)
+         * @param bool $this->isTemporaryArchive Flag indicating whether the archive being processed is temporary (ie. the period isn't finished yet) or final (the period is already finished and in the past).
+         */
+        Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
+
+        return $archiver;
     }
 }
