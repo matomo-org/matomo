@@ -402,7 +402,7 @@ class Model
 
         $orderBy = '';
         if (count($bindIdSites) <= 1) {
-            $orderBy = 'idsite, ';
+            $orderBy = 'idsite ' . $filterSortOrder . ', ';
         }
 
         $orderBy .= "visit_last_action_time " . $filterSortOrder;
