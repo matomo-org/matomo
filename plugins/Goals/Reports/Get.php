@@ -111,6 +111,10 @@ class Get extends Base
             $onlySummary = Common::getRequestVar('only_summary', 0, 'int');
 
             if ($onlySummary && !empty($idGoal)) {
+                if (is_numeric($idGoal)) {
+                    $view->config->title_attributes = array('piwik-goal-page-link' => $idGoal);
+                }
+
                 // in Goals overview summary we show proper title for a goal
                 $goal = $this->getGoal($idGoal);
                 if (!empty($goal['name'])) {

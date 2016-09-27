@@ -246,6 +246,7 @@ class Goals extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "plugins/Goals/angularjs/common/directives/goal-page-link.js";
         $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.controller.js";
         $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.directive.js";
     }
