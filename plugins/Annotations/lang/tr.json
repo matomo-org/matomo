@@ -15,8 +15,8 @@
         "InlineQuickHelp": "Önemli etkinlikleri (yeni blog iletileri ya da web sitesi tasarım değişiklikleri gibi), veri incelemelerinizi ya da önemli olduğunu düşündüğünüz konuları kaydetmek için notlar oluşturabilirsiniz.",
         "LoginToAnnotate": "Not eklemek için oturum açın.",
         "NoAnnotations": "Bu tarih aralığında bir not yok.",
-        "PluginDescription": "Websiteniz de yaptığınız değişiklikleri farklı günlerde belirtmek için not eklemeye izin verir, veriniz ile ilgili analizleri saklar ve bunları meslektaşlarınız ile birlikte paylaşmanıza izn verir. Neden o veriye baktığınızı hatırlamanızdan emin olmak için veriye dipnot koyar.",
-        "ViewAndAddAnnotations": "%s için notları göster ve yeni not ekle...",
-        "YouCannotModifyThisNote": "Bunu değiştiremezsiniz. Bunun için bu siteye yönetici erişiminiz olması gerekli."
+        "PluginDescription": "Bu özellik web sitenizde farklı günlerde yaptığınız değişiklikleri veri incelemeleri ve düşüncelerinizi çalışma arkadaşlarınızla paylaşmak için notlar eklenmesini sağlar. Verilerinize not ekleyerek neden bu şekilde görüntülendiklerini hatırlayabilirsiniz.",
+        "ViewAndAddAnnotations": "%s için notları görüntüle ve yeni not ekle...",
+        "YouCannotModifyThisNote": "Bu notu siz oluşturmadığınız ya da yönetici yetkileriniz olmadığı için düzenleyemezsiniz."
     }
 }

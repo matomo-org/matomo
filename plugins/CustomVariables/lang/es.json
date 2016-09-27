@@ -6,6 +6,18 @@
         "CustomVariablesReportDocumentation": "Este informe contiene información sobre sus Variables Personalizadas. Haga clic en el nombre de una variable para ver la distribución de los valores. %1$s Para más información sobre las Variables Personalizadas en general, lea la %2$sdocumentación de Variables Personalizadas en piwik.org%3$s",
         "PluginDescription": "Variables Personalizadas (nombre, valor) son pares que se pueden asignar mediante la API de Javascript a los visitantes o cualquiera de sus acciones. Piwik luego informará el número de visitas, páginas, las conversiones para cada uno de estos nombres y valores personalizados. Vea las variables personalizadas detalladas para cada usuario y su acción en el registro de visitantes. <br \/> Requerida para utilizar la función de <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\"> Ecommerce Analytics <\/a>!",
         "ScopePage": "ámbito de la página",
-        "ScopeVisit": "alcance de la visita"
+        "ScopeVisit": "alcance de la visita",
+        "ScopeX": "Ambito %s",
+        "Index": "Indice",
+        "Usages": "Usos",
+        "Unused": "No usado",
+        "CreateNewSlot": "Aumente el número de vacantes disponibles de Medidas personalizadas",
+        "UsageDetails": "%1$s visitas y %2$s acciones desde la creación de este sitio.",
+        "CreatingCustomVariableTakesTime": "Crear una nueva variable personalizada puede tomar un cierto tiempo dependiendo del tamaño de su base de datos. Por lo tanto, sólo es posible hacerlo vía un comando que necesita ser ejecutado desde la línea de comando.",
+        "CurrentAvailableCustomVariables": "Actualmente puede usar hasta %s Variables personalizadas por sitio.",
+        "ToCreateCustomVarExecute": "Para crear una nueva variable personalizada ejecute el siguiente comando dentro de su instalación Piwik:",
+        "SlotsReportIsGeneratedOverTime": "Los datos de este informe irán aumentando con el tiempo. Puede tomar un día o dos para ver cualquier dato y unas pocas semanas hasta que el informe sea totalmente exacto.",
+        "MetricsAreOnlyAvailableForVisitScope": "Nota: %1$s métricas están disponibles solo para las Variables personalizadas de alcance %2$s.",
+        "MetricsNotAvailableForPageScope": "Para Variables personalizadas de alcance %1$s, el valor de estas métricas es %2$s"
     }
 }

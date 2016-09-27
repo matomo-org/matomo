@@ -77,6 +77,7 @@
         "NewGoalIntro": "El seguimiento de las conversiones del objetivo es una de las maneras más eficaces para medir y mejorar las metas de negocio.",
         "NewVisitorsConversionRateIs": "La tasa de visitantes nuevos es %s",
         "NoGoalsNeedAccess": "Solo un Administrador o un usuario con permisos de Super Usuario puede gestionar Objetivos para un determinado sitio web. Por favor, consulte a su administrador de Piwik para establecer Objetivos para su sitio web. <br> ¡Hacer un seguimiento de los Objetivos es una gran manera de ayudar a entender y maximizar el rendimiento de su sitio web!",
+        "NoConversionsNoReportsMessage": "Los informes no se muestran porque no hay datos de conversión para el objetivo y período seleccionado.",
         "NeedAccess": "Solo un Administrador o un usuario con permisos de Super Usuario puede gestionar Objetivos para un determinado sitio web.",
         "Optional": "(opcional)",
         "OverallConversionRate": "%s tasa global de la conversión (visitas con un objetivo completado)",
