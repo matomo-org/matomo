@@ -217,6 +217,7 @@ class Plugin
     }
 
     /**
+     * @ignore
      * @deprecated since 2.15.0 use {@link registerEvents()} instead.
      * @return array
      */
