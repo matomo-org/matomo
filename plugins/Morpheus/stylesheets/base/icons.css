@@ -230,10 +230,10 @@
     content: "\e640";
 }
 .icon-user-add:before {
-    content: "\e641";
+    content: "\e642";
 }
 .icon-user:before {
-    content: "\e642";
+    content: "\e641";
 }
 .icon-play:before {
     content: "\e643";
