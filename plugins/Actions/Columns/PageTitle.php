@@ -15,7 +15,7 @@ use Piwik\Plugins\Actions\Segment;
 class PageTitle extends ActionDimension
 {
     protected $columnName = 'idaction_name';
-    protected $columnType = 'BIGINT(10) UNSIGNED';
+    protected $columnType = 'INTEGER(10) UNSIGNED';
 
     protected function configureSegments()
     {

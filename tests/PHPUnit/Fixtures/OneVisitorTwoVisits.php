@@ -50,10 +50,11 @@ class OneVisitorTwoVisits extends Fixture
 
         $overflow = $this->maxUnsignedIntegerValue;
 
+        // overflow in log_visit
         $table = Common::prefixTable('log_visit');
         Db::query("INSERT INTO $table (idvisit) VALUES ($overflow)");
-        $table = Common::prefixTable('log_action');
-        Db::query("INSERT INTO $table (idaction) VALUES ($overflow)");
+
+        // overflow in log_link_visit_action
         $table = Common::prefixTable('log_link_visit_action');
         Db::query("INSERT INTO $table (idlink_va) VALUES ($overflow)");
 

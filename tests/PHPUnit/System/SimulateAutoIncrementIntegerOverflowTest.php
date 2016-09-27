@@ -40,7 +40,6 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
     {
         $fieldsThatShouldNotOverflow = array(
             'log_visit' => 'idvisit',
-            'log_action' => 'idaction',
             'log_link_visit_action' => 'idlink_va'
         );
         $this->assertGreaterThan(4294967294, self::$fixture->maxUnsignedIntegerValue);
