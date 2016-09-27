@@ -1,12 +1,12 @@
 @font-face {
     font-family: 'piwik';
-    src: url('plugins/Morpheus/fonts/piwik.ttf');
+    src: url('plugins/Morpheus/fonts/piwik.woff?42xrco') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
-    font-family: 'piwik';
+    font-family: 'piwik' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -19,6 +19,18 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-dashboard:before {
+  content: "\e871";
+}
+.icon-help2:before {
+  content: "\e887";
+}
+.icon-help_outline:before {
+  content: "\e8fd";
+}
+.icon-settings:before {
+  content: "\e8b8";
+}
 .icon-alien:before {
     content: "\e600";
 }
