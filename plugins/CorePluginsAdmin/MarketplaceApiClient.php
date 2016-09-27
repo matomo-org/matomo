@@ -133,7 +133,7 @@ class MarketplaceApiClient
     {
         ksort($params);
         $params['piwik'] = self::getPiwikVersion();
-        $params['php'] = phpversion();
+        $params['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
         $query = http_build_query($params);
 
         $cacheId = $this->getCacheKey($action, $query);
