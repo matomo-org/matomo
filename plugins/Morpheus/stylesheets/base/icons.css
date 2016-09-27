@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'piwik';
-    src: url('plugins/Morpheus/fonts/piwik.woff?42xrco') format('woff');
+    src: url('plugins/Morpheus/fonts/piwik.woff?42xrcb') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -19,17 +19,14 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-dashboard:before {
-  content: "\e871";
-}
-.icon-help2:before {
-  content: "\e887";
-}
-.icon-help_outline:before {
-  content: "\e8fd";
-}
 .icon-settings:before {
   content: "\e8b8";
+}
+.icon-info2:before {
+    content: "\e88e";
+}
+.icon-info_outline:before {
+    content: "\e88f";
 }
 .icon-alien:before {
     content: "\e600";
