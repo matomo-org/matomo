@@ -59,7 +59,9 @@ class FileTest extends IntegrationTestCase
     private function makeNotWritableFile()
     {
         $path = $this->dir . 'file-made-non-writable.js';
-        chmod($path, 0777);
+        if(file_exists($path)) {
+            chmod($path, 0777);
+        }
         $file = new File($path);
         $file->save('will be saved OK, and then we make it non writable.');
 
