@@ -614,13 +614,13 @@ class Request
 
         Common::printDebug("We manage the cookie...");
 
-        $cookie = $this->makeThirdPartyCookie();
+        $cookie = $this->makeThirdPartyCookieUID();
         // idcookie has been generated in handleNewVisit or we simply propagate the old value
         $cookie->set(0, bin2hex($idVisitor));
         $cookie->save();
     }
 
-    protected function makeThirdPartyCookie()
+    protected function makeThirdPartyCookieUID()
     {
         $cookie = new Cookie(
             $this->getCookieName(),
@@ -684,7 +684,7 @@ class Request
             // - By default, reads the first party cookie ID
             $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
             if ($useThirdPartyCookie) {
-                $cookie = $this->makeThirdPartyCookie();
+                $cookie = $this->makeThirdPartyCookieUID();
                 $idVisitor = $cookie->get(0);
                 if ($idVisitor !== false
                     && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING

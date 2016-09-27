@@ -451,14 +451,14 @@ class RequestTest extends UnitTestCase
 
     public function test_makeThirdPartyCookie_ShouldReturnAnInstanceOfCookie()
     {
-        $cookie = $this->request->makeThirdPartyCookie();
+        $cookie = $this->request->makeThirdPartyCookieUID();
 
         $this->assertTrue($cookie instanceof Cookie);
     }
 
     public function test_makeThirdPartyCookie_ShouldPreconfigureTheCookieInstance()
     {
-        $cookie = $this->request->makeThirdPartyCookie();
+        $cookie = $this->request->makeThirdPartyCookieUID();
 
         $this->assertCookieContains('COOKIE _pk_uid', $cookie);
         $this->assertCookieContains('expire: 1450750817', $cookie);
@@ -595,9 +595,9 @@ class TestRequest extends Request
         return parent::getCookiePath();
     }
 
-    public function makeThirdPartyCookie()
+    public function makeThirdPartyCookieUID()
     {
-        return parent::makeThirdPartyCookie();
+        return parent::makeThirdPartyCookieUID();
     }
 
     public function setIsAuthenticated()
