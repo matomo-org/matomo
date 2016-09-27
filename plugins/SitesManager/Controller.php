@@ -141,6 +141,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('siteWithoutData', array(
             'siteName'     => $this->site->getName(),
+            'idSite' => $this->site->getId(),
             'trackingHelp' => $this->renderTemplate('_displayJavascriptCode', array(
                 'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
                 'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),
