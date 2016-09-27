@@ -63,8 +63,15 @@ class FileTest extends IntegrationTestCase
         $file = new File($path);
         $file->save('will be saved OK, and then we make it non writable.');
 
-        chmod($path, 0444);
-        chmod($this->dir, 0444);
+        if (!chmod($path, 0444)) {
+            throw new \Exception("chmod on the file didn't work");
+        }
+        if (!chmod(dirname($path), 0755)) {
+            throw new \Exception("chmod on the directory didn't work");
+        }
+        $this->assertTrue(is_writable(dirname($path)));
+        $this->assertFalse(is_writable($path));
+        $this->assertTrue(file_exists($path));
         return $file;
     }
 
