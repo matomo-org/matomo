@@ -123,9 +123,14 @@ class MarketplaceApiClient
         return array();
     }
 
+    private function getPhpVersion()
+    {
+        return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
+    }
+
     private function fetch($action, $params)
     {
-        $params['php'] = phpversion();
+        $params['php'] = $this->getPhpVersion();
         $params['piwik'] = Version::VERSION;
         $params['prefer_stable'] = '1';
         ksort($params);
