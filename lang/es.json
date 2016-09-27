@@ -286,6 +286,7 @@
         "Password": "Contraseña",
         "Period": "Periodo",
         "Piechart": "Gráfica circular",
+        "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$sPiwik%2$s es un proyecto de colaboración traído para ti por los miembros del %7$sequipo de Piwik%8$s así como muchos otros colaboradores alrededor del mundo. <br\/> Si eres un fan de Piwik, puedes ayudar: descubrir %3$sCómo participar en Piwik%4$s, o %5$sdona ahora%6$s para ayudar a financiar Piwik 3.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s está disponible. Por favor alerte al %2$s administrador Piwik%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s está disponible. %2$s ¡Por favor, actualice ahora!%3$s (ver %4$scambios%5$s).",
         "PleaseSpecifyValue": "Por favor especifique un valor para '%s'.",

@@ -62,7 +62,7 @@
         "SetupWebsiteSetupSuccess": "Website %s erfolgreich angelegt!",
         "SetupWebSiteURL": "URL der Website",
         "SiteSetup": "Konfigurieren Sie Ihre erste Website, welche über Piwik getrackt und analyisert werden soll:",
-        "SiteSetupFootnote": "Hinweis: Nachdem die Installation von Piwik fertiggestellt wurde ist es möglich weitere Websites hinzuzufügen!",
+        "SiteSetupFootnote": "Hinweis: Sie können weitere Websites hinzuzufügen sobald die Installation von Piwik abgeschlossen wurde!",
         "SuperUser": "Hauptadministrator",
         "SuperUserLogin": "Hauptadministrator Login",
         "SuperUserSetupError": "Beim Hinzufügen des Hauptadministrators ist ein Fehler aufgetreten.",
