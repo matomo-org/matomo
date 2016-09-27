@@ -135,19 +135,22 @@
 
                 function (timezones) {
 
+                    var scopeTimezones = [];
                     $scope.timezones = [];
 
                     angular.forEach(timezones, function(groupTimezones, timezoneGroup) {
 
                         angular.forEach(groupTimezones, function(label, code) {
 
-                            $scope.timezones.push({
+                            scopeTimezones.push({
                                 group: timezoneGroup,
                                 key: code,
                                 value: label
                             });
                         });
                     });
+
+                    $scope.timezones = scopeTimezones;
                 }
             );
         };

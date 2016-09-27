@@ -84,25 +84,23 @@
                 <div piwik-form-field="setting" all-settings="settingsPerPlugin.settings"></div>
             </div>
         </div>
-
-        <div class="form-group row">
-            <div class="col s12 m6 input-field">
-                <select ng-model="site.currency" ng-options="k as v for (k, v) in currencies"></select>
-                <label>{{ 'SitesManager_Currency'|translate }}</label>
-            </div>
-            <div class="col s12 m6 form-help">
-                {{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}
-            </div>
+        
+        <div piwik-field uicontrol="select" name="currency"
+             ng-model="site.currency"
+             title="{{ 'SitesManager_Currency'|translate }}"
+             inline-help="{{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}"
+             options='currencies'>
         </div>
 
-        <div class="form-group row">
-            <div class="col s12 m6 input-field">
-                <select ng-model="site.timezone" ng-options="t.key as t.value group by t.group for t in timezones"></select>
-                <label>{{ 'SitesManager_Timezone'|translate }}</label>
-            </div>
-            <div class="col s12 m6 form-help">
-                <div ng-include="'plugins/SitesManager/templates/help/timezone-help.html'"></div>
-            </div>
+        <div piwik-field uicontrol="select" name="timezone"
+             ng-model="site.timezone"
+             title="{{ 'SitesManager_Timezone'|translate }}"
+             inline-help="#timezoneHelpText"
+             options='timezones'>
+        </div>
+
+        <div id="timezoneHelpText" class="inline-help-node">
+            <div ng-include="'plugins/SitesManager/templates/help/timezone-help.html'"></div>
         </div>
 
         <div class="editingSiteFooter">
