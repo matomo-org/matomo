@@ -60,7 +60,10 @@ class File
      */
     public function hasWriteAccess()
     {
-        return is_writable($this->file);
+        if(file_exists($this->file) && !is_writable($this->file)) {
+            return false;
+        }
+        return is_writable(dirname($this->file)) || is_writable($this->file);
     }
 
     /**
