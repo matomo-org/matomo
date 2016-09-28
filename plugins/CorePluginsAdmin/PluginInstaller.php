@@ -12,6 +12,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Unzip;
 
@@ -48,6 +49,11 @@ class PluginInstaller
             $this->copyPluginToDestination($tmpPluginFolder);
 
             Filesystem::deleteAllCacheOnUpdate($this->pluginName);
+
+            $plugin = PluginManager::getInstance()->getLoadedPlugin($this->pluginName);
+            if (!empty($plugin)) {
+                $plugin->reloadPluginInformation();
+            }
 
         } catch (\Exception $e) {
 
@@ -160,7 +166,10 @@ class PluginInstaller
             $requires = (array) $metadata->require;
         }
 
+        $piwikVersion = MarketplaceApiClient::getPiwikVersion();
+
         $dependency = new PluginDependency();
+        $dependency->setPiwikVersion($piwikVersion);
         $missingDependencies = $dependency->getMissingDependencies($requires);
 
         if (!empty($missingDependencies)) {

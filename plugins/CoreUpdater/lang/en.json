@@ -1,5 +1,6 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Checking for new plugin updates",
         "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries that will get executed",
         "CriticalErrorDuringTheUpgradeProcess": "Critical Error during the update process:",
         "DatabaseUpgradeRequired": "Database Upgrade Required",
@@ -23,7 +24,7 @@
         "HelpMessageIntroductionWhenError": "The above is the core error message. It should help explain the cause, but if you require further help please:",
         "HelpMessageIntroductionWhenWarning": "The update completed successfuly, however there were issues during the process. Please read the above descriptions for details. For further help:",
         "HighTrafficPiwikServerEnableMaintenance": "If you manage a high traffic Piwik server, we recommend to %1$smomentarily disable visitor Tracking and put the Piwik User Interface in maintenance mode%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Note: some plugins are not compatible with Piwik %s. They will be disabled when you upgrade:",
+        "IncompatbilePluginsWillBeDisabledInfo": "Note: some plugins are not compatible with Piwik %s. We will update them if there is an update on the Marketplace, otherwise we will be disable them when you upgrade:",
         "InstallingTheLatestVersion": "Installing the latest version",
         "LatestBetaRelease": "Latest beta release",
         "LatestStableRelease": "Latest stable release",
@@ -52,6 +53,7 @@
         "UpdateAutomatically": "Update Automatically",
         "UpdateHasBeenCancelledExplanation": "Piwik One Click Update has been cancelled. If you can't fix the above error message, it is recommended that you manually update Piwik. %1$s Please check out the %2$sUpdate documentation%3$s to get started!",
         "UpdateTitle": "Update",
+        "UpdatingPluginXToVersionY": "Updating plugin %1$s to version %2$s",
         "UpdateSuccessTitle": "Piwik has been successfully updated!",
         "UpdateErrorTitle": "Update error",
         "ThankYouUpdatePiwik": "Thank you for using Piwik and keeping it up to date!",
