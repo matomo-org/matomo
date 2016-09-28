@@ -87,8 +87,7 @@ class VisitRequestProcessor extends RequestProcessor
         // the IP is needed by isExcluded() and GoalManager->recordGoals()
         $visitProperties->setProperty('location_ip', $request->getIp());
 
-        // TODO: move VisitExcluded logic to here (or move to service class stored in DI)
-        $excluded = new VisitExcluded($request, $visitProperties->getProperty('location_ip'));
+        $excluded = new VisitExcluded($request);
         if ($excluded->isExcluded()) {
             return true;
         }
