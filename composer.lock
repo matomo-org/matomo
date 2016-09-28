@@ -981,16 +981,16 @@
         },
         {
             "name": "piwik/referrer-spam-blacklist",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/referrer-spam-blacklist.git",
-                "reference": "7cce0bed292d148822ebad0eb9a286b04d27f340"
+                "reference": "58ecaaf7aced82ddbcc9339e1fc9e7fe9e996eb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/7cce0bed292d148822ebad0eb9a286b04d27f340",
-                "reference": "7cce0bed292d148822ebad0eb9a286b04d27f340",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/58ecaaf7aced82ddbcc9339e1fc9e7fe9e996eb8",
+                "reference": "58ecaaf7aced82ddbcc9339e1fc9e7fe9e996eb8",
                 "shasum": ""
             },
             "type": "library",
@@ -999,20 +999,20 @@
                 "Public Domain"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2016-07-20 19:55:33"
+            "time": "2016-09-28 16:10:53"
         },
         {
             "name": "piwik/searchengine-and-social-list",
-            "version": "1.3.3",
+            "version": "1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/searchengine-and-social-list.git",
-                "reference": "07046e6c6472f3cf7751f45f7b1f1657dcf920e7"
+                "reference": "ef1547e4e3e64d5eb174e75a3bfa3906f33e3108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/07046e6c6472f3cf7751f45f7b1f1657dcf920e7",
-                "reference": "07046e6c6472f3cf7751f45f7b1f1657dcf920e7",
+                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/ef1547e4e3e64d5eb174e75a3bfa3906f33e3108",
+                "reference": "ef1547e4e3e64d5eb174e75a3bfa3906f33e3108",
                 "shasum": ""
             },
             "type": "library",
@@ -1021,7 +1021,7 @@
                 "Public Domain"
             ],
             "description": "Search engine and social network definitions used by Piwik",
-            "time": "2016-09-18 14:28:00"
+            "time": "2016-09-22 08:52:36"
         },
         {
             "name": "psr/log",
