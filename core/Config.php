@@ -376,15 +376,18 @@ class Config
      */
     protected function writeConfig($clear = true)
     {
-        if ($this->doNotWriteConfigInTests) {
-            return;
-        }
-
         $output = $this->dumpConfig();
         if ($output !== null
             && $output !== false
         ) {
-            $success = @file_put_contents($this->getLocalPath(), $output);
+
+            if ($this->doNotWriteConfigInTests) {
+                // simulate whether it would be successful
+                $success = is_writable($this->getLocalPath());
+            } else {
+                $success = @file_put_contents($this->getLocalPath(), $output);
+            }
+
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
