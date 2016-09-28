@@ -91,8 +91,6 @@ class VisitExcluded
          *                        order to exclude the request.
          * @param Request $request The request object which contains all of the request's information
          *
-         * The additional parameters $userAgent and $ip are needed, because the values in the 
-         * object $request are empty when the constructor is called from the log-import.
          */
         Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded, $this->request));
 
