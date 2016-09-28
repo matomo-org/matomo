@@ -90,13 +90,11 @@ class VisitExcluded
          *                        to `false`. Event subscribers should set it to `true` in
          *                        order to exclude the request.
          * @param Request $request The request object which contains all of the request's information
-         * @param bool|string $userAgent The user-agent used by the visitor
-         * @param bool|string $ip The IP-address of the visitor
          *
          * The additional parameters $userAgent and $ip are needed, because the values in the 
          * object $request are empty when the constructor is called from the log-import.
          */
-        Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded, $this->request, $this->userAgent, $this->ip));
+        Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded, $this->request));
 
         /*
          * Following exclude operations happen after the hook.
