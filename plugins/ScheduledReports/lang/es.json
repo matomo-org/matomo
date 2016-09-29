@@ -29,6 +29,7 @@
         "PluginDescription": "Cree informes personalizados y prográmelos para ser enviados por correo electrónico diaria, semanal o mensualmente a uno o varias personas. Algunos formatos de informe están soportados (html, pdf, csv, imágenes).",
         "ReportFormat": "Formato del informe",
         "ReportHour": "Enviar informe a las %s horas",
+        "ReportHourWithUTC": "Enviar informe a las %1$s en punto (%2$s UTC)",
         "ReportIncludeNWebsites": "El informe incluirá las principales métricas para todos los sitios de internet con al menos una visita (de todo %s los sitios de internet disponibles).",
         "ReportSent": "Informe enviado",
         "ReportsIncluded": "Estadísticas incluidas",

@@ -62,7 +62,13 @@ class TrackerUpdaterTest extends IntegrationTestCase
      * @expectedException \Piwik\Plugins\CustomPiwikJs\Exception\AccessDeniedException
      * @expectedExceptionMessage not writable
      */
-    public function test_checkWillSucceed_shouldThrowExceptionIfTargetIsNotWritable()
+    public function test_checkWillSucceed_shouldNotThrowExceptionIfTargetIsNotWritable()
+    {
+        $updater = $this->makeUpdater(null, $this->dir . 'not-writable/MyNotExisIngFilessss.js');
+        $updater->checkWillSucceed();
+    }
+
+    public function test_checkWillSucceed_shouldNotThrowExceptionIfTargetIsWritable()
     {
         $updater = $this->makeUpdater(null, $this->dir . 'MyNotExisIngFilessss.js');
         $updater->checkWillSucceed();

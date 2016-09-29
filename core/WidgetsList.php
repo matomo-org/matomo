@@ -81,7 +81,7 @@ class WidgetsList extends Singleton
                 $v = array_merge($widgets[$category], $v);
             }
 
-            $widgets[$category] = $v;
+            $widgets[$category] = array_values($v);
         }
 
         $cache->save($cacheId, $widgets);

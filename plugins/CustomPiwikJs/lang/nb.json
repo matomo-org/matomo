@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript Sporer (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Piwik JavaScript Sporer filen \"\/piwik.js\" er ikke skrivbar som betyr andre plugins kan ikke forlenge Javascript Sporer. I fremtiden enda noen sentrale funksjoner kanskje ikke fungerer som forventet.",
+        "DiagnosticPiwikJsMakeWritable": "Vi anbefaler å Piwik.js skrivbar ved å kjøre denne kommandoen: %s"
+    }
+}

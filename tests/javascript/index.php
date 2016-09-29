@@ -28,8 +28,6 @@ $targetFileName = '/tests/resources/piwik.test.js';
 $sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
 $targetFile = PIWIK_DOCUMENT_ROOT . $targetFileName;
 
-file_put_contents($targetFile, '');
-
 $updater = new TrackerUpdater($sourceFile, $targetFile);
 $updater->setTrackerFiles(new JsTestPluginTrackerFiles());
 $updater->checkWillSucceed();

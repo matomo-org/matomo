@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Αρχείο παρακολούθησης JavaScript (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Το αρχείο παρακολούθησης JavaScript \"\/piwik.js\" δεν είναι εγγράψιμο που σημαίνει ότι άλλα πρόσθετα δεν μπορούν να επεκτείνουν την κλάση παρακολούθησης. Στο μέλλον ορισμένα χαρακτηριστικά του πυρήνα δε θα δουλεύουν όπως πρέπει.",
+        "DiagnosticPiwikJsMakeWritable": "Προτείνεται να κάνετε το αρχείο Piwik.js εγγράψιμο εκτελώντας αυτή την εντολή: %s"
+    }
+}

@@ -9,6 +9,7 @@
         "TopLinkTooltip": "Acceda a sus datos de análisis de internet programáticamente, a través de una sencilla API en json, xml, etc.",
         "UserAuthentication": "Autenticación de usuario",
         "UsingTokenAuth": "Si quieres %1$s solicitar datos dentro de un script, un crontab, etc. %2$s tiene que agregar el parámetro %3$s a las llamadas a la URL de la API que requieren autenticación.",
-        "Glossary": "Glosario"
+        "Glossary": "Glosario",
+        "LearnAboutCommonlyUsedTerms": "Obtenga más información de los términos que se utilizan más frecuentemente para aprovechar al máximo de las analíticas de Piwik. %1$s y %2$s."
     }
 }

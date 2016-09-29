@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Updater\UpdateObserver;
 use Zend_Db_Exception;
 
@@ -257,8 +258,8 @@ class Updater
                 $this->markComponentSuccessfullyUpdated($componentName, $fileVersion);
             } catch (UpdaterErrorException $e) {
                 $this->executeListenerHook('onError', array($componentName, $fileVersion, $e));
-
                 throw $e;
+
             } catch (\Exception $e) {
                 $warningMessages[] = $e->getMessage();
 
@@ -581,7 +582,9 @@ class Updater
             // make sure to check for them here
             if ($e instanceof Zend_Db_Exception) {
                 throw new UpdaterErrorException($e->getMessage(), $e->getCode(), $e);
-            } else {
+            } else if ($e instanceof MissingFilePermissionException) {
+                throw new UpdaterErrorException($e->getMessage(), $e->getCode(), $e);
+            }{
                 throw $e;
             }
         }

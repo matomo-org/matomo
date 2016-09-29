@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Traceur JavaScript inscriptible (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Le fichier du traceur JavaScript Piwik \"\/piwik.js\" ne peut pas être modifié ce qui signifie que les autres composants ne peuvent pas l'enrichir. A l'avenir même certaines fonctionnalités natives pourraient ne pas fonctionner comme prévu.",
+        "DiagnosticPiwikJsMakeWritable": "Nous vous recommandons de permettre l'écriture de Piwik.js en exécutant la commande suivante : %s"
+    }
+}
