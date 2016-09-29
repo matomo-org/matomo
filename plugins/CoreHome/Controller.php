@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Notification\Manager as NotificationManager;
@@ -29,6 +28,7 @@ use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
+use Piwik\Widget\WidgetConfig;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -86,7 +86,31 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        return $widget->render();
+        $config = new WidgetConfig();
+        $widget::configure($config);
+
+        $content = $widget->render();
+
+        if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
+            if (strpos($content, '<h2') !== false
+                || strpos($content, ' content-title=') !== false
+                || strpos($content, ' piwik-enriched-headline') !== false
+                || strpos($content, '<h1') !== false ) {
+                // already includes title
+                return $content;
+            }
+
+            if (strpos($content, 'piwik-content-block') === false
+                && strpos($content, 'card') === false
+                && strpos($content, 'card-content') === false) {
+                $view = new View('@CoreHome/_singleWidget');
+                $view->title = $config->getName();
+                $view->content = $content;
+                return $view->render();
+            }
+        }
+
+        return $content;
     }
 
     function redirectToCoreHomeIndex()

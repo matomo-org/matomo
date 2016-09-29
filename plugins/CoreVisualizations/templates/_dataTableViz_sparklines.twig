@@ -13,7 +13,7 @@
 
             {% for key, sparkline in sparklines %}
                 {% if key is even %}
-                    {{ macros.singleSparkline(sparkline) }}
+                    {{ macros.singleSparkline(sparkline, allMetricsDocumentation) }}
                 {% endif %}
             {% endfor %}
 
@@ -25,7 +25,7 @@
 
             {% for key, sparkline in sparklines %}
                 {% if key is odd %}
-                    {{ macros.singleSparkline(sparkline) }}
+                    {{ macros.singleSparkline(sparkline, allMetricsDocumentation) }}
                 {% endif %}
             {% endfor %}
 

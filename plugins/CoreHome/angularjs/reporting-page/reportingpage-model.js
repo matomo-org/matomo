@@ -47,6 +47,10 @@
                 return true;
             }
 
+            if ('undefined' !== typeof widget.isWide && widget.isWide) {
+                return true;
+            }
+
             return widget.viewDataTable && widget.viewDataTable === 'tableAllColumns';
         }
 
