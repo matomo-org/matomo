@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\View;
 
 /**
  * Generates the Javascript code to be inserted on every page of the website to track.
@@ -46,8 +47,7 @@ class TrackerCodeGenerator
         $disableCookies = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
-        $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/templates/javascriptCode.tpl");
-        $jsCode = htmlentities($jsCode);
+
         if (substr($piwikUrl, 0, 4) !== 'http') {
             $piwikUrl = 'http://' . $piwikUrl;
         }
@@ -150,12 +150,6 @@ class TrackerCodeGenerator
          */
         Piwik::postEvent('Piwik.getJavascriptCode', array(&$codeImpl, $parameters));
 
-        if (!empty($codeImpl['loadAsync'])) {
-            $codeImpl['loadAsync'] = 'true';
-        } else {
-            $codeImpl['loadAsync'] = 'false';
-        }
-
         $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
 
         if (!empty($codeImpl['httpsPiwikUrl'])) {
@@ -163,6 +157,12 @@ class TrackerCodeGenerator
             $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         }
         $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
+
+        $view = new View('@Morpheus/javascriptCode');
+        $view->disableCacheBuster();
+        $view->loadAsync = $codeImpl['loadAsync'];
+        $jsCode = $view->render();
+        $jsCode = htmlentities($jsCode);
 
         foreach ($codeImpl as $keyToReplace => $replaceWith) {
             $jsCode = str_replace('{$' . $keyToReplace . '}', $replaceWith, $jsCode);
