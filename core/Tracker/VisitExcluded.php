@@ -28,25 +28,16 @@ class VisitExcluded
 
     /**
      * @param Request $request
-     * @param bool|string $ip
-     * @param bool|string $userAgent
      */
-    public function __construct(Request $request, $ip = false, $userAgent = false)
+    public function __construct(Request $request)
     {
         $this->spamFilter = new ReferrerSpamFilter();
 
-        if (false === $ip) {
-            $ip = $request->getIp();
-        }
-
-        if (false === $userAgent) {
-            $userAgent = $request->getUserAgent();
-        }
-
         $this->request   = $request;
         $this->idSite    = $request->getIdSite();
-        $this->userAgent = $userAgent;
-        $this->ip = $ip;
+        $userAgent       = $request->getUserAgent();
+        $this->userAgent = Common::unsanitizeInputValue($userAgent);
+        $this->ip        = $request->getIp();
     }
 
     /**
@@ -89,8 +80,10 @@ class VisitExcluded
          * @param bool &$excluded Whether the request should be excluded or not. Initialized
          *                        to `false`. Event subscribers should set it to `true` in
          *                        order to exclude the request.
+         * @param Request $request The request object which contains all of the request's information
+         *
          */
-        Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded));
+        Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded, $this->request));
 
         /*
          * Following exclude operations happen after the hook.

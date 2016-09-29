@@ -69,8 +69,12 @@ class GeneratePlugin extends GeneratePluginBase
                 '/ExamplePlugin.php',
                 '/plugin.json',
                 '/README.md',
+                '/CHANGELOG.md',
                 '/screenshots',
                 '/screenshots/.gitkeep',
+                '/docs',
+                '/docs/faq.md',
+                '/docs/index.md',
             );
         }
 

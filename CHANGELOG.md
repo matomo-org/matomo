@@ -9,6 +9,10 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ### New APIs
 * The Piwik JavaScript tracker has a new method `trackRequest` that allows you to send any tracking parameters to Piwik. For example  `_paq.push(['trackRequest', 'te=foo&bar=baz'])`
 
+### Internal Changes
+* Expected screenshots for UI tests are now stored using Git LFS instead of a submodule. Running, creating or updating UI tests will require Git LFS to be installed.
+The folder containing expected screenshots was renamed from `expected-ui-screenshots` to `expected-screenshots`. The UI-Test-Runner is now able to handle both names.
+
 ## Piwik 2.16.2
 
 ### New APIs

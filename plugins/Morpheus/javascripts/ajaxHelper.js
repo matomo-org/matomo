@@ -151,6 +151,8 @@ function ajaxHelper() {
      */
     this.requestHandle =  null;
 
+    this.defaultParams = ['idSite', 'period', 'date', 'segment'];
+
     /**
      * Adds params to the request.
      * If params are given more then once, the latest given value is used for the request
@@ -316,6 +318,42 @@ function ajaxHelper() {
         }
         this.errorElement = element;
     };
+
+    /**
+     * Detect whether are allowed to use the given default parameter or not
+     * @param string parameter
+     * @returns {boolean}
+     * @private
+     */
+    this._useGETDefaultParameter = function (parameter) {
+        if (parameter && this.defaultParams) {
+            var i;
+            for (i = 0; i < this.defaultParams.length; i++) {
+                if (this.defaultParams[i] === parameter) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes a default parameter that is usually send automatically along the request.
+     *
+     * @param {String} parameter  A name such as "period", "date", "segment".
+     */
+    this.removeDefaultParameter = function (parameter) {
+        if (parameter && this.defaultParams) {
+
+            var i;
+            for (i = 0; i < this.defaultParams.length; i++) {
+                if (this.defaultParams[i] === parameter) {
+                    this.defaultParams.splice(i, 1);
+                }
+            }
+        }
+    }
 
     /**
      * Send the request
@@ -497,13 +535,13 @@ function ajaxHelper() {
         }
 
         for (var key in defaultParams) {
-            if (!params[key] && !this.postParams[key] && defaultParams[key]) {
+            if (this._useGETDefaultParameter(key) && !params[key] && !this.postParams[key] && defaultParams[key]) {
                 params[key] = defaultParams[key];
             }
         }
 
         // handle default date & period if not already set
-        if (!params.date && !this.postParams.date) {
+        if (this._useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
             params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
             if (params.period == 'range' && piwik.currentDateString) {
                 params.date = piwik.startDateString + ',' + params.date;

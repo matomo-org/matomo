@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\View;
 
 /**
  * Generates the Javascript code to be inserted on every page of the website to track.
@@ -46,8 +47,7 @@ class TrackerCodeGenerator
         $disableCookies = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
-        $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/templates/javascriptCode.tpl");
-        $jsCode = htmlentities($jsCode);
+
         if (substr($piwikUrl, 0, 4) !== 'http') {
             $piwikUrl = 'http://' . $piwikUrl;
         }
@@ -119,7 +119,8 @@ class TrackerCodeGenerator
             'piwikUrl'                => Common::sanitizeInputValue($piwikUrl),
             'options'                 => $options,
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
-            'protocol'                => '//'
+            'protocol'                => '//',
+            'loadAsync'               => true
         );
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
             'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
@@ -141,6 +142,7 @@ class TrackerCodeGenerator
          *                                        the JavaScript tracker inside of anonymous function before
          *                                        adding setTrackerUrl into paq.
          *                         - **protocol**: Piwik url protocol.
+         *                         - **loadAsync**: boolean whether piwik.js should be loaded syncronous or asynchronous
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.
@@ -155,6 +157,12 @@ class TrackerCodeGenerator
             $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         }
         $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
+
+        $view = new View('@Morpheus/javascriptCode');
+        $view->disableCacheBuster();
+        $view->loadAsync = $codeImpl['loadAsync'];
+        $jsCode = $view->render();
+        $jsCode = htmlentities($jsCode);
 
         foreach ($codeImpl as $keyToReplace => $replaceWith) {
             $jsCode = str_replace('{$' . $keyToReplace . '}', $replaceWith, $jsCode);

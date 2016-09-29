@@ -35,7 +35,7 @@ class UpdateTracker extends ConsoleCommand
     {
         $sourceFile = $input->getOption('source-file');
         $targetFile = $input->getOption('target-file');
-        $ignoreMinified = $input->hasOption('ignore-minified');
+        $ignoreMinified = (bool)$input->getOption('ignore-minified');
 
         $this->updateTracker($sourceFile, $targetFile, $ignoreMinified);
 

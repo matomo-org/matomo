@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Dashboard;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Category\Subcategory;
 use Piwik\Widget\WidgetConfig;
@@ -21,7 +20,7 @@ use Piwik\Plugin;
 class Dashboard extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -134,37 +133,29 @@ class Dashboard extends \Piwik\Plugin
         $defaultLayout = $this->getLayoutForUser('', 1);
 
         if (empty($defaultLayout)) {
-            $topWidget = '';
-
+            $advertisingWidget = '';
             $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
             if ($advertising->areAdsForProfessionalServicesEnabled() && Plugin\Manager::getInstance()->isPluginActivated('ProfessionalServices')) {
-                $topWidget .= '{"uniqueId":"widgetProfessionalServicespromoServices",'
-                    . '"parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
+                $advertisingWidget = '{"uniqueId":"widgetProfessionalServicespromoServices","parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
             }
-
             if (Piwik::hasUserSuperUserAccess()) {
-                $topWidget .= '{"uniqueId":"widgetCoreHomegetDonateForm",'
-                    . '"parameters":{"module":"CoreHome","action":"getDonateForm"}},';
+                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetDonateForm","parameters":{"module":"CoreHome","action":"getDonateForm"}}';
             } else {
-                $topWidget .= '{"uniqueId":"widgetCoreHomegetPromoVideo",'
-                    . '"parameters":{"module":"CoreHome","action":"getPromoVideo"}},';
+                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
             }
-
             $defaultLayout = '[
                 [
-                    {"uniqueId":"widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution","parameters":{"forceView":"1","viewDataTable":"graphEvolution","module":"VisitsSummary","action":"getEvolutionGraph"}},
                     {"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
-                    {"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"viewDataTable":"cloud","module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
+                    ' . $piwikPromoWidget . '
                 ],
                 [
-                    ' . $topWidget . '
-                    {"uniqueId":"widgetReferrersgetWebsites","parameters":{"module":"Referrers","action":"getWebsites"}},
-                    {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"viewDataTable": "graphVerticalBar","module":"VisitTime","action":"getVisitInformationPerServerTime"}}
+                    {"uniqueId":"widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution","parameters":{"forceView":"1","viewDataTable":"graphEvolution","module":"VisitsSummary","action":"getEvolutionGraph"}},
+                    ' . $advertisingWidget . '
+                    {"uniqueId":"widgetVisitsSummarygetforceView1viewDataTablesparklines","parameters":{"forceView":"1","viewDataTable":"sparklines","module":"VisitsSummary","action":"get"}}
                 ],
                 [
                     {"uniqueId":"widgetUserCountryMapvisitorMap","parameters":{"module":"UserCountryMap","action":"visitorMap"}},
-                    {"uniqueId":"widgetDevicesDetectiongetBrowsers","parameters":{"module":"DevicesDetection","action":"getBrowsers"}},
-                    {"uniqueId":"widgetReferrersgetSearchEngines","parameters":{"module":"Referrers","action":"getSearchEngines"}},
+                    {"uniqueId":"widgetReferrersgetReferrerType","parameters":{"module":"Referrers","action":"getReferrerType"}},
                     {"uniqueId":"widgetRssWidgetrssPiwik","parameters":{"module":"RssWidget","action":"rssPiwik"}}
                 ]
             ]';

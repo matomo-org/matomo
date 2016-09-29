@@ -152,6 +152,41 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
         $this->assertEquals($expected, $jsTag);
     }
 
+    /**
+     * Tests the generated JS code with options before tracker url
+     */
+    public function testJavascriptTrackingCode_loadSync()
+    {
+        $generator = new TrackerCodeGenerator();
+
+        Piwik::addAction('Piwik.getJavascriptCode', function (&$codeImpl) {
+            $codeImpl['loadAsync'] = false;
+        });
+
+        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
+            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true);
+
+        $expected = "&lt;!-- Piwik --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  var _paq = _paq || [];
+  _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=&quot;//localhost/piwik/&quot;;
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    
+  })();
+&lt;/script&gt;
+&lt;script type='text/javascript' src=&quot;//localhost/piwik/piwik.js&quot;&gt;
+&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//localhost/piwik/piwik.php?idsite=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
+&lt;!-- End Piwik Code --&gt;
+";
+
+        $this->assertEquals($expected, $jsTag);
+    }
+
     public function testStringsAreEscaped()
     {
         $generator = new TrackerCodeGenerator();

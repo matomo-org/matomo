@@ -18,6 +18,21 @@ use Piwik\Tests\Framework\Fixture;
  */
 class UpdaterTest extends IntegrationTestCase
 {
+    public function test_doUpdate_reportsAnError_whenMissingFilePermissionException()
+    {
+        $updater = new Updater($pathToCoreUpdates = null, PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/');
+        $updater->markComponentSuccessfullyUpdated('testpluginUpdates', '0.4');
+        $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array('testpluginUpdates' => '0.5'));
+
+        $this->assertEquals(1, count($componentsWithUpdateFile));
+
+        $result = $updater->updateComponents($componentsWithUpdateFile);
+
+        $this->assertTrue( count ($result['errors']) > 0, 'when an update fails because config file is not writable, we expect the updater to report a critical error');
+        $this->assertEquals( 'make sure this exception is thrown', $result['errors'][0]);
+    }
+
+
     public function testUpdaterChecksCoreVersionAndDetectsUpdateFile()
     {
         $updater = new Updater(PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/');

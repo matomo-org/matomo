@@ -29,7 +29,7 @@ class IdPageview extends ActionDimension
      */
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
-        return $request->getParam('pv_id');
+        return substr($request->getParam('pv_id'), 0, 6);
     }
 
     public function getName()

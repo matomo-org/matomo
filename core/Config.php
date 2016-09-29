@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\ProfessionalServices\Advertising;
 
 /**
@@ -375,15 +376,18 @@ class Config
      */
     protected function writeConfig($clear = true)
     {
-        if ($this->doNotWriteConfigInTests) {
-            return;
-        }
-
         $output = $this->dumpConfig();
         if ($output !== null
             && $output !== false
         ) {
-            $success = @file_put_contents($this->getLocalPath(), $output);
+
+            if ($this->doNotWriteConfigInTests) {
+                // simulate whether it would be successful
+                $success = is_writable($this->getLocalPath());
+            } else {
+                $success = @file_put_contents($this->getLocalPath(), $output);
+            }
+
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
@@ -411,6 +415,6 @@ class Config
     public function getConfigNotWritableException()
     {
         $path = "config/" . basename($this->getLocalPath());
-        return new Exception(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
+        return new MissingFilePermissionException(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
     }
 }

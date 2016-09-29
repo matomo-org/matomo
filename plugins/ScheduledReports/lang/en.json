@@ -29,6 +29,7 @@
         "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",
         "ReportFormat": "Report Format",
         "ReportHour": "Send report at %s o'clock",
+        "ReportHourWithUTC": "%s o'clock UTC",
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
         "ReportSent": "Report sent",
         "ReportsIncluded": "Statistics included",

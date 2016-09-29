@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Geri Gelen Ziyaretlere Göre Eylemler",
+        "ColumnAverageVisitDurationForReturningVisitors": "Ortalama Geri Gelen Ziyaret Süresi (saniye)",
+        "ColumnAvgActionsPerReturningVisit": "Geri Gelen Ziyaretlerin Ortalama Eylemleri",
+        "ColumnBounceCountForReturningVisits": "Geri Gelen Ziyaretlerin Sekme Sayısı",
+        "ColumnBounceRateForReturningVisits": "Geri Gelen Ziyaretlerin Sekme Oranı",
+        "ColumnMaxActionsInReturningVisit": "Bir geri gelen ziyaret için en fazla eylem sayısı",
+        "ColumnNbReturningVisitsConverted": "Dönüştürülmüş geri gelen ziyaret sayısı",
+        "ColumnReturningVisits": "Geri Gelen Ziyaretler",
+        "ColumnSumVisitLengthReturning": "Geri gelen ziyaretçilerin harcadığı toplam süre (saniye)",
+        "ColumnUniqueReturningVisitors": "Tekil geri gelen ziyaretçi sayısı",
+        "ColumnReturningUsers": "Geri Gelen Kullanıcılar",
+        "PluginDescription": "İlk kez gelen ziyaretçiler ile geri gelen ziyaretçi ölçeklerini raporlar.",
+        "ReturnActions": "Geri gelen ziyaretlerin eylemleri %s",
+        "ReturnAverageVisitDuration": "Geri gelen ziyaretçilerin ortalama ziyaret süresi %s",
+        "ReturnAvgActions": "Her geri gelen ziyaret için %s eylem",
+        "ReturnBounceRate": "%s geri gelen ziyaret sekti (bir sayfadan sonra siteyi terk etti)",
+        "ReturningVisitDocumentation": "Geri gelen ziyaret (yeni ziyaretten farklı olarak) daha önce siteyi en az bir kez ziyaret etmiş birisi tarafından yapılır.",
+        "ReturningVisitsDocumentation": "Geri gelen ziyaretlerin özeti.",
+        "ReturnVisits": "%s geri gelen ziyaret",
+        "SubmenuFrequency": "Sıklık",
+        "WidgetGraphReturning": "Zamana Göre Geri Gelen Ziyaretler",
+        "WidgetOverview": "Sıklık Özeti"
+    }
+}
