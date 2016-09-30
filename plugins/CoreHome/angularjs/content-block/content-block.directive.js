@@ -52,12 +52,10 @@
                         adminContent = $('#content.admin');
                     }
 
-                    var contentTopPosition;
+                    var contentTopPosition = false;
 
                     if (adminContent.size()) {
                         contentTopPosition = adminContent.offset().top;
-                    } else {
-                        contentTopPosition = false;
                     }
 
                     if (contentTopPosition || contentTopPosition === 0) {
