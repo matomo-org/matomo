@@ -817,7 +817,7 @@ class Manager
      */
     public function getLoadedPlugin($name)
     {
-        if (!isset($this->loadedPlugins[$name])) {
+        if (!isset($this->loadedPlugins[$name]) || is_null($this->loadedPlugins[$name])) {
             throw new \Exception("The plugin '$name' has not been loaded.");
         }
         return $this->loadedPlugins[$name];
