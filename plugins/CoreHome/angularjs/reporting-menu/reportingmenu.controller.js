@@ -63,6 +63,7 @@
             subcategory.active = true;
 
             if (subsubcategory) {
+                subcategory.name = subsubcategory.name;
                 subsubcategory.active = true;
             }
         };
@@ -120,8 +121,9 @@
         });
 
         $rootScope.$on('$locationChangeSuccess', function () {
-            var category    = $location.search().category;
-            var subcategory = $location.search().subcategory;
+            var $search = $location.search();
+            var category    = $search.category;
+            var subcategory = $search.subcategory;
 
             period = getUrlParam('period');
             date   = getUrlParam('date');

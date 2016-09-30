@@ -33,6 +33,13 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     private $sparklines = array();
 
+    /**
+     * Adds possibility to set html attributes on the sparklines title / headline. For example can be used
+     * to set an angular directive
+     * @var string
+     */
+    public $title_attributes = array();
+
     public function __construct()
     {
         parent::__construct();

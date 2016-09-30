@@ -72,6 +72,7 @@ class Sparklines extends ViewDataTable
 
         $view->sparklines = $this->config->getSortedSparklines();
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
+        $view->titleAttributes = $this->config->title_attributes;
 
         $view->title = '';
         if ($this->config->show_title) {
