@@ -592,10 +592,6 @@ Segmentation = (function($) {
             // segment editor form events
             //
 
-            self.target.on('click', ".segment-element a:not(.crowdfundingLink)", function (e) {
-                e.preventDefault();
-            });
-
             self.target.on('click',  "a.editSegmentName", function (e) {
                 var oldName = $(e.currentTarget).parents("h3").find("span").text();
                 $(e.currentTarget).parents("h3").find("span").hide();
@@ -1031,12 +1027,6 @@ Segmentation = (function($) {
             $(self.form).find(".saveAndApply").bind("click", function (e) {
                 e.preventDefault();
                 parseFormAndSave();
-            });
-
-            $(self.form).find('.segment-footer').hover( function() {
-                $('.segmentFooterNote', self.target).fadeIn();
-            }, function() {
-                $('.segmentFooterNote', self.target).fadeOut();
             });
 
             if(typeof mode !== "undefined" && mode == "new")
