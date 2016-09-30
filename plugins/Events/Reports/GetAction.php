@@ -27,6 +27,5 @@ class GetAction extends Base
             $this->actionToLoadSubTables = 'getNameFromActionId';
         }
         $this->order = 1;
-        $this->widgetTitle  = 'Events_EventActions';
     }
 }

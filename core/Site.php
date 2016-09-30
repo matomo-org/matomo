@@ -419,6 +419,17 @@ class Site
     }
 
     /**
+     * Clears the site data cache.
+     *
+     * See also {@link setSites()} and {@link setSitesFromArray()}.
+     */
+    public static function clearCacheForSite($idSite)
+    {
+        $idSite = (int)$idSite;
+        unset(self::$infoSites[$idSite]);
+    }
+
+    /**
      * Utility function. Returns the value of the specified field for the
      * site with the specified ID.
      *

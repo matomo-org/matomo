@@ -118,11 +118,6 @@ class SessionInitializer
         } else {
             $this->processSuccessfulSession($authResult, $rememberMe);
         }
-
-        /**
-         * @deprecated Create a custom SessionInitializer instead.
-         */
-        Piwik::postEvent('Login.initSession.end');
     }
 
     /**
@@ -136,29 +131,6 @@ class SessionInitializer
      */
     protected function doAuthenticateSession(AuthInterface $auth)
     {
-        $login = $auth->getLogin();
-        $tokenAuthSecret = null;
-
-        try {
-            $tokenAuthSecret = $auth->getTokenAuthSecret();
-        } catch (Exception $ex) {
-            Log::debug("SessionInitializer::doAuthenticateSession: token_auth secret for %s not available before user"
-                     . " is authenticated.", $login);
-        }
-
-        $tokenAuth = empty($tokenAuthSecret) ? null : $this->usersManagerAPI->getTokenAuth($login, $tokenAuthSecret);
-
-        /**
-         * @deprecated Create a custom SessionInitializer instead.
-         */
-        Piwik::postEvent(
-            'Login.authenticate',
-            array(
-                $auth->getLogin(),
-                $tokenAuth
-            )
-        );
-
         return $auth->authenticate();
     }
 
@@ -201,17 +173,6 @@ class SessionInitializer
      */
     protected function processSuccessfulSession(AuthResult $authResult, $rememberMe)
     {
-        /**
-         * @deprecated Create a custom SessionInitializer instead.
-         */
-        Piwik::postEvent(
-            'Login.authenticate.successful',
-            array(
-                $authResult->getIdentity(),
-                $authResult->getTokenAuth()
-            )
-        );
-
         $cookie = $this->getAuthCookie($rememberMe);
         $cookie->set('login', $authResult->getIdentity());
         $cookie->set('token_auth', $this->getHashTokenAuth($authResult->getIdentity(), $authResult->getTokenAuth()));

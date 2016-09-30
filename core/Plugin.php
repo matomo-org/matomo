@@ -222,6 +222,7 @@ class Plugin
     }
 
     /**
+     * @ignore
      * @deprecated since 2.15.0 use {@link registerEvents()} instead.
      * @return array
      */
@@ -329,7 +330,7 @@ class Plugin
      *                                   given subclass. If the requested file exists but does not extend this class
      *                                   a warning will be shown to advice a developer to extend this certain class.
      *
-     * @return \stdClass|null  Null if the requested component does not exist or an instance of the found
+     * @return string|null  Null if the requested component does not exist or an instance of the found
      *                         component.
      */
     public function findComponent($componentName, $expectedSubclass)
@@ -374,7 +375,7 @@ class Plugin
             $this->cache->save($cacheId, $classname);
         }
 
-        return StaticContainer::get($classname);
+        return $classname;
     }
 
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
@@ -419,14 +420,40 @@ class Plugin
             return array();
         }
 
-        $dependency = new Dependency();
-
-        if (!is_null($piwikVersion)) {
-            $dependency->setPiwikVersion($piwikVersion);
-        }
-
+        $dependency = $this->makeDependency($piwikVersion);
         return $dependency->getMissingDependencies($this->pluginInformation['require']);
     }
+
+    /**
+     * Returns a string (translated) describing the missing requirements for this plugin and the given Piwik version
+     *
+     * @param string $piwikVersion
+     * @return string "AnonymousPiwikUsageMeasurement requires PIWIK >=3.0.0"
+     */
+    public function getMissingDependenciesAsString($piwikVersion = null)
+    {
+        if (empty($this->pluginInformation['require'])) {
+            return '';
+        }
+        $dependency = $this->makeDependency($piwikVersion);
+
+        $missingDependencies = $dependency->getMissingDependencies($this->pluginInformation['require']);
+
+        if(empty($missingDependencies)) {
+            return '';
+        }
+
+        $causedBy = array();
+        foreach ($missingDependencies as $dependency) {
+            $causedBy[] = ucfirst($dependency['requirement']) . ' ' . $dependency['causedBy'];
+        }
+
+        return Piwik::translate("CorePluginsAdmin_PluginRequirement", array(
+            $this->getPluginName(),
+            implode(', ', $causedBy)
+        ));
+    }
+
 
     /**
      * Extracts the plugin name from a backtrace array. Returns `false` if we can't find one.
@@ -495,7 +522,7 @@ class Plugin
             require_once $file;
 
             $fileName  = str_replace(array($baseDir . '/', '.php'), '', $file);
-            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, $directoryWithinPlugin, str_replace('/', '\\', $fileName));
+            $klassName = sprintf('Piwik\\Plugins\\%s\\%s\\%s', $this->pluginName, str_replace('/', '\\', $directoryWithinPlugin), str_replace('/', '\\', $fileName));
 
             if (!class_exists($klassName)) {
                 continue;
@@ -531,5 +558,19 @@ class Plugin
             include_once $file;
         }
         return true;
+    }
+
+    /**
+     * @param $piwikVersion
+     * @return Dependency
+     */
+    private function makeDependency($piwikVersion)
+    {
+        $dependency = new Dependency();
+
+        if (!is_null($piwikVersion)) {
+            $dependency->setPiwikVersion($piwikVersion);
+        }
+        return $dependency;
     }
 }

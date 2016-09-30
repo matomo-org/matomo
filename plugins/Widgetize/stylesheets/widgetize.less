@@ -28,12 +28,19 @@
     padding-bottom: 100px;
 }
 
-#embedThisWidgetIframe,
-#embedThisWidgetFlash,
-#embedThisWidgetEverywhere {
-    margin-top: 5px;
+#embedThisWidgetIframe {
+    margin-top: 16px;
 }
 
 body>.widget {
   margin: 10px 7px;
+  overflow: visible;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+body.widgetized {
+  background-color: @theme-color-widget-exported-background-base;
 }

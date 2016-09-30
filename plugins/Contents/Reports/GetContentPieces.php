@@ -32,8 +32,6 @@ class GetContentPieces extends Base
         $this->order         = 36;
         $this->actionToLoadSubTables = 'getContentPieces';
 
-        $this->widgetTitle = 'Contents_ContentPiece';
-
         $this->metrics = array('nb_impressions', 'nb_interactions');
         $this->processedMetrics = array(new InteractionRate());
     }

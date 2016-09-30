@@ -19,7 +19,7 @@ describe("CustomVariables", function () {
     });
 
     it('should be visible in the menu', function (done) {
-        expect.screenshot('link_in_menu').to.be.captureSelector('li:contains(Manage)', function (page) {
+        expect.screenshot('link_in_menu').to.be.captureSelector('li:contains(Diagnostic)', function (page) {
         }, done);
     });
 });

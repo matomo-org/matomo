@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Events\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Events\Columns\EventAction;
 
 /**
@@ -24,6 +23,5 @@ class GetActionFromNameId extends Base
         $this->dimension     = new EventAction();
         $this->name          = Piwik::translate('Events_EventActions');
         $this->isSubtableReport = true;
-        $this->widgetParams = array();
     }
 }

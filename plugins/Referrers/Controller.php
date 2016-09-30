@@ -10,10 +10,14 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
+use Piwik\NumberFormatter;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\ViewDataTable;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -35,32 +39,21 @@ class Controller extends \Piwik\Plugin\Controller
         parent::__construct();
     }
 
-    public function index()
+    public function getSparklines()
     {
-        $view = new View('@Referrers/index');
+        $metrics = $this->getReferrersVisitorsByType();
+        $distinctMetrics = $this->getDistinctReferrersMetrics();
 
-        $view->graphEvolutionReferrers = $this->getEvolutionGraph(Common::REFERRER_TYPE_DIRECT_ENTRY, array(), array('nb_visits'));
-        $view->nameGraphEvolutionReferrers = 'Referrers.getEvolutionGraph';
+        $numberFormatter = NumberFormatter::getInstance();
 
-        $nameValues = $this->getReferrersVisitorsByType();
-
-        $totalVisits = array_sum($nameValues);
-        foreach ($nameValues as $name => $value) {
-            $view->$name = $value;
+        $totalVisits = array_sum($metrics);
+        foreach ($metrics as $name => $value) {
 
             // calculate percent of total, if there were any visits
-            if ($value != 0
-                && $totalVisits != 0
-            ) {
+            if ($value != 0 && $totalVisits != 0) {
                 $percentName = $name . 'Percent';
-                $view->$percentName = round(($value / $totalVisits) * 100, 0);
+                $metrics[$percentName] = round(($value / $totalVisits) * 100, 0);
             }
-        }
-
-        // set distinct metrics
-        $distinctMetrics = $this->getDistinctReferrersMetrics();
-        foreach ($distinctMetrics as $name => $value) {
-            $view->$name = $value;
         }
 
         // calculate evolution for visit metrics & distinct metrics
@@ -74,71 +67,123 @@ class Controller extends \Piwik\Plugin\Controller
 
             // visit metrics
             $previousValues = $this->getReferrersVisitorsByType($lastPeriodDate);
-            $this->addEvolutionPropertiesToView($view, $prettyDate, $nameValues, $prettyLastPeriodDate, $previousValues);
+            $metrics = $this->addEvolutionPropertiesToView($prettyDate, $metrics, $prettyLastPeriodDate, $previousValues);
 
             // distinct metrics
             $previousValues = $this->getDistinctReferrersMetrics($lastPeriodDate);
-            $this->addEvolutionPropertiesToView($view, $prettyDate, $distinctMetrics, $prettyLastPeriodDate, $previousValues);
+            $distinctMetrics = $this->addEvolutionPropertiesToView($prettyDate, $distinctMetrics, $prettyLastPeriodDate, $previousValues);
         }
 
-        // sparkline for the historical data of the above values
-        $view->urlSparklineSearchEngines = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_SEARCH_ENGINE);
-        $view->urlSparklineDirectEntry = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_DIRECT_ENTRY);
-        $view->urlSparklineWebsites = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_WEBSITE);
-        $view->urlSparklineCampaigns = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_CAMPAIGN);
+        /** @var Sparklines $view */
+        $view = ViewDataTable\Factory::build(Sparklines::ID, $api = '', $controller = '', $force = true, $loadUserParams = false);
 
-        // sparklines for the evolution of the distinct keywords count/websites count/ etc
-        $view->urlSparklineDistinctSearchEngines = $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
-        $view->urlSparklineDistinctKeywords = $this->getUrlSparkline('getLastDistinctKeywordsGraph');
-        $view->urlSparklineDistinctWebsites = $this->getUrlSparkline('getLastDistinctWebsitesGraph');
-        $view->urlSparklineDistinctCampaigns = $this->getUrlSparkline('getLastDistinctCampaignsGraph');
+        // DIRECT ENTRY
+        $metrics['visitorsFromDirectEntry'] = $numberFormatter->formatNumber($metrics['visitorsFromDirectEntry']);
+        $values = array($metrics['visitorsFromDirectEntry']);
+        $descriptions = array(Piwik::translate('Referrers_TypeDirectEntries'));
 
-        return $view->render();
-    }
-
-    public function allReferrers()
-    {
-        $view = new View('@Referrers/allReferrers');
-
-        // building the referrers summary report
-        $view->dataTableReferrerType = $this->renderReport('getReferrerType');
-
-        $nameValues = $this->getReferrersVisitorsByType();
-
-        $totalVisits = array_sum($nameValues);
-        foreach ($nameValues as $name => $value) {
-            $view->$name = $value;
-
-            // calculate percent of total, if there were any visits
-            if ($value != 0
-                && $totalVisits != 0
-            ) {
-                $percentName = $name . 'Percent';
-                $view->$percentName = round(($value / $totalVisits) * 100, 0);
-            }
+        if (!empty($metrics['visitorsFromDirectEntryPercent'])) {
+            $metrics['visitorsFromDirectEntryPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromDirectEntryPercent'], $precision = 1);
+            $values[] = $metrics['visitorsFromDirectEntryPercent'];
+            $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
         }
 
-        $view->totalVisits = $totalVisits;
-        $view->referrersReportsByDimension = $this->renderReport('getAll');
+        $directEntryParams = $this->getReferrerSparklineParams(Common::REFERRER_TYPE_DIRECT_ENTRY);
+
+        $view->config->addSparkline($directEntryParams, $values, $descriptions, @$metrics['visitorsFromDirectEntryEvolution']);
+
+
+        // WEBSITES
+        $metrics['visitorsFromWebsites'] = $numberFormatter->formatNumber($metrics['visitorsFromWebsites']);
+        $values = array($metrics['visitorsFromWebsites']);
+        $descriptions = array(Piwik::translate('Referrers_TypeWebsites'));
+
+        if (!empty($metrics['visitorsFromWebsitesPercent'])) {
+            $metrics['visitorsFromWebsitesPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromWebsitesPercent'], $precision = 1);
+            $values[] = $metrics['visitorsFromWebsitesPercent'];
+            $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
+        }
+
+        $searchEngineParams = $this->getReferrerSparklineParams(Common::REFERRER_TYPE_WEBSITE);
+
+        $view->config->addSparkline($searchEngineParams, $values, $descriptions, @$metrics['visitorsFromWebsitesEvolution']);
+
+
+        // SEARCH ENGINES
+        $metrics['visitorsFromSearchEngines'] = $numberFormatter->formatNumber($metrics['visitorsFromSearchEngines']);
+        $values = array($metrics['visitorsFromSearchEngines']);
+        $descriptions = array(Piwik::translate('Referrers_TypeSearchEngines'));
+
+        if (!empty($metrics['visitorsFromSearchEnginesPercent'])) {
+            $metrics['visitorsFromSearchEnginesPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromSearchEnginesPercent'], $precision = 1);
+            $values[] = $metrics['visitorsFromSearchEnginesPercent'];
+            $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
+        }
+        $searchEngineParams = $this->getReferrerSparklineParams(Common::REFERRER_TYPE_SEARCH_ENGINE);
+
+        $view->config->addSparkline($searchEngineParams, $values, $descriptions, @$metrics['visitorsFromSearchEnginesEvolution']);
+
+
+        // CAMPAIGNS
+        $metrics['visitorsFromCampaigns'] = $numberFormatter->formatNumber($metrics['visitorsFromCampaigns']);
+        $values = array($metrics['visitorsFromCampaigns']);
+        $descriptions = array(Piwik::translate('Referrers_TypeCampaigns'));
+
+        if (!empty($metrics['visitorsFromCampaignsPercent'])) {
+            $metrics['visitorsFromCampaignsPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromCampaignsPercent'], $precision = 1);
+            $values[] = $metrics['visitorsFromCampaignsPercent'];
+            $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
+        }
+
+        $searchEngineParams = $this->getReferrerSparklineParams(Common::REFERRER_TYPE_CAMPAIGN);
+
+        $view->config->addSparkline($searchEngineParams, $values, $descriptions, @$metrics['visitorsFromCampaignsEvolution']);
+
+
+        // DISTINCT SEARCH ENGINES
+        $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctSearchEnginesGraph');
+        $value = $distinctMetrics['numberDistinctSearchEngines'];
+        $value = $numberFormatter->formatNumber($value);
+        $description = Piwik::translate('Referrers_DistinctSearchEngines');
+
+        $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctSearchEnginesEvolution']);
+
+
+        // DISTINCT WEBSITES
+        $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctWebsitesGraph');
+
+        $distinctMetrics['numberDistinctWebsites'] = $numberFormatter->formatNumber($distinctMetrics['numberDistinctWebsites']);
+        $distinctMetrics['numberDistinctWebsitesUrls'] = $numberFormatter->formatNumber($distinctMetrics['numberDistinctWebsitesUrls']);
+
+        $values = array($distinctMetrics['numberDistinctWebsites'], $distinctMetrics['numberDistinctWebsitesUrls']);
+        $descriptions = array(Piwik::translate('Referrers_DistinctWebsites'), Piwik::translate('Referrers_UsingNDistinctUrls'));
+
+        $view->config->addSparkline($sparklineParams, $values, $descriptions, @$distinctMetrics['numberDistinctWebsitesEvolution']);
+
+
+        // DISTINCT KEYWORDS
+        $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctKeywordsGraph');
+        $value = $distinctMetrics['numberDistinctKeywords'];
+        $value = $numberFormatter->formatNumber($value);
+        $description = Piwik::translate('Referrers_DistinctKeywords');
+
+        $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctKeywordsEvolution']);
+
+
+        // DISTINCT CAMPAIGNS
+        $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctCampaignsGraph');
+        $value = $distinctMetrics['numberDistinctCampaigns'];
+        $value = $numberFormatter->formatNumber($value);
+        $description = Piwik::translate('Referrers_DistinctCampaigns');
+
+        $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctCampaignsEvolution']);
 
         return $view->render();
     }
 
-    public function getSearchEnginesAndKeywords()
+    private function getDistinctSparklineUrlParams($action)
     {
-        $view = new View('@Referrers/getSearchEnginesAndKeywords');
-        $view->searchEngines = $this->renderReport('getSearchEngines');
-        $view->keywords      = $this->renderReport('getKeywords');
-        return $view->render();
-    }
-
-    public function indexWebsites()
-    {
-        $view = new View('@Referrers/indexWebsites');
-        $view->websites = $this->renderReport('getWebsites');
-        $view->socials  = $this->renderReport('getSocials');
-
-        return $view->render();
+        return array('module' => $this->pluginName, 'action' => $action);
     }
 
     protected function getReferrersVisitorsByType($date = false)
@@ -221,7 +266,7 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             // use $typeReferrer as default
             if ($typeReferrer === false) {
-                $typeReferrer = Common::getRequestVar('typeReferrer', false);
+                $typeReferrer = Common::getRequestVar('typeReferrer', Common::REFERRER_TYPE_DIRECT_ENTRY);
             }
             $label = self::getTranslatedReferrerTypeLabel($typeReferrer);
             $total = $this->translator->translate('General_Total');
@@ -346,16 +391,16 @@ function DisplayTopKeywords($url = "")
 ';
 
         $jsonRequest = str_replace('format=php', 'format=json', $api);
-        echo "<p>This widget is designed to work in your website directly.
+        echo "<p style='padding: 0 12px;'>This widget is designed to work in your website directly.
 		This widget makes it easy to use Piwik to <i>automatically display the list of Top Keywords</i>, for each of your website Page URLs.</p>
-		<p>
+		<p style='padding: 0 12px;'>
 		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a rel='noreferrer' target='_blank' href='$topPageUrl'>$topPageUrl</a>,
 		in format JSON: you would dynamically fetch the data using <a rel='noreferrer' target='_blank' href='$jsonRequest&url=" . urlencode($topPageUrl) . "'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p>
 
-		<p><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar.
+		<p style='padding: 0 12px;'><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar.
 		If you run this code in your page $topPageUrl, it would output the following:";
 
-        echo "<div style='width:400px;margin-left:20px;padding:10px;border:1px solid black;'>";
+        echo "<div style='width:400px;margin:10px 10px 0 10px;padding:10px;border:1px solid #333;'>";
         function DisplayTopKeywords($url = "", $api)
         {
             // Do not spend more than 1 second fetching the data
@@ -387,12 +432,12 @@ function DisplayTopKeywords($url = "")
         DisplayTopKeywords($topPageUrl, $api);
 
         echo "</div><br/>
-		<p>Here is the PHP function that you can paste in your pages:</P>
-		<textarea cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code) . "\n DisplayTopKeywords();</textarea>
+		<p style='padding: 0 12px;'>Here is the PHP function that you can paste in your pages:</P>
+		<textarea style='padding: 0 12px;height:auto;width:auto;margin-left:12px;' cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code) . "\n DisplayTopKeywords();</textarea>
 		";
 
         echo "
-		<p><strong>Notes</strong>: You can for example edit the code to to make the Top search keywords link to your Website search result pages.
+		<p style='padding: 12px;'><strong>Notes</strong>: You can for example edit the code to to make the Top search keywords link to your Website search result pages.
 		<br/>On medium to large traffic websites, we recommend to cache this data, as to minimize the performance impact of calling the Piwik API on each page view.
 		</p>
 		";
@@ -416,14 +461,16 @@ function DisplayTopKeywords($url = "")
      * @param int $referrerType The referrer type. Referrer types are defined in Common class.
      * @return string The URL that can be used to get a sparkline image.
      */
-    private function getReferrerUrlSparkline($referrerType)
+    private function getReferrerSparklineParams($referrerType)
     {
         $totalRow = $this->translator->translate('General_Total');
-        return $this->getUrlSparkline(
-            'getEvolutionGraph',
-            array('columns'      => array('nb_visits'),
-                  'rows'         => array(self::getTranslatedReferrerTypeLabel($referrerType), $totalRow),
-                  'typeReferrer' => $referrerType)
+
+        return array(
+            'columns'      => array('nb_visits'),
+            'rows'         => array(self::getTranslatedReferrerTypeLabel($referrerType), $totalRow),
+            'typeReferrer' => $referrerType,
+            'module'       => $this->pluginName,
+            'action'       => 'getReferrerType'
         );
     }
 
@@ -456,20 +503,35 @@ function DisplayTopKeywords($url = "")
      * Utility method that calculates evolution values for a set of current & past values
      * and sets properties on a View w/ HTML that displays the evolution percents.
      *
-     * @param View $view The view to set properties on.
      * @param string $date The date of the current values.
      * @param array $currentValues Array mapping view property names w/ present values.
      * @param string $lastPeriodDate The date of the period in the past.
      * @param array $previousValues Array mapping view property names w/ past values. Keys
      *                              in this array should be the same as keys in $currentValues.
+     * @return array Added current values
      */
-    private function addEvolutionPropertiesToView($view, $date, $currentValues, $lastPeriodDate, $previousValues)
+    private function addEvolutionPropertiesToView($date, $currentValues, $lastPeriodDate, $previousValues)
     {
         foreach ($previousValues as $name => $pastValue) {
             $currentValue = $currentValues[$name];
             $evolutionName = $name . 'Evolution';
 
-            $view->$evolutionName = $this->getEvolutionHtml($date, $currentValue, $lastPeriodDate, $pastValue);
+            $currentValueFormatted = NumberFormatter::getInstance()->format($currentValue);
+            $pastValueFormatted    = NumberFormatter::getInstance()->format($pastValue);
+
+            $currentValues[$evolutionName] = array(
+                'currentValue' => $currentValue,
+                'pastValue' => $pastValue,
+                'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
+                    Piwik::translate('General_NVisits', $currentValueFormatted),
+                    $date,
+                    Piwik::translate('General_NVisits', $pastValueFormatted),
+                    $lastPeriodDate,
+                    CalculateEvolutionFilter::calculate($currentValue, $pastValue, $precision = 1)
+                ))
+            );
         }
+
+        return $currentValues;
     }
 }

@@ -4,7 +4,7 @@
   "description": "Piwik Platform showcase: how to create widgets, menus, scheduled tasks, a custom archiver, plugin tests, and a AngularJS component.",
   "theme": false,
   "require": {
-    "piwik": ">=PIWIK_VERSION,<3.0.0-b1"
+    "piwik": ">=3.0.0-b1,<4.0.0-b1"
   },
   "authors": [
     {

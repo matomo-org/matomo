@@ -17,8 +17,6 @@ use Piwik\Period;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
-use Piwik\Plugin\Report;
-use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Site;
 use Piwik\View;
 

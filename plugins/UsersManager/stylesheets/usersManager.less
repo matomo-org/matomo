@@ -1,6 +1,8 @@
 #users .editable:hover,
 #users .addrow:hover,
-#users .updateAccess:hover,
+#superUserAccess .updateAccess:hover,
+#superUserAccess .accessGranted:hover,
+#manageUserAccess .updateAccess:hover,
 #users .accessGranted:hover,
 #users .adduser:hover, .edituser:hover,
 #users .deleteuser:hover,
@@ -9,11 +11,23 @@
     cursor: pointer;
 }
 
+#users .addNewUserRow td {
+  padding: 0 16px;
+}
+
+#users td {
+  vertical-align: middle !important;
+}
+
 #userSettingsTable {
   .sites_autocomplete {
     margin-left: 20px;
     margin-top: 5px;
   }
+}
+
+#users #token_auth_user {
+  border-color: @theme-color-background-tinyContrast;
 }
 
 #users .canceluser {
@@ -48,8 +62,11 @@
   text-align: left;
 }
 
+#ajaxErrorGiveViewAccess {
+  margin-top: 16px;
+}
+
 #giveViewAccessForm {
-  display: none;
   margin-left: 30px;
 
   #user_invite {

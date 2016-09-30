@@ -9,11 +9,11 @@
 namespace Piwik\Plugins\UserId\Reports;
 
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\UserId\Columns\UserId;
-use Piwik\View;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 /**
  * A report showing all unique user IDs and some aggregated information about them. It also allows
@@ -25,9 +25,8 @@ class GetUsers extends Base
     {
         parent::init();
 
-        $this->name          = Piwik::translate('UserId_UserReportTitle');
-        $this->menuTitle     = $this->name;
-        $this->widgetTitle   = $this->menuTitle;
+        $this->name = Piwik::translate('UserId_UserReportTitle');
+        $this->subcategoryId = 'UserId_UserReportTitle';
         $this->documentation = '';
         $this->dimension = new UserId();
         $this->metrics = array('label', 'nb_visits', 'nb_actions', 'nb_visits_converted');
@@ -41,7 +40,7 @@ class GetUsers extends Base
      */
     public static function getColumnsToDisplay()
     {
-        return ;
+        return array();
     }
 
     /**

@@ -49,7 +49,7 @@ describe("Login", function () {
 
     it("should redirect to login when logout link clicked", function (done) {
         expect.screenshot("login_form").to.be.capture("logout_form", function (page) {
-            page.click("#topRightBar .icon-sign-out");
+            page.click("nav .right .icon-sign-out");
         }, done);
     });
 
@@ -99,7 +99,7 @@ describe("Login", function () {
 
     it("should login successfully when formless login used", function (done) {
         expect.page("").contains('#dashboard', 'formless_login', function (page) {
-            page.click("#topRightBar .icon-sign-out");
+            page.click("nav .right .icon-sign-out");
             page.load(formlessLoginUrl);
         }, done);
     });

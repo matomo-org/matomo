@@ -5,61 +5,168 @@
 {% set title %}{{ 'MobileMessaging_SettingsMenu'|translate }}{% endset %}
 
 {% block content %}
-
+<div class="manageMobileMessagingSettings">
     {% if isSuperUser %}
-        <h2>{{ title }}</h2>
+    <div piwik-content-block content-title="{{ title|e('html_attr') }}">
+        <div ng-controller="DelegateMobileMessagingSettingsController as delegateManagement">
+            <div piwik-field uicontrol="radio" name="delegatedManagement"
+                 options="{{ delegateManagementOptions|json_encode }}"
+                 full-width="true"
+                 ng-model="delegateManagement.enabled"
+                 title="{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate|e('html_attr') }}"
+                 value="{% if delegatedManagement %}1{% else %}0{% endif %}">
+            </div>
+            <div piwik-save-button onconfirm="delegateManagement.save()" saving="delegateManagement.isLoading"></div>
+        </div>
+    </div>
+    {% endif %}
 
-        <div class="form-group">
-            <label>{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate }}</label>
+    {% if accountManagedByCurrentUser %}
+        <div piwik-content-block content-title="{{ 'MobileMessaging_Settings_SMSProvider'|translate|e('html_attr') }}" feature="true">
 
-            <label class="radio">
-                <input type='radio' value='false' id="delegatedManagement" name='delegatedManagement'
-                        {% if not delegatedManagement %} checked='checked'{% endif %}/>
-                {{ 'General_No'|translate }}
+            {% if isSuperUser and delegatedManagement %}
+                <p>{{ 'MobileMessaging_Settings_DelegatedSmsProviderOnlyAppliesToYou'|translate }}</p>
+            {% endif %}
 
-                <span class='form-description'>{{ 'General_Default'|translate }}.
-                    {{ 'MobileMessaging_Settings_LetUsersManageAPICredential_No_Help'|translate }}</span>
-            </label>
-
-            <label class="radio">
-                <input type='radio' value='true' id="delegatedManagement" name='delegatedManagement'
-                        {% if delegatedManagement %} checked='checked'{% endif %}/>
-                {{ 'General_Yes'|translate }}
-
-                <span class='form-description'>{{ 'MobileMessaging_Settings_LetUsersManageAPICredential_Yes_Help'|translate }}</span>
-            </label>
+            {{ macro.manageSmsApi(credentialSupplied, creditLeft, smsProviderOptions, smsProviders, provider) }}
         </div>
     {% endif %}
 
-    {% if accountManagedByCurrentUser and delegatedManagement %}
+    <div piwik-content-block content-title="{{ 'MobileMessaging_PhoneNumbers'|translate|e('html_attr') }}">
+        {% if not credentialSupplied %}
+            <p>
+                {% if accountManagedByCurrentUser %}
+                    {{ 'MobileMessaging_Settings_CredentialNotProvided'|translate }}
+                {% else %}
+                    {{ 'MobileMessaging_Settings_CredentialNotProvidedByAdmin'|translate }}
+                {% endif %}
+            </p>
+        {% else %}
+            <div ng-controller="ManageMobilePhoneNumbersController as managePhoneNumber">
 
-        <h2 piwik-enriched-headline
-                >{{ 'MobileMessaging_Settings_SMSProvider'|translate }}</h2>
-        To manage your SMS provider go to your <a href="{{ linkTo({'action':'userSettings'}) }}">personal mobile messaging settings</a>.
+                <p>{{ 'MobileMessaging_Settings_PhoneNumbers_Help'|translate }}</p>
 
-    {% elseif accountManagedByCurrentUser %}
+                {% if isSuperUser %}
+                    <p>{{ 'MobileMessaging_Settings_DelegatedPhoneNumbersOnlyUsedByYou'|translate }}</p>
+                {% endif %}
 
-        <h2 piwik-enriched-headline
-                >{{ 'MobileMessaging_Settings_SMSProvider'|translate }}</h2>
+                <div class="row">
+                    <h3 class="col s12">{{ 'MobileMessaging_Settings_PhoneNumbers_Add'|translate }}</h3>
+                </div>
 
-        {{ macro.manageSmsApi(credentialSupplied, creditLeft, smsProviders, provider) }}
-    {% endif %}
+                <div class="form-group row">
+                    <div class="col s12 m6">
+                        <div piwik-field uicontrol="select" name="countryCodeSelect"
+                             value="{{ defaultCallingCode }}"
+                             ng-model="managePhoneNumber.countryCallingCode"
+                             full-width="true"
+                             title="{{ 'MobileMessaging_Settings_SelectCountry'|translate|e('html_attr') }}"
+                             options='{{ countries|json_encode }}'>
+                        </div>
+                    </div>
+                    <div class="col s12 m6 form-help">
+                        {{ 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate }}
+                    </div>
+                </div>
 
-    {% import 'ajaxMacros.twig' as ajax %}
+                <div class="form-group row addPhoneNumber">
+                    <div class="col s12 m6">
 
-    <div style="margin-top:10px">
-        {{ ajax.errorDiv('ajaxErrorMobileMessagingSettings') }}
+                        <div class="countryCode left">
+                            <span class="countryCodeSymbol">+</span>
+                            <div piwik-field uicontrol="text" name="countryCallingCode"
+                                 full-width="true"
+                                 ng-model="managePhoneNumber.countryCallingCode"
+                                 maxlength="4"
+                                 title="{{ 'MobileMessaging_Settings_CountryCode'|translate }}">
+                            </div>
+                        </div>
+                        <div class="phoneNumber left">
+                            <div piwik-field uicontrol="text" name="newPhoneNumber"
+                                 ng-model="managePhoneNumber.newPhoneNumber"
+                                 ng-change="managePhoneNumber.validateNewPhoneNumberFormat()"
+                                 full-width="true"
+                                 maxlength="80"
+                                 title="{{ 'MobileMessaging_Settings_PhoneNumber'|translate }}">
+                            </div>
+                        </div>
+                        <div class="addNumber left valign-wrapper">
+                            <div piwik-save-button
+                                 disabled="!managePhoneNumber.canAddNumber || managePhoneNumber.isAddingPhonenumber"
+                                 onconfirm="managePhoneNumber.addPhoneNumber()"
+                                 class="valign" value='{{ 'General_Add'|translate }}'></div>
+                        </div>
+
+                        <div piwik-alert="warning"
+                             id="suspiciousPhoneNumber"
+                             ng-show="managePhoneNumber.showSuspiciousPhoneNumber">
+                        {{ 'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate('54184032') }}
+                        </div>
+
+                    </div>
+                    <div class="col s12 m6 form-help">
+                        {{ strHelpAddPhone }}
+                    </div>
+                </div>
+
+                <div id="ajaxErrorAddPhoneNumber"></div>
+                <div piwik-activity-indicator loading="managePhoneNumber.isAddingPhonenumber"></div>
+
+                {% if phoneNumbers|length > 0 %}
+                    <div class="row"><h3 class="col s12">{{ 'MobileMessaging_Settings_ManagePhoneNumbers'|translate }}</h3></div>
+                {% endif %}
+
+                {% for phoneNumber, validated in phoneNumbers %}
+                    <div class="form-group row">
+                        <div class="col s12 m6">
+                            <span class='phoneNumber'>{{ phoneNumber }}</span>
+
+                            {% if not validated %}
+                                <input type="text"
+                                       ng-hide="managePhoneNumber.isActivated[{{ loop.index }}]"
+                                       ng-model="managePhoneNumber.validationCode[{{ loop.index }}]"
+                                       class='verificationCode'
+                                       placeholder="{{ 'MobileMessaging_Settings_EnterActivationCode'|translate|e('html_attr') }}"/>
+                                <div piwik-save-button
+                                     ng-hide="managePhoneNumber.isActivated[{{ loop.index }}]"
+                                     value='{{ 'MobileMessaging_Settings_ValidatePhoneNumber'|translate }}'
+                                     disabled="!managePhoneNumber.validationCode[{{ loop.index }}] || managePhoneNumber.isChangingPhoneNumber"
+                                     onconfirm='managePhoneNumber.validateActivationCode({{ phoneNumber|json_encode }}, {{ loop.index }})'
+                                     ></div>
+                            {% endif %}
+
+                            <div piwik-save-button
+                                 value='{{ 'General_Remove'|translate }}'
+                                 disabled="managePhoneNumber.isChangingPhoneNumber"
+                                 onconfirm="managePhoneNumber.removePhoneNumber({{ phoneNumber|json_encode }})"
+                                 ></div>
+                        </div>
+
+                        {% if not validated %}
+                            <div class="form-help col s12 m6">
+                                <div ng-hide="managePhoneNumber.isActivated[{{ loop.index }}]">
+                                    {{ 'MobileMessaging_Settings_VerificationCodeJustSent'|translate }}
+                                </div>
+                                &nbsp;
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {{ ajax.errorDiv('invalidVerificationCodeAjaxError') }}
+
+                <div piwik-activity-indicator loading="managePhoneNumber.isChangingPhoneNumber"></div>
+
+            </div>
+
+        {% endif %}
     </div>
 
-    <h2>{{ 'MobileMessaging_PhoneNumbers'|translate }}</h2>
-    To manage your phone numbers go to your <a href="{{ linkTo({'action':'userSettings'}) }}">personal mobile messaging settings</a>.
-
-    {{ ajax.loadingDiv('ajaxLoadingMobileMessagingSettings') }}
 
     <div class='ui-confirm' id='confirmDeleteAccount'>
         <h2>{{ 'MobileMessaging_Settings_DeleteAccountConfirm'|translate }}</h2>
         <input role='yes' type='button' value='{{ 'General_Yes'|translate }}'/>
         <input role='no' type='button' value='{{ 'General_No'|translate }}'/>
     </div>
-
+</div>
 {% endblock %}

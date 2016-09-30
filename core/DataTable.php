@@ -878,6 +878,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @ignore
+     */
+    public function getRowsCountWithoutSummaryRow()
+    {
+        return count($this->rows);
+    }
+
+    /**
      * Returns an array containing all column values for the requested column.
      *
      * @param string $name The column name.

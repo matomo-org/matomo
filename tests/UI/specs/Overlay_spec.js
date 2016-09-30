@@ -22,7 +22,7 @@ describe("Overlay", function () {
 
     before(function (done) {
         var baseUrl = '?module=Overlay&period=year&date=today&idSite=3';
-        var hash = '#l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
+        var hash = '#?l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
 
         url = baseUrl + hash;
         urlWithSegment = baseUrl + '&segment=' + encodeURIComponent('visitIp==20.56.34.67') + hash;
@@ -46,7 +46,7 @@ describe("Overlay", function () {
         expect.screenshot("page_link_clicks").to.be.capture(function (page) {
             var pos = page.webpage.evaluate(function () {
                 var iframe = $('iframe'),
-                    innerOffset = $('.btn.btn-lg', iframe.contents()).offset();
+                    innerOffset = $('.btn.btn-large', iframe.contents()).offset();
                 return {
                     x: iframe.offset().left + innerOffset.left,
                     y: iframe.offset().top + innerOffset.top

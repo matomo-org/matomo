@@ -28,12 +28,6 @@
 
                 element.css('display', 'none');
 
-                element.on( "dialogclose", function() {
-                    setTimeout(function () {
-                        scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
-                    }, 0);
-                });
-
                 scope.$watch(attrs.piwikDialog, function(newValue, oldValue) {
                     if (newValue) {
                         piwik.helper.modalConfirm(element, {yes: function() {
@@ -41,7 +35,13 @@
                                 scope.$eval(attrs.yes);
                                 setTimeout(function () { scope.$apply(); }, 0);
                             }
-                        }});
+                        }}, {
+                            complete: function () {
+                                setTimeout(function () {
+                                    scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
+                                }, 0);
+                            }
+                        });
                     }
                 });
             }

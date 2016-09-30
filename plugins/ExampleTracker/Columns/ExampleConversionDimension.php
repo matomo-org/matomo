@@ -40,7 +40,7 @@ class ExampleConversionDimension extends ConversionDimension
      * perform an update which can sometimes take a long time so be careful when choosing the correct column type.
      * @var string
      */
-    protected $columnType = 'INTEGER(11) DEFAULT 0 NOT NULL';
+    protected $columnType = 'INTEGER(11) DEFAULT 0 NULL';
 
     /**
      * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.

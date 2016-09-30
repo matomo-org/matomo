@@ -358,7 +358,10 @@ class ApiTest extends IntegrationTestCase
         $report6['period'] = Schedule::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
-        $stubbedAPIScheduledReports = $this->getMock('\\Piwik\\Plugins\\ScheduledReports\\API', array('getReports', 'getInstance'), $arguments = array(), $mockClassName = '', $callOriginalConstructor = false);
+        $stubbedAPIScheduledReports = $this->getMockBuilder('\\Piwik\\Plugins\\ScheduledReports\\API')
+                                           ->setMethods(array('getReports', 'getInstance'))
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
                 array($report1, $report2, $report3, $report4, $report5, $report6))
         );
@@ -437,7 +440,7 @@ class ApiTest extends IntegrationTestCase
     {
         $realProxy = new Proxy();
 
-        $mockProxy = $this->getMock('Piwik\API\Proxy', array('call'));
+        $mockProxy = $this->getMockBuilder('Piwik\API\Proxy')->setMethods(array('call'))->getMock();
         $mockProxy->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parametersRequest) use ($realProxy) {
             switch ($className) {
                 case '\Piwik\Plugins\VisitsSummary\API':

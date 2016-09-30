@@ -11,16 +11,29 @@ namespace Piwik\Updates;
 
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_13_0_b3 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
+    {
+        return array(
+            $this->migration->plugin->activate('Diagnostics')
+        );
+    }
+
     public function doUpdate(Updater $updater)
     {
-        $pluginManager = \Piwik\Plugin\Manager::getInstance();
-
-        try {
-            $pluginManager->activatePlugin('Diagnostics');
-        } catch (\Exception $e) {
-        }
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

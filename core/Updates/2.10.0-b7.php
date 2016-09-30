@@ -12,13 +12,23 @@ namespace Piwik\Updates;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_10_0_b7 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
 
-    public function getMigrationQueries(Updater $updater)
+    public function __construct(MigrationFactory $factory)
     {
-        $sqls = array();
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
+    {
+        $migrations = array();
 
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
 
@@ -27,15 +37,15 @@ class Updates_2_10_0_b7 extends Updates
         });
 
         foreach ($archiveBlobTables as $table) {
-            $sqls["UPDATE " . $table . " SET name = 'Resolution_resolution' WHERE name = 'UserSettings_resolution'"] = false;
-            $sqls["UPDATE " . $table . " SET name = 'Resolution_configuration' WHERE name = 'UserSettings_configuration'"] = false;
+            $migrations[] = $this->migration->db->sql("UPDATE $table SET name = 'Resolution_resolution' WHERE name = 'UserSettings_resolution'");
+            $migrations[] = $this->migration->db->sql("UPDATE $table SET name = 'Resolution_configuration' WHERE name = 'UserSettings_configuration'");
         }
 
-        return $sqls;
+        return $migrations;
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

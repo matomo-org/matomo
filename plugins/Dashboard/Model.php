@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Dashboard;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\WidgetsList;
+use Piwik\Widget\WidgetsList;
 
 class Model
 {
@@ -189,7 +189,11 @@ class Model
 
                     if ($widget->uniqueId == $oldWidgetId) {
 
-                        $newWidgetId = WidgetsList::getWidgetUniqueId($newWidget['module'], $newWidget['action'], $newWidget['params']);
+                        if (!empty($newWidget['uniqueId'])) {
+                            $newWidgetId = $newWidget['uniqueId'];
+                        } else {
+                            $newWidgetId = WidgetsList::getWidgetUniqueId($newWidget['module'], $newWidget['action'], $newWidget['params']);
+                        }
 
                         // is new widget already is on dashboard just remove the old one
                         if (self::layoutContainsWidget($dashboardLayout, $newWidgetId)) {

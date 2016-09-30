@@ -1,0 +1,21 @@
+{
+	"name": "jScrollPane",
+	"license": [
+		"MIT",
+		"GPL-2.0"
+	],
+	"main": [
+		"./script/jquery.mousewheel.js",
+		"./script/mwheelIntent.js",
+		"./script/jquery.jscrollpane.js",
+		"./script/jquery.jscrollpane.min.js",
+		"./style/jquery.jscrollpane.css"
+	],
+	"dependencies": {
+		"jquery": "latest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/vitch/jScrollPane.git"
+	}
+}

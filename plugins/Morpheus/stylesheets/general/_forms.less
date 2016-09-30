@@ -1,491 +1,67 @@
-form {
-    margin-bottom: 30px;
-}
-
-label {
-    cursor: pointer;
-}
-
-input:not([type="checkbox"]):not([type="submit"]):not([type="button"]), select, textarea {
-    border: 1px solid #d4d4d4;
-    font-size: 14px;
-    color: @theme-color-text-lighter;
-    .border-radius(2px);
-    margin-left: 0;
-    padding: 10px 12px;
-    min-height: 20px;
-    .box-sizing(border-box);
-    background: @theme-color-background-base;
-}
-input:not([type="checkbox"]):not([type="submit"]):not([type="button"]), textarea {
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -moz-box-shadow:    inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow:         inset 0 1px 1px rgba(0,0,0,.075);
-}
-input[disabled] {
-    background: #F5F5F5 none !important;
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: @theme-color-background-base;
-    background-image: url("plugins/Morpheus/images/select_arrow.png");
-    background-repeat: no-repeat;
-    background-position: right center;
-    padding-right: 30px;
-}
-// This class/mixin allows to restore the native style of selects when needed
-.native-select {
-    -webkit-appearance: menulist;
-    -moz-appearance: menulist;
-    appearance: menulist;
-    padding: 4px 4px;
-    background: none;
-}
-
 .form-group {
-    width: 100%;
-    margin-bottom: 15px;
-    .clearfix();
+  margin-bottom: 20px;
+  margin-top: 20px;
 
-    label {
-        display: block;
-        margin: 8px 0 6px;
-        font-size: 14px;
-        line-height: 20px;
-        width: 40%;
-    }
-    input, select, textarea {
-        display: block;
-        width: 40%;
-    }
-    .input-group {
-        width: 40%;
-    }
-
-    .radio, .checkbox {
-        font-size: 12px;
-        width: 40%;
-        text-transform: none;
-        line-height: 20px;
-        margin: 7px 0 2px;
-        input[type="checkbox"], input[type="radio"] {
-            display: inline;
-            width: auto;
-        }
-        // Quickform adds a label automatically so we have to remove its formatting
-        // TODO remove when we get rid of Quickform
-        label {
-            text-transform: none;
-            display: inline;
-            width: auto;
-            font-size: inherit;
-        }
-        .form-description {
-            display: inline;
-        }
-    }
-
-    .form-help {
-        float: right;
-        width: 58%;
-        margin-bottom: 0;
-    }
-
-    label .form-description {
-        display: inline;
-        &:before {
-            content: '(';
-        }
-        &:after {
-            content: ')';
-        }
-    }
-
-    .form-description {
-        width: 40%;
-        display: block;
-        margin-top: 6px;
-    }
-
-    .sites_autocomplete {
-        position: relative;
-    }
-}
-
-// TODO Form helps are used outside of forms in UserCountry (old table layout)
-// Once this plugin uses the new form layout, move those rules back into ".form-group .form-help"
-.form-help {
-    .alert;
-    .alert-info;
-    // Smaller padding to match input's heights
-    padding: 11px 20px 10px;
-    &:before {
-        // Remove the icon
-        content: "";
-    }
-}
-
-.form-description {
-    color: @theme-color-text-lighter;
-    font-style: italic;
-}
-
-.add-cors-host,
-.submit {
-    .btn;
-}
-
-.top_bar_sites_selector {
-    z-index: 143;
-    .sites_autocomplete .custom_select {
-        z-index: 139;
-    }
-}
-
-.sites_autocomplete {
-    input {
-        min-height: 0;
-    }
-}
-
-.ajaxError {
-    background: @theme-color-brand;
-    color: #fff;
-    border: 0px;
-    .border-radius(6px);
-    padding: 20px 25px;
-    text-align: center;
-    font-weight: normal;
-}
-
-.limitSelection {
-    > ul {
-        position: relative;
-        top: -6px;
-    }
-    > div {
-        .border-radius(2px);
-        background-color: @theme-color-background-base;
-        .font-default(10px, 12px);
-        background: none;
-        padding: 2px 14px 2px 1px;
-        span {
-            position: relative;
-            background: none;
-            color: @theme-color-text;
-            display: block;
-            padding-right: 3px;
-            &:after {
-                content: '';
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-top: 5px solid @theme-color-brand;
-                position: absolute;
-                top: 7px;
-                right: -9px;
-            }
-        }
-    }
-
-    span {
-        color: @theme-color-text;
-        font-weight: normal;
-    }
-
-    &.visible {
-        > div {
-            background-image: none;
-            > span:after {
-                content: '';
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-bottom: 5px solid @theme-color-brand;
-                border-top-color: transparent;
-                position: absolute;
-                top: 1px;
-                right: -9px;
-            }
-        }
-    }
-}
-
-//checkboxes and radio
-.form-radio, .form-checkbox {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
-.form-radio, .form-checkbox {
-    height: 15px;
-    width: 15px;
-    float: left;
-    cursor: pointer;
-    background: url('plugins/Morpheus/images/forms-sprite.png');
-    margin: 2px 5px 2px 0;
-}
-
-.form-radio.disabled {
-    background-position: 15px -16px;
-}
-
-.form-checkbox.disabled {
-    background-position: 15px 0px;
-}
-
-.form-radio + label, .form-checkbox + label {
-    float: left;
-    display: inline-block;
-
-    + .form-description {
-        margin-left: 1em;
-    }
-
-    + br, + .form-description + br {
-        clear: both;
-    }
-
-    + .form-radio, + .form-checkbox {
-        margin-left: 32px;
-    }
-}
-
-fieldset > .form-radio + label { // assumes <br/> after the label
-    display: inline-block;
-    margin-bottom: -.5em;
-}
-
-label {
-    &.hover,
-    &:hover {
-        border: 0px;
-    }
-}
-
-.form-radio {
-    background-position: 0 -16px;
-
-    &.form-hover {
-        background-position: -60px -16px;
-    }
-
-    &.checked {
-        background-position: -30px -16px;
-        &.form-hover {
-            background-position: -90px -16px;
-        }
-    }
-}
-
-.form-checkbox {
-    background-position: 0 0;
-
-    &.form-hover {
-        background-position: -60px 0;
-    }
-
-    &.checked {
-        background-position: -30px 0;
-        &.form-hover {
-            background-position: -90px 0;
-        }
-    }
-}
-
-.prettycheckbox a:focus, .prettyradio a:focus {
-    outline: 0 none;
-}
-.prettycheckbox label, .prettyradio label {
-    display: block;
-    float: left;
-    margin: 2px;
-    cursor: pointer;
-}
-.prettycheckbox a.disabled, .prettycheckbox label.disabled, .prettyradio a.disabled, .prettyradio label.disabled {
-    cursor: not-allowed;
-}
-.prettycheckbox a {
-    background-position: 0 0;
-}
-.prettycheckbox a:focus {
-    background-position: -15px 0;
-}
-.prettycheckbox a.checked {
-    background-position: -38px 0;
-}
-.prettycheckbox a.checked:focus {
-    background-position: -53px 0;
-}
-.prettycheckbox a.checked.disabled {
-    background-position: -99px 0;
-}
-.prettycheckbox a.disabled {
-    background-position: -76px 0;
-}
-.prettyradio a {
-    background-position: -129px 0;
-}
-.prettyradio a:focus {
-    background-position: -144px 0;
-}
-.prettyradio a.checked {
-    background-position: -167px 0;
-}
-.prettyradio a.checked:focus {
-    background-position: -182px 0;
-}
-.prettyradio a.checked.disabled {
-    background-position: -228px 0;
-}
-.prettyradio a.disabled {
-    background-position: -205px 0;
-}
-
-// specific form control overrides (for iCheck)
-.indented-radio-button {
-    margin: 0;
-}
-
-.listReports > li:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.listReports {
-    .form-radio + label, .form-checkbox + label {
-        width: 250px;
-    }
-}
-
-// Bootstrap input groups
-// --------------------------------------------------
-.input-group {
-    position: relative; // For dropdowns
-    display: table;
-    border-collapse: separate; // prevent input groups from inheriting border styles from table cells when placed within a table
-
-    // Undo padding and float of grid classes
-    &[class*="col-"] {
-        float: none;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    input {
-        // Ensure that the input is always above the *appended* addon button for
-        // proper border colors.
-        position: relative;
-        z-index: 2;
-
-        // IE9 fubars the placeholder attribute in text inputs and the arrows on
-        // select elements in input groups. To fix it, we float the input. Details:
-        // https://github.com/twbs/bootstrap/issues/11561#issuecomment-28936855
-        float: left;
-
-        width: 100%;
-        margin-bottom: 0;
-    }
-}
-// Display as table-cell
-.input-group-addon,
-.input-group-btn,
-.input-group input {
-    display: table-cell;
-
-    &:not(:first-child):not(:last-child) {
-        border-radius: 0;
-    }
-}
-// Addon and addon wrapper for buttons
-.input-group-addon,
-.input-group-btn {
-    width: 1%;
-    white-space: nowrap;
-    vertical-align: middle; // Match the inputs
-}
-// Text input groups
-.input-group-addon {
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: normal;
-    color: @theme-color-text-lighter;
-    line-height: 1;
-    text-align: center;
-    background-color: @theme-color-background-base;
-    border: 1px solid #d4d4d4;
-    border-radius: 2px;
-    // Nuke default margins from checkboxes and radios to vertically center within.
-    input[type="radio"],
-    input[type="checkbox"] {
-        margin-top: 0;
-    }
-}
-
-// Reset rounded corners
-.input-group input:first-child,
-.input-group-addon:first-child,
-.input-group-btn:first-child > .btn,
-.input-group-btn:first-child > .btn-group > .btn,
-.input-group-btn:first-child > .dropdown-toggle,
-.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),
-.input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-}
-.input-group-addon:first-child {
-    border-right: 0;
-}
-.input-group input:last-child,
-.input-group-addon:last-child,
-.input-group-btn:last-child > .btn,
-.input-group-btn:last-child > .btn-group > .btn,
-.input-group-btn:last-child > .dropdown-toggle,
-.input-group-btn:first-child > .btn:not(:first-child),
-.input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-}
-.input-group-addon:last-child {
-    border-left: 0;
-}
-// Button input groups
-.input-group-btn {
+  label.siteSelectorLabel {
     position: relative;
-    // Jankily prevent input button groups from wrapping with `white-space` and
-    // `font-size` in combination with `inline-block` on buttons.
-    font-size: 0;
-    white-space: nowrap;
+    top: -7px;
+    left: 0;
+    font-size: 13px;
+  }
 
-    // Negative margin for spacing, position for bringing hovered/focused/activated
-    // element above the siblings.
-    > .btn {
-        position: relative;
-        + .btn {
-            margin-left: -1px;
-        }
-        // Bring the "active" button to the front
-        &:hover,
-        &:focus,
-        &:active {
-            z-index: 2;
-        }
-    }
+  label.fieldRadioTitle {
+    padding-bottom: 10px;
+    display: inline-block;
+    color: #9e9e9e;
+    font-size: 13px;
 
-    // Negative margin to only have a 1px border between the two
-    &:first-child {
-        > .btn,
-        > .btn-group {
-            margin-right: -1px;
-        }
+  }
+
+  > h3 {
+    padding-bottom: 16px !important;
+  }
+
+  .form-help {
+    color: #838383;
+    background-color: #F5F5F5;
+    font-size: 13px;
+    padding: 20px 20px 20px 20px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 2px;
+    font-size: 14px;
+    position: relative;
+  }
+
+  label {
+    .form-description {
+      font-size: 90%;
+      font-style: italic;
+      &:before {
+        content: '(';
+      }
+      &:after {
+        content: ')';
+      }
     }
-    &:last-child {
-        > .btn,
-        > .btn-group {
-            z-index: 2;
-            margin-left: -1px;
-        }
-    }
+  }
+
+  .inline-help .inline-help-node {
+    display: block;
+  }
+
+}
+
+
+.inline-help-node {
+  display: none;
+}
+
+.input-field .prefix {
+  color: @theme-color-text-lighter;
+}
+
+input.browser-default {
+  box-sizing: border-box;
+  margin: 0;
+  height: auto;
 }

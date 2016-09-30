@@ -1,9 +1,31 @@
-<div id='entityEditContainer' class="managegoals" style="display:none;">
-    <table class="dataTable entityTable">
+<div id='entityEditContainer' feature="true"
+     ng-show="manageGoals.showGoalList"
+     piwik-content-block content-title="{{ 'Goals_ManageGoals'|translate|e('html_attr') }}"
+     class="managegoals">
+
+    <div piwik-activity-indicator loading="manageGoals.isLoading"></div>
+
+    <div class="contentHelp">
+        {{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
+
+        {% if not ecommerceEnabled %}
+            <br /><br/>
+            {% set websiteManageText %}
+                <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
+            {% endset %}
+            {% set ecommerceReportText %}
+                <a href="http://piwik.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
+            {% endset %}
+            {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
+        {% endif %}
+    </div>
+
+    <table piwik-content-table>
         <thead>
         <tr>
             <th class="first">Id</th>
             <th>{{ 'Goals_GoalName'|translate }}</th>
+            <th>{{ 'General_Description'|translate }}</th>
             <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
             <th>{{ 'General_ColumnRevenue'|translate }}</th>
             {% if userCanEditGoals %}
@@ -14,7 +36,7 @@
         </thead>
         {% if goals is empty %}
             <tr>
-                <td colspan='7'>
+                <td colspan='8'>
                     <br/>
                     {{ 'Goals_ThereIsNoGoalToManage'|translate(siteName)|raw }}.
                     <br/><br/>
@@ -25,23 +47,24 @@
                 <tr>
                     <td class="first">{{ goal.idgoal }}</td>
                     <td>{{ goal.name }}</td>
+                    <td>{{ goal.description }}</td>
                     <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
                         {% if goal.pattern_type is defined %}
                             <br/>
                             {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern }}
                         {% endif %}
                     </td>
-                    <td class="text-center">
+                    <td class="center">
                         {% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}
                     </td>
                     {% if userCanEditGoals %}
-                        <td class="text-center">
-                            <button id="{{ goal.idgoal }}" class="edit-goal btn btn-flat btn-lg" title="{{ 'General_Edit'|translate }}">
+                        <td style="padding-top:2px">
+                            <button ng-click="manageGoals.editGoal({{ goal.idgoal }})" class="table-action" title="{{ 'General_Edit'|translate }}">
                                 <span class="icon-edit"></span>
                             </button>
                         </td>
-                        <td class="text-center">
-                            <button id="{{ goal.idgoal }}" class="delete-goal btn btn-flat btn-lg" title="{{ 'General_Delete'|translate }}">
+                        <td style="padding-top:2px">
+                            <button ng-click="manageGoals.deleteGoal({{ goal.idgoal }})" class="table-action" title="{{ 'General_Delete'|translate }}">
                                 <span class="icon-delete"></span>
                             </button>
                         </td>
@@ -52,13 +75,14 @@
     </table>
 
     {% if userCanEditGoals and onlyShowAddNewGoal is not defined %}
-        <p>
-            <button id="add-goal" class="btn btn-lg btn-flat">
+        <div class="tableActionBar">
+            <button id="add-goal" ng-click="manageGoals.createGoal()">
                 <span class="icon-add"></span>
                 {{ 'Goals_AddNewGoal'|translate }}
             </button>
-        </p>
+        </div>
     {% endif %}
+
 </div>
 
 <div class="ui-confirm" id="confirm">

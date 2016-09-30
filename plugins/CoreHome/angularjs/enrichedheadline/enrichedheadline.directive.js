@@ -20,9 +20,13 @@
  * <h2 piwik-enriched-headline edit-url="index.php?module=Foo&action=bar&id=4">All Websites Dashboard</h2>
  * -> makes the headline clickable linking to the specified url
  *
+ * <h2 piwik-enriched-headline inline-help="inlineHelp">Pages report</h2>
+ * -> inlineHelp specified via a attribute shows help icon on headline hover
+ *
  * <h2 piwik-enriched-headline>All Websites Dashboard
  *     <div class="inlineHelp">My <strong>inline help</strong></div>
  * </h2>
+ * -> alternative definition for inline help
  * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
  */
 (function () {
@@ -42,7 +46,8 @@
             scope: {
                 helpUrl: '@',
                 editUrl: '@',
-                featureName: '@'
+                featureName: '@',
+                inlineHelp: '@?'
             },
             templateUrl: 'plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.html?cb=' + piwik.cacheBuster,
             compile: function (element, attrs) {
@@ -52,19 +57,21 @@
                 }
 
                 return function (scope, element, attrs) {
+                    if (!scope.inlineHelp) {
 
-                    var helpNode = $('[ng-transclude] .inlineHelp', element);
+                        var helpNode = $('[ng-transclude] .inlineHelp', element);
 
-                    if ((!helpNode || !helpNode.length) && element.next()) {
-                        // hack for reports :(
-                        helpNode = element.next().find('.reportDocumentation');
-                    }
-
-                    if (helpNode && helpNode.length) {
-                        if ($.trim(helpNode.text())) {
-                            scope.inlineHelp = $.trim(helpNode.html());
+                        if ((!helpNode || !helpNode.length) && element.next()) {
+                            // hack for reports :(
+                            helpNode = element.next().find('.reportDocumentation');
                         }
-                        helpNode.remove();
+
+                        if (helpNode && helpNode.length) {
+                            if ($.trim(helpNode.text())) {
+                                scope.inlineHelp = $.trim(helpNode.html());
+                            }
+                            helpNode.remove();
+                        }
                     }
 
                     if (!attrs.featureName) {

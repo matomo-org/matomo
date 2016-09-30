@@ -1477,6 +1477,7 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
     params.format = 'JSON';
     params.module = 'API';
     params.method = method;
+    params.filter_limit = '-1';
 
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(params, 'get');

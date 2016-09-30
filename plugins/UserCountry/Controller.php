@@ -26,17 +26,12 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    public function index()
+    public function getDistinctCountries()
     {
-        $view = new View('@UserCountry/index');
+        $view = new View('@UserCountry/getDistinctCountries');
 
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
-
-        $view->dataTableCountry = $this->renderReport('getCountry');
-        $view->dataTableContinent = $this->renderReport('getContinent');
-        $view->dataTableRegion = $this->renderReport('getRegion');
-        $view->dataTableCity = $this->renderReport('getCity');
 
         return $view->render();
     }
@@ -53,6 +48,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->thisIP = IP::getIpFromHeader();
         $geoIPDatabasesInstalled = GeoIp::isDatabaseInstalled();
         $view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
+        $view->updatePeriodOptions = $this->getPeriodUpdateOptions();
 
         // check if there is a working provider (that isn't the default one)
         $isThereWorkingProvider = false;
@@ -146,9 +142,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function getGeoIpUpdaterManageScreen()
     {
         $view = new View('@UserCountry/getGeoIpUpdaterManageScreen');
+
+        $view->updatePeriodOptions = $this->getPeriodUpdateOptions();
         $view->geoIPDatabasesInstalled = true;
         $this->setUpdaterManageVars($view);
         return $view->render();
+    }
+
+    private function getPeriodUpdateOptions()
+    {
+        return array(
+            'month' => Piwik::translate('Intl_PeriodMonth'),
+            'week' => Piwik::translate('Intl_PeriodWeek')
+        );
     }
 
     /**
@@ -169,7 +175,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $lastRunTime = GeoIPAutoUpdater::getLastRunTime();
         if ($lastRunTime !== false) {
-            $view->lastTimeUpdaterRun = '<strong><em>' . $lastRunTime->toString() . '</em></strong>';
+            $view->lastTimeUpdaterRun = '<strong>' . $lastRunTime->toString() . '</strong>';
         }
 
         $view->nextRunTime = GeoIPAutoUpdater::getNextRunTime();

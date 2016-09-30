@@ -204,7 +204,6 @@ class RowEvolution
         $view->config->show_goals = false;
         $view->config->show_search = false;
         $view->config->show_all_views_icons = false;
-        $view->config->show_active_view_icon = false;
         $view->config->show_related_reports  = false;
         $view->config->show_series_picker    = false;
         $view->config->show_footer_message   = false;

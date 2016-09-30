@@ -14,7 +14,6 @@
         $scope.model = siteSelectorModel;
 
         $scope.autocompleteMinSites = AUTOCOMPLETE_MIN_SITES;
-        $scope.selectedSite = {id: '', name: ''};
         $scope.activeSiteId = piwik.idSite;
 
         $scope.switchSite = function (site) {

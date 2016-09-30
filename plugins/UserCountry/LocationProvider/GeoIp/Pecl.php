@@ -217,11 +217,9 @@ class Pecl extends GeoIp
     {
         $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Pecl1') . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Pecl2');
-        $installDocs = '<em>'
-            . '<a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_164">'
+        $installDocs = '<a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_164">'
             . Piwik::translate('UserCountry_HowToInstallGeoIpPecl')
-            . '</a>'
-            . '</em>';
+            . '</a>';
 
         $extraMessage = false;
         if ($this->isAvailable()) {
@@ -249,10 +247,10 @@ class Pecl extends GeoIp
                 $availableDatabaseTypes[] = Piwik::translate('UserCountry_Organization');
             }
 
-            $extraMessage .= '<br/><br/>' . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong><em>'
-                . implode(', ', $availableDatabaseTypes) . '</em></strong>.';
+            $extraMessage .= '<br/><br/>' . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
+                . implode(', ', $availableDatabaseTypes) . '</strong>.';
 
-            $extraMessage = '<strong><em>' . Piwik::translate('General_Note') . ':&nbsp;</em></strong>' . $extraMessage;
+            $extraMessage = '<strong>' . Piwik::translate('General_Note') . ':&nbsp;</strong>' . $extraMessage;
         }
 
         return array('id'            => self::ID,

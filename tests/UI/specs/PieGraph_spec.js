@@ -33,7 +33,7 @@ describe("PieGraph", function () {
 
     it("should change displayed metric when another metric picked", function (done) {
         expect.screenshot('other_metric').to.be.capture(function (page) {
-            page.click('.jqplot-seriespicker-popover input:not(:checked)');
+            page.click('.jqplot-seriespicker-popover input:not(:checked):first + label');
         }, done);
     });
 });

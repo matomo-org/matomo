@@ -13,6 +13,8 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\VisitorInterest\Columns\PagesPerVisit;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetNumberOfVisitsPerPage extends Base
 {
@@ -29,7 +31,13 @@ class GetNumberOfVisitsPerPage extends Base
         $this->processedMetrics  = false;
         $this->constantRowsCount = true;
         $this->order = 20;
-        $this->widgetTitle  = 'VisitorInterest_WidgetPages';
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()->setName('VisitorInterest_VisitsPerNbOfPages')
+        );
     }
 
     public function getDefaultTypeViewDataTable()

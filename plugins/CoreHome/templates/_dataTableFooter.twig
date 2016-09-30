@@ -1,143 +1,48 @@
 <div class="dataTableFeatures">
-
     <div class="dataTableFooterNavigation">
-        {% if properties.show_offset_information %}
-            <span>
-                <span class="dataTablePages"></span>
-            </span>
+
+        {% if not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
+            <div class="row dataTablePaginationControl">
+                {% if properties.show_pagination_control %}
+                    <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %}</span>
+                    &nbsp;
+                {% endif %}
+                {% if properties.show_offset_information %}
+                    <span class="dataTablePages"></span>
+                {% endif %}
+                {% if properties.show_pagination_control %}
+                    &nbsp;<span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
+                {% endif %}
+            </div>
         {% endif %}
 
-        {% if properties.show_pagination_control %}
-            <span>
-                <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %} </span>
-                <span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
-            </span>
-        {% endif %}
+        <div class="row">
+            <div class="col s9 m9 dataTableControls">
+                {% include "@CoreHome/_dataTableActions.twig" %}
+            </div>
 
-        {% if properties.show_search %}
-            <span class="dataTableSearchPattern">
-        <label for="widgetSearch_{{ properties.report_id }}" style="display:none;"> {{ 'General_Search'|translate }} {{ visualization.config.translations.label|default('') }}</label>
-                <input id="widgetSearch_{{ properties.report_id }}" type="text" class="searchInput" length="15" />
-                <input type="submit" value="{{ 'General_Search'|translate }}" />
-            </span>
+            {% if properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control %}
+                <div class="col s3 m3 limitSelection"
+                     title="{{ 'General_RowsToDisplay'|translate }}" alt="{{ 'General_RowsToDisplay'|translate }}"
+                     ></div>
+            {% endif %}
+        </div>
+
+        {% if (properties.related_reports is not empty) and properties.show_related_reports %}
+            <div class="row datatableRelatedReports">
+                {{ properties.related_reports_title|raw }}
+                <ul style="list-style:none;{% if properties.related_reports|length == 1 %}display:inline-block;{% endif %}}">
+                    <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
+
+                    {% for reportUrl,reportTitle in properties.related_reports %}
+                        <li><span href="{{ reportUrl }}">{{ reportTitle }}</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% endif %}
     </div>
 
     <span class="loadingPiwik" style="display:none;"><img src="plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
-
-    {% if properties.show_footer_icons %}
-        <div class="dataTableFooterIcons">
-            <div class="dataTableFooterWrap">
-                {% for footerIconGroup in footerIcons %}
-                    <div class="tableIconsGroup">
-                    <span class="{{ footerIconGroup.class }}">
-                    {% for footerIcon in footerIconGroup.buttons if footerIcon.icon %}
-                        {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
-                                ((footerIcon.id == 'ecommerceOrder' and clientSideParameters.abandonedCarts == 0) or
-                                 (footerIcon.id == 'ecommerceAbandonedCart' and clientSideParameters.abandonedCarts == 1)) %}
-                        <span>
-                            {% if properties.show_active_view_icon and (clientSideParameters.viewDataTable == footerIcon.id or isActiveEcommerceView) %}
-                                <img src="plugins/Morpheus/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
-                            {% endif %}
-                            <a class="tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id or isActiveEcommerceView %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
-                                <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
-                                {% if footerIcon.text is defined %}<span>{{ footerIcon.text }}</span>{% endif %}
-                            </a>
-                        </span>
-                    {% endfor %}
-                    </span>
-                    </div>
-                {% endfor %}
-                <div class="tableIconsGroup">
-                    {% if footerIcons is empty %}
-                        <img src="plugins/Morpheus/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
-                    {% endif %}
-                    <span class="exportToFormatIcons">
-                        <a class="tableIcon" var="export">
-                            <img width="16" height="16" src="plugins/Morpheus/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
-                        </a>
-                    </span>
-                    <span class="exportToFormatItems" style="display:none;">
-                    {{ 'General_Export'|translate }}:
-                    {% set requestParams = properties.request_parameters_to_modify|json_encode %}
-                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a> |
-                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a> |
-                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a> |
-                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a> |
-                    <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a>
-                        {% if properties.show_export_as_rss_feed %}
-                            |
-                            <a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
-                                <img border="0" src="plugins/Morpheus/images/feed.png"/>
-                            </a>
-                        {% endif %}
-                    </span>
-                    {% if properties.show_export_as_image_icon %}
-                        <span id="dataTableFooterExportAsImageIcon">
-                            <a class="tableIcon" href="#" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
-                                <img title="{{ 'General_ExportAsImage'|translate }}" src="plugins/Morpheus/images/image.png"/>
-                            </a>
-                        </span>
-                    {% endif %}
-                </div>
-
-            </div>
-            <div class="limitSelection {% if not properties.show_pagination_control and not properties.show_limit_control %} hidden{% endif %}"
-                 title="{{ 'General_RowsToDisplay'|translate }}" alt="{{ 'General_RowsToDisplay'|translate }}"></div>
-            <div class="tableConfiguration">
-                <a class="tableConfigurationIcon" href="#"></a>
-                <ul>
-                    {% if properties.show_flatten_table %}
-                        {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
-                            <li>
-                                <div class="configItem dataTableIncludeAggregateRows"></div>
-                            </li>
-                        {% endif %}
-                        <li>
-                            <div class="configItem dataTableFlatten"></div>
-                        </li>
-                    {% endif %}
-                    {% if properties.show_exclude_low_population %}
-                        <li>
-                            <div class="configItem dataTableExcludeLowPopulation"></div>
-                        </li>
-                    {% endif %}
-                    {% if properties.show_pivot_by_subtable|default is not empty %}
-                        <li>
-                            <div class="configItem dataTablePivotBySubtable"></div>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-            {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
-                <div class="annotationView" title="{{ 'Annotations_IconDesc'|translate }}">
-                    <a class="tableIcon">
-                        <img width="16" height="16" src="plugins/Morpheus/images/annotations.png"/>
-                    </a>
-                    <span>{{ 'Annotations_Annotations'|translate }}</span>
-                </div>
-            {% endif %}
-
-            <div class="foldDataTableFooterDrawer" title="{{ 'General_Close'|translate|e('html_attr') }}"
-                    ><img width="7" height="4" src="plugins/Morpheus/images/sortasc_dark.png"></div>
-
-        </div>
-        <div class="expandDataTableFooterDrawer" title="{{ 'General_ExpandDataTableFooter'|translate|e('html_attr') }}"
-                ><img width="7" height="4" src="plugins/Morpheus/images/sortdesc_dark.png" style=""></div>
-    {% endif %}
-
-    <div class="datatableRelatedReports">
-        {% if (properties.related_reports is not empty) and properties.show_related_reports %}
-            {{ properties.related_reports_title|raw }}
-            <ul style="list-style:none;{% if properties.related_reports|length == 1 %}display:inline-block;{% endif %}}">
-                <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
-
-                {% for reportUrl,reportTitle in properties.related_reports %}
-                    <li><span href="{{ reportUrl }}">{{ reportTitle }}</span></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
 
     {% if properties.show_footer_message is defined and properties.show_footer_message is not empty %}
         <div class='datatableFooterMessage'>{{ properties.show_footer_message | raw }}</div>

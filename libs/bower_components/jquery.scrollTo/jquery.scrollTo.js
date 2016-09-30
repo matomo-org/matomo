@@ -5,7 +5,7 @@
  * http://flesler.blogspot.com/2007/10/jqueryscrollto.html
  * @projectDescription Easy element scrolling using jQuery.
  * @author Ariel Flesler
- * @version 1.4.13
+ * @version 1.4.14
  */
 ;(function (define) {
 	'use strict';
@@ -18,7 +18,7 @@
 
 		$scrollTo.defaults = {
 			axis:'xy',
-			duration: parseFloat($.fn.jquery) >= 1.3 ? 0 : 1,
+			duration: 0,
 			limit:true
 		};
 
@@ -171,7 +171,7 @@
 		};
 
 		function both( val ) {
-			return $.isFunction(val) || typeof val == 'object' ? val : { top:val, left:val };
+			return $.isFunction(val) || $.isPlainObject(val) ? val : { top:val, left:val };
 		}
 
 		// AMD requirement

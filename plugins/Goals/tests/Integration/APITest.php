@@ -50,23 +50,23 @@ class APITest extends IntegrationTestCase
 
     public function test_addGoal_shouldSucceed_IfOnlyMinimumFieldsGiven()
     {
-        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de/?pk_campaign=1', 'exact');
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de/?pk_campaign=1', 'exact', false, false, false, 'test description');
 
-        $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de/?pk_campaign=1', 'exact', 0, 0, 0);
+        $this->assertGoal($idGoal, 'MyName', 'test description', 'url', 'http://www.test.de/?pk_campaign=1', 'exact', 0, 0, 0);
     }
 
     public function test_addGoal_ShouldSucceed_IfAllFieldsGiven()
     {
         $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', true, 50, true);
 
-        $this->assertGoal($idGoal, 'MyName', 'url', 'http://www.test.de', 'exact', 1, 50, 1);
+        $this->assertGoal($idGoal, 'MyName', '', 'url', 'http://www.test.de', 'exact', 1, 50, 1);
     }
 
     public function test_addGoal_ShouldSucceed_IfExactPageTitle()
     {
         $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'normal title', 'exact', true, 50, true);
 
-        $this->assertGoal($idGoal, 'MyName', 'title', 'normal title', 'exact', 1, 50, 1);
+        $this->assertGoal($idGoal, 'MyName', '', 'title', 'normal title', 'exact', 1, 50, 1);
     }
 
     /**
@@ -143,7 +143,7 @@ class APITest extends IntegrationTestCase
         $idGoal = $this->createAnyGoal();
         $this->api->updateGoal($this->idSite, $idGoal, 'UpdatedName', 'file', 'http://www.updatetest.de', 'contains', true, 999, true);
 
-        $this->assertGoal($idGoal, 'UpdatedName', 'file', 'http://www.updatetest.de', 'contains', 1, 999, 1);
+        $this->assertGoal($idGoal, 'UpdatedName', '', 'file', 'http://www.updatetest.de', 'contains', 1, 999, 1);
     }
 
     public function test_updateGoal_shouldUpdateMinimalFields_ShouldLeaveOtherFieldsUntouched()
@@ -151,7 +151,7 @@ class APITest extends IntegrationTestCase
         $idGoal = $this->createAnyGoal();
         $this->api->updateGoal($this->idSite, $idGoal, 'UpdatedName', 'file', 'http://www.updatetest.de', 'contains');
 
-        $this->assertGoal($idGoal, 'UpdatedName', 'file', 'http://www.updatetest.de', 'contains', 0, 0, 0);
+        $this->assertGoal($idGoal, 'UpdatedName', '', 'file', 'http://www.updatetest.de', 'contains', 0, 0, 0);
     }
 
     public function test_deleteGoal_shouldNotDeleteAGoal_IfGoalIdDoesNotExist()
@@ -213,6 +213,7 @@ class APITest extends IntegrationTestCase
             'idsite' => '1',
             'idgoal' => '1',
             'name' => 'MyName1',
+            'description' => '',
             'match_attribute' => 'event_action',
             'pattern' => 'test',
             'pattern_type' => 'exact',
@@ -235,12 +236,13 @@ class APITest extends IntegrationTestCase
         $this->assertEmpty($goals);
     }
 
-    private function assertGoal($idGoal, $name, $url, $pattern, $patternType, $caseSenstive = 0, $revenue = 0, $allowMultiple = 0)
+    private function assertGoal($idGoal, $name, $description, $url, $pattern, $patternType, $caseSenstive = 0, $revenue = 0, $allowMultiple = 0)
     {
         $expected = array($idGoal => array(
             'idsite' => $this->idSite,
             'idgoal' => $idGoal,
             'name' => $name,
+            'description' => $description,
             'match_attribute' => $url,
             'pattern' => $pattern,
             'pattern_type' => $patternType,

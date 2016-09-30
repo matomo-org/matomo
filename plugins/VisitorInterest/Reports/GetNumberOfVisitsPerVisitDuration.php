@@ -13,6 +13,8 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\VisitorInterest\Columns\VisitDuration;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetNumberOfVisitsPerVisitDuration extends Base
 {
@@ -29,7 +31,13 @@ class GetNumberOfVisitsPerVisitDuration extends Base
         $this->processedMetrics  = false;
         $this->constantRowsCount = true;
         $this->order = 15;
-        $this->widgetTitle  = 'VisitorInterest_WidgetLengths';
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()->setName('VisitorInterest_VisitsPerDuration')
+        );
     }
 
     public function getDefaultTypeViewDataTable()

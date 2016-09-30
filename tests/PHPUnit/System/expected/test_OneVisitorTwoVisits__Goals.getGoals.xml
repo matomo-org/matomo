@@ -4,6 +4,7 @@
 		<idsite>1</idsite>
 		<idgoal>1</idgoal>
 		<name>triggered js</name>
+		<description />
 		<match_attribute>manually</match_attribute>
 		<allow_multiple>0</allow_multiple>
 		<revenue>0</revenue>
@@ -13,6 +14,7 @@
 		<idsite>1</idsite>
 		<idgoal>2</idgoal>
 		<name>matching purchase.htm</name>
+		<description />
 		<match_attribute>url</match_attribute>
 		<pattern>(.*)store\/purchase\.(.*)</pattern>
 		<pattern_type>regex</pattern_type>

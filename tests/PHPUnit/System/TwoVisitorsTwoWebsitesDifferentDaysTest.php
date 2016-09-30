@@ -37,9 +37,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        if(self::isTravisCI() && self::isPhpVersion53()) {
-            $this->markTestSkipped('This test fails on travis eg. https://travis-ci.org/piwik/piwik/jobs/46944264');
-        }
         $this->runApiTests($api, $params);
     }
 

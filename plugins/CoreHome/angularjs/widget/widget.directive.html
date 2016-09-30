@@ -1,0 +1,15 @@
+<div id="{{ widget.uniqueId }}"
+     ng-show="view.showWidget"
+     ng-class="{'isFirstWidgetInPage': widget.isFirstInPage}">
+
+    <div ng-if="!widget.isContainer && widget.parameters"
+         piwik-widget-loader="widget.parameters" widget-name="{{ widget.name }}"></div>
+
+    <div ng-if="widget.isContainer && widget.layout!='ByDimension'">
+        <div piwik-widget-container="widget"></div>
+    </div>
+
+    <div ng-if="widget.isContainer && widget.layout=='ByDimension'">
+        <div piwik-widget-by-dimension-container="widget"></div>
+    </div>
+</div>

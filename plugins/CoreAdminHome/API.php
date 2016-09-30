@@ -11,6 +11,8 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Exception;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
@@ -20,6 +22,7 @@ use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
+use Piwik\Url;
 
 /**
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
@@ -55,6 +58,58 @@ class API extends \Piwik\Plugin\API
         return $this->scheduler->run();
     }
 
+    /**
+     * @internal
+     */
+    public function setArchiveSettings($enableBrowserTriggerArchiving, $todayArchiveTimeToLive)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if (!Controller::isGeneralSettingsAdminEnabled()) {
+            throw new Exception('General settings admin is ont enabled');
+        }
+
+        Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+        Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+
+        return true;
+    }
+
+    /**
+     * @internal
+     */
+    public function setTrustedHosts($trustedHosts)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if (!Controller::isGeneralSettingsAdminEnabled()) {
+            throw new Exception('General settings admin is ont enabled');
+        }
+
+        if (!empty($trustedHosts)) {
+            Url::saveTrustedHostnameInConfig($trustedHosts);
+            Config::getInstance()->forceSave();
+        }
+
+        return true;
+    }
+
+    /**
+     * @internal
+     */
+    public function setBrandingSettings($useCustomLogo)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $customLogo = new CustomLogo();
+        if ($useCustomLogo) {
+            $customLogo->enable();
+        } else {
+            $customLogo->disable();
+        }
+
+        return true;
+    }
     /**
      * Invalidates report data, forcing it to be recomputed during the next archiving run.
      *

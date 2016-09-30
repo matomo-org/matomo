@@ -2,7 +2,7 @@
 use Piwik\FrontController;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\WidgetsList;
+use Piwik\Widget\WidgetsList;
 
 exit;
 $date = date('Y-m-d');
@@ -34,15 +34,28 @@ require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
 FrontController::getInstance()->init();
-$widgets = WidgetsList::get();
-foreach ($widgets as $category => $widgetsInCategory) {
+$widgets = WidgetsList::get()->getWidgetConfigs();
+$widgetCategoriesHandled = array();
+foreach ($widgets as $widgetConfig) {
+    $category = $widgetConfig->getCategoryId();
+
+    if (!empty($widgetCategoriesHandled[$category])) {
+        continue;
+    }
+    $widgetCategoriesHandled[$category] = true;
+
     echo '<h2>' . $category . '</h2>';
-    foreach ($widgetsInCategory as $widget) {
-        echo '<h3>' . $widget['name'] . '</h3>';
+
+    foreach ($widgets as $widget) {
+        if ($category !== $widget->getCategoryId()) {
+            continue;
+        }
+
+        echo '<h3>' . \Piwik\Piwik::translate($widget->getName()) . '</h3>';
         $widgetUrl = UrlHelper::getArrayFromQueryString($url);
-        $widgetUrl['moduleToWidgetize'] = $widget['parameters']['module'];
-        $widgetUrl['actionToWidgetize'] = $widget['parameters']['action'];
-        $parameters = $widget['parameters'];
+        $widgetUrl['moduleToWidgetize'] = $widget->getModule();
+        $widgetUrl['actionToWidgetize'] = $widget->getAction();
+        $parameters = $widget->getParameters();
         unset($parameters['module']);
         unset($parameters['action']);
         foreach ($parameters as $name => $value) {
@@ -54,7 +67,7 @@ foreach ($widgets as $category => $widgetsInCategory) {
         $widgetUrl = Url::getQueryStringFromParameters($widgetUrl);
 
         echo '<div id="widgetIframe"><iframe width="500" height="350"
-			src="' . $widgetUrl . '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>';
+        src="' . $widgetUrl . '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>';
 
     }
 }

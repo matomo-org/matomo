@@ -20,8 +20,88 @@
 
     var currentYear, currentMonth, currentDay, currentDate, currentWeek;
 
+    function formatDateString(date) {
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+
+        return date.getFullYear() + '-' + month + '-' + day;
+    }
+
+    function updateDisplayDate(selectedPeriod, dateText)
+    {
+        piwik.period = selectedPeriod;
+
+        if (dateText && dateText.indexOf(',') > -1) {
+            var dateParts = dateText.split(',');
+            if (dateParts[1]) {
+                piwik.currentDateString = dateParts[1];
+            } else if (dateParts[0]) {
+                piwik.currentDateString = dateParts[0];
+            }
+        } else {
+            piwik.currentDateString = dateText;
+        }
+
+        if (selectedPeriod === 'week') {
+            var millisecondsPerDay = 24 * 60 * 60 * 1000;
+            var currentTimeSelected = currentDate.getTime();
+            // we fix currentDayOfWeek as our week starts on Monday.
+            var currentDayOfWeek = currentDate.getDay();
+            if (currentDayOfWeek === 0) {
+                // Usually Sunday === 0, we set Sunday to the end of the week.
+                currentDayOfWeek = 6;
+            } else {
+                // we move every day one day forward, so Monday which is usually 1 becomes 0
+                currentDayOfWeek = currentDayOfWeek - 1;
+            }
+
+            var firstDayOfWeek = new Date();
+            var lastDayOfWeek = new Date();
+            firstDayOfWeek.setTime(currentTimeSelected - (millisecondsPerDay * currentDayOfWeek));
+            lastDayOfWeek.setTime(firstDayOfWeek.getTime() + (millisecondsPerDay * 6));
+
+            piwik.startDateString = formatDateString(firstDayOfWeek);
+            piwik.endDateString   = formatDateString(lastDayOfWeek);
+        } else if (dateText.indexOf(',') !== -1) {
+            var dateParts = dateText.split(',');
+            piwik.startDateString = dateParts[0];
+            piwik.endDateString = dateParts[1];
+        } else {
+            piwik.startDateString = dateText;
+            piwik.endDateString = dateText;
+        }
+
+        var displayDate = dateText;
+        if (selectedPeriod === 'month') {
+            displayDate = _pk_translate('Intl_Month_Long_StandAlone_' + (currentMonth+1)) + ' ' + currentYear;
+        } else if (selectedPeriod === 'year') {
+            displayDate = currentYear;
+        } else if (selectedPeriod === 'range' || selectedPeriod === 'week') {
+            displayDate = _pk_translate('General_DateRangeFromTo', [piwik.startDateString, piwik.endDateString]);
+        }
+
+        var $title = $('#date.title');
+        $title.text(displayDate);
+        $title.attr('title', _pk_translate('General_ChooseDate', [piwikHelper.escape(displayDate)]));
+
+        if (typeof initTopControls !== 'undefined' && initTopControls) {
+            initTopControls();
+        }
+    }
+
     function setCurrentDate(dateStr) {
-        var splitDate = dateStr.split("-");
+        if (dateStr && dateStr.indexOf(',') !== -1) {
+            var parts = dateStr.split(',');
+            dateStr = parts[0];
+        }
+        
+        var splitDate = dateStr.split('-');
         currentYear = splitDate[0];
         currentMonth = splitDate[1] - 1;
         currentDay = splitDate[2];
@@ -33,6 +113,7 @@
         // eg. Login form
         return;
     }
+
     setCurrentDate(piwik.currentDateString);
 
     var todayDate = new Date;
@@ -40,11 +121,11 @@
     var todayYear = todayDate.getFullYear();
     var todayDay = todayDate.getDate();
 
-// min/max date for picker
+    // min/max date for picker
     var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
         piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
-// we start w/ the current period
+    // we start w/ the current period
     var selectedPeriod = piwik.period;
 
     function isDateInCurrentPeriod(date) {
@@ -113,6 +194,32 @@
         }
 
         return [true, ''];
+    }
+
+    function propagateNewUrlParams(date, period)
+    {
+        if (piwikHelper.isAngularRenderingThePage()) {
+
+            $('#periodString').removeClass('expanded');
+            piwikHelper.hideAjaxLoading('ajaxLoadingCalendar');
+
+            angular.element(document).injector().invoke(function ($location) {
+                var $search = $location.search();
+
+                if (date !== $search.date || period !== $search.period) {
+                    // eg when using back button the date might be actually already changed in the URL and we do not
+                    // want to change the URL again
+                    $search.date = date;
+                    $search.period = period;
+                    $location.search($search);
+                }
+
+            });
+        } else {
+            // Let broadcast do its job:
+            // It will replace date value to both search query and hash and load the new page.
+            broadcast.propagateNewPage('date=' + date + '&period=' + period);
+        }
     }
 
     piwik.getBaseDatePickerOptions = function (defaultDate) {
@@ -195,6 +302,8 @@
 
     $(function () {
 
+        var reloading = false;
+
         var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions()),
             periodLabels = $('#periodString').find('.period-type label'),
             periodTooltip = $('#periodString').find('.period-click-tooltip').html();
@@ -250,6 +359,7 @@
         var unhighlightAllDates = function () {
             // make sure nothing is highlighted
             $('.ui-state-active,.ui-state-hover', datepickerElem).removeClass('ui-state-active ui-state-hover');
+            $('.ui-datepicker-current-day', datepickerElem).removeClass('ui-datepicker-current-day');
 
             // color whitespace
             if (piwik.period == 'year') {
@@ -269,7 +379,7 @@
 
             // select new dates in calendar
             setCurrentDate(dateText);
-            piwik.period = selectedPeriod;
+            updateDisplayDate(selectedPeriod, dateText);
 
             // make sure it's called after jquery-ui is done, otherwise everything we do will
             // be undone.
@@ -277,9 +387,9 @@
 
             datepickerElem.datepicker('refresh');
 
-            // Let broadcast do its job:
-            // It will replace date value to both search query and hash and load the new page.
-            broadcast.propagateNewPage('date=' + dateText + '&period=' + selectedPeriod);
+            propagateNewUrlParams(dateText, selectedPeriod);
+            initTopControls();
+            reloading = false;
         };
 
         var toggleMonthDropdown = function (disable) {
@@ -353,9 +463,8 @@
             }
         });
 
-        var reloading = false;
-
         var changePeriodWithPageReload = function (periodInput) {
+
             var url = periodInput.val(),
                 period = broadcast.getValueFromUrl('period', url);
 
@@ -426,7 +535,7 @@
                     return false;
                 }
                 piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
-                broadcast.propagateNewPage('period=range&date=' + dateFrom + ',' + dateTo);
+                propagateNewUrlParams(dateFrom + ',' + dateTo, 'range');
             })
             .show();
 
@@ -547,6 +656,45 @@
         if (piwik.period == 'range') {
             $("#period_id_range").click();
         }
+
+        function updatePeriodPickerFromHash()
+        {
+            var dateHash = broadcast.getValueFromHash('date');
+            var periodHash = broadcast.getValueFromHash('period');
+
+            if (!dateHash || dateHash.length > 30 || !periodHash || periodHash.length > 7) {
+                // invalid data in URL
+                return;
+            }
+
+            if (!/^(\d){4}/.test(dateHash)) {
+                // it's not an actual date, it is 'yesterday' or so meaning date was not changed in calendar
+                return;
+            }
+
+            if (piwik.period === periodHash && piwik.currentDateString === dateHash) {
+                // this period / date is already loaded
+                return;
+            }
+
+            $('input[id=period_id_' + periodHash + ']').click();
+
+            updateDate(dateHash);
+
+            $('input[id=period_id_' + periodHash + ']').click();
+        }
+
+        if (piwikHelper.isAngularRenderingThePage()) {
+            // when using back button etc we need to update the date under circumstances
+            angular.element(document).injector().invoke(function ($rootScope) {
+                $rootScope.$on('$locationChangeSuccess', updatePeriodPickerFromHash);
+            });
+
+            // on initial page load the date/period in hash might be different to the one in the URL
+            updatePeriodPickerFromHash();
+        }
+
+        initTopControls();
     });
 
 }(jQuery));

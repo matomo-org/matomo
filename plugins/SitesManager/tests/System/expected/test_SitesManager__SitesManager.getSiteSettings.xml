@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<pluginName>WebsiteMeasurable</pluginName>
+		<title>WebsiteMeasurable</title>
+		<settings>
+			<row>
+				<name>urls</name>
+				<title>URLs</title>
+				<value>
+					<row>http://piwik.net</row>
+				</value>
+				<defaultValue>
+					<row>http://siteUrl.com/</row>
+					<row>http://siteUrl2.com/</row>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<cols>25</cols>
+					<rows>3</rows>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers &gt; Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Piwik automatically considers both.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>exclude_unknown_urls</name>
+				<title>Only track visits and actions when the action URL starts with one of the above URLs.</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>When enabled, Piwik will only track internal actions when the Page URL is one of the known URLs for your website. This prevents people from spamming your analytics with URLs for other websites.&lt;br /&gt;The domain and the path has to be an exact match and each valid subdomain has to be specified separately. For example when the known URLs are 'http://example.com/path' and 'http://good.example.com', tracking requests for 'http://example.com/otherpath' or 'http://bad.example.com' are ignored.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>keep_url_fragment</name>
+				<title>Keep Page URL fragments when tracking Page URLs</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<row>No (Default)</row>
+					<row>Yes</row>
+					<row>No</row>
+				</availableValues>
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>excluded_ips</name>
+				<title>Excluded IPs</title>
+				<value>
+					<row/>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<cols>20</cols>
+					<rows>4</rows>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Piwik. You can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;127.0.0.1&lt;/i&gt;</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>excluded_parameters</name>
+				<title>Excluded Parameters</title>
+				<value>
+					<row/>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<cols>20</cols>
+					<rows>4</rows>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports.&lt;br /&gt;&lt;br /&gt;Piwik will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>excluded_user_agents</name>
+				<title>Excluded User Agents</title>
+				<value>
+					<row/>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<cols>20</cols>
+					<rows>4</rows>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Enter the list of user agents to exclude from being tracked by Piwik.&lt;br /&gt;&lt;br /&gt;If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Piwik.&lt;br /&gt;You can use this to exclude some bots from being tracked.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>sitesearch</name>
+				<title>Site Search</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>integer</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<row key="1">Site Search tracking enabled</row>
+					<row key="0">Do not track Site Search</row>
+				</availableValues>
+				<description />
+				<inlineHelp>You can use Piwik to track and report what visitors are searching in your website's internal search engine.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>use_default_site_search_params</name>
+				<title>Use &lt;a href='#globalSettings'&gt;default&lt;/a&gt; Site Search parameters</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Query parameter (Default): q,query,s,search,searchword,k,keyword &amp; Category parameter: </description>
+				<inlineHelp />
+				<introduction />
+				<condition>1 &amp;&amp; sitesearch</condition>
+			</row>
+			<row>
+				<name>sitesearch_keyword_parameters</name>
+				<title>Query parameter</title>
+				<value>
+					<row/>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Enter a comma separated list of all query parameter names containing the site search keyword.</inlineHelp>
+				<introduction />
+				<condition>sitesearch &amp;&amp; !use_default_site_search_params</condition>
+			</row>
+			<row>
+				<name>sitesearch_category_parameters</name>
+				<title>Category parameter</title>
+				<value>
+					<row/>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>(optional)&lt;br /&gt;&lt;br /&gt;You may enter a comma-separated list of query parameters specifying the search category.</inlineHelp>
+				<introduction />
+				<condition>1 &amp;&amp; sitesearch &amp;&amp; !use_default_site_search_params</condition>
+			</row>
+			<row>
+				<name>ecommerce</name>
+				<title>Ecommerce</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<row>Not an Ecommerce site</row>
+					<row>Ecommerce enabled</row>
+				</availableValues>
+				<description />
+				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Piwik allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>ExampleSettingsPlugin</pluginName>
+		<title>ExampleSettingsPlugin</title>
+		<settings>
+			<row>
+				<name>contact_email</name>
+				<title>Contact email addresses</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+</result>

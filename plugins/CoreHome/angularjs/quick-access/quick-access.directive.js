@@ -71,13 +71,8 @@
 
                     var category = _pk_translate('CoreHome_Menu');
 
-                    $rootElement.find('#topRightBar .navbar-right li > a').each(function (index, element) {
+                    $rootElement.find('nav .side-nav li > a').each(function (index, element) {
                         var $element = $(element);
-
-                        if ($element.is('#topmenu-usersmanager')) {
-                            // ignore languages manager
-                            return;
-                        }
 
                         var text = trim($element.text());
 

@@ -28,8 +28,10 @@ class CorePluginsAdmin extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace-widget.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugin-details.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
     }
 
     public static function isMarketplaceEnabled()
@@ -46,15 +48,15 @@ class CorePluginsAdmin extends \Piwik\Plugin
     {
         $jsFiles[] = "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/marketplace.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginOverview.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginExtend.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/plugins.js";
     }
 
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'CorePluginsAdmin_NoZipFileSelected';
+        $translations[] = 'CorePluginsAdmin_NoPluginSettings';
+        $translations[] = 'CoreAdminHome_PluginSettingsIntro';
+        $translations[] = 'CoreAdminHome_PluginSettingsSaveSuccess';
+        $translations[] = 'General_Save';
     }
 
 }

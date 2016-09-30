@@ -3,7 +3,8 @@
 	<website>Site 1 - Site search</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Site Search</category>
+		<category>Actions</category>
+		<subcategory>Site Search</subcategory>
 		<name>Site Search Keywords</name>
 		<module>Actions</module>
 		<action>getSiteSearchKeywords</action>

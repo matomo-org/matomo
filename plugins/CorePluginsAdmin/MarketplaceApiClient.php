@@ -124,6 +124,11 @@ class MarketplaceApiClient
         return array();
     }
 
+    private function getPhpVersion()
+    {
+        return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
+    }
+
     public static function getPiwikVersion()
     {
         return StaticContainer::get('marketplacePiwikVersion');
@@ -131,9 +136,10 @@ class MarketplaceApiClient
 
     private function fetch($action, $params)
     {
-        ksort($params);
+        $params['php'] = $this->getPhpVersion();
         $params['piwik'] = self::getPiwikVersion();
-        $params['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
+        $params['prefer_stable'] = '1';
+        ksort($params);
         $query = http_build_query($params);
 
         $cacheId = $this->getCacheKey($action, $query);
@@ -141,7 +147,7 @@ class MarketplaceApiClient
         $result = $cache->fetch($cacheId);
 
         if (false === $result) {
-            $endpoint = $this->domain . '/api/1.0/';
+            $endpoint = $this->domain . '/api/2.0/';
             $url = sprintf('%s%s?%s', $endpoint, $action, $query);
             $response = Http::sendHttpRequest($url, static::HTTP_REQUEST_TIMEOUT);
             $result = json_decode($response, true);
@@ -169,7 +175,7 @@ class MarketplaceApiClient
 
     private function getCacheKey($action, $query)
     {
-        return sprintf('marketplace.api.1.0.%s.%s', str_replace('/', '.', $action), md5($query));
+        return sprintf('marketplace.api.2.0.%s.%s', str_replace('/', '.', $action), md5($query));
     }
 
     /**

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<category>Visitor Devices</category>
+		<category>Visitors</category>
+		<subcategory>Software</subcategory>
 		<name>Browser engines</name>
 		<module>DevicesDetection</module>
 		<action>getBrowserEngines</action>

@@ -81,8 +81,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeViewAccess();
 
         try {
-            $model    = new Model();
-            $lastDate = $model->getLastDate($date, $period, 1);
+            $lastDate = $this->model->getLastDate($date, $period, 1);
         } catch (\Exception $e) {
             return false;
         }

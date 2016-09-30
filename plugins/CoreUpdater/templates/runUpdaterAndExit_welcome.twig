@@ -8,7 +8,7 @@
         {{ postEvent('Template.topBar')|raw }}
     </div>
 
-    <div class="content text-left">
+    <div class="content" style="text-align:left;">
 
         {% set helpMessage %}
             {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
@@ -75,9 +75,9 @@
                 <form action="index.php" id="upgradeCorePluginsForm" class="clearfix" data-updating="{{ 'CoreUpdater_Updating'|translate }}...">
                     <input type="hidden" name="updateCorePlugins" value="1"/>
                     {% if queries|length == 1 %}
-                        <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+                        <input type="submit" class="btn right" value="{{ 'General_ContinueToPiwik'|translate }}"/>
                     {% else %}
-                        <input type="submit" class="submit" value="{{ 'CoreUpdater_UpgradePiwik'|translate }}"/>
+                        <input type="submit" class="btn right" value="{{ 'CoreUpdater_UpgradePiwik'|translate }}"/>
                     {% endif %}
                 </form>
             {% else %}
@@ -87,7 +87,7 @@
                     </div>
                 {% endif %}
                 <form action="index.php" class="clearfix">
-                    <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
+                    <input type="submit" class="btn right" value="{{ 'General_ContinueToPiwik'|translate }}"/>
                 </form>
             {% endif %}
         {% endif %}

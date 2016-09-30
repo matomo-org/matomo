@@ -14,8 +14,10 @@ use Piwik\DataTable\Row;
 
 /**
  * @group DataTableTest
+ * @group Core
+ * @group sort
  */
-class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
+class SortTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testNormalSortDescending()
@@ -46,7 +48,6 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $expectedOrder = array('nintendo', 'yahoo', 'ask');
         $this->assertEquals($expectedOrder, $table->getColumn('label'));
     }
-
 
     public function testMissingColumnValuesShouldAppearLastAfterSortAsc()
     {
@@ -83,8 +84,6 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test to sort by label
-     *
-     * @group Core
      */
     public function testFilterSortString()
     {
@@ -125,42 +124,78 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test to sort by visit
-     *
-     * @group Core
      */
     public function testFilterSortNumeric()
     {
-        $idcol = Row::COLUMNS;
-        $table = new DataTable();
+        $table = $this->createDataTable(array(
+            array('label' => 'google', 'nb_visits' => 897), //0
+            array('label' => 'ask', 'nb_visits' => -152), //1
+            array('label' => 'piwik', 'nb_visits' => 1.5), //2
+            array('label' => 'yahoo', 'nb_visits' => 154), //3
+            array('label' => 'amazon', 'nb_visits' => 30), //4
+            array('label' => '238949', 'nb_visits' => 0), //5
+            array('label' => 'Q*(%&*', 'nb_visits' => 1) //6
+        ));
+
         $rows = array(
-            array($idcol => array('label' => 'google', 'nb_visits' => 897)), //0
-            array($idcol => array('label' => 'ask', 'nb_visits' => -152)), //1
-            array($idcol => array('label' => 'piwik', 'nb_visits' => 1.5)), //2
-            array($idcol => array('label' => 'yahoo', 'nb_visits' => 154)), //3
-            array($idcol => array('label' => 'amazon', 'nb_visits' => 30)), //4
-            array($idcol => array('label' => '238949', 'nb_visits' => 0)), //5
-            array($idcol => array('label' => 'Q*(%&*', 'nb_visits' => 1)) //6
+            array('label' => 'ask', 'nb_visits' => -152), //1
+            array('label' => '238949', 'nb_visits' => 0), //5
+            array('label' => 'Q*(%&*', 'nb_visits' => 1), //6
+            array('label' => 'piwik', 'nb_visits' => 1.5), //2
+            array('label' => 'amazon', 'nb_visits' => 30), //4
+            array('label' => 'yahoo', 'nb_visits' => 154), //3
+            array('label' => 'google', 'nb_visits' => 897) //0
         );
-        $table->addRowsFromArray($rows);
-        $expectedtable = new DataTable();
-        $rows = array(
-            array($idcol => array('label' => 'ask', 'nb_visits' => -152)), //1
-            array($idcol => array('label' => '238949', 'nb_visits' => 0)), //5
-            array($idcol => array('label' => 'Q*(%&*', 'nb_visits' => 1)), //6
-            array($idcol => array('label' => 'piwik', 'nb_visits' => 1.5)), //2
-            array($idcol => array('label' => 'amazon', 'nb_visits' => 30)), //4
-            array($idcol => array('label' => 'yahoo', 'nb_visits' => 154)), //3
-            array($idcol => array('label' => 'google', 'nb_visits' => 897)) //0
-        );
-        $expectedtable->addRowsFromArray($rows);
-        $expectedtableReverse = new DataTable();
-        $expectedtableReverse->addRowsFromArray(array_reverse($rows));
+
+        $expectedtable = $this->createDataTable($rows);
+        $expectedtableReverse = $this->createDataTable(array_reverse($rows));
 
         $filter = new Sort($table, 'nb_visits', 'asc');
         $filter->filter($table);
         $this->assertTrue(DataTable::isEqual($table, $expectedtable));
 
         $filter = new Sort($table, 'nb_visits', 'desc');
+        $filter->filter($table);
+        $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
+    }
+
+    /**
+     * Test to sort by visit
+     */
+    public function testFilterSortNumeric_withSecondaryColumnSortLabel()
+    {
+        $rows = array(
+            array('label' => 'google', 'nb_visits' => array()),
+            array('label' => 'ask', 'nb_visits' => false),
+            array('label' => 'piwik', 'nb_visits' => 143),
+            array('label' => 'yahoo', 'nb_visits' => 154),
+            array('label' => 'zzzzz', 'nb_visits' => false),
+            array('label' => 'amazon', 'nb_visits' => 154),
+            array('label' => '238949', 'nb_visits' => 154),
+            array('label' => 'Q*(%&*', 'nb_visits' => 1)
+        );
+        $table = $this->createDataTable($rows);
+
+        $rows = array(
+            array('label' => '238949', 'nb_visits' => 154),
+            array('label' => 'amazon', 'nb_visits' => 154),
+            array('label' => 'yahoo', 'nb_visits' => 154),
+            array('label' => 'piwik', 'nb_visits' => 143),
+            array('label' => 'Q*(%&*', 'nb_visits' => 1),
+            array('label' => 'ask', 'nb_visits' => false),
+            array('label' => 'google', 'nb_visits' => array()),
+            array('label' => 'zzzzz', 'nb_visits' => false)
+        );
+
+        $expectedtable        = $this->createDataTable($rows);
+        $expectedtableReverse = $this->createDataTable(array_reverse($rows));
+
+        $filter = new Sort($table, 'nb_visits', 'desc', $natural = true, $reverse = false, $secondaryColumn = true);
+        $filter->filter($table);
+
+        $this->assertTrue(DataTable::isEqual($table, $expectedtable));
+
+        $filter = new Sort($table, 'nb_visits', 'asc', $natural = true, $reverse = false, $secondaryColumn = true);
         $filter->filter($table);
         $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
     }
@@ -179,5 +214,57 @@ class DataTable_Filter_SortTest extends \PHPUnit_Framework_TestCase
         $filter = new Sort($table, 'count_array', 'desc');
         $filter->filter($table);
         $this->assertTrue(DataTable::isEqual($tableOriginal, $table));
+    }
+
+
+    /**
+     * Test to sort by label
+     */
+    public function testFilter_shouldPickStringSearchEvenIfFirstLabelIsNumeric()
+    {
+        $table = $this->createDataTable(array(
+            array('label' => '238975247578949'),
+            array('label' => 'google'),
+            array('label' => '013494'),
+            array('label' => '9'),
+            array('label' => '999yahoo'),
+            array('label' => '494'),
+            array('label' => 'Q*(%&*("$&%*(&"$*")"))')
+        ));
+
+        $rows = array(
+            array('label' => '9'),
+            array('label' => '494'),
+            array('label' => '999yahoo'),
+            array('label' => '013494'),
+            array('label' => '238975247578949'),
+            array('label' => 'google'),
+            array('label' => 'Q*(%&*("$&%*(&"$*")"))')
+        );
+
+        $expectedtable = $this->createDataTable($rows);
+        $expectedtableReverse = $this->createDataTable(array_reverse($rows));
+
+        $filter = new Sort($table, 'label', 'asc', $natural = true);
+        $filter->filter($table);
+        $this->assertTrue(DataTable::isEqual($expectedtable, $table));
+
+        $filter = new Sort($table, 'label', 'desc');
+        $filter->filter($table);
+        $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
+    }
+
+    private function createDataTable($rows)
+    {
+        $table = new DataTable();
+        foreach ($rows as $columns) {
+            $table->addRow($this->createRow($columns));
+        }
+        return $table;
+    }
+
+    private function createRow($columns)
+    {
+        return new Row(array(Row::COLUMNS => $columns));
     }
 }

@@ -36,8 +36,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        $this->markTestSkippedOnPhp53();
-
         $this->runApiTests($api, $params);
     }
 
@@ -124,8 +122,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
     //       plugins is non-trivial, so not done now.
     public function test_Archive_getNumeric_ReturnsMetricsFromDifferentPlugins_WhenThoseMetricsAreRequested()
     {
-        $this->markTestSkippedOnPhp53();
-
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTimeRange = '2010-01-03,2010-01-06';
@@ -147,8 +143,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
     //       plugins is non-trivial, so not done now.
     public function test_Archive_getNumeric_shouldInvalidateRememberedReportsOncePerRequestIfNeeded()
     {
-        $this->markTestSkippedOnPhp53();
-
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTimeRange = '2010-01-03,2010-01-06';
@@ -216,13 +210,6 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
     public static function getOutputPrefix()
     {
         return 'TwoVisitors_twoWebsites_differentDays_Conversions';
-    }
-
-    private function markTestSkippedOnPhp53()
-    {
-        if (self::isPhpVersion53() && self::isTravisCI()) {
-            $this->markTestSkipped("Skipping this test as it often fails on travis)");
-        }
     }
 }
 

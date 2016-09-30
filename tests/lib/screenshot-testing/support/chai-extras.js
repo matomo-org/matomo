@@ -11,6 +11,21 @@ var fs = require('fs'),
     PageRenderer = require('./page-renderer.js').PageRenderer,
     AssertionError = chai.AssertionError;
 
+var testsToIgnoreIfAborted = [];
+
+function shouldTestBeSkippedOnAbort(screenName){
+
+    for (var i in testsToIgnoreIfAborted) {
+        // we skip test if needed but still upload the screenshot for the diff just a few lines further up
+        if (testsToIgnoreIfAborted[i] + '.png' === screenName) {
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // add screenshot keyword to `expect`
 expect.screenshot = function (file, prefix) {
     if (!prefix) {
@@ -146,6 +161,13 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 var indent = "     ";
                 err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
 
+                if (shouldTestBeSkippedOnAbort(screenName)) {
+                    console.log('SKIPPING TEST ' + screenName + ' AS IT RANDOMLY GETS ABORTED:');
+                    console.log(err.stack);
+                    done();
+                    return;
+                }
+
                 done(err);
                 return;
             }
@@ -208,7 +230,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                         } else {
                             testFailure += "(image magick error: " + numPxDifference;
                         }
-                        
+
                         testFailure += ")\n";
                     }
                 }
@@ -361,6 +383,11 @@ chai.Assertion.addChainableMethod('capture', function () {
     capture(screenName, compareAgainst, null, pageSetupFn, comparisonThreshold, done);
 });
 
+chai.Assertion.addChainableMethod('skippedOnAbort', function () {
+    var compareAgainst = this.__flags['object'];
+    testsToIgnoreIfAborted.push(compareAgainst);
+});
+
 // add `contains` assertion
 chai.Assertion.addChainableMethod('contains', function () {
     var self = this,
@@ -418,7 +445,7 @@ chai.Assertion.addChainableMethod('contains', function () {
                 stack += indent + "View the captured screenshot at '" + capturePath + "'.";
             } else {
                 stack += indent + "NOTE: No screenshot name was supplied to this '.contains(' assertion. If the second argument is a screenshot name, "
-                      + "the screenshot will be saved so you can debug this failure.";
+                + "the screenshot will be saved so you can debug this failure.";
             }
 
             stack += getPageLogsString(pageRenderer.pageLogs, indent);

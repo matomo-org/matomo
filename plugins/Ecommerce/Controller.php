@@ -8,10 +8,12 @@
  */
 namespace Piwik\Plugins\Ecommerce;
 
-use Exception;
+use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\Plugins\Goals\TranslationHelper;
@@ -30,25 +32,64 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         parent::__construct($translator, $translationHelper);
     }
 
-    public function ecommerceReport()
+    public function getSparklines()
     {
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
-            throw new Exception("Ecommerce Tracking requires that the plugin Custom Variables is enabled. Please enable the plugin CustomVariables (or ask your admin).");
+        $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+
+        $view = new View('@Ecommerce/getSparklines');
+        $view->onlyConversionOverview = false;
+        $view->conversionsOverViewEnabled = true;
+
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            $goalDefinition['name'] = $this->translator->translate('Goals_Ecommerce');
+            $goalDefinition['allow_multiple'] = true;
+        } else {
+            $goals = GoalsApi::getInstance()->getGoals($this->idSite);
+            if (!isset($goals[$idGoal])) {
+                Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
+            }
+            $goalDefinition = $goals[$idGoal];
         }
 
-        $view = $this->getGoalReportView($idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
-        $view->displayFullReport = false;
-        $view->headline = $this->translator->translate('General_EvolutionOverPeriod');
+        $this->setGeneralVariablesView($view);
+
+        $goal = $this->getMetricsForGoal($idGoal);
+        foreach ($goal as $name => $value) {
+            $view->$name = $value;
+        }
+
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
+            foreach ($goal as $name => $value) {
+                $name = 'cart_' . $name;
+                $view->$name = $value;
+            }
+        }
+
+        $view->idGoal = $idGoal;
+        $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
 
         return $view->render();
     }
 
-    public function ecommerceLogReport($fetch = false)
+    public function getConversionsOverview()
     {
-        $view = new View('@Ecommerce/ecommerceLog');
-        $this->setGeneralVariablesView($view);
+        $view = new View('@Ecommerce/conversionOverview');
+        $idGoal = Common::getRequestVar('idGoal', null, 'string');
 
-        $view->ecommerceLog = $this->getEcommerceLog($fetch);
+        $goalMetrics = Request::processRequest('Goals.get', array('idGoal' => $idGoal));
+        $dataRow = $goalMetrics->getFirstRow();
+
+        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->idGoal = $idGoal;
+
+        if ($dataRow) {
+            $view->revenue          = $dataRow->getColumn('revenue');
+            $view->revenue_subtotal = $dataRow->getColumn('revenue_subtotal');
+            $view->revenue_tax      = $dataRow->getColumn('revenue_tax');
+            $view->revenue_shipping = $dataRow->getColumn('revenue_shipping');
+            $view->revenue_discount = $dataRow->getColumn('revenue_discount');
+        }
 
         return $view->render();
     }
@@ -62,63 +103,6 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $_GET   = $saveGET;
 
         return $output;
-    }
-
-    public function index()
-    {
-        return $this->ecommerceReport();
-    }
-
-    public function products()
-    {
-        $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
-        $conversions = 0;
-        if (!empty($goal['nb_conversions'])) {
-            $conversions = $goal['nb_conversions'];
-        }
-
-        $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
-
-        $cartNbConversions = 0;
-        if (!empty($goal) && array_key_exists('nb_conversions', $goal)) {
-            $cartNbConversions = $goal['nb_conversions'];
-        }
-
-        $preloadAbandonedCart = $cartNbConversions !== false && $conversions == 0;
-
-        $goalReportsByDimension = new View\ReportsByDimension('Goals');
-
-        $ecommerceCustomParams = array();
-        if ($preloadAbandonedCart) {
-            $ecommerceCustomParams['abandonedCarts'] = '1';
-        } else {
-            $ecommerceCustomParams['abandonedCarts'] = '0';
-        }
-
-        $goalReportsByDimension->addReport(
-            'Goals_Products', 'Goals_ProductSKU', 'Goals.getItemsSku', $ecommerceCustomParams);
-        $goalReportsByDimension->addReport(
-            'Goals_Products', 'Goals_ProductName', 'Goals.getItemsName', $ecommerceCustomParams);
-        $goalReportsByDimension->addReport(
-            'Goals_Products', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
-
-        $view = new View('@Ecommerce/products');
-        $this->setGeneralVariablesView($view);
-
-        $view->productsByDimension = $goalReportsByDimension->render();
-        return $view->render();
-    }
-
-    public function sales()
-    {
-        $viewOverview = $this->getGoalReportView(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
-        $reportsByDimension = $viewOverview->goalReportsByDimension;
-
-        $view = new View('@Ecommerce/sales');
-        $this->setGeneralVariablesView($view);
-
-        $view->goalReportsByDimension = $reportsByDimension;
-        return $view->render();
     }
 
 }

@@ -17,7 +17,6 @@ if (!defined('PIWIK_USER_PATH')) {
 error_reporting(E_ALL | E_NOTICE);
 @ini_set('display_errors', defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : @ini_get('display_errors'));
 @ini_set('xdebug.show_exception_trace', 0);
-@ini_set('magic_quotes_runtime', 0);
 
 if (!defined('PIWIK_VENDOR_PATH')) {
 	if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {

@@ -13,8 +13,6 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Session\SessionNamespace;
 use Piwik\View;
-use Piwik\WidgetsList;
-use Piwik\FrontController;
 
 /**
  * Dashboard Controller
@@ -39,24 +37,21 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View($template);
         $this->setGeneralVariablesView($view);
 
-        $view->availableWidgets = json_encode(WidgetsList::get());
         $view->availableLayouts = $this->getAvailableLayouts();
 
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
 
-        // get the layout via FrontController so controller events are posted
-        $view->dashboardLayout = FrontController::getInstance()->dispatch('Dashboard', 'getDashboardLayout',
-            array($checkToken = false));
-
         return $view;
     }
 
+    // this
     public function embeddedIndex()
     {
         $view = $this->_getDashboardView('@Dashboard/embeddedIndex');
         return $view->render();
     }
 
+    // this is the exported widget
     public function index()
     {
         $view = $this->_getDashboardView('@Dashboard/index');
@@ -68,14 +63,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->dashboards = $this->dashboard->getAllDashboards($login);
         }
         return $view->render();
-    }
-
-    public function getAvailableWidgets()
-    {
-        $this->checkTokenInUrl();
-
-        Json::sendHeaderJSON();
-        return json_encode(WidgetsList::get());
     }
 
     public function getDashboardLayout($checkToken = true)

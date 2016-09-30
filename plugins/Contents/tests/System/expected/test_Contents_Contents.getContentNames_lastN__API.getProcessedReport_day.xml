@@ -4,6 +4,7 @@
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
+		<subcategory>Contents</subcategory>
 		<name>Content Name</name>
 		<module>Contents</module>
 		<action>getContentNames</action>

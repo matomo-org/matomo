@@ -12,55 +12,60 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_5_b1 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
     {
-        $logConversionTable = Common::prefixTable('log_conversion');
+        $this->migration = $factory;
+    }
 
+    public function getMigrations(Updater $updater)
+    {
         return array(
-            'CREATE TABLE `' . Common::prefixTable('log_conversion_item') . '` (
-												  idsite int(10) UNSIGNED NOT NULL,
-										  		  idvisitor BINARY(8) NOT NULL,
-										          server_time DATETIME NOT NULL,
-												  idvisit INTEGER(10) UNSIGNED NOT NULL,
-												  idorder varchar(100) NOT NULL,
+            $this->migration->db->createTable('log_conversion_item', array(
+                'idsite' => 'int(10) UNSIGNED NOT NULL',
+                'idvisitor' => 'BINARY(8) NOT NULL',
+                'server_time' =>'DATETIME NOT NULL',
+                'idvisit' => 'INTEGER(10) UNSIGNED NOT NULL',
+                'idorder' => 'varchar(100) NOT NULL',
+                'idaction_sku' => 'INTEGER(10) UNSIGNED NOT NULL',
+                'idaction_name' => 'INTEGER(10) UNSIGNED NOT NULL',
+                'idaction_category' => 'INTEGER(10) UNSIGNED NOT NULL',
+                'price' => 'FLOAT NOT NULL',
+                'quantity' => 'INTEGER(10) UNSIGNED NOT NULL',
+                'deleted' => 'TINYINT(1) UNSIGNED NOT NULL',
+            ), array('idvisit', 'idorder', 'idaction_sku')),
+            $this->migration->db->addIndex('log_conversion_item', array('idsite', 'server_time'), 'index_idsite_servertime'),
 
-												  idaction_sku INTEGER(10) UNSIGNED NOT NULL,
-												  idaction_name INTEGER(10) UNSIGNED NOT NULL,
-												  idaction_category INTEGER(10) UNSIGNED NOT NULL,
-												  price FLOAT NOT NULL,
-												  quantity INTEGER(10) UNSIGNED NOT NULL,
-												  deleted TINYINT(1) UNSIGNED NOT NULL,
-
-												  PRIMARY KEY(idvisit, idorder, idaction_sku),
-										          INDEX index_idsite_servertime ( idsite, server_time )
-												)  DEFAULT CHARSET=utf8 '              => 1050,
-
-            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-				 ADD  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL AFTER visitor_days_since_last,
-				 ADD  visit_goal_buyer TINYINT(1) NOT NULL AFTER visit_goal_converted' => 1060,
-
-            'ALTER TABLE `' . $logConversionTable . '`
-				 ADD visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL AFTER visitor_days_since_first' => 1060,
-            'ALTER TABLE `' . $logConversionTable . '`
-				 ADD idorder varchar(100) default NULL AFTER buster,
-				 ADD items SMALLINT UNSIGNED DEFAULT NULL,
-				 ADD revenue_subtotal float default NULL,
-				 ADD revenue_tax float default NULL,
-				 ADD  revenue_shipping float default NULL,
-				 ADD revenue_discount float default NULL,
-				 MODIFY  idgoal int(10) NOT NULL'                                      => 1060,
-            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
-				 ADD UNIQUE KEY unique_idsite_idorder (idsite, idorder)' => 1061,
+            $this->migration->db->addColumns('log_visit', array(
+                'visitor_days_since_order' => 'SMALLINT(5) UNSIGNED NOT NULL',
+                'visit_goal_buyer' => 'TINYINT(1) NOT NULL'
+            ), 'visitor_days_since_last'),
+            
+            $this->migration->db->addColumn('log_conversion', 'visitor_days_since_order', 'SMALLINT(5) UNSIGNED NOT NULL', 'visitor_days_since_first'),
+            $this->migration->db->addColumns('log_conversion', array(
+                'idorder' => 'varchar(100) default NULL',
+                'items' => 'SMALLINT UNSIGNED DEFAULT NULL',
+                'revenue_subtotal' => 'float default NULL',
+                'revenue_tax' => 'float default NULL',
+                'revenue_shipping' => 'float default NULL',
+                'revenue_discount' => 'float default NULL',
+            ), 'buster'),
+            $this->migration->db->addUniqueKey('log_conversion', array('idsite', 'idorder'))
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

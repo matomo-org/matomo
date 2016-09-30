@@ -2,6 +2,7 @@
 <result>
 	<row>
 		<category>Visitors</category>
+		<subcategory>Locations</subcategory>
 		<name>Country</name>
 		<module>UserCountry</module>
 		<action>getCountry</action>

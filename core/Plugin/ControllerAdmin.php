@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
@@ -98,10 +97,13 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        if(Url::isLocalHost(Url::getCurrentHost())) {
+        if (Url::isLocalHost(Url::getCurrentHost())) {
             return;
         }
 
+        if (Development::isEnabled()) {
+            return;
+        }
 
         $message = Piwik::translate('General_CurrentlyUsingUnsecureHttp');
 
@@ -169,7 +171,9 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
     {
-        if(self::isUsingPhpVersionCompatibleWithNextPiwik()) {
+        return; // no major version coming
+
+        if (self::isUsingPhpVersionCompatibleWithNextPiwik()) {
             return;
         }
 
@@ -188,17 +192,10 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::notify('PHPVersionTooOldForNewestPiwikCheck', $notification);
     }
 
-
     private static function notifyWhenPhpVersionIsEOL()
     {
-        $deprecatedMajorPhpVersion = null;
-        if(self::isPhpVersion53()) {
-            $deprecatedMajorPhpVersion = '5.3';
-        } elseif(self::isPhpVersion54()) {
-            $deprecatedMajorPhpVersion = '5.4';
-        }
-
-        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && $deprecatedMajorPhpVersion;
+        return; // no supported version (5.5+) has currently ended support
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersionAtLeast55();
         if (!$notifyPhpIsEOL) {
             return;
         }
@@ -213,7 +210,7 @@ abstract class ControllerAdmin extends Controller
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
-        NotificationManager::notify('DeprecatedPHPVersionCheck', $notification);
+        NotificationManager::notify('PHP54VersionCheck', $notification);
     }
 
     private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
@@ -263,8 +260,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyIfEAcceleratorIsUsed();
         self::notifyIfURLIsNotSecure();
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
+        $view->topMenu = MenuTop::getInstance()->getMenu();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
         $enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
@@ -282,8 +278,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
-        $adminMenu = MenuAdmin::getInstance()->getMenu();
-        $view->adminMenu = $adminMenu;
+        $view->adminMenu = MenuAdmin::getInstance()->getMenu();
 
         $notifications = $view->notifications;
 
@@ -303,13 +298,8 @@ abstract class ControllerAdmin extends Controller
         return "Piwik " . Version::VERSION;
     }
 
-    private static function isPhpVersion53()
+    private static function isPhpVersionAtLeast55()
     {
-        return strpos(PHP_VERSION, '5.3') === 0;
-    }
-
-    private static function isPhpVersion54()
-    {
-        return strpos(PHP_VERSION, '5.4') === 0;
+        return version_compare(PHP_VERSION, '5.5', '>=');
     }
 }

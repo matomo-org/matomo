@@ -8,6 +8,7 @@
  */
 namespace Piwik\Menu;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
@@ -43,14 +44,14 @@ abstract class MenuAbstract extends Singleton
     {
         $this->buildMenu();
         $this->applyEdits();
-        $this->applyRenames();
         $this->applyRemoves();
+        $this->applyRenames();
         $this->applyOrdering();
         return $this->menu;
     }
 
     /**
-     * Let's you register a menu icon for a certain menu category to replace the default arrow icon.
+     * lets you register a menu icon for a certain menu category to replace the default arrow icon.
      *
      * @param string $menuName The translation key of a main menu category, eg 'Dashboard_Dashboard'
      * @param string $iconCssClass   The css class name of an icon, eg 'icon-user'
@@ -71,7 +72,12 @@ abstract class MenuAbstract extends Singleton
             return self::$menus;
         }
 
-        self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+        $components = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+
+        self::$menus = array();
+        foreach ($components as $component) {
+            self::$menus[] = StaticContainer::get($component);
+        }
 
         return self::$menus;
     }

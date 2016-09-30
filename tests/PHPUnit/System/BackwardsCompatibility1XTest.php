@@ -13,7 +13,6 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
@@ -119,6 +118,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // did not exist in Piwik 1.X
             'DevicesDetection.getBrowserEngines',
+
+            // now enriched with goal metrics
+            'DevicesDetection.getType',
+            'DevicesDetection.getBrand',
+            'DevicesDetection.getModel',
 
             // we test VisitFrequency explicitly
             'VisitFrequency.get',

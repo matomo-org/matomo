@@ -99,6 +99,8 @@ function ajaxHelper() {
      */
     this.errorCallback =  this.defaultErrorCallback;
 
+    this.withToken = false;
+
     /**
      * Callback function to be executed on complete (after error or success)
      */
@@ -171,6 +173,10 @@ function ajaxHelper() {
                 this.postParams[key] = params[key];
             }
         }
+    };
+
+    this.withTokenInUrl = function () {
+        this.withToken = true;
     };
 
     /**
@@ -470,11 +476,20 @@ function ajaxHelper() {
         return $.ajax(ajaxCall);
     };
 
+    this._isRequestToApiMethod = function () {
+        return (this.getParams && this.getParams['module'] === 'API' && this.getParams['method']) ||
+               (this.postParams && this.postParams['module'] === 'API' && this.postParams['method']);
+    };
+
     this._getDefaultPostParams = function () {
-        return {
-            token_auth: piwik.token_auth
-        };
-    }
+        if (this.withToken || this._isRequestToApiMethod()) {
+            return {
+                token_auth: piwik.token_auth
+            };
+        }
+
+        return {};
+    };
 
     /**
      * Mixin the default parameters to send as POST

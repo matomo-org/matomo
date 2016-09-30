@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Provides a means of creating {@link Piwik\Plugin\ViewDataTable} instances by ID.
@@ -58,6 +59,8 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class Factory
 {
+    const DEFAULT_VIEW = HtmlTable::ID;
+
     /**
      * Cache for getDefaultTypeViewDataTable result.
      *
@@ -132,7 +135,7 @@ class Factory
             // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
             // therefore do not pass this as a default value to getRequestVar()
             if ('' === $type) {
-                $type = $defaultType ?: HtmlTable::ID;
+                $type = $defaultType ?: self::DEFAULT_VIEW;
             }
         } else {
             $type = $defaultViewType;
@@ -150,8 +153,8 @@ class Factory
             return self::createViewDataTableInstance($visualizations[$defaultType], $controllerAction, $apiAction, $params);
         }
 
-        if (array_key_exists(HtmlTable::ID, $visualizations)) {
-            return self::createViewDataTableInstance($visualizations[HtmlTable::ID], $controllerAction, $apiAction, $params);
+        if (array_key_exists(self::DEFAULT_VIEW, $visualizations)) {
+            return self::createViewDataTableInstance($visualizations[self::DEFAULT_VIEW], $controllerAction, $apiAction, $params);
         }
 
         throw new \Exception('No visualization found to render ViewDataTable');
@@ -164,8 +167,12 @@ class Factory
      */
     private static function getReport($apiAction)
     {
+        if (strpos($apiAction, '.') === false) {
+            return;
+        }
+
         list($module, $action) = explode('.', $apiAction);
-        $report = Report::factory($module, $action);
+        $report = ReportsProvider::factory($module, $action);
         return $report;
     }
 
@@ -183,8 +190,7 @@ class Factory
             return $report->getDefaultTypeViewDataTable();
         }
 
-        $defaultViewTypes = self::getDefaultTypeViewDataTable();
-        return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : false;
+        return false;
     }
 
     /**
@@ -200,23 +206,6 @@ class Factory
         }
 
         return false;
-    }
-
-    /**
-     * Returns a list of default viewDataTables ID to use when determining which visualization to use for multiple
-     * reports.
-     */
-    private static function getDefaultTypeViewDataTable()
-    {
-        if (null === self::$defaultViewTypes) {
-            self::$defaultViewTypes = array();
-            /**
-             * @ignore
-             */
-            Piwik::postEvent('ViewDataTable.getDefaultType', array(&self::$defaultViewTypes));
-        }
-
-        return self::$defaultViewTypes;
     }
 
     /**

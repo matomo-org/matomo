@@ -1,19 +1,15 @@
 .home {
-    h2 {
-        font-size: 18px;
-        padding: 16px 0 16px 0;
-        border: none;
-        margin: 0;
-    }
-
-    h3 {
-        font-size: 1.3em;
-        margin-top: 2em;
-    }
     p {
         padding-bottom: 1em;
         margin-right: 1em;
         margin-left: 1em;
+    }
+}
+
+.card h2 {
+    &.card-title,
+    .card-title {
+        padding: 0 !important;
     }
 }
 
@@ -22,14 +18,15 @@
     font-size: 14px;
     display: inline-block;
     width: 100%;
-
-    > h2:first-child {
-        padding-top: 7px;
-    }
 }
 
 #content.admin {
     display: inline-block;
+    max-width: 1300px;
+
+    > .row {
+        margin: 0 -0.75rem;
+    }
 }
 
 /* 2 columns reports */
@@ -54,7 +51,7 @@
     font-size: 14px;
     position: absolute;
     left: -10000px;
-    top: 21px;
+    top: 0;
 }
 .accessibility-skip-to-content:focus {
     display: block;
@@ -91,8 +88,7 @@ div.ui-datepicker {
 }
 
 #calendarRangeTo {
-    float: left;
-    margin-left: 20px;
+    margin-left: 175px;
 }
 
 #calendarRangeFrom {
@@ -113,6 +109,12 @@ div.ui-datepicker {
 
 #invalidDateRange {
     display: none;
+}
+
+.reporting-page {
+  .sparklines {
+    max-width: 1250px;
+  }
 }
 
 div .sparkline {
@@ -206,11 +208,6 @@ a.Piwik_Popover_Error_Back {
   }
 }
 
-#userMenu .items {
-  margin-left: -117px;
-  width: 160px;
-}
-
 /* Used to link within content text, without adding visual clutter */
 .linkContent { color:#333; text-decoration:none}
 .linkContent:hover { text-decoration:underline;}
@@ -221,8 +218,16 @@ a.Piwik_Popover_Error_Back {
   font-size:18px;
 }
 
-#pluginSettings {
-    .settingIntroduction {
-        font-weight: bold;
-    } 
+.systemSummary {
+    .icon {
+        width: 16px;
+        display: inline-block;
+    }
+    .icon-user {
+        font-size: 11px;
+    }
+
+    > div {
+        margin-bottom: 2px;
+    }
 }

@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 class ReferrerUrl extends Base
 {
     protected $columnName = 'referer_url';
-    protected $columnType = 'TEXT NOT NULL';
+    protected $columnType = 'TEXT NULL';
 
     protected function configureSegments()
     {

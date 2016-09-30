@@ -2,13 +2,19 @@
   margin: 0 -6px;
 }
 
-#standalone #dashboard {
-  margin: -10px -6px 0;
+body#standalone {
+  background-color: @theme-color-widget-exported-background-base;
+
+  .top_controls {
+    background-color: @theme-color-widget-exported-background-base;
+  }
+  #dashboard {
+    margin: -10px -6px 0;
+  }
 }
 
-
 #dashboard {
-  .col {
+  #dashboardWidgetsArea > .col {
     min-height: 100px;
     // Customize Bootstrap gutter between columns
     padding-right: 6px;
@@ -47,8 +53,6 @@
 
 .ui-confirm {
   display: none;
-  width: 630px;
-  background: @theme-color-background-base;
   color: @theme-color-text-light;
   cursor: default;
   font-size: 12px !important;
@@ -56,10 +60,15 @@
   padding: 20px 10px;
   border-radius: 4px;
   min-height: 0 !important;
+
+  textarea {
+    background-color: @theme-color-background-contrast;
+  }
 }
 
 .ui-confirm p {
-  margin-top:10px;
+  margin-top: 16px;
+  font-size: 14px;
 
 }
 .ui-confirm h2 {
@@ -138,27 +147,6 @@
   height: 30px;
 }
 
-.dashboardSettings {
-  position: absolute;
-  z-index: 120;
-  background: #f7f7f7;
-  border: 1px solid #e4e5e4;
-  border-radius: 4px;
-  color: @theme-color-text-light;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.dashboardSettings:hover {
-  background: #f1f0eb;
-  border-color: #a9a399;
-}
-
-.dashboardSettings.expanded {
-  z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
-  min-width: 800px;
-}
-
 .dashboardSettings > span {
   background: url(plugins/Morpheus/images/sort_subtable_desc.png) right center no-repeat;
   padding-right: 20px;
@@ -166,7 +154,6 @@
 }
 
 .dashboardSettings ul.submenu {
-  padding-top: 5px;
   display: none;
   float: left;
 }
@@ -174,15 +161,17 @@
 .dashboardSettings.expanded ul.submenu {
   display: block;
   list-style: square outside none;
+  z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
 }
 
-.dashboardSettings > ul.submenu > li {
+.dashboardSettings.expanded .dropdown {
+  min-width: 800px;
+  background-color: @theme-color-background-contrast;
+}
+
+.dashboardSettings ul.submenu > li {
   padding: 5px 0;
   clear: both;
-}
-
-.dashboardSettings > ul.submenu > li:hover {
-  color:@theme-color-link;
 }
 
 #changeDashboardLayout h2 {
@@ -257,8 +246,6 @@
 
 .widgetpreview-base {
   clear: both;
-  min-height: 600px;
-  -height: 600px;
 }
 
 .addWidget, .manageDashboard {
@@ -308,14 +295,8 @@ ul.widgetpreview-widgetlist {
 }
 
 div.widgetpreview-preview {
-  float: left;
   width: 500px;
-}
-
-.dashboardSettings {
-  min-height: 0;
-  height: auto;
-  margin-right: 10px;
+  float: left;
 }
 
 .dashboardSettings .submenu {
@@ -339,10 +320,18 @@ div.widgetpreview-preview {
   line-height: 20px;
   padding: 0 25px 0 5px;
   color: @theme-color-text-light;
+  width: 200px;
 }
 
-.dashboardSettings .submenu ul li:hover {
+.dashboardSettings ul.submenu > li.generalAction:hover {
   color: @theme-color-link;
+  cursor:pointer;
+}
+
+.dashboardSettings .submenu ul li:not([disabled]):hover {
+  background: @theme-color-background-base;
+  border-radius: 2px;
+  cursor:pointer;
 }
 
 .dashboardSettings .submenu li[disabled],
@@ -367,6 +356,7 @@ div.widgetpreview-preview {
 .dashboardSettings.expanded .widgetpreview-widgetlist,
 .dashboardSettings.expanded .widgetpreview-preview {
   display: block;
+  z-index: 333999;
 }
 
 .widgetPlaceholder {
@@ -392,20 +382,15 @@ div.widgetpreview-preview {
 }
 
 #copyDashboardToUserConfirm .inputs {
-  width: 375px;
-  margin: 10px auto 0;
+  width: 400px;
+  margin: 32px auto 0;
+
+  label {
+    margin-top: 18px;
+    display: inline-block;
+  }
 }
 
-#copyDashboardToUserConfirm .inputs select,
-#copyDashboardToUserConfirm .inputs input {
-  width: 150px;
-  float: left;
-}
-
-#copyDashboardToUserConfirm .inputs label {
-  width: 200px;
-  float: left;
-}
 
 #dashboardWidgetsArea {
   margin-top: -5px;

@@ -4,6 +4,7 @@
 	<prettyDate>January 1 &#x2013; March 10, 2010</prettyDate>
 	<metadata>
 		<category>Referrers</category>
+		<subcategory>All Referrers</subcategory>
 		<name>Referrer Type</name>
 		<module>Referrers</module>
 		<action>getReferrerType</action>

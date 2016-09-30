@@ -4,6 +4,7 @@
 	<prettyDate>January 1 – July 31, 2010</prettyDate>
 	<metadata>
 		<category>Visitors</category>
+		<subcategory>Custom Variables</subcategory>
 		<name>Custom Variables</name>
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>

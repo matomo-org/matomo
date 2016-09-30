@@ -1,0 +1,125 @@
+/* main data table */
+table.entityTable {
+
+  thead {
+    tr {
+      th {
+        &:first-child {
+          padding-left: 20px !important;
+        }
+
+        text-transform: none;
+        background-color: @theme-color-background-tinyContrast;
+        vertical-align: middle !important;
+        text-align: left !important;
+        font-size: 15px;
+        padding: 16px 10px;
+        white-space: nowrap;
+        padding: 22px 16px !important;
+        margin: 0;
+        font-weight: normal;
+        border-radius: 0;
+        color: @theme-color-text;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      &:hover {
+        td {
+          background-color: @theme-color-background-tinyContrast;
+        }
+      }
+      &.highlighted td {
+        background-color: #ECF9DD;
+      }
+
+      td {
+        &:first-child {
+          padding-left: 20px !important;
+        }
+
+        color: @theme-color-text;
+        font-size: 13px;
+        line-height: 16px;
+        background-color: @theme-color-background-contrast;
+        vertical-align: top !important;
+        padding: 16px;
+        border-bottom: 1px solid @theme-color-background-tinyContrast !important;
+        border-radius: 0;
+
+        a {
+          color: @theme-color-link;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline !important;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+// needed for IE10
+.card button.table-action {
+  background-color: @theme-color-background-contrast !important;
+  &:hover {
+    background-color: @theme-color-background-base !important;
+  }
+}
+.card tr:hover button.table-action {
+  background-color: @theme-color-background-tinyContrast !important;
+}
+.table-action {
+  padding: 16px;
+  height: auto;
+  margin: 0;
+  line-height: 1;
+  background-color: inherit;
+  border: 0;
+  color: inherit !important;
+  display: inline-block;
+  &:hover {
+    background-color: @theme-color-background-base !important;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16), 0 1px 5px 0 rgba(0,0,0,0.12);
+  }
+}
+
+.card .tableActionBar {
+  a, button {
+    background-color: @theme-color-background-contrast;
+    &:focus {
+      background-color: @theme-color-background-contrast;
+    }
+  }
+}
+
+.tableActionBar {
+  a,
+  button {
+    height: 54px;
+    line-height: 54px;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: @theme-color-text !important;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: inherit;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 0 2rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

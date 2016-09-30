@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(optional) Display options",
+        "AggregateReportsFormat": "Display options",
         "AggregateReportsFormat_GraphsOnly": "Display Graphs only (no report tables)",
         "AggregateReportsFormat_TablesAndGraphs": "Display Report tables and Graphs for all reports",
         "AggregateReportsFormat_TablesOnly": "(default) Display Report tables (Graphs only for key metrics)",
@@ -29,7 +29,7 @@
         "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",
         "ReportFormat": "Report Format",
         "ReportHour": "Send report at %s o'clock",
-        "ReportHourWithUTC": "Send report at %1$s o'clock (%2$s o'clock UTC)",
+        "ReportHourWithUTC": "%s o'clock UTC",
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
         "ReportSent": "Report sent",
         "ReportsIncluded": "Statistics included",

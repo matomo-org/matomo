@@ -1,5 +1,6 @@
 <div>
     <h2 piwik-enriched-headline
+        class="card-title"
         help-url="http://piwik.org/docs/manage-websites/#all-websites-dashboard"
         feature-name="{{ 'General_AllWebsitesDashboard'|translate }}">
         {{ 'General_AllWebsitesDashboard'|translate }}
@@ -34,7 +35,7 @@
                 <span class="arrow" ng-class="{multisites_asc: !model.reverse && evolutionSelector == model.sortColumn, multisites_desc: model.reverse && evolutionSelector == model.sortColumn}"></span>
                 <span class="evolution"
                       ng-click="model.sortBy(evolutionSelector)"> {{ 'MultiSites_Evolution'|translate }}</span>
-                <select class="selector native-select" id="evolution_selector" ng-model="evolutionSelector"
+                <select class="selector browser-default" id="evolution_selector" ng-model="evolutionSelector"
                         ng-change="model.sortBy(evolutionSelector)">
                     <option value="visits_evolution">{{ 'General_ColumnNbVisits'|translate }}</option>
                     <option value="pageviews_evolution">{{ 'General_ColumnPageviews'|translate }}</option>
@@ -47,8 +48,7 @@
         <tbody id="tb" ng-if="model.isLoading">
             <tr>
                 <td colspan="7" class="allWebsitesLoading">
-                    {{ 'MultiSites_LoadingWebsites' | translate }}
-                    <span class="allWebsitesLoadingIndicator"> </span>
+                    <div piwik-activity-indicator loading-message="model.loadingMessage" loading="model.isLoading"></div>
                 </td>
             </tr>
         </tbody>
@@ -85,44 +85,41 @@
 
         <tfoot>
 
-        <tr ng-if="hasSuperUserAccess">
-            <td colspan="8" class="add_new_site">
-                <a href="{{ url }}?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}&idSite={{ idSite }}">
-                    <img src='plugins/Morpheus/images/add.png' alt=""/> {{ 'SitesManager_AddSite'|translate }}
-                </a>
-            </td>
-        </tr>
-
-        <tr ng-if="!hasSuperUserAccess">
-            <td colspan="8" class="empty-row">
-                <br/>
-            </td>
-        </tr>
         <tr>
             <td colspan="8" class="paging" ng-hide="model.numberOfPages() <= 1">
-                <span id="prev" class="previous" ng-hide="model.currentPage == 0" ng-click="model.previousPage()">
-                    <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
-                </span>
-                <span class="dataTablePages">
-                    <span id="counter">
-                        {{ 'General_Pagination'|translate:model.getCurrentPagingOffsetStart():model.getCurrentPagingOffsetEnd():model.getNumberOfFilteredSites() }}
-                    </span>
-                </span>
-                <span id="next" class="next" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
-                    <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
-                </span>
+                <div class="row">
+                    <div class="col s3 add_new_site">
+                        <a ng-if="hasSuperUserAccess" href="{{ url }}?module=SitesManager&action=index&showaddsite=1&period={{ period }}&date={{ date }}&idSite={{ idSite }}">
+                            <span class="icon-add"></span> {{ 'SitesManager_AddSite'|translate }}
+                        </a>
+                    </div>
+                    <div class="col s6">
+                        <span id="prev" class="previous dataTablePrevious" ng-hide="model.currentPage == 0" ng-click="model.previousPage()">
+                            <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
+                        </span>
+                        <span class="dataTablePages">
+                            <span id="counter">
+                                {{ 'General_Pagination'|translate:model.getCurrentPagingOffsetStart():model.getCurrentPagingOffsetEnd():model.getNumberOfFilteredSites() }}
+                            </span>
+                        </span>
+                        <span id="next" class="next dataTableNext" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
+                            <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
+                        </span>
+                    </div>
+                    <div class="col s3">&nbsp;</div>
+                </div>
             </td>
         </tr>
         <tr row_id="last">
-            <td colspan="8" class="site_search">
+            <td colspan="8" class="input-field site_search">
                 <input type="text"
                        ng-model="searchTerm"
+                       class="browser-default"
                        piwik-onenter="model.searchSite(searchTerm)"
                        placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}">
-                <img title="{{ 'General_ClickToSearch' | translate }}"
+                <span title="{{ 'General_ClickToSearch' | translate }}"
                      ng-click="model.searchSite(searchTerm)"
-                     class="search_ico"
-                     src="plugins/Morpheus/images/search_ico.png"/>
+                     class="icon-search search_ico"></span>
             </td>
         </tr>
 

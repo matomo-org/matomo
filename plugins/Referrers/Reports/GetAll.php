@@ -13,6 +13,8 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Referrers\Columns\Referrer;
 use Piwik\Plugins\Referrers\Referrers;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetAll extends Base
 {
@@ -23,7 +25,15 @@ class GetAll extends Base
         $this->name          = Piwik::translate('Referrers_WidgetGetAll');
         $this->documentation = Piwik::translate('Referrers_AllReferrersReportDocumentation', '<br />');
         $this->order = 2;
-        $this->widgetTitle  = 'Referrers_WidgetGetAll';
+
+        $this->subcategoryId = 'Referrers_WidgetGetAll';
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()->setName('Referrers_Referrers')
+        );
     }
 
     public function getDefaultTypeViewDataTable()

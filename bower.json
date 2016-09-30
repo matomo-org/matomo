@@ -14,12 +14,12 @@
   ],
   "dependencies": {
     "jquery-ui": "1.10.4",
-    "jquery": "~1",
-    "angular": "~1.2.0",
-    "angular-sanitize": "~1.2.0",
-    "angular-animate": "~1.2.0",
-    "angular-cookies": "~1.2.0",
-    "angular-mocks": "~1.2.0",
+    "jquery": "~2.2.0",
+    "angular": "~1.4.0",
+    "angular-sanitize": "~1.4.0",
+    "angular-animate": "~1.4.0",
+    "angular-cookies": "~1.4.0",
+    "angular-mocks": "~1.4.0",
     "ngDialog": "~0.2.0",
     "html5shiv": "~3.7.0",
     "mousetrap": "~1.4.0",
@@ -30,8 +30,7 @@
     "jQuery.dotdotdot": "~1.7.2",
     "jquery.scrollTo": "~1.4.13",
     "chroma-js": "~0.6.0",
-    "visibilityjs": "~1.2.1",
-    "jqueryui-touch-punch": "#master"
+    "visibilityjs": "~1.2.1"
   },
   "license": "GPLv3 or later",
   "ignore": [

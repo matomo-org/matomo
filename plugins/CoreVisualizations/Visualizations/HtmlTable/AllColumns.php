@@ -20,7 +20,7 @@ use Piwik\View;
 class AllColumns extends HtmlTable
 {
     const ID = 'tableAllColumns';
-    const FOOTER_ICON       = 'plugins/Morpheus/images/table_more.png';
+    const FOOTER_ICON       = 'icon-table-more';
     const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeRender()

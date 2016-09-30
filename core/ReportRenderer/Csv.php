@@ -141,6 +141,7 @@ class Csv extends ReportRenderer
     protected function getRenderer(DataTableInterface $table, $uniqueId)
     {
         $csvRenderer = new CsvDataTableRenderer();
+        $csvRenderer->setIdSite($this->idSite);
         $csvRenderer->setTable($table);
         $csvRenderer->setConvertToUnicode(false);
         $csvRenderer->setApiMethod(

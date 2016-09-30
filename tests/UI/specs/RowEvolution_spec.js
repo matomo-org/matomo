@@ -51,6 +51,7 @@ describe("RowEvolution", function () {
             page.evaluate(function () {
                 $('select.multirowevoltion-metric').val($('select.multirowevoltion-metric option:nth-child(3)').val()).change();
             });
+            page.wait(1000);
         }, done);
     });
 

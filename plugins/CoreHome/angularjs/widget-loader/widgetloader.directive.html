@@ -1,0 +1,14 @@
+<div>
+    <div piwik-activity-indicator loading-message="loadingMessage" loading="loading"/>
+
+    <div ng-show="loadingFailed">
+        <h2 ng-if="widgetName">{{widgetName}}</h2>
+
+        <div class="notification system notification-error">
+            {{ 'General_ErrorRequest'|translate:(''):('') }}
+        </div>
+    </div>
+
+    <div class="theWidgetContent"></div>
+
+</div>

@@ -14,16 +14,26 @@ use Piwik\Piwik;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  * Update for version 2.11.0-b2.
  */
 class Updates_2_11_0_b2 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
 
-    public function getMigrationQueries(Updater $updater)
+    public function __construct(MigrationFactory $factory)
     {
-        $sqls = array();
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
+    {
+        $migrations = array();
 
         // update dashboard to use new ecommerce widgets, they were moved from goals plugin to ecommerce
         $oldWidgets = array(
@@ -38,28 +48,25 @@ class Updates_2_11_0_b2 extends Updates
 
         $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
 
+        $sql = "UPDATE " . Common::prefixTable('user_dashboard') . " SET layout = ? WHERE iddashboard = ?";
+
         foreach ($allDashboards as $dashboard) {
             $dashboardLayout = json_decode($dashboard['layout']);
             $dashboardLayout = DashboardModel::replaceDashboardWidgets($dashboardLayout, $oldWidgets, $newWidgets);
 
             $newLayout = json_encode($dashboardLayout);
             if ($newLayout != $dashboard['layout']) {
-                $sqls["UPDATE " . Common::prefixTable('user_dashboard') . " SET layout = '".addslashes($newLayout)."' WHERE iddashboard = ".$dashboard['iddashboard']] = false;
+                $migrations[] = $this->migration->db->boundSql($sql, array($newLayout, $dashboard['iddashboard']));
             }
         }
 
-        return $sqls;
+        $migrations[] = $this->migration->plugin->activate('Ecommerce');
+
+        return $migrations;
     }
 
     public function doUpdate(Updater $updater)
     {
-        $pluginManager = \Piwik\Plugin\Manager::getInstance();
-
-        try {
-            $pluginManager->activatePlugin('Ecommerce');
-        } catch (\Exception $e) {
-        }
-
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

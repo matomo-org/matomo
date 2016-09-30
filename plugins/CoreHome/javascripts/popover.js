@@ -39,7 +39,7 @@ var Piwik_Popover = (function () {
             },
             close: function (event, ui) {
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
-                container[0].innerHTML = ''; // IE8 fix
+                container[0].innerHTML = '';
                 container.dialog('destroy').remove();
                 globalAjaxQueue.abort();
                 $('.ui-widget-overlay').off('click.popover');
@@ -162,8 +162,11 @@ var Piwik_Popover = (function () {
                 closeCallback = false;
             }
 
-            container[0].innerHTML = ''; // IE8 fix
             container.html(html);
+            
+            container.children().each(function (i, childNode) {
+                piwikHelper.compileAngularComponents(childNode);
+            })
             centerPopover();
         },
 

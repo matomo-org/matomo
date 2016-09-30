@@ -19,7 +19,9 @@ $piwik_errorMessage = '';
 // NOTE: when changing this variable, we also need to update
 // 1) api.piwik.org
 // 2) tests/travis/generator/Generator.php
-$piwik_minimumPHPVersion = '5.3.3';
+// 3) composer.json (in two places)
+// 4) tests/PHPUnit/Integration/ReleaseCheckListTest.php
+$piwik_minimumPHPVersion = '5.5.9';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
