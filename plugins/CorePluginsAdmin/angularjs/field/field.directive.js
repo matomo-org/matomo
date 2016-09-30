@@ -17,6 +17,8 @@
  * description=""
  * introduction=""
  * name=""
+ * placeholder=""
+ * rows="3"
  * autocomplete="off"
  * disabled="true"
  * full-width="true"
@@ -54,7 +56,9 @@
                 templateFile: '@',
                 fullWidth: '@',
                 maxlength: '@',
-                required: '@'
+                required: '@',
+                placeholder: '@',
+                rows: '@'
             },
             template: '<div piwik-form-field="field"></div>',
             link: function(scope, elm, attrs, ctrl) {
@@ -114,7 +118,7 @@
                 }
 
                 var i = 0, attribute;
-                var attributes = ['disabled', 'autocomplete', 'tabindex', 'autofocus', 'required', 'maxlength'];
+                var attributes = ['disabled', 'autocomplete', 'tabindex', 'autofocus', 'rows', 'required', 'maxlength', 'placeholder'];
                 for (i; i < attributes.length; i++) {
                     attribute = attributes[i];
                     if (!!$scope[attribute]) {
