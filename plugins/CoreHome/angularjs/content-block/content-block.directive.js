@@ -16,7 +16,7 @@
 
     function piwikContentBlock(piwik){
 
-        var contentTopPosition = null;
+        var adminContent = null;
 
         return {
             restrict: 'A',
@@ -47,24 +47,35 @@
                         scope.feature = scope.contentTitle;
                     }
 
-                    if (contentTopPosition !== false) {
-                        if (contentTopPosition === null) {
-                            var $content = $('#content.admin');
-                            if ($content.size()) {
-                                // cache top position for further content blocks
-                                contentTopPosition = $content.offset().top;
-                            } else {
-                                contentTopPosition = false;
-                            }
+                    if (adminContent === null) {
+                        // cache admin node for further content blocks
+                        adminContent = $('#content.admin');
+                    }
+
+                    var contentTopPosition;
+
+                    if (adminContent.size()) {
+                        contentTopPosition = adminContent.offset().top;
+                    } else {
+                        contentTopPosition = false;
+                    }
+
+                    if (contentTopPosition || contentTopPosition === 0) {
+                        var parents = element.parentsUntil('.col', '[piwik-widget-loader]');
+                        var topThis;
+                        if (parents.size()) {
+                            // when shown within the widget loader, we need to get the offset of that element
+                            // as the widget loader might be still shown. Would otherwise not position correctly
+                            // the widgets on the admin home page
+                            topThis = parents.offset().top;
+                        } else {
+                            topThis = element.offset().top;
                         }
 
-                        if (contentTopPosition || contentTopPosition === 0) {
-                            var topThis = element.offset().top;
-                            if ((topThis - contentTopPosition) < 17) {
-                                // we make sure to display the first card with no margin-top to have it on same as line as
-                                // navigation
-                                element.css('marginTop', '0');
-                            }
+                        if ((topThis - contentTopPosition) < 17) {
+                            // we make sure to display the first card with no margin-top to have it on same as line as
+                            // navigation
+                            element.css('marginTop', '0');
                         }
                     }
 
