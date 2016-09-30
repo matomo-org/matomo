@@ -32,7 +32,7 @@ class GetReferrerType extends Base
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
         $this->order = 1;
-        $this->widgetTitle  = 'General_Overview';
+        $this->widgetTitle  = 'Referrers_ReferrersOverview';
     }
 
     public function getDefaultTypeViewDataTable()
