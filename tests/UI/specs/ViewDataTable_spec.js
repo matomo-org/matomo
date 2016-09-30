@@ -152,7 +152,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should exclude low population rows when low population clicked", function (done) {
-        var newUrl = url.replace('moduleToWidgetize=Actions', 'actionToWidgetize=getPageUrls').replace()
+        var newUrl = url.replace('moduleToWidgetize=Referrers', 'moduleToWidgetize=Actions').replace('actionToWidgetize=getKeywords', 'actionToWidgetize=getPageUrls');
         expect.screenshot("exclude_low_population").to.be.capture(function (page) {
             page.load(newUrl);
             page.click('.dropdownConfigureIcon');
