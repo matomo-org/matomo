@@ -7,8 +7,6 @@
  *
  */
 namespace Piwik\Report;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
-use Piwik\ViewDataTable\Factory;
 use Piwik\Widget\WidgetConfig;
 
 /**
@@ -20,7 +18,6 @@ class ReportWidgetConfig extends WidgetConfig
 {
     protected $viewDataTable = null;
     protected $forceViewDataTable = false;
-
 
     /**
      * Sets a default viewDataTable that should be used to render the report. This is not neccessarily the
