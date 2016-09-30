@@ -73,8 +73,8 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 
 ### New APIs
 * Multiple widgets for one report can now be created via the `Report::configureWidgets()` method via the new classes `Piwik\Widget\ReportWidgetFactory` and `Piwik\Widget\ReportWidgetConfig`
-* There is a new property `Report::$subCategory` that let's you add a report to the reporting UI. If a page having that name does not exist yet, it will be created automatically. The newly added method `Report::getSubCategory()` let's you get this value.
-* The new classes `Piwik\Widget\Widget`, `Piwik\Widget\WidgetConfig` and `Piwik\Widget\WidgetContainerConfig` let's you create a new widget.
+* There is a new property `Report::$subCategory` that lets you add a report to the reporting UI. If a page having that name does not exist yet, it will be created automatically. The newly added method `Report::getSubCategory()` lets you get this value.
+* The new classes `Piwik\Widget\Widget`, `Piwik\Widget\WidgetConfig` and `Piwik\Widget\WidgetContainerConfig` lets you create a new widget.
 * The new class `Piwik\Category\Subcategory` let you change the name and order of menu items
 * New HTTP API method `API.getWidgetMetadata` to get a list of available widgets
 * New HTTP API method `API.getReportPagesMetadata` to get a list of all available pages that exist including the widgets they include
@@ -83,17 +83,17 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * The new class `Piwik\Updater\Migration\Factory` lets you easily create migrations that can be executed during an update. For example database or plugin related migrations. To generate a new update with migrations execute `./console generate:update`.
 * The new method `Piwik\Updater::executeMigration` lets you execute a single migration.
 * The following events have been added:
- * `ViewDataTable.filterViewDataTable` let's you filter available visualizations
- * `Dimension.addDimension` let's you add custom dimensions
- * `Dimension.filterDimension` let's you filter any dimensions
- * `Report.addReports` let's you add dynamically created reports
- * `Report.filterReports` let's you filter any report
+ * `ViewDataTable.filterViewDataTable` lets you filter available visualizations
+ * `Dimension.addDimension` lets you add custom dimensions
+ * `Dimension.filterDimension` lets you filter any dimensions
+ * `Report.addReports` lets you add dynamically created reports
+ * `Report.filterReports` lets you filter any report
  * `Updater.componentUpdated` triggered after core or a plugin has been updated
  * `PluginManager.pluginInstalled` triggered after a plugin was installed
  * `PluginManager.pluginUninstalled` triggered after a plugin was uninstalled
 
 ### New features
-* New "Sparklines" visualization that let's you create a widget showing multiple sparklines
+* New "Sparklines" visualization that lets you create a widget showing multiple sparklines
 
 ### Library updates
 * Updated AngularJS from 1.2.28 to 1.4.3
@@ -422,7 +422,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * Updated AngularJS from 1.2.13 to 1.2.25
 
 ### New commands
-* `generate:angular-directive` Let's you easily generate a template for a new angular directive for any plugin.
+* `generate:angular-directive` lets you easily generate a template for a new angular directive for any plugin.
 
 ### Internal change
 * Piwik 2.8.0 now requires PHP >= 5.3.3. 
@@ -455,7 +455,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * The Live API now returns only visitor information of activated plugins. So if for instance the Referrers plugin is deactivated a visitor won't contain any referrers related properties. This is a bugfix as the API was crashing before if some core plugins were deactivated. Affected methods are for instance `getLastVisitDetails` or `getVisitorProfile`. If all core plugins are enabled as by default there will be no change at all except the order of the properties within one visitor.
 
 ### New commands
-* `core:run-scheduled-tasks` Let's you run all scheduled tasks due to run at this time. Useful for instance when testing tasks.
+* `core:run-scheduled-tasks` lets you run all scheduled tasks due to run at this time. Useful for instance when testing tasks.
 
 #### Internal change
  * We removed our own autoloader that was used to load Piwik files in favor of the composer autoloader which we already have been using for some libraries. This means the file `core/Loader.php` will no longer exist. In case you are using Piwik from Git make sure to run `php composer.phar self-update && php composer.phar install` to make your Piwik work again. Also make sure to no longer include `core/Loader.php` in case it is used in any custom script.
@@ -507,15 +507,15 @@ We are using `@since` annotations in case we are introducing new API's to make i
 * [Tasks](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Tasks) to add scheduled tasks
 
 ### New commands
-* `generate:theme` Let's you easily generate a new theme and customize colors, see the [Theming guide](http://developer.piwik.org/guides/theming)
-* `generate:update` Let's you generate an update file
-* `generate:report` Let's you generate a report
-* `generate:dimension` Let's you enhance the tracking by adding new dimensions
-* `generate:menu` Let's you generate a menu class to add or modify menu items
-* `generate:widgets` Let's you generate a widgets class to add or modify widgets
-* `generate:tasks` Let's you generate a tasks class to add or modify tasks
-* `development:enable` Let's you enable the development mode which will will disable some caching to make code changes directly visible and it will assist developers by performing additional checks to prevent for instance typos. Should not be used in production.
-* `development:disable` Let's you disable the development mode 
+* `generate:theme` lets you easily generate a new theme and customize colors, see the [Theming guide](http://developer.piwik.org/guides/theming)
+* `generate:update` lets you generate an update file
+* `generate:report` lets you generate a report
+* `generate:dimension` lets you enhance the tracking by adding new dimensions
+* `generate:menu` lets you generate a menu class to add or modify menu items
+* `generate:widgets` lets you generate a widgets class to add or modify widgets
+* `generate:tasks` lets you generate a tasks class to add or modify tasks
+* `development:enable` lets you enable the development mode which will will disable some caching to make code changes directly visible and it will assist developers by performing additional checks to prevent for instance typos. Should not be used in production.
+* `development:disable` lets you disable the development mode 
 
 <!--
 ## Template: Piwik version number

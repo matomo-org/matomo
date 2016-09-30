@@ -51,7 +51,7 @@ abstract class MenuAbstract extends Singleton
     }
 
     /**
-     * Let's you register a menu icon for a certain menu category to replace the default arrow icon.
+     * lets you register a menu icon for a certain menu category to replace the default arrow icon.
      *
      * @param string $menuName The translation key of a main menu category, eg 'Dashboard_Dashboard'
      * @param string $iconCssClass   The css class name of an icon, eg 'icon-user'

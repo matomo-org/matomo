@@ -310,7 +310,7 @@ class Report
     }
 
     /**
-     * Let's you add any amount of widgets for this report. If a report defines a {@link $categoryId} and a
+     * lets you add any amount of widgets for this report. If a report defines a {@link $categoryId} and a
      * {@link $subcategoryId} a widget will be generated automatically.
      *
      * Example to add a widget manually by overwriting this method in your report:
