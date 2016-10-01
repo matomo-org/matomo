@@ -225,6 +225,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             delete self.param.filter_offset;
             delete self.param.filter_limit;
         }
+	    
+        delete self.param.showtitle;
 
         var container = $('#' + self.workingDivId + ' .piwik-graph');
 
