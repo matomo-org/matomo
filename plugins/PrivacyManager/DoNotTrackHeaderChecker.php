@@ -44,8 +44,7 @@ class DoNotTrackHeaderChecker
 
         if($exclude) {
 
-            $trackingCookie = IgnoreCookie::getTrackingCookie();
-            $trackingCookie->delete();
+            IgnoreCookie::deleteThirdPartyCookieUIDIfExists();
 
             // this is an optional supplement to the site's tracking status resource at:
             //     /.well-known/dnt
