@@ -1276,7 +1276,7 @@ $(document).ready(function() {
                     if (segmentDefinition !== $search.segment) {
                         // eg when using back button the date might be actually already changed in the URL and we do not
                         // want to change the URL again
-                        $search.segment = segmentDefinition;
+                        $search.segment = segmentDefinition.replace(/%$/, '%25').replace(/%([^\d].)/g, "%25$1");
                         $location.search($search);
                         setTimeout(function () {
                             try {
