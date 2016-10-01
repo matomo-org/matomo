@@ -62,37 +62,32 @@ class Dashboard extends \Piwik\Plugin
         $defaultLayout = $this->getLayoutForUser('', 1);
 
         if (empty($defaultLayout)) {
-            $topWidget = '';
+            $advertisingWidget = '';
 
             $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
             if ($advertising->areAdsForProfessionalServicesEnabled() && Plugin\Manager::getInstance()->isPluginActivated('ProfessionalServices')) {
-                $topWidget .= '{"uniqueId":"widgetProfessionalServicespromoServices",'
-                    . '"parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
+                $advertisingWidget = '{"uniqueId":"widgetProfessionalServicespromoServices","parameters":{"module":"ProfessionalServices","action":"promoServices"}},';
             }
 
             if (Piwik::hasUserSuperUserAccess()) {
-                $topWidget .= '{"uniqueId":"widgetCoreHomegetDonateForm",'
-                    . '"parameters":{"module":"CoreHome","action":"getDonateForm"}},';
+                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetDonateForm","parameters":{"module":"CoreHome","action":"getDonateForm"}}';
             } else {
-                $topWidget .= '{"uniqueId":"widgetCoreHomegetPromoVideo",'
-                    . '"parameters":{"module":"CoreHome","action":"getPromoVideo"}},';
+                $piwikPromoWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo","parameters":{"module":"CoreHome","action":"getPromoVideo"}}';
             }
 
             $defaultLayout = '[
                 [
-                    {"uniqueId":"widgetVisitsSummarygetEvolutionGraphcolumnsArray","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":"nb_visits"}},
                     {"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},
-                    {"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
+                    ' . $piwikPromoWidget . '
                 ],
                 [
-                    ' . $topWidget . '
-                    {"uniqueId":"widgetReferrersgetWebsites","parameters":{"module":"Referrers","action":"getWebsites"}},
-                    {"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}}
+                    {"uniqueId":"widgetVisitsSummarygetEvolutionGraphcolumnsArray","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":"nb_visits"}},
+                    ' . $advertisingWidget . '
+                    {"uniqueId":"widgetVisitsSummarygetSparklines","parameters":{"module":"VisitsSummary","action":"getSparklines"}}
                 ],
                 [
                     {"uniqueId":"widgetUserCountryMapvisitorMap","parameters":{"module":"UserCountryMap","action":"visitorMap"}},
-                    {"uniqueId":"widgetDevicesDetectiongetBrowsers","parameters":{"module":"DevicesDetection","action":"getBrowsers"}},
-                    {"uniqueId":"widgetReferrersgetSearchEngines","parameters":{"module":"Referrers","action":"getSearchEngines"}},
+                    {"uniqueId":"widgetReferrersgetReferrerType","parameters":{"module":"Referrers","action":"getReferrerType"}},
                     {"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
                 ]
             ]';
