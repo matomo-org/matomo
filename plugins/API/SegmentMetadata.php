@@ -58,17 +58,6 @@ class SegmentMetadata
             'permission'     => $isAuthenticatedWithViewAccess,
         );
 
-        $segments[] = array(
-            'type'           => 'metric',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitorIP',
-            'segment'        => 'visitIp',
-            'acceptedValues' => '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255',
-            'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilterValue' => array('Piwik\Network\IPUtils', 'stringToBinaryIP'),
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-
         foreach ($segments as &$segment) {
             $segment['name'] = Piwik::translate($segment['name']);
             $segment['category'] = Piwik::translate($segment['category']);
