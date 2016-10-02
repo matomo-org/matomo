@@ -45,10 +45,17 @@ return array(
         return $cache;
     },
     'Piwik\Cache\Backend' => function (ContainerInterface $c) {
-        try {
-            $backend = $c->get('ini.Cache.backend');
-        } catch (NotFoundException $ex) {
-            $backend = 'chained'; // happens if global.ini.php is not available
+        // If Piwik is not installed yet, it's possible the tmp/ folder is not writable
+        // we prevent failing with an unclear message eg. coming from doctrine-cache
+        // by forcing to use a cache backend which always works ie. array
+        if(!\Piwik\SettingsPiwik::isPiwikInstalled()) {
+            $backend = 'array';
+        } else {
+            try {
+                $backend = $c->get('ini.Cache.backend');
+            } catch (NotFoundException $ex) {
+                $backend = 'chained'; // happens if global.ini.php is not available
+            }
         }
 
         return \Piwik\Cache::buildBackend($backend);
