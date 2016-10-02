@@ -75,7 +75,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
-     * @return string The Javascript tag ready to be included on the HTML pages
+     * @return string The JavaScript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,

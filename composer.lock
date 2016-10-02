@@ -1342,7 +1342,7 @@
                     "email": "tedivm@tedivm.com"
                 }
             ],
-            "description": "Javascript Minifier built in PHP",
+            "description": "JavaScript Minifier built in PHP",
             "homepage": "http://github.com/tedivm/JShrink",
             "keywords": [
                 "javascript",

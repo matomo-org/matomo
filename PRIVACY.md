@@ -46,9 +46,9 @@ visitor details in the Administration > Plugins page.
 In this section we document how a Piwik administrator can better protect their own privacy.
 
 ### Keep your Piwik server URL private
-By default, the Piwik Javascript code on all tracked websites contains the Piwik server URL. In some cases you might
+By default, the Piwik JavaScript code on all tracked websites contains the Piwik server URL. In some cases you might
 want to hide this Piwik URL completely while still tracking all websites in your Piwik instance. To hide your Piwik
-server's URL, you can modify the Javascript Tracking code and point it to a proxy piwik.php script instead of your actual
+server's URL, you can modify the JavaScript Tracking code and point it to a proxy piwik.php script instead of your actual
 Piwik server: [How to keep Piwik server URL private.](http://piwik.org/faq/how-to/faq_132/)
 
 ### Automatic update check

@@ -12,7 +12,7 @@ use Piwik\Plugins\CustomPiwikJs\TrackingCode\PiwikJsManipulator;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles;
 
 /**
- * Updates the Javascript file containing the Tracker.
+ * Updates the JavaScript file containing the Tracker.
  */
 class TrackerUpdater
 {

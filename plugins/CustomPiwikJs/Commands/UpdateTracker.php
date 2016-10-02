@@ -23,7 +23,7 @@ class UpdateTracker extends ConsoleCommand
         $this->addOption('source-file', null, InputOption::VALUE_REQUIRED, 'Absolute path to source PiwikJS file.', $this->getPathOriginalPiwikJs());
         $this->addOption('target-file', null, InputOption::VALUE_REQUIRED, 'Absolute path to target file. Useful if your /piwik.js is not writable and you want to replace the file manually', PIWIK_DOCUMENT_ROOT . TrackerUpdater::TARGET_PIWIK_JS);
         $this->addOption('ignore-minified', null, InputOption::VALUE_NONE, 'Ignore minified tracker files, useful during development so the original source file can be debugged');
-        $this->setDescription('Update the Javascript Tracker with plugin tracker additions');
+        $this->setDescription('Update the JavaScript Tracker with plugin tracker additions');
     }
 
     private function getPathOriginalPiwikJs()
@@ -39,7 +39,7 @@ class UpdateTracker extends ConsoleCommand
 
         $this->updateTracker($sourceFile, $targetFile, $ignoreMinified);
 
-        $output->writeln('<info>The Javascript Tracker has been updated</info>');
+        $output->writeln('<info>The JavaScript Tracker has been updated</info>');
     }
 
     public function updateTracker($sourceFile, $targetFile, $ignoreMinified)

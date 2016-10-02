@@ -1097,7 +1097,7 @@ if (typeof window.Piwik !== 'object') {
 
         /**
          * See https://github.com/piwik/piwik/issues/8413
-         * To prevent Javascript Error: Uncaught URIError: URI malformed when encoding is not UTF-8. Use this method
+         * To prevent JavaScript Error: Uncaught URIError: URI malformed when encoding is not UTF-8. Use this method
          * instead of decodeWrapper if a text could contain any non UTF-8 encoded characters eg
          * a URL like http://apache.piwik/test.html?%F6%E4%FC or a link like
          * <a href="test-with-%F6%E4%FC/story/0">(encoded iso-8859-1 URL)</a>

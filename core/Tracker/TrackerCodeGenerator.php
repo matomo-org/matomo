@@ -14,7 +14,7 @@ use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
- * Generates the Javascript code to be inserted on every page of the website to track.
+ * Generates the JavaScript code to be inserted on every page of the website to track.
  */
 class TrackerCodeGenerator
 {
@@ -30,7 +30,7 @@ class TrackerCodeGenerator
      * @param string $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
-     * @return string Javascript code.
+     * @return string JavaScript code.
      */
     public function generate(
         $idSite,
@@ -138,7 +138,7 @@ class TrackerCodeGenerator
          *                         - **piwikUrl**: The tracker URL to use.
          *                         - **options**: A string of JavaScript code that customises
          *                                        the JavaScript tracker.
-         *                         - **optionsBeforeTrackerUrl**: A string of Javascript code that customises
+         *                         - **optionsBeforeTrackerUrl**: A string of JavaScript code that customises
          *                                        the JavaScript tracker inside of anonymous function before
          *                                        adding setTrackerUrl into paq.
          *                         - **protocol**: Piwik url protocol.

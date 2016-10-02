@@ -467,7 +467,7 @@ class AssetManagerTest extends IntegrationTestCase
 
         $this->triggerGetMergedNonCoreJavaScript();
 
-        $expectedContent = $this->adjustExpectedJsContent('/* Piwik Javascript - cb={{{CACHE-BUSTER-JS}}}*/' . "\n");
+        $expectedContent = $this->adjustExpectedJsContent('/* Piwik JavaScript - cb={{{CACHE-BUSTER-JS}}}*/' . "\n");
 
         $this->validateExpectedContent($expectedContent);
     }
