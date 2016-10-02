@@ -79,7 +79,7 @@
 
         var displayDate = dateText;
         if (selectedPeriod === 'month') {
-            displayDate = _pk_translate('Intl_Month_Long_StandAlone_' + currentMonth) + ' ' + currentYear;
+            displayDate = _pk_translate('Intl_Month_Long_StandAlone_' + (currentMonth+1)) + ' ' + currentYear;
         } else if (selectedPeriod === 'year') {
             displayDate = currentYear;
         } else if (selectedPeriod === 'range' || selectedPeriod === 'week') {
