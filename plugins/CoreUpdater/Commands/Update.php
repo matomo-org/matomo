@@ -163,6 +163,14 @@ class Update extends ConsoleCommand
             return;
         }
 
+
+        if ($updater->hasMajorDbUpdate()) {
+            $output->writeln(array(
+                "",
+                sprintf("<comment>%s \n</comment>", Piwik::translate('CoreUpdater_MajorUpdateWarning1'))
+            ));
+        }
+
         $output->writeln(array("    *** Note: this is a Dry Run ***", ""));
 
         foreach ($migrationQueries as $query) {
