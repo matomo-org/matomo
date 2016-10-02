@@ -8,7 +8,8 @@
 }
 
 // hide PHP is deprecated notification in UI test
-.uiTest [notification-id="DeprecatedPHPVersionCheck"] {
+.uiTest [notification-id="DeprecatedPHPVersionCheck"],
+.uiTest [notification-id="PHPVersionTooOldForNewestPiwikCheck"]{
     display: none !important;
 }
 
