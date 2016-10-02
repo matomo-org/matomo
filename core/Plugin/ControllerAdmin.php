@@ -185,7 +185,7 @@ abstract class ControllerAdmin extends Controller
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
-        NotificationManager::notify('DeprecatedPHPVersionCheck', $notification);
+        NotificationManager::notify('PHPVersionTooOldForNewestPiwikCheck', $notification);
     }
 
 
