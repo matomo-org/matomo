@@ -153,6 +153,42 @@ abstract class ControllerAdmin extends Controller
         Notification\Manager::notify('ControllerAdmin_EacceleratorIsUsed', $notification);
     }
 
+    /**
+     * PHP Version required by the next major Piwik version
+     * @return string
+     */
+    private static function getNextRequiredMinimumPHP()
+    {
+        return '5.5.9';
+    }
+
+    private static function isUsingPhpVersionCompatibleWithNextPiwik()
+    {
+        return version_compare( PHP_VERSION, self::getNextRequiredMinimumPHP(), '>=' );
+    }
+
+    private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
+    {
+        if(self::isUsingPhpVersionCompatibleWithNextPiwik()) {
+            return;
+        }
+
+        $youMustUpgradePHP = Piwik::translate('General_YouMustUpgradePhpVersionToReceiveLatestPiwik');
+        $message =  Piwik::translate('General_PiwikCannotBeUpgradedBecausePhpIsTooOld')
+            .     ' '
+            .  sprintf(Piwik::translate('General_PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure'), self::getNextRequiredMinimumPHP())
+        ;
+
+        $notification = new Notification($message);
+        $notification->title = $youMustUpgradePHP;
+        $notification->priority = Notification::PRIORITY_LOW;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify('PHPVersionTooOldForNewestPiwikCheck', $notification);
+    }
+
+
     private static function notifyWhenPhpVersionIsEOL()
     {
         $deprecatedMajorPhpVersion = null;
@@ -167,9 +203,7 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        $nextRequiredMinimumPHP = '5.5';
-
-        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, $nextRequiredMinimumPHP))
+        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, self::getNextRequiredMinimumPHP()))
             . "\n "
             . Piwik::translate('General_WarningPhpVersionXIsTooOld', $deprecatedMajorPhpVersion);
 
@@ -243,10 +277,8 @@ abstract class ControllerAdmin extends Controller
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
         self::notifyAnyInvalidPlugin();
-
-        self::checkPhpVersion($view);
-
         self::notifyWhenPhpVersionIsEOL();
+        self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
@@ -269,16 +301,6 @@ abstract class ControllerAdmin extends Controller
     protected static function getPiwikVersion()
     {
         return "Piwik " . Version::VERSION;
-    }
-
-    /**
-     * Check if the current PHP version is >= 5.3. If not, a warning is displayed
-     * to the user.
-     */
-    private static function checkPhpVersion($view)
-    {
-        $view->phpVersion = PHP_VERSION;
-        $view->phpIsNewEnough = version_compare($view->phpVersion, '5.3.0', '>=');
     }
 
     private static function isPhpVersion53()
