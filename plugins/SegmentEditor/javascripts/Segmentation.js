@@ -86,14 +86,24 @@ Segmentation = (function($) {
             var title;
             if( current != "")
             {
-                var currentDecoded = piwikHelper.htmlDecode(current);
-                var selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
+                // this code is mad, and may drive you mad.
+                // the whole segmentation editor needs to be rewritten in AngularJS with clean code
+                var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
                 var foundItems = $(selector, this.target);
 
                 if (foundItems.length === 0) {
-                    currentDecoded = piwikHelper.htmlDecode(decodeURIComponent(current));
-                    selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
-                    foundItems = $(selector, this.target);
+                    try {
+                        currentDecoded = piwikHelper.htmlDecode(current);
+                        selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
+                        foundItems = $(selector, this.target);
+                    } catch(e) {}
+                }
+                if (foundItems.length === 0) {
+                    try {
+                        currentDecoded = piwikHelper.htmlDecode(decodeURIComponent(current));
+                        selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
+                        foundItems = $(selector, this.target);
+                    } catch(e) {}
                 }
 
                 if (foundItems.length > 0) {
