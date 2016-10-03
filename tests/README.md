@@ -1,4 +1,4 @@
-Piwik comes with unit tests, integration tests, system tests, Javascript tests and UI tests.
+Piwik comes with unit tests, integration tests, system tests, JavaScript tests and UI tests.
 This document briefly describes how to use and modify Piwik tests.
 
 ## Continuous Integration
@@ -133,7 +133,7 @@ If you use Ubuntu or another Linux distribution, you must make one change to the
 
 ## JavaScript Tests
 
-piwik.js is unit tested and you can run the Javascript tests at: /piwik/tests/javascript/
+piwik.js is unit tested and you can run the JavaScript tests at: /piwik/tests/javascript/
 
 ## Testing Data
 

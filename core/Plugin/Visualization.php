@@ -534,7 +534,7 @@ class Visualization extends ViewDataTable
     }
 
     /**
-     * This functions reads the customization values for the DataTable and returns an array (name,value) to be printed in Javascript.
+     * This functions reads the customization values for the DataTable and returns an array (name,value) to be printed in JavaScript.
      * This array defines things such as:
      * - name of the module & action to call to request data for this table
      * - optional filters information, eg. filter_limit and filter_offset
