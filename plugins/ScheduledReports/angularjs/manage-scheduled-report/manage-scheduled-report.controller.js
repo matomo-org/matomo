@@ -16,7 +16,11 @@
 
         this.reportHours = [];
         for (var i = 0; i < 24; i++) {
-            this.reportHours.push({key: i + '', value: i + ''});
+            if ((timeZoneDifference*2) % 2 != 0) {
+                this.reportHours.push({key: i + '.5', value: i + ':30'});
+            } else {
+                this.reportHours.push({key: i + '', value: i + ''});
+            }
         }
 
         function scrollToTop()
@@ -39,7 +43,7 @@
         }
 
         function adjustHourToTimezone(hour, difference) {
-            return '' + ((24 + parseInt(hour) + difference) % 24);
+            return '' + ((24 + parseFloat(hour) + difference) % 24);
         }
 
         function updateReportHourUtc (report) {
