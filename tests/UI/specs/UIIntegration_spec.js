@@ -296,6 +296,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should update the evolution chart if a sparkline is clicked', function (done) {
+        expect.screenshot('goals_individual_goal_updated').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
+            page.click('.sparkline.linked:contains(%)');
+        }, done);
+    });
+
     // Events pages
     it('should load the Events > index page correctly', function (done) {
         expect.screenshot('events_overview').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
