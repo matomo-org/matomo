@@ -8,6 +8,7 @@
  */
 namespace Piwik\Updates;
 
+use Piwik\Date;
 use Piwik\Plugins\ScheduledReports\API as ScheduledReportsAPI;
 use Piwik\Plugins\ScheduledReports\Model as ScheduledReportsModel;
 use Piwik\Site;
@@ -33,13 +34,10 @@ class Updates_2_16_3_b3 extends PiwikUpdates
 
     protected function adjustTimezoneBySite($hour, $idSite)
     {
-        $timezone     = Site::getTimezoneFor($idSite);
-        try {
-            $dateTimeZone = new \DateTimeZone($timezone);
-        } catch(\Exception $e) {
-            return;
-        }
-        $timeZoneDifference = -ceil($dateTimeZone->getOffset(new \DateTime()) / 3600);
+        $timezone           = Site::getTimezoneFor($idSite);
+        $timestampUTC       = Date::today()->getTimestampUTC();
+        $timestampZone      = Date::adjustForTimezone($timestampUTC, $timezone);
+        $timeZoneDifference = -ceil(($timestampZone - $timestampUTC) / 3600);
         return (24 + $hour + $timeZoneDifference) % 24;
     }
 }

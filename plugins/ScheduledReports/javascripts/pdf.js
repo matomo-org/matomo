@@ -10,7 +10,7 @@ var updateReportParametersFunctions = Object();
 var resetReportParametersFunctions = Object();
 
 function adjustHourToTimezone(hour, difference) {
-    return (24 + parseInt(hour) + difference) % 24;
+    return (24 + parseFloat(hour) + difference) % 24;
 }
 
 function formSetEditReport(idReport) {
