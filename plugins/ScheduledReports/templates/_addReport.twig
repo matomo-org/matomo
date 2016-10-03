@@ -63,7 +63,11 @@
                         {% set hourInput %}
                             <select id="report_hour">
                             {% for i in 0..23 %}
-                                <option value="{{ i }}">{{ i }}</option>
+                                {% if (timeZoneDifference*2)%2 != 0 %}
+                                    <option value="{{ i }}.5">{{ i }}:30</option>
+                                {% else %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {%  endif %}
                             {% endfor %}
                             </select>
                         {% endset %}
