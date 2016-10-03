@@ -42,7 +42,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $url = $this->urlForModuleAction('CoreAdminHome', 'home');
 
-        $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-configure');
+        $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
     }
 
