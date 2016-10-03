@@ -3,6 +3,7 @@
         "Administration": "Administración",
         "ArchivingSettings": "Configuración de archivado",
         "BrandingSettings": "Configuración del Branding",
+        "ReleaseChannel": "Canal de lanzamiento",
         "ClickHereToOptIn": "Haga clic aquí para optar.",
         "ClickHereToOptOut": "Haga clic aquí para no ser seguido.",
         "CustomLogoFeedbackInfo": "Si personaliza el logo de Piwik, puede que también esté interesado en ocultar el enlace %1$s en el menú superior. Para hacerlo, puede deshabilitar el complemento Feedback en la página de %2$sAdministración de complementos%3$s.",

@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         },
         "shell": {
             compilePiwikJs: {
-                command: "sed '/<DEBUG>/,/<\\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js",
+                command: "sed '/<DEBUG>/,/<\\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js",
                 options: {
                     execOptions: {
                         cwd: 'js'

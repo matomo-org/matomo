@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -26,7 +27,10 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@ScheduledReports/index');
         $this->setGeneralVariablesView($view);
 
-        $view->countWebsites = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
+        $siteTimezone = $this->site->getTimezone();
+
+        $view->timeZoneDifference = Date::getUtcOffset($siteTimezone) / 3600;
+        $view->countWebsites      = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
 
         // get report types
         $reportTypes = API::getReportTypes();

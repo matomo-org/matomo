@@ -288,9 +288,10 @@ var broadcast = {
      *
      * @param {string} str  url with parameters to be updated
      * @param {boolean} [showAjaxLoading] whether to show the ajax loading gif or not.
+     * @param {string} strHash additional parameters that should be updated on the hash
      * @return {void}
      */
-    propagateNewPage: function (str, showAjaxLoading) {
+    propagateNewPage: function (str, showAjaxLoading, strHash) {
         // abort all existing ajax requests
         globalAjaxQueue.abort();
 
@@ -311,6 +312,13 @@ var broadcast = {
 
             if (currentHashStr.length != 0) {
                 currentHashStr = broadcast.updateParamValue(params_vals[i], currentHashStr);
+            }
+        }
+
+        if (strHash && currentHashStr.length != 0) {
+            var params_hash_vals = strHash.split("&");
+            for (var i = 0; i < params_hash_vals.length; i++) {
+                currentHashStr = broadcast.updateParamValue(params_hash_vals[i], currentHashStr);
             }
         }
 

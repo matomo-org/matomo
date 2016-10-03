@@ -38,7 +38,9 @@ class File
 
     public function save($content)
     {
-        file_put_contents($this->file, $content);
+        if(false === file_put_contents($this->file, $content)) {
+            throw new AccessDeniedException(sprintf("Could not write to %s", $this->file));
+        }
     }
 
     public function getContent()
@@ -60,7 +62,10 @@ class File
      */
     public function hasWriteAccess()
     {
-        return $this->hasReadAccess() && is_writable($this->file);
+        if (file_exists($this->file) && !is_writable($this->file)) {
+            return false;
+        }
+        return is_writable(dirname($this->file)) || is_writable($this->file);
     }
 
     /**

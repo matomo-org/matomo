@@ -159,6 +159,8 @@ class Controller extends \Piwik\Plugin\Controller
             $messages = $e->getUpdateLogMessages();
         }
 
+        Filesystem::deleteAllCacheOnUpdate();
+
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
         return $view->render();

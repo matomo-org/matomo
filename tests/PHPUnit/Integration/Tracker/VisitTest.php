@@ -16,6 +16,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\Mock\Tracker\RequestAuthenticated;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitExcluded;
@@ -91,14 +92,14 @@ class VisitTest extends IntegrationTestCase
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp);
 
-        $request = new Request(array('idsite' => $idsite));
+        $request = new RequestAuthenticated(array('idsite' => $idsite));
 
         // test that IPs within the range, or the given IP, are excluded
         foreach ($tests as $ip => $expected) {
-            $testIpIsExcluded = IPUtils::stringToBinaryIP($ip);
+            $request->setParam('cip', $ip);
 
-            $excluded = new VisitExcluded_public($request, $testIpIsExcluded);
-            $this->assertSame($expected, $excluded->public_isVisitorIpExcluded($testIpIsExcluded));
+            $excluded = new VisitExcluded_public($request);
+            $this->assertSame($expected, $excluded->public_isVisitorIpExcluded($ip));
         }
     }
 
@@ -179,13 +180,12 @@ class VisitTest extends IntegrationTestCase
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null);
 
-        $request = new Request(array('idsite' => $idsite));
 
-        $testIpIsExcluded = IPUtils::stringToBinaryIP($ip);
+        $request = new RequestAuthenticated(array('idsite' => $idsite, 'cip' => $ip));
 
         $_SERVER['HTTP_VIA'] = '1.1 Chrome-Compression-Proxy';
-        $excluded = new VisitExcluded_public($request, $testIpIsExcluded);
-        $isBot = $excluded->public_isNonHumanBot($testIpIsExcluded);
+        $excluded = new VisitExcluded_public($request);
+        $isBot = $excluded->public_isNonHumanBot();
         unset($_SERVER['HTTP_VIA']);
         $this->assertSame($isNonHumanBot, $isBot);
     }
@@ -242,7 +242,8 @@ class VisitTest extends IntegrationTestCase
 
         // test that user agents that contain excluded user agent strings are excluded
         foreach ($tests as $ua => $expected) {
-            $excluded = new VisitExcluded_public($request, $ip = false, $ua);
+            $request->setParam('ua', $ua);
+            $excluded = new VisitExcluded_public($request);
 
             $this->assertSame($expected, $excluded->public_isUserAgentExcluded(), "Result if isUserAgentExcluded('$ua') was not " . ($expected ? 'true' : 'false') . ".");
         }
@@ -309,10 +310,11 @@ class VisitTest extends IntegrationTestCase
         );
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
-        $request = new Request(array('idsite' => $idsite, 'bots' => 0));
+        $request = new RequestAuthenticated(array('idsite' => $idsite, 'bots' => 0));
 
         foreach ($isIpBot as $ip => $isBot) {
-            $excluded = new VisitExcluded_public($request, IPUtils::stringToBinaryIP($ip));
+            $request->setParam('cip', $ip);
+            $excluded = new VisitExcluded_public($request);
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $ip);
         }

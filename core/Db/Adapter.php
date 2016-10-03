@@ -125,7 +125,7 @@ class Adapter
      * @param string $adapterName
      * @return bool
      */
-    public function isRecommendedAdapter($adapterName)
+    public static function isRecommendedAdapter($adapterName)
     {
         return strtolower($adapterName) === 'pdo/mysql';
     }

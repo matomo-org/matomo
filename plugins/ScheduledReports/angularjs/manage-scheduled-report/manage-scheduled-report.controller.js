@@ -14,6 +14,15 @@
 
         var self = this;
 
+        this.reportHours = [];
+        for (var i = 0; i < 24; i++) {
+            if ((timeZoneDifference*2) % 2 != 0) {
+                this.reportHours.push({key: i + '.5', value: i + ':30'});
+            } else {
+                this.reportHours.push({key: i + '', value: i + ''});
+            }
+        }
+
         function scrollToTop()
         {
             piwikHelper.lazyScrollTo(".emailReports", 200);
@@ -31,6 +40,15 @@
             if (resetReportParametersFunctions && resetReportParametersFunctions[reportType]) {
                 resetReportParametersFunctions[reportType](report)
             }
+        }
+
+        function adjustHourToTimezone(hour, difference) {
+            return '' + ((24 + parseFloat(hour) + difference) % 24);
+        }
+
+        function updateReportHourUtc (report) {
+            var reportHour = adjustHourToTimezone(report.hour, -timeZoneDifference);
+            report.hourUtc = _pk_translate('ScheduledReports_ReportHourWithUTC', [reportHour]);
         }
 
         function formSetEditReport(idReport) {
@@ -51,6 +69,9 @@
                 self.saveButtonTitle = ReportPlugin.createReportString;
                 resetParameters(report.type, report);
             }
+
+            report.hour = adjustHourToTimezone(report.hour, timeZoneDifference);
+            updateReportHourUtc(report);
 
             $('[name=reportsList] input').prop('checked', false);
 
@@ -97,6 +118,10 @@
             piwikHelper.refreshAfter(2);
         }
 
+        this.updateReportHourUtc = function () {
+            updateReportHourUtc(this.report);
+        };
+
         // Click Add/Update Submit
         this.submitReport = function () {
             var idReport = this.editingReportId;
@@ -108,7 +133,7 @@
             apiParameters.reportFormat = this.report['format' + this.report.type];
 
             var period = self.report.period;
-            var hour = self.report.hour;
+            var hour = adjustHourToTimezone(this.report.hour, timeZoneDifference);
 
             var reports = [];
             $('[name=reportsList].' + apiParameters.reportType + ' input:checked').each(function () {

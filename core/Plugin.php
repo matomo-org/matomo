@@ -137,14 +137,19 @@ class Plugin
         if ($cache->contains($cacheId)) {
             $this->pluginInformation = $cache->fetch($cacheId);
         } else {
-            $metadataLoader = new MetadataLoader($pluginName);
-            $this->pluginInformation = $metadataLoader->load();
-
-            if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
-                throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
-            }
+            $this->reloadPluginInformation();
 
             $cache->save($cacheId, $this->pluginInformation);
+        }
+    }
+
+    public function reloadPluginInformation()
+    {
+        $metadataLoader = new MetadataLoader($this->pluginName);
+        $this->pluginInformation = $metadataLoader->load();
+
+        if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
+            throw new \Exception('Plugin ' . $this->pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $this->pluginName);
         }
     }
 

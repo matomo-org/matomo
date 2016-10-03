@@ -235,7 +235,7 @@ label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
 
 Entry pages
 label,entry_nb_visits,entry_bounce_count,bounce_rate
-/index.htm,3,0,0%
+/index.htm,4,0,0%
 
 Entry page titles
 label,entry_nb_visits,entry_bounce_count,bounce_rate

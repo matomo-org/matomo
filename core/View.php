@@ -116,6 +116,7 @@ class View implements ViewInterface
     protected $templateVars = array();
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
+    private $enableCacheBuster = true;
 
     /**
      * Constructor.
@@ -143,6 +144,14 @@ class View implements ViewInterface
         } catch (Exception $ex) {
             // pass (occurs when DB cannot be connected to, perhaps piwik URL cache should be stored in config file...)
         }
+    }
+
+    /**
+     * Disables the cache buster (adding of ?cb=...) to JavaScript and stylesheet files
+     */
+    public function disableCacheBuster()
+    {
+        $this->enableCacheBuster = false;
     }
 
     /**
@@ -237,9 +246,8 @@ class View implements ViewInterface
             } else {
                 $cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
             }
-
             $this->cacheBuster = $cacheBuster;
-            
+
             $this->loginModule = Piwik::getLoginPluginName();
 
             $user = APIUsersManager::getInstance()->getUser($this->userLogin);
@@ -260,6 +268,16 @@ class View implements ViewInterface
         return $this->renderTwigTemplate();
     }
 
+    /**
+     * @internal
+     * @ignore
+     * @return Twig_Environment
+     */
+    public function getTwig()
+    {
+        return $this->twig;
+    }
+
     protected function renderTwigTemplate()
     {
         try {
@@ -272,7 +290,9 @@ class View implements ViewInterface
             throw $ex;
         }
 
-        $output = $this->applyFilter_cacheBuster($output);
+        if ($this->enableCacheBuster) {
+            $output = $this->applyFilter_cacheBuster($output);
+        }
 
         $helper = new Theme;
         $output = $helper->rewriteAssetsPathToTheme($output);

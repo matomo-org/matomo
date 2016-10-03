@@ -346,25 +346,57 @@
   engine: 'Yahoo! Japan Images'
   keywords: 'ｔｏ ｈｅａｒｔ ｌｏｇｏ'
 
-- url: 'http://video.search.yahoo.co.jp/search?tt=c&ei=UTF-8&fr=sfp_as&aq=-1&oq=&p=piwik&meta=vc%3D'
+- url: 'http://image.search.yahoo.co.jp/search?ei=Shift_JIS&fr=top_ga1_sa&p=%8CN%82%CC%96%BC%82%CD%81B'
+  engine: 'Yahoo! Japan Images'
+  keywords: '君の名は。'
+
+- url: 'http://image.search.yahoo.co.jp/search?ei=EUC-JP&fr=top_ga1_sa&p=%B7%AF%A4%CE%CC%BE%A4%CF%A1%A3'
+  engine: 'Yahoo! Japan Images'
+  keywords: '君の名は。'
+
+- url: 'http://video.search.yahoo.co.jp/search?tt=c&ei=UTF-8&fr=sfp_as&aq=-1&oq=&p=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82&meta=vc%3D'
   engine: 'Yahoo! Japan Videos'
-  keywords: 'piwik'
+  keywords: '君の名は。'
 
-- url: 'http://search.yahoo.co.jp/search?ei=UTF-8&p=piwik'
+- url: 'http://video.search.yahoo.co.jp/search?tt=c&ei=Shift_JIS&fr=sfp_as&aq=-1&oq=&p=%8El%8C%8E%82%CD%8CN%82%CC%89R&meta=vc%3D'
+  engine: 'Yahoo! Japan Videos'
+  keywords: '四月は君の嘘'
+
+- url: 'http://video.search.yahoo.co.jp/search?tt=c&ei=EUC-JP&fr=sfp_as&aq=-1&oq=&p=%BB%CD%B7%EE%A4%CF%B7%AF%A4%CE%B1%B3&meta=vc%3D'
+  engine: 'Yahoo! Japan Videos'
+  keywords: '四月は君の嘘'
+
+- url: 'http://search.yahoo.co.jp/search?ei=UTF-8&p=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82'
   engine: 'Yahoo! Japan'
-  keywords: 'piwik'
+  keywords: '君の名は。'
 
-- url: 'http://search.auone.jp/?q=piwik&sr=0001&ie=UTF-8&lr='
+- url: 'http://search.yahoo.co.jp/search?ei=Shift_JIS&p=%8El%8C%8E%82%CD%8CN%82%CC%89R'
+  engine: 'Yahoo! Japan'
+  keywords: '四月は君の嘘'
+
+- url: 'http://search.yahoo.co.jp/search?ei=EUC-JP&p=%BB%CD%B7%EE%A4%CF%B7%AF%A4%CE%B1%B3'
+  engine: 'Yahoo! Japan'
+  keywords: '四月は君の嘘'
+
+- url: 'http://search.auone.jp/?q=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82&sr=0001&ie=UTF-8&lr='
   engine: 'auone'
-  keywords: 'piwik'
+  keywords: '君の名は。'
 
-- url: 'http://search.nifty.com/websearch/search?select=2&ss=up&cflg=%E6%A4%9C%E7%B4%A2&chartype=&Text=%E3%82%A6%E3%82%A7%E3%83%96%E6%A4%9C%E7%B4%A2%E7%B5%90%E6%9E%9C%E7%B4%84'
+- url: 'http://search.auone.jp/?q=%8El%8C%8E%82%CD%8CN%82%CC%89R&sr=0001&ie=SJIS&lr='
+  engine: 'auone'
+  keywords: '四月は君の嘘'
+
+- url: 'http://search.auone.jp/?q=%BB%CD%B7%EE%A4%CF%B7%AF%A4%CE%B1%B3&sr=0001&ie=EUC&lr='
+  engine: 'auone'
+  keywords: '四月は君の嘘'
+
+- url: 'http://search.nifty.com/websearch/search?select=2&ss=up&Text=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82'
   engine: 'Nifty'
-  keywords: 'ウェブ検索結果約'
+  keywords: '君の名は。'
 
-- url: 'http://videosearch.nifty.com/search?kw=piwik'
+- url: 'http://videosearch.nifty.com/search?kw=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82'
   engine: 'Nifty Videos'
-  keywords: 'piwik'
+  keywords: '君の名は。'
 
 - url: 'http://www.claro-search.com/?q=logiciels+pour+%C3%A9crire+en+japonais+avec+windows+xp&s=web&as=0&rlz=0&babsrc=SP_clro'
   engine: 'Claro Search'
@@ -378,21 +410,29 @@
   engine: 'Google'
   keywords: 'ふたりはプリキュアmaxheart'
 
-- url: 'http://cgi.search.biglobe.ne.jp/cgi-bin/search-st?search=%E6%A4%9C%E7%B4%A2&web_s.x=1&q=piwik&x=0&y=0&ie=utf8'
+- url: 'http://cgi.search.biglobe.ne.jp/cgi-bin/search-st?q=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82&ie=utf8'
   engine: 'Biglobe'
-  keywords: 'piwik'
+  keywords: '君の名は。'
+
+- url: 'http://cgi.search.biglobe.ne.jp/cgi-bin/search-st?q=%8El%8C%8E%82%CD%8CN%82%CC%89R&ie=sjis'
+  engine: 'Biglobe'
+  keywords: '四月は君の嘘'
+
+- url: 'http://cgi.search.biglobe.ne.jp/cgi-bin/search-st?q=%BB%CD%B7%EE%A4%CF%B7%AF%A4%CE%B1%B3&ie=euc'
+  engine: 'Biglobe'
+  keywords: '四月は君の嘘'
 
 - url: 'http://images.search.biglobe.ne.jp/cgi-bin/search?q=%E3%82%B5%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%AF%EF%BC%88'
   engine: 'Biglobe Images'
   keywords: 'サーリンク（'
 
-- url: 'http://www.so-net.ne.jp/search/web/?query=piwik&from=gp&kz=&suggest=gp_suggest_on'
+- url: 'http://www.so-net.ne.jp/search/web/?query=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82&from=gp&kz=&suggest=gp_suggest_on'
   engine: 'So-net'
-  keywords: 'piwik'
+  keywords: '君の名は。'
 
-- url: 'http://video.so-net.ne.jp/search/?kw=piwik&from='
+- url: 'http://video.so-net.ne.jp/search/?kw=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82&from='
   engine: 'So-net Videos'
-  keywords: 'piwik'
+  keywords: '君の名は。'
 
 - url: 'http://search.seesaa.jp/%E6%97%A5%E6%9C%AC%E3%83%86%E3%83%AC%E3%83%93%E6%94%BE%E9%80%81%E7%B6%B2/index.html'
   engine: 'SeeSaa'

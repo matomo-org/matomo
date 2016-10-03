@@ -111,6 +111,7 @@ class ScheduledReports extends \Piwik\Plugin
     {
         $translationKeys[] = "ScheduledReports_ReportSent";
         $translationKeys[] = "ScheduledReports_ReportUpdated";
+        $translationKeys[] = "ScheduledReports_ReportHourWithUTC";
     }
 
     /**

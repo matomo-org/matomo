@@ -27,7 +27,6 @@ class SegmentMetadata
             }
         }
 
-
         foreach ($segments as &$segment) {
             $segment['name'] = Piwik::translate($segment['name']);
             $segment['category'] = Piwik::translate($segment['category']);
