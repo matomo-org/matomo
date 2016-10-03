@@ -34,10 +34,7 @@ class Updates_2_16_3_b3 extends PiwikUpdates
 
     protected function adjustTimezoneBySite($hour, $idSite)
     {
-        $timezone           = Site::getTimezoneFor($idSite);
-        $timestampUTC       = Date::today()->getTimestampUTC();
-        $timestampZone      = Date::adjustForTimezone($timestampUTC, $timezone);
-        $timeZoneDifference = -ceil(($timestampZone - $timestampUTC) / 3600);
+        $timeZoneDifference = -ceil(Date::getUtcOffset($timezone)/3600);
         return (24 + $hour + $timeZoneDifference) % 24;
     }
 }
