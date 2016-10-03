@@ -29,10 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $siteTimezone = $this->site->getTimezone();
 
-        $timestampUTC = Date::today()->getTimestampUTC();
-        $timestampZone = Date::adjustForTimezone($timestampUTC, $siteTimezone);
-
-        $view->timeZoneDifference = ($timestampZone - $timestampUTC) / 3600;
+        $view->timeZoneDifference = Date::getUtcOffset($siteTimezone) / 3600;
         $view->countWebsites      = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
 
         // get report types
