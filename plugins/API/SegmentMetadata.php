@@ -27,36 +27,6 @@ class SegmentMetadata
             }
         }
 
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_UserId',
-            'segment'        => 'userId',
-            'acceptedValues' => 'any non empty unique string identifying the user (such as an email address or a username).',
-            'sqlSegment'     => 'log_visit.user_id',
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitorID',
-            'segment'        => 'visitorId',
-            'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
-            'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilterValue' => array('Piwik\Common', 'convertVisitorIdToBin'),
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
-            'name'           => Piwik::translate('General_Visit') . " ID",
-            'segment'        => 'visitId',
-            'acceptedValues' => 'Any integer.',
-            'sqlSegment'     => 'log_visit.idvisit',
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
 
         foreach ($segments as &$segment) {
             $segment['name'] = Piwik::translate($segment['name']);
