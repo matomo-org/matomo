@@ -612,6 +612,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load the scheduled reports when Edit button is clicked', function (done) {
+        expect.screenshot('email_reports').to.be.captureSelector('.pageWrap', function (page) {
+            page.evaluate(function () {
+                page.click('.entityTable tr:nth-child(4) button[title=Edit]');
+            });
+        }, done);
+    });
+
     it('should load the feedback form when the feedback form link is clicked', function (done) {
         expect.screenshot('feedback_form').to.be.captureSelector('.pageWrap', function (page) {
 
