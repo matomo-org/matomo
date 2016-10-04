@@ -469,10 +469,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the Settings > General Settings admin page correctly', function (done) {
         expect.screenshot('admin_settings_general').to.be.captureSelector('.pageWrap', function (page) {
-            page.click('.materialize-textarea');
             page.load("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
             // angular might need a little to render after page has loaded 
             page.wait(1000);
+            page.evaluate(function () {
+                $('textarea[name=report_description]').trigger('focus');
+            });
         }, done);
     });
 
