@@ -42,6 +42,10 @@
 	path = plugins/CustomDimensions
 	url = https://github.com/piwik/plugin-CustomDimensions.git
     branch = master
+[submodule "plugins/Bandwidth"]
+	path = plugins/Bandwidth
+	url = https://github.com/piwik/plugin-Bandwidth.git
+    branch = master
 
 
 # Add new Plugin submodule above this line ^^
