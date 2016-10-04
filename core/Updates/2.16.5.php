@@ -16,19 +16,19 @@ use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 
 /**
- * Update for version 2.16.3-b3.
+ * Update for version 2.16.5.
  *
  * Update existing scheduled reports to use UTC timezone for hour setting
  */
-class Updates_2_16_3_b3 extends PiwikUpdates
+class Updates_2_16_5 extends PiwikUpdates
 {
     public function doUpdate(Updater $updater)
     {
         $model      = new ScheduledReportsModel();
         $allReports = ScheduledReportsAPI::getInstance()->getReports();
         foreach ($allReports as $report) {
-            $report['hour'] = $this->adjustTimezoneBySite($report['hour'], $report['idsite']);
-            $model->updateReport($report['idreport'], $report);
+            $update = array('hour' => $this->adjustTimezoneBySite($report['hour'], $report['idsite']));
+            $model->updateReport($report['idreport'], $update);
         }
     }
 
