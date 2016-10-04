@@ -7,7 +7,6 @@
  */
 
 namespace Piwik\Exception;
-use Exception;
 
 /**
  * Exception thrown when the requested plugin is not activated in the config file
