@@ -258,7 +258,7 @@ class Date
     }
 
     /**
-     * Converts a timestamp in a from UTC to a timezone.
+     * Converts a timestamp from UTC to a timezone.
      *
      * @param int $timestamp The UNIX timestamp to adjust.
      * @param string $timezone The timezone to adjust to.
@@ -266,6 +266,10 @@ class Date
      */
     public static function adjustForTimezone($timestamp, $timezone)
     {
+        if (empty($timezone)) {
+            return $timestamp;
+        }
+
         // manually adjust for UTC timezones
         $utcOffset = self::extractUtcOffset($timezone);
         if ($utcOffset !== false) {
