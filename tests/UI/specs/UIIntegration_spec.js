@@ -473,8 +473,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             // angular might need a little to render after page has loaded 
             page.wait(1000);
             page.evaluate(function () {
-                $('textarea[name=report_description]').trigger('focus');
+                $('textarea:eq(0)').trigger('focus');
             });
+            page.wait(1000);
         }, done);
     });
 
@@ -616,9 +617,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the scheduled reports when Edit button is clicked', function (done) {
         expect.screenshot('email_reports_editor').to.be.captureSelector('.pageWrap', function (page) {
-            page.evaluate(function () {
-                page.click('.entityTable tr:nth-child(4) button[title=Edit]');
-            });
+            page.click('.entityTable tr:nth-child(4) button[title=Edit]');
         }, done);
     });
 
