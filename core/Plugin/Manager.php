@@ -12,26 +12,25 @@ namespace Piwik\Plugin;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Cache;
 use Piwik\Columns\Dimension;
-use Piwik\Config as PiwikConfig;
 use Piwik\Config;
-use Piwik\Db;
-use Piwik\Settings\Storage as SettingsStorage;
+use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\PluginDeactivatedException;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Session;
+use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\Theme;
 use Piwik\Tracker;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
-use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugin\Dimension\ConversionDimension;
-use Piwik\Plugin\Dimension\VisitDimension;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -468,7 +467,8 @@ class Manager
     {
         $plugins = $this->pluginList->getActivatedPlugins();
         if (in_array($pluginName, $plugins)) {
-            throw new \Exception("Plugin '$pluginName' already activated.");
+            // plugin is already activated
+            return;
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {

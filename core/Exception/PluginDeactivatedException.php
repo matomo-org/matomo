@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik;
+namespace Piwik\Exception;
+use Exception;
 
 /**
  * Exception thrown when the requested plugin is not activated in the config file
