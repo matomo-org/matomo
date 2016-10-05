@@ -15,7 +15,6 @@
         "PasswordChanged": "Parola ta a fost schimbată",
         "PasswordRepeat": "Parolă (repetă)",
         "PasswordsDoNotMatch": "Parolele nu se potrivesc.",
-        "RememberMe": "Ţine-mă minte",
-        "ResetPasswordInstructions": "Introduce o parolă nouă pentru contul tău."
+        "RememberMe": "Ţine-mă minte"
     }
 }

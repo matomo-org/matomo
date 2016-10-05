@@ -5,11 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "เฉลี่ยการดำเนินการต่อกลับมาเข้าชม",
         "ColumnBounceRateForReturningVisits": "อัตราการเด้งของผู้เข้าชมที่กลับมา",
         "ColumnReturningVisits": "ผู้เข้าชมที่กลับมา",
-        "ReturnActions": "%s ดำเนินการโดยการกลับมาเข้าชม",
-        "ReturnAverageVisitDuration": "%s ค่าเฉลี่ยของเข้าเข้าชมระยะเวลาสำหรับการส่งกลับผู้เข้าชม",
-        "ReturnAvgActions": "%s ดำเนินต่อกลับมาเข้าชม",
-        "ReturnBounceRate": "%s ที่กลับมาเข้าชมได้ (ซ้ายเว็บไซต์หลังจากหนึ่งหน้า)",
-        "ReturnVisits": "%s กลับมาเข้าชม",
         "SubmenuFrequency": "ความถี่ของผู้เข้าชม",
         "WidgetGraphReturning": "กราฟของผู้เข้าชม",
         "WidgetOverview": "ภาพรวมความถี่ผู้เข้าชมที่กลับมา"

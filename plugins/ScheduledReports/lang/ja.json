@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(任意)表示オプション",
         "AggregateReportsFormat_GraphsOnly": "グラフのみを表示(表は表示しない)",
         "AggregateReportsFormat_TablesAndGraphs": "全てのリポートでリポート表とグラフを表示",
         "AggregateReportsFormat_TablesOnly": "(デフォルト)リポート表を表示(グラフはキーメトリックスのみ)",

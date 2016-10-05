@@ -54,8 +54,6 @@
         "MatchesExpression": "odpowiada wyrażeniu %s",
         "NewVisitorsConversionRateIs": "Współczynnik przejść dla nowych odwiedzających to %s",
         "Optional": "(opcjonalnie)",
-        "OverallConversionRate": "%s ogólny współczynnik zmian (wizyty z osiągniętym pełnym trafieniem)",
-        "OverallRevenue": "%s ogólnych przychodów",
         "PageTitle": "tytuł strony",
         "Pattern": "Wzorzec",
         "ProductCategory": "Kategoria produktu",
@@ -69,7 +67,6 @@
         "VisitPageTitle": "odwiedź dany tytuł strony",
         "VisitUrl": "odwiedź dany adres URL (stronę lub grupę stron)",
         "WhenVisitors": "przez odwiedzającego",
-        "WhereThe": "gdzie",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "gdzie odwiedzona strona zawiera wywołania do metody JavaScript 'trackGoal' (%1$szobacz więcej%2$s)"
+        "WhereThe": "gdzie"
     }
 }

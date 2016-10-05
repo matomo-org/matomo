@@ -5,11 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "متوسط السلوكيات لكل زيارة عائدة",
         "ColumnBounceRateForReturningVisits": "معدل الارتداد للزوار العائدين",
         "ColumnReturningVisits": "الزيارات العائدة",
-        "ReturnActions": "%s سلوك بواسطة الزيارات المتكررة",
-        "ReturnAverageVisitDuration": "%s متوسط طول الزيارة للزائر المتكرر",
-        "ReturnAvgActions": "%s سلوك لكل زيارة متكررة",
-        "ReturnBounceRate": "%s زيارة متكررة مرتدة (غادر الموقع من أول صفحة)",
-        "ReturnVisits": "%s زيارة عائدة",
         "SubmenuFrequency": "التكرار",
         "WidgetGraphReturning": "رسم بياني للزيارات المتكررة",
         "WidgetOverview": "نظرة عامة على التكرار"

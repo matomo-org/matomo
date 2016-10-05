@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Số điện thoại đã xác nhận! Bạn có thể nhận tin nhắn SMS ngay bây giờ với số liệu thống kê của bạn.",
         "Settings_PhoneNumber": "Số điện thoại",
         "Settings_PhoneNumbers_Add": "Thêm một số điện thoại mới",
-        "Settings_PhoneNumbers_CountryCode_Help": "Nếu bạn không biết mã điện thoại quốc gia, tìm kiếm quốc gia của bạn ở đây",
         "Settings_PhoneNumbers_Help": "Trước khi nhận các báo cáo SMS (tin nhắn văn bản) trên điện thoại, số điện thoại phải được nhập phía dưới.",
         "Settings_PhoneNumbers_HelpAdd": "Khi bạn click vào \"Thêm\", một tin nhắn SMS chứa một đoạn mã sẽ được gửi đến điện thoại. Người dùng nhận được đoạn mã sau đó phải đăng nhập vào Piwik, click vào Cài Đặt, sau đó click vào tin nhắn di động. Sau khi nhập đoạn mã, người dùng sẽ có thể nhận được các báo cáo văn bản trên điện thoại của mình.",
         "Settings_PleaseSignUp": "Để tạo ra các báo cáo tin nhắn SMS và nhận tin nhắn văn bản ngắn với số liệu thống kê trang web của bạn trên điện thoại di động của bạn, xin vui lòng đăng ký với các API SMS và nhập thông tin của bạn dưới đây.",

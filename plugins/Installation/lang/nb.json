@@ -91,6 +91,8 @@
         "SystemCheckMbstringHelp": "mbstring-utvidelsen kreves for å håndtere multibyte-tegn i brukergrensesnittet og API-svar. Sjekk også at mbstring.func_overload er satt til «0» i php.ini.",
         "SystemCheckMemoryLimit": "Minnegrense",
         "SystemCheckMemoryLimitHelp": "På et høyt trafikkert nettsted, kan arkiveringsprossessen kreve mer minne enn det som nå er tillatt.<br \/>Se på memory_limit i din php.ini fil hvis nødvendig.",
+        "SystemCheckNoErrorsOrWarnings": "Det er ingen feil eller advarsler",
+        "SystemCheckViewFullSystemCheck": "Se hele systemrapporten",
         "SystemCheckOpenURL": "Åpne URL",
         "SystemCheckOpenURLHelp": "Nyhetsbrev abonnement, oppdatering påminninger og en-klikk-oppdatering krever Curl-utvidelsen, \"allow_url_fopen=On\" eller at fsockopen() er aktivert.",
         "SystemCheckOtherExtensions": "Andre utvidelser",

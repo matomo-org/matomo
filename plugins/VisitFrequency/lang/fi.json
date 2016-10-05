@@ -12,13 +12,8 @@
         "ColumnUniqueReturningVisitors": "Yksilölliset palaavat kävijät",
         "ColumnReturningUsers": "Palaavat käyttäjät",
         "PluginDescription": "Raportoi metriikat ensimmäisen kerran kävijöistä ja palaavista vierailijoista",
-        "ReturnActions": "%s toimintoa palaavilta käyttäjiltä",
-        "ReturnAverageVisitDuration": "%s keskimääräinen käynnin pituus palaaville kävijöille",
-        "ReturnAvgActions": "%s toimintoa \/ palaava käynti",
-        "ReturnBounceRate": "%s palaavista käynneistä oli lyhyitä (vain yksi sivunlataus)",
         "ReturningVisitDocumentation": "Palaava käynti (vs. uusi käynti) on kävijä, joka on käynyt sivulla vähintään kerran aikaisemminkin.",
         "ReturningVisitsDocumentation": "Tämä on palaavien käyntien yleiskatsaus.",
-        "ReturnVisits": "%s palaavaa käyntiä",
         "SubmenuFrequency": "Yleisyys",
         "WidgetGraphReturning": "Palaavat käynnit",
         "WidgetOverview": "Yleiskatsaus yleisyydestä"

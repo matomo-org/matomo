@@ -91,6 +91,8 @@
         "SystemCheckMbstringHelp": "L'extension msstring est requise pour gérer les caractères sur plusieurs octets dans l'interface utilisateur et dans les réponses de l'API. Veuillez aussi vérifier que mbstring.func_overload est définit à \"0\" dans php.ini.",
         "SystemCheckMemoryLimit": "Limite mémoire",
         "SystemCheckMemoryLimitHelp": "Sur un site à trafic important, le processus d'archivage peut prendre plus de mémoire que la limite actuelle autorisée.<br \/>Référez-vous à la configuration memory_limit de votre php.ini si nécessaire.",
+        "SystemCheckNoErrorsOrWarnings": "Il n'y a aucune erreur ou avertissement",
+        "SystemCheckViewFullSystemCheck": "Afficher le rapport complet du système",
         "SystemCheckOpenURL": "Ouvrez l'URL",
         "SystemCheckOpenURLHelp": "Abonnements à la newsletter, notifications des mises à jour, et mise à jour en un clic requièrent l'extension curl, allow_url_fopen=On, ou fsockopen() activé.",
         "SystemCheckOtherExtensions": "Autres extensions",

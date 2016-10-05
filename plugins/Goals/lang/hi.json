@@ -72,8 +72,6 @@
         "NewGoalIntro": "लक्ष्य रूपांतरण ट्रैकिंग अपने व्यापार के लक्ष्यों को मापने के लिए और बेहतर बनाने के लिए सबसे कारगर तरीकों में से एक है.",
         "NewVisitorsConversionRateIs": "नई आगंतुक रूपांतरण दर %s है",
         "Optional": "(वैकल्पिक)",
-        "OverallConversionRate": "%s कुल रूपांतरण दर (एक पूरा लक्ष्य के साथ दौरा)",
-        "OverallRevenue": "%s कुल राजस्व",
         "PageTitle": "पृष्ठ शीर्षक",
         "Pattern": "प्रतिमान",
         "ProductCategory": "उत्पाद श्रेणी",
@@ -93,7 +91,6 @@
         "VisitUrl": "किसी दिए गए यूआरएल (पृष्ठों के पृष्ठ या समूह) पर जाएँ",
         "WhenVisitors": "जब आगंतुकों",
         "WhereThe": "जहां",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "दौरा पेज जावास्क्रिप्ट 'trackGoal' के लिए एक कॉल शामिल है जहां विधि (%1$s अधिक जानें%2$s)",
         "YouCanEnableEcommerceReports": "आपको %1$s पेज में इस वेबसाइट को सक्षम %2$s कर सकते हैं."
     }
 }

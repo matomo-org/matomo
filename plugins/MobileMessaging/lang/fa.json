@@ -20,7 +20,6 @@
         "Settings_PhoneActivated": "شماره تلفن تأیید شد! اکنون شما می توانید پیامک آمارهایتان را دریافت کنید.",
         "Settings_PhoneNumber": "شماره تلفن",
         "Settings_PhoneNumbers_Add": "شماره تلفن جدید اضافه کن",
-        "Settings_PhoneNumbers_CountryCode_Help": "اگر شما کد تلفن کشورتان را نمی دانید , اینجا به دنبال کشورتان بگردید",
         "Settings_PhoneNumbers_Help": "پیش از اینکه گزارش های پیامکی (پیام های متنی) را با تلفن دریافت کنید , شماره تلفن را باید پایین وارد کنید.",
         "Settings_SMSAPIAccount": "تنظیم اکانت SMS API",
         "Settings_SMSProvider": "ارائه دهنده خدمات پیامک",

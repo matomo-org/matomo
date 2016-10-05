@@ -17,7 +17,6 @@
         "PasswordRepeat": "비빌번호 (재입력)",
         "PasswordsDoNotMatch": "비밀번호가 일치하지 않습니다.",
         "PluginDescription": "아이디와 비밀번호를 통해 사용자 인증뿐만 아니라 비밀번호 재설정 기능까지 제공합니다. 마켓에서 구할 수 있는 LoginLdap와 같은 또 다른 로그인 플러그인을 사용하여 인증 방법을 변경할 수 있습니다.",
-        "RememberMe": "계정 기억하기",
-        "ResetPasswordInstructions": "계정에 사용할 새로운 비밀번호를 입력하세요."
+        "RememberMe": "계정 기억하기"
     }
 }

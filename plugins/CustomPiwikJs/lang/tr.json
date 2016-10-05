@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Yazılabilir JavaScript İzleyici (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "\"\/piwik.js\" Piwik JavaScript izleyici dosyası yazılabilir olmadığından diğer uygulama ekleri JavaScript izleyiciyi kullanamaz. İleride bazı temel özellikler de beklendiği gibi çalışmayabilir.",
+        "DiagnosticPiwikJsMakeWritable": "Piwik.js dosyasını şu komutu kullanarak yazılabilir yapmanız önerilir: %s"
+    }
+}

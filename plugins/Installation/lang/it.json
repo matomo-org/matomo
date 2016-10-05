@@ -90,6 +90,8 @@
         "SystemCheckMbstringHelp": "È richiesta l'estensione mbstring per trattare caratteri multibyte nell'interfaccia utente e nelle risposte API. Controlla anche che mbstring.func_overload sia impostata a 0 nel php.ini.",
         "SystemCheckMemoryLimit": "Memoria massima",
         "SystemCheckMemoryLimitHelp": "Su un sito web con grande traffico, il processo di archiviazione potrebbe richiedere più memoria di quella attualmente consentita.<br \/>Cambia la direttiva memory_limmit nel tuo file php.ini se necessario.",
+        "SystemCheckNoErrorsOrWarnings": "Non ci sono errori o avvisi",
+        "SystemCheckViewFullSystemCheck": "Guarda il report completo di controllo del sistema",
         "SystemCheckOpenURL": "Apri URL",
         "SystemCheckOpenURLHelp": "L'iscrizione alla newsletter, le notifiche degli aggiornamenti e 'one-click updates' (aggiornamenti con un solo click) richiedono che siano abilitati l'estensione 'curl', allow_url_fopen=On o fsockopen().",
         "SystemCheckOtherExtensions": "Altre estensioni",

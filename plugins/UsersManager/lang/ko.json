@@ -32,7 +32,6 @@
         "ExceptionNoValueForUsernameOrEmail": "사용자 이름 혹은 이메일 주소를 넣어주세요.",
         "ExcludeVisitsViaCookie": "자신의 방문 제외 (Cookie 사용)",
         "ForAnonymousUsersReportDateToLoadByDefault": "anonymous 사용자를 위한 기본 보고서 날짜",
-        "GiveViewAccess": "보기 권한 주기",
         "GiveViewAccessTitle": "%s 보고서를 볼 수 있는 권한을 현 사용자에게 부여",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "비밀번호를 변경하려면 새 비밀번호를 입력합니다. 변경하지 않으면 비워 둡니다.",
         "InjectedHostCannotChangePwd": "현재 알 수 없는 호스트 (%1$s)로 방문했습니다. 이 문제가 해결될 때까지 사용자는 자신의 비밀번호를 변경할 수 없습니다.",

@@ -26,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "Il numero di visite che hanno coinvolto un click su questo link. Se un link è stato cliccato più volte nel corso di una visita, viene conteggiato una sola volta.",
         "ColumnUniqueDownloads": "Download Unici",
         "ColumnUniqueOutlinks": "Link esterni unici",
+        "ColumnIdPageview": "ID Pagina vista",
         "DownloadsReportDocumentation": "In questo report è possibile vedere quali file sono stati scaricati dai tuoi visitatori. %s Ciò che Piwik conta come download è il click su un link per il download. Se il download è stato completato o meno, non è noto a Piwik.",
         "EntryPagesReportDocumentation": "Questo report contiene informazioni sulle pagine di ingresso che sono state utilizzate durante il periodo specificato. Una pagina di ingresso è la prima pagina che un utente visualizza durante la sua visita. %s Gli URL di ingresso vengono visualizzati come una struttura di cartelle.",
         "EntryPageTitles": "Titoli delle pagine in entrata",

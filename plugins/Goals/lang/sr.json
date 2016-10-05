@@ -70,7 +70,6 @@
         "IsExactly": "je tačno %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Naučite više o %1$s Praćenju ciljeva u Piwik-u%2$s u korisničkoj dokumentaciji.",
         "LeftInCart": "%s ostalo u korpi",
-        "ManageGoalsOrCreateANewGoal": "%1$sUpravljajte ciljevima%2$s ili kreirajte novi cilj",
         "Manually": "ručno",
         "ManuallyTriggeredUsingJavascriptFunction": "Cilj je ručno dostignut pomoću JavaScript API trackGoal()",
         "MatchesExpression": "je u skladu sa izrazom %s",
@@ -79,8 +78,6 @@
         "NoGoalsNeedAccess": "Samo administrator ili superkorisnik može definisati ciljeve za dati sajt. Molimo vas da zatražite od vašeg Piwik administratora da postavi ciljeve za vaš sajt.<br>Praćenje ciljeva je odličan način za razumevanje i maksimiziranje rada vašeg sajta!",
         "NeedAccess": "Samo administrator ili superkorisnik može da upravlja ciljevima za dati sajt.",
         "Optional": "(opciono)",
-        "OverallConversionRate": "%s ukupan stepen ispunjenja (posete sa ispunjenim ciljem)",
-        "OverallRevenue": "%s ukupna zarada",
         "PageTitle": "Naslov stranice",
         "Pattern": "Obrazac",
         "PluginDescription": "Kreirajte ciljeve i pogledajte detaljne izveštaje o njihovom ispunjenju: razvoj kroz vreme, zarada po poseti, konverzije po referenci, ključnoj reči i još mnogo toga.",
@@ -101,7 +98,6 @@
         "VisitUrl": "Poseti datu adresu (stranicu ili grupu stranica)",
         "WhenVisitors": "kad posetioci",
         "WhereThe": "gde",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "gde posećena stranica sadrži poziv Java Script 'trackGoal' metod (%1$ssaznajte više%2$s)",
         "YouCanEnableEcommerceReports": "Za ovaj sajt možete omogućiti %1$s na stranici %2$s."
     }
 }

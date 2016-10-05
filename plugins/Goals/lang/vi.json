@@ -66,8 +66,6 @@
         "NewGoalIntro": "Theo dõi chuyển đổi mục tiêu là một trong những cách hiệu quả nhất để đo lường và cải thiện các mục tiêu kinh doanh của bạn.",
         "NewVisitorsConversionRateIs": "Tỷ lệ chuyển đổi các khách truy cập mới là %s",
         "Optional": "(tùy chọn)",
-        "OverallConversionRate": "Tỷ lệ chuyển đổi tổng thể %s (truy cập với mục tiêu hoàn thành)",
-        "OverallRevenue": "Doanh thu tổng thể %s",
         "PageTitle": "Tiêu đề trang",
         "Pattern": "Mẫu",
         "ProductCategory": "Danh mục sản phẩm",
@@ -84,7 +82,6 @@
         "VisitUrl": "Truy cập vào một URL đã cho (trang hoặc một nhóm trang)",
         "WhenVisitors": "Khi các khách truy cập",
         "WhereThe": "Ở đâu",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Khi một trang đã truy cập gọi đến phương pháp JavaScript 'trackGoal' (%1$s tìm hiểu thêm %2$s)",
         "YouCanEnableEcommerceReports": "Bạn có thể kích hoạt %1$s cho website này trong trang %2$s."
     }
 }

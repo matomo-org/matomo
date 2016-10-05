@@ -16,7 +16,6 @@
         "PasswordRepeat": "Adgangskode (gentag)",
         "PasswordsDoNotMatch": "Adgangskoder er ikke ens.",
         "PluginDescription": "Giver godkendelse via brugernavn og adgangskode samt nulstilling af adgangskode funktionalitet. Godkendelsesmetoden kan ændres ved hjælp af en anden logind udvidelse såsom LoginLDAP, som er tilgængelig på markedspladsen.",
-        "RememberMe": "Husk mig",
-        "ResetPasswordInstructions": "Indtast en ny adgangskode til din konto."
+        "RememberMe": "Husk mig"
     }
 }

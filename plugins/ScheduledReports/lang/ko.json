@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(선택 사항) 표시 옵션",
         "AggregateReportsFormat_GraphsOnly": "그래프만 표시 (표는 표시하지 않음)",
         "AggregateReportsFormat_TablesAndGraphs": "모든 보고서에서 테이블 및 그래프 보기",
         "AggregateReportsFormat_TablesOnly": "(기본) 보고표 표시 (그래프는 키 메트릭스만)",

@@ -26,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "Het aantal bezoeken dat een klik op deze link betrokken. Als een link is geklikt meerdere keren tijdens een bezoek, is het maar een keer geteld.",
         "ColumnUniqueDownloads": "Unieke downloads",
         "ColumnUniqueOutlinks": "Unieke Outlinks",
+        "ColumnIdPageview": "Paginaweergave ID",
         "DownloadsReportDocumentation": "Dit rapport laat zien welke bestanden door de bezoekers zijn gedownload. %s Piwik telt een klik op een downloadlink als een download. Piwik kan niet zien of de download succesvol is uitgevoerd en afgerond.",
         "EntryPagesReportDocumentation": "Dit rapport bevat informatie over de inkomende pagina's in de opgegeven periode. Een inkomende pagina is de eerste pagina waarop de bezoeker binnenkomt. %s De URL's van de inkomende pagina's worden getoond in een mapstructuur.",
         "EntryPageTitles": "Inkomende paginatitels",
