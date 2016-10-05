@@ -469,9 +469,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the Settings > General Settings admin page correctly', function (done) {
         expect.screenshot('admin_settings_general').to.be.captureSelector('.pageWrap', function (page) {
-            page.click('.materialize-textarea');
             page.load("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
             // angular might need a little to render after page has loaded 
+            page.wait(1000);
+            page.evaluate(function () {
+                $('textarea:eq(0)').trigger('focus');
+            });
             page.wait(1000);
         }, done);
     });
@@ -609,6 +612,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.evaluate(function () {
                 $('#header').hide();
             });
+        }, done);
+    });
+
+    it('should load the scheduled reports when Edit button is clicked', function (done) {
+        expect.screenshot('email_reports_editor').to.be.captureSelector('.pageWrap', function (page) {
+            page.click('.entityTable tr:nth-child(4) button[title=Edit]');
         }, done);
     });
 
