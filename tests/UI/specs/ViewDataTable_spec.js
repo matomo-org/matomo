@@ -39,13 +39,6 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         }, done);
     });
 
-    it("should exclude low population rows when low population clicked", function (done) {
-        expect.screenshot("4_exclude_low_population").to.be.capture(function (page) {
-            page.click('.dropdownConfigureIcon');
-            page.click('.dataTableExcludeLowPopulation');
-        }, done);
-    });
-
     it("should show all available visualizations for this report", function (done) {
         expect.screenshot("5_visualizations").to.be.captureSelector('.dataTableFooterIcons', function (page) {
             page.click('.activateVisualizationSelection');
@@ -157,4 +150,14 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
             page.click('.datatableRelatedReports li>span:visible');
         }, done);
     });
+
+    it("should exclude low population rows when low population clicked", function (done) {
+        var newUrl = url.replace('moduleToWidgetize=Referrers', 'moduleToWidgetize=Actions').replace('actionToWidgetize=getKeywords', 'actionToWidgetize=getPageUrls');
+        expect.screenshot("exclude_low_population").to.be.capture(function (page) {
+            page.load(newUrl);
+            page.click('.dropdownConfigureIcon');
+            page.click('.dataTableExcludeLowPopulation');
+        }, done);
+    });
+
 });

@@ -51,7 +51,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * A new methd `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
 * The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
-* It is no possible to define an introduction text for settings.
+* It is no longer possible to define an introduction text for settings.
 * If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 * The following deprecated events have been removed as mentioned.
  * `Tracker.existingVisitInformation` Use [dimensions](http://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
@@ -106,7 +106,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 
 ### Internal change
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
-* Required PHP version was changed from 5.3 to 5.5
+* Required PHP version was changed from 5.3 to 5.5.9
 * We have updated PhantomJS 1.9 to 2.1.1 for our screenshot tests.
 
 
