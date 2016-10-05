@@ -63,7 +63,8 @@ class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
                 'module' => 'CoreHome',
                 'action' => 'render'
             ),
-            'uniqueId' => 'widgetCoreHomerender'
+            'uniqueId' => 'widgetCoreHomerender',
+            'isWide' => false
         ), $metadata);
     }
 
@@ -154,7 +155,8 @@ class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
                 'module' => 'CoreHome',
                 'action' => 'render',
             ),
-            'uniqueId' => 'widgetCoreHomerender'
+            'uniqueId' => 'widgetCoreHomerender',
+            'isWide' => false
         ), $widget1);
         $this->assertSame(array(
             'name' => 'NestedName2',
@@ -176,7 +178,8 @@ class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
                 'module' => 'CoreHome',
                 'action' => 'render',
             ),
-            'uniqueId' => 'widgetCoreHomerender'
+            'uniqueId' => 'widgetCoreHomerender',
+            'isWide' => false
         ), $widget2);
     }
 
@@ -219,6 +222,7 @@ class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
                         'action' => 'render',
                     ),
                     'uniqueId' => 'widgetCoreHomerender',
+                    'isWide' => false
                 ), array (
                     'name' => 'NestedName2',
                     'module' => 'CoreHome',
@@ -228,7 +232,8 @@ class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
                         'module' => 'CoreHome',
                         'action' => 'render',
                     ),
-                    'uniqueId' => 'widgetCoreHomerender'
+                    'uniqueId' => 'widgetCoreHomerender',
+                    'isWide' => false
                 )
             )
         ), $metadata);

@@ -29,6 +29,7 @@ class WidgetConfig
     protected $order  = 99;
     protected $isEnabled = true;
     protected $isWidgetizable = true;
+    protected $isWide = false;
 
     /**
      * Set the id of the category the widget belongs to.
@@ -345,5 +346,24 @@ class WidgetConfig
         return $this->middlewareParameters;
     }
 
+    /**
+     * Marks this widget as a "wide" widget that requires the full width.
+     *
+     * @return $this
+     */
+    public function setIsWide()
+    {
+        $this->isWide = true;
+        return $this;
+    }
+
+    /**
+     * Detect whether the widget should be shown wide or not.
+     * @return bool
+     */
+    public function isWide()
+    {
+        return $this->isWide;
+    }
 
 }

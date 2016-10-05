@@ -10,6 +10,7 @@ namespace Piwik\Plugins\API;
 
 use Piwik\Columns\Dimension;
 use Piwik\Piwik;
+use Piwik\Plugin\Segment;
 
 class SegmentMetadata
 {
@@ -17,14 +18,41 @@ class SegmentMetadata
     {
         $segments = array();
 
+        /**
+         * Triggered to add custom segment definitions.
+         *
+         * **Example**
+         *
+         *     public function addSegments(&$segments)
+         *     {
+         *         $segment = new Segment();
+         *         $segment->setSegment('my_segment_name');
+         *         $segment->setType(Segment::TYPE_DIMENSION);
+         *         $segment->setName('My Segment Name');
+         *         $segment->setSqlSegment('log_table.my_segment_name');
+         *         $segments[] = $segment;
+         *     }
+         *
+         * @param array &$segments An array containing a list of segment entries.
+         */
+        Piwik::postEvent('Segment.addSegments', array(&$segments));
+
         foreach (Dimension::getAllDimensions() as $dimension) {
             foreach ($dimension->getSegments() as $segment) {
-                if ($segment->isRequiresAtLeastViewAccess()) {
-                    $segment->setPermission($isAuthenticatedWithViewAccess);
-                }
-
-                $segments[] = $segment->toArray();
+                $segments[] = $segment;
             }
+        }
+
+        /** @var Segment[] $dimensionSegments */
+        $dimensionSegments = $segments;
+        $segments = array();
+
+        foreach ($dimensionSegments as $segment) {
+            if ($segment->isRequiresAtLeastViewAccess()) {
+                $segment->setPermission($isAuthenticatedWithViewAccess);
+            }
+
+            $segments[] = $segment->toArray();
         }
 
         foreach ($segments as &$segment) {

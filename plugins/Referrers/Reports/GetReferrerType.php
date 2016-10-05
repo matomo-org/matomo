@@ -57,6 +57,7 @@ class GetReferrerType extends Base
                 ->setName('General_EvolutionOverPeriod')
                 ->setSubcategoryId('General_Overview')
                 ->setAction('getEvolutionGraph')
+                ->setOrder(9)
                 ->setIsNotWidgetizable()
                 ->forceViewDataTable(Evolution::ID)
                 ->addParameters(array(
