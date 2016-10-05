@@ -15,7 +15,6 @@
         "PasswordChanged": "Parolanız değiştirildi.",
         "PasswordRepeat": "Parola onayı",
         "PasswordsDoNotMatch": "Parola ve onayı aynı değil",
-        "RememberMe": "Beni Hatırla",
-        "ResetPasswordInstructions": "Hesabınıza yeni bir parola yazın."
+        "RememberMe": "Beni Hatırla"
     }
 }

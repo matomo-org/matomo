@@ -55,7 +55,7 @@
         "LogoUploadHelp": "Bitte laden Sie eine Datei in den Formaten %1$s mit einer minimalen Höhe von %2$s Pixeln hoch.",
         "MenuDiagnostic": "Diagnose",
         "MenuGeneralSettings": "Allgemeine Einstellungen",
-        "MenuManage": "Verwalten",
+        "MenuSystem": "System",
         "MenuDevelopment": "Entwicklung",
         "OptOutComplete": "Deaktivierung durchgeführt! Ihre Besuche auf dieser Website werden von der Webanalyse nicht mehr erfasst.",
         "OptOutCompleteBis": "Bitte beachten Sie, dass auch der Piwik-Deaktivierungs-Cookie dieser Website gelöscht wird, wenn Sie die in Ihrem Browser abgelegten Cookies entfernen. Außerdem müssen Sie, wenn Sie einen anderen Computer oder einen anderen Webbrowser verwenden, die Deaktivierungsprozedur nochmals absolvieren.",

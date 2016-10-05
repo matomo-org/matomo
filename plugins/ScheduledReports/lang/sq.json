@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(opsionale) Shfaqni mundësitë",
+        "AggregateReportsFormat": "Mundësi shfaqjeje",
         "AggregateReportsFormat_GraphsOnly": "Shfaq vetëm Grafikë (pa tabela raporti)",
         "AggregateReportsFormat_TablesAndGraphs": "Shfaq tabela Raporti dhe Grafikë për krejt raportet",
         "AggregateReportsFormat_TablesOnly": "(parazgjedhje) Shfaq tabela Raporti (Grafikë vetëm për matjet kyçe)",
@@ -29,6 +29,7 @@
         "PluginDescription": "Krijoni raporte vetjakë dhe planifikoni për ta dërgimin me email përditë, për javë ose për muaj, te një ose disa vetë. Mbulohen një numër formatesh raportesh (html, pdf, csv, figura).",
         "ReportFormat": "Format Raporti",
         "ReportHour": "Dërgoje raportin më %s",
+        "ReportHourWithUTC": "%s o'clock UTC",
         "ReportIncludeNWebsites": "Raporti do të përfshijë matjet kryesore për krejt sajtet që kanë të paktën një vizitë (prej sajtesh %s të përdorshëm deri sot).",
         "ReportSent": "Raporti u dërgua",
         "ReportsIncluded": "Përfshi statistikat",

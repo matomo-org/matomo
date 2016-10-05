@@ -62,8 +62,6 @@
         "MatchesExpression": "супадае з выразам %s",
         "NewVisitorsConversionRateIs": "Канверсія новых наведвальнікаў - %s",
         "Optional": "(неабавязкова)",
-        "OverallConversionRate": "%s агульны ўзровень канверсіі (наведванні з завершанай мэтай)",
-        "OverallRevenue": "%s агульны прыбытак",
         "PageTitle": "Назва старонкі",
         "Pattern": "Шаблон",
         "ProductCategory": "Катэгорыя прадукта",
@@ -79,7 +77,6 @@
         "VisitUrl": "Наведайце URL-адрас (старонкі, або групу старонак)",
         "WhenVisitors": "калі наведвальнікі",
         "WhereThe": "дзе",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "дзе старонка павінна змяшчаць выклік JavaScript piwikTracker.trackGoal() метада (%1$sдаведацца больш%2$s)",
         "YouCanEnableEcommerceReports": "Вы можаце ўключыць %1$s для гэтага вэб-сайта ў %2$s старонкі."
     }
 }

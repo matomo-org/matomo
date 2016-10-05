@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Gjurmues JavaScript i Shkrueshëm (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Kartela e gjurmuesit JavaScript të Piwik-ut, \"\/piwik.js\" s’është e shkrueshme, çka do të thotë se shtojcat e tjera s’mund të zgjerojnë gjurmuesin JavaScript. Në të ardhmen mund të mos punojnë siç pritet madje edhe disa veçori bazë.",
+        "DiagnosticPiwikJsMakeWritable": "Këshillojmë bërjen e Piwik.js të shkrueshme, duke xhiruar urdhrin: %s"
+    }
+}

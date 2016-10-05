@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(opzionale) Mostra opzioni",
+        "AggregateReportsFormat": "Opzioni visualizzazione",
         "AggregateReportsFormat_GraphsOnly": "Mostra solo Grafici (niente tabelle report)",
         "AggregateReportsFormat_TablesAndGraphs": "Mostra tabelle e Grafici per tutti i report",
         "AggregateReportsFormat_TablesOnly": "(predefinito) Mostra tabelle (Grafici solo per le metriche chiave)",
@@ -29,6 +29,7 @@
         "PluginDescription": "Crea dei report personalizzati e li programma per l'invio tramite email ogni giorno, settimana o mese a una o più persone. Sono supportati svariati formati (html, pdf, csv, immagini).",
         "ReportFormat": "Formato report",
         "ReportHour": "Invia report alle %s",
+        "ReportHourWithUTC": "%s UTC",
         "ReportIncludeNWebsites": "Il report comprenderà le principali metriche per tutti i siti web che hanno almeno una visita (dai %s siti web attualmente disponibili).",
         "ReportSent": "Report inviato",
         "ReportsIncluded": "Statistiche incluse",

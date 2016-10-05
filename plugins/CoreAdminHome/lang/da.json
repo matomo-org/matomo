@@ -55,7 +55,6 @@
         "LogoUploadHelp": "Overfør en fil i %1$s formater med en højde på mindst %2$s pixels.",
         "MenuDiagnostic": "Diagnosticering",
         "MenuGeneralSettings": "Generelle indstillinger",
-        "MenuManage": "Administrere",
         "MenuDevelopment": "Udvikling",
         "OptOutComplete": "Opt-out udført; dine besøg på hjemmesiden bliver ikke registreret af analyseværktøjet.",
         "OptOutCompleteBis": "Bemærk, at hvis du sletter dine cookies, sletter opt-out-cookien, eller hvis du skifter computer eller browser, skal du udføre opt-out-proceduren igen.",

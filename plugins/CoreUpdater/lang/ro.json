@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Eroare de core . Consulta documentatia de ajutor:",
         "HelpMessageIntroductionWhenWarning": "Actualizarea s-a efectuat cu succes, oricum mai sunt cateva lucruri ce sunt necesare pentru a finaliza procesul . Citeste descrierea pentru detalii. Pentru ajutor:",
         "HighTrafficPiwikServerEnableMaintenance": "Daca administrezi un server Piwik cu trafic mare, noi recomandam ca %1$spentru moment sa dezactivezi Contorizarea vizitatorilor si sa pui Interfata de Utilizare Piwik in modul de mentenanta%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Observatie: anumite pluginuri nu sunt compatibile cu Piwik %s. Acestea vor fi deactivate cand veti face upgrade:",
         "InstallingTheLatestVersion": "Se instalează ultima versiune",
         "MajorUpdateWarning1": "Este o actualizare majoră! Va dura mai mult decât de obicei.",
         "MajorUpdateWarning2": "Următorul sfat este îndeosebi important pentru instalaţii mari.",

@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "Prikaži opcije (opciono)",
         "AggregateReportsFormat_GraphsOnly": "Prikaži samo grafikone (bez tabela)",
         "AggregateReportsFormat_TablesAndGraphs": "Prikaži i tabele i grafikone",
         "AggregateReportsFormat_TablesOnly": "Prikaži tabele izveštaja i grafikone za ključne metrike (podrazumevano)",

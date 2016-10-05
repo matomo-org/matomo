@@ -16,7 +16,6 @@
         "PasswordRepeat": "Jelszó (ismét)",
         "PasswordsDoNotMatch": "Nem egyeznek a jelszavak",
         "PluginDescription": "Hitelesítés felhasználónévvel és jelszóval, illetve tartalmaz jelszó visszaállítási funkciót. A hitelesítési metódus lecserélhető másik bejelentkezési bővítményre, mint például a LoginLdap, amely elérhető az Árúházban.",
-        "RememberMe": "Megjegyzés",
-        "ResetPasswordInstructions": "Adjon meg egy új jelszavat profiljához."
+        "RememberMe": "Megjegyzés"
     }
 }

@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Nomor telepon tersahkan! Anda sekarang dapat menerima SMS dengan statististik Anda.",
         "Settings_PhoneNumber": "Nomor Telepon",
         "Settings_PhoneNumbers_Add": "Tambah sebuah Nomor Telepon Baru",
-        "Settings_PhoneNumbers_CountryCode_Help": "Bila Anda tidak tahu kode negara telepon, lihat negara Anda di sini",
         "Settings_PhoneNumbers_Help": "Sebelum menerima laporan SMS (pesan teks) dalam telepon, nomor telepon harus dimasukkan di bawah.",
         "Settings_PhoneNumbers_HelpAdd": "Ketika Anda mengeklik \"Tambah\", sebuah SMS berisi kode akan dikirim ke telepon Anda. Pengguna penerima kode harus segera masuk-log ke Piwik, klik Pengaturan, lalu klik pada Pesan Bergerak. Setelah memasukkan kode, pengguna akan mampu menerima laporan teks dalam telepon miliknya.",
         "Settings_PleaseSignUp": "Untuk membuat laporan SMS dan menerima pesan pendek dengan statistik situs Anda dalam telepon seluler, harap mendaftar dengan API SMS dan masukkan informasi Anda di bawah.",

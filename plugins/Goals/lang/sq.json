@@ -14,6 +14,7 @@
         "CategoryTextGeneral_Visitors": "Vend përdoruesi",
         "CategoryTextReferrers_Referrers": "Referues",
         "CategoryTextVisitsSummary_VisitsSummary": "Atribut përdoruesi",
+        "CategoryTextDevicesDetection_DevicesDetection": "Pajisje",
         "CategoryTextGeneral_Visit": "angazhim",
         "ChooseGoal": "Zgjidhni Objektiv",
         "ClickOutlink": "Klikon mbi një Lidhje për te një sajt i jashtëm",
@@ -36,6 +37,7 @@
         "ConversionByTypeReportDocumentation": "Ky raport ofron të dhëna të hollësishme rreth funksionimit të objektivave (shndërrime, koeficient shndërrimesh dhe të ardhura për vizitë) për secilën prej kategorive të mundshme te paneli majtas. %1$s Ju lutemi, klikoni mbi një nga këto kategori që të shihni raportin. %2$s Për më tepër të dhëna, lexoni %3$sdokumentimin për Ndjekje Objektivash te piwik.org%4$s",
         "ConversionRate": "Koeficient shndërrimi %s",
         "Conversions": "Shndërrime %s",
+        "ConversionsDescription": "shndërrime",
         "ConversionsOverview": "Përmbledhje Shndërrimesh",
         "ConversionsOverviewBy": "Përmbledhje shndërrimesh sipas llojit të vizitave",
         "DaysToConv": "Ditë për Shndërrim",
@@ -70,7 +72,6 @@
         "IsExactly": "është saktësisht %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Mësoni më tepër mbi %1$s Gjurmimin e Objektivave në Piwik%2$s, te dokumentimi i përdoruesit.",
         "LeftInCart": "%s ende në shportë",
-        "ManageGoalsOrCreateANewGoal": "%1$sAdministroni Objektiva%2$s ose krijoni tani një Objektiv të ri!",
         "Manually": "dorazi",
         "ManuallyTriggeredUsingJavascriptFunction": "Objektivi vihet në punë dorazi duke përdorur JavaScript API trackGoal()",
         "MatchesExpression": "përputhet me shprehjen %s",
@@ -80,8 +81,8 @@
         "NoConversionsNoReportsMessage": "Raportet nuk shfaqen, ngaqë nuk ka të dhëna shndërrimesh për objektivin dhe periudhën e zgjedhur.",
         "NeedAccess": "Objektivat për një sajt të dhënë mund t’i administrojë vetëm Përgjegjësi ose një përdorues me leje Superpërdoruesi.",
         "Optional": "(opsionale)",
-        "OverallConversionRate": "Koeficient shndërrimesh %s gjithsej (vizita me objektiv të plotësuar)",
-        "OverallRevenue": "E ardhur %s e përgjithshme",
+        "OverallConversionRate": "mesatare gjithsej shndërrimesh (vizita me synim të plotësuar)",
+        "OverallRevenue": "të ardhura gjithsej",
         "PageTitle": "Titull Faqeje",
         "Pattern": "Mostër",
         "PluginDescription": "Krijoni Objektiva dhe shihni raporte të hollësishëm mbi shndërrime të objektivave tuaj: evolucioni përgjatë kohës, të ardhura për vizitë, shndërrime sipas referuesish, fjalëkyçesh, etj.",
@@ -102,7 +103,7 @@
         "VisitUrl": "Vizitoni një URL të dhënë (faqe ose grup faqesh)",
         "WhenVisitors": "kur vizitorët",
         "WhereThe": "kur",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "kur faqja e vizituar përmban një thirrje të metodës JavaScript piwikTracker.trackGoal() (%1$smësoni më tepër%2$s)",
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Faqja e vizituar lypset të përmbajë një thirrje të metodës JavaScript 'trackGoal' (%1$smësoni më tepër%2$s)",
         "YouCanEnableEcommerceReports": "Për këtë sajt mund të aktivizoni %1$s te faqja %2$s."
     }
 }

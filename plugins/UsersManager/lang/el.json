@@ -37,7 +37,7 @@
         "ExceptionNoValueForUsernameOrEmail": "Παρακαλώ εισάγετε ένα όνομα χρήστη ή διεύθυνση ηλ. ταχυδρομείου.",
         "ExcludeVisitsViaCookie": "Αποκλείστε τις επισκέψεις σας με χρήση cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Για ανώνυμους χρήστες, αναφορά ημερομηνίας που θα φορτώνεται ως προεπιλογή",
-        "GiveViewAccess": "Να δοθεί δικαίωμα εμφάνισης",
+        "GiveViewAccess": "Να δοθεί πρόσβαση εμφάνισης για %1$s",
         "GiveViewAccessTitle": "Να δοθεί σε υπάρχοντα χρήστη δικαίωμα να βλέπει τις αναφορές για το %s",
         "GiveViewAccessInstructions": "Για να δώσετε σε υπάρχοντα χρήστη δικαίωμα πρόσβασης στο %s εισάγετε το όνομα χρήστη ή την διεύθυνση ηλ. ταχυδρομείου του χρήστη",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Αν θέλετε να αλλάξετε τον κωδικό πρόσβασης εισάγετε ένα νέο. Διαφορετικά αφήστε το κενό.",

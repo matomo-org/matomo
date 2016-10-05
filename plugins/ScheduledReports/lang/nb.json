@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(valgfritt) Visningsinnstillinger",
         "AggregateReportsFormat_GraphsOnly": "Vis kun grafer (ingen rapport-tabeller)",
         "AggregateReportsFormat_TablesAndGraphs": "Vis rapporttabeller og grafer for alle rapporter",
         "AggregateReportsFormat_TablesOnly": "(standard) Vis rapporttabeller (grafer kun for nøkkeltall)",

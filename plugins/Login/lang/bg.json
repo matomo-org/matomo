@@ -14,7 +14,6 @@
         "PasswordChanged": "Вашата парола е сменена.",
         "PasswordRepeat": "Парола (повторно)",
         "PasswordsDoNotMatch": "Паролите не съвпадат.",
-        "RememberMe": "Запомни ме",
-        "ResetPasswordInstructions": "Въведете нова парола за акаунта си."
+        "RememberMe": "Запомни ме"
     }
 }

@@ -13,7 +13,6 @@
         "PasswordChanged": "رمزعبور شما تغییر کرد.",
         "PasswordRepeat": "تکرار رمزعبور",
         "PasswordsDoNotMatch": "رمزعبور ها یکسان نیستند.",
-        "RememberMe": "مرا به خاطر داشته باش",
-        "ResetPasswordInstructions": "یک رمزعبور جدید برای حساب کاربری تان وارد کنید."
+        "RememberMe": "مرا به خاطر داشته باش"
     }
 }

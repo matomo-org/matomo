@@ -15,7 +15,6 @@
         "PasswordChanged": "Salasana on vaihdettu.",
         "PasswordRepeat": "Salasana (uudelleen)",
         "PasswordsDoNotMatch": "Salasanat eivät täsmää.",
-        "RememberMe": "Muista minut",
-        "ResetPasswordInstructions": "Anna uusi salasana."
+        "RememberMe": "Muista minut"
     }
 }

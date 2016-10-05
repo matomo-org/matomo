@@ -65,8 +65,6 @@
         "MatchesExpression": "съответства на изразените %s",
         "NewVisitorsConversionRateIs": "Стойност на конверсията от новите посетители е %s",
         "Optional": "(по избор)",
-        "OverallConversionRate": "%s цялостно обменния курс (посещения със завършена цел)",
-        "OverallRevenue": "%s общи приходи",
         "PageTitle": "Заглавие на страница",
         "Pattern": "Модел",
         "ProductCategory": "Категория на продукт",
@@ -83,7 +81,6 @@
         "VisitUrl": "посетят определен URL (страница или група от страници)",
         "WhenVisitors": "когато посетителите",
         "WhereThe": "където",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "когато посетена страница съдържа призив към JavaScript piwikTracker.trackGoal() метод (%1$sнаучете повече%2$s)",
         "YouCanEnableEcommerceReports": "Можете да включите %1$s за този уебсайт в %2$s страницата."
     }
 }

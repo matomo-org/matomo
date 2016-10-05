@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Acima está a mensagem de erro principal. Ela deve ajudar a explicar a causa, mas se você precisar de mais ajuda por favor:",
         "HelpMessageIntroductionWhenWarning": "A atualização se completou com sucesso, contudo houve alguns problemas durante o processo. Por favor leia a descrição acima para os detalhes. Para mais ajuda:",
         "HighTrafficPiwikServerEnableMaintenance": "Se você gerencia um servidor Piwik com alto tráfego, recomendamos %1$sdesativar momentaneamente o Rastreamento de visitantes e colocar a interface de usuário do servidor Piwik no modo de manutenção%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Nota: alguns plugins não são compatíveis com Piwik %s. Eles serão desativados quando você atualizar:",
         "InstallingTheLatestVersion": "Instalando a versão mais recente",
         "LatestBetaRelease": "Último lançamento beta",
         "LatestStableRelease": "Último lançamento estável",

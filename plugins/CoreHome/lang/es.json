@@ -1,9 +1,11 @@
 {
     "CoreHome": {
         "CategoryNoData": "No hay datos en esta categoría. Intente \"Incluir toda la población\".",
+        "ChangeVisualization": "Cambiar visualización",
         "CheckForUpdates": "Comprobar actualizaciones",
         "CheckPiwikOut": "Compruebe a Piwik ahora!",
         "ClickToEditX": "Clic para editar %s",
+        "CloseSearch": "Cerrar búsqueda",
         "CloseWidgetDirections": "Puede cerrar este reproductor haciendo clic en el icono \"X\" en la parte superior del mismo.",
         "DataForThisReportHasBeenPurged": "Los datos para este informe tienen más de %s meses de antigüedad y han sido purgados.",
         "DataTableExcludeAggregateRows": "Mostrar filas acumuladas %s Ocultarlas",
@@ -49,7 +51,9 @@
         "YouAreUsingTheLatestVersion": "¡Está utilizando la última versión de Piwik!",
         "ClickRowToExpandOrContract": "Clic en esta fila para expandir o contraer la subtabla.",
         "UndoPivotBySubtable": "Este informe ha sido girado %s Deshacer giro",
+        "NoSuchPage": "Esta página no existe",
         "PivotBySubtable": "Este informe no es girado %1$s Giro por %2$s",
+        "SystemSummaryPhpVersion": "Versión de PHP",
         "QuickAccessTitle": "Buscar por %s. Utilice las teclas de dirección para navegar a través de los resultados. Atajo de teclado: Click 'f' para buscar.",
         "MenuEntries": "Menú de entrada",
         "Segments": "Segmentos",

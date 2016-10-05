@@ -18,7 +18,6 @@
         "Settings_PhoneActivated": "Телефонният номер е потвърден! Вече имате възможност да получавате кратки съобщения (SMS) с вашите статистики.",
         "Settings_PhoneNumber": "Телефонен номер",
         "Settings_PhoneNumbers_Add": "Добави нов телефонен номер",
-        "Settings_PhoneNumbers_CountryCode_Help": "Ако не знаете телефонния код за вашата държава, може да го проверите тук",
         "Settings_SMSAPIAccount": "Управление на профила за SMS приложно-програмен интерфейс",
         "Settings_SMSProvider": "SMS провайдър",
         "Settings_SuperAdmin": "Настройки на супер потребителя",

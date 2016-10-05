@@ -15,7 +15,6 @@
         "PasswordChanged": "Ang iyong password ay nabago na.",
         "PasswordRepeat": "Password (ulitin)",
         "PasswordsDoNotMatch": "Ang mga password ay hindi tugma.",
-        "RememberMe": "Tandaan Ako",
-        "ResetPasswordInstructions": "Magpasok ng isang bagong password para sa iyong account."
+        "RememberMe": "Tandaan Ako"
     }
 }

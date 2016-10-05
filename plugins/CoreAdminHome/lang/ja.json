@@ -53,7 +53,6 @@
         "LogoUploadHelp": "%1$s ピクセル以上の高さで %2$s 形式のファイルをアップロードしてください",
         "MenuDiagnostic": "診断",
         "MenuGeneralSettings": "全般の設定",
-        "MenuManage": "管理",
         "MenuDevelopment": "開発",
         "OptOutComplete": "オプトアウトが完了しました。 このウェブサイトへのあなたの訪問は、ウェブ解析ツールで記録されません。",
         "OptOutCompleteBis": "Cookie をクリアしてオプトアウト Cookie を削除したり、コンピュータやブラウザを変更した場合は、オプトアウト手続きを再度実行する必要があることに注意してください。",

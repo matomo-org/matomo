@@ -18,7 +18,6 @@
         "PasswordRepeat": "Senha (repetir)",
         "PasswordsDoNotMatch": "Senhas não conferem.",
         "PluginDescription": "Fornece autenticação através do nome de usuário e senha, bem como a funcionalidade de redefinição de senha. O método de autenticação pode ser alterado utilizando outro plug-in, como, por exemplo, o LoginLdap disponível no Mercado.",
-        "RememberMe": "Lembrar-me",
-        "ResetPasswordInstructions": "Digite uma nova senha para a sua conta."
+        "RememberMe": "Lembrar-me"
     }
 }

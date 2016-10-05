@@ -4,6 +4,8 @@
         "DirectEntries": "Ingresos directos",
         "ErrorBack": "Regresar a la acción anterior",
         "ExitsInline": "%s salidas",
+        "NumPageviews": "%s páginas visitadas",
+        "NumDownloads": "%s descargas",
         "FromCampaigns": "Desde campañas",
         "FromPreviousPages": "Desde páginas internas",
         "FromPreviousPagesInline": "%s desde páginas internas",

@@ -1,0 +1,6 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Tracker JavaScript Scrivibile (\"\/piwik.js\")",
+        "DiagnosticPiwikJsMakeWritable": "Ci raccomandiamo di rendere scrivibile Piwik.js con l'esecuzione di questo comando: %s"
+    }
+}

@@ -19,6 +19,15 @@
         "ViewUserGuides": "Mësoni përmes %1$sudhërëfyesit tonë për përdoruesit%2$s se si ta formësoni Piwik-un dhe si të analizoni me efektshmëri të dhënat tuaja",
         "CommunityHelp": "Ndihmë nga Bashkësia",
         "ProfessionalHelp": "Ndihmë Profesionale",
+        "ProfessionalServicesIntro": "Rrjeti ynë mbarëbotëror i konsulentëve profesionalë për Piwik ofron asistencë për klientë që kanë të instaluar Piwik-un në infrastrukturën e tyre.",
+        "ProfessionalServicesOfferIntro": "Prej cilave shërbime mund të përfitoni?",
+        "ProfessionalServicesReviewPiwikSetup": "Një përmbledhje e rregullimit të Piwik-ut tuaj",
+        "ProfessionalServicesOptimizationMaintenance": "Shërbime optimizimi & mirëmbajtjeje të Piwik-ut",
+        "ProfessionalServicesPhoneEmailSupport": "Asistencë me Telefon dhe Email",
+        "ProfessionalServicesTraining": "Trajnim Përdoruesish, Teknik, dhe Zhvilluesish",
+        "ProfessionalServicesPremiumFeatures": "Veçori me pagesë",
+        "ProfessionalServicesCustomDevelopment": "Shërbime Zhvillimi Përshtatjesh",
+        "ProfessionalServicesAnalystConsulting": "Shërbime konsulence analisti",
         "ContactUs": "Lidhuni me ne",
         "VisitTheForums": "Vizitoni %1$s Forumet%2$s dhe merrni ndihmë prej bashkësisë së përdoruesve të Piwik-ut"
     }

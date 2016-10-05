@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Telefonski broj je validan! Sada možete da primate SMS poruke sa statistikama.",
         "Settings_PhoneNumber": "Broj telefona",
         "Settings_PhoneNumbers_Add": "Dodaj novi broj telefona",
-        "Settings_PhoneNumbers_CountryCode_Help": "Ukoliko ne znate mobilni kod za zemlju, pogledajte ovde",
         "Settings_PhoneNumbers_Help": "Da biste bili u mogućnosti da primate SMS izveštaje na mobilni telefon, morate da upišete broj telefona.",
         "Settings_PhoneNumbers_HelpAdd": "Kada budete kliknuli na \"Dodaj\", SMS sa kodom će biti poslat na mobilni. Korisnik koji bude primio kod bi onda trebalo da se prijavi na Piwik, klikne na Podešavanja pa na Mobilni. Nakon što unese kod korisnik će biti u mogućnosti da prima izveštaje na svoj mobilni telefon.",
         "Settings_PleaseSignUp": "Da biste kreirali SMS izveštaje i primali poruke sa statistikama na mobilni, molimo vas da se prijavite sa SMS API-jem i da upišete svoje podatke.",
