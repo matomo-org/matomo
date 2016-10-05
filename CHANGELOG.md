@@ -6,6 +6,10 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 
 ## Piwik 3.0.0
 
+### New guide
+
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](http://developer.piwik.org/guides/migrate-piwik-2-to-3).
+
 ### Breaking Changes
 * The menu classes `Piwik\Menu\MenuReporting` and `Piwik\Menu\MenuMain` have been removed
 * The class `Piwik\Plugin\Widgets` has been removed and replaced by `Piwik\Widget\Widget`. For each widget one class is needed from now on. You can generate a widget via `./console generate:widget`.
@@ -75,15 +79,16 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * New event `Segment.addSegments` that lets you add segments.
 
 ### New features
-* New "Sparklines" visualization that lets you create a widget showing multiple sparklines
+* New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
 
 ### Library updates
 * Updated AngularJS from 1.2.28 to 1.4.3
+* Updated several backend libraries to their latest version: doctrine/cache, php-di.
 
 ### Internal change
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
-* Required PHP version was changed from 5.3 to 5.5.9
-* We have updated PhantomJS 1.9 to 2.1.1 for our screenshot tests.
+* Required PHP version was increased from 5.3 to 5.5.9
+* We have updated PhantomJS 1.9 to 2.1.1 for our UI screenshot tests.
 
 ## Piwik 2.16.3
 
