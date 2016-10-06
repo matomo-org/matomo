@@ -163,16 +163,22 @@ class Updates_3_0_0_b1 extends Updates
     private function getSiteSettingsMigrations($queries)
     {
         $table = $this->siteSettingsTable;
-        $queries[] = $this->migration->db->addColumn($table, 'plugin_name', 'VARCHAR(60) NOT NULL', $afer = 'idsite');
-
-        $table = Common::prefixTable($table);
-        $queries[] = $this->migration->db->sql("ALTER TABLE `$table` DROP PRIMARY KEY, ADD INDEX(idsite, plugin_name);",
-                                               Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS);
 
         // we cannot migrate existing settings as we do not know the related plugin name, but this feature
-        // (measurablesettings) was not really used anyway. If a migration is somewhere really needed it has to be
-        // handled in the plugin
-        $queries[] = $this->migration->db->sql(sprintf('DELETE FROM `%s`', $table));
+        // (measurablesettings) was not used anyway. also see https://github.com/piwik/piwik/issues/10703
+        // we make sure to recreate the table as it might not have existed for some users instead of just 
+        // deleting the content of it
+        $queries[] = $this->migration->db->dropTable($table);
+        $queries[] = $this->migration->db->createTable($table, array(
+            'idsite' => 'INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT',
+            'plugin_name' => 'VARCHAR(60) NOT NULL',
+            'setting_name' => 'VARCHAR(255) NOT NULL',
+            'setting_value' => 'LONGTEXT NOT NULL',
+        ), $primaryKey = array('idsite', 'setting_name'));
+
+        $table = Common::prefixTable($table);
+        $queries[] = $this->migration->db->sql("ALTER TABLE `$table` ADD INDEX(idsite, plugin_name);",
+                                               Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS);
 
         return $queries;
     }
