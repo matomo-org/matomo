@@ -149,9 +149,17 @@
                 $('.widgetContent', currentWidget).addClass('loading');
             }
 
-            var params = $.extend(this.widgetParameters, overrideParams || {});
-            widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent, function (deferred, status) {
+            var params = $.extend(this.widgetParameters, overrideParams || {}), retries = 3, uniqueId = this.uniqueId;
+
+            function onWidgetError (deferred, status) {
                 if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+                    return;
+                }
+
+                if (retries --) {
+                    setTimeout(function () {
+                        widgetsHelper.loadWidgetAjax(uniqueId, params, onWidgetLoadedReplaceElementWithContent, onWidgetError);
+                    }, 500);
                     return;
                 }
 
@@ -162,7 +170,9 @@
                 }
 
                 $('.widgetContent', currentWidget).html('<div class="widgetLoadingError">' + errorMessage + '</div>');
-            });
+            }
+
+            widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent, onWidgetError);
 
             return this;
         },
