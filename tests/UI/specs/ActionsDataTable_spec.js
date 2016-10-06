@@ -60,6 +60,7 @@ describe("ActionsDataTable", function () {
     it("should display pageview percentages when hovering over pageviews column", function (done) {
         expect.screenshot('pageview_percentages').to.be.capture(function (page) {
             page.mouseMove('tr:contains("thankyou") td.column:eq(1)');
+            page.wait(1000);
         }, done);
     });
 
@@ -68,6 +69,7 @@ describe("ActionsDataTable", function () {
             var row = 'tr:contains("thankyou") ';
             page.mouseMove(row + 'td.column:first');
             page.mouseMove(row + 'td.label .actionSegmentVisitorLog');
+            page.wait(1000);
         }, done);
     });
 
