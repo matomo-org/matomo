@@ -730,7 +730,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 });
             });
 
-            page.wait(1000);
+            page.wait(3000);
         }, done);
     });
 
