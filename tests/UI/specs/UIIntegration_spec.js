@@ -470,7 +470,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the Settings > General Settings admin page correctly', function (done) {
         expect.screenshot('admin_settings_general').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
-            // angular might need a little to render after page has loaded 
+            // angular might need a little to render after page has loaded
             page.wait(1000);
             page.evaluate(function () {
                 $('textarea:eq(0)').trigger('focus');
@@ -508,7 +508,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
         }, done);
     });
-    
+
     it('should load the config file page correctly', function (done) {
         expect.screenshot('admin_diagnostics_configfile').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=Diagnostics&action=configfile");
@@ -707,6 +707,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.mouseMove('table.dataTable tbody tr:first-child');
             page.mouseMove('a.actionSegmentVisitorLog:visible'); // necessary to get popover to display
             page.click('a.actionSegmentVisitorLog:visible');
+
+            page.wait(1000);
+
         }, done);
     });
 
