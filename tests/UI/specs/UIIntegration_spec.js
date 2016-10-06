@@ -253,6 +253,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the referrers > search engines & keywords page correctly', function (done) {
+        this.retries(3);
         expect.screenshot('referrers_search_engines_keywords').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuSearchEngines");
         }, done);
