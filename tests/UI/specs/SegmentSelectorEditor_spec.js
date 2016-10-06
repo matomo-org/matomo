@@ -30,6 +30,7 @@ describe("SegmentSelectorEditorTest", function () {
     it("should open segment editor when edit link clicked for existing segment", function (done) {
         expect.screenshot("2_segment_editor_update").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentList .editSegment:first');
+            page.wait(1000);
         }, done);
     });
 

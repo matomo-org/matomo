@@ -83,6 +83,12 @@ widgetsHelper.getAvailableWidgets = function (callback) {
                 }
             }
         );
+        ajaxRequest.setErrorCallback(function (deferred, status) {
+            if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+                return;
+            }
+            $('#loadingError').show();
+        });
         ajaxRequest.send(true);
     }
 
