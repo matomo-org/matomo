@@ -724,13 +724,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('.visitor-log-visitor-profile-link').first().click();
             });
 
-            page.evaluate(function () {
-                $(document).ready(function () {
-                    $('.visitor-profile-show-map').click();
-                });
-            });
-
-            page.wait(3000);
+            page.wait(1000);
         }, done);
     });
 
