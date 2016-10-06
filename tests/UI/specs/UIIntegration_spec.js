@@ -719,7 +719,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         expect.screenshot("visitor_profile_not_segmented").to.be.capture(function (page) {
             // as the process sometimes hang, we force timeout of 15s
-            page.settings.resourceTimeout = 15000;
+            //page.settings.resourceTimeout = 15000;
 
             page.load(url);
 
