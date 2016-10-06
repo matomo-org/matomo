@@ -58,6 +58,7 @@ describe("ActionsDataTable", function () {
     });
 
     it("should display pageview percentages when hovering over pageviews column", function (done) {
+        this.retries(3);
         expect.screenshot('pageview_percentages').to.be.capture(function (page) {
             page.mouseMove('tr:contains("thankyou") td.column:eq(1)');
             page.wait(1000);
@@ -80,10 +81,12 @@ describe("ActionsDataTable", function () {
     });
 
     it("should display unique pageview percentages when hovering over unique pageviews column", function (done) {
+        this.retries(3);
         expect.screenshot('unique_pageview_percentages').to.be.capture(function (page) {
             page.click('.ui-widget .ui-dialog-titlebar-close');
 
             page.mouseMove('tr:contains("thankyou") td.column:eq(2)');
+            page.wait(1000);
         }, done);
     });
 
