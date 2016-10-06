@@ -54,6 +54,8 @@ describe("DashboardManager", function () {
     });
 
     it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
+        this.retries(3);
+
         expect.screenshot("create_new").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');
