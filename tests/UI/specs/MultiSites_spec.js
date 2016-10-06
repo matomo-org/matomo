@@ -8,6 +8,8 @@
  */
 
 describe("MultiSitesTest", function () {
+    this.retries(3);
+
     this.timeout(0);
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
