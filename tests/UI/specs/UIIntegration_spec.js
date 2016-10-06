@@ -695,6 +695,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the segmented visitor log correctly when a segment is selected', function (done) {
+        this.retries(3);
 
         expect.screenshot("segmented_visitorlog").to.be.skippedOnAbort();
         
@@ -718,9 +719,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
 
         expect.screenshot("visitor_profile_not_segmented").to.be.similar(0.002).to.capture(function (page) {
-            // as the process sometimes hang, we force timeout of 15s
-            //page.settings.resourceTimeout = 15000;
-
             page.load(url);
 
             page.evaluate(function () {
