@@ -170,11 +170,11 @@ class Updates_3_0_0_b1 extends Updates
         // deleting the content of it
         $queries[] = $this->migration->db->dropTable($table);
         $queries[] = $this->migration->db->createTable($table, array(
-            'idsite' => 'INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT',
+            'idsite' => 'INTEGER(10) UNSIGNED NOT NULL',
             'plugin_name' => 'VARCHAR(60) NOT NULL',
             'setting_name' => 'VARCHAR(255) NOT NULL',
             'setting_value' => 'LONGTEXT NOT NULL',
-        ), $primaryKey = array('idsite', 'setting_name'));
+        ));
 
         $table = Common::prefixTable($table);
         $queries[] = $this->migration->db->sql("ALTER TABLE `$table` ADD INDEX(idsite, plugin_name);",
