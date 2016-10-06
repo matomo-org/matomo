@@ -710,6 +710,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should not apply current segmented when opening visitor log', function (done) {
+        this.retries(3);
+
         var url = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog&segment=visitCount==2&enableAnimation=0";
 
         delete testEnvironment.queryParamOverride.visitorId;
