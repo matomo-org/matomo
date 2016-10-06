@@ -69,6 +69,7 @@ describe("ActionsDataTable", function () {
             var row = 'tr:contains("thankyou") ';
             page.mouseMove(row + 'td.column:first');
             page.mouseMove(row + 'td.label .actionSegmentVisitorLog');
+            page.wait(1000);
         }, done);
     });
 
