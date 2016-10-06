@@ -717,7 +717,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         delete testEnvironment.queryParamOverride.visitorId;
         testEnvironment.save();
 
-        expect.screenshot("visitor_profile_not_segmented").to.be.capture(function (page) {
+        expect.screenshot("visitor_profile_not_segmented").to.be.similar(0.002).to.capture(function (page) {
             // as the process sometimes hang, we force timeout of 15s
             //page.settings.resourceTimeout = 15000;
 
