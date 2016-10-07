@@ -253,6 +253,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the referrers > search engines & keywords page correctly', function (done) {
+        this.retries(3);
         expect.screenshot('referrers_search_engines_keywords').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuSearchEngines");
         }, done);
@@ -470,7 +471,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the Settings > General Settings admin page correctly', function (done) {
         expect.screenshot('admin_settings_general').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
-            // angular might need a little to render after page has loaded 
+            // angular might need a little to render after page has loaded
             page.wait(1000);
             page.evaluate(function () {
                 $('textarea:eq(0)').trigger('focus');
@@ -508,7 +509,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
         }, done);
     });
-    
+
     it('should load the config file page correctly', function (done) {
         expect.screenshot('admin_diagnostics_configfile').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=Diagnostics&action=configfile");
@@ -691,10 +692,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.mouseMove('table.dataTable tbody tr:first-child');
             page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
             page.click('a.actionRowEvolution:visible');
+            page.wait(1000);
+
         }, done);
     });
 
     it('should load the segmented visitor log correctly when a segment is selected', function (done) {
+        this.retries(3);
 
         expect.screenshot("segmented_visitorlog").to.be.skippedOnAbort();
         
@@ -706,6 +710,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.mouseMove('table.dataTable tbody tr:first-child');
             page.mouseMove('a.actionSegmentVisitorLog:visible'); // necessary to get popover to display
             page.click('a.actionSegmentVisitorLog:visible');
+
+            page.wait(1000);
+
         }, done);
     });
 
@@ -717,10 +724,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         delete testEnvironment.queryParamOverride.visitorId;
         testEnvironment.save();
 
-        expect.screenshot("visitor_profile_not_segmented").to.be.capture(function (page) {
-            // as the process sometimes hang, we force timeout of 15s
-            //page.settings.resourceTimeout = 15000;
-
+        expect.screenshot("visitor_profile_not_segmented").to.be.similar(0.002).to.capture(function (page) {
             page.load(url);
 
             page.evaluate(function () {
