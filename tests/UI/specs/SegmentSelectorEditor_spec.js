@@ -8,6 +8,8 @@
  */
 
 describe("SegmentSelectorEditorTest", function () {
+    this.retries(3);
+
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
     
     this.timeout(0);
@@ -28,12 +30,9 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should open segment editor when edit link clicked for existing segment", function (done) {
-
-        this.retries(3);
-
         expect.screenshot("2_segment_editor_update").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentList .editSegment:first');
-            page.wait(1000);
+            page.wait(3000);
         }, done);
     });
 
