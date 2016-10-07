@@ -692,6 +692,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.mouseMove('table.dataTable tbody tr:first-child');
             page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
             page.click('a.actionRowEvolution:visible');
+            page.wait(1000);
+
         }, done);
     });
 
