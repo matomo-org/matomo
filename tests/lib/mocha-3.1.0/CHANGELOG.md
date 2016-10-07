@@ -1113,7 +1113,7 @@ Thanks @entertainyou, @SimenB, @just-paja for the heads-up.
   * Added js API. Closes #265
   * Added: initial run of tests with `--watch`. Closes #345
   * Added: mark `location` as a global on the CS. Closes #311
-  * Added `markdown` reporter (github flavour)
+  * Added `markdown` reporter (GitHub flavour)
   * Added: scrolling menu to coverage.html. Closes #335
   * Added source line to html report for Safari [Tyson Tate]
   * Added "min" reporter, useful for `--watch` [Jakub Nešetřil]

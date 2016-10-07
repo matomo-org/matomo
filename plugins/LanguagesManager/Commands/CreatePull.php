@@ -187,7 +187,7 @@ class CreatePull extends TranslationBase
 
         while (true) {
 
-            $username = $dialog->ask($output, 'Please provide your github username (to create a pull request using Github API): ');
+            $username = $dialog->ask($output, 'Please provide your GitHub username (to create a pull request using GitHub API): ');
 
             $returnCode = shell_exec('curl \
                  -X POST \
