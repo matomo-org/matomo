@@ -373,8 +373,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the widgetized all websites dashboard correctly', function (done) {
-        this.retries(3);
-
         expect.screenshot('widgetize_allwebsites').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=MultiSites&actionToWidgetize=standalone");
         }, done);
