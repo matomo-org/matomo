@@ -25,6 +25,7 @@
         "ColumnUniqueClicksDocumentation": "이 링크를 ​​클릭 한 방문자의 수입니다. 한번의 방문으로 여러 번 링크를 ​​클릭해도 한 번으로 계산됩니다.",
         "ColumnUniqueDownloads": "고유 다운로드 수",
         "ColumnUniqueOutlinks": "고유한 외부 링크 수",
+        "ColumnIdPageview": "페이비뷰 아이디",
         "DownloadsReportDocumentation": "이 보고서는 방문자가 어떤 파일을 다운로드했는지에 대한 정보입니다. %s Piwik는 다운로드 링크의 클릭 수를 계산합니다. 하지만 다운로드가 완료되었는지 여부는 확인할 수 없습니다.",
         "EntryPagesReportDocumentation": "이 보고서는 기간 중 진입 페이지 제목에 대한 정보입니다. 진입 페이지는 방문자가 먼저 본 페이지입니다. %s 진입 페이지의 URL은 폴더 구조로 표시됩니다.",
         "EntryPageTitles": "진입 페이지 제목",

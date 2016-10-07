@@ -23,7 +23,7 @@
         "HelpMessageContent": "Hidhini një sy %1$s Piwik FAQ %2$s që shpjegojnë gabimet më të rëndomta gjatë përditësimesh. %3$s Pyesni përgjegjësin e sistemit tuaj - ai mund të jetë në gjendje të t’ju ndihmojë për gabimin, i cili ka shumë të ngjarë të ketë lidhje me rregullimet e shërbyesit tuaj ose ato të MySQL-së.",
         "HelpMessageIntroductionWhenError": "Sa më sipër, është thelbi i mesazhit të gabimit. Do të ndihmonte të shpjegohej shkaku, por nëse keni nevojë për ndihmë të mëtejshme, ju lutem:",
         "HelpMessageIntroductionWhenWarning": "Përditësimi u plotësua me sukses, sidoqoftë pati ca kleçka gjatë procesit. Ju lutem, lexoni përshkrimet më sipër për hollësi. Për më tepër ndihmë:",
-        "HighTrafficPiwikServerEnableMaintenance": "Nëse administroni një shërbyes Piwik me trafik të madh, këshillojmë ta %1$sçaktivizoni përkohësisht Gjurmimin e vizitorëve dhe ta kaloni Ndërfaqen e Përdoruesit të Piwik-ut nën mënyrën mirëmbajtje%2$s.",
+        "HighTrafficPiwikServerEnableMaintenance": "Nëse administroni një shërbyes Piwik me trafik të madh, këshillojmë ta %1$sçaktivizoni përkohësisht Ndjekjen e vizitorëve dhe ta kaloni Ndërfaqen e Përdoruesit të Piwik-ut nën mënyrën mirëmbajtje%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Shënim: disa shtojca janë të papërputhshme me Piwik %s. Do t’i përditësojmë, nëse ka një përditësim të gatshëm te Marketplace, përndryshe do t’i çaktivizojmë kur të bëni një përmirësim:",
         "InstallingTheLatestVersion": "Po instalohet versioni më i fundit",
         "LatestBetaRelease": "Hedhja beta më e re në qarkullim",
