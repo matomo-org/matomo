@@ -1,6 +1,6 @@
 {
     "Events": {
-        "PluginDescription": "Gjurmoni Akte dhe merrni raporte mbi veprimtarinë e vizitorëve tuaj.",
+        "PluginDescription": "Ndiqni Akte dhe merrni raporte mbi veprimtarinë e vizitorëve tuaj.",
         "AvgEventValue": "Vlera mesatare e Akteve është: %s",
         "AvgValue": "Vlerë mesatare",
         "AvgValueDocumentation": "Mesatarja e krejt vlerave për këtë akt",

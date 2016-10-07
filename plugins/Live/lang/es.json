@@ -1,5 +1,6 @@
 {
     "Live": {
+        "AbandonedCartSummary": "%1$s carritos abandonadoss%2$s y %3$s artículos abandonados%4$s por un total de %5$s%6$s.",
         "AveragePageGenerationTime": "Cada página tomó en promedio %1$s para cargar este visitante.",
         "CalculatedOverNPageViews": "Calculado usando las últimas %1$s páginas vistas de este visitante.",
         "ClickToViewMoreAboutVisit": "Clic para ver más información acerca de esta visita.",
