@@ -54,13 +54,13 @@ describe("DashboardManager", function () {
     });
 
     it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
-        this.retries(3);
-
         expect.screenshot("create_new").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');
             page.sendKeys('#createDashboardName', 'newdash2');
             page.click('.modal.open .modal-footer a:contains(Ok)');
+
+            page.wait(2000);
         }, done);
     });
 

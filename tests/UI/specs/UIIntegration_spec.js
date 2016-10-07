@@ -373,6 +373,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the widgetized all websites dashboard correctly', function (done) {
+        this.retries(3);
+
         expect.screenshot('widgetize_allwebsites').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=MultiSites&actionToWidgetize=standalone");
         }, done);
@@ -711,7 +713,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.mouseMove('a.actionSegmentVisitorLog:visible'); // necessary to get popover to display
             page.click('a.actionSegmentVisitorLog:visible');
 
-            page.wait(1000);
+            page.wait(3000);
 
         }, done);
     });
