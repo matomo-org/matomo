@@ -659,6 +659,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // visitor profile popup
     it('should load the visitor profile popup correctly', function (done) {
+        this.retries(3);
+
         expect.screenshot('visitor_profile_popup').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + idSite2Params + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorProfilePopup"
                     + "&enableAnimation=0");
@@ -705,6 +707,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         
         var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
         expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog:visible', 'segmented_visitorlog', function (page) {
+            page.wait(1000);
             page.click('.segmentationTitle');
             page.wait(500);
             page.click('.segname:contains(From Europe)');
