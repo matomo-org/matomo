@@ -1,4 +1,4 @@
-# Piwik - piwik.org   
+# Piwik - piwik.org  
 
 [![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://piwik.org/download/)
 [![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
