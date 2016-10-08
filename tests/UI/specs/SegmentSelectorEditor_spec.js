@@ -31,7 +31,6 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should open segment editor when edit link clicked for existing segment", function (done) {
-        this.retries(2);
         expect.screenshot("2_segment_editor_update").to.be.captureSelector(selectorsToCapture, function (page) {
             setTimeout(function () {
                 page.click('.segmentList .editSegment:first');
