@@ -61,6 +61,7 @@ class Updates_3_0_0_b4 extends Updates
     private function getUserDatabaseMigrations($queries)
     {
         $queries[] = $this->migration->db->changeColumn($this->userTable, 'password', 'password', 'VARCHAR(255) NOT NULL');
+        $queries[] = $this->migration->db->changeColumn($this->userTable, 'token_auth', 'token_auth', 'VARCHAR(64) NOT NULL');
 
         return $queries;
     }

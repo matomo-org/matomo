@@ -38,7 +38,7 @@ class Mysql implements SchemaInterface
                           password VARCHAR(255) NOT NULL,
                           alias VARCHAR(45) NOT NULL,
                           email VARCHAR(100) NOT NULL,
-                          token_auth CHAR(32) NOT NULL,
+                          token_auth CHAR(64) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                             PRIMARY KEY(login),

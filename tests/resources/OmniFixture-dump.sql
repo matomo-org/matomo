@@ -817,7 +817,7 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `alias` varchar(45) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `token_auth` char(32) NOT NULL,
+  `token_auth` char(64) NOT NULL,
   `superuser_access` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `date_registered` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`login`),
