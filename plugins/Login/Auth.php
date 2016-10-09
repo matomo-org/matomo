@@ -70,6 +70,10 @@ class Auth implements \Piwik\Auth
         }
 
         if (password_verify($passwordHash, $user['password'])) {
+            if (password_needs_rehash($user['password'], PASSWORD_BCRYPT)) {
+                $this->userModel->updateUser($login, $passwordHash, $user['alias'], $user['email'], $user['token_auth']);
+            }
+
             return $this->authenticationSuccess($user);
         }
 
