@@ -31,11 +31,13 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should open segment editor when edit link clicked for existing segment", function (done) {
+        this.retries(3);
+
         expect.screenshot("2_segment_editor_update").to.be.captureSelector(selectorsToCapture, function (page) {
             setTimeout(function () {
                 page.click('.segmentList .editSegment:first');
-            });
-            page.wait(1000);
+            }, 500);
+            page.wait(2000);
         }, done);
     });
 
