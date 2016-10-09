@@ -141,4 +141,14 @@ abstract class Archiver
     {
         return $this->enabled;
     }
+
+    /**
+     * Whether this Archiver should run even if there aren't any visits.
+     *
+     * @return bool
+     */
+    public function shouldRunWithoutVisits()
+    {
+        return false;
+    }
 }

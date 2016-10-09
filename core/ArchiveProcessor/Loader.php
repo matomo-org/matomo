@@ -120,11 +120,8 @@ class Loader
             $visitsConverted = $metrics['nb_visits_converted'];
         }
 
-        if ($this->isThereSomeVisits($visits)
-            || $this->shouldArchiveForSiteEvenWhenNoVisits()
-        ) {
-            $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
-        }
+        $forceArchivingWithoutVisits = !$this->isThereSomeVisits($visits) && $this->shouldArchiveForSiteEvenWhenNoVisits();
+        $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits);
 
         $idArchive = $pluginsArchiver->finalizeArchive();
 
