@@ -93,6 +93,12 @@
                  title="{{ 'ScheduledReports_EvolutionGraph'|translate(5)|e('html_attr') }}">
             </div>
         </div>
+        <div piwik-field uicontrol="checkbox"
+             name="display_flat"
+             ng-model="manageScheduledReport.report.displayFlat"
+             title="{{ 'General_Flatten'|translate|e('html_attr') }}"
+        >
+        </div>
 
         <div class="row">
             <h3 class="col s12">{{ 'ScheduledReports_ReportsIncluded'|translate }}</h3>

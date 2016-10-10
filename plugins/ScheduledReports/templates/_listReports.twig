@@ -78,7 +78,8 @@
                 <a href="{{ linkTo({'module':'API', 'segment': null, 'token_auth':token_auth,
                             'method':'ScheduledReports.generateReport', 'idReport':report.idreport,
                             'outputType':downloadOutputType, 'language':language,
-                            'format': (report.format in ['html', 'csv']) ? report.format : false
+                            'format': (report.format in ['html', 'csv']) ? report.format : false,
+                            'flat': +(report.parameters.displayFlat == true)
                        }) }}"
                    rel="noreferrer"  target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0"/>
