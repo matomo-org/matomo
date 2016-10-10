@@ -543,7 +543,7 @@ class ApiTest extends IntegrationTestCase
             'parameters'  => array(
                 'displayFormat'    => '1',
                 'emailMe'          => false,
-                'displayFlat'      => false,
+                'displayFlat'      => true,
                 'additionalEmails' => array('blabla@ec.fr'),
                 'evolutionGraph'   => false
             )
