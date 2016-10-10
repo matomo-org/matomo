@@ -75,11 +75,16 @@
             </td>
             <td>
                 {# download link #}
+                {%  if (report.parameters.displayFlat is defined) %}
+                    {%  set flat = +(report.parameters.displayFlat) %}
+                {% else %}
+                    {%  set flat = 0 %}
+                {% endif %}
                 <a href="{{ linkTo({'module':'API', 'segment': null, 'token_auth':token_auth,
                             'method':'ScheduledReports.generateReport', 'idReport':report.idreport,
                             'outputType':downloadOutputType, 'language':language,
                             'format': (report.format in ['html', 'csv']) ? report.format : false,
-                            'flat': +(report.parameters.displayFlat == true)
+                            'flat': flat
                        }) }}"
                    rel="noreferrer"  target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0"/>
