@@ -7,7 +7,7 @@
 		<nb_events_with_value>3</nb_events_with_value>
 		<sum_event_value>28.98</sum_event_value>
 		<min_event_value>0</min_event_value>
-		<max_event_value>19.32</max_event_value>
+		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>39</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventCategory==Movie</segment>
@@ -117,8 +117,8 @@
 				<nb_events>3</nb_events>
 				<nb_events_with_value>3</nb_events_with_value>
 				<sum_event_value>28.98</sum_event_value>
-				<min_event_value>19.32</min_event_value>
-				<max_event_value>19.32</max_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
@@ -131,7 +131,7 @@
 		<nb_events_with_value>6</nb_events_with_value>
 		<sum_event_value>57</sum_event_value>
 		<min_event_value>0</min_event_value>
-		<max_event_value>20</max_event_value>
+		<max_event_value>10</max_event_value>
 		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.5</avg_event_value>
 		<segment>eventCategory==Music</segment>
@@ -197,8 +197,8 @@
 				<nb_events>6</nb_events>
 				<nb_events_with_value>6</nb_events_with_value>
 				<sum_event_value>57</sum_event_value>
-				<min_event_value>18</min_event_value>
-				<max_event_value>20</max_event_value>
+				<min_event_value>9</min_event_value>
+				<max_event_value>10</max_event_value>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.5</avg_event_value>
 			</row>
@@ -210,8 +210,8 @@
 		<nb_events>3</nb_events>
 		<nb_events_with_value>3</nb_events_with_value>
 		<sum_event_value>28.98</sum_event_value>
-		<min_event_value>19.32</min_event_value>
-		<max_event_value>19.32</max_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
@@ -222,8 +222,8 @@
 				<nb_events>3</nb_events>
 				<nb_events_with_value>3</nb_events_with_value>
 				<sum_event_value>28.98</sum_event_value>
-				<min_event_value>19.32</min_event_value>
-				<max_event_value>19.32</max_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.66</avg_event_value>
 			</row>

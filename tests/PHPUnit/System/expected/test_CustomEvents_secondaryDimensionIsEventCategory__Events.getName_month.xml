@@ -7,7 +7,7 @@
 		<nb_events_with_value>3</nb_events_with_value>
 		<sum_event_value>28.98</sum_event_value>
 		<min_event_value>0</min_event_value>
-		<max_event_value>19.32</max_event_value>
+		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
@@ -19,7 +19,7 @@
 				<nb_events_with_value>3</nb_events_with_value>
 				<sum_event_value>28.98</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>19.32</max_event_value>
+				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
@@ -32,7 +32,7 @@
 		<nb_events_with_value>6</nb_events_with_value>
 		<sum_event_value>57</sum_event_value>
 		<min_event_value>0</min_event_value>
-		<max_event_value>20</max_event_value>
+		<max_event_value>10</max_event_value>
 		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.5</avg_event_value>
 		<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
@@ -44,7 +44,7 @@
 				<nb_events_with_value>6</nb_events_with_value>
 				<sum_event_value>57</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>20</max_event_value>
+				<max_event_value>10</max_event_value>
 				<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.5</avg_event_value>
 			</row>
@@ -91,8 +91,8 @@
 		<nb_events>3</nb_events>
 		<nb_events_with_value>3</nb_events_with_value>
 		<sum_event_value>28.98</sum_event_value>
-		<min_event_value>19.32</min_event_value>
-		<max_event_value>19.32</max_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
@@ -103,8 +103,8 @@
 				<nb_events>3</nb_events>
 				<nb_events_with_value>3</nb_events_with_value>
 				<sum_event_value>28.98</sum_event_value>
-				<min_event_value>19.32</min_event_value>
-				<max_event_value>19.32</max_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
