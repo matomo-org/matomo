@@ -37,11 +37,11 @@ class ScheduledReports extends \Piwik\Plugin
     const DISPLAY_FORMAT_TABLES_AND_GRAPHS = 3; // Display Tables and Graphs for all reports
     const DISPLAY_FORMAT_TABLES_ONLY = 4; // Display only tables for all reports
     const DEFAULT_DISPLAY_FORMAT = self::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS;
-    const DEFAULT_DISPLAY_FLAT = false;
 
     const DEFAULT_REPORT_FORMAT = ReportRenderer::HTML_FORMAT;
     const DEFAULT_PERIOD = 'week';
     const DEFAULT_HOUR = '0';
+    const DEFAULT_DISPLAY_FLAT = false;
 
     const EMAIL_ME_PARAMETER = 'emailMe';
     const EVOLUTION_GRAPH_PARAMETER = 'evolutionGraph';
@@ -57,8 +57,8 @@ class ScheduledReports extends \Piwik\Plugin
         self::EMAIL_ME_PARAMETER          => false,
         self::EVOLUTION_GRAPH_PARAMETER   => false,
         self::ADDITIONAL_EMAILS_PARAMETER => false,
+        self::DISPLAY_FLAT_PARAMETER      => false,
         self::DISPLAY_FORMAT_PARAMETER    => true,
-        self::DISPLAY_FLAT_PARAMETER      => true,
     );
 
     private static $managedReportTypes = array(
