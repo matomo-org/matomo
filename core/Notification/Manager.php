@@ -132,7 +132,7 @@ class Manager
         if (!self::isSessionEnabled()) {
             return;
         }
-        
+
         $maxNotificationsInSession = 30;
 
         $session = static::getSession();

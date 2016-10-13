@@ -8,7 +8,10 @@
  */
 namespace Piwik\Plugin;
 
+use Composer\Semver\VersionParser;
+use Piwik\Common;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Version;
 
 /**
@@ -17,10 +20,18 @@ use Piwik\Version;
 class Dependency
 {
     private $piwikVersion;
+    private $phpVersion;
 
     public function __construct()
     {
         $this->setPiwikVersion(Version::VERSION);
+        $this->setPhpVersion(phpversion());
+    }
+
+    public function setEnvironment(Environment $environment)
+    {
+        $this->setPiwikVersion($environment->getPiwikVersion());
+        $this->setPhpVersion($environment->getPhpVersion());
     }
 
     public function getMissingDependencies($requires)
@@ -50,22 +61,34 @@ class Dependency
 
     public function getMissingVersions($currentVersion, $requiredVersion)
     {
-        $currentVersion   = trim($currentVersion);
-        $requiredVersions = explode(',', (string) $requiredVersion);
+        $currentVersion = trim($currentVersion);
 
         $missingVersions = array();
 
-        foreach ($requiredVersions as $required) {
-            $comparison = '>=';
-            $required   = trim($required);
-
-            if (preg_match('{^(<>|!=|>=?|<=?|==?)\s*(.*)}', $required, $matches)) {
-                $required   = $matches[2];
-                $comparison = trim($matches[1]);
+        if (empty($currentVersion)) {
+            if (!empty($requiredVersion)) {
+                $missingVersions[] = (string) $requiredVersion;
             }
 
-            if (false === version_compare($currentVersion, $required, $comparison)) {
-                $missingVersions[] = $comparison . $required;
+            return $missingVersions;
+        }
+
+        $version = new VersionParser();
+        $constraintsExisting = $version->parseConstraints($currentVersion);
+
+        $requiredVersions = explode(',', (string) $requiredVersion);
+
+        foreach ($requiredVersions as $required) {
+            $required = trim($required);
+
+            if (empty($required)) {
+                continue;
+            }
+
+            $constraintRequired = $version->parseConstraints($required);
+
+            if (!$constraintRequired->matches($constraintsExisting)) {
+                $missingVersions[] = $required;
             }
         }
 
@@ -77,13 +100,39 @@ class Dependency
         $this->piwikVersion = $piwikVersion;
     }
 
+    public function setPhpVersion($phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
+    public function hasDependencyToDisabledPlugin($requires)
+    {
+        if (empty($requires)) {
+            return false;
+        }
+
+        foreach ($requires as $name => $requiredVersion) {
+            $nameLower = strtolower($name);
+            $isPluginRequire = !in_array($nameLower, array('piwik', 'php'));
+            if ($isPluginRequire) {
+                // we do not check version, only whether it's activated. Everything that is not piwik or php is assumed
+                // a plugin so far.
+                if (!PluginManager::getInstance()->isPluginActivated($name)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     private function getCurrentVersion($name)
     {
         switch (strtolower($name)) {
             case 'piwik':
                 return $this->piwikVersion;
             case 'php':
-                return PHP_VERSION;
+                return $this->phpVersion;
             default:
                 try {
                     $pluginNames = PluginManager::getAllPluginsNames();

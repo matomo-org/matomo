@@ -29,14 +29,18 @@
 
     <div class="dropdown">
         {% if isPiwikDemo %}
-            {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
+            {{ 'General_DownloadFullVersion'|translate("<a rel='noreferrer' href='https://piwik.org/'>","</a>","<a rel='noreferrer' href='https://piwik.org'>piwik.org</a>")|raw }}
             <br/>
             {% if isSuperUser and adminMenu is defined and adminMenu %}
                 <br/>
             {% endif %}
         {% endif %}
         {% if latest_version_available and isSuperUser %}
-            {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
+            {% if isMultiServerEnvironment %}
+                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer' href='https://builds.piwik.org/piwik-" ~ latest_version_available ~ ".zip'>","</a>")|raw }}
+            {% else %}
+                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
+            {% endif %}
             <br />
         {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
             {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}

@@ -11,12 +11,13 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
-use Piwik\Version;
 use Piwik\Plugin;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Tests\Fixtures\DummyOutput;
 
 /**
  */
@@ -51,8 +52,7 @@ class GeneratePlugin extends GeneratePluginBase
             $replace       = array(
                 'ExampleTheme'       => $pluginName,
                 $exampleDescription  => $description,
-                '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                '0.1.0'              => $version
             );
             $whitelistFiles = array();
 
@@ -62,8 +62,7 @@ class GeneratePlugin extends GeneratePluginBase
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,
                 $exampleDescription  => $description,
-                '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                '0.1.0'              => $version
             );
             $whitelistFiles = array(
                 '/ExamplePlugin.php',
@@ -79,6 +78,7 @@ class GeneratePlugin extends GeneratePluginBase
         }
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, new NullOutput());
 
         if ($isTheme) {
             $this->writeSuccessMessage($output, array(

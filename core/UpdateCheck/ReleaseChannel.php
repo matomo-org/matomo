@@ -34,6 +34,15 @@ abstract class ReleaseChannel
     abstract public function getName();
 
     /**
+     * Whether only stable versions are wanted or also beta versions.
+     * @return bool
+     */
+    public function doesPreferStable()
+    {
+        return true;
+    }
+
+    /**
      * Get the latest available version number for this release channel. Eg '2.15.0-b4' or '2.15.0'. Should be
      * a semantic version number in format MAJOR.MINOR.PATCH (http://semver.org/). Returning an empty string in case
      * one cannot connect to the remote server can be acceptable.

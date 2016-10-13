@@ -248,6 +248,26 @@ class DependencyTest extends IntegrationTestCase
         $this->assertMissingVersion('6.4', '>=5.2,<=9.0', array());
     }
 
+    /**
+     * @dataProvider getHasDepenedencyToDisabledPluginProvider
+     */
+    public function test_hasDependencyToDisabledPlugin($expectedHasDependency, $requires)
+    {
+        $this->assertSame($expectedHasDependency, $this->dependency->hasDependencyToDisabledPlugin($requires));
+    }
+
+    public function getHasDepenedencyToDisabledPluginProvider()
+    {
+        return array(
+            array($expected = false, $requires = null),
+            array($expected = false, $requires = array()),
+            array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0')),
+            array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'CoreHome' => '2.15.0')),
+            array($expected = false, $requires = array('CoreHome' => '<2.0', 'Actions' => '>=2.15.0')),
+            array($expected = true, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'FooBar' => '2.15.0')),
+        );
+    }
+
     private function missingPiwik($requiredVersion, $causedBy = null)
     {
         return $this->buildMissingDependecy('piwik', Version::VERSION, $requiredVersion, $causedBy);

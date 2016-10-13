@@ -65,4 +65,9 @@ class ReleaseChannelTest extends IntegrationTestCase
         $this->assertStringStartsWith("http://api.piwik.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
     }
 
+    public function test_doesPreferStable()
+    {
+        $this->assertTrue($this->channel->doesPreferStable());
+    }
+
 }

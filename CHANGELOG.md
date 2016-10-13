@@ -49,6 +49,11 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * Tracking API: by default, when tracking a Page URL, Piwik will now remove the URL query string parameter `sid` if it is found. 
  * In the JavaScript tracker, the function `setDomains` will not anymore attempt to set a cookie path. Learn more about [configuring the tracker correctly](http://developer.piwik.org/guides/tracking-javascript-guide#tracking-one-domain) when tracking one or several domains and/or paths.
 
+## Piwik 2.16.1
+
+### Internal change
+ * The setting `[General]enable_marketplace=0/1` was removed, instead the new plugin Marketplace can be disabled/enabled. The updater should automatically migrate an existing setting.
+
 ## Piwik 2.16.0
 
 ### New features

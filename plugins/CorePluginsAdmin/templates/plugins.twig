@@ -12,7 +12,7 @@
 
         <p>{{ 'CorePluginsAdmin_InfoPluginUpdateIsRecommended'|translate }}</p>
 
-        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
+        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, isMultiServerEnvironment) }}
     {% endif %}
 
     <h2 piwik-enriched-headline>{{ title }}</h2>
@@ -20,9 +20,9 @@
     <p>{{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
         {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}
 
-    {% if not isPluginsAdminEnabled %}
-        <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
-    {% endif %}
+        {% if not isPluginsAdminEnabled %}
+            <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
+        {% endif %}
 
         <br />
         {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}

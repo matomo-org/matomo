@@ -132,6 +132,14 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Piwik URL
 disable_merged_assets = 0
 
+[Marketplace]
+
+; Can be used to restrict the list of shown plugins in the Marketplace to specific github organizations. By default it
+; will show all plugins ("0"). To whistlist only specific organizations list them comma separated, eg "piwik,piwikpro".
+; To force showing all plugins if a license key specified, set the value "all". The value "all" is especially interesting
+; for Piwik PRO clients as they see only plugins developed by Piwik and Piwik PRO by default.
+whitelisted_github_orgs = 0
+
 [General]
 
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
@@ -442,6 +450,12 @@ multisites_refresh_after_seconds = 300
 ; set the HTTPS environment variable.
 assume_secure_protocol = 0
 
+; Set to 1 if you're using more than one server for your Piwik installation. For example if you are using Piwik in a
+; load balanced environment, if you have configured failover or if you're just using multiple servers in general.
+; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
+; installed on one server or a config one change would be only made on one server instead of all servers.
+multi_server_environment = 0
+
 ; List of proxy headers for client IP addresses
 ;
 ; CloudFlare (CF-Connecting-IP)
@@ -525,10 +539,6 @@ absolute_chroot_path =
 ; In some rare cases it may be useful to explicitely tell Piwik not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
-
-; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
-; the access to disk and install custom PHP code (Piwik plugins).
-enable_marketplace = 1
 
 ; By setting this option to 0:
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
@@ -805,6 +815,7 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 Plugins[] = Heartbeat
 Plugins[] = Intl
+Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomPiwikJs
