@@ -182,10 +182,10 @@ describe("Marketplace", function () {
     it('should show a dialog showing a list of all possible plugins to install', function (done) {
         setEnvironment(mode, validLicense);
 
-        captureWithNotification(done, mode + '_install_all_paid_plugins_at_once', function (page) {
+        captureSelector(done, mode + '_install_all_paid_plugins_at_once', function (page) {
             page.load(pluginsUrl);
             page.click('.installAllPaidPlugins');
-        });
+        }, '.ui-dialog:visible');
     });
 
     it('should show a confirmation before removing a license key', function (done) {
@@ -200,7 +200,7 @@ describe("Marketplace", function () {
     it('should show a confirmation before removing a license key', function (done) {
         setEnvironment(mode, noLicense);
 
-        captureWithNotification(done, mode + '_remove_license_key_confirmed', function (page) {
+        captureMarketplace(done, mode + '_remove_license_key_confirmed', function (page) {
             page.click('.ui-dialog button:contains(Yes)')
         });
     });
@@ -208,7 +208,7 @@ describe("Marketplace", function () {
     it('should show a success message when valid license key entered', function (done) {
         setEnvironment(mode, noLicense);
 
-        captureWithNotification(done, mode + '_valid_license_key_entered', function (page) {
+        captureMarketplace(done, mode + '_valid_license_key_entered', function (page) {
             page.load(pluginsUrl);
             page.sendKeys('#license_key', 'valid');
             page.callMethod(function () {
