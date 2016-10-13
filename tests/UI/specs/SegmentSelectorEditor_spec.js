@@ -1,6 +1,6 @@
 /*!
  * Piwik - free/libre analytics platform
- *
+ * 
  * ViewDataTable screenshot tests.
  *
  * @link http://piwik.org
