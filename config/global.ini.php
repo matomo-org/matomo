@@ -148,7 +148,7 @@ enable_processing_unique_visitors_range = 0
 ; of unique visitors across the entire set of websites, so if a visitor visited two websites in the group, she
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
-d
+
 ; The list of periods that are available in the Piwik calendar
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
