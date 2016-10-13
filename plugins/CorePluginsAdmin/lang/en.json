@@ -12,7 +12,6 @@
         "CorePluginTooltip": "Core plugins have no version since they are distributed with Piwik.",
         "Deactivate": "Deactivate",
         "DoMoreContactPiwikAdmins": "To install a new plugin or a new theme, please get in touch with your Piwik admins.",
-        "EmailToEnquireUpdatedVersion": "Please email %1$s and enquire an updated version of %2$s.",
         "ChangeLookByManageThemes": "You can change the appearance of Piwik by %1$sManaging Themes%2$s.",
         "History": "History",
         "Inactive": "Inactive",

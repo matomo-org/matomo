@@ -9,7 +9,6 @@
 namespace Piwik\Plugin;
 
 use Composer\Semver\VersionParser;
-use Piwik\Common;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Version;
@@ -25,7 +24,7 @@ class Dependency
     public function __construct()
     {
         $this->setPiwikVersion(Version::VERSION);
-        $this->setPhpVersion(phpversion());
+        $this->setPhpVersion(PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION);
     }
 
     public function setEnvironment(Environment $environment)
@@ -73,6 +72,8 @@ class Dependency
             return $missingVersions;
         }
 
+        $requiredVersion = $this->makeVersionBackwardsCompatibleIfNoComparisonDefined($requiredVersion);
+
         $version = new VersionParser();
         $constraintsExisting = $version->parseConstraints($currentVersion);
 
@@ -85,6 +86,7 @@ class Dependency
                 continue;
             }
 
+            $required = $this->makeVersionBackwardsCompatibleIfNoComparisonDefined($required);
             $constraintRequired = $version->parseConstraints($required);
 
             if (!$constraintRequired->matches($constraintsExisting)) {
@@ -93,6 +95,16 @@ class Dependency
         }
 
         return $missingVersions;
+    }
+
+    private function makeVersionBackwardsCompatibleIfNoComparisonDefined($version)
+    {
+        if (!empty($version) && preg_match('/^(\d+)\.(\d+)/', $version)) {
+            // TODO: we should remove this from piwik 3. To stay BC we add >= if no >= is defined yet
+            $version = '>=' . $version;
+        }
+
+        return $version;
     }
 
     public function setPiwikVersion($piwikVersion)

@@ -147,7 +147,7 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingVersion_EmptyCurrentVersion_ShouldBeDeclaredAsMissing()
     {
-        $this->assertMissingVersion('', '5.5', array('>=5.5'));
+        $this->assertMissingVersion('', '>=5.5', array('>=5.5'));
     }
 
     public function test_getMissingVersion_EmptyRequiredVersion_ShouldBeIgnored()

@@ -132,14 +132,6 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Piwik URL
 disable_merged_assets = 0
 
-[Marketplace]
-
-; Can be used to restrict the list of shown plugins in the Marketplace to specific github organizations. By default it
-; will show all plugins ("0"). To whistlist only specific organizations list them comma separated, eg "piwik,piwikpro".
-; To force showing all plugins if a license key specified, set the value "all". The value "all" is especially interesting
-; for Piwik PRO clients as they see only plugins developed by Piwik and Piwik PRO by default.
-whitelisted_github_orgs = 0
-
 [General]
 
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
@@ -156,7 +148,7 @@ enable_processing_unique_visitors_range = 0
 ; of unique visitors across the entire set of websites, so if a visitor visited two websites in the group, she
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
-
+d
 ; The list of periods that are available in the Piwik calendar
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period

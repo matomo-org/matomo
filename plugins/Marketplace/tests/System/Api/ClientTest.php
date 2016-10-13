@@ -54,6 +54,7 @@ class ClientTest extends SystemTestCase
 
         $expectedPluginKeys = array(
             'name',
+            'displayName',
             'owner',
             'description',
             'homepage',

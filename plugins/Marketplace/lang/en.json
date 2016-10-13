@@ -12,7 +12,7 @@
     "ByXDevelopers": "by %s developers",
     "CannotInstall": "Cannot install",
     "CannotUpdate": "Cannot update",
-    "CurrentNumPiwikUsers": "Your Piwik has currently %s users.",
+    "CurrentNumPiwikUsers": "Your Piwik has currently %1$s users.",
     "ConfirmRemoveLicense": "Are you sure you want to remove your license? You will no longer receive any updates for any of your purchased plugins.",
     "Developer": "Developer",
     "DevelopersLearnHowToDevelopPlugins": "Developers: Learn how you can extend and customize Piwik by %1$sdeveloping plugins or themes%2$s.",
@@ -99,14 +99,13 @@
     "TeaserExtendPiwikByUpload": "Extend Piwik by uploading a ZIP file",
     "LicenseExceededPossibleCause": "The license is exceeded. There are possibly more users on this Piwik installation than the subscription allows",
     "Updated": "Updated",
-    "UpdatingPlugin": "Updating %s",
+    "UpdatingPlugin": "Updating %1$s",
     "UploadZipFile": "Upload ZIP file",
     "LicenseKeyExpiresSoon": "Your license key expires soon, please contact %1$s.",
     "LicenseKeyIsExpired": "Your license key is expired, please contact %1$s.",
     "FreePluginsLimited": "As a %1$s customer, you can only install plugins developed by %2$s to ensure your Piwik is stable and safe.",
     "MultiServerEnvironmentWarning": "You cannot install or update the plugin directly as you are using Piwik on multiple servers. The plugin would be only installed on one server. Instead download the plugin and deploy it manually to all your servers.",
     "AutoUpdateDisabledWarning": "You cannot install or update the plugin directly as automatic updates are disabled in the config. To enable automatic updates set %1$s in %2$s.",
-    "ViewRepositoryChangelog": "View the changes",
-    "PluginExpiredApiError": "The license for plugin '%s' is expired. Please update the license key in the Marketplace or contact Piwik."
+    "ViewRepositoryChangelog": "View the changes"
   }
 }
