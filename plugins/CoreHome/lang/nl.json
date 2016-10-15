@@ -28,7 +28,6 @@
         "InjectedHostWarningIntro": "Je bezoekt nu Piwik van %1$s, maar Piwik is geconfigureerd om op dit adres te draaien: %2$s.",
         "JavascriptDisabled": "JavaScript moet ingeschakeld zijn om Piwik in standaard weergave te bekijken. <br\/> Het lijkt erop dat JavaScript is uitgeschakeld of niet ondersteund wordt door uw browser.<br\/> Om de standaard weergave te gebruiken, schakel JavaScript in door uw browser instellingen te wijzigen, probeer het daarna %1$s opnieuw %2$s.<br\/>",
         "MainNavigation": "Hoofd navigatie",
-        "MakeADifference": "Maak een verschil: %1$sDoneer nu%2$s om Piwik 2.0 te steunen!",
         "MakeOneTimeDonation": "Doe een eennmalige donatie in de plaats.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "U bent aangemeld as '%1$s'. Maar het lijkt er op dat u geen rechten hebt op Piwik te bezoeken. %2$sVraag aan uw webmaster (klik hier voor e-mail)%3$s of hij u de juiste rechten wilt geven om de statistieken te bekijken.",

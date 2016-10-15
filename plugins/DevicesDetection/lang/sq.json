@@ -1,10 +1,10 @@
 {
     "DevicesDetection": {
-        "BrowserEngine": "Shfletues",
+        "BrowserEngine": "Motor shfletuesi",
         "BrowserEngineDocumentation": "Ky grafik tregon shfletuesit e vizitorëve tuaj, grupuar sipas familjesh shfletuesish. %s Informacioni më i rëndësishëm për programuesit web është lloji i mekanizmit vizatues që përdor shfletuesi. Etiketat përmbajnë emrat e mekanizmave, pasuar në kllapa nga shfletuesit më të zakonshëm që përdorin secilin prej tyre.",
         "BrowserEngines": "Motorë shfletuesi",
         "BrowserFamily": "Familje shfletuesi",
-        "Browsers": "Shfletuesa",
+        "Browsers": "Shfletues",
         "BrowserVersion": "Version shfletuesi",
         "BrowserVersions": "Versione shfletuesi",
         "Camera": "Kamerë",
@@ -38,7 +38,7 @@
         "Phablet": "Fablet",
         "TV": "Tv",
         "UserAgent": "Agjent përdoruesi",
-        "WidgetBrowsers": "Shfletuesa vizitorësh",
+        "WidgetBrowsers": "Shfletues Vizitori",
         "WidgetBrowsersDocumentation": "Ky raport përmban të dhëna rreth llojeve të shfletuesit që përdornin vizitorët tuaj. Secili version i një shfletuesi tregohet veçmas."
     }
 }

@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Denne udvidelse leverer de to widgets Besøgerkort og Real-tid kort. Bemærk: Kræver at BrugerLand udvidelsen er aktiveret.",
         "AndNOthers": "og %s andre",
         "Cities": "Byer",
         "Countries": "Lande",

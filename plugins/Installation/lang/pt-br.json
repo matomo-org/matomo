@@ -44,6 +44,7 @@
         "PasswordDoNotMatch": "senha não confere",
         "PasswordRepeat": "Senha (repetir)",
         "PercentDone": "%s %% Completo",
+        "ProfessionalServicesAdTitle": "Análises e Serviços Avançados",
         "PleaseFixTheFollowingErrors": "Por favor, corrija os seguintes erros",
         "DefaultSettings": "Configurações Piwik padrão",
         "DefaultSettingsHelp": "Piwik vem com configurações padrão. Você pode personalizá-las agora ou posteriormente no painel de administração.",

@@ -1,7 +1,7 @@
 {
     "Transitions": {
         "BouncesInline": "%s kthime",
-        "DirectEntries": "Hyrje tëDrejtpërdrejta",
+        "DirectEntries": "Hyrje të Drejtpërdrejta",
         "ErrorBack": "Kthehu te veprimi i mëparshëm",
         "ExitsInline": "%s largime",
         "NumPageviews": "%s parje faqesh",

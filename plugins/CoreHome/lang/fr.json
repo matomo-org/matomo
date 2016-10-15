@@ -28,7 +28,7 @@
         "InjectedHostWarningIntro": "Vous accédez maintenant à Piwik depuis %1$s, mais Piwik a été configuré pour s'exécuter à cette adresse : %2$s.",
         "JavascriptDisabled": "JavaScript doit être activé pour que vous puissiez utiliser Piwik de manière basique.<br \/>Cependant, il semble que JasvaScript ne soit pas supporté ou soit désactivé sur votre navigateur.<br \/>Pour utiliser l'interface basique, activez JavaScript en modifiant les options de votre navigateur, ensuite %1$sessayez encore%2$s.<br \/>",
         "MainNavigation": "Navigation principale",
-        "MakeADifference": "Faites une différence : %1$sDonnez Maintenant%2$s pour financer Piwik 2.0!",
+        "MakeADifference": "Faites une différence : %1$sFaites une don maintenant%2$s pour financer Piwik 3.0!",
         "MakeOneTimeDonation": "Faire un don unique à la place.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Vous êtes connecté en tant que '%1$s' mais il semble que nous n'ayez aucune permission définie dans Piwik. %2$s Demandez à votre administrateur (cliquez pour envoyer un e-mail)%3$s de vous donner l'accès 'Consultation' à un site web.",
