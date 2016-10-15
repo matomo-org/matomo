@@ -1,5 +1,6 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Suche nach neuen Plugin-Aktualisierungen.",
         "ClickHereToViewSqlQueries": "Klicken Sie hier, um die Liste der auszuführenden SQL-Befehle anzuzeigen und zu kopieren.",
         "CriticalErrorDuringTheUpgradeProcess": "Kritischer Fehler während der Aktualisierung:",
         "DatabaseUpgradeRequired": "Die Datenbank muss aktualisiert werden",

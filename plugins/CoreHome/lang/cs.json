@@ -28,7 +28,7 @@
         "InjectedHostWarningIntro": "Nyní přistupujete k Piwiku z %1$s, ale byl nakonfigurován, aby naslouchal na následující adrese: %2$s.",
         "JavascriptDisabled": "Musíte mít zapnutý JavaScript, jinak Piwik nezobrazíte.<br \/> Nebo jen není Váš prohlížeč mezi podporovanými.<br \/>Pro běžné zobrazení zapněte JavaScript ve svém prohlížeči, poté %1$szkuste znovu%2$s.<br \/>",
         "MainNavigation": "Hlavní navigace",
-        "MakeADifference": "Udělej změnu: %1$sPřispěj na vývoj%2$s nové verze Piwik 2.0",
+        "MakeADifference": "Podpoř nás: %1$sPřispěj na vývoj%2$s nové verze Piwik 3.0!",
         "MakeOneTimeDonation": "Provést jednorázový dar.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Jste přihlášen jako '%1$s' ale zdá se, že nemáte v Piwiku žádná práva. %2$s Zeptejte se Vašeho Piwik administrátora (klikem na email)%3$s aby Vám dal 'view' přístup na stránku.",

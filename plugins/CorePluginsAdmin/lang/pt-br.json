@@ -34,6 +34,8 @@
         "InstallingPlugin": "Instalando %s",
         "InstallNewPlugins": "Instalar novos plugins",
         "InstallNewThemes": "Instalar novos temas",
+        "InstalledPlugins": "Plugins instalados",
+        "InstalledThemes": "Temas instalados",
         "LastCommitTime": "(último commit %s)",
         "LastUpdated": "Última Atualização",
         "LicenseHomepage": "Página de licenciamento",
@@ -69,6 +71,9 @@
         "PluginVersionInfo": "%1$s de %2$s",
         "PluginWebsite": "Site de Plugin",
         "Screenshots": "Screenshots",
+        "SortByAlpha": "Alfa",
+        "SortByNewest": "Mais recente",
+        "SortByPopular": "Popular",
         "Status": "Status",
         "StepDownloadingPluginFromMarketplace": "Transferindo plugin do Marketplace",
         "StepDownloadingThemeFromMarketplace": "Transferindo tema do Marketplace",
@@ -95,6 +100,7 @@
         "UploadZipFile": "Carregar arquivo ZIP",
         "Version": "Versão",
         "ViewRepositoryChangelog": "Ver as mudanças",
+        "ViewAllMarketplacePlugins": "Ver todos os plugins no Marketplace",
         "Websites": "Websites"
     }
 }

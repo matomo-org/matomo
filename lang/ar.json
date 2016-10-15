@@ -429,6 +429,7 @@
     },
     "RowEvolution": {
         "AvailableMetrics": "المقاييس المتوفرة",
+        "CompareDocumentation": "إضغط على الرابط أسفله و افتح هذه المنبثقة لسطر آخر من نفس الجدول لكي تقارن عدة تسجيلات.<br \/> إستعمل shift-click لتسجل السطر للمقارنة بدون فتح هذه المنبثقة.",
         "CompareRows": "قارن السجلات",
         "ComparingRecords": "مقارنة %s صفوف",
         "MetricBetweenText": "من %1$s إلى %2$s",
