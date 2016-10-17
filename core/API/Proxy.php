@@ -204,8 +204,16 @@ class Proxy extends Singleton
              */
             Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
+            $apiParametersInCorrectOrder = array();
+
+            foreach ($parameterNamesDefaultValues as $name => $defaultValue) {
+                if (isset($finalParameters[$name]) || array_key_exists($name, $finalParameters)) {
+                    $apiParametersInCorrectOrder[] = $finalParameters[$name];
+                }
+            }
+
             // call the method
-            $returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
+            $returnedValue = call_user_func_array(array($object, $methodName), $apiParametersInCorrectOrder);
 
             $endHookParams = array(
                 &$returnedValue,
