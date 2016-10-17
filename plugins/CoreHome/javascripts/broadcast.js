@@ -315,6 +315,15 @@ var broadcast = {
             }
         }
 
+        var updatedUrl = new RegExp('&updated=([0-9]+)');
+        var updatedCounter = updatedUrl.exec(currentSearchStr);
+        if (!updatedCounter) {
+            currentSearchStr += '&updated=1';
+        } else {
+            updatedCounter = 1 + parseInt(updatedCounter[1]);
+            currentSearchStr = currentSearchStr.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
+        }
+
         if (strHash && currentHashStr.length != 0) {
             var params_hash_vals = strHash.split("&");
             for (var i = 0; i < params_hash_vals.length; i++) {
