@@ -82,7 +82,7 @@
 
                 category.subcategories = [];
 
-                var goalsGroup = false;
+                var categoryGroups = false;
 
                 angular.forEach(pages, function (page, key) {
                     if (page.category.id === categoryId) {
@@ -92,25 +92,25 @@
                             subcategory.active = true;
                         }
 
-                        if (page.widgets && page.widgets[0] && page.category.id === 'Goals_Goals' && isNumeric(page.subcategory.id)) {
+                        if (page.widgets && page.widgets[0] && isNumeric(page.subcategory.id)) {
                             // we handle a goal
-                            if (!goalsGroup) {
-                                goalsGroup = angular.copy(subcategory);
-                                goalsGroup.name = $filter('translate')('Goals_ChooseGoal');
-                                goalsGroup.isGroup = true;
-                                goalsGroup.subcategories = [];
-                                goalsGroup.order = 10;
+                            if (!categoryGroups) {
+                                categoryGroups = angular.copy(subcategory);
+                                categoryGroups.name = $filter('translate')('CoreHome_ChooseX', [category.name]);
+                                categoryGroups.isGroup = true;
+                                categoryGroups.subcategories = [];
+                                categoryGroups.order = 10;
                             }
 
                             if (subcategory.active) {
-                                goalsGroup.name = subcategory.name;
-                                goalsGroup.active = true;
+                                categoryGroups.name = subcategory.name;
+                                categoryGroups.active = true;
                             }
 
                             var goalId = page.subcategory.id;
                             subcategory.tooltip = subcategory.name + ' (id = ' + goalId + ' )';
 
-                            goalsGroup.subcategories.push(subcategory);
+                            categoryGroups.subcategories.push(subcategory);
                             return;
                         }
 
@@ -118,12 +118,12 @@
                     }
                 });
 
-                if (goalsGroup && goalsGroup.subcategories && goalsGroup.subcategories.length <= 3) {
-                    angular.forEach(goalsGroup.subcategories, function (subcategory) {
+                if (categoryGroups && categoryGroups.subcategories && categoryGroups.subcategories.length <= 5) {
+                    angular.forEach(categoryGroups.subcategories, function (subcategory) {
                         category.subcategories.push(subcategory);
                     });
-                } else if(goalsGroup) {
-                    category.subcategories.push(goalsGroup);
+                } else if(categoryGroups) {
+                    category.subcategories.push(categoryGroups);
                 }
 
                 category.subcategories = sortMenuItems(category.subcategories);

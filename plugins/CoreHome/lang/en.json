@@ -7,6 +7,7 @@
         "ClickToEditX": "Click to edit %s",
         "CloseSearch": "Close search",
         "CloseWidgetDirections": "You can close this widget by clicking on the 'X' icon at the top of the widget.",
+        "ChooseX": "Choose %1$s",
         "DataForThisReportHasBeenPurged": "The data for this report is more than %s months old and has been purged.",
         "DataTableExcludeAggregateRows": "Aggregate rows are shown %s Hide them",
         "DataTableIncludeAggregateRows": "Aggregate rows are hidden %s Show them",
