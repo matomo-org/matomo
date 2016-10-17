@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "The updater was last run on %s.",
         "UpdaterWillRunNext": "It is next scheduled to run on %s.",
         "WidgetLocation": "Visitor Location"
+    },
+    "Intl": {
+        "Country_TI": "Tibet"
     }
 }
