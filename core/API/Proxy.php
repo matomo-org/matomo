@@ -405,7 +405,7 @@ class Proxy extends Singleton
             } catch (Exception $e) {
                 throw new Exception(Piwik::translate('General_PleaseSpecifyValue', array($name)));
             }
-            $finalParameters[] = $requestValue;
+            $finalParameters[$name] = $requestValue;
         }
         return $finalParameters;
     }
