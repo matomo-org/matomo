@@ -235,7 +235,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
-        Http::sendHttpRequestBy('curl', 'https://divezone.net', 10);
+        Http::sendHttpRequestBy('curl', 'https://www.virtual-drums.com', 10);
     }
 
     /**
@@ -244,7 +244,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testFopenHttpsFailsWithInvalidCertificate()
     {
-        Http::sendHttpRequestBy('fopen', 'https://divezone.net', 10);
+        Http::sendHttpRequestBy('fopen', 'https://www.virtual-drums.com', 10);
     }
 
     /**
