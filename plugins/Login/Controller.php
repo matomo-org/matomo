@@ -361,6 +361,8 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function logout()
     {
+        Piwik::postEvent('Login.logout', array(Piwik::getCurrentUserLogin()));
+
         self::clearSession();
 
         $logoutUrl = @Config::getInstance()->General['login_logout_url'];
