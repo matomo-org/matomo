@@ -114,6 +114,9 @@ class SessionInitializer
         $authResult = $this->doAuthenticateSession($auth);
 
         if (!$authResult->wasAuthenticationSuccessful()) {
+
+            Piwik::postEvent('Login.authenticate.failed', array($auth->getLogin()));
+
             $this->processFailedSession($rememberMe);
         } else {
             $this->processSuccessfulSession($authResult, $rememberMe);
