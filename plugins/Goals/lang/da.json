@@ -14,6 +14,7 @@
         "CategoryTextGeneral_Visitors": "Bruger lokation",
         "CategoryTextReferrers_Referrers": "Henvisninger",
         "CategoryTextVisitsSummary_VisitsSummary": "Bruger attribute",
+        "CategoryTextDevicesDetection_DevicesDetection": "Enheder",
         "CategoryTextGeneral_Visit": "engagement",
         "ChooseGoal": "Vælg mål",
         "ClickOutlink": "Klik på et link til en ekstern hjemmeside",
@@ -36,6 +37,7 @@
         "ConversionByTypeReportDocumentation": "Rapporten indeholder detaljerede oplysninger om mål ydeevne (konverteringer, omregningskurser og indtægt pr. besøg) for hver af kategorierne tilgængelig i panelet til venstre. %1$s Klik på en af kategorierne for at få vist rapporten. %2$s For mere information læs %3$sSporing af mål dokumentation på piwik.org%4$s",
         "ConversionRate": "%s konverteringsrate",
         "Conversions": "%s konverteringer",
+        "ConversionsDescription": "konverteringer",
         "ConversionsOverview": "Konverteringsoversigt",
         "ConversionsOverviewBy": "Konverteringsoversigt efter besøgstype",
         "DaysToConv": "Dage til konvertering",
@@ -79,6 +81,8 @@
         "NoConversionsNoReportsMessage": "Rapporter bliver ikke vist fordi der ikke er nogen salgsdata for det valgte mål og periode.",
         "NeedAccess": "Kun en administrator eller en bruger med Super User adgang kan behandle mål for et givet website.",
         "Optional": "(valgfri)",
+        "OverallConversionRate": "samlet konverteringsrate (besøg med et færdigt mål)",
+        "OverallRevenue": "samlede indtægter",
         "PageTitle": "sidetitel",
         "Pattern": "Mønster",
         "PluginDescription": "Opret mål og se detaljerede rapporter om målkonverteringer: udvikling over tid, indtjening pr. besøg, konverteringer pr. henviser, pr. søgeord og meget mere.",
@@ -99,6 +103,7 @@
         "VisitUrl": "Besøger en bestemt hjemmeside (side eller en gruppe af sider)",
         "WhenVisitors": "når de besøgende",
         "WhereThe": "Hvor",
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Den besøgte side skal indeholde et kald til JavaScript 'trackGoal' metode (%1$slær mere%2$s)",
         "YouCanEnableEcommerceReports": "Du kan aktivere %1$s for hjemmesiden på %2$s siden."
     }
 }

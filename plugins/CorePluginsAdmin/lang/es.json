@@ -52,6 +52,7 @@
         "MissingRequirementsPleaseInstallNotice": "Por favor instale %1$s %2$s en tanto es requerido por %3$s.",
         "NewVersion": "nueva versión",
         "NoPluginsFound": "No se encontraron complementos",
+        "NoPluginSettings": "No hay ajustes para este complemento que puedan ser configurados",
         "NotAllowedToBrowseMarketplacePlugins": "Puedes navegar la lista de complementos que se pueden instalar para personalizar o extender su plataforma Piwik. Por favor contáctese con el administrador si desea que sea instalado uno de ellos.",
         "NotAllowedToBrowseMarketplaceThemes": "Puede navegar la lista de temas que se pueden instalar para personalizar el estilo de su plataforma Piwik. Por favor contáctese con el administrador si desea que sea instalado uno de ellos.",
         "NoThemesFound": "No se encontraron temas",
@@ -72,6 +73,7 @@
         "PluginWebsite": "Sitio de internet del complemento",
         "Screenshots": "Capturas de pantalla",
         "SortByAlpha": "Alfa",
+        "SortByNewest": "Más reciente",
         "SortByPopular": "Popular",
         "Status": "Estado",
         "StepDownloadingPluginFromMarketplace": "Descargando complemento del Mercado",
@@ -87,6 +89,8 @@
         "SuccessfullyActicated": "<strong>%s<\/strong> ha sido activado con éxito.",
         "Support": "Asistencia",
         "TeaserExtendPiwik": "Amplíe Piwik con complementos y temas",
+        "TeaserExtendPiwikByPlugin": "Amplíe Piwik %1$sinstalando un nuevo complemento%2$s.",
+        "TeaserExtendPiwikByTheme": "Disfrute de otra apariencia y estilo %1$sinstalado un nuevo tema%2$s.",
         "TeaserExtendPiwikByUpload": "Amplíe Piwik cargando un archivo ZIP",
         "InstallingNewPluginViaMarketplaceOrUpload": "Puede automáticamente instalar complementos desde el Mercado o %1$scargar un complemento%2$s in formato .zip.",
         "Theme": "Tema",
@@ -99,6 +103,7 @@
         "UploadZipFile": "Carga un archivo ZIP",
         "Version": "Versión",
         "ViewRepositoryChangelog": "Ver cambios",
+        "ViewAllMarketplacePlugins": "Ver todos los complementos del Marketplace",
         "Websites": "Sitios de internet"
     }
 }

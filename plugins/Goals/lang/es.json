@@ -81,6 +81,8 @@
         "NoConversionsNoReportsMessage": "Los informes no se muestran porque no hay datos de conversión para el objetivo y período seleccionado.",
         "NeedAccess": "Solo un Administrador o un usuario con permisos de Super Usuario puede gestionar Objetivos para un determinado sitio web.",
         "Optional": "(opcional)",
+        "OverallConversionRate": "tasa de conversión global (visitas con un objetivo cumplido)",
+        "OverallRevenue": "ingresos totales",
         "PageTitle": "Título de la página",
         "Pattern": "Patrón",
         "PluginDescription": "Crear metas y vea informes detallados acerca de conversión de metas: evolución sobre el tiempo, ingreso por visita, conversiones por menciones, por palabra clave y más.",
@@ -101,6 +103,7 @@
         "VisitUrl": "Visita a una URL dada (página o grupo de páginas)",
         "WhenVisitors": "cuando los visitantes",
         "WhereThe": "donde el",
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La página visitada necesita contener una solicitud vía el 'trackGoal' de Javascript (%1$ssaber más%2$s)",
         "YouCanEnableEcommerceReports": "Puede habilitar %1$s para este sitio de internet en la página %2$s."
     }
 }

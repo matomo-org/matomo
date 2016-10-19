@@ -1,7 +1,7 @@
 {
     "VisitsSummary": {
         "AverageGenerationTime": "kohë mesatare krijimi",
-        "AverageVisitDuration": "mesatare zgjatje vizitash",
+        "AverageVisitDuration": "mesatare kohëzgjatje vizitash",
         "GenerateQueries": "%s kërkesa të kryera",
         "GenerateTime": "%s sekonda për prodhimin e faqes",
         "MaxNbActions": "maksimum veprimesh në një vizitë",
@@ -13,7 +13,7 @@
         "NbPageviewsDescription": "parje faqesh",
         "NbSearchesDescription": "kërkime gjithsej në sajtin tuaj",
         "NbUniqueDownloadsDescription": "shkarkime unike",
-        "NbUniqueOutlinksDescription": "lidhje unike për jashtë",
+        "NbUniqueOutlinksDescription": "lidhje për jashtë unike",
         "NbUniquePageviewsDescription": "parje unike faqesh",
         "NbUniqueVisitors": "vizitorë unikë",
         "NbUsersDescription": "përdorues",

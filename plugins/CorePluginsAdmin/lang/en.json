@@ -104,6 +104,7 @@
         "Version": "Version",
         "ViewRepositoryChangelog": "View the changes",
         "ViewAllMarketplacePlugins": "View all Marketplace plugins",
-        "Websites": "Websites"
+        "Websites": "Websites",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "We disabled the plugin %s as it has missing dependencies:"
     }
 }

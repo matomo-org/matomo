@@ -70,7 +70,7 @@ DiffViewerGenerator.prototype.generate = function (callback) {
                 }
 
                 expectedHtml += '<a href="' + expectedUrl + '">Expected</a>&nbsp;';
-                githubUrl     = '<a href="' + expectedUrlGithub + '">Github</a>';
+                githubUrl     = '<a href="' + expectedUrlGithub + '">GitHub</a>';
             } else {
                 var expectedHtml = '<em>Not found</em>';
             }

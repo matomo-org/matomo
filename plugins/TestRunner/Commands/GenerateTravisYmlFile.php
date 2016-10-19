@@ -33,7 +33,7 @@ class GenerateTravisYmlFile extends ConsoleCommand
              ->addOption('artifacts-pass', null, InputOption::VALUE_REQUIRED,
                 "Password to the Piwik build artifacts server. Will be encrypted in the .travis.yml file.")
              ->addOption('github-token', null, InputOption::VALUE_REQUIRED,
-                "Github token of a user w/ push access to this repository. Used to auto-commit updates to the "
+                "GitHub token of a user w/ push access to this repository. Used to auto-commit updates to the "
               . ".travis.yml file and checkout dependencies. Will be encrypted in the .travis.yml file.\n\n"
               . "If not supplied, the .travis.yml will fail the build if it needs updating.")
              ->addOption('php-versions', null, InputOption::VALUE_OPTIONAL,

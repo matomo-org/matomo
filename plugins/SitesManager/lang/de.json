@@ -33,6 +33,7 @@
         "GlobalListExcludedQueryParameters": "Globale Liste von GET-Parametern, die ignoriert werden",
         "GlobalListExcludedUserAgents": "Globale Liste aller ausgeschlossenen Browser Agenten",
         "GlobalListExcludedUserAgents_Desc": "Falls der übermittelte Browser Agent des Besuchers einen der angegebenen Begriffe enthält, wird der Besucher von Piwik ignoriert.",
+        "GlobalSettings": "Globale Einstellungen",
         "GlobalWebsitesSettings": "Globale Website-Einstellungen",
         "HelpExcludedIps": "Geben Sie eine Liste von IPs an (eine pro Zeile), die von Piwik beim Erfassen von Besuchen ignoriert werden sollen. Es können Wildcards wie z.B. %1$s oder %2$s genutzt werden.",
         "JsTrackingTagHelp": "Hier ist der JavaScript-Tracking-Code, den Sie in all Ihre Seiten einfügen müssen",

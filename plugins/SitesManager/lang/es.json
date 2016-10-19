@@ -77,6 +77,7 @@
         "TrackingSiteSearch": "Seguimiento en el Buscador interno del sitio",
         "TrackingTags": "Código de seguimiento para %s",
         "Urls": "URLs",
+        "Type": "Tipo",
         "UTCTimeIs": "La hora UTC es %s.",
         "OnlyMatchedUrlsAllowed": "Solo rastrear visitas y acciones cuando la acción URL comienza con una de las siguientes URLs.",
         "OnlyMatchedUrlsAllowedHelp": "Cuando es habilitado, Piwik solo rastreará acciones internas cuando la URL de la página es una URL conocida del sitio. Esto evita que la gente genere datos basura en sus analíticas con direcciones URL de otros sitios.",

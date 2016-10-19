@@ -12,11 +12,11 @@
         "HideAnnotationsFor": "Fshihi shënimet për %s...",
         "IconDesc": "Shihni shënimet për këtë interval datash.",
         "IconDescHideNotes": "Fshihi shënimet për këtë interval datash.",
-        "InlineQuickHelp": "Mund të krijoni shënime për të vënë një shenjë te ngjarje speciale (fjala vjen, një postim i ri blogu, ose rihartim sajti), për të ruajtur analiza të të dhënave tuaja ose për të ruajtur çfarëdo gjëje tjetër që mendoni se është e rëndësishme.",
+        "InlineQuickHelp": "Mund të krijoni shënime për të vënë një shenjë te akt special (fjala vjen, një postim i ri blogu, ose rihartim sajti), për të ruajtur analiza të të dhënave tuaja ose për të ruajtur çfarëdo gjëje tjetër që mendoni se është e rëndësishme.",
         "LoginToAnnotate": "Që të krijoni një shënim, bëni hyrjen.",
         "NoAnnotations": "S’ka shënime për këtë interval datash.",
-        "PluginDescription": "Ju lejon të bashkëngjitni shënime në ditë të ndryshme, për t’u vënë shenjë ndryshimeve të bëra te sajti juaj, të ruani analiza që bëni dhe që lidhen me të dhënat tuaja, si dhe për të ndarë me kolegët mendimet tuaja. Duke bërë shënime në të dhënat tuaja, siguroni që të mbani mend pse të dhënat tuaja duken ashtu si duken.",
+        "PluginDescription": "Ju lejon të bashkëngjitni shënime në ditë të ndryshme, për t’u vënë shenjë ndryshimeve të bëra te sajti juaj, të ruani analiza që bëni dhe që lidhen me të dhënat tuaja, si dhe për të ndarë me kolegët mendimet tuaja. Duke bërë shënime në të dhënat tuaja, do të bëni të mundur të mbani mend pse të dhënat tuaja duken ashtu si duken.",
         "ViewAndAddAnnotations": "Shihni dhe shtoni shënime për %s...",
-        "YouCannotModifyThisNote": "Nuk e ndryshoni dot këtë shënim, ngaqë nuk e krijuat ju, dhe as keni të drejta përgjegjësi për këtë sajt."
+        "YouCannotModifyThisNote": "S’e ndryshoni dot këtë shënim, ngaqë nuk e krijuat ju, dhe as keni të drejta përgjegjësi për këtë sajt."
     }
 }

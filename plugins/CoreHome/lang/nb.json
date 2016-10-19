@@ -28,7 +28,6 @@
         "InjectedHostWarningIntro": "Du har tilgang til Piwik fra %1$s, men Piwik er konfigurert til å kjøre på adressen: %2$s",
         "JavascriptDisabled": "JavaScript må være aktivert for at du skal kunne bruke Piwik i standardvisning.<br \/>Det ser ut til at JavaScript enten er deaktivert eller ikke støttet av din nettleser.<br \/>For å bruke standardvisning, må du aktivere JavaScript i nettleserinnstillingene og deretter %1$sprøve igjen%2$s.<br \/>",
         "MainNavigation": "Hovednavigasjon",
-        "MakeADifference": "Gjør en forskjell: %1$sDoner nå%2$s for å finansiere Piwik 2.0!",
         "MakeOneTimeDonation": "Bidra med en engangsdonasjon i stedet.",
         "Menu": "Meny",
         "NoPrivilegesAskPiwikAdmin": "Du er logget inn som «%1$s», men det ser ut til at du ikke har noen rettigheter satt i Piwik. %2$s Be din Piwik-administrator (klikk for å sende e-post)%3$s å gi deg «vis»-tilgang til et nettsted.",
