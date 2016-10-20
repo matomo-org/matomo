@@ -108,8 +108,6 @@ class Proxy extends Singleton
 
         // replace 'foo' and `bar` and "foobar" with code blocks... much magic
         $doc = preg_replace('/`(.*?)`/', '<code>$1</code>', $doc);
-        $doc = preg_replace('/"(.*?)"/', '<code>$1</code>', $doc);
-        $doc = preg_replace("/'(.*?)'/", '<code>$1</code>', $doc);
         $this->metadataArray[$className]['__documentation'] = $doc;
     }
 
