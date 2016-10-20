@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
-use Piwik\Db;
+use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Marketplace;
@@ -20,9 +20,18 @@ class Menu extends \Piwik\Plugin\Menu
 {
     private $marketplacePlugins;
 
-    public function __construct(Plugins $marketplacePlugins = null)
+    /**
+     * Menu constructor.
+     * @param Plugins $marketplacePlugins
+     */
+    public function __construct($marketplacePlugins = null)
     {
-        $this->marketplacePlugins = $marketplacePlugins;
+        if (!empty($marketplacePlugins)) {
+            $this->marketplacePlugins = $marketplacePlugins;
+        } elseif (Marketplace::isMarketplaceEnabled()) {
+            // we load it manually as marketplace plugin might not be loaded
+            $this->marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        }
     }
 
     public function configureAdminMenu(MenuAdmin $menu)
