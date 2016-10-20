@@ -57,6 +57,12 @@ class MetadataLoader
             unset($plugin['description']);
         }
 
+        // look for a license file
+        $licenseFile = $this->getPathToLicenseFile();
+        if(!empty($licenseFile)) {
+            $plugin['license_file'] = $licenseFile;
+        }
+
         return array_merge(
             $defaults,
             $plugin
@@ -78,7 +84,6 @@ class MetadataLoader
             'homepage'         => 'http://piwik.org/',
             'authors'          => array(array('name' => 'Piwik', 'homepage'  => 'http://piwik.org/')),
             'license'          => 'GPL v3+',
-            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
             'version'          => Version::VERSION,
             'theme'            => false,
             'require'          => array()
@@ -87,7 +92,7 @@ class MetadataLoader
 
     private function loadPluginInfoJson()
     {
-        $path = \Piwik\Plugin\Manager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
+        $path = $this->getPathToPluginFolder() . '/' . self::PLUGIN_JSON_FILENAME;
         return $this->loadJsonMetadata($path);
     }
 
@@ -110,5 +115,33 @@ class MetadataLoader
         }
 
         return $info;
+    }
+
+    /**
+     * @return string
+     */
+    private function getPathToPluginFolder()
+    {
+        return \Piwik\Plugin\Manager::getPluginsDirectory() . $this->pluginName;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPathToLicenseFile()
+    {
+        $prefixPath = $this->getPathToPluginFolder() . '/';
+        $licenseFiles = array(
+            'LICENSE',
+            'LICENSE.md',
+            'LICENSE.txt'
+        );
+        foreach ($licenseFiles as $licenseFile) {
+            $pathToLicense = $prefixPath . $licenseFile;
+            if (is_file($pathToLicense) && is_readable($pathToLicense)) {
+                return $pathToLicense;
+            }
+        }
+        return null;
     }
 }
