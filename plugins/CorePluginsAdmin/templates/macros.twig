@@ -200,7 +200,7 @@
                         </div>
                         {% if plugin.info.license is defined %}
                         <div class="plugin-license">
-                            {% if plugin.info.license_homepage is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" rel="noreferrer" target="_blank" href="{{ plugin.info.license_homepage }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_homepage is defined %}</a>{% endif %}
+                            {% if plugin.info.license_file is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" rel="noreferrer" target="_blank" href="index.php?module=CorePluginsAdmin&action=showLicense&pluginName={{ name }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_file is defined %}</a>{% endif %}
                         </div>
                         {% endif %}
                         {% if plugin.info.authors is defined %}

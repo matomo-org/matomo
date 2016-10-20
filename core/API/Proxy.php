@@ -105,6 +105,9 @@ class Proxy extends Singleton
         $doc = preg_replace("/(@package)[a-z _A-Z]*/", "", $doc);
         $doc = preg_replace("/(@method).*/", "", $doc);
         $doc = str_replace(array("\t", "\n", "/**", "*/", " * ", " *", "  ", "\t*", "  *  @package"), " ", $doc);
+
+        // replace 'foo' and `bar` and "foobar" with code blocks... much magic
+        $doc = preg_replace('/`(.*?)`/', '<code>$1</code>', $doc);
         $this->metadataArray[$className]['__documentation'] = $doc;
     }
 

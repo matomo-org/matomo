@@ -388,6 +388,25 @@ class Controller extends Plugin\ControllerAdmin
         $this->redirectAfterModification($redirectAfter);
     }
 
+    public function showLicense()
+    {
+        $pluginName = Common::getRequestVar('pluginName', null, 'string');
+
+        $metadata = new Plugin\MetadataLoader($pluginName);
+        $license_file = $metadata->getPathToLicenseFile();
+
+        $license = 'No license file found for this plugin.';
+        if(!empty($license_file)) {
+            $license = file_get_contents($license_file);
+            $license = nl2br($license);
+        }
+
+        $view = $this->configureView('@CorePluginsAdmin/license');
+        $view->pluginName = $pluginName;
+        $view->license = $license;
+        return $view->render();
+    }
+
     protected function initPluginModification($nonceName)
     {
         Piwik::checkUserHasSuperUserAccess();
