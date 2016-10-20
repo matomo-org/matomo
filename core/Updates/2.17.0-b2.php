@@ -17,14 +17,14 @@ use Piwik\Updates as PiwikUpdates;
 /**
  * Update for version 2.16.1-b2.
  */
-class Updates_2_17_0_b1 extends PiwikUpdates
+class Updates_2_17_0_b2 extends PiwikUpdates
 {
-    private $marketplacEnabledConfigSetting = 'enable_marketplace';
+    private $marketplaceEnabledConfigSetting = 'enable_marketplace';
 
     public function doUpdate(Updater $updater)
     {
         $general = $this->getConfig()->General;
-        $isMarketplaceEnabled = !empty($general[$this->marketplacEnabledConfigSetting]);
+        $isMarketplaceEnabled = !empty($general[$this->marketplaceEnabledConfigSetting]);
 
         $this->removeOldMarketplaceEnabledConfig();
 
@@ -47,8 +47,8 @@ class Updates_2_17_0_b1 extends PiwikUpdates
         $config  = $this->getConfig();
         $general = $config->General;
 
-        if (array_key_exists($this->marketplacEnabledConfigSetting, $general)) {
-            unset($general[$this->marketplacEnabledConfigSetting]);
+        if (array_key_exists($this->marketplaceEnabledConfigSetting, $general)) {
+            unset($general[$this->marketplaceEnabledConfigSetting]);
 
             $config->General = $general;
             $config->forceSave();
