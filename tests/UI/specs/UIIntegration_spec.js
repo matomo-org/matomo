@@ -373,6 +373,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the widgetized all websites dashboard correctly', function (done) {
+        this.retries(3);
         expect.screenshot('widgetize_allwebsites').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=MultiSites&actionToWidgetize=standalone");
         }, done);
@@ -658,6 +659,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // visitor profile popup
     it('should load the visitor profile popup correctly', function (done) {
+        this.retries(3);
+
         expect.screenshot('visitor_profile_popup').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + idSite2Params + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorProfilePopup"
                     + "&enableAnimation=0");
@@ -704,13 +707,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         
         var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
         expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog:visible', 'segmented_visitorlog', function (page) {
+            page.wait(1000);
             page.click('.segmentationTitle');
+            page.wait(500);
             page.click('.segname:contains(From Europe)');
-
+            page.wait(500);
             page.mouseMove('table.dataTable tbody tr:first-child');
+            page.wait(500);
             page.mouseMove('a.actionSegmentVisitorLog:visible'); // necessary to get popover to display
+            page.wait(500);
             page.click('a.actionSegmentVisitorLog:visible');
-
             page.wait(1000);
 
         }, done);

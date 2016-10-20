@@ -24,7 +24,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
     private function getAllTlds()
     {
         /** @var array $response */
-        $response = \Piwik\Http::sendHttpRequest("http://data.iana.org/TLD/tlds-alpha-by-domain.txt", 30, null, null, null, null, null, true);
+        $response = \Piwik\Http::sendHttpRequest("http://data.iana.org/TLD/tlds-alpha-by-domain.txt", 60, null, null, null, null, null, true);
 
         $this->assertEquals("200", $response['status']);
 
