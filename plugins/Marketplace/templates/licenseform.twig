@@ -1,5 +1,5 @@
 {% set defaultLicenseKeyFields %}
-    <input type="password" placeholder="{{ 'Marketplace_LicenseKey'|translate|e('html_attr') }}"
+    <input type="input" placeholder="{{ 'Marketplace_LicenseKey'|translate|e('html_attr') }}"
            id="license_key">
     <input disabled="disabled" class="btn" type="button"
            id="submit_license_key"
@@ -35,7 +35,7 @@
 
     {% else %}
         {% if isSuperUser %}
-            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate }}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://plugins.piwik.org/premium'>", "</a>")|raw }}
 
             <br/><br/>
 
@@ -45,7 +45,7 @@
                                               alt="{{ 'General_LoadingData'|translate|e('html_attr') }}"></span>
 
         {% else %}
-            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate }}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://plugins.piwik.org/premium'>", "</a>")|raw }}
         {% endif %}
 
     {% endif %}
