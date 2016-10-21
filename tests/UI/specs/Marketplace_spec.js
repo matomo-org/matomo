@@ -140,6 +140,7 @@ describe("Marketplace", function () {
             setEnvironment(mode, noLicense);
 
             captureWithDialog(done, 'paid_plugin_details_no_license_' + mode, function (page) {
+                assumePaidPluginsActivated();
                 var isFree = false;
                 loadPluginDetailPage(page, 'PaidPlugin1', isFree);
             });
@@ -149,6 +150,7 @@ describe("Marketplace", function () {
             setEnvironment(mode, validLicense);
 
             captureWithDialog(done, 'paid_plugin_details_valid_license_' + mode, function (page) {
+                assumePaidPluginsActivated();
                 var isFree = false;
                 loadPluginDetailPage(page, 'PaidPlugin1', isFree);
             });
@@ -156,9 +158,9 @@ describe("Marketplace", function () {
 
         it('should show paid plugin details when having expired license', function (done) {
             setEnvironment(mode, expiredLicense);
-            assumePaidPluginsActivated();
 
             captureWithDialog(done, 'paid_plugin_details_expired_license_' + mode, function (page) {
+                assumePaidPluginsActivated();
                 var isFree = false;
                 loadPluginDetailPage(page, 'PaidPlugin1', isFree);
             });
@@ -166,9 +168,9 @@ describe("Marketplace", function () {
 
         it('should show paid plugin details when having exceeded license', function (done) {
             setEnvironment(mode, exceededLicense);
-            assumePaidPluginsActivated();
 
             captureWithDialog(done, 'paid_plugin_details_exceeded_license_' + mode, function (page) {
+                assumePaidPluginsActivated();
                 var isFree = false;
                 loadPluginDetailPage(page, 'PaidPlugin1', isFree);
             });
