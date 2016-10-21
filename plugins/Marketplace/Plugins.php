@@ -40,6 +40,12 @@ class Plugins
      */
     private $pluginManager;
 
+    /**
+     * @internal for tests only
+     * @var array
+     */
+    private $activatedPluginNames = array();
+
     private $pluginsHavingUpdateCache = null;
 
     public function __construct(Api\Client $marketplaceClient, Consumer $consumer, Advertising $advertising)
@@ -192,14 +198,43 @@ class Plugins
         return $pluginsHavingUpdate;
     }
 
+    /**
+     * for tests only
+     * @param array $pluginNames
+     * @internal
+     * @ignore
+     */
+    public function setActivatedPluginNames($pluginNames)
+    {
+        $this->activatedPluginNames = $pluginNames;
+    }
+
+    private function isPluginActivated($pluginName)
+    {
+        if (in_array($pluginName, $this->activatedPluginNames)) {
+            return true;
+        }
+
+        return $this->pluginManager->isPluginActivated($pluginName);
+    }
+
+    private function isPluginInstalled($pluginName)
+    {
+        if (in_array($pluginName, $this->activatedPluginNames)) {
+            return true;
+        }
+
+        return $this->pluginManager->isPluginInstalled($pluginName);
+    }
+
     private function enrichPluginInformation($plugin)
     {
         if (empty($plugin)) {
             return $plugin;
         }
 
-        $plugin['isInstalled']  = $this->pluginManager->isPluginInstalled($plugin['name']);
-        $plugin['isActivated']  = $this->pluginManager->isPluginActivated($plugin['name']);
+        $plugin['isInstalled']  = $this->isPluginInstalled($plugin['name']);
+        $plugin['isActivated']  = $this->isPluginActivated($plugin['name']);
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
         $plugin['lastUpdated'] = $this->toShortDate($plugin['lastUpdated']);
