@@ -118,7 +118,7 @@ class InvalidLicenses
             $loginUrlEnd = '</a>';
         }
 
-        $message = $this->translator->translate('Marketplace_LicenseMissingDescription', array($plugins, '<br/>', $loginUrl, $loginUrlEnd));
+        $message = $this->translator->translate('Marketplace_LicenseMissingDescription', array($plugins, '<br/>', "<strong>" . $loginUrl, $loginUrlEnd. "</strong>"));
 
         if (Piwik::hasUserSuperUserAccess()) {
             $message .= ' ' . $this->getSubscritionSummaryMessage();
@@ -142,7 +142,7 @@ class InvalidLicenses
             $loginUrlEnd = '</a>';
         }
 
-        $message = $this->translator->translate('Marketplace_LicenseExpiredDescription', array($plugins, '<br/>', $loginUrl, $loginUrlEnd));
+        $message = $this->translator->translate('Marketplace_LicenseExpiredDescription', array($plugins, '<br/>', "<strong>" . $loginUrl, $loginUrlEnd . "</strong>"));
 
         if (Piwik::hasUserSuperUserAccess()) {
             $message .= ' ' . $this->getSubscritionSummaryMessage();
