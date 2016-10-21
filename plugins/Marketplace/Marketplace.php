@@ -40,7 +40,7 @@ class Marketplace extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'Marketplace_LicenseKeyUpdatedSuccess';
+        $translationKeys[] = 'Marketplace_LicenseKeyActivatedSuccess';
         $translationKeys[] = 'Marketplace_LicenseKeyDeletedSuccess';
     }
 

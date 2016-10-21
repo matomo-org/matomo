@@ -52,7 +52,7 @@ $(document).ready(function () {
         }
 
         setLicenseKeyEnabled(false);
-        updateLicenseKey('saveLicenseKey', value, _pk_translate('Marketplace_LicenseKeyUpdatedSuccess'));
+        updateLicenseKey('saveLicenseKey', value, _pk_translate('Marketplace_LicenseKeyActivatedSuccess'));
     });
 
     $licenseKeyRemove.on('click', function () {

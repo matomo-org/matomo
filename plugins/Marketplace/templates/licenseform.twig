@@ -1,5 +1,5 @@
 {% set defaultLicenseKeyFields %}
-    <input type="input" placeholder="{{ 'Marketplace_LicenseKey'|translate|e('html_attr') }}"
+    <input type="input" placeholder="{% if isValidConsumer %}{{ 'Marketplace_LicenseKeyIsValidShort'|translate }}{% else %}{{ 'Marketplace_LicenseKey'|translate|e('html_attr') }}{% endif %}"
            id="license_key">
     <input disabled="disabled" class="btn" type="button"
            id="submit_license_key"

@@ -94,7 +94,7 @@ class InvalidLicenses
             $loginUrlEnd = '</a>';
         }
 
-        $message = $this->translator->translate('Marketplace_LicenseExceededDescription', array($plugins, '<br/>', $loginUrl, $loginUrlEnd));
+        $message = $this->translator->translate('Marketplace_LicenseExceededDescription', array($plugins, '<br/>', "<strong>" . $loginUrl, $loginUrlEnd . "</strong>"));
 
         if (Piwik::hasUserSuperUserAccess()) {
             $message .= ' ' . $this->getSubscritionSummaryMessage();
@@ -170,7 +170,7 @@ class InvalidLicenses
 
         $link = '<a href="' . $url . '">';
 
-        return $this->translator->translate('Marketplace_ViewSubscriptionsSummary', array($link, '</a>'));
+        return "<br/>" .  $this->translator->translate('Marketplace_ViewSubscriptionsSummary', array($link, '</a>'));
     }
 
     private function getPluginNamesToExpireInCaseLicenseIsInvalid()
