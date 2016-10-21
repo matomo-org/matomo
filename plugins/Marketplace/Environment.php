@@ -39,7 +39,7 @@ class Environment
     public function getNumUsers()
     {
         if (!isset($this->usersCache)) {
-            $this->usersCache = (int) Db::get()->fetchOne('SELECT count(login) FROM ' . Common::prefixTable('user'));
+            $this->usersCache = (int) Db::get()->fetchOne('SELECT count(login) FROM ' . Common::prefixTable('user') . ' WHERE login <> "anonymous" ');
         }
 
         return $this->usersCache;
