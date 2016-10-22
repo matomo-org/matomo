@@ -17,10 +17,9 @@ use Piwik\Http;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
-use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
-use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
-use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiException;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\Marketplace\Api as MarketplaceApi;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
@@ -116,9 +115,17 @@ class Updater
             $messages[] = $this->translator->translate('CoreUpdater_VerifyingUnpackedFiles');
 
             // we need to load the marketplace already here, otherwise it will use the new, updated file in Piwik 3
-            $marketplace = new MarketplaceApiClient();
+
+            // we also need to make sure to create a new instance here as otherwise we would change the "global"
+            // environment, but we only want to change piwik version temporarily for this task here
+            $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
+            $environment->setPiwikVersion($newVersion);
+            /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
+            $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
+                'environment' => $environment
+            ));
             require_once PIWIK_DOCUMENT_ROOT . '/plugins/CorePluginsAdmin/PluginInstaller.php';
-            require_once PIWIK_DOCUMENT_ROOT . '/plugins/CorePluginsAdmin/MarketplaceApiException.php';
+            require_once PIWIK_DOCUMENT_ROOT . '/plugins/Marketplace/Api/Exception.php';
 
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
@@ -130,29 +137,25 @@ class Updater
         }
 
         try {
-            if (CorePluginsAdmin::isMarketplaceEnabled()) {
-                $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
 
+            if (Marketplace::isMarketplaceEnabled()) {
+                $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
                 $pluginManager = PluginManager::getInstance();
                 $pluginManager->loadAllPluginsAndGetTheirInfo();
                 $loadedPlugins = $pluginManager->getLoadedPlugins();
 
-                MarketplaceApiClient::clearAllCacheEntries();
-                StaticContainer::getContainer()->set('marketplacePiwikVersion', $newVersion);
-
-                $pluginsWithUpdate = $marketplace->checkUpdates($loadedPlugins);
+                $marketplaceClient->clearAllCacheEntries();
+                $pluginsWithUpdate = $marketplaceClient->checkUpdates($loadedPlugins);
 
                 foreach ($pluginsWithUpdate as $pluginWithUpdate) {
                     $pluginName = $pluginWithUpdate['name'];
-
                     $messages[] = $this->translator->translate('CoreUpdater_UpdatingPluginXToVersionY',
                                                                array($pluginName, $pluginWithUpdate['version']));
-
-                    $pluginInstaller = new PluginInstaller($pluginName);
-                    $pluginInstaller->installOrUpdatePluginFromMarketplace();
+                    $pluginInstaller = new PluginInstaller($marketplaceClient);
+                    $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
                 }
             }
-        } catch (MarketplaceApiException $e) {
+        } catch (MarketplaceApi\Exception $e) {
             // there is a problem with the connection to the server, ignore for now
         } catch (Exception $e) {
             throw new UpdaterException($e, $messages);

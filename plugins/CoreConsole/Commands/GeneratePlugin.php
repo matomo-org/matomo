@@ -11,11 +11,11 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
-use Piwik\Version;
 use Piwik\Plugin;
-use Symfony\Component\Console\Input\ArrayInput;
+use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -79,6 +79,7 @@ class GeneratePlugin extends GeneratePluginBase
         }
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, new NullOutput());
 
         if ($isTheme) {
             $this->writeSuccessMessage($output, array(
