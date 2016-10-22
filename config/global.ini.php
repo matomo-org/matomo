@@ -535,7 +535,6 @@ enable_load_data_infile = 1
 ; By setting this option to 0:
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
-; - as well as disabling plugins admin actions (such as "Upload new plugin"), setting this to 1 will have same effect as setting enable_marketplace=1
 enable_plugins_admin = 1
 
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
