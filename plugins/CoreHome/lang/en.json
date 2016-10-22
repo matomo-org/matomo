@@ -53,6 +53,7 @@
         "QuickAccessTitle": "Search for %s. Use the arrow keys to navigate through search results. Shortcut: Press 'f' to search.",
         "MenuEntries": "Menu entries",
         "Segments": "Segments",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "The one-click update is not available as you are using Piwik with multiple servers. Please download the latest version from %1$s to proceed.",
         "AdblockIsMaybeUsed": "In case you are using an ad blocker, please disable it for this site to make sure Piwik works without any issues.",
         "ChangeCurrentWebsite": "Choose a website, currently selected website: %s"
     }

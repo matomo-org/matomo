@@ -28,7 +28,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $menu->addPlatformItem('General_API',
             $this->urlForAction('listAllAPI', array('segment' => false)),
-            6,
+            7,
             Piwik::translate('API_TopLinkTooltip')
         );
 

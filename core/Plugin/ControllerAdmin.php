@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
@@ -17,6 +18,7 @@ use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
@@ -38,6 +40,50 @@ abstract class ControllerAdmin extends Controller
             $notification = new Notification(Piwik::translate('General_StatisticsAreNotRecorded'));
             $notification->context = Notification::CONTEXT_INFO;
             Notification\Manager::notify('ControllerAdmin_StatsAreNotRecorded', $notification);
+        }
+    }
+
+    private static function notifyAnyInvalidLicense()
+    {
+        if (!Marketplace::isMarketplaceEnabled()) {
+            return;
+        }
+
+        if (Piwik::isUserIsAnonymous()) {
+            return;
+        }
+
+        if (!Piwik::isUserHasSomeAdminAccess()) {
+            return;
+        }
+
+        $expired = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins\InvalidLicenses');
+
+        $messageLicenseMissing = $expired->getMessageNoLicense();
+        if (!empty($messageLicenseMissing)) {
+            $notification = new Notification($messageLicenseMissing);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_ERROR;
+            $notification->title = Piwik::translate('Marketplace_LicenseMissing');
+            Notification\Manager::notify('ControllerAdmin_LicenseMissingWarning', $notification);
+        }
+
+        $messageExceeded = $expired->getMessageExceededLicenses();
+        if (!empty($messageExceeded)) {
+            $notification = new Notification($messageExceeded);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->title = Piwik::translate('Marketplace_LicenseExceeded');
+            Notification\Manager::notify('ControllerAdmin_LicenseExceededWarning', $notification);
+        }
+
+        $messageExpired = $expired->getMessageExpiredLicenses();
+        if (!empty($messageExpired)) {
+            $notification = new Notification($messageExpired);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->title = Piwik::translate('Marketplace_LicenseExpired');
+            Notification\Manager::notify('ControllerAdmin_LicenseExpiredWarning', $notification);
         }
     }
 
@@ -276,6 +322,7 @@ abstract class ControllerAdmin extends Controller
 
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
+        self::notifyAnyInvalidLicense();
         self::notifyAnyInvalidPlugin();
         self::notifyWhenPhpVersionIsEOL();
         self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();

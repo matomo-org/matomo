@@ -1,0 +1,60 @@
+{% set defaultLicenseKeyFields %}
+    <input type="input" placeholder="{% if isValidConsumer %}{{ 'Marketplace_LicenseKeyIsValidShort'|translate }}{% else %}{{ 'Marketplace_LicenseKey'|translate|e('html_attr') }}{% endif %}"
+           id="license_key">
+    <input disabled="disabled" class="btn" type="button"
+           id="submit_license_key"
+           value="{% if hasLicenseKey %}{{ 'CoreUpdater_UpdateTitle'|translate|e('html_attr') }}{% else %}{{ 'Marketplace_ActivateLicenseKey'|translate|e('html_attr') }}{% endif %}">
+{% endset %}
+
+<div class="marketplace-max-width">
+    <p class="marketplace-paid-intro">
+    {% if isValidConsumer %}
+        {% if isSuperUser %}
+            {{ 'Marketplace_PaidPluginsWithLicenseKeyIntro'|translate('')|raw }}
+            <br/><br/>
+
+            {{ defaultLicenseKeyFields|raw }}
+
+            <input id="remove_license_key" class="btn" type="button"
+                   value="{{ 'Marketplace_RemoveLicenseKey'|translate|e('html_attr') }}">
+
+            <a href="{{ linkTo({'action': 'subscriptionOverview'}) }}" class="btn">
+                {{ 'Marketplace_ViewSubscriptions'|translate }}
+            </a>
+
+            {% if isAutoUpdatePossible and isPluginsAdminEnabled and paidPluginsToInstallAtOnce|length %}
+                <a href="javascript:;" class="btn installAllPaidPlugins">
+                    {{ 'Marketplace_InstallPurchasedPlugins'|translate }}
+                </a>
+                {% include '@Marketplace/paid-plugins-install-list.twig' %}
+            {% endif %}
+
+            <span id="licenseKeyLoading"><img src="plugins/Morpheus/images/loading-blue.gif"
+                                              alt="{{ 'General_LoadingData'|translate|e('html_attr') }}"></span>
+        {% endif %}
+
+    {% else %}
+        {% if isSuperUser %}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://plugins.piwik.org/premium'>", "</a>")|raw }}
+
+            <br/><br/>
+
+            {{ defaultLicenseKeyFields|raw }}
+
+            <span id="licenseKeyLoading"><img src="plugins/Morpheus/images/loading-blue.gif"
+                                              alt="{{ 'General_LoadingData'|translate|e('html_attr') }}"></span>
+
+        {% else %}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://plugins.piwik.org/premium'>", "</a>")|raw }}
+        {% endif %}
+
+    {% endif %}
+    </p>
+</div>
+
+
+<div class="ui-confirm" id="confirmRemoveLicense">
+    <h2>{{ 'Marketplace_ConfirmRemoveLicense'|translate }}</h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>

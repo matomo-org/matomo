@@ -1,0 +1,116 @@
+#licenseKeyLoading {
+    display: none;
+}
+
+#installAllPaidPluginsAtOnce {
+  ul {
+      li {
+          list-style-type: disc;
+          list-style-position: inside;
+          margin-top: 8px;
+      }
+  }
+
+  a.btn {
+      color: #fff;
+  }
+}
+
+.subscriptionOverview {
+    .subscriptionName,
+    .subscriptionType,
+    .subscriptionStatus {
+        white-space: nowrap;
+    }
+}
+
+.marketplace {
+
+    input.btn[disabled] {
+        background-color: @theme-color-brand !important;
+    }
+
+    .plugin-search {
+        float: right;
+
+        input, button {
+            height: 41px;
+            margin-bottom: 0;
+        }
+        button {
+            font-size: inherit !important; // because the default Piwik button style is crazy
+        }
+    }
+
+    .marketplace-max-width {
+        max-width: 980px;
+    }
+
+    .plugin {
+        text-align: center;
+        .description {
+            @line-height: 18px;
+            line-height: @line-height;
+            height: @line-height * 3; // 3 lines of text
+            padding-bottom: 0;
+            margin-bottom: 10px;
+            .more {
+                text-decoration: underline;
+                color: @theme-color-text;
+            }
+        }
+        img.preview {
+            max-width: 250px;
+            width: 100%;
+        }
+        .panel-footer {
+            .download.plugin-details {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+        }
+        .metadata {
+            color: @color-silver-l50;
+            font-size: 95%;
+            margin: 15px 15px 10px;
+            list-style: none;
+            li {
+                text-overflow: ellipsis;
+                overflow-x: hidden;
+                white-space: nowrap;
+                line-height: 18px;
+            }
+            .update-available {
+                // Code taken from Bootstrap's labels
+                font-weight: bold;
+                background-color: #f0ad4e;
+                display: inline;
+                padding: .2em .6em .3em;
+                font-size: 76%;
+                line-height: 1;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: baseline;
+                border-radius: 0.25em;
+                text-decoration: none;
+            }
+        }
+        .panel-footer {
+            padding: 12px 40px;
+
+            .btn-link.plugin-details {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .purchaseable {
+                background-color: #1e93d1;
+            }
+        }
+    }
+
+    .footer-message {
+        margin-top:30px;
+    }
+}

@@ -8,13 +8,16 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Dependency as PluginDependency;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Unzip;
+use Piwik\Plugins\Marketplace\Api\Client;
 
 /**
  *
@@ -26,22 +29,38 @@ class PluginInstaller
 
     private $pluginName;
 
-    public function __construct($pluginName)
+    /**
+     * Null if Marketplace Plugin is not installed
+     * @var Client|null
+     */
+    private $marketplaceClient;
+
+    /**
+     * PluginInstaller constructor.
+     * @param Client|null $client
+     */
+    public function __construct($client = null)
     {
-        $this->pluginName = $pluginName;
+        if (!empty($client)) {
+            $this->marketplaceClient = $client;
+        } elseif (Marketplace::isMarketplaceEnabled()) {
+            // we load it manually as marketplace might not be loaded
+            $this->marketplaceClient = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
+        }
     }
 
-    public function installOrUpdatePluginFromMarketplace()
+    public function installOrUpdatePluginFromMarketplace($pluginName)
     {
-        $tmpPluginPath = StaticContainer::get('path.tmp') . '/latest/plugins/';
+        $this->checkMarketplaceIsEnabled();
 
-        $tmpPluginZip = $tmpPluginPath . $this->pluginName . '.zip';
-        $tmpPluginFolder = $tmpPluginPath . $this->pluginName;
+        $this->pluginName = $pluginName;
 
         try {
             $this->makeSureFoldersAreWritable();
             $this->makeSurePluginNameIsValid();
-            $this->downloadPluginFromMarketplace($tmpPluginZip);
+
+            $tmpPluginZip = $this->downloadPluginFromMarketplace();
+            $tmpPluginFolder = dirname($tmpPluginZip) . '/' . basename($tmpPluginZip, '.zip') .  '/';
             $this->extractPluginFiles($tmpPluginZip, $tmpPluginFolder);
             $this->makeSurePluginJsonExists($tmpPluginFolder);
             $metadata = $this->getPluginMetadataIfValid($tmpPluginFolder);
@@ -50,15 +69,23 @@ class PluginInstaller
 
             Filesystem::deleteAllCacheOnUpdate($this->pluginName);
 
-            $plugin = PluginManager::getInstance()->getLoadedPlugin($this->pluginName);
-            if (!empty($plugin)) {
-                $plugin->reloadPluginInformation();
+            $pluginManager = PluginManager::getInstance();
+            if ($pluginManager->isPluginLoaded($this->pluginName)) {
+                $plugin = PluginManager::getInstance()->getLoadedPlugin($this->pluginName);
+                if (!empty($plugin)) {
+                    $plugin->reloadPluginInformation();
+                }
             }
+
 
         } catch (\Exception $e) {
 
-            $this->removeFileIfExists($tmpPluginZip);
-            $this->removeFolderIfExists($tmpPluginFolder);
+            if (!empty($tmpPluginZip)) {
+                Filesystem::deleteFileIfExists($tmpPluginZip);
+            }
+            if (!empty($tmpPluginFolder)) {
+                $this->removeFolderIfExists($tmpPluginFolder);
+            }
 
             throw $e;
         }
@@ -69,7 +96,8 @@ class PluginInstaller
 
     public function installOrUpdatePluginFromFile($pathToZip)
     {
-        $tmpPluginFolder = StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD . $this->pluginName;
+        $tmpPluginName = 'uploaded' . Common::generateUniqId();
+        $tmpPluginFolder = StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD . $tmpPluginName;
 
         try {
             $this->makeSureFoldersAreWritable();
@@ -108,18 +136,18 @@ class PluginInstaller
         ));
     }
 
-    private function downloadPluginFromMarketplace($pluginZipTargetFile)
+    /**
+     * @return false|string   false on failed download, or a path to the downloaded zip file
+     * @throws PluginInstallerException
+     */
+    private function downloadPluginFromMarketplace()
     {
-        $this->removeFileIfExists($pluginZipTargetFile);
-
-        $marketplace = new MarketplaceApiClient();
-
         try {
-            $marketplace->download($this->pluginName, $pluginZipTargetFile);
+            return $this->marketplaceClient->download($this->pluginName);
         } catch (\Exception $e) {
 
             try {
-                $downloadUrl = $marketplace->getDownloadUrl($this->pluginName);
+                $downloadUrl = $this->marketplaceClient->getDownloadUrl($this->pluginName);
                 $errorMessage = sprintf('Failed to download plugin from %s: %s', $downloadUrl, $e->getMessage());
 
             } catch (\Exception $ex) {
@@ -166,10 +194,8 @@ class PluginInstaller
             $requires = (array) $metadata->require;
         }
 
-        $piwikVersion = MarketplaceApiClient::getPiwikVersion();
-
         $dependency = new PluginDependency();
-        $dependency->setPiwikVersion($piwikVersion);
+        $dependency->setEnvironment($this->marketplaceClient->getEnvironment());
         $missingDependencies = $dependency->getMissingDependencies($requires);
 
         if (!empty($missingDependencies)) {
@@ -289,9 +315,7 @@ class PluginInstaller
      */
     private function removeFileIfExists($targetTmpFile)
     {
-        if (file_exists($targetTmpFile)) {
-            unlink($targetTmpFile);
-        }
+        Filesystem::deleteFileIfExists($targetTmpFile);
     }
 
     /**
@@ -300,14 +324,20 @@ class PluginInstaller
     private function makeSurePluginNameIsValid()
     {
         try {
-            $marketplace = new MarketplaceApiClient();
-            $pluginDetails = $marketplace->getPluginInfo($this->pluginName);
+            $pluginDetails = $this->marketplaceClient->getPluginInfo($this->pluginName);
         } catch (\Exception $e) {
             throw new PluginInstallerException($e->getMessage());
         }
 
         if (empty($pluginDetails)) {
             throw new PluginInstallerException('This plugin was not found in the Marketplace.');
+        }
+    }
+
+    private function checkMarketplaceIsEnabled()
+    {
+        if (!isset($this->marketplaceClient)) {
+            throw new PluginInstallerException('Marketplace plugin needs to be enabled to perform this action.');
         }
     }
 

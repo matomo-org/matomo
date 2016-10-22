@@ -28,6 +28,11 @@ class Latest2XBeta extends ReleaseChannel
         return Piwik::translate('CoreUpdater_LtsSupportVersion');
     }
 
+    public function doesPreferStable()
+    {
+        return false;
+    }
+
     public function getOrder()
     {
         return 21;

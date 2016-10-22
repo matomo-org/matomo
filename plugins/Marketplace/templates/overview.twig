@@ -1,0 +1,85 @@
+{% extends mode is defined and mode == 'user' ? "user.twig" : "admin.twig" %}
+{% import '@Marketplace/macros.twig' as marketplaceMacro %}
+
+{% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
+
+{% block content %}
+
+    <div class="marketplace">
+
+        <h2 piwik-enriched-headline feature-name="{{ 'Marketplace_Marketplace'|translate }}">
+            {{ title }}
+        </h2>
+
+        <ul class="nav nav-pills">
+            {% if freePlugins|length %}
+                <li {% if showPlugins and showFree %}class="active"{% endif %}>
+                    <a href="{{ linkTo({'show': 'plugins', 'type': ''}) }}">{{ 'General_Plugins'|translate }}</a>
+                </li>
+            {% endif %}
+
+            {% if paidPlugins|length or showPaid %}
+                <li {% if showPlugins and showPaid %}class="active"{% endif %}>
+                    <a href="{{ linkTo({'show': 'plugins', 'type': 'paid'}) }}">{{ 'Marketplace_PaidPlugins'|translate }}</a>
+                </li>
+            {% endif %}
+
+            {% if themes|length %}
+                <li {% if showThemes %}class="active"{% endif %}>
+                    <a href="{{ linkTo({'show': 'themes', 'type': ''}) }}">{{ 'CorePluginsAdmin_Themes'|translate }}</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div class="marketplace-max-width">
+            <p>
+                {% if not isSuperUser %}
+                    {% if showThemes %}
+                        {{ 'Marketplace_NotAllowedToBrowseMarketplaceThemes'|translate }}
+                    {% else %}
+                        {{ 'Marketplace_NotAllowedToBrowseMarketplacePlugins'|translate }}
+                    {% endif %}
+                {% elseif showThemes %}
+                    {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('CorePluginsAdmin_Themes'|translate), '<a href="#" class="uploadPlugin">', ('CorePluginsAdmin_Theme'|translate), '</a>')|raw }}
+                {% else %}
+                    {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
+                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('General_Plugins'|translate), '<a href="#" class="uploadPlugin">', ('General_Plugin'|translate), '</a>')|raw }}
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="ui-confirm" id="installPluginByUpload">
+            <h2>{{ 'Marketplace_TeaserExtendPiwikByUpload'|translate }}</h2>
+
+            <p class="description"> {{ 'Marketplace_AllowedUploadFormats'|translate }} </p>
+
+            <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
+                  action="{{ linkTo({'module': 'CorePluginsAdmin', 'action':'uploadPlugin', 'nonce': installNonce}) }}">
+                <input type="file" name="pluginZip">
+                <br />
+                <input class="startUpload" type="submit" value="{{ 'Marketplace_UploadZipFile'|translate }}">
+            </form>
+        </div>
+
+        {% include '@Marketplace/licenseform.twig' %}
+
+        <hr/>
+
+        {% include '@Marketplace/plugin-list.twig' %}
+
+        <div class="footer-message text-center">
+            {{ 'Marketplace_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=http://developer.piwik.org/develop" target="_blank">', '</a>')|raw }}
+            <br />
+            <br />
+            <br />
+            <a rel="noreferrer" href="https://shop.piwik.org/faq/" target="_blank">FAQ</a> |
+            <a rel="noreferrer" href="https://shop.piwik.org/terms-conditions/" target="_blank">Terms</a> |
+            <a rel="noreferrer" href="https://piwik.org/privacy-policy/" target="_blank">Privacy</a> |
+            <a rel="noreferrer" href="https://piwik.org/contact/" target="_blank">Contact</a>
+        </div>
+
+
+    </div>
+
+{% endblock %}

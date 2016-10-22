@@ -1,5 +1,10 @@
 .pluginsManagement .entityContainer {
-  padding-top: 16px;
+    padding-top: 16px;
+
+    .footer-message {
+       margin-top: 16px;
+        .font-default(13px, 21px);
+    }
 }
 
 table.dataTable tr.active-plugin > td {
@@ -19,7 +24,7 @@ table.dataTable tr.inactive-plugin:hover > td {
 }
 
 .plugin-desc-text {
-    margin-top:0em;
+    margin-top:0;
     margin-bottom:1.5em;
 }
 
@@ -89,6 +94,20 @@ table.entityTable tr td a.uninstall {
     font-size:80%;
     font-style:italic;
     color:#777;
+}
+
+.subscriptionOverview {
+    .icon-error, .errorMessage {
+        color: #D4291F;
+    }
+
+    .icon-ok {
+        color: #009874;
+    }
+
+    .icon-warning {
+        color: #CA8100;
+    }
 }
 
 #plugins {

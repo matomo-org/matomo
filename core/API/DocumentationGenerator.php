@@ -249,6 +249,8 @@ class DocumentationGenerator
             'addGoal',
             'updateGoal',
             'deleteGoal',
+            //Marketplace
+            'deleteLicenseKey'
         );
 
         if (in_array($methodName, $doNotPrintExampleForTheseMethods)) {
