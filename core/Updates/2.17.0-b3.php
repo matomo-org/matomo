@@ -25,7 +25,7 @@ class Updates_2_17_0_b3 extends PiwikUpdates
         $general = $this->getConfig()->General;
 
         // need to check against int(0) value, as if the config setting is not set at all its value is null
-        $isMarketplaceEnabled = 0 !== $general[$this->marketplaceEnabledConfigSetting];
+        $isMarketplaceEnabled = 0 !== @$general[$this->marketplaceEnabledConfigSetting];
 
         $this->removeOldMarketplaceEnabledConfig();
 
