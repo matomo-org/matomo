@@ -380,9 +380,11 @@ class API extends \Piwik\Plugin\API
                 'idGoal' => false,
                 'language' => $language,
                 'serialize' => 0,
-                'format' => 'original',
-                'flat' => $report['parameters']['displayFlat']
+                'format' => 'original'
             );
+            if (array_key_exists('displayFlat', $report['parameters'])) {
+                $params['flat'] = (int)$report['parameters']['displayFlat'];
+            }
 
             if ($segment != null) {
                 $params['segment'] = urlencode($segment['definition']);
