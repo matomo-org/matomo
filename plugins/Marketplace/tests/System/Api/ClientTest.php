@@ -94,7 +94,7 @@ class ClientTest extends SystemTestCase
         $this->assertNotEmpty($plugin['versions']);
 
         $lastVersion = $plugin['versions'][count($plugin['versions']) - 1];
-        $this->assertEquals(array('name', 'release', 'requires','readme', 'numDownloads', 'license', 'repositoryChangelogUrl', 'readmeHtml', 'download'), array_keys($lastVersion));
+        $this->assertEquals(array('name', 'release', 'requires', 'numDownloads', 'license', 'repositoryChangelogUrl', 'readmeHtml', 'download'), array_keys($lastVersion));
         $this->assertNotEmpty($lastVersion['download']);
     }
 

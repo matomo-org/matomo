@@ -52,6 +52,12 @@ describe("Marketplace", function () {
         captureSelector(done, screenshotName, test, '.ui-dialog:visible');
     }
 
+    function assumePaidPluginsActivated()
+    {
+        testEnvironment.mockMarketplaceAssumePluginNamesActivated = ['CustomPlugin1','CustomPlugin2','PaidPlugin1','PaidPlugin2'];
+        testEnvironment.save();
+    }
+
     function setEnvironment(mode, consumer)
     {
         if (mode === 'user') {
@@ -106,6 +112,7 @@ describe("Marketplace", function () {
 
         it(mode + ' for a user with exceeded license key should be able to open paid plugins', function (done) {
             setEnvironment(mode, exceededLicense);
+            assumePaidPluginsActivated();
 
             captureMarketplace(done, 'paid_plugins_with_exceeded_license_' + mode, function (page) {
                 page.load(paidPluginsUrl);
@@ -133,6 +140,7 @@ describe("Marketplace", function () {
             setEnvironment(mode, noLicense);
 
             captureWithDialog(done, 'paid_plugin_details_no_license_' + mode, function (page) {
+                assumePaidPluginsActivated();
                 var isFree = false;
                 loadPluginDetailPage(page, 'PaidPlugin1', isFree);
             });
@@ -148,11 +156,33 @@ describe("Marketplace", function () {
         });
 
         it('should show paid plugin details when having valid license', function (done) {
+            setEnvironment(mode, validLicense);
+
+            captureWithDialog(done, 'paid_plugin_details_valid_license_' + mode + '_installed', function (page) {
+                assumePaidPluginsActivated();
+                var isFree = false;
+                loadPluginDetailPage(page, 'PaidPlugin1', isFree);
+            });
+        });
+
+        it('should show paid plugin details when having expired license', function (done) {
+            setEnvironment(mode, expiredLicense);
+
+            captureWithDialog(done, 'paid_plugin_details_expired_license_' + mode, function (page) {
+                setEnvironment(mode, expiredLicense);
+                assumePaidPluginsActivated();
+                var isFree = false;
+                loadPluginDetailPage(page, 'PaidPlugin1', isFree);
+            });
+        });
+
+        it('should show paid plugin details when having exceeded license', function (done) {
             setEnvironment(mode, exceededLicense);
 
             captureWithDialog(done, 'paid_plugin_details_exceeded_license_' + mode, function (page) {
+                assumePaidPluginsActivated();
                 var isFree = false;
-                loadPluginDetailPage(page, 'PaidPlugin1', expiredLicense);
+                loadPluginDetailPage(page, 'PaidPlugin1', isFree);
             });
         });
     });
@@ -252,9 +282,7 @@ describe("Marketplace", function () {
         // when there is no license it should not show a warning! as it could be due to network problems etc
         it('should show a warning if license is ' + consumer, function (done) {
             setEnvironment('superuser', consumer);
-
-            testEnvironment.mockMarketplaceAssumePluginNamesActivated = ['CustomPlugin1','CustomPlugin2','PaidPlugin1','PaidPlugin2'];
-            testEnvironment.save();
+            assumePaidPluginsActivated();
 
             captureSelector(done, 'notification_plugincheck_' + consumer, function (page) {
                 page.load('?module=UsersManager&action=index');

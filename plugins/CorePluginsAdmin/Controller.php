@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -54,11 +55,24 @@ class Controller extends Plugin\ControllerAdmin
      */
     private $pluginManager;
 
-    public function __construct(Translator $translator, PluginInstaller $pluginInstaller, Plugins $marketplacePlugins)
+    /**
+     * Controller constructor.
+     * @param Translator $translator
+     * @param PluginInstaller $pluginInstaller
+     * @param Plugins $marketplacePlugins
+     */
+    public function __construct(Translator $translator, PluginInstaller $pluginInstaller, $marketplacePlugins = null)
     {
         $this->translator = $translator;
         $this->pluginInstaller = $pluginInstaller;
-        $this->marketplacePlugins = $marketplacePlugins;
+
+        if (!empty($marketplacePlugins)) {
+            $this->marketplacePlugins = $marketplacePlugins;
+        } elseif (Marketplace::isMarketplaceEnabled()) {
+            // we load it manually as marketplace might not be loaded
+            $this->marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        }
+
         $this->pluginManager = Plugin\Manager::getInstance();
 
         parent::__construct();
