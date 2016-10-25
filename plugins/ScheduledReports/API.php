@@ -380,7 +380,8 @@ class API extends \Piwik\Plugin\API
                 'idGoal' => false,
                 'language' => $language,
                 'serialize' => 0,
-                'format' => 'original'
+                'format' => 'original',
+                'flat' => $report['parameters']['displayFlat']
             );
 
             if ($segment != null) {
