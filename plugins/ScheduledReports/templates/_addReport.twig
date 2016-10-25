@@ -92,6 +92,8 @@
                  ng-show="manageScheduledReport.report.displayFormat == '2' || manageScheduledReport.report.displayFormat == '3'"
                  title="{{ 'ScheduledReports_EvolutionGraph'|translate(5)|e('html_attr') }}">
             </div>
+        </div>
+        <div ng-show="manageScheduledReport.report.type == 'email'">
             <div piwik-field uicontrol="checkbox"
                  name="display_flat"
                  ng-model="manageScheduledReport.report.displayFlat"
