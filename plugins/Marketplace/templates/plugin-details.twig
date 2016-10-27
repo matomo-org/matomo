@@ -55,7 +55,7 @@
                             </div>
 
                             <div id="tabs-description" class="tab-content col s12">
-                                {% if isSuperUser and plugin.isDownloadable %}
+                                {% if isSuperUser and (plugin.isDownloadable or plugin.isInstalled) %}
                                     {{ marketplaceMacro.missingRequirementsPleaseUpdateNotice(plugin) }}
 
                                     {% if isMultiServerEnvironment %}

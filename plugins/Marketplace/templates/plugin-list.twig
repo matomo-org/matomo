@@ -47,7 +47,7 @@
 
                             {% macro moreDetailsLink(plugin) %}
                                 {% set canBePurchased = not plugin.isDownloadable and plugin.shop is defined and plugin.shop and plugin.shop.url %}
-                                <a class="btn btn-block plugin-details {% if canBePurchased %}purchaseable{% endif %}" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">
+                                <a class="btn btn-block plugin-details {% if canBePurchased %}purchaseable{% endif %}" href="#" piwik-plugin-name="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">
 
                                     {% if canBePurchased and plugin.shop.variations %}
                                         {% set foundCheapest = 0 %}
@@ -69,13 +69,13 @@
 
 
                             {% if isSuperUser %}
-                                <div class="footer" data-pluginName="{{ plugin.name }}">
+                                <div class="footer" piwik-plugin-name="{{ plugin.name }}">
                                     {% if plugin.isMissingLicense is defined and plugin.isMissingLicense %}
 
                                         <div class="alert alert-danger">
                                             {{ 'Marketplace_LicenseMissing'|translate }}
 
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" piwik-plugin-name="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
                                         </div>
 
                                     {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
@@ -83,7 +83,7 @@
                                         <div class="alert alert-danger">
                                             {{ 'Marketplace_LicenseExceeded'|translate }}
 
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" piwik-plugin-name="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
                                         </div>
 
                                     {% elseif plugin.canBeUpdated and 0 == plugin.missingRequirements|length and isAutoUpdatePossible %}
@@ -105,7 +105,7 @@
 
                                         {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
                                             {{ 'Marketplace_CannotUpdate'|translate }}
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" piwik-plugin-name="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                         {% elseif plugin.isInstalled %}
                                             {{ 'General_Installed'|translate }}
                                             {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
@@ -114,7 +114,7 @@
                                         {% else %}
                                             {{ 'Marketplace_CannotInstall'|translate }}
 
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" piwik-plugin-name="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                         {% endif %}
 
                                     {% elseif plugin.isInstalled %}
@@ -134,7 +134,7 @@
                                     {% endif %}
                                 </div>
                             {% else %}
-                                <div class="footer" data-pluginName="{{ plugin.name }}">
+                                <div class="footer" piwik-plugin-name="{{ plugin.name }}">
                                     {{ _self.moreDetailsLink(plugin)|raw }}
                                 </div>
                             {% endif %}
