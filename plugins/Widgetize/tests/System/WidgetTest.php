@@ -986,10 +986,10 @@ class WidgetTest extends SystemTestCase
                     ),
             ), array (
                 'name' => 'Latest Piwik Plugin Updates',
-                'uniqueId' => 'widgetCorePluginsAdmingetNewPlugins',
+                'uniqueId' => 'widgetMarketplacegetNewPlugins',
                 'parameters' =>
                     array (
-                        'module' => 'CorePluginsAdmin',
+                        'module' => 'Marketplace',
                         'action' => 'getNewPlugins',
                     ),
             ), array (
