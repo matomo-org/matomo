@@ -43,6 +43,7 @@ return array(
     'Piwik\Plugins\Marketplace\Plugins' => DI\decorate(function ($previous, ContainerInterface $c) {
         /** @var \Piwik\Plugins\Marketplace\Plugins $previous */
         $previous->setPluginsHavingUpdateCache(null);
+
         $pluginNames = $c->get('test.vars.mockMarketplaceAssumePluginNamesActivated');
 
         if (!empty($pluginNames)) {

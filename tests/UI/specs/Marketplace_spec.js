@@ -156,17 +156,6 @@ describe("Marketplace", function () {
             });
         });
 
-        it('should show paid plugin details when having expired license', function (done) {
-            setEnvironment(mode, expiredLicense);
-
-            captureWithDialog(done, 'paid_plugin_details_expired_license_' + mode, function (page) {
-                setEnvironment(mode, expiredLicense);
-                assumePaidPluginsActivated();
-                var isFree = false;
-                loadPluginDetailPage(page, 'PaidPlugin1', isFree);
-            });
-        });
-
         it('should show paid plugin details when having valid license', function (done) {
             setEnvironment(mode, exceededLicense);
 
