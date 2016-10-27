@@ -34,7 +34,7 @@
                 <p class="description"> {{ 'Marketplace_AllowedUploadFormats'|translate }} </p>
 
                 <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
-                      action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
+                      action="{{ linkTo({'module':'CorePluginsAdmin', 'action':'uploadPlugin', 'nonce': installNonce}) }}">
                     <input type="file" name="pluginZip">
                     <br />
                     <input class="startUpload btn" type="submit" value="{{ 'Marketplace_UploadZipFile'|translate }}">
