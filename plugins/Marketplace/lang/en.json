@@ -12,6 +12,7 @@
     "ByXDevelopers": "by %s developers",
     "CannotInstall": "Cannot install",
     "CannotUpdate": "Cannot update",
+    "ClickToCompletePurchase": "Click to complete purchase.",
     "CurrentNumPiwikUsers": "Your Piwik currently has %1$s registered users.",
     "ConfirmRemoveLicense": "Are you sure you want to remove your license key? You will no longer receive any updates for any of your purchased plugins.",
     "Developer": "Developer",

@@ -177,21 +177,21 @@
                                 {% elseif not plugin.isDownloadable and plugin.isPaid and plugin.shop is defined and plugin.shop %}
 
                                     {% if plugin.shop.variations|length %}
-                                        <select class="variationPicker browser-default"
-                                                title="{{ 'Marketplace_ShownPriceIsExclTax'|translate|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}">
-                                            {% for variation in plugin.shop.variations %}
-                                                <option value="{{ variation.addToCartUrl }}"
-                                                        data-price="{{ variation.prettyPrice }}"
-                                                        data-period="{{ variation.period }}"
-                                                        title="{{ 'Marketplace_PriceExclTax'|translate(variation.price, variation.currency)|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}"
-                                                        {% if variation.recommended is defined and variation.recommended %}selected{% endif %}
-                                                >{{ variation.name }} - {{ variation.prettyPrice }} / {{ variation.period }}</option>
-                                            {% endfor %}
-                                        </select>
+
+                                        <div class="input-field variationPicker">
+                                            <select title="{{ 'Marketplace_ShownPriceIsExclTax'|translate|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}">
+                                                {% for variation in plugin.shop.variations %}
+                                                    <option value="{{ variation.addToCartUrl }}"
+                                                            title="{{ 'Marketplace_PriceExclTax'|translate(variation.price, variation.currency)|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}"
+                                                            {% if variation.recommended is defined and variation.recommended %}selected{% endif %}
+                                                    >{{ variation.name }} - {{ variation.prettyPrice }} / {{ variation.period }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
 
                                         <a class="install update addToCartLink" target="_blank"
+                                           title="{{ 'Marketplace_ClickToCompletePurchase'|translate|e('html_attr') }}"
                                            rel="noreferrer"
-                                           title="Click to complete purchase"
                                            href="{{ plugin.shop.url|default('')|e('html_attr') }}"
                                         >{{ 'Marketplace_AddToCart'|translate }}</a>
                                     {% else %}
@@ -339,17 +339,21 @@
 
             <script type="text/javascript">
                 $(function() {
-                    var $variationPicker = $('.pluginDetails .variationPicker');
+                    var $variationPicker = $('.pluginDetails .variationPicker select');
                     if ($variationPicker.val()) {
                         $('.addToCartLink').attr('href', $variationPicker.val());
                     }
                     $variationPicker.on('change', function () {
                         $('.addToCartLink').attr('href', $variationPicker.val())
                     });
+
+                    if ($variationPicker.length) {
+                        $variationPicker.material_select();
+                    }
                 });
             </script>
-
         {% endif %}
     </div>
+
 
 {% endblock %}

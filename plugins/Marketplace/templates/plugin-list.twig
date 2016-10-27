@@ -1,7 +1,7 @@
 {% import '@Marketplace/macros.twig' as marketplaceMacro %}
 
 {% if pluginsToShow|length > 0 %}
-    <div class="row">
+    <div class="pluginListContainer row">
         {% for plugin in pluginsToShow %}
             <div class="col s12 m6 l4">
                 {% embed 'contentBlock.twig' with {'title': ''} %}
@@ -72,17 +72,19 @@
                                 <div class="footer" data-pluginName="{{ plugin.name }}">
                                     {% if plugin.isMissingLicense is defined and plugin.isMissingLicense %}
 
-                                        <button class="btn-flat" style="padding-right: 0;padding-left: 0;">
+                                        <div class="alert alert-danger">
                                             {{ 'Marketplace_LicenseMissing'|translate }}
-                                        </button>
-                                        <span style="white-space:nowrap">(<a class="btn btn-link plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                        </div>
 
                                     {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
 
-                                        <button class="btn-flat" style="padding-right: 0;padding-left: 0;">
+                                        <div class="alert alert-danger">
                                             {{ 'Marketplace_LicenseExceeded'|translate }}
-                                        </button>
-                                        <span style="white-space:nowrap">(<a class="btn btn-link plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                        </div>
 
                                     {% elseif plugin.canBeUpdated and 0 == plugin.missingRequirements|length and isAutoUpdatePossible %}
                                         <a class="btn btn-block"
@@ -95,27 +97,24 @@
                                             {%- if plugin.missingRequirements|length == 0 and plugin.isDownloadable and not isAutoUpdatePossible -%}
                                                 {% if showBrackets %}({% endif %}<span onclick="$(this).css('display', 'none')">
                                                 {%- if showOr %} {{ 'General_Or'|translate }} {% endif -%}
-                                                <a class="btn plugin-details download"
+                                                <a class="plugin-details download"
                                                    href="{{ linkTo({'module': 'Marketplace', 'action': 'download', 'pluginName': plugin.name, 'nonce': (plugin.name|nonce)}) }}"
                                                 >{{ 'General_Download'|translate }}</a></span>{% if showBrackets %}){% endif %}
                                             {%- endif -%}
                                         {%- endmacro %}
 
                                         {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
-                                            <button class="btn-flat" style="padding-right: 0;padding-left: 0;">
-                                                {{ 'Marketplace_CannotUpdate'|translate }}
-                                            </button>
-                                            <span style="white-space:nowrap">(<a class="btn btn-link plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                            {{ 'Marketplace_CannotUpdate'|translate }}
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                         {% elseif plugin.isInstalled %}
                                             {{ 'General_Installed'|translate }}
                                             {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
                                         {% elseif not plugin.isDownloadable %}
                                             {{ _self.moreDetailsLink(plugin)|raw }}
                                         {% else %}
-                                            <button class="btn-flat" style="padding-right: 0;padding-left: 0;">
-                                                {{ 'Marketplace_CannotInstall'|translate }}
-                                            </button>
-                                            <span style="white-space:nowrap">(<a class="btn btn-link plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                            {{ 'Marketplace_CannotInstall'|translate }}
+
+                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" data-pluginName="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                         {% endif %}
 
                                     {% elseif plugin.isInstalled %}
