@@ -69,10 +69,10 @@
 
 
                             {% if isSuperUser %}
-                                <div class="footer" piwik-plugin-name="{{ plugin.name }}">
+                                <div class="footer">
                                     {% if plugin.isMissingLicense is defined and plugin.isMissingLicense %}
 
-                                        <div class="alert alert-danger">
+                                        <div class="alert alert-danger" >
                                             {{ 'Marketplace_LicenseMissing'|translate }}
 
                                             <span style="white-space:nowrap">(<a class="plugin-details" href="#" piwik-plugin-name="{{ plugin.name }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
@@ -134,7 +134,7 @@
                                     {% endif %}
                                 </div>
                             {% else %}
-                                <div class="footer" piwik-plugin-name="{{ plugin.name }}">
+                                <div class="footer">
                                     {{ _self.moreDetailsLink(plugin)|raw }}
                                 </div>
                             {% endif %}
