@@ -63,7 +63,7 @@
                 </div>
 
                 {# Hide filters and search for themes because we don't have many of them #}
-                {% if (pluginsToShow|length) > 1 or query %}
+                {% if (pluginsToShow|length) > 20 or query %}
                     <div class="col s12 m12 l4 ">
                         <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
                             <div piwik-field uicontrol="text" name="query"
