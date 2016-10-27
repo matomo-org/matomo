@@ -37,7 +37,7 @@
                         {% elseif not plugin.isDownloadable and plugin.isPaid and plugin.shop is defined and plugin.shop %}
 
                             {% if plugin.shop.variations|length %}
-                                <select class="variationPicker"
+                                <select class="variationPicker browser-default"
                                         title="{{ 'Marketplace_ShownPriceIsExclTax'|translate|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}">
                                     {% for variation in plugin.shop.variations %}
                                         <option value="{{ variation.addToCartUrl }}"

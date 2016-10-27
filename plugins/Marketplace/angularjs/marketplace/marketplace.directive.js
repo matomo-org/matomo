@@ -25,21 +25,17 @@
 
                     $timeout(function () {
 
-                        $('.uploadPlugin').click(function (event) {
-                            event.preventDefault();
-
-                            piwikHelper.modalConfirm('#installPluginByUpload', {
-                                yes: function () {
-                                    window.location = link;
-                                }
-                            });
-                        });
-
 
                         $('.installAllPaidPlugins').click(function (event) {
                             event.preventDefault();
 
                             piwikHelper.modalConfirm('#installAllPaidPluginsAtOnce');
+                        });
+
+                        $('.uploadPlugin').click(function (event) {
+                            event.preventDefault();
+
+                            piwikHelper.modalConfirm('#installPluginByUpload', {});
                         });
 
 

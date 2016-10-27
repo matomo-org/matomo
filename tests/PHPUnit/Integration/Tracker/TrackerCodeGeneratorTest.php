@@ -179,7 +179,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     
   })();
 &lt;/script&gt;
-&lt;script type='text/javascript' src=&quot;//localhost/piwik/piwik.js&quot;&gt;
+&lt;script type='text/javascript' src=&quot;//localhost/piwik/piwik.js&quot;&gt;&lt;/script&gt;
 &lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//localhost/piwik/piwik.php?idsite=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
 &lt;!-- End Piwik Code --&gt;
 ";
