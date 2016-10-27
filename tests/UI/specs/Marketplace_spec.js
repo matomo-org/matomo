@@ -175,7 +175,7 @@ describe("Marketplace", function () {
         captureSelector(done, mode + '_install_all_paid_plugins_at_once', function (page) {
             page.load(pluginsUrl);
             page.click('.installAllPaidPlugins');
-        }, '.ui-dialog:visible');
+        }, '.modal.open');
     });
 
     it('should show an error message when invalid license key entered', function (done) {
@@ -187,15 +187,6 @@ describe("Marketplace", function () {
             page.click('.marketplace-paid-intro'); // click outside so change event is triggered
             page.click('#submit_license_key input');
         });
-    });
-
-    it('should show a dialog showing a list of all possible plugins to install', function (done) {
-        setEnvironment(mode, validLicense);
-
-        captureSelector(done, mode + '_install_all_paid_plugins_at_once', function (page) {
-            page.load(pluginsUrl);
-            page.click('.installAllPaidPlugins');
-        }, '.modal.open');
     });
 
     it('should show a confirmation before removing a license key', function (done) {
