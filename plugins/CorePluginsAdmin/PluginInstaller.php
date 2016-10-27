@@ -77,7 +77,6 @@ class PluginInstaller
                 }
             }
 
-
         } catch (\Exception $e) {
 
             if (!empty($tmpPluginZip)) {

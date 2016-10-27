@@ -76,7 +76,6 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
                             'isValid' => true,
                             'isExceeded' => NULL,
                             'isExpiredSoon' => false,
-                            'plugin' => 'PaidPlugin2',
                             'plugin' => array('name' => 'PaidPlugin2', 'displayName' => 'Paid Plugin 2', 'htmlUrl' => 'https://plugins.piwik.org/PaidPlugin2'),
                         ),
                     2 =>

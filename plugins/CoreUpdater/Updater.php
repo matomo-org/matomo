@@ -114,18 +114,20 @@ class Updater
             $this->verifyDecompressedArchive($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_VerifyingUnpackedFiles');
 
-            // we need to load the marketplace already here, otherwise it will use the new, updated file in Piwik 3
+            if (Marketplace::isMarketplaceEnabled()) {
+                // we need to load the marketplace already here, otherwise it will use the new, updated file in Piwik 3
 
-            // we also need to make sure to create a new instance here as otherwise we would change the "global"
-            // environment, but we only want to change piwik version temporarily for this task here
-            $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
-            $environment->setPiwikVersion($newVersion);
-            /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
-            $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
-                'environment' => $environment
-            ));
-            require_once PIWIK_DOCUMENT_ROOT . '/plugins/CorePluginsAdmin/PluginInstaller.php';
-            require_once PIWIK_DOCUMENT_ROOT . '/plugins/Marketplace/Api/Exception.php';
+                // we also need to make sure to create a new instance here as otherwise we would change the "global"
+                // environment, but we only want to change piwik version temporarily for this task here
+                $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
+                $environment->setPiwikVersion($newVersion);
+                /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
+                $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
+                    'environment' => $environment
+                ));
+                require_once PIWIK_DOCUMENT_ROOT . '/plugins/CorePluginsAdmin/PluginInstaller.php';
+                require_once PIWIK_DOCUMENT_ROOT . '/plugins/Marketplace/Api/Exception.php';
+            }
 
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
@@ -138,7 +140,7 @@ class Updater
 
         try {
 
-            if (Marketplace::isMarketplaceEnabled()) {
+            if (Marketplace::isMarketplaceEnabled() && !empty($marketplaceClient)) {
                 $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
                 $pluginManager = PluginManager::getInstance();
                 $pluginManager->loadAllPluginsAndGetTheirInfo();

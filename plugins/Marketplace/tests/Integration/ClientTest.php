@@ -13,7 +13,6 @@ use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Client as ClientBuilder;
-use Piwik\Version;
 
 /**
  * @group Plugins

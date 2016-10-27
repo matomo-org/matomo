@@ -8,9 +8,6 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Api;
 
-use Piwik\Cache;
-use Piwik\Plugin;
-use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
 
