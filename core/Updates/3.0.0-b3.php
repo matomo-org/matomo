@@ -15,7 +15,7 @@ use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updates;
 
-class Updates_3_0_0_b2 extends Updates
+class Updates_3_0_0_b3 extends Updates
 {
     private $marketplaceEnabledConfigSetting = 'enable_marketplace';
 
