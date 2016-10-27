@@ -3,32 +3,13 @@
     text-align: left;
     line-height: 20px;
 
-    .header {
-        .intro {
-            width:75%;
-            float:left;
-            margin-bottom: 8px;
-        }
-        .actionButton {
-            width:25%;
-            float:left;
-        }
+    > .row > .col {
+        padding-left: 0;
+        padding-right: 0;
     }
 
     #pluginDetailsTabs > .col {
         padding: 0 16px 0 0;
-    }
-
-    .content {
-        .contentDetails {
-            width:75%;
-            float:left;
-        }
-        .metadata {
-            width:25%;
-            float:left;
-            padding-top: 16px;
-        }
     }
 
     h3, h4, h5, h6 {
@@ -52,17 +33,14 @@
     p, .tab-content ul, .tab-content li {
         text-align: left;
         line-height: 20px;
-    }
-
-    .header .intro {
-        margin-bottom: 15px;
+        list-style: initial;
     }
 
     #pluginDetailsTabs {
         margin-top: 25px;
     }
 
-    .content p {
+    .contentDetails p {
         margin: 0 0 10px;
     }
 
@@ -76,7 +54,7 @@
         font-weight: bold;
     }
 
-    .content a {
+    .contentDetails a {
         color: @theme-color-link;
         text-decoration: none;
     }
