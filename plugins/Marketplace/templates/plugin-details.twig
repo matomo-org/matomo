@@ -13,6 +13,8 @@
                 {% set latestVersion = '' %}
             {% endif %}
 
+            {% set hasChangelog = plugin.isDownloadable and ((latestVersion and latestVersion.readmeHtml.changelog) or plugin.versions|length > 1) %}
+
             <div class="row">
                 <div class="col s12 m9">
                     <h2>{{ plugin.displayName }}</h2>
@@ -36,7 +38,7 @@
                                         <li class="tab col s3"><a href="#tabs-documentation">{{ 'General_Documentation'|translate }}</a></li>
                                     {% endif %}
 
-                                    {% if plugin.isDownloadable %}
+                                    {% if hasChangelog %}
                                         <li class="tab col s3"><a href="#tabs-changelog">{{ 'CorePluginsAdmin_Changelog'|translate }}</a></li>
                                     {% endif %}
 
@@ -86,7 +88,7 @@
                                 </div>
                             {% endif %}
 
-                            {% if plugin.isDownloadable %}
+                            {% if hasChangelog %}
                                 <div id="tabs-changelog" class="tab-content col s12">
                                     {{ marketplaceMacro.missingRequirementsPleaseUpdateNotice(plugin) }}
                                     {% if plugin.canBeUpdated %}

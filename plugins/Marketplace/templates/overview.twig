@@ -43,7 +43,7 @@
 
             <div class="row marketplaceActions" ng-controller="PiwikMarketplaceController as marketplace">
                 <div piwik-field uicontrol="select" name="plugin_type"
-                     class="col s12 m4"
+                     class="col s12 m6 l4"
                      ng-model="marketplace.pluginType"
                      ng-change="marketplace.changePluginType()"
                      title="{{ 'Show'|translate|e('html_attr') }}"
@@ -57,14 +57,14 @@
                      value="{{ sort }}"
                      ng-model="marketplace.pluginSort"
                      ng-change="marketplace.changePluginSort()"
-                     class="col s12 m4"
+                     class="col s12 m6 l4"
                      full-width="true"
                      options="{{ pluginSortOptions|json_encode }}">
                 </div>
 
                 {# Hide filters and search for themes because we don't have many of them #}
-                {% if (pluginsToShow|length) > 20 or query %}
-                    <div class="col s12 m4 ">
+                {% if (pluginsToShow|length) > 1 or query %}
+                    <div class="col s12 m12 l4 ">
                         <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
                             <div piwik-field uicontrol="text" name="query"
                                  title="{{ 'General_Search'|translate }} {{ numAvailablePlugins }} {{ 'General_Plugins'|translate|lcfirst }}..."
