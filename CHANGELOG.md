@@ -204,7 +204,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * `Tracker.recordAction`
  * `Tracker.recordEcommerceGoal`
  * `Tracker.recordStandardGoals`
-* The Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been deprecated and will be removed in Piwik 3.0. Use `\Piwik\Plugin::registerEvents()` instead.
+* The Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been deprecated and will be removed in Piwik 4.0. Use `\Piwik\Plugin::registerEvents()` instead.
 
 
 ### Internal changes
