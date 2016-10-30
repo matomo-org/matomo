@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "Prikaži opcije (opciono)",
+        "AggregateReportsFormat": "Opcije prikaza",
         "AggregateReportsFormat_GraphsOnly": "Prikaži samo grafikone (bez tabela)",
         "AggregateReportsFormat_TablesAndGraphs": "Prikaži i tabele i grafikone",
         "AggregateReportsFormat_TablesOnly": "Prikaži tabele izveštaja i grafikone za ključne metrike (podrazumevano)",
@@ -29,6 +29,7 @@
         "PluginDescription": "Kreirajte sopstvene izveštaje i zakažite njihovo slanje putem elektronske pošte dnevno, nedeljno ili mesečno jednoj ili više osoba. Više različitih formata je podržano (HTML, PDF, CSV, slike).",
         "ReportFormat": "Format izveštaja",
         "ReportHour": "Pošalji izveštaj u %s",
+        "ReportHourWithUTC": "%s sati UTC",
         "ReportIncludeNWebsites": "Izveštaj će obuhvatiti glavne metrike za sve sajtove koji imaju barem jednu posetu (od ukupno %s sajtova koliko je trenutno dostupno).",
         "ReportSent": "Izveštaj je poslat",
         "ReportsIncluded": "Statistika uključena",

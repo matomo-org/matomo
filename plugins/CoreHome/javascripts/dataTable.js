@@ -1742,6 +1742,35 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // 'this' report must be hidden in datatable output
             thisReport = $('.datatableRelatedReports span:hidden', domElem)[0];
 
+        function replaceReportTitleAndHelp(domElem, relatedReportName) {
+            if (!domElem || !domElem.length) {
+                return;
+            }
+
+            var $headline = domElem.prev('h2');
+            if (!$headline.size()) {
+                return;
+            }
+
+            var $title = $headline.find('.title:not(.ng-hide)');
+            if ($title.size()) {
+                $title.text(relatedReportName);
+
+                var scope = $title.scope();
+
+                if (scope) {
+                    var $doc = domElem.find('.reportDocumentation');
+                    if ($doc.size()) {
+                        scope.inlineHelp = $.trim($doc.html());
+                    }
+                    scope.featureName = $.trim(relatedReportName);
+                    setTimeout(function (){
+                        scope.$apply();
+                    }, 1);
+                }
+            }
+        }
+
         hideShowRelatedReports(thisReport);
 
         var relatedReports = $('.datatableRelatedReports span', domElem);
@@ -1753,22 +1782,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         relatedReports.each(function () {
             var clicked = this;
             $(this).unbind('click').click(function (e) {
-                var url = $(this).attr('href');
-
-                // if this url is also the url of a menu item, better to click that menu item instead of
-                // doing AJAX request
-                var menuItem = null;
-                $("#root").find(">.nav a").each(function () {
-                    if ($(this).attr('href') == url) {
-                        menuItem = this;
-                        return false
-                    }
-                });
-
-                if (menuItem) {
-                    $(menuItem).click();
-                    return;
-                }
+                var $this = $(this);
+                var url = $this.attr('href');
 
                 // modify parameters
                 self.resetAllFilters();
@@ -1781,11 +1796,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 delete self.param.pivotBy;
                 delete self.param.pivotByColumn;
 
+                var relatedReportName = $this.text();
+
                 // do ajax request
-                self.reloadAjaxDataTable(true, function (newReport) {
-                    var newDomElem = self.dataTableLoaded(newReport, self.workingDivId);
-                    hideShowRelatedReports(clicked);
-                });
+                self.reloadAjaxDataTable(true, (function (relatedReportName) {
+
+                    return function (newReport) {
+                        var newDomElem = self.dataTableLoaded(newReport, self.workingDivId);
+                        hideShowRelatedReports(clicked);
+                        replaceReportTitleAndHelp(newDomElem, relatedReportName);
+                    }
+                })(relatedReportName));
             });
         });
     },

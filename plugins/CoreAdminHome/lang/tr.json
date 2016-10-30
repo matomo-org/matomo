@@ -45,7 +45,6 @@
         "LogoUploadHelp": "Lütfen %1$s formatlarında ve minimum %2$s piksel yüksekliğinde bir dosya yükleyin.",
         "MenuDiagnostic": "tehşis",
         "MenuGeneralSettings": "Genel Ayarlar",
-        "MenuManage": "yönetmek",
         "MenuDevelopment": "Geliştirme",
         "OptOutComplete": "İzleme durumunuz pasif edildi, artık sizin ziyaretleriniz kayıt altına alınmayacak.",
         "OptOutExplanation": "Bu yazılım kendini internette gizlilik sağlamaya adamıştır. Ekteki html kodunu sitenize ekleyerek ziyaretçilerinize izlenmeme (opsiyonel olarak) seçeneği sunabilirsiniz. Örnek olarak bunu Gizlilik Politikanız sayfasında sunabilirsiniz.",

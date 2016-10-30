@@ -63,7 +63,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("                            the tests are in another plugin. For use with travis build.");
     console.log("  --assume-artifacts:       Assume the diffviewer and processed screenshots will be stored on the.");
     console.log("                            builds artifacts server. For use with travis build.");
-    console.log("  --screenshot-repo:        Specifies the github repository that contains the expected screenshots");
+    console.log("  --screenshot-repo:        Specifies the GitHub repository that contains the expected screenshots");
     console.log("                            to link to in the diffviewer. For use with travis build.");
     console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
     console.log("  --first-half:             Only execute first half of all the test suites. Will be only applied if no")
@@ -142,7 +142,7 @@ Application.prototype.loadTestModules = function () {
         // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
         // split tests into multiple jobs.
         var numTestsFirstHalf = Math.round(mocha.suite.suites.length / 2);
-        numTestsFirstHalf += 7;
+        numTestsFirstHalf += 8;
         mocha.suite.suites = mocha.suite.suites.filter(function (suite, index) {
             if (options['run-first-half-only'] && index < numTestsFirstHalf) {
                 return true;

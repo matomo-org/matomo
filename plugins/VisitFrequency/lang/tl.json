@@ -10,13 +10,8 @@
         "ColumnReturningVisits": "Mga bumabalik na pagbisita",
         "ColumnSumVisitLengthReturning": "Kabuuang oras na ginugol ng mga bumabalik na bisita (sa segundo)",
         "ColumnUniqueReturningVisitors": "Natatanging mga bumabalik na bisita",
-        "ReturnActions": "Mga pagkilos %s ng mga bumabalik na mga bisita.",
-        "ReturnAverageVisitDuration": "%s ang karaniwang tagal ng pagbisita para sa mga bumabalik na bisita",
-        "ReturnAvgActions": "pagkilos %s bawat bumabalik na pagbisita",
-        "ReturnBounceRate": "%s pagbalikna pagbisita ay nagbounce (umalis sa website pagkatapos ng isang pahina)",
         "ReturningVisitDocumentation": "Ang muling pagbisita ay (kumpara sa isang bagong pagbisita) na ginawa ng isang tao na binisita ang website ng hindi bababa sa isang beses bago.",
         "ReturningVisitsDocumentation": "Ito ay isang pangkalahatang-ideya sa mga bumabalik na pagbisita.",
-        "ReturnVisits": "%s mga bumabalik na mga pagbisita",
         "SubmenuFrequency": "Kadalasan",
         "WidgetGraphReturning": "Mga bumabalik na pagbisita sa paglipas ng panahon",
         "WidgetOverview": "Frequency Overview"

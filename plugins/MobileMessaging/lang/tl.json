@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Ang numero ng telepono ay nabigyang-bisa! Maaari ka nang makatanggap ng SMS tungkol sa iyong stats.",
         "Settings_PhoneNumber": "Phone Number",
         "Settings_PhoneNumbers_Add": "Magdagdag ng bagong Numero ng Telepono",
-        "Settings_PhoneNumbers_CountryCode_Help": "Kung hindi alam ang code ng telepono ng iyong bansa hanapin ang iyong bansa dito.",
         "Settings_PhoneNumbers_Help": "Bago makatanggap ng SMS (text message) sa mga ulat sa isang telepono ang numero ang telepono ay dapat na maipasok sa baba.",
         "Settings_PhoneNumbers_HelpAdd": "Kapag iyong na-click ang 'Add\" isang SMS na naglalaman ng code ay ipapadala sa iyong telepono. Ang user ay makakatanggap ng code na ito ay dapat na mag-login sa Piwik i-click ang settings pagkatapos ay e-click ang Mobile Messaging. Matapos na ipasok ang code ang user ay may matatanggap ng ulat mula sa kanyang phone.",
         "Settings_PleaseSignUp": "Upang lumikha ng mga ulat sa SMS at tumanggap ng maikling mga text na mensahe patungkol sa stats ng iyong mga website sa iyong mobile phone mangyaring mag-sign up gamit ang SMS API at ipasok ang iyong impormasyon sa ibaba",

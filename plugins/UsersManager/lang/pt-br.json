@@ -36,7 +36,6 @@
         "ExceptionNoValueForUsernameOrEmail": "Por favor, digite um nome de usuário ou endereço de e-mail.",
         "ExcludeVisitsViaCookie": "Excluir suas visitas usando cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Para usuários anônimos, reportar dara para carregar por padrão",
-        "GiveViewAccess": "Permitir acesso de visualização",
         "GiveViewAccessTitle": "Dar a usuário existente acesso para visualizar relatórios de %s",
         "GiveViewAccessInstructions": "Para dar acesso a um usuário existente para %s digite o nome de usuário ou endereço de e-mail de um usuário existente",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se você quiser mudar a senha, digite uma nova. Caso contrário, deixe em branco.",

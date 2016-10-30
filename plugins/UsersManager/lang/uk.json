@@ -36,7 +36,6 @@
         "ExceptionNoValueForUsernameOrEmail": "Будь ласка, введіть ім'я користувача або email адресу.",
         "ExcludeVisitsViaCookie": "Cookie виключення з статистики",
         "ForAnonymousUsersReportDateToLoadByDefault": "Звіт для анонімних користувачів відображається за",
-        "GiveViewAccess": "Дати доступ на перегляд",
         "GiveViewAccessTitle": "Дати існуючому користувачу доступ для перегляду звітів для %s",
         "GiveViewAccessInstructions": "Щоб дати існуючому користувачу доступ для перегляду %s введіть логін або адресу електронної пошти для існуючого користувача",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Якщо ви хочете змінити пароль, введіть новий. Інакше залиште поле порожнім.",

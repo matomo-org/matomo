@@ -135,6 +135,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'Actions.get',
             'Actions.getOutlink',
             'Actions.getOutlinks',
+
+            // system settings such as enable_plugin_update_communication are enabled by default in newest version,
+            // but ugpraded Piwik are not
+            'CorePluginsAdmin.getSystemSettings'
         );
 
         $apiNotToCall = array_merge($apiNotToCall, $reportsToCompareSeparately);

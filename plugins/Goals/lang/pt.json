@@ -65,8 +65,6 @@
         "MatchesExpression": "corresponde à expressão %s",
         "NewVisitorsConversionRateIs": "Taxa de conversão para novos visitantes é %s",
         "Optional": "(opcional)",
-        "OverallConversionRate": "%s taxa de conversão geral (visitas com um objectivo completo)",
-        "OverallRevenue": "%s rendimento geral",
         "PageTitle": "Título da Página",
         "Pattern": "Padrão",
         "ProductCategory": "Categorias de Produtos",
@@ -83,7 +81,6 @@
         "VisitUrl": "Visitar um dado endereço (página ou grupo de páginas)",
         "WhenVisitors": "quando visitantes",
         "WhereThe": "onde o",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "onde a página visitada contém uma chamada ao método JavaScript 'trackGoal' (%1$saprenda mais%2$s)",
         "YouCanEnableEcommerceReports": "Você pode ativar %1$s para este site na página %2$s."
     }
 }

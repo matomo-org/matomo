@@ -70,7 +70,6 @@
         "IsExactly": "точно %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Дізнатися більше про %1$sвідстеження цілей в Piwik%2$s в інструкції користувача.",
         "LeftInCart": "%s залишено в кошику",
-        "ManageGoalsOrCreateANewGoal": "%1$sУправляйте цілями%2$s або створіть нову прямо зараз!",
         "Manually": "ручне налаштування",
         "ManuallyTriggeredUsingJavascriptFunction": "Ціль вручну стала умовною через Javascript API trackGoal()",
         "MatchesExpression": "збігається з виразом %s",
@@ -80,8 +79,6 @@
         "NoConversionsNoReportsMessage": "Звіти не показані, тому що дані перетворення для обраних цілей і періоду відсутні.",
         "NeedAccess": "Тільки Адміністратор або користувач з доступом Суперкористувача може управляти цілями для даного сайту.",
         "Optional": "(необов'язково)",
-        "OverallConversionRate": "%s загальний коефіцієнт конверсій (переходи з виконаної цілі)",
-        "OverallRevenue": "%s загальний прибуток",
         "PageTitle": "Заголовок сторінки",
         "Pattern": "Шаблон",
         "PluginDescription": "Створіть Цілі і дивіться детальні звіти про цільові конверсії: зміна за часом, дохід від візиту, конверсії з посилання, з ключового слова та ін.",
@@ -102,7 +99,6 @@
         "VisitUrl": "Відвідують даний URL (сторінку або групу сторінок)",
         "WhenVisitors": "відвідувачі",
         "WhereThe": "де",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "де ціль зараховується за допомогою установки виклику методу JavaScript 'trackGoal' (%1$sдізнатися більше%2$s)",
         "YouCanEnableEcommerceReports": "Ви можете активувати %1$s для цього сайту на сторінці %2$s."
     }
 }

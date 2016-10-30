@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(необов'язково) Параметри відображення",
         "AggregateReportsFormat_GraphsOnly": "Відображати тільки графіки (без звітних таблиць)",
         "AggregateReportsFormat_TablesAndGraphs": "Відображати таблиці і графіки для всіх звітів",
         "AggregateReportsFormat_TablesOnly": "(за замовчуванням) Відображати таблиці звітів (графіки тільки для ключових показетелей)",

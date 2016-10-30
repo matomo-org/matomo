@@ -12,13 +12,15 @@
         "LoginOrEmail": "Usuario o correo electrónico",
         "LoginPasswordNotCorrect": "Usuario y contraseña incorrectos.",
         "LostYourPassword": "¿Olvidó la contraseña?",
+        "ChangeYourPassword": "Cambiar su contraseña",
         "MailPasswordChangeBody": "Hola %1$s,\n\nUna solicitud de reestablecimiento de contraseña fue recibida desde %2$s. Para confirmar este cambio de contraseña para iniciar sesión con sus nuevas credenciales, visite el siguiente enlace:\n\n%3$s\n\nAtención: Cambiar su contraseña hará también que cambie su token_auth. Puede verificarlo en su página de ajustes.\n\nSi está utilizando su API token_auth en cualquier aplicación externa o a solo fines de archivado, asegúrese de actualizar su token_auth en tanto que cualquier petición a la API generá un error.\n\nNota: este enlace caducará transcurridas 24 horas.\n\nGracias por usar Piwik!",
         "MailTopicPasswordChange": "Confirma el cambio de contraseña",
+        "NewPassword": "Nueva contraseña",
+        "NewPasswordRepeat": "Nueva contraseña (repetir)",
         "PasswordChanged": "Su contraseña ha sido modificada.",
         "PasswordRepeat": "Contraseña (repetir)",
         "PasswordsDoNotMatch": "Las contraseñas no coinciden.",
         "PluginDescription": "Proporciona autentificación vía un nombre de usuario y contraseña así como también la funcionalidad de reestablecimiento de contraseña. El método de autentificación puede ser modificado usando otro complemento de inicio de sesión, tal como LoginLdap que se encuentra disponible en el Mercado.",
-        "RememberMe": "Recordarme",
-        "ResetPasswordInstructions": "Introduzca una nueva contraseña para su cuenta."
+        "RememberMe": "Recordarme"
     }
 }

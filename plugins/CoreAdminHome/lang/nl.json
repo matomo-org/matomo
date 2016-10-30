@@ -55,7 +55,6 @@
         "LogoUploadHelp": "Upload een bestand in %1$s formaten met een minimum hoogte van %2$s pixels.",
         "MenuDiagnostic": "Diagnose",
         "MenuGeneralSettings": "Algemene instellingen",
-        "MenuManage": "Beheer",
         "MenuDevelopment": "Ontwikkeling",
         "OptOutComplete": "Opt-out ingesteld; Uw bezoeken aan deze website zullen niet worden geregistreerd in de Web Analytics tool.",
         "OptOutCompleteBis": "Als u uw cookies verwijderd, de opt-out cookie verwijderd of wisselt van computer of webbrowser, dan zult u deze opt-out procedure opnieuw moeten uitvoeren.",
@@ -87,6 +86,7 @@
         "YouAreOptedOut": "U bent momenteel afgemeld.",
         "YouMayOptOut": "Je kunt ervoor kiezen om geen uniek cookie identificatie nummer van je computer te hebben, zodat er op deze website van uw apparaat geen data verzameld of geanalyseerd kan worden.",
         "YouMayOptOutBis": "Om hiervoor te kiezen kunt u hieronder klikken om een opt-out cookie te ontvangen.",
-        "OptingYouOut": "Opt-out inschakelen, even geduld."
+        "OptingYouOut": "Opt-out inschakelen, even geduld.",
+        "ProtocolNotDetectedCorrectly": "Op dit moment bezoek je Piwik over een beveiligde SSL verbinding (https), alleen heeft Piwik geen beveiligde verbinding op de server kunnen vinden."
     }
 }

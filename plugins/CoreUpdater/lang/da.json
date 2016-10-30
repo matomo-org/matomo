@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Ovenstående vises fejlmeddelelsen. Den bør hjælpe med at forklare årsagen, men hvis der behøves mere hjælp:",
         "HelpMessageIntroductionWhenWarning": "Opdateringen er fuldført, men det var nogle småproblemer under processen. Læs detaljerne ovenfor. For yderligere hjælp:",
         "HighTrafficPiwikServerEnableMaintenance": "Hvis du administrerer en Piwik server med høj trafik, anbefaler vi at du %1$s midlertidigt deaktivere sporing af besøgende og sætte Piwik brugergrænseflade i vedligeholdelsestilstand%2$s",
-        "IncompatbilePluginsWillBeDisabledInfo": "Bemærk: Nogle udvidelsesmoduler er ikke kompatible med Piwik %s. De vil blive deaktiveret, når du opgraderer:",
         "InstallingTheLatestVersion": "Installerer den seneste version",
         "LatestBetaRelease": "Den seneste beta release",
         "LatestStableRelease": "Den seneste stabile udgave",

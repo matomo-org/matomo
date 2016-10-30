@@ -5,11 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "Meðalfj. aðgerða fyrir endurkomur",
         "ColumnBounceRateForReturningVisits": "Skopphraði fyrir endurkomur",
         "ColumnReturningVisits": "Endurkomur",
-        "ReturnActions": "%s aðgerðir hjá endurkomum",
-        "ReturnAverageVisitDuration": "%s meðalheimsóknartími fyrir endurkomur",
-        "ReturnAvgActions": "%s aðgerðir á hverja endurkomu",
-        "ReturnBounceRate": "%s endurkomur hafa skoppað (yfirgefið vefinn eftir eina síðu)",
-        "ReturnVisits": "%s endurkomur",
         "SubmenuFrequency": "Tíðni",
         "WidgetGraphReturning": "Línurit yfir endurkomur",
         "WidgetOverview": "Tíðniyfirlit"

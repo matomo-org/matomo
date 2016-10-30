@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Vyššie je uvedená hlavná chybová správa, ktorá by mala vysvetliť problém. Ak potrebujete ďalšiu pomoc, tak prosím:",
         "HelpMessageIntroductionWhenWarning": "Aktualizácia je úspešne ukončená, vyskytli sa však problémy. Prečítajte si nasledovné detaily. Ďalšiu pomoc nájdete na:",
         "HighTrafficPiwikServerEnableMaintenance": "Ak natrafíte na zahltený Piwik server, odporúčame %1$s dočasne vypnúť sledovanie návštevníkov a prepnúť Piwik-užívateľské rozhranie do módu údržby %2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Pozn.: niektoré pluginy nie sú kompatibilné s Piwik %s. Budú vypnuté ak aktualizujete:",
         "InstallingTheLatestVersion": "Inštalácia poslednej verzie",
         "LatestBetaRelease": "Posledná beta verzia",
         "LatestStableRelease": "Posledná stabilné vydanie",

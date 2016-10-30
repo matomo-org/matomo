@@ -23,7 +23,7 @@
         <directory>./System</directory>
         <directory>../../plugins/*/tests</directory><!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
         <directory>../../plugins/*/Test</directory>
-        <exclude>../../plugins/*/tests/Integration</exclude><!-- * in exclude is currently not supported by PHPUnit, so it won't work yet. See https://github.com/sebastianbergmann/php-file-iterator/pull/23 -->
+        <exclude>../../plugins/*/tests/Integration</exclude>
         <exclude>../../plugins/*/Test/Integration</exclude>
         <exclude>../../plugins/*/tests/Unit</exclude>
         <exclude>../../plugins/*/Test/Unit</exclude>

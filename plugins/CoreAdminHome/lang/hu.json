@@ -54,7 +54,6 @@
         "LogoUploadHelp": "A feltöltött fájlnak %1$s formátumban, minimum %2$s pixel magasnak kell lennie.",
         "MenuDiagnostic": "Diagnosztika",
         "MenuGeneralSettings": "Alapbeállítások",
-        "MenuManage": "Kezelés",
         "MenuDevelopment": "Fejlesztés",
         "OptOutComplete": "Követés kikapcsolva; a látogatások semmilyen statisztikában nem fognak szerepelni.",
         "OptOutCompleteBis": "Megjegyzés: abban az esetben, ha a követést tiltó süti törlődik, más számítógépről vagy böngészőből látogatja meg a weboldalt, a követést ismét le kell tiltania.",

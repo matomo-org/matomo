@@ -22,7 +22,6 @@
         "FaviconUpload": "Izberite Favicon datoteko za prenos",
         "MenuDiagnostic": "Diagnostika",
         "MenuGeneralSettings": "Splošne nastavitve",
-        "MenuManage": "Upravljaj",
         "MenuDevelopment": "Razvoj",
         "OptOutExplanation": "Piwik želi zagotoviti zasebnost na internetu. Če želite svojim obiskovalcem omogočiti 'opt-out' iz Piwik spletne analitike, potem lahko dodate naslednjo HTML kodo na vašo spletno stran, npr. na stran 'Varovanje zasebnosti'.",
         "OptOutForYourVisitors": "'Opt-out' za vaše obiskovalce",

@@ -62,16 +62,28 @@ class TrackerUpdater
         $this->toFile->checkWritable();
     }
 
+    public function getCurrentTrackerFileContent()
+    {
+        return $this->toFile->getContent();
+    }
+
+    public function getUpdatedTrackerFileContent()
+    {
+        $trackingCode = new PiwikJsManipulator($this->fromFile->getContent(), $this->trackerFiles);
+        $newContent = $trackingCode->manipulateContent();
+
+        return $newContent;
+    }
+
     public function update()
     {
         if (!$this->toFile->hasWriteAccess() || !$this->fromFile->hasReadAccess()) {
             return;
         }
 
-        $trackingCode = new PiwikJsManipulator($this->fromFile->getContent(), $this->trackerFiles);
-        $newContent = $trackingCode->manipulateContent();
+        $newContent = $this->getUpdatedTrackerFileContent();
 
-        if ($newContent !== $this->toFile->getContent()) {
+        if ($newContent !== $this->getCurrentTrackerFileContent()) {
             $this->toFile->save($newContent);
         }
     }

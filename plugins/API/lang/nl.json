@@ -8,6 +8,8 @@
         "ReportingApiReference": "Rapportage API verwijzing",
         "TopLinkTooltip": "Benader je Web Analyse data via een simpele API in josn, xml, enz.",
         "UserAuthentication": "Gebruikers authenticatie.",
-        "UsingTokenAuth": "Als u data wil %1$s opvragen via een script, een cronjob, enz. waarvoor authenticatie vereist is, %2$s moet u de parameter %3$s aan de API aanvraag URL's toevoegen"
+        "UsingTokenAuth": "Als u data wil %1$s opvragen via een script, een cronjob, enz. waarvoor authenticatie vereist is, %2$s moet u de parameter %3$s aan de API aanvraag URL's toevoegen",
+        "Glossary": "Samenvatting",
+        "LearnAboutCommonlyUsedTerms": "Leer over de standaard gebruikte termen om zo het meeste uit Piwik Analytics te halen: %1$s en %2$s."
     }
 }

@@ -1,5 +1,6 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Controllo aggiornamenti plugin",
         "ClickHereToViewSqlQueries": "Leggi e copia la lista di query SQL che dovranno essere eseguite",
         "CriticalErrorDuringTheUpgradeProcess": "Errore critico durante l'aggiornamento:",
         "DatabaseUpgradeRequired": "Aggiornamento del Database richiesto",
@@ -23,7 +24,7 @@
         "HelpMessageIntroductionWhenError": "Il messaggio qui sopra ti spiega l'errore verificatosi durante l'aggiornamento. Ti spiega cosa l'ha causato, ma se vuoi ulteriore aiuto:",
         "HelpMessageIntroductionWhenWarning": "L'aggiornamento è stato completato con successo, tuttavia si sono verificati dei piccoli problemi. Puoi leggerne qui sopra una breve descrizione. Per maggiori informazioni:",
         "HighTrafficPiwikServerEnableMaintenance": "Se gestisci un server di Piwik ad alto traffico, raccomandiamo di %1$sdisabilitare temporaneamente il Tracciamento dei visitatori e di mettere l'Interfaccia Utente di Piwik in modalità manutenzione%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Nota: alcuni plugins non sono compatibili con Piwik %s. Dopo l'aggiornamento verranno disabilitati.",
+        "IncompatbilePluginsWillBeDisabledInfo": "Nota: alcuni plugin non sono compatibili con Piwik %s. Se sarà disponibile un aggiornamento sul Marketplace li aggiorneremo, altrimenti li terremo disabilitati quando aggiornerai:",
         "InstallingTheLatestVersion": "Sto installando l'ultima versione",
         "LatestBetaRelease": "Ultima release beta",
         "LatestStableRelease": "Ultima release stabile",
@@ -52,9 +53,10 @@
         "UpdateAutomatically": "Aggiorna automaticamente",
         "UpdateHasBeenCancelledExplanation": "Il \"Piwik One Click Update\" è stato annullato. Se non riesci a sistemare il problema che ha causato il messaggio di errore indicato, è consigliabile aggiornare Piwik manualmente. %1$s Controlla la %2$sDocumentazione di aggiornamento%3$s per iniziare!",
         "UpdateTitle": "Aggiorna",
+        "UpdatingPluginXToVersionY": "Aggiornamento del plugin %1$s alla versione %2$s",
         "UpdateSuccessTitle": "Piwik è stato aggiornato con successo!",
         "UpdateErrorTitle": "Errore nell'aggiornamento",
-        "ThankYouUpdatePiwik": "Grazie per l'utilizzo di Piwik e per tenerlo aggiornato!",
+        "ThankYouUpdatePiwik": "Grazie per l'utilizzo di Piwik e per averlo aggiornato!",
         "PostUpdateMessage": "Piwik sarà sempre gratuito da scaricare e utilizzare, ma necessita del tuo continuo sostegno per crescere e migliorare.",
         "PostUpdateSupport": "Se hai bisogno di aiuto per utilizzare Piwik, puoi averlo dai suoi creatori:",
         "ProfessionalServices": "Servizi Professionali",

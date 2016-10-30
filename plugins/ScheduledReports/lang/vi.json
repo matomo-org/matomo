@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(tùy chọn) Tùy chọn hiển thị",
         "AggregateReportsFormat_GraphsOnly": "Chỉ hiển thị đồ thị (không có bảng báo cáo)",
         "AggregateReportsFormat_TablesAndGraphs": "Báo cáo hiển thị bảng và đồ thị cho tất cả các báo cáo",
         "AggregateReportsFormat_TablesOnly": "(mặc định) Hiển thị các bảng báo cáo (Các đồ thị chỉ dành cho các số liệu chính)",

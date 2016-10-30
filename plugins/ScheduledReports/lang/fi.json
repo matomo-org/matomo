@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(optionaalinen) Näyttöasetukset",
         "AggregateReportsFormat_GraphsOnly": "Näytä vain kuvaajat (ei raporttien taulukoita)",
         "AggregateReportsFormat_TablesAndGraphs": "Näytä taulukot ja kuvaajat kaikille raporteille",
         "AggregateReportsFormat_TablesOnly": "(oletus) Näytä rapottien taulukot (kuvaajat vain tärkeimmille arvoille)",

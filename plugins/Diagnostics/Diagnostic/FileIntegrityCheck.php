@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\Translation\Translator;
 
@@ -28,6 +29,10 @@ class FileIntegrityCheck implements Diagnostic
     public function execute()
     {
         $label = $this->translator->translate('Installation_SystemCheckFileIntegrity');
+
+        if(Development::isEnabled()) {
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+        }
 
         $messages = Filechecks::getFileIntegrityInformation();
         $ok = array_shift($messages);

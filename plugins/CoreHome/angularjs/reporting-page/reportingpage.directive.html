@@ -4,14 +4,6 @@
 
     <div ng-show="hasNoPage">{{ 'CoreHome_NoSuchPage'|translate }}</div>
 
-    <div class="row" ng-repeat="evolutionReport in pageModel.evolutionReports">
-        <div class="col s12 fullWidgetColumn" piwik-widget="evolutionReport"></div>
-    </div>
-
-    <div class="row" ng-repeat="sparklineReport in pageModel.sparklineReports">
-        <div class="col s12 fullWidgetColumn" piwik-widget="sparklineReport"></div>
-    </div>
-
     <div class="row" ng-repeat="widget in pageModel.widgets">
         <div class="col s12 fullWidgetColumn" ng-if="!widget.group" piwik-widget="widget"></div>
 

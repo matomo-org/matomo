@@ -26,7 +26,6 @@ class AllColumns extends HtmlTable
     public function beforeRender()
     {
         $this->config->show_extra_columns  = true;
-        $this->config->show_exclude_low_population = true;
 
         parent::beforeRender();
     }

@@ -35,8 +35,6 @@
         "ManuallyTriggeredUsingJavascriptFunction": "Cieľom je ručne spúšťa pomocou JavaScript API trackGoal()",
         "NewVisitorsConversionRateIs": "Noví návštevníci miera konverzie %s",
         "Optional": "(nepovinné)",
-        "OverallConversionRate": "%s celková miera konverzie (návštevy s cieľom dokončenia)",
-        "OverallRevenue": "%s celkové príjmy",
         "PageTitle": "Titulok stránky",
         "Pattern": "Vzor",
         "ProductCategory": "Kategória produktu",

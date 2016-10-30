@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreatePull extends TranslationBase
 {
-    const GIT_BASE_BRANCH = '2.x-dev';
+    const GIT_BASE_BRANCH = '3.x-dev';
 
     protected function configure()
     {
@@ -187,7 +187,7 @@ class CreatePull extends TranslationBase
 
         while (true) {
 
-            $username = $dialog->ask($output, 'Please provide your github username (to create a pull request using Github API): ');
+            $username = $dialog->ask($output, 'Please provide your GitHub username (to create a pull request using GitHub API): ');
 
             $returnCode = shell_exec('curl \
                  -X POST \

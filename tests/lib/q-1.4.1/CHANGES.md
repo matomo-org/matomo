@@ -655,7 +655,7 @@ Their replacements are listed here:
  - Fixed a minor bug in thenable assimilation, regressed
    because of the change in the forwarding protocol.
  - Fixed behavior of "q/util" `deep` method on dates and
-   other primitives. Github issue #11.
+   other primitives. GitHub issue #11.
 
 ## 0.2.6
 

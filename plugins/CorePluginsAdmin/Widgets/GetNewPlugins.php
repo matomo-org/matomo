@@ -32,7 +32,7 @@ class GetNewPlugins extends Widget
         // TODO it actually shows "recently updated plugins currently". Need a new sort filter in the Marketplace
         // TODO when decided whether to show new plugins or recently updated plugins add translation key
         // we want to show new plugins likely (when changed Marketplace to support actually "newest" plugins)
-        $config->setName('Latest Piwik Plugin Updates');
+        $config->setName('Latest Marketplace Updates');
         $config->setOrder(19);
     }
 

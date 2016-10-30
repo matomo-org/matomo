@@ -12,13 +12,13 @@ use Exception;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Log;
 use Piwik\Piwik;
-use Piwik\PluginDeactivatedException;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\Log;
-use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Dispatches API requests to the appropriate API method.

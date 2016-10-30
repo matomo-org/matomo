@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(по избор) Покажете опции",
         "AggregateReportsFormat_GraphsOnly": "Покажете само графики (без докладни таблици)",
         "AggregateReportsFormat_TablesAndGraphs": "Покажете докладни таблици и графики за всички доклади.",
         "AggregateReportsFormat_TablesOnly": "(по подразбиране) Покажи таблицата с отчетите (Графики само за ключови метрични данни)",

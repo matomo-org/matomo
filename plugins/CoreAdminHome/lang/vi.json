@@ -46,7 +46,6 @@
         "LogoUploadHelp": "Xin vui lòng tải lên file dưới định dạng %1$s với chiều cao tối thiểu là %2$s pixels",
         "MenuDiagnostic": "chẩn đoán",
         "MenuGeneralSettings": "cài đặt chung",
-        "MenuManage": "Quản lý",
         "OptOutComplete": "Việc không tham gia hoàn tất; Việc thăm trang web này của bạn sẽ không được ghi lại bởi các công cụ Web Analytics.",
         "OptOutCompleteBis": "Ghi nhớ rằng nếu bạn xóa cookies hoặc xóa cookie opt-out (quảng cáo, spam), hay nếu bạn tùy chỉnh máy tính hoặc trình duyệt của bạn, bạn sẽ phải tiến hành các thao tác opt-out (chặn spam, quảng cáo) lại một lần nữa.",
         "OptOutExplanation": "Piwik được sử dụng để cung cấp quyền riêng tư trên Internet. Để cung cấp cho những khách ghé thăm trang web của bạn các lựa chọn chặn Piwik Web Analytics, bạn có thể thêm vào mã HTML sau trên trang web của bạn, ví dụ tùy chỉnh trong trang Quyền Riêng tư.",

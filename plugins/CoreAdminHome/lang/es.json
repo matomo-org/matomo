@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Agregar un nuevo host de confianza",
         "Administration": "Administración",
         "ArchivingSettings": "Configuración de archivado",
         "BrandingSettings": "Configuración del Branding",
@@ -54,8 +55,9 @@
         "LogoUploadHelp": "Sube un archivo en formato %1$s con una altura mínima de %2$s píxeles.",
         "MenuDiagnostic": "Diagnóstico",
         "MenuGeneralSettings": "Configuración general",
-        "MenuManage": "Administrar",
+        "MenuSystem": "Sistema",
         "MenuDevelopment": "Desarrollo",
+        "MenuMeasurables": "Medibles",
         "OptOutComplete": "Opt-out completado; sus visitas a este sitio de internet no serán grabadas por la herramienta de Análisis de internet.",
         "OptOutCompleteBis": "Tenga en cuenta que si elimina sus cookies, elimina la cookie opt-out, o si cambia de ordenador o navegador, deberá llevar a cabo el procedimiento opt-out otra vez.",
         "OptOutDntFound": "No está siendo rastreado desde que su navegador está informando que esa es su elección. Esta es una opción de su navegador, así que no será posible hasta tanto no deshabilite la función 'No rastrear'.",
@@ -70,6 +72,8 @@
         "PluginSettingsIntro": "Aquí puede cambiar la configuración de los siguientes complementos de terceros:",
         "PluginSettingsValueNotAllowed": "El valor del campo \"%1$s\" del complemento \"%2$s\" no es permitido",
         "PluginSettingsSaveFailed": "Error al guardar la configuración del complemento",
+        "PluginSettingsSaveSuccess": "Ajustes del complemento actualizado.",
+        "SettingsSaveSuccess": "Ajustes actualizados.",
         "SendPluginUpdateCommunication": "Envíe un correo electrónico cuando la actualización del complemento esté disponible",
         "SendPluginUpdateCommunicationHelp": "Se enviará un correo electrónico a los Super Usuarios cuando haya disponible una nueva versión de un complemento.",
         "StableReleases": "Si Piwik es una parte crítica de su negocio, le recomendamos que utilice la última versión estable. Si usa la última versión beta y encuentra un error o tiene alguna sugerencia, por favor %1$sver aquí%2$s.",
@@ -88,6 +92,7 @@
         "YouMayOptOut": "Puede escojer no tener un único número de identificación de la cookie de análisis de internet asignado a su ordenador para prevenir la agregación y el análisis de datos recogidos en este sitio de internet.",
         "YouMayOptOutBis": "Para escoger esto, por favor haga clic debajo para recibir una cookie opt-out (para no ser seguido).",
         "OptingYouOut": "Opción a salir, por favor espere...",
-        "ProtocolNotDetectedCorrectly": "Actualmente estás usando Piwik sobre una conexión SSL (usando HTTPs), pero Piwik solo puede detectar una conexión insegura en el servidor."
+        "ProtocolNotDetectedCorrectly": "Actualmente estás usando Piwik sobre una conexión SSL (usando HTTPs), pero Piwik solo puede detectar una conexión insegura en el servidor.",
+        "ProtocolNotDetectedCorrectlySolution": "Para asegurarse que Piwik peticiona y satisface de manera segura su contenido a través de HTTPS, puede modificar su archivo %1$s o configurar los datos de su proxy o puede agregar la siguiente línea %2$s bajo la sección %3$s. %4$sAprenda más%5$s"
     }
 }

@@ -4,31 +4,11 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
-## Piwik 2.16.3
-
-### New APIs
-* The Piwik JavaScript tracker has a new method `trackRequest` that allows you to send any tracking parameters to Piwik. For example  `_paq.push(['trackRequest', 'te=foo&bar=baz'])`
-
-### Internal Changes
-* Expected screenshots for UI tests are now stored using Git LFS instead of a submodule. Running, creating or updating UI tests will require Git LFS to be installed.
-The folder containing expected screenshots was renamed from `expected-ui-screenshots` to `expected-screenshots`. The UI-Test-Runner is now able to handle both names.
-
-## Piwik 2.16.2
-
-### New APIs
- * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers)
- * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
- * Added a new API method `Goals.getGoal($idSite, $idGoal)` to fetch a single goal.
- 
-### Internal change
- * Piwik is now compatible with PHP7. 
- * `piwik.js`, if you call the method `setDomains` note that that the behavior has slightly changed. The current page domain (hostname) will now be added automatically if none of the given host alias passed as a parameter to `setDomains` contain a path and if no host alias is already given for the current host alias. 
- Say you are on "example.org" and set `hostAlias = ['example.com', 'example.org/test']` then the current "example.org" domain will not be added as there is already a more restrictive hostAlias 'example.org/test' given. 
- We also do not add the current page domain (hostname) automatically if there was any other host specifying any path such as `['example.com', 'example2.com/test']`. 
- In this case we also do not add the current page domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts manually. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
- * `piwik.js`: after an ecommerce order is tracked using `trackEcommerceOrder`, the items in the cart will now be removed from the JavaScript object. Calling `trackEcommerceCartUpdate` will not remove the items in the cart.   
-
 ## Piwik 3.0.0
+
+### New guide
+
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](http://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Breaking Changes
 * The menu classes `Piwik\Menu\MenuReporting` and `Piwik\Menu\MenuMain` have been removed
@@ -51,7 +31,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * A new methd `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
 * The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
-* It is no possible to define an introduction text for settings.
+* It is no longer possible to define an introduction text for settings.
 * If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 * The following deprecated events have been removed as mentioned.
  * `Tracker.existingVisitInformation` Use [dimensions](http://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
@@ -68,6 +48,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * `Login.authenticate`  Create a custom SessionInitializer instead of using `Login` events
  * `Login.initSession.end`
  * `Login.authenticate.successful`
+* When posting one of the events `API.Request.dispatch`, `API.Request.dispatch.end`, `API.$plugin.$apiAction`, or `API.$plugin.$apiAction.end` the `$finalParameters` parameter is indexed in Piwik 2 (eg `array(1, 6)`), and named in Piwik 3 (eg `array('idSite' => 1, 'idGoal' => 6)`)
  
 Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
@@ -96,17 +77,43 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `PluginManager.pluginInstalled` triggered after a plugin was installed
  * `PluginManager.pluginUninstalled` triggered after a plugin was uninstalled
 * New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.piwik.org/api-reference/tracking-api);
+* New event `Segment.addSegments` that lets you add segments.
 
 ### New features
-* New "Sparklines" visualization that lets you create a widget showing multiple sparklines
+* New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
 
 ### Library updates
 * Updated AngularJS from 1.2.28 to 1.4.3
+* Updated several backend libraries to their latest version: doctrine/cache, php-di.
 
 ### Internal change
 * Support for IE8 was dropped. This affects only the Piwik UI, not the Piwik.js Tracker.
-* Required PHP version was changed from 5.3 to 5.5
-* We have updated PhantomJS 1.9 to 2.1.1 for our screenshot tests.
+* Required PHP version was increased from 5.3 to 5.5.9
+* We have updated PhantomJS 1.9 to 2.1.1 for our UI screenshot tests.
+
+## Piwik 2.16.3
+
+### New APIs
+* The Piwik JavaScript tracker has a new method `trackRequest` that allows you to send any tracking parameters to Piwik. For example  `_paq.push(['trackRequest', 'te=foo&bar=baz'])`
+
+### Internal Changes
+* Expected screenshots for UI tests are now stored using Git LFS instead of a submodule. Running, creating or updating UI tests will require Git LFS to be installed.
+The folder containing expected screenshots was renamed from `expected-ui-screenshots` to `expected-screenshots`. The UI-Test-Runner is now able to handle both names.
+
+## Piwik 2.16.2
+
+### New APIs
+ * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers)
+ * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
+ * Added a new API method `Goals.getGoal($idSite, $idGoal)` to fetch a single goal.
+ 
+### Internal change
+ * Piwik is now compatible with PHP7. 
+ * `piwik.js`, if you call the method `setDomains` note that that the behavior has slightly changed. The current page domain (hostname) will now be added automatically if none of the given host alias passed as a parameter to `setDomains` contain a path and if no host alias is already given for the current host alias. 
+ Say you are on "example.org" and set `hostAlias = ['example.com', 'example.org/test']` then the current "example.org" domain will not be added as there is already a more restrictive hostAlias 'example.org/test' given. 
+ We also do not add the current page domain (hostname) automatically if there was any other host specifying any path such as `['example.com', 'example2.com/test']`. 
+ In this case we also do not add the current page domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts manually. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
+ * `piwik.js`: after an ecommerce order is tracked using `trackEcommerceOrder`, the items in the cart will now be removed from the JavaScript object. Calling `trackEcommerceCartUpdate` will not remove the items in the cart.   
 
 
 ## Piwik 2.16.1
@@ -197,7 +204,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `Tracker.recordAction`
  * `Tracker.recordEcommerceGoal`
  * `Tracker.recordStandardGoals`
-* The Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been deprecated and will be removed in Piwik 3.0. Use `\Piwik\Plugin::registerEvents()` instead.
+* The Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been deprecated and will be removed in Piwik 4.0. Use `\Piwik\Plugin::registerEvents()` instead.
 
 
 ### Internal changes

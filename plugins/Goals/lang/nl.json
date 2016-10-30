@@ -70,7 +70,6 @@
         "IsExactly": "is exact %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Leer meer over het %1$s bijhouden van Doelen in Piwik%2$s in de gebruikers documentatie.",
         "LeftInCart": "%s achtergelaten in winkelwagen",
-        "ManageGoalsOrCreateANewGoal": "%1$sBeheer Doelen%2$s of maak nu een nieuw Doel!",
         "Manually": "handmatig",
         "ManuallyTriggeredUsingJavascriptFunction": "Doelstelling is handmatig geactiveerd door de Javascript API trackGoal()",
         "MatchesExpression": "Voldoet aan de expressie %s",
@@ -80,8 +79,6 @@
         "NoConversionsNoReportsMessage": "Rapporten worden niet getoond omdat er geen conversie gegevens zijn voor het geselecteerde doel en periode.",
         "NeedAccess": "Alleen een Beheerder of een gebruiker met Super User rechten kan Doelen beheren voor een bepaalde website.",
         "Optional": "(optioneel)",
-        "OverallConversionRate": "%s Het algehele conversiepercentageDe algehele totaal inkomsten rate (bezoeken met een voltooide doelstelling)",
-        "OverallRevenue": "%s totale inkomsten",
         "PageTitle": "Paginatitel",
         "Pattern": "Patroon",
         "PluginDescription": "Maak Doelen aan en zie gedetaileerde rapporten over behaalde doelen: evoluties over tijd, inkomsten per bezoek, omzet per referrer, per sleutelwoord, en meer.",
@@ -102,7 +99,6 @@
         "VisitUrl": "Bezoek een gegeven url (pagina of groep pagina's)",
         "WhenVisitors": "wanneer bezoekers",
         "WhereThe": "waar de",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Wanneer een bezochte pagina een oproep bevat naar de javascript piwikTracker.trackGoal() methode (%1$smeer info%2$s)",
         "YouCanEnableEcommerceReports": "U kunt de functie %1$s inschakelen voor deze website in de pagina %2$s."
     }
 }

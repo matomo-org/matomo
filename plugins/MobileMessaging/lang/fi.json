@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Puhelinnumero on todennettu! Nyt voit vastaanottaa tilastojasi tekstiviesteinä.",
         "Settings_PhoneNumber": "Puhelinnumero",
         "Settings_PhoneNumbers_Add": "Lisää uusi puhelinnumero",
-        "Settings_PhoneNumbers_CountryCode_Help": "Jos et tiedä puhelinnumerosi maakoodia, hae maasi täältä",
         "Settings_PhoneNumbers_Help": "Ennen kuin voit saada raportteja puhelimeesi SMS-viesteinä (tekstiviesteinä), sinun täytyy antaa puhelinnumerosi alle.",
         "Settings_PhoneNumbers_HelpAdd": "Kun klikkaat \"Lisää\", puhelimeesi lähetetään SMS, joka sisältää koodin. Kirjaudu sisään Piwikiin, klikkaa Asetukset ja sitten Mobiiliviestintä. Kun olet antanut koodin, voit vastaanottaa raportteja puhelimeesi.",
         "Settings_PleaseSignUp": "Luodaksesi SMS raportteja ja vastaanottaaksesi tekstiviestejä verkkosivusi tilastoista, kirjaudu SMS API:n avulla ja merkitse tiedot alle.",

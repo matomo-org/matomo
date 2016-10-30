@@ -1,0 +1,17 @@
+.DS_Store
+node_modules
+*.sock
+testing
+_mocha.js
+my-reporter.js
+*.sw*
+lib/browser/diff.js
+.idea
+*.iml
+*.patch
+*.diff
+npm-debug.log*
+.envrc
+.karma/
+*.orig
+
