@@ -66,9 +66,9 @@ var Piwik_Overlay_FollowingPages = (function () {
             totalClicks += followingPages[i].referrals;
         }
         for (i = 0; i < followingPages.length; i++) {
-	    	var clickRate = followingPages[i].referrals / totalClicks * 100; 
+            var clickRate = followingPages[i].referrals / totalClicks * 100; 
             followingPages[i].clickRate = clickRate;
-	    	if (clickRate > maxClickRate) maxClickRate = clickRate;
+            if (clickRate > maxClickRate) maxClickRate = clickRate;
         }
     }
 
@@ -180,8 +180,8 @@ var Piwik_Overlay_FollowingPages = (function () {
 
         var span = c('span').html(rate + '%');
         var tagElement = c('div', 'LinkTag').append(span).hide();
-		
-		tagElement.attr({'data-rateofmax': Math.round(100 * rate/maxClickRate)/100});
+        
+        tagElement.attr({'data-rateofmax': Math.round(100 * rate/maxClickRate)/100});
         
         body.prepend(tagElement);
 
@@ -257,10 +257,10 @@ var Piwik_Overlay_FollowingPages = (function () {
                         offset = linkTag.offset();
                     }
 
-					var zoomFactor = 1 + +tagElement.attr('data-rateofmax');
-					tagElement.css({'zoom':zoomFactor, 'opacity': zoomFactor/2 });
-					offset.top = offset.top / zoomFactor;
-					offset.left = offset.left / zoomFactor;
+                    var zoomFactor = 1 + +tagElement.attr('data-rateofmax');
+                    tagElement.css({'zoom':zoomFactor, 'opacity': zoomFactor/2 });
+                    offset.top = offset.top / zoomFactor;
+                    offset.left = offset.left / zoomFactor;
 
                     top = offset.top - tagHeight + 6;
                     left = offset.left - tagWidth + 10;
