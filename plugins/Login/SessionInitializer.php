@@ -134,6 +134,13 @@ class SessionInitializer
      */
     protected function doAuthenticateSession(AuthInterface $auth)
     {
+        Piwik::postEvent(
+            'Login.authenticate',
+            array(
+                $auth->getLogin(),
+            )
+        );
+
         return $auth->authenticate();
     }
 
