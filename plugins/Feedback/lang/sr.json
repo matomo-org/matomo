@@ -19,6 +19,16 @@
         "ViewUserGuides": "Naučite kako da podesite Piwik i kako da efikasno analizirate vaše podatke prateći %1$skorisničko uputstvo%2$s",
         "CommunityHelp": "Pomoć zajednice",
         "ProfessionalHelp": "Profesionalna pomoć",
-        "ContactUs": "Kontaktirajte nas"
+        "ProfessionalServicesIntro": "Svetska mreža profesionalnih konsultanata za podršku klijentima koji hostuju Piwik na sopstvenim platformama.",
+        "ProfessionalServicesOfferIntro": "Od kojih usluga možete imati koristi?",
+        "ProfessionalServicesReviewPiwikSetup": "Provera vaše Piwik instalacije",
+        "ProfessionalServicesOptimizationMaintenance": "Usluge optimizacije i održavanja Piwik-a",
+        "ProfessionalServicesPhoneEmailSupport": "Telefonska i podrška putem mejla",
+        "ProfessionalServicesTraining": "Korisnički, tehnički i razvojni trening",
+        "ProfessionalServicesPremiumFeatures": "Premium sadržaji",
+        "ProfessionalServicesCustomDevelopment": "Razvoj usluga po vašoj želji",
+        "ProfessionalServicesAnalystConsulting": "Usluge analitičkog konsaltinga",
+        "ContactUs": "Kontaktirajte nas",
+        "VisitTheForums": "Posetite %1$s Forum%2$s kako biste dobili pomoć zajednice Piwik korisnika"
     }
 }

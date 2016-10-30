@@ -52,6 +52,7 @@
         "MissingRequirementsPleaseInstallNotice": "Bitte installiere %1$s %2$s da es von %3$s benötigt wird.",
         "NewVersion": "Neue Version",
         "NoPluginsFound": "Keine Plugins gefunden",
+        "NoPluginSettings": "Es gibt keine Einstellungen dieser Erweiterung, die konfiguriert werden können",
         "NotAllowedToBrowseMarketplacePlugins": "Sie können die Liste der installierbaren Plugins durchforsten, um sie für Ihre Plattform anzupassen oder zu erweitern. Bitte kontaktieren Sie Ihren Administrator, wenn Sie eines dieser Plugins installiert haben möchten.",
         "NotAllowedToBrowseMarketplaceThemes": "Sie können die Liste der installierbaren Themes durchforsten, um das Erscheinungsbild Ihrer Plattform anzupassen. Bitte kontaktieren Sie Ihren Administrator wenn Sie eines dieser Themes installiert haben möchten.",
         "NoThemesFound": "Keine Themes gefunden",
