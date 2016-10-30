@@ -74,6 +74,58 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $updater->checkWillSucceed();
     }
 
+    public function test_getCurrentTrackerFileContent()
+    {
+        $targetFile = $this->dir . 'testpiwik.js';
+
+        $updater = $this->makeUpdater(null, $targetFile);
+        $content = $updater->getCurrentTrackerFileContent();
+
+        $this->assertSame(file_get_contents($targetFile), $content);
+    }
+
+    public function test_getUpdatedTrackerFileContent_returnsGeneratedPiwikJsWithMergedTrackerFiles_WhenTheyExist()
+    {
+        $source = $this->dir . 'testpiwik.js';
+        $target = $this->dir . 'MyTestTarget.js';
+
+        $updater = $this->makeUpdater($source, $target);
+        $updater->setTrackerFiles(new PluginTrackerFilesMock(array(
+            $this->dir . 'tracker.js', $this->dir . 'tracker.min.js'
+        )));
+        $content = $updater->getUpdatedTrackerFileContent();
+
+        $this->assertSame('/** MyHeader*/
+var PiwikJs = "mytest";
+
+/*!!! pluginTrackerHook */
+
+/* GENERATED: tracker.min.js */
+
+/* END GENERATED: tracker.min.js */
+
+
+/* GENERATED: tracker.js */
+
+/* END GENERATED: tracker.js */
+
+
+var myArray = [];
+', $content);
+    }
+
+    public function test_getUpdatedTrackerFileContent_returnsSourceFile_IfNoTrackerFilesFound()
+    {
+        $source = $this->dir . 'testpiwik.js';
+        $target = $this->dir . 'MyTestTarget.js';
+
+        $updater = $this->makeUpdater($source, $target);
+        $updater->setTrackerFiles(new PluginTrackerFilesMock(array()));
+        $content = $updater->getUpdatedTrackerFileContent();
+
+        $this->assertSame(file_get_contents($source), $content);
+    }
+
     public function test_update_shouldNotThrowAnError_IfTargetFileIsNotWritable()
     {
         $updater = $this->makeUpdater(null, $this->dir . 'MyNotExisIngFilessss.js');
