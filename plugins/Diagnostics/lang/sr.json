@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Datoteka sa podešavanjima",
+        "ConfigFileIntroduction": "Ovde možete da vidite Piwik podešavanja. Ukoliko vaš Piwik radi u okruženju sa balansiranjem opterećenja, stranica možda izgčeda drugačije u zavisnosti sa kog servera je učitana. Redovi sa drugačijom bojom pozadine sadrže vrednosti koje su izmenjene u odnosu na primer iz fajla %1$s.",
+        "HideUnchanged": "Ukoliko želite da vidite samo izmenjene vrednosti, možete da %1$ssakrijete neizmenjene vrednosti%2$s.",
+        "Sections": "Sekcije"
+    }
+}

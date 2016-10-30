@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "JavaScript treker u koji je moguće pisati (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "U Piwik JavaScript treker datoteku \"\/piwik.js\" nije moguće pisati što znači da ostali dodaci ne mogu da prošire JavaScript treker. U budućnosti možda čak ni neke bazične funkcije neće raditi kako se očekuje.",
+        "DiagnosticPiwikJsMakeWritable": "Predlažemo da omogućite pisanje u piwik.js sledećom komandom: %s"
+    }
+}

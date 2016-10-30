@@ -14,6 +14,8 @@
         "Settings_CredentialNotProvidedByAdmin": "Bevor Sie Telefonnummern anlegen und verwalten können, bitten Sie Ihren Administrator darum Piwik mit einem SMS-Account zu verknüpfen.",
         "Settings_CredentialProvided": "Ihr %s SMS-API Zugang ist korrekt konfiguriert.",
         "Settings_DeleteAccountConfirm": "Sind Sie sicher, dass Sie das SMS Konto löschen möchten?",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Der eingestellte SMS-Provider wird nur von Ihnen und nicht von anderen Benutzern verwendet.",
+        "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Die eingestellten Telefonnummern können nur von Ihnen und nicht von anderen Benutzern gesehen und verwendet werden.",
         "Settings_EnterActivationCode": "Aktivierungscode eingeben",
         "Settings_InvalidActivationCode": "Der eingegebene Code ist nicht korrekt, bitte probieren Sie es noch einmal.",
         "Settings_LetUsersManageAPICredential": "Erlauben Sie Benutzern das verwalten von eigenen SMS API Konten",

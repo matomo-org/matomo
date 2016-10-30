@@ -26,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "Die Anzahl der Besuche, bei denen dieser Link angeklickt wurde. Falls der Link mehrmals pro Besuch angeklickt wurde, wird er nur einmal gezählt.",
         "ColumnUniqueDownloads": "Eindeutige Downloads",
         "ColumnUniqueOutlinks": "Eindeutige ausgehende Verweise",
+        "ColumnIdPageview": "Seitenansicht-ID",
         "DownloadsReportDocumentation": "In diesem Bericht sehen Sie, welche Dateien Ihre Besucher heruntergeladen haben. %s Als Download wird in Piwik der Klick auf einen Downloadlink gewertet. Ob der Download abgeschlossen wurde oder nicht, ist Piwik nicht bekannt.",
         "EntryPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Einstiegsseiten. Die Einstiegsseite ist die erste Seite, die während eines Besuches aufgerufen wird. %s Die URLs werden als Ordnerstruktur angezeigt.",
         "EntryPageTitles": "Titel der Einstiegsseite",
