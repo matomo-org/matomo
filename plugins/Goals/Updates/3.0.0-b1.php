@@ -12,21 +12,38 @@ namespace Piwik\Plugins\Goals;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 
 class Updates_3_0_0_b1 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
     {
-        $updateSql = array(
-            'ALTER TABLE `' . Common::prefixTable('goal')
-                . '` ADD COLUMN `description` VARCHAR(255) NOT NULL DEFAULT \'\' AFTER `name`;' => array(1060)
-        );
-        return $updateSql;
+        $this->migration = $factory;
     }
 
+    /**
+     * Here you can define one or multiple SQL statements that should be executed during the update.
+     * @return Updater\Migration[]
+     */
+    public function getMigrations(Updater $updater)
+    {
+        return array(
+            $this->migration->db->addColumn('goal', 'description', 'VARCHAR(255) NOT NULL DEFAULT \'\'', 'name'),
+        );
+    }
+
+    /**
+     * Here you can define any action that should be performed during the update. For instance executing SQL statements,
+     * renaming config entries, updating files, etc.
+     */
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }
