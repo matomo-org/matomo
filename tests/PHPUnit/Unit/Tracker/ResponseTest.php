@@ -127,7 +127,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $tracker->setCountOfLoggedRequests(0);
         $this->response->outputResponse($tracker);
 
-        $this->assertEquals("<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.",
+        $this->assertEquals('This resource is part of <a href="https://piwik.org/" rel="nofollow">Piwik</a>, a free/libre web analytics tool that lets you keep control of your data.',
             $this->response->getOutput());
     }
 

@@ -251,7 +251,7 @@ class TrackerTest extends IntegrationTestCase
 
         $response = $this->tracker->main($this->getDefaultHandler(), $requestSet);
 
-        $expected = "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
+        $expected = 'This resource is part of <a href="https://piwik.org/" rel="nofollow">Piwik</a>, a free/libre web analytics tool that lets you keep control of your data.';
         $this->assertEquals($expected, $response);
     }
 
