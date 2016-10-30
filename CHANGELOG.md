@@ -48,6 +48,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration g
  * `Login.authenticate`  Create a custom SessionInitializer instead of using `Login` events
  * `Login.initSession.end`
  * `Login.authenticate.successful`
+* When posting one of the events `API.Request.dispatch`, `API.Request.dispatch.end`, `API.$plugin.$apiAction`, or `API.$plugin.$apiAction.end` the `$finalParameters` parameter is indexed in Piwik 2 (eg `array(1, 6)`), and named in Piwik 3 (eg `array('idSite' => 1, 'idGoal' => 6)`)
  
 Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
