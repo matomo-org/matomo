@@ -27,6 +27,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration g
 * Controller actions are now case sensitive. This means the URL and events have to use the same case as the name of the action defined in a controller. 
 * When calling the HTTP Reporting API, a default filter limit of 100 is now always applied. The default filter limit used to be not applied to API calls that do not return reports, such as when requesting sites, users or goals information.
 * The "User Menu" was removed and should be replaced by "Admin Menu". Change `configureUserMenu(MenuUser $menu)` to `configureAdminMenu(MenuAdmin $menu)` in your `Menu.php`.
+* The method `Piwik\Menu\MenuAbstract::add()` has been removed, use `Piwik\Menu\MenuAbstract::addItem()` instead
 * The method `Piwik\Menu\MenuAdmin::addSettingsItem()` was removed, use  `Piwik\Menu\MenuAdmin::addSystemItem()` instead.
 * A new methd `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
 * The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
