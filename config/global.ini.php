@@ -312,6 +312,11 @@ minimum_memory_limit = 128
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit_when_archiving = 768
 
+; If set to 1, Piwik will enable a fallback to file permissions "0777" if a file or directory cannot be made writable
+; via "0755" or "0775". Enable this setting only if you cannot fix file permission problems otherwise as files may be
+; made world writable. This means files will be readable by all users on your server.
+allow_world_writable_file_permissions = 0;
+
 ; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
 ; This can be disabled, if for example you wish to import an existing User database in Piwik and your rules are less restrictive
 disable_checks_usernames_attributes = 0
