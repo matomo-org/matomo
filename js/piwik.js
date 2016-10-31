@@ -6755,8 +6755,10 @@ if (typeof window.Piwik !== 'object') {
             getAsyncTracker: function (piwikUrl, siteId) {
 
                 var firstTracker;
-                if (asyncTrackers && asyncTrackers[0]) {
+                if (asyncTrackers && asyncTrackers.length && asyncTrackers[0]) {
                     firstTracker = asyncTrackers[0];
+                } else {
+                    return createFirstTracker(piwikUrl, siteId);
                 }
 
                 if (!siteId && !piwikUrl) {
@@ -6831,15 +6833,18 @@ if (typeof window.Piwik !== 'object') {
         }
     }
 
-    window.Piwik.addTracker();
+    if (window && window.piwikAsyncInit) {
+        window.piwikAsyncInit();
+    }
+
+    if (!window.Piwik.getAsyncTrackers().length) {
+        window.Piwik.addTracker();
+    }
 
     window.Piwik.trigger('PiwikInitialized', []);
     window.Piwik.initialized = true;
 }());
 
-if (window && window.piwikAsyncInit) {
-    window.piwikAsyncInit();
-}
 
 /*jslint sloppy: true */
 (function () {
