@@ -69,7 +69,6 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Archive', 'getDataTableFromArchive');
-        $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Plugin', 'getListHooksRegistered');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Plugins\API\API', 'getLastDate');
 
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\DevicesDetection\DevicesDetection', 'renameUserSettingsModuleAndAction');
@@ -77,6 +76,7 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\DevicePlugins\DevicePlugins', 'renameUserSettingsModuleAndAction');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\UserLanguage\UserLanguage', 'renameUserSettingsModuleAndAction');
 
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('\Piwik\Plugin', 'getListHooksRegistered');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getSql');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'update');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getMigrationQueries');
