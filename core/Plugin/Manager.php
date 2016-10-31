@@ -17,6 +17,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\EventDispatcher;
+use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Notification;
