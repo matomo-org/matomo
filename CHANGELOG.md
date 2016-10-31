@@ -14,6 +14,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration g
 * The menu classes `Piwik\Menu\MenuReporting` and `Piwik\Menu\MenuMain` have been removed
 * The class `Piwik\Plugin\Widgets` has been removed and replaced by `Piwik\Widget\Widget`. For each widget one class is needed from now on. You can generate a widget via `./console generate:widget`.
 * The class `Piwik\WidgetList` class has been moved to `Piwik\Widget\WidgetsList`.
+* The method `Piwik\Plugins\API\API::getLastDate()` has been removed.
 * The method `Piwik\Archive::getDataTableFromArchive()` has been removed, use `Piwik\Archive::createDataTableFromArchive` instead.
 * The method `Piwik\Plugin\Menu::configureReportingMenu` has been removed. To add something to the reporting menu you need to create widgets
 * The method `Report::configureWidget()`, `Report::getWidgetTitle()` and `Report::configureReportingMenu()` have been removed, use the new method `Report::configureWidgets()` instead.
