@@ -11,7 +11,7 @@
         "Default": "default",
         "DonateCall1": "Piwik will always cost you nothing to use, but that doesn't mean it costs us nothing to make.",
         "DonateCall2": "Piwik needs your continued support to grow and thrive.",
-        "DonateCall3": "If you feel that Piwik has added significant value to your business or endeavour, %1$splease consider donating%2$s or %3$spurchasing a premium feature%4$s.",
+        "DonateCall4": "If you feel that Piwik has added significant value to your business or endeavour, %1$splease consider donating%2$s or %3$spurchasing a premium feature%4$s.",
         "DonateFormInstructions": "Click on the slider to select an amount, then click subscribe to donate.",
         "ExcludeRowsWithLowPopulation": "All rows are shown %s Exclude low population",
         "ExternalHelp": "Help (opens in new tab)",
