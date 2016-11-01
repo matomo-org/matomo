@@ -108,7 +108,7 @@ class Updater
         /**
          * Event triggered after a component has been updated.
          *
-         * Can be used to handle stuff that should be done after a component was updated
+         * Can be used to handle logic that should be done after a component was updated
          *
          * **Example**
          *
@@ -125,7 +125,7 @@ class Updater
          *          $mail->send();
          *     });
          *
-         * @param string $componentName 'core', or plugin name
+         * @param string $componentName 'core', plugin name or dimension name
          * @param string $updatedVersion version updated to
          */
         Piwik::postEvent('Updater.componentUpdated', array($name, $version));
@@ -146,9 +146,9 @@ class Updater
         }
 
         /**
-         * Event triggered after a plugin has been uninstalled.
+         * Event triggered after a component has been uninstalled.
          *
-         * @param string $pluginName The plugin that has been uninstalled.
+         * @param string $name The component that has been uninstalled.
          */
         Piwik::postEvent('Updater.componentUninstalled', array($name));
     }
