@@ -1087,7 +1087,7 @@ class Manager
             $pluginsInstalled[] = $pluginName;
             $this->updatePluginsInstalledConfig($pluginsInstalled);
             $updater = new Updater();
-            $updater->markComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
+            $updater->markComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion(), $isNew = true);
             $saveConfig = true;
 
             /**
