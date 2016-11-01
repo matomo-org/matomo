@@ -4,8 +4,8 @@
             {{ msg }}
         {% else %}
             <p>{{ 'CoreHome_DonateCall1'|translate }}</p>
-            <p><strong><em>{{ 'CoreHome_DonateCall2'|translate }}</em></strong></p>
-            <p>{{ 'CoreHome_DonateCall3'|translate('<em><strong>','</strong></em>')|raw }}</p>
+            <p><strong>{{ 'CoreHome_DonateCall2'|translate }}</strong></p>
+            <p>{{ 'CoreHome_DonateCall3'|translate('<strong>','</strong>', '<a target="_blank" rel="nofollow" href="https://plugins.piwik.org/premium"><strong>', '</strong></a>')|raw }}</p>
         {% endif %}
     </div>
 
