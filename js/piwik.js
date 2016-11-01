@@ -6847,6 +6847,20 @@ if (typeof window.Piwik !== 'object') {
 (function () {
     'use strict';
 
+    function hasPaqConfiguration()
+    {
+        if ('object' !== typeof _paq) {
+            return false;
+        }
+        // needed to write it this way for jslint
+        var lengthType = typeof _paq.length;
+        if ('undefined' === lengthType) {
+            return false;
+        }
+
+        return !!_paq.length;
+    }
+
     if (window
         && 'object' === typeof window.piwikPluginAsyncInit
         && window.piwikPluginAsyncInit.length) {
@@ -6863,7 +6877,12 @@ if (typeof window.Piwik !== 'object') {
     }
 
     if (!window.Piwik.getAsyncTrackers().length) {
-        window.Piwik.addTracker();
+        // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
+        if (hasPaqConfiguration()) {
+            // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
+            // Piwik.getAsyncTrackers() would return unconfigured trackers
+            window.Piwik.addTracker();
+        }
     }
 
     window.Piwik.trigger('PiwikInitialized', []);
