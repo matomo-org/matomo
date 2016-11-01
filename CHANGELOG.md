@@ -75,6 +75,8 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `Updater.componentUpdated` triggered after core or a plugin has been updated
  * `PluginManager.pluginInstalled` triggered after a plugin was installed
  * `PluginManager.pluginUninstalled` triggered after a plugin was uninstalled
+ * `Updater.componentInstalled` triggered after a component was installed
+ * `Updater.componentUninstalled` triggered after a component was uninstalled
 * New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.piwik.org/api-reference/tracking-api);
 * New event `Segment.addSegments` that lets you add segments.
 

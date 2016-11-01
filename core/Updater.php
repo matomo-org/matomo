@@ -83,14 +83,52 @@ class Updater
      *
      * @param string $name The component name. Eg, a plugin name, `'core'` or dimension column name.
      * @param string $version The component version (should use semantic versioning).
+     * @param bool   $isNew indicates if the component is a new one (for plugins)
      */
-    public function markComponentSuccessfullyUpdated($name, $version)
+    public function markComponentSuccessfullyUpdated($name, $version, $isNew = false)
     {
         try {
             Option::set(self::getNameInOptionTable($name), $version, $autoLoad = 1);
         } catch (\Exception $e) {
             // case when the option table is not yet created (before 0.2.10)
         }
+
+        if ($isNew) {
+
+            /**
+             * Event triggered after a new component has been installed.
+             *
+             * @param string $name The component that has been installed.
+             */
+            Piwik::postEvent('Updater.componentInstalled', array($name));
+
+            return;
+        }
+
+        /**
+         * Event triggered after a component has been updated.
+         *
+         * Can be used to handle stuff that should be done after a component was updated
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Updater.componentUpdated', function ($componentName, $updatedVersion) {
+         *          $mail = new Mail();
+         *          $mail->setDefaultFromPiwik();
+         *          $mail->addTo('test@example.org');
+         *          $mail->setSubject('Component was updated);
+         *          $message = sprintf(
+         *              'Component %1$s has been updated to version %2$s',
+         *              $componentName, $updatedVersion
+         *          );
+         *          $mail->setBodyText($message);
+         *          $mail->send();
+         *     });
+         *
+         * @param string $componentName 'core', or plugin name
+         * @param string $updatedVersion version updated to
+         */
+        Piwik::postEvent('Updater.componentUpdated', array($name, $version));
     }
 
     /**
@@ -106,6 +144,13 @@ class Updater
         } catch (\Exception $e) {
             // case when the option table is not yet created (before 0.2.10)
         }
+
+        /**
+         * Event triggered after a plugin has been uninstalled.
+         *
+         * @param string $pluginName The plugin that has been uninstalled.
+         */
+        Piwik::postEvent('Updater.componentUninstalled', array($name));
     }
 
     /**
@@ -280,35 +325,6 @@ class Updater
 
         $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
 
-        /**
-         * Event triggered after a component has been updated.
-         *
-         * Can be used to handle stuff that should be done after a component was updated
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Updater.componentUpdated', function ($componentName, $updatedVersion, $warningMessages) {
-         *          $mail = new Mail();
-         *          $mail->setDefaultFromPiwik();
-         *          $mail->addTo('test@example.org');
-         *          $mail->setSubject('Component was updated);
-         *          $message = sprintf(
-         *              'Component %1$s has been updated to version %2$s',
-         *              $componentName, $updatedVersion
-         *          );
-         *          if (!empty($warningMessages)) {
-         *              $message .= "Some warnings occured:\n" . implode("\n", $warningMessages);
-         *          }
-         *          $mail->setBodyText($message);
-         *          $mail->send();
-         *     });
-         *
-         * @param string $componentName 'core', or plugin name
-         * @param string $updatedVersion version updated to
-         * @param array  $warningMessages warnings occurred during update
-         */
-        Piwik::postEvent('Updater.componentUpdated', array($componentName, $updatedVersion, $warningMessages));
-
         return $warningMessages;
     }
 
@@ -356,36 +372,6 @@ class Updater
                 uasort($componentsWithUpdateFile[$name], "version_compare");
             } else {
                 // there are no update file => nothing to do, update to the new version is successful
-
-                /**
-                 * Event triggered after a component has been updated.
-                 *
-                 * Can be used to handle stuff that should be done after a component was updated
-                 *
-                 * **Example**
-                 *
-                 *     Piwik::addAction('Updater.componentUpdated', function ($componentName, $updatedVersion, $warningMessages) {
-                 *          $mail = new Mail();
-                 *          $mail->setDefaultFromPiwik();
-                 *          $mail->addTo('test@example.org');
-                 *          $mail->setSubject('Component was updated);
-                 *          $message = sprintf(
-                 *              'Component %1$s has been updated to version %2$s',
-                 *              $componentName, $updatedVersion
-                 *          );
-                 *          if (!empty($warningMessages)) {
-                 *              $message .= "Some warnings occured:\n" . implode("\n", $warningMessages);
-                 *          }
-                 *          $mail->setBodyText($message);
-                 *          $mail->send();
-                 *     });
-                 *
-                 * @param string $componentName 'core', or plugin name
-                 * @param string $updatedVersion version updated to
-                 * @param array  $warningMessages warnings occurred during update
-                 */
-                Piwik::postEvent('Updater.componentUpdated', array($name, $newVersion, array()));
-
                 $this->markComponentSuccessfullyUpdated($name, $newVersion);
             }
         }
