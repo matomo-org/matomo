@@ -198,6 +198,22 @@ class API extends \Piwik\Plugin\API
         return $location;
     }
 
+    /**
+     * Set the location provider
+     *
+     * @param string $providerId  The ID of the provider to use  eg 'default', 'geoip_php', ...
+     * @throws Exception if ID is invalid
+     */
+    public function setLocationProvider($providerId)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $provider = LocationProvider::setCurrentProvider($providerId);
+        if ($provider === false) {
+            throw new Exception("Invalid provider ID: '$providerId'.");
+        }
+    }
+
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
