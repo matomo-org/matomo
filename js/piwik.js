@@ -6755,8 +6755,10 @@ if (typeof window.Piwik !== 'object') {
             getAsyncTracker: function (piwikUrl, siteId) {
 
                 var firstTracker;
-                if (asyncTrackers && asyncTrackers[0]) {
+                if (asyncTrackers && asyncTrackers.length && asyncTrackers[0]) {
                     firstTracker = asyncTrackers[0];
+                } else {
+                    return createFirstTracker(piwikUrl, siteId);
                 }
 
                 if (!siteId && !piwikUrl) {
@@ -6820,6 +6822,20 @@ if (typeof window.Piwik !== 'object') {
 (function () {
     'use strict';
 
+    function hasPaqConfiguration()
+    {
+        if ('object' !== typeof _paq) {
+            return false;
+        }
+        // needed to write it this way for jslint
+        var lengthType = typeof _paq.length;
+        if ('undefined' === lengthType) {
+            return false;
+        }
+
+        return !!_paq.length;
+    }
+
     if (window
         && 'object' === typeof window.piwikPluginAsyncInit
         && window.piwikPluginAsyncInit.length) {
@@ -6831,15 +6847,23 @@ if (typeof window.Piwik !== 'object') {
         }
     }
 
-    window.Piwik.addTracker();
+    if (window && window.piwikAsyncInit) {
+        window.piwikAsyncInit();
+    }
+
+    if (!window.Piwik.getAsyncTrackers().length) {
+        // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
+        if (hasPaqConfiguration()) {
+            // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
+            // Piwik.getAsyncTrackers() would return unconfigured trackers
+            window.Piwik.addTracker();
+        }
+    }
 
     window.Piwik.trigger('PiwikInitialized', []);
     window.Piwik.initialized = true;
 }());
 
-if (window && window.piwikAsyncInit) {
-    window.piwikAsyncInit();
-}
 
 /*jslint sloppy: true */
 (function () {
