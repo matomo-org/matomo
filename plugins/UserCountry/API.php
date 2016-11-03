@@ -208,6 +208,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
+        if (!UserCountry::isGeoLocationAdminEnabled()) {
+            throw new \Exception('Setting geo location has been disabled in config.');
+        }
+
         $provider = LocationProvider::setCurrentProvider($providerId);
         if ($provider === false) {
             throw new Exception("Invalid provider ID: '$providerId'.");

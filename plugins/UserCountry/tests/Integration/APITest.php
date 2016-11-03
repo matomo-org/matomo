@@ -8,15 +8,16 @@
 
 namespace Piwik\Plugins\UserCountry\tests;
 
+use Piwik\Access;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Plugins\UserCountry\API;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * @group UserCountryAPI
+ * @group UserCountry
  * @group APITest
  * @group Plugins
  */
@@ -30,8 +31,6 @@ class APITest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-
-        FakeAccess::$superUser = true;
 
         $this->api = API::getInstance();
 
@@ -49,5 +48,36 @@ class APITest extends IntegrationTestCase
         $locationProvider = DefaultProvider::ID;
         $this->api->setLocationProvider($locationProvider);
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_setLocationProviderInvalid()
+    {
+        $locationProvider = 'invalidProvider';
+        $this->api->setLocationProvider($locationProvider);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_setLocationProviderNoSuperUser()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $this->api->setLocationProvider($locationProvider);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_setLocationProviderDisabledInConfig()
+    {
+        Config::getInstance()->General['enable_geolocation_admin'] = 0;
+
+        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $this->api->setLocationProvider($locationProvider);
     }
 }
