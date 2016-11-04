@@ -242,8 +242,7 @@ process_new_segments_from = "beginning_of_time"
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
 
-; if you want all your users to use Piwik in only one language, disable the LanguagesManager
-; plugin, and set this default_language (users won't see the language drop down)
+; default language to use in Piwik
 default_language = en
 
 ; default number of elements in the datatable
