@@ -202,20 +202,13 @@ function ajaxAddGoal() {
         $(document).triggerHandler('Goals.beforeAddGoal', [parameters, ajaxRequest]);
     }
 
+    if (parameters && 'undefined' !== typeof parameters.cancelRequest && parameters.cancelRequest) {
+        return;
+    }
+
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
     ajaxRequest.setCallback(function (response) {
-        if (isCreate && response && response.value) {
-            parameters.idGoal = response.value;
-            $(document).triggerHandler('Goals.afterAddGoalSuccess', [parameters, ajaxRequest]);
-        } else if (isUpdate && response && response.result && response.result === 'success') {
-            $(document).triggerHandler('Goals.afterUpdateGoalSuccess', [parameters, ajaxRequest]);
-        }
-
-        if (parameters && 'undefined' !== typeof parameters.noReload && parameters.noReload) {
-            $('#goalAjaxLoading').hide();
-        } else {
-            location.reload();
-        }
+        location.reload();
     });
     ajaxRequest.send(true);
 }
