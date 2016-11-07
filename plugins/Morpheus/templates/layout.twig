@@ -6,7 +6,7 @@
             <title>
                 {%- block pageTitle -%}
                     {% set branding = isCustomLogo ? '' : 'Piwik' %}
-                    {{ [title, categoryTitle, branding]|join(' - ')|trim('- ') }}
+                    {{ [title, categoryTitle|default, branding]|join(' - ')|trim('- ') }}
                 {%- endblock -%}
             </title>
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
