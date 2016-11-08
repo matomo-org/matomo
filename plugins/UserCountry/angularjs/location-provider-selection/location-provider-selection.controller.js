@@ -51,9 +51,8 @@
 
             piwikApi.withTokenInUrl();
             piwikApi.fetch({
-                module: 'UserCountry',
-                action: 'setCurrentLocationProvider',
-                id: this.selectedProvider
+                method: 'UserCountry.setLocationProvider',
+                providerId: this.selectedProvider
             }).then(function () {
                 self.isLoading = false;
                 var UI = require('piwik/UI');
