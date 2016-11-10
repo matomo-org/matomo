@@ -5,7 +5,6 @@
         "AnonymizeIpExtendedHelp": "ユーザーがウェブサイトを訪れるとき、Piwik は ( %1$s のような ) 完全な IP アドレスを使用しませんが、代わりに最初に匿名化します ( %2$s まで ) 。IP アドレスの匿名化はドイツを含むいくつかの国においてプライバシー法によって設定されている条件の中の１つです。",
         "AnonymizeIpMaskLengtDescription": "ビジターのIPアドレスから何バイトマスクするか選択してください。",
         "AnonymizeIpMaskLength": "%1$s バイト- 例. %2$s",
-        "CannotLockSoDeleteLogActions": "log_action 表は、パージされません。'%s' MYSQL ユーザーに、LOCK TABLES 権限を付与してください。",
         "ClickHereSettings": "%s 設定はこちらをクリック",
         "CurrentDBSize": "現在のデータベースサイズ",
         "DBPurged": "データベースがパージされました。",

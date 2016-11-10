@@ -1,5 +1,7 @@
 {
     "General": {
+        "12HourClock": "Formato 12H",
+        "24HourClock": "Formato 24H",
         "AbandonedCarts": "Carrinhos Abandonados",
         "AboutPiwikX": "Acerca de Piwik %s",
         "Action": "Acção",
@@ -10,6 +12,7 @@
         "AllWebsitesDashboard": "Painel de Controlo de Todos os Websites",
         "And": "e",
         "API": "API",
+        "Apply": "Aplicar",
         "ArchivingInlineHelp": "Para websites de tráfego médio ou elevado, é recomendado desactivar o arquivar de Piwik de ser accionado quando os relatórios são vistos no navegador. Em vez disso, recomendamos que configure uma tarefa cron para processar os relatórios de Piwik cada hora.",
         "ArchivingTriggerDescription": "Recomendado para instalações Piwik maiores, tem que %1$sconfigurar uma tarefa cron%2$s para processar os relatórios automaticamente.",
         "AuthenticationMethodSmtp": "Método de autenticação SMTP",
@@ -302,6 +305,7 @@
         "AnonymousAccess": "Acesso anónimo",
         "ChooseMetric": "Escolha métrica",
         "ChooseReport": "Escolher o relatório",
+        "ChooseSegment": "Escolher segmento",
         "DefaultReportDate": "Data do Relatório",
         "EnableGraphsLabel": "Mostrar gráficos",
         "LoginCredentials": "Credenciais",

@@ -1,6 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Har du en feil å rapportere eller ny funksjonalitet du ønsker deg?",
+        "HowToCreateTicket": "Vennligst les anbefalingene for å skrive gode %1$sbug-rapporter%2$s eller %3$sfunksjonalitetsønsker%4$s. Så registrerer du deg eller logger inn i %5$svår issue tracker%6$s og klikker på %7$snew issue%8$s.",
         "IWantTo": "Jeg vil:",
         "LearnWaysToParticipate": "Lær om alle måtene du kan %1$s bidra%2$s",
         "ManuallySendEmailTo": "Send meldingen manuelt til",

@@ -14,7 +14,6 @@
         "Default": "Standard",
         "DonateCall1": "Die Nutzung von Piwik wird immer kostenlos bleiben, was aber nicht heißt, dass es uns nichts kostet, es zu erstellen.",
         "DonateCall2": "Piwik braucht Ihre dauerhafte Unterstützung um zu wachsen und zu gedeihen.",
-        "DonateCall3": "Finden Sie, dass Piwik einen deutlichen Mehrwert für Sie oder Ihr Unternehmen hat? %1$sBitte spenden Sie!%2$s",
         "DonateFormInstructions": "Klicken Sie auf den Slider um den Betrag zu wählen, dann klicken Sie auf 'Subscribe' um zu spenden.",
         "ExcludeRowsWithLowPopulation": "Alle Zeilen werden angezeigt %s Niedrige Werte ausschließen",
         "ExternalHelp": "Hilfe (öffnet in neuem Tab)",

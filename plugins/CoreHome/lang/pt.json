@@ -1,12 +1,12 @@
 {
     "CoreHome": {
         "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
+        "CheckForUpdates": "Procurar actualizações",
         "DataTableExcludeAggregateRows": "Linhas agregadas encontram-se visíveis %s Esconda-as",
         "DataTableIncludeAggregateRows": "Linhas agregadas encontram-se escondidas %s Mostre-as",
         "Default": "defeito",
         "DonateCall1": "O Piwik nunca lhe custará nada para usar, mas isso não quer dizer que não nos custe nada para o criar.",
         "DonateCall2": "O Piwik presisa do seu contínuo suporte para crescer e brilhar.",
-        "DonateCall3": "Se você sente que o Piwik adicionou um valor significante ao seu negócio, %1$spor favor considere realizar um donativo!%2$s",
         "JavascriptDisabled": "JavaScript tem que estar activado para poder usar Piwik no esquema padrão.<br \/>No entanto, parece que JavaScript está desactivado ou não é suportado pelo seu navegador.<br \/>Para usar o esquema padrão, active JavaScript nas opções do seu navegador, depois %1$stente de novo%2$s.<br \/>",
         "Menu": "Menu",
         "PageOf": "%1$s de %2$s",
