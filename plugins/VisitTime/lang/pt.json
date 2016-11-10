@@ -2,6 +2,7 @@
     "VisitTime": {
         "ColumnLocalTime": "Hora local",
         "ColumnServerTime": "Hora do servidor",
+        "DayOfWeek": "Dia da semana",
         "LocalTime": "Visitas por hora local",
         "NHour": "%sh",
         "ServerTime": "Vistas por hora do servidor",

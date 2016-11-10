@@ -11,7 +11,6 @@
         "Default": "varsayılan",
         "DonateCall1": "Piwik her zaman ücretsiz kullanılabilecek ancak bu durum geliştirmenin ücretsiz olduğu anlamına gelmiyor.",
         "DonateCall2": "Gelişip ilerleyebilmesi için Piwik projesi sürekli desteğinize gerek duyuyor.",
-        "DonateCall3": "Piwik işiniz için önemliyse ya da harcanan emeğe değiyorsa %1$slütfen bağış yapmayı düşünün%2$s",
         "DonateFormInstructions": "Bağış tutarını seçmek için kaydırıcıya kullanın ve Bağış Yap düğmesine tıklayın.",
         "ExcludeRowsWithLowPopulation": "Tüm satırlar görüntüleniyor %s Düşük dağılımlar katılmasın",
         "ExternalHelp": "Yardım (yeni sekmede açılır)",

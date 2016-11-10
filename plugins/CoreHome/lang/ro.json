@@ -10,7 +10,6 @@
         "Default": "implicit",
         "DonateCall1": "Piwik va fi folosit de dumneavoastra gratuit intotdeauna, dar aceasta nu inseamna ca pe noi nu ne costa nimic sa il facem.",
         "DonateCall2": "Piwik are nevoie de sprijinul dumneavoastra continuu pentru a continua sa se dezvolte si sa progreseze.",
-        "DonateCall3": "Daca simtiti ca Piwik a adus o valoare semnificativa afacerii sau incercarii Dvs, %1$sva rugam sa luati in considerare sa donati!%2$s",
         "DonateFormInstructions": "Click pe slider pentru a alege o suma, apoi click Subscribe pentru a dona.",
         "ExcludeRowsWithLowPopulation": "Toate randurile sunt afisate %s Exclude popularea putina",
         "ExternalHelp": "Ajutor (se deschide in tab nou)",

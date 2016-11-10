@@ -104,6 +104,7 @@
         "Version": "Έκδοση",
         "ViewRepositoryChangelog": "Εμφάνιση των αλλαγών",
         "ViewAllMarketplacePlugins": "Εμφάνιση όλων των πρόσθετων στην Αγορά",
-        "Websites": "Ιστοτόποι"
+        "Websites": "Ιστοτόποι",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "Απενεργοποιήθηκε το πρόσθετο %s καθώς έχει ελλιπείς εξαρτήσεις:"
     }
 }

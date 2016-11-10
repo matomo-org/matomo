@@ -11,7 +11,6 @@
         "Default": "oletus",
         "DonateCall1": "Piwik on sinulle aina ilmainen, mutta tämä ei tarkoita sitä, että sen luominen olisi ilmaista meille.",
         "DonateCall2": "Piwik tarvitsee sinun tukeasi kasvaakseen ja menestyäkseen.",
-        "DonateCall3": "Jos Piwik on mielestäsi lisännyt liiketoimesi arvoa, olethan ystävällinen ja harkitset %1$slahjoitusta!%2$s",
         "DonateFormInstructions": "Klikkaa vierityspalkkia valitaksesi summa ja rekisteröi sitten lahjoitus.",
         "ExcludeRowsWithLowPopulation": "Kaikki rivit näytetään %s Piilota vajaat rivit",
         "ExternalHelp": "Apua (aukeaa uudessa ikkunassa)",

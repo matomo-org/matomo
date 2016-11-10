@@ -104,6 +104,7 @@
         "Version": "Verze",
         "ViewRepositoryChangelog": "Zobrazit změny",
         "ViewAllMarketplacePlugins": "Zobrazit všechny zásuvné moduly v marketplace zásuvných modulů",
-        "Websites": "Stránky"
+        "Websites": "Stránky",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "Zásuvný modul %s byl vypnut, chybí závislosti:"
     }
 }
