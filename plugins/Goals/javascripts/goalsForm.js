@@ -67,7 +67,7 @@ function updateMatchAttribute () {
 // init the goal form with existing goal value, if any
 function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
 
-    $(document).triggerHandler('Goals.beforeInitGoalForm', [goalMethodAPI, goalName, goalId, allowMultiple]);
+    $(document).triggerHandler('Goals.beforeInitGoalForm', [goalMethodAPI, goalId]);
 
     $('#goal_name').val(goalName);
     if (matchAttribute == 'manually') {
