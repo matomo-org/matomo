@@ -5,9 +5,8 @@
             <meta charset="utf-8">
             <title>
                 {%- block pageTitle -%}
-                    {%- if title is defined %}{{ title }} - {% endif %}
-                    {%- if categoryTitle is defined %}{{ categoryTitle }} - {% endif %}
-                    {%- if not isCustomLogo %}Piwik{% endif %}
+                    {% set branding = isCustomLogo ? '' : 'Piwik' %}
+                    {{ [title, categoryTitle|default, branding]|join(' - ')|trim('- ') }}
                 {%- endblock -%}
             </title>
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
