@@ -39,7 +39,7 @@
                         {% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}
                     </td>
 
-                    {{ postEvent("Template.beforeGoalListActionsBody", goal, goal.idgoal) }}
+                    {{ postEvent("Template.beforeGoalListActionsBody", goal) }}
 
                     {% if userCanEditGoals %}
                         <td class="text-center">
