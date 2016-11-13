@@ -663,17 +663,17 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        return APIUsersManager::getInstance()->getTokenAuth(
-            self::ADMIN_USER_LOGIN,
-            UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD)
-        );
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUser(self::ADMIN_USER_LOGIN);
+
+        return $user['token_auth'];
     }
 
     public static function createSuperUser($removeExisting = true)
     {
-        $login = self::ADMIN_USER_LOGIN;
+        $login    = self::ADMIN_USER_LOGIN;
         $password = UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD);
-        $token = self::getTokenAuth();
+        $token    = APIUsersManager::getInstance()->createTokenAuth($login);
 
         $model = new \Piwik\Plugins\UsersManager\Model();
         if ($removeExisting) {

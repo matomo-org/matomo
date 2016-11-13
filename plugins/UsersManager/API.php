@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 
@@ -438,7 +439,7 @@ class API extends \Piwik\Plugin\API
 
         $alias = $this->getCleanAlias($alias, $userLogin);
 
-        $token_auth = $this->getTokenAuth($userLogin, $passwordTransformed);
+        $token_auth = $this->createTokenAuth($userLogin);
 
         $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, $token_auth, Date::now()->getDatetime());
 
@@ -529,9 +530,12 @@ class API extends \Piwik\Plugin\API
         $passwordHasBeenUpdated = false;
 
         if (empty($password)) {
-            $password = $userInfo['password'];
+            $password   = $userInfo['password'];
+            $token_auth = $userInfo['token_auth'];
         } else {
-            $password = Common::unsanitizeInputValue($password);
+            $password   = Common::unsanitizeInputValue($password);
+            $token_auth = $this->createTokenAuth($userLogin);
+
             if (!$_isPasswordHashed) {
                 UsersManager::checkPassword($password);
                 $password = UsersManager::getPasswordHash($password);
@@ -552,8 +556,7 @@ class API extends \Piwik\Plugin\API
             $this->checkEmail($email);
         }
 
-        $alias      = $this->getCleanAlias($alias, $userLogin);
-        $token_auth = $this->getTokenAuth($userLogin, $password);
+        $alias = $this->getCleanAlias($alias, $userLogin);
 
         $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);
 
@@ -777,6 +780,20 @@ class API extends \Piwik\Plugin\API
         $superUsers = $this->getUsersHavingSuperUserAccess();
 
         return 1 >= count($superUsers) && Piwik::hasTheUserSuperUserAccess($userLogin);
+    }
+
+    /**
+     * Generates a new random authentication token.
+     *
+     * @param string $userLogin Login
+     * @return string
+     */
+    public function createTokenAuth($userLogin)
+    {
+        return hash(
+            'sha256',
+            $userLogin . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt()
+        );
     }
 
     /**

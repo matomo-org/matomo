@@ -433,7 +433,10 @@ class LoginTest extends IntegrationTestCase
 
         API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        $user['tokenAuth'] = API::getInstance()->getTokenAuth($user['login'], md5($user['password']));
+        $model  = new \Piwik\Plugins\UsersManager\Model();
+        $dbUser = $model->getUser($user['login']);
+
+        $user['tokenAuth'] = $dbUser['token_auth'];
 
         return $user;
     }
@@ -456,14 +459,14 @@ class LoginTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $authResult->getCode());
     }
 
-    private function assertSuperUserLogin(AuthResult $authResult, $login = 'superUserLogin', $tokenLength = 32)
+    private function assertSuperUserLogin(AuthResult $authResult, $login = 'superUserLogin', $tokenLength = 64)
     {
         $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $authResult->getCode());
         $this->assertEquals($login, $authResult->getIdentity());
         $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
     }
 
-    private function assertUserLogin(AuthResult $authResult, $login = 'user', $tokenLength = 32)
+    private function assertUserLogin(AuthResult $authResult, $login = 'user', $tokenLength = 64)
     {
         $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode(), 'Authentication failed');
         $this->assertEquals($login, $authResult->getIdentity());
