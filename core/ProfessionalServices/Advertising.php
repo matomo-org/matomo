@@ -67,16 +67,6 @@ class Advertising
     }
 
     /**
-     * Get URL for letting people know about upgrade to On premises
-     *
-     * @return string
-     */
-    public function getPromoUrlForPiwikProUpgrade()
-    {
-        return 'https://piwik.org/recommends/piwik-pro-from-app';
-    }
-
-    /**
      * Appends campaign parameters to the given URL for promoting any Professional Support for Piwik service.
      *
      * @param string $url
