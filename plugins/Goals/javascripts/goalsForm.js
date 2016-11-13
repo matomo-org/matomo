@@ -29,7 +29,8 @@ function hideForms() {
 
 function showCancel() {
     $(".entityCancel").show();
-    $('.entityCancelLink').click(function () {
+    $('.entityCancelLink').off('click').click(function () {
+        $(document).triggerHandler('Goals.cancelForm');
         hideForms();
         $(".entityCancel").hide();
         showEditGoals();
@@ -65,6 +66,9 @@ function updateMatchAttribute () {
 
 // init the goal form with existing goal value, if any
 function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
+
+    $(document).triggerHandler('Goals.beforeInitGoalForm', [goalMethodAPI, goalId]);
+
     $('#goal_name').val(goalName);
     if (matchAttribute == 'manually') {
         $('select[name=trigger_type] option[value=manually]').prop('selected', true);
@@ -153,7 +157,7 @@ function ajaxDeleteGoal(idGoal) {
     ajaxRequest.addParams(parameters, 'get');
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
     ajaxRequest.setCallback(function () { location.reload(); });
-    ajaxRequest.send(true);
+    ajaxRequest.send();
 }
 
 function ajaxAddGoal() {
@@ -186,10 +190,24 @@ function ajaxAddGoal() {
     parameters.module = 'API';
     parameters.method = $('input[name=methodGoalAPI]').val();
 
+    var isCreate = parameters.method === 'Goals.addGoal';
+    var isUpdate = parameters.method === 'Goals.updateGoal';
+
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(parameters, 'get');
+
+    if (isUpdate) {
+        $(document).triggerHandler('Goals.beforeUpdateGoal', [parameters, ajaxRequest]);
+    } else if (isCreate) {
+        $(document).triggerHandler('Goals.beforeAddGoal', [parameters, ajaxRequest]);
+    }
+
+    if (parameters && 'undefined' !== typeof parameters.cancelRequest && parameters.cancelRequest) {
+        return;
+    }
+
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
-    ajaxRequest.setCallback(function () {
+    ajaxRequest.setCallback(function (response) {
         location.reload();
     });
     ajaxRequest.send(true);
