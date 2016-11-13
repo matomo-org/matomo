@@ -797,7 +797,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Generates a unique MD5 for the given login & password
+     * Returns the user's API token.
+     *
+     * If the username/password combination is incorrect an invalid token will be returned.
      *
      * @param string $userLogin Login
      * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
@@ -807,6 +809,16 @@ class API extends \Piwik\Plugin\API
     {
         UsersManager::checkPasswordHash($md5Password, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
 
-        return md5($userLogin . $md5Password);
+        $user = $this->model->getUser($userLogin);
+
+        if (!empty($user) && password_verify($md5Password, $user['password'])) {
+            if (password_needs_rehash($user['password'], PASSWORD_BCRYPT)) {
+                $this->model->updateUser($userLogin, $md5Password, $user['alias'], $user['email'], $user['token_auth']);
+            }
+
+            return $user['token_auth'];
+        }
+
+        return hash('sha256', $userLogin . microtime(true) . Common::generateUniqId());
     }
 }

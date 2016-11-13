@@ -293,7 +293,7 @@ class RequestTest extends IntegrationTestCase
         $login = 'myadmin';
         $passwordHash = UsersManager::getPasswordHash('password');
 
-        $token = API::getInstance()->getTokenAuth($login, $passwordHash);
+        $token = API::getInstance()->createTokenAuth($login);
 
         $user = new Model();
         $user->addUser($login, $passwordHash, 'admin@piwik', 'alias', $token, '2014-01-01 00:00:00');

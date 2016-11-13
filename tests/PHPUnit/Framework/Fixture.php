@@ -676,11 +676,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         $token    = APIUsersManager::getInstance()->createTokenAuth($login);
 
         $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUser($login);
+
         if ($removeExisting) {
             $model->deleteUserOnly($login);
         }
 
-        $user = $model->getUser($login);
+        if (!empty($user) && !$removeExisting) {
+            $token = $user['token_auth'];
+        }
 
         if (empty($user)) {
             $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
