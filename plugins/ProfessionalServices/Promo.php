@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\ProfessionalServices;
 
+use Piwik\ProfessionalServices\Advertising;
+
 class Promo
 {
     protected $linkTitles = array('Read more', 'Learn more');
@@ -16,32 +18,32 @@ class Promo
         // A/B Testing
         array(
             'campaignContent' => 'abTesting',
-            'url' => 'https://piwik.org/blog/2016/11/ab-testing-platform-piwik-analytics/',
+            'url' => 'https://piwik.org/recommends/ab-testing-learn-more',
             'text' => 'Ever wondered what A/B testing is and why it is so important? Check out how you can increase conversions and sales on your website and app.'
         ),
         array(
             'campaignContent' => 'abTesting',
-            'url' => 'https://www.ab-tests.net/',
+            'url' => ' https://piwik.org/recommends/ab-testing-website',
             'text' => 'Increase revenue and conversions by comparing different versions of your websites or apps, ad detect the winning variation that will grow your business!'
         ),
 
         // Media Analytics
         array(
             'campaignContent' => 'mediaAnalytics',
-            'url' => 'https://www.media-analytics.net/',
+            'url' => 'https://piwik.org/recommends/media-analytics-website',
             'text' => 'Ever wondered how people interact and engage with videos or audios on your website? Well now you can, and it integrates perfectly into your Piwik.',
         ),
 
         array(
             'campaignContent' => 'mediaAnalytics',
-            'url' => 'https://plugins.piwik.org/MediaAnalytics',
+            'url' => 'https://piwik.org/recommends/media-analytics',
             'text' => 'Get powerful insights into how your audience watches your videos and listens to your audio. Media Analytics is now available on the Marketplace.',
         ),
 
         // Piwik training
         array(
             'campaignContent' => 'userTraining',
-            'url' => 'https://piwik.org/training/',
+            'url' => 'https://piwik.org/training/?pk_campaign='. Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES .'&pk_source=Piwik_App',
             'text' => 'Want to know how to use all the exciting features in Piwik? Try a User training to be up to speed with working with Piwik.'
         ),
 
