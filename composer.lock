@@ -624,16 +624,16 @@
         },
         {
             "name": "piwik/cache",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-cache.git",
-                "reference": "4cae40390a6fe8269e334d1204c51cf79c5e15e1"
+                "reference": "5f6652574440d9886741918a1e4dc1c555820501"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-cache/zipball/4cae40390a6fe8269e334d1204c51cf79c5e15e1",
-                "reference": "4cae40390a6fe8269e334d1204c51cf79c5e15e1",
+                "url": "https://api.github.com/repos/piwik/component-cache/zipball/5f6652574440d9886741918a1e4dc1c555820501",
+                "reference": "5f6652574440d9886741918a1e4dc1c555820501",
                 "shasum": ""
             },
             "require": {
@@ -667,7 +667,7 @@
                 "file",
                 "redis"
             ],
-            "time": "2016-09-14 20:19:56"
+            "time": "2016-11-15 02:33:06"
         },
         {
             "name": "piwik/decompress",
@@ -1443,7 +1443,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26 14:37:51"
+            "time": "2014-08-28 17:34:52"
         },
         {
             "name": "guzzle/guzzle",
