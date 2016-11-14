@@ -70,6 +70,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * The JavaScript AjaxHelper has a new method `ajaxHelper.withTokenInUrl()` to easily send a token along a XHR. Within the Controller the existence of this token can be checked via `$this->checkTokenInUrl();` to prevent CSRF attacks.
 * The new class `Piwik\Updater\Migration\Factory` lets you easily create migrations that can be executed during an update. For example database or plugin related migrations. To generate a new update with migrations execute `./console generate:update`.
 * The new method `Piwik\Updater::executeMigration` lets you execute a single migration.
+* The new method `Piwik\Segment::willBeArchived` lets you detect whether a segment will be archived or not.
 * The following events have been added:
  * `ViewDataTable.filterViewDataTable` lets you filter available visualizations
  * `Dimension.addDimension` lets you add custom dimensions
@@ -83,6 +84,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `Updater.componentUninstalled` triggered after a component was uninstalled
 * New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.piwik.org/api-reference/tracking-api);
 * New event `Segment.addSegments` that lets you add segments.
+* New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled. 
 
 ### New features
 * New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
