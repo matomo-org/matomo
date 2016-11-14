@@ -9,16 +9,19 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Segment;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorApi;
 
 /**
  * @group Core
@@ -28,12 +31,16 @@ class SegmentTest extends IntegrationTestCase
 {
     public $tableLogActionCacheHits = 0;
 
+    private $exampleSegment = 'visitCount>=1';
+
     public function setUp()
     {
         parent::setUp();
 
         // setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
         FakeAccess::$superUser = true;
+
+        Fixture::createWebsite('2015-01-01 00:00:00');
     }
 
     static public function removeExtraWhiteSpaces($valueToFilter)
@@ -1490,5 +1497,79 @@ class SegmentTest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess(),
             'Piwik\Tracker\TableLogAction\Cache' => \DI\object()->constructorParameter('cache', $cacheProxy),
         );
+    }
+
+    public function test_willBeArchived_ByDefault_AllSegmentsWillBeArchived()
+    {
+        $this->assertWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willBeArchived_SegmentsWillNotBeArchivedWhenBrowserArchivingIsDisabledAndNoSuchSegmentExists()
+    {
+        $this->disableSegmentBrowserArchiving();
+        $this->assertNotWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingIsDisabledButBrowserSegmentsArchivingEnabled()
+    {
+        $this->disableBrowserArchiving();
+        $this->assertWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willSegmentBeArchived_SegmentsWillNotBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchive()
+    {
+        $this->disableSegmentBrowserArchiving();
+
+        SegmentEditorApi::getInstance()->add('My Name', $this->exampleSegment, $idSite = false, $autoArchive = false);
+
+        $this->assertNotWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledButSegmentExistsWithAuthoArchive()
+    {
+        $this->disableSegmentBrowserArchiving();
+
+        SegmentEditorApi::getInstance()->add('My Name', $this->exampleSegment, $idSite = false, $autoArchive = true);
+
+        $this->assertWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willBeArchived_AnEmptySegmentShouldBeAlwaysArchived()
+    {
+        $this->assertWillBeArchived(false);
+
+        $this->disableSegmentBrowserArchiving();
+        $this->assertWillBeArchived(false);
+    }
+
+    private function assertWillBeArchived($segmentString)
+    {
+        $this->assertTrue($this->willSegmentByArchived($segmentString));
+    }
+
+    private function assertNotWillBeArchived($segmentString)
+    {
+        $this->assertFalse($this->willSegmentByArchived($segmentString));
+    }
+
+    private function willSegmentByArchived($segmentString)
+    {
+        $segment = new Segment($segmentString, $idSites = array(1));
+
+        return $segment->willBeArchived();
+    }
+
+    private function disableBrowserArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+    }
+
+    private function disableSegmentBrowserArchiving()
+    {
+        $this->disableBrowserArchiving();
+        $config = Config::getInstance();
+        $general = $config->General;
+        $general['browser_archiving_disabled_enforce'] = '1';
+        $config->General = $general;
     }
 }
