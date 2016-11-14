@@ -2,7 +2,7 @@ php_errors.log
 *.tmp
 *.pyc
 .DS_Store
-
+/.idea/
 /bootstrap.php
 /build
 /composer.phar
