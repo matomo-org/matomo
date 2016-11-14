@@ -23,6 +23,7 @@ class CustomPiwikJs extends Plugin
             'PluginManager.pluginInstalled' => 'updateTracker',
             'PluginManager.pluginUninstalled' => 'updateTracker',
             'Updater.componentUpdated' => 'updateTracker',
+            'Controller.CoreHome.checkForUpdates.end' => 'updateTracker'
         );
     }
 
