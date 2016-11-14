@@ -21,6 +21,22 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
+
+; Database SSL Options START
+; Turn on or off SSL connection to database, possible values for enable_ssl: 1 or 0
+enable_ssl = 0
+; Direct path to server CA file, CA bundle supported (required for ssl connection)
+ssl_ca =
+; Direct path to client cert file (optional)
+ssl_cert =
+; Direct path to client key file (optional)
+ssl_key =
+; Direct path to CA cert files directory (optional)
+ssl_ca_path =
+; List of one or more ciphers for SSL encryption, in OpenSSL format (optional)
+ssl_cipher =
+; Database SSL Options END
+
 ; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
 ; Piwik should work correctly without this setting but we recommend to have a charset set.
@@ -37,6 +53,12 @@ adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 charset = utf8
+enable_ssl = 0
+ssl_ca =
+ssl_cert =
+ssl_key =
+ssl_ca_path =
+ssl_cipher =
 
 [tests]
 ; needed in order to run tests.
@@ -615,8 +637,8 @@ cookie_path =
 record_statistics = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
-; after his last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to 
-; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg 
+; after his last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to
+; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg
 ; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 
@@ -827,4 +849,3 @@ SDK_batch_size = 10
 SDK_interval_value = 30
 
 ; NOTE: do not directly edit this file! See notice at the top
-
