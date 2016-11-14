@@ -5,7 +5,7 @@
         "AnonymizeIpExtendedHelp": "Když uživatelé navštíví vaše stránky, Piwik neuloží jejich plnou IP adresu (jako %1$s), ale nejprve bude anonymizována (na %2$s). Anonymizace IP adres je jedním z požadavků práva na ochranu soukromí v některých zemí, jako je třeba Německo.",
         "AnonymizeIpMaskLengtDescription": "Zvolte, kolik bitů z návštěvníkovy IP adresy má být maskováno.",
         "AnonymizeIpMaskLength": "%1$s bitů - např. %2$s",
-        "CannotLockSoDeleteLogActions": "Tabulka log_action nebude vyprázdněna: dejte Mysql uživateli %s privilegium LOCK TABLES.",
+        "CannotLockSoDeleteLogActions": "Tabulka log_action nebude vyprázdněna: přiřaďte '%s' MySQL uživateli LOCK TABLES oprávnění.",
         "ClickHereSettings": "Pro přístup k nastavení %s klikněte zde.",
         "CurrentDBSize": "Aktuální velikost databáze",
         "DBPurged": "Databáze vyprázdněna.",

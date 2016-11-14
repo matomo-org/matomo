@@ -96,6 +96,13 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
 
         if ($translationWriter->wasFiltered()) {
 
+            if (!$translationWriter->hasTranslations()) {
+                $this->markTestSkipped('Translation file errors detected in ' . $language . "...\n"
+                    . "File would be empty after filtering. You may remove it manually to fix this test.\n"
+                );
+                return;
+            }
+
             $translationWriter->saveTemporary();
             $this->markTestSkipped(implode("\n", $translationWriter->getFilterMessages()) . "\n"
                 . 'Translation file errors detected in ' . $language . "...\n"

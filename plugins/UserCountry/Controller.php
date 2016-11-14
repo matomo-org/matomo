@@ -284,31 +284,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Sets the current LocationProvider type.
-     *
-     * Input:
-     *   Requires the 'id' query parameter to be set to the desired LocationProvider's ID.
-     *
-     * Output:
-     *   Nothing.
-     */
-    public function setCurrentLocationProvider()
-    {
-        $this->dieIfGeolocationAdminIsDisabled();
-        Piwik::checkUserHasSuperUserAccess();
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->checkTokenInUrl();
-
-            $providerId = Common::getRequestVar('id');
-            $provider = LocationProvider::setCurrentProvider($providerId);
-            if ($provider === false) {
-                throw new Exception("Invalid provider ID: '$providerId'.");
-            }
-            return 1;
-        }
-    }
-
-    /**
      * Echo's a pretty formatted location using a specific LocationProvider.
      *
      * Input:

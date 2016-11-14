@@ -24,6 +24,7 @@
 					<action>getDownloads</action>
 				</parameters>
 				<uniqueId>widgetActionsgetDownloads</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -53,6 +54,7 @@
 					<action>getEntryPageUrls</action>
 				</parameters>
 				<uniqueId>widgetActionsgetEntryPageUrls</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -66,6 +68,7 @@
 					<action>getEntryPageTitles</action>
 				</parameters>
 				<uniqueId>widgetActionsgetEntryPageTitles</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -95,6 +98,7 @@
 					<action>getExitPageUrls</action>
 				</parameters>
 				<uniqueId>widgetActionsgetExitPageUrls</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -108,6 +112,7 @@
 					<action>getExitPageTitles</action>
 				</parameters>
 				<uniqueId>widgetActionsgetExitPageTitles</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -137,6 +142,7 @@
 					<action>getOutlinks</action>
 				</parameters>
 				<uniqueId>widgetActionsgetOutlinks</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -166,6 +172,7 @@
 					<action>getPageUrls</action>
 				</parameters>
 				<uniqueId>widgetActionsgetPageUrls</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -195,6 +202,7 @@
 					<action>getPageTitles</action>
 				</parameters>
 				<uniqueId>widgetActionsgetPageTitles</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -224,6 +232,7 @@
 					<action>getSiteSearchKeywords</action>
 				</parameters>
 				<uniqueId>widgetActionsgetSiteSearchKeywords</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -237,6 +246,7 @@
 					<action>getPageUrlsFollowingSiteSearch</action>
 				</parameters>
 				<uniqueId>widgetActionsgetPageUrlsFollowingSiteSearch</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -250,6 +260,7 @@
 					<action>getSiteSearchNoResultKeywords</action>
 				</parameters>
 				<uniqueId>widgetActionsgetSiteSearchNoResultKeywords</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -263,6 +274,7 @@
 					<action>getPageTitlesFollowingSiteSearch</action>
 				</parameters>
 				<uniqueId>widgetActionsgetPageTitlesFollowingSiteSearch</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -276,6 +288,7 @@
 					<action>getSiteSearchCategories</action>
 				</parameters>
 				<uniqueId>widgetActionsgetSiteSearchCategories</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -306,6 +319,7 @@
 					<containerId>Events</containerId>
 				</parameters>
 				<uniqueId>widgetEvents</uniqueId>
+				<isWide>0</isWide>
 				<layout>ByDimension</layout>
 				<isContainer>1</isContainer>
 				<widgets>
@@ -331,6 +345,7 @@
 							<secondaryDimension>eventAction</secondaryDimension>
 						</parameters>
 						<uniqueId>widgetEventsgetCategorysecondaryDimensioneventAction</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -356,6 +371,7 @@
 							<secondaryDimension>eventName</secondaryDimension>
 						</parameters>
 						<uniqueId>widgetEventsgetActionsecondaryDimensioneventName</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -381,6 +397,7 @@
 							<secondaryDimension>eventAction</secondaryDimension>
 						</parameters>
 						<uniqueId>widgetEventsgetNamesecondaryDimensioneventAction</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -413,6 +430,7 @@
 					<containerId>Contents</containerId>
 				</parameters>
 				<uniqueId>widgetContents</uniqueId>
+				<isWide>0</isWide>
 				<layout>ByDimension</layout>
 				<isContainer>1</isContainer>
 				<widgets>
@@ -437,6 +455,7 @@
 							<action>getContentNames</action>
 						</parameters>
 						<uniqueId>widgetContentsgetContentNames</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -461,6 +480,7 @@
 							<action>getContentPieces</action>
 						</parameters>
 						<uniqueId>widgetContentsgetContentPieces</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -492,6 +512,7 @@
 					<action>getType</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetType</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -505,6 +526,7 @@
 					<action>getModel</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetModel</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -518,6 +540,7 @@
 					<action>getBrand</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrand</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -531,6 +554,7 @@
 					<action>getResolution</action>
 				</parameters>
 				<uniqueId>widgetResolutiongetResolution</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -560,6 +584,7 @@
 					<action>getNumberOfVisitsPerVisitDuration</action>
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDuration</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -573,6 +598,7 @@
 					<action>getNumberOfVisitsPerPage</action>
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerPage</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -586,6 +612,7 @@
 					<action>getNumberOfVisitsByVisitCount</action>
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsByVisitCount</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -599,6 +626,7 @@
 					<action>getNumberOfVisitsByDaysSinceLast</action>
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsByDaysSinceLast</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -614,6 +642,7 @@
 					<action>getEvolutionGraph</action>
 				</parameters>
 				<uniqueId>widgetVisitFrequencygetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphEvolution</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -629,6 +658,7 @@
 					<action>get</action>
 				</parameters>
 				<uniqueId>widgetVisitFrequencygetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -658,6 +688,7 @@
 					<action>getOsVersions</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetOsVersions</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -671,6 +702,7 @@
 					<action>getBrowsers</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrowsers</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -684,6 +716,7 @@
 					<action>getBrowserVersions</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrowserVersions</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -697,6 +730,7 @@
 					<action>getConfiguration</action>
 				</parameters>
 				<uniqueId>widgetResolutiongetConfiguration</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -710,6 +744,7 @@
 					<action>getOsFamilies</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetOsFamilies</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -723,6 +758,7 @@
 					<action>getBrowserEngines</action>
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrowserEngines</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphPie</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -736,6 +772,7 @@
 					<action>getPlugin</action>
 				</parameters>
 				<uniqueId>widgetDevicePluginsgetPlugin</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -767,6 +804,7 @@
 					<action>getEvolutionGraph</action>
 				</parameters>
 				<uniqueId>widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphEvolution</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -782,6 +820,7 @@
 					<action>get</action>
 				</parameters>
 				<uniqueId>widgetVisitsSummarygetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -811,6 +850,7 @@
 					<action>visitorMap</action>
 				</parameters>
 				<uniqueId>widgetUserCountryMapvisitorMap</uniqueId>
+				<isWide>0</isWide>
 			</row>
 			<row>
 				<name>Country</name>
@@ -822,6 +862,7 @@
 					<action>getCountry</action>
 				</parameters>
 				<uniqueId>widgetUserCountrygetCountry</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -836,6 +877,7 @@
 					<containerId>Continent</containerId>
 				</parameters>
 				<uniqueId>widgetContinent</uniqueId>
+				<isWide>0</isWide>
 				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
@@ -860,6 +902,7 @@
 							<action>getContinent</action>
 						</parameters>
 						<uniqueId>widgetUserCountrygetContinent</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -884,6 +927,7 @@
 							<action>getDistinctCountries</action>
 						</parameters>
 						<uniqueId>widgetUserCountrygetDistinctCountries</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -899,6 +943,7 @@
 					<action>getRegion</action>
 				</parameters>
 				<uniqueId>widgetUserCountrygetRegion</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -912,6 +957,7 @@
 					<action>getLanguage</action>
 				</parameters>
 				<uniqueId>widgetUserLanguagegetLanguage</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -925,6 +971,7 @@
 					<action>getCity</action>
 				</parameters>
 				<uniqueId>widgetUserCountrygetCity</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -938,6 +985,7 @@
 					<action>getLanguageCode</action>
 				</parameters>
 				<uniqueId>widgetUserLanguagegetLanguageCode</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -967,6 +1015,7 @@
 					<action>getVisitInformationPerLocalTime</action>
 				</parameters>
 				<uniqueId>widgetVisitTimegetVisitInformationPerLocalTime</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -980,6 +1029,7 @@
 					<action>getVisitInformationPerServerTime</action>
 				</parameters>
 				<uniqueId>widgetVisitTimegetVisitInformationPerServerTime</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -993,6 +1043,7 @@
 					<action>getByDayOfWeek</action>
 				</parameters>
 				<uniqueId>widgetVisitTimegetByDayOfWeek</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1022,6 +1073,7 @@
 					<action>realtimeMap</action>
 				</parameters>
 				<uniqueId>widgetUserCountryMaprealtimeMap</uniqueId>
+				<isWide>0</isWide>
 			</row>
 		</widgets>
 	</row>
@@ -1052,6 +1104,7 @@
 					<small>1</small>
 				</parameters>
 				<uniqueId>widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>VisitorLog</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1081,6 +1134,7 @@
 					<action>getCustomVariables</action>
 				</parameters>
 				<uniqueId>widgetCustomVariablesgetCustomVariables</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1110,6 +1164,7 @@
 					<action>getUsers</action>
 				</parameters>
 				<uniqueId>widgetUserIdgetUsers</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1140,6 +1195,7 @@
 					<idDashboard>1</idDashboard>
 				</parameters>
 				<uniqueId>widgetDashboardembeddedIndexidDashboard1</uniqueId>
+				<isWide>0</isWide>
 			</row>
 		</widgets>
 	</row>
@@ -1167,6 +1223,7 @@
 					<action>getReferrerType</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetReferrerType</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1180,6 +1237,7 @@
 					<action>getAll</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetAll</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1209,6 +1267,7 @@
 					<action>getCampaigns</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetCampaigns</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1232,7 +1291,7 @@
 				<name>Evolution over the period</name>
 				<module>Referrers</module>
 				<action>getEvolutionGraph</action>
-				<order>101</order>
+				<order>9</order>
 				<parameters>
 					<forceView>1</forceView>
 					<viewDataTable>graphEvolution</viewDataTable>
@@ -1243,6 +1302,7 @@
 					</columns>
 				</parameters>
 				<uniqueId>widgetReferrersgetEvolutionGraphforceView1viewDataTablegraphEvolutioncolumnsArray</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphEvolution</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1258,6 +1318,7 @@
 					<action>getSparklines</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetSparklinesforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1287,6 +1348,7 @@
 					<action>getKeywords</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetKeywords</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1300,6 +1362,7 @@
 					<action>getSearchEngines</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetSearchEngines</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1329,6 +1392,7 @@
 					<action>getWebsites</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetWebsites</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1342,6 +1406,7 @@
 					<action>getSocials</action>
 				</parameters>
 				<uniqueId>widgetReferrersgetSocials</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphPie</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1372,6 +1437,7 @@
 					<containerId>Goal_1</containerId>
 				</parameters>
 				<uniqueId>widgetGoal_1</uniqueId>
+				<isWide>0</isWide>
 				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
@@ -1399,6 +1465,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetEvolutionGraphforceView1viewDataTablegraphEvolutionidGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>graphEvolution</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1427,6 +1494,7 @@
 							<allow_multiple>1</allow_multiple>
 						</parameters>
 						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal1allow_multiple1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1452,6 +1520,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgoalConversionsOverviewidGoal1</uniqueId>
+						<isWide>0</isWide>
 						<middlewareParameters>
 							<module>Goals</module>
 							<action>hasConversions</action>
@@ -1473,6 +1542,7 @@
 					<containerId>Goals1</containerId>
 				</parameters>
 				<uniqueId>widgetGoals1</uniqueId>
+				<isWide>0</isWide>
 				<middlewareParameters>
 					<module>Goals</module>
 					<action>hasConversions</action>
@@ -1506,6 +1576,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1534,6 +1605,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1562,6 +1634,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1590,6 +1663,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1618,6 +1692,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1646,6 +1721,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1674,6 +1750,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1702,6 +1779,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1730,6 +1808,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1758,6 +1837,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1786,6 +1866,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1814,6 +1895,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1842,6 +1924,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1870,6 +1953,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1898,6 +1982,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1926,6 +2011,7 @@
 							<idGoal>1</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1958,6 +2044,7 @@
 					<containerId>Goal_2</containerId>
 				</parameters>
 				<uniqueId>widgetGoal_2</uniqueId>
+				<isWide>0</isWide>
 				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
@@ -1985,6 +2072,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetEvolutionGraphforceView1viewDataTablegraphEvolutionidGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>graphEvolution</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2013,6 +2101,7 @@
 							<allow_multiple>0</allow_multiple>
 						</parameters>
 						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal2allow_multiple0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2038,6 +2127,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgoalConversionsOverviewidGoal2</uniqueId>
+						<isWide>0</isWide>
 						<middlewareParameters>
 							<module>Goals</module>
 							<action>hasConversions</action>
@@ -2059,6 +2149,7 @@
 					<containerId>Goals2</containerId>
 				</parameters>
 				<uniqueId>widgetGoals2</uniqueId>
+				<isWide>0</isWide>
 				<middlewareParameters>
 					<module>Goals</module>
 					<action>hasConversions</action>
@@ -2092,6 +2183,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2120,6 +2212,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2148,6 +2241,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2176,6 +2270,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2204,6 +2299,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2232,6 +2328,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2260,6 +2357,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2288,6 +2386,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2316,6 +2415,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2344,6 +2444,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2372,6 +2473,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2400,6 +2502,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2428,6 +2531,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2456,6 +2560,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2484,6 +2589,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2512,6 +2618,7 @@
 							<idGoal>2</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2544,6 +2651,7 @@
 					<containerId>Goal_3</containerId>
 				</parameters>
 				<uniqueId>widgetGoal_3</uniqueId>
+				<isWide>0</isWide>
 				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
@@ -2571,6 +2679,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetEvolutionGraphforceView1viewDataTablegraphEvolutionidGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>graphEvolution</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2599,6 +2708,7 @@
 							<allow_multiple>0</allow_multiple>
 						</parameters>
 						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal3allow_multiple0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2624,6 +2734,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgoalConversionsOverviewidGoal3</uniqueId>
+						<isWide>0</isWide>
 						<middlewareParameters>
 							<module>Goals</module>
 							<action>hasConversions</action>
@@ -2645,6 +2756,7 @@
 					<containerId>Goals3</containerId>
 				</parameters>
 				<uniqueId>widgetGoals3</uniqueId>
+				<isWide>0</isWide>
 				<middlewareParameters>
 					<module>Goals</module>
 					<action>hasConversions</action>
@@ -2678,6 +2790,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2706,6 +2819,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2734,6 +2848,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2762,6 +2877,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2790,6 +2906,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2818,6 +2935,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2846,6 +2964,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2874,6 +2993,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2902,6 +3022,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2930,6 +3051,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2958,6 +3080,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -2986,6 +3109,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3014,6 +3138,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3042,6 +3167,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3070,6 +3196,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3098,6 +3225,7 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3130,6 +3258,7 @@
 					<containerId>GoalsOverview</containerId>
 				</parameters>
 				<uniqueId>widgetGoalsOverview</uniqueId>
+				<isWide>0</isWide>
 				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
@@ -3156,6 +3285,7 @@
 							<action>getEvolutionGraph</action>
 						</parameters>
 						<uniqueId>widgetGoalsgetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>graphEvolution</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3182,6 +3312,7 @@
 							<action>get</action>
 						</parameters>
 						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklines</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3211,6 +3342,7 @@
 							<only_summary>1</only_summary>
 						</parameters>
 						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal1allow_multiple1only_summary1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3240,6 +3372,7 @@
 							<only_summary>1</only_summary>
 						</parameters>
 						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal2allow_multiple0only_summary1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3269,6 +3402,7 @@
 							<only_summary>1</only_summary>
 						</parameters>
 						<uniqueId>widgetGoalsgetforceView1viewDataTablesparklinesidGoal3allow_multiple0only_summary1</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3285,6 +3419,7 @@
 					<containerId>Goals</containerId>
 				</parameters>
 				<uniqueId>widgetGoals</uniqueId>
+				<isWide>0</isWide>
 				<middlewareParameters>
 					<module>Goals</module>
 					<action>hasConversions</action>
@@ -3317,6 +3452,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3345,6 +3481,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3373,6 +3510,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3401,6 +3539,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3429,6 +3568,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3457,6 +3597,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3485,6 +3626,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3513,6 +3655,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3541,6 +3684,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3569,6 +3713,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3597,6 +3742,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3625,6 +3771,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3653,6 +3800,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3681,6 +3829,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3709,6 +3858,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3737,6 +3887,7 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3768,6 +3919,7 @@
 					<action>editGoals</action>
 				</parameters>
 				<uniqueId>widgetGoalseditGoals</uniqueId>
+				<isWide>0</isWide>
 			</row>
 		</widgets>
 	</row>
@@ -3795,6 +3947,7 @@
 					<action>getEcommerceLog</action>
 				</parameters>
 				<uniqueId>widgetEcommercegetEcommerceLog</uniqueId>
+				<isWide>0</isWide>
 			</row>
 		</widgets>
 	</row>
@@ -3823,6 +3976,7 @@
 					<containerId>EcommerceOverview</containerId>
 				</parameters>
 				<uniqueId>widgetEcommerceOverview</uniqueId>
+				<isWide>0</isWide>
 				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
@@ -3850,6 +4004,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetEvolutionGraphforceView1viewDataTablegraphEvolutionidGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>graphEvolution</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3877,6 +4032,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetEcommercegetSparklinesforceView1viewDataTablesparklinesidGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>sparklines</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3902,6 +4058,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetEcommercegetConversionsOverviewidGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<middlewareParameters>
 							<module>Goals</module>
 							<action>hasConversions</action>
@@ -3939,6 +4096,7 @@
 					<containerId>Products</containerId>
 				</parameters>
 				<uniqueId>widgetProducts</uniqueId>
+				<isWide>0</isWide>
 				<layout>ByDimension</layout>
 				<isContainer>1</isContainer>
 				<widgets>
@@ -3963,6 +4121,7 @@
 							<action>getItemsSku</action>
 						</parameters>
 						<uniqueId>widgetGoalsgetItemsSku</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -3987,6 +4146,7 @@
 							<action>getItemsName</action>
 						</parameters>
 						<uniqueId>widgetGoalsgetItemsName</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4011,6 +4171,7 @@
 							<action>getItemsCategory</action>
 						</parameters>
 						<uniqueId>widgetGoalsgetItemsCategory</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4044,6 +4205,7 @@
 					<containerId>GoalsOrder</containerId>
 				</parameters>
 				<uniqueId>widgetGoalsOrderidGoalecommerceOrder</uniqueId>
+				<isWide>0</isWide>
 				<layout>ByDimension</layout>
 				<isContainer>1</isContainer>
 				<widgets>
@@ -4072,6 +4234,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4100,6 +4263,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4128,6 +4292,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4156,6 +4321,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4184,6 +4350,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4212,6 +4379,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4240,6 +4408,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4268,6 +4437,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4296,6 +4466,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4324,6 +4495,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4352,6 +4524,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4380,6 +4553,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4408,6 +4582,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4436,6 +4611,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4464,6 +4640,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4492,6 +4669,7 @@
 							<idGoal>ecommerceOrder</idGoal>
 						</parameters>
 						<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -4523,6 +4701,7 @@
 					<action>getTemperatures</action>
 				</parameters>
 				<uniqueId>widgetExampleUIgetTemperatures</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4554,6 +4733,7 @@
 					<action>getTemperatures</action>
 				</parameters>
 				<uniqueId>widgetExampleUIgetTemperaturesforceView1viewDataTablegraphVerticalBar</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4585,6 +4765,7 @@
 					<action>getTemperatures</action>
 				</parameters>
 				<uniqueId>widgetExampleUIgetTemperaturesforceView1viewDataTableinfoviz-treemap</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>infoviz-treemap</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4616,6 +4797,7 @@
 					<action>getTemperaturesEvolution</action>
 				</parameters>
 				<uniqueId>widgetExampleUIgetTemperaturesEvolutionforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4651,6 +4833,7 @@
 					</columns>
 				</parameters>
 				<uniqueId>widgetExampleUIgetTemperaturesEvolutionforceView1viewDataTablegraphEvolutioncolumnsArray</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphEvolution</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4680,6 +4863,7 @@
 					<action>getPlanetRatios</action>
 				</parameters>
 				<uniqueId>widgetExampleUIgetPlanetRatios</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>graphPie</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4711,6 +4895,7 @@
 					<action>getPlanetRatios</action>
 				</parameters>
 				<uniqueId>widgetExampleUIgetPlanetRatiosforceView1viewDataTablecloud</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -4724,6 +4909,7 @@
 					<action>getPlanetRatiosWithLogos</action>
 				</parameters>
 				<uniqueId>widgetExampleUIgetPlanetRatiosWithLogos</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>

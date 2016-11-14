@@ -1,6 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Har du en feil å rapportere eller ny funksjonalitet du ønsker deg?",
+        "HowToCreateTicket": "Vennligst les anbefalingene for å skrive gode %1$sbug-rapporter%2$s eller %3$sfunksjonalitetsønsker%4$s. Så registrerer du deg eller logger inn i %5$svår issue tracker%6$s og klikker på %7$snew issue%8$s.",
         "IWantTo": "Jeg vil:",
         "LearnWaysToParticipate": "Lær om alle måtene du kan %1$s bidra%2$s",
         "ManuallySendEmailTo": "Send meldingen manuelt til",
@@ -9,9 +10,9 @@
         "SendFeedback": "Send tilbakemelding",
         "ThankYou": "Takk for at du hjelper oss å lage Piwik bedre!",
         "TopLinkTooltip": "Fortell oss hva du synes eller be om profesjonell støtte.",
-        "CommunityHelp": "Samfunns Hjelpere",
+        "CommunityHelp": "Hjelp fra Piwik-samfunnet",
         "ProfessionalHelp": "Profesjonell hjelp",
-        "ProfessionalServicesPhoneEmailSupport": "Telefon og e-post-støtte",
+        "ProfessionalServicesPhoneEmailSupport": "Telefon- og e-poststøtte",
         "ProfessionalServicesPremiumFeatures": "Premium-funksjoner",
         "ContactUs": "Kontakt oss"
     }

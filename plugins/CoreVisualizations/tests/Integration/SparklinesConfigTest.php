@@ -54,12 +54,24 @@ class SparklinesConfigTest extends IntegrationTestCase
         $expectedSparkline = array(
             'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
             'metrics' => array (
-                array ('value' => 10, 'description' => 'Visits'),
+                array ('column' => '', 'value' => 10, 'description' => 'Visits'),
             ),
             'order' => 999
         );
 
         $this->assertSame(array($expectedSparkline), $this->config->getSortedSparklines());
+    }
+
+    public function test_addSparkline_shouldAddAMinimalSparklineWithOneValueAndUseDefaultOrderWithColumn()
+    {
+        $params = $this->sparklineParams();
+        $params['columns'] = 'nb_visits';
+        $this->config->addSparkline($params, $value = 10, $description = 'Visits');
+
+        $expectedSparkline = array('column' => 'nb_visits', 'value' => 10, 'description' => 'Visits');
+
+        $sparklines = $this->config->getSortedSparklines();
+        $this->assertSame(array($expectedSparkline), $sparklines[0]['metrics']);
     }
 
     public function test_addSparkline_shouldAddSparklineWithMultipleValues()
@@ -69,9 +81,25 @@ class SparklinesConfigTest extends IntegrationTestCase
         $sparklines = $this->config->getSortedSparklines();
 
         $this->assertSame(array (
-                array ('value' => 10, 'description' => 'Visits'),
-                array ('value' => 20, 'description' => 'Actions'),
+                array ('column' => '', 'value' => 10, 'description' => 'Visits'),
+                array ('column' => '', 'value' => 20, 'description' => 'Actions'),
             ), $sparklines[0]['metrics']);
+    }
+
+    public function test_addSparkline_shouldAddSparklinesMultipleValuesWithColumns()
+    {
+        $params = $this->sparklineParams();
+        $params['columns'] = array('nb_visits', 'nb_actions');
+
+        $this->config->addSparkline($params, $values = array(10, 20), $description = array('Visits', 'Actions'));
+
+        $expectedSparkline = array(
+            array ('column' => 'nb_visits', 'value' => 10, 'description' => 'Visits'),
+            array ('column' => 'nb_actions', 'value' => 20, 'description' => 'Actions')
+        );
+
+        $sparklines = $this->config->getSortedSparklines();
+        $this->assertSame($expectedSparkline, $sparklines[0]['metrics']);
     }
 
     /**

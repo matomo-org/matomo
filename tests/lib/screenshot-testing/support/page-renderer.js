@@ -110,6 +110,10 @@ PageRenderer.prototype.evaluate = function (impl, waitTime) {
     this.queuedEvents.push([this._evaluate, waitTime, impl]);
 };
 
+PageRenderer.prototype.execCallback = function (callback, waitTime) {
+    this.queuedEvents.push([this._execCallback, waitTime, callback]);
+};
+
 PageRenderer.prototype.downloadLink = function (selector, waitTime) {
     this.queuedEvents.push([this._downloadLink, waitTime, selector]);
 };
@@ -274,6 +278,11 @@ PageRenderer.prototype._evaluate = function (impl, callback) {
         eval("(" + js + ")();");
     }, impl.toString());
 
+    callback();
+};
+
+PageRenderer.prototype._execCallback = function (actualCallback, callback) {
+    actualCallback();
     callback();
 };
 

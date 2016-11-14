@@ -59,6 +59,8 @@ describe("DashboardManager", function () {
             page.click('li[data-action=createDashboard]');
             page.sendKeys('#createDashboardName', 'newdash2');
             page.click('.modal.open .modal-footer a:contains(Ok)');
+
+            page.wait(2000);
         }, done);
     });
 

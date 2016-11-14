@@ -37,7 +37,7 @@
         "ExceptionNoValueForUsernameOrEmail": "Por favor introduce usuario o correo electrónico.",
         "ExcludeVisitsViaCookie": "Excluir sus visitas usando una cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Para los usuarios anónimos, fecha del informe a cargar por defecto",
-        "GiveViewAccess": "Otorgar acceso a la visualización",
+        "GiveViewAccess": "Otorgar acceso a la visualización de %1$s",
         "GiveViewAccessTitle": "Otorgar a un actual usuario acceso a ver los informes de %s",
         "GiveViewAccessInstructions": "Para otorgar atributos de visualización a actuales usuarios de %s suministre o el nombre de usuario o su correo electrónico",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Si desea cambiar la contraseña ingrese una nueva. Si no, déjelo vacío.",

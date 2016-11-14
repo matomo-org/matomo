@@ -10,6 +10,7 @@
         "BestKeywords": "As suas melhores palavras-passe de conversões são:",
         "BestReferrers": "Os meus melhores websites referentes de conversões são:",
         "CaseSensitive": "Correspondência sensível a maiúsculas",
+        "CategoryTextDevicesDetection_DevicesDetection": "Equipamentos",
         "ClickOutlink": "Clicar num Link para um website externo",
         "ColumnAverageOrderRevenueDocumentation": "Valor Média de Ordens é o total de receitas de todas as Ordens de Comércio Electrónico dividido pelo número de ordens.",
         "ColumnAveragePriceDocumentation": "As receitas médias para este %s.",
@@ -65,8 +66,6 @@
         "MatchesExpression": "corresponde à expressão %s",
         "NewVisitorsConversionRateIs": "Taxa de conversão para novos visitantes é %s",
         "Optional": "(opcional)",
-        "OverallConversionRate": "%s taxa de conversão geral (visitas com um objectivo completo)",
-        "OverallRevenue": "%s rendimento geral",
         "PageTitle": "Título da Página",
         "Pattern": "Padrão",
         "ProductCategory": "Categorias de Produtos",
@@ -83,7 +82,6 @@
         "VisitUrl": "Visitar um dado endereço (página ou grupo de páginas)",
         "WhenVisitors": "quando visitantes",
         "WhereThe": "onde o",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "onde a página visitada contém uma chamada ao método JavaScript 'trackGoal' (%1$saprenda mais%2$s)",
         "YouCanEnableEcommerceReports": "Você pode ativar %1$s para este site na página %2$s."
     }
 }

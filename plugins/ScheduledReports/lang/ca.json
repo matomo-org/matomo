@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(opcional) mostrar les opcions",
         "AggregateReportsFormat_GraphsOnly": "Mostra només els gràfics (sense taules)",
         "AggregateReportsFormat_TablesAndGraphs": "Mostrar les taules i els gràfics per a tots els informes.",
         "AggregateReportsFormat_TablesOnly": "(per defecte) Mostra les taules d'informe (Gràfiques només per les mètriques clau)",

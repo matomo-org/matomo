@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(необов'язково) Параметри відображення",
+        "AggregateReportsFormat": "Параметри відображення",
         "AggregateReportsFormat_GraphsOnly": "Відображати тільки графіки (без звітних таблиць)",
         "AggregateReportsFormat_TablesAndGraphs": "Відображати таблиці і графіки для всіх звітів",
         "AggregateReportsFormat_TablesOnly": "(за замовчуванням) Відображати таблиці звітів (графіки тільки для ключових показетелей)",
@@ -29,6 +29,7 @@
         "PluginDescription": "Створює користувальницькі звіти і планує їх відправку поштою щодня, щотижня або щомісяця для одного або кількох людей. Підтримує деякі формати звітів (html, pdf, csv, зображення).",
         "ReportFormat": "Формат звіту",
         "ReportHour": "Відправити звіт о %s годині",
+        "ReportHourWithUTC": "%s годин UTC",
         "ReportIncludeNWebsites": "Звіт буде містити основні показники для всіх сайтів, у яких було хоча б одне відвідування (всього зараз доступно %s сайтів).",
         "ReportSent": "Надіслати звіт",
         "ReportsIncluded": "Дані, включені у звіт",

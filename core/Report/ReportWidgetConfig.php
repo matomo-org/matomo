@@ -7,7 +7,6 @@
  *
  */
 namespace Piwik\Report;
-use Piwik\ViewDataTable\Factory;
 use Piwik\Widget\WidgetConfig;
 
 /**

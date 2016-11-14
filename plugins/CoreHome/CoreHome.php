@@ -257,6 +257,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'General_SearchNoResults';
+        $translationKeys[] = 'CoreHome_ChooseX';
         $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';
         $translationKeys[] = 'CoreHome_IncludeRowsWithLowPopulation';
         $translationKeys[] = 'CoreHome_ExcludeRowsWithLowPopulation';

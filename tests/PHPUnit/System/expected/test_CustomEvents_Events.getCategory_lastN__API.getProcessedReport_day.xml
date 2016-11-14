@@ -80,7 +80,35 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<label>Movie</label>
+				<nb_events>14</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>Music</label>
+				<nb_events>7</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.5</avg_event_value>
+			</row>
+			<row>
+				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -92,25 +120,41 @@
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>792</idsubdatatable>
+				<idsubdatatable>1478</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>793</idsubdatatable>
+				<idsubdatatable>1479</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>794</idsubdatatable>
+				<idsubdatatable>1480</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==CategoryTriggersGoal+here</segment>
-				<idsubdatatable>795</idsubdatatable>
+				<idsubdatatable>1481</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				
+				<segment>eventCategory==Movie</segment>
+				<idsubdatatable>1483</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventCategory==Music</segment>
+				<idsubdatatable>1484</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+				<idsubdatatable>1485</idsubdatatable>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -118,7 +162,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>43</nb_visits>
-		<nb_uniq_visitors>41</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_uniq_visitors>61</nb_uniq_visitors>
 	</reportTotal>
 </result>

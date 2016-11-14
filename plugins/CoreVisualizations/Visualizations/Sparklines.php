@@ -59,9 +59,16 @@ class Sparklines extends ViewDataTable
         $columnsList = array();
         if ($this->config->hasSparklineMetrics()) {
             foreach ($this->config->getSparklineMetrics() as $cols) {
-                $columnsList = array_merge($cols['columns'], $columnsList);
+                $columns = $cols['columns'];
+                if (!is_array($columns)) {
+                    $columns = array($columns);
+                }
+
+                $columnsList = array_merge($columns, $columnsList);
             }
         }
+
+        $view->allMetricsDocumentation = Metrics::getDefaultMetricsDocumentation();
 
         $this->requestConfig->request_parameters_to_modify['columns'] = $columnsList;
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = '1';

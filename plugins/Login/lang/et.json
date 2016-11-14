@@ -11,7 +11,6 @@
         "PasswordChanged": "Sinu salasõna on vahetatud.",
         "PasswordRepeat": "Salasõna (kordus)",
         "PasswordsDoNotMatch": "Salasõnad ei kattu.",
-        "RememberMe": "Pea meeles",
-        "ResetPasswordInstructions": "Sisesta oma konto jaoks uus salasõna."
+        "RememberMe": "Pea meeles"
     }
 }

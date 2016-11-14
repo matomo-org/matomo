@@ -35,6 +35,8 @@ class DomainAge implements MetricsProvider
 
     public function getMetrics($domain)
     {
+        $domain  = str_replace('www.', '', $domain);
+
         $ages = array();
 
         $age = $this->getAgeArchiveOrg($domain);
@@ -72,9 +74,8 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeArchiveOrg($domain)
     {
-        $url = str_replace('www.', '', $domain);
-        $data = $this->getUrl('http://wayback.archive.org/web/*/' . urlencode($url));
-        preg_match('#<a href=\"([^>]*)' . preg_quote($url) . '/\">([^<]*)<\/a>#', $data, $p);
+        $data = $this->getUrl('http://wayback.archive.org/web/*/' . urlencode($domain));
+        preg_match('#<a href=\"([^>]*)' . preg_quote($domain) . '/\">([^<]*)<\/a>#', $data, $p);
         if (!empty($p[2])) {
             $value = strtotime($p[2]);
             if ($value === false) {
@@ -93,9 +94,7 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeWhoIs($domain)
     {
-        $url = preg_replace('/^www\./', '', $domain);
-        $url = 'http://www.who.is/whois/' . urlencode($url);
-        $data = $this->getUrl($url);
+        $data = $this->getUrl('http://www.who.is/whois/' . urlencode($domain));
         preg_match('#(?:Creation Date|Created On|created|Registered on)\.*:\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
@@ -115,9 +114,7 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeWhoisCom($domain)
     {
-        $url = preg_replace('/^www\./', '', $domain);
-        $url = 'http://www.whois.com/whois/' . urlencode($url);
-        $data = $this->getUrl($url);
+        $data = $this->getUrl('http://www.whois.com/whois/' . urlencode($domain));
         preg_match('#(?:Creation Date|Created On|created):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));

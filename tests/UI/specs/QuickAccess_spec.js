@@ -8,6 +8,8 @@
  */
 
 describe("QuickAccess", function () {
+    this.retries(3);
+
     var selectorToCapture = ".quick-access,.quick-access .dropdown";
 
     this.timeout(0);

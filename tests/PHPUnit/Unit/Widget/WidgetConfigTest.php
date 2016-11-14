@@ -52,6 +52,17 @@ class WidgetConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('', $this->config->getCategoryId());
     }
 
+    public function test_isWide_shouldBeFalseByDefault()
+    {
+        $this->assertFalse($this->config->isWide());
+    }
+
+    public function test_setisWide()
+    {
+        $this->config->setIsWide();
+        $this->assertTrue($this->config->isWide());
+    }
+
     public function test_subcategoryId_set_get()
     {
         $this->config->setSubcategoryId('testsubcat');

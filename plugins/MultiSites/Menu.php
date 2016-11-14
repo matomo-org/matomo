@@ -18,6 +18,6 @@ class Menu extends \Piwik\Plugin\Menu
         $urlParams = $this->urlForActionWithDefaultUserParams('index', array('segment' => false, 'idSite' => false));
         $tooltip   = Piwik::translate('MultiSites_TopLinkTooltip');
 
-        $menu->add('General_MultiSitesSummary', null, $urlParams, true, 3, $tooltip);
+        $menu->addItem('General_MultiSitesSummary', null, $urlParams, 3, $tooltip);
     }
 }

@@ -141,7 +141,7 @@
 
         this.createGoal = function () {
             this.showAddEditForm();
-            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
+            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
             scrollToTop();
         }
 

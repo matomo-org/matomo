@@ -12,13 +12,15 @@
         "LoginOrEmail": "Nome de Usuário ou E-mail",
         "LoginPasswordNotCorrect": "Combinação errada de Nome de Usuário e senha.",
         "LostYourPassword": "Esqueceu a sua senha?",
+        "ChangeYourPassword": "Trocar sua senha",
         "MailPasswordChangeBody": "Olá %1$s,\n\nUm pedido de redefinição de senha foi recebido de %2$s. Para confirmar esta alteração de senha a fim de que você possa fazer o login com as suas novas credenciais, visite o seguinte link:\n\n%3$s\n\nAtenção: Modificar sua senha também modificará seu token_auth. Você pode procurar o seu novo token_auth na sua página de configurações.\n\nSe você estiver utilizando um API token_auth em qualquer aplicação externa ou para arquivamento, certifique-se de atualizar o token_auth como requisitado pelo API ou falhará de outra forma.\n\nObs.: este link irá expirar em 24 horas.\n\nE agradeço por usar Piwik!",
         "MailTopicPasswordChange": "Confirme Alteração de Senha",
+        "NewPassword": "Nova senha",
+        "NewPasswordRepeat": "Nova senha (repetir)",
         "PasswordChanged": "Sua senha foi alterada.",
         "PasswordRepeat": "Senha (repetir)",
         "PasswordsDoNotMatch": "Senhas não conferem.",
         "PluginDescription": "Fornece autenticação através do nome de usuário e senha, bem como a funcionalidade de redefinição de senha. O método de autenticação pode ser alterado utilizando outro plug-in, como, por exemplo, o LoginLdap disponível no Mercado.",
-        "RememberMe": "Lembrar-me",
-        "ResetPasswordInstructions": "Digite uma nova senha para a sua conta."
+        "RememberMe": "Lembrar-me"
     }
 }

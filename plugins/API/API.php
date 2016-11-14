@@ -439,16 +439,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated
-     */
-    public function getLastDate($date, $period)
-    {
-        $lastDate = Range::getLastDate($date, $period);
-
-        return array_shift($lastDate);
-    }
-
-    /**
      * Performs multiple API requests at once and returns every result.
      *
      * @param array $urls The array of API requests.

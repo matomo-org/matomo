@@ -204,9 +204,22 @@ class Config extends \Piwik\ViewDataTable\Config
             $description = array($description);
         }
 
+        if (!empty($requestParamsForSparkline['columns'])
+            && is_array($requestParamsForSparkline['columns'])
+            && count($requestParamsForSparkline['columns']) === count($values)) {
+            $columns = array_values($requestParamsForSparkline['columns']);
+        } elseif (!empty($requestParamsForSparkline['columns'])
+                  && is_string($requestParamsForSparkline['columns'])
+                  && count($values) === 1) {
+            $columns = array($requestParamsForSparkline['columns']);
+        } else{
+            $columns = array();
+        }
+
         if (count($values) === count($description)) {
             foreach ($values as $index => $value) {
                 $metrics[] = array(
+                    'column' => isset($columns[$index]) ? $columns[$index] : '',
                     'value' => $value,
                     'description' => $description[$index]
                 );

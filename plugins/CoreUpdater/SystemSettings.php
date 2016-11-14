@@ -97,7 +97,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createSendPluginUpdateEmail()
     {
-        return $this->makeSetting('enable_plugin_update_communication', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+        return $this->makeSetting('enable_plugin_update_communication', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->introduction = Piwik::translate('CoreAdminHome_SendPluginUpdateCommunication');
             $field->uiControl = FieldConfig::UI_CONTROL_RADIO;
             $field->availableValues = array('1' => Piwik::translate('General_Yes'),

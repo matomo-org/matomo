@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(optional) Anzeigeoptionen",
+        "AggregateReportsFormat": "Anzeigeoptionen",
         "AggregateReportsFormat_GraphsOnly": "Nur Graphen anzeigen (keine Tabellenberichte)",
         "AggregateReportsFormat_TablesAndGraphs": "Tabellen und Graphen für alle Berichte anzeigen",
         "AggregateReportsFormat_TablesOnly": "(Standard) Tabellenberichte anzeigen (Graphen nur für die wichtigsten Metriken)",
@@ -29,6 +29,7 @@
         "PluginDescription": "Erstellen Sie eigene Berichte und planen Sie deren täglichen, wöchentlichen oder monatlichen Versand an einen oder mehrere Empfänger. Diverse Berichtsformate werden unterstützt (HTML, PDF, CSV, Bilder).",
         "ReportFormat": "Berichtsformat",
         "ReportHour": "Bericht senden um %s Uhr",
+        "ReportHourWithUTC": "%s Uhr UTC",
         "ReportIncludeNWebsites": "Dieser Bericht wird die Hauptmetriken für alle Websites enthalten, die mindestens einen Besuch haben (von den %s derzeit verfügbaren Websites).",
         "ReportSent": "Bericht wurde versendet",
         "ReportsIncluded": "Beinhaltete Statistiken",

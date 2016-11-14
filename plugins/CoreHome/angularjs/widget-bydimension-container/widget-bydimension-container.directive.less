@@ -13,52 +13,52 @@
             max-width: 380px;
         }
     }
+}
 
-    .entityList {
+.entityList {
 
-        ul {
-            li {
-                margin: 4px 0;
-                padding: 0 0 0 16px;
-                line-height: 22px;
-                border-left: 2px solid @theme-color-background-base;
+    ul {
+        li {
+            margin: 4px 0;
+            padding: 0 0 0 16px;
+            line-height: 22px;
+            border-left: 2px solid @theme-color-background-base;
 
-                :hover {
-                    opacity: 0.8;
-                }
-                &:hover:not(.activeDimension) {
-                    border-color: @theme-color-header-background;
-                    border-left-width: 1px;
-                    padding-left: 17px;
-                }
+            :hover {
+                opacity: 0.8;
+            }
+            &:hover:not(.activeDimension) {
+                border-color: @theme-color-header-background;
+                border-left-width: 1px;
+                padding-left: 17px;
+            }
 
-                &.activeDimension {
-                    border-color: @theme-color-header-background;
-
-                    .dimension {
-                        font-weight: bold;
-                    }
-                }
+            &.activeDimension {
+                border-color: @theme-color-header-background;
 
                 .dimension {
-                    cursor: pointer;
-                    border-bottom: 1px solid #d0d0d0;
-                    color: @theme-color-text-contrast;
-                    border: 0;
+                    font-weight: bold;
                 }
             }
 
-            &.listCircle {
-                font-weight: normal;
-                list-style: none;
-                padding: 4px 0;
-                margin-top: 8px;
+            .dimension {
+                cursor: pointer;
+                border-bottom: 1px solid #d0d0d0;
+                color: @theme-color-text-contrast;
+                border: 0;
             }
-            &.listCircle li a {
-                color: #000;
-            }
+        }
 
+        &.listCircle {
+            font-weight: normal;
+            list-style: none;
+            padding: 4px 0;
+            margin-top: 8px;
+        }
+        &.listCircle li a {
+            color: #000;
         }
 
     }
+
 }

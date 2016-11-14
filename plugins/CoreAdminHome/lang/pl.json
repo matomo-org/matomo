@@ -51,7 +51,6 @@
         "LogoUploadHelp": "Prześlij plik w formatach %1$s i o minimalnej wysokości %2$s pikseli.",
         "MenuDiagnostic": "Diagnostyka",
         "MenuGeneralSettings": "Konfiguracja ogólna",
-        "MenuManage": "Zarządzaj",
         "MenuDevelopment": "Rozwój",
         "OptOutComplete": "Pełna dezaktywacja. Nie będziesz odnotowywany przez narzędzie statystyk i analityki.",
         "OptOutCompleteBis": "Prosimy zauważyć, że jeśli usuniesz swoje pliki ciasteczek cookies, zostaną skasowane ciasteczka wyłączające śledzenie, lub jeśli zmienisz komputer czy przeglądarkę, będziesz musiał powtórzyć procedurę wyłączenia analizy statystycznej raz jeszcze.",

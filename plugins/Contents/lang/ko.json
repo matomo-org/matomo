@@ -6,6 +6,8 @@
         "ContentName": "콘텐츠 이름",
         "ContentPiece": "콘텐츠 조각",
         "ContentTarget": "콘텐츠 목표",
-        "Contents": "콘텐츠"
+        "Contents": "콘텐츠",
+        "InteractionsMetricDocumentation": "(배너나 광고의 '클릭')과 상호작용한 콘텐츠 블록의 횟수입니다.",
+        "ImpressionsMetricDocumentation": "배너나 광고와 같은 콘텐츠 블록이 보여진 횟수입니다."
     }
 }

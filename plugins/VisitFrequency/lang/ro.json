@@ -10,13 +10,8 @@
         "ColumnReturningVisits": "Reintoarcere vizite",
         "ColumnSumVisitLengthReturning": "Timpul total petrecut de vizitatori reintorsi (în secunde",
         "ColumnUniqueReturningVisitors": "Vizitatori unici se reîntorc",
-        "ReturnActions": "%s actiuni ale vizitatorilor intorsi",
-        "ReturnAverageVisitDuration": "%s Durata medie de vizita pentru retintoacerea vizitelor",
-        "ReturnAvgActions": "%s acțiuni pe revenirea vizita",
-        "ReturnBounceRate": "%s vizite reîntoarse au sărit (au părăsit site-ul după o singură pagină)",
         "ReturningVisitDocumentation": "O vizită reventoarsa este ( spre deosebire de o nouă vizită) realizate de către cineva care a vizitat site-ul cel puțin o dată înainte.",
         "ReturningVisitsDocumentation": "Aceasta este o imagine de ansamblu a vizitelor care se întorc.",
-        "ReturnVisits": "%s vizitatori intorsi",
         "SubmenuFrequency": "Frecventa",
         "WidgetGraphReturning": "Graficul vizitelor intoarse",
         "WidgetOverview": "Rezumat periodic"

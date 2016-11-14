@@ -15,7 +15,6 @@
         "PasswordChanged": "आपका पासवर्ड बदल दिया गया है.",
         "PasswordRepeat": "पासवर्ड (दोहराने)",
         "PasswordsDoNotMatch": "पासवर्ड मेल नहीं खाते.",
-        "RememberMe": "मुझे याद है",
-        "ResetPasswordInstructions": "अपने खाते के लिए एक नया पासवर्ड दर्ज करें."
+        "RememberMe": "मुझे याद है"
     }
 }

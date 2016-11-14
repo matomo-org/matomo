@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Prosek zasnovan na %1$s pogodaka %2$s između %3$s i %4$s",
         "ColumnClickedURL": "Kliknutih linkova",
+        "ColumnActionURL": "URL akcije",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj klikova na ovaj link.",
         "ColumnDownloadURL": "Download link",
@@ -25,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "Broj poseta koje uključuju klik na ovaj link. Ako je link kliknut više puta tokom jedne posete, računa se samo jedan klik.",
         "ColumnUniqueDownloads": "Jedinstvenih preuzimanja",
         "ColumnUniqueOutlinks": "Jedinstveni izlazni linkovi",
+        "ColumnIdPageview": "ID prikaza stranice",
         "DownloadsReportDocumentation": "U ovom izveštaju možete videti koje su fajlove posetioci kliknuli. %s Ono što Piwik računa kao download jeste klik na link za skidanje fajla. Bilo da je fajl skinut ili ne, to nije poznato Piwik-u.",
         "EntryPagesReportDocumentation": "Ovaj izveštaj sadrži informacije o ulaznim stranicama koje su korišćene tokom određenog perioda. Izlazna stranica je prva stranica koju posetilac gleda tokom svoje posete. %s Ulazni lijkovi su prikazani u vidu foldera.",
         "EntryPageTitles": "Naslovi ulaznih stranica",
@@ -60,6 +62,7 @@
         "WidgetPageUrlsFollowingSearch": "Stranice",
         "WidgetSearchCategories": "Kategorije za pretragu",
         "WidgetSearchKeywords": "Ključne reči",
-        "WidgetSearchNoResultKeywords": "Ključne reči bez rezultata pretrage"
+        "WidgetSearchNoResultKeywords": "Ključne reči bez rezultata pretrage",
+        "ActionType": "Tip akcije"
     }
 }

@@ -9,6 +9,8 @@
 
 // TODO: should be stored in Overlay plugin
 describe("Overlay", function () {
+    this.retries(3);
+
     this.timeout(0);
 
     var url = null;

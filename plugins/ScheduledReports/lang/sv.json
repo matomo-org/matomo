@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(frivilligt) Visningsalternativ",
         "AggregateReportsFormat_GraphsOnly": "Visa endast diagram (inga rapporttabeller)",
         "AggregateReportsFormat_TablesAndGraphs": "Visa rapporttabeller och diagram för alla rapporter",
         "AggregateReportsFormat_TablesOnly": "(standard) Visa rapporttabeller (Diagram endast för nyckeltal)",

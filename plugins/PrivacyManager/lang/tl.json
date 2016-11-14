@@ -4,7 +4,6 @@
         "AnonymizeIpInlineHelp": "E-Anonymize ang huling byte ng IP address ng iyong mga bisita upang sumunod sa iyong mga alituntuning local at privacy.",
         "AnonymizeIpMaskLengtDescription": "Piliin kung gaano karaming byte ng IP ng bisita ang dapat na ikubli.",
         "AnonymizeIpMaskLength": "%1$s (na) byte - hal %2$s",
-        "CannotLockSoDeleteLogActions": "Ang log_action table ay hindi maaring dayain: mangyaring magbigay ng pribilehiyo upang maisagawa ang LOCK TABLES sa '%s' MYSQL user.",
         "ClickHereSettings": "Mag-click dito upang i-access ang mga setting sa %s.",
         "CurrentDBSize": "Kasalukuyang laki ng database",
         "DBPurged": "DB purged",

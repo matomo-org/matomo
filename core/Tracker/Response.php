@@ -78,7 +78,7 @@ class Response
                 Common::sendResponseCode(400);
             }
             Common::printDebug("Empty request => Piwik page");
-            echo "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
+            echo "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
         } else {
             $this->outputApiResponse($tracker);
             Common::printDebug("Nothing to notice => default behaviour");

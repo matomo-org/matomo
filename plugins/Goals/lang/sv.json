@@ -15,7 +15,6 @@
         "CategoryTextReferrers_Referrers": "hänvisningar",
         "CategoryTextVisitsSummary_VisitsSummary": "användarinformation",
         "CategoryTextGeneral_Visit": "engagemang",
-        "ChooseGoal": "Välj mål",
         "ClickOutlink": "klickar på en länk till en extern webbplats",
         "SendEvent": "triggar en händelse",
         "ColumnAverageOrderRevenueDocumentation": "Genomsnittligt ordervärde (AOV) är de totala intäkterna från alla E-handelsordrar dividerat med antalet ordrar.",
@@ -70,7 +69,6 @@
         "IsExactly": "är exakt %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Lär dig mer om %1$s att mäta mål i Piwik%2$s i dokumentationen.",
         "LeftInCart": "%s kvar i varukorgen",
-        "ManageGoalsOrCreateANewGoal": "%1$sHantera mål%2$s eller skapa ett nytt mål nu.",
         "Manually": "manuellt",
         "ManuallyTriggeredUsingJavascriptFunction": "Målet utlöses manuellt genom att använda JavaScript API trackGoal()",
         "MatchesExpression": "matchar uttrycket %s",
@@ -80,8 +78,6 @@
         "NoConversionsNoReportsMessage": "Rapporterna visas inte eftersom det inte finns någon konverteringsdata för det valda målet och perioden.",
         "NeedAccess": "Bara en administratör eller användare med Superbehörighet kan hantera mål för angiven hemsida.",
         "Optional": "(frivilligt)",
-        "OverallConversionRate": "%s total omvandlingsgrad (besök med ett uppnått mål)",
-        "OverallRevenue": "%s totala intäkter",
         "PageTitle": "Sidtitel",
         "Pattern": "mönster",
         "PluginDescription": "Skapa mål och se detaljerade rapporter för målkonverteringar: utveckling över tid, intäkt per besök, konverteringar per hänvisningskälla, nyckelord med mera.",
@@ -102,7 +98,6 @@
         "VisitUrl": "besöker en definerad URL (sida eller grupp av sidor)",
         "WhenVisitors": "när besökarna",
         "WhereThe": "där",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "där den besökta sidan innehåller ett anrop till JavaScript 'trackGoal'-metoden (%1$slär dig mer%2$s)",
         "YouCanEnableEcommerceReports": "Du kan aktivera %1$s för denna webbplats på sidan %2$s."
     }
 }

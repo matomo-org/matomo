@@ -790,7 +790,7 @@ class ProcessedReport
         // Add % symbol to rates
         if (strpos($columnName, '_rate') !== false) {
             if (strpos($value, "%") === false) {
-                return $value . "%";
+                return (100 * $value) . "%";
             }
         }
 

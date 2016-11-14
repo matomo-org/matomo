@@ -14,7 +14,6 @@
         "PasswordChanged": "Sandi Anda telah berubah.",
         "PasswordRepeat": "Sandi (ulangi)",
         "PasswordsDoNotMatch": "Sandi tak sesuai.",
-        "RememberMe": "Ingat Saya",
-        "ResetPasswordInstructions": "Masukkan sebuah sandi baru untuk akun Anda."
+        "RememberMe": "Ingat Saya"
     }
 }

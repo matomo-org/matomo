@@ -27,8 +27,8 @@
 			<row>
 				<name>enable_plugin_update_communication</name>
 				<title />
-				<value>0</value>
-				<defaultValue>0</defaultValue>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
 				<type>boolean</type>
 				<uiControl>radio</uiControl>
 				<uiControlAttributes>

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreatePull extends TranslationBase
 {
-    const GIT_BASE_BRANCH = '2.x-dev';
+    const GIT_BASE_BRANCH = '3.x-dev';
 
     protected function configure()
     {
@@ -144,8 +144,15 @@ class CreatePull extends TranslationBase
 
         if (!empty($modifiedFiles[1])) {
             foreach ($modifiedFiles[1] as $modifiedFile) {
-                $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
-                $messages[$modifiedFile] = sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
+                if ($linesSumByLang[$modifiedFile]) {
+                    $languageInfo            = $this->getLanguageInfoByIsoCode($modifiedFile);
+                    $messages[$modifiedFile] = sprintf(
+                        '- Updated %s (%s changes / %s translated)\n',
+                        $languageInfo['english_name'],
+                        $linesSumByLang[$modifiedFile],
+                        $languageInfo['percentage_complete']
+                    );
+                }
             }
             $languageCodesTouched = array_merge($languageCodesTouched, $modifiedFiles[1]);
         }
@@ -187,7 +194,7 @@ class CreatePull extends TranslationBase
 
         while (true) {
 
-            $username = $dialog->ask($output, 'Please provide your github username (to create a pull request using Github API): ');
+            $username = $dialog->ask($output, 'Please provide your GitHub username (to create a pull request using GitHub API): ');
 
             $returnCode = shell_exec('curl \
                  -X POST \

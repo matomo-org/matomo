@@ -1,6 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserEngine": "Tarayıcı motoru",
+        "BrowserEngineDocumentation": "Bu rapor ziyaretçilerin web tarayıcılarının tarayıcı motorlarına göre dağılımını görüntüler. %s Web tasarımcıları için en önemli bilgi ziyaretçilerin kullandığı görüntüleme motorudur. Etiketlerde motorların adı ve yanında köşeli parantez içinde bu motoru en çok kullanan tarayıcı görüntülenir.",
         "BrowserEngines": "Tarayıcı motorları",
         "BrowserFamily": "Tarayıcı ailesi",
         "Browsers": "Tarayıcılar",
@@ -23,21 +24,21 @@
         "DeviceModel": "Aygıt modeli",
         "DevicesDetection": "Ziyaretçi Aygıtları",
         "DeviceType": "Aygıt türü",
-        "FeaturePhone": "Özellikli Telefon",
-        "OperatingSystemFamilies": "İşletim Sistemi aileleri",
+        "FeaturePhone": "Özellikli telefon",
+        "OperatingSystemFamilies": "İşletim Sistemi Aileleri",
         "OperatingSystemFamily": "İşletim Sistemi Ailesi",
         "OperatingSystems": "İşletim sistemleri",
-        "OperatingSystemVersions": "İşletim Sistemi versiyonları",
-        "PluginDescription": "Marka (Üretici), Model (cihaz versiyonu) , cihaz tipi (tv, konsol, akıllı telefon, masaüstü gibi) özellikleri içeren kulanıcı cihazları ile ilgili ek bilgi sunar.",
-        "SmartDisplay": "Akıllı görüntüleme",
+        "OperatingSystemVersions": "İşletim Sistemi Sürümleri",
+        "PluginDescription": "Marka (Üretici), Model (aygıt sürümü), aygıt türü (tv, oyun konsolu, akıllı telefon, masaüstü gibi) özellikleri içeren kullanıcı aygıtları ile ilgili ek bilgileri kapsar.",
+        "SmartDisplay": "Akıllı Görüntüleyici",
         "Smartphone": "Akıllı Telefon",
-        "PortableMediaPlayer": "Taşınabilir medya oynatıcısı",
-        "Devices": "Cihazlar",
+        "PortableMediaPlayer": "Taşınabilir Ortam Oynatıcısı",
+        "Devices": "Aygıtlar",
         "Tablet": "Tablet",
-        "Phablet": "Tablet",
-        "TV": "Tv",
+        "Phablet": "Phablet",
+        "TV": "TV",
         "UserAgent": "User-Agent",
-        "WidgetBrowsers": "Ziyaretçi tarayıcılari",
-        "WidgetBrowsersDocumentation": "Bu rapor ziyaretçilerinizin ne tür tarayıcılar kullandığı bilgisini içerir. Her tarayıcı versiyonu ayrı olarak listelenmiştir."
+        "WidgetBrowsers": "Ziyaretçi Tarayıcısı",
+        "WidgetBrowsersDocumentation": "Bu rapor ziyaretçilerinizin kullandığı tarayıcı türlerini kapsar. Tarayıcı sürümleri ayrı ayrı listelenmiştir."
     }
 }

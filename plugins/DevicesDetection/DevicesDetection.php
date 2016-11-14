@@ -23,7 +23,6 @@ class DevicesDetection extends \Piwik\Plugin
     {
         return array(
             'Live.getAllVisitorDetails' => 'extendVisitorDetails',
-            'Request.getRenamedModuleAndAction' => 'renameUserSettingsModuleAndAction',
         );
     }
 
@@ -47,23 +46,5 @@ class DevicesDetection extends \Piwik\Plugin
         $visitor['browserIcon']              = $instance->getBrowserIcon();
         $visitor['browserCode']              = $instance->getBrowserCode();
         $visitor['browserVersion']           = $instance->getBrowserVersion();
-    }
-
-    public function renameUserSettingsModuleAndAction(&$module, &$action)
-    {
-        $movedMethods = array(
-            'index' => 'software',
-            'getBrowser' => 'getBrowsers',
-            'getBrowserVersion' => 'getBrowserVersions',
-            'getMobileVsDesktop' => 'getType',
-            'getOS' => 'getOsVersions',
-            'getOSFamily' => 'getOsFamilies',
-            'getBrowserType' => 'getBrowserEngines',
-        );
-
-        if ($module == 'UserSettings' && array_key_exists($action, $movedMethods)) {
-            $module = 'DevicesDetection';
-            $action = $movedMethods[$action];
-        }
     }
 }

@@ -15,7 +15,6 @@
         "CategoryTextReferrers_Referrers": "リファラー",
         "CategoryTextVisitsSummary_VisitsSummary": "ユーザー属性",
         "CategoryTextGeneral_Visit": "エンゲージメント",
-        "ChooseGoal": "Choose Goal",
         "ClickOutlink": "外部ウェブサイトへのリンクをクリック",
         "SendEvent": "イベントを送信",
         "ColumnAverageOrderRevenueDocumentation": "平均注文値（AOV）は、全てのeコマース注文の総収益を注文数で割ったものです。",
@@ -70,7 +69,6 @@
         "IsExactly": "%s と完全に一致する",
         "LearnMoreAboutGoalTrackingDocumentation": "Piwik の目標のトラッキングについての詳細は、%1$s ユーザーマニュアル %2$sを参照してください。",
         "LeftInCart": "カートに残された %s",
-        "ManageGoalsOrCreateANewGoal": "%1$s 目標管理 %2$s や新たな目標を今すぐ作成!",
         "Manually": "手動",
         "ManuallyTriggeredUsingJavascriptFunction": "JavaScript API の trackGoal() を使用した手動トリガー",
         "MatchesExpression": "正規表現 %s に一致する",
@@ -79,8 +77,6 @@
         "NoGoalsNeedAccess": "管理者またはスーパー ユーザーのアクセス権を持つユーザーだけが、ウェブサイトの目標を管理できます。ウェブサイトの目標を設定する場合は Piwik の管理者に依頼してください。<br> 目標を追跡することは、ウェブサイトの理解に役立ち、パフォーマンスを最大限に高めるための素晴らしい方法です！",
         "NeedAccess": "管理者またはスーパー ユーザーのアクセス権を持つユーザーだけが、ウェブサイトの目標を管理できます。",
         "Optional": "（オプション）",
-        "OverallConversionRate": "%s 総コンバージョン率（目標達成ビジット）",
-        "OverallRevenue": "%s 総収益",
         "PageTitle": "ページタイトル",
         "Pattern": "パターン",
         "PluginDescription": "目標を作成し、目標のコンバージョンに関する詳細なレポートを参照してください : 時間がたつにつれての推移、1訪問あたりの収入、1キーワードあたり、リファラーあたりのコンバージョン、およびその他。",
@@ -101,7 +97,6 @@
         "VisitUrl": "特定の URL を訪問（ページまたはページグループ）",
         "WhenVisitors": "ビジター",
         "WhereThe": "対象：",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "訪問したページに JavaScript の 'trackGoal' メソッドのコールが含まれるところ（%1$s詳細%2$s）",
         "YouCanEnableEcommerceReports": "%1$s ページでこのウェブサイトに%2$s を有効にできます。"
     }
 }

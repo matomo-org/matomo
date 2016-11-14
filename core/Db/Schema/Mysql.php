@@ -86,7 +86,7 @@ class Mysql implements SchemaInterface
             ",
 
             'site_setting'    => "CREATE TABLE {$prefixTables}site_setting (
-                          idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                          idsite INTEGER(10) UNSIGNED NOT NULL,
                           `plugin_name` VARCHAR(60) NOT NULL,
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,

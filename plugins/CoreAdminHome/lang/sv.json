@@ -55,7 +55,6 @@
         "LogoUploadHelp": "Ladda upp en fil i %1$s format med en minsta höjd på %2$s pixlar.",
         "MenuDiagnostic": "Diagnostik",
         "MenuGeneralSettings": "Allmänna inställningar",
-        "MenuManage": "Hantera",
         "MenuDevelopment": "Utveckling",
         "OptOutComplete": "Exkludering utförd; dina besök på denna webbplatsen kommer inte att spåras av webbanalys-verktyget.",
         "OptOutCompleteBis": "Observera att om du rensar cookies, tar bort cookien för exkludering eller om du byter dator eller webbläsare måste du utföra exkluderingen igen.",

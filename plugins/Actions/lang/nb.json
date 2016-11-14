@@ -26,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "Antall besøk som involverte et klikk på denne lenken. Hvis lenken ble klikket flere ganger i løpet av et besøk, blir det kun talt én gang.",
         "ColumnUniqueDownloads": "Unike nedlastinger",
         "ColumnUniqueOutlinks": "Unike utlenker",
+        "ColumnIdPageview": "Sidevisnings-ID",
         "DownloadsReportDocumentation": "I denne rapporten kan du se hvilke filer de besøkende har lastet ned. %s Hva Piwik teller som en nedlasting, er klikket på en nedlastingslink. Om nedlastingen ble fullført eller ikke er ikke kjent for Piwik.",
         "EntryPagesReportDocumentation": "Denne rapporten inneholder informasjon om inngangssidene som ble brukt i løpet av den angitte perioden. En inngangsside er den første siden en bruker ser i løpet av besøket. %s Inngangs-URLen vises som en mappestruktur.",
         "EntryPageTitles": "Titler på inngangssider",

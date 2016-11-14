@@ -5,7 +5,6 @@
         "AnonymizeIpExtendedHelp": "유저들이 웹사이트에 접속할 때, Piwik는 모든 IP 주소(예: %1$s)를 사용하지 않고 일부를 숨깁니다(예: %2$s). IP 주소 익명 처리는 독일과 같이 특정 국가에서 프라이버시 법률에 따라 요구되는 것 중 하나입니다.",
         "AnonymizeIpMaskLengtDescription": "방문자의 IP 주소에서 몇 바이트를 숨기려면 선택하세요.",
         "AnonymizeIpMaskLength": "%1$s 바이트 - 예) %2$s",
-        "CannotLockSoDeleteLogActions": "log_action 테이블을 비울 수 없습니다: '%s' MYSQL 사용자에게 LOCK 테이블 권한을 부여하세요.",
         "ClickHereSettings": "%s 설정은 여기를 클릭하세요.",
         "CurrentDBSize": "현재 데이터베이스 크기",
         "DBPurged": "DB가 제거되었습니다.",

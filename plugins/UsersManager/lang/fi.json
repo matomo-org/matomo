@@ -35,7 +35,6 @@
         "ExceptionNoValueForUsernameOrEmail": "Kirjoita käyttäjätunnus tai sähköpostiosoite.",
         "ExcludeVisitsViaCookie": "Poista käyntiesi seuraaminen cookiella",
         "ForAnonymousUsersReportDateToLoadByDefault": "Lataa anonyymeille käyttäjille oletuksena",
-        "GiveViewAccess": "Anna katseluoikeus",
         "GiveViewAccessTitle": "Anna olemassaolevalle käyttäjälle oikeus katsoa %s:n raportteja",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jos haluat vaihtaa salasanan, kirjoita uusi. Muuten jätä tyhjäksi.",
         "InjectedHostCannotChangePwd": "Olet sivulla tällä hetkellä tuntemattoman isännän kautta (%1$s). Et voi vaihtaa salasanaasi ennen kuin tämä ongelma on korjattu.",

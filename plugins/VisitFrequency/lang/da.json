@@ -12,13 +12,8 @@
         "ColumnUniqueReturningVisitors": "Unikke tilbagevendende besøgende",
         "ColumnReturningUsers": "Tilbagevendende brugere",
         "PluginDescription": "Rapporter målinger om førstegangs nye besøgende og tilbagevendende besøgende.",
-        "ReturnActions": "%s handlinger af tilbagevendende besøg",
-        "ReturnAverageVisitDuration": "%s gns. Besøgsvarighed for tilbagevendende besøgende",
-        "ReturnAvgActions": "%s gns. handlinger pr. tilbagevendende besøg",
-        "ReturnBounceRate": "%s tilbagevendende besøg er blevet afvist (har forladt hjemmesiden efter en sidevisning)",
         "ReturningVisitDocumentation": "Et tilbagevendende besøg (i modsætning til et nyt besøg) foretages af en person, der har besøgt hjemmesiden mindst en gang før.",
         "ReturningVisitsDocumentation": "Oversigt over tilbagevendende besøg.",
-        "ReturnVisits": "%s tilbagevendende besøg",
         "SubmenuFrequency": "Hyppighed",
         "WidgetGraphReturning": "Tilbagevendende besøg",
         "WidgetOverview": "Hyppighedsoversigt"

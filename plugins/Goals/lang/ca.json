@@ -65,8 +65,6 @@
         "MatchesExpression": "compleix l'expresió %s",
         "NewVisitorsConversionRateIs": "El rati de conversió dels nous visitants es %s",
         "Optional": "(opcional)",
-        "OverallConversionRate": "%s rati de conversió global (visitants amb un objectiu complert)",
-        "OverallRevenue": "%s ingresssos globals",
         "PageTitle": "Títol de la pàgina",
         "Pattern": "Patró",
         "ProductCategory": "Categoria de Producte",
@@ -83,7 +81,6 @@
         "VisitUrl": "Visitar una URL donada (pàgina o grup de pàgines)",
         "WhenVisitors": "quan el visitant",
         "WhereThe": "quan el",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "quan la pagina visitada conté una crida al mètode piwikTracker.trackGoal() de la API de Javascript (%1$s saber més %2$s)",
         "YouCanEnableEcommerceReports": "Podeu activar el %1$s per aquest lloc web a la pàgina %2$s."
     }
 }

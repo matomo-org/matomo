@@ -47,7 +47,11 @@
                 return true;
             }
 
-            return widget.viewDataTable && widget.viewDataTable === 'tableAllColumns';
+            if ('undefined' !== typeof widget.isWide && widget.isWide) {
+                return true;
+            }
+
+            return widget.viewDataTable && (widget.viewDataTable === 'tableAllColumns' || widget.viewDataTable === 'sparklines' || widget.viewDataTable === 'graphEvolution');
         }
 
         function buildPage(page)
@@ -69,13 +73,7 @@
 
                 reportsToIgnore = reportsToIgnore.concat(getRelatedReports(widget));
 
-                if (widget.viewDataTable && widget.viewDataTable === 'graphEvolution') {
-                    evolutionReports.push(widget);
-                } else if (widget.viewDataTable && widget.viewDataTable === 'sparklines') {
-                    sparklineReports.push(widget);
-                } else {
-                    widgets.push(widget);
-                }
+                widgets.push(widget);
             });
 
             widgets = sortWidgets(widgets);
