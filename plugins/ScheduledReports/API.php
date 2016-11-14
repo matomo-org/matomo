@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Development;
 use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
@@ -608,10 +609,9 @@ class API extends \Piwik\Plugin\API
         $now = Date::now()->getDatetime();
         $this->getModel()->updateReport($report['idreport'], array('ts_last_sent' => $now));
 
-        // If running from piwik.php with debug, do not delete the PDF after sending the email
-        $tracker = new Tracker();
-        if (!$tracker->isDebugModeEnabled()) {
+        if (!Development::isEnabled()) {
             @chmod($outputFilename, 0600);
+            @unlink($outputFilename);
         }
     }
 
