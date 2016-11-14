@@ -80,13 +80,6 @@ class AdvertisingTest extends IntegrationTestCase
         $this->assertTrue($enabled->areAdsForProfessionalServicesEnabled());
     }
 
-    public function test_getPromoUrlForOnPremises_WithoutContent()
-    {
-        $link = $this->advertising->getPromoUrlForPiwikProUpgrade();
-
-        $this->assertSame('https://piwik.org/recommends/piwik-pro-from-app', $link);
-    }
-
     public function test_addPromoCampaignParametersToUrl_withoutContentWithoutQuery()
     {
         $link = $this->advertising->addPromoCampaignParametersToUrl($this->exampleUrl, 'MyName', 'Installation_Start');
