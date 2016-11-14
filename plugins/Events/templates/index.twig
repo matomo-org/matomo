@@ -1,6 +1,4 @@
 {{ leftMenuReports|raw }}
 
-<p style="margin-top:3em" class=" alert-info alert">Did you know?
-    <br/>Using Events you can measure any user interaction and gain amazing insights into your audience. <a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/event-tracking/'>Learn more</a>.
-    <br/>When you publish videos or audios, <a target='_blank' href='?module=Proxy&action=redirect&url=http://www.media-analytics.net'>Media Analytics gives deep insights into your audience</a> and how they watch your videos or listens to your music.
-</p>
+{{ postEvent("Template.afterEventsReport") }}
+

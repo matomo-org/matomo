@@ -19,6 +19,7 @@ class ProfessionalServices extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Request.getRenamedModuleAndAction' => 'renameProfessionalServicesModule',
             'Template.afterGoalConversionOverviewReport' => 'getGoalOverviewPromo',
+            'Template.afterEventsReport' => 'getEventsPromo',
         );
     }
 
@@ -47,12 +48,29 @@ class ProfessionalServices extends \Piwik\Plugin
         }
     }
 
+
     public function getGoalOverviewPromo()
     {
+        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('AbTesting')) {
+            return;
+        }
+
         echo '
             <p style="margin-top:3em" class=" alert-info alert">Did you know?
                 With <a target="_blank" href="?module=Proxy&action=redirect&url=https://piwik.org/blog/2016/11/ab-testing-platform-piwik-analytics/">A/B Testing for Piwik</a> you can immediately increase conversions and sales by creating different versions of a page to see which grows your business.
             </p>
             ';
+    }
+
+    public function getEventsPromo()
+    {
+        $inlineAd = '';
+        if(!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MediaAnalytics')) {
+            $inlineAd = '<br/>When you publish videos or audios, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.media-analytics.net">Media Analytics gives deep insights into your audience</a> and how they watch your videos or listens to your music.';
+        }
+        echo '<p style="margin-top:3em" class=" alert-info alert">Did you know?
+                <br/>Using Events you can measure any user interaction and gain amazing insights into your audience. <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/event-tracking/">Learn more</a>.
+              ' . $inlineAd . '
+            </p>';
     }
 }
