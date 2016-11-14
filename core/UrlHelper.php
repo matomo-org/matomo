@@ -31,7 +31,7 @@ class UrlHelper
     {
         foreach($patterns as $val) {
             if(@preg_match($val, null) === false) {
-                if( $val==$test ) {
+                if( strcasecmp($val, $test) === 0 ) {
                     return true;
                 }
             } else {
