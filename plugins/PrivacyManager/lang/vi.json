@@ -4,7 +4,6 @@
         "AnonymizeIpInlineHelp": "Làm ẩn danh những byte(s) cuối trên địa chỉ IP của khách để tuân thủ quy định\/luật nội bộ về quyền riêng tư.",
         "AnonymizeIpMaskLengtDescription": "Chọn bao nhiêu byte IPs của khách truy cập nên giấu.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - ví dụ %2$s.",
-        "CannotLockSoDeleteLogActions": "Bảng log_action sẽ không được thanh lọc: xin cấp đặc quyền LOCK TABLES cho '%s' người sử dụng MySQL.",
         "ClickHereSettings": "Click chuột tại đây để truy cập các cài đặt %s.",
         "CurrentDBSize": "Kích thước cơ sở dữ liệu hiện tại",
         "DBPurged": "Loại bỏ DB.",

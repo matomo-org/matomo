@@ -251,7 +251,7 @@ class Rules
      * @param Segment $segment
      * @return bool
      */
-    protected static function isSegmentPreProcessed(array $idSites, Segment $segment)
+    public static function isSegmentPreProcessed(array $idSites, Segment $segment)
     {
         $segmentsToProcess = self::getSegmentsToProcess($idSites);
 

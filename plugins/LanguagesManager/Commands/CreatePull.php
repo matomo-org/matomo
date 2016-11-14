@@ -144,8 +144,15 @@ class CreatePull extends TranslationBase
 
         if (!empty($modifiedFiles[1])) {
             foreach ($modifiedFiles[1] as $modifiedFile) {
-                $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
-                $messages[$modifiedFile] = sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
+                if ($linesSumByLang[$modifiedFile]) {
+                    $languageInfo            = $this->getLanguageInfoByIsoCode($modifiedFile);
+                    $messages[$modifiedFile] = sprintf(
+                        '- Updated %s (%s changes / %s translated)\n',
+                        $languageInfo['english_name'],
+                        $linesSumByLang[$modifiedFile],
+                        $languageInfo['percentage_complete']
+                    );
+                }
             }
             $languageCodesTouched = array_merge($languageCodesTouched, $modifiedFiles[1]);
         }

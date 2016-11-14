@@ -310,11 +310,19 @@ class Filechecks
             return '';
         }
 
-        $group = posix_getgrgid($stat[5]);
-        $group = $group['name'];
+        if (function_exists('posix_getgrgid')) {
+            $group = posix_getgrgid($stat[5]);
+            $group = $group['name'];
+        } else {
+            return '';
+        }
 
-        $user = posix_getpwuid($stat[4]);
-        $user = $user['name'];
+        if (function_exists('posix_getpwuid')) {
+            $user = posix_getpwuid($stat[4]);
+            $user = $user['name'];
+        } else {
+            return '';
+        }
 
         return "$user:$group";
     }

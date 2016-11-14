@@ -11,7 +11,6 @@
         "Default": "默认",
         "DonateCall1": "Piwik 对您来说可以免费使用，但对我们来说并非零成本。",
         "DonateCall2": "Piwik 的茁壮成长离不开您的支持。",
-        "DonateCall3": "如果 Piwik 对您的业务有很大帮助，%1$s 请考虑捐助!%2$s",
         "DonateFormInstructions": "点击下面的滑动条设定金额，然后点 Subscribe 按钮捐款",
         "ExcludeRowsWithLowPopulation": "显示了所有的数据 %s 不显示低密度数据",
         "ExternalHelp": "帮助（在新标签页打开）",

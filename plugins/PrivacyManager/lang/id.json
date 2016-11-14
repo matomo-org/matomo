@@ -4,7 +4,6 @@
         "AnonymizeIpInlineHelp": "Anonimasi bita terakhir dari alamat IP pengunjung sesuai dengan peraturan privasi\/panduan setempat Anda.",
         "AnonymizeIpMaskLengtDescription": "Pilih berapa banyak bita dari IP pengunjung harus ditutupi.",
         "AnonymizeIpMaskLength": "%1$s bita - misalnya %2$s",
-        "CannotLockSoDeleteLogActions": "Tabel log_action tidak akan dibersihakan: harap memberi hak LOCK TABLES terhadap pengguna MySQL '%s'.",
         "ClickHereSettings": "Klik di sini untuk mengakses pengaturan %s.",
         "CurrentDBSize": "Ukuran basisdata saat ini",
         "DBPurged": "BD terbersihkan.",

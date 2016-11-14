@@ -358,7 +358,7 @@ class Update extends ConsoleCommand
      */
     protected function writeAlertMessageWhenCommandExecutedWithUnexpectedUser(OutputInterface $output)
     {
-        if(SettingsServer::isWindows()) {
+        if (SettingsServer::isWindows()) {
             // does not work on windows
             return;
         }
@@ -366,12 +366,11 @@ class Update extends ConsoleCommand
         $processUserAndGroup = Filechecks::getUserAndGroup();
         $fileOwnerUserAndGroup = Filechecks::getOwnerOfPiwikFiles();
 
-        if($processUserAndGroup == $fileOwnerUserAndGroup) {
+        if (!$fileOwnerUserAndGroup || $processUserAndGroup == $fileOwnerUserAndGroup) {
             // current process user/group appear to be same as the Piwik filesystem user/group -> OK
             return;
         }
         $output->writeln(
-
             sprintf("<comment>It appears you have executed this update with user %s, while your Piwik files are owned by %s. \n\nTo ensure that the Piwik files are readable by the correct user, you may need to run the following command (or a similar command depending on your server configuration):\n\n$ %s</comment>",
                 $processUserAndGroup,
                 $fileOwnerUserAndGroup,

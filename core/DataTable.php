@@ -155,9 +155,8 @@ require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
  *
  *     public function getMyReport($idSite, $period, $date, $segment = false, $expanded = false)
  *     {
- *         $dataTable = Archive::getDataTableFromArchive('MyPlugin_MyReport', $idSite, $period, $date, $segment, $expanded);
+ *         $dataTable = Archive::createDataTableFromArchive('MyPlugin_MyReport', $idSite, $period, $date, $segment, $expanded);
  *         $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
- *         $dataTable->queueFilter('ReplaceColumnNames');
  *         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getUrlFromLabelForMyReport'));
  *         return $dataTable;
  *     }

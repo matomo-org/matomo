@@ -6093,18 +6093,25 @@ if (typeof window.Piwik !== 'object') {
                 }
             };
 
-/*<DEBUG>*/
             /**
-             * Clear heartbeat.
+             * Disable heartbeat if it was previously activated.
              */
             this.disableHeartBeatTimer = function () {
                 heartBeatDown();
-                configHeartBeatDelay = null;
+                
+                if (configHeartBeatDelay || heartBeatSetUp) {
+                    if (windowAlias.removeEventListener) {
+                        windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
+                        windowAlias.removeEventListener('blur', heartBeatOnBlur, true);
+                    } else if  (windowAlias.detachEvent) {
+                        windowAlias.detachEvent('onfocus', heartBeatOnFocus);
+                        windowAlias.detachEvent('onblur', heartBeatOnBlur);
+                    }
+                }
 
-                window.removeEventListener('focus', heartBeatOnFocus);
-                window.removeEventListener('blur', heartBeatOnBlur);
+                configHeartBeatDelay = null;
+                heartBeatSetUp = false;
             };
-/*</DEBUG>*/
 
             /**
              * Frame buster
