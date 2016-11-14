@@ -198,7 +198,7 @@ class DbHelper
      */
     public static function isValidDbname($dbname)
     {
-        return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-\+]*))$/D', $dbname));
+        return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
     }
 
 }

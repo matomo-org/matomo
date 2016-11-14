@@ -112,8 +112,8 @@ PageRenderer.prototype.evaluate = function (impl, waitTime) {
 
 // like .evaluate() but doesn't call `impl` in context of the webpage. Useful if you want to change eg a testEnvironment
 // before a click. Makes sure this callback `impl` will be executed just before the next action instead of immediately
-PageRenderer.prototype.callMethod = function (impl, waitTime) {
-    this.queuedEvents.push([this._callMethod, waitTime, impl]);
+PageRenderer.prototype.execCallback = function (callback, waitTime) {
+    this.queuedEvents.push([this._execCallback, waitTime, callback]);
 };
 
 PageRenderer.prototype.downloadLink = function (selector, waitTime) {
@@ -200,12 +200,6 @@ PageRenderer.prototype._getViewportHeight = function () {
     return height;
 };
 
-PageRenderer.prototype._callMethod = function (impl, callback) {
-    impl();
-
-    callback();
-};
-
 PageRenderer.prototype._keypress = function (keys, callback) {
     this.webpage.sendEvent('keypress', keys);
 
@@ -286,6 +280,11 @@ PageRenderer.prototype._evaluate = function (impl, callback) {
         eval("(" + js + ")();");
     }, impl.toString());
 
+    callback();
+};
+
+PageRenderer.prototype._execCallback = function (actualCallback, callback) {
+    actualCallback();
     callback();
 };
 

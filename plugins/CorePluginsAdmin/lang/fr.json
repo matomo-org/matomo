@@ -104,6 +104,7 @@
         "Version": "Version",
         "ViewRepositoryChangelog": "Afficher les changements",
         "ViewAllMarketplacePlugins": "Voir tous les plugins du marché",
-        "Websites": "Sites web"
+        "Websites": "Sites web",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "Nous avons désactiver le composant %s car certaines dépendances lui manquent :"
     }
 }

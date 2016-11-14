@@ -24,6 +24,7 @@
         "HelpMessageIntroductionWhenError": "Dies ist die Kernfehlermeldung. Sie sollte helfen, die Ursache zu erklären, aber wenn Sie weitere Hilfe benötigen, bitte:",
         "HelpMessageIntroductionWhenWarning": "Die Aktualisierung konnte erfolgreich abgeschlossen werden, obwohl es währenddessen zu Problemen kam. Für nähere Details lesen Sie bitte die Beschreibung. Für weitere Hilfe:",
         "HighTrafficPiwikServerEnableMaintenance": "Wenn Sie eine Website mit hohem Verkehrsaufkommen verwalten, empfehlen wir, das %1$sBesuchertracking vorübergehend zu deaktivieren und die Benutzeroberfläche in den Wartungsmodus zu versetzen%2$s.",
+        "IncompatbilePluginsWillBeDisabledInfo": "Hinweis: Einige Erweiterungen sind nicht mit Piwik %s kompatibel. Sobald im Marktplatz ein Update verfügbar ist, werden wir sie aktualisieren. Ist aktuell keine Aktualisierung der Erweiterungen möglich, werden sie beim Upgrade deaktiviert.",
         "InstallingTheLatestVersion": "Die neueste Version wird installiert",
         "LatestBetaRelease": "Das aktuelle beta Release",
         "LatestStableRelease": "Das aktuelle stabile Release",

@@ -15,7 +15,7 @@ use PiwikTracker;
 /**
  * Tracks custom events
  */
-class TwoVisitsWithCustomEvents extends Fixture
+class ThreeVisitsWithCustomEvents extends Fixture
 {
     public $dateTime = '2010-01-03 11:22:33';
     public $idSite = 1;
@@ -67,6 +67,15 @@ class TwoVisitsWithCustomEvents extends Fixture
         $this->trackMusicPlaying($vis2);
         $this->trackMusicRatings($vis2);
         $this->trackMovieWatchingIncludingInterval($vis2);
+
+        $this->dateTime = Date::factory($this->dateTime)->addDay(1);
+        $vis3 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
+        $vis3->setIp('111.1.1.2');
+        $vis3->setPlugins($flash = false, $java = false, $director = true);
+
+        $this->trackMusicPlaying($vis3);
+        $this->trackMusicRatings($vis3);
+        $this->trackMovieWatchingIncludingInterval($vis3);
 
     }
 

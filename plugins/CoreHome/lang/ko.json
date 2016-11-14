@@ -14,7 +14,6 @@
         "Default": "기본",
         "DonateCall1": "Piwik을 사용하는데 당신의 비용이 들지는 않을 것입니다. 그렇다고 우리가 이것을 만드는데 비용이 들지 않다는 의미는 아닙니다.",
         "DonateCall2": "Piwik은 성장하고 번영하기 위해 당신의 지속적인 지원이 필요합니다.",
-        "DonateCall3": "Piwik이 당신의 업무나 시도하는 일에 특별한 가치를 더해준다고 느끼신다면, %1$s기부해 주세요!%2$s",
         "DonateFormInstructions": "슬라이더를 클릭하여 금액을 선택하고, 기부에 기명을 클릭합니다.",
         "ExcludeRowsWithLowPopulation": "모든 행을 표시 %s 적은 량의 항목은 제외",
         "ExternalHelp": "도움말 (새로운 탭에 열기)",

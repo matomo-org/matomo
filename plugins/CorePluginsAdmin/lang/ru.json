@@ -34,6 +34,8 @@
         "InstallingPlugin": "Установка %s",
         "InstallNewPlugins": "Установить новые плагины",
         "InstallNewThemes": "Установить новые темы",
+        "InstalledPlugins": "Установленные плагины",
+        "InstalledThemes": "Установленные темы",
         "LastCommitTime": "(последний коммит %s)",
         "LastUpdated": "Последнее обновление",
         "LicenseHomepage": "Дом. страница лицензии",
@@ -50,6 +52,7 @@
         "MissingRequirementsPleaseInstallNotice": "Пожалуйста, установите %1$s %2$s т. к. оно требуется для %3$s.",
         "NewVersion": "новая версия",
         "NoPluginsFound": "Плагины не найдены",
+        "NoPluginSettings": "Нет настроек плагинов, которые могут быть сконфигурированы",
         "NotAllowedToBrowseMarketplacePlugins": "Можете посмотреть список плагинов, которые могут быть установлены для подстройки или расширения вашей платформы Piwik. Свяжитесь с администратором если вам потребуется установить один из них.",
         "NotAllowedToBrowseMarketplaceThemes": "Вы можете посмотреть список тем, которые могут быть установлены для настройки внешнего вида платформы Piwik. Пожалуйста, свяжите с вашим администратором, чтобы установить любой из них.",
         "NoThemesFound": "Темы не найдены",
@@ -69,6 +72,9 @@
         "PluginVersionInfo": "%1$s – %2$s",
         "PluginWebsite": "Сайт плагина",
         "Screenshots": "Скриншоты",
+        "SortByAlpha": "Альфа",
+        "SortByNewest": "Новейшие",
+        "SortByPopular": "Популярные",
         "Status": "Статус",
         "StepDownloadingPluginFromMarketplace": "Скачать плагин из Marketplace",
         "StepDownloadingThemeFromMarketplace": "Скачать тему из Marketplace",
@@ -83,6 +89,8 @@
         "SuccessfullyActicated": "Вы успешно активировали <strong>%s<\/strong>.",
         "Support": "Поддержка",
         "TeaserExtendPiwik": "Улучшение Piwik с помощью Плагинов и Тем",
+        "TeaserExtendPiwikByPlugin": "Расширьте Piwik %1$sустановив новый плагин%2$s.",
+        "TeaserExtendPiwikByTheme": "Насладитесь другим внешним видом %1$sустановив новую тему%2$s.",
         "TeaserExtendPiwikByUpload": "Улучшение Piwik закачкой ZIP файла",
         "InstallingNewPluginViaMarketplaceOrUpload": "Вы автоматически можете установить плагины из Marketplace или %1$sзагрузить плагин%2$s в формате zip.",
         "Theme": "Тема",
@@ -95,6 +103,7 @@
         "UploadZipFile": "Закачать ZIP файл",
         "Version": "Версия",
         "ViewRepositoryChangelog": "Посмотреть изменения",
+        "ViewAllMarketplacePlugins": "Посмотреть все плагины в Marketplace",
         "Websites": "Сайты"
     }
 }

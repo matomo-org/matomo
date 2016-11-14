@@ -34,6 +34,8 @@
         "InstallingPlugin": "Instaliranje %s",
         "InstallNewPlugins": "Instaliranje novog dodatka",
         "InstallNewThemes": "Instaliranje nove teme",
+        "InstalledPlugins": "Instalirani dodaci",
+        "InstalledThemes": "Instalirane teme",
         "LastCommitTime": "(poslednja promena %s)",
         "LastUpdated": "Poslednje ažuriranje",
         "LicenseHomepage": "Podaci o licenci",
@@ -50,6 +52,7 @@
         "MissingRequirementsPleaseInstallNotice": "Molimo vas da instalirate %1$s %2$s pošto ga zahteva %3$s.",
         "NewVersion": "nova verzija",
         "NoPluginsFound": "Nije nađen nijedan dodatak",
+        "NoPluginSettings": "Ne postoje podešavanja ovog dodatka",
         "NotAllowedToBrowseMarketplacePlugins": "Možete da pretražujete spisak dodataka koje je moguće instalirati kako biste podesili ili proširili vašu Piwik platformu. Kontaktirajte vašeg administratora ukoliko želite neki od njih da vidite instaliran.",
         "NotAllowedToBrowseMarketplaceThemes": "Možete da pretražujete listu tema koje mogu biti instalirane kako biste podesili izgled vaše Piwik platforme. Kontaktirajte vašeg administratora ako želite da neku od njih vidite instaliranu.",
         "NoThemesFound": "Nije nađena nijedna tema",
@@ -69,6 +72,9 @@
         "PluginVersionInfo": "%1$s sa %2$s",
         "PluginWebsite": "Sajt sa dodacima",
         "Screenshots": "Snimci ekrana",
+        "SortByAlpha": "Alfa",
+        "SortByNewest": "Najnoviji",
+        "SortByPopular": "Popularni",
         "Status": "Status",
         "StepDownloadingPluginFromMarketplace": "Preuzmi dodatak sa Marketa",
         "StepDownloadingThemeFromMarketplace": "Preuzmi temu sa Marketa",
@@ -83,6 +89,8 @@
         "SuccessfullyActicated": "Uspešno ste aktivirali <strong>%s<\/strong>.",
         "Support": "Podrška",
         "TeaserExtendPiwik": "Proširite Piwik dodacima i temama",
+        "TeaserExtendPiwikByPlugin": "Proširite Piwik %1$sinstaliranjem novog dodatka%2$s.",
+        "TeaserExtendPiwikByTheme": "Uživajte u novom izgledu %1$sinstaliranjem nove teme%2$s.",
         "TeaserExtendPiwikByUpload": "Proširite Piwik postavljanjem ZIP datoteke",
         "InstallingNewPluginViaMarketplaceOrUpload": "Možete automatski instalirati dodatak sa Marketa ili ga možete %1$saploudovati%2$s u ZIP formatu.",
         "Theme": "Tema",
@@ -95,6 +103,7 @@
         "UploadZipFile": "Postavljanje ZIP datoteke",
         "Version": "Verzija",
         "ViewRepositoryChangelog": "Prikaži promene",
+        "ViewAllMarketplacePlugins": "Prikaži sve dodatke sa Marketa",
         "Websites": "Sajtovi"
     }
 }

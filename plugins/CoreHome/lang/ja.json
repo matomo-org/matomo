@@ -11,7 +11,6 @@
         "Default": "デフォルト",
         "DonateCall1": "Piwik を使用するのに費用はかかりません。しかし、 Piwik の制作に費用がかかっていないと言う意味ではありません",
         "DonateCall2": "Piwik が成長し、成功するには、あなたの継続的なサポートが必要です",
-        "DonateCall3": "もし Piwik が少しでもあなたの事業の推進や成功に役に立ったと実感して頂けたら、 %1$splease consider donating!%2$s",
         "DonateFormInstructions": "スライダで寄付する金額を選択して寄付するをクリック",
         "ExcludeRowsWithLowPopulation": "全ての行を表示 %s 少ない数の行を除く",
         "ExternalHelp": "ヘルプ（新しいタブで開きます）",

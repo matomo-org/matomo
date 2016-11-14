@@ -4,7 +4,6 @@
         "AnonymizeIpInlineHelp": "Anonimitzar el(s) últim(s) de la IP de les adreces dels visitants per complir amb la vostra política de privacitat\/llei.",
         "AnonymizeIpMaskLengtDescription": "Seleccioneu quans bytes de l'adreça IP del visitant voleu enmascarar.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - p.e. %2$s",
-        "CannotLockSoDeleteLogActions": "La taula log_action no es purgarà: siusplau doneu el privilegi LOCK TABLES a l'ususair de MySQL '%s'.",
         "ClickHereSettings": "Feu click aquí per entrar a %s la configuració",
         "CurrentDBSize": "Tamany actual de la Base de dades",
         "DBPurged": "Base de dades purgada",

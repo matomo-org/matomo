@@ -56,7 +56,7 @@ class InvalidVisits extends Fixture
         // Trigger empty request
         $trackerUrl = self::getTrackerUrl();
         $response = Http::fetchRemoteFile($trackerUrl);
-        self::assertTrue(strpos($response, 'is a free/libre web') !== false, 'Piwik empty request response not correct: ' . $response);
+        self::assertTrue(strpos($response, 'Keep full control of your data with the leading free') !== false, 'Piwik empty request response not correct: ' . $response);
 
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 

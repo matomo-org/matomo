@@ -4,7 +4,6 @@
         "AnonymizeIpInlineHelp": "अपने स्थानीय गोपनीयता कानून \/ दिशा निर्देशों का अनुपालन करने के लिए आगंतुकों आईपी पतों की अज्ञात आखिरी बाइट",
         "AnonymizeIpMaskLengtDescription": "आवृत किया जाना चाहिए कि कितने बाइट्स 'दर्शकों के आईपी का चयन करें.",
         "AnonymizeIpMaskLength": "%1$s बाइट - e.g. %2$s",
-        "CannotLockSoDeleteLogActions": "Log_action तालिका शुद्ध नहीं किया जाएगा: '%s' में MYSQL उपयोगकर्ता के लिए LOCK TABLES विशेषाधिकार का अनुदान करे कृपया.",
         "ClickHereSettings": "%s की सेटिंग्स का उपयोग करने के लिए यहां क्लिक करें.",
         "CurrentDBSize": "वर्तमान डेटाबेस का आकार",
         "DBPurged": "डीबी शुद्ध किए गए.",

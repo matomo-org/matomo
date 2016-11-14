@@ -21,6 +21,7 @@
         "PluginDescription": "Vaša konzola za veb analitiku. Prilagodite je svojim potrebama dodavanjem novih vidžeta, prevlačenjem istih i menjanjem rasporeda. Svaki korisnik može da upravlja svojom konzolom.",
         "RemoveDashboard": "Ukloni konzolu",
         "RemoveDashboardConfirm": "Da li ste sigurni da želite da uklonite konzolu \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "Ne možete ukloniti podrazumevanu konzolu",
         "RenameDashboard": "Promena naziva",
         "ResetDashboard": "Resetuj konzolu",
         "ResetDashboardConfirm": "Da li ste sigurni da želite da resetujete konzolu na podrazumevane vidžete?",

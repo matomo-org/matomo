@@ -212,7 +212,7 @@ describe("Marketplace", function () {
         captureMarketplace(done, mode + '_valid_license_key_entered', function (page) {
             page.load(pluginsUrl);
             page.sendKeys('#license_key', 'valid');
-            page.callMethod(function () {
+            page.execCallback(function () {
                 setEnvironment(mode, validLicense);
             });
             page.click('#submit_license_key input');

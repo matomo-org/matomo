@@ -8,6 +8,9 @@
         "ContentName": "Naziv sadržaja",
         "ContentPiece": "Sadržaj",
         "ContentTarget": "Cilj sadržaja",
-        "Contents": "Sadržaji"
+        "Contents": "Sadržaji",
+        "InteractionsMetricDocumentation": "Broj interakcija sa blokom sadržaja (npr., klik na baner ili reklamu).",
+        "ImpressionsMetricDocumentation": "Broj prikaza bloka sadržaja poput banera i reklama na stranici.",
+        "InteractionRateMetricDocumentation": "Odnos prikaza i interakcija sadržaja."
     }
 }

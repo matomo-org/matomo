@@ -134,6 +134,14 @@
                     }
                 });
 
+                if ('undefined' !== typeof $scope.placeholder && $scope.placeholder !== null) {
+                    $scope.$watch('placeholder', function (val, oldVal) {
+                        if (val !== oldVal) {
+                            $scope.field.uiControlAttributes.placeholder = val;
+                        }
+                    });
+                }
+
                 $scope.$watch('disabled', function (val, oldVal) {
                     if (val !== oldVal) {
                         $scope.field.uiControlAttributes.disabled = val;

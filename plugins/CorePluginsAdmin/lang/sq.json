@@ -104,6 +104,7 @@
         "Version": "Version",
         "ViewRepositoryChangelog": "Shihni ndryshimet",
         "ViewAllMarketplacePlugins": "Shihni krejt shtojcat e Marketplace-it",
-        "Websites": "Sajte"
+        "Websites": "Sajte",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "E çaktivizuam shtojcën %s, ngaqë ka varësi të paplotësuara:"
     }
 }

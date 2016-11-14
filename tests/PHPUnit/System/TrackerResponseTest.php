@@ -101,7 +101,7 @@ class TrackerResponseTest extends SystemTestCase
         $url = Fixture::getTrackerUrl();
         $this->assertResponseCode(200, $url);
 
-        $expected = "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
+        $expected = "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
         $this->assertHttpResponseText($expected, $url);
     }
 
@@ -110,7 +110,7 @@ class TrackerResponseTest extends SystemTestCase
         $url = Fixture::getTrackerUrl();
         $this->assertResponseCode(400, $url . '?rec=1');
 
-        $expected = "<a href='/'>Piwik</a> is a free/libre web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
+        $expected = "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
         $this->assertHttpResponseText($expected, $url);
     }
 
