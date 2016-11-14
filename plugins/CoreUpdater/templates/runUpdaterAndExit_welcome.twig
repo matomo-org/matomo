@@ -52,11 +52,13 @@
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate('') }}</p>
                 <pre>{{ commandUpgradePiwik }}</pre>
                 <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fpiwik.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</p>
-                <p>{{ 'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate }}</p>
-                <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
-                <div id="sqlQueries" style="display:none;">
-                    <pre># {{ 'CoreUpdater_NoteItIsExpectedThatQueriesFail'|translate }}<br/>{% for query in queries %}{{ query }}<br/>{% endfor %}</pre>
-                </div>
+
+                {% if queries is not empty %}
+                    <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
+                    <div id="sqlQueries" style="display:none;">
+                        <pre># FYI: these are the SQL queries that will be executed to upgrade your database to Piwik {{ piwik_version }}<br/>{% for query in queries %}{{ query }}<br/>{% endfor %}</pre>
+                    </div>
+                {% endif %}
 
                 <h2>{{ 'CoreUpdater_ReadyToGo'|translate }}</h2>
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>
