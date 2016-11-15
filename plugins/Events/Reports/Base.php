@@ -27,13 +27,6 @@ abstract class Base extends \Piwik\Plugin\Report
         );
     }
 
-    public function configureView(ViewDataTable $view)
-    {
-        $out = '';
-        EventDispatcher::getInstance()->postEvent('Template.afterEventsReport', array(&$out));
-        $view->config->show_footer_message = $out;
-    }
-
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         if (!$this->isSubtableReport) {
@@ -43,6 +36,23 @@ abstract class Base extends \Piwik\Plugin\Report
 
             $widgetsList->addToContainerWidget('Events', $widget);
         }
+    }
+
+    public function configureView(ViewDataTable $view)
+    {
+        $this->configureFooterMessage($view);
+    }
+
+    protected function configureFooterMessage(ViewDataTable $view)
+    {
+        if ($this->isSubtableReport) {
+            // no footer message for subtables
+            return;
+        }
+
+        $out = '';
+        EventDispatcher::getInstance()->postEvent('Template.afterEventsReport', array(&$out));
+        $view->config->show_footer_message = $out;
     }
 
 

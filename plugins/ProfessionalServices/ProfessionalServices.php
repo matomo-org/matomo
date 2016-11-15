@@ -70,6 +70,7 @@ class ProfessionalServices extends \Piwik\Plugin
         }
         $out .= '<p style="margin-top:3em" class=" alert-info alert">Did you know?
                 <br/>Using Events you can measure any user interaction and gain amazing insights into your audience. <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/event-tracking/">Learn more</a>.
+              <br/> To measure blocks of content such as image galleries, listings or ads: use <a target="_blank" href="?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/content-tracking">Content Tracking</a> and see exactly which content is viewed and clicked.
               ' . $inlineAd . '
             </p>';
     }
