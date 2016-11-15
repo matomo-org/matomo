@@ -35,13 +35,10 @@ class Updates_3_0_0_b3 extends Updates
             $this->removeOldMarketplaceEnabledConfig();
 
             if ($isMarketplaceEnabled) {
-                $pluginManager = Plugin\Manager::getInstance();
-                $pluginName = 'Marketplace';
-
-                if (!$pluginManager->isPluginActivated($pluginName)) {
-                    $pluginManager->activatePlugin($pluginName);
-                }
+                $this->activateMarketplacePlugin();
             }
+        } else {
+            $this->activateMarketplacePlugin();
         }
     }
 
@@ -60,6 +57,16 @@ class Updates_3_0_0_b3 extends Updates
 
             $config->General = $general;
             $config->forceSave();
+        }
+    }
+
+    public function activateMarketplacePlugin()
+    {
+        $pluginManager = Plugin\Manager::getInstance();
+        $pluginName = 'Marketplace';
+
+        if (!$pluginManager->isPluginActivated($pluginName)) {
+            $pluginManager->activatePlugin($pluginName);
         }
     }
 }
