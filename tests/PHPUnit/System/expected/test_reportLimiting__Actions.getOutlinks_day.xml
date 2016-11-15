@@ -5,6 +5,11 @@
 		<nb_visits>5</nb_visits>
 		<nb_hits>5</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -12,6 +17,10 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
 				<url>http://othersite10.com/</url>
 			</row>
 			<row>
@@ -19,6 +28,10 @@
 				<nb_visits>4</nb_visits>
 				<nb_hits>4</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
 			</row>
 		</subtable>
 	</row>
@@ -27,6 +40,11 @@
 		<nb_visits>5</nb_visits>
 		<nb_hits>5</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -34,6 +52,10 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
 				<url>http://othersite11.com/</url>
 			</row>
 			<row>
@@ -41,6 +63,10 @@
 				<nb_visits>4</nb_visits>
 				<nb_hits>4</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
 			</row>
 		</subtable>
 	</row>
@@ -49,6 +75,11 @@
 		<nb_visits>5</nb_visits>
 		<nb_hits>5</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -56,6 +87,10 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
 				<url>http://othersite12.com/</url>
 			</row>
 			<row>
@@ -63,6 +98,10 @@
 				<nb_visits>4</nb_visits>
 				<nb_hits>4</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
 			</row>
 		</subtable>
 	</row>
@@ -71,5 +110,10 @@
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 	</row>
 </result>

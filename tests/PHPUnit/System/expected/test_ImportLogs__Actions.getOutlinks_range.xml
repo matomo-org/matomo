@@ -9,7 +9,7 @@
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
 		<max_bandwidth>43</max_bandwidth>
-		<avg_bandwidth>0</avg_bandwidth>
+		<avg_bandwidth>43</avg_bandwidth>
 		<subtable>
 			<row>
 				<label>/</label>

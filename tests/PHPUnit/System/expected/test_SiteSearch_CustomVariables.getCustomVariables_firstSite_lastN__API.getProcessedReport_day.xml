@@ -120,7 +120,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3205</idsubdatatable>
+				<idsubdatatable>3237</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -131,7 +131,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3204</idsubdatatable>
+				<idsubdatatable>3236</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -144,7 +144,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3208</idsubdatatable>
+				<idsubdatatable>3240</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -155,7 +155,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3207</idsubdatatable>
+				<idsubdatatable>3239</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
