@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\ProfessionalServices;
 
+use Piwik\Common;
+
 class ProfessionalServices extends \Piwik\Plugin
 {
     /**
@@ -48,10 +50,16 @@ class ProfessionalServices extends \Piwik\Plugin
         }
     }
 
+    public function isRequestForDashboardWidget()
+    {
+        $isWidget = Common::getRequestVar('widget', 0, 'int');
+        return $isWidget;
+    }
 
     public function getGoalOverviewPromo(&$out)
     {
-        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('AbTesting')) {
+        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('AbTesting')
+            || $this->isRequestForDashboardWidget()) {
             return;
         }
 
@@ -64,6 +72,9 @@ class ProfessionalServices extends \Piwik\Plugin
 
     public function getEventsPromo(&$out)
     {
+        if($this->isRequestForDashboardWidget()) {
+            return;
+        }
         $inlineAd = '';
         if(!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MediaAnalytics')) {
             $inlineAd = '<br/>When you publish videos or audios, <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/media-analytics-website">Media Analytics gives deep insights into your audience</a> and how they watch your videos or listens to your music.';
