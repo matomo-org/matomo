@@ -10,7 +10,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<idvisitor>c7a1daa770a8e43a</idvisitor>
+		
 	</row>
 	<row>
 		<label>user1</label>
@@ -22,7 +22,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<idvisitor>b3daa77b4c04a955</idvisitor>
+		
 	</row>
 	<row>
 		<label>user2</label>
@@ -34,6 +34,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<idvisitor>c515c2f2350e7b1a</idvisitor>
+		
 	</row>
 </result>

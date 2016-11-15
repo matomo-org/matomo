@@ -11,10 +11,10 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\Config;
 use Piwik\Plugin;
 
-class CorePluginsAdmin extends \Piwik\Plugin
+class CorePluginsAdmin extends Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -27,16 +27,8 @@ class CorePluginsAdmin extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
-        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace-widget.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
-        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugin-details.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
-    }
-
-    public static function isMarketplaceEnabled()
-    {
-        return (bool) Config::getInstance()->General['enable_marketplace'];
     }
 
     public static function isPluginsAdminEnabled()

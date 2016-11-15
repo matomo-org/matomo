@@ -10,11 +10,13 @@
     <div piwik-form>
         <div piwik-field uicontrol="text" name="goal_name"
              ng-model="manageGoals.goal.name"
+             maxlength="50"
              title="{{ 'Goals_GoalName'|translate|e('html_attr') }}">
         </div>
 
         <div piwik-field uicontrol="text" name="goal_description"
              ng-model="manageGoals.goal.description"
+             maxlength="255"
              title="{{ 'General_Description'|translate|e('html_attr') }}">
         </div>
 
@@ -85,6 +87,7 @@
             <div class="col s12 m6 l4">
                 <div piwik-field uicontrol="text" name="pattern"
                      ng-model="manageGoals.goal.pattern"
+                     maxlength="255"
                      title="{{ 'Goals_Pattern'|translate|e('html_attr') }}"
                      full-width="true">
                 </div>

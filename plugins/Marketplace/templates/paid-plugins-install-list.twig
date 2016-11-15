@@ -1,0 +1,22 @@
+<div class="ui-confirm" id="installAllPaidPluginsAtOnce">
+    <h2>{{ 'Marketplace_InstallAllPurchasedPlugins'|translate }}</h2>
+    <p>
+        {{ 'Marketplace_InstallThesePlugins'|translate }}
+        <br /><br />
+    </p>
+    <ul>
+        {% for pluginName in paidPluginsToInstallAtOnce %}
+            <li>{{ pluginName }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{{ linkTo({'action': 'installAllPaidPlugins', 'nonce': installNonce}) }}" class="btn">
+            {{ 'Marketplace_InstallAllPurchasedPluginsAction'|translate(paidPluginsToInstallAtOnce|length) }}
+        </a>
+
+        <a href="{{ linkTo({'rand': random(999999)}) }}" class="btn-flat">
+            Cancel
+        </a>
+    </p>
+</div>

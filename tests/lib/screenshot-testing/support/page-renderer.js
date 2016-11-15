@@ -110,6 +110,8 @@ PageRenderer.prototype.evaluate = function (impl, waitTime) {
     this.queuedEvents.push([this._evaluate, waitTime, impl]);
 };
 
+// like .evaluate() but doesn't call `impl` in context of the webpage. Useful if you want to change eg a testEnvironment
+// before a click. Makes sure this callback `impl` will be executed just before the next action instead of immediately
 PageRenderer.prototype.execCallback = function (callback, waitTime) {
     this.queuedEvents.push([this._execCallback, waitTime, callback]);
 };

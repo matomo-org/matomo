@@ -576,6 +576,29 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Visitor Map</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory>
+			<id>UserCountry_SubmenuLocations</id>
+			<name>Locations</name>
+			<order>25</order>
+		</subcategory>
+		<module>UserCountryMap</module>
+		<action>visitorMap</action>
+		<order>1</order>
+		<parameters>
+			<module>UserCountryMap</module>
+			<action>visitorMap</action>
+		</parameters>
+		<uniqueId>widgetUserCountryMapvisitorMap</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Region</name>
 		<category>
 			<id>General_Visitors</id>
@@ -599,29 +622,6 @@
 		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
-	</row>
-	<row>
-		<name>Visitor Map</name>
-		<category>
-			<id>General_Visitors</id>
-			<name>Visitors</name>
-			<order>5</order>
-			<icon>icon-reporting-visitors</icon>
-		</category>
-		<subcategory>
-			<id>UserCountry_SubmenuLocations</id>
-			<name>Locations</name>
-			<order>25</order>
-		</subcategory>
-		<module>UserCountryMap</module>
-		<action>visitorMap</action>
-		<order>1</order>
-		<parameters>
-			<module>UserCountryMap</module>
-			<action>visitorMap</action>
-		</parameters>
-		<uniqueId>widgetUserCountryMapvisitorMap</uniqueId>
-		<isWide>0</isWide>
 	</row>
 	<row>
 		<name>Continent</name>
@@ -778,50 +778,6 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Visits per visit duration</name>
-		<category>
-			<id>General_Visitors</id>
-			<name>Visitors</name>
-			<order>5</order>
-			<icon>icon-reporting-visitors</icon>
-		</category>
-		<subcategory>
-			<id>VisitorInterest_Engagement</id>
-			<name>Engagement</name>
-			<order>30</order>
-		</subcategory>
-		<module>VisitorInterest</module>
-		<action>getNumberOfVisitsPerVisitDuration</action>
-		<order>115</order>
-		<parameters>
-			<module>VisitorInterest</module>
-			<action>getNumberOfVisitsPerVisitDuration</action>
-		</parameters>
-		<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDuration</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>cloud</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
-		<name>Visitor profile</name>
-		<category>
-			<id>General_Visitors</id>
-			<name>Visitors</name>
-			<order>5</order>
-			<icon>icon-reporting-visitors</icon>
-		</category>
-		<subcategory />
-		<module>Live</module>
-		<action>getVisitorProfilePopup</action>
-		<order>25</order>
-		<parameters>
-			<module>Live</module>
-			<action>getVisitorProfilePopup</action>
-		</parameters>
-		<uniqueId>widgetLivegetVisitorProfilePopup</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
 		<name>Visits by Visit Number</name>
 		<category>
 			<id>General_Visitors</id>
@@ -844,6 +800,50 @@
 		<uniqueId>widgetVisitorInterestgetNumberOfVisitsByVisitCount</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Visitor profile</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory />
+		<module>Live</module>
+		<action>getVisitorProfilePopup</action>
+		<order>25</order>
+		<parameters>
+			<module>Live</module>
+			<action>getVisitorProfilePopup</action>
+		</parameters>
+		<uniqueId>widgetLivegetVisitorProfilePopup</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Visits per visit duration</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory>
+			<id>VisitorInterest_Engagement</id>
+			<name>Engagement</name>
+			<order>30</order>
+		</subcategory>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsPerVisitDuration</action>
+		<order>115</order>
+		<parameters>
+			<module>VisitorInterest</module>
+			<action>getNumberOfVisitsPerVisitDuration</action>
+		</parameters>
+		<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDuration</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>cloud</viewDataTable>
 		<isReport>1</isReport>
 	</row>
 	<row>
@@ -1864,31 +1864,6 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Product SKU</name>
-		<category>
-			<id>Goals_Ecommerce</id>
-			<name>Ecommerce</name>
-			<order>20</order>
-			<icon>icon-reporting-ecommerce</icon>
-		</category>
-		<subcategory>
-			<id>Goals_Products</id>
-			<name>Products</name>
-			<order>10</order>
-		</subcategory>
-		<module>Goals</module>
-		<action>getItemsSku</action>
-		<order>130</order>
-		<parameters>
-			<module>Goals</module>
-			<action>getItemsSku</action>
-		</parameters>
-		<uniqueId>widgetGoalsgetItemsSku</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>table</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
 		<name>Product Category</name>
 		<category>
 			<id>Goals_Ecommerce</id>
@@ -1909,6 +1884,31 @@
 			<action>getItemsCategory</action>
 		</parameters>
 		<uniqueId>widgetGoalsgetItemsCategory</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Product SKU</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+		</category>
+		<subcategory>
+			<id>Goals_Products</id>
+			<name>Products</name>
+			<order>10</order>
+		</subcategory>
+		<module>Goals</module>
+		<action>getItemsSku</action>
+		<order>130</order>
+		<parameters>
+			<module>Goals</module>
+			<action>getItemsSku</action>
+		</parameters>
+		<uniqueId>widgetGoalsgetItemsSku</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
@@ -2748,63 +2748,6 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Piwik Changelog</name>
-		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>RssWidget</module>
-		<action>rssChangelog</action>
-		<order>99</order>
-		<parameters>
-			<module>RssWidget</module>
-			<action>rssChangelog</action>
-		</parameters>
-		<uniqueId>widgetRssWidgetrssChangelog</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>System Summary</name>
-		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>CoreHome</module>
-		<action>getSystemSummary</action>
-		<order>15</order>
-		<parameters>
-			<module>CoreHome</module>
-			<action>getSystemSummary</action>
-		</parameters>
-		<uniqueId>widgetCoreHomegetSystemSummary</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Top Keywords for Page URL</name>
-		<category>
-			<id>SEO</id>
-			<name>SEO</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Referrers</module>
-		<action>getKeywordsForPage</action>
-		<order>99</order>
-		<parameters>
-			<module>Referrers</module>
-			<action>getKeywordsForPage</action>
-		</parameters>
-		<uniqueId>widgetReferrersgetKeywordsForPage</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
 		<name>Piwik.org Blog</name>
 		<category>
 			<id>About Piwik</id>
@@ -2821,120 +2764,6 @@
 			<action>rssPiwik</action>
 		</parameters>
 		<uniqueId>widgetRssWidgetrssPiwik</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Latest Marketplace Updates</name>
-		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>CorePluginsAdmin</module>
-		<action>getNewPlugins</action>
-		<order>19</order>
-		<parameters>
-			<module>CorePluginsAdmin</module>
-			<action>getNewPlugins</action>
-		</parameters>
-		<uniqueId>widgetCorePluginsAdmingetNewPlugins</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>SEO Rankings</name>
-		<category>
-			<id>SEO</id>
-			<name>SEO</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>SEO</module>
-		<action>getRank</action>
-		<order>99</order>
-		<parameters>
-			<module>SEO</module>
-			<action>getRank</action>
-		</parameters>
-		<uniqueId>widgetSEOgetRank</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Professional Services for Piwik</name>
-		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>ProfessionalServices</module>
-		<action>promoServices</action>
-		<order>99</order>
-		<parameters>
-			<module>ProfessionalServices</module>
-			<action>promoServices</action>
-		</parameters>
-		<uniqueId>widgetProfessionalServicespromoServices</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Welcome!</name>
-		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>CoreHome</module>
-		<action>getPromoVideo</action>
-		<order>10</order>
-		<parameters>
-			<module>CoreHome</module>
-			<action>getPromoVideo</action>
-		</parameters>
-		<uniqueId>widgetCoreHomegetPromoVideo</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Movers and Shakers</name>
-		<category>
-			<id>Insights_WidgetCategory</id>
-			<name>Insights</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Insights</module>
-		<action>getOverallMoversAndShakers</action>
-		<order>99</order>
-		<parameters>
-			<module>Insights</module>
-			<action>getOverallMoversAndShakers</action>
-		</parameters>
-		<uniqueId>widgetInsightsgetOverallMoversAndShakers</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>System Check</name>
-		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Installation</module>
-		<action>getSystemCheck</action>
-		<order>16</order>
-		<parameters>
-			<module>Installation</module>
-			<action>getSystemCheck</action>
-		</parameters>
-		<uniqueId>widgetInstallationgetSystemCheck</uniqueId>
 		<isWide>0</isWide>
 	</row>
 	<row>
@@ -2957,6 +2786,44 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
+		<name>SEO Rankings</name>
+		<category>
+			<id>SEO</id>
+			<name>SEO</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>SEO</module>
+		<action>getRank</action>
+		<order>99</order>
+		<parameters>
+			<module>SEO</module>
+			<action>getRank</action>
+		</parameters>
+		<uniqueId>widgetSEOgetRank</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>System Check</name>
+		<category>
+			<id>About Piwik</id>
+			<name>About Piwik</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>Installation</module>
+		<action>getSystemCheck</action>
+		<order>16</order>
+		<parameters>
+			<module>Installation</module>
+			<action>getSystemCheck</action>
+		</parameters>
+		<uniqueId>widgetInstallationgetSystemCheck</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Support Piwik!</name>
 		<category>
 			<id>About Piwik</id>
@@ -2976,6 +2843,120 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
+		<name>Piwik Changelog</name>
+		<category>
+			<id>About Piwik</id>
+			<name>About Piwik</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>RssWidget</module>
+		<action>rssChangelog</action>
+		<order>99</order>
+		<parameters>
+			<module>RssWidget</module>
+			<action>rssChangelog</action>
+		</parameters>
+		<uniqueId>widgetRssWidgetrssChangelog</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Professional Services for Piwik</name>
+		<category>
+			<id>About Piwik</id>
+			<name>About Piwik</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>ProfessionalServices</module>
+		<action>promoServices</action>
+		<order>99</order>
+		<parameters>
+			<module>ProfessionalServices</module>
+			<action>promoServices</action>
+		</parameters>
+		<uniqueId>widgetProfessionalServicespromoServices</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>System Summary</name>
+		<category>
+			<id>About Piwik</id>
+			<name>About Piwik</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreHome</module>
+		<action>getSystemSummary</action>
+		<order>15</order>
+		<parameters>
+			<module>CoreHome</module>
+			<action>getSystemSummary</action>
+		</parameters>
+		<uniqueId>widgetCoreHomegetSystemSummary</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Latest Marketplace Updates</name>
+		<category>
+			<id>About Piwik</id>
+			<name>About Piwik</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>Marketplace</module>
+		<action>getNewPlugins</action>
+		<order>19</order>
+		<parameters>
+			<module>Marketplace</module>
+			<action>getNewPlugins</action>
+		</parameters>
+		<uniqueId>widgetMarketplacegetNewPlugins</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Welcome!</name>
+		<category>
+			<id>About Piwik</id>
+			<name>About Piwik</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreHome</module>
+		<action>getPromoVideo</action>
+		<order>10</order>
+		<parameters>
+			<module>CoreHome</module>
+			<action>getPromoVideo</action>
+		</parameters>
+		<uniqueId>widgetCoreHomegetPromoVideo</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Top Keywords for Page URL</name>
+		<category>
+			<id>SEO</id>
+			<name>SEO</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>Referrers</module>
+		<action>getKeywordsForPage</action>
+		<order>99</order>
+		<parameters>
+			<module>Referrers</module>
+			<action>getKeywordsForPage</action>
+		</parameters>
+		<uniqueId>widgetReferrersgetKeywordsForPage</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Insights Overview</name>
 		<category>
 			<id>Insights_WidgetCategory</id>
@@ -2992,6 +2973,25 @@
 			<action>getInsightsOverview</action>
 		</parameters>
 		<uniqueId>widgetInsightsgetInsightsOverview</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Movers and Shakers</name>
+		<category>
+			<id>Insights_WidgetCategory</id>
+			<name>Insights</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>Insights</module>
+		<action>getOverallMoversAndShakers</action>
+		<order>99</order>
+		<parameters>
+			<module>Insights</module>
+			<action>getOverallMoversAndShakers</action>
+		</parameters>
+		<uniqueId>widgetInsightsgetOverallMoversAndShakers</uniqueId>
 		<isWide>0</isWide>
 	</row>
 </result>

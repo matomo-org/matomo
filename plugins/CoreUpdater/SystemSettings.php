@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreUpdater;
 use Piwik\Piwik;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminController;
-use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication as PluginUpdateCommunication;
+use Piwik\Plugins\Marketplace\UpdateCommunication as PluginUpdateCommunication;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 

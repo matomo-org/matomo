@@ -35,7 +35,7 @@
     {% endif %}
 
     {% if isMarketplaceEnabled %}
-        <div piwik-widget-loader='{"module":"CorePluginsAdmin","action":"getNewPlugins", "isAdminPage": "1"}'></div>
+        <div piwik-widget-loader='{"module":"Marketplace","action":"getNewPlugins", "isAdminPage": "1"}'></div>
     {% endif %}
 
     {{ postEvent('Template.adminHome') }}

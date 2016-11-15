@@ -99,6 +99,12 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             )
         );
 
+        /**
+         * When Piwik\Tests\System\BackwardsCompatibility1XTest is failing,
+         * as this test compares fixtures to OneVisitorTwoVisits* fixtures,
+         * sometimes for a given API method that fails to generate the same output as OneVisitorTwoVisits does,
+         * we need to add the API below which will cause the fixtures for this API to be created in processed/
+         */
         $reportsToCompareSeparately = array(
 
             // the label column is not the first column here
@@ -106,7 +112,12 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // those reports generate a different segment as a different raw value was stored that time
             'DevicesDetection.getOsVersions',
-            'Goals.get'
+            'Goals.get',
+
+            // Following #9345
+            'Actions.getPageUrls',
+            'Actions.getDownloads',
+            'Actions.getDownload',
         );
 
         $apiNotToCall = array(

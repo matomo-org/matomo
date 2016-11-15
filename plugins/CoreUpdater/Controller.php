@@ -12,6 +12,7 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -20,8 +21,8 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
-use Piwik\Plugins\CorePluginsAdmin\Marketplace;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
 use Piwik\Version;
@@ -40,9 +41,15 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $updater;
 
-    public function __construct(Updater $updater)
+    /**
+     * @var Plugins
+     */
+    private $marketplacePlugins;
+
+    public function __construct(Updater $updater, Plugins $marketplacePlugins = null)
     {
         $this->updater = $updater;
+        $this->marketplacePlugins = $marketplacePlugins;
 
         parent::__construct();
     }
@@ -125,9 +132,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $marketplacePlugins = array();
         try {
-            if (!empty($incompatiblePlugins)) {
-                $marketplace = new Marketplace();
-                $marketplacePlugins = $marketplace->getAllAvailablePluginNames();
+            if (!empty($incompatiblePlugins) && $this->marketplacePlugins) {
+                $marketplacePlugins = $this->marketplacePlugins->getAllAvailablePluginNames();
             }
         } catch (\Exception $e) {}
 
