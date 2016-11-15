@@ -22,12 +22,14 @@
 
         <div piwik-field uicontrol="text" name="alias"
              ng-model="personalSettings.alias"
+             maxlength="45"
              title="{{ 'UsersManager_Alias'|translate|e('html_attr') }}"
              value="{{ userAlias|raw }}">
         </div>
 
         <div piwik-field uicontrol="text" name="email"
              ng-model="personalSettings.email"
+             maxlength="100"
              title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
              value="{{ userEmail }}">
         </div>

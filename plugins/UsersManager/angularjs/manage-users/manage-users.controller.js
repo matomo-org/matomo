@@ -144,10 +144,10 @@
             newRowId = 'row' + newRowId;
 
             $($.parseHTML(' <tr id="' + newRowId + '" class="addNewUserRow">\
-				<td><input id="useradd_login" placeholder="username" size="10" /></td>\
+				<td><input id="useradd_login" placeholder="username" size="10" maxlength="100" /></td>\
 				<td><input id="useradd_password" placeholder="password" size="10" /></td>\
-				<td><input id="useradd_email" placeholder="email@domain.com" size="15" /></td>\
-				<td><input id="useradd_alias" placeholder="alias" size="15" /></td>\
+				<td><input id="useradd_email" placeholder="email@domain.com" size="15" maxlength="100" /></td>\
+				<td><input id="useradd_alias" placeholder="alias" size="15" maxlength="45" /></td>\
 				<td>-</td>\
                 <td>-</td>\
 				<td><input type="submit" class="btn adduser"  value="' + _pk_translate('General_Save') + '" /></td>\
