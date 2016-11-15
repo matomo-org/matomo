@@ -317,8 +317,8 @@ No data available
 
 Referrer Type
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Websites - referrer.com,6,22,3.7,00:10:01,33%,$ 0
-Campaigns - goal-matching-url-parameter,4,20,5,00:15:01,0%,$ 0
+Websites,6,22,3.7,00:10:01,33%,$ 0
+Campaigns,4,20,5,00:15:01,0%,$ 0
 Direct Entry,1,1,1,00:00:00,100%,$ 0
 
 All Referrers
