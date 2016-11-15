@@ -10,6 +10,10 @@
 			<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth />
+			<max_bandwidth />
 			<exit_nb_visits>6</exit_nb_visits>
 			<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 			<sum_daily_exit_nb_uniq_visitors>6</sum_daily_exit_nb_uniq_visitors>
@@ -17,6 +21,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.452</avg_time_generation>
+			<avg_bandwidth>0</avg_bandwidth>
 		</row>
 	</result>
 	<result date="2010-01-11,2010-01-17">
@@ -28,6 +33,10 @@
 			<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 			<min_time_generation>0.452</min_time_generation>
 			<max_time_generation>0.452</max_time_generation>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth />
+			<max_bandwidth />
 			<exit_nb_visits>2</exit_nb_visits>
 			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 			<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
@@ -35,6 +44,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.452</avg_time_generation>
+			<avg_bandwidth>0</avg_bandwidth>
 		</row>
 	</result>
 	<result date="2010-01-18,2010-01-24" />

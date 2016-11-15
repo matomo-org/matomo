@@ -15,7 +15,7 @@
         "Default": "default",
         "DonateCall1": "Piwik will always cost you nothing to use, but that doesn't mean it costs us nothing to make.",
         "DonateCall2": "Piwik needs your continued support to grow and thrive.",
-        "DonateCall3": "If you feel that Piwik has added significant value to your business or endeavour, %1$splease consider donating!%2$s",
+        "DonateCall3": "If you feel that Piwik has added significant value to your business or endeavour, %1$splease consider donating%2$s or %3$spurchasing a premium feature%4$s.",
         "DonateFormInstructions": "Click on the slider to select an amount, then click subscribe to donate.",
         "ExcludeRowsWithLowPopulation": "All rows are shown %s Exclude low population",
         "ExternalHelp": "Help (opens in new tab)",
@@ -65,6 +65,7 @@
         "QuickAccessTitle": "Search for %s. Use the arrow keys to navigate through search results. Shortcut: Press 'f' to search.",
         "MenuEntries": "Menu entries",
         "Segments": "Segments",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "The one-click update is not available as you are using Piwik with multiple servers. Please download the latest version from %1$s to proceed.",
         "AdblockIsMaybeUsed": "In case you are using an ad blocker, please disable it for this site to make sure Piwik works without any issues.",
         "ChangeCurrentWebsite": "Choose a website, currently selected website: %s"
     }

@@ -47,7 +47,7 @@ class PromoServices extends \Piwik\Widget\Widget
 
         $promo = $this->promo->getContent();
 
-        $view->ctaLinkUrl = $this->advertising->getPromoUrlForPiwikProUpgrade();
+        $view->ctaLinkUrl = $promo['url'];
         $view->ctaText = $promo['text'];
         $view->ctaLinkTitle = $this->promo->getLinkTitle();
 

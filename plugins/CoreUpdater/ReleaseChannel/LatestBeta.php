@@ -23,6 +23,11 @@ class LatestBeta extends ReleaseChannel
         return Piwik::translate('CoreUpdater_LatestBetaRelease');
     }
 
+    public function doesPreferStable()
+    {
+        return false;
+    }
+
     public function getOrder()
     {
         return 11;

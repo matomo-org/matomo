@@ -21,5 +21,6 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
+		<avg_bandwidth>0</avg_bandwidth>
 	</row>
 </result>

@@ -11,7 +11,6 @@
         "Default": "standard",
         "DonateCall1": "Piwik kommer alltid vara gratis att använda men det innebär inte att det inte kostar något att skapa den.",
         "DonateCall2": "Piwik behöver ditt fortsatta stöd för att växa och frodas.",
-        "DonateCall3": "Om du tycker att Piwik har medfört ett ökat värde till ditt företag kanske du vill överväga att %1$sdonera!%2$s",
         "DonateFormInstructions": "Klicka på slidern för att välja ett värde, klicka sedan på registrera för att donera.",
         "ExcludeRowsWithLowPopulation": "Alla rader visas %s Dölj rader med låga värden",
         "ExternalHelp": "Hjälp (öppnas i en ny flik)",

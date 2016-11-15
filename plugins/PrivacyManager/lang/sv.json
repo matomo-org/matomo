@@ -5,7 +5,6 @@
         "AnonymizeIpExtendedHelp": "När användare besöker din webbplats kommer inte Piwik använda deras fullständiga IP-adress (exempelvis %1$s). Istället kommer Piwik anonymisera den först (till %2$s). Anonymisering av IP-adresser är ett krav enligt personuppgiftslagen i några länder såsom Tyskland.",
         "AnonymizeIpMaskLengtDescription": "Välj hur många bytes av besökares IP-adresser som ska döljas.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - t.ex. %2$s",
-        "CannotLockSoDeleteLogActions": "Tabellen log_action kommer inte att rensas: vänligen lägg till behörigheten LOCK TABLES till MYSQL-användaren '%s'",
         "ClickHereSettings": "Klicka här för att komma åt inställningar för %s.",
         "CurrentDBSize": "Aktuell databasstorlek",
         "DBPurged": "DB rensad.",

@@ -14,7 +14,6 @@
         "Default": "standaard",
         "DonateCall1": "Piwik zal altijd gratis zijn om te gebruiken, maar dat wil niet zeggen dat het niks kost om te maken.",
         "DonateCall2": "Piwik heeft uw voortdurende steun nodig om te groeien.",
-        "DonateCall3": "Als u vindt dat Piwik een grote hulp is voor uw zaak, %1$s overweeg dan een donatie!%2$s",
         "DonateFormInstructions": "Klik op de schuifbalk om een bedrag te selecteren, en klik dan subscribe om te doneren.",
         "ExcludeRowsWithLowPopulation": "Alle rijen worden getoond %s Verberg de rijen met een lage populatie",
         "ExternalHelp": "Help (opent in een nieuw tabblad)",

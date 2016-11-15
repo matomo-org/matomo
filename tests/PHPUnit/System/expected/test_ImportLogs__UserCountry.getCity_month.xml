@@ -112,7 +112,7 @@
 		<logo>plugins/UserCountry/images/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Seoul, Seoul-t&amp;#039;ukpyolsi, South Korea</label>
+		<label>Seoul, Seoul-t'ukpyolsi, South Korea</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>

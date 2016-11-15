@@ -986,10 +986,10 @@ class WidgetTest extends SystemTestCase
                     ),
             ), array (
                 'name' => 'Latest Piwik Plugin Updates',
-                'uniqueId' => 'widgetCorePluginsAdmingetNewPlugins',
+                'uniqueId' => 'widgetMarketplacegetNewPlugins',
                 'parameters' =>
                     array (
-                        'module' => 'CorePluginsAdmin',
+                        'module' => 'Marketplace',
                         'action' => 'getNewPlugins',
                     ),
             ), array (
@@ -1360,7 +1360,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Professional Services for Piwik',
+                    'name' => 'Premium Products & Services for Piwik',
                     'uniqueId' => 'widgetProfessionalServicespromoServices',
                     'parameters' =>
                         array (

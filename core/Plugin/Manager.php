@@ -17,6 +17,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\EventDispatcher;
+use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Notification;
@@ -657,7 +658,12 @@ class Manager
         || $name == self::DEFAULT_THEME;
     }
 
-    protected function isPluginThirdPartyAndBogus($pluginName)
+    /**
+     * @param $pluginName
+     * @return bool
+     * @ignore
+     */
+    public function isPluginThirdPartyAndBogus($pluginName)
     {
         if ($this->isPluginBundledWithCore($pluginName)) {
             return false;
@@ -914,7 +920,7 @@ class Manager
 
     public function isValidPluginName($pluginName)
     {
-        return (bool) preg_match('/^[a-zA-Z]([a-zA-Z0-9]*)$/D', $pluginName);
+        return (bool) preg_match('/^[a-zA-Z]([a-zA-Z0-9_]*)$/D', $pluginName);
     }
 
     /**
@@ -1086,7 +1092,7 @@ class Manager
             $pluginsInstalled[] = $pluginName;
             $this->updatePluginsInstalledConfig($pluginsInstalled);
             $updater = new Updater();
-            $updater->markComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
+            $updater->markComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion(), $isNew = true);
             $saveConfig = true;
 
             /**

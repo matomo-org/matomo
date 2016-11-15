@@ -27,6 +27,9 @@
 	<nb_visits_converted_returning_visit>0</nb_visits_converted_returning_visit>
 	<revenue_returning_visit>0</revenue_returning_visit>
 	<conversion_rate_returning_visit>0%</conversion_rate_returning_visit>
+	<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
+	<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+	<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
 	<nb_pageviews>3</nb_pageviews>
 	<nb_uniq_pageviews>3</nb_uniq_pageviews>
 	<nb_downloads>0</nb_downloads>

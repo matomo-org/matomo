@@ -46,12 +46,17 @@ class GetSystemSummary extends Widget
 
     public function render()
     {
-        $users = Request::processRequest('UsersManager.getUsers', array('filter_limit' => '-1'));
+        $userLogins = Request::processRequest('UsersManager.getUsersLogin', array('filter_limit' => '-1'));
         $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
+
+        $numUsers = count($userLogins);
+        if (in_array('anonymous', $userLogins)) {
+            $numUsers--;
+        }
 
         return $this->renderTemplate('getSystemSummary', array(
             'numWebsites' => count($websites),
-            'numUsers' => count($users),
+            'numUsers' => $numUsers,
             'numSegments' => $this->getNumSegments(),
             'numPlugins' => $this->getNumPlugins(),
             'piwikVersion' => Version::VERSION,

@@ -6093,18 +6093,25 @@ if (typeof window.Piwik !== 'object') {
                 }
             };
 
-/*<DEBUG>*/
             /**
-             * Clear heartbeat.
+             * Disable heartbeat if it was previously activated.
              */
             this.disableHeartBeatTimer = function () {
                 heartBeatDown();
-                configHeartBeatDelay = null;
+                
+                if (configHeartBeatDelay || heartBeatSetUp) {
+                    if (windowAlias.removeEventListener) {
+                        windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
+                        windowAlias.removeEventListener('blur', heartBeatOnBlur, true);
+                    } else if  (windowAlias.detachEvent) {
+                        windowAlias.detachEvent('onfocus', heartBeatOnFocus);
+                        windowAlias.detachEvent('onblur', heartBeatOnBlur);
+                    }
+                }
 
-                window.removeEventListener('focus', heartBeatOnFocus);
-                window.removeEventListener('blur', heartBeatOnBlur);
+                configHeartBeatDelay = null;
+                heartBeatSetUp = false;
             };
-/*</DEBUG>*/
 
             /**
              * Frame buster
@@ -6780,8 +6787,10 @@ if (typeof window.Piwik !== 'object') {
             getAsyncTracker: function (piwikUrl, siteId) {
 
                 var firstTracker;
-                if (asyncTrackers && asyncTrackers[0]) {
+                if (asyncTrackers && asyncTrackers.length && asyncTrackers[0]) {
                     firstTracker = asyncTrackers[0];
+                } else {
+                    return createFirstTracker(piwikUrl, siteId);
                 }
 
                 if (!siteId && !piwikUrl) {
@@ -6845,6 +6854,20 @@ if (typeof window.Piwik !== 'object') {
 (function () {
     'use strict';
 
+    function hasPaqConfiguration()
+    {
+        if ('object' !== typeof _paq) {
+            return false;
+        }
+        // needed to write it this way for jslint
+        var lengthType = typeof _paq.length;
+        if ('undefined' === lengthType) {
+            return false;
+        }
+
+        return !!_paq.length;
+    }
+
     if (window
         && 'object' === typeof window.piwikPluginAsyncInit
         && window.piwikPluginAsyncInit.length) {
@@ -6856,15 +6879,23 @@ if (typeof window.Piwik !== 'object') {
         }
     }
 
-    window.Piwik.addTracker();
+    if (window && window.piwikAsyncInit) {
+        window.piwikAsyncInit();
+    }
+
+    if (!window.Piwik.getAsyncTrackers().length) {
+        // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
+        if (hasPaqConfiguration()) {
+            // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
+            // Piwik.getAsyncTrackers() would return unconfigured trackers
+            window.Piwik.addTracker();
+        }
+    }
 
     window.Piwik.trigger('PiwikInitialized', []);
     window.Piwik.initialized = true;
 }());
 
-if (window && window.piwikAsyncInit) {
-    window.piwikAsyncInit();
-}
 
 /*jslint sloppy: true */
 (function () {

@@ -176,6 +176,9 @@ class Twig
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
         $this->addFilter_number();
+        $this->addFilter_nonce();
+        $this->addFilter_md5();
+        $this->addFilter_onlyDomain();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
@@ -426,6 +429,29 @@ class Twig
             return piwik_format_number($string, $minFractionDigits, $maxFractionDigits);
         });
         $this->twig->addFilter($formatter);
+    }
+
+    protected function addFilter_nonce()
+    {
+        $nonce = new Twig_SimpleFilter('nonce', array('Piwik\\Nonce', 'getNonce'));
+        $this->twig->addFilter($nonce);
+    }
+
+    private function addFilter_md5()
+    {
+        $md5 = new \Twig_SimpleFilter('md5', function ($value) {
+            return md5($value);
+        });
+        $this->twig->addFilter($md5);
+    }
+
+    private function addFilter_onlyDomain()
+    {
+        $domainOnly = new \Twig_SimpleFilter('domainOnly', function ($url) {
+            $parsed = parse_url($url);
+            return $parsed['scheme'] . '://' . $parsed['host'];
+        });
+        $this->twig->addFilter($domainOnly);
     }
 
     protected function addFilter_truncate()

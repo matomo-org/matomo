@@ -239,10 +239,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/field/field.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/save-button/save-button.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-filter.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-name.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/marketplace/marketplace.controller.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/marketplace/marketplace.directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.min.js";
     }
 

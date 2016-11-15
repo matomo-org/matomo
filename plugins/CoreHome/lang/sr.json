@@ -14,7 +14,6 @@
         "Default": "podrazumevano",
         "DonateCall1": "Piwik vas nikada neće ništa koštati ali to ne znači da nas Piwik ništa ne košta dok ga pravimo.",
         "DonateCall2": "Piwiku je potrebna vaša stalna podrška kako bi rastao i napredovao.",
-        "DonateCall3": "Ukoliko imate osećaj da je Piwik u znatnoj meri dodao vrednost vašem biznisu, %1$smolimo vas da razmislite o donaciji%2$s.",
         "DonateFormInstructions": "Kliknite na klizač kako biste odabrali iznos pa onda kliknite na \"subscribe\"",
         "ExcludeRowsWithLowPopulation": "Svi redovi su prikazani %s Sakrij slabu populaciju",
         "ExternalHelp": "Pomoć (otvara se u novom tabu)",
