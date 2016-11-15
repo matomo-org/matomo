@@ -1,0 +1,41 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+
+    <div style="max-width:980px;">
+
+        <h2>{{ 'Marketplace_InstallingPlugin'|translate(plugin.name) }}</h2>
+
+        <div>
+
+            {% if plugin.isTheme %}
+
+                <p>{{ 'Marketplace_StepDownloadingThemeFromMarketplace'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepUnzippingTheme'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepThemeSuccessfullyInstalled'|translate(plugin.name, plugin.latestVersion) }}</p>
+
+                <p><strong><a class="btn" href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce, 'redirectTo': 'marketplace'}) }}">{{ 'Marketplace_ActionActivateTheme'|translate }}</a></strong>
+
+                    |
+                    <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview', 'show': 'themes'}) }}">{{ 'Marketplace_BackToMarketplace'|translate }}</a></p>
+
+            {% else %}
+
+                <p>{{ 'Marketplace_StepDownloadingPluginFromMarketplace'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepUnzippingPlugin'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepPluginSuccessfullyInstalled'|translate(plugin.name, plugin.latestVersion) }}</p>
+
+                <p><strong><a class="btn" href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce, 'redirectTo': 'marketplace'}) }}">{{ 'Marketplace_ActionActivatePlugin'|translate }}</a></strong>
+
+                    |
+                    <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview', 'show': ''}) }}">{{ 'Marketplace_BackToMarketplace'|translate }}</a></p>
+
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

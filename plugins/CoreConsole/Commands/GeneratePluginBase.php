@@ -123,10 +123,18 @@ abstract class GeneratePluginBase extends ConsoleCommand
             $pluginJson['require'] = array();
         }
 
-        $piwikVersion       = Version::VERSION;
-        $nextMajorVersion = (int) $piwikVersion + 1;
+        $piwikVersion     = Version::VERSION;
+        $nextMajorVersion = (int) substr($piwikVersion, 0, strpos($piwikVersion, '.')) + 1;
         $secondPartPiwikVersionRequire = ',<' . $nextMajorVersion . '.0.0-b1';
-        $newRequiredVersion = '>=' . $piwikVersion .  $secondPartPiwikVersionRequire;
+        if (false === strpos($piwikVersion, '-')) {
+            // see https://github.com/composer/composer/issues/4080 we need to specify -stable otherwise it would match
+            // $piwikVersion-dev meaning it would also match all pre-released. However, we only want to match a stable
+            // release
+            $piwikVersion.= '-stable';
+        }
+
+        $newRequiredVersion = sprintf('>=%s,<%d.0.0', $piwikVersion, $nextMajorVersion);
+
 
         if (!empty($pluginJson['require']['piwik'])) {
             $requiredVersion = trim($pluginJson['require']['piwik']);

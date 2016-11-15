@@ -18,7 +18,7 @@ class Menu extends \Piwik\Plugin\Menu
         $tooltip   = Piwik::translate('Widgetize_TopLinkTooltip');
         $urlParams = $this->urlForAction('index', array('segment' => false));
 
-        $menu->addPlatformItem('General_Widgets', $urlParams, 5, $tooltip);
+        $menu->addPlatformItem('General_Widgets', $urlParams, 6, $tooltip);
     }
 
 }

@@ -17,14 +17,13 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
-use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\Translation\Translator;
-use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\Widget\WidgetsList;
@@ -49,7 +48,7 @@ class Controller extends ControllerAdmin
 
     public function home()
     {
-        $isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
+        $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
         $isFeedbackEnabled = Plugin\Manager::getInstance()->isPluginLoaded('Feedback');
         $widgetsList = WidgetsList::get();
 
