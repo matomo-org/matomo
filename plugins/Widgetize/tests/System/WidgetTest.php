@@ -1360,7 +1360,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Professional Services for Piwik',
+                    'name' => 'Premium Products & Services for Piwik',
                     'uniqueId' => 'widgetProfessionalServicespromoServices',
                     'parameters' =>
                         array (
