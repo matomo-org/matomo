@@ -4,14 +4,14 @@
 		<label>outlinks.org</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
-		<sum_time_spent>468</sum_time_spent>
+		<sum_time_spent>0</sum_time_spent>
 		<subtable>
 			<row>
 				<label>/#!outlink-with-fragment-&lt;script&gt;</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
+				<sum_time_spent>0</sum_time_spent>
 				<url>https://outlinks.org/#!outlink-with-fragment-&lt;script&gt;</url>
 			</row>
 			<row>
@@ -19,7 +19,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>108</sum_time_spent>
+				<sum_time_spent>0</sum_time_spent>
 				<url>http://outlinks.org/other_outlink#fragment&amp;pk_campaign=Open%20partnership</url>
 			</row>
 		</subtable>
@@ -28,14 +28,14 @@
 		<label>dev.piwik.org</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>180</sum_time_spent>
+		<sum_time_spent>0</sum_time_spent>
 		<subtable>
 			<row>
 				<label>/svn</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>180</sum_time_spent>
+				<sum_time_spent>0</sum_time_spent>
 				<url>http://dev.piwik.org/svn</url>
 			</row>
 		</subtable>
