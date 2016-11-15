@@ -82,7 +82,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
             array('all', array('idSite' => $idSite,
                                'date' => $dateTime,
                                'otherRequestParameters' => array(
-                                   'hideColumns' => 'nb_users',
+                                   'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
                                )
             )),
 

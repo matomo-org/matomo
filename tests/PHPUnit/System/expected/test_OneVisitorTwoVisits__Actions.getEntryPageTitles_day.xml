@@ -9,10 +9,6 @@
 		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 		<min_time_generation>0.134</min_time_generation>
 		<max_time_generation>0.134</max_time_generation>
-		<sum_bandwidth>0</sum_bandwidth>
-		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>1</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -34,10 +30,6 @@
 				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 				<min_time_generation>0.134</min_time_generation>
 				<max_time_generation>0.134</max_time_generation>
-				<sum_bandwidth>0</sum_bandwidth>
-				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-				<min_bandwidth />
-				<max_bandwidth />
 				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>1</entry_nb_actions>
@@ -62,10 +54,6 @@
 		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
 		<min_time_generation>0.234</min_time_generation>
 		<max_time_generation>0.234</max_time_generation>
-		<sum_bandwidth>0</sum_bandwidth>
-		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
 		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>7</entry_nb_actions>
