@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\Events\Reports;
 
+use Piwik\EventDispatcher;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Events\API;
 use Piwik\Plugins\Events\Columns\Metrics\AverageEventValue;
 use Piwik\Report\ReportWidgetFactory;
@@ -23,6 +25,13 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->processedMetrics = array(
             new AverageEventValue()
         );
+    }
+
+    public function configureView(ViewDataTable $view)
+    {
+        $out = '';
+        EventDispatcher::getInstance()->postEvent('Template.afterEventsReport', array(&$out));
+        $view->config->show_footer_message = $out;
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
