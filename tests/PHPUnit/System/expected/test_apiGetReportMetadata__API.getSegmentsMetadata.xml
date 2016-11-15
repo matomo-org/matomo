@@ -59,6 +59,13 @@
 		<permission>1</permission>
 	</row>
 	<row>
+		<type>metric</type>
+		<category>Actions</category>
+		<name>Bandwidth</name>
+		<segment>bandwidth</segment>
+		<acceptedValues>Any number in bytes, eg. 1000</acceptedValues>
+	</row>
+	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>City</name>

@@ -5,6 +5,11 @@
 		<sum_time_generation>0.134</sum_time_generation>
 		<min_time_generation>0.134</min_time_generation>
 		<max_time_generation>0.134</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>0</avg_time_on_page>
 		<exit_rate>100%</exit_rate>
 		<subtable>
@@ -14,6 +19,10 @@
 				<sum_time_generation>0.134</sum_time_generation>
 				<min_time_generation>0.134</min_time_generation>
 				<max_time_generation>0.134</max_time_generation>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
 				<avg_time_on_page>0</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
@@ -25,6 +34,11 @@
 		<sum_time_generation>0.234</sum_time_generation>
 		<min_time_generation>0.234</min_time_generation>
 		<max_time_generation>0.234</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>180</avg_time_on_page>
 		<exit_rate>0%</exit_rate>
 	</row>
@@ -34,6 +48,11 @@
 		<sum_time_generation>0.023</sum_time_generation>
 		<min_time_generation>0.023</min_time_generation>
 		<max_time_generation>0.023</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>0</avg_time_on_page>
 		<exit_rate>100%</exit_rate>
 	</row>
@@ -43,6 +62,11 @@
 		<sum_time_generation>0.224</sum_time_generation>
 		<min_time_generation>0.224</min_time_generation>
 		<max_time_generation>0.224</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>900</avg_time_on_page>
 		<exit_rate>0%</exit_rate>
 	</row>
