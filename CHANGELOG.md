@@ -52,7 +52,24 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration g
  * `Login.initSession.end`
  * `Login.authenticate.successful`
 * When posting one of the events `API.Request.dispatch`, `API.Request.dispatch.end`, `API.$plugin.$apiAction`, or `API.$plugin.$apiAction.end` the `$finalParameters` parameter is indexed in Piwik 2 (eg `array(1, 6)`), and named in Piwik 3 (eg `array('idSite' => 1, 'idGoal' => 6)`)
- 
+* Widgets using the already removed `UserSettings` plugin won't work any longer. Please update the module and action parameter in the widget url according to the following list
+
+   old module | old action | new module | new action
+   ---------- | ---------- | ---------- | ----------
+   UserSettings | getPlugin | DevicePlugins | getPlugin
+   UserSettings | index | DevicesDetection | software
+   UserSettings | getBrowser | DevicesDetection | getBrowsers
+   UserSettings | getBrowserVerions | DevicesDetection | getBrowserVersions
+   UserSettings | getMobileVsDesktop | DevicesDetection | getType
+   UserSettings | getOS | DevicesDetection | getOsVersions
+   UserSettings | getOSFamily | DevicesDetection | getOsFamilies
+   UserSettings | getBrowserType | DevicesDetection | getBrowserEngines
+   UserSettings | getResolution | Resolution | getResolution
+   UserSettings | getConfiguration | Resolution | getConfiguration
+   UserSettings | getLanguage | UserLanguage | getLanguage
+   UserSettings | getLanguageCode | UserLanguage | getLanguageCode
+
+
 Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Deprecations
