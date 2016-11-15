@@ -95,7 +95,8 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'date'   => $dateTime,
             'disableArchiving' => true,
             'otherRequestParameters' => array(
-                'hideColumns' => 'nb_users',
+                // when changing this, might also need to change the same line in OneVisitorTwoVisitsTest.php
+                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
             )
         );
 
