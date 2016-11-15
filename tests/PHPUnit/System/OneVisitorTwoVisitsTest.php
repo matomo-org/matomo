@@ -33,6 +33,14 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class
 
+    /**
+     * @return string
+     */
+    public static function getValueForHideColumns()
+    {
+        return 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth';
+    }
+
     public function setUp()
     {
         Proxy::getInstance()->setHideIgnoredFunctions(false);
@@ -82,7 +90,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
             array('all', array('idSite' => $idSite,
                                'date' => $dateTime,
                                'otherRequestParameters' => array(
-                                   'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
+                                   'hideColumns' => self::getValueForHideColumns(),
                                )
             )),
 
