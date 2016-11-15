@@ -377,6 +377,7 @@ class API extends \Piwik\Plugin\API
                 'apiModule' => $apiModule,
                 'apiAction' => $apiAction,
                 'apiParameters' => $apiParameters,
+                'flat'   => 1,
                 'idGoal' => false,
                 'language' => $language,
                 'serialize' => 0,
