@@ -231,7 +231,7 @@ class VisitorRecognizer
             $dimensions = VisitDimension::getAllDimensions();
 
             foreach ($dimensions as $dimension) {
-                if ($dimension->hasImplementedEvent('onExistingVisit')) {
+                if ($dimension->hasImplementedEvent('onExistingVisit') || $dimension->hasImplementedEvent('onAnyGoalConversion')) {
                     $fields[] = $dimension->getColumnName();
                 }
 
