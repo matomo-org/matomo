@@ -41,11 +41,13 @@ class ScheduledReports extends \Piwik\Plugin
     const DEFAULT_REPORT_FORMAT = ReportRenderer::HTML_FORMAT;
     const DEFAULT_PERIOD = 'week';
     const DEFAULT_HOUR = '0';
+    const DEFAULT_DISPLAY_FLAT = false;
 
     const EMAIL_ME_PARAMETER = 'emailMe';
     const EVOLUTION_GRAPH_PARAMETER = 'evolutionGraph';
     const ADDITIONAL_EMAILS_PARAMETER = 'additionalEmails';
     const DISPLAY_FORMAT_PARAMETER = 'displayFormat';
+    const DISPLAY_FLAT_PARAMETER = 'displayFlat';
     const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
     const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
 
@@ -55,6 +57,7 @@ class ScheduledReports extends \Piwik\Plugin
         self::EMAIL_ME_PARAMETER          => false,
         self::EVOLUTION_GRAPH_PARAMETER   => false,
         self::ADDITIONAL_EMAILS_PARAMETER => false,
+        self::DISPLAY_FLAT_PARAMETER      => false,
         self::DISPLAY_FORMAT_PARAMETER    => true,
     );
 
@@ -163,6 +166,13 @@ class ScheduledReports extends \Piwik\Plugin
             $parameters[self::EMAIL_ME_PARAMETER] = self::valueIsTrue($parameters[self::EMAIL_ME_PARAMETER]);
         }
 
+        // displayFlat is an optional parameter
+        if (!isset($parameters[self::DISPLAY_FLAT_PARAMETER])) {
+            $parameters[self::DISPLAY_FLAT_PARAMETER] = self::DEFAULT_DISPLAY_FLAT;
+        } else {
+            $parameters[self::DISPLAY_FLAT_PARAMETER] = self::valueIsTrue($parameters[self::DISPLAY_FLAT_PARAMETER]);
+        }
+
         // evolutionGraph is an optional parameter
         if (!isset($parameters[self::EVOLUTION_GRAPH_PARAMETER])) {
             $parameters[self::EVOLUTION_GRAPH_PARAMETER] = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE;
@@ -232,6 +242,7 @@ class ScheduledReports extends \Piwik\Plugin
         }
 
         $displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
+        $displayFlat = $report['parameters'][self::DISPLAY_FLAT_PARAMETER];
         $evolutionGraph = $report['parameters'][self::EVOLUTION_GRAPH_PARAMETER];
 
         foreach ($processedReports as &$processedReport) {
@@ -240,6 +251,7 @@ class ScheduledReports extends \Piwik\Plugin
             $isAggregateReport = !empty($metadata['dimension']);
 
             $processedReport['displayTable'] = $displayFormat != self::DISPLAY_FORMAT_GRAPHS_ONLY;
+            $processedReport['displayFlat'] = (bool)$displayFlat;
 
             $processedReport['displayGraph'] =
                 ($isAggregateReport ?
@@ -512,6 +524,7 @@ class ScheduledReports extends \Piwik\Plugin
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
         $view->reportType = self::EMAIL_TYPE;
         $view->defaultDisplayFormat = self::DEFAULT_DISPLAY_FORMAT;
+        $view->defaultDisplayFlat = self::DEFAULT_DISPLAY_FLAT;
         $view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
         $view->defaultEvolutionGraph = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
         $out .= $view->render();

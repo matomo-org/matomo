@@ -73,6 +73,7 @@ class ApiTest extends IntegrationTestCase
             'parameters'  => array(
                 'displayFormat'    => '1',
                 'emailMe'          => true,
+                'displayFlat'      => false,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
                 'evolutionGraph'   => true
             )
@@ -522,6 +523,7 @@ class ApiTest extends IntegrationTestCase
             'parameters'  => array(
                 'displayFormat'    => '1',
                 'emailMe'          => true,
+                'displayFlat'      => false,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
                 'evolutionGraph'   => false
             )
@@ -541,6 +543,7 @@ class ApiTest extends IntegrationTestCase
             'parameters'  => array(
                 'displayFormat'    => '1',
                 'emailMe'          => false,
+                'displayFlat'      => true,
                 'additionalEmails' => array('blabla@ec.fr'),
                 'evolutionGraph'   => false
             )

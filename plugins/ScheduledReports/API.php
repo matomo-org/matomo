@@ -382,6 +382,9 @@ class API extends \Piwik\Plugin\API
                 'serialize' => 0,
                 'format' => 'original'
             );
+            if (array_key_exists('displayFlat', $report['parameters'])) {
+                $params['flat'] = (int)$report['parameters']['displayFlat'];
+            }
 
             if ($segment != null) {
                 $params['segment'] = urlencode($segment['definition']);
