@@ -191,7 +191,13 @@
                         <td id="password" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>-</td>
                         <td id="email" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.email }}</td>
                         <td id="alias" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.alias|raw }}</td>
-                        <td id="token_auth_user" class="token_auth" data-token="{{ user.token_auth }}">{{ user.token_auth|slice(0, 8) }}…</td>
+                        <td id="token_auth_user" class="token_auth" data-token="{{ user.token_auth }}">
+                            <span class="token_auth_content">{{ user.token_auth|slice(0, 8) }}…</span>
+                            <button ng-click='manageUsers.regenerateUserTokenAuth({{ user.login|json_encode }}); $event.stopPropagation();'
+                                    class="table-action">
+                                <span class="icon-reload"></span>
+                            </button>
+                        </td>
                         {% if user.last_seen is defined %}
                         <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
                         {% endif %}

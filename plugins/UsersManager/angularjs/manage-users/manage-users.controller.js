@@ -180,6 +180,22 @@
             }});
         };
 
+        this.regenerateUserTokenAuth = function (userLogin) {
+            var parameters = { userLogin: userLogin };
+
+            setIsLoading();
+
+            piwikApi.post({
+                module: 'API',
+                method: 'UsersManager.regenerateTokenAuth'
+            }, parameters).then(function () {
+                piwik.helper.redirect();
+                self.isLoading = false;
+            }, function () {
+                self.isLoading = false;
+            });
+        };
+
         $(document).ready(function () {
             var alreadyEdited = [];
             // when click on edituser, the cells become editable
@@ -187,8 +203,9 @@
             // Show the token_auth
             $('.token_auth').click(function () {
                 var token = $(this).data('token');
-                if ($(this).text() != token) {
-                    $(this).text(token);
+
+                if ($('.token_auth_content', this).text() != token) {
+                    $('.token_auth_content', this).text(token);
                 }
             });
         });
