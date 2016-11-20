@@ -21,7 +21,11 @@
         <p>
             {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
             <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></pre><br/>
-            {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
+            {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}<br />
+            {{ 'API_ChangeTokenHint'|translate('<a href="' ~ linkTo({
+                'module': 'UsersManager',
+                'action': 'userSettings',
+            }) ~ '">', '</a>')|raw }}
         </p>
     </div>
     {{ list_api_methods_with_links|raw }}
