@@ -8,7 +8,7 @@
         "AnonymousUserHasViewAccess2": "Your analytics reports and your visitors information are publicly viewable.",
         "ApplyToAllWebsites": "Apply to all websites",
         "ChangeAllConfirm": "Are you sure you want to give '%s' access to all the websites?",
-        "ChangePasswordConfirm": "Changing the password will also change the user's token_auth. Do you really want to continue?",
+        "ChangePasswordConfirm": "Changing the password will also change the user's old token_auth. This will only happen once. Do you really want to continue?",
         "ClickHereToDeleteTheCookie": "Click here to delete the cookie and have Piwik track your visits",
         "ClickHereToSetTheCookieOnDomain": "Click here to set a cookie that will exclude your visits on websites tracked by Piwik on %s",
         "ConfirmGrantSuperUserAccess": "Do you really want to grant '%s' Super User access? Warning: the user will have access to all websites and will be able to perform administrative tasks.",

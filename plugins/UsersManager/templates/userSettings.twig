@@ -109,7 +109,7 @@
 
 <div piwik-content-block
      content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
-    <p>{{ userTokenAuth }}</p>
+    <p id="token_auth_user" data-token="{{ userTokenAuth }}">{{ userTokenAuth }}</p>
 </div>
 
 <div piwik-plugin-settings mode="user"></div>

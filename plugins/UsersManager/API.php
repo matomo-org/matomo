@@ -516,8 +516,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
-     * When the password changes, the key token for this user will change, which could break
-     * its API calls.
+     *
+     * If the password changes and the user has an old token_auth (legacy MD5 format) associated,
+     * the token will be regenerated. This could break a user's API calls.
      *
      * @see addUser() for all the parameters
      */
@@ -526,15 +527,21 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
-        $userInfo = $this->getUser($userLogin);
+
+        $userInfo   = $this->getUser($userLogin);
+        $token_auth = $userInfo['token_auth'];
+
         $passwordHasBeenUpdated = false;
 
         if (empty($password)) {
-            $password   = $userInfo['password'];
-            $token_auth = $userInfo['token_auth'];
+            $password = $userInfo['password'];
         } else {
-            $password   = Common::unsanitizeInputValue($password);
-            $token_auth = $this->createTokenAuth($userLogin);
+            $password = Common::unsanitizeInputValue($password);
+
+            if (32 == strlen($token_auth)) {
+                // only refresh legacy tokens
+                $token_auth = $this->createTokenAuth($userLogin);
+            }
 
             if (!$_isPasswordHashed) {
                 UsersManager::checkPassword($password);

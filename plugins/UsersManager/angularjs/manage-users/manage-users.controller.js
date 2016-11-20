@@ -127,7 +127,11 @@
                     var onValidate = function () {
                         sendUpdateUserAJAX($('tr#' + idRow));
                     };
-                    if ($('tr#' + idRow).find('input#password').val() != '-') {
+
+                    var password = $('tr#' + idRow).find('input#password').val();
+                    var token    = $('tr#' + idRow).find('td#token_auth_user').data('token') || '';
+
+                    if ('-' !== password && 32 === token.length) {
                         piwikHelper.modalConfirm('#confirmPasswordChange', {yes: onValidate});
                     } else {
                         onValidate();
