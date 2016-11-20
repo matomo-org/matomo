@@ -78,24 +78,21 @@ matrix:
     # AngularJS tests need to run only on one PHP version
     - php: 5.5
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
-      
+
 sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
-cache:
-  directories:
-    - "travis_phantomjs"
-
 before_install:
+  # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
+  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
   - ./tests/travis/install_git_lfs.sh
 
 install:
   - git fetch -q
 
-  # Disable it until this is in master, otherwise we have to create a branch for travis submodule
-  #- export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
-  #- '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
+  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
+  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - ./tests/travis/configure_git.sh
 
@@ -148,8 +145,7 @@ before_script:
 
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
-  - ./tests/travis/install_phantomjs.sh
-  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
+  - if [[ "$TRAVIS_PHP_VERSION" != 5.3* ]]; then ./tests/travis/install_phantomjs.sh; export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH; fi
 
   - cd tests/PHPUnit
 
@@ -169,6 +165,12 @@ after_script:
 after_success:
   - cd $PIWIK_ROOT_DIR
   - ./tests/travis/generate_docs.sh
+
+cache:
+  directories:
+    - "travis_phantomjs"
+
+
 
 notifications:
   slack:
