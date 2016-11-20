@@ -514,6 +514,27 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Regenerate the token_auth associated with a user.
+     *
+     * If the user currently logged in regenerates his own token, he will be logged out.
+     * His previous token will be rendered invalid.
+     *
+     * @param   string  $userLogin
+     * @throws  Exception
+     */
+    public function regenerateTokenAuth($userLogin)
+    {
+        $this->checkUserIsNotAnonymous($userLogin);
+
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
+
+        $this->model->updateUserTokenAuth(
+            $userLogin,
+            $this->createTokenAuth($userLogin)
+        );
+    }
+
+    /**
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
      *

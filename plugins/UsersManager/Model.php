@@ -248,6 +248,13 @@ class Model
         ));
     }
 
+    public function updateUserTokenAuth($userLogin, $tokenAuth)
+    {
+        $this->updateUserFields($userLogin, array(
+            'token_auth' => $tokenAuth
+        ));
+    }
+
     public function userExists($userLogin)
     {
         $db = $this->getDb();

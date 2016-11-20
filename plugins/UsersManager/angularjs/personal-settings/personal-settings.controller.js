@@ -7,13 +7,13 @@
 (function () {
     angular.module('piwikApp').controller('PersonalSettingsController', PersonalSettingsController);
 
-    PersonalSettingsController.$inject = ['piwikApi'];
+    PersonalSettingsController.$inject = ['piwikApi', '$window'];
 
-    function PersonalSettingsController(piwikApi) {
+    function PersonalSettingsController(piwikApi, $window) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
-        
+
         function updateSettings(postParams)
         {
             self.loading = true;
@@ -34,9 +34,28 @@
             });
         }
 
+        this.regenerateTokenAuth = function () {
+            var parameters = { userLogin: piwik.userLogin };
+
+            self.loading = true;
+
+            piwikApi.withTokenInUrl();
+            piwikApi.post({
+                module: 'API',
+                method: 'UsersManager.regenerateTokenAuth'
+            }, parameters).then(function (success) {
+                $window.location.reload();
+
+                self.loading = false;
+            }, function (errorMessage) {
+                self.loading = false;
+            });
+
+        };
+
         this.save = function () {
 
-            var tokenAuth  = $('p#token_auth_user').data('token') || '';
+            var tokenAuth  = $('pre#token_auth_user').text() || '';
             var postParams = {
                 alias: this.alias,
                 email: this.email,
