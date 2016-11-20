@@ -63,6 +63,7 @@
         "SuperUserAccessManagementMainDescription": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.",
         "TheLoginScreen": "The login screen",
         "ThereAreCurrentlyNRegisteredUsers": "There are currently %s registered users.",
+        "TokenAuth": "API Authentication Token",
         "TypeYourPasswordAgain": "Type your new password again.",
         "User": "User",
         "UsersManagement": "Users Management",
