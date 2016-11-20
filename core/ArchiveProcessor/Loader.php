@@ -73,7 +73,7 @@ class Loader
         list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
         list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
-        if ($this->isThereSomeVisits($visits)) {
+        if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
             return $idArchive;
         }
         return false;

@@ -101,7 +101,7 @@ class PluginsArchiver
 
         $this->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
 
-        $archivers = $this->getPluginArchivers();
+        $archivers = static::getPluginArchivers();
 
         foreach ($archivers as $pluginName => $archiverClass) {
             // We clean up below all tables created during this function call (and recursive calls)
@@ -167,11 +167,27 @@ class PluginsArchiver
     }
 
     /**
+     * Returns if any plugin archiver archives without visits
+     */
+    public static function doesAnyPluginArchiveWithoutVisits()
+    {
+        $archivers = static::getPluginArchivers();
+
+        foreach ($archivers as $pluginName => $archiverClass) {
+            if ($archiverClass::shouldRunWithoutVisits()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Loads Archiver class from any plugin that defines one.
      *
      * @return \Piwik\Plugin\Archiver[]
      */
-    protected function getPluginArchivers()
+    protected static function getPluginArchivers()
     {
         if (empty(static::$archivers)) {
             $pluginNames = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();

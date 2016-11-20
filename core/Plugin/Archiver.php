@@ -147,7 +147,7 @@ abstract class Archiver
      *
      * @return bool
      */
-    public function shouldRunWithoutVisits()
+    public static function shouldRunWithoutVisits()
     {
         return false;
     }
