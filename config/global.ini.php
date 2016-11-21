@@ -112,6 +112,8 @@ backends[] = file
 ; Redis server configuration.
 host = "127.0.0.1"
 port = 6379
+; instead of host and port a unix socket path can be configured
+unix_socket = ""
 timeout = 0.0
 password = ""
 database = 14
@@ -463,6 +465,12 @@ multisites_refresh_after_seconds = 300
 ; set the HTTPS environment variable.
 assume_secure_protocol = 0
 
+; Set to 1 if you're using more than one server for your Piwik installation. For example if you are using Piwik in a
+; load balanced environment, if you have configured failover or if you're just using multiple servers in general.
+; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
+; installed on one server or a config one change would be only made on one server instead of all servers.
+multi_server_environment = 0
+
 ; List of proxy headers for client IP addresses
 ; Piwik will determine the user IP by extracting the first IP address found in this proxy header.
 ;
@@ -548,14 +556,9 @@ absolute_chroot_path =
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
 
-; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
-; the access to disk and install custom PHP code (Piwik plugins).
-enable_marketplace = 1
-
 ; By setting this option to 0:
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
-; - as well as disabling plugins admin actions (such as "Upload new plugin"), setting this to 1 will have same effect as setting enable_marketplace=1
 enable_plugins_admin = 1
 
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
@@ -827,6 +830,7 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 Plugins[] = Heartbeat
 Plugins[] = Intl
+Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomPiwikJs

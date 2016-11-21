@@ -51,6 +51,16 @@ class ActionPageview extends Action
         return true;
     }
 
+    public function getIdActionUrlForEntryAndExitIds()
+    {
+        return $this->getIdActionUrl();
+    }
+
+    public function getIdActionNameForEntryAndExitIds()
+    {
+        return $this->getIdActionName();
+    }
+
     private function cleanupActionName($actionName)
     {
         // get the delimiter, by default '/'; BC, we read the old action_category_delimiter first (see #1067)

@@ -64,6 +64,16 @@ class ActionSiteSearch extends Action
         return null;
     }
 
+    public function getIdActionUrlForEntryAndExitIds()
+    {
+        return $this->getIdActionUrl();
+    }
+
+    public function getIdActionNameForEntryAndExitIds()
+    {
+        return $this->getIdActionName();
+    }
+
     public function getCustomFloatValue()
     {
         return $this->request->getPageGenerationTime();

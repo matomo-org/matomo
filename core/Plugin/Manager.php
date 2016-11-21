@@ -658,7 +658,12 @@ class Manager
         || $name == self::DEFAULT_THEME;
     }
 
-    protected function isPluginThirdPartyAndBogus($pluginName)
+    /**
+     * @param $pluginName
+     * @return bool
+     * @ignore
+     */
+    public function isPluginThirdPartyAndBogus($pluginName)
     {
         if ($this->isPluginBundledWithCore($pluginName)) {
             return false;
@@ -915,7 +920,7 @@ class Manager
 
     public function isValidPluginName($pluginName)
     {
-        return (bool) preg_match('/^[a-zA-Z]([a-zA-Z0-9]*)$/D', $pluginName);
+        return (bool) preg_match('/^[a-zA-Z]([a-zA-Z0-9_]*)$/D', $pluginName);
     }
 
     /**

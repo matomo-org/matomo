@@ -11,7 +11,6 @@ namespace Piwik\Plugins\DevicesDetection\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
-use DeviceDetector;
 use Exception;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -70,6 +69,6 @@ class DeviceType extends Base
      */
     public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn('config_device_type');
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

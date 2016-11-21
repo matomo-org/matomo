@@ -52,7 +52,24 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration g
  * `Login.initSession.end`
  * `Login.authenticate.successful`
 * When posting one of the events `API.Request.dispatch`, `API.Request.dispatch.end`, `API.$plugin.$apiAction`, or `API.$plugin.$apiAction.end` the `$finalParameters` parameter is indexed in Piwik 2 (eg `array(1, 6)`), and named in Piwik 3 (eg `array('idSite' => 1, 'idGoal' => 6)`)
- 
+* Widgets using the already removed `UserSettings` plugin won't work any longer. Please update the module and action parameter in the widget url according to the following list
+
+   old module | old action | new module | new action
+   ---------- | ---------- | ---------- | ----------
+   UserSettings | getPlugin | DevicePlugins | getPlugin
+   UserSettings | index | DevicesDetection | software
+   UserSettings | getBrowser | DevicesDetection | getBrowsers
+   UserSettings | getBrowserVerions | DevicesDetection | getBrowserVersions
+   UserSettings | getMobileVsDesktop | DevicesDetection | getType
+   UserSettings | getOS | DevicesDetection | getOsVersions
+   UserSettings | getOSFamily | DevicesDetection | getOsFamilies
+   UserSettings | getBrowserType | DevicesDetection | getBrowserEngines
+   UserSettings | getResolution | Resolution | getResolution
+   UserSettings | getConfiguration | Resolution | getConfiguration
+   UserSettings | getLanguage | UserLanguage | getLanguage
+   UserSettings | getLanguageCode | UserLanguage | getLanguageCode
+
+
 Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Deprecations
@@ -70,6 +87,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * The JavaScript AjaxHelper has a new method `ajaxHelper.withTokenInUrl()` to easily send a token along a XHR. Within the Controller the existence of this token can be checked via `$this->checkTokenInUrl();` to prevent CSRF attacks.
 * The new class `Piwik\Updater\Migration\Factory` lets you easily create migrations that can be executed during an update. For example database or plugin related migrations. To generate a new update with migrations execute `./console generate:update`.
 * The new method `Piwik\Updater::executeMigration` lets you execute a single migration.
+* The new method `Piwik\Segment::willBeArchived` lets you detect whether a segment will be archived or not.
 * The following events have been added:
  * `ViewDataTable.filterViewDataTable` lets you filter available visualizations
  * `Dimension.addDimension` lets you add custom dimensions
@@ -83,6 +101,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `Updater.componentUninstalled` triggered after a component was uninstalled
 * New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.piwik.org/api-reference/tracking-api);
 * New event `Segment.addSegments` that lets you add segments.
+* New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled. 
 
 ### New features
 * New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
@@ -141,6 +160,11 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ### Internal change
  * Tracking API: by default, when tracking a Page URL, Piwik will now remove the URL query string parameter `sid` if it is found. 
  * In the JavaScript tracker, the function `setDomains` will not anymore attempt to set a cookie path. Learn more about [configuring the tracker correctly](http://developer.piwik.org/guides/tracking-javascript-guide#tracking-one-domain) when tracking one or several domains and/or paths.
+
+## Piwik 2.16.1
+
+### Internal change
+ * The setting `[General]enable_marketplace=0/1` was removed, instead the new plugin Marketplace can be disabled/enabled. The updater should automatically migrate an existing setting.
 
 ## Piwik 2.16.0
 
