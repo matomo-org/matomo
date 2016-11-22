@@ -5980,7 +5980,7 @@ if (typeof window.Piwik !== 'object') {
              * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
              */
             this.addListener = function (element, enable) {
-                var enableType = typeof 'enable';
+                var enableType = typeof enable;
                 if (enableType === 'undefined') {
                     enable = true;
                 }
