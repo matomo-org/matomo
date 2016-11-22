@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result idSite="1">
-		<result date="From 2009-12-28 to 2010-01-03" />
-		<result date="From 2010-01-04 to 2010-01-10">
+		<result date="2009-12-28,2010-01-03" />
+		<result date="2010-01-04,2010-01-10">
 			<nb_uniq_visitors_returning>2</nb_uniq_visitors_returning>
 			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>7</nb_visits_returning>
@@ -15,7 +15,7 @@
 			<nb_actions_per_visit_returning>4.4</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>772</avg_time_on_site_returning>
 		</result>
-		<result date="From 2010-01-11 to 2010-01-17">
+		<result date="2010-01-11,2010-01-17">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
 			<nb_users_returning>0</nb_users_returning>
 			<nb_visits_returning>2</nb_visits_returning>
@@ -28,18 +28,18 @@
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>901</avg_time_on_site_returning>
 		</result>
-		<result date="From 2010-01-18 to 2010-01-24" />
-		<result date="From 2010-01-25 to 2010-01-31" />
-		<result date="From 2010-02-01 to 2010-02-07" />
-		<result date="From 2010-02-08 to 2010-02-14" />
+		<result date="2010-01-18,2010-01-24" />
+		<result date="2010-01-25,2010-01-31" />
+		<result date="2010-02-01,2010-02-07" />
+		<result date="2010-02-08,2010-02-14" />
 	</result>
 	<result idSite="2">
-		<result date="From 2009-12-28 to 2010-01-03" />
-		<result date="From 2010-01-04 to 2010-01-10" />
-		<result date="From 2010-01-11 to 2010-01-17" />
-		<result date="From 2010-01-18 to 2010-01-24" />
-		<result date="From 2010-01-25 to 2010-01-31" />
-		<result date="From 2010-02-01 to 2010-02-07" />
-		<result date="From 2010-02-08 to 2010-02-14" />
+		<result date="2009-12-28,2010-01-03" />
+		<result date="2010-01-04,2010-01-10" />
+		<result date="2010-01-11,2010-01-17" />
+		<result date="2010-01-18,2010-01-24" />
+		<result date="2010-01-25,2010-01-31" />
+		<result date="2010-02-01,2010-02-07" />
+		<result date="2010-02-08,2010-02-14" />
 	</result>
 </results>

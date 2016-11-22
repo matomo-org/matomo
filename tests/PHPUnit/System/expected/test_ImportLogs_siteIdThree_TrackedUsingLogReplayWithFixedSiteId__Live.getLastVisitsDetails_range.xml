@@ -82,7 +82,7 @@
 		<regionCode>NC</regionCode>
 		<city>Raleigh</city>
 		<location>Raleigh, North Carolina, United States</location>
-		<latitude>35.771999</latitude>
+		<latitude>35.772000</latitude>
 		<longitude>-78.639000</longitude>
 		<visitLocalTime>20:34:49</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
@@ -215,7 +215,7 @@
 		<city>Lake Forest</city>
 		<location>Lake Forest, California, United States</location>
 		<latitude>33.645000</latitude>
-		<longitude>-117.679001</longitude>
+		<longitude>-117.679000</longitude>
 		<visitLocalTime>17:33:27</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>181</daysSinceLastVisit>
@@ -578,7 +578,7 @@
 		<regionCode>05</regionCode>
 		<city>Maaseik</city>
 		<location>Maaseik, Limburg, Belgium</location>
-		<latitude>51.099998</latitude>
+		<latitude>51.100000</latitude>
 		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:24</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
@@ -698,7 +698,7 @@
 		<city>San Francisco</city>
 		<location>San Francisco, California, United States</location>
 		<latitude>37.792000</latitude>
-		<longitude>-122.408997</longitude>
+		<longitude>-122.409000</longitude>
 		<visitLocalTime>17:33:58</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -823,8 +823,8 @@
 		<regionCode>19</regionCode>
 		<city>Nihon'odori</city>
 		<location>Nihon'odori, Kanagawa, Japan</location>
-		<latitude>35.450001</latitude>
-		<longitude>139.649994</longitude>
+		<latitude>35.450000</latitude>
+		<longitude>139.650000</longitude>
 		<visitLocalTime>09:33:50</visitLocalTime>
 		<visitLocalHour>9</visitLocalHour>
 		<daysSinceLastVisit>1</daysSinceLastVisit>
@@ -938,7 +938,7 @@
 		<regionCode>07</regionCode>
 		<city>Weilerswist</city>
 		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
-		<latitude>50.766998</latitude>
+		<latitude>50.767000</latitude>
 		<longitude>6.833000</longitude>
 		<visitLocalTime>01:33:31</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
@@ -1209,8 +1209,8 @@
 		<regionCode>48</regionCode>
 		<city>Moscow</city>
 		<location>Moscow, Moscow City, Russia</location>
-		<latitude>55.751999</latitude>
-		<longitude>37.616001</longitude>
+		<latitude>55.752000</latitude>
+		<longitude>37.616000</longitude>
 		<visitLocalTime>04:28:18</visitLocalTime>
 		<visitLocalHour>4</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1321,7 +1321,7 @@
 		<city>Esentepe</city>
 		<location>Esentepe, Rize, Turkey</location>
 		<latitude>40.979000</latitude>
-		<longitude>40.415001</longitude>
+		<longitude>40.415000</longitude>
 		<visitLocalTime>02:32:21</visitLocalTime>
 		<visitLocalHour>2</visitLocalHour>
 		<daysSinceLastVisit>8</daysSinceLastVisit>
@@ -1439,7 +1439,7 @@
 		<regionCode>05</regionCode>
 		<city>Maaseik</city>
 		<location>Maaseik, Limburg, Belgium</location>
-		<latitude>51.099998</latitude>
+		<latitude>51.100000</latitude>
 		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:18</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>

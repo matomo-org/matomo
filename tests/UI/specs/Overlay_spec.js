@@ -9,6 +9,8 @@
 
 // TODO: should be stored in Overlay plugin
 describe("Overlay", function () {
+    this.retries(3);
+
     this.timeout(0);
 
     var url = null;
@@ -46,7 +48,7 @@ describe("Overlay", function () {
         expect.screenshot("page_link_clicks").to.be.capture(function (page) {
             var pos = page.webpage.evaluate(function () {
                 var iframe = $('iframe'),
-                    innerOffset = $('.btn.btn-lg', iframe.contents()).offset();
+                    innerOffset = $('.btn.btn-large', iframe.contents()).offset();
                 return {
                     x: iframe.offset().left + innerOffset.left,
                     y: iframe.offset().top + innerOffset.top

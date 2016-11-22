@@ -98,7 +98,10 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         $dataTableToSum = $this->getRecordNames();
-        $columnsAggregationOperation = null;
+        $columnsAggregationOperation = array(
+            Metrics::INDEX_EVENT_MIN_EVENT_VALUE => 'min',
+            Metrics::INDEX_EVENT_MAX_EVENT_VALUE => 'max',
+        );
 
         $this->getProcessor()->aggregateDataTableRecords(
             $dataTableToSum,

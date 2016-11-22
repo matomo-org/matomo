@@ -21,7 +21,7 @@ describe("MeasurableManager", function () {
 
     function assertScreenshotEquals(screenshotName, done, test)
     {
-        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget', test, done);
+        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget,.modal.open', test, done);
     }
 
     it("should load correctly and should not use SitesManager wording as another type is enabled", function (done) {
@@ -45,7 +45,7 @@ describe("MeasurableManager", function () {
 
     it("should load mobile app specific fields", function (done) {
         assertScreenshotEquals("add_measurable_view", done, function (page) {
-            page.click('.ui-dialog-content button:contains(Mobile App)');
+            page.click('.modal.open .btn:contains(Mobile App)');
             page.evaluate(function () {
                 $('.form-help:contains(UTC time is)').hide();
             });

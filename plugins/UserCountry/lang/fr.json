@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "La dernière mise à jour a été effectuée le %s.",
         "UpdaterWillRunNext": "Est planifié pour s'exécuter le %s.",
         "WidgetLocation": "Emplacement du visiteur"
+    },
+    "Intl": {
+        "Country_TI": "Tibet"
     }
 }

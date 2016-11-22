@@ -15,7 +15,6 @@
         "CategoryTextReferrers_Referrers": "리퍼러",
         "CategoryTextVisitsSummary_VisitsSummary": "사용자 속성",
         "CategoryTextGeneral_Visit": "약속",
-        "ChooseGoal": "목표 선택",
         "ClickOutlink": "외부 웹사이트에 대한 링크 클릭",
         "SendEvent": "이벤트 보내기",
         "ColumnAverageOrderRevenueDocumentation": "평균 주문액 (AOV)은 모든 전자상 거래 주문의 총수익을 주문수로 나눈 것입니다.",
@@ -70,7 +69,6 @@
         "IsExactly": "%s와 일치",
         "LearnMoreAboutGoalTrackingDocumentation": "사용자 문서 내 %1$sPiwik 목표 추적%2$s 문서를 통해서 좀 더 알 수 있습니다.",
         "LeftInCart": "카트에 남겨진 %s",
-        "ManageGoalsOrCreateANewGoal": "%1$s목표 관리%2$s 혹은 새로운 목표를 만드세요!",
         "Manually": "수동으로",
         "ManuallyTriggeredUsingJavascriptFunction": "JavaScript API의 trackGoal()을 사용하여 수동 트리거",
         "MatchesExpression": "정규식 %s에 일치",
@@ -79,8 +77,6 @@
         "NoGoalsNeedAccess": "주어진 웹사이트는 오직 관리자나 슈퍼 유저 권한을 가진 사용자만이 목표를 관리할 수 있습니다. Piwik의 관리자에게 당신의 웹사이트 목표 설정을 요청하세요. <br>목표 추적은 웹사이트 성능을 이해하고 향상시키는데 큰 도움이 됩니다.",
         "NeedAccess": "주어진 웹사이트는 오직 관리자나 슈퍼 유저 권한을 가진 사용자만이 목표를 관리할 수 있습니다.",
         "Optional": "(선택항목)",
-        "OverallConversionRate": "%s 총 전환율 (목표 달성 방문)",
-        "OverallRevenue": "%s 총 수익",
         "PageTitle": "페이지 제목",
         "Pattern": "패턴",
         "PluginDescription": "목표를 만들고 목표 전환들 - 시간에 따른 변화, 방문 당 수익, 리퍼러와 키워드 당 전환들 - 에 대한 상세 보고서 보기",
@@ -101,7 +97,6 @@
         "VisitUrl": "특정 URL 방문 (페이지 또는 페이지 그룹)",
         "WhenVisitors": "방문 시기",
         "WhereThe": "방문 대상",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "방문한 페이지 JavaScript의 'trackGoal' 메서드 호출이 포함된 곳 (%1$s자세히%2$s)",
         "YouCanEnableEcommerceReports": "%1$s 페이지에서 이 웹사이트에 %2$s를 사용할 수 있습니다."
     }
 }

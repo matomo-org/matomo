@@ -147,7 +147,7 @@ class DependencyTest extends IntegrationTestCase
 
     public function test_getMissingVersion_EmptyCurrentVersion_ShouldBeDeclaredAsMissing()
     {
-        $this->assertMissingVersion('', '5.5', array('>=5.5'));
+        $this->assertMissingVersion('', '>=5.5', array('>=5.5'));
     }
 
     public function test_getMissingVersion_EmptyRequiredVersion_ShouldBeIgnored()
@@ -246,6 +246,26 @@ class DependencyTest extends IntegrationTestCase
         $this->assertMissingVersion('5.2', '>=5.2,<=9.0', array());
         $this->assertMissingVersion('9.0', '>=5.2,<=9.0', array());
         $this->assertMissingVersion('6.4', '>=5.2,<=9.0', array());
+    }
+
+    /**
+     * @dataProvider getHasDepenedencyToDisabledPluginProvider
+     */
+    public function test_hasDependencyToDisabledPlugin($expectedHasDependency, $requires)
+    {
+        $this->assertSame($expectedHasDependency, $this->dependency->hasDependencyToDisabledPlugin($requires));
+    }
+
+    public function getHasDepenedencyToDisabledPluginProvider()
+    {
+        return array(
+            array($expected = false, $requires = null),
+            array($expected = false, $requires = array()),
+            array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0')),
+            array($expected = false, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'CoreHome' => '2.15.0')),
+            array($expected = false, $requires = array('CoreHome' => '<2.0', 'Actions' => '>=2.15.0')),
+            array($expected = true, $requires = array('php' => '<5.2', 'piwik' => '<2.0', 'FooBar' => '2.15.0')),
+        );
     }
 
     private function missingPiwik($requiredVersion, $causedBy = null)

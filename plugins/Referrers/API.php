@@ -42,8 +42,7 @@ class API extends \Piwik\Plugin\API
      */
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
-        $dataTable = Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable = Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $flat=false, $idSubtable);
         return $dataTable;
     }
 

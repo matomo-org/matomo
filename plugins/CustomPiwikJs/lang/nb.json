@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-tracker (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Piwik JavaScript-trackerfilen «\/piwik.js» er ikke skrivbar, som betyr at andre utvidelser ikke kan utvide Javascript-trackeren. I fremtiden kan det tenkes at noe kjernefunksjonalitet heller ikke fungerer som forventet.",
+        "DiagnosticPiwikJsMakeWritable": "Vi anbefaler å gjøre Piwik.js skrivbar ved å kjøre denne kommandoen: %s"
+    }
+}

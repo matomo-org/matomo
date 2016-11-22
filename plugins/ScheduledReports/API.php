@@ -377,6 +377,7 @@ class API extends \Piwik\Plugin\API
                 'apiModule' => $apiModule,
                 'apiAction' => $apiAction,
                 'apiParameters' => $apiParameters,
+                'flat'   => 1,
                 'idGoal' => false,
                 'language' => $language,
                 'serialize' => 0,
@@ -469,6 +470,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // init report renderer
+        $reportRenderer->setIdSite($idSite);
         $reportRenderer->setLocale($language);
 
         // render report

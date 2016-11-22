@@ -7,7 +7,6 @@
  *
  */
 namespace Piwik\Report;
-use Piwik\ViewDataTable\Factory;
 use Piwik\Widget\WidgetConfig;
 
 /**
@@ -78,12 +77,11 @@ class ReportWidgetConfig extends WidgetConfig
 
         if ($this->forceViewDataTable) {
             $defaultParams['forceView'] = '1';
-        }
 
-        if ($this->viewDataTable &&
-            ($this->forceViewDataTable || $this->viewDataTable !== Factory::DEFAULT_VIEW)) {
-            // URL param is not needed for default view dataTable
-            $defaultParams['viewDataTable'] = $this->viewDataTable;
+            if ($this->viewDataTable) {
+                // URL param is not needed for default view dataTable
+                $defaultParams['viewDataTable'] = $this->viewDataTable;
+            }
         }
 
         return $defaultParams + $parameters;

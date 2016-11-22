@@ -5,11 +5,6 @@
         "ColumnAvgActionsPerReturningVisit": "საშ. ქმედება დაბრუნებულ ვიზიტზე",
         "ColumnBounceRateForReturningVisits": "უსარგებლო შესვლები დაბრუნებული ვიზიტორებისთვის",
         "ColumnReturningVisits": "დაბრუნებული ვიზიტები",
-        "ReturnActions": "%s ქმედება დაბრუნებული ვიზიტების მიხედვით",
-        "ReturnAverageVisitDuration": "%s ვიზიტის საშუალო ხანგრძლივობა დაბრუნებული ვიზიტებისთვის",
-        "ReturnAvgActions": "%s ქმედება დაბრუნებულ ვიზიტზე",
-        "ReturnBounceRate": "%s დაბრუნებული ვიზიტი იყო უსარგებლო შესვლა (ერთი გვერდის ნახვის შემდეგ გავიდა)",
-        "ReturnVisits": "%s დაბრუნებული ვიზიტი",
         "SubmenuFrequency": "სიხშირე",
         "WidgetGraphReturning": "დაბრუნებული ვიზიტების გრაფიკი",
         "WidgetOverview": "სიხშირის მიმოხილვა"

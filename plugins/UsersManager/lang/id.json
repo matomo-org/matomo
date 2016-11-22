@@ -18,7 +18,6 @@
         "ExceptionEditAnonymous": "Pengguna anonim tidak dapat dihapus atau disunting. Piwik menggunakan pengguna ini untuk menjelaskan pengguna yang belum masuk. Misalnya, Anda dapat membuat statistik publik Anda dengan memberi hak `Tampil` untuk pengguna 'anonim'.",
         "ExceptionEmailExists": "Pengguna dengan surel '%s' telah tersedia.",
         "ExceptionInvalidEmail": "Surel tidak memiliki bentuk sahih.",
-        "ExceptionInvalidPassword": "Panjang sandi harus antara %1$s dan %2$s karakter.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth membutuhkan sandi acak MD5 (32 karakter larik panjang). Silakan panggil fungsi md5() dalam sandi sebelum memanggil metode ini.",
         "ExceptionUserDoesNotExist": "Pengguan '%s' tida ada.",
         "ExcludeVisitsViaCookie": "Kecualikan kunjungan Anda menggunakan kuki",

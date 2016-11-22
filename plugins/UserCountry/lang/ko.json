@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "%s에 마지막 업데이트 확인",
         "UpdaterWillRunNext": "%s에 실행이 계획되어 있습니다.",
         "WidgetLocation": "방문자 위치"
+    },
+    "Intl": {
+        "Country_TI": "티베트"
     }
 }

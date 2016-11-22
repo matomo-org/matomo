@@ -23,14 +23,8 @@ class DBStats extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
+            "TestingEnvironment.addHooks" => 'setupTestEnvironment'
         );
-    }
-
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        $stylesheets[] = "plugins/DBStats/stylesheets/dbStatsTable.less";
     }
 
     public function setupTestEnvironment($environment)

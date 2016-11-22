@@ -9,7 +9,6 @@
         "Settings_PhoneActivated": "Telefon numarası doğrulandı! Artık istatistikleri SMS ile alabilirsiniz.",
         "Settings_PhoneNumber": "Telefon Numarası",
         "Settings_PhoneNumbers_Add": "Yeni telefon numarası ekle",
-        "Settings_PhoneNumbers_CountryCode_Help": "Telefon ülke kodunu bilmiyorsanız, buradan ülkelere bakabilirsiniz.",
         "Settings_SMSAPIAccount": "SMS API Hesabını Yönet",
         "Settings_SMSProvider": "SMS Sağlayıcı",
         "Settings_ValidatePhoneNumber": "Onayla",

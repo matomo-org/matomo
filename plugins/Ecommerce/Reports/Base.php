@@ -54,13 +54,11 @@ abstract class Base extends Report
 
     private function isEcommerceEnabledByInfos($infos)
     {
-        $idSites = $infos['idSites'];
+        $idSite = $infos['idSite'];
 
-        if (count($idSites) != 1) {
+        if (empty($idSite)) {
             return false;
         }
-
-        $idSite = reset($idSites);
 
         return $this->isEcommerceEnabled($idSite);
     }

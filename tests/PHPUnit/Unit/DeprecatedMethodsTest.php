@@ -8,10 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\AssetManager;
-use Piwik\AssetManager\UIAsset;
 use Piwik\Date;
-use Piwik\Plugin;
 use Piwik\Version;
 use ReflectionClass;
 
@@ -23,57 +20,55 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 {
     public function test_deprecations()
     {
-        $validTill = '2016-09-01';
-        $this->assertDeprecatedMethodIsRemoved('Piwik\SettingsServer', 'isApache', $validTill);
+        $this->assertDeprecatedMethodIsRemovedInPiwik3b1('Piwik\SettingsServer', 'isApache');
 
         $validTill = '2015-03-10';
-        $this->assertDeprecatedMethodIsRemoved('\Piwik\Period', 'factory', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('\Piwik\Config', 'getConfigSuperUserForBackwardCompatibility', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'addEntry', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuAdmin', 'removeEntry', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'addEntry', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('\Piwik\Menu\MenuTop', 'removeEntry', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('\Piwik\Period', 'factory', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('\Piwik\Config', 'getConfigSuperUserForBackwardCompatibility', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('\Piwik\Menu\MenuAdmin', 'addEntry', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('\Piwik\Menu\MenuAdmin', 'removeEntry', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('\Piwik\Menu\MenuTop', 'addEntry', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('\Piwik\Menu\MenuTop', 'removeEntry', $validTill);
 
         $validTill = '2015-03-10';
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIp', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'sanitizeIpRange', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'P2N', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'N2P', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'prettyPrint', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isIPv4', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'long2ip', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isIPv6', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isMappedIPv4', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getIPv4FromMappedIPv6', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getIpsForRange', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'isIpInRange', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\IP', 'getHostByAddr', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\SettingsPiwik', 'rewriteTmpPathWithInstanceId', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'sanitizeIp', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'sanitizeIpRange', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'P2N', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'N2P', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'prettyPrint', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'isIPv4', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'long2ip', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'isIPv6', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'isMappedIPv4', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'getIPv4FromMappedIPv6', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'getIpsForRange', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'isIpInRange', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\IP', 'getHostByAddr', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\SettingsPiwik', 'rewriteTmpPathWithInstanceId', $validTill);
 
         $validTill = '2015-05-01';
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowserVersion', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowser', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getOS', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getOSFamily', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getBrowserType', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getMobileVsDesktop', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getResolution', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getConfiguration', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getPlugin', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getLanguage', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\API', 'getLanguageCode', $validTill);
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Plugins\UserSettings\UserSettings', 'renameDeprecatedModuleAndAction', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getBrowserVersion', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getBrowser', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getOS', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getOSFamily', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getBrowserType', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getMobileVsDesktop', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getResolution', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getConfiguration', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getPlugin', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getLanguage', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\API', 'getLanguageCode', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Plugins\UserSettings\UserSettings', 'renameDeprecatedModuleAndAction', $validTill);
 
         // please be aware if re-adding a plugin called userSettings, and someone updates eg from Piwik 2.13 to that version,
         // the plugin will be possibly removed in an Update during 2.14.0
         $this->assertDeprecatedClassIsRemoved('Piwik\Plugins\UserSettings\UserSettings', $validTill);
 
         $validTill = '2015-06-01';
-        $this->assertDeprecatedMethodIsRemoved('Piwik\Archive', 'getBlob', $validTill);
+        $this->assertDeprecatedMethodIsRemovedBeforeDate('Piwik\Archive', 'getBlob', $validTill);
 
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Menu\MenuAbstract', 'add');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Archive', 'getDataTableFromArchive');
-        $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Plugin', 'getListHooksRegistered');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('\Piwik\Plugins\API\API', 'getLastDate');
 
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\DevicesDetection\DevicesDetection', 'renameUserSettingsModuleAndAction');
@@ -81,13 +76,15 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\DevicePlugins\DevicePlugins', 'renameUserSettingsModuleAndAction');
         $this->assertDeprecatedMethodIsRemovedInPiwik3('Piwik\Plugins\UserLanguage\UserLanguage', 'renameUserSettingsModuleAndAction');
 
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('\Piwik\Plugin', 'getListHooksRegistered');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getSql');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'update');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getMigrationQueries');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updater', 'executeMigrationQueries');
     }
 
-    private function assertDeprecatedMethodIsRemoved($className, $method, $removalDate)
+
+    private function assertDeprecatedMethodIsRemovedBeforeDate($className, $method, $removalDate)
     {
         $now         = Date::now();
         $removalDate = Date::factory($removalDate);
@@ -129,14 +126,19 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($classExists, $errorMessage);
     }
 
+    private function assertDeprecatedMethodIsRemovedInPiwik3b1($className, $method)
+    {
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('3.0.0-b1', $className, $method);
+    }
+
     private function assertDeprecatedMethodIsRemovedInPiwik3($className, $method)
     {
-        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('3.0.0', $className, $method);
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('3.0.0-b2', $className, $method);
     }
 
     private function assertDeprecatedMethodIsRemovedInPiwik4($className, $method)
     {
-        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('4.0.0', $className, $method);
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('4.0.0-b1', $className, $method);
     }
 
     private function assertDeprecatedMethodIsRemovedInPiwikVersion($piwikVersion, $className, $method)

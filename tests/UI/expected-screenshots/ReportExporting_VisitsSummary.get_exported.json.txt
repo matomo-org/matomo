@@ -1,0 +1,1 @@
+{"2008":[],"2009":[],"2010":[],"2011":[],"2012":{"nb_visits":298,"nb_actions":603,"nb_visits_converted":236,"bounce_count":210,"sum_visit_length":89687,"max_actions":20,"bounce_rate":"70%","nb_actions_per_visit":2,"avg_time_on_site":"5 min 1s"}}

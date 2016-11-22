@@ -1,13 +1,16 @@
 {
     "Contents": {
-        "PluginDescription": "Met content en banner tracking meet je de prestaties (bezoeken, kliks, CTR) van elk stuk content op je website pagina (Banner ad, plaatje)",
-        "Impressions": "Impressies",
+        "PluginDescription": "Met content- en bannertracking meet je de prestaties (bezoeken, kliks, ctr) van elk stukje content op je webpagina (banner, tekstadvertentie, plaatje).",
+        "Impressions": "Vertoningen",
         "Interactions": "Interacties",
         "Interaction": "Interactie",
-        "InteractionRate": "Interactie aantal",
+        "InteractionRate": "Aantal interacties",
         "ContentName": "Content naam",
-        "ContentPiece": "Content onderdeel",
-        "ContentTarget": "Content doel",
-        "Contents": "Inhoudsopgave"
+        "ContentPiece": "Contentonderdeel",
+        "ContentTarget": "Contentdoel",
+        "Contents": "Contentbronnen",
+        "InteractionsMetricDocumentation": "Het aantal keer dat er interactie was met een contentbron (bijvoorbeeld een klik op een banner of advertentie).",
+        "ImpressionsMetricDocumentation": "Het aantal keer dat een contentbron, zoals een banner of een advertentie, was getoond op een pagina.",
+        "InteractionRateMetricDocumentation": "De verhouding tussen vertoningen en kliks."
     }
 }

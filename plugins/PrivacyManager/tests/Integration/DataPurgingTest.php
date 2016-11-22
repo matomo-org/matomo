@@ -23,6 +23,7 @@ use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
+use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tests\Framework\Fixture;
@@ -517,7 +518,7 @@ class DataPurgingTest extends IntegrationTestCase
     {
         $rawLogDao = new DataPurgingTest_RawLogDao(new DimensionMetadataProvider());
         $rawLogDao->insertActionsOlderThanCallback = array($this, 'addReferenceToUnusedAction');
-        $purger = new LogDataPurger(new LogDeleter($rawLogDao), $rawLogDao);
+        $purger = new LogDataPurger(new LogDeleter($rawLogDao, new LogTablesProvider()), $rawLogDao);
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",

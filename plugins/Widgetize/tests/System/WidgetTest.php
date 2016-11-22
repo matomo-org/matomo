@@ -174,18 +174,18 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Piwik Changelog',
-                'uniqueId' => 'widgetExampleRssWidgetrssChangelog',
+                'uniqueId' => 'widgetRssWidgetrssChangelog',
                 'parameters' =>
                     array (
-                        'module' => 'ExampleRssWidget',
+                        'module' => 'RssWidget',
                         'action' => 'rssChangelog',
                     ),
             ),array (
                 'name' => 'Piwik.org Blog',
-                'uniqueId' => 'widgetExampleRssWidgetrssPiwik',
+                'uniqueId' => 'widgetRssWidgetrssPiwik',
                 'parameters' =>
                     array (
-                        'module' => 'ExampleRssWidget',
+                        'module' => 'RssWidget',
                         'action' => 'rssPiwik',
                     ),
             ),array (
@@ -357,10 +357,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Browser engines',
-                'uniqueId' => 'widgetDevicesDetectiongetBrowserEnginesviewDataTablegraphPie',
+                'uniqueId' => 'widgetDevicesDetectiongetBrowserEngines',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                         'module' => 'DevicesDetection',
                         'action' => 'getBrowserEngines',
                     ),
@@ -414,19 +413,17 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Visits per visit duration',
-                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerVisitDurationviewDataTablecloud',
+                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerVisitDuration',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'cloud',
                         'module' => 'VisitorInterest',
                         'action' => 'getNumberOfVisitsPerVisitDuration',
                     ),
             ),array (
                 'name' => 'Visits per number of pages',
-                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerPageviewDataTablecloud',
+                'uniqueId' => 'widgetVisitorInterestgetNumberOfVisitsPerPage',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'cloud',
                         'module' => 'VisitorInterest',
                         'action' => 'getNumberOfVisitsPerPage',
                     ),
@@ -468,28 +465,25 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Visits per local time',
-                'uniqueId' => 'widgetVisitTimegetVisitInformationPerLocalTimeviewDataTablegraphVerticalBar',
+                'uniqueId' => 'widgetVisitTimegetVisitInformationPerLocalTime',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                         'module' => 'VisitTime',
                         'action' => 'getVisitInformationPerLocalTime',
                     ),
             ),array (
                 'name' => 'Visits per server time',
-                'uniqueId' => 'widgetVisitTimegetVisitInformationPerServerTimeviewDataTablegraphVerticalBar',
+                'uniqueId' => 'widgetVisitTimegetVisitInformationPerServerTime',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                         'module' => 'VisitTime',
                         'action' => 'getVisitInformationPerServerTime',
                     ),
             ),array (
                 'name' => 'Visits by Day of Week',
-                'uniqueId' => 'widgetVisitTimegetByDayOfWeekviewDataTablegraphVerticalBar',
+                'uniqueId' => 'widgetVisitTimegetByDayOfWeek',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                         'module' => 'VisitTime',
                         'action' => 'getByDayOfWeek',
                     ),
@@ -599,19 +593,17 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Referrer Types',
-                'uniqueId' => 'widgetReferrersgetReferrerTypeviewDataTabletableAllColumns',
+                'uniqueId' => 'widgetReferrersgetReferrerType',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                         'module' => 'Referrers',
                         'action' => 'getReferrerType',
                     ),
             ),array (
                 'name' => 'Referrers',
-                'uniqueId' => 'widgetReferrersgetAllviewDataTabletableAllColumns',
+                'uniqueId' => 'widgetReferrersgetAll',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                         'module' => 'Referrers',
                         'action' => 'getAll',
                     ),
@@ -641,10 +633,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Social Networks',
-                'uniqueId' => 'widgetReferrersgetSocialsviewDataTablegraphPie',
+                'uniqueId' => 'widgetReferrersgetSocials',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                         'module' => 'Referrers',
                         'action' => 'getSocials',
                     ),
@@ -765,10 +756,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Pie graph',
-                'uniqueId' => 'widgetExampleUIgetPlanetRatiosviewDataTablegraphPie',
+                'uniqueId' => 'widgetExampleUIgetPlanetRatios',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                         'module' => 'ExampleUI',
                         'action' => 'getPlanetRatios',
                     ),
@@ -784,10 +774,9 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Advanced tag cloud: with logos and links',
-                'uniqueId' => 'widgetExampleUIgetPlanetRatiosWithLogosviewDataTablecloud',
+                'uniqueId' => 'widgetExampleUIgetPlanetRatiosWithLogos',
                 'parameters' =>
                     array (
-                        'viewDataTable' => 'cloud',
                         'module' => 'ExampleUI',
                         'action' => 'getPlanetRatiosWithLogos',
                     )
@@ -994,6 +983,30 @@ class WidgetTest extends SystemTestCase
                     array (
                         'module' => 'Goals',
                         'action' => 'getItemsCategory',
+                    ),
+            ), array (
+                'name' => 'Latest Piwik Plugin Updates',
+                'uniqueId' => 'widgetMarketplacegetNewPlugins',
+                'parameters' =>
+                    array (
+                        'module' => 'Marketplace',
+                        'action' => 'getNewPlugins',
+                    ),
+            ), array (
+                'name' => 'System Check',
+                'uniqueId' => 'widgetInstallationgetSystemCheck',
+                'parameters' =>
+                    array (
+                        'module' => 'Installation',
+                        'action' => 'getSystemCheck',
+                    ),
+            ), array (
+                'name' => 'System Summary',
+                'uniqueId' => 'widgetCoreHomegetSystemSummary',
+                'parameters' =>
+                    array (
+                        'module' => 'CoreHome',
+                        'action' => 'getSystemSummary',
                     ),
             ),
         );
@@ -1330,38 +1343,29 @@ class WidgetTest extends SystemTestCase
                 ),
                 array (
                     'name' => 'Piwik.org Blog',
-                    'uniqueId' => 'widgetExampleRssWidgetrssPiwik',
+                    'uniqueId' => 'widgetRssWidgetrssPiwik',
                     'parameters' =>
                         array (
-                            'module' => 'ExampleRssWidget',
+                            'module' => 'RssWidget',
                             'action' => 'rssPiwik',
                         ),
                 ),
                 array (
                     'name' => 'Piwik Changelog',
-                    'uniqueId' => 'widgetExampleRssWidgetrssChangelog',
+                    'uniqueId' => 'widgetRssWidgetrssChangelog',
                     'parameters' =>
                         array (
-                            'module' => 'ExampleRssWidget',
+                            'module' => 'RssWidget',
                             'action' => 'rssChangelog',
                         ),
                 ),
                 array (
-                    'name' => 'Piwik PRO Blog',
-                    'uniqueId' => 'widgetPiwikProrssPiwikPro',
+                    'name' => 'Premium Products & Services for Piwik',
+                    'uniqueId' => 'widgetProfessionalServicespromoServices',
                     'parameters' =>
                         array (
-                            'module' => 'PiwikPro',
-                            'action' => 'rssPiwikPro',
-                        ),
-                ),
-                array (
-                    'name' => 'Piwik PRO: Advanced Analytics & Services',
-                    'uniqueId' => 'widgetPiwikPropromoPiwikProPiwikPro',
-                    'parameters' =>
-                        array (
-                            'module' => 'PiwikPro',
-                            'action' => 'promoPiwikPro',
+                            'module' => 'ProfessionalServices',
+                            'action' => 'promoServices',
                         ),
                 )
         );

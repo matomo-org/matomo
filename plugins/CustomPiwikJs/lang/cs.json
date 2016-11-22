@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Zapisovatelný JavaScript záznam (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Piwik JavaScript záznam \"\/piwik.js\" není zapisovatelný, což znamená, že ostatní zásuvné moduly nemohou tento JavaScript záznam rozšiřovat. V budoucnosti mohou být z tohoto důvodu omezeny i další hlavní služby.",
+        "DiagnosticPiwikJsMakeWritable": "Doporučujeme povolit zápis do Piwik.js například pomocí příkazu: %s"
+    }
+}

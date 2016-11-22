@@ -205,7 +205,7 @@ class WidgetsList
          *
          * **Example**
          *
-         *     public function addWidgetConfigs(Piwik\Widget\WidgetsList $list)
+         *     public function removeWidgetConfigs(Piwik\Widget\WidgetsList $list)
          *     {
          *         $list->remove($category='General_Visits'); // remove all widgets having this category
          *     }

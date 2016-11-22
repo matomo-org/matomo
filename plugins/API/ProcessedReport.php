@@ -109,7 +109,7 @@ class ProcessedReport
 
     public function getReportMetadataByUniqueId($idSite, $apiMethodUniqueId)
     {
-        $metadata = $this->getReportMetadata(array($idSite));
+        $metadata = $this->getReportMetadata($idSite);
 
         foreach ($metadata as $report) {
             if ($report['uniqueId'] == $apiMethodUniqueId) {
@@ -148,23 +148,20 @@ class ProcessedReport
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
-     * @param string $idSites Comma separated list of website Ids
+     * @param int $idSite
      * @param bool|string $period
      * @param bool|Date $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
      * @return array
      */
-    public function getReportMetadata($idSites, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
+    public function getReportMetadata($idSite, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
-        if (!empty($idSites)) {
-            Piwik::checkUserHasViewAccess($idSites);
-        }
+        Piwik::checkUserHasViewAccess($idSite);
 
         // as they cache key contains a lot of information there would be an even better cache result by caching parts of
         // this huge method separately but that makes it also more complicated. leaving it like this for now.
-        $key   = $this->buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $key   = $this->buildReportMetadataCacheKey($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
         $key   = CacheId::pluginAware($key);
         $cache = PiwikCache::getTransientCache();
 
@@ -172,7 +169,7 @@ class ProcessedReport
             return $cache->fetch($key);
         }
 
-        $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
+        $parameters = array('idSite' => $idSite, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
 
@@ -721,7 +718,7 @@ class ProcessedReport
         return null;
     }
 
-    private function buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports)
+    private function buildReportMetadataCacheKey($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports)
     {
         if (isset($_GET) && isset($_POST) && is_array($_GET) && is_array($_POST)) {
             $request = $_GET + $_POST;
@@ -742,7 +739,7 @@ class ProcessedReport
             }
         }
 
-        $key .= implode(',', $idSites) . ($period === false ? 0 : $period) . ($date === false ? 0 : $date);
+        $key .= $idSite . 'x' . ($period === false ? 0 : $period) . 'x' . ($date === false ? 0 : $date);
         $key .= (int)$hideMetricsDoc . (int)$showSubtableReports . Piwik::getCurrentUserLogin();
         return 'reportMetadata' . md5($key);
     }
@@ -793,7 +790,7 @@ class ProcessedReport
         // Add % symbol to rates
         if (strpos($columnName, '_rate') !== false) {
             if (strpos($value, "%") === false) {
-                return $value . "%";
+                return (100 * $value) . "%";
             }
         }
 

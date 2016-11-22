@@ -16,6 +16,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.023</avg_time_generation>
+		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://example.org/index.htm</url>
 	</row>
 </result>

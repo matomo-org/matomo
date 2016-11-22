@@ -70,6 +70,7 @@ class ReleaseChannels
 
     /**
      * Sets the given release channel in config but does not save id. $config->forceSave() still needs to be called
+     * @internal tests only
      * @param string $channel
      */
     public function setActiveReleaseChannelId($channel)

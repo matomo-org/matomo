@@ -11,11 +11,11 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
-use Piwik\Version;
 use Piwik\Plugin;
-use Symfony\Component\Console\Input\ArrayInput;
+use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -52,7 +52,7 @@ class GeneratePlugin extends GeneratePluginBase
                 'ExampleTheme'       => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                '3.0.0-b1'           => Version::VERSION
             );
             $whitelistFiles = array();
 
@@ -63,18 +63,23 @@ class GeneratePlugin extends GeneratePluginBase
                 'ExamplePlugin'      => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                'PIWIK_VERSION'      => Version::VERSION
+                '3.0.0-b1'           => Version::VERSION
             );
             $whitelistFiles = array(
                 '/ExamplePlugin.php',
                 '/plugin.json',
                 '/README.md',
+                '/CHANGELOG.md',
                 '/screenshots',
                 '/screenshots/.gitkeep',
+                '/docs',
+                '/docs/faq.md',
+                '/docs/index.md',
             );
         }
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, new NullOutput());
 
         if ($isTheme) {
             $this->writeSuccessMessage($output, array(

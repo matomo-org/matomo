@@ -78,25 +78,6 @@ class Manager
         /** @var string[] $visualizations */
         $visualizations = PluginManager::getInstance()->findMultipleComponents('Visualizations', $klassToExtend);
 
-        /**
-         * Triggered when gathering all available DataTable visualizations.
-         *
-         * Plugins that want to expose new DataTable visualizations should subscribe to
-         * this event and add visualization class names to the incoming array.
-         *
-         * **Example**
-         *
-         *     public function addViewDataTable(&$visualizations)
-         *     {
-         *         $visualizations[] = 'Piwik\\Plugins\\MyPlugin\\MyVisualization';
-         *     }
-         *
-         * @param array &$visualizations The array of all available visualizations.
-         * @ignore
-         * @deprecated since 2.5.0 Place visualization in a "Visualizations" directory instead.
-         */
-        Piwik::postEvent('ViewDataTable.addViewDataTable', array(&$visualizations));
-
         $result = array();
 
         foreach ($visualizations as $viz) {
@@ -116,6 +97,24 @@ class Manager
 
             $result[$vizId] = $viz;
         }
+
+        /**
+         * Triggered to filter available DataTable visualizations.
+         *
+         * Plugins that want to disable certain visualizations should subscribe to
+         * this event and remove visualizations from the incoming array.
+         *
+         * **Example**
+         *
+         *     public function filterViewDataTable(&$visualizations)
+         *     {
+         *         unset($visualizations[HtmlTable::ID]);
+         *     }
+         *
+         * @param array &$visualizations An array of all available visualizations indexed by visualization ID.
+         * @since Piwik 3.0.0
+         */
+        Piwik::postEvent('ViewDataTable.filterViewDataTable', array(&$result));
 
         $cache->save($cacheId, $result);
 
@@ -369,7 +368,7 @@ class Manager
         if ($view->config->show_goals) {
             $goalButton = static::getFooterIconFor(Goals::ID);
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
-                $goalButton['icon'] = 'plugins/Morpheus/images/ecommerceOrder.gif';
+                $goalButton['icon'] = 'icon-ecommerce-order';
             }
 
             $normalViewIcons['buttons'][] = $goalButton;
@@ -379,14 +378,14 @@ class Manager
             $normalViewIcons['buttons'][] = array(
                 'id' => 'ecommerceOrder',
                 'title' => Piwik::translate('General_EcommerceOrders'),
-                'icon' => 'plugins/Morpheus/images/ecommerceOrder.gif',
+                'icon' => 'icon-ecommerce-order',
                 'text' => Piwik::translate('General_EcommerceOrders')
             );
 
             $normalViewIcons['buttons'][] = array(
                 'id' => 'ecommerceAbandonedCart',
                 'title' => Piwik::translate('General_AbandonedCarts'),
-                'icon' => 'plugins/Morpheus/images/ecommerceAbandonedCart.gif',
+                'icon' => 'icon-ecommerce-abandoned-cart',
                 'text' => Piwik::translate('General_AbandonedCarts')
             );
         }
@@ -400,7 +399,7 @@ class Manager
     {
         // add graph views
         $graphViewIcons = array(
-            'class'   => 'tableGraphViews tableGraphCollapsed',
+            'class'   => 'tableGraphViews',
             'buttons' => array(),
         );
 

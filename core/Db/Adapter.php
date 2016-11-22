@@ -69,7 +69,7 @@ class Adapter
     {
         $className = 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($adapterName))));
         if (!class_exists($className)) {
-            throw new \Exception("Adapter $adapterName is not valid.");
+            throw new \Exception(sprintf("Adapter '%s' is not valid. Maybe check that your Piwik configuration files in config/*.ini.php are readable by the webserver.", $adapterName));
         }
         return $className;
     }
@@ -118,5 +118,15 @@ class Adapter
         }
 
         return $adapters;
+    }
+
+    /**
+     * Checks if the available adapters are recommended by Piwik or not.
+     * @param string $adapterName
+     * @return bool
+     */
+    public static function isRecommendedAdapter($adapterName)
+    {
+        return strtolower($adapterName) === 'pdo/mysql';
     }
 }

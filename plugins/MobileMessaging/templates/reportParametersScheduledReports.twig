@@ -1,62 +1,30 @@
+{% import '@MobileMessaging/macros.twig' as macro %}
 
-<tr class='{{ reportType }}'>
-    <td class="first">
-    {{ 'MobileMessaging_PhoneNumbers'|translate }}
-    </td>
-    <td>
-    <div class="entityInlineHelp">
-    {% if phoneNumbers|length == 0 %}
-        <div><span class="icon-info"></span> {{ 'MobileMessaging_MobileReport_NoPhoneNumbers'|translate }}
-    {% else %}
-        <ul class="clearfix">
-        {% for phoneNumber in phoneNumbers %}
-            <li class="clear"><label><input name='phoneNumbers' type='checkbox' id='{{ phoneNumber }}'/>{{ phoneNumber }}</label></li>
-        {% endfor %}
-        </ul>
-        <div><span class="icon-info"></span> {{ 'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate }}
-    {% endif %}
-        <a href="{{ linkTo({'module':"MobileMessaging", 'action': 'index', 'updated':null}) }}">{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a></div>
-    </div>
-    <script>
-    $(function () {
-        resetReportParametersFunctions ['{{ reportType }}'] = function () {
-            var reportParameters = {
-            'phoneNumbers': []
-            };
-            updateReportParametersFunctions['{{ reportType }}'](reportParameters);
-        };
+<div ng-show="manageScheduledReport.report.type == 'mobile'">
+    {{ macro.selectPhoneNumbers(phoneNumbers, 'manageScheduledReport', '', true) }}
+</div>
 
-        updateReportParametersFunctions['{{ reportType }}'] = function (reportParameters) {
+<script>
+$(function () {
+    resetReportParametersFunctions['mobile'] = function (report) {
+        report.phoneNumbers = [];
+        report.formatmobile = 'sms';
+    };
 
-            if (reportParameters == null) return;
+    updateReportParametersFunctions['mobile'] = function (report) {
+        if (report.parameters && report.parameters.phoneNumbers) {
+            report.phoneNumbers = report.parameters.phoneNumbers;
+        }
+        report.formatmobile = 'sms';
+    };
 
-            $('[name=phoneNumbers]').removeProp('checked');
-            $(reportParameters.phoneNumbers).each(function (index, phoneNumber) {
-            $('#\\' + phoneNumber).prop('checked', 'checked');
-            });
+    getReportParametersFunctions['mobile'] = function (report) {
+        var parameters = {};
 
-            $(document).trigger('ScheduledReport.edit', {});
+        // returning [''] when no phone numbers are selected avoids the "please provide a value for 'parameters'" error message
+        parameters.phoneNumbers = report.phoneNumbers && report.phoneNumbers.length > 0 ? report.phoneNumbers : [''];
 
-        };
-
-        getReportParametersFunctions['{{ reportType }}'] = function () {
-            var parameters = Object();
-            var selectedPhoneNumbers = $.map(
-                $('[name=phoneNumbers]').filter(function() {
-                    return !this.disabled && this.checked;
-                }),
-                function (phoneNumber) {
-                    return $(phoneNumber).attr('id');
-                }
-            );
-
-            // returning [''] when no phone numbers are selected avoids the "please provide a value for 'parameters'" error message
-            parameters.phoneNumbers = selectedPhoneNumbers.length > 0 ? selectedPhoneNumbers : [''];
-
-            return parameters;
-        };
-    });
-    </script>
-
-    </td>
-</tr>
+        return parameters;
+    };
+});
+</script>

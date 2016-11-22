@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Schreibbarer JavaScript-Tracker (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Die Piwik-JavaScript-Tracker-Datei \"\/piwik.js\" ist nicht beschreibbar, das bedeutet, dass andere Plugins können den JavaScript-Tracker nicht benutzen. In Zukunft werden sogar einige Kernfunktionen nicht wie erwartet funktionieren.",
+        "DiagnosticPiwikJsMakeWritable": "Wir empfehlen, Piwik.js beschreibbar zu machen, indem Sie folgenden Befehl ausführen: %s"
+    }
+}

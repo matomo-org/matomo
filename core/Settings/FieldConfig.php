@@ -17,67 +17,68 @@ namespace Piwik\Settings;
 class FieldConfig
 {
     /**
-     * Shows a radio field
+     * Shows a radio field. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_RADIO = 'radio';
 
     /**
-     * Shows a text field
+     * Shows a text field. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_TEXT = 'text';
 
     /**
-     * Shows a text area
+     * Shows a text area. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_TEXTAREA = 'textarea';
 
     /**
-     * Shows a checkbox
+     * Shows a checkbox. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_CHECKBOX = 'checkbox';
 
     /**
-     * Shows a password field
+     * Shows a password field. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_PASSWORD = 'password';
 
     /**
-     * Shows a select field where a user can select multiple values. The type "Array" is required for this ui control.
+     * Shows a select field where a user can select multiple values.
+     * The type "Array" is required for this ui control. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_MULTI_SELECT = 'multiselect';
 
     /**
-     * Shows a select field
+     * Shows a select field. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_SINGLE_SELECT = 'select';
 
     /**
-     * Generates a hidden form field
+     * Generates a hidden form field. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_HIDDEN = 'hidden';
 
     /**
-     * Expects an integer value
+     * Expects an integer value. Is usually used when creating a setting.
      */
     const TYPE_INT = 'integer';
 
     /**
-     * Expects a float value
+     * Expects a float value. Is usually used when creating a setting.
      */
     const TYPE_FLOAT = 'float';
 
     /**
-     * Expects a string
+     * Expects a string. Is usually used when creating a setting.
      */
     const TYPE_STRING = 'string';
 
     /**
-     * Expects a boolean
+     * Expects a boolean. Is usually used when creating a setting.
      */
     const TYPE_BOOL = 'boolean';
 
     /**
-     * Expects an array containing multiple values
+     * Expects an array containing multiple values.
      */
     const TYPE_ARRAY = 'array';
 

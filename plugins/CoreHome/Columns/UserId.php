@@ -81,9 +81,11 @@ class UserId extends VisitDimension
             $period = 'day';
         }
 
-        foreach ($idSites as $idSite) {
-            if ($this->isUsedInSiteCached($idSite, $period, $date)) {
-                return true;
+        if (!empty($idSites)) {
+            foreach ($idSites as $idSite) {
+                if ($this->isUsedInSiteCached($idSite, $period, $date)) {
+                    return true;
+                }
             }
         }
 

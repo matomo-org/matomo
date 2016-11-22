@@ -37,6 +37,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('skip-delete-assets', null, InputOption::VALUE_NONE, "Skip deleting of merged assets (will speed up a test run, but not by a lot).");
         $this->addOption('screenshot-repo', null, InputOption::VALUE_NONE, "For tests");
         $this->addOption('store-in-ui-tests-repo', null, InputOption::VALUE_NONE, "For tests");
+        $this->addOption('debug', null, InputOption::VALUE_NONE, "Enable phantomjs debugging");
         $this->addOption('extra-options', null, InputOption::VALUE_REQUIRED, "Extra options to pass to phantomjs.");
     }
 
@@ -54,6 +55,7 @@ class TestsRunUI extends ConsoleCommand
         $extraOptions = $input->getOption('extra-options');
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
+        $debug = $input->getOption('debug');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -62,6 +64,7 @@ class TestsRunUI extends ConsoleCommand
         $this->writeJsConfig();
 
         $options = array();
+        $phantomJsOptions = array();
         if ($persistFixtureData) {
             $options[] = "--persist-fixture-data";
         }
@@ -98,15 +101,20 @@ class TestsRunUI extends ConsoleCommand
             $options[] = "--screenshot-repo";
         }
 
+        if ($debug) {
+            $phantomJsOptions[] = "--debug=true";
+        }
+
         if ($extraOptions) {
             $options[] = $extraOptions;
         }
 
         $options = implode(" ", $options);
+        $phantomJsOptions = implode(" ", $phantomJsOptions);
 
         $specs = implode(" ", $specs);
 
-        $cmd = "phantomjs '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        $cmd = "phantomjs " . $phantomJsOptions . " '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');

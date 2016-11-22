@@ -94,17 +94,24 @@ class Http
                                            $httpPassword = null)
     {
         // create output file
-        $file = null;
+        $file = self::ensureDestinationDirectoryExists($destinationPath);
+
+        $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
+        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod, $httpUsername, $httpPassword);
+    }
+
+    public static function ensureDestinationDirectoryExists($destinationPath)
+    {
         if ($destinationPath) {
-            // Ensure destination directory exists
             Filesystem::mkdir(dirname($destinationPath));
             if (($file = @fopen($destinationPath, 'wb')) === false || !is_resource($file)) {
                 throw new Exception('Error while creating the file: ' . $destinationPath);
             }
+
+            return $file;
         }
 
-        $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
-        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod, $httpUsername, $httpPassword);
+        return null;
     }
 
     /**

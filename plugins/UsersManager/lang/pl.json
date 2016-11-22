@@ -15,7 +15,6 @@
         "ExceptionEditAnonymous": "Konto użytkownika anonimowego nie może być zmienione czy skasowane. Jest stosowane przez Piwik by zdefiniować użytkownika, który się nie loguje. Dla przykładu, możesz uczynić swoje statystyki powszechnie publiczne, udzielając prawa 'podglądu' dla 'anonimowego' użytkownika.",
         "ExceptionEmailExists": "Użytkownik z takim adresem e-mail '%s' już istnieje.",
         "ExceptionInvalidEmail": "Adres e-mail nie posiada poprawnego formatu.",
-        "ExceptionInvalidPassword": "Długość hasła powinien zawierać od %1$s do %2$s znaków.",
         "ExceptionPasswordMD5HashExpected": "Metoda UsersManager.getTokenAuth oczekuje hasła z hashem MD5 (łańcuch o długości 32 znaków). Wywołaj funkcję md5() z parametrem hasła, by wygenerować hash przed wywołaniem tej metody.",
         "ExceptionUserDoesNotExist": "Użytkownik '%s' nie istnieje.",
         "ExcludeVisitsViaCookie": "Wyklucz swoje wizyty stosując ciasteczka cookie",

@@ -10,7 +10,7 @@ namespace Piwik\Tests\Integration\Settings\Storage;
 
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Storage\Backend\Cache;
-use Piwik\Settings\Storage\Backend\Null;
+use Piwik\Settings\Storage\Backend\NullBackend;
 use Piwik\Settings\Storage\Backend\SitesTable;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
@@ -83,7 +83,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertTrue($storage instanceof Storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof Null);
+        $this->assertTrue($backend instanceof NullBackend);
         $this->assertSame('measurableSettings0#PluginNameFoo#nonpersistent', $backend->getStorageId());
     }
 
@@ -112,7 +112,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertTrue($storage instanceof Storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof Null);
+        $this->assertTrue($backend instanceof NullBackend);
         $this->assertSame('sitesTable#0#nonpersistent', $backend->getStorageId());
     }
 
@@ -122,7 +122,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertTrue($storage instanceof Storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof Null);
+        $this->assertTrue($backend instanceof NullBackend);
         $this->assertSame('myKey', $backend->getStorageId());
     }
 
@@ -132,7 +132,7 @@ class FactoryTest extends IntegrationTestCase
         $storage = $this->factory->getNonPersistentStorage('anykey');
         SettingsServer::setIsNotTrackerApiRequest();
 
-        $this->assertTrue($storage->getBackend() instanceof Null);
+        $this->assertTrue($storage->getBackend() instanceof NullBackend);
     }
 
     public function test_getNonPersistentStorage_shouldNotUseCache()

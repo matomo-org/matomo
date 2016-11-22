@@ -5,7 +5,6 @@
         "AnonymizeIpExtendedHelp": "Kada korisnik poseti vaš sajt, Piwik neće koristiti punu IP adresu (poput %1$s) već će je anonimizirati (u %2$s). Anonimizacija IP adresa je jedan od zahteva koje su postavili zakoni o zaštit privatnosti u zemljama poput Nemačke.",
         "AnonymizeIpMaskLengtDescription": "Izaberite koliko bajtova IP adrese treba da bude maskirano",
         "AnonymizeIpMaskLength": "%1$s bajt(ova) - npr. %2$s",
-        "CannotLockSoDeleteLogActions": "Tabela log_action ne može biti očišćena. Potrebno je da MYSQL korisnik '%s' ima privilegiju LOCK TABLES",
         "ClickHereSettings": "Kliknite ovde kako biste pristupili %s podešavanjima.",
         "CurrentDBSize": "Trenutna veličina baze",
         "DBPurged": "Baza je očišćena",

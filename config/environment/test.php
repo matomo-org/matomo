@@ -41,8 +41,15 @@ return array(
         $testUseMockAuth = $c->get('test.vars.testUseMockAuth');
         if ($testUseMockAuth) {
             $idSitesAdmin = $c->get('test.vars.idSitesAdminAccess');
+            $idSitesView = $c->get('test.vars.idSitesViewAccess');
             $access = new FakeAccess();
-            if (!empty($idSitesAdmin)) {
+
+            if (!empty($idSitesView)) {
+                FakeAccess::$superUser = false;
+                FakeAccess::$idSitesView = $idSitesView;
+                FakeAccess::$idSitesAdmin = !empty($idSitesAdmin) ? $idSitesAdmin : array();
+                FakeAccess::$identity = 'viewUserLogin';
+            } elseif (!empty($idSitesAdmin)) {
                 FakeAccess::$superUser = false;
                 FakeAccess::$idSitesAdmin = $idSitesAdmin;
                 FakeAccess::$identity = 'adminUserLogin';

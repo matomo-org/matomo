@@ -38,7 +38,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
         $ecommerce = false;
 
         Fixture::createWebsite($date, $ecommerce, $name = 'test1', $url = 'http://piwik.org/');
-        Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.pro/');
+        Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.xyz/');
 
         $this->keyword = new Keyword();
     }

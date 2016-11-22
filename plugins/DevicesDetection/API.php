@@ -56,7 +56,7 @@ class API extends \Piwik\Plugin\API
         $mapping = DeviceParserAbstract::getAvailableDeviceTypeNames();
         $dataTable->filter('AddSegmentByLabelMapping', array('deviceType', $mapping));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
         return $dataTable;
     }
 
@@ -94,7 +94,7 @@ class API extends \Piwik\Plugin\API
     public function getBrand($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_brands', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceBrandLabel'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getDeviceBrandLabel'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrandLogo'));
         $dataTable->filter('AddSegmentByLabel', array('deviceBrand'));
         return $dataTable;
@@ -111,7 +111,7 @@ class API extends \Piwik\Plugin\API
     public function getModel($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_models', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getModelName'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getModelName'));
         return $dataTable;
     }
 

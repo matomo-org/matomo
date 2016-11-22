@@ -234,7 +234,7 @@ class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResponse, $response);
     }
 
-    public function test_getResponse_shouldNotApplyLimit_IfLimitIsDefaultFilterLimitValueAndSetBySystem()
+    public function test_getResponse_shouldAlwaysApplyDefaultFilterLimit_EvenWhenResponseIsAnArray()
     {
         $input = range(0, 200);
         $limit = Config::getInstance()->General['API_datatable_default_limit'];
@@ -246,7 +246,7 @@ class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
             'filter_offset' => 0));
         $response = $builder->getResponse($input);
 
-        $this->assertEquals(range(0, 200), $response);
+        $this->assertEquals(range(0, 99), $response);
     }
 
     public function test_getResponse_shouldApplyLimit_IfLimitIsSetBySystemButDifferentToDefaultLimit()
@@ -272,10 +272,11 @@ class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertLimitedResponseEquals($expected, $input, $limit = 15, $offset = 30);
     }
 
-    public function test_getResponse_shouldNotApplyFilterOffsetOnIndexedArray_IfNoFilterLimitIsSetButOffset()
+    public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfNoFilterLimitIsSetButOffset()
     {
         $input = range(0, 100);
-        $this->assertLimitedResponseEquals($input, $input, $limit = null, $offset = 30);
+        $expected = range(30, 100);
+        $this->assertLimitedResponseEquals($expected, $input, $limit = null, $offset = 30);
     }
 
     public function test_getResponse_shouldReturnEmptyArrayOnIndexedArray_IfFilterLimitIsZero()
@@ -284,10 +285,11 @@ class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertLimitedResponseEquals($expected = array(), $input, $limit = 0, $offset = 30);
     }
 
-    public function test_getResponse_shouldIgnoreFilterOffsetOnIndexedArray_IfFilterLimitIsMinusOne()
+    public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfFilterLimitIsMinusOne()
     {
         $input = range(0, 100);
-        $this->assertLimitedResponseEquals($input, $input, $limit = -1, $offset = 30);
+        $expected = range(30, 100);
+        $this->assertLimitedResponseEquals($expected, $input, $limit = -1, $offset = 30);
     }
 
     public function test_getResponse_shouldReturnAllOnIndexedArray_IfFilterLimitIsMinusOne()

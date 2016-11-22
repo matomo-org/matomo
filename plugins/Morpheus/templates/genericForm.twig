@@ -14,23 +14,31 @@
     {{ form_data.hidden|join|raw }}
 
     {% for fieldname in element_list %}
-    {% if form_data[fieldname] is defined %}
-            <div class="form-group">
-                {% if form_data[fieldname].type == 'checkbox' %}
-                    <label class="checkbox">
+        {% if form_data[fieldname] is defined %}
+            <div class="row form-group">
+                <div class="col s12 m12 l6">
+                    {% if form_data[fieldname].type == 'checkbox' %}
+                        <label class="checkbox">
+                            {{ form_data[fieldname].html|raw }}
+                        </label>
+                    {% elseif form_data[fieldname].label %}
+                        <label>
+                            {{ form_data[fieldname].label|raw }}
+                        </label>
                         {{ form_data[fieldname].html|raw }}
-                    </label>
-                {% elseif form_data[fieldname].label %}
-                    <label>
-                        {{ form_data[fieldname].label|raw }}
-                    </label>
-                    {{ form_data[fieldname].html|raw }}
-                {% elseif form_data[fieldname].type == 'hidden' %}
-                    {{ form_data[fieldname].html|raw }}
-                {% endif %}
-		</div>
-    {% endif %}
+                    {% elseif form_data[fieldname].type == 'hidden' %}
+                        {{ form_data[fieldname].html|raw }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
     {% endfor %}
 
-	{{ form_data.submit.html|raw }}
+    {% if form_data.submit.html %}
+        <div class="row">
+            <div class="col s12">
+                {{ form_data.submit.html|raw }}
+            </div>
+        </div>
+    {% endif %}
 </form>

@@ -60,6 +60,11 @@ abstract class Archiver
     private $processor;
 
     /**
+     * @var bool
+     */
+    private $enabled;
+
+    /**
      * Constructor.
      *
      * @param ArchiveProcessor $processor The ArchiveProcessor instance to use when persisting archive
@@ -69,6 +74,7 @@ abstract class Archiver
     {
         $this->maximumRows = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processor;
+        $this->enabled = true;
     }
 
     /**
@@ -121,6 +127,11 @@ abstract class Archiver
         return $this->getProcessor()->getLogAggregator();
     }
 
+    public function disable()
+    {
+        $this->enabled = false;
+    }
+
     /**
      * Whether this Archiver should be used or not.
      *
@@ -128,6 +139,6 @@ abstract class Archiver
      */
     public function isEnabled()
     {
-        return true;
+        return $this->enabled;
     }
 }

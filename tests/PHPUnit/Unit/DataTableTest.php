@@ -308,6 +308,73 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($subtable, $row1->getIdSubDataTable());
     }
 
+    public function testSumRowMetadata_CustomAggregationOperation()
+    {
+        $metadata1 = array('mytest' => 'value1');
+        $metadata2 = array('mytest' => 'value2');
+
+        $self = $this;
+        $row1 = new Row(array(Row::COLUMNS => array('test_int' => 145), Row::METADATA => $metadata1));
+        $finalRow = new Row(array(Row::COLUMNS => array('test_int' => 5), Row::METADATA => $metadata2));
+        $finalRow->sumRowMetadata($row1, array('mytest' => function ($thisValue, $otherValue, $thisRow, $otherRow) use ($self, $row1, $finalRow) {
+            $self->assertEquals('value2', $thisValue);
+            $self->assertEquals('value1', $otherValue);
+            $self->assertSame($thisRow, $finalRow);
+            $self->assertSame($otherRow, $row1);
+
+            if (!is_array($thisValue)) {
+                $thisValue = array($thisValue);
+            }
+
+            $thisValue[] = $otherValue;
+            return $thisValue;
+        }));
+
+        $this->assertEquals(array('value2', 'value1'), $finalRow->getMetadata('mytest'));
+    }
+
+    public function testSumRow_CustomAggregationOperation()
+    {
+        $columns = array('test_int' => 145, 'test_float' => 145.5);
+
+        $row1 = new Row(array(Row::COLUMNS => $columns));
+
+        $columns2 = array('test_int' => 5);
+        $finalRow = new Row(array(Row::COLUMNS => $columns2));
+
+
+        $self = $this;
+
+        $finalRow->sumRow($row1, $copyMetadata = true, $operation = array('test_int' => function ($thisValue, $otherValue, $thisRow, $otherRow) use ($self, $row1, $finalRow) {
+            $self->assertEquals(5, $thisValue);
+            $self->assertEquals(145, $otherValue);
+            $self->assertSame($thisRow, $finalRow);
+            $self->assertSame($otherRow, $row1);
+
+            if (!is_array($thisValue)) {
+                $thisValue = array($thisValue);
+            }
+
+            $thisValue[] = $otherValue;
+            return $thisValue;
+        }));
+
+        $this->assertEquals(array(5, 145), $finalRow->getColumn('test_int'));
+    }
+
+    /**
+     * @expectedException  \Exception
+     * @expectedExceptionMessage Unknown operation 'foobarinvalid'
+     */
+    public function testSumRow_ShouldThrowExceptionIfInvalidOperationIsGiven()
+    {
+        $row1 = new Row(array(Row::COLUMNS => array('test_int' => 145)));
+        $finalRow = new Row(array(Row::COLUMNS => array('test_int' => 5)));
+        $finalRow->sumRow($row1, $copyMetadata = true, $operation = array('test_int' => 'fooBarInvalid'));
+
+        $this->assertEquals(array(5, 145), $finalRow->getColumn('test_int'));
+    }
+
     public function unserializeTestsDataProvider()
     {
         return array(

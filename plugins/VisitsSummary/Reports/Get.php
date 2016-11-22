@@ -41,7 +41,7 @@ class Get extends \Piwik\Plugin\Report
             new ActionsPerVisit(),
             new AverageTimeOnSite()
         );
-        $this->metrics       = array(
+        $this->metrics = array(
             'nb_uniq_visitors',
             'nb_visits',
             $this->usersColumn,
@@ -181,7 +181,7 @@ class Get extends \Piwik\Plugin\Report
         }
 
         $userId = new UserId();
-        if ($userId->isUsedInAtLeastOneSite($currentIdSite, $currentPeriod, $currentDate)) {
+        if ($userId->isUsedInAtLeastOneSite(array($currentIdSite), $currentPeriod, $currentDate)) {
             $view->config->addSparklineMetric(array('nb_users'), 30);
             $view->config->addPlaceholder(31);
         }

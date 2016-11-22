@@ -17,7 +17,8 @@
                 action: 'getAnnotationManager',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;
@@ -102,7 +103,8 @@
                 action: 'getEvolutionIcons',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;
@@ -502,6 +504,7 @@
 
                 // reload annotation manager for new date/period
                 annotationsApi.getAnnotationManager(idSite, date, period, lastN, function (response) {
+
                     replaceAnnotationManager(manager, response);
 
                     createDatePickers(manager);

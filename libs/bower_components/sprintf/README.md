@@ -11,8 +11,8 @@ The placeholders in the format string are marked by `%` and are followed by one 
 * An optional `+` sign that forces to preceed the result with a plus or minus sign on numeric values. By default, only the `-` sign is used on negative numbers.
 * An optional padding specifier that says what character to use for padding (if specified). Possible values are `0` or any other character precedeed by a `'` (single quote). The default is to pad with *spaces*.
 * An optional `-` sign, that causes sprintf to left-align the result of this placeholder. The default is to right-align the result.
-* An optional number, that says how many characters the result should have. If the value to be returned is shorter than this number, the result will be padded.
-* An optional precision modifier, consisting of a `.` (dot) followed by a number, that says how many digits should be displayed for floating point numbers. When used on a string, it causes the result to be truncated.
+* An optional number, that says how many characters the result should have. If the value to be returned is shorter than this number, the result will be padded. When used with the `j` (JSON) type specifier, the padding length specifies the tab size used for indentation.
+* An optional precision modifier, consisting of a `.` (dot) followed by a number, that says how many digits should be displayed for floating point numbers. When used with the `g` type specifier, it specifies the number of significant digits. When used on a string, it causes the result to be truncated.
 * A type specifier that can be any of:
     * `%` — yields a literal `%` character
     * `b` — yields an integer as a binary number
@@ -20,11 +20,13 @@ The placeholders in the format string are marked by `%` and are followed by one 
     * `d` or `i` — yields an integer as a signed decimal number
     * `e` — yields a float using scientific notation
     * `u` — yields an integer as an unsigned decimal number
-    * `f` — yields a float as is
+    * `f` — yields a float as is; see notes on precision above
+    * `g` — yields a float as is; see notes on precision above
     * `o` — yields an integer as an octal number
     * `s` — yields a string as is
     * `x` — yields an integer as a hexadecimal number (lower-case)
     * `X` — yields an integer as a hexadecimal number (upper-case)
+    * `j` — yields a JavaScript object or array as a JSON encoded string
 
 ## JavaScript `vsprintf`
 `vsprintf` is the same as `sprintf` except that it accepts an array of arguments, rather than a variable number of arguments:
@@ -80,3 +82,7 @@ You can now use `sprintf` and `vsprintf` (also aliased as `fmt` and `vfmt` respe
 
     sprintf("%2$s %3$s a %1$s", "cracker", "Polly", "wants")
     vsprintf("The first 4 letters of the english alphabet are: %s, %s, %s and %s", ["a", "b", "c", "d"])
+
+# License
+
+**sprintf.js** is licensed under the terms of the 3-clause BSD license.

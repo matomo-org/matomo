@@ -12,13 +12,15 @@
         "LoginOrEmail": "Username or E-mail",
         "LoginPasswordNotCorrect": "Wrong Username and password combination.",
         "LostYourPassword": "Lost your password?",
+        "ChangeYourPassword": "Change your password",
         "MailPasswordChangeBody": "Hi %1$s,\n\nA password reset request was received from %2$s. To confirm this password change so you can login with your new credentials, visit the following link:\n\n%3$s\n\nAttention: Changing the password will also change your token_auth. You can look up your new token_auth on your settings page.\n\nIf you are using your API token_auth in any external applications or for archiving, make sure to update the token_auth as requests to the API will fail otherwise.\n\nNote: this link will expire in 24 hours.\n\nAnd thank you for using Piwik!",
         "MailTopicPasswordChange": "Confirm Password Change",
+        "NewPassword": "New password",
+        "NewPasswordRepeat": "New password (repeat)",
         "PasswordChanged": "Your password has been changed.",
         "PasswordRepeat": "Password (repeat)",
         "PasswordsDoNotMatch": "Passwords do not match.",
         "PluginDescription": "Provides authentication via username and password as well as password reset functionality. Authentication method can be changed by using another Login plugin such as LoginLdap available on the Marketplace.",
-        "RememberMe": "Remember Me",
-        "ResetPasswordInstructions": "Enter a new password for your account."
+        "RememberMe": "Remember Me"
     }
 }

@@ -12,6 +12,8 @@ namespace Piwik;
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\MissingFilePermissionException;
+use Piwik\ProfessionalServices\Advertising;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.
@@ -158,7 +160,7 @@ class Config
             'autocomplete_min_sites' => $general['autocomplete_min_sites'],
             'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
             'datatable_row_limits' => $this->getDatatableRowLimits(),
-            'are_ads_enabled' => $general['piwik_pro_ads_enabled']
+            'are_ads_enabled' => Advertising::isAdsEnabledInConfig($general)
         );
     }
 
@@ -374,15 +376,18 @@ class Config
      */
     protected function writeConfig($clear = true)
     {
-        if ($this->doNotWriteConfigInTests) {
-            return;
-        }
-
         $output = $this->dumpConfig();
         if ($output !== null
             && $output !== false
         ) {
-            $success = @file_put_contents($this->getLocalPath(), $output);
+
+            if ($this->doNotWriteConfigInTests) {
+                // simulate whether it would be successful
+                $success = is_writable($this->getLocalPath());
+            } else {
+                $success = @file_put_contents($this->getLocalPath(), $output);
+            }
+
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
@@ -410,6 +415,6 @@ class Config
     public function getConfigNotWritableException()
     {
         $path = "config/" . basename($this->getLocalPath());
-        return new Exception(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
+        return new MissingFilePermissionException(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
     }
 }

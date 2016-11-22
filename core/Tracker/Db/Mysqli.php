@@ -113,7 +113,7 @@ class Mysqli extends Db
      * @param string $query Query
      * @param array $parameters Parameters to bind
      * @return array
-     * @throws Exception|DbException if an exception occured
+     * @throws Exception|DbException if an exception occurred
      */
     public function fetchAll($query, $parameters = array())
     {

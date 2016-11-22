@@ -178,7 +178,9 @@
 
             // manage resources
             target.on('piwikDestroyPlot', function () {
-                $(window).off('resize', this._resizeListener);
+                if (this._resizeListener) {
+                    $(window).off('resize', this._resizeListener);
+                }
                 self._plot.destroy();
                 for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                     if ($.jqplot.visiblePlots[i] == self._plot) {
@@ -280,7 +282,7 @@
          * creating span elements with ticks and adding their width.
          * Rendered ticks have to be visible to get their real width. But it
          * is too fast for user to notice it. If total ticks width is bigger
-         * than container width then half of ticks is beeing cut out and their
+         * than container width then half of ticks is being cut out and their
          * width is tested again. Until their total width is smaller than chart
          * div. There is a failsafe so check will be performed no more than 20
          * times, which is I think more than enough. Each tick have its own
@@ -385,7 +387,9 @@
             // TODO: this code destroys plots when a page is switched. there must be a better way of managing memory.
             if (typeof $.jqplot.visiblePlots == 'undefined') {
                 $.jqplot.visiblePlots = [];
-                $('#secondNavBar').on('piwikSwitchPage', function () {
+                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+
+                $rootScope.$on('piwikPageChange', function () {
                     for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                         if ($.jqplot.visiblePlots[i] == null) {
                             continue;
@@ -949,7 +953,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // legend will be put there
         if (this.plugins.canvasLegend.show) {
             options.gridPadding = {
-                top: 21
+                top: 21, right: 0
             };
         }
 

@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\CoreUpdater\Commands;
 
+use Piwik\Filechecks;
+use Piwik\SettingsServer;
 use Piwik\Version;
 use Piwik\Config;
 use Piwik\DbHelper;
@@ -67,6 +69,9 @@ class Update extends ConsoleCommand
             } else {
                 $this->writeSuccessMessage($output, array('Database upgrade not executed.'));
             }
+
+            $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser($output);
+
 
         } catch(NoUpdatesFoundException $e) {
             // Do not fail if no updates were found
@@ -152,6 +157,19 @@ class Update extends ConsoleCommand
     private function doDryRun(Updater $updater, OutputInterface $output)
     {
         $migrationQueries = $this->getMigrationQueriesToExecute($updater);
+
+        if(empty($migrationQueries)) {
+            $output->writeln(array("    *** Note: There are no SQL queries to execute. ***", ""));
+            return;
+        }
+
+
+        if ($updater->hasMajorDbUpdate()) {
+            $output->writeln(array(
+                "",
+                sprintf("<comment>%s \n</comment>", Piwik::translate('CoreUpdater_MajorUpdateWarning1'))
+            ));
+        }
 
         $output->writeln(array("    *** Note: this is a Dry Run ***", ""));
 
@@ -333,5 +351,31 @@ class Update extends ConsoleCommand
         $updater->addUpdateObserver(new CliUpdateObserver($output, $migrationQueryCount));
 
         return $updater;
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    protected function writeAlertMessageWhenCommandExecutedWithUnexpectedUser(OutputInterface $output)
+    {
+        if (SettingsServer::isWindows()) {
+            // does not work on windows
+            return;
+        }
+
+        $processUserAndGroup = Filechecks::getUserAndGroup();
+        $fileOwnerUserAndGroup = Filechecks::getOwnerOfPiwikFiles();
+
+        if (!$fileOwnerUserAndGroup || $processUserAndGroup == $fileOwnerUserAndGroup) {
+            // current process user/group appear to be same as the Piwik filesystem user/group -> OK
+            return;
+        }
+        $output->writeln(
+            sprintf("<comment>It appears you have executed this update with user %s, while your Piwik files are owned by %s. \n\nTo ensure that the Piwik files are readable by the correct user, you may need to run the following command (or a similar command depending on your server configuration):\n\n$ %s</comment>",
+                $processUserAndGroup,
+                $fileOwnerUserAndGroup,
+                Filechecks::getCommandToChangeOwnerOfPiwikFiles()
+            )
+        );
     }
 }

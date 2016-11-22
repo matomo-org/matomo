@@ -60,11 +60,10 @@
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
-		<name>Visitor IP</name>
-		<segment>visitIp</segment>
-		<acceptedValues>13.54.122.1. &lt;/code&gt;Select IP ranges with notation: &lt;code&gt;visitIp&gt;13.54.122.0;visitIp&lt;13.54.122.255</acceptedValues>
-		<permission>1</permission>
+		<category>Actions</category>
+		<name>Bandwidth</name>
+		<segment>bandwidth</segment>
+		<acceptedValues>Any number in bytes, eg. 1000</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -142,7 +141,7 @@
 		<category>Visit</category>
 		<name>Device brand</name>
 		<segment>deviceBrand</segment>
-		<acceptedValues>3Q, Acer, Ainol, Airness, Alcatel, Allview, Altech UEC, Arnova, Amazon, Amoi, Apple, Archos, ARRIS, Airties, Asus, Avvio, Audiovox, Axxion, BBK, Becker, Bird, Beetel, Bmobile, Barnes &amp; Noble, BangOlufsen, BenQ, BenQ-Siemens, Blu, Boway, bq, Brondi, Bush, CUBOT, Carrefour, Captiva, Casio, Cat, Celkon, ConCorde, Changhong, Cherry Mobile, Cricket, Crosscall, Compal, CnM, Crius Mea, CreNova, Capitel, Compaq, Coolpad, Cowon, Cube, Coby Kyros, Danew, Datang, Denver, Desay, Dbtel, DoCoMo, Dicam, Dell, DNS, DMM, Doogee, Doov, Dopod, Dune HD, E-Boda, EBEST, Ericsson, ECS, Ezio, Elephone, Easypix, Energy Sistem, Ericy, Eton, eTouch, Evertek, Ezze, Fairphone, Fly, Foxconn, Fujitsu, Garmin-Asus, Gateway, Gemini, Gionee, Gigabyte, Gigaset, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hisense, Hi-Level, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, Ikea, iBall, i-Joy, iBerry, iKoMo, i-mate, iOcean, iNew, Infinix, Innostream, Inkti, Intex, i-mobile, INQ, Intek, Inverto, iTel, Jiayu, Jolla, Karbonn, KDDI, Kingsun, Konka, Komu, Koobee, K-Touch, KT-Tech, KOPO, Koridy, Kumai, Kyocera, Kazam, Lava, Lanix, LCT, Lenovo, Lenco, Le Pan, LG, Lingwin, Loewe, Logicom, Lexibook, Majestic, Manta Multimedia, Mobistel, Mecer, Medion, MEEG, Meizu, Metz, MEU, MicroMax, Mediacom, MediaTek, Mio, Mpman, Mofut, Motorola, Microsoft, MSI, Memup, Mitsubishi, MLLED, M.T.T., MyPhone, NEC, Netgear, NGM, Nintendo, Noain, Nokia, Nomi, Nikon, Newgen, Nexian, NextBook, Onda, OnePlus, OPPO, Orange, O2, Ouki, OUYA, Opsson, Panasonic, PEAQ, Philips, Pioneer, Polaroid, Palm, phoneOne, Pantech, Ployer, Point of View, PolyPad, Pomp, Positivo, Prestigio, ProScan, PULID, Qilive, Qtek, QMobile, Quechua, Overmax, Oysters, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Samsung, Sega, Sony Ericsson, Sencor, Softbank, SFR, Sagem, Sharp, Siemens, Sendo, Skyworth, Smartfren, Sony, Spice, SuperSonic, Selevision, Sanyo, Symphony, Smart, Star, Storex, Stonex, SunVan, Sumvision, Tesla, TCL, Telit, ThL, TiPhone, Tecno Mobile, Tesco, TIANYU, Telefunken, Telenor, T-Mobile, Thomson, Tolino, Toplux, Toshiba, TechnoTrend, Trevi, Tunisie Telecom, Turbo-X, TVC, TechniSat, teXet, Unowhy, Uniscope, UTStarcom, Vastking, Videocon, Vertu, Vitelcom, VK Mobile, ViewSonic, Vestel, Vivo, Voto, Voxtel, Vodafone, Vizio, Videoweb, Walton, WellcoM, Wexler, Wiko, Wolder, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Yuandao, Yusun, Ytone, Zeemi, Zonda, Zopo, ZTE, Web TV, Unknown</acceptedValues>
+		<acceptedValues>3Q, Acer, Ainol, Airness, Alcatel, Allview, Altech UEC, Arnova, Amazon, Amoi, Apple, Archos, ARRIS, Airties, Asus, Avvio, Audiovox, Axxion, BBK, Becker, Bird, Beetel, Bmobile, Barnes &amp; Noble, BangOlufsen, BenQ, BenQ-Siemens, Blu, Boway, bq, Brondi, Bush, CUBOT, Carrefour, Captiva, Casio, Cat, Celkon, ConCorde, Changhong, Cherry Mobile, Cricket, Crosscall, Compal, CnM, Crius Mea, CreNova, Capitel, Compaq, Coolpad, Cowon, Cube, Coby Kyros, Danew, Datang, Denver, Desay, Dbtel, DoCoMo, Dicam, Dell, DNS, DMM, Doogee, Doov, Dopod, Dune HD, E-Boda, EBEST, Ericsson, ECS, Ezio, Elephone, Easypix, Energy Sistem, Ericy, Eton, eTouch, Evertek, Explay, Ezze, Fairphone, Fly, Foxconn, Fujitsu, Garmin-Asus, Gateway, Gemini, Gionee, Gigabyte, Gigaset, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hisense, Hi-Level, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, Ikea, iBall, i-Joy, iBerry, iKoMo, i-mate, iOcean, iNew, Infinix, Innostream, Inkti, Intex, i-mobile, INQ, Intek, Inverto, iTel, Jiayu, Jolla, Karbonn, KDDI, Kiano, Kingsun, Konka, Komu, Koobee, K-Touch, KT-Tech, KOPO, Koridy, Kumai, Kyocera, Kazam, Lava, Lanix, LCT, Lenovo, Lenco, Le Pan, LG, Lingwin, Loewe, Logicom, Lexibook, Majestic, Manta Multimedia, Mobistel, Mecer, Medion, MEEG, Meizu, Metz, MEU, MicroMax, Mediacom, MediaTek, Mio, Mpman, Mofut, Motorola, Microsoft, MSI, Memup, Mitsubishi, MLLED, M.T.T., MyPhone, NEC, Netgear, NGM, Nintendo, Noain, Nokia, Nomi, Nikon, Newgen, Nexian, NextBook, Onda, OnePlus, OPPO, Orange, O2, Ouki, OUYA, Opsson, Panasonic, PEAQ, Philips, Pioneer, Polaroid, Palm, phoneOne, Pantech, Ployer, Point of View, PolyPad, Pomp, Positivo, Prestigio, ProScan, PULID, Qilive, Qtek, QMobile, Quechua, Overmax, Oysters, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Samsung, Sega, Sony Ericsson, Sencor, Softbank, SFR, Sagem, Sharp, Siemens, Sendo, Skyworth, Smartfren, Sony, Spice, SuperSonic, Selevision, Sanyo, Symphony, Smart, Star, Storex, Stonex, SunVan, Sumvision, Tesla, TCL, Telit, ThL, TiPhone, Tecno Mobile, Tesco, TIANYU, Telefunken, Telenor, T-Mobile, Thomson, Tolino, Toplux, Toshiba, TechnoTrend, Trevi, Tunisie Telecom, Turbo-X, TVC, TechniSat, teXet, Unowhy, Uniscope, UTStarcom, Vastking, Videocon, Vertu, Vitelcom, VK Mobile, ViewSonic, Vestel, Vivo, Voto, Voxtel, Vodafone, Vizio, Videoweb, Walton, WellcoM, Wexler, Wiko, Wolder, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Yuandao, Yusun, Ytone, Zeemi, Zonda, Zopo, ZTE, Web TV, Unknown</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -197,25 +196,9 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>User ID</name>
-		<segment>userId</segment>
-		<acceptedValues>any non empty unique string identifying the user (such as an email address or a username).</acceptedValues>
-		<permission>1</permission>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
 		<name>Visit Ecommerce status at the end of the visit</name>
 		<segment>visitEcommerceStatus</segment>
 		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visit ID</name>
-		<segment>visitId</segment>
-		<acceptedValues>Any integer.</acceptedValues>
-		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -245,14 +228,6 @@
 		<name>Visit type</name>
 		<segment>visitorType</segment>
 		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visitor ID</name>
-		<segment>visitorId</segment>
-		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
-		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>

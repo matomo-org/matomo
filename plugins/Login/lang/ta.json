@@ -7,7 +7,6 @@
         "LoginPasswordNotCorrect": "பயனாளர்பெயர் மற்றும் கடவுச்சொல் பொருந்தவில்லை.",
         "LostYourPassword": "கடவுச்சொல் மறந்து போனதா?",
         "PasswordRepeat": "கடவுச்சொல் (மீண்டும்)",
-        "RememberMe": "என்னை ஞாபகத்தில் கொள்",
-        "ResetPasswordInstructions": "உங்களுடைய கணக்கிற்கு புதிய கடவுச்சொல்லை தருக."
+        "RememberMe": "என்னை ஞாபகத்தில் கொள்"
     }
 }

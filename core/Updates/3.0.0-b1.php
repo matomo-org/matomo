@@ -9,8 +9,12 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Access;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Option;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -49,6 +53,7 @@ class Updates_3_0_0_b1 extends Updates
         $migrations = $this->getDashboardMigrations($allDashboards, $allGoals);
         $migrations = $this->getPluginSettingsMigrations($migrations);
         $migrations = $this->getSiteSettingsMigrations($migrations);
+        $migrations = $this->getBigIntPreventOverflowMigrations($migrations);
 
         return $migrations;
     }
@@ -56,6 +61,56 @@ class Updates_3_0_0_b1 extends Updates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+        $this->migratePluginEmailUpdateSetting();
+
+        // added .woff and woff2 whitelisted file for apache webserver
+        ServerFilesGenerator::deleteHtAccessFiles();
+        ServerFilesGenerator::createHtAccessFiles();
+
+        // Renamed plugin ExampleRssWidget -> RssWidget
+        \Piwik\Plugin\Manager::getInstance()->activatePlugin('RssWidget');
+        \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('ExampleRssWidget');
+    }
+
+    private function migratePluginEmailUpdateSetting()
+    {
+        $isEnabled = Option::get('enableUpdateCommunicationPlugins');
+
+        Access::doAsSuperUser(function () use ($isEnabled) {
+            $settings = StaticContainer::get('Piwik\Plugins\CoreUpdater\SystemSettings');
+            $settings->sendPluginUpdateEmail->setValue(!empty($isEnabled));
+            $settings->save();
+        });
+    }
+
+    /**
+     * @param Migration[] $queries
+     * @return Migration[]
+     */
+    private function getBigIntPreventOverflowMigrations($queries)
+    {
+        $queries[] = $this->migration->db->changeColumnTypes('log_visit', array(
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT'
+        ));
+
+        $queries[] = $this->migration->db->changeColumnTypes('log_conversion_item', array(
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
+        ));
+
+        $queries[] = $this->migration->db->changeColumnTypes('log_conversion', array(
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
+            'idlink_va' => 'BIGINT(10) UNSIGNED default NULL',
+        ));
+
+        $queries[] = $this->migration->db->changeColumnTypes('log_link_visit_action', array(
+            'idlink_va' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT',
+            'idvisit' => 'BIGINT(10) UNSIGNED NOT NULL',
+
+            // Note; this column is made NULLable for #9231
+            'idaction_name_ref' => 'INTEGER(10) UNSIGNED NULL',
+        ));
+
+        return $queries;
     }
 
     /**
@@ -108,16 +163,22 @@ class Updates_3_0_0_b1 extends Updates
     private function getSiteSettingsMigrations($queries)
     {
         $table = $this->siteSettingsTable;
-        $queries[] = $this->migration->db->addColumn($table, 'plugin_name', 'VARCHAR(60) NOT NULL', $afer = 'idsite');
-
-        $table = Common::prefixTable($table);
-        $queries[] = $this->migration->db->sql("ALTER TABLE `$table` DROP PRIMARY KEY, ADD INDEX(idsite, plugin_name);",
-                                               Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS);
 
         // we cannot migrate existing settings as we do not know the related plugin name, but this feature
-        // (measurablesettings) was not really used anyway. If a migration is somewhere really needed it has to be
-        // handled in the plugin
-        $queries[] = $this->migration->db->sql(sprintf('DELETE FROM `%s`', $table));
+        // (measurablesettings) was not used anyway. also see https://github.com/piwik/piwik/issues/10703
+        // we make sure to recreate the table as it might not have existed for some users instead of just 
+        // deleting the content of it
+        $queries[] = $this->migration->db->dropTable($table);
+        $queries[] = $this->migration->db->createTable($table, array(
+            'idsite' => 'INTEGER(10) UNSIGNED NOT NULL',
+            'plugin_name' => 'VARCHAR(60) NOT NULL',
+            'setting_name' => 'VARCHAR(255) NOT NULL',
+            'setting_value' => 'LONGTEXT NOT NULL',
+        ));
+
+        $table = Common::prefixTable($table);
+        $queries[] = $this->migration->db->sql("ALTER TABLE `$table` ADD INDEX(idsite, plugin_name);",
+                                               Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS);
 
         return $queries;
     }
@@ -285,21 +346,18 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getVisitInformationPerServerTime',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                     ),
             ),array (
                 'module' => 'VisitTime',
                 'action' => 'getVisitInformationPerLocalTime',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar',
                     ),
             ),array (
                 'module' => 'VisitTime',
                 'action' => 'getByDayOfWeek',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphVerticalBar'
                     ),
             ),array (
                 'module' => 'VisitsSummary',
@@ -331,7 +389,7 @@ class Updates_3_0_0_b1 extends Updates
                 'params' =>
                     array (
                         'forceView' => '1',
-                        'viewDataTable' => 'Piwik\\Plugins\\Live\\VisitorLog',
+                        'viewDataTable' => 'VisitorLog',
                         'small' => '1',
                     ),
             ),array (
@@ -339,14 +397,12 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getNumberOfVisitsPerVisitDuration',
                 'params' =>
                     array (
-                        'viewDataTable' => 'cloud',
                     ),
             ),array (
                 'module' => 'VisitorInterest',
                 'action' => 'getNumberOfVisitsPerPage',
                 'params' =>
                     array (
-                        'viewDataTable' => 'cloud',
                     ),
             ),array (
                 'module' => 'VisitFrequency',
@@ -369,28 +425,24 @@ class Updates_3_0_0_b1 extends Updates
                 'action' => 'getBrowserEngines',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getReferrerType',
                 'params' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getAll',
                 'params' =>
                     array (
-                        'viewDataTable' => 'tableAllColumns',
                     ),
             ),array (
                 'module' => 'Referrers',
                 'action' => 'getSocials',
                 'params' =>
                     array (
-                        'viewDataTable' => 'graphPie',
                     ),
             ),array (
                 'module' => 'CoreHome',

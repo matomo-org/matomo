@@ -81,7 +81,6 @@ class ReportWidgetFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('getBasicReport', $config->getAction());
 
         $this->assertSame(array(
-            'viewDataTable' => 'graph',
             'module' => 'TestPlugin',
             'action' => 'getBasicReport',
             'idGoal' => '1'

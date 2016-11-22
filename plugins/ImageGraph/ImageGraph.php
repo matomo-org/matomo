@@ -52,14 +52,13 @@ class ImageGraph extends \Piwik\Plugin
      */
     public function getReportMetadata(&$reports, $info)
     {
-        $idSites = $info['idSites'];
+        $idSite = $info['idSite'];
 
         // If only one website is selected, we add the Graph URL
-        if (count($idSites) != 1) {
+        if (empty($idSite)) {
             return;
         }
-        $idSite = reset($idSites);
-
+        
         // in case API.getReportMetadata was not called with date/period we use sane defaults
         if (empty($info['period'])) {
             $info['period'] = 'day';
@@ -95,7 +94,7 @@ class ImageGraph extends \Piwik\Plugin
 					$piwikSite
 				);
 			} else {
-                // if graphs_show_evolution_within_selected_period=true, show the days withing the period
+                // if graphs_show_evolution_within_selected_period=true, show the days within the period
                 // (except if the period is day, see above)
 				$periodForMultiplePeriodGraph = 'day';
 				$period = PeriodFactory::build($info['period'], $info['date']);

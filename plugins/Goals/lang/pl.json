@@ -10,7 +10,6 @@
         "BestKeywords": "Pochodzenie najlepszych słów kluczowych:",
         "BestReferrers": "Pochodzenie najlepszych serwisów internetowych jako odsyłających do nas:",
         "CaseSensitive": "dopasowanie czułości",
-        "ChooseGoal": "Wybierz cel",
         "ClickOutlink": "kliknij na link do zewnętrznej strony",
         "SendEvent": "Wyślij zdarzenie",
         "ColumnAveragePriceDocumentation": "Średni dochód dla tego %s.",
@@ -54,8 +53,6 @@
         "MatchesExpression": "odpowiada wyrażeniu %s",
         "NewVisitorsConversionRateIs": "Współczynnik przejść dla nowych odwiedzających to %s",
         "Optional": "(opcjonalnie)",
-        "OverallConversionRate": "%s ogólny współczynnik zmian (wizyty z osiągniętym pełnym trafieniem)",
-        "OverallRevenue": "%s ogólnych przychodów",
         "PageTitle": "tytuł strony",
         "Pattern": "Wzorzec",
         "ProductCategory": "Kategoria produktu",
@@ -69,7 +66,6 @@
         "VisitPageTitle": "odwiedź dany tytuł strony",
         "VisitUrl": "odwiedź dany adres URL (stronę lub grupę stron)",
         "WhenVisitors": "przez odwiedzającego",
-        "WhereThe": "gdzie",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "gdzie odwiedzona strona zawiera wywołania do metody JavaScript 'trackGoal' (%1$szobacz więcej%2$s)"
+        "WhereThe": "gdzie"
     }
 }

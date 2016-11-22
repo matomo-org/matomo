@@ -20,10 +20,10 @@
     </td>
 
     {% if row.getColumn('grown') %}
-        <td>+{{ row.getColumn('difference') }}</td>
-        <td class="grown">+{{ row.getColumn('growth_percent') }}</td>
+        <td class="column">+{{ row.getColumn('difference') }}</td>
+        <td class="column grown">+{{ row.getColumn('growth_percent') }}</td>
     {% else %}
-        <td>{{ row.getColumn('difference') }}</td>
-        <td class="notGrown">{{ row.getColumn('growth_percent') }}</td>
+        <td class="column">{{ row.getColumn('difference') }}</td>
+        <td class="column notGrown">{{ row.getColumn('growth_percent') }}</td>
     {% endif %}
 </tr>

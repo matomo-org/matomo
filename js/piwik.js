@@ -957,7 +957,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
 /*global unescape */
 /*global ActiveXObject */
 /*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift, piwikAsyncInit, frameElement, self, hasFocus,
+    shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
@@ -970,11 +970,11 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
-    min, round, random,
+    min, round, random, floor,
     exec,
-    res, width, height, devicePixelRatio,
+    res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    initialized, hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -993,7 +993,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -1022,15 +1022,16 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
-    newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
+    getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
-    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON
+    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
  */
 /*global _paq:true */
 /*members push */
 /*global Piwik:true */
-/*members addPlugin, getTracker, getAsyncTracker */
+/*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
+          DOM, onLoad, onReady*/
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -1059,6 +1060,8 @@ if (typeof window.Piwik !== 'object') {
             /* plugins */
             plugins = {},
 
+            eventHandlers = {},
+
             /* alias frequently used globals for added minification */
             documentAlias = document,
             navigatorAlias = navigator,
@@ -1078,13 +1081,15 @@ if (typeof window.Piwik !== 'object') {
             urldecode = unescape,
 
             /* asynchronous tracker */
-            asyncTracker,
+            asyncTrackers = [],
 
             /* iterator */
             iterator,
 
             /* local Piwik */
-            Piwik;
+            Piwik,
+
+            missedPluginTrackerCalls = [];
 
         /************************************************************
          * Private methods
@@ -1156,6 +1161,17 @@ if (typeof window.Piwik !== 'object') {
             return isEmpty;
         }
 
+        /**
+         * Logs an error in the console.
+         *  Note: it does not generate a JavaScript error, so make sure to also generate an error if needed.
+         * @param message
+         */
+        function logConsoleError(message) {
+            if (console !== undefined && console && console.error) {
+                console.error(message);
+            }
+        }
+
         /*
          * apply wrapper
          *
@@ -1165,16 +1181,80 @@ if (typeof window.Piwik !== 'object') {
          *      [ functionObject, optional_parameters ]
          */
         function apply() {
-            var i, f, parameterArray;
+            var i, j, f, parameterArray, trackerCall;
 
             for (i = 0; i < arguments.length; i += 1) {
+                trackerCall = null;
+                if (arguments[i] && arguments[i].slice) {
+                    trackerCall = arguments[i].slice();
+                }
                 parameterArray = arguments[i];
                 f = parameterArray.shift();
 
-                if (isString(f)) {
-                    asyncTracker[f].apply(asyncTracker, parameterArray);
+                var fParts, context;
+
+                var isStaticPluginCall = isString(f) && f.indexOf('::') > 0;
+                if (isStaticPluginCall) {
+                    // a static method will not be called on a tracker and is not dependent on the existance of a
+                    // tracker etc
+                    fParts = f.split('::');
+                    context = fParts[0];
+                    f = fParts[1];
+
+                    if ('object' === typeof Piwik[context] && 'function' === typeof Piwik[context][f]) {
+                        Piwik[context][f].apply(Piwik[context], parameterArray);
+                    } else if (trackerCall) {
+                        // we try to call that method again later as the plugin might not be loaded yet
+                        // a plugin can call "Piwik.retryMissedPluginCalls();" once it has been loaded and then the
+                        // method call to "Piwik[context][f]" may be executed
+                        missedPluginTrackerCalls.push(trackerCall);
+                    }
+
                 } else {
-                    f.apply(asyncTracker, parameterArray);
+                    for (j = 0; j < asyncTrackers.length; j++) {
+                        if (isString(f)) {
+                            context = asyncTrackers[j];
+
+                            var isPluginTrackerCall = f.indexOf('.') > 0;
+
+                            if (isPluginTrackerCall) {
+                                fParts = f.split('.');
+                                if (context && 'object' === typeof context[fParts[0]]) {
+                                    context = context[fParts[0]];
+                                    f = fParts[1];
+                                } else if (trackerCall) {
+                                    // we try to call that method again later as the plugin might not be loaded yet
+                                    missedPluginTrackerCalls.push(trackerCall);
+                                    break;
+                                }
+                            }
+
+                            if (context[f]) {
+                                context[f].apply(context, parameterArray);
+                            } else {
+                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript';
+                                logConsoleError(message);
+
+                                if (!isPluginTrackerCall) {
+                                    // do not trigger an error if it is a call to a plugin as the plugin may just not be
+                                    // loaded yet etc
+                                    throw new TypeError(message);
+                                }
+                            }
+
+                            if (f === 'addTracker') {
+                                // addTracker adds an entry to asyncTrackers and would otherwise result in an endless loop
+                                break;
+                            }
+
+                            if (f === 'setTrackerUrl' || f === 'setSiteId') {
+                                // these two methods should be only executed on the first tracker
+                                break;
+                            }
+                        } else {
+                            f.apply(asyncTrackers[j], parameterArray);
+                        }
+                    }
                 }
             }
         }
@@ -1196,20 +1276,96 @@ if (typeof window.Piwik !== 'object') {
             element['on' + eventType] = eventHandler;
         }
 
+        function trackCallbackOnLoad(callback)
+        {
+            if (documentAlias.readyState === 'complete') {
+                callback();
+            } else if (windowAlias.addEventListener) {
+                windowAlias.addEventListener('load', callback);
+            } else if (windowAlias.attachEvent) {
+                windowAlias.attachEvent('onload', callback);
+            }
+        }
+
+        function trackCallbackOnReady(callback)
+        {
+            var loaded = false;
+
+            if (documentAlias.attachEvent) {
+                loaded = documentAlias.readyState === 'complete';
+            } else {
+                loaded = documentAlias.readyState !== 'loading';
+            }
+
+            if (loaded) {
+                callback();
+                return;
+            }
+
+            var _timer;
+
+            if (documentAlias.addEventListener) {
+                addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
+                    documentAlias.removeEventListener('DOMContentLoaded', ready, false);
+                    if (!loaded) {
+                        loaded = true;
+                        callback();
+                    }
+                });
+            } else if (documentAlias.attachEvent) {
+                documentAlias.attachEvent('onreadystatechange', function ready() {
+                    if (documentAlias.readyState === 'complete') {
+                        documentAlias.detachEvent('onreadystatechange', ready);
+                        if (!loaded) {
+                            loaded = true;
+                            callback();
+                        }
+                    }
+                });
+
+                if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
+                    (function ready() {
+                        if (!loaded) {
+                            try {
+                                documentAlias.documentElement.doScroll('left');
+                            } catch (error) {
+                                setTimeout(ready, 0);
+
+                                return;
+                            }
+                            loaded = true;
+                            callback();
+                        }
+                    }());
+                }
+            }
+
+            // fallback
+            addEventListener(windowAlias, 'load', function () {
+                if (!loaded) {
+                    loaded = true;
+                    callback();
+                }
+            }, false);
+        }
+
         /*
          * Call plugin hook methods
          */
         function executePluginMethod(methodName, callback) {
             var result = '',
                 i,
-                pluginMethod;
+                pluginMethod, value;
 
             for (i in plugins) {
                 if (Object.prototype.hasOwnProperty.call(plugins, i)) {
                     pluginMethod = plugins[i][methodName];
 
                     if (isFunction(pluginMethod)) {
-                        result += pluginMethod(callback);
+                        value = pluginMethod(callback);
+                        if (value) {
+                            result += value;
+                        }
                     }
                 }
             }
@@ -1228,7 +1384,6 @@ if (typeof window.Piwik !== 'object') {
             var now;
 
             executePluginMethod('unload');
-
             /*
              * Delay/pause (blocks UI)
              */
@@ -1630,6 +1785,11 @@ if (typeof window.Piwik !== 'object') {
                 k++;
             }
             return -1;
+        }
+
+        function stringStartsWith(str, prefix) {
+            str = String(str);
+            return str.lastIndexOf(prefix, 0) === 0;
         }
 
         function stringEndsWith(str, suffix) {
@@ -2692,13 +2852,24 @@ if (typeof window.Piwik !== 'object') {
         }
 
         function isInsideAnIframe () {
-            if (isDefined(windowAlias.frameElement)) {
-                return (windowAlias.frameElement && String(windowAlias.frameElement.nodeName).toLowerCase() === 'iframe');
+            var frameElement;
+
+            try {
+                // If the parent window has another origin, then accessing frameElement
+                // throws an Error in IE. see issue #10105.
+                frameElement = windowAlias.frameElement;
+            } catch(e) {
+                // When there was an Error, then we know we are inside an iframe.
+                return true;
+            }
+
+            if (isDefined(frameElement)) {
+                return (frameElement && String(frameElement.nodeName).toLowerCase() === 'iframe') ? true : false;
             }
 
             try {
                 return windowAlias.self !== windowAlias.top;
-            } catch (e) {
+            } catch (e2) {
                 return true;
             }
         }
@@ -2768,7 +2939,7 @@ if (typeof window.Piwik !== 'object') {
                 configCustomUrl,
 
                 // Document title
-                configTitle = documentAlias.title,
+                configTitle = '',
 
                 // Extensions to be treated as download links
                 configDownloadExtensions = ['7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip'],
@@ -2820,7 +2991,7 @@ if (typeof window.Piwik !== 'object') {
                 // Default is user agent defined.
                 configCookiePath,
 
-                // Cookies are disabled
+                // First-party cookies are disabled
                 configCookiesDisabled = false,
 
                 // Do Not Track
@@ -2868,7 +3039,7 @@ if (typeof window.Piwik !== 'object') {
                 customVariableMaximumLength = 200,
 
                 // Ecommerce items
-                ecommerceItems = {},
+                ecommerceItems = [],
 
                 // Browser features via client-side data collection
                 browserFeatures = {},
@@ -2908,7 +3079,16 @@ if (typeof window.Piwik !== 'object') {
                 hash = sha1,
 
                 // Domain hash value
-                domainHash;
+                domainHash,
+
+                configIdPageView;
+
+            // Document title
+            try {
+                configTitle = documentAlias.title;
+            } catch(e) {
+                configTitle = '';
+            }
 
             /*
              * Set cookie value
@@ -3029,10 +3209,17 @@ if (typeof window.Piwik !== 'object') {
             function getPathName(url) {
                 var parser = document.createElement('a');
                 if (url.indexOf('//') !== 0 && url.indexOf('http') !== 0) {
+                    if (url.indexOf('*') === 0) {
+                        url = url.substr(1);
+                    }
+                    if (url.indexOf('.') === 0) {
+                        url = url.substr(1);
+                    }
                     url = 'http://' + url;
                 }
 
                 parser.href = content.toAbsoluteUrl(url);
+
                 if (parser.pathname) {
                     return parser.pathname;
                 }
@@ -3042,7 +3229,15 @@ if (typeof window.Piwik !== 'object') {
 
             function isSitePath (path, pathAlias)
             {
-                var matchesAnyPath = (!pathAlias || pathAlias === '/' || pathAlias === '/*');
+                if(!stringStartsWith(pathAlias, '/')) {
+                    pathAlias = '/' + pathAlias;
+                }
+
+                if(!stringStartsWith(path, '/')) {
+                    path = '/' + path;
+                }
+
+                var matchesAnyPath = (pathAlias === '/' || pathAlias === '/*');
 
                 if (matchesAnyPath) {
                     return true;
@@ -3050,10 +3245,6 @@ if (typeof window.Piwik !== 'object') {
 
                 if (path === pathAlias) {
                     return true;
-                }
-
-                if (!path) {
-                    return false;
                 }
 
                 pathAlias = String(pathAlias).toLowerCase();
@@ -3163,6 +3354,8 @@ if (typeof window.Piwik !== 'object') {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(); }
                 };
+                // make sure to actually load an image so callback gets invoked
+                request = request.replace("send_image=0","send_image=1");
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
@@ -3191,7 +3384,7 @@ if (typeof window.Piwik !== 'object') {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
                             getImage(request, callback);
                         } else {
-                            if (typeof callback === 'function') { callback(); }
+                            if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
                         }
                     };
 
@@ -3692,6 +3885,19 @@ if (typeof window.Piwik !== 'object') {
                 setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
             }
 
+            function generateUniqueId() {
+                var id = '';
+                var chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                var charLen = chars.length;
+                var i;
+
+                for (i = 0; i < 6; i++) {
+                    id += chars.charAt(Math.floor(Math.random() * charLen));
+                }
+
+                return id;
+            }
+
             /**
              * Returns the URL to call piwik.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
@@ -3859,7 +4065,7 @@ if (typeof window.Piwik !== 'object') {
                 // custom dimensions
                 for (i in customDimensions) {
                     if (Object.prototype.hasOwnProperty.call(customDimensions, i)) {
-                        var isNotSetYet = (-1 === customDimensionIdsAlreadyHandled.indexOf(i));
+                        var isNotSetYet = (-1 === indexOfArray(customDimensionIdsAlreadyHandled, i));
                         if (isNotSetYet) {
                             request += '&dimension' + i + '=' + customDimensions[i];
                         }
@@ -3916,6 +4122,10 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
 
+                if (configIdPageView) {
+                    request += '&pv_id=' + configIdPageView;
+                }
+
                 // update cookies
                 cookieVisitorIdValues.lastEcommerceOrderTs = isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : cookieVisitorIdValues.lastEcommerceOrderTs;
                 setVisitorIdCookie(cookieVisitorIdValues);
@@ -3956,9 +4166,10 @@ if (typeof window.Piwik !== 'object') {
                     lastEcommerceOrderTs,
                     now = new Date(),
                     items = [],
-                    sku;
+                    sku,
+                    isEcommerceOrder = String(orderId).length;
 
-                if (String(orderId).length) {
+                if (isEcommerceOrder) {
                     request += '&ec_id=' + encodeWrapper(orderId);
                     // Record date of order in the visitor cookie
                     lastEcommerceOrderTs = Math.round(now.getTime() / 1000);
@@ -3982,36 +4193,19 @@ if (typeof window.Piwik !== 'object') {
                     request += '&ec_dt=' + discount;
                 }
 
-                if (ecommerceItems) {
-                    // Removing the SKU index in the array before JSON encoding
-                    for (sku in ecommerceItems) {
-                        if (Object.prototype.hasOwnProperty.call(ecommerceItems, sku)) {
-                            // Ensure name and category default to healthy value
-                            if (!isDefined(ecommerceItems[sku][1])) {
-                                ecommerceItems[sku][1] = "";
+                if (ecommerceItems.length) {
+                    ecommerceItems.forEach(function(ecommerceItem) {
+                        // Ensure healthy default values where undefined
+                        [undefined, "", "", 0, 1].forEach(function(sDefault, nIndex) {
+                            if (sDefault !== undefined && ecommerceItem[nIndex] === undefined) {
+                                ecommerceItem[nIndex] = sDefault;
                             }
-
-                            if (!isDefined(ecommerceItems[sku][2])) {
-                                ecommerceItems[sku][2] = "";
-                            }
-
-                            // Set price to zero
-                            if (!isDefined(ecommerceItems[sku][3])
-                                    || String(ecommerceItems[sku][3]).length === 0) {
-                                ecommerceItems[sku][3] = 0;
-                            }
-
-                            // Set quantity to 1
-                            if (!isDefined(ecommerceItems[sku][4])
-                                    || String(ecommerceItems[sku][4]).length === 0) {
-                                ecommerceItems[sku][4] = 1;
-                            }
-
-                            items.push(ecommerceItems[sku]);
-                        }
-                    }
-                    request += '&ec_items=' + encodeWrapper(JSON2.stringify(items));
+                        });
+                    });
+                    request += '&ec_items=' + encodeWrapper(JSON2.stringify(ecommerceItems));
                 }
+                // Clear down items after logging
+                ecommerceItems = [];
                 request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
                 sendRequest(request, configTrackerPause);
             }
@@ -4032,10 +4226,12 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the page view / visit
              */
-            function logPageView(customTitle, customData) {
+            function logPageView(customTitle, customData, callback) {
+                configIdPageView = generateUniqueId();
+
                 var request = getRequest('action_name=' + encodeWrapper(titleFixup(customTitle || configTitle)), customData, 'log');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -4537,7 +4733,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the event
              */
-            function logEvent(category, action, name, value, customData)
+            function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
                 if (String(category).length === 0 || String(action).length === 0) {
@@ -4549,7 +4745,7 @@ if (typeof window.Piwik !== 'object') {
                         'event'
                     );
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -4587,7 +4783,7 @@ if (typeof window.Piwik !== 'object') {
 
                 var request = getRequest(linkParams, customData, 'link');
 
-                sendRequest(request, (callback ? 0 : configTrackerPause), callback);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -4641,79 +4837,6 @@ if (typeof window.Piwik !== 'object') {
 
                 // configCountPreRendered === true || isPreRendered === false
                 callback();
-            }
-
-            function trackCallbackOnLoad(callback)
-            {
-                if (documentAlias.readyState === 'complete') {
-                    callback();
-                } else if (windowAlias.addEventListener) {
-                    windowAlias.addEventListener('load', callback);
-                } else if (windowAlias.attachEvent) {
-                    windowAlias.attachEvent('onload', callback);
-                }
-            }
-
-            function trackCallbackOnReady(callback)
-            {
-                var loaded = false;
-
-                if (documentAlias.attachEvent) {
-                    loaded = documentAlias.readyState === 'complete';
-                } else {
-                    loaded = documentAlias.readyState !== 'loading';
-                }
-
-                if (loaded) {
-                    callback();
-                    return;
-                }
-
-                var _timer;
-
-                if (documentAlias.addEventListener) {
-                    addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
-                        documentAlias.removeEventListener('DOMContentLoaded', ready, false);
-                        if (!loaded) {
-                            loaded = true;
-                            callback();
-                        }
-                    });
-                } else if (documentAlias.attachEvent) {
-                    documentAlias.attachEvent('onreadystatechange', function ready() {
-                        if (documentAlias.readyState === 'complete') {
-                            documentAlias.detachEvent('onreadystatechange', ready);
-                            if (!loaded) {
-                                loaded = true;
-                                callback();
-                            }
-                        }
-                    });
-
-                    if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
-                        (function ready() {
-                            if (!loaded) {
-                                try {
-                                    documentAlias.documentElement.doScroll('left');
-                                } catch (error) {
-                                    setTimeout(ready, 0);
-
-                                    return;
-                                }
-                                loaded = true;
-                                callback();
-                            }
-                        }());
-                    }
-                }
-
-                // fallback
-                addEventListener(windowAlias, 'load', function () {
-                    if (!loaded) {
-                        loaded = true;
-                        callback();
-                    }
-                }, false);
             }
 
             /*
@@ -4973,8 +5096,7 @@ if (typeof window.Piwik !== 'object') {
                         java: 'application/x-java-vm',
                         gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
-                    },
-                    devicePixelRatio = windowAlias.devicePixelRatio || 1;
+                    };
 
                 // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
@@ -5005,8 +5127,8 @@ if (typeof window.Piwik !== 'object') {
                     browserFeatures.cookie = hasCookies();
                 }
 
-                var width = parseInt(screenAlias.width, 10) * devicePixelRatio;
-                var height = parseInt(screenAlias.height, 10) * devicePixelRatio;
+                var width = parseInt(screenAlias.width, 10);
+                var height = parseInt(screenAlias.height, 10);
                 browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
             }
 
@@ -5056,1279 +5178,1350 @@ if (typeof window.Piwik !== 'object') {
              * Public data and methods
              ************************************************************/
 
-            return {
-/*<DEBUG>*/
-                /*
-                 * Test hook accessors
-                 */
-                hook: registeredHooks,
-                getHook: function (hookName) {
-                    return registeredHooks[hookName];
-                },
-                getQuery: function () {
-                    return query;
-                },
-                getContent: function () {
-                    return content;
-                },
-
-                buildContentImpressionRequest: buildContentImpressionRequest,
-                buildContentInteractionRequest: buildContentInteractionRequest,
-                buildContentInteractionRequestNode: buildContentInteractionRequestNode,
-                buildContentInteractionTrackingRedirectUrl: buildContentInteractionTrackingRedirectUrl,
-                getContentImpressionsRequestsFromNodes: getContentImpressionsRequestsFromNodes,
-                getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet: getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet,
-                trackCallbackOnLoad: trackCallbackOnLoad,
-                trackCallbackOnReady: trackCallbackOnReady,
-                buildContentImpressionsRequests: buildContentImpressionsRequests,
-                wasContentImpressionAlreadyTracked: wasContentImpressionAlreadyTracked,
-                appendContentInteractionToRequestIfPossible: getContentInteractionToRequestIfPossible,
-                setupInteractionsTracking: setupInteractionsTracking,
-                trackContentImpressionClickInteraction: trackContentImpressionClickInteraction,
-                internalIsNodeVisible: isVisible,
-                isNodeAuthorizedToTriggerInteraction: isNodeAuthorizedToTriggerInteraction,
-                replaceHrefIfInternalLink: replaceHrefIfInternalLink,
-                getDomains: function () {
-                    return configHostsAlias;
-                },
-                getConfigCookiePath: function () {
-                    return configCookiePath;
-                },
-                getConfigDownloadExtensions: function () {
-                    return configDownloadExtensions;
-                },
-                enableTrackOnlyVisibleContent: function (checkOnScroll, timeIntervalInMs) {
-                    return enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
-                },
-                clearTrackedContentImpressions: function () {
-                    trackedContentImpressions = [];
-                },
-                getTrackedContentImpressions: function () {
-                    return trackedContentImpressions;
-                },
-                clearEnableTrackOnlyVisibleContent: function () {
-                    isTrackOnlyVisibleContentEnabled = false;
-                },
-                disableLinkTracking: function () {
-                    linkTrackingInstalled = false;
-                    linkTrackingEnabled   = false;
-                },
-                getConfigVisitorCookieTimeout: function () {
-                    return configVisitorCookieTimeout;
-                },
-                getRemainingVisitorCookieTimeout: getRemainingVisitorCookieTimeout,
-/*</DEBUG>*/
-
-                /**
-                 * Get visitor ID (from first party cookie)
-                 *
-                 * @return string Visitor ID in hexits (or empty string, if not yet known)
-                 */
-                getVisitorId: function () {
-                    return getValuesFromVisitorIdCookie().uuid;
-                },
-
-                /**
-                 * Get the visitor information (from first party cookie)
-                 *
-                 * @return array
-                 */
-                getVisitorInfo: function () {
-                    // Note: in a new method, we could return also return getValuesFromVisitorIdCookie()
-                    //       which returns named parameters rather than returning integer indexed array
-                    return loadVisitorIdCookie();
-                },
-
-                /**
-                 * Get the Attribution information, which is an array that contains
-                 * the Referrer used to reach the site as well as the campaign name and keyword
-                 * It is useful only when used in conjunction with Tracker API function setAttributionInfo()
-                 * To access specific data point, you should use the other functions getAttributionReferrer* and getAttributionCampaign*
-                 *
-                 * @return array Attribution array, Example use:
-                 *   1) Call JSON2.stringify(piwikTracker.getAttributionInfo())
-                 *   2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
-                 */
-                getAttributionInfo: function () {
-                    return loadReferrerAttributionCookie();
-                },
-
-                /**
-                 * Get the Campaign name that was parsed from the landing page URL when the visitor
-                 * landed on the site originally
-                 *
-                 * @return string
-                 */
-                getAttributionCampaignName: function () {
-                    return loadReferrerAttributionCookie()[0];
-                },
-
-                /**
-                 * Get the Campaign keyword that was parsed from the landing page URL when the visitor
-                 * landed on the site originally
-                 *
-                 * @return string
-                 */
-                getAttributionCampaignKeyword: function () {
-                    return loadReferrerAttributionCookie()[1];
-                },
-
-                /**
-                 * Get the time at which the referrer (used for Goal Attribution) was detected
-                 *
-                 * @return int Timestamp or 0 if no referrer currently set
-                 */
-                getAttributionReferrerTimestamp: function () {
-                    return loadReferrerAttributionCookie()[2];
-                },
-
-                /**
-                 * Get the full referrer URL that will be used for Goal Attribution
-                 *
-                 * @return string Raw URL, or empty string '' if no referrer currently set
-                 */
-                getAttributionReferrerUrl: function () {
-                    return loadReferrerAttributionCookie()[3];
-                },
-
-                /**
-                 * Specify the Piwik server URL
-                 *
-                 * @param string trackerUrl
-                 */
-                setTrackerUrl: function (trackerUrl) {
-                    configTrackerUrl = trackerUrl;
-                },
-
-
-                /**
-                 * Returns the Piwik server URL
-                 * @returns string
-                 */
-                getTrackerUrl: function () {
-                    return configTrackerUrl;
-                },
-
-
-                /**
-                 * Returns the site ID
-                 *
-                 * @returns int
-                 */
-                getSiteId: function() {
-                    return configTrackerSiteId;
-                },
-
-                /**
-                 * Specify the site ID
-                 *
-                 * @param int|string siteId
-                 */
-                setSiteId: function (siteId) {
-                    setSiteId(siteId);
-                },
-
-                /**
-                 * Sets a User ID to this user (such as an email address or a username)
-                 *
-                 * @param string User ID
-                 */
-                setUserId: function (userId) {
-                    if(!isDefined(userId) || !userId.length) {
-                        return;
-                    }
-                    configUserId = userId;
-                    visitorUUID = hash(configUserId).substr(0, 16);
-                },
-
-                /**
-                 * Gets the User ID if set.
-                 *
-                 * @returns string User ID
-                 */
-                getUserId: function() {
-                    return configUserId;
-                },
-
-                /**
-                 * Pass custom data to the server
-                 *
-                 * Examples:
-                 *   tracker.setCustomData(object);
-                 *   tracker.setCustomData(key, value);
-                 *
-                 * @param mixed key_or_obj
-                 * @param mixed opt_value
-                 */
-                setCustomData: function (key_or_obj, opt_value) {
-                    if (isObject(key_or_obj)) {
-                        configCustomData = key_or_obj;
-                    } else {
-                        if (!configCustomData) {
-                            configCustomData = {};
-                        }
-                        configCustomData[key_or_obj] = opt_value;
-                    }
-                },
-
-                /**
-                 * Get custom data
-                 *
-                 * @return mixed
-                 */
-                getCustomData: function () {
-                    return configCustomData;
-                },
-
-                /**
-                 * Configure function with custom request content processing logic.
-                 * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
-                 *
-                 * Examples:
-                 *   tracker.setCustomRequestProcessing(function(request){
-                 *     var pairs = request.split('&');
-                 *     var result = {};
-                 *     pairs.forEach(function(pair) {
-                 *       pair = pair.split('=');
-                 *       result[pair[0]] = decodeURIComponent(pair[1] || '');
-                 *     });
-                 *     return JSON.stringify(result);
-                 *   });
-                 *
-                 * @param function customRequestContentProcessingLogic
-                 */
-                setCustomRequestProcessing: function (customRequestContentProcessingLogic) {
-                    configCustomRequestContentProcessing = customRequestContentProcessingLogic;
-                },
-
-                /**
-                 * Appends the specified query string to the piwik.php?... Tracking API URL
-                 *
-                 * @param string queryString eg. 'lat=140&long=100'
-                 */
-                appendToTrackingUrl: function (queryString) {
-                    configAppendToTrackingUrl = queryString;
-                },
-
-                /**
-                 * Returns the query string for the current HTTP Tracking API request.
-                 * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
-                 * prior to sending the request.
-                 *
-                 * @param request eg. "param=value&param2=value2"
-                 */
-                getRequest: function (request) {
-                    return getRequest(request);
-                },
-
-                /**
-                 * Add plugin defined by a name and a callback function.
-                 * The callback function will be called whenever a tracking request is sent.
-                 * This can be used to append data to the tracking request, or execute other custom logic.
-                 *
-                 * @param string pluginName
-                 * @param Object pluginObj
-                 */
-                addPlugin: function (pluginName, pluginObj) {
-                    plugins[pluginName] = pluginObj;
-                },
-
-                /**
-                 * Set Custom Dimensions. Any set Custom Dimension will be cleared after a tracked pageview. Make
-                 * sure to set them again if needed.
-                 *
-                 * @param int index A Custom Dimension index
-                 * @param string value
-                 */
-                setCustomDimension: function (customDimensionId, value) {
-                    customDimensionId = parseInt(customDimensionId, 10);
-                    if (customDimensionId > 0) {
-                        if (!isDefined(value)) {
-                            value = '';
-                        }
-                        if (!isString(value)) {
-                            value = String(value);
-                        }
-                        customDimensions[customDimensionId] = value;
-                    }
-                },
-
-                /**
-                 * Get a stored value for a specific Custom Dimension index.
-                 *
-                 * @param int index A Custom Dimension index
-                 */
-                getCustomDimension: function (customDimensionId) {
-                    customDimensionId = parseInt(customDimensionId, 10);
-                    if (customDimensionId > 0 && Object.prototype.hasOwnProperty.call(customDimensions, customDimensionId)) {
-                        return customDimensions[customDimensionId];
-                    }
-                },
-
-                /**
-                 * Delete a custom dimension.
-                 *
-                 * @param int index Custom dimension Id
-                 */
-                deleteCustomDimension: function (customDimensionId) {
-                    customDimensionId = parseInt(customDimensionId, 10);
-                    if (customDimensionId > 0) {
-                        delete customDimensions[customDimensionId];
-                    }
-                },
-
-                /**
-                 * Set custom variable within this visit
-                 *
-                 * @param int index Custom variable slot ID from 1-5
-                 * @param string name
-                 * @param string value
-                 * @param string scope Scope of Custom Variable:
-                 *                     - "visit" will store the name/value in the visit and will persist it in the cookie for the duration of the visit,
-                 *                     - "page" will store the name/value in the next page view tracked.
-                 *                     - "event" will store the name/value in the next event tracked.
-                 */
-                setCustomVariable: function (index, name, value, scope) {
-                    var toRecord;
-
-                    if (!isDefined(scope)) {
-                        scope = 'visit';
-                    }
-                    if (!isDefined(name)) {
-                        return;
-                    }
-                    if (!isDefined(value)) {
-                        value = "";
-                    }
-                    if (index > 0) {
-                        name = !isString(name) ? String(name) : name;
-                        value = !isString(value) ? String(value) : value;
-                        toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
-                        // numeric scope is there for GA compatibility
-                        if (scope === 'visit' || scope === 2) {
-                            loadCustomVariables();
-                            customVariables[index] = toRecord;
-                        } else if (scope === 'page' || scope === 3) {
-                            customVariablesPage[index] = toRecord;
-                        } else if (scope === 'event') { /* GA does not have 'event' scope but we do */
-                            customVariablesEvent[index] = toRecord;
-                        }
-                    }
-                },
-
-                /**
-                 * Get custom variable
-                 *
-                 * @param int index Custom variable slot ID from 1-5
-                 * @param string scope Scope of Custom Variable: "visit" or "page" or "event"
-                 */
-                getCustomVariable: function (index, scope) {
-                    var cvar;
-
-                    if (!isDefined(scope)) {
-                        scope = "visit";
-                    }
-
-                    if (scope === "page" || scope === 3) {
-                        cvar = customVariablesPage[index];
-                    } else if (scope === "event") {
-                        cvar = customVariablesEvent[index];
-                    } else if (scope === "visit" || scope === 2) {
-                        loadCustomVariables();
-                        cvar = customVariables[index];
-                    }
-
-                    if (!isDefined(cvar)
-                            || (cvar && cvar[0] === '')) {
-                        return false;
-                    }
-
-                    return cvar;
-                },
-
-                /**
-                 * Delete custom variable
-                 *
-                 * @param int index Custom variable slot ID from 1-5
-                 * @param string scope
-                 */
-                deleteCustomVariable: function (index, scope) {
-                    // Only delete if it was there already
-                    if (this.getCustomVariable(index, scope)) {
-                        this.setCustomVariable(index, '', '', scope);
-                    }
-                },
-
-                /**
-                 * When called then the Custom Variables of scope "visit" will be stored (persisted) in a first party cookie
-                 * for the duration of the visit. This is useful if you want to call getCustomVariable later in the visit.
-                 *
-                 * By default, Custom Variables of scope "visit" are not stored on the visitor's computer.
-                 */
-                storeCustomVariablesInCookie: function () {
-                    configStoreCustomVariablesInCookie = true;
-                },
-
-                /**
-                 * Set delay for link tracking (in milliseconds)
-                 *
-                 * @param int delay
-                 */
-                setLinkTrackingTimer: function (delay) {
-                    configTrackerPause = delay;
-                },
-
-                /**
-                 * Set list of file extensions to be recognized as downloads
-                 *
-                 * @param string|array extensions
-                 */
-                setDownloadExtensions: function (extensions) {
-                    if(isString(extensions)) {
-                        extensions = extensions.split('|');
-                    }
-                    configDownloadExtensions = extensions;
-                },
-
-                /**
-                 * Specify additional file extensions to be recognized as downloads
-                 *
-                 * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
-                 */
-                addDownloadExtensions: function (extensions) {
-                    var i;
-                    if(isString(extensions)) {
-                        extensions = extensions.split('|');
-                    }
-                    for (i=0; i < extensions.length; i++) {
-                        configDownloadExtensions.push(extensions[i]);
-                    }
-                },
-
-                /**
-                 * Removes specified file extensions from the list of recognized downloads
-                 *
-                 * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
-                 */
-                removeDownloadExtensions: function (extensions) {
-                    var i, newExtensions = [];
-                    if(isString(extensions)) {
-                        extensions = extensions.split('|');
-                    }
-                    for (i=0; i < configDownloadExtensions.length; i++) {
-                        if (indexOfArray(extensions, configDownloadExtensions[i]) === -1) {
-                            newExtensions.push(configDownloadExtensions[i]);
-                        }
-                    }
-                    configDownloadExtensions = newExtensions;
-                },
-
-                /**
-                 * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
-                 * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
-                 * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
-                 *
-                 * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
-                 * that don't go to piwik.org/index* would be treated as outlinks.
-                 *
-                 * @param string|array hostsAlias
-                 */
-                setDomains: function (hostsAlias) {
-                    configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
-
-                    var hasDomainAliasAlready = false, i;
-                    for (i in configHostsAlias) {
-                        if (Object.prototype.hasOwnProperty.call(configHostsAlias, i)
-                            && isSameHost(domainAlias, domainFixup(String(configHostsAlias[i])))) {
-                            hasDomainAliasAlready = true;
-                        }
-                    }
-
-                    if (!hasDomainAliasAlready) {
-                        /**
-                         * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
-                         * not add piwik.org as it would increase the allowed scope.
-                         */
-                        configHostsAlias.push(domainAlias);
-                    }
-                },
-
-                /**
-                 * Set array of classes to be ignored if present in link
-                 *
-                 * @param string|array ignoreClasses
-                 */
-                setIgnoreClasses: function (ignoreClasses) {
-                    configIgnoreClasses = isString(ignoreClasses) ? [ignoreClasses] : ignoreClasses;
-                },
-
-                /**
-                 * Set request method
-                 *
-                 * @param string method GET or POST; default is GET
-                 */
-                setRequestMethod: function (method) {
-                    configRequestMethod = method || defaultRequestMethod;
-                },
-
-                /**
-                 * Set request Content-Type header value, applicable when POST request method is used for submitting tracking events.
-                 * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
-                 * @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
-                 *
-                 * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
-                 */
-                setRequestContentType: function (requestContentType) {
-                    configRequestContentType = requestContentType || defaultRequestContentType;
-                },
-
-                /**
-                 * Override referrer
-                 *
-                 * @param string url
-                 */
-                setReferrerUrl: function (url) {
-                    configReferrerUrl = url;
-                },
-
-                /**
-                 * Override url
-                 *
-                 * @param string url
-                 */
-                setCustomUrl: function (url) {
-                    configCustomUrl = resolveRelativeReference(locationHrefAlias, url);
-                },
-
-                /**
-                 * Override document.title
-                 *
-                 * @param string title
-                 */
-                setDocumentTitle: function (title) {
-                    configTitle = title;
-                },
-
-                /**
-                 * Set the URL of the Piwik API. It is used for Page Overlay.
-                 * This method should only be called when the API URL differs from the tracker URL.
-                 *
-                 * @param string apiUrl
-                 */
-                setAPIUrl: function (apiUrl) {
-                    configApiUrl = apiUrl;
-                },
-
-                /**
-                 * Set array of classes to be treated as downloads
-                 *
-                 * @param string|array downloadClasses
-                 */
-                setDownloadClasses: function (downloadClasses) {
-                    configDownloadClasses = isString(downloadClasses) ? [downloadClasses] : downloadClasses;
-                },
-
-                /**
-                 * Set array of classes to be treated as outlinks
-                 *
-                 * @param string|array linkClasses
-                 */
-                setLinkClasses: function (linkClasses) {
-                    configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
-                },
-
-                /**
-                 * Set array of campaign name parameters
-                 *
-                 * @see http://piwik.org/faq/how-to/#faq_120
-                 * @param string|array campaignNames
-                 */
-                setCampaignNameKey: function (campaignNames) {
-                    configCampaignNameParameters = isString(campaignNames) ? [campaignNames] : campaignNames;
-                },
-
-                /**
-                 * Set array of campaign keyword parameters
-                 *
-                 * @see http://piwik.org/faq/how-to/#faq_120
-                 * @param string|array campaignKeywords
-                 */
-                setCampaignKeywordKey: function (campaignKeywords) {
-                    configCampaignKeywordParameters = isString(campaignKeywords) ? [campaignKeywords] : campaignKeywords;
-                },
-
-                /**
-                 * Strip hash tag (or anchor) from URL
-                 * Note: this can be done in the Piwik>Settings>Websites on a per-website basis
-                 *
-                 * @deprecated
-                 * @param bool enableFilter
-                 */
-                discardHashTag: function (enableFilter) {
-                    configDiscardHashTag = enableFilter;
-                },
-
-                /**
-                 * Set first-party cookie name prefix
-                 *
-                 * @param string cookieNamePrefix
-                 */
-                setCookieNamePrefix: function (cookieNamePrefix) {
-                    configCookieNamePrefix = cookieNamePrefix;
-                    // Re-init the Custom Variables cookie
-                    customVariables = getCustomVariablesFromCookie();
-                },
-
-                /**
-                 * Set first-party cookie domain
-                 *
-                 * @param string domain
-                 */
-                setCookieDomain: function (domain) {
-                    var domainFixed = domainFixup(domain);
-
-                    if (isPossibleToSetCookieOnDomain(domainFixed)) {
-                        configCookieDomain = domainFixed;
-                        updateDomainHash();
-                    }
-                },
-
-                /**
-                 * Set first-party cookie path
-                 *
-                 * @param string domain
-                 */
-                setCookiePath: function (path) {
-                    configCookiePath = path;
-                    updateDomainHash();
-                },
-
-                /**
-                 * Set visitor cookie timeout (in seconds)
-                 * Defaults to 13 months (timeout=33955200)
-                 *
-                 * @param int timeout
-                 */
-                setVisitorCookieTimeout: function (timeout) {
-                    configVisitorCookieTimeout = timeout * 1000;
-                },
-
-                /**
-                 * Set session cookie timeout (in seconds).
-                 * Defaults to 30 minutes (timeout=1800000)
-                 *
-                 * @param int timeout
-                 */
-                setSessionCookieTimeout: function (timeout) {
-                    configSessionCookieTimeout = timeout * 1000;
-                },
-
-                /**
-                 * Set referral cookie timeout (in seconds).
-                 * Defaults to 6 months (15768000000)
-                 *
-                 * @param int timeout
-                 */
-                setReferralCookieTimeout: function (timeout) {
-                    configReferralCookieTimeout = timeout * 1000;
-                },
-
-                /**
-                 * Set conversion attribution to first referrer and campaign
-                 *
-                 * @param bool if true, use first referrer (and first campaign)
-                 *             if false, use the last referrer (or campaign)
-                 */
-                setConversionAttributionFirstReferrer: function (enable) {
-                    configConversionAttributionFirstReferrer = enable;
-                },
-
-                /**
-                 * Disables all cookies from being set
-                 *
-                 * Existing cookies will be deleted on the next call to track
-                 */
-                disableCookies: function () {
-                    configCookiesDisabled = true;
-                    browserFeatures.cookie = '0';
-
-                    if (configTrackerSiteId) {
-                        deleteCookies();
-                    }
-                },
-
-                /**
-                 * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
-                 * it maybe helps to "reset" tracking cookies to prevent data reuse for different users.
-                 */
-                deleteCookies: function () {
-                    deleteCookies();
-                },
-
-                /**
-                 * Handle do-not-track requests
-                 *
-                 * @param bool enable If true, don't track if user agent sends 'do-not-track' header
-                 */
-                setDoNotTrack: function (enable) {
-                    var dnt = navigatorAlias.doNotTrack || navigatorAlias.msDoNotTrack;
-                    configDoNotTrack = enable && (dnt === 'yes' || dnt === '1');
-
-                    // do not track also disables cookies and deletes existing cookies
-                    if (configDoNotTrack) {
-                        this.disableCookies();
-                    }
-                },
-
-                /**
-                 * Add click listener to a specific link element.
-                 * When clicked, Piwik will log the click automatically.
-                 *
-                 * @param DOMElement element
-                 * @param bool enable If true, use pseudo click-handler (middle click + context menu)
-                 */
-                addListener: function (element, enable) {
-                    addClickListener(element, enable);
-                },
-
-                /**
-                 * Install link tracker
-                 *
-                 * The default behaviour is to use actual click events. However, some browsers
-                 * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
-                 *
-                 * To capture more "clicks", the pseudo click-handler uses mousedown + mouseup events.
-                 * This is not industry standard and is vulnerable to false positives (e.g., drag events).
-                 *
-                 * There is a Safari/Chrome/Webkit bug that prevents tracking requests from being sent
-                 * by either click handler.  The workaround is to set a target attribute (which can't
-                 * be "_self", "_top", or "_parent").
-                 *
-                 * @see https://bugs.webkit.org/show_bug.cgi?id=54783
-                 *
-                 * @param bool enable If "true", use pseudo click-handler (treat middle click and open contextmenu as
-                 *                    left click). A right click (or any click that opens the context menu) on a link
-                 *                    will be tracked as clicked even if "Open in new tab" is not selected. If
-                 *                    "false" (default), nothing will be tracked on open context menu or middle click.
-                 *                    The context menu is usually opened to open a link / download in a new tab
-                 *                    therefore you can get more accurate results by treat it as a click but it can lead
-                 *                    to wrong click numbers.
-                 */
-                enableLinkTracking: function (enable) {
-                    linkTrackingEnabled = true;
-
-                    trackCallback(function () {
-                        trackCallbackOnReady(function () {
-                            addClickListeners(enable);
-                        });
-                    });
-                },
-
-                /**
-                 * Enable tracking of uncatched JavaScript errors
-                 *
-                 * If enabled, uncaught JavaScript Errors will be tracked as an event by defining a
-                 * window.onerror handler. If a window.onerror handler is already defined we will make
-                 * sure to call this previously registered error handler after tracking the error.
-                 *
-                 * By default we return false in the window.onerror handler to make sure the error still
-                 * appears in the browser's console etc. Note: Some older browsers might behave differently
-                 * so it could happen that an actual JavaScript error will be suppressed.
-                 * If a window.onerror handler was registered we will return the result of this handler.
-                 *
-                 * Make sure not to overwrite the window.onerror handler after enabling the JS error
-                 * tracking as the error tracking won't work otherwise. To capture all JS errors we
-                 * recommend to include the Piwik JavaScript tracker in the HTML as early as possible.
-                 * If possible directly in <head></head> before loading any other JavaScript.
-                 */
-                enableJSErrorTracking: function () {
-                    if (enableJSErrorTracking) {
-                        return;
-                    }
-
-                    enableJSErrorTracking = true;
-                    var onError = windowAlias.onerror;
-
-                    windowAlias.onerror = function (message, url, linenumber, column, error) {
-                        trackCallback(function () {
-                            var category = 'JavaScript Errors';
-
-                            var action = url + ':' + linenumber;
-                            if (column) {
-                                action += ':' + column;
-                            }
-
-                            logEvent(category, action, message);
-                        });
-
-                        if (onError) {
-                            return onError(message, url, linenumber, column, error);
-                        }
-
-                        return false;
-                    };
-                },
-
-                /**
-                 * Disable automatic performance tracking
-                 */
-                disablePerformanceTracking: function () {
-                    configPerformanceTrackingEnabled = false;
-                },
-
-                /**
-                 * Set the server generation time.
-                 * If set, the browser's performance.timing API in not used anymore to determine the time.
-                 *
-                 * @param int generationTime
-                 */
-                setGenerationTimeMs: function (generationTime) {
-                    configPerformanceGenerationTime = parseInt(generationTime, 10);
-                },
-
-                /**
-                 * Set heartbeat (in seconds)
-                 *
-                 * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1.
-                 */
-                enableHeartBeatTimer: function (heartBeatDelayInSeconds) {
-                    heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
-                    configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
-
-                    // if a tracking request has already been sent, start the heart beat timeout
-                    if (lastTrackerRequestTime !== null) {
-                        setUpHeartBeat();
-                    }
-                },
 
 /*<DEBUG>*/
-                /**
-                 * Clear heartbeat.
-                 */
-                disableHeartBeatTimer: function () {
-                    heartBeatDown();
-                    configHeartBeatDelay = null;
+            /*
+             * Test hook accessors
+             */
+            this.hook = registeredHooks;
+            this.getHook = function (hookName) {
+                return registeredHooks[hookName];
+            };
+            this.getQuery = function () {
+                return query;
+            };
+            this.getContent = function () {
+                return content;
+            };
 
-                    window.removeEventListener('focus', heartBeatOnFocus);
-                    window.removeEventListener('blur', heartBeatOnBlur);
-                },
+            this.buildContentImpressionRequest = buildContentImpressionRequest;
+            this.buildContentInteractionRequest = buildContentInteractionRequest;
+            this.buildContentInteractionRequestNode = buildContentInteractionRequestNode;
+            this.buildContentInteractionTrackingRedirectUrl = buildContentInteractionTrackingRedirectUrl;
+            this.getContentImpressionsRequestsFromNodes = getContentImpressionsRequestsFromNodes;
+            this.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet;
+            this.trackCallbackOnLoad = trackCallbackOnLoad;
+            this.trackCallbackOnReady = trackCallbackOnReady;
+            this.buildContentImpressionsRequests = buildContentImpressionsRequests;
+            this.wasContentImpressionAlreadyTracked = wasContentImpressionAlreadyTracked;
+            this.appendContentInteractionToRequestIfPossible = getContentInteractionToRequestIfPossible;
+            this.setupInteractionsTracking = setupInteractionsTracking;
+            this.trackContentImpressionClickInteraction = trackContentImpressionClickInteraction;
+            this.internalIsNodeVisible = isVisible;
+            this.isNodeAuthorizedToTriggerInteraction = isNodeAuthorizedToTriggerInteraction;
+            this.replaceHrefIfInternalLink = replaceHrefIfInternalLink;
+            this.getDomains = function () {
+                return configHostsAlias;
+            };
+            this.getConfigCookiePath = function () {
+                return configCookiePath;
+            };
+            this.getConfigIdPageView = function () {
+                return configIdPageView;
+            };
+            this.getConfigDownloadExtensions = function () {
+                return configDownloadExtensions;
+            };
+            this.enableTrackOnlyVisibleContent = function (checkOnScroll, timeIntervalInMs) {
+                return enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
+            };
+            this.clearTrackedContentImpressions = function () {
+                trackedContentImpressions = [];
+            };
+            this.getTrackedContentImpressions = function () {
+                return trackedContentImpressions;
+            };
+            this.clearEnableTrackOnlyVisibleContent = function () {
+                isTrackOnlyVisibleContentEnabled = false;
+            };
+            this.disableLinkTracking = function () {
+                linkTrackingInstalled = false;
+                linkTrackingEnabled   = false;
+            };
+            this.getConfigVisitorCookieTimeout = function () {
+                return configVisitorCookieTimeout;
+            };
+            this.removeAllAsyncTrackersButFirst = function () {
+                var firstTracker = asyncTrackers[0];
+                asyncTrackers = [firstTracker];
+            };
+            this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
 /*</DEBUG>*/
 
-                /**
-                 * Frame buster
-                 */
-                killFrame: function () {
-                    if (windowAlias.location !== windowAlias.top.location) {
-                        windowAlias.top.location = windowAlias.location;
-                    }
-                },
+            /**
+             * Get visitor ID (from first party cookie)
+             *
+             * @return string Visitor ID in hexits (or empty string, if not yet known)
+             */
+            this.getVisitorId = function () {
+                return getValuesFromVisitorIdCookie().uuid;
+            };
 
-                /**
-                 * Redirect if browsing offline (aka file: buster)
-                 *
-                 * @param string url Redirect to this URL
-                 */
-                redirectFile: function (url) {
-                    if (windowAlias.location.protocol === 'file:') {
-                        windowAlias.location = url;
-                    }
-                },
+            /**
+             * Get the visitor information (from first party cookie)
+             *
+             * @return array
+             */
+            this.getVisitorInfo = function () {
+                // Note: in a new method, we could return also return getValuesFromVisitorIdCookie()
+                //       which returns named parameters rather than returning integer indexed array
+                return loadVisitorIdCookie();
+            };
 
-                /**
-                 * Count sites in pre-rendered state
-                 *
-                 * @param bool enable If true, track when in pre-rendered state
-                 */
-                setCountPreRendered: function (enable) {
-                    configCountPreRendered = enable;
-                },
+            /**
+             * Get the Attribution information, which is an array that contains
+             * the Referrer used to reach the site as well as the campaign name and keyword
+             * It is useful only when used in conjunction with Tracker API function setAttributionInfo()
+             * To access specific data point, you should use the other functions getAttributionReferrer* and getAttributionCampaign*
+             *
+             * @return array Attribution array, Example use:
+             *   1) Call JSON2.stringify(piwikTracker.getAttributionInfo())
+             *   2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
+             */
+            this.getAttributionInfo = function () {
+                return loadReferrerAttributionCookie();
+            };
 
-                /**
-                 * Trigger a goal
-                 *
-                 * @param int|string idGoal
-                 * @param int|float customRevenue
-                 * @param mixed customData
-                 */
-                trackGoal: function (idGoal, customRevenue, customData) {
-                    trackCallback(function () {
-                        logGoal(idGoal, customRevenue, customData);
-                    });
-                },
+            /**
+             * Get the Campaign name that was parsed from the landing page URL when the visitor
+             * landed on the site originally
+             *
+             * @return string
+             */
+            this.getAttributionCampaignName = function () {
+                return loadReferrerAttributionCookie()[0];
+            };
 
-                /**
-                 * Manually log a click from your own code
-                 *
-                 * @param string sourceUrl
-                 * @param string linkType
-                 * @param mixed customData
-                 * @param function callback
-                 */
-                trackLink: function (sourceUrl, linkType, customData, callback) {
-                    trackCallback(function () {
-                        logLink(sourceUrl, linkType, customData, callback);
-                    });
-                },
+            /**
+             * Get the Campaign keyword that was parsed from the landing page URL when the visitor
+             * landed on the site originally
+             *
+             * @return string
+             */
+            this.getAttributionCampaignKeyword = function () {
+                return loadReferrerAttributionCookie()[1];
+            };
 
-                /**
-                 * Log visit to this page
-                 *
-                 * @param string customTitle
-                 * @param mixed customData
-                 */
-                trackPageView: function (customTitle, customData) {
-                    trackedContentImpressions = [];
+            /**
+             * Get the time at which the referrer (used for Goal Attribution) was detected
+             *
+             * @return int Timestamp or 0 if no referrer currently set
+             */
+            this.getAttributionReferrerTimestamp = function () {
+                return loadReferrerAttributionCookie()[2];
+            };
 
-                    if (isOverlaySession(configTrackerSiteId)) {
-                        trackCallback(function () {
-                            injectOverlayScripts(configTrackerUrl, configApiUrl, configTrackerSiteId);
-                        });
-                    } else {
-                        trackCallback(function () {
-                            logPageView(customTitle, customData);
-                        });
-                    }
-                },
+            /**
+             * Get the full referrer URL that will be used for Goal Attribution
+             *
+             * @return string Raw URL, or empty string '' if no referrer currently set
+             */
+            this.getAttributionReferrerUrl = function () {
+                return loadReferrerAttributionCookie()[3];
+            };
 
-                /**
-                 * Scans the entire DOM for all content blocks and tracks all impressions once the DOM ready event has
-                 * been triggered.
-                 *
-                 * If you only want to track visible content impressions have a look at `trackVisibleContentImpressions()`.
-                 * We do not track an impression of the same content block twice if you call this method multiple times
-                 * unless `trackPageView()` is called meanwhile. This is useful for single page applications.
-                 */
-                trackAllContentImpressions: function () {
-                    if (isOverlaySession(configTrackerSiteId)) {
-                        return;
-                    }
+            /**
+             * Specify the Piwik server URL
+             *
+             * @param string trackerUrl
+             */
+            this.setTrackerUrl = function (trackerUrl) {
+                configTrackerUrl = trackerUrl;
+            };
 
-                    trackCallback(function () {
-                        trackCallbackOnReady(function () {
-                            // we have to wait till DOM ready
-                            var contentNodes = content.findContentNodes();
-                            var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
+            /**
+             * Returns the Piwik server URL
+             * @returns string
+             */
+            this.getTrackerUrl = function () {
+                return configTrackerUrl;
+            };
 
-                            sendBulkRequest(requests, configTrackerPause);
-                        });
-                    });
-                },
-
-                /**
-                 * Scans the entire DOM for all content blocks as soon as the page is loaded. It tracks an impression
-                 * only if a content block is actually visible. Meaning it is not hidden and the content is or was at
-                 * some point in the viewport.
-                 *
-                 * If you want to track all content blocks have a look at `trackAllContentImpressions()`.
-                 * We do not track an impression of the same content block twice if you call this method multiple times
-                 * unless `trackPageView()` is called meanwhile. This is useful for single page applications.
-                 *
-                 * Once you have called this method you can no longer change `checkOnScroll` or `timeIntervalInMs`.
-                 *
-                 * If you do want to only track visible content blocks but not want us to perform any automatic checks
-                 * as they can slow down your frames per second you can call `trackVisibleContentImpressions()` or
-                 * `trackContentImpressionsWithinNode()` manually at  any time to rescan the entire DOM for newly
-                 * visible content blocks.
-                 * o Call `trackVisibleContentImpressions(false, 0)` to initially track only visible content impressions
-                 * o Call `trackVisibleContentImpressions()` at any time again to rescan the entire DOM for newly visible content blocks or
-                 * o Call `trackContentImpressionsWithinNode(node)` at any time to rescan only a part of the DOM for newly visible content blocks
-                 *
-                 * @param boolean [checkOnScroll=true] Optional, you can disable rescanning the entire DOM automatically
-                 *                                     after each scroll event by passing the value `false`. If enabled,
-                 *                                     we check whether a previously hidden content blocks became visible
-                 *                                     after a scroll and if so track the impression.
-                 *                                     Note: If a content block is placed within a scrollable element
-                 *                                     (`overflow: scroll`), we can currently not detect when this block
-                 *                                     becomes visible.
-                 * @param integer [timeIntervalInMs=750] Optional, you can define an interval to rescan the entire DOM
-                 *                                     for new impressions every X milliseconds by passing
-                 *                                     for instance `timeIntervalInMs=500` (rescan DOM every 500ms).
-                 *                                     Rescanning the entire DOM and detecting the visible state of content
-                 *                                     blocks can take a while depending on the browser and amount of content.
-                 *                                     In case your frames per second goes down you might want to increase
-                 *                                     this value or disable it by passing the value `0`.
-                 */
-                trackVisibleContentImpressions: function (checkOnSroll, timeIntervalInMs) {
-                    if (isOverlaySession(configTrackerSiteId)) {
-                        return;
-                    }
-
-                    if (!isDefined(checkOnSroll)) {
-                        checkOnSroll = true;
-                    }
-
-                    if (!isDefined(timeIntervalInMs)) {
-                        timeIntervalInMs = 750;
-                    }
-
-                    enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs, this);
-
-                    trackCallback(function () {
-                        trackCallbackOnLoad(function () {
-                            // we have to wait till CSS parsed and applied
-                            var contentNodes = content.findContentNodes();
-                            var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
-
-                            sendBulkRequest(requests, configTrackerPause);
-                        });
-                    });
-                },
-
-                /**
-                 * Tracks a content impression using the specified values. You should not call this method too often
-                 * as each call causes an XHR tracking request and can slow down your site or your server.
-                 *
-                 * @param string contentName  For instance "Ad Sale".
-                 * @param string [contentPiece='Unknown'] For instance a path to an image or the text of a text ad.
-                 * @param string [contentTarget] For instance the URL of a landing page.
-                 */
-                trackContentImpression: function (contentName, contentPiece, contentTarget) {
-                    if (isOverlaySession(configTrackerSiteId)) {
-                        return;
-                    }
-
-                    if (!contentName) {
-                        return;
-                    }
-
-                    contentPiece = contentPiece || 'Unknown';
-
-                    trackCallback(function () {
-                        var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
-                        sendRequest(request, configTrackerPause);
-                    });
-                },
-
-                /**
-                 * Scans the given DOM node and its children for content blocks and tracks an impression for them if
-                 * no impression was already tracked for it. If you have called `trackVisibleContentImpressions()`
-                 * upfront only visible content blocks will be tracked. You can use this method if you, for instance,
-                 * dynamically add an element using JavaScript to your DOM after we have tracked the initial impressions.
-                 *
-                 * @param Element domNode
-                 */
-                trackContentImpressionsWithinNode: function (domNode) {
-                    if (isOverlaySession(configTrackerSiteId) || !domNode) {
-                        return;
-                    }
-
-                    trackCallback(function () {
-                        if (isTrackOnlyVisibleContentEnabled) {
-                            trackCallbackOnLoad(function () {
-                                // we have to wait till CSS parsed and applied
-                                var contentNodes = content.findContentNodesWithinNode(domNode);
-
-                                var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
-                                sendBulkRequest(requests, configTrackerPause);
-                            });
-                        } else {
-                            trackCallbackOnReady(function () {
-                                // we have to wait till DOM ready
-                                var contentNodes = content.findContentNodesWithinNode(domNode);
-
-                                var requests = getContentImpressionsRequestsFromNodes(contentNodes);
-                                sendBulkRequest(requests, configTrackerPause);
-                            });
-                        }
-                    });
-                },
-
-                /**
-                 * Tracks a content interaction using the specified values. You should use this method only in conjunction
-                 * with `trackContentImpression()`. The specified `contentName` and `contentPiece` has to be exactly the
-                 * same as the ones that were used in `trackContentImpression()`. Otherwise the interaction will not count.
-                 *
-                 * @param string contentInteraction The type of interaction that happened. For instance 'click' or 'submit'.
-                 * @param string contentName  The name of the content. For instance "Ad Sale".
-                 * @param string [contentPiece='Unknown'] The actual content. For instance a path to an image or the text of a text ad.
-                 * @param string [contentTarget] For instance the URL of a landing page.
-                 */
-                trackContentInteraction: function (contentInteraction, contentName, contentPiece, contentTarget) {
-                    if (isOverlaySession(configTrackerSiteId)) {
-                        return;
-                    }
-
-                    if (!contentInteraction || !contentName) {
-                        return;
-                    }
-
-                    contentPiece = contentPiece || 'Unknown';
-
-                    trackCallback(function () {
-                        var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
-                        sendRequest(request, configTrackerPause);
-                    });
-                },
-
-                /**
-                 * Tracks an interaction with the given DOM node / content block.
-                 *
-                 * By default we track interactions on click but sometimes you might want to track interactions yourself.
-                 * For instance you might want to track an interaction manually on a double click or a form submit.
-                 * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
-                 * class `piwikContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
-                 *
-                 * @param Element domNode  This element itself or any of its parent elements has to be a content block
-                 *                         element. Meaning one of those has to have a `piwikTrackContent` CSS class or
-                 *                         a `data-track-content` attribute.
-                 * @param string [contentInteraction='Unknown] The name of the interaction that happened. For instance
-                 *                                             'click', 'formSubmit', 'DblClick', ...
-                 */
-                trackContentInteractionNode: function (domNode, contentInteraction) {
-                    if (isOverlaySession(configTrackerSiteId) || !domNode) {
-                        return;
-                    }
-
-                    trackCallback(function () {
-                        var request = buildContentInteractionRequestNode(domNode, contentInteraction);
-                        sendRequest(request, configTrackerPause);
-                    });
-                },
-
-                /**
-                 * Useful to debug content tracking. This method will log all detected content blocks to console
-                 * (if the browser supports the console). It will list the detected name, piece, and target of each
-                 * content block.
-                 */
-                logAllContentBlocksOnPage: function () {
-                    var contentNodes = content.findContentNodes();
-                    var contents = content.collectContent(contentNodes);
-
-                    if (console !== undefined && console && console.log) {
-                        console.log(contents);
-                    }
-                },
-
-                /**
-                 * Records an event
-                 *
-                 * @param string category The Event Category (Videos, Music, Games...)
-                 * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
-                 * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
-                 * @param float value (optional) The Event's value
-                 * @param mixed customData
-                 */
-                trackEvent: function (category, action, name, value, customData) {
-                    trackCallback(function () {
-                        logEvent(category, action, name, value, customData);
-                    });
-                },
-
-                /**
-                 * Log special pageview: Internal search
-                 *
-                 * @param string keyword
-                 * @param string category
-                 * @param int resultsCount
-                 * @param mixed customData
-                 */
-                trackSiteSearch: function (keyword, category, resultsCount, customData) {
-                    trackCallback(function () {
-                        logSiteSearch(keyword, category, resultsCount, customData);
-                    });
-                },
-
-                /**
-                 * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
-                 * This must be called before trackPageView() on the product/category page.
-                 * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
-                 * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
-                 *
-                 * On a category page, you can set the parameter category, and set the other parameters to empty string or false
-                 *
-                 * Tracking Product/Category page views will allow Piwik to report on Product & Categories
-                 * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
-                 *
-                 * @param string sku Item's SKU code being viewed
-                 * @param string name Item's Name being viewed
-                 * @param string category Category page being viewed. On an Item's page, this is the item's category
-                 * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
-                 */
-                setEcommerceView: function (sku, name, category, price) {
-                    if (!isDefined(category) || !category.length) {
-                        category = "";
-                    } else if (category instanceof Array) {
-                        category = JSON2.stringify(category);
-                    }
-
-                    customVariablesPage[5] = ['_pkc', category];
-
-                    if (isDefined(price) && String(price).length) {
-                        customVariablesPage[2] = ['_pkp', price];
-                    }
-
-                    // On a category page, do not track Product name not defined
-                    if ((!isDefined(sku) || !sku.length)
-                            && (!isDefined(name) || !name.length)) {
-                        return;
-                    }
-
-                    if (isDefined(sku) && sku.length) {
-                        customVariablesPage[3] = ['_pks', sku];
-                    }
-
-                    if (!isDefined(name) || !name.length) {
-                        name = "";
-                    }
-
-                    customVariablesPage[4] = ['_pkn', name];
-                },
-
-                /**
-                 * Adds an item (product) that is in the current Cart or in the Ecommerce order.
-                 * This function is called for every item (product) in the Cart or the Order.
-                 * The only required parameter is sku.
-                 *
-                 * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
-                 * @param string name (optional) Item's name
-                 * @param string name (optional) Item's category, or array of up to 5 categories
-                 * @param float price (optional) Item's price. If not specified, will default to 0
-                 * @param float quantity (optional) Item's quantity. If not specified, will default to 1
-                 */
-                addEcommerceItem: function (sku, name, category, price, quantity) {
-                    if (sku.length) {
-                        ecommerceItems[sku] = [ sku, name, category, price, quantity ];
-                    }
-                },
-
-                /**
-                 * Tracks an Ecommerce order.
-                 * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
-                 * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
-                 * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
-                 *
-                 * @param string|int orderId (required) Unique Order ID.
-                 *                   This will be used to count this order only once in the event the order page is reloaded several times.
-                 *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik.
-                 * @param float grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
-                 * @param float subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied)
-                 * @param float tax (optional) Tax amount for this order
-                 * @param float shipping (optional) Shipping amount for this order
-                 * @param float discount (optional) Discounted amount in this order
-                 */
-                trackEcommerceOrder: function (orderId, grandTotal, subTotal, tax, shipping, discount) {
-                    logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount);
-                },
-
-                /**
-                 * Tracks a Cart Update (add item, remove item, update item).
-                 * On every Cart update, you must call addEcommerceItem() for each item (product) in the cart, including the items that haven't been updated since the last cart update.
-                 * Then you can call this function with the Cart grandTotal (typically the sum of all items' prices)
-                 *
-                 * @param float grandTotal (required) Items (products) amount in the Cart
-                 */
-                trackEcommerceCartUpdate: function (grandTotal) {
-                    logEcommerceCartUpdate(grandTotal);
+            /**
+             * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
+             * If piwikUrl is not set, current url will be used.
+             *
+             * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param int|string siteId
+             * @return Tracker
+             */
+            this.addTracker = function (piwikUrl, siteId) {
+                if (!siteId) {
+                    throw new Error('A siteId must be given to add a new tracker');
                 }
 
-            };
-        }
+                if (!isDefined(piwikUrl) || null === piwikUrl) {
+                    piwikUrl = this.getTrackerUrl();
+                }
 
-        /************************************************************
-         * Proxy object
-         * - this allows the caller to continue push()'ing to _paq
-         *   after the Tracker has been initialized and loaded
-         ************************************************************/
+                var tracker = new Tracker(piwikUrl, siteId);
+
+                asyncTrackers.push(tracker);
+
+                return tracker;
+            };
+
+            /**
+             * Returns the site ID
+             *
+             * @returns int
+             */
+            this.getSiteId = function() {
+                return configTrackerSiteId;
+            };
+
+            /**
+             * Specify the site ID
+             *
+             * @param int|string siteId
+             */
+            this.setSiteId = function (siteId) {
+                setSiteId(siteId);
+            };
+
+            /**
+             * Sets a User ID to this user (such as an email address or a username)
+             *
+             * @param string User ID
+             */
+            this.setUserId = function (userId) {
+                if(!isDefined(userId) || !userId.length) {
+                    return;
+                }
+                configUserId = userId;
+                visitorUUID = hash(configUserId).substr(0, 16);
+            };
+
+            /**
+             * Gets the User ID if set.
+             *
+             * @returns string User ID
+             */
+            this.getUserId = function() {
+                return configUserId;
+            };
+
+            /**
+             * Pass custom data to the server
+             *
+             * Examples:
+             *   tracker.setCustomData(object);
+             *   tracker.setCustomData(key, value);
+             *
+             * @param mixed key_or_obj
+             * @param mixed opt_value
+             */
+            this.setCustomData = function (key_or_obj, opt_value) {
+                if (isObject(key_or_obj)) {
+                    configCustomData = key_or_obj;
+                } else {
+                    if (!configCustomData) {
+                        configCustomData = {};
+                    }
+                    configCustomData[key_or_obj] = opt_value;
+                }
+            };
+
+            /**
+             * Get custom data
+             *
+             * @return mixed
+             */
+            this.getCustomData = function () {
+                return configCustomData;
+            };
+
+            /**
+             * Configure function with custom request content processing logic.
+             * It gets called after request content in form of query parameters string has been prepared and before request content gets sent.
+             *
+             * Examples:
+             *   tracker.setCustomRequestProcessing(function(request){
+             *     var pairs = request.split('&');
+             *     var result = {};
+             *     pairs.forEach(function(pair) {
+             *       pair = pair.split('=');
+             *       result[pair[0]] = decodeURIComponent(pair[1] || '');
+             *     });
+             *     return JSON.stringify(result);
+             *   });
+             *
+             * @param function customRequestContentProcessingLogic
+             */
+            this.setCustomRequestProcessing = function (customRequestContentProcessingLogic) {
+                configCustomRequestContentProcessing = customRequestContentProcessingLogic;
+            };
+
+            /**
+             * Appends the specified query string to the piwik.php?... Tracking API URL
+             *
+             * @param string queryString eg. 'lat=140&long=100'
+             */
+            this.appendToTrackingUrl = function (queryString) {
+                configAppendToTrackingUrl = queryString;
+            };
+
+            /**
+             * Returns the query string for the current HTTP Tracking API request.
+             * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+             * prior to sending the request.
+             *
+             * @param request eg. "param=value&param2=value2"
+             */
+            this.getRequest = function (request) {
+                return getRequest(request);
+            };
+
+            /**
+             * Add plugin defined by a name and a callback function.
+             * The callback function will be called whenever a tracking request is sent.
+             * This can be used to append data to the tracking request, or execute other custom logic.
+             *
+             * @param string pluginName
+             * @param Object pluginObj
+             */
+            this.addPlugin = function (pluginName, pluginObj) {
+                plugins[pluginName] = pluginObj;
+            };
+
+            /**
+             * Set Custom Dimensions. Set Custom Dimensions will not be cleared after a tracked pageview and will
+             * be sent along all following tracking requests. It is possible to remove/clear a value via `deleteCustomDimension`.
+             *
+             * @param int index A Custom Dimension index
+             * @param string value
+             */
+            this.setCustomDimension = function (customDimensionId, value) {
+                customDimensionId = parseInt(customDimensionId, 10);
+                if (customDimensionId > 0) {
+                    if (!isDefined(value)) {
+                        value = '';
+                    }
+                    if (!isString(value)) {
+                        value = String(value);
+                    }
+                    customDimensions[customDimensionId] = value;
+                }
+            };
+
+            /**
+             * Get a stored value for a specific Custom Dimension index.
+             *
+             * @param int index A Custom Dimension index
+             */
+            this.getCustomDimension = function (customDimensionId) {
+                customDimensionId = parseInt(customDimensionId, 10);
+                if (customDimensionId > 0 && Object.prototype.hasOwnProperty.call(customDimensions, customDimensionId)) {
+                    return customDimensions[customDimensionId];
+                }
+            };
+
+            /**
+             * Delete a custom dimension.
+             *
+             * @param int index Custom dimension Id
+             */
+            this.deleteCustomDimension = function (customDimensionId) {
+                customDimensionId = parseInt(customDimensionId, 10);
+                if (customDimensionId > 0) {
+                    delete customDimensions[customDimensionId];
+                }
+            };
+
+            /**
+             * Set custom variable within this visit
+             *
+             * @param int index Custom variable slot ID from 1-5
+             * @param string name
+             * @param string value
+             * @param string scope Scope of Custom Variable:
+             *                     - "visit" will store the name/value in the visit and will persist it in the cookie for the duration of the visit,
+             *                     - "page" will store the name/value in the next page view tracked.
+             *                     - "event" will store the name/value in the next event tracked.
+             */
+            this.setCustomVariable = function (index, name, value, scope) {
+                var toRecord;
+
+                if (!isDefined(scope)) {
+                    scope = 'visit';
+                }
+                if (!isDefined(name)) {
+                    return;
+                }
+                if (!isDefined(value)) {
+                    value = "";
+                }
+                if (index > 0) {
+                    name = !isString(name) ? String(name) : name;
+                    value = !isString(value) ? String(value) : value;
+                    toRecord = [name.slice(0, customVariableMaximumLength), value.slice(0, customVariableMaximumLength)];
+                    // numeric scope is there for GA compatibility
+                    if (scope === 'visit' || scope === 2) {
+                        loadCustomVariables();
+                        customVariables[index] = toRecord;
+                    } else if (scope === 'page' || scope === 3) {
+                        customVariablesPage[index] = toRecord;
+                    } else if (scope === 'event') { /* GA does not have 'event' scope but we do */
+                        customVariablesEvent[index] = toRecord;
+                    }
+                }
+            };
+
+            /**
+             * Get custom variable
+             *
+             * @param int index Custom variable slot ID from 1-5
+             * @param string scope Scope of Custom Variable: "visit" or "page" or "event"
+             */
+            this.getCustomVariable = function (index, scope) {
+                var cvar;
+
+                if (!isDefined(scope)) {
+                    scope = "visit";
+                }
+
+                if (scope === "page" || scope === 3) {
+                    cvar = customVariablesPage[index];
+                } else if (scope === "event") {
+                    cvar = customVariablesEvent[index];
+                } else if (scope === "visit" || scope === 2) {
+                    loadCustomVariables();
+                    cvar = customVariables[index];
+                }
+
+                if (!isDefined(cvar)
+                        || (cvar && cvar[0] === '')) {
+                    return false;
+                }
+
+                return cvar;
+            };
+
+            /**
+             * Delete custom variable
+             *
+             * @param int index Custom variable slot ID from 1-5
+             * @param string scope
+             */
+            this.deleteCustomVariable = function (index, scope) {
+                // Only delete if it was there already
+                if (this.getCustomVariable(index, scope)) {
+                    this.setCustomVariable(index, '', '', scope);
+                }
+            };
+
+            /**
+             * When called then the Custom Variables of scope "visit" will be stored (persisted) in a first party cookie
+             * for the duration of the visit. This is useful if you want to call getCustomVariable later in the visit.
+             *
+             * By default, Custom Variables of scope "visit" are not stored on the visitor's computer.
+             */
+            this.storeCustomVariablesInCookie = function () {
+                configStoreCustomVariablesInCookie = true;
+            };
+
+            /**
+             * Set delay for link tracking (in milliseconds)
+             *
+             * @param int delay
+             */
+            this.setLinkTrackingTimer = function (delay) {
+                configTrackerPause = delay;
+            };
+
+            /**
+             * Set list of file extensions to be recognized as downloads
+             *
+             * @param string|array extensions
+             */
+            this.setDownloadExtensions = function (extensions) {
+                if(isString(extensions)) {
+                    extensions = extensions.split('|');
+                }
+                configDownloadExtensions = extensions;
+            };
+
+            /**
+             * Specify additional file extensions to be recognized as downloads
+             *
+             * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
+             */
+            this.addDownloadExtensions = function (extensions) {
+                var i;
+                if(isString(extensions)) {
+                    extensions = extensions.split('|');
+                }
+                for (i=0; i < extensions.length; i++) {
+                    configDownloadExtensions.push(extensions[i]);
+                }
+            };
+
+            /**
+             * Removes specified file extensions from the list of recognized downloads
+             *
+             * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
+             */
+            this.removeDownloadExtensions = function (extensions) {
+                var i, newExtensions = [];
+                if(isString(extensions)) {
+                    extensions = extensions.split('|');
+                }
+                for (i=0; i < configDownloadExtensions.length; i++) {
+                    if (indexOfArray(extensions, configDownloadExtensions[i]) === -1) {
+                        newExtensions.push(configDownloadExtensions[i]);
+                    }
+                }
+                configDownloadExtensions = newExtensions;
+            };
+
+            /**
+             * Set array of domains to be treated as local. Also supports path, eg '.piwik.org/subsite1'. In this
+             * case all links that don't go to '*.piwik.org/subsite1/ *' would be treated as outlinks.
+             * For example a link to 'piwik.org/' or 'piwik.org/subsite2' both would be treated as outlinks.
+             *
+             * Also supports page wildcard, eg 'piwik.org/index*'. In this case all links
+             * that don't go to piwik.org/index* would be treated as outlinks.
+             *
+             * The current domain will be added automatically if no given host alias contains a path and if no host
+             * alias is already given for the current host alias. Say you are on "example.org" and set
+             * "hostAlias = ['example.com', 'example.org/test']" then the current "example.org" domain will not be
+             * added as there is already a more restrictive hostAlias 'example.org/test' given. We also do not add
+             * it automatically if there was any other host specifying any path like
+             * "['example.com', 'example2.com/test']". In this case we would also not add the current
+             * domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path
+             * feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts
+             * manually.
+             *
+             * @param string|array hostsAlias
+             */
+            this.setDomains = function (hostsAlias) {
+                configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
+
+                var hasDomainAliasAlready = false, i = 0, alias;
+                for (i; i < configHostsAlias.length; i++) {
+                    alias = String(configHostsAlias[i]);
+
+                    if (isSameHost(domainAlias, domainFixup(alias))) {
+                        hasDomainAliasAlready = true;
+                        break;
+                    }
+
+                    var pathName = getPathName(alias);
+                    if (pathName && pathName !== '/' && pathName !== '/*') {
+                        hasDomainAliasAlready = true;
+                        break;
+                    }
+                }
+
+                // The current domain will be added automatically if no given host alias contains a path
+                // and if no host alias is already given for the current host alias.
+                if (!hasDomainAliasAlready) {
+                    /**
+                     * eg if domainAlias = 'piwik.org' and someone set hostsAlias = ['piwik.org/foo'] then we should
+                     * not add piwik.org as it would increase the allowed scope.
+                     */
+                    configHostsAlias.push(domainAlias);
+                }
+            };
+
+            /**
+             * Set array of classes to be ignored if present in link
+             *
+             * @param string|array ignoreClasses
+             */
+            this.setIgnoreClasses = function (ignoreClasses) {
+                configIgnoreClasses = isString(ignoreClasses) ? [ignoreClasses] : ignoreClasses;
+            };
+
+            /**
+             * Set request method
+             *
+             * @param string method GET or POST; default is GET
+             */
+            this.setRequestMethod = function (method) {
+                configRequestMethod = method || defaultRequestMethod;
+            };
+
+            /**
+             * Set request Content-Type header value, applicable when POST request method is used for submitting tracking events.
+             * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
+             * @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
+             *
+             * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
+             */
+            this.setRequestContentType = function (requestContentType) {
+                configRequestContentType = requestContentType || defaultRequestContentType;
+            };
+
+            /**
+             * Override referrer
+             *
+             * @param string url
+             */
+            this.setReferrerUrl = function (url) {
+                configReferrerUrl = url;
+            };
+
+            /**
+             * Override url
+             *
+             * @param string url
+             */
+            this.setCustomUrl = function (url) {
+                configCustomUrl = resolveRelativeReference(locationHrefAlias, url);
+            };
+
+            /**
+             * Override document.title
+             *
+             * @param string title
+             */
+            this.setDocumentTitle = function (title) {
+                configTitle = title;
+            };
+
+            /**
+             * Set the URL of the Piwik API. It is used for Page Overlay.
+             * This method should only be called when the API URL differs from the tracker URL.
+             *
+             * @param string apiUrl
+             */
+            this.setAPIUrl = function (apiUrl) {
+                configApiUrl = apiUrl;
+            };
+
+            /**
+             * Set array of classes to be treated as downloads
+             *
+             * @param string|array downloadClasses
+             */
+            this.setDownloadClasses = function (downloadClasses) {
+                configDownloadClasses = isString(downloadClasses) ? [downloadClasses] : downloadClasses;
+            };
+
+            /**
+             * Set array of classes to be treated as outlinks
+             *
+             * @param string|array linkClasses
+             */
+            this.setLinkClasses = function (linkClasses) {
+                configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
+            };
+
+            /**
+             * Set array of campaign name parameters
+             *
+             * @see http://piwik.org/faq/how-to/#faq_120
+             * @param string|array campaignNames
+             */
+            this.setCampaignNameKey = function (campaignNames) {
+                configCampaignNameParameters = isString(campaignNames) ? [campaignNames] : campaignNames;
+            };
+
+            /**
+             * Set array of campaign keyword parameters
+             *
+             * @see http://piwik.org/faq/how-to/#faq_120
+             * @param string|array campaignKeywords
+             */
+            this.setCampaignKeywordKey = function (campaignKeywords) {
+                configCampaignKeywordParameters = isString(campaignKeywords) ? [campaignKeywords] : campaignKeywords;
+            };
+
+            /**
+             * Strip hash tag (or anchor) from URL
+             * Note: this can be done in the Piwik>Settings>Websites on a per-website basis
+             *
+             * @deprecated
+             * @param bool enableFilter
+             */
+            this.discardHashTag = function (enableFilter) {
+                configDiscardHashTag = enableFilter;
+            };
+
+            /**
+             * Set first-party cookie name prefix
+             *
+             * @param string cookieNamePrefix
+             */
+            this.setCookieNamePrefix = function (cookieNamePrefix) {
+                configCookieNamePrefix = cookieNamePrefix;
+                // Re-init the Custom Variables cookie
+                customVariables = getCustomVariablesFromCookie();
+            };
+
+            /**
+             * Set first-party cookie domain
+             *
+             * @param string domain
+             */
+            this.setCookieDomain = function (domain) {
+                var domainFixed = domainFixup(domain);
+
+                if (isPossibleToSetCookieOnDomain(domainFixed)) {
+                    configCookieDomain = domainFixed;
+                    updateDomainHash();
+                }
+            };
+
+            /**
+             * Set first-party cookie path
+             *
+             * @param string domain
+             */
+            this.setCookiePath = function (path) {
+                configCookiePath = path;
+                updateDomainHash();
+            };
+
+            /**
+             * Set visitor cookie timeout (in seconds)
+             * Defaults to 13 months (timeout=33955200)
+             *
+             * @param int timeout
+             */
+            this.setVisitorCookieTimeout = function (timeout) {
+                configVisitorCookieTimeout = timeout * 1000;
+            };
+
+            /**
+             * Set session cookie timeout (in seconds).
+             * Defaults to 30 minutes (timeout=1800)
+             *
+             * @param int timeout
+             */
+            this.setSessionCookieTimeout = function (timeout) {
+                configSessionCookieTimeout = timeout * 1000;
+            };
+
+            /**
+             * Set referral cookie timeout (in seconds).
+             * Defaults to 6 months (15768000000)
+             *
+             * @param int timeout
+             */
+            this.setReferralCookieTimeout = function (timeout) {
+                configReferralCookieTimeout = timeout * 1000;
+            };
+
+            /**
+             * Set conversion attribution to first referrer and campaign
+             *
+             * @param bool if true, use first referrer (and first campaign)
+             *             if false, use the last referrer (or campaign)
+             */
+            this.setConversionAttributionFirstReferrer = function (enable) {
+                configConversionAttributionFirstReferrer = enable;
+            };
+
+            /**
+             * Disables all cookies from being set
+             *
+             * Existing cookies will be deleted on the next call to track
+             */
+            this.disableCookies = function () {
+                configCookiesDisabled = true;
+                browserFeatures.cookie = '0';
+
+                if (configTrackerSiteId) {
+                    deleteCookies();
+                }
+            };
+
+            /**
+             * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
+             * it maybe helps to "reset" tracking cookies to prevent data reuse for different users.
+             */
+            this.deleteCookies = function () {
+                deleteCookies();
+            };
+
+            /**
+             * Handle do-not-track requests
+             *
+             * @param bool enable If true, don't track if user agent sends 'do-not-track' header
+             */
+            this.setDoNotTrack = function (enable) {
+                var dnt = navigatorAlias.doNotTrack || navigatorAlias.msDoNotTrack;
+                configDoNotTrack = enable && (dnt === 'yes' || dnt === '1');
+
+                // do not track also disables cookies and deletes existing cookies
+                if (configDoNotTrack) {
+                    this.disableCookies();
+                }
+            };
+
+            /**
+             * Add click listener to a specific link element.
+             * When clicked, Piwik will log the click automatically.
+             *
+             * @param DOMElement element
+             * @param bool enable If true, use pseudo click-handler (middle click + context menu)
+             */
+            this.addListener = function (element, enable) {
+                addClickListener(element, enable);
+            };
+
+            /**
+             * Install link tracker
+             *
+             * The default behaviour is to use actual click events. However, some browsers
+             * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
+             *
+             * To capture more "clicks", the pseudo click-handler uses mousedown + mouseup events.
+             * This is not industry standard and is vulnerable to false positives (e.g., drag events).
+             *
+             * There is a Safari/Chrome/Webkit bug that prevents tracking requests from being sent
+             * by either click handler.  The workaround is to set a target attribute (which can't
+             * be "_self", "_top", or "_parent").
+             *
+             * @see https://bugs.webkit.org/show_bug.cgi?id=54783
+             *
+             * @param bool enable If "true", use pseudo click-handler (treat middle click and open contextmenu as
+             *                    left click). A right click (or any click that opens the context menu) on a link
+             *                    will be tracked as clicked even if "Open in new tab" is not selected. If
+             *                    "false" (default), nothing will be tracked on open context menu or middle click.
+             *                    The context menu is usually opened to open a link / download in a new tab
+             *                    therefore you can get more accurate results by treat it as a click but it can lead
+             *                    to wrong click numbers.
+             */
+            this.enableLinkTracking = function (enable) {
+                linkTrackingEnabled = true;
+
+                trackCallback(function () {
+                    trackCallbackOnReady(function () {
+                        addClickListeners(enable);
+                    });
+                });
+            };
+
+            /**
+             * Enable tracking of uncatched JavaScript errors
+             *
+             * If enabled, uncaught JavaScript Errors will be tracked as an event by defining a
+             * window.onerror handler. If a window.onerror handler is already defined we will make
+             * sure to call this previously registered error handler after tracking the error.
+             *
+             * By default we return false in the window.onerror handler to make sure the error still
+             * appears in the browser's console etc. Note: Some older browsers might behave differently
+             * so it could happen that an actual JavaScript error will be suppressed.
+             * If a window.onerror handler was registered we will return the result of this handler.
+             *
+             * Make sure not to overwrite the window.onerror handler after enabling the JS error
+             * tracking as the error tracking won't work otherwise. To capture all JS errors we
+             * recommend to include the Piwik JavaScript tracker in the HTML as early as possible.
+             * If possible directly in <head></head> before loading any other JavaScript.
+             */
+            this.enableJSErrorTracking = function () {
+                if (enableJSErrorTracking) {
+                    return;
+                }
+
+                enableJSErrorTracking = true;
+                var onError = windowAlias.onerror;
+
+                windowAlias.onerror = function (message, url, linenumber, column, error) {
+                    trackCallback(function () {
+                        var category = 'JavaScript Errors';
+
+                        var action = url + ':' + linenumber;
+                        if (column) {
+                            action += ':' + column;
+                        }
+
+                        logEvent(category, action, message);
+                    });
+
+                    if (onError) {
+                        return onError(message, url, linenumber, column, error);
+                    }
+
+                    return false;
+                };
+            };
+
+            /**
+             * Disable automatic performance tracking
+             */
+            this.disablePerformanceTracking = function () {
+                configPerformanceTrackingEnabled = false;
+            };
+
+            /**
+             * Set the server generation time.
+             * If set, the browser's performance.timing API in not used anymore to determine the time.
+             *
+             * @param int generationTime
+             */
+            this.setGenerationTimeMs = function (generationTime) {
+                configPerformanceGenerationTime = parseInt(generationTime, 10);
+            };
+
+            /**
+             * Set heartbeat (in seconds)
+             *
+             * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1.
+             */
+            this.enableHeartBeatTimer = function (heartBeatDelayInSeconds) {
+                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
+                configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
+
+                // if a tracking request has already been sent, start the heart beat timeout
+                if (lastTrackerRequestTime !== null) {
+                    setUpHeartBeat();
+                }
+            };
+
+            /**
+             * Disable heartbeat if it was previously activated.
+             */
+            this.disableHeartBeatTimer = function () {
+                heartBeatDown();
+                
+                if (configHeartBeatDelay || heartBeatSetUp) {
+                    if (windowAlias.removeEventListener) {
+                        windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
+                        windowAlias.removeEventListener('blur', heartBeatOnBlur, true);
+                    } else if  (windowAlias.detachEvent) {
+                        windowAlias.detachEvent('onfocus', heartBeatOnFocus);
+                        windowAlias.detachEvent('onblur', heartBeatOnBlur);
+                    }
+                }
+
+                configHeartBeatDelay = null;
+                heartBeatSetUp = false;
+            };
+
+            /**
+             * Frame buster
+             */
+            this.killFrame = function () {
+                if (windowAlias.location !== windowAlias.top.location) {
+                    windowAlias.top.location = windowAlias.location;
+                }
+            };
+
+            /**
+             * Redirect if browsing offline (aka file: buster)
+             *
+             * @param string url Redirect to this URL
+             */
+            this.redirectFile = function (url) {
+                if (windowAlias.location.protocol === 'file:') {
+                    windowAlias.location = url;
+                }
+            };
+
+            /**
+             * Count sites in pre-rendered state
+             *
+             * @param bool enable If true, track when in pre-rendered state
+             */
+            this.setCountPreRendered = function (enable) {
+                configCountPreRendered = enable;
+            };
+
+            /**
+             * Trigger a goal
+             *
+             * @param int|string idGoal
+             * @param int|float customRevenue
+             * @param mixed customData
+             */
+            this.trackGoal = function (idGoal, customRevenue, customData) {
+                trackCallback(function () {
+                    logGoal(idGoal, customRevenue, customData);
+                });
+            };
+
+            /**
+             * Manually log a click from your own code
+             *
+             * @param string sourceUrl
+             * @param string linkType
+             * @param mixed customData
+             * @param function callback
+             */
+            this.trackLink = function (sourceUrl, linkType, customData, callback) {
+                trackCallback(function () {
+                    logLink(sourceUrl, linkType, customData, callback);
+                });
+            };
+
+            /**
+             * Log visit to this page
+             *
+             * @param string customTitle
+             * @param mixed customData
+             * @param function callback
+             */
+            this.trackPageView = function (customTitle, customData, callback) {
+                trackedContentImpressions = [];
+
+                if (isOverlaySession(configTrackerSiteId)) {
+                    trackCallback(function () {
+                        injectOverlayScripts(configTrackerUrl, configApiUrl, configTrackerSiteId);
+                    });
+                } else {
+                    trackCallback(function () {
+                        logPageView(customTitle, customData, callback);
+                    });
+                }
+            };
+
+            /**
+             * Scans the entire DOM for all content blocks and tracks all impressions once the DOM ready event has
+             * been triggered.
+             *
+             * If you only want to track visible content impressions have a look at `trackVisibleContentImpressions()`.
+             * We do not track an impression of the same content block twice if you call this method multiple times
+             * unless `trackPageView()` is called meanwhile. This is useful for single page applications.
+             */
+            this.trackAllContentImpressions = function () {
+                if (isOverlaySession(configTrackerSiteId)) {
+                    return;
+                }
+
+                trackCallback(function () {
+                    trackCallbackOnReady(function () {
+                        // we have to wait till DOM ready
+                        var contentNodes = content.findContentNodes();
+                        var requests     = getContentImpressionsRequestsFromNodes(contentNodes);
+
+                        sendBulkRequest(requests, configTrackerPause);
+                    });
+                });
+            };
+
+            /**
+             * Scans the entire DOM for all content blocks as soon as the page is loaded. It tracks an impression
+             * only if a content block is actually visible. Meaning it is not hidden and the content is or was at
+             * some point in the viewport.
+             *
+             * If you want to track all content blocks have a look at `trackAllContentImpressions()`.
+             * We do not track an impression of the same content block twice if you call this method multiple times
+             * unless `trackPageView()` is called meanwhile. This is useful for single page applications.
+             *
+             * Once you have called this method you can no longer change `checkOnScroll` or `timeIntervalInMs`.
+             *
+             * If you do want to only track visible content blocks but not want us to perform any automatic checks
+             * as they can slow down your frames per second you can call `trackVisibleContentImpressions()` or
+             * `trackContentImpressionsWithinNode()` manually at  any time to rescan the entire DOM for newly
+             * visible content blocks.
+             * o Call `trackVisibleContentImpressions(false, 0)` to initially track only visible content impressions
+             * o Call `trackVisibleContentImpressions()` at any time again to rescan the entire DOM for newly visible content blocks or
+             * o Call `trackContentImpressionsWithinNode(node)` at any time to rescan only a part of the DOM for newly visible content blocks
+             *
+             * @param boolean [checkOnScroll=true] Optional, you can disable rescanning the entire DOM automatically
+             *                                     after each scroll event by passing the value `false`. If enabled,
+             *                                     we check whether a previously hidden content blocks became visible
+             *                                     after a scroll and if so track the impression.
+             *                                     Note: If a content block is placed within a scrollable element
+             *                                     (`overflow: scroll`), we can currently not detect when this block
+             *                                     becomes visible.
+             * @param integer [timeIntervalInMs=750] Optional, you can define an interval to rescan the entire DOM
+             *                                     for new impressions every X milliseconds by passing
+             *                                     for instance `timeIntervalInMs=500` (rescan DOM every 500ms).
+             *                                     Rescanning the entire DOM and detecting the visible state of content
+             *                                     blocks can take a while depending on the browser and amount of content.
+             *                                     In case your frames per second goes down you might want to increase
+             *                                     this value or disable it by passing the value `0`.
+             */
+            this.trackVisibleContentImpressions = function (checkOnSroll, timeIntervalInMs) {
+                if (isOverlaySession(configTrackerSiteId)) {
+                    return;
+                }
+
+                if (!isDefined(checkOnSroll)) {
+                    checkOnSroll = true;
+                }
+
+                if (!isDefined(timeIntervalInMs)) {
+                    timeIntervalInMs = 750;
+                }
+
+                enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs, this);
+
+                trackCallback(function () {
+                    trackCallbackOnLoad(function () {
+                        // we have to wait till CSS parsed and applied
+                        var contentNodes = content.findContentNodes();
+                        var requests     = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
+
+                        sendBulkRequest(requests, configTrackerPause);
+                    });
+                });
+            };
+
+            /**
+             * Tracks a content impression using the specified values. You should not call this method too often
+             * as each call causes an XHR tracking request and can slow down your site or your server.
+             *
+             * @param string contentName  For instance "Ad Sale".
+             * @param string [contentPiece='Unknown'] For instance a path to an image or the text of a text ad.
+             * @param string [contentTarget] For instance the URL of a landing page.
+             */
+            this.trackContentImpression = function (contentName, contentPiece, contentTarget) {
+                if (isOverlaySession(configTrackerSiteId)) {
+                    return;
+                }
+
+                if (!contentName) {
+                    return;
+                }
+
+                contentPiece = contentPiece || 'Unknown';
+
+                trackCallback(function () {
+                    var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
+                    sendRequest(request, configTrackerPause);
+                });
+            };
+
+            /**
+             * Scans the given DOM node and its children for content blocks and tracks an impression for them if
+             * no impression was already tracked for it. If you have called `trackVisibleContentImpressions()`
+             * upfront only visible content blocks will be tracked. You can use this method if you, for instance,
+             * dynamically add an element using JavaScript to your DOM after we have tracked the initial impressions.
+             *
+             * @param Element domNode
+             */
+            this.trackContentImpressionsWithinNode = function (domNode) {
+                if (isOverlaySession(configTrackerSiteId) || !domNode) {
+                    return;
+                }
+
+                trackCallback(function () {
+                    if (isTrackOnlyVisibleContentEnabled) {
+                        trackCallbackOnLoad(function () {
+                            // we have to wait till CSS parsed and applied
+                            var contentNodes = content.findContentNodesWithinNode(domNode);
+
+                            var requests = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes);
+                            sendBulkRequest(requests, configTrackerPause);
+                        });
+                    } else {
+                        trackCallbackOnReady(function () {
+                            // we have to wait till DOM ready
+                            var contentNodes = content.findContentNodesWithinNode(domNode);
+
+                            var requests = getContentImpressionsRequestsFromNodes(contentNodes);
+                            sendBulkRequest(requests, configTrackerPause);
+                        });
+                    }
+                });
+            };
+
+            /**
+             * Tracks a content interaction using the specified values. You should use this method only in conjunction
+             * with `trackContentImpression()`. The specified `contentName` and `contentPiece` has to be exactly the
+             * same as the ones that were used in `trackContentImpression()`. Otherwise the interaction will not count.
+             *
+             * @param string contentInteraction The type of interaction that happened. For instance 'click' or 'submit'.
+             * @param string contentName  The name of the content. For instance "Ad Sale".
+             * @param string [contentPiece='Unknown'] The actual content. For instance a path to an image or the text of a text ad.
+             * @param string [contentTarget] For instance the URL of a landing page.
+             */
+            this.trackContentInteraction = function (contentInteraction, contentName, contentPiece, contentTarget) {
+                if (isOverlaySession(configTrackerSiteId)) {
+                    return;
+                }
+
+                if (!contentInteraction || !contentName) {
+                    return;
+                }
+
+                contentPiece = contentPiece || 'Unknown';
+
+                trackCallback(function () {
+                    var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
+                    sendRequest(request, configTrackerPause);
+                });
+            };
+
+            /**
+             * Tracks an interaction with the given DOM node / content block.
+             *
+             * By default we track interactions on click but sometimes you might want to track interactions yourself.
+             * For instance you might want to track an interaction manually on a double click or a form submit.
+             * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
+             * class `piwikContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
+             *
+             * @param Element domNode  This element itself or any of its parent elements has to be a content block
+             *                         element. Meaning one of those has to have a `piwikTrackContent` CSS class or
+             *                         a `data-track-content` attribute.
+             * @param string [contentInteraction='Unknown] The name of the interaction that happened. For instance
+             *                                             'click', 'formSubmit', 'DblClick', ...
+             */
+            this.trackContentInteractionNode = function (domNode, contentInteraction) {
+                if (isOverlaySession(configTrackerSiteId) || !domNode) {
+                    return;
+                }
+
+                trackCallback(function () {
+                    var request = buildContentInteractionRequestNode(domNode, contentInteraction);
+                    sendRequest(request, configTrackerPause);
+                });
+            };
+
+            /**
+             * Useful to debug content tracking. This method will log all detected content blocks to console
+             * (if the browser supports the console). It will list the detected name, piece, and target of each
+             * content block.
+             */
+            this.logAllContentBlocksOnPage = function () {
+                var contentNodes = content.findContentNodes();
+                var contents = content.collectContent(contentNodes);
+
+                if (console !== undefined && console && console.log) {
+                    console.log(contents);
+                }
+            };
+
+            /**
+             * Records an event
+             *
+             * @param string category The Event Category (Videos, Music, Games...)
+             * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
+             * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+             * @param float value (optional) The Event's value
+             * @param function callback
+             * @param mixed customData
+             */
+            this.trackEvent = function (category, action, name, value, customData, callback) {
+                trackCallback(function () {
+                    logEvent(category, action, name, value, customData, callback);
+                });
+            };
+
+            /**
+             * Log special pageview: Internal search
+             *
+             * @param string keyword
+             * @param string category
+             * @param int resultsCount
+             * @param mixed customData
+             */
+            this.trackSiteSearch = function (keyword, category, resultsCount, customData) {
+                trackCallback(function () {
+                    logSiteSearch(keyword, category, resultsCount, customData);
+                });
+            };
+
+            /**
+             * Used to record that the current page view is an item (product) page view, or a Ecommerce Category page view.
+             * This must be called before trackPageView() on the product/category page.
+             * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
+             * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
+             *
+             * On a category page, you can set the parameter category, and set the other parameters to empty string or false
+             *
+             * Tracking Product/Category page views will allow Piwik to report on Product & Categories
+             * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
+             *
+             * @param string sku Item's SKU code being viewed
+             * @param string name Item's Name being viewed
+             * @param string category Category page being viewed. On an Item's page, this is the item's category
+             * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
+             */
+            this.setEcommerceView = function (sku, name, category, price) {
+                if (!isDefined(category) || !category.length) {
+                    category = "";
+                } else if (category instanceof Array) {
+                    category = JSON2.stringify(category);
+                }
+
+                customVariablesPage[5] = ['_pkc', category];
+
+                if (isDefined(price) && String(price).length) {
+                    customVariablesPage[2] = ['_pkp', price];
+                }
+
+                // On a category page, do not track Product name not defined
+                if ((!isDefined(sku) || !sku.length)
+                        && (!isDefined(name) || !name.length)) {
+                    return;
+                }
+
+                if (isDefined(sku) && sku.length) {
+                    customVariablesPage[3] = ['_pks', sku];
+                }
+
+                if (!isDefined(name) || !name.length) {
+                    name = "";
+                }
+
+                customVariablesPage[4] = ['_pkn', name];
+            };
+
+            /**
+             * Adds an item (product) that is in the current Cart or in the Ecommerce order.
+             * This function is called for every item (product) in the Cart or the Order.
+             * The only required parameter is sku.
+             * The items are deleted from this JavaScript object when the Ecommerce order is tracked via the method trackEcommerceOrder.
+             *
+             * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
+             * @param string name (optional) Item's name
+             * @param string name (optional) Item's category, or array of up to 5 categories
+             * @param float price (optional) Item's price. If not specified, will default to 0
+             * @param float quantity (optional) Item's quantity. If not specified, will default to 1
+             */
+            this.addEcommerceItem = function (sku, name, category, price, quantity) {
+                if (sku.length) {
+                    ecommerceItems.push([ sku, name, category, price, quantity ]);
+                }
+            };
+
+            /**
+             * Tracks an Ecommerce order.
+             * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
+             * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
+             * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
+             * After calling this method, items added to the cart will be removed from this JavaScript object.
+             *
+             * @param string|int orderId (required) Unique Order ID.
+             *                   This will be used to count this order only once in the event the order page is reloaded several times.
+             *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik.
+             * @param float grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
+             * @param float subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied)
+             * @param float tax (optional) Tax amount for this order
+             * @param float shipping (optional) Shipping amount for this order
+             * @param float discount (optional) Discounted amount in this order
+             */
+            this.trackEcommerceOrder = function (orderId, grandTotal, subTotal, tax, shipping, discount) {
+                logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount);
+            };
+
+            /**
+             * Tracks a Cart Update (add item, remove item, update item).
+             * On every Cart update, you must call addEcommerceItem() for each item (product) in the cart, including the items that haven't been updated since the last cart update.
+             * Then you can call this function with the Cart grandTotal (typically the sum of all items' prices)
+             * Calling this method does not remove from this JavaScript object the items that were added to the cart via addEcommerceItem
+             *
+             * @param float grandTotal (required) Items (products) amount in the Cart
+             */
+            this.trackEcommerceCartUpdate = function (grandTotal) {
+                logEcommerceCartUpdate(grandTotal);
+            };
+
+            /**
+             * Sends a tracking request with custom request parameters.
+             * Piwik will prepend the hostname and path to Piwik, as well as all other needed tracking request
+             * parameters prior to sending the request. Useful eg if you track custom dimensions via a plugin.
+             *
+             * @param request eg. "param=value&param2=value2"
+             * @param customData
+             * @param callback
+             */
+            this.trackRequest = function (request, customData, callback) {
+                trackCallback(function () {
+                    var fullRequest = getRequest(request, customData);
+                    sendRequest(fullRequest, configTrackerPause, callback);
+                });
+            };
+
+            Piwik.trigger('TrackerSetup', [this]);
+        }
 
         function TrackerProxy() {
             return {
@@ -6362,9 +6555,7 @@ if (typeof window.Piwik !== 'object') {
                             delete paq[iterator];
 
                             if (appliedMethods[methodName] > 1) {
-                                if (console !== undefined && console && console.error) {
-                                    console.error('The method ' + methodName + ' is registered more than once in "paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
-                                }
+                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
                             appliedMethods[methodName]++;
@@ -6380,31 +6571,135 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+
+        function createFirstTracker(piwikUrl, siteId)
+        {
+            var tracker = new Tracker(piwikUrl, siteId);
+            asyncTrackers.push(tracker);
+
+            _paq = applyMethodsInOrder(_paq, applyFirst);
+
+            // apply the queue of actions
+            for (iterator = 0; iterator < _paq.length; iterator++) {
+                if (_paq[iterator]) {
+                    apply(_paq[iterator]);
+                }
+            }
+
+            // replace initialization array with proxy object
+            _paq = new TrackerProxy();
+
+            return tracker;
+        }
+
+        /************************************************************
+         * Proxy object
+         * - this allows the caller to continue push()'ing to _paq
+         *   after the Tracker has been initialized and loaded
+         ************************************************************/
+
         // initialize the Piwik singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
-
-        asyncTracker = new Tracker();
-
-        var applyFirst  = ['disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
-        _paq = applyMethodsInOrder(_paq, applyFirst);
-
-        // apply the queue of actions
-        for (iterator = 0; iterator < _paq.length; iterator++) {
-            if (_paq[iterator]) {
-                apply(_paq[iterator]);
-            }
-        }
-
-        // replace initialization array with proxy object
-        _paq = new TrackerProxy();
 
         /************************************************************
          * Public data and methods
          ************************************************************/
 
         Piwik = {
+            initialized: false,
+
+            /**
+             * DOM Document related methods
+             */
+            DOM: {
+                /**
+                 * Adds an event listener to the given element.
+                 * @param element
+                 * @param eventType
+                 * @param eventHandler
+                 * @param useCapture  Optional
+                 */
+                addEventListener: function (element, eventType, eventHandler, useCapture) {
+                    var captureType = typeof useCapture;
+                    if (captureType === 'undefined') {
+                        useCapture = false;
+                    }
+
+                    addEventListener(element, eventType, eventHandler, useCapture);
+                },
+                /**
+                 * Specify a function to execute when the DOM is fully loaded.
+                 *
+                 * If the DOM is already loaded, the function will be executed immediately.
+                 *
+                 * @param function callback
+                 */
+                onLoad: trackCallbackOnLoad,
+
+                /**
+                 * Specify a function to execute when the DOM is ready.
+                 *
+                 * If the DOM is already ready, the function will be executed immediately.
+                 *
+                 * @param function callback
+                 */
+                onReady: trackCallbackOnReady
+            },
+
+            /**
+             * Listen to an event and invoke the handler when a the event is triggered.
+             *
+             * @param string event
+             * @param function handler
+             */
+            on: function (event, handler) {
+                if (!eventHandlers[event]) {
+                    eventHandlers[event] = [];
+                }
+
+                eventHandlers[event].push(handler);
+            },
+
+            /**
+             * Remove a handler to no longer listen to the event. Must pass the same handler that was used when
+             * attaching the event via ".on".
+             * @param string event
+             * @param function handler
+             */
+            off: function (event, handler) {
+                if (!eventHandlers[event]) {
+                    return;
+                }
+
+                var i = 0;
+                for (i; i < eventHandlers[event].length; i++) {
+                    if (eventHandlers[event][i] === handler) {
+                        eventHandlers[event].splice(i, 1);
+                    }
+                }
+            },
+
+            /**
+             * Triggers the given event and passes the parameters to all handlers.
+             *
+             * @param string event
+             * @param Array extraParameters
+             * @param Object context  If given the handler will be executed in this context
+             */
+            trigger: function (event, extraParameters, context) {
+                if (!eventHandlers[event]) {
+                    return;
+                }
+
+                var i = 0;
+                for (i; i < eventHandlers[event].length; i++) {
+                    eventHandlers[event][i].apply(context || windowAlias, extraParameters);
+                }
+            },
+
             /**
              * Add plugin
              *
@@ -6423,22 +6718,104 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             getTracker: function (piwikUrl, siteId) {
-                if(!isDefined(siteId)) {
+                if (!isDefined(siteId)) {
                     siteId = this.getAsyncTracker().getSiteId();
                 }
-                if(!isDefined(piwikUrl)) {
+                if (!isDefined(piwikUrl)) {
                     piwikUrl = this.getAsyncTracker().getTrackerUrl();
                 }
+
                 return new Tracker(piwikUrl, siteId);
             },
 
             /**
-             * Get internal asynchronous tracker object
+             * Get all created async trackers
              *
+             * @return Tracker[]
+             */
+            getAsyncTrackers: function () {
+                return asyncTrackers;
+            },
+
+            /**
+             * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
+             * If piwikUrl is not set, current url will be used.
+             *
+             * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param int|string siteId
              * @return Tracker
              */
-            getAsyncTracker: function () {
-                return asyncTracker;
+            addTracker: function (piwikUrl, siteId) {
+                if (!asyncTrackers.length) {
+                    createFirstTracker(piwikUrl, siteId);
+                } else {
+                    asyncTrackers[0].addTracker(piwikUrl, siteId);
+                }
+            },
+
+            /**
+             * Get internal asynchronous tracker object.
+             *
+             * If no parameters are given, it returns the internal asynchronous tracker object. If a piwikUrl and idSite
+             * is given, it will try to find an optional
+             *
+             * @param string piwikUrl
+             * @param int|string siteId
+             * @return Tracker
+             */
+            getAsyncTracker: function (piwikUrl, siteId) {
+
+                var firstTracker;
+                if (asyncTrackers && asyncTrackers.length && asyncTrackers[0]) {
+                    firstTracker = asyncTrackers[0];
+                } else {
+                    return createFirstTracker(piwikUrl, siteId);
+                }
+
+                if (!siteId && !piwikUrl) {
+                    // for BC and by default we just return the initally created tracker
+                    return firstTracker;
+                }
+
+                // we look for another tracker created via `addTracker` method
+                if ((!isDefined(siteId) || null === siteId) && firstTracker) {
+                    siteId = firstTracker.getSiteId();
+                }
+
+                if ((!isDefined(piwikUrl) || null === piwikUrl) && firstTracker) {
+                    piwikUrl = firstTracker.getTrackerUrl();
+                }
+
+                var tracker, i = 0;
+                for (i; i < asyncTrackers.length; i++) {
+                    tracker = asyncTrackers[i];
+                    if (tracker
+                        && String(tracker.getSiteId()) === String(siteId)
+                        && tracker.getTrackerUrl() === piwikUrl) {
+
+                        return tracker;
+                    }
+                }
+            },
+
+            /**
+             * When calling plugin methods via "_paq.push(['...'])" and the plugin is loaded separately because
+             * piwik.js is not writable then there is a chance that first piwik.js is loaded and later the plugin.
+             * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
+             * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
+             * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
+             *
+             * @param string piwikUrl
+             * @param int|string siteId
+             * @return Tracker
+             */
+            retryMissedPluginCalls: function () {
+                var missedCalls = missedPluginTrackerCalls;
+                missedPluginTrackerCalls = [];
+                var i = 0;
+                for (i; i < missedCalls.length; i++) {
+                    apply(missedCalls[i]);
+                }
             }
         };
 
@@ -6451,9 +6828,53 @@ if (typeof window.Piwik !== 'object') {
     }());
 }
 
-if (window && window.piwikAsyncInit) {
-    window.piwikAsyncInit();
-}
+/*!! pluginTrackerHook */
+
+(function () {
+    'use strict';
+
+    function hasPaqConfiguration()
+    {
+        if ('object' !== typeof _paq) {
+            return false;
+        }
+        // needed to write it this way for jslint
+        var lengthType = typeof _paq.length;
+        if ('undefined' === lengthType) {
+            return false;
+        }
+
+        return !!_paq.length;
+    }
+
+    if (window
+        && 'object' === typeof window.piwikPluginAsyncInit
+        && window.piwikPluginAsyncInit.length) {
+        var i = 0;
+        for (i; i < window.piwikPluginAsyncInit.length; i++) {
+            if (typeof window.piwikPluginAsyncInit[i] === 'function') {
+                window.piwikPluginAsyncInit[i]();
+            }
+        }
+    }
+
+    if (window && window.piwikAsyncInit) {
+        window.piwikAsyncInit();
+    }
+
+    if (!window.Piwik.getAsyncTrackers().length) {
+        // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
+        if (hasPaqConfiguration()) {
+            // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
+            // Piwik.getAsyncTrackers() would return unconfigured trackers
+            window.Piwik.addTracker();
+        }
+    }
+
+    window.Piwik.trigger('PiwikInitialized', []);
+    window.Piwik.initialized = true;
+}());
+
 
 /*jslint sloppy: true */
 (function () {

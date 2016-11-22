@@ -1,13 +1,8 @@
 {
     "VisitsSummary": {
-        "AverageVisitDuration": "%s ვიზიტის საშუალო ხანგრძლივობა",
         "GenerateQueries": "%s მოთხოვნა შესრულდა",
         "GenerateTime": "%s წამი გვერდის გენერირებისთვის",
-        "MaxNbActions": "%s ერთ ვიზიტზე მაქსიმალური ქმედებები",
         "NbActionsDescription": "%s ქმედება (გვერდის დათვალიერება, ჩამოტვირთვები და გარე ბმულები)",
-        "NbActionsPerVisit": "%s ქმედება ვიზიტზე",
-        "NbUniqueVisitors": "%s უნიკალური ვიზიტორი",
-        "NbVisitsBounced": "%s უსარგებლო ვიზიტი (დატოვა ვებ საიტი ერთ გვერდის ნახვის შემდეგ)",
         "VisitsSummary": "ვიზიტების მოკლე ანგარიში",
         "WidgetLastVisits": "ბოლო ვიზიტების გრაფიკი",
         "WidgetOverviewGraph": "მიმოხილვა გრაფიკით",

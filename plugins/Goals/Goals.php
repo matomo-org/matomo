@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Tracker\GoalManager;
@@ -67,7 +65,7 @@ class Goals extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -77,7 +75,6 @@ class Goals extends \Piwik\Plugin
             'Tracker.Cache.getSiteAttributes'        => 'fetchGoalsFromDb',
             'API.getReportMetadata.end'              => 'getReportMetadataEnd',
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
-            'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
             'Category.addSubcategories' => 'addSubcategories'
@@ -194,9 +191,23 @@ class Goals extends \Piwik\Plugin
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
+                    'parameters' => $report->getParameters()
                 );
             }
         }
+
+        $reportsWithGoals[] = array('category' => 'General_Visit',
+            'name'     => Piwik::translate('Goals_VisitsUntilConv'),
+            'module'   => 'Goals',
+            'action'   => 'getVisitsUntilConversion',
+            'viewDataTable' => 'table',
+        );
+        $reportsWithGoals[] = array('category' => 'General_Visit',
+            'name'     => Piwik::translate('Goals_DaysToConv'),
+            'module'   => 'Goals',
+            'action'   => 'getDaysToConversion',
+            'viewDataTable' => 'table',
+        );
 
         /**
          * Triggered when gathering all reports that contain Goal metrics. The list of reports
@@ -233,33 +244,11 @@ class Goals extends \Piwik\Plugin
         return $reportsWithGoals;
     }
 
-    /**
-     * This function executes when the 'Goals.getReportsWithGoalMetrics' event fires. It
-     * adds the 'visits to conversion' report metadata to the list of goal reports so
-     * this report will be displayed.
-     */
-    public function getActualReportsWithGoalMetrics(&$dimensions)
-    {
-        $reportWithGoalMetrics = array(
-            array('category' => 'General_Visit',
-                  'name'     => Piwik::translate('Goals_VisitsUntilConv'),
-                  'module'   => 'Goals',
-                  'action'   => 'getVisitsUntilConversion',
-                  'viewDataTable' => 'table',
-            ),
-            array('category' => 'General_Visit',
-                  'name'     => Piwik::translate('Goals_DaysToConv'),
-                  'module'   => 'Goals',
-                  'action'   => 'getDaysToConversion',
-                  'viewDataTable' => 'table',
-            )
-        );
-        $dimensions = array_merge($dimensions, $reportWithGoalMetrics);
-    }
-
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Goals/javascripts/goalsForm.js";
+        $jsFiles[] = "plugins/Goals/angularjs/common/directives/goal-page-link.js";
+        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.controller.js";
+        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -276,12 +265,12 @@ class Goals extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Goals_AddGoal';
+        $translationKeys[] = 'Goals_AddNewGoal';
         $translationKeys[] = 'Goals_UpdateGoal';
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_UpdateGoal';
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
-        $translationKeys[] = 'Goals_ChooseGoal';
     }
 }

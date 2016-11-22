@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
+use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -43,14 +44,14 @@ use Piwik\Plugins\CoreAdminHome\CustomLogo;
  *         $_GET['changeVisitAlpha'] = false;
  *         $_GET['removeOldVisits'] = false;
  *         $_GET['showFooterMessage'] = false;
- *         $realtimeMap = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap');
+ *         $realtimeMap = FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
  *
  *         $view = new View('@MyPlugin/myPopupWithRealtimeMap.twig');
  *         $view->realtimeMap = $realtimeMap;
  *         return $realtimeMap->render();
  *     }
  *
- * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
+ * For a detailed explanation, see the documentation [here](https://developer.piwik.org/guides/how-piwik-works).
  *
  * @method static \Piwik\FrontController getInstance()
  */
@@ -71,9 +72,31 @@ class FrontController extends Singleton
     private $initialized = false;
 
     /**
+     * @param $lastError
+     * @return mixed|void
+     * @throws AuthenticationFailedException
+     * @throws Exception
+     */
+    private static function generateSafeModeOutput($lastError)
+    {
+        Common::sendResponseCode(500);
+
+        $controller = FrontController::getInstance();
+        try {
+            $controller->init();
+            $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
+        } catch(Exception $e) {
+            // may fail in safe mode (eg. global.ini.php not found)
+            $message = sprintf("Piwik encoutered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
+        }
+
+        return $message;
+    }
+
+    /**
      * Executes the requested plugin controller method.
      *
-     * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
+     * @throws Exception|\Piwik\Exception\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
      *                                                     there is not enough permission, etc.
      *
      * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
@@ -179,12 +202,7 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            Common::sendResponseCode(500);
-
-            $controller = FrontController::getInstance();
-            $controller->init();
-            $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
-
+            $message = self::generateSafeModeOutput($lastError);
             echo $message;
         }
     }
@@ -290,7 +308,12 @@ class FrontController extends Singleton
 
         $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
-        \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+        if (empty($_GET['module'])
+            || empty($_GET['action'])
+            || $_GET['module'] !== 'Installation'
+            || !in_array($_GET['action'], array('getInstallationCss', 'getInstallationJs'))) {
+            \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+        }
 
         // ensure the current Piwik URL is known for later use
         if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {

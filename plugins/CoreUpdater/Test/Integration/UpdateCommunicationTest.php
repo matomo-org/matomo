@@ -141,6 +141,8 @@ http://piwik.org/contact/";
      */
     private function getCommunicationMock($methodsToOverwrite)
     {
-        return $this->getMock('\Piwik\Plugins\CoreUpdater\UpdateCommunication', $methodsToOverwrite);
+        return $this->getMockBuilder('\Piwik\Plugins\CoreUpdater\UpdateCommunication')
+                    ->setMethods($methodsToOverwrite)
+                    ->getMock();
     }
 }

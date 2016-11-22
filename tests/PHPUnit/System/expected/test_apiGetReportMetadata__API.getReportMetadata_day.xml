@@ -99,6 +99,37 @@
 	</row>
 	<row>
 		<category>Visitors</category>
+		<subcategory>Users</subcategory>
+		<name>Users</name>
+		<module>UserId</module>
+		<action>getUsers</action>
+		<dimension>UserId</dimension>
+		<metrics>
+			<label>Label</label>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>UserId_getUsers</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
 		<subcategory>Custom Variables</subcategory>
 		<name>Custom Variables</name>
 		<module>CustomVariables</module>
@@ -165,8 +196,14 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getType</uniqueId>
@@ -198,8 +235,14 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getModel</uniqueId>
@@ -231,8 +274,14 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrand</uniqueId>
@@ -1016,6 +1065,20 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_get</uniqueId>
+	</row>
+	<row>
+		<category>Actions</category>
+		<name>Bandwidth - Main metrics</name>
+		<module>Bandwidth</module>
+		<action>get</action>
+		<metrics>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+		</metrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Bandwidth_get</uniqueId>
 	</row>
 	<row>
 		<category>Actions</category>
@@ -2376,6 +2439,9 @@
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
 		</metrics>
 		<metricsDocumentation>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>

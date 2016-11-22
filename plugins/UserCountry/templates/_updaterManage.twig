@@ -1,68 +1,68 @@
-<div id="geoipdb-update-info" {% if not geoIPDatabasesInstalled %}style="display:none;"{% endif %}>
-    <p>{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">','</a>',
+<div ng-show="locationUpdater.geoipDatabaseInstalled" id="geoipdb-update-info">
+    <p>
+		{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">','</a>',
         '<a href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}
         <br/><br/>
-{{ 'UserCountry_GeoLiteCityLink'|translate("<a href='"~geoLiteUrl~"'>",geoLiteUrl,'</a>')|raw }}
-	{% if geoIPDatabasesInstalled %}
-	<br/><br/>{{ 'UserCountry_GeoIPUpdaterIntro'|translate }}:
-	{% endif %}
-	</p>
-	<table class="adminTable" style="width:900px;">
-		<tr>
-			<th>{{ 'Live_GoalType'|translate }}</th>
-			<th>{{ 'Actions_ColumnDownloadURL'|translate }}</th>
-			<th></th>
-		</tr>
-		<tr>
-			<td width="150">{{ 'UserCountry_LocationDatabase'|translate }}</td>
-			<td><input type="text" id="geoip-location-db" value="{{ geoIPLocUrl }}"/></td>
-			<td width="164">
-				<div class="form-help">
-					{{ 'UserCountry_LocationDatabaseHint'|translate }}
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td width="150">{{ 'UserCountry_ISPDatabase'|translate }}</td>
-			<td><input type="text" id="geoip-isp-db" value="{{ geoIPIspUrl }}"/></td>
-		</tr>
-		<tr>
-			<td width="150">{{ 'UserCountry_OrgDatabase'|translate }}</td>
-			<td><input type="text" id="geoip-org-db" value="{{ geoIPOrgUrl }}"/></td>
-		</tr>
-		<tr>
-			<td width="150">{{ 'UserCountry_DownloadNewDatabasesEvery'|translate }}</td>
-			<td id="geoip-update-period-cell">
-				<input type="radio" name="geoip-update-period" value="month" id="geoip-update-period-month" {% if geoIPUpdatePeriod == 'month' %}checked="checked"{% endif %} />
-				<label for="geoip-update-period-month">{{ 'Intl_PeriodMonth'|translate }}</label>
+		{{ 'UserCountry_GeoLiteCityLink'|translate("<a href='"~geoLiteUrl~"'>",geoLiteUrl,'</a>')|raw }}
 
-				<input type="radio" name="geoip-update-period" value="week" id="geoip-update-period-week" {% if geoIPUpdatePeriod == 'week' %}checked="checked"{% endif %}/>
-				<label for="geoip-update-period-week">{{ 'Intl_PeriodWeek'|translate }}</label>
-			</td>
-			<td width="164">
-				<div class="form-help">
-					{% if lastTimeUpdaterRun is defined and lastTimeUpdaterRun is not empty %}
-						{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}
-					{% else %}
-						{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}
-					{% endif %}
-					<br/><br/>
-					<div id="geoip-updater-next-run-time">
-						{% include "@UserCountry/_updaterNextRunTime.twig" %}
-					</div>
-				</div>
-			</td>
-		</tr>
-	</table>
-	<p style="display:inline-block;vertical-align:top;">
-		<input type="button" class="submit" value="{% if not geoIPDatabasesInstalled %}{{ 'General_Continue'|translate }}{% else %}{{ 'General_Save'|translate }}{% endif %}" id="update-geoip-links"/>
+		<span ng-show="locationUpdater.geoipDatabaseInstalled">
+			<br/><br/>{{ 'UserCountry_GeoIPUpdaterIntro'|translate }}:
+		</span>
 	</p>
-	<div style="display:inline-block;width:700px;">
+
+	<div piwik-field uicontrol="text" name="geoip-location-db"
+		 ng-model="locationUpdater.locationDbUrl"
+		 introduction="{{ 'UserCountry_LocationDatabase'|translate|e('html_attr') }}"
+		 title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
+		 value="{{ geoIPLocUrl }}"
+		 inline-help="{{ 'UserCountry_LocationDatabaseHint'|translate|e('html_attr') }}">
+	</div>
+
+	<div piwik-field uicontrol="text" name="geoip-isp-db"
+		 ng-model="locationUpdater.ispDbUrl"
+		 introduction="{{ 'UserCountry_ISPDatabase'|translate|e('html_attr') }}"
+		 title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
+		 value="{{ geoIPIspUrl }}">
+	</div>
+
+	<div piwik-field uicontrol="text" name="geoip-org-db"
+		 ng-model="locationUpdater.orgDbUrl"
+		 introduction="{{ 'UserCountry_OrgDatabase'|translate|e('html_attr') }}"
+		 title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
+		 value="{{ geoIPOrgUrl }}">
+	</div>
+
+	<div id="locationProviderUpdatePeriodInlineHelp" class="inline-help-node">
+		{% if lastTimeUpdaterRun is defined and lastTimeUpdaterRun is not empty %}
+			{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}
+		{% else %}
+			{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}
+		{% endif %}
+		<br/><br/>
+		<div id="geoip-updater-next-run-time">
+			{% include "@UserCountry/_updaterNextRunTime.twig" %}
+		</div>
+	</div>
+
+	<div piwik-field uicontrol="radio" name="geoip-update-period"
+		 ng-model="locationUpdater.updatePeriod"
+		 introduction="{{ 'UserCountry_DownloadNewDatabasesEvery'|translate|e('html_attr') }}"
+		 value="{{ geoIPUpdatePeriod }}"
+		 options="{{ updatePeriodOptions|json_encode }}"
+		 inline-help="#locationProviderUpdatePeriodInlineHelp">
+	</div>
+
+	<input type="button"
+		   class="btn"
+		   ng-click="locationUpdater.saveGeoIpLinks()"
+		   ng-value="locationUpdater.buttonUpdateSaveText"/>
+
+	<div>
 		<div id="done-updating-updater"></div>
 		<div id="geoipdb-update-info-error"></div>
-		<div id="geoip-progressbar-container" style="display:none;">
-			<div id="geoip-updater-progressbar"></div>
-			<span id="geoip-updater-progressbar-label"></span>
-		</div>
+		<div piwik-progressbar
+			 progress="locationUpdater.progressUpdateDownload"
+			 label="locationUpdater.progressUpdateLabel"
+			 ng-show="locationUpdater.isUpdatingGeoIpDatabase"></div>
 	</div>
 </div>

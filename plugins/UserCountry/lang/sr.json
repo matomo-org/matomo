@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "Poslednja provera je izvršena %s.",
         "UpdaterWillRunNext": "Sledeće izvršenje je zakazano za %s.",
         "WidgetLocation": "Lokacija posetioca"
+    },
+    "Intl": {
+        "Country_TI": "Tibet"
     }
 }

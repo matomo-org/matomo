@@ -35,11 +35,23 @@ abstract class ReportRenderer extends BaseFactory
     const PDF_FORMAT = 'pdf';
     const CSV_FORMAT = 'csv';
 
+    protected $idSite = 'all';
+
     private static $availableReportRenderers = array(
         self::PDF_FORMAT,
         self::HTML_FORMAT,
         self::CSV_FORMAT,
     );
+
+    /**
+     * Sets the site id
+     *
+     * @param int $idSite
+     */
+    public function setIdSite($idSite)
+    {
+        $this->idSite = $idSite;
+    }
 
     protected static function getClassNameFromClassId($rendererType)
     {

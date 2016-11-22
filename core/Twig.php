@@ -53,7 +53,14 @@ function piwik_fix_lbrace($string)
         $replace = array_map(function ($val) { return $val . '&#8291;' . $val; }, $chars);
     }
 
-    return str_replace($search, $replace, $string);
+    $replacedString = str_replace($search, $replace, $string);
+
+    // try to replace characters until there are no changes
+    if ($string !== $replacedString) {
+        return piwik_fix_lbrace($replacedString);
+    }
+
+    return $string;
 }
 
 function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
@@ -166,12 +173,12 @@ class Twig
         $this->addFilter_percent();
         $this->addFilter_percentage();
         $this->addFilter_percentEvolution();
-        $this->addFilter_piwikProAdLink();
-        $this->addFilter_piwikProOnPremisesAdLink();
-        $this->addFilter_piwikProCloudAdLink();
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
         $this->addFilter_number();
+        $this->addFilter_nonce();
+        $this->addFilter_md5();
+        $this->addFilter_onlyDomain();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
@@ -411,47 +418,9 @@ class Twig
         $this->twig->addFilter($percentage);
     }
 
-    protected function addFilter_piwikProAdLink()
+    private function getProfessionalServicesAdvertising()
     {
-        $ads = $this->getPiwikProAdvertising();
-        $piwikProAd = new Twig_SimpleFilter('piwikProCampaignParameters', function ($url, $campaignName, $campaignMedium, $campaignContent = '') use ($ads) {
-            $url = $ads->addPromoCampaignParametersToUrl($url, $campaignName, $campaignMedium, $campaignContent);
-            return $url;
-        });
-        $this->twig->addFilter($piwikProAd);
-    }
-
-    protected function addFilter_piwikProOnPremisesAdLink()
-    {
-        $twigEnv = $this->getTwigEnvironment();
-        $ads = $this->getPiwikProAdvertising();
-        $piwikProAd = new Twig_SimpleFilter('piwikProOnPremisesPromoUrl', function ($medium, $content = '') use ($twigEnv, $ads) {
-
-            $url = $ads->getPromoUrlForOnPremises($medium, $content);
-
-            return twig_escape_filter($twigEnv, $url, 'html_attr');
-
-        }, array('is_safe' => array('html_attr')));
-        $this->twig->addFilter($piwikProAd);
-    }
-
-    protected function addFilter_piwikProCloudAdLink()
-    {
-        $twigEnv = $this->getTwigEnvironment();
-        $ads = $this->getPiwikProAdvertising();
-        $piwikProAd = new Twig_SimpleFilter('piwikProCloudPromoUrl', function ($medium, $content = '') use ($twigEnv, $ads) {
-
-            $url = $ads->getPromoUrlForCloud($medium, $content);
-
-            return twig_escape_filter($twigEnv, $url, 'html_attr');
-
-        }, array('is_safe' => array('html_attr')));
-        $this->twig->addFilter($piwikProAd);
-    }
-
-    private function getPiwikProAdvertising()
-    {
-        return StaticContainer::get('Piwik\PiwikPro\Advertising');
+        return StaticContainer::get('Piwik\ProfessionalServices\Advertising');
     }
 
     protected function addFilter_number()
@@ -460,6 +429,29 @@ class Twig
             return piwik_format_number($string, $minFractionDigits, $maxFractionDigits);
         });
         $this->twig->addFilter($formatter);
+    }
+
+    protected function addFilter_nonce()
+    {
+        $nonce = new Twig_SimpleFilter('nonce', array('Piwik\\Nonce', 'getNonce'));
+        $this->twig->addFilter($nonce);
+    }
+
+    private function addFilter_md5()
+    {
+        $md5 = new \Twig_SimpleFilter('md5', function ($value) {
+            return md5($value);
+        });
+        $this->twig->addFilter($md5);
+    }
+
+    private function addFilter_onlyDomain()
+    {
+        $domainOnly = new \Twig_SimpleFilter('domainOnly', function ($url) {
+            $parsed = parse_url($url);
+            return $parsed['scheme'] . '://' . $parsed['host'];
+        });
+        $this->twig->addFilter($domainOnly);
     }
 
     protected function addFilter_truncate()

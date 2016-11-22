@@ -15,6 +15,9 @@ var Piwik_Overlay_FollowingPages = (function () {
     /** Reference to create element function */
     var c;
 
+    /** Counter for the largest clickRate on the page */ 
+    var maxClickRate = 0;
+
     /** Load the following pages */
     function load(callback) {
         // normalize current location
@@ -63,7 +66,9 @@ var Piwik_Overlay_FollowingPages = (function () {
             totalClicks += followingPages[i].referrals;
         }
         for (i = 0; i < followingPages.length; i++) {
-            followingPages[i].clickRate = followingPages[i].referrals / totalClicks * 100;
+            var clickRate = followingPages[i].referrals / totalClicks * 100; 
+            followingPages[i].clickRate = clickRate;
+            if (clickRate > maxClickRate) maxClickRate = clickRate;
         }
     }
 
@@ -167,8 +172,6 @@ var Piwik_Overlay_FollowingPages = (function () {
 
         if( rate < 0.001 ) {
             rate = '<0.001';
-        } else if (rate < 1) {
-            rate = Math.round( rate * 1000 ) / 1000;
         } else if (rate < 10) {
             rate = Math.round(rate * 10) / 10;
         } else {
@@ -177,6 +180,9 @@ var Piwik_Overlay_FollowingPages = (function () {
 
         var span = c('span').html(rate + '%');
         var tagElement = c('div', 'LinkTag').append(span).hide();
+        
+        tagElement.attr({'data-rateofmax': Math.round(100 * rate/maxClickRate)/100});
+        
         body.prepend(tagElement);
 
         linkTag.add(tagElement).hover(function () {
@@ -251,17 +257,22 @@ var Piwik_Overlay_FollowingPages = (function () {
                         offset = linkTag.offset();
                     }
 
+                    var zoomFactor = 1 + +tagElement.attr('data-rateofmax');
+                    tagElement.css({'zoom':zoomFactor, 'opacity': zoomFactor/2 });
+                    offset.top = offset.top / zoomFactor;
+                    offset.left = offset.left / zoomFactor;
+
                     top = offset.top - tagHeight + 6;
                     left = offset.left - tagWidth + 10;
 
                     if (isRight = (left < 2)) {
                         tagElement.addClass('PIS_Right');
-                        left = offset.left + linkTag.outerWidth() - 10;
+                        left = offset.left + linkTag.outerWidth() / zoomFactor - 10;
                     }
 
                     if (top < 2) {
                         tagElement.addClass(isRight ? 'PIS_BottomRight' : 'PIS_Bottom');
-                        top = offset.top + linkTag.outerHeight() - 6;
+                        top = offset.top + linkTag.outerHeight() / zoomFactor - 6;
                     }
 
                     tagElement.css({

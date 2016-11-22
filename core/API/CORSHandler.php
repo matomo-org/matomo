@@ -8,6 +8,7 @@
  */
 namespace Piwik\API;
 
+use Piwik\Common;
 use Piwik\Url;
 
 class CORSHandler
@@ -26,7 +27,7 @@ class CORSHandler
     {
         // allow Piwik to serve data to all domains
         if (in_array("*", $this->domains)) {
-            header('Access-Control-Allow-Origin: *');
+            Common::sendHeader('Access-Control-Allow-Origin: *');
             return;
         }
 
@@ -34,7 +35,7 @@ class CORSHandler
         if (!empty($_SERVER['HTTP_ORIGIN'])) {
             $origin = $_SERVER['HTTP_ORIGIN'];
             if (in_array($origin, $this->domains, true)) {
-                header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+                Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
             }
         }
     }

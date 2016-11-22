@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Telefoonnummer gevalideerd! Je kunt nu SMS berichten met uw statistieken ontvangen.",
         "Settings_PhoneNumber": "Telefoonnummer",
         "Settings_PhoneNumbers_Add": "Voeg een nieuw telefoonnummer toe",
-        "Settings_PhoneNumbers_CountryCode_Help": "Indien je de landcode van je telefoonnummer niet weet, dan kun je hier je land opzoeken",
         "Settings_PhoneNumbers_Help": "Voordat je SMS rapporten op een telefoon kunt ontvangen, moet het telefoonnummer hieronder worden ingegeven.",
         "Settings_PhoneNumbers_HelpAdd": "Wanneer je klikt op \"Voeg toe\", zal een SMS met een code worden verzonden naar je telefoon. De gebruiker die de code ontvangt, moet dan inloggen in Piwik, op Instellingen klikken en daarna klikken op Mobiele berichten. Nadat de code is ingevoerd, zal de gebruiker tekst rapporten kunnen ontvangen vanaf zijn telefoon.",
         "Settings_PleaseSignUp": "Om SMS rapporten aan te maken en SMS berichten met je website statistieken te ontvangen op je mobiele telefoon,gelieve in te loggen met de SMS API en je informatie hieronder in te vullen.",

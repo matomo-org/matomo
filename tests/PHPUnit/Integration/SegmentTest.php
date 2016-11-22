@@ -9,16 +9,19 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Segment;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorApi;
 
 /**
  * @group Core
@@ -28,12 +31,16 @@ class SegmentTest extends IntegrationTestCase
 {
     public $tableLogActionCacheHits = 0;
 
+    private $exampleSegment = 'visitCount>=1';
+
     public function setUp()
     {
         parent::setUp();
 
         // setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
         FakeAccess::$superUser = true;
+
+        Fixture::createWebsite('2015-01-01 00:00:00');
     }
 
     static public function removeExtraWhiteSpaces($valueToFilter)
@@ -271,7 +278,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -361,7 +368,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_conversion.idvisit = log_visit.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -524,7 +531,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                 WHERE
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
                       AND (
@@ -693,7 +700,7 @@ class SegmentTest extends IntegrationTestCase
              SELECT log_conversion.idgoal AS `idgoal`, log_conversion.custom_dimension_1 AS `custom_dimension_1`, count(*) AS `1`, count(distinct log_conversion.idvisit) AS `3`,
              FROM $logConversionsTable AS log_conversion
                   LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action
-                       ON log_conversion.idvisit = log_link_visit_action.idvisit
+                       ON log_link_visit_action.idvisit = log_conversion.idvisit
                   LEFT JOIN $logActionTable AS log_action
                        ON log_link_visit_action.idaction_url = log_action.idaction
              WHERE ( log_conversion.server_time >= ?
@@ -761,7 +768,7 @@ class SegmentTest extends IntegrationTestCase
                     SUM(log_conversion.items) AS `8`
                 FROM
                     " . Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                 WHERE
                     ( log_conversion.idsite IN (?) )
                     AND
@@ -1289,7 +1296,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM (
                       SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue, log_conversion.items
                       FROM $logConversionTable AS log_conversion
-                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
@@ -1340,7 +1347,7 @@ class SegmentTest extends IntegrationTestCase
                 FROM (
                       SELECT log_conversion.idgoal, log_conversion.referer_type, log_conversion.referer_name, log_conversion.referer_keyword, log_conversion.idvisit, log_conversion.revenue
                       FROM $logConversionTable AS log_conversion
-                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
+                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
@@ -1385,8 +1392,8 @@ class SegmentTest extends IntegrationTestCase
                 FROM (
                     SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue
                     FROM $logConversionTable AS log_conversion
-                       LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_conversion.idvisit = log_link_visit_action.idvisit
-                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+                       LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                     WHERE ( log_conversion.server_time >= ?
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
@@ -1454,8 +1461,11 @@ class SegmentTest extends IntegrationTestCase
     {
         $self = $this;
 
-        $cacheProxy = $this->getMock('Piwik\Cache\Lazy', array('fetch', 'contains', 'save', 'delete', 'flushAll'),
-            array(), '', $callOriginalConstructor = false);
+        $cacheProxy = $this->getMockBuilder('Piwik\Cache\Lazy')
+                           ->setMethods(array('fetch', 'contains', 'save', 'delete', 'flushAll'))
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
         $cacheProxy->expects($this->any())->method('fetch')->willReturnCallback(function ($id) {
             $realCache = StaticContainer::get('Piwik\Cache\Lazy');
             return $realCache->fetch($id);
@@ -1487,5 +1497,79 @@ class SegmentTest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess(),
             'Piwik\Tracker\TableLogAction\Cache' => \DI\object()->constructorParameter('cache', $cacheProxy),
         );
+    }
+
+    public function test_willBeArchived_ByDefault_AllSegmentsWillBeArchived()
+    {
+        $this->assertWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willBeArchived_SegmentsWillNotBeArchivedWhenBrowserArchivingIsDisabledAndNoSuchSegmentExists()
+    {
+        $this->disableSegmentBrowserArchiving();
+        $this->assertNotWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingIsDisabledButBrowserSegmentsArchivingEnabled()
+    {
+        $this->disableBrowserArchiving();
+        $this->assertWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willSegmentBeArchived_SegmentsWillNotBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchive()
+    {
+        $this->disableSegmentBrowserArchiving();
+
+        SegmentEditorApi::getInstance()->add('My Name', $this->exampleSegment, $idSite = false, $autoArchive = false);
+
+        $this->assertNotWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledButSegmentExistsWithAuthoArchive()
+    {
+        $this->disableSegmentBrowserArchiving();
+
+        SegmentEditorApi::getInstance()->add('My Name', $this->exampleSegment, $idSite = false, $autoArchive = true);
+
+        $this->assertWillBeArchived($this->exampleSegment);
+    }
+
+    public function test_willBeArchived_AnEmptySegmentShouldBeAlwaysArchived()
+    {
+        $this->assertWillBeArchived(false);
+
+        $this->disableSegmentBrowserArchiving();
+        $this->assertWillBeArchived(false);
+    }
+
+    private function assertWillBeArchived($segmentString)
+    {
+        $this->assertTrue($this->willSegmentByArchived($segmentString));
+    }
+
+    private function assertNotWillBeArchived($segmentString)
+    {
+        $this->assertFalse($this->willSegmentByArchived($segmentString));
+    }
+
+    private function willSegmentByArchived($segmentString)
+    {
+        $segment = new Segment($segmentString, $idSites = array(1));
+
+        return $segment->willBeArchived();
+    }
+
+    private function disableBrowserArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+    }
+
+    private function disableSegmentBrowserArchiving()
+    {
+        $this->disableBrowserArchiving();
+        $config = Config::getInstance();
+        $general = $config->General;
+        $general['browser_archiving_disabled_enforce'] = '1';
+        $config->General = $general;
     }
 }

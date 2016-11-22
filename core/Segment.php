@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\API\API;
@@ -20,10 +21,6 @@ use Piwik\Segment\SegmentExpression;
  * A segment is a condition used to filter visits. They can, for example,
  * select visits that have a specific browser or come from a specific
  * country, or both.
- *
- * Individual segment dimensions (such as `browserCode` and `countryCode`)
- * are defined by plugins. Read about the {@hook API.getSegmentDimensionMetadata}
- * event to learn more.
  *
  * Plugins that aggregate data stored in Piwik can support segments by
  * using this class when generating aggregation SQL queries.
@@ -213,6 +210,32 @@ class Segment
     public function isEmpty()
     {
         return $this->segmentExpression->isEmpty();
+    }
+
+    /**
+     * Detects whether the Piwik instance is configured to be able to archive this segment. It checks whether the segment
+     * will be either archived via browser or cli archiving. It does not check if the segment has been archived. If you
+     * want to know whether the segment has been archived, the actual report data needs to be requested.
+     *
+     * This method does not take any date/period into consideration. Meaning a Piwik instance might be able to archive
+     * this segment in general, but not for a certain period if eg the archiving of range dates is disabled.
+     *
+     * @return bool
+     */
+    public function willBeArchived()
+    {
+        if ($this->isEmpty()) {
+            return true;
+        }
+
+        $idSites = $this->idSites;
+        if (!is_array($idSites)) {
+            $idSites = array($this->idSites);
+        }
+
+        return Rules::isRequestAuthorizedToArchive()
+            || Rules::isBrowserArchivingAvailableForSegments()
+            || Rules::isSegmentPreProcessed($idSites, $this);
     }
 
     protected $availableSegments = array();

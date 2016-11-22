@@ -106,6 +106,6 @@ class Referrers extends \Piwik\Plugin
         $label = strtolower(Piwik::translate($indexTranslation));
 
         // return html that displays it as grey & italic
-        return '<span class="datatable-label-category"><em>(' . $label . ')</em></span>';
+        return '<span class="datatable-label-category">(' . $label . ')</span>';
     }
 }

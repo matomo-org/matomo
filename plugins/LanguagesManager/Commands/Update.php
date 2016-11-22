@@ -11,12 +11,12 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  */
@@ -34,6 +34,8 @@ class Update extends TranslationBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->setDecorated(true);
+
         $start = microtime(true);
 
         /** @var DialogHelper $dialog */
@@ -76,10 +78,10 @@ class Update extends TranslationBase
 
             $output->writeln("Starting to import new language files");
 
-            /** @var ProgressHelper $progress */
-            $progress = $this->getHelperSet()->get('progress');
+            /** @var ProgressBar $progress */
+            $progress = new ProgressBar($output, count($files));
 
-            $progress->start($output, count($files));
+            $progress->start();
 
             foreach ($files as $filename) {
 
@@ -119,6 +121,7 @@ class Update extends TranslationBase
             }
 
             $progress->finish();
+            $output->writeln('');
         }
 
         $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
@@ -140,7 +143,7 @@ class Update extends TranslationBase
         preg_match_all('/plugins\/([a-zA-z]+) /', $submodules, $matches);
         $submodulePlugins = $matches[1];
 
-        // ignore complete new plugins aswell
+        // ignore complete new plugins as well
         $changes = shell_exec('git status');
         preg_match_all('/plugins\/([a-zA-z]+)\/\n/', $changes, $matches);
         $newPlugins = $matches[1];
@@ -177,7 +180,7 @@ class Update extends TranslationBase
         if ($input->getOption('force')) {
             $arguments['--lastupdate'] = 1;
         } else {
-            $lastModDate = strtotime('2015-01-04 00:00:00'); // date of inital transifex setup
+            $lastModDate = strtotime('2015-01-04 00:00:00'); // date of initial transifex setup
             try {
                 // try to find the language file (of given plugin) with the newest modification date in git log
                 $path = ($plugin ? 'plugins/' . $plugin . '/' : '') . 'lang';

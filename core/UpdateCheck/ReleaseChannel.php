@@ -14,7 +14,7 @@ namespace Piwik\UpdateCheck;
  * nightly builds, to manage updates for clients via a central server, to package a special Piwik version for clients
  * with custom plugins etc.
  *
- * This is not a public API and it may change without any anouncement.
+ * This is not a public API and it may change without any announcement.
  *
  * @package Piwik\UpdateCheck
  */
@@ -32,6 +32,15 @@ abstract class ReleaseChannel
      * @return string
      */
     abstract public function getName();
+
+    /**
+     * Whether only stable versions are wanted or also beta versions.
+     * @return bool
+     */
+    public function doesPreferStable()
+    {
+        return true;
+    }
 
     /**
      * Get the latest available version number for this release channel. Eg '2.15.0-b4' or '2.15.0'. Should be

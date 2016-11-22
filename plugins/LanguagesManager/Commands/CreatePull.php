@@ -19,6 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreatePull extends TranslationBase
 {
+    const GIT_BASE_BRANCH = '3.x-dev';
+
     protected function configure()
     {
         $this->setName('translations:createpull')
@@ -38,7 +40,7 @@ class CreatePull extends TranslationBase
             return;
         }
 
-        $unpushedCommits = shell_exec('git log origin/master..HEAD');
+        $unpushedCommits = shell_exec('git log origin/' . self::GIT_BASE_BRANCH . '..HEAD');
 
         if (!empty($unpushedCommits)) {
 
@@ -49,7 +51,7 @@ class CreatePull extends TranslationBase
         chdir(PIWIK_DOCUMENT_ROOT);
 
         shell_exec('
-            git checkout -f master > /dev/null 2>&1
+            git checkout -f ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1
             git pull > /dev/null 2>&1
             git submodule init > /dev/null 2>&1
             git submodule update > /dev/null 2>&1
@@ -60,7 +62,7 @@ class CreatePull extends TranslationBase
 
             chdir(PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin);
             shell_exec('
-                git checkout master > /dev/null 2>&1
+                git checkout ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1
                 git pull > /dev/null 2>&1
             ');
         }
@@ -73,10 +75,10 @@ class CreatePull extends TranslationBase
             shell_exec('git checkout -b translationupdates origin/translationupdates');
         }
 
-        // switch to branch and update it to latest master
+        // switch to branch and update it to latest $GIT_BASE_BRANCH
         shell_exec('
             git checkout -f translationupdates > /dev/null 2>&1
-            git merge master > /dev/null 2>&1
+            git reset --hard origin/' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1
             git push origin translationupdates > /dev/null 2>&1
         ');
 
@@ -105,7 +107,7 @@ class CreatePull extends TranslationBase
         if (empty($changes)) {
 
             $output->writeln("Nothing changed. Everything is already up to date.");
-            shell_exec('git checkout master > /dev/null 2>&1');
+            shell_exec('git checkout ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1');
             return;
         }
 
@@ -142,8 +144,15 @@ class CreatePull extends TranslationBase
 
         if (!empty($modifiedFiles[1])) {
             foreach ($modifiedFiles[1] as $modifiedFile) {
-                $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
-                $messages[$modifiedFile] = sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
+                if ($linesSumByLang[$modifiedFile]) {
+                    $languageInfo            = $this->getLanguageInfoByIsoCode($modifiedFile);
+                    $messages[$modifiedFile] = sprintf(
+                        '- Updated %s (%s changes / %s translated)\n',
+                        $languageInfo['english_name'],
+                        $linesSumByLang[$modifiedFile],
+                        $languageInfo['percentage_complete']
+                    );
+                }
             }
             $languageCodesTouched = array_merge($languageCodesTouched, $modifiedFiles[1]);
         }
@@ -163,7 +172,7 @@ class CreatePull extends TranslationBase
 
         shell_exec('git commit -m "language update ${pluginName}"');
         shell_exec('git push');
-        shell_exec('git checkout master > /dev/null 2>&1');
+        shell_exec('git checkout ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1');
 
         $this->createPullRequest($output, $title, $message);
     }
@@ -185,7 +194,7 @@ class CreatePull extends TranslationBase
 
         while (true) {
 
-            $username = $dialog->ask($output, 'Please provide your github username (to create a pull request using Github API): ');
+            $username = $dialog->ask($output, 'Please provide your GitHub username (to create a pull request using GitHub API): ');
 
             $returnCode = shell_exec('curl \
                  -X POST \
@@ -195,7 +204,7 @@ class CreatePull extends TranslationBase
                  --stderr /dev/null \
                  -o /dev/null \
                  -u '.$username.' \
-                 --data "{\"title\":\"[automatic translation update] '.$title.'\",\"body\":\"'.$message.'\",\"head\":\"translationupdates\",\"base\":\"master\"}" \
+                 --data "{\"title\":\"[automatic translation update] '.$title.'\",\"body\":\"'.$message.'\",\"head\":\"translationupdates\",\"base\":\"' . self::GIT_BASE_BRANCH . '\"}" \
                  -H "Accept: application/json" \
                  https://api.github.com/repos/piwik/piwik/pulls');
 

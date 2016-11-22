@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Writable JavaScript Tracker (\"/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "The Piwik JavaScript tracker file \"/piwik.js\" is not writable which means other plugins cannot extend the JavaScript tracker. In the future even some core features might not work as expected. ",
+        "DiagnosticPiwikJsMakeWritable": "We recommend to Piwik.js writable by running this command: %s"
+    }
+}

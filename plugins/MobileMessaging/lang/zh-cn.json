@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "电话号码已验证! 您可以收到统计短信了。",
         "Settings_PhoneNumber": "电话号码",
         "Settings_PhoneNumbers_Add": "增加新的电话号码",
-        "Settings_PhoneNumbers_CountryCode_Help": "如果您不知道国家区号，请在这里查询",
         "Settings_PhoneNumbers_Help": "在手机上接收短信报表前，需要在下面输入电话号码。",
         "Settings_PhoneNumbers_HelpAdd": "点击\"增加\"后，一条包含代码的短信将发到手机上，收到短信的用户需要登录 Piwik，点管理设置，然后点手机短信。输入代码后，用户就能在手机上收到文字报表了。",
         "Settings_PleaseSignUp": "要创建短信报表并在手机上通过短信接收网站的统计信息，请注册短信 API 并在下面输入资料。",

@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
+use Piwik\Tests\Fixtures\ThreeVisitsWithCustomEvents;
 
 /**
  * Testing Custom Events
@@ -18,6 +18,9 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
  */
 class CustomEventsTest extends SystemTestCase
 {
+    /**
+     * @var ThreeVisitsWithCustomEvents
+     */
     public static $fixture = null; // initialized below class definition
 
     /**
@@ -83,15 +86,15 @@ class CustomEventsTest extends SystemTestCase
                 'testSuffix'   => '_segmentMatchesEventActionPlay')
             ),
 
-            // eventValue should not match any page view
-//            array('Actions.getPageUrls', array(
-//                'idSite'       => $idSite1,
-//                'date'         => $dateTime,
-//                'periods'      => $dayPeriod,
-//                'segment'      => "eventValue>0",
-//                'setDateLastN' => false,
-//                'testSuffix'   => '_eventSegmentMatchNoAction')
-//            ),
+            // Goals and events
+            array('Goals.get', array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $dayPeriod,
+                'idGoal'       => ThreeVisitsWithCustomEvents::$idGoalTriggeredOnEventCategory,
+                'setDateLastN' => false)
+            )
+
         );
 
         $apiToCallProcessedReportMetadata = array(
@@ -148,4 +151,4 @@ class CustomEventsTest extends SystemTestCase
     }
 }
 
-CustomEventsTest::$fixture = new TwoVisitsWithCustomEvents();
+CustomEventsTest::$fixture = new ThreeVisitsWithCustomEvents();

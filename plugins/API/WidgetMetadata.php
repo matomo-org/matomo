@@ -82,6 +82,7 @@ class WidgetMetadata
         $item['order']       = $widget->getOrder();
         $item['parameters']  = $widget->getParameters();
         $item['uniqueId']    = $widget->getUniqueId();
+        $item['isWide']      = $widget->isWide();
 
         $middleware = $widget->getMiddlewareParameters();
 

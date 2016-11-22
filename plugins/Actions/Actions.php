@@ -32,7 +32,6 @@ class Actions extends \Piwik\Plugin
     {
         return array(
             'ViewDataTable.configure'         => 'configureViewDataTable',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview',
             'Live.getAllVisitorDetails'       => 'extendVisitorDetails',
@@ -95,11 +94,6 @@ class Actions extends \Piwik\Plugin
         $reports['Actions_getPageUrls']   = array();
         $reports['Actions_getPageTitles'] = array();
         $reports['Actions_getDownloads']  = array('flat' => 1);
-    }
-
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        $stylesheets[] = "plugins/Actions/stylesheets/dataTableActions.less";
     }
 
     public function getJsFiles(&$jsFiles)

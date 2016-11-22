@@ -24,6 +24,13 @@ abstract class Settings
 
     protected $pluginName;
 
+    /**
+     * By default the plugin name is shown in the UI when managing plugin settings. However, you can overwrite
+     *  the displayed title by specifying a title.
+     * @var string
+     */
+    protected $title = '';
+
     public function __construct()
     {
         if (!isset($this->pluginName)) {
@@ -36,6 +43,15 @@ abstract class Settings
                 throw new \Exception(sprintf('Plugin Settings must have a plugin name specified in %s, could not detect plugin name', $classname));
             }
         }
+    }
+
+    public function getTitle()
+    {
+        if (!empty($this->title)) {
+            return $this->title;
+        }
+
+        return $this->pluginName;
     }
 
     /**

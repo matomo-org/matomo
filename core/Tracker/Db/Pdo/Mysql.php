@@ -184,7 +184,7 @@ class Mysql extends Db
      * @param string $query Query
      * @param array|string $parameters Parameters to bind array('idsite'=> 1)
      * @return PDOStatement|bool  PDOStatement or false if failed
-     * @throws DbException if an exception occured
+     * @throws DbException if an exception occurred
      */
     public function query($query, $parameters = array())
     {

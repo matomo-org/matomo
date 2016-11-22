@@ -1,7 +1,7 @@
 {
   "name": "jQuery.dotdotdot",
   "main": "src/js/jquery.dotdotdot.js",
-  "version": "1.7.2",
+  "version": "1.7.4",
   "homepage": "http://dotdotdot.frebsite.nl/",
   "authors": [
     "Fred Heusschen <info@frebsite.nl>"

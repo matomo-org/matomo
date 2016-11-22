@@ -151,8 +151,126 @@
 				<max_event_value>0</max_event_value>
 				<avg_event_value>0</avg_event_value>
 			</row>
+			<row>
+				<label>This is an event without a URL</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<label>playTrailer</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Search</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play25%</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play50%</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play75%</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playEnd</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>rating</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>3</nb_events_with_value>
+				<sum_event_value>28.66</sum_event_value>
+				<min_event_value>9</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.55</avg_event_value>
+			</row>
+			<row>
+				<label>clickBuyNow</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>play</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playStart</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Purchase</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -164,63 +282,125 @@
 			<row>
 				
 				<segment>eventAction==playTrailer</segment>
-				<idsubdatatable>807</idsubdatatable>
+				<idsubdatatable>1564</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==Search</segment>
-				<idsubdatatable>800</idsubdatatable>
+				<idsubdatatable>1557</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play25%25</segment>
-				<idsubdatatable>802</idsubdatatable>
+				<idsubdatatable>1559</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play50%25</segment>
-				<idsubdatatable>803</idsubdatatable>
+				<idsubdatatable>1560</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play75%25</segment>
-				<idsubdatatable>804</idsubdatatable>
+				<idsubdatatable>1561</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==playEnd</segment>
-				<idsubdatatable>805</idsubdatatable>
+				<idsubdatatable>1562</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==rating</segment>
-				<idsubdatatable>806</idsubdatatable>
+				<idsubdatatable>1563</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==clickBuyNow</segment>
-				<idsubdatatable>808</idsubdatatable>
+				<idsubdatatable>1565</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>810</idsubdatatable>
+				<idsubdatatable>1567</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==play</segment>
-				<idsubdatatable>801</idsubdatatable>
+				<idsubdatatable>1558</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventAction==playStart</segment>
-				<idsubdatatable>809</idsubdatatable>
+				<idsubdatatable>1566</idsubdatatable>
+			</row>
+			<row>
+				<segment>eventAction==Purchase</segment>
+			</row>
+			<row>
+				<segment>eventAction==This+is+an+event+without+a+URL</segment>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				
+				<segment>eventAction==playTrailer</segment>
+				<idsubdatatable>1576</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==Search</segment>
+				<idsubdatatable>1569</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play25%25</segment>
+				<idsubdatatable>1571</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play50%25</segment>
+				<idsubdatatable>1572</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play75%25</segment>
+				<idsubdatatable>1573</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==playEnd</segment>
+				<idsubdatatable>1574</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==rating</segment>
+				<idsubdatatable>1575</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==clickBuyNow</segment>
+				<idsubdatatable>1577</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+				<idsubdatatable>1579</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play</segment>
+				<idsubdatatable>1570</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==playStart</segment>
+				<idsubdatatable>1578</idsubdatatable>
 			</row>
 			<row>
 				<segment>eventAction==Purchase</segment>
 			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -228,7 +408,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>42</nb_visits>
-		<nb_uniq_visitors>40</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_uniq_visitors>61</nb_uniq_visitors>
 	</reportTotal>
 </result>

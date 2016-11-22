@@ -18,7 +18,6 @@
         "InstallationStatus": "安裝狀態",
         "LargePiwikInstances": "Piwik 給予大型網站的協助",
         "Legend": "說明",
-        "NoConfigFound": "無法找到 Piwik 設定檔，而你正嘗試存取一個 Piwik 的頁面。<br \/><b>  » 你可以 <a href='index.php'>立刻安裝 Piwik<\/a><\/b><br \/><small>假如你之前已安裝過 Piwik，並且已有些資料表在你的資料庫中，不用擔心，你可以重複使用此相同的資料表並保留現存的資料！<\/small>",
         "Optional": "選擇性",
         "PasswordDoNotMatch": "密碼不相符",
         "PercentDone": "%s %% 已完成",

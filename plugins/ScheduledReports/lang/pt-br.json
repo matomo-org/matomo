@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(opcional) Opções de exibição",
+        "AggregateReportsFormat": "Opções de exibição",
         "AggregateReportsFormat_GraphsOnly": "Exibir gráficos apenas (sem tabelas do relatório)",
         "AggregateReportsFormat_TablesAndGraphs": "Mostra tabelas de Informações e Gráficos para todos os relatórios",
         "AggregateReportsFormat_TablesOnly": "(padrão) Exibir relatório em tabelas (Gráficos apenas para as principais métricas)",

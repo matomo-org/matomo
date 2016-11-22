@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "Opdateringen blev sidst blev kørt den %s.",
         "UpdaterWillRunNext": "Næste planlagte kørsel %s.",
         "WidgetLocation": "Besøgendes lokation"
+    },
+    "Intl": {
+        "Country_TI": "Tibet"
     }
 }

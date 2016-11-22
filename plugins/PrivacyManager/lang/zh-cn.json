@@ -4,7 +4,6 @@
         "AnonymizeIpInlineHelp": "隐藏访客IP位址最后一个字符以符合您当地的隐私条例\/政策。",
         "AnonymizeIpMaskLengtDescription": "隐藏的访客IP的字节数",
         "AnonymizeIpMaskLength": "%1$s 字节 - 例如 %2$s",
-        "CannotLockSoDeleteLogActions": "log_action 表将不会被清空: 请设置 LOCK TABLES 的权限给 '%s' MYSQL 用户。",
         "ClickHereSettings": "点这里查看 %s 设置。",
         "CurrentDBSize": "当前数据库大小",
         "DBPurged": "数据库清理完成。",

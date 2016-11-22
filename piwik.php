@@ -31,6 +31,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 @ignore_user_abort(true);
 
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Controller.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Exception/NotYetInstalledException.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/ControllerAdmin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Singleton.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Manager.php';
@@ -49,11 +50,14 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 
-// TODO should move to Tracker application class later. currently needed for environment validation.
 SettingsServer::setIsTrackerApiRequest();
 
 $environment = new \Piwik\Application\Environment('tracker');
-$environment->init();
+try {
+    $environment->init();
+} catch(\Piwik\Exception\NotYetInstalledException $e) {
+    die($e->getMessage());
+}
 
 Tracker::loadTrackerEnvironment();
 

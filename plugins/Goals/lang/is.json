@@ -2,7 +2,7 @@
     "Goals": {
         "AddGoal": "Bæta Markmiði við",
         "AddNewGoal": "Bæta nýju markmiði við",
-        "AddNewGoalOrEditExistingGoal": "%sAdd a new Goal%s eða %sEdit%s núverandi Markmiðum",
+        "AddNewGoalOrEditExistingGoal": "%1$sAdd a new Goal%2$s eða %3$sEdit%4$s núverandi Markmiðum",
         "CaseSensitive": "Skiptir máli hvort það eru hástafir eða lágstafir",
         "ClickOutlink": "Smella á slóð fyrir utan vefinn",
         "ColumnConversions": "Umbreytingar",
@@ -25,8 +25,6 @@
         "ManuallyTriggeredUsingJavascriptFunction": "Markmið er kveikt handvirkt með því að nota JavaScript API trackGoal()",
         "MatchesExpression": "upfyllir skilyrðið %s",
         "Optional": "(valkvætt)",
-        "OverallConversionRate": "%s heildar umbreytingatíðni (heimsóknir sem hafa náð markmiði)",
-        "OverallRevenue": "%s heildarhagnaður",
         "Pattern": "Mynstur",
         "UpdateGoal": "Uppfæra Markmið",
         "URL": "URL",

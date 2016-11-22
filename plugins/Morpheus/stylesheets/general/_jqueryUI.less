@@ -40,6 +40,10 @@
   border-radius: 3px;
 }
 
+.ui-widget {
+  font-family: @theme-fontFamily-base;
+}
+
 /* extending the jquery UI css, for visitor Log popover */
 .ui-widget .dataTable {
   font-size: 14px;
@@ -157,8 +161,18 @@ div.ui-state-highlight {
   text-align: center !important;
 }
 
+.ui-datepicker .ui-state-default {
+  background: @theme-color-background-contrast !important;
+}
+
+.ui-datepicker td.ui-datepicker-current-day .ui-state-default {
+  background: @theme-color-text !important;
+  color: @theme-color-background-contrast !important;
+}
+
 .ui-datepicker td.ui-datepicker-week-end .ui-state-default {
   background: #f6f6f6 !important;
+  color: @theme-color-text !important;
 }
 
 .ui-datepicker td.ui-datepicker-current-period a.ui-state-default, td .ui-state-active, .ui-datepicker td.ui-datepicker-current-period a.ui-state-active, .ui-datepicker td.ui-datepicker-week-end .ui-state-active, .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
@@ -273,9 +287,11 @@ body .ui-tooltip.small {
 
   font-size:8px;
   background-image: none !important;
-  text-indent: 0px !important;
+  text-indent: 0 !important;
   opacity: 1 !important;
   color:@theme-color-brand-contrast;
+  overflow: visible;
+  margin-top: -4px;
 
   &:before{
     content:"\e60a";

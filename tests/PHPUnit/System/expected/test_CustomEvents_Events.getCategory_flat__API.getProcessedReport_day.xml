@@ -196,8 +196,171 @@
 				<max_event_value>10</max_event_value>
 				<avg_event_value>9.5</avg_event_value>
 			</row>
+			<row>
+				<label>CategoryTriggersGoal here - This is an event without a URL</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<label>Movie - playTrailer</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - Search</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - clickBuyNow</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - play25%</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - play50%</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - play75%</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - playEnd</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - playStart</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - Purchase</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Movie - rating</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>Music - play</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Music - play25%</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Music - play50%</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Music - play75%</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Music - playEnd</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Music - rating</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19</sum_event_value>
+				<min_event_value>9</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.5</avg_event_value>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -214,7 +377,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>42</nb_visits>
-		<nb_uniq_visitors>40</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_uniq_visitors>61</nb_uniq_visitors>
 	</reportTotal>
 </result>

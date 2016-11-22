@@ -1,0 +1,8 @@
+<div style="display:inline-block;">
+    <input type="button"
+           ng-click="onconfirm()"
+           value="{{ value ? value : ('General_Save'|translate) }}"
+           ng-disabled="saving || disabled"
+           class="btn"/>
+    <div piwik-activity-indicator loading="saving"></div>
+</div>

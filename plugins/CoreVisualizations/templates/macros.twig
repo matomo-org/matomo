@@ -1,12 +1,14 @@
-{% macro singleSparkline(sparkline) %}
+{% macro singleSparkline(sparkline, allMetricsDocumentation) %}
     <div class="sparkline">
         {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
         {% for metric in sparkline.metrics %}
+            <span {% if allMetricsDocumentation[metric.column] is defined and allMetricsDocumentation[metric.column] %}title="{{ allMetricsDocumentation[metric.column] }}"{% endif %}>
             {% if '%s' in metric.description -%}
                 {{ metric.description|translate("<strong>"~metric.value~"</strong>")|raw }}
             {%- else %}
                 <strong>{{ metric.value }}</strong> {{ metric.description }}
             {%- endif %}{% if not loop.last %}, {% endif %}
+            </span>
         {% endfor %}
         {% if sparkline.evolution is defined %}
 

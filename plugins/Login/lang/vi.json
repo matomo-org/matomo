@@ -14,7 +14,6 @@
         "PasswordChanged": "Mật khẩu của bạn đã được thay đổi",
         "PasswordRepeat": "Mật khẩu (lặp lại)",
         "PasswordsDoNotMatch": "Mật khẩu không phù hợp.",
-        "RememberMe": "Nhớ tôi",
-        "ResetPasswordInstructions": "Nhập một mật khẩu mới cho tài khoản của bạn."
+        "RememberMe": "Nhớ tôi"
     }
 }

@@ -288,9 +288,10 @@ var broadcast = {
      *
      * @param {string} str  url with parameters to be updated
      * @param {boolean} [showAjaxLoading] whether to show the ajax loading gif or not.
+     * @param {string} strHash additional parameters that should be updated on the hash
      * @return {void}
      */
-    propagateNewPage: function (str, showAjaxLoading) {
+    propagateNewPage: function (str, showAjaxLoading, strHash) {
         // abort all existing ajax requests
         globalAjaxQueue.abort();
 
@@ -311,6 +312,22 @@ var broadcast = {
 
             if (currentHashStr.length != 0) {
                 currentHashStr = broadcast.updateParamValue(params_vals[i], currentHashStr);
+            }
+        }
+
+        var updatedUrl = new RegExp('&updated=([0-9]+)');
+        var updatedCounter = updatedUrl.exec(currentSearchStr);
+        if (!updatedCounter) {
+            currentSearchStr += '&updated=1';
+        } else {
+            updatedCounter = 1 + parseInt(updatedCounter[1]);
+            currentSearchStr = currentSearchStr.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
+        }
+
+        if (strHash && currentHashStr.length != 0) {
+            var params_hash_vals = strHash.split("&");
+            for (var i = 0; i < params_hash_vals.length; i++) {
+                currentHashStr = broadcast.updateParamValue(params_hash_vals[i], currentHashStr);
             }
         }
 
@@ -365,7 +382,7 @@ var broadcast = {
             valFromUrl = getQuotedRegex(valFromUrl);
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
-                // if new value is empty remove leading &, aswell
+                // if new value is empty remove leading &, as well
                 regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
@@ -443,27 +460,6 @@ var broadcast = {
      * @return {Boolean}
      */
     loadAjaxContent: function (urlAjax) {
-        if (typeof piwikMenu !== 'undefined') {
-            // we have to use a $timeout since menu groups are displayed using an angular directive, and on initial
-            // page load, the dropdown will not be completely rendered at this point. using 2 $timeouts (to push
-            // the menu activation logic to the end of the event queue twice), seems to work.
-            angular.element(document).injector().invoke(function ($timeout) {
-                $timeout(function () {
-                    $timeout(function () {
-                        piwikMenu.activateMenu(
-                            broadcast.getParamValue('module', urlAjax),
-                            broadcast.getParamValue('action', urlAjax),
-                            {
-                                idGoal: broadcast.getParamValue('idGoal', urlAjax),
-                                idDashboard: broadcast.getParamValue('idDashboard', urlAjax),
-                                idDimension: broadcast.getParamValue('idDimension', urlAjax)
-                            }
-                        );
-                    });
-                });
-            });
-        }
-
         if(broadcast.getParamValue('module', urlAjax) == 'API') {
             broadcast.lastUrlRequested = null;
             $('#content').html("Loading content from the API and displaying it within Piwik is not allowed.");

@@ -35,9 +35,9 @@ piwik.initSparklines = function() {
 };
 
 window.initializeSparklines = function () {
-    var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'viewDataTable', 'forceView', 'random'];
+    var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'showtitle', 'viewDataTable', 'forceView', 'random'];
 
-    $('.graphEvolution [data-report]').each(function () {
+    $('.dataTableVizEvolution[data-report]').each(function () {
         var graph = $(this);
 
         // we search for .widget to make sure eg in the Dashboard to not update any graph of another report

@@ -221,6 +221,11 @@ DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
     return value;
 };
 
+/** Get row metadata object */
+DataTable_RowAction.prototype.getRowMetadata = function (tr) {
+    return tr.data('row-metadata') || {};
+};
+
 /**
  * Base method for opening popovers.
  * This method will remember the parameter in the url and call doOpenPopover().
@@ -387,14 +392,19 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
     requestParams.colors = JSON.stringify(piwik.getSparklineColors());
 
     var idDimension;
+
     if (broadcast.getValueFromUrl('module') === 'Widgetize') {
-        idDimension = broadcast.getValueFromUrl('idDimension');
+        idDimension = broadcast.getValueFromUrl('subcategory');
     } else {
-        idDimension = broadcast.getValueFromHash('idDimension');
+        idDimension = broadcast.getValueFromHash('subcategory');
     }
 
-    if (idDimension) {
-        requestParams.idDimension = parseInt(idDimension, 10);
+    if (idDimension && ('' + idDimension).indexOf('customdimension') === 0) {
+        idDimension = ('' + idDimension).replace('customdimension', '');
+        idDimension = parseInt(idDimension, 10);
+        if (idDimension > 0) {
+            requestParams.idDimension = idDimension;
+        }
     }
 
     $.extend(requestParams, extraParams);

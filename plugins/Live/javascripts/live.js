@@ -65,7 +65,14 @@
             ajaxRequest.addParams(this.options.dataUrlParams, 'GET');
             ajaxRequest.setFormat('html');
             ajaxRequest.setCallback(function (r) {
-                that._parseResponse(r);
+                if (that.options.replaceContent) {
+                    $(that.element).html(r);
+                    if (that.options.fadeInSpeed) {
+                        $(that.element).effect("highlight", {}, that.options.fadeInSpeed);
+                    }
+                } else {
+                    that._parseResponse(r);
+                }
 
                 // add default interval to last interval if not updated or reset to default if so
                 if (!that.updated) {
@@ -268,7 +275,7 @@ $(function() {
 
             scheduleAnotherRequest();
         });
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     };
 
     var exports = require("piwik/Live");

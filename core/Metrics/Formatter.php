@@ -143,7 +143,7 @@ class Formatter
     }
 
     /**
-     * Returns a pretty formated monetary value using the currency associated with a site.
+     * Returns a pretty formatted monetary value using the currency associated with a site.
      *
      * @param int|string $value The monetary value to format.
      * @param int $idSite The ID of the site whose currency will be used.

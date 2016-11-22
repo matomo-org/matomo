@@ -178,7 +178,12 @@ abstract class ViewDataTable implements ViewInterface
      */
     public function __construct($controllerAction, $apiMethodToRequestDataTable, $overrideParams = array())
     {
-        list($controllerName, $controllerAction) = explode('.', $controllerAction);
+        if (strpos($controllerAction, '.') === false) {
+            $controllerName = '';
+            $controllerAction = '';
+        } else {
+            list($controllerName, $controllerAction) = explode('.', $controllerAction);
+        }
 
         $this->requestConfig = static::getDefaultRequestConfig();
         $this->config        = static::getDefaultConfig();
@@ -223,6 +228,8 @@ abstract class ViewDataTable implements ViewInterface
                 $this->config->addTranslations($processedMetrics);
             }
 
+            $this->config->title = $report->getName();
+
             $report->configureView($this);
         }
 
@@ -255,7 +262,7 @@ abstract class ViewDataTable implements ViewInterface
         $this->config->show_footer_icons = (false == $this->requestConfig->idSubtable);
 
         // the exclude low population threshold value is sometimes obtained by requesting data.
-        // to avoid issuing unecessary requests when display properties are determined by metadata,
+        // to avoid issuing unnecessary requests when display properties are determined by metadata,
         // we allow it to be a closure.
         if (isset($this->requestConfig->filter_excludelowpop_value)
             && $this->requestConfig->filter_excludelowpop_value instanceof \Closure

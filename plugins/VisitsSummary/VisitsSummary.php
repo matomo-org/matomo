@@ -38,16 +38,16 @@ class VisitsSummary extends \Piwik\Plugin
 
     public function enrichProcessedReportIfVisitsSummaryGet(&$response, $infos)
     {
-        if (empty($infos['parameters'][4]) || empty($response['reportData'])) {
+        if (empty($infos['parameters']['apiAction']) || empty($response['reportData'])) {
             return;
         }
 
         $params  = $infos['parameters'];
-        $idSites = array($params[0]);
-        $period  = $params[1];
-        $date    = $params[2];
-        $module  = $params[3];
-        $method  = $params[4];
+        $idSites = array($params['idSite']);
+        $period  = $params['period'];
+        $date    = $params['date'];
+        $module  = $params['apiModule'];
+        $method  = $params['apiAction'];
 
         if (!$this->isRequestingVisitsSummaryGet($module, $method)) {
             return;

@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Notification\Manager as NotificationManager;
@@ -20,7 +20,6 @@ use Piwik\Plugin\Report;
 use Piwik\Widget\Widget;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
-use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Site;
@@ -29,6 +28,7 @@ use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
+use Piwik\Widget\WidgetConfig;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -59,6 +59,12 @@ class Controller extends \Piwik\Plugin\Controller
         return $report->render();
     }
 
+    /**
+     * This is only used for exported widgets
+     * @return string
+     * @throws Exception
+     * @throws \Piwik\NoAccessException
+     */
     public function renderWidgetContainer()
     {
         Piwik::checkUserHasSomeViewAccess();
@@ -80,7 +86,33 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        return $widget->render();
+        $config = new WidgetConfig();
+        $widget::configure($config);
+
+        $content = $widget->render();
+
+        if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
+            if (strpos($content, '<h2') !== false
+                || strpos($content, ' content-title=') !== false
+                || strpos($content, ' piwik-enriched-headline') !== false
+                || strpos($content, '<h1') !== false ) {
+                // already includes title
+                return $content;
+            }
+
+            if (strpos($content, 'piwik-content-block') === false
+                && strpos($content, 'class="card"') === false
+                && strpos($content, "class='card'") === false
+                && strpos($content, 'class="card-content"') === false
+                && strpos($content, "class='card-content'") === false) {
+                $view = new View('@CoreHome/_singleWidget');
+                $view->title = $config->getName();
+                $view->content = $content;
+                return $view->render();
+            }
+        }
+
+        return $content;
     }
 
     function redirectToCoreHomeIndex()
@@ -232,7 +264,8 @@ class Controller extends \Piwik\Plugin\Controller
         // perform check (but only once every 10s)
         UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
 
-        MarketplaceApiClient::clearAllCacheEntries();
+        $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
+        $marketplace->clearAllCacheEntries();
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);

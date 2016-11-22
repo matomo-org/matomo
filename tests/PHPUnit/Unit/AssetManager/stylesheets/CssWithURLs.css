@@ -9,4 +9,5 @@ p {
     font-size: 20px;
     /* url relative to file: must be rewritten*/
     background: url(images/test-image.png);
+    height: calc(100% + 45px);
 }

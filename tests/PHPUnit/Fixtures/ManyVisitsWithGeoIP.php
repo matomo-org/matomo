@@ -245,7 +245,8 @@ class ManyVisitsWithGeoIP extends Fixture
 
     private function setMockLocationProvider()
     {
-        LocationProvider::$providers = null;
+        LocationProvider::$providers = array();
+        LocationProvider::$providers[] = new MockLocationProvider();
         LocationProvider::setCurrentProvider('mock_provider');
         MockLocationProvider::$locations = array(
             self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location

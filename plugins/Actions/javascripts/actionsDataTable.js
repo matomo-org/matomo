@@ -54,12 +54,13 @@
             var self = this;
 
             self.cleanParams();
+            self.preBindEventsAndApplyStyleHook(domElem, rows);
 
             if (!rows) {
                 rows = $('tr', domElem);
             }
 
-            // we dont display the link on the row with subDataTable when we are already
+            // we don't display the link on the row with subDataTable when we are already
             // printing all the subTables (case of recursive search when the content is
             // including recursively all the subtables
             if (!self.param.filter_pattern_recursive) {
@@ -80,18 +81,18 @@
                     self.dataTableLoaded(response, self.workingDivId);
                 };
 
-                self.handleSearchBox(domElem, dataTableLoadedProxy);
                 self.handleConfigurationBox(domElem, dataTableLoadedProxy);
+                self.handleSearchBox(domElem, dataTableLoadedProxy);
             }
 
             self.handleColumnDocumentation(domElem);
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);
-            self.handleExpandFooter(domElem);
             self.setFixWidthToMakeEllipsisWork(domElem);
             self.handleSummaryRow(domElem);
             self.openSubtableFromLevel0IfOnlyOneSubtableGiven(domElem);
+            self.postBindEventsAndApplyStyleHook(domElem, rows);
         },
 
         openSubtableFromLevel0IfOnlyOneSubtableGiven: function (domElem) {
@@ -300,6 +301,8 @@
             dataTableSel.replaceWith(content);
 
             content.trigger('piwik:dataTableLoaded');
+
+            piwikHelper.compileAngularComponents(content);
 
             piwikHelper.lazyScrollTo(content[0], 400);
 

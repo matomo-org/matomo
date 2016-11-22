@@ -72,21 +72,6 @@ class SettingsServer
     }
 
     /**
-     * Returns `true` if running on an Apache web server, `false` if otherwise.
-     *
-     * @return bool
-     * @api
-     * @deprecated
-     */
-    public static function isApache()
-    {
-        $apache = isset($_SERVER['SERVER_SOFTWARE']) &&
-            !strncmp($_SERVER['SERVER_SOFTWARE'], 'Apache', 6);
-
-        return $apache;
-    }
-
-    /**
      * Returns `true` if running on a Windows operating system, `false` if otherwise.
      *
      * @since 0.6.5

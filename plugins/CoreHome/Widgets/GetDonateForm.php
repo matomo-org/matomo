@@ -36,13 +36,14 @@ class GetDonateForm extends Widget
 
     public function render()
     {
-        $view = new View('@CoreHome/getDonateForm');
-
+        $footerMessage = null;
         if (Common::getRequestVar('widget', false)
             && Piwik::hasUserSuperUserAccess()) {
-            $view->footerMessage = $this->translator->translate('CoreHome_OnlyForSuperUserAccess');
+            $footerMessage = $this->translator->translate('CoreHome_OnlyForSuperUserAccess');
         }
 
-        return $view->render();
+        return $this->renderTemplate('getDonateForm', array(
+            'footerMessage' => $footerMessage
+        ));
     }
 }

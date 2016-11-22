@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(선택 사항) 표시 옵션",
+        "AggregateReportsFormat": "표시 옵션",
         "AggregateReportsFormat_GraphsOnly": "그래프만 표시 (표는 표시하지 않음)",
         "AggregateReportsFormat_TablesAndGraphs": "모든 보고서에서 테이블 및 그래프 보기",
         "AggregateReportsFormat_TablesOnly": "(기본) 보고표 표시 (그래프는 키 메트릭스만)",
@@ -29,6 +29,7 @@
         "PluginDescription": "맞춤형 보고서를 만들고 이를 매일, 주간, 월간 한 사람 혹은 여러 명에게 이메일을 보냅니다. 보고서 형식은 다양한 형식(html, pdf, csv, 이미지 등)을 지원합니다.",
         "ReportFormat": "보고서 형식",
         "ReportHour": "%s시 정각에 보고서 보내기",
+        "ReportHourWithUTC": "%s 시 UTC",
         "ReportIncludeNWebsites": "이 보고서는 하나 이상의 방문있는 모든 웹사이트에 대한 주요 통계를 포함합니다(현재 %s 웹사이트에서 가능).",
         "ReportSent": "보고서 보내기",
         "ReportsIncluded": "보고서에 포함할 정보",

@@ -62,15 +62,12 @@
         "HelpOneConversionPerVisit": "如果一次访问中，匹配目标的页面被刷新或多次查看，只有第一次访问页面的目标会被统计。",
         "IsExactly": "正好是 %s",
         "LeftInCart": "%s(购物车内产品)",
-        "ManageGoalsOrCreateANewGoal": "%1$s管理目标%2$s 或马上新建一个目标！",
         "Manually": "手动触发",
         "ManuallyTriggeredUsingJavascriptFunction": "手动触发的目标是使用 JavaScript API trackGoal()",
         "MatchesExpression": "匹配表达式 %s",
         "NewGoalIntro": "目标转化跟踪是最有效的检验和提高商业目标的方法之一。",
         "NewVisitorsConversionRateIs": "新访客转化率为 %s",
         "Optional": "(选项)",
-        "OverallConversionRate": "%s 总转化率(访问一个完整的目标)",
-        "OverallRevenue": "%s 总收益",
         "PageTitle": "页面标题",
         "Pattern": "模式",
         "ProductCategory": "产品类别",
@@ -88,7 +85,6 @@
         "VisitUrl": "访问特定网址(页面或页面组)",
         "WhenVisitors": "当访客",
         "WhereThe": "设置",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "在被访问的页面包含一个 JavaScript piwikTracker.trackGoal() 方法(%1$s了解更多%2$s)",
         "YouCanEnableEcommerceReports": "您可以为网站开启%1$s在%2$s页面。"
     }
 }

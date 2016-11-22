@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(可选) 显示选项",
         "AggregateReportsFormat_GraphsOnly": "仅显示图形 (不显示报表)",
         "AggregateReportsFormat_TablesAndGraphs": "显示报表和所有图表",
         "AggregateReportsFormat_TablesOnly": "(默认) 显示报表 (图形仅显示关键指标)",

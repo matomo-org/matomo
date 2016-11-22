@@ -4,7 +4,6 @@
         "CongratulationsHelp": "<p>Noraboa! A instalación de Piwik foi completada.<\/p><p>Asegúrese de inserir o código Javascript en todas as páxinas, e agora, agarde aos primeiros visitantes!<\/p>",
         "Installation": "Instalación",
         "InstallationStatus": "Estado da instalación",
-        "NoConfigFound": "O ficheiro de configuración de Piwik non se atopou e vostede está tentando acceder a unha páxina de Piwik.<br><b>  » Pode <a href='index.php'>instalar Piwik agora<\/a><\/b><br><small>Se instalou Piwik con anterioridade e ten táboas na súa base de datos, non se preocupe, pode reutilizar ditas táboas e manter os datos que se atopan nelas!<\/small>",
         "PercentDone": "%s %%Hecho",
         "SetupWebsite": "Configurar unha páxina web",
         "SetupWebsiteError": "Houbo un erro ao engadir o sitio",

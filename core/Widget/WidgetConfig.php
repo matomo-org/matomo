@@ -29,6 +29,7 @@ class WidgetConfig
     protected $order  = 99;
     protected $isEnabled = true;
     protected $isWidgetizable = true;
+    protected $isWide = false;
 
     /**
      * Set the id of the category the widget belongs to.
@@ -66,6 +67,10 @@ class WidgetConfig
         return $this;
     }
 
+    /**
+     * Get the currently set category ID.
+     * @return string
+     */
     public function getSubcategoryId()
     {
         return $this->subcategoryId;
@@ -104,6 +109,10 @@ class WidgetConfig
         return $this;
     }
 
+    /**
+     * Get the currently set action.
+     * @return string
+     */
     public function getAction()
     {
         return $this->action;
@@ -201,7 +210,6 @@ class WidgetConfig
      * return `true` or `false`. If your report is only available to users having super user access you can do the
      * following: `return Piwik::hasUserSuperUserAccess();`
      * @return bool
-     * @api
      */
     public function isEnabled()
     {
@@ -246,7 +254,6 @@ class WidgetConfig
      * }
      * ```
      * @throws \Exception
-     * @api
      */
     public function checkIsEnabled()
     {
@@ -339,5 +346,24 @@ class WidgetConfig
         return $this->middlewareParameters;
     }
 
+    /**
+     * Marks this widget as a "wide" widget that requires the full width.
+     *
+     * @return $this
+     */
+    public function setIsWide()
+    {
+        $this->isWide = true;
+        return $this;
+    }
+
+    /**
+     * Detect whether the widget should be shown wide or not.
+     * @return bool
+     */
+    public function isWide()
+    {
+        return $this->isWide;
+    }
 
 }

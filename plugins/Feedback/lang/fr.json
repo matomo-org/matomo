@@ -19,15 +19,16 @@
         "ViewUserGuides": "Apprenez comment configurer Piwik et comment analyser de manière efficaces vos données avec notre %1$sguide utilisateur%2$s",
         "CommunityHelp": "Aide de la communauté",
         "ProfessionalHelp": "Aide professionnelle",
-        "PiwikProIntro": "Piwik PRO fournit un service expert de support et de consultation aux clients qui hébergent Piwik sur leurs propres infrastructures.",
-        "PiwikProOfferIntro": "Notre offre inclut",
-        "PiwikProReviewPiwikSetup": "Une revue de votre installation Piwik",
-        "PiwikProOptimizationMaintenance": "Services d'optimisation et de maintenance",
-        "PiwikProPhoneEmailSupport": "Support courriel et téléphonique",
-        "PiwikProTraining": "Formation d'utilisation, technique et en développement",
-        "PiwikProPremiumFeatures": "Fonctionnalités premium",
-        "PiwikProCustomDevelopment": "Services de développement personnalisés",
-        "PiwikProAnalystConsulting": "Services de consultation en analyse",
-        "ContactUs": "Nous contacter"
+        "ProfessionalServicesIntro": "Notre réseau mondial de consultants professionnels Piwik supporte nos clients qui hébergent Piwik sur leurs propres infrastructures.",
+        "ProfessionalServicesOfferIntro": "De quel services pouvez vous bénéficier?",
+        "ProfessionalServicesReviewPiwikSetup": "Une revue de votre installation Piwik",
+        "ProfessionalServicesOptimizationMaintenance": "Services d'optimisation et de maintenance pour Piwik",
+        "ProfessionalServicesPhoneEmailSupport": "Support courriel et téléphonique",
+        "ProfessionalServicesTraining": "Formation d'utilisation, technique et en développement",
+        "ProfessionalServicesPremiumFeatures": "Fonctionnalités premium",
+        "ProfessionalServicesCustomDevelopment": "Services de développement personnalisés",
+        "ProfessionalServicesAnalystConsulting": "Services de consultation en analyse",
+        "ContactUs": "Nous contacter",
+        "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Piwik."
     }
 }

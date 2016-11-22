@@ -13,7 +13,7 @@ use Exception;
 
 class Response extends \Piwik\Plugins\BulkTracking\Tracker\Response
 {
-    protected function logExceptionToErrorLog(Exception $e)
+    protected function logExceptionToErrorLog($e)
     {
         // prevent from writing to console in tests
     }

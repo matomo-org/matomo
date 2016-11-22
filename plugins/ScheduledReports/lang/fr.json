@@ -1,6 +1,6 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "Options d'affichage (optionnel)",
+        "AggregateReportsFormat": "Options d'affichage",
         "AggregateReportsFormat_GraphsOnly": "Afficher uniquement les graphiques (pas de tableau de valeur)",
         "AggregateReportsFormat_TablesAndGraphs": "Afficher les tableaux de rapport et les graphiques pour tous les rapports",
         "AggregateReportsFormat_TablesOnly": "(défaut) afficher les tableaux de rapport (Graphique uniquement pour les indicateurs clés)",
@@ -29,6 +29,7 @@
         "PluginDescription": "Créez des rapports personnalisés et planifiez de les envoyer par courriel quotidiennement, hebdomadairement ou mensuellement à une ou plusieurs personnes. Plusieurs formats de rapports sont supportés (html, pdf, csv, images).",
         "ReportFormat": "Format du rapport",
         "ReportHour": "Envoyer le rapport à %s",
+        "ReportHourWithUTC": "%s pile UTC",
         "ReportIncludeNWebsites": "Le rapport incluera les métriques principales pour tous les sites web qui ont au moins une visite (depuis les %s sites web actuellement disponibles)",
         "ReportSent": "Rapport envoyé",
         "ReportsIncluded": "Statistiques incluses",

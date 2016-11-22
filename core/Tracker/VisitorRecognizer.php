@@ -249,7 +249,7 @@ class VisitorRecognizer
              *
              * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
              *
-             * @deprecated 
+             * @deprecated
              */
             $this->eventDispatcher->postEvent('Tracker.getVisitFieldsToPersist', array(&$fields));
 

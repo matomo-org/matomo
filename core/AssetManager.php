@@ -68,7 +68,8 @@ class AssetManager extends Singleton
     public function __construct()
     {
         $this->cacheBuster = UIAssetCacheBuster::getInstance();
-        $this->minimalStylesheetFetcher =  new StaticUIAssetFetcher(array('plugins/Morpheus/stylesheets/base.less', 'plugins/Morpheus/stylesheets/general/_forms.less'), array(), $this->theme);
+
+        $this->minimalStylesheetFetcher = new StaticUIAssetFetcher(array(), array(), $this->theme);
 
         $theme = Manager::getInstance()->getThemeEnabled();
         if (!empty($theme)) {
@@ -398,5 +399,29 @@ class AssetManager extends Singleton
     private function getMergedUIAsset($fileName)
     {
         return new OnDiskUIAsset($this->getAssetDirectory(), $fileName);
+    }
+
+    public static function compileCustomStylesheets($files)
+    {
+        $assetManager = new AssetManager();
+
+        $fetcher = new StaticUIAssetFetcher($files, $priorityOrder = array(), $theme = null);
+
+        $assetManager->setMinimalStylesheetFetcher($fetcher);
+
+        return $assetManager->getCompiledBaseCss()->getContent();
+    }
+
+    public static function compileCustomJs($files)
+    {
+        $mergedAsset = new InMemoryUIAsset();
+        $fetcher = new StaticUIAssetFetcher($files, $priorityOrder = array(), $theme = null);
+        
+        $cacheBuster = UIAssetCacheBuster::getInstance();
+
+        $assetMerger = new JScriptUIAssetMerger($mergedAsset, $fetcher, $cacheBuster);
+        $assetMerger->generateFile();
+        
+        return $mergedAsset->getContent();
     }
 }

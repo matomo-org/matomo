@@ -1,20 +1,28 @@
-#javascript-output-section textarea, #image-link-output-section textarea {
-    width: 100%;
-    display: block;
-    font-family: "Courier New", Courier, monospace;
-}
-#javascript-output-section textarea {
-    height: 312px;
-}
-#image-link-output-section textarea {
+#image-link-output-section .codeblock {
     height: 92px;
 }
 
-#image-tracking-text {
-    padding-top: 10px;
+.jsTrackingCodeWebsite .input-field,
+#image-tracking-code-options .input-field {
+    margin-top: 0;
 }
 
-#js-campaign-query-param-extra .form-group {
-    /* terrible hack for a bug... */
-    width: 600px;
+#image-tracking-goal-sub .row,
+#javascript-tracking-visitor-cv .row,
+#js-campaign-query-param-extra .row {
+    margin-bottom: 0;
+}
+
+#javascript-tracking-visitor-cv > .row {
+    margin-left: 37px;
+}
+
+#image-tracking-goal-sub > .row,
+#js-campaign-query-param-extra > .row {
+    margin-left: 24px;
+}
+
+#image-tracking-goal-sub .input-field,
+#js-campaign-query-param-extra .input-field {
+    margin-top: 0;
 }
