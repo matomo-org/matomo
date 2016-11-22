@@ -29,6 +29,8 @@
 
         function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
 
+            $(document).triggerHandler('Goals.beforeInitGoalForm', [goalMethodAPI, goalId]);
+
             self.goal = {};
             self.goal.name = goalName;
             self.goal.description = description;
@@ -100,6 +102,19 @@
             parameters.idGoal = this.goal.goalId;
             parameters.method = this.goal.apiMethod;
 
+            var isCreate = parameters.method === 'Goals.addGoal';
+            var isUpdate = parameters.method === 'Goals.updateGoal';
+
+            if (isUpdate) {
+                $(document).triggerHandler('Goals.beforeUpdateGoal', [parameters, ajaxRequest]);
+            } else if (isCreate) {
+                $(document).triggerHandler('Goals.beforeAddGoal', [parameters, ajaxRequest]);
+            }
+
+            if (parameters && 'undefined' !== typeof parameters.cancelRequest && parameters.cancelRequest) {
+                return;
+            }
+
             this.isLoading = true;
 
             piwikApi.fetch(parameters).then(function () {
@@ -129,6 +144,8 @@
         }
 
         this.showListOfReports = function (shouldScrollToTop) {
+            $(document).triggerHandler('Goals.cancelForm');
+
             this.showGoalList = true;
             this.showEditGoal = false;
             scrollToTop();

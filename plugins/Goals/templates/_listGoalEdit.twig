@@ -28,6 +28,7 @@
             <th>{{ 'General_Description'|translate }}</th>
             <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
             <th>{{ 'General_ColumnRevenue'|translate }}</th>
+            {{ postEvent("Template.beforeGoalListActionsHead") }}
             {% if userCanEditGoals %}
                 <th>{{ 'General_Edit'|translate }}</th>
                 <th>{{ 'General_Delete'|translate }}</th>
@@ -57,6 +58,7 @@
                     <td class="center">
                         {% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}
                     </td>
+                    {{ postEvent("Template.beforeGoalListActionsBody", goal) }}
                     {% if userCanEditGoals %}
                         <td style="padding-top:2px">
                             <button ng-click="manageGoals.editGoal({{ goal.idgoal }})" class="table-action" title="{{ 'General_Edit'|translate }}">
