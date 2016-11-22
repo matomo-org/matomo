@@ -41,6 +41,8 @@ class ManySitesImportedLogs extends Fixture
         GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::setCurrentProvider('geoip_php');
 
+        self::createSuperUser();
+
         $this->trackVisits();
         $this->setupSegments();
     }

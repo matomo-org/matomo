@@ -473,7 +473,7 @@ class Request
                 $message = sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow);
                 Common::printDebug($message);
                 Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
-                throw new Exception($message);
+                throw new InvalidRequestParameterException($message);
             }
         }
 
