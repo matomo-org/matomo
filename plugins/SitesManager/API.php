@@ -101,7 +101,7 @@ class API extends \Piwik\Plugin\API
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                                     $doNotTrack = false, $disableCookies = false, $`` = false)
+                                     $doNotTrack = false, $disableCookies = false, $trackNoScript = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
