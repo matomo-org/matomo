@@ -106,9 +106,9 @@
             var isUpdate = parameters.method === 'Goals.updateGoal';
 
             if (isUpdate) {
-                $(document).triggerHandler('Goals.beforeUpdateGoal', [parameters, ajaxRequest]);
+                $(document).triggerHandler('Goals.beforeUpdateGoal', [parameters, piwikApi]);
             } else if (isCreate) {
-                $(document).triggerHandler('Goals.beforeAddGoal', [parameters, ajaxRequest]);
+                $(document).triggerHandler('Goals.beforeAddGoal', [parameters, piwikApi]);
             }
 
             if (parameters && 'undefined' !== typeof parameters.cancelRequest && parameters.cancelRequest) {
