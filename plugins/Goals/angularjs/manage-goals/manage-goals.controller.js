@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ManageGoalsController', ManageGoalsController);
 
-    ManageGoalsController.$inject = ['piwik', 'piwikApi', '$timeout', '$location', 'reportingMenuModel'];
+    ManageGoalsController.$inject = ['piwik', 'piwikApi', '$timeout', '$location', 'reportingMenuModel', '$rootScope'];
 
-    function ManageGoalsController(piwik, piwikApi, $timeout, $location, reportingMenuModel) {
+    function ManageGoalsController(piwik, piwikApi, $timeout, $location, reportingMenuModel, $rootScope) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
@@ -29,7 +29,7 @@
 
         function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
 
-            $(document).triggerHandler('Goals.beforeInitGoalForm', [goalMethodAPI, goalId]);
+            $rootScope.$emit('Goals.beforeInitGoalForm', goalMethodAPI, goalId);
 
             self.goal = {};
             self.goal.name = goalName;
@@ -106,9 +106,9 @@
             var isUpdate = parameters.method === 'Goals.updateGoal';
 
             if (isUpdate) {
-                $(document).triggerHandler('Goals.beforeUpdateGoal', [parameters, piwikApi]);
+                $rootScope.$emit('Goals.beforeUpdateGoal', parameters, piwikApi);
             } else if (isCreate) {
-                $(document).triggerHandler('Goals.beforeAddGoal', [parameters, piwikApi]);
+                $rootScope.$emit('Goals.beforeAddGoal', parameters, piwikApi);
             }
 
             if (parameters && 'undefined' !== typeof parameters.cancelRequest && parameters.cancelRequest) {
@@ -144,7 +144,7 @@
         }
 
         this.showListOfReports = function (shouldScrollToTop) {
-            $(document).triggerHandler('Goals.cancelForm');
+            $rootScope.$emit('Goals.cancelForm');
 
             this.showGoalList = true;
             this.showEditGoal = false;
