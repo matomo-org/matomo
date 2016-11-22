@@ -4,6 +4,7 @@
 	<prettyDate>January 1 – July 31, 2010</prettyDate>
 	<metadata>
 		<category>Visitors</category>
+		<subcategory>Custom Variables</subcategory>
 		<name>Custom Variables</name>
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
@@ -88,7 +89,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3230</idsubdatatable>
+				<idsubdatatable>3262</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -99,7 +100,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3229</idsubdatatable>
+				<idsubdatatable>3261</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />

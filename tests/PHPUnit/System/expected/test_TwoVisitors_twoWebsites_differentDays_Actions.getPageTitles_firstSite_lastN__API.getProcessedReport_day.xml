@@ -4,6 +4,7 @@
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Actions</category>
+		<subcategory>Page titles</subcategory>
 		<name>Page titles</name>
 		<module>Actions</module>
 		<action>getPageTitles</action>
@@ -28,6 +29,18 @@
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
+		<relatedReports>
+			<row>
+				<name>Entry page titles</name>
+				<module>Actions</module>
+				<action>getEntryPageTitles</action>
+			</row>
+			<row>
+				<name>Exit page titles</name>
+				<module>Actions</module>
+				<action>getExitPageTitles</action>
+			</row>
+		</relatedReports>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>
@@ -171,51 +184,51 @@
 		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				
-				<idsubdatatable>1990</idsubdatatable>
+				<idsubdatatable>2014</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>1989</idsubdatatable>
+				<idsubdatatable>2013</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				
-				<idsubdatatable>1994</idsubdatatable>
+				<idsubdatatable>2018</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>1993</idsubdatatable>
+				<idsubdatatable>2017</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				
-				<idsubdatatable>1998</idsubdatatable>
+				<idsubdatatable>2022</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>1997</idsubdatatable>
+				<idsubdatatable>2021</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				
-				<idsubdatatable>2002</idsubdatatable>
+				<idsubdatatable>2026</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>2001</idsubdatatable>
+				<idsubdatatable>2025</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				
-				<idsubdatatable>2006</idsubdatatable>
+				<idsubdatatable>2030</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>2005</idsubdatatable>
+				<idsubdatatable>2029</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>

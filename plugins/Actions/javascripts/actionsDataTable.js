@@ -54,6 +54,7 @@
             var self = this;
 
             self.cleanParams();
+            self.preBindEventsAndApplyStyleHook(domElem, rows);
 
             if (!rows) {
                 rows = $('tr', domElem);
@@ -80,18 +81,18 @@
                     self.dataTableLoaded(response, self.workingDivId);
                 };
 
-                self.handleSearchBox(domElem, dataTableLoadedProxy);
                 self.handleConfigurationBox(domElem, dataTableLoadedProxy);
+                self.handleSearchBox(domElem, dataTableLoadedProxy);
             }
 
             self.handleColumnDocumentation(domElem);
             self.handleRelatedReports(domElem);
             self.handleTriggeredEvents(domElem);
             self.handleCellTooltips(domElem);
-            self.handleExpandFooter(domElem);
             self.setFixWidthToMakeEllipsisWork(domElem);
             self.handleSummaryRow(domElem);
             self.openSubtableFromLevel0IfOnlyOneSubtableGiven(domElem);
+            self.postBindEventsAndApplyStyleHook(domElem, rows);
         },
 
         openSubtableFromLevel0IfOnlyOneSubtableGiven: function (domElem) {
@@ -300,6 +301,8 @@
             dataTableSel.replaceWith(content);
 
             content.trigger('piwik:dataTableLoaded');
+
+            piwikHelper.compileAngularComponents(content);
 
             piwikHelper.lazyScrollTo(content[0], 400);
 

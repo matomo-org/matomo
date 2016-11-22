@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Common;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
@@ -122,15 +123,59 @@ abstract class GeneratePluginBase extends ConsoleCommand
             $pluginJson['require'] = array();
         }
 
-        $piwikVersion       = Version::VERSION;
-        $newRequiredVersion = '>=' . $piwikVersion;
+        $piwikVersion     = Version::VERSION;
+        $nextMajorVersion = (int) substr($piwikVersion, 0, strpos($piwikVersion, '.')) + 1;
+        $secondPartPiwikVersionRequire = ',<' . $nextMajorVersion . '.0.0-b1';
+        if (false === strpos($piwikVersion, '-')) {
+            // see https://github.com/composer/composer/issues/4080 we need to specify -stable otherwise it would match
+            // $piwikVersion-dev meaning it would also match all pre-released. However, we only want to match a stable
+            // release
+            $piwikVersion.= '-stable';
+        }
+
+        $newRequiredVersion = sprintf('>=%s,<%d.0.0', $piwikVersion, $nextMajorVersion);
+
 
         if (!empty($pluginJson['require']['piwik'])) {
-            $requiredVersion = $pluginJson['require']['piwik'];
+            $requiredVersion = trim($pluginJson['require']['piwik']);
 
             if ($requiredVersion === $newRequiredVersion) {
+                // there is nothing to updated
                 return;
             }
+
+            // our generated versions look like ">=2.25.4,<3.0.0-b1".
+            // We only updated the Piwik version in the first part if the piwik version looks like that or if it has only
+            // one piwik version defined. In all other cases, eg user uses || etc we do not update it as user has customized
+            // the piwik version.
+
+            foreach (['<>','!=', '<=','==', '^'] as $comparison) {
+                if (strpos($requiredVersion, $comparison) === 0) {
+                    // user is using custom piwik version require, we do not overwrite anything.
+                    return;
+                }
+            }
+
+            if (strpos($requiredVersion, '||') !== false || strpos($requiredVersion, ' ') !== false) {
+                // user is using custom piwik version require, we do not overwrite anything.
+                return;
+            }
+
+            $requiredPiwikVersions = explode(',', (string) $requiredVersion);
+            $numRequiredPiwikVersions = count($requiredPiwikVersions);
+
+            if ($numRequiredPiwikVersions > 2) {
+                // user is using custom piwik version require, we do not overwrite anything.
+                return;
+            }
+
+            if ($numRequiredPiwikVersions === 2 &&
+                !Common::stringEndsWith($requiredVersion, $secondPartPiwikVersionRequire)) {
+                // user is using custom piwik version require, we do not overwrite anything
+                return;
+            }
+
+            // if only one piwik version is defined we update it to make sure it does now specify an upper version limit
 
             $dependency     = new Dependency();
             $missingVersion = $dependency->getMissingVersions($piwikVersion, $requiredVersion);

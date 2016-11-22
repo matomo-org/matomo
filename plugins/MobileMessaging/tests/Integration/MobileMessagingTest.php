@@ -241,7 +241,10 @@ class MobileMessagingTest extends IntegrationTestCase
             'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
         );
 
-        $stubbedAPIMobileMessaging = $this->getMock('\\Piwik\\Plugins\\MobileMessaging\\API', array('sendSMS', 'getInstance'), $arguments = array(), $mockClassName = '', $callOriginalConstructor = false);
+        $stubbedAPIMobileMessaging = $this->getMockBuilder('\\Piwik\\Plugins\\MobileMessaging\\API')
+                                          ->setMethods(array('sendSMS', 'getInstance'))
+                                          ->disableOriginalConstructor()
+                                          ->getMock();
         $stubbedAPIMobileMessaging->expects($this->once())->method('sendSMS')->with(
             $this->equalTo($expectedReportContent, 0),
             $this->equalTo($expectedPhoneNumber, 1),

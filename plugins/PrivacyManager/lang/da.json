@@ -5,7 +5,6 @@
         "AnonymizeIpExtendedHelp": "Når brugerne besøger hjemmesiden, vil Piwik ikke bruge den fulde IP-adresse (f.eks %1$s), men i stedet vil Piwik anonymisere det først (til %2$s). IP-adresse anonymisering er et af de krav, som lovgivningen om privatlivets fred i visse lande som fx. Tyskland.",
         "AnonymizeIpMaskLengtDescription": "Vælg hvor mange bytes af de besøgendes IP-adresser der skal maskeres.",
         "AnonymizeIpMaskLength": "%1$s bytes - f.eks %2$s",
-        "CannotLockSoDeleteLogActions": "log_action tabellen vil ikke blive slettet: giv LOCK TABELLER privilegium til '%s' MYSQL brugeren.",
         "ClickHereSettings": "Klik her for at få adgang til %s indstillinger.",
         "CurrentDBSize": "Nuværende database størrelse",
         "DBPurged": "Databasen er opryddet.",

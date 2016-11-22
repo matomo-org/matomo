@@ -39,7 +39,7 @@ var Piwik_Popover = (function () {
             },
             close: function (event, ui) {
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
-                container[0].innerHTML = ''; // IE8 fix
+                container[0].innerHTML = '';
                 container.dialog('destroy').remove();
                 globalAjaxQueue.abort();
                 $('.ui-widget-overlay').off('click.popover');
@@ -162,8 +162,11 @@ var Piwik_Popover = (function () {
                 closeCallback = false;
             }
 
-            container[0].innerHTML = ''; // IE8 fix
             container.html(html);
+            
+            container.children().each(function (i, childNode) {
+                piwikHelper.compileAngularComponents(childNode);
+            })
             centerPopover();
         },
 
@@ -227,8 +230,9 @@ var Piwik_Popover = (function () {
          * @param {string} url
          * @param {string} loadingName
          * @param {string} [dialogClass]      css class to add to dialog
+         * @param {object} [ajaxRequest]      optional instance of ajaxHelper
          */
-        createPopupAndLoadUrl: function (url, loadingName, dialogClass) {
+        createPopupAndLoadUrl: function (url, loadingName, dialogClass, ajaxRequest) {
             // make sure the minimum top position of the popover is 15px
             var ensureMinimumTop = function () {
                 var popoverContainer = $('#Piwik_Popover').parent();
@@ -254,7 +258,10 @@ var Piwik_Popover = (function () {
                 setPopoverTitleIfOneFoundInContainer();
                 ensureMinimumTop();
             };
-            var ajaxRequest = new ajaxHelper();
+
+            if ('undefined' === typeof ajaxRequest) {
+                ajaxRequest = new ajaxHelper();
+            }
             ajaxRequest.addParams(piwikHelper.getArrayFromQueryString(url), 'get');
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');

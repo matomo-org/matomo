@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "Wyświetl opcje (opcjonalnie)",
         "AggregateReportsFormat_GraphsOnly": "Wyświetlane wykresów (brak tabeli raportu)",
         "AggregateReportsFormat_TablesAndGraphs": "Wyświetlane tabeli i wykresów dla wszystkich raportów",
         "AggregateReportsFormat_TablesOnly": "(domyślny) Wyświetlane tabele raportu (wykresy tylko dla kluczowych wskaźników)",

@@ -33,8 +33,6 @@
         "MatchesExpression": "egyezik ezzel a kifejezéssel: %s",
         "NewVisitorsConversionRateIs": "Új látogatók konverziós aránya %s",
         "Optional": "(opcionális)",
-        "OverallConversionRate": "%s az összesített konverziós arány (látogatások, melyek során teljesült a cél)",
-        "OverallRevenue": "%s összesített bevétel",
         "Pattern": "Egyezési minta",
         "ReturningVisitorsConversionRateIs": "A visszatérő látogatók konverziós aránya %s",
         "UpdateGoal": "Cél frissítése",
@@ -42,7 +40,6 @@
         "ViewAndEditGoals": "Célok megtekintése és szerkesztése",
         "VisitUrl": "meglátogatnak egy adott URL-t (mely egy weblapot vagy weblapok csoportját jelenti)",
         "WhenVisitors": "bekövetkezik, ha a látogatók",
-        "WhereThe": "ahol a (z)",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "ahol a meglátogatott oldal tartalmaz egy JavaScript hívást a 'trackGoal' funkció aktiválására (%1$stovábbi információ%2$s)"
+        "WhereThe": "ahol a (z)"
     }
 }

@@ -21,7 +21,6 @@
         "ExceptionEditAnonymous": "Userul anonim nu poate fi editat sau sters.De exemplu poti face ca statisticile tale sa fie publice autorizand 'view' accesul la 'anonymous' user.",
         "ExceptionEmailExists": "Deja există un utilizator cu adresa '%s'.",
         "ExceptionInvalidEmail": "Emailul nu are un format valid.",
-        "ExceptionInvalidPassword": "Lungimea parolei trebuie să fie între %1$s şi %2$s simboluri.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth se așteaptă la o parolă distribuita-MD5 (32 de caractere șir lung). Vă rugăm să apelati la funcția md5 () la parola înainte de a apela această metodă.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Scoaterea accesul utilizatorului Super de la utilizator '%s' nu este posibil.",
         "ExceptionSuperUserAccess": "Acest utilizator are acces la Super utilizator și are deja permisiunea de a accesa și modifica toate site-urile din Piwik. Puteți scoate Super accesul utilizatorului la acest utilizator și încercați din nou.",

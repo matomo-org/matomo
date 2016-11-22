@@ -55,7 +55,6 @@
         "LogoUploadHelp": "请上传 %1$s 格式的文件，最小高度 %2$s 点。",
         "MenuDiagnostic": "检测",
         "MenuGeneralSettings": "一般设置",
-        "MenuManage": "管理",
         "MenuDevelopment": "展开",
         "OptOutComplete": "主动退出 成功; 网站分析工具将不会统计您对这个网站的访问。",
         "OptOutCompleteBis": "如果您清空了cookies、删除了主动退出cookie、或者更换了电脑或者浏览器，您需要重新执行主动退出的操作。",

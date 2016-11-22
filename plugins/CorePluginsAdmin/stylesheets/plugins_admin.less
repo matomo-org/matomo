@@ -1,5 +1,8 @@
-.pluginsManagement .entityContainer {
-  padding-top: 16px;
+.pluginsManagement {
+    .footer-message {
+       margin-top: 32px;
+        .font-default(13px, 21px);
+    }
 }
 
 table.dataTable tr.active-plugin > td {
@@ -19,7 +22,7 @@ table.dataTable tr.inactive-plugin:hover > td {
 }
 
 .plugin-desc-text {
-    margin-top:0em;
+    margin-top:0;
     margin-bottom:1.5em;
 }
 
@@ -63,12 +66,6 @@ table.dataTable tr.inactive-plugin:hover > td {
 
 .plugin-license {
     float:right;
-    font-style:italic;
-}
-
-.plugin-homepage {
-    font-size:.8em;
-    font-style:italic;
 }
 
 table.entityTable tr td .plugin-homepage a {
@@ -86,9 +83,7 @@ table.entityTable tr td a.uninstall {
 }
 
 .plugin-version {
-    font-size:80%;
-    font-style:italic;
-    color:#777;
+    color: #999;
 }
 
 #plugins {
@@ -101,9 +96,22 @@ table.entityTable tr td a.uninstall {
         }
     }
 
+    .inactive-plugin {
+        td {
+            background-color: rgba(230, 230, 230, 0.3);
+        }
+
+        &:hover td {
+            background-color: #f2f2f2;
+        }
+    }
+
+    td.vers {
+        white-space: nowrap;
+    }
+
     .plugin-desc-missingrequirements {
         font-weight:bold;
-        font-style: italic;
         a {
             text-decoration: underline !important;
             color: black;
@@ -114,12 +122,12 @@ table.entityTable tr td a.uninstall {
         text-align: right;
         width: 100%;
         display: inline-block;
-        font-style: italic;
     }
 }
 
 .admin .pluginsFilter {
-    color: @theme-color-text-lighter;
+    margin-top: 20px;
+
     .active {
         font-weight: bold;
     }
@@ -132,9 +140,5 @@ table.entityTable tr td a.uninstall {
     .status {
         display: inline-block;
         margin-left: 20px;
-    }
-
-    .getNewPlugins {
-        float: right;
     }
 }

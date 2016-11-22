@@ -13,34 +13,62 @@
 body {
     background: @theme-color-background-base;
     font-family: @theme-fontFamily-base;
+    color: @theme-color-text;
+}
+
+button, input, optgroup, select, textarea {
+  color: @theme-color-text;
 }
 
 h2 {
     font-weight: normal;
-    border-bottom: 1px solid @color-gray;
-    margin: 15px -15px 20px 0;
     font-size: 24px;
     width: 100%;
+    padding: 16px 0 16px 0;
+    margin: 0;
     a, a:hover {
         text-decoration: none;
-        color: @color-black-piwik;
+        color: @theme-color-text;
     }
 }
 h3 {
-    color: @theme-color-text;
+    color: @theme-color-headline-alternative;
     .font-default(18px, 24px);
     font-weight: normal;
+    margin: 32px 0 16px 0;
 }
-a:hover {
+
+.pageWrap a:hover {
     text-decoration:underline;
 }
 
-#content {
-    p {
-        margin-left: 0px;
-        margin-right: 0px;
-        .font-default(13px, 18px);
-    }
+p {
+  color: @theme-color-text;
+}
+
+#content p {
+    margin-left: 0;
+    margin-right: 0;
+    .font-default(13px, 18px);
+}
+
+.piwik-content-intro {
+  button, input, optgroup, select, textarea {
+    color: @theme-color-headline-alternative;
+  }
+  color: @theme-color-headline-alternative;
+  h1, h2, h3, h4 {
+    color: @theme-color-headline-alternative;
+  }
+  p {
+    color: @theme-color-headline-alternative;
+  }
+}
+
+#content .card-content {
+  p {
+    color: @theme-color-text;
+  }
 }
 
 #leftcolumn {
@@ -51,22 +79,6 @@ a:hover {
 #rightcolumn {
     float: left;
     width: 50%;
-}
-
-.entityTable {
-    .border-radius(0px)!important;
-    border: 1px solid @color-silver-l90 !important;
-    tr {
-        &.first {
-            th {
-                border-left: 0px !important;
-            }
-        }
-    }
-}
-
-table.entityTable tr td a:hover {
-    text-decoration: underline !important;
 }
 
 #root {
@@ -133,13 +145,13 @@ table.entityTable tr td a:hover {
   background: @theme-color-background-base;
   .border-radius(0px);
   .dropdown-body {
-    background:@theme-color-background-base;
+    background:@theme-color-background-contrast;
     padding: 8px 19px 0;
     .border-radius(0px);
     border-top-width: 0px;
   }
   &:hover .dropdown-body {
-    background:@theme-color-background-base;
+    background:@theme-color-background-contrast;
   }
   .segmentationContainer {
     > span > strong {
@@ -199,7 +211,7 @@ table.entityTable tr td a:hover {
       white-space: nowrap;
       margin-right: 0;
       a {
-        font-family: Verdana, sans-serif;
+        font-family: @theme-fontFamily-base;
         font-size: 11px;
         line-height: 12px;
         display: inline-block;
@@ -209,7 +221,7 @@ table.entityTable tr td a:hover {
         cursor: pointer;
         text-transform: uppercase;
       }
-      &.sfActive {
+      &.active {
         a {
           color: @theme-color-menu-contrast-textActive;
         }
@@ -239,7 +251,7 @@ table.entityTable tr td a:hover {
 .rss-date {
     display: block;
     color: @color-silver-l60;
-    .font-default(11px, 26px);
+    .font-default(13px, 26px);
 }
 
 .rss-description {
@@ -254,12 +266,12 @@ table.dataTable {
     thead {
         tr {
             th {
-                background: @color-silver-l98;
+                background: @theme-color-background-contrast;
                 text-transform: uppercase;
                 color: @theme-color-text;
                 .font-default(11px, 12px);
-                padding-top: 12px;
-                padding-bottom: 12px;
+                padding-top: 16px;
+                padding-bottom: 16px;
                 vertical-align: middle;
 
                 &:not(.first) {
@@ -274,7 +286,8 @@ table.dataTable {
                 }
               
                 #thDIV {
-                 display: inline; 
+                 display: inline;
+                  position: relative;
                 }
 
                 &.columnSorted {
@@ -327,7 +340,7 @@ table.dataTable {
             border-bottom: 1px solid @color-silver-l95 !important;
             border-color: @color-silver-l95 !important;
             color: @theme-color-text;
-            background: @theme-color-background-base;
+            background: @theme-color-background-contrast;
 
             &:not(.value) {
               .font-default(13px, 16px);
@@ -378,6 +391,7 @@ table.dataTable {
               text-overflow: ellipsis;
               width: inherit;
               display: inline-block;
+              vertical-align: sub;
             }
         }
 
@@ -387,22 +401,12 @@ table.dataTable {
         }
 
         .cellSubDataTable td {
-          background: @theme-color-background-base;
+          background: @theme-color-background-contrast;
         }
         .cellSubDataTable tr:hover td {
-          background-color: @color-silver-l95;
+          background-color: @theme-color-background-base;
         }
       }
-    }
-
-    &.entityTable tr {
-        td  {
-            background-color: @theme-color-background-base !important;
-        }
-        &.inactive-plugin td,
-        &:hover td {
-            background-color: @color-silver-l95 !important;
-        }
     }
 
     &.dataTableVizVisitorLog {
@@ -418,7 +422,7 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, di
     width: 12px;
     height: 12px;
     margin-left:-1px;
-    margin-top:4px;
+    margin-top:3px;
     margin-right:8px;
     content: '';
   }
@@ -432,10 +436,6 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, di
   }
 }
 
-table.dataTable .dataTableRowActions {
-  margin-top: -7px;
-}
-
 .visitsLiveFooter {
     padding-left: 10px;
     a.rightLink {
@@ -446,13 +446,8 @@ table.dataTable .dataTableRowActions {
     }
 }
 
-.dataTableFooterIcons {
-  padding: 6px 12px 0px;
-  border-top: 1px solid @color-silver-l90;
-}
-
 .UserCountryMap-btn-zoom {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 div.sparkline {
@@ -487,55 +482,11 @@ div.sparkline {
 
 .dataTableNext, .dataTablePrevious {
     color: @theme-color-link;
-    text-transform: uppercase;
-    .font-default(10px, 12px);
+    .font-default(13px, 14px);
 }
 
 .UserCountryMap-info-btn {
     z-index: 1;
-}
-
-.dataTableSearchPattern {
-    background: none;
-    height: auto;
-    input {
-        color: @theme-color-text !important;
-        .border-radius(0px);
-        margin-left: 0;
-        padding: 8px 10px;
-        min-height: 30px !important;
-        .box-sizing(border-box);
-        border: 1px solid @color-silver-l80;
-        .opacity(1);
-
-        &[type="text"] {
-            width: 40% !important;
-            padding-right: 30px !important;
-            padding-bottom: 2px !important;
-            &:focus {
-                border-color: @color-silver-l60;
-            }
-        }
-
-        &[type="submit"] {
-            margin: 0;
-            float: none;
-            .font-default(10px, 12px) !important;
-            padding: 0 !important;
-            position: relative;
-            right: 33px;
-            background: no-repeat 0 7px url('plugins/Morpheus/images/search_ico.png') !important;
-            text-indent: 999999px;
-            width: 17px !important;
-            -webkit-box-shadow: none;
-            -moz-box-shadow:    none;
-            box-shadow:         none;
-        }
-    }
-}
-
-.dataTable .searchReset>img {
-    left: -45px;
 }
 
 .visitor-profile a {
@@ -601,15 +552,15 @@ div.sparkline {
             }
 
             ol {
-                background: @theme-color-background-base !important;
+                background: @theme-color-background-contrast !important;
                 border-top: 0 !important;
                 li {
-                    background: @theme-color-background-base !important;
+                    background: @theme-color-background-contrast !important;
                     .font-default(11px, 19px);
                     font-weight: normal;
                     color: @theme-color-text-lighter;
                     &:last-child {
-                        border-bottom: 0px !important;
+                        border-bottom: 0 !important;
                     }
                 }
             }
@@ -670,7 +621,7 @@ div.sparkline {
         strong {
             .font-default(13px, 18px);
             color: @theme-color-text;
-            font-weight: normal;
+            font-weight: normal !important;
         }
         span {
             .font-default(13px, 18px);
@@ -695,7 +646,7 @@ div.sparkline {
                 strong {
                     color: @theme-color-text;
                     .font-default(13px, 18px);
-                    font-weight: normal;
+                    font-weight: normal !important;
                 }
 
                 .visitor-profile-os,
@@ -748,10 +699,6 @@ div.sparkline {
     height: 6px;
 }
 
-.dataTableFooterIcons, .dataTableFooterIcons a {
-    color: @theme-color-link;
-}
-
 #visitsLive .datetime {
     background: @color-silver-l95;
     border-top: 0;
@@ -765,10 +712,6 @@ div.sparkline {
     border: 0px;
     background: @theme-color-background-tinyContrast;
     .font-default(10px, 16px);
-}
-
-#token_auth {
-    background: @color-silver-l95;
 }
 
 tr:hover #token_auth {
@@ -786,6 +729,22 @@ tr:hover #token_auth {
 
 #multisites table.dataTable {
     tfoot tr:hover td {
-        background: @theme-color-background-base;
+        background: @theme-color-background-contrast;
     }
+}
+
+/** Materialize color overwrites */
+.dropdown-content li>a, .dropdown-content li>span {
+  color: @theme-color-link !important;
+}
+
+.dropdown-content li:hover, .dropdown-content li.active, .dropdown-content li.selected {
+  background-color: @theme-color-background-tinyContrast;
+}
+
+#root .side-nav .collapsible-body li a {
+  padding-top: 20px;
+  line-height: 20px;
+  height: auto;
+  padding-bottom: 20px;
 }

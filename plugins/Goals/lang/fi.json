@@ -10,7 +10,6 @@
         "BestKeywords": "Parhaat hakusanat ovat:",
         "BestReferrers": "Parhaat verkkosivuviittaajat ovat:",
         "CaseSensitive": "Kokoherkkä",
-        "ChooseGoal": "Valitse tavoite",
         "ClickOutlink": "Ulos lähtevän linkin painaminen",
         "SendEvent": "Lähetä tapahtuma",
         "ColumnAverageOrderRevenueDocumentation": "Keskimääräinen tilauksen arvo (AOV) on tilausten arvon summa jaettuna tilausten lukumäärällä.",
@@ -68,8 +67,6 @@
         "NewGoalIntro": "Konversion seuranta on yksi tehokkaimmista tavoista mitata ja kehittää yrityksesi päämääriä.",
         "NewVisitorsConversionRateIs": "Uusien kävijöiden siirtymäaste on %s",
         "Optional": "(vapaavalintainen)",
-        "OverallConversionRate": "%s yleinen siirtymisaste (käynti jossa täytetään tavoite)",
-        "OverallRevenue": "%s yleistuotto",
         "PageTitle": "Sivun otsikko",
         "Pattern": "Malli",
         "ProductCategory": "Tuotteen kategoria",
@@ -86,7 +83,6 @@
         "VisitUrl": "Vierailee annetussa osoitteessa (sivu tai ryhmä sivuja)",
         "WhenVisitors": "kun kävijöitä",
         "WhereThe": "jossa",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "jossa sivu sisältää JavaScript-kutsun metodille 'trackGoal' (%1$slue lisää%2$s)",
         "YouCanEnableEcommerceReports": "Voit ottaa käyttöön %1$s tälle sivustolle sivulla %2$s."
     }
 }

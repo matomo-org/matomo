@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
@@ -17,16 +16,13 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addManageItem('UsersManager_MenuUsers', $this->urlForAction('index'), $order = 2);
+            $menu->addSystemItem('UsersManager_MenuUsers', $this->urlForAction('index'), $order = 15);
         }
 
         if (Piwik::hasUserSuperUserAccess() && API::getInstance()->getSitesAccessFromUser('anonymous')) {
-            $menu->addSettingsItem('UsersManager_AnonymousUser', $this->urlForAction('anonymousSettings'), $order = 20);
+            $menu->addSystemItem('UsersManager_AnonymousUser', $this->urlForAction('anonymousSettings'), $order = 16);
         }
-    }
 
-    public function configureUserMenu(MenuUser $menu)
-    {
         if (!Piwik::isUserIsAnonymous()) {
             $menu->addItem('UsersManager_MenuPersonal', 'General_Settings', $this->urlForAction('userSettings'), 0);
         }

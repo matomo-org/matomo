@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Archivo de configuración",
+        "ConfigFileIntroduction": "Aquí puede ver la configuración de Piwik. Si está ejecutando Piwik en un ecosistema balanceado puede que la página sea diferente sea por el servidor que la esté cargando. Las files con un color de fondo diferente son valores de configuración modificados que son especificados por ejemplo en el archivo %1$s.",
+        "HideUnchanged": "Si desea ver solo los valores modificados puede %1$socultar todos los valores no modificados%2$s.",
+        "Sections": "Secciones"
+    }
+}

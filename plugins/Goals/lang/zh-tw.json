@@ -32,8 +32,6 @@
         "MatchesExpression": "表達式符合 %s",
         "NewVisitorsConversionRateIs": "新訪客轉換率為 %s",
         "Optional": "（選用）",
-        "OverallConversionRate": "%s 總轉換率（訪問一個完整的目標）",
-        "OverallRevenue": "%s 總收益",
         "Pattern": "模式",
         "ReturningVisitorsConversionRateIs": "回訪訪客轉換率為 %s",
         "UpdateGoal": "更新目標",
@@ -41,7 +39,6 @@
         "ViewAndEditGoals": "檢視和編輯目標",
         "VisitUrl": "訪問特定網址（頁面或頁面群組）",
         "WhenVisitors": "當訪客",
-        "WhereThe": "位於",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "在被訪問的頁面包含一個 JavaScript piwikTracker.trackGoal() 方法（%1$s知道更多%2$s）"
+        "WhereThe": "位於"
     }
 }

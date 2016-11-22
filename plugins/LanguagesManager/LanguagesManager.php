@@ -33,7 +33,6 @@ class LanguagesManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
             'Config.NoConfigurationFile'                 => 'initLanguage',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initLanguage',
@@ -43,11 +42,6 @@ class LanguagesManager extends \Piwik\Plugin
             'Template.topBar'                            => 'addLanguagesManagerToOtherTopBar',
             'Template.jsGlobalVariables'                 => 'jsGlobalVariables'
         );
-    }
-
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
     }
 
     public function getJsFiles(&$jsFiles)

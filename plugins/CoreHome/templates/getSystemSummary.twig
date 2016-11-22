@@ -1,0 +1,28 @@
+<div class="widgetBody systemSummary">
+    <div>
+        <span class="icon icon-user"></span>
+          <a href="{{ linkTo({'module': 'UsersManager', 'action': 'index'}) }}">{{ 'General_NUsers'|translate(numUsers) }}</a>
+    </div>
+    <div>
+        <span><span class="icon icon-segment"></span> {{ 'CoreHome_SystemSummaryNSegments'|translate(numSegments) }}</span>
+    </div>
+    <div>
+        <a href="{{ linkTo({'module': 'SitesManager', 'action': 'index'}) }}">{{ 'CoreHome_SystemSummaryNWebsites'|translate(numWebsites) }}</a>
+    </div>
+    <div>
+        <a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'plugins'}) }}">{{ 'CoreHome_SystemSummaryNActivatedPlugins'|translate(numPlugins) }}</a>
+    </div>
+    <div>
+        <span>{{ 'CoreHome_SystemSummaryPiwikVersion'|translate }}:</span>
+        <span>{{ piwikVersion }}</span>
+    </div>
+    <div>
+        <span>{{ 'CoreHome_SystemSummaryMysqlVersion'|translate }}:</span>
+        <span>{{ mySqlVersion }}</span>
+    </div>
+    <div>
+        <span>{{ 'CoreHome_SystemSummaryPhpVersion'|translate }}:</span>
+        <span>{{ phpVersion }}</span>
+    </div>
+    <br />
+</div>

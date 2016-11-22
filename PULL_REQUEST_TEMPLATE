@@ -1,0 +1,7 @@
+Please issue pull request against the `3.x-dev` branch only.
+
+Piwik 2 is in LTS mode. This means we do not accept any pull request for 2.x except critical security bugs and major data loss bugs. 
+
+If you need to create a pull request for 2.x, then please also create the pull request against the `3.x-dev` so we can merge both.
+
+Happy hacking!

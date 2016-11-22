@@ -45,7 +45,6 @@
         "LogoUploadHelp": "Harap mengunggah berkas dalam bentuk %1$s dengan tinggi minimal %2$s pixel.",
         "MenuDiagnostic": "Diagnosis",
         "MenuGeneralSettings": "Pengaturan Umum",
-        "MenuManage": "Kelola",
         "OptOutComplete": "Jangan-Lacak selesai. Bila Anda mengunjungi situs ini, Anda tidak akan terekam oleh perangkat Analisis Ramatraya.",
         "OptOutCompleteBis": "Perhatikan bahwa jika Anda menghapus kuki Anda, menghapus kuki Jangan-Lacak, atau jika Anda mengganti komputer atau peramban ramatraya, Anda perlu melakukan prosedur Jangan-Lacak lagi.",
         "OptOutExplanation": "Piwik berdedikasi untuk menyediakan privasi Internet. Agar pengunjung Anda memiliki pilihan untuk tidak terekam oleh Analisis Ramatraya Piwik, Anda dapat menambahkan kode HTML di salah satu halaman situs Anda, misalnya di halaman Kebijakan Privasi.",

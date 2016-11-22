@@ -11,9 +11,6 @@
         "ColumnSumVisitLengthReturning": "(सेकंड में) लौट आगंतुकों द्वारा खर्च किए गए कुल समय",
         "ColumnUniqueReturningVisitors": "अनोखा लौट आगंतुकों",
         "ColumnReturningUsers": "रिटर्निंग दौरा",
-        "ReturnAverageVisitDuration": "आगंतुकों लौटने के लिए %s औसत यात्रा की अवधि",
-        "ReturnAvgActions": "लौटने यात्रा के प्रति %s की कार्रवाई",
-        "ReturningVisitsDocumentation": "इस लौटने यात्राओं का एक सिंहावलोकन है।",
-        "ReturnVisits": "%s ओर लौटने का दौरा"
+        "ReturningVisitsDocumentation": "इस लौटने यात्राओं का एक सिंहावलोकन है।"
     }
 }

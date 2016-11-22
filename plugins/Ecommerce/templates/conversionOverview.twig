@@ -1,0 +1,22 @@
+<div piwik-content-block
+     content-title="{{ 'Goals_ConversionsOverview'|translate|e('html_attr') }}">
+    <ul class="ulGoalTopElements">
+        {{ 'General_ColumnRevenue'|translate }}: {{ revenue|money(idSite)|raw -}}
+        {% if revenue_subtotal is not empty %},
+            {{ 'General_Subtotal'|translate }}: {{ revenue_subtotal|money(idSite)|raw -}}
+        {% endif %}
+        {%- if revenue_tax is not empty -%},
+            {{ 'General_Tax'|translate }}: {{ revenue_tax|money(idSite)|raw -}}
+        {% endif %}
+        {%- if revenue_shipping is not empty -%},
+            {{ 'General_Shipping'|translate }}: {{ revenue_shipping|money(idSite)|raw -}}
+        {% endif %}
+        {%- if revenue_discount is not empty -%},
+            {{ 'General_Discount'|translate }}: {{ revenue_discount|money(idSite)|raw -}}
+        {% endif %}
+    </ul>
+    <a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
+        {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
+    </a>
+    <br style="clear:left"/>
+</div>

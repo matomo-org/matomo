@@ -52,7 +52,7 @@ class ModelTest extends IntegrationTestCase
                     WHERE log_visit.idsite in (?)
                       AND log_visit.visit_last_action_time >= ?
                       AND log_visit.visit_last_action_time <= ?
-                    ORDER BY idsite, visit_last_action_time DESC
+                    ORDER BY idsite DESC, visit_last_action_time DESC
                     LIMIT 0, 100
                  ) AS sub
                  GROUP BY sub.idvisit
@@ -132,7 +132,7 @@ class ModelTest extends IntegrationTestCase
                     WHERE log_visit.idsite in (?)
                       AND log_visit.visit_last_action_time >= ?
                       AND log_visit.visit_last_action_time <= ?
-                    ORDER BY idsite, visit_last_action_time DESC
+                    ORDER BY idsite DESC, visit_last_action_time DESC
                     LIMIT 15, 100
                  ) AS sub
                  GROUP BY sub.idvisit
@@ -177,10 +177,10 @@ class ModelTest extends IntegrationTestCase
                           AND log_visit.visit_last_action_time >= ?
                           AND log_visit.visit_last_action_time <= ? )
                           AND ( log_link_visit_action.custom_var_k1 = ? )
-                        ORDER BY idsite, visit_last_action_time DESC
+                        ORDER BY idsite DESC, visit_last_action_time DESC
                         LIMIT 10, 1000
                         ) AS log_inner
-                    ORDER BY idsite, visit_last_action_time DESC
+                    ORDER BY idsite DESC, visit_last_action_time DESC
                  ) AS sub
                  GROUP BY sub.idvisit
                  ORDER BY sub.visit_last_action_time DESC

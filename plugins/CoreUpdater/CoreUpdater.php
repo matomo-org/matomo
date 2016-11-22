@@ -55,20 +55,23 @@ class CoreUpdater extends \Piwik\Plugin
         $module = Common::getRequestVar('module', '', 'string');
         $action = Common::getRequestVar('action', '', 'string');
 
+        if ($module == 'CoreUpdater'
+            // Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
+            || $module == 'Proxy'
+            // Do not show update page during installation.
+            || $module == 'Installation'
+            || ($module == 'LanguagesManager' && $action == 'saveLanguage')) {
+            return;
+        }
+
         $updater = new PiwikCoreUpdater();
         $updates = $updater->getComponentsWithNewVersion(array('core' => Version::VERSION));
+
         if (!empty($updates)) {
             Filesystem::deleteAllCacheOnUpdate();
         }
-        if ($updater->getComponentUpdates() !== null
-            && $module != 'CoreUpdater'
-            // Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
-            && $module != 'Proxy'
-            // Do not show update page during installation.
-            && $module != 'Installation'
-            && !($module == 'LanguagesManager'
-                && $action == 'saveLanguage')
-        ) {
+
+        if ($updater->getComponentUpdates() !== null) {
             if (FrontController::shouldRethrowException()) {
                 throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n" .
                     "--> Please run the update process first. See documentation: http://piwik.org/docs/update/ \n");

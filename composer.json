@@ -18,25 +18,13 @@
         "wiki": "https://github.com/piwik/piwik/wiki",
         "source": "https://github.com/piwik/piwik"
     },
-    "autoload": {
-        "psr-4": {
-            "Piwik\\Plugins\\": "plugins/",
-            "Piwik\\": "core/"
-        },
-        "psr-0": {
-            "Zend_": "libs/",
-            "HTML_": "libs/",
-            "PEAR_": "libs/",
-            "Archive_": "libs/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Piwik\\Tests\\": "tests/PHPUnit/"
+    "config":{
+        "platform": {
+            "php": "5.5.9"
         }
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.5.9",
         "twig/twig": "~1.0",
         "leafo/lessphp": "~0.5.0",
         "symfony/console": "~2.6.0",
@@ -44,10 +32,10 @@
         "mustangostang/spyc": "~0.5.0",
         "piwik/device-detector": "~3.0",
         "piwik/decompress": "~1.0",
-        "piwik/network": "~0.1.0",
-        "piwik/cache": "~0.2.5",
+        "piwik/network": "~0",
+        "piwik/cache": "~1.0.0",
         "piwik/ini": "^1.0.6",
-        "php-di/php-di": "5.0.0-beta1",
+        "php-di/php-di": "^5.0.0",
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",
         "symfony/monolog-bridge": "~2.6.0",
@@ -56,7 +44,8 @@
         "piwik/referrer-spam-blacklist": "~1.0",
         "piwik/searchengine-and-social-list": "~1.0",
         "tecnickcom/tcpdf": "~6.0",
-        "piwik/piwik-php-tracker": "^1.0"
+        "piwik/piwik-php-tracker": "^1.0",
+        "composer/semver": "~1.3.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",
@@ -108,7 +97,21 @@
             "Piwik\\Composer\\ScriptHandler::buildXhprof"
         ]
     },
-    "config": {
-        "disable-tls": true
+    "autoload": {
+        "psr-4": {
+            "Piwik\\Plugins\\": "plugins/",
+            "Piwik\\": "core/"
+        },
+        "psr-0": {
+            "Zend_": "libs/",
+            "HTML_": "libs/",
+            "PEAR_": "libs/",
+            "Archive_": "libs/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Piwik\\Tests\\": "tests/PHPUnit/"
+        }
     }
 }

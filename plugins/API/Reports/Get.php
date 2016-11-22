@@ -10,6 +10,7 @@ namespace Piwik\Plugins\API\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
 
 class Get extends Report
 {
@@ -26,11 +27,11 @@ class Get extends Report
 
         $this->reportsToMerge = $this->getReportsToMerge();
 
-        $this->module        = 'API';
-        $this->action        = 'get';
+        $this->module = 'API';
+        $this->action = 'get';
 
-        $this->category      = 'API';
-        $this->name          = Piwik::translate('General_MainMetrics');
+        $this->categoryId = 'API';
+        $this->name = Piwik::translate('General_MainMetrics');
         $this->documentation = '';
 
         $this->processedMetrics = array();
@@ -80,8 +81,9 @@ class Get extends Report
      */
     private function getReportsToMerge()
     {
+        $reports = new ReportsProvider();
         $result = array();
-        foreach (Report::getAllReportClasses() as $reportClass) {
+        foreach ($reports->getAllReportClasses() as $reportClass) {
             if ($reportClass == 'Piwik\\Plugins\\API\\Reports\\Get') {
                 continue;
             }

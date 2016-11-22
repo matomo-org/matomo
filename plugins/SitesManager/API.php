@@ -18,7 +18,11 @@ use Piwik\Metrics\Formatter;
 use Piwik\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Measurable\MeasurableSettings;
+use Piwik\Plugin\SettingsProvider;
+use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
+use Piwik\Settings\Measurable\MeasurableProperty;
+use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\ProxyHttp;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
@@ -59,6 +63,22 @@ class API extends \Piwik\Plugin\API
     const OPTION_EXCLUDED_USER_AGENTS_GLOBAL = 'SitesManager_ExcludedUserAgentsGlobal';
     const OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE = 'SitesManager_EnableSiteSpecificUserAgentExclude';
     const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
+
+    /**
+     * @var SettingsProvider
+     */
+    private $settingsProvider;
+
+    /**
+     * @var SettingsMetadata
+     */
+    private $settingsMetadata;
+
+    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata)
+    {
+        $this->settingsProvider = $provider;
+        $this->settingsMetadata = $settingsMetadata;
+    }
 
     /**
      * Returns the javascript tag for the given idSite.
@@ -505,7 +525,7 @@ class API extends \Piwik\Plugin\API
      * @param null|string $excludedUserAgents
      * @param int $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                              will be removed. If 0, the default global behavior will be used.
-     * @param array|null $settings JSON serialized settings eg {settingName: settingValue, ...}
+     * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
      * @see getKeepURLFragmentsGlobal.
      * @param string $type The website type, defaults to "website" if not set.
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
@@ -513,7 +533,7 @@ class API extends \Piwik\Plugin\API
      * @return int the website ID created
      */
     public function addSite($siteName,
-                            $urls,
+                            $urls = null,
                             $ecommerce = null,
                             $siteSearch = null,
                             $searchKeywordParameters = null,
@@ -527,20 +547,47 @@ class API extends \Piwik\Plugin\API
                             $excludedUserAgents = null,
                             $keepURLFragments = null,
                             $type = null,
-                            $settings = null,
+                            $settingValues = null,
                             $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasSuperUserAccess();
 
         $this->checkName($siteName);
-        $urls = $this->cleanParameterUrls($urls);
-        $this->checkUrls($urls);
-        $this->checkAtLeastOneUrl($urls);
-        $siteSearch = $this->checkSiteSearch($siteSearch);
-        list($searchKeywordParameters, $searchCategoryParameters) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
 
-        $keepURLFragments = (int)$keepURLFragments;
-        self::checkKeepURLFragmentsValue($keepURLFragments);
+        if (empty($settingValues)) {
+            $settingValues = array();
+        }
+
+        if (isset($urls)) {
+            $settingValues = $this->setSettingValue('urls', $urls, $settingValues);
+        }
+        if (isset($ecommerce)) {
+            $settingValues = $this->setSettingValue('ecommerce', $ecommerce, $settingValues);
+        }
+        if (isset($siteSearch)) {
+            $settingValues = $this->setSettingValue('sitesearch', $siteSearch, $settingValues);
+        }
+        if (isset($searchKeywordParameters)) {
+            $settingValues = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $settingValues);
+        }
+        if (isset($searchCategoryParameters)) {
+            $settingValues = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $settingValues);
+        }
+        if (isset($keepURLFragments)) {
+            $settingValues = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $settingValues);
+        }
+        if (isset($excludeUnknownUrls)) {
+            $settingValues = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $settingValues);
+        }
+        if (isset($excludedIps)) {
+            $settingValues = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $settingValues);
+        }
+        if (isset($excludedQueryParameters)) {
+            $settingValues = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $settingValues);
+        }
+        if (isset($excludedUserAgents)) {
+            $settingValues = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $settingValues);
+        }
 
         $timezone = trim($timezone);
         if (empty($timezone)) {
@@ -553,23 +600,10 @@ class API extends \Piwik\Plugin\API
         }
         $this->checkValidCurrency($currency);
 
-        $url  = $urls[0];
-        $urls = array_slice($urls, 1);
-
-        $bind = array('name'     => $siteName,
-                      'main_url' => $url);
-
-        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
-        $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
-        $bind['excluded_parameters']  = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
-        $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
-        $bind['keep_url_fragment']    = $keepURLFragments;
+        $bind = array('name' => $siteName);
         $bind['timezone']   = $timezone;
         $bind['currency']   = $currency;
-        $bind['ecommerce']  = (int)$ecommerce;
-        $bind['sitesearch'] = $siteSearch;
-        $bind['sitesearch_keyword_parameters']  = $searchKeywordParameters;
-        $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
+        $bind['main_url']   = '';
 
         if (is_null($startDate)) {
             $bind['ts_created'] = Date::now()->getDatetime();
@@ -585,20 +619,30 @@ class API extends \Piwik\Plugin\API
             $bind['group'] = "";
         }
 
-        if (!empty($settings)) {
-            $this->validateMeasurableSettings(0, $bind['type'], $settings);
+        $allSettings = $this->setAndValidateMeasurableSettings(0, $bind['type'], $settingValues);
+
+        foreach ($allSettings as $settings) {
+            foreach ($settings->getSettingsWritableByCurrentUser() as $setting) {
+                $name = $setting->getName();
+                if ($setting instanceof MeasurableProperty && $name !== 'urls') {
+                    $default = $setting->getDefaultValue();
+                    if (is_bool($default)) {
+                        $default = (int) $default;
+                    } elseif (is_array($default)) {
+                        $default = implode(',', $default);
+                    }
+
+                    $bind[$name] = $default;
+                }
+            }
         }
 
         $idSite = $this->getModel()->createSite($bind);
 
-        $this->insertSiteUrls($idSite, $urls);
+        $this->saveMeasurableSettings($idSite, $bind['type'], $settingValues);
 
         // we reload the access list which doesn't yet take in consideration this new website
         Access::getInstance()->reloadAccess();
-
-        if (!empty($settings)) {
-            $this->updateMeasurableSettings($idSite, $settings);
-        }
 
         $this->postUpdateWebsite($idSite);
 
@@ -612,34 +656,57 @@ class API extends \Piwik\Plugin\API
         return (int) $idSite;
     }
 
-    private function validateMeasurableSettings($idSite, $idType, $settings)
+    private function setSettingValue($fieldName, $value, $settingValues)
     {
-        $measurableSettings = new MeasurableSettings($idSite, $idType);
+        $pluginName = 'WebsiteMeasurable';
+        if (empty($settingValues[$pluginName])) {
+            $settingValues[$pluginName] = array();
+        }
 
-        foreach ($measurableSettings->getSettingsForCurrentUser() as $measurableSetting) {
-            $name = $measurableSetting->getName();
-            if (!empty($settings[$name])) {
-                $measurableSetting->setValue($settings[$name]);
+        $found = false;
+        foreach ($settingValues[$pluginName] as $key => $setting) {
+            if ($setting['name'] === $fieldName) {
+                $setting['value'] = $value;
+                $found = true;
+                break;
             }
         }
+
+        if (!$found) {
+            $settingValues[$pluginName][] = array('name' => $fieldName, 'value' => $value);
+        }
+
+        return $settingValues;
     }
 
-    private function updateMeasurableSettings($idSite, $settings)
+    public function getSiteSettings($idSite)
     {
-        $idType = Site::getTypeFor($idSite);
+        Piwik::checkUserHasAdminAccess($idSite);
 
-        $measurableSettings = new MeasurableSettings($idSite, $idType);
+        $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idMeasurableType = false);
 
-        foreach ($measurableSettings->getSettingsForCurrentUser() as $measurableSetting) {
-            $name = $measurableSetting->getName();
-            if (!empty($settings[$name])) {
-                $measurableSetting->setValue($settings[$name]);
-            }
-            // we do not clear existing settings if the value is missing.
-            // There can be so many settings added by random plugins one would always clear some settings.
+        return $this->settingsMetadata->formatSettings($measurableSettings);
+    }
+
+    private function setAndValidateMeasurableSettings($idSite, $idType, $settingValues)
+    {
+        $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idType);
+
+        $this->settingsMetadata->setPluginSettings($measurableSettings, $settingValues);
+
+        return $measurableSettings;
+    }
+
+    /**
+     * @param MeasurableSettings[] $measurableSettings
+     */
+    private function saveMeasurableSettings($idSite, $idType, $settingValues)
+    {
+        $measurableSettings = $this->setAndValidateMeasurableSettings($idSite, $idType, $settingValues);
+
+        foreach ($measurableSettings as $measurableSetting) {
+            $measurableSetting->save();
         }
-
-        $measurableSettings->save();
     }
 
     private function postUpdateWebsite($idSite)
@@ -685,21 +752,6 @@ class API extends \Piwik\Plugin\API
          * @param int $idSite The ID of the site being deleted.
          */
         Piwik::postEvent('SitesManager.deleteSite.end', array($idSite));
-    }
-
-    /**
-     * Checks that the array has at least one element
-     *
-     * @param array $urls
-     * @throws Exception
-     */
-    private function checkAtLeastOneUrl($urls)
-    {
-        if (!is_array($urls)
-            || count($urls) == 0
-        ) {
-            throw new Exception(Piwik::translate("SitesManager_ExceptionNoUrl"));
-        }
     }
 
     private function checkValidTimezone($timezone)
@@ -777,15 +829,26 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $urls = $this->cleanParameterUrls($urls);
-        $this->checkUrls($urls);
+        if (empty($urls)) {
+            return 0;
+        }
+
+        if (!is_array($urls)) {
+            $urls = array($urls);
+        }
 
         $urlsInit = $this->getSiteUrlsFromId($idSite);
-        $toInsert = array_diff($urls, $urlsInit);
-        $this->insertSiteUrls($idSite, $toInsert);
+        $toInsert = array_merge($urlsInit, $urls);
+
+        $urlsProperty = new Urls($idSite);
+        $urlsProperty->setValue($toInsert);
+        $urlsProperty->save();
+
+        $inserted = array_diff($urlsProperty->getValue(), $urlsInit);
+
         $this->postUpdateWebsite($idSite);
 
-        return count($toInsert);
+        return count($inserted);
     }
 
     /**
@@ -800,14 +863,18 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $urls = $this->cleanParameterUrls($urls);
-        $this->checkUrls($urls);
+        $mainUrl = Site::getMainUrlFor($idSite);
+        array_unshift($urls, $mainUrl);
 
-        $this->getModel()->deleteSiteAliasUrls($idSite);
-        $this->insertSiteUrls($idSite, $urls);
+        $urlsProperty = new Urls($idSite);
+        $urlsProperty->setValue($urls);
+        $urlsProperty->save();
+
+        $inserted = array_diff($urlsProperty->getValue(), $urls);
+
         $this->postUpdateWebsite($idSite);
 
-        return count($urls);
+        return count($inserted);
     }
 
     /**
@@ -1095,7 +1162,7 @@ class API extends \Piwik\Plugin\API
      * @param int|null $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                                   will be removed. If 0, the default global behavior will be used.
      * @param string $type The Website type, default value is "website"
-     * @param array|null $settings JSON serialized settings eg {settingName: settingValue, ...}
+     * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
@@ -1119,7 +1186,7 @@ class API extends \Piwik\Plugin\API
                                $excludedUserAgents = null,
                                $keepURLFragments = null,
                                $type = null,
-                               $settings = null,
+                               $settingValues = null,
                                $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
@@ -1138,71 +1205,74 @@ class API extends \Piwik\Plugin\API
             $bind['name'] = $siteName;
         }
 
-        if (!is_null($urls)) {
-            $urls = $this->cleanParameterUrls($urls);
-            $this->checkUrls($urls);
-            $this->checkAtLeastOneUrl($urls);
-            $url = $urls[0];
-            $bind['main_url'] = $url;
+        if (empty($settingValues)) {
+            $settingValues = array();
         }
 
-        if (!is_null($currency)) {
+        if (isset($urls)) {
+            $settingValues = $this->setSettingValue('urls', $urls, $settingValues);
+        }
+        if (isset($ecommerce)) {
+            $settingValues = $this->setSettingValue('ecommerce', $ecommerce, $settingValues);
+        }
+        if (isset($siteSearch)) {
+            $settingValues = $this->setSettingValue('sitesearch', $siteSearch, $settingValues);
+        }
+        if (isset($searchKeywordParameters)) {
+            $settingValues = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $settingValues);
+        }
+        if (isset($searchCategoryParameters)) {
+            $settingValues = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $settingValues);
+        }
+        if (isset($keepURLFragments)) {
+            $settingValues = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $settingValues);
+        }
+        if (isset($excludeUnknownUrls)) {
+            $settingValues = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $settingValues);
+        }
+        if (isset($excludedIps)) {
+            $settingValues = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $settingValues);
+        }
+        if (isset($excludedQueryParameters)) {
+            $settingValues = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $settingValues);
+        }
+        if (isset($excludedUserAgents)) {
+            $settingValues = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $settingValues);
+        }
+
+        if (isset($currency)) {
             $currency = trim($currency);
             $this->checkValidCurrency($currency);
             $bind['currency'] = $currency;
         }
-        if (!is_null($timezone)) {
+        if (isset($timezone)) {
             $timezone = trim($timezone);
             $this->checkValidTimezone($timezone);
             $bind['timezone'] = $timezone;
         }
-        if (!is_null($group)
+        if (isset($group)
             && Piwik::hasUserSuperUserAccess()
         ) {
             $bind['group'] = trim($group);
         }
-        if (!is_null($ecommerce)) {
-            $bind['ecommerce'] = (int)(bool)$ecommerce;
-        }
-        if (!is_null($startDate)) {
+        if (isset($startDate)) {
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
-        $bind['exclude_unknown_urls'] = (int)$excludeUnknownUrls;
-        $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
-        $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
-        $bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
 
-        if (!is_null($keepURLFragments)) {
-            $keepURLFragments = (int)$keepURLFragments;
-            self::checkKeepURLFragmentsValue($keepURLFragments);
-
-            $bind['keep_url_fragment'] = $keepURLFragments;
-        }
-
-        $bind['sitesearch'] = $this->checkSiteSearch($siteSearch);
-        list($searchKeywordParameters, $searchCategoryParameters) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
-        $bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
-        $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
-
-        if (!is_null($type)) {
+        if (isset($type)) {
             $bind['type'] = $this->checkAndReturnType($type);
         }
 
-        if (!empty($settings)) {
-            $this->validateMeasurableSettings($idSite, Site::getTypeFor($idSite), $settings);
+        if (!empty($settingValues)) {
+            $this->setAndValidateMeasurableSettings($idSite, $idType = null, $settingValues);
         }
 
-        $this->getModel()->updateSite($bind, $idSite);
-
-        if (!empty($settings)) {
-            $this->updateMeasurableSettings($idSite, $settings);
+        if (!empty($bind)) {
+            $this->getModel()->updateSite($bind, $idSite);
         }
 
-        // we now update the main + alias URLs
-        $this->getModel()->deleteSiteAliasUrls($idSite);
-
-        if (count($urls) > 1) {
-            $this->addSiteAliasUrls($idSite, array_slice($urls, 1));
+        if (!empty($settingValues)) {
+            $this->saveMeasurableSettings($idSite, $idType = null, $settingValues);
         }
 
         $this->postUpdateWebsite($idSite);
@@ -1361,23 +1431,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Insert the list of alias URLs for the website.
-     * The URLs must not exist already for this website!
-     */
-    private function insertSiteUrls($idSite, $urls)
-    {
-        if (count($urls) != 0) {
-            foreach ($urls as $url) {
-                try {
-                    $this->getModel()->insertSiteUrl($idSite, $url);
-                } catch(Exception $e) {
-                    // See bug #4149
-                }
-            }
-        }
-    }
-
-    /**
      * Remove the final slash in the URLs if found
      *
      * @param string $url
@@ -1429,77 +1482,6 @@ class API extends \Piwik\Plugin\API
         if (empty($siteName)) {
             throw new Exception(Piwik::translate("SitesManager_ExceptionEmptyName"));
         }
-    }
-
-    private function checkSiteSearch($siteSearch)
-    {
-        if ($siteSearch === null) {
-            return "1";
-        }
-        return $siteSearch == 1 ? "1" : "0";
-    }
-
-    private function checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters)
-    {
-        $searchKeywordParameters = trim($searchKeywordParameters);
-        $searchCategoryParameters = trim($searchCategoryParameters);
-        if (empty($searchKeywordParameters)) {
-            $searchKeywordParameters = '';
-        }
-
-        if (empty($searchCategoryParameters)) {
-            $searchCategoryParameters = '';
-        }
-
-        return array($searchKeywordParameters, $searchCategoryParameters);
-    }
-
-    /**
-     * Check that the array of URLs are valid URLs
-     *
-     * @param array $urls
-     * @throws Exception if any of the urls is not valid
-     */
-    private function checkUrls($urls)
-    {
-        foreach ($urls as $url) {
-            if (!$this->isValidUrl($url)) {
-                throw new Exception(sprintf(Piwik::translate("SitesManager_ExceptionInvalidUrl"), $url));
-            }
-        }
-    }
-
-    /**
-     * Clean the parameter URLs:
-     * - if the parameter is a string make it an array
-     * - remove the trailing slashes if found
-     *
-     * @param string|array urls
-     * @return array the array of cleaned URLs
-     */
-    private function cleanParameterUrls($urls)
-    {
-        if (!is_array($urls)) {
-            $urls = array($urls);
-        }
-
-        $urls = array_filter($urls);
-        $urls = array_map('urldecode', $urls);
-
-        foreach ($urls as &$url) {
-            $url = $this->removeTrailingSlash($url);
-            $scheme = parse_url($url, PHP_URL_SCHEME);
-            if (empty($scheme)
-                && strpos($url, '://') === false
-            ) {
-                $url = 'http://' . $url;
-            }
-            $url = trim($url);
-            $url = Common::sanitizeInputValue($url);
-        }
-
-        $urls = array_unique($urls);
-        return $urls;
     }
 
     public function renameGroup($oldGroupName, $newGroupName)
@@ -1569,19 +1551,4 @@ class API extends \Piwik\Plugin\API
         return SettingsPiwik::getWebsitesCountToDisplay();
     }
 
-    /**
-     * Utility function that throws if a value is not valid for the 'keep_url_fragment'
-     * column of the piwik_site table.
-     *
-     * @param int $keepURLFragments
-     * @throws Exception
-     */
-    private static function checkKeepURLFragmentsValue($keepURLFragments)
-    {
-        // make sure value is between 0 & 2
-        if (!in_array($keepURLFragments, array(0, 1, 2))) {
-            throw new Exception("Error in SitesManager.updateSite: keepURLFragments must be between 0 & 2" .
-                " (actual value: $keepURLFragments).");
-        }
-    }
 }

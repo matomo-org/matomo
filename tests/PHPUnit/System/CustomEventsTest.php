@@ -8,7 +8,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
+use Piwik\Tests\Fixtures\ThreeVisitsWithCustomEvents;
 
 /**
  * Testing Custom Events
@@ -19,7 +19,7 @@ use Piwik\Tests\Fixtures\TwoVisitsWithCustomEvents;
 class CustomEventsTest extends SystemTestCase
 {
     /**
-     * @var TwoVisitsWithCustomEvents
+     * @var ThreeVisitsWithCustomEvents
      */
     public static $fixture = null; // initialized below class definition
 
@@ -91,7 +91,7 @@ class CustomEventsTest extends SystemTestCase
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
-                'idGoal'       => TwoVisitsWithCustomEvents::$idGoalTriggeredOnEventCategory,
+                'idGoal'       => ThreeVisitsWithCustomEvents::$idGoalTriggeredOnEventCategory,
                 'setDateLastN' => false)
             )
 
@@ -151,4 +151,4 @@ class CustomEventsTest extends SystemTestCase
     }
 }
 
-CustomEventsTest::$fixture = new TwoVisitsWithCustomEvents();
+CustomEventsTest::$fixture = new ThreeVisitsWithCustomEvents();

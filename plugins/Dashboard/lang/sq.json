@@ -11,7 +11,7 @@
         "DashboardName": "Emër pulti:",
         "DashboardOf": "Pulti i %s",
         "DefaultDashboard": "Pulti parazgjedhje - Përdorim i parazgjedhjeve për përzgjedhje widget-sh dhe skema shtyllash",
-        "DeleteWidgetConfirm": "Jeni i sigurt se doni të fshihet ky \"widget\" prej pulti?",
+        "DeleteWidgetConfirm": "Jeni i sigurt se doni të fshihet ky \"widget\" prej pultit?",
         "EmptyDashboard": "Pult i zbrazët - Zgjidhni widget-et tuaj të parapëlqyer",
         "LoadingWidget": "Widget-i po ngarkohet, ju lutemi, pritni...",
         "ManageDashboard": "Administroni pultin",
@@ -31,7 +31,7 @@
         "SetAsDefaultWidgetsConfirm": "Jeni i sigurt se doni të caktohet përzgjedhja e tanishme e widget-eve dhe e skemës për shtyllat si gjedhja parazgjedhje e pultit?",
         "SetAsDefaultWidgetsConfirmHelp": "Kjo përzgjedhje widget-sh dhe shtyllash për pultin do të përdoret kur cilido përdorues krijon një pult të ri, ose kur përdoret veçoria \"%s\".",
         "TopLinkTooltip": "Shihni raporte Analizash Web për %s.",
-        "WidgetNotFound": "Nuk u gjet \"widget\"",
+        "WidgetNotFound": "S’u gjet widget-i",
         "WidgetPreview": "Paraparje widget-i"
     }
 }

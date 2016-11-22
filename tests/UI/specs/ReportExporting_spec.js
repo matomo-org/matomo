@@ -11,16 +11,15 @@ describe("ReportExporting", function () {
     this.timeout(0);
 
     var baseUrl = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&isFooterExpandedInDashboard=1",
-        referrersGetWebsitesUrl = baseUrl + "&moduleToWidgetize=Referrers&actionToWidgetize=getWebsites&viewDataTable=table&filter_limit=5",
-        visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&viewDataTable=graphEvolution";
+        referrersGetWebsitesUrl = baseUrl + "&moduleToWidgetize=Referrers&actionToWidgetize=getWebsites&filter_limit=5",
+        visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=graphEvolution";
 
     function normalReportTest(format) {
         it("should export a normal report correctly when the " + format + " export link is clicked", function (done) {
             expect.file('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
                 if (page.getCurrentUrl() != referrersGetWebsitesUrl) {
                     page.load(referrersGetWebsitesUrl);
-                    page.click('a.tableIcon[var=export]');
-                    page.click('a.tableIcon[var=export]'); // have to click twice in phantomjs
+                    page.click('.activateExportSelection');
                 }
 
                 page.downloadLink('.exportToFormatItems a[format=' + format + ']');
@@ -33,8 +32,7 @@ describe("ReportExporting", function () {
             expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
                 if (page.getCurrentUrl() != visitsSummaryGetUrl) {
                     page.load(visitsSummaryGetUrl);
-                    page.click('a.tableIcon[var=export]');
-                    page.click('a.tableIcon[var=export]'); // have to click twice in phantomjs
+                    page.click('.activateExportSelection');
                 }
 
                 page.downloadLink('.exportToFormatItems a[format=' + format + ']');
@@ -50,8 +48,7 @@ describe("ReportExporting", function () {
                     page.mouseMove('tbody tr:first-child');
                     page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
                     page.click('a.actionRowEvolution:visible');
-
-                    page.click('.ui-dialog a.tableIcon[var=export]');
+                    page.click('.ui-dialog .activateExportSelection');
                 }
 
                 page.downloadLink('.ui-dialog .exportToFormatItems a[format=' + format + ']');

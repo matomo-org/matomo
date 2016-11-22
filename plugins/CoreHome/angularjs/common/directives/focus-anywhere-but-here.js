@@ -24,13 +24,17 @@
 
                 function onClickOutsideElement (event) {
                     if (element.has(event.target).length === 0) {
-                        scope.$apply(attr.piwikFocusAnywhereButHere);
+                        setTimeout(function () {
+                            scope.$apply(attr.piwikFocusAnywhereButHere);
+                        }, 0);
                     }
                 }
 
                 function onEscapeHandler (event) {
                     if (event.which === 27) {
-                        scope.$apply(attr.piwikFocusAnywhereButHere);
+                        setTimeout(function () {
+                            scope.$apply(attr.piwikFocusAnywhereButHere);
+                        }, 0);
                     }
                 }
 

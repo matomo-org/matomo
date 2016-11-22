@@ -12,13 +12,8 @@
         "ColumnUniqueReturningVisitors": "Pengnjung kembali unik",
         "ColumnReturningUsers": "Penguna kembali",
         "PluginDescription": "Laporan matriks mengenai pengunjung baru dan pengunjung kembali.",
-        "ReturnActions": "%s tindakan tiap kunjungan kembali",
-        "ReturnAverageVisitDuration": "%s rerata waktu kunjungan pengunjung kembali",
-        "ReturnAvgActions": "%s tindakan tiap kunjungan kembali",
-        "ReturnBounceRate": "%s kunjungan kembali dengan pentalan (meninggalkan situs setelah kunjungan satu halaman)",
         "ReturningVisitDocumentation": "Kunjungan kembali (lawan dari kunjungan baru) dibuat oleh seseorang yang telah mengunjungi situs sekali sebelumnya.",
         "ReturningVisitsDocumentation": "Ini merupakan iktisar kujungan kembali.",
-        "ReturnVisits": "%s kunjungan kembali",
         "SubmenuFrequency": "Frekuensi",
         "WidgetGraphReturning": "Grafik kunjungan kembali",
         "WidgetOverview": "Iktisar Frekuensi"

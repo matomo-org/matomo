@@ -11,9 +11,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikExpandOnClick', piwikExpandOnClick);
 
-    piwikExpandOnClick.$inject = ['$document'];
+    piwikExpandOnClick.$inject = ['$document', 'piwik'];
 
-    function piwikExpandOnClick($document){
+    function piwikExpandOnClick($document, piwik){
 
         return {
             restrict: 'A',
@@ -21,6 +21,12 @@
 
                 element.find('.title').on('click', function () {
                     element.toggleClass('expanded');
+
+                    var $position = element.find('.dropdown.positionInViewport');
+
+                    if ($position.size()) {
+                        piwik.helper.setMarginLeftToBeInViewport($position);
+                    }
                 });
 
                 function onClickOutsideElement (event) {
@@ -47,9 +53,9 @@
 
     angular.module('piwikApp').directive('piwikExpandOnHover', piwikExpandOnHover);
 
-    piwikExpandOnHover.$inject = ['$document'];
+    piwikExpandOnHover.$inject = ['$document', 'piwik'];
 
-    function piwikExpandOnHover($document){
+    function piwikExpandOnHover($document, piwik){
 
         return {
             restrict: 'A',
@@ -57,6 +63,12 @@
 
                 element.on('mouseenter', '.title', function () {
                     element.addClass('expanded');
+
+                    var $position = element.find('.dropdown.positionInViewport');
+
+                    if ($position.size()) {
+                        piwik.helper.setMarginLeftToBeInViewport($position);
+                    }
                 });
 
                 element.on('mouseleave', function () {

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UserLanguage\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugins\UserLanguage\Columns\Language;
+use Piwik\Plugin\ReportsProvider;
 
 class GetLanguageCode extends GetLanguage
 {
@@ -20,13 +21,12 @@ class GetLanguageCode extends GetLanguage
         $this->name          = Piwik::translate('UserLanguage_LanguageCode');
         $this->documentation = '';
         $this->order = 11;
-        $this->widgetTitle  = 'UserLanguage_LanguageCode';
     }
 
     public function getRelatedReports()
     {
         return array(
-            self::factory('UserLanguage', 'getLanguage'),
+            ReportsProvider::factory('UserLanguage', 'getLanguage'),
         );
     }
 

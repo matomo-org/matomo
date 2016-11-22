@@ -11,6 +11,8 @@ namespace Piwik\Plugins\VisitorInterest\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\VisitorInterest\Columns\VisitsByDaysSinceLastVisit;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetNumberOfVisitsByDaysSinceLast extends Base
 {
@@ -26,7 +28,14 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
         $this->processedMetrics  = false;
         $this->constantRowsCount = true;
         $this->order = 30;
-        $this->widgetTitle  = 'VisitorInterest_WidgetVisitsByDaysSinceLast';
+
+        $this->subcategoryId = 'VisitorInterest_Engagement';
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widget = $factory->createWidget()->setName('VisitorInterest_WidgetVisitsByDaysSinceLast');
+        $widgetsList->addWidgetConfig($widget);
     }
 
     public function configureView(ViewDataTable $view)

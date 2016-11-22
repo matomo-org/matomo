@@ -4,7 +4,6 @@
         "AnonymizeIpInlineHelp": "Ascunde ultimele cifre ale IP-ului vizitatorilor pentru a fi în conformitate cu legile privind protecţia datelor personale.",
         "AnonymizeIpMaskLengtDescription": "Selectați cât de multe bytes al IP-urilor de visitatori ar trebui să fie mascate.",
         "AnonymizeIpMaskLength": "%1$s octet(ii)- ex. %2$s",
-        "CannotLockSoDeleteLogActions": "Tabelul de acțiune jurnal nu va fi sters: vă rugăm să se acorde privilegiul LOCK TABLES pentru '%s' utilizatorul MySQL.",
         "ClickHereSettings": "Dă click aici pentru a accesa setările %s.",
         "CurrentDBSize": "Dimensiunea bazei de date curenta",
         "DBPurged": "DB curățat.",

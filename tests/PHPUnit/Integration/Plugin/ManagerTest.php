@@ -8,11 +8,14 @@
 
 namespace Piwik\Tests\Integration\Plugin;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Http\ControllerResolver;
 use Piwik\Plugin;
 use Piwik\Settings\Storage;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
+use Piwik\Widget\WidgetsList;
 
 /**
  * @group Plugin
@@ -84,6 +87,29 @@ class ManagerTest extends IntegrationTestCase
         $this->assertFalse($this->manager->isPluginActivated('ExampleTheme'));
     }
 
+    /** @see Issue https://github.com/piwik/piwik/issues/8422 */
+    public function test_ListenNotToControllerMethodEventsThatDoesNotExists()
+    {
+        foreach ($this->manager->getLoadedPlugins() as $plugin) {
+            $hooks = $plugin->getListHooksRegistered();
+            foreach ($hooks as $hook => $callback) {
+                if (0 === strpos($hook, 'Controller.')) {
+                    list($controller, $module, $action) = explode('.', $hook);
+
+                    try {
+                        $resolver   = new ControllerResolver(StaticContainer::getContainer(), new Plugin\WidgetsProvider($this->manager));
+                        $params = array();
+                        $controller = $resolver->getController($module, $action, $params);
+                    } catch (\Exception $e) {
+                        $this->fail("$hook is listening to a controller method that does not exist");
+                    }
+
+                    $this->assertNotEmpty($controller);
+                }
+            }
+        }
+    }
+
     /**
      * @dataProvider getPluginNameProvider
      */
@@ -101,14 +127,14 @@ class ManagerTest extends IntegrationTestCase
             array(true, 'pluginNameTest'),
             array(true, 'PluginNameTest'),
             array(true, 'PluginNameTest92323232eerwrwere938'),
+            array(true, 'a_ererer'),
+            array(true, 'a_'),
             array(false, ''),
             array(false, '0'),
             array(false, '0a'),
             array(false, 'a.'),
             array(false, 'a-'),
-            array(false, 'a_'),
             array(false, 'a-ererer'),
-            array(false, 'a_ererer'),
             array(false, '..'),
             array(false, '/'),
         );
@@ -121,8 +147,8 @@ class ManagerTest extends IntegrationTestCase
 
     private function assertOnlyTrackerPluginsAreLoaded($expectedPluginNamesLoaded)
     {
-        // should currently load between 10 and 25 plugins
-        $this->assertLessThan(25, count($this->manager->getLoadedPlugins()));
+        // should currently load between 10 and 26 plugins
+        $this->assertLessThan(26, count($this->manager->getLoadedPlugins()));
         $this->assertGreaterThan(10, count($this->manager->getLoadedPlugins()));
 
         // we need to make sure it actually only loaded the correct ones

@@ -64,7 +64,7 @@ class DuplicateActionsTest extends SystemTestCase
                               'date' => $dateTime,
                               'compareAgainst' => 'OneVisitorTwoVisits',
                               'otherRequestParameters' => array(
-                                  'hideColumns' => 'nb_users',
+                                   'hideColumns' => OneVisitorTwoVisitsTest::getValueForHideColumns(),
                               )
             ))
         );

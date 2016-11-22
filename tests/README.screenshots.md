@@ -33,12 +33,12 @@ To fix a broken build, follow these steps:
      * If a change is not wanted, revert or fix your commit.
      * If a change is correct, then you can set the new screenshot as the expected screenshot.
        To do so, in the diffviewer.html page click on the "Processed" link for this screenshot.
-       Then "Save this file as" and save it in the piwik/tests/UI/expected-ui-screenshots/ directory.
+       Then "Save this file as" and save it in the piwik/tests/UI/expected-screenshots/ directory.
        (If the screenshot test is for a plugin and not Piwik Core, the expected screenshot should be added to the
-       plugin's expected screenshot directory. For example: piwik/plugins/DBStats/tests/UI/expected-ui-screenshots.)
+       plugin's expected screenshot directory. For example: piwik/plugins/DBStats/tests/UI/expected-screenshots.)
 
      _Note: When determining whether a screenshot is correct, the data displayed is not important. Report data correctness is verified through System and other PHP tests. The UI tests should only test UI behavior._
- * Push the changes (to your code and/or to the expected-ui-screenshots directory.
+ * Push the changes (to your code and/or to the expected-screenshots directory).
  * Wait for next Test build [on travis](https://travis-ci.org/piwik/piwik). Hopefully, the build should be green!
 
 _Note: the `tests:sync-ui-screenshots` console command can be used to speed up the process. Run `./console tests:sync-ui-screenshots -h` to learn more._

@@ -38,13 +38,22 @@ var hasBlockedContent = false;
             }
         }
 
+        function withTokenInUrl()
+        {
+            postParams['token_auth'] = piwik.token_auth;
+        }
+
+        function isRequestToApiMethod() {
+            return getParams && getParams['module'] === 'API' && getParams['method'];
+        }
+
         function reset () {
             getParams  = {};
             postParams = {};
         }
 
         function isErrorResponse(response) {
-            return response && response.result == 'error';
+            return response && angular.isObject(response) && response.result == 'error';
         }
 
         function createResponseErrorNotification(response, options) {
@@ -112,10 +121,15 @@ var hasBlockedContent = false;
                 'cache-control': 'no-cache'
             };
 
+            var requestFormat = format;
+            if (getParams.format && getParams.format.toLowerCase() !== 'json' && getParams.format.toLowerCase() !== 'json2') {
+                requestFormat = getParams.format;
+            }
+
             var ajaxCall = {
                 method: 'POST',
                 url: url,
-                responseType: format,
+                responseType: requestFormat,
                 params: _mixinDefaultGetParams(getParams),
                 data: $.param(getPostParams(postParams)),
                 timeout: requestPromise,
@@ -133,11 +147,11 @@ var hasBlockedContent = false;
                     },
 
                     'finally': function () {
-                        return addAbortMethod(to['finally'].apply(to, arguments), deferred);
+                        return addAbortMethod(to.finally.apply(to, arguments), deferred);
                     },
 
                     'catch': function () {
-                        return addAbortMethod(to['catch'].apply(to, arguments), deferred);
+                        return addAbortMethod(to.catch.apply(to, arguments), deferred);
                     },
 
                     abort: function () {
@@ -162,7 +176,10 @@ var hasBlockedContent = false;
          * @private
          */
         function getPostParams (params) {
-            params.token_auth = piwik.token_auth;
+            if (isRequestToApiMethod()) {
+                params.token_auth = piwik.token_auth;
+            }
+
             return params;
         }
 
@@ -230,7 +247,10 @@ var hasBlockedContent = false;
         function fetch (getParams, options) {
 
             getParams.module = getParams.module || 'API';
-            getParams.format = 'JSON2';
+
+            if (!getParams.format) {
+                getParams.format = 'JSON2';
+            }
 
             addParams(getParams, 'GET');
 
@@ -243,6 +263,9 @@ var hasBlockedContent = false;
 
         function post(getParams, _postParams_, options) {
             if (_postParams_) {
+                if (postParams && postParams.token_auth && !_postParams_.token_auth) {
+                    _postParams_.token_auth = postParams.token_auth;
+                }
                 postParams = _postParams_;
             }
 
@@ -284,7 +307,7 @@ var hasBlockedContent = false;
                     }
 
                     deferred.resolve(response);
-                })['catch'](function () {
+                }).catch(function () {
                     deferred.reject.apply(deferred, arguments);
                 });
 
@@ -292,6 +315,7 @@ var hasBlockedContent = false;
         }
 
         return {
+            withTokenInUrl: withTokenInUrl,
             bulkFetch: bulkFetch,
             post: post,
             fetch: fetch,

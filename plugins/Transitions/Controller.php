@@ -22,7 +22,7 @@ class Controller extends \Piwik\Plugin\Controller
      * translation keys.
      */
     private static $metricTranslations = array(
-        'pageviewsInline'                => 'VisitsSummary_NbPageviewsDescription',
+        'pageviewsInline'                => 'Transitions_NumPageviews',
         'loopsInline'                    => 'Transitions_LoopsInline',
         'fromPreviousPages'              => 'Transitions_FromPreviousPages',
         'fromPreviousPagesInline'        => 'Transitions_FromPreviousPagesInline',
@@ -41,9 +41,9 @@ class Controller extends \Piwik\Plugin\Controller
         'toFollowingSiteSearches'        => 'Transitions_ToFollowingSiteSearches',
         'toFollowingSiteSearchesInline'  => 'Transitions_ToFollowingSiteSearchesInline',
         'downloads'                      => 'General_Downloads',
-        'downloadsInline'                => 'VisitsSummary_NbDownloadsDescription',
+        'downloadsInline'                => 'Transitions_NumDownloads',
         'outlinks'                       => 'General_Outlinks',
-        'outlinksInline'                 => 'VisitsSummary_NbOutlinksDescription',
+        'outlinksInline'                 => 'Transitions_NumOutlinks',
         'exits'                          => 'General_ColumnExits',
         'exitsInline'                    => 'Transitions_ExitsInline',
         'bouncesInline'                  => 'Transitions_BouncesInline'

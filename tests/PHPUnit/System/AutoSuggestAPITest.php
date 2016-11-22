@@ -18,6 +18,7 @@ use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tracker\Cache;
+use Piwik\Cache as PiwikCache;
 
 /**
  * testing a the auto suggest API for all known segments
@@ -39,10 +40,6 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
-
-        if(self::isPhpVersion53() && self::isTravisCI()) {
-            $this->markTestSkipped("Skipping this test as it seg faults on php 5.3 (bug triggered on travis)");
-        }
 
         $this->runApiTests($api, $params);
     }
@@ -143,8 +140,8 @@ class AutoSuggestAPITest extends SystemTestCase
      */
     public function testCheckOtherTestsWereComplete()
     {
-        // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots)
-        $maximumSegmentsToSkip = 16;
+        // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots and bandwidth)
+        $maximumSegmentsToSkip = 17;
         $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped) , 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
@@ -158,6 +155,7 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Refresh cache for CustomVariables\Model
         Cache::clearCacheGeneral();
+        PiwikCache::getTransientCache()->flushAll();
 
         $segments = array();
 

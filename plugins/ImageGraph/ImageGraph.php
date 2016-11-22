@@ -52,14 +52,13 @@ class ImageGraph extends \Piwik\Plugin
      */
     public function getReportMetadata(&$reports, $info)
     {
-        $idSites = $info['idSites'];
+        $idSite = $info['idSite'];
 
         // If only one website is selected, we add the Graph URL
-        if (count($idSites) != 1) {
+        if (empty($idSite)) {
             return;
         }
-        $idSite = reset($idSites);
-
+        
         // in case API.getReportMetadata was not called with date/period we use sane defaults
         if (empty($info['period'])) {
             $info['period'] = 'day';

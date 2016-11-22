@@ -22,13 +22,23 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Url;
 
 class ProcessedReport
 {
+    /**
+     * @var ReportsProvider
+     */
+    private $reportsProvider;
+
+    public function __construct(ReportsProvider $reportsProvider)
+    {
+        $this->reportsProvider = $reportsProvider;
+    }
+
     /**
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
@@ -99,7 +109,7 @@ class ProcessedReport
 
     public function getReportMetadataByUniqueId($idSite, $apiMethodUniqueId)
     {
-        $metadata = $this->getReportMetadata(array($idSite));
+        $metadata = $this->getReportMetadata($idSite);
 
         foreach ($metadata as $report) {
             if ($report['uniqueId'] == $apiMethodUniqueId) {
@@ -138,23 +148,20 @@ class ProcessedReport
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
-     * @param string $idSites Comma separated list of website Ids
+     * @param int $idSite
      * @param bool|string $period
      * @param bool|Date $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
      * @return array
      */
-    public function getReportMetadata($idSites, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
+    public function getReportMetadata($idSite, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
-        if (!empty($idSites)) {
-            Piwik::checkUserHasViewAccess($idSites);
-        }
+        Piwik::checkUserHasViewAccess($idSite);
 
         // as they cache key contains a lot of information there would be an even better cache result by caching parts of
         // this huge method separately but that makes it also more complicated. leaving it like this for now.
-        $key   = $this->buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $key   = $this->buildReportMetadataCacheKey($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
         $key   = CacheId::pluginAware($key);
         $cache = PiwikCache::getTransientCache();
 
@@ -162,81 +169,17 @@ class ProcessedReport
             return $cache->fetch($key);
         }
 
-        $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
+        $parameters = array('idSite' => $idSite, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
 
-        foreach (Report::getAllReports() as $report) {
+        foreach ($this->reportsProvider->getAllReports() as $report) {
             $report->configureReportMetadata($availableReports, $parameters);
         }
 
-        /**
-         * Triggered when gathering metadata for all available reports.
-         *
-         * Plugins that define new reports should use this event to make them available in via
-         * the metadata API. By doing so, the report will become available in scheduled reports
-         * as well as in the Piwik Mobile App. In fact, any third party app that uses the metadata
-         * API will automatically have access to the new report.
-         *
-         * @param string &$availableReports The list of available reports. Append to this list
-         *                                  to make a report available.
-         *
-         *                                  Every element of this array must contain the following
-         *                                  information:
-         *
-         *                                  - **category**: A translated string describing the report's category.
-         *                                  - **name**: The translated display title of the report.
-         *                                  - **module**: The plugin of the report.
-         *                                  - **action**: The API method that serves the report.
-         *
-         *                                  The following information is optional:
-         *
-         *                                  - **dimension**: The report's [dimension](/guides/all-about-analytics-data#dimensions) if any.
-         *                                  - **metrics**: An array mapping metric names with their display names.
-         *                                  - **metricsDocumentation**: An array mapping metric names with their
-         *                                                              translated documentation.
-         *                                  - **processedMetrics**: The array of metrics in the report that are
-         *                                                          calculated using existing metrics. Can be set to
-         *                                                          `false` if the report contains no processed
-         *                                                          metrics.
-         *                                  - **order**: The order of the report in the list of reports
-         *                                               with the same category.
-         *
-         * @param array $parameters Contains the values of the sites and period we are
-         *                          getting reports for. Some reports depend on this data.
-         *                          For example, Goals reports depend on the site IDs being
-         *                          requested. Contains the following information:
-         *
-         *                          - **idSites**: The array of site IDs we are getting reports for.
-         *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
-         *                                        `'year'`, `'range'`.
-         *                          - **date**: A string date within the period or a date range, eg,
-         *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
-         *
-         * TODO: put dimensions section in all about analytics data
-         * @deprecated since 2.5.0 Use Report Classes instead.
-         * @ignore
-         */
-        Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
-
-        // TODO we can remove this one once we remove API.getReportMetadata event (except hideMetricsDoc)
         foreach ($availableReports as &$availableReport) {
-            // can be removed once we remove hook API.getReportMetadata
-            if (!isset($availableReport['metrics'])) {
-                $availableReport['metrics'] = Metrics::getDefaultMetrics();
-            }
-            // can be removed once we remove hook API.getReportMetadata
-            if (!isset($availableReport['processedMetrics'])) {
-                $availableReport['processedMetrics'] = Metrics::getDefaultProcessedMetrics();
-            }
-
-            if ($hideMetricsDoc) // remove metric documentation if it's not wanted
-            {
+            if ($hideMetricsDoc) {
                 unset($availableReport['metricsDocumentation']);
-            } else if (!isset($availableReport['metricsDocumentation'])) {
-                // set metric documentation to default if it's not set
-                // can be removed once we remove hook API.getReportMetadata
-                $availableReport['metricsDocumentation'] = Metrics::getDefaultMetricsDocumentation();
             }
         }
 
@@ -263,13 +206,16 @@ class ProcessedReport
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
-        usort($availableReports, array('self', 'sortReports'));
+        usort($availableReports, array($this, 'sortReports'));
 
         $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
         $columnsToKeep   = $this->getColumnsToKeep();
         $columnsToRemove = $this->getColumnsToRemove();
 
         foreach ($availableReports as &$availableReport) {
+            $availableReport['category']    = Piwik::translate($availableReport['category']);
+            $availableReport['subcategory'] = Piwik::translate($availableReport['subcategory']);
+
             // Ensure all metrics have a translation
             $metrics = $availableReport['metrics'];
             $cleanedMetrics = array();
@@ -339,17 +285,6 @@ class ProcessedReport
         return $actualReports; // make sure array has contiguous key values
     }
 
-    private static $translatedOrderOfReports = null;
-
-    /**
-     * Resets translated reports.
-     * FOR TESTING ONLY
-     */
-    public static function reset()
-    {
-        self::$translatedOrderOfReports = null;
-    }
-
     /**
      * API metadata are sorted by category/name,
      * with a little tweak to replicate the standard Piwik category ordering
@@ -358,33 +293,9 @@ class ProcessedReport
      * @param array $b
      * @return int
      */
-    private static function sortReports($a, $b)
+    public function sortReports($a, $b)
     {
-        if (is_null(self::$translatedOrderOfReports)) {
-            self::$translatedOrderOfReports = array();
-            foreach (Report::$orderOfReports as $category) {
-                self::$translatedOrderOfReports[] = Piwik::translate($category);
-            }
-        }
-
-        $posA = array_search($a['category'], self::$translatedOrderOfReports);
-        $posB = array_search($b['category'], self::$translatedOrderOfReports);
-
-        if ($posA === false && $posB === false) {
-            return strcmp($a['category'], $b['category']);
-        } elseif ($posA === false) {
-            return 1;
-        } elseif ($posB === false) {
-            return -1;
-        }
-
-        $category = strcmp($posA, $posB);
-
-        if ($category == 0) {
-            return (@$a['order'] < @$b['order'] ? -1 : 1);
-        }
-
-        return $category;
+        return $this->reportsProvider->compareCategories($a['category'], $a['subcategory'], $a['order'], $b['category'], $b['subcategory'], $b['order']);
     }
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
@@ -807,7 +718,7 @@ class ProcessedReport
         return null;
     }
 
-    private function buildReportMetadataCacheKey($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports)
+    private function buildReportMetadataCacheKey($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports)
     {
         if (isset($_GET) && isset($_POST) && is_array($_GET) && is_array($_POST)) {
             $request = $_GET + $_POST;
@@ -828,7 +739,7 @@ class ProcessedReport
             }
         }
 
-        $key .= implode(',', $idSites) . ($period === false ? 0 : $period) . ($date === false ? 0 : $date);
+        $key .= $idSite . 'x' . ($period === false ? 0 : $period) . 'x' . ($date === false ? 0 : $date);
         $key .= (int)$hideMetricsDoc . (int)$showSubtableReports . Piwik::getCurrentUserLogin();
         return 'reportMetadata' . md5($key);
     }
@@ -879,7 +790,7 @@ class ProcessedReport
         // Add % symbol to rates
         if (strpos($columnName, '_rate') !== false) {
             if (strpos($value, "%") === false) {
-                return $value . "%";
+                return (100 * $value) . "%";
             }
         }
 

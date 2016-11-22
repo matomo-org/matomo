@@ -13,12 +13,23 @@ use Piwik\Common;
 use Piwik\SettingsServer;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_9_1 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         if (!SettingsServer::isTimezoneSupportEnabled()) {
             return array();
@@ -37,21 +48,20 @@ class Updates_0_9_1 extends Updates
         $timezoneList = '"' . implode('","', $brokenTZ) . '"';
 
         return array(
-            'UPDATE ' . Common::prefixTable('site') . '
-				SET timezone = "UTC"
-				WHERE timezone IN (' . $timezoneList . ')'                                                            => false,
+            $this->migration->db->sql(
+                'UPDATE ' . Common::prefixTable('site') . '
+                 SET timezone = "UTC" WHERE timezone IN (' . $timezoneList . ')'),
 
-            'UPDATE `' . Common::prefixTable('option') . '`
-				SET option_value = "UTC"
-			WHERE option_name = "SitesManager_DefaultTimezone"
-				AND option_value IN (' . $timezoneList . ')' => false,
+            $this->migration->db->sql(
+                'UPDATE `' . Common::prefixTable('option') . '`
+                 SET option_value = "UTC" WHERE option_name = "SitesManager_DefaultTimezone" AND option_value IN (' . $timezoneList . ')'),
         );
     }
 
     public function doUpdate(Updater $updater)
     {
         if (SettingsServer::isTimezoneSupportEnabled()) {
-            $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+            $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
         }
     }
 }

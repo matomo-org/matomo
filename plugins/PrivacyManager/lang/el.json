@@ -5,7 +5,7 @@
         "AnonymizeIpExtendedHelp": "Όταν οι χρήστες επισκέπτονται τον ιστοτόπο σας, το Piwik δε θα χρησιμοποιήσει την πλήρη διεύθυνση IP (όπως %1$s), αντίθετα το Piwik θα την κάνει πρώτα ανώνυμη (σε %2$s). Η ανωνυμοποίηση των διευθύνσεων IP είναι μία από τις απαιτήσεις που θέτει η νομοθεσία σε ορισμένες χώρες όπως η Γερμανία.",
         "AnonymizeIpMaskLengtDescription": "Επιλέξτε πόσα bytes από τις διευθύνσεις IP των επισκεπτών πρέπει να κρύβονται.",
         "AnonymizeIpMaskLength": "%1$s byte - πχ. %2$s",
-        "CannotLockSoDeleteLogActions": "Ο πίκανας log_action δεν θα διαγραφεί: δώστε δικαιώματα LOCK TABLES στον χρήστη MYSQL «%s».",
+        "CannotLockSoDeleteLogActions": "Ο πίνακας log_action δε θα καθαριστεί: εκχωρήστε το δικαίωμα LOCK TABLES στο χρήστη '%s' της MySQL.",
         "ClickHereSettings": "Πατήστε εδώ για να έχετε πρόσβαση στις ρυθμίσεις %s.",
         "CurrentDBSize": "Τρέχον μέγεθος βάσης δεδομένων",
         "DBPurged": "Η βάση δεδομένων διαγράφτηκε.",

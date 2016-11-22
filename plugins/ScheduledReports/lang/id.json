@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(pilihan) Tampilkan pilihan",
         "AggregateReportsFormat_GraphsOnly": "Hanya tampilkan Grafik (tanpa tabel laporan)",
         "AggregateReportsFormat_TablesAndGraphs": "Tampilkan tabel dan Grafik Laporan untuk seluruh Laporan",
         "AggregateReportsFormat_TablesOnly": "(asali) Tampilkan tabel Laporan (Grafik hanya kunci metrik)",

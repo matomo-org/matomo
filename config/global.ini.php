@@ -90,6 +90,8 @@ backends[] = file
 ; Redis server configuration.
 host = "127.0.0.1"
 port = 6379
+; instead of host and port a unix socket path can be configured
+unix_socket = ""
 timeout = 0.0
 password = ""
 database = 14
@@ -242,8 +244,7 @@ process_new_segments_from = "beginning_of_time"
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
 
-; if you want all your users to use Piwik in only one language, disable the LanguagesManager
-; plugin, and set this default_language (users won't see the language drop down)
+; default language to use in Piwik
 default_language = en
 
 ; default number of elements in the datatable
@@ -281,10 +282,10 @@ time_before_today_archive_considered_outdated = 150
 enable_browser_archiving_triggering = 1
 
 ; By default, Piwik will force archiving of range periods from browser requests, even if enable_browser_archiving_triggering
-; is set to 0. This can sometimes create too much of a demand on system resources. Setting this option to 0 and setting
-; enable_browser_archiving_triggering to 0 will make sure ranges are not archived on browser request. Since the cron
-; archiver does not archive ranges, you must either disable ranges or make sure the ranges users' want to see will be
-; processed somehow.
+; is set to 0. This can sometimes create too much of a demand on system resources. Setting this option to 0 and
+; disabling browser trigger archiving will make sure ranges are not archived on browser request. Since the cron
+; archiver does not archive any custom date ranges, you must either disable range (using enabled_periods_API and enabled_periods_UI)
+; or make sure the date ranges users' want to see will be processed somehow.
 archiving_range_force_on_browser_request = 1
 
 ; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
@@ -305,9 +306,11 @@ minimum_mysql_version = 4.1
 minimum_pgsql_version = 8.3
 
 ; Minimum advised memory limit in php.ini file (see memory_limit value)
+; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit = 128
 
 ; Minimum memory limit enforced when archived via ./console core:archive
+; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit_when_archiving = 768
 
 ; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
@@ -440,7 +443,14 @@ multisites_refresh_after_seconds = 300
 ; set the HTTPS environment variable.
 assume_secure_protocol = 0
 
+; Set to 1 if you're using more than one server for your Piwik installation. For example if you are using Piwik in a
+; load balanced environment, if you have configured failover or if you're just using multiple servers in general.
+; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
+; installed on one server or a config one change would be only made on one server instead of all servers.
+multi_server_environment = 0
+
 ; List of proxy headers for client IP addresses
+; Piwik will determine the user IP by extracting the first IP address found in this proxy header.
 ;
 ; CloudFlare (CF-Connecting-IP)
 ;proxy_client_headers[] = HTTP_CF_CONNECTING_IP
@@ -524,14 +534,9 @@ absolute_chroot_path =
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
 
-; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
-; the access to disk and install custom PHP code (Piwik plugins).
-enable_marketplace = 1
-
 ; By setting this option to 0:
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
-; - as well as disabling plugins admin actions (such as "Upload new plugin"), setting this to 1 will have same effect as setting enable_marketplace=1
 enable_plugins_admin = 1
 
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
@@ -565,9 +570,8 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; on a per-request basis;
 pivot_by_filter_default_column_limit = 10
 
-; If set to 0 it will disable Piwik Pro advertisements in some places. For example in the installation screen, the
-; Piwik Pro Ad widget will be removed etc.
-piwik_pro_ads_enabled = 1
+; If set to 0 it will disable advertisements for providers of Professional Support for Piwik.
+piwik_professional_support_ads_enabled = 1
 
 [Tracker]
 
@@ -775,7 +779,7 @@ Plugins[] = VisitFrequency
 Plugins[] = VisitTime
 Plugins[] = VisitorInterest
 Plugins[] = ExampleAPI
-Plugins[] = ExampleRssWidget
+Plugins[] = RssWidget
 Plugins[] = Feedback
 Plugins[] = Monolog
 
@@ -804,8 +808,10 @@ Plugins[] = Resolution
 Plugins[] = DevicePlugins
 Plugins[] = Heartbeat
 Plugins[] = Intl
-Plugins[] = PiwikPro
+Plugins[] = Marketplace
+Plugins[] = ProfessionalServices
 Plugins[] = UserId
+Plugins[] = CustomPiwikJs
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

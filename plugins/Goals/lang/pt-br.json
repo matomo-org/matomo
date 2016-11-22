@@ -14,8 +14,8 @@
         "CategoryTextGeneral_Visitors": "Localização do usuário",
         "CategoryTextReferrers_Referrers": "Referenciadores",
         "CategoryTextVisitsSummary_VisitsSummary": "Característica do usuário",
+        "CategoryTextDevicesDetection_DevicesDetection": "Dispositivos",
         "CategoryTextGeneral_Visit": "envolvimento",
-        "ChooseGoal": "Escolha Objetivo",
         "ClickOutlink": "Clique num link para um website externo",
         "SendEvent": "Enviar um evento",
         "ColumnAverageOrderRevenueDocumentation": "Valor médio do pedido (VMP) é a receita total de todas as Ordens de comércio eletrônico dividido pelo número de pedidos.",
@@ -36,6 +36,7 @@
         "ConversionByTypeReportDocumentation": "Esse relatório fornece informações detalhadas sobre o desempenho objetivo (conversões, taxas de conversão e receita por visita) para cada uma das categorias disponíveis no painel esquerdo. %1$s Por favor, clique em uma das categorias para ver o relatório. %2$s para mais informações, leia a documentação %3$sTracking Metas em piwik.org%4$s",
         "ConversionRate": "%s taxa de conversão",
         "Conversions": "%s conversões",
+        "ConversionsDescription": "conversões",
         "ConversionsOverview": "Visão geral de conversões",
         "ConversionsOverviewBy": "Visão geral de conversões por tipo de visita",
         "DaysToConv": "Dias para Conversão",
@@ -70,7 +71,6 @@
         "IsExactly": "é exatamente %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Aprenda mais sobre Rastreamento de Metas %1$s em Piwik%2$s na documentação do usuário.",
         "LeftInCart": "%s carrinhos abandonados",
-        "ManageGoalsOrCreateANewGoal": "%1$sGerencie Metas%2$s ou crie uma nova Meta agora!",
         "Manually": "manualmente",
         "ManuallyTriggeredUsingJavascriptFunction": "A meta é manualmente triggered usando a API do Javascript trackGoal()",
         "MatchesExpression": "corresponde com a expressão %s",
@@ -80,8 +80,6 @@
         "NoConversionsNoReportsMessage": "Os relatórios não são exibidos porque não há dados de conversão para a meta e o período selecionados.",
         "NeedAccess": "Apenas um Administrador ou um usuário com acesso Super Usuário pode gerenciar Metas para um determinado website.",
         "Optional": "(opcional)",
-        "OverallConversionRate": "%s taxa total de conversão(visitas com uma meta completa)",
-        "OverallRevenue": "%s lucro total",
         "PageTitle": "Título da página",
         "Pattern": "modelo",
         "PluginDescription": "Crie Metas e veja relatórios detalhados sobre suas conversões de meta: evolução ao longo do tempo, receita por visita, conversões por referenciador, por palavra-chave e muito mais.",
@@ -102,7 +100,6 @@
         "VisitUrl": "Visitar a URL dada(página ou grupo de páginas)",
         "WhenVisitors": "quando visitantes",
         "WhereThe": "onde o(a)",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "onde a página visitada contem um chamado para o JavaScript 'trackGoal' metodo (%1$slearn more%2$s)",
         "YouCanEnableEcommerceReports": "Você pode habilitar %1$s para este site na página %2$s."
     }
 }

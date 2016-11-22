@@ -21,7 +21,7 @@ use Piwik\Metrics;
  *
  * @api
  */
-class Row implements \ArrayAccess, \IteratorAggregate
+class Row extends \ArrayObject
 {
     /**
      * List of columns that cannot be summed. An associative array for speed.
@@ -36,7 +36,6 @@ class Row implements \ArrayAccess, \IteratorAggregate
     // @see sumRow - implementation detail
     public $maxVisitsSummed = 0;
 
-    private $columns = array();
     private $metadata = array();
     private $isSubtableLoaded = false;
 
@@ -67,7 +66,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
     public function __construct($row = array())
     {
         if (isset($row[self::COLUMNS])) {
-            $this->columns = $row[self::COLUMNS];
+            $this->exchangeArray($row[self::COLUMNS]);
         }
         if (isset($row[self::METADATA])) {
             $this->metadata = $row[self::METADATA];
@@ -89,7 +88,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
     public function export()
     {
         return array(
-            self::COLUMNS => $this->columns,
+            self::COLUMNS => $this->getArrayCopy(),
             self::METADATA => $this->metadata,
             self::DATATABLE_ASSOCIATED => $this->subtableId,
         );
@@ -148,11 +147,11 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function deleteColumn($name)
     {
-        if (!array_key_exists($name, $this->columns)) {
+        if (!$this->offsetExists($name)) {
             return false;
         }
 
-        unset($this->columns[$name]);
+        unset($this[$name]);
         return true;
     }
 
@@ -164,12 +163,14 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function renameColumn($oldName, $newName)
     {
-        if (isset($this->columns[$oldName])) {
-            $this->columns[$newName] = $this->columns[$oldName];
+        if (isset($this[$oldName])) {
+            $this[$newName] = $this[$oldName];
         }
 
         // outside the if () since we want to delete nulled columns
-        unset($this->columns[$oldName]);
+        if ($this->offsetExists($oldName)) {
+            unset($this[$oldName]);
+        }
     }
 
     /**
@@ -180,11 +181,11 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function getColumn($name)
     {
-        if (!isset($this->columns[$name])) {
+        if (!isset($this[$name])) {
             return false;
         }
 
-        return $this->columns[$name];
+        return $this[$name];
     }
 
     /**
@@ -213,7 +214,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function hasColumn($name)
     {
-        return array_key_exists($name, $this->columns);
+        return $this->offsetExists($name);
     }
 
     /**
@@ -229,7 +230,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function getColumns()
     {
-        return $this->columns;
+        return $this->getArrayCopy();
     }
 
     /**
@@ -336,7 +337,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function setColumns($columns)
     {
-        $this->columns = $columns;
+        $this->exchangeArray($columns);
     }
 
     /**
@@ -347,7 +348,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function setColumn($name, $value)
     {
-        $this->columns[$name] = $value;
+        $this[$name] = $value;
     }
 
     /**
@@ -389,7 +390,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function addColumn($name, $value)
     {
-        if (isset($this->columns[$name])) {
+        if (isset($this[$name])) {
             throw new Exception("Column $name already in the array!");
         }
         $this->setColumn($name, $value);
@@ -452,7 +453,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
      */
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
-        foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
+        foreach ($rowToSum as $columnToSumName => $columnToSumValue) {
             if (!$this->isSummableColumn($columnToSumName)) {
                 continue;
             }
@@ -461,7 +462,11 @@ class Row implements \ArrayAccess, \IteratorAggregate
 
             $operation = 'sum';
             if (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName])) {
-                $operation = strtolower($aggregationOperations[$columnToSumName]);
+                if (is_string($aggregationOperations[$columnToSumName])) {
+                    $operation = strtolower($aggregationOperations[$columnToSumName]);
+                } elseif (is_callable($aggregationOperations[$columnToSumName])) {
+                    $operation = $aggregationOperations[$columnToSumName];
+                }
             }
 
             // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
@@ -473,7 +478,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
                 throw new Exception("Unknown aggregation operation for column $columnToSumName.");
             }
 
-            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
+            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum);
 
             $this->setColumn($columnToSumName, $newValue);
         }
@@ -485,7 +490,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
 
     /**
      */
-    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue)
+    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum)
     {
         switch ($operation) {
             case 'skip':
@@ -520,6 +525,10 @@ class Row implements \ArrayAccess, \IteratorAggregate
                 $newValue = $thisColumnValue;
                 break;
             default:
+                if (is_callable($operation)) {
+                    return call_user_func($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum);
+                }
+
                 throw new Exception("Unknown operation '$operation'.");
         }
         return $newValue;
@@ -548,7 +557,7 @@ class Row implements \ArrayAccess, \IteratorAggregate
                         continue;
                     }
 
-                    $aggregatedMetadata[$columnn] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata);
+                    $aggregatedMetadata[$columnn] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata, $this, $rowToSum);
                 }
             }
 
@@ -700,31 +709,6 @@ class Row implements \ArrayAccess, \IteratorAggregate
             }
         }
         return true;
-    }
-
-    public function offsetExists($offset)
-    {
-        return $this->hasColumn($offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->getColumn($offset);
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $this->setColumn($offset, $value);
-    }
-
-    public function offsetUnset($offset)
-    {
-        $this->deleteColumn($offset);
-    }
-
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->columns);
     }
 
     private function warnIfSubtableAlreadyExists()

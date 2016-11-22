@@ -105,7 +105,7 @@ class Installation extends \Piwik\Plugin
         if ($this->isAllowedAction($action)) {
             echo FrontController::getInstance()->dispatch('Installation', $action, array($message));
         } else {
-            Piwik::exitWithErrorMessage(Piwik::translate('Installation_NoConfigFound'));
+            Piwik::exitWithErrorMessage($this->getMessageToInviteUserToInstallPiwik($message));
         }
 
         exit;
@@ -122,9 +122,27 @@ class Installation extends \Piwik\Plugin
     private function isAllowedAction($action)
     {
         $controller = $this->getInstallationController();
-        $isActionWhiteListed = in_array($action, array('saveLanguage', 'getBaseCss', 'reuseTables'));
+        $isActionWhiteListed = in_array($action, array('saveLanguage', 'getInstallationCss', 'getInstallationJs', 'reuseTables'));
 
         return in_array($action, array_keys($controller->getInstallationSteps()))
                 || $isActionWhiteListed;
+    }
+
+    /**
+     * @param $message
+     * @return string
+     */
+    private function getMessageToInviteUserToInstallPiwik($message)
+    {
+        $messageWhenPiwikSeemsNotInstalled =
+            $message .
+            "\n<br/>" .
+            Piwik::translate('Installation_NoConfigFileFound') .
+            "<br/><b>» " .
+            Piwik::translate('Installation_YouMayInstallPiwikNow', array("<a href='index.php'>", "</a></b>")) .
+            "<br/><small>" .
+            Piwik::translate('Installation_IfPiwikInstalledBeforeTablesCanBeKept') .
+            "</small>";
+        return $messageWhenPiwikSeemsNotInstalled;
     }
 }

@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Promedio basado en %1$s acceso(s) %2$s entre %3$s y %4$s",
         "ColumnClickedURL": "URL elegida",
+        "ColumnActionURL": "URL de acción",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "El número de veces que se ha hecho clic en este enlace.",
         "ColumnDownloadURL": "URL de descarga",
@@ -25,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "Número de visitas que hicieron clic en este enlace. Si un enlace se le hace clic varias veces durante una sola visita, sólo se cuenta una vez.",
         "ColumnUniqueDownloads": "Descargas únicas",
         "ColumnUniqueOutlinks": "Enlaces externos únicos",
+        "ColumnIdPageview": "ID Páginas vistas",
         "DownloadsReportDocumentation": "En este informe, puede ver que archivos han descargado sus visitantes. %s Lo que Piwik cuenta como descarga es el clic en un enlace de descarga. Si la descarga fue completada o no, Piwik no puede saberlo.",
         "EntryPagesReportDocumentation": "Este informe contiene información sobre las entradas a las páginas que fueron usadas durante el periodo especificado. La página de entrada es la primera página que el usuario ve durante su visita. %s Las URLs de entrada son mostradas como una estructura de carpetas.",
         "EntryPageTitles": "Títulos de páginas de entrada",
@@ -60,6 +62,7 @@
         "WidgetPageUrlsFollowingSearch": "Páginas siguientes a una búsqueda interna",
         "WidgetSearchCategories": "Categorías de búsqueda",
         "WidgetSearchKeywords": "Palabras claves de las búsquedas internas del sitio",
-        "WidgetSearchNoResultKeywords": "Búsquedas por palabras clave sin resultados"
+        "WidgetSearchNoResultKeywords": "Búsquedas por palabras clave sin resultados",
+        "ActionType": "Tipo de acción"
     }
 }

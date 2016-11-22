@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(اختیاری) گزینه های نمایش)",
         "AggregateReportsFormat_GraphsOnly": "نمایش ها نمودار ها تنها (بدون جداول گزارش)",
         "AggregateReportsFormat_TablesAndGraphs": "نمایش جداول گزارش و نمودار برای همه گزارش ها",
         "AggregateReportsFormat_TablesOnly": "(پیش فرض) نمایش جدول گزارش (نمودار فقط برای معیارهای کلیدی)",

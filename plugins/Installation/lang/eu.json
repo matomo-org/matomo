@@ -18,7 +18,6 @@
         "InstallationStatus": "Instalazioaren egoera",
         "LargePiwikInstances": "Laguntza Piwik-en instalazio handientzat",
         "Legend": "Legenda",
-        "NoConfigFound": "Piwik konfigurazio-fitxategia ezin izan da aurkitu eta Piwik orri bat atzitzen saiatzen ari zara.<br \/><b>  » <a href='index.php'>Piwik orain instalatu<\/a> dezakezu<\/b><br \/><small>Aurretik Piwik instalatu eta datu-basean taulak badituzu, ez kezkatu, taula berdinak berrerabil ditzakezu eta dauden datuak mantendu!<\/small>",
         "Optional": "Aukerazkoa",
         "PasswordDoNotMatch": "pasahitzak ez datoz bat",
         "PercentDone": "%% %s eginda",

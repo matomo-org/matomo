@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Sa itaas ay ang core error message. Ito ay tumutulong upang ipaliwanag ang mga dahilan ng error ngunit kung kailangan mo ng karagdagang tulong mangyaring:",
         "HelpMessageIntroductionWhenWarning": "Kumplete na ang pag-uupdate gayunpaman meron mga issues habang ito ay sinasagawa. Mangyaring basahin ang mga nasataas para sa mga detalye. Para sa mga karagdatang tulong:",
         "HighTrafficPiwikServerEnableMaintenance": "Kung ikaw ay may pinamamahalaang Piwik server na may mataas na traffic aming nirerekomenda na %1$s panandaliang alisin ang visitor Tracking at ilagay ang Piwik User Interface sa maintenance mode %2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Tandaan: ang ilang mga plugin ay hindi tugma sa Piwik %s. Ang mga ito ay hindi pinagana kapag nag-upgrade ka:",
         "InstallingTheLatestVersion": "Ini-install ang pinakabagong bersyon",
         "MajorUpdateWarning1": "Ito ay isang mahalagang update! Ito ay mas matagal kaysa sa karaniwan.",
         "MajorUpdateWarning2": "Ang mga sumusunod na payo ay mahalaga para sa mga malalaking pag-install.",

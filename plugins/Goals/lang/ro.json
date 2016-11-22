@@ -66,8 +66,6 @@
         "NewGoalIntro": "Urmărirebiectiv conversie este una dintre cele mai eficiente modalități de a măsura și îmbunătăți obiectivele de afaceri.",
         "NewVisitorsConversionRateIs": "Rata de conversie pentru vizitatorii noi este %s",
         "Optional": "(opţional)",
-        "OverallConversionRate": "%s Rata de conversie globală (vizite cu un gol)",
-        "OverallRevenue": "%s venit global",
         "PageTitle": "Titlul paginii",
         "Pattern": "Model",
         "ProductCategory": "Categorie de produse",
@@ -84,7 +82,6 @@
         "VisitUrl": "Viziteaza un URL dat (o pagina sau un grup de pagini)",
         "WhenVisitors": "când vizitatorii",
         "WhereThe": "unde",
-        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "acolo unde pagina vizitată conține un call către metoda JavaScript 'trackGoal' (%1$svezi mai multe%2$s)",
         "YouCanEnableEcommerceReports": "Poţi activa %1$s pentru acest site pe pagina %2$s."
     }
 }

@@ -12,15 +12,27 @@ namespace Piwik\Plugins\DevicesDetection;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_1_14 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-				CHANGE `config_os_version` `config_os_version`  VARCHAR( 100 ) DEFAULT NULL,
-				CHANGE `config_device_type` `config_device_type`  VARCHAR( 100 ) DEFAULT NULL' => false,
+            $this->migration->db->changeColumnTypes('log_visit', array(
+                'config_os_version' => 'VARCHAR( 100 ) DEFAULT NULL',
+                'config_device_type' => 'VARCHAR( 100 ) DEFAULT NULL'
+            ))
         );
     }
 
@@ -31,7 +43,7 @@ class Updates_1_14 extends Updates
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 
 }

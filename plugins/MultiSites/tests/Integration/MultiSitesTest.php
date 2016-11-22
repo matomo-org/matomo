@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\MultiSites\tests\Integration;
 
 use Piwik\Access;
+use Piwik\FrontController;
 use Piwik\Plugins\MultiSites\API as APIMultiSites;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -48,5 +49,29 @@ class MultiSitesTest extends IntegrationTestCase
 
         // safety net
         $this->assertEquals(0, $dataTable->getFirstRow()->getColumn('nb_visits'));
+    }
+
+    /**
+     * Testing that getOne does not error out when format=rss, #10407
+     *
+     * @group Plugins
+     */
+    public function testWhenRssFormatGetOneDoesNotError()
+    {
+        $_GET = array(
+            'method' => 'MultiSites.getOne',
+            'idSite' => $this->idSiteAccess,
+            'period' => 'month',
+            'date'   => 'last10',
+            'format'   => 'rss'
+        );
+
+        $output = FrontController::getInstance()->fetchDispatch('API');
+
+        $this->assertContains('<item>', $output);
+        $this->assertContains('</rss>', $output);
+        $this->assertNotContains('error', $output);
+
+        $_GET = array();
     }
 }

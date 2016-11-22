@@ -256,8 +256,6 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         Cache::deleteTrackerCache();
 
-        ProcessedReport::reset();
-
         self::resetPluginsInstalledConfig();
 
         $testEnvironment = $this->getTestEnvironment();
@@ -345,6 +343,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         self::unloadAllPlugins();
 
+
         if ($this->dropDatabaseInTearDown) {
             $this->dropDatabase();
         }
@@ -371,6 +370,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         Singleton::clearAll();
         PluginsArchiver::$archivers = array();
 
+        Plugin\API::unsetAllInstances();
         $_GET = $_REQUEST = array();
         Translate::reset();
 

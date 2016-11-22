@@ -26,7 +26,7 @@ use Piwik\Tracker\Request;
 class Country extends Base
 {
     protected $columnName = 'location_country';
-    protected $columnType = 'CHAR(3) NOT NULL';
+    protected $columnType = 'CHAR(3) NULL';
 
     protected function configureSegments()
     {

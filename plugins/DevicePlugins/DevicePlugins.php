@@ -25,7 +25,6 @@ class DevicePlugins extends \Piwik\Plugin
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
-            'Request.getRenamedModuleAndAction' => 'renameUserSettingsModuleAndAction',
         );
     }
 
@@ -44,12 +43,5 @@ class DevicePlugins extends \Piwik\Plugin
         );
 
         $translations = array_merge($translations, $metrics);
-    }
-
-    public function renameUserSettingsModuleAndAction(&$module, &$action)
-    {
-        if ($module == 'UserSettings' && $action == 'getPlugin') {
-            $module = 'DevicePlugins';
-        }
     }
 }

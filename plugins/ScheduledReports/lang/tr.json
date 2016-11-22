@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "Ekran seçenekleri (isteğe bağlı)",
         "AggregateReportsFormat_GraphsOnly": "Sadece Grafikleri Göster (tabloları gösterme)",
         "AggregateReportsFormat_TablesAndGraphs": "Rapor Tabloları ve Grafileri tüm raporlar için göster",
         "AggregateReportsFormat_TablesOnly": "(varsayılan) Rapor Tablolarını Göster (Grafikler için sadece anahtar metrikler)",

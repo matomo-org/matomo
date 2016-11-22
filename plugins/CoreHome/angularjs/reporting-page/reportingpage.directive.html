@@ -1,0 +1,17 @@
+<div class="reporting-page">
+
+    <div piwik-activity-indicator loading="loading"/>
+
+    <div ng-show="hasNoPage">{{ 'CoreHome_NoSuchPage'|translate }}</div>
+
+    <div class="row" ng-repeat="widget in pageModel.widgets">
+        <div class="col s12 fullWidgetColumn" ng-if="!widget.group" piwik-widget="widget"></div>
+
+        <div ng-if="widget.group" class="col s12 l6 leftWidgetColumn">
+            <div ng-repeat="widgetInGroup in widget.left" piwik-widget="widgetInGroup"></div>
+        </div>
+        <div ng-if="widget.group" class="col s12 l6 rightWidgetColumn">
+            <div ng-repeat="widgetInGroup in widget.right" piwik-widget="widgetInGroup"></div>
+        </div>
+    </div>
+</div>

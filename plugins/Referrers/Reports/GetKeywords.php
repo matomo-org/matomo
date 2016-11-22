@@ -11,7 +11,9 @@ namespace Piwik\Plugins\Referrers\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\Referrers\Columns\Keyword;
+use Piwik\Tracker\Visit;
 
 class GetKeywords extends Base
 {
@@ -24,7 +26,7 @@ class GetKeywords extends Base
         $this->actionToLoadSubTables = 'getSearchEnginesFromKeywordId';
         $this->hasGoalMetrics = true;
         $this->order = 3;
-        $this->widgetTitle  = 'Referrers_Keywords';
+        $this->subcategoryId = 'Referrers_SubmenuSearchEngines';
     }
 
     public function configureView(ViewDataTable $view)

@@ -342,22 +342,6 @@ class GoalManager
         if ($recorded) {
             $this->recordEcommerceItems($conversion, $items);
         }
-
-        /**
-         * Triggered after successfully persisting an ecommerce conversion.
-         *
-         * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
-         * the tracker down._
-         *
-         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
-         *
-         * @param array $conversion The conversion entity that was just persisted. See what information
-         *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
-         * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
-         *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
-         * @deprecated
-         */
-        Piwik::postEvent('Tracker.recordEcommerceGoal', array($conversion, $visitProperties->getProperties()));
     }
 
     /**
@@ -693,20 +677,6 @@ class GoalManager
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
             $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request);
-
-            /**
-             * Triggered after successfully recording a non-ecommerce conversion.
-             *
-             * _Note: Subscribers should be wary of doing any expensive computation here as it may slow
-             * the tracker down._
-             *
-             * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
-             *
-             * @param array $conversion The conversion entity that was just persisted. See what information
-             *                          it contains [here](/guides/persistence-and-the-mysql-backend#conversions).
-             * @deprecated
-             */
-            Piwik::postEvent('Tracker.recordStandardGoals', array($conversion));
         }
     }
 
@@ -732,6 +702,7 @@ class GoalManager
          *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
          * @deprecated
+         * @ignore
          */
         Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request));
 

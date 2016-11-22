@@ -1,6 +1,6 @@
 {
     "API": {
-        "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el complemento %1$s. Puede habilitar el complemento %2$s, a continuación, haga clic en el menú 'Generador de Visitas' en la area Administrativa de Piwik.",
+        "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el complemento %1$s. Puede habilitar el complemento %2$s, a continuación, haga clic en el menú 'Generador de Visitas' en el área Administrativa de Piwik.",
         "KeepTokenSecret": "Este token_auth es tan secreto como su nombre de usuario y contraseña, %1$s no lo comparta %2$s!",
         "LoadedAPIs": "Se han cargado %s APIs exitosamente",
         "MoreInformation": "Para mayor información acerca de las APIs de Piwik, por favor lea la %1$s Introducción a las API Piwik %2$s y la %3$s Referencia de las API Piwik %4$s.",
@@ -9,6 +9,7 @@
         "TopLinkTooltip": "Acceda a sus datos de análisis de internet programáticamente, a través de una sencilla API en json, xml, etc.",
         "UserAuthentication": "Autenticación de usuario",
         "UsingTokenAuth": "Si quieres %1$s solicitar datos dentro de un script, un crontab, etc. %2$s tiene que agregar el parámetro %3$s a las llamadas a la URL de la API que requieren autenticación.",
-        "Glossary": "Glosario"
+        "Glossary": "Glosario",
+        "LearnAboutCommonlyUsedTerms": "Obtenga más información de los términos que se utilizan más frecuentemente para aprovechar al máximo de las analíticas de Piwik. %1$s y %2$s."
     }
 }

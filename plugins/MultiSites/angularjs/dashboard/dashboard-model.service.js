@@ -24,6 +24,7 @@
             lastVisits   : '?',
             lastVisitsDate : '?',
             numberOfSites : 0,
+            loadingMessage: _pk_translate('MultiSites_LoadingWebsites'),
             updateWebsitesList: updateWebsitesList,
             getNumberOfFilteredSites: getNumberOfFilteredSites,
             getNumberOfPages: getNumberOfPages,
@@ -162,7 +163,7 @@
 
             return piwikApi.fetch(params).then(function (response) {
                 updateWebsitesList(response);
-            }, onError)['finally'](function () {
+            }, onError).finally(function () {
                 model.isLoading = false;
 
                 if (model.refreshInterval && model.refreshInterval > 0) {

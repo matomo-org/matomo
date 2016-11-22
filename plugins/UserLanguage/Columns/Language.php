@@ -18,7 +18,7 @@ use Piwik\Tracker\Visitor;
 class Language extends VisitDimension
 {
     protected $columnName = 'location_browser_lang';
-    protected $columnType = 'VARCHAR(20) NOT NULL';
+    protected $columnType = 'VARCHAR(20) NULL';
 
     public function getName()
     {

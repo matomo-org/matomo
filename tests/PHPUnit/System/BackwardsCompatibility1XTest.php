@@ -13,7 +13,6 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
@@ -96,10 +95,17 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'date'   => $dateTime,
             'disableArchiving' => true,
             'otherRequestParameters' => array(
-                'hideColumns' => 'nb_users',
+                // when changing this, might also need to change the same line in OneVisitorTwoVisitsTest.php
+                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
             )
         );
 
+        /**
+         * When Piwik\Tests\System\BackwardsCompatibility1XTest is failing,
+         * as this test compares fixtures to OneVisitorTwoVisits* fixtures,
+         * sometimes for a given API method that fails to generate the same output as OneVisitorTwoVisits does,
+         * we need to add the API below which will cause the fixtures for this API to be created in processed/
+         */
         $reportsToCompareSeparately = array(
 
             // the label column is not the first column here
@@ -107,7 +113,12 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // those reports generate a different segment as a different raw value was stored that time
             'DevicesDetection.getOsVersions',
-            'Goals.get'
+            'Goals.get',
+
+            // Following #9345
+            'Actions.getPageUrls',
+            'Actions.getDownloads',
+            'Actions.getDownload',
         );
 
         $apiNotToCall = array(
@@ -120,6 +131,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             // did not exist in Piwik 1.X
             'DevicesDetection.getBrowserEngines',
 
+            // now enriched with goal metrics
+            'DevicesDetection.getType',
+            'DevicesDetection.getBrand',
+            'DevicesDetection.getModel',
+
             // we test VisitFrequency explicitly
             'VisitFrequency.get',
 
@@ -131,6 +147,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'Actions.get',
             'Actions.getOutlink',
             'Actions.getOutlinks',
+
+            // system settings such as enable_plugin_update_communication are enabled by default in newest version,
+            // but ugpraded Piwik are not
+            'CorePluginsAdmin.getSystemSettings'
         );
 
         $apiNotToCall = array_merge($apiNotToCall, $reportsToCompareSeparately);

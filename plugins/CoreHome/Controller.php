@@ -11,15 +11,15 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\FrontController;
-use Piwik\Menu\MenuReporting;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Widget\Widget;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
-use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Site;
@@ -28,7 +28,7 @@ use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
-use Piwik\Plugin\Widgets as PluginWidgets;
+use Piwik\Widget\WidgetConfig;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -49,25 +49,6 @@ class Controller extends \Piwik\Plugin\Controller
         return 'redirectToCoreHomeIndex';
     }
 
-    public function renderReportMenu(Report $report)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        $this->checkSitePermission();
-
-        $report->checkIsEnabled();
-
-        $menuTitle = $report->getMenuTitle();
-
-        if (empty($menuTitle)) {
-            throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report.');
-        }
-
-        $menuTitle = $this->translator->translate($menuTitle);
-        $content   = $this->renderReportWidget($report);
-
-        return View::singleReport($menuTitle, $content);
-    }
-
     public function renderReportWidget(Report $report)
     {
         Piwik::checkUserHasSomeViewAccess();
@@ -78,11 +59,60 @@ class Controller extends \Piwik\Plugin\Controller
         return $report->render();
     }
 
-    public function renderWidget(PluginWidgets $widget, $method)
+    /**
+     * This is only used for exported widgets
+     * @return string
+     * @throws Exception
+     * @throws \Piwik\NoAccessException
+     */
+    public function renderWidgetContainer()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $this->checkSitePermission();
+
+        $view = new View('@CoreHome/widgetContainer');
+        $view->isWidgetized = (bool) Common::getRequestVar('widget', 0, 'int');
+        $view->containerId  = Common::getRequestVar('containerId', null, 'string');
+
+        return $view->render();
+    }
+
+    /**
+     * @param Widget $widget
+     * @return mixed
+     * @throws Exception
+     */
+    public function renderWidget($widget)
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        return $widget->$method();
+        $config = new WidgetConfig();
+        $widget::configure($config);
+
+        $content = $widget->render();
+
+        if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
+            if (strpos($content, '<h2') !== false
+                || strpos($content, ' content-title=') !== false
+                || strpos($content, ' piwik-enriched-headline') !== false
+                || strpos($content, '<h1') !== false ) {
+                // already includes title
+                return $content;
+            }
+
+            if (strpos($content, 'piwik-content-block') === false
+                && strpos($content, 'class="card"') === false
+                && strpos($content, "class='card'") === false
+                && strpos($content, 'class="card-content"') === false
+                && strpos($content, "class='card-content'") === false) {
+                $view = new View('@CoreHome/_singleWidget');
+                $view->title = $config->getName();
+                $view->content = $content;
+                return $view->render();
+            }
+        }
+
+        return $content;
     }
 
     function redirectToCoreHomeIndex()
@@ -133,7 +163,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
-        $view->menu = MenuReporting::getInstance()->getMenu();
+        $view->showMenu = true;
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
         return $view;
@@ -234,7 +264,8 @@ class Controller extends \Piwik\Plugin\Controller
         // perform check (but only once every 10s)
         UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
 
-        MarketplaceApiClient::clearAllCacheEntries();
+        $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
+        $marketplace->clearAllCacheEntries();
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);

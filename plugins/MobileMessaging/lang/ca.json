@@ -17,7 +17,6 @@
         "Settings_PhoneActivated": "Nombre de telèfon validat! Ara podeu rebre SMS amb les vostres estadístiques.",
         "Settings_PhoneNumber": "Telèfon",
         "Settings_PhoneNumbers_Add": "Afegir un nou telèfon",
-        "Settings_PhoneNumbers_CountryCode_Help": "Si no sabeu el vostre codi de pais el podeu buscar aquí.",
         "Settings_SMSAPIAccount": "Administra el compte de l'API de SMS",
         "Settings_SMSProvider": "Proveïdor SMS",
         "Settings_SuperAdmin": "Preferències del Super Usuari",

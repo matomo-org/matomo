@@ -1,0 +1,25 @@
+<div class="pluginSettings">
+
+    <div ng-repeat="settings in pluginSettings.settingsPerPlugin"
+         class="card"
+          id="pluginSettings">
+
+        <div class="card-content">
+            <h2 id="{{ settings.pluginName }}" class="card-title">{{ settings.title }}</h2>
+
+            <div ng-repeat="setting in settings.settings">
+                <div piwik-form-field="setting" all-settings="settings.settings"></div>
+            </div>
+
+            <input type="button" ng-click="pluginSettings.save(settings)"
+                   ng-disabled="pluginSettings.isLoading"
+                   value="{{ 'General_Save'|translate }}"
+                   class="pluginsSettingsSubmit btn"/>
+
+            <div piwik-activity-indicator loading="pluginSettings.isLoading"></div>
+
+        </div>
+
+    </div>
+
+</div>

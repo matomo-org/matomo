@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Număr de telefon validat! Puteți primi acum SMS-uri cu statisticile.",
         "Settings_PhoneNumber": "Număr de telefon",
         "Settings_PhoneNumbers_Add": "Adaugă un Număr de Telefon nou",
-        "Settings_PhoneNumbers_CountryCode_Help": "Dacă nu știți codul de țară pentru telefon, uita-te pentru țara ta aici",
         "Settings_PhoneNumbers_Help": "Înainte de a primi SMS-uri (mesaje text), rapoartele pe un telefon, numărul de telefon trebuie să fie introdusă mai jos.",
         "Settings_PhoneNumbers_HelpAdd": "Când faceți clic pe \"Add\", un SMS cu un cod va fi trimis la telefon. Utilizatorul primește codul ar trebui să intri, atunci la Piwik, faceți clic pe Settings, apoi faceți clic pe Mesagerie Mobile. După introducerea codului, utilizatorul va fi capabil de a primi rapoarte de text de pe telefonul lui.",
         "Settings_PleaseSignUp": "Pentru a crea SMS rapoarte și pentru primi mesaje text scurte cu statisticile site-urilor dvs. pe telefonul mobil, vă rugăm să vă înscrieți cu API SMS și sa introduceți informațiile dvs. mai jos.",

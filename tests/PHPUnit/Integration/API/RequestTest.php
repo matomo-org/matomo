@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration\API;
 
 use Piwik\API\Request;
 use Piwik\AuthResult;
-use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -121,7 +120,9 @@ class RequestTest extends IntegrationTestCase
 
     private function createAuthMock()
     {
-        $authMock = $this->getMock('Piwik\Plugins\Login\Auth', array('authenticate', 'setTokenAuth', 'setLogin'));
+        $authMock = $this->getMockBuilder('Piwik\Plugins\Login\Auth')
+                         ->setMethods(array('authenticate', 'setTokenAuth', 'setLogin'))
+                         ->getMock();
 
         $authMock->expects($this->any())
                  ->method('authenticate')

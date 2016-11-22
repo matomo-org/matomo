@@ -3,7 +3,8 @@
 	<website>Piwik test</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Events</category>
+		<category>Actions</category>
+		<subcategory>Events</subcategory>
 		<name>Event Actions</name>
 		<module>Events</module>
 		<action>getAction</action>
@@ -61,7 +62,7 @@
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
-				<label>play - La fiancée de l&amp;#039;eau</label>
+				<label>play - La fiancée de l'eau</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -70,7 +71,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play25% - La fiancée de l&amp;#039;eau</label>
+				<label>play25% - La fiancée de l'eau</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -88,7 +89,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play50% - La fiancée de l&amp;#039;eau</label>
+				<label>play50% - La fiancée de l'eau</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -106,7 +107,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play75% - La fiancée de l&amp;#039;eau</label>
+				<label>play75% - La fiancée de l'eau</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -124,7 +125,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>playEnd - La fiancée de l&amp;#039;eau</label>
+				<label>playEnd - La fiancée de l'eau</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -187,7 +188,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>rating - La fiancée de l&amp;#039;eau</label>
+				<label>rating - La fiancée de l'eau</label>
 				<nb_events>4</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
 				<sum_event_value>38</sum_event_value>
@@ -223,7 +224,179 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<label>clickBuyNow - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>play - La fiancée de l'eau</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play25% - La fiancée de l'eau</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play25% - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play50% - La fiancée de l'eau</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play50% - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play75% - La fiancée de l'eau</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play75% - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playEnd - La fiancée de l'eau</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playEnd - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playStart - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playTrailer - Ponyo (崖の上のポニョ)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playTrailer - Princess Mononoke (もののけ姫)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playTrailer - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Purchase</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>rating - La fiancée de l'eau</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19</sum_event_value>
+				<min_event_value>9</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.5</avg_event_value>
+			</row>
+			<row>
+				<label>rating - Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>Search - Search query here</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -240,7 +413,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>43</nb_visits>
-		<nb_uniq_visitors>41</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_uniq_visitors>61</nb_uniq_visitors>
 	</reportTotal>
 </result>

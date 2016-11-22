@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<pluginName>ExampleSettingsPlugin</pluginName>
+		<title>ExampleSettingsPlugin</title>
+		<settings>
+			<row>
+				<name>autoRefresh</name>
+				<title>Auto refresh</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If enabled, the value will be automatically refreshed depending on the specified interval</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>refreshInterval</name>
+				<title>Refresh Interval</title>
+				<value>30</value>
+				<defaultValue>30</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>3</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Defines how often the value should be updated</description>
+				<inlineHelp>Enter a number which is &gt;= 15</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>color</name>
+				<title>Color</title>
+				<value>red</value>
+				<defaultValue>red</defaultValue>
+				<type>string</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<red>Red</red>
+					<blue>Blue</blue>
+					<green>Green</green>
+				</availableValues>
+				<description>Pick your favourite color</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>AnonymousPiwikUsageMeasurement</pluginName>
+		<title>AnonymousPiwikUsageMeasurement</title>
+		<settings>
+			<row>
+				<name>userTrackingEnabled</name>
+				<title>Piwik usage tracking enabled</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If enabled, anonymous usage data will be tracked. For example which pages are viewed and which reports are used most often. For more information contact your system administrator.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+</result>

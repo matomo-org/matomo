@@ -41,6 +41,9 @@ class FormDatabaseSetup extends QuickForm2
         $adapters = array();
         foreach ($availableAdapters as $adapter => $port) {
             $adapters[$adapter] = $adapter;
+            if (Adapter::isRecommendedAdapter($adapter)) {
+                $adapters[$adapter] .= ' (' . Piwik::translate('General_Recommended') . ')';
+            }
         }
 
         $this->addElement('text', 'host')
@@ -72,7 +75,7 @@ class FormDatabaseSetup extends QuickForm2
             ->loadOptions($adapters)
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupAdapter')));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn btn-lg'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         $defaultDatabaseType = Config::getInstance()->database['type'];
         $this->addElement( 'hidden', 'type')->setLabel('Database engine');

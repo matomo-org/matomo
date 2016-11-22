@@ -17,7 +17,8 @@
                 action: 'getAnnotationManager',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;
@@ -45,6 +46,7 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -67,6 +69,7 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -86,6 +89,7 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -99,7 +103,8 @@
                 action: 'getEvolutionIcons',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;
@@ -499,6 +504,7 @@
 
                 // reload annotation manager for new date/period
                 annotationsApi.getAnnotationManager(idSite, date, period, lastN, function (response) {
+
                     replaceAnnotationManager(manager, response);
 
                     createDatePickers(manager);

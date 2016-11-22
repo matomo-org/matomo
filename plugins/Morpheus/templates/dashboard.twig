@@ -23,6 +23,13 @@
     {% include "@CoreHome/_warningInvalidHost.twig" %}
     {% include "@CoreHome/_topScreen.twig" %}
 
+    <div class="top_controls">
+        <div piwik-quick-access ng-cloak class="piwikTopControl borderedControl"></div>
+
+        {% block topcontrols %}
+        {% endblock %}
+    </div>
+
     <div class="ui-confirm" id="alert">
         <h2></h2>
         <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
@@ -32,23 +39,20 @@
 
     <div class="page">
 
-        {% if (menu is defined and menu) %}
-            {% import '@CoreHome/_menu.twig' as menuMacro %}
-            {{ menuMacro.menu(menu, true, 'Menu--dashboard') }}
+        {% if showMenu is defined and showMenu %}
+            <div id="secondNavBar" class="Menu--dashboard z-depth-1">
+                <div piwik-reporting-menu></div>
+            </div>
         {% endif %}
 
-        <div class="pageWrap">
-
-
-            <div class="top_controls">
-                {% block topcontrols %}
-                {% endblock %}
-            </div>
+        <div class="pageWrap" ng-cloak>
 
             <a name="main"></a>
             {% block notification %}
                 {% include "@CoreHome/_notifications.twig" %}
             {% endblock %}
+
+            <div piwik-popover></div>
 
             {% block content %}
             {% endblock %}

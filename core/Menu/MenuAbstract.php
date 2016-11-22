@@ -8,6 +8,7 @@
  */
 namespace Piwik\Menu;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Singleton;
 use Piwik\Plugin\Manager as PluginManager;
@@ -43,14 +44,14 @@ abstract class MenuAbstract extends Singleton
     {
         $this->buildMenu();
         $this->applyEdits();
-        $this->applyRenames();
         $this->applyRemoves();
+        $this->applyRenames();
         $this->applyOrdering();
         return $this->menu;
     }
 
     /**
-     * Let's you register a menu icon for a certain menu category to replace the default arrow icon.
+     * lets you register a menu icon for a certain menu category to replace the default arrow icon.
      *
      * @param string $menuName The translation key of a main menu category, eg 'Dashboard_Dashboard'
      * @param string $iconCssClass   The css class name of an icon, eg 'icon-user'
@@ -71,7 +72,12 @@ abstract class MenuAbstract extends Singleton
             return self::$menus;
         }
 
-        self::$menus = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+        $components = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
+
+        self::$menus = array();
+        foreach ($components as $component) {
+            self::$menus[] = StaticContainer::get($component);
+        }
 
         return self::$menus;
     }
@@ -84,29 +90,6 @@ abstract class MenuAbstract extends Singleton
     public static function clearMenus()
     {
         self::$menus = array();
-    }
-
-    /**
-     * Adds a new entry to the menu.
-     *
-     * @param string $menuName The menu's category name. Can be a translation token.
-     * @param string $subMenuName The menu item's name. Can be a translation token.
-     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
-     *                          that can be used to build the URL.
-     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
-     *                                         current user. If false, the entry will not be added.
-     * @param int $order The order hint.
-     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
-     *
-     * @deprecated since 2.7.0 Use {@link addItem() instead}. Method will be removed in Piwik 3.0
-     */
-    public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
-    {
-        if (!$displayedForCurrentUser) {
-            return;
-        }
-
-        $this->addItem($menuName, $subMenuName, $url, $order, $tooltip);
     }
 
     /**

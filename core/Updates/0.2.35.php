@@ -9,24 +9,33 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_2_35 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE `' . Common::prefixTable('user_dashboard') . '`
-				CHANGE `layout` `layout` TEXT NOT NULL' => false,
+            $this->migration->db->changeColumnType('user_dashboard', 'layout', 'TEXT NOT NULL')
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

@@ -6,9 +6,9 @@
         "EstimatedSize": "Madhësi e vlerësuar",
         "IndexSize": "Madhësi treguesi",
         "LearnMore": "Për të mësuar më tepër rreth se si i përpunon të dhënat Piwik-u dhe se si ta bëni Piwik-un të punojë mirë me sajte me trafik mesatar ose të madh, kontrolloni dokumentimin %s.",
-        "MainDescription": "Piwik-u po i depoziton krejt të dhënat tuaja për analizë web te baza e të dhënave MySQL. Tani për tani, tabelat e Piwik-ut po përdorin %s.",
-        "MetricDataByYear": "Tabela Matjesh Sipas Vitesh",
-        "MetricTables": "Tabela Matjesh",
+        "MainDescription": "Piwik-u po i depoziton krejt të dhënat tuaja për analiza web te baza e të dhënave MySQL. Tani për tani, tabelat e Piwik-ut po përdorin %s.",
+        "MetricDataByYear": "Tabela Vlerash Sipas Vitesh",
+        "MetricTables": "Tabela Vlerash",
         "OtherTables": "Tabela të Tjera",
         "PluginDescription": "Furnizon raporte të hollësishëm përdorimi baze të dhënash MySQL. Gjendet nën Diagnostikimet, për Superpërdoruesit.",
         "ReportDataByYear": "Tabela Raportesh Sipas Vitit",
@@ -16,6 +16,6 @@
         "RowCount": "Numërim rreshtash",
         "Table": "Tabelë",
         "TotalSize": "Madhësi gjithsej",
-        "TrackerTables": "Tabela Gjurmuesi"
+        "TrackerTables": "Tabela Ndjekësi"
     }
 }

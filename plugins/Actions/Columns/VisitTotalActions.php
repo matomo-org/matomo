@@ -18,7 +18,7 @@ use Piwik\Tracker\Visitor;
 class VisitTotalActions extends VisitDimension
 {
     protected $columnName = 'visit_total_actions';
-    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
+    protected $columnType = 'INT(11) UNSIGNED NULL';
 
     protected function configureSegments()
     {
@@ -79,8 +79,9 @@ class VisitTotalActions extends VisitDimension
         }
 
         $actionType = $action->getActionType();
+        $types = array(Action::TYPE_SITE_SEARCH, Action::TYPE_EVENT, Action::TYPE_OUTLINK, Action::TYPE_DOWNLOAD);
 
-        if (in_array($actionType, array(Action::TYPE_SITE_SEARCH, Action::TYPE_EVENT))) {
+        if (in_array($actionType, $types)) {
             return $increment;
         }
 

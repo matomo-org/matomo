@@ -2,6 +2,10 @@
     border-bottom: 1px dotted;
 }
 
+.goalTriggerType .input-field {
+    margin-top: 0 !important;
+}
+
 .goalEntry {
     margin: 0 0 20px 0;
     padding: 0 0 10px 0;
@@ -9,12 +13,9 @@
     width: 614px;
 }
 
-.managegoals .addrow:hover {
-    text-decoration: underline;
-}
-
-.managegoals .addrow {
-    margin-top: 0px;
+.addEditGoal .goalIsTriggeredWhen,
+.addEditGoal .whereTheMatchAttrbiute {
+    margin-bottom: 0;
 }
 
 /* dimension selector */
@@ -27,9 +28,18 @@ ul.ulGoalTopElements {
     margin-left: 30px;
 }
 
+ul.ulGoalTopElements li {
+    list-style-type: circle;
+}
+
 .ulGoalTopElements a {
     text-decoration: none;
     color: #0033CC;
     border-bottom: 1px dotted #0033CC;
     line-height: 2em;
+}
+
+.goalDescription {
+    padding-bottom: 12px;
+    color: #999;
 }

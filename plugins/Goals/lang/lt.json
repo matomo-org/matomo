@@ -32,8 +32,6 @@
         "MatchesExpression": "atitinka išraišką %s",
         "NewVisitorsConversionRateIs": "Naujų lankytojų konversijos koeficientas yra %s",
         "Optional": "(papildoma)",
-        "OverallConversionRate": "%s bendras konversijos koeficientas (apsilankymai su uždavinio užbaigimu)",
-        "OverallRevenue": "%s bendros pajamos",
         "Pattern": "Derinys",
         "ReturningVisitorsConversionRateIs": "Sugrįžtančių lankytojų konversijos koeficientas yra %s",
         "UpdateGoal": "Atnaujinti uždavinį",

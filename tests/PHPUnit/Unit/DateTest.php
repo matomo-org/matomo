@@ -58,6 +58,29 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->fail('Expected exception not raised');
     }
 
+    public function getTimezoneOffsets()
+    {
+        return array(
+            array('UTC-2', -7200),
+            array('UTC+1.5', 5400),
+            array('UTC', 0),
+            array('America/Belize', -21600),
+            array('EST', -18000),
+            array('Antarctica/Syowa', 10800),
+        );
+    }
+
+    /**
+     * @group Core
+     * @group DateTest
+     * @dataProvider getTimezoneOffsets
+     */
+    public function testGetUtcOffset($timezone, $expectedOffset)
+    {
+        $offset = Date::getUtcOffset($timezone);
+        $this->assertEquals($expectedOffset, $offset);
+    }
+
     /**
      * @group Core
      */

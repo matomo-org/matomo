@@ -3,7 +3,8 @@
 	<website>Piwik test</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Events</category>
+		<category>Actions</category>
+		<subcategory>Events</subcategory>
 		<name>Event Names</name>
 		<module>Events</module>
 		<action>getName</action>
@@ -52,7 +53,7 @@
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
-				<label>La fiancée de l&amp;#039;eau</label>
+				<label>La fiancée de l'eau</label>
 				<nb_events>14</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
 				<sum_event_value>38</sum_event_value>
@@ -106,7 +107,71 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<label>Spirited Away (千と千尋の神隠し)</label>
+				<nb_events>8</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>La fiancée de l'eau</label>
+				<nb_events>7</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.5</avg_event_value>
+			</row>
+			<row>
+				<label>Event Name not defined</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>Ponyo (崖の上のポニョ)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Princess Mononoke (もののけ姫)</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Search query here</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -118,39 +183,74 @@
 			<row>
 				
 				<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
-				<idsubdatatable>922</idsubdatatable>
+				<idsubdatatable>1652</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
-				<idsubdatatable>921</idsubdatatable>
+				<idsubdatatable>1651</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>920</idsubdatatable>
+				<idsubdatatable>1650</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>926</idsubdatatable>
+				<idsubdatatable>1656</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
-				<idsubdatatable>924</idsubdatatable>
+				<idsubdatatable>1654</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
-				<idsubdatatable>923</idsubdatatable>
+				<idsubdatatable>1653</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventName==Search+query+here</segment>
-				<idsubdatatable>925</idsubdatatable>
+				<idsubdatatable>1655</idsubdatatable>
 			</row>
 		</result>
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				
+				<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
+				<idsubdatatable>1660</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
+				<idsubdatatable>1659</idsubdatatable>
+			</row>
+			<row>
+				
+				<idsubdatatable>1658</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+				<idsubdatatable>1664</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
+				<idsubdatatable>1662</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
+				<idsubdatatable>1661</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventName==Search+query+here</segment>
+				<idsubdatatable>1663</idsubdatatable>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
@@ -158,7 +258,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>43</nb_visits>
-		<nb_uniq_visitors>41</nb_uniq_visitors>
+		<nb_visits>64</nb_visits>
+		<nb_uniq_visitors>61</nb_uniq_visitors>
 	</reportTotal>
 </result>

@@ -19,7 +19,9 @@ $piwik_errorMessage = '';
 // NOTE: when changing this variable, we also need to update
 // 1) api.piwik.org
 // 2) tests/travis/generator/Generator.php
-$piwik_minimumPHPVersion = '5.3.3';
+// 3) composer.json (in two places)
+// 4) tests/PHPUnit/Integration/ReleaseCheckListTest.php
+$piwik_minimumPHPVersion = '5.5.9';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
@@ -144,7 +146,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
                             <li><a rel="noreferrer" target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
                             <li><a rel="noreferrer" target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
                             <li><a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://piwik.pro/contact/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink#contact-form">Professional help (Piwik PRO)</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Piwik</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {

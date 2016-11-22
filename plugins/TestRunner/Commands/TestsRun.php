@@ -47,10 +47,6 @@ class TestsRun extends ConsoleCommand
         // bin is the composer executeable directory, where all vendors (should) place their executables
         $command = PIWIK_VENDOR_PATH . '/bin/phpunit';
 
-        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-            $command = 'php -dzend.enable_gc=0 ' . $command;
-        }
-
         if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
             $message = 'Did you know? You can run tests faster by disabling xdebug';
             if($this->isXdebugCodeCoverageEnabled()) {

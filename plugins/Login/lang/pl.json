@@ -14,7 +14,6 @@
         "PasswordChanged": "Twoje hasło zostało zmienione.",
         "PasswordRepeat": "Hasło (powtórz)",
         "PasswordsDoNotMatch": "Hasła nie pasują.",
-        "RememberMe": "Zapamiętaj mnie",
-        "ResetPasswordInstructions": "Wprowadź nowe haslo dla twojego konta."
+        "RememberMe": "Zapamiętaj mnie"
     }
 }

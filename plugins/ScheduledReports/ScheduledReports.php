@@ -111,6 +111,7 @@ class ScheduledReports extends \Piwik\Plugin
     {
         $translationKeys[] = "ScheduledReports_ReportSent";
         $translationKeys[] = "ScheduledReports_ReportUpdated";
+        $translationKeys[] = "ScheduledReports_ReportHourWithUTC";
     }
 
     /**
@@ -128,7 +129,8 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/ScheduledReports/javascripts/pdf.js";
+        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.controller.js";
+        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)

@@ -268,6 +268,10 @@ THIRD-PARTY CONTENT
     License: GPL
     By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
+    Name: Material icons ("icon-info2" "icon_outline" "icon_settings") in plugins/Morpheus/fonts
+    Link: https://design.google.com/icons/
+    License: Apache License Version 2.0
+
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.

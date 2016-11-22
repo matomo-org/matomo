@@ -12,25 +12,34 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_4_rc1 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'UPDATE `' . Common::prefixTable('pdf') . '`
-		    	SET format = "pdf"'              => '42S22',
-            'ALTER TABLE `' . Common::prefixTable('pdf') . '`
-		    	ADD COLUMN `format` VARCHAR(10)' => '42S22',
+            $this->migration->db->sql('UPDATE `' . Common::prefixTable('pdf') . '` SET format = "pdf"', '42S22'),
+            $this->migration->db->addColumn('pdf', 'format', 'VARCHAR(10)')
         );
     }
 
     public function doUpdate(Updater $updater)
     {
         try {
-            $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+            $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
         } catch (\Exception $e) {
         }
     }

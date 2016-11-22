@@ -30,7 +30,7 @@ exports.php = 'php';
 /**
  * The folder in tests/lib that holds mocha.
  */
-exports.mocha = 'mocha-2.2.5';
+exports.mocha = 'mocha-3.1.0';
 
 /**
  * The folder in tests/lib that holds chai.
@@ -45,7 +45,7 @@ exports.reporter = "spec";
 /**
  * The directory that stores expected screenshots. Relative to the UI repo's root directoriy.
  */
-exports.expectedScreenshotsDir = "./expected-ui-screenshots";
+exports.expectedScreenshotsDir = ["./expected-screenshots", "./expected-ui-screenshots"];
 
 /**
  * The directory that stores processed screenshots. Relative to the UI repo's root directory.

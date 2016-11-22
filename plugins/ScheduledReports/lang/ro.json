@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(opţional) opţiuni de vizualizare",
         "AggregateReportsFormat_GraphsOnly": "Numai graficele de afișare (nu tabele raport)",
         "AggregateReportsFormat_TablesAndGraphs": "Afiseaza tabele raport și grafice pentru toate rapoartele",
         "AggregateReportsFormat_TablesOnly": "(implicit) Raport tabele de afișare (Diagramele numai pentru indicatorii cheie)",

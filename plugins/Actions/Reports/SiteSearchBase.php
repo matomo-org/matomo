@@ -18,7 +18,7 @@ abstract class SiteSearchBase extends Base
     protected function init()
     {
         parent::init();
-        $this->category = 'Actions_SubmenuSitesearch';
+        $this->categoryId = 'General_Actions';
     }
 
     public function isEnabled()
@@ -37,9 +37,9 @@ abstract class SiteSearchBase extends Base
 
     public function configureReportMetadata(&$availableReports, $infos)
     {
-        $idSites = !empty($infos['idSites']) ? $infos['idSites'] : array();
+        $idSite = array($infos['idSite']);
 
-        if (!$this->isEnabledForIdSites($idSites, Common::getRequestVar('idSite', 0, 'int'))) {
+        if (!$this->isEnabledForIdSites($idSite, Common::getRequestVar('idSite', 0, 'int'))) {
             return;
         }
 

@@ -159,7 +159,6 @@ class UsersManagerTest extends IntegrationTestCase
     {
         return array(
             array("geggeqgeqag", "pas", "email@email.com", "alias"), // too short -> exception
-            array("ghqgeggg", "gegageqqqqqqqgeqgqeg84897897897897g122gerrgageqqqqqqqgeqgqeg84897897897897g12234k3", "email@email.com", "alias"), // too long -> exception
             array("geggeqgeqag", "", "email@email.com", "alias"), // empty -> exception
         );
     }
@@ -190,6 +189,19 @@ class UsersManagerTest extends IntegrationTestCase
     {
         $login = "geggeqgeqag";
         $this->api->addUser($login, "geqgeagae", "mgeagi@geq.com", "");
+        $user = $this->api->getUser($login);
+        $this->assertEquals($login, $user['alias']);
+        $this->assertEquals($login, $user['login']);
+    }
+
+    /**
+     * long password => should work
+     * empty alias => use login
+     */
+    public function testAddUserLongPassword()
+    {
+        $login = "geggeqgeqag";
+        $this->api->addUser($login, "geqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaeg", "mgeagi@geq.com", "");
         $user = $this->api->getUser($login);
         $this->assertEquals($login, $user['alias']);
         $this->assertEquals($login, $user['login']);

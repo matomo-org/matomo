@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<pluginName>CoreUpdater</pluginName>
+		<title>Update settings</title>
+		<settings>
+			<row>
+				<name>release_channel</name>
+				<title />
+				<value>latest_stable</value>
+				<defaultValue>latest_stable</defaultValue>
+				<type>string</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<latest_stable>Latest stable release (Recommended)</latest_stable>
+					<latest_beta>Latest beta release</latest_beta>
+					<latest_2x_stable>Latest stable 2.X (Long Term Support version)</latest_2x_stable>
+					<latest_2x_beta>Latest beta 2.X (Long Term Support version)</latest_2x_beta>
+				</availableValues>
+				<description />
+				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Piwik.&lt;br/&gt;If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
+				<introduction>Release channel</introduction>
+				<condition />
+			</row>
+			<row>
+				<name>enable_plugin_update_communication</name>
+				<title />
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<row key="1">Yes</row>
+					<row key="0">No (Default)</row>
+				</availableValues>
+				<description />
+				<inlineHelp>An email will be sent to Super Users when there is a new version available for a plugin.</inlineHelp>
+				<introduction>Send an email when a plugin update is available</introduction>
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>ExampleSettingsPlugin</pluginName>
+		<title>ExampleSettingsPlugin</title>
+		<settings>
+			<row>
+				<name>metric</name>
+				<title>Metric to display</title>
+				<value>nb_visits</value>
+				<defaultValue>nb_visits</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<nb_visits>Visits</nb_visits>
+					<nb_actions>Actions</nb_actions>
+					<visitors>Visitors</visitors>
+				</availableValues>
+				<description>Choose the metric that should be displayed in the browser tab</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>browsers</name>
+				<title>Supported Browsers</title>
+				<value>
+					<row>firefox</row>
+					<row>chromium</row>
+					<row>safari</row>
+				</value>
+				<defaultValue>
+					<row>firefox</row>
+					<row>chromium</row>
+					<row>safari</row>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multiselect</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<firefox>Firefox</firefox>
+					<chromium>Chromium</chromium>
+					<safari>safari</safari>
+				</availableValues>
+				<description>The value will be only displayed in the following browsers</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>description</name>
+				<title>Description for value</title>
+				<value>This is the value: 
+Another line</value>
+				<defaultValue>This is the value: 
+Another line</defaultValue>
+				<type>string</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>This description will be displayed next to the value</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>password</name>
+				<title>API password</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>password</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Password for the 3rd API where we fetch the value</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>AnonymousPiwikUsageMeasurement</pluginName>
+		<title>AnonymousPiwikUsageMeasurement</title>
+		<settings>
+			<row>
+				<name>canUserOptOut</name>
+				<title>Let users disable anonymous tracking</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If enabled, logged in users can opt out in their plugin settings. Anonymous users cannot opt out.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>trackToPiwik</name>
+				<title>Send usage data to Piwik.org</title>
+				<value>0</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If enabled, anonymized usage data will be sent to demo-anonymous.piwik.org and the tracked data can be viewed there (the data is public). The collected data is used to improve Piwik. Thank you for making Piwik better!</description>
+				<inlineHelp />
+				<introduction>Send anonmyized usage data to the creators of Piwik</introduction>
+				<condition />
+			</row>
+			<row>
+				<name>ownPiwikSiteId</name>
+				<title>Site Id</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If specified, anonymized usage data will be sent to the specified site in this Piwik.</description>
+				<inlineHelp />
+				<introduction>Send anonymize usage data to this Piwik</introduction>
+				<condition />
+			</row>
+			<row>
+				<name>anonymizeSelfPiwik</name>
+				<title>Anonymize tracking requests</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>customSiteUrl</name>
+				<title>Piwik Url</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<placeHolder>eg. http://example.com/piwik</placeHolder>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction>Send anonymize usage data to a custom Piwik</introduction>
+				<condition />
+			</row>
+			<row>
+				<name>customSiteId</name>
+				<title>Site Id</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<placeHolder>eg. &quot;2&quot;</placeHolder>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If a URL and Site Id is specified, usage data will be sent to the custom Piwik instance.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>anonymizeCustomPiwik</name>
+				<title>Anonymize tracking requests</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>QueuedTracking</pluginName>
+		<title>QueuedTracking</title>
+		<settings>
+			<row>
+				<name>useSentinelBackend</name>
+				<title>Enable Redis Sentinel'</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+					<size>3</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>If enabled, the Redis Sentinel feature will be used. Make sure to update host and port if needed. Once you have enabled and saved the change, you will be able to specify multiple hosts and ports comma separated.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>sentinelMasterName</name>
+				<title>Redis Sentinel Master name</title>
+				<value>mymaster</value>
+				<defaultValue>mymaster</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>200</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>The sentinel master name only needs to be configured if Sentinel is enabled.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>redisHost</name>
+				<title>Redis host</title>
+				<value>127.0.0.1</value>
+				<defaultValue>127.0.0.1</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>500</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Remote host of the Redis server. Max 500 characters are allowed.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>redisPort</name>
+				<title>Redis port</title>
+				<value>6379</value>
+				<defaultValue>6379</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>100</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Port the Redis server is running on. Value should be between 1 and 65535.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>redisDatabase</name>
+				<title>Redis database</title>
+				<value>15</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>5</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>In case you are using Redis for caching make sure to use a different database.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>redisPassword</name>
+				<title>Redis password</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>password</uiControl>
+				<uiControlAttributes>
+					<size>100</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Password set on the Redis server, if any. Redis can be instructed to require a password before allowing clients to execute commands.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>queueEnabled</name>
+				<title>Queue enabled</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>If enabled, all tracking requests will be written into a queue instead of the directly into the database. Requires a Redis server and phpredis PHP extension.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>numQueueWorkers</name>
+				<title>Number of queue workers</title>
+				<value>4</value>
+				<defaultValue>1</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>5</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Number of allowed maximum queue workers. Accepts a number between 1 and 16. Best practice is to set the number of CPUs you want to make available for queue processing. Be aware you need to make sure to start the workers manually. We recommend to not use 9-15 workers, rather use 8 or 16 as the queue might not be distributed evenly into different queues. DO NOT USE more than 1 worker if you make use the UserId feature when tracking see https://github.com/piwik/piwik/issues/7691</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>numRequestsToProcess</name>
+				<title>Number of requests that are processed in one batch</title>
+				<value>25</value>
+				<defaultValue>25</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>3</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Defines how many requests will be picked out of the queue and processed at once. Enter a number which is &gt;= 1.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>processDuringTrackingRequest</name>
+				<title>Process during tracking request</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>If enabled, we will process all requests within a queue during a normal tracking request once there are enough requests in the queue. This will not slow down the tracking request. If disabled, you have to setup a cronjob that executes the &quot;./console queuedtracking:process&quot; console command eg every minute to process the queue.</inlineHelp>
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+</result>

@@ -4,6 +4,7 @@
 		<idsite>1</idsite>
 		<idgoal>1</idgoal>
 		<name>all</name>
+		<description />
 		<match_attribute>url</match_attribute>
 		<pattern>http</pattern>
 		<pattern_type>contains</pattern_type>

@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Plugins\Installation;
+use Piwik\Version;
 
 /**
  *
@@ -44,6 +45,8 @@ class View extends \Piwik\View
         if (isset($this->steps[$this->currentStepId - 2])) {
             $this->previousPreviousModuleName = $this->steps[$this->currentStepId - 2];
         }
+
+        $this->piwikVersion = Version::VERSION;
 
         return parent::render();
     }

@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Measurable\Settings\Storage;
+use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
 
@@ -73,8 +74,7 @@ class SitesManager extends \Piwik\Plugin
         $archiveInvalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $archiveInvalidator->forgetRememberedArchivedReportsToInvalidateForSite($idSite);
 
-        $measurableStorage = new Storage(Db::get(), $idSite);
-        $measurableStorage->deleteAllValues();
+        MeasurableSettingsTable::removeAllSettingsForSite($idSite);
     }
 
     /**
@@ -83,7 +83,6 @@ class SitesManager extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/SitesManager/stylesheets/SitesManager.less";
-        $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
     }
 
     /**
@@ -347,6 +346,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_AddSite";
         $translationKeys[] = "SitesManager_XManagement";
         $translationKeys[] = "SitesManager_ChooseMeasurableTypeHeadline";
+        $translationKeys[] = "SitesManager_Type";
         $translationKeys[] = "General_Measurables";
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";

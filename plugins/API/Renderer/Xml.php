@@ -10,8 +10,6 @@ namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
 use Piwik\Common;
-use Piwik\DataTable\Renderer;
-use Piwik\DataTable;
 
 class Xml extends ApiRenderer
 {
@@ -24,7 +22,12 @@ class Xml extends ApiRenderer
                "</result>";
     }
 
-    public function renderException($message, \Exception $exception)
+    /**
+     * @param $message
+     * @param \Exception|\Throwable $exception
+     * @return string
+     */
+    public function renderException($message, $exception)
     {
         return '<?xml version="1.0" encoding="utf-8" ?>' . "\n" .
                "<result>\n" .

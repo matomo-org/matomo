@@ -50,7 +50,16 @@ class Controller extends \Piwik\Plugin\Controller
 
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
-        $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
+
+        if (!empty($segmentOverride)) {
+            $segment = $segmentOverride;
+        } else {
+            $segment = Request::getRawSegmentFromRequest();
+            if (empty($segment)) {
+                $segment = '';
+            }
+        }
+        
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = new View('@UserCountryMap/visitorMap');
@@ -155,7 +164,7 @@ class Controller extends \Piwik\Plugin\Controller
         $token_auth = Piwik::getCurrentUserTokenAuth();
         $view = new View('@UserCountryMap/realtimeMap');
 
-        $view->mapIsStandaloneNotWidget = $standalone;
+        $view->mapIsStandaloneNotWidget = !(bool) Common::getRequestVar('widget', $standalone, 'int');
 
         $view->metrics = $this->getMetrics($idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
         $view->defaultMetric = 'nb_visits';

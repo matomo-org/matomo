@@ -338,17 +338,17 @@ abstract class VisitDimension extends Dimension
 
         // find circular references
         // and remove dependencies whose column cannot be resolved because it is not installed / does not exist / is defined by core
-        $depenencies = array();
+        $dependencies = array();
         foreach ($dimensions as $dimension) {
-            $depenencies[$dimension->getColumnName()] = $dimension->getRequiredVisitFields();
+            $dependencies[$dimension->getColumnName()] = $dimension->getRequiredVisitFields();
         }
 
-        foreach ($depenencies as $column => $fields) {
+        foreach ($dependencies as $column => $fields) {
             foreach ($fields as $key => $field) {
-                if (empty($depenencies[$field]) && !in_array($field, $exists)) {
+                if (empty($dependencies[$field]) && !in_array($field, $exists)) {
                     // we cannot resolve that dependency as it does not exist
-                    unset($depenencies[$column][$key]);
-                } elseif (!empty($depenencies[$field]) && in_array($column, $depenencies[$field])) {
+                    unset($dependencies[$column][$key]);
+                } elseif (!empty($dependencies[$field]) && in_array($column, $dependencies[$field])) {
                     throw new Exception("Circular reference detected for required field $field in dimension $column");
                 }
             }
@@ -364,7 +364,7 @@ abstract class VisitDimension extends Dimension
                 break; // to prevent an endless loop
             }
             foreach ($dimensions as $key => $dimension) {
-                $fields = $depenencies[$dimension->getColumnName()];
+                $fields = $dependencies[$dimension->getColumnName()];
                 if (count(array_intersect($fields, $exists)) === count($fields)) {
                     $sorted[] = $dimension;
                     $exists[] = $dimension->getColumnName();

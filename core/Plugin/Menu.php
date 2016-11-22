@@ -11,9 +11,7 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
-use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
 
@@ -210,14 +208,6 @@ class Menu
     }
 
     /**
-     * Configures the reporting menu which should only contain links to reports of a specific site such as
-     * "Search Engines", "Page Titles" or "Locations & Provider".
-     */
-    public function configureReportingMenu(MenuReporting $menu)
-    {
-    }
-
-    /**
      * Configures the top menu which is supposed to contain analytics related items such as the
      * "All Websites Dashboard".
      */
@@ -226,16 +216,8 @@ class Menu
     }
 
     /**
-     * Configures the user menu which is supposed to contain user and help related items such as
-     * "User settings", "Alerts" or "Email Reports".
-     */
-    public function configureUserMenu(MenuUser $menu)
-    {
-    }
-
-    /**
      * Configures the admin menu which is supposed to contain only administration related items such as
-     * "Websites", "Users" or "Plugin settings".
+     * "Websites", "Users" or "Settings".
      */
     public function configureAdminMenu(MenuAdmin $menu)
     {
@@ -254,7 +236,7 @@ class Menu
         }
 
         $reportAction = lcfirst(substr($action, 4));
-        if (Report::factory($module, $reportAction)) {
+        if (ReportsProvider::factory($module, $reportAction)) {
             return;
         }
 

@@ -8,11 +8,12 @@
 namespace Piwik\Updates;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
-use Piwik\Db\BatchInsert;
 use Piwik\Db;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Segment;
 use Piwik\Updater;
 use Piwik\Updates;
@@ -21,6 +22,16 @@ use Piwik\Updates;
  */
 class Updates_2_1_1_b11 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
     public function doUpdate(Updater $updater)
     {
         $returningMetrics = array(
@@ -89,15 +100,14 @@ class Updates_2_1_1_b11 extends Updates
                 }
 
                 // add missing archives
-                try {
-                    $params = array();
-                    foreach ($missingIdArchives as $missingIdArchive) {
-                        $params[] = array_values($missingIdArchive);
-                    }
-                    BatchInsert::tableInsertBatch($table, array_keys(reset($missingIdArchives)), $params, $throwException = false, $charset = 'latin1');
-                } catch (\Exception $ex) {
-                    Updater::handleQueryError($ex, "<batch insert>", false, __FILE__);
+                $params = array();
+                foreach ($missingIdArchives as $missingIdArchive) {
+                    $params[] = array_values($missingIdArchive);
                 }
+                $fields = array_keys(reset($missingIdArchives));
+                $tableUnprefixed = Common::unprefixTable($table);
+                $migration = $this->migration->db->batchInsert($tableUnprefixed, $fields, $params, $throwException = false, $charset = 'latin1');
+                $updater->executeMigration(__FILE__, $migration);
             }
 
             // update idarchive & name columns in rows with *._returning metrics
@@ -123,7 +133,7 @@ class Updates_2_1_1_b11 extends Updates
                 }
                 $updateSql .= sprintf($updateSqlSuffix, implode(',', $idArchives));
 
-                Updater::executeMigrationQuery($updateSql, false, __FILE__);
+                $updater->executeMigration(__FILE__, $this->migration->db->sql($updateSql));
             }
         }
     }

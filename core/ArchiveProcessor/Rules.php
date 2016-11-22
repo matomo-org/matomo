@@ -163,6 +163,12 @@ class Rules
         return Config::getInstance()->General['time_before_today_archive_considered_outdated'];
     }
 
+    public static function isBrowserArchivingAvailableForSegments()
+    {
+        $generalConfig = Config::getInstance()->General;
+        return !$generalConfig['browser_archiving_disabled_enforce'];
+    }
+
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
     {
         $generalConfig = Config::getInstance()->General;
@@ -187,7 +193,7 @@ class Rules
             // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
             if (!$segment->isEmpty()
                 && !$isArchivingEnabled
-                && $generalConfig['browser_archiving_disabled_enforce']
+                && !self::isBrowserArchivingAvailableForSegments()
                 && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
@@ -245,7 +251,7 @@ class Rules
      * @param Segment $segment
      * @return bool
      */
-    protected static function isSegmentPreProcessed(array $idSites, Segment $segment)
+    public static function isSegmentPreProcessed(array $idSites, Segment $segment)
     {
         $segmentsToProcess = self::getSegmentsToProcess($idSites);
 

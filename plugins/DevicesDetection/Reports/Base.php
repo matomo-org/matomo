@@ -14,6 +14,6 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = 'DevicesDetection_DevicesDetection';
+        $this->categoryId = 'General_Visitors';
     }
 }

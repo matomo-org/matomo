@@ -5,13 +5,8 @@
         "ColumnAvgActionsPerReturningVisit": "Сяр. колькасць дзеянняў за паўторнае наведванне",
         "ColumnBounceRateForReturningVisits": "Паказчык адмоў для паўторных наведванняў",
         "ColumnReturningVisits": "Паўторныя наведванні",
-        "ReturnActions": "%s дзеянняў за паўторныя наведванні",
-        "ReturnAverageVisitDuration": "%s сярэдняя працягласць наведванняў для вяртаючыхся наведвальнікаў",
-        "ReturnAvgActions": "%s дзеянняў за паўторнае наведванне",
-        "ReturnBounceRate": "%s раз карыстачы выйшлі пасля прагляду адной старонкі",
         "ReturningVisitDocumentation": "Паўторнае наведванне (у адрозненне ад новага наведвання) зрабіў той, хто наведаў вэб-сайт па крайняй меры двойчы.",
         "ReturningVisitsDocumentation": "Гэта агляд паўторных наведванняў.",
-        "ReturnVisits": "%s паўторных наведванняў",
         "SubmenuFrequency": "Чашчыня",
         "WidgetGraphReturning": "Графік паўторных наведванняў",
         "WidgetOverview": "Агляд чашчыні наведванняў"

@@ -9,30 +9,38 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_2_12 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE `' . Common::prefixTable('site') . '`
-				CHANGE `ts_created` `ts_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'              => false,
-            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-				DROP `config_color_depth`'                                                                  => 1091,
+            $this->migration->db->changeColumnType('site', 'ts_created', 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'),
+            $this->migration->db->dropColumn('log_visit', 'config_color_depth'),
 
             // 0.2.12 [673]
             // Note: requires INDEX privilege
-            'DROP INDEX index_idaction ON `' . Common::prefixTable('log_action') . '`'                      => 1091,
+            $this->migration->db->dropIndex('log_action', 'index_idaction')
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

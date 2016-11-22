@@ -10,17 +10,22 @@
 describe("PivotByDimension", function () {
     this.timeout(0);
 
-    var eventsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#/idSite=1&period=year&date=2012-08-09&module=Events&action=index",
-        actionsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#/idSite=1&period=year&date=2012-08-09&module=Actions&action=menuGetPageUrls",
-        cvarsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#/idSite=1&period=year&date=2012-08-09&module=CustomVariables&action=menuGetCustomVariables"
+    var eventsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Actions&subcategory=Events_Events",
+        actionsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Actions&subcategory=General_Pages",
+        cvarsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=CustomVariables_CustomVariables"
         ;
+
+    function showDataTableFooter(page)
+    {
+        page.mouseMove('.dataTableFeatures');
+    }
 
     it("should pivot a report correctly when the pivot cog option is selected", function (done) {
         expect.screenshot('pivoted').to.be.captureSelector('.dataTable,.expandDataTableFooterDrawer', function (page) {
             page.load(eventsUrl);
             page.click('.dimension:contains(Event Names)');
-            page.click('.expandDataTableFooterDrawer');
-            page.mouseMove('.tableConfiguration');
+            showDataTableFooter(page);
+            page.click('.dropdownConfigureIcon');
             page.click('.dataTablePivotBySubtable');
             page.mouseMove({x: -15, y: -15}); // make sure nothing is highlighted
         }, done);
@@ -33,8 +38,8 @@ describe("PivotByDimension", function () {
     it("should display the pivot option on reports that set a custom columns_to_display", function (done) {
         expect.screenshot('pivoted_columns_report').to.be.captureSelector('.dataTable,.expandDataTableFooterDrawer', function (page) {
             page.load(cvarsUrl);
-            page.click('.expandDataTableFooterDrawer');
-            page.mouseMove('.tableConfiguration');
+            showDataTableFooter(page);
+            page.click('.dropdownConfigureIcon');
             page.click('.dataTablePivotBySubtable');
             page.mouseMove({x: -15, y: -15}); // make sure nothing is highlighted
         }, done);

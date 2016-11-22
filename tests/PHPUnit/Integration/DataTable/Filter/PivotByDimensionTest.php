@@ -8,6 +8,8 @@
 namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
+use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Tracker\Cache;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
@@ -43,7 +45,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
         $self = $this;
 
-        $proxyMock = $this->getMock('stdClass', array('call'));
+        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call'))->getMock();
         $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) use ($self) {
             if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
                 && $methodName == 'getCity'
@@ -91,7 +93,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.Resolution_WidgetGlobalVisitors'
+     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.Resolution_Configurations'
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
@@ -223,6 +225,8 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     public function test_filter_CorrectlyCreatesPivotTable_WhenSubtablesHaveNoRows()
     {
+        Cache::setCacheGeneral(array(CustomVariables::MAX_NUM_CUSTOMVARS_CACHEKEY => 5));
+
         $this->loadPlugins('Referrers', 'UserCountry', 'CustomVariables');
 
         $table = $this->getTableToFilter(false);
@@ -236,6 +240,8 @@ class PivotByDimensionTest extends IntegrationTestCase
             array('label' => 'row 2'),
             array('label' => 'row 3')
         );
+
+        Cache::clearCacheGeneral();
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 

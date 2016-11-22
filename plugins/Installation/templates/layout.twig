@@ -3,40 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title>Piwik &rsaquo; {{ 'Installation_Installation'|translate }}</title>
+    <title>Piwik {{ piwikVersion }} &rsaquo; {{ 'Installation_Installation'|translate }}</title>
 
-    <link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="index.php?module=Installation&action=getBaseCss"/>
-    <link rel="stylesheet" type="text/css" href="plugins/Installation/stylesheets/installation.css"/>
+    <link rel="stylesheet" type="text/css" href="index.php?module=Installation&action=getInstallationCss"/>
+    <script type="text/javascript" src="index.php?module=Installation&action=getInstallationJs"></script>
 
     <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.png"/>
-
-    <script type="text/javascript" src="libs/bower_components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="libs/bower_components/angular/angular.min.js"></script>
-    <script type="text/javascript" src="libs/bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script type="text/javascript" src="libs/bower_components/angular-animate/angular-animate.js"></script>
-    <script type="text/javascript" src="libs/bower_components/angular-cookies/angular-cookies.js"></script>
-    <script type="text/javascript" src="libs/bower_components/ngDialog/js/ngDialog.min.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/services/service.module.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/filters/filter.module.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/filters/translate.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/directives/directive.module.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/angularjs/piwikApp.config.js"></script>
-    <script type="text/javascript" src="plugins/CoreHome/angularjs/piwikApp.js"></script>
-    <script type="text/javascript" src="plugins/Installation/javascripts/installation.js"></script>
 </head>
-<!--[if lt IE 9 ]>
-<body ng-app="app" class="old-ie"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<body ng-app="app"><!--<![endif]-->
+<body ng-app="app" id="installation">
 
 <div class="container">
 
     <div class="header">
         <div class="logo">
-            <img src="plugins/Morpheus/images/logo.png"/>
+            <img title="Piwik {{ piwikVersion }} - {{ 'General_OpenSourceWebAnalytics'|translate|escape('html_attr') }}" src="plugins/Morpheus/images/logo.png"/>
             <p>{{ 'General_OpenSourceWebAnalytics'|translate }}</p>
         </div>
         <div class="language-selector">
@@ -57,7 +37,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col s3">
             <ul class="list-group">
                 {% for stepId,stepName in allStepsTitle %}
                     {% if currentStepId > stepId %}
@@ -71,10 +51,10 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-sm-9 content">
+        <div class="col s9 content">
             {% set nextButton %}
                 <p class="next-step">
-                    <a class="btn btn-lg" href="{{ linkTo({'action':nextModuleName, 'token_auth':null, 'method':null }) }}">
+                    <a class="btn" href="{{ linkTo({'action':nextModuleName, 'token_auth':null, 'method':null }) }}">
                         {{ 'General_Next'|translate }} &raquo;</a>
                 </p>
             {% endset %}

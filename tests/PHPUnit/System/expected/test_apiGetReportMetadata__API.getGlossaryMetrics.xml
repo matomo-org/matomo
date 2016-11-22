@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<name>% Search Exits (Site Search)</name>
+		<name>% Search Exits (Actions)</name>
 		<id>exit_rate</id>
 		<documentation>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</documentation>
 	</row>
@@ -16,7 +16,7 @@
 		<documentation>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</documentation>
 	</row>
 	<row>
-		<name>Avg. Time on Website</name>
+		<name>Avg. Visit Duration (in seconds)</name>
 		<id>avg_time_on_site</id>
 		<documentation>The average duration of a visit.</documentation>
 	</row>
@@ -126,7 +126,7 @@
 		<documentation>The number of visits that searched for this keyword on your website's search engine.</documentation>
 	</row>
 	<row>
-		<name>Searches (Site Search)</name>
+		<name>Searches (Actions)</name>
 		<id>nb_visits</id>
 		<documentation>The number of visits that searched for this keyword on your website's search engine.</documentation>
 	</row>

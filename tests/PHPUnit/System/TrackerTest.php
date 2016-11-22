@@ -150,6 +150,8 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_trackingWithLangParameter_ForwardsLangParameter_ToDefaultLocationProvider()
     {
+        LocationProvider::$providers = null;
+        LocationProvider::getAllProviders();
         LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
 
         $urlToTest = "?idsite=1&rec=1&action_name=test&lang=fr-be";

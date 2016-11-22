@@ -1,43 +1,45 @@
-{% extends isWidget ? 'empty.twig' : 'user.twig' %}
+{% extends isWidget ? 'empty.twig' : 'admin.twig' %}
 
 {% set title %}{{ 'API_Glossary'|translate }}{% endset %}
 
 {% block content %}
-    <h2 piwik-enriched-headline>{{ title }}</h2>
+    <div piwik-content-intro>
 
-    {{ 'API_LearnAboutCommonlyUsedTerms'|translate(
-                '<a href="#metrics">'~ 'General_Metrics'|translate ~ '</a>',
-                '<a href="#reports">' ~ 'General_Reports'|translate ~ '</a>')|raw
-    }}
+        <h2>{{ title|e('html_attr') }}</h2>
+        <p>
+            {{ 'API_LearnAboutCommonlyUsedTerms'|translate(
+                        '<a href="#metrics">'~ 'General_Metrics'|translate ~ '</a>',
+                        '<a href="#reports">' ~ 'General_Reports'|translate ~ '</a>')|raw
+            }}
 
-    <!-- {{ metrics|length }} metrics, {{ reports|length }} reports -->
+            <!-- {{ metrics|length }} metrics, {{ reports|length }} reports -->
+        </p>
+    </div>
 
     <a id="metrics"></a>
-    <h2>{{ 'General_Metrics'|translate }}</h2>
-    <table>
-    {% for metric in metrics %}
-        <tr>
-            <td>
-                <h3>{{ metric.name }}</h3>
-            </td>
-            <td>
-                {{ metric.documentation|raw }}
+    <div piwik-content-block content-title="{{ 'General_Metrics'|translate|e('html_attr') }}">
+        <table>
+        {% for metric in metrics %}
+            <tr>
+                <td>
+                    <h3>{{ metric.name }}</h3>
+                </td>
+                <td>
+                    {{ metric.documentation|raw }}
 
-                <br/><span style="color: #bbb;">{{ metric.id }} (API)</span>
-            </td>
-        </tr>
-    {% endfor %}
-    </table>
+                    <br/><span style="color: #bbb;">{{ metric.id }} (API)</span>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
 
     <a id="reports"></a>
-    <h2>{{ 'General_Reports'|translate }}</h2>
-
-
-    {% for report in reports %}
-        <h3>{{ report.name }}</h3>
-        <p>{{ report.documentation|raw }}</p>
-    {% endfor %}
-
-
+    <div piwik-content-block content-title="{{ 'General_Reports'|translate|e('html_attr') }}">
+        {% for report in reports %}
+            <h3>{{ report.name }}</h3>
+            <p>{{ report.documentation|raw }}</p>
+        {% endfor %}
+    </div>
 
 {% endblock %}

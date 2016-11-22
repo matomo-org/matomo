@@ -10,11 +10,14 @@
 {% endblock %}
 
 {% block content %}
-    {{ ajax.requestErrorDiv(emailSuperUser|default(''), arePiwikProAdsEnabled) }}
+    {{ ajax.requestErrorDiv(emailSuperUser|default(''), areAdsForProfessionalServicesEnabled, currentModule) }}
     {{ ajax.loadingDiv() }}
 
     <div id="content" class="home">
         {% if content %}{{ content }}{% endif %}
+        <div piwik-reporting-page ng-cloak></div>
     </div>
+    <div class="clear"></div>
+
 {% endblock %}
 

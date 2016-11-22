@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "Оновлення останнього запуску в %s.",
         "UpdaterWillRunNext": "Заплановано наступний запуск на %s.",
         "WidgetLocation": "Місцезнаходження відвідувача"
+    },
+    "Intl": {
+        "Country_TI": "Тибет"
     }
 }

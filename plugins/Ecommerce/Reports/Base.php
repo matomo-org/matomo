@@ -18,7 +18,7 @@ abstract class Base extends Report
     protected function init()
     {
         $this->module   = 'Goals';
-        $this->category = 'Goals_Ecommerce';
+        $this->categoryId = 'Goals_Ecommerce';
     }
 
     public function isEnabled()
@@ -54,13 +54,11 @@ abstract class Base extends Report
 
     private function isEcommerceEnabledByInfos($infos)
     {
-        $idSites = $infos['idSites'];
+        $idSite = $infos['idSite'];
 
-        if (count($idSites) != 1) {
+        if (empty($idSite)) {
             return false;
         }
-
-        $idSite = reset($idSites);
 
         return $this->isEcommerceEnabled($idSite);
     }

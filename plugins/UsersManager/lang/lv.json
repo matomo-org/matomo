@@ -15,7 +15,6 @@
         "ExceptionEditAnonymous": "Anonīmo lietotāju nav iespējams labot vai dzēst. Tas tiek izmantots, lai definētu lietotāju, kurš vēl nav pieteicies. Piemēram, Jūs varat publiskot statistiku atļaujot apskates pieeju anonīmajam lietotājam.",
         "ExceptionEmailExists": "Lietotājs ar e-pasta adresi '%s' jau eksistē.",
         "ExceptionInvalidEmail": "E-pasta adresei nav pareizs formāts",
-        "ExceptionInvalidPassword": "Parolei jābūt garumā no %1$s līdz %2$s simboliem.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth sagaida MD5 kodētu paroli (32 simbolu garu tekstu). Lūdzu pielietojiet md5() metodi parolei pirms izsaucat šo metodi.",
         "ExceptionUserDoesNotExist": "Lietotājs '%s' neeksistē.",
         "ExcludeVisitsViaCookie": "Neiekļaut Jūsu pašu apmeklējumus izmantojot sīkdatni",

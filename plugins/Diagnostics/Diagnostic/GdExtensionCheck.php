@@ -40,6 +40,6 @@ class GdExtensionCheck implements Diagnostic
             $this->translator->translate('Installation_SystemCheckGDHelp')
         );
 
-        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
+        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment));
     }
 }

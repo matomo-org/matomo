@@ -23,6 +23,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
@@ -168,10 +169,10 @@ class Visualization extends ViewDataTable
 
         parent::__construct($controllerAction, $apiMethodToRequestDataTable, $params);
 
-        $this->report = Report::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
+        $this->report = ReportsProvider::factory($this->requestConfig->getApiModuleToRequest(), $this->requestConfig->getApiMethodToRequest());
     }
 
-    protected function buildView()
+    public function render()
     {
         $this->overrideSomeConfigPropertiesIfNeeded();
 
@@ -226,14 +227,18 @@ class Visualization extends ViewDataTable
         }
 
         $view->idSubtable  = $this->requestConfig->idSubtable;
-        $view->clientSideParameters = $this->getClientSideParametersToSet();
+        $clientSideParameters = $this->getClientSideParametersToSet();
+        if (isset($clientSideParameters['showtitle'])) {
+            unset($clientSideParameters['showtitle']);
+        }
+        $view->clientSideParameters = $clientSideParameters;
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
         $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
 
-        return $view;
+        return $view->render();
     }
 
     /**

@@ -9,8 +9,10 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -19,8 +21,8 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
-use Piwik\Plugins\CorePluginsAdmin\Marketplace;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
 use Piwik\Version;
@@ -39,11 +41,77 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $updater;
 
-    public function __construct(Updater $updater)
+    /**
+     * @var Plugins
+     */
+    private $marketplacePlugins;
+
+    public function __construct(Updater $updater, Plugins $marketplacePlugins = null)
     {
         $this->updater = $updater;
+        $this->marketplacePlugins = $marketplacePlugins;
 
         parent::__construct();
+    }
+
+    /**
+     * Return the base.less compiled to css
+     *
+     * @return string
+     */
+    public function getUpdaterCss()
+    {
+        Common::sendHeader('Content-Type: text/css');
+        Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+
+        $files = array(
+            'plugins/Morpheus/stylesheets/base/bootstrap.css',
+            'plugins/Morpheus/stylesheets/base/icons.css',
+            'libs/jquery/themes/base/jquery-ui.min.css',
+            'libs/bower_components/materialize/dist/css/materialize.min.css',
+            'plugins/Morpheus/stylesheets/base.less',
+            'plugins/Morpheus/stylesheets/general/_forms.less',
+            'plugins/Morpheus/stylesheets/simple_structure.css',
+            'plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css',
+            'plugins/CoreUpdater/stylesheets/updateLayout.css'
+        );
+
+        return AssetManager::compileCustomStylesheets($files);
+    }
+
+    /**
+     * Return the base.less compiled to css
+     *
+     * @return string
+     */
+    public function getUpdaterJs()
+    {
+        Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
+        Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+    
+        $files = array(
+            'libs/bower_components/jquery/dist/jquery.min.js',
+            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
+            'libs/bower_components/materialize/dist/js/materialize.min.js',
+            'plugins/Morpheus/javascripts/piwikHelper.js',
+            'plugins/CoreHome/javascripts/donate.js',
+            'plugins/CoreUpdater/javascripts/updateLayout.js',
+            'libs/bower_components/angular/angular.min.js',
+            'libs/bower_components/angular-sanitize/angular-sanitize.js',
+            'libs/bower_components/angular-animate/angular-animate.js',
+            'libs/bower_components/angular-cookies/angular-cookies.js',
+            'libs/bower_components/ngDialog/js/ngDialog.min.js',
+            'plugins/CoreHome/angularjs/common/services/service.module.js',
+            'plugins/CoreHome/angularjs/common/filters/filter.module.js',
+            'plugins/CoreHome/angularjs/common/filters/translate.js',
+            'plugins/CoreHome/angularjs/common/directives/directive.module.js',
+            'plugins/CoreHome/angularjs/common/directives/focus-anywhere-but-here.js',
+            'plugins/CoreHome/angularjs/piwikApp.config.js',
+            'plugins/CoreHome/angularjs/piwikApp.js',
+            'plugins/Installation/javascripts/installation.js',
+        );
+
+        return AssetManager::compileCustomJs($files);
     }
 
     public function newVersionAvailable()
@@ -64,9 +132,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $marketplacePlugins = array();
         try {
-            if (!empty($incompatiblePlugins)) {
-                $marketplace = new Marketplace();
-                $marketplacePlugins = $marketplace->getAllAvailablePluginNames();
+            if (!empty($incompatiblePlugins) && $this->marketplacePlugins) {
+                $marketplacePlugins = $this->marketplacePlugins->getAllAvailablePluginNames();
             }
         } catch (\Exception $e) {}
 
@@ -97,6 +164,8 @@ class Controller extends \Piwik\Plugin\Controller
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         }
+
+        Filesystem::deleteAllCacheOnUpdate();
 
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);

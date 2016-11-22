@@ -3,7 +3,6 @@
         "Administration": "Administracija",
         "EmailServerSettings": "Postavke email servera",
         "MenuDiagnostic": "Dijagnostika",
-        "MenuGeneralSettings": "Opšte postavke",
-        "MenuManage": "Upravljaj"
+        "MenuGeneralSettings": "Opšte postavke"
     }
 }

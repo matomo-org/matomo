@@ -21,7 +21,6 @@
         "Settings_PhoneActivated": "Telefonnummer er valideret! Du kan nu modtage SMS med din statistik.",
         "Settings_PhoneNumber": "Telefonnummer",
         "Settings_PhoneNumbers_Add": "Tilføj et nyt telefonnummer",
-        "Settings_PhoneNumbers_CountryCode_Help": "Hvis du ikke kender telefonens landekode, søg efter dit land her",
         "Settings_PhoneNumbers_Help": "Før modtagelse af SMS (tekstbeskeder) rapporter på telefonen, indtast telefonnummeret nedenfor.",
         "Settings_PhoneNumbers_HelpAdd": "Når du klikker på \"Tilføj\", vil en sms med en kode sendes til telefonen. Den bruger, der modtager koden skal derefter logge ind på Piwik, klikke på Indstillinger, og klik derefter på mobilbeskeder. Når du har indtastet koden, vil brugeren være i stand til at modtage SMS rapporter på telefonen.",
         "Settings_PleaseSignUp": "Hvis du vil oprette SMS-rapporter og modtage sms beskeder med hjemmesidernes statistik på din mobiltelefon, skal du tilmelde dig SMS API og indtaste oplysninger nedenfor.",

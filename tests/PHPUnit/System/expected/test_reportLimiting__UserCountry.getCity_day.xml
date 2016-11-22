@@ -19,7 +19,7 @@
 		<logo>plugins/UserCountry/images/flags/au.png</logo>
 	</row>
 	<row>
-		<label>Nice, Provence-Alpes-Cote d&amp;#039;Azur, France</label>
+		<label>Nice, Provence-Alpes-Cote d'Azur, France</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>20</nb_visits>
 		<nb_actions>20</nb_actions>

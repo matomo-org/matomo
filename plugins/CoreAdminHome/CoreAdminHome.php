@@ -11,7 +11,8 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
-use Piwik\Settings\UserSetting;
+use Piwik\Settings\Plugin\UserSetting;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
 /**
  *
@@ -35,7 +36,7 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function cleanupUser($userLogin)
     {
-        UserSetting::removeAllUserSettingsForUser($userLogin);
+        PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -54,12 +55,8 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
-        $jsFiles[] = "plugins/Morpheus/javascripts/jquery.icheck.min.js";
-        $jsFiles[] = "plugins/Morpheus/javascripts/morpheus.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
-        $jsFiles[] = "plugins/CoreAdminHome/javascripts/generalSettings.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
-        $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/protocolCheck.js";
     }
 
@@ -83,5 +80,7 @@ class CoreAdminHome extends \Piwik\Plugin
     {
         $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectly';
         $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectlySolution';
+        $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
+        $translationKeys[] = 'UserCountryMap_None';
     }
 }

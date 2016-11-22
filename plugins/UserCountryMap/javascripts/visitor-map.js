@@ -328,7 +328,7 @@
                 $$('.UserCountryMap_map').off('click').click(zoomOut);
 
                 // handle window resizes
-                $(window).off('resize').resize(onResizeLazy);
+                $(window).off('resize', onResizeLazy).resize(onResizeLazy);
 
                 // enable metric changes
                 $$('.userCountryMapSelectMetrics').off('change').change(function () {
@@ -1317,8 +1317,8 @@
             map.container.height(h - 2);
             map.resize(w, h);
 
-            if (w < 355) $('.tableIcon span').hide();
-            else $('.tableIcon span').show();
+            if (w < 355) $('.UserCountryMap .tableIcon span').hide();
+            else $('.UserCountryMap .tableIcon span').show();
         },
 
         /*

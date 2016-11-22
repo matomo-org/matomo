@@ -8,11 +8,6 @@
         "ColumnReturningVisits": "Powtórne odwiedziny",
         "ColumnSumVisitLengthReturning": "Całkowity czas spędzony przez powracających użytkowników (w sekundach)",
         "ColumnReturningUsers": "Powracający Użytkownicy",
-        "ReturnActions": "%s działań przypadających na powtórne odwiedziny",
-        "ReturnAverageVisitDuration": "%s średni czas trwania odwiedzin przy powtórnych odsłonach",
-        "ReturnAvgActions": "%s działań przypadających na powtórne odwiedziny",
-        "ReturnBounceRate": "%s powtórnych odsłon które zostały odrzucone (opuścili serwis po wizycie na jednej stronie)",
-        "ReturnVisits": "%s powtórnych wizyt",
         "SubmenuFrequency": "Częstotliwość",
         "WidgetGraphReturning": "Wykres powtórnych odwiedzin",
         "WidgetOverview": "Częstotliwość przeglądania"

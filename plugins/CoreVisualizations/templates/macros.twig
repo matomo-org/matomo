@@ -1,0 +1,34 @@
+{% macro singleSparkline(sparkline, allMetricsDocumentation) %}
+    <div class="sparkline">
+        {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
+        {% for metric in sparkline.metrics %}
+            <span {% if allMetricsDocumentation[metric.column] is defined and allMetricsDocumentation[metric.column] %}title="{{ allMetricsDocumentation[metric.column] }}"{% endif %}>
+            {% if '%s' in metric.description -%}
+                {{ metric.description|translate("<strong>"~metric.value~"</strong>")|raw }}
+            {%- else %}
+                <strong>{{ metric.value }}</strong> {{ metric.description }}
+            {%- endif %}{% if not loop.last %}, {% endif %}
+            </span>
+        {% endfor %}
+        {% if sparkline.evolution is defined %}
+
+            {% set evolutionPretty = sparkline.evolution.percent %}
+
+            {% if sparkline.evolution.percent < 0 %}
+                {% set evolutionClass = 'negative-evolution' %}
+                {% set evolutionIcon  = 'arrow_down.png' %}
+            {% elseif sparkline.evolution.percent == 0 %}
+                {% set evolutionClass = 'neutral-evolution' %}
+                {% set evolutionIcon  = 'stop.png' %}
+            {% else %}
+                {% set evolutionClass  = 'positive-evolution' %}
+                {% set evolutionIcon   = 'arrow_up.png' %}
+                {% set evolutionPretty = '+' ~ sparkline.evolution.percent %}
+            {% endif %}
+
+            <span class="metricEvolution" title="{{ sparkline.evolution.tooltip }}"><img
+                        style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}"/>
+                <strong class="{{ evolutionClass }}">{{ evolutionPretty }}</strong></span>
+        {% endif %}
+    </div>
+{% endmacro %}

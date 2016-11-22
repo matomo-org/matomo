@@ -11,8 +11,11 @@
   }
 }
 
+strong {
+    font-weight: 700 !important;
+}
+
 .font-default(@size: 13px, @line: 16px) {
-  font-family: @theme-fontFamily-base;
   font-size: @size;
   line-height: @line;
 }
@@ -56,7 +59,4 @@
 
 .opacity(@opacity) {
   opacity: @opacity;
-  // IE8 filter
-  @opacity-ie: (@opacity * 100);
-  filter: ~"alpha(opacity=@{opacity-ie})";
 }

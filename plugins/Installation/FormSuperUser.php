@@ -40,9 +40,8 @@ class FormSuperUser extends QuickForm2
             ->setLabel(Piwik::translate('Installation_Password'));
         $password->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_Password')));
         $pwMinLen = UsersManager::PASSWORD_MIN_LENGTH;
-        $pwMaxLen = UsersManager::PASSWORD_MAX_LENGTH;
-        $pwLenInvalidMessage = Piwik::translate('UsersManager_ExceptionInvalidPassword', array($pwMinLen, $pwMaxLen));
-        $password->addRule('length', $pwLenInvalidMessage, array('min' => $pwMinLen, 'max' => $pwMaxLen));
+        $pwLenInvalidMessage = Piwik::translate('UsersManager_ExceptionInvalidPassword', array($pwMinLen));
+        $password->addRule('length', $pwLenInvalidMessage, array('min' => $pwMinLen));
 
         $passwordBis = $this->addElement('password', 'password_bis')
             ->setLabel(Piwik::translate('Installation_PasswordRepeat'));
@@ -59,30 +58,23 @@ class FormSuperUser extends QuickForm2
                 'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_PiwikOrgNewsletter'),
             ));
 
-        $piwikProNewsletter = Piwik::translate('Installation_PiwikProNewsletter',
-            array("<a href='http://piwik.pro?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
+        $professionalServicesNewsletter = Piwik::translate('Installation_ProfessionalServicesNewsletter',
+            array("<a href='http://piwik.org/consulting/?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
         );
 
         $currentLanguage = StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
 
-        if ($currentLanguage == 'de') {
-            $piwikProNewsletter = Piwik::translate('Installation_PiwikProNewsletter',
-                array("<a href='http://piwikpro.de?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
-            );
-            $piwikProNewsletter = preg_replace('(Piwik PRO(?! GmbH))', 'Piwik PRO GmbH', $piwikProNewsletter);
-        }
-
-        $this->addElement('checkbox', 'subscribe_newsletter_piwikpro', null,
+        $this->addElement('checkbox', 'subscribe_newsletter_professionalservices', null,
             array(
-                'content' => '&nbsp;&nbsp;' . $piwikProNewsletter,
+                'content' => '&nbsp;&nbsp;' . $professionalServicesNewsletter,
             ));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn btn-lg'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
             'subscribe_newsletter_piwikorg' => 1,
-            'subscribe_newsletter_piwikpro' => $currentLanguage == 'de' ? 0 : 1,
+            'subscribe_newsletter_professionalservices' => $currentLanguage == 'de' ? 0 : 1,
         )));
     }
 }

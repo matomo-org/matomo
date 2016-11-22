@@ -22,12 +22,20 @@ class IgnoreCookie
      *
      * @return Cookie
      */
-    public static function getTrackingCookie()
+    private static function getTrackingCookie()
     {
         $cookie_name = @Config::getInstance()->Tracker['cookie_name'];
         $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
 
         return new Cookie($cookie_name, null, $cookie_path);
+    }
+
+    public static function deleteThirdPartyCookieUIDIfExists()
+    {
+        $trackingCookie = self::getTrackingCookie();
+        if ($trackingCookie->isCookieFound()) {
+            $trackingCookie->delete();
+        }
     }
 
     /**
@@ -54,10 +62,9 @@ class IgnoreCookie
         } else {
             $ignoreCookie->set('ignore', '*');
             $ignoreCookie->save();
-
-            $trackingCookie = self::getTrackingCookie();
-            $trackingCookie->delete();
         }
+
+        self::deleteThirdPartyCookieUIDIfExists();
     }
 
     /**

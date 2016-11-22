@@ -179,6 +179,7 @@ CREATE TABLE `goal` (
   `idsite` int(11) NOT NULL,
   `idgoal` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `description` VARCHAR(255) NOT NULL DEFAULT '',
   `match_attribute` varchar(20) NOT NULL,
   `pattern` varchar(255) NOT NULL,
   `pattern_type` varchar(10) NOT NULL,
@@ -196,7 +197,7 @@ CREATE TABLE `goal` (
 
 LOCK TABLES `goal` WRITE;
 /*!40000 ALTER TABLE `goal` DISABLE KEYS */;
-INSERT INTO `goal` VALUES (1,1,'<script>$(\'body\').html(\'goal name XSS!\');</script>','url','http','contains',0,1,5,0),(1,2,'two','url','xxxxxxxxxxxxx','contains',0,0,5,0),(1,3,'click event','event_action','click','contains',0,0,0,0),(1,4,'category event','event_category','The_Category','exact',1,0,0,0),(1,5,'name event','event_name','<the_\'\"name>','exact',0,0,0,0);
+INSERT INTO `goal` VALUES (1,1,'<script>$(\'body\').html(\'goal name XSS!\');</script>','<script>$(\'body\').html(\'goal description XSS!\');</script>','url','http','contains',0,1,5,0),(1,2,'two','twodesc','url','xxxxxxxxxxxxx','contains',0,0,5,0),(1,3,'click event','','event_action','click','contains',0,0,0,0),(1,4,'category event','categorydesc','event_category','The_Category','exact',1,0,0,0),(1,5,'name event','eventdesc','event_name','<the_\'\"name>','exact',0,0,0,0);
 /*!40000 ALTER TABLE `goal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -737,6 +738,21 @@ LOCK TABLES `site_setting` WRITE;
 /*!40000 ALTER TABLE `site_setting` DISABLE KEYS */;
 /*!40000 ALTER TABLE `site_setting` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `plugin_setting`
+--
+
+DROP TABLE IF EXISTS `plugin_setting`;
+CREATE TABLE `plugin_setting` (
+  `plugin_name` varchar(60) NOT NULL,
+  `setting_name` varchar(255) NOT NULL,
+  `setting_value` longtext NOT NULL,
+  `user_login` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`plugin_name`,`setting_name`,`user_login`),
+  INDEX(plugin_name, user_login)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 --
 -- Table structure for table `site_url`

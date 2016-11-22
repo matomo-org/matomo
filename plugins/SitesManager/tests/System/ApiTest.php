@@ -59,6 +59,11 @@ class ApiTest extends SystemTestCase
                 'otherRequestParameters' => array('pattern' => 'SiteTest1')
             )
         );
+        $apiToTest[] = array(array('SitesManager.getSiteSettings'),
+            array(
+                'idSite' => 1
+            )
+        );
 
         return $apiToTest;
     }

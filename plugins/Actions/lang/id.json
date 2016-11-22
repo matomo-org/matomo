@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Rerata berdasar %1$s kunjungan %2$s antara %3$s dan %4$s",
         "ColumnClickedURL": "URL diklik",
+        "ColumnActionURL": "URL tindakan",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Jumlah tautan ini diklik.",
         "ColumnDownloadURL": "URL Unduhan",
@@ -25,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "Jumlah kunjungan yang melibatkan klik pada tautan ini. Jika tautan diklik beberapa kali selama satu kali kunjungan, ini hanya dihitung sekali.",
         "ColumnUniqueDownloads": "Unduhan Unik",
         "ColumnUniqueOutlinks": "Tautan Luar Unik",
+        "ColumnIdPageview": "ID Tampilan Halaman",
         "DownloadsReportDocumentation": "Dalam laporan ini, Anda dapat melihat berkas yang diunduh oleh pengunjung. %s Apa yang Piwik hitung adalah yang mengeklik tautan unduhan. Namun, bila unduhan sudah lengkap atau belum Piwik tidak mengetahuinya.",
         "EntryPagesReportDocumentation": "Laporan ini mengandung informasi tentang halaman masuk yang digunakan selama periode tertentu. Halaman masuk merupakan halaman pertama yang ditampilkan selama kunjungan pengguna. %s URL masuk ditampilkan sebagai struktur map.",
         "EntryPageTitles": "Judul halaman masuk",
@@ -60,6 +62,7 @@
         "WidgetPageUrlsFollowingSearch": "Halaman Diikuti Situs Pencarian Situs",
         "WidgetSearchCategories": "Kategori Pencarian",
         "WidgetSearchKeywords": "Kata Kunci Pencarian Situs",
-        "WidgetSearchNoResultKeywords": "Kata Kunci Pencarian dengan Tanpa Hasil"
+        "WidgetSearchNoResultKeywords": "Kata Kunci Pencarian dengan Tanpa Hasil",
+        "ActionType": "Jenis Tindakan"
     }
 }

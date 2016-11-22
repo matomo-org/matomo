@@ -9,29 +9,38 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_5_b5 extends Updates
 {
-    public function getMigrationQueries(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'CREATE TABLE `' . Common::prefixTable('session') . '` (
-								id CHAR(32) NOT NULL,
-								modified INTEGER,
-								lifetime INTEGER,
-								data TEXT,
-								PRIMARY KEY ( id )
-								)  DEFAULT CHARSET=utf8' => 1050,
+            $this->migration->db->createTable('session', array(
+                'id' => 'CHAR(32) NOT NULL',
+                'modified' => 'INTEGER',
+                'lifetime' => 'INTEGER',
+                'data' => 'TEXT',
+            ), $primary = 'id')
         );
     }
 
     public function doUpdate(Updater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

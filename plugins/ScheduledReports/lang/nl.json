@@ -1,6 +1,5 @@
 {
     "ScheduledReports": {
-        "AggregateReportsFormat": "(optioneel) Weergaveopties",
         "AggregateReportsFormat_GraphsOnly": "Toon alleen Grafieken (geen tabellen)",
         "AggregateReportsFormat_TablesAndGraphs": "Toon zowel tabellen en grafieken voor alle rapporten",
         "AggregateReportsFormat_TablesOnly": "(standaard) Toon tabellen (grafieken alleen voor belangrijke gegevens)",

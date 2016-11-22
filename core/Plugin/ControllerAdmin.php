@@ -10,13 +10,14 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
@@ -38,6 +39,50 @@ abstract class ControllerAdmin extends Controller
             $notification = new Notification(Piwik::translate('General_StatisticsAreNotRecorded'));
             $notification->context = Notification::CONTEXT_INFO;
             Notification\Manager::notify('ControllerAdmin_StatsAreNotRecorded', $notification);
+        }
+    }
+
+    private static function notifyAnyInvalidLicense()
+    {
+        if (!Marketplace::isMarketplaceEnabled()) {
+            return;
+        }
+
+        if (Piwik::isUserIsAnonymous()) {
+            return;
+        }
+
+        if (!Piwik::isUserHasSomeAdminAccess()) {
+            return;
+        }
+
+        $expired = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins\InvalidLicenses');
+
+        $messageLicenseMissing = $expired->getMessageNoLicense();
+        if (!empty($messageLicenseMissing)) {
+            $notification = new Notification($messageLicenseMissing);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_ERROR;
+            $notification->title = Piwik::translate('Marketplace_LicenseMissing');
+            Notification\Manager::notify('ControllerAdmin_LicenseMissingWarning', $notification);
+        }
+
+        $messageExceeded = $expired->getMessageExceededLicenses();
+        if (!empty($messageExceeded)) {
+            $notification = new Notification($messageExceeded);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->title = Piwik::translate('Marketplace_LicenseExceeded');
+            Notification\Manager::notify('ControllerAdmin_LicenseExceededWarning', $notification);
+        }
+
+        $messageExpired = $expired->getMessageExpiredLicenses();
+        if (!empty($messageExpired)) {
+            $notification = new Notification($messageExpired);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->title = Piwik::translate('Marketplace_LicenseExpired');
+            Notification\Manager::notify('ControllerAdmin_LicenseExpiredWarning', $notification);
         }
     }
 
@@ -98,10 +143,13 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        if(Url::isLocalHost(Url::getCurrentHost())) {
+        if (Url::isLocalHost(Url::getCurrentHost())) {
             return;
         }
 
+        if (Development::isEnabled()) {
+            return;
+        }
 
         $message = Piwik::translate('General_CurrentlyUsingUnsecureHttp');
 
@@ -153,23 +201,52 @@ abstract class ControllerAdmin extends Controller
         Notification\Manager::notify('ControllerAdmin_EacceleratorIsUsed', $notification);
     }
 
-    private static function notifyWhenPhpVersionIsEOL()
+    /**
+     * PHP Version required by the next major Piwik version
+     * @return string
+     */
+    private static function getNextRequiredMinimumPHP()
     {
-        $deprecatedMajorPhpVersion = null;
-        if(self::isPhpVersion53()) {
-            $deprecatedMajorPhpVersion = '5.3';
-        } elseif(self::isPhpVersion54()) {
-            $deprecatedMajorPhpVersion = '5.4';
+        return '5.5.9';
+    }
+
+    private static function isUsingPhpVersionCompatibleWithNextPiwik()
+    {
+        return version_compare( PHP_VERSION, self::getNextRequiredMinimumPHP(), '>=' );
+    }
+
+    private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
+    {
+        return; // no major version coming
+
+        if (self::isUsingPhpVersionCompatibleWithNextPiwik()) {
+            return;
         }
 
-        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && $deprecatedMajorPhpVersion;
+        $youMustUpgradePHP = Piwik::translate('General_YouMustUpgradePhpVersionToReceiveLatestPiwik');
+        $message =  Piwik::translate('General_PiwikCannotBeUpgradedBecausePhpIsTooOld')
+            .     ' '
+            .  sprintf(Piwik::translate('General_PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure'), self::getNextRequiredMinimumPHP())
+        ;
+
+        $notification = new Notification($message);
+        $notification->title = $youMustUpgradePHP;
+        $notification->priority = Notification::PRIORITY_LOW;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify('PHPVersionTooOldForNewestPiwikCheck', $notification);
+    }
+
+    private static function notifyWhenPhpVersionIsEOL()
+    {
+        return; // no supported version (5.5+) has currently ended support
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersionAtLeast55();
         if (!$notifyPhpIsEOL) {
             return;
         }
 
-        $nextRequiredMinimumPHP = '5.5';
-
-        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, $nextRequiredMinimumPHP))
+        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, self::getNextRequiredMinimumPHP()))
             . "\n "
             . Piwik::translate('General_WarningPhpVersionXIsTooOld', $deprecatedMajorPhpVersion);
 
@@ -179,7 +256,7 @@ abstract class ControllerAdmin extends Controller
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
-        NotificationManager::notify('DeprecatedPHPVersionCheck', $notification);
+        NotificationManager::notify('PHP54VersionCheck', $notification);
     }
 
     private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
@@ -229,8 +306,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyIfEAcceleratorIsUsed();
         self::notifyIfURLIsNotSecure();
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
+        $view->topMenu = MenuTop::getInstance()->getMenu();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
         $enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
@@ -242,16 +318,14 @@ abstract class ControllerAdmin extends Controller
 
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
+        self::notifyAnyInvalidLicense();
         self::notifyAnyInvalidPlugin();
-
-        self::checkPhpVersion($view);
-
         self::notifyWhenPhpVersionIsEOL();
+        self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
-        $adminMenu = MenuAdmin::getInstance()->getMenu();
-        $view->adminMenu = $adminMenu;
+        $view->adminMenu = MenuAdmin::getInstance()->getMenu();
 
         $notifications = $view->notifications;
 
@@ -271,23 +345,8 @@ abstract class ControllerAdmin extends Controller
         return "Piwik " . Version::VERSION;
     }
 
-    /**
-     * Check if the current PHP version is >= 5.3. If not, a warning is displayed
-     * to the user.
-     */
-    private static function checkPhpVersion($view)
+    private static function isPhpVersionAtLeast55()
     {
-        $view->phpVersion = PHP_VERSION;
-        $view->phpIsNewEnough = version_compare($view->phpVersion, '5.3.0', '>=');
-    }
-
-    private static function isPhpVersion53()
-    {
-        return strpos(PHP_VERSION, '5.3') === 0;
-    }
-
-    private static function isPhpVersion54()
-    {
-        return strpos(PHP_VERSION, '5.4') === 0;
+        return version_compare(PHP_VERSION, '5.5', '>=');
     }
 }

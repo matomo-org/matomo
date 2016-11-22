@@ -8,11 +8,11 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Db;
+use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Tracker\GoalManager;
+use Piwik\Category\Subcategory;
 
 /**
  *
@@ -27,34 +27,15 @@ class Goals extends \Piwik\Plugin
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
             // move "Custom Variables" report to the "Goals/Sales by User attribute" category
-            if ($dimension['module'] === 'CustomVariables') {
+            if ($dimension['module'] === 'CustomVariables'
+                || $dimension['action'] == 'getVisitInformationPerServerTime') {
                 $group = 'VisitsSummary_VisitsSummary';
             }
             unset($dimension['category']);
             $dimensionsByGroup[$group][] = $dimension;
         }
 
-        uksort($dimensionsByGroup, array('self', 'sortGoalDimensionsByModule'));
         return $dimensionsByGroup;
-    }
-
-    public static function sortGoalDimensionsByModule($a, $b)
-    {
-        static $order = null;
-
-        if (is_null($order)) {
-            $order = array(
-                'Referrers_Referrers',
-                'General_Visit',
-                'General_Visitors',
-                'VisitsSummary_VisitsSummary',
-                'VisitTime_ColumnServerTime',
-            );
-        }
-
-        $orderA = array_search($a, $order);
-        $orderB = array_search($b, $order);
-        return $orderA > $orderB;
     }
 
     public static function getGoalColumns($idGoal)
@@ -84,7 +65,7 @@ class Goals extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -94,12 +75,39 @@ class Goals extends \Piwik\Plugin
             'Tracker.Cache.getSiteAttributes'        => 'fetchGoalsFromDb',
             'API.getReportMetadata.end'              => 'getReportMetadataEnd',
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
-            'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
+            'Category.addSubcategories' => 'addSubcategories'
         );
         return $hooks;
     }
+
+    public function addSubcategories(&$subcategories)
+    {
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if (!$idSite) {
+            // fallback for eg API.getReportMetadata which uses idSites
+            $idSite = Common::getRequestVar('idSites', 0, 'int');
+
+            if (!$idSite) {
+                return;
+            }
+        }
+
+        $goals = API::getInstance()->getGoals($idSite);
+
+        $order = 900;
+        foreach ($goals as $goal) {
+            $category = new Subcategory();
+            $category->setName($goal['name']);
+            $category->setCategoryId('Goals_Goals');
+            $category->setId($goal['idgoal']);
+            $category->setOrder($order++);
+            $subcategories[] = $category;
+        }
+    }
+
 
     public function addMetricTranslations(&$translations)
     {
@@ -174,16 +182,32 @@ class Goals extends \Piwik\Plugin
     {
         $reportsWithGoals = array();
 
-        foreach (Report::getAllReports() as $report) {
+        $reports = new ReportsProvider();
+
+        foreach ($reports->getAllReports() as $report) {
             if ($report->hasGoalMetrics()) {
                 $reportsWithGoals[] = array(
-                    'category' => $report->getCategoryKey(),
+                    'category' => $report->getCategoryId(),
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
+                    'parameters' => $report->getParameters()
                 );
             }
         }
+
+        $reportsWithGoals[] = array('category' => 'General_Visit',
+            'name'     => Piwik::translate('Goals_VisitsUntilConv'),
+            'module'   => 'Goals',
+            'action'   => 'getVisitsUntilConversion',
+            'viewDataTable' => 'table',
+        );
+        $reportsWithGoals[] = array('category' => 'General_Visit',
+            'name'     => Piwik::translate('Goals_DaysToConv'),
+            'module'   => 'Goals',
+            'action'   => 'getDaysToConversion',
+            'viewDataTable' => 'table',
+        );
 
         /**
          * Triggered when gathering all reports that contain Goal metrics. The list of reports
@@ -220,33 +244,11 @@ class Goals extends \Piwik\Plugin
         return $reportsWithGoals;
     }
 
-    /**
-     * This function executes when the 'Goals.getReportsWithGoalMetrics' event fires. It
-     * adds the 'visits to conversion' report metadata to the list of goal reports so
-     * this report will be displayed.
-     */
-    public function getActualReportsWithGoalMetrics(&$dimensions)
-    {
-        $reportWithGoalMetrics = array(
-            array('category' => 'General_Visit',
-                  'name'     => Piwik::translate('Goals_VisitsUntilConv'),
-                  'module'   => 'Goals',
-                  'action'   => 'getVisitsUntilConversion',
-                  'viewDataTable' => 'table',
-            ),
-            array('category' => 'General_Visit',
-                  'name'     => Piwik::translate('Goals_DaysToConv'),
-                  'module'   => 'Goals',
-                  'action'   => 'getDaysToConversion',
-                  'viewDataTable' => 'table',
-            )
-        );
-        $dimensions = array_merge($dimensions, $reportWithGoalMetrics);
-    }
-
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Goals/javascripts/goalsForm.js";
+        $jsFiles[] = "plugins/Goals/angularjs/common/directives/goal-page-link.js";
+        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.controller.js";
+        $jsFiles[] = "plugins/Goals/angularjs/manage-goals/manage-goals.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -263,6 +265,7 @@ class Goals extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Goals_AddGoal';
+        $translationKeys[] = 'Goals_AddNewGoal';
         $translationKeys[] = 'Goals_UpdateGoal';
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_UpdateGoal';

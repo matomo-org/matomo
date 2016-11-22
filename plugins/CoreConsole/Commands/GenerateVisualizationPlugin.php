@@ -25,6 +25,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
             ->addOption('visualizationname', null, InputOption::VALUE_REQUIRED, 'Visualization name ([a-Z0-9])')
             ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
             ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
+            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Generate even if plugin directory already exists.')
             ->addOption('full', null, InputOption::VALUE_OPTIONAL, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
     }
 

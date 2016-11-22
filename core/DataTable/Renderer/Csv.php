@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
@@ -306,7 +305,7 @@ class Csv extends Renderer
             } elseif (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
             } else {
-                $period = Period\Factory::build($period, Date::factory($date));
+                $period = Period\Factory::build($period, $date);
             }
 
             $prettyDate = $period->getLocalizedLongString();

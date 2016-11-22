@@ -27,6 +27,5 @@ class GetCategory extends Base
             $this->actionToLoadSubTables = 'getActionFromCategoryId';
         }
         $this->order = 0;
-        $this->widgetTitle  = 'Events_EventCategories';
     }
 }

@@ -14,6 +14,8 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\Plugins\Referrers\Columns\SocialNetwork;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetSocials extends Base
 {
@@ -25,7 +27,14 @@ class GetSocials extends Base
         $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getUrlsForSocial';
         $this->order = 11;
-        $this->widgetTitle  = 'Referrers_WidgetSocials';
+
+        $this->subcategoryId = 'Referrers_SubmenuWebsites';
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widget = $factory->createWidget()->setName('Referrers_Socials');
+        $widgetsList->addWidgetConfig($widget);
     }
 
     public function getDefaultTypeViewDataTable()

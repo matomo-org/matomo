@@ -105,7 +105,7 @@ Will pre-process for website id = 1, period = day, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
 - pre-processing segment 1/1 actions>=2
-Archived website id = 1, period = day, 1 segments, 0 visits in last %s days, 0 visits today, Time elapsed: %s
+Archived website id = 1, period = day, 1 segments, 1 visits in last %s days, 1 visits today, Time elapsed: %s
 Will pre-process for website id = 1, period = week, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
