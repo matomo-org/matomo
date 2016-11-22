@@ -4194,15 +4194,21 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (ecommerceItems.length) {
-                    ecommerceItems.forEach(function(ecommerceItem) {
-                        // Ensure healthy default values where undefined
-                        [undefined, "", "", 0, 1].forEach(function(sDefault, nIndex) {
-                            if (sDefault !== undefined && ecommerceItem[nIndex] === undefined) {
-                                ecommerceItem[nIndex] = sDefault;
+                    request += (function() {
+                        var defaultMembers = [undefined, "", "", 0, 1],
+                            itemIndex,
+                            memberIndex;
+
+                        for (itemIndex = 0; itemIndex < ecommerceItems.length; ++itemIndex) {
+                            // Ensure healthy default values where undefined
+                            for (memberIndex = 0; memberIndex < defaultMembers.length; ++memberIndex) {
+                                if (defaultMembers[memberIndex] !== undefined && ecommerceItems[itemIndex][memberIndex] === undefined) {
+                                    ecommerceItems[itemIndex][memberIndex] = defaultMembers[memberIndex];
+                                }
                             }
-                        });
-                    });
-                    request += '&ec_items=' + encodeWrapper(JSON2.stringify(ecommerceItems));
+                        }
+                        return '&ec_items=' + encodeWrapper(JSON2.stringify(ecommerceItems));
+                    })();
                 }
                 // Clear down items after logging
                 ecommerceItems = [];
