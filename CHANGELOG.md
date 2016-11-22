@@ -101,7 +101,8 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `Updater.componentUninstalled` triggered after a component was uninstalled
 * New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.piwik.org/api-reference/tracking-api);
 * New event `Segment.addSegments` that lets you add segments.
-* New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled. 
+* New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled.
+* The `SitesManager.getJavascriptTag` has a new option `getJavascriptTag` to enable the tracking of users that have JavaScript disabled
 
 ### New features
 * New "Sparklines" visualization that lets you create a widget showing multiple sparklines.

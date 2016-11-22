@@ -1,6 +1,7 @@
 <!-- Piwik -->
 <script type="text/javascript">
   var _paq = _paq || [];
+  // tracker methods like "setCustomDimension" should be called before "trackPageView"
 {$options}  _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -14,5 +15,6 @@
 </script>
 {% if not loadAsync %}<script type='text/javascript' src="{$protocol}{$piwikUrl}/piwik.js"></script>
 {% endif %}
-<noscript><p><img src="{$protocol}{$piwikUrl}/piwik.php?idsite={$idSite}" style="border:0;" alt="" /></p></noscript>
+{% if trackNoScript %}<noscript><p><img src="{$protocol}{$piwikUrl}/piwik.php?idsite={$idSite}&rec=1" style="border:0;" alt="" /></p></noscript>
+{% endif %}
 <!-- End Piwik Code -->

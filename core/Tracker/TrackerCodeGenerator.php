@@ -31,6 +31,7 @@ class TrackerCodeGenerator
      * @param string $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
+     * @param bool $trackNoScript
      * @return string Javascript code.
      */
     public function generate(
@@ -44,7 +45,8 @@ class TrackerCodeGenerator
         $customCampaignNameQueryParam = null,
         $customCampaignKeywordParam = null,
         $doNotTrack = false,
-        $disableCookies = false
+        $disableCookies = false,
+        $trackNoScript = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
 
@@ -120,7 +122,8 @@ class TrackerCodeGenerator
             'options'                 => $options,
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
             'protocol'                => '//',
-            'loadAsync'               => true
+            'loadAsync'               => true,
+            'trackNoScript'           => $trackNoScript
         );
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
             'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
@@ -161,6 +164,7 @@ class TrackerCodeGenerator
         $view = new View('@Morpheus/javascriptCode');
         $view->disableCacheBuster();
         $view->loadAsync = $codeImpl['loadAsync'];
+        $view->trackNoScript = $codeImpl['trackNoScript'];
         $jsCode = $view->render();
         $jsCode = htmlentities($jsCode);
 

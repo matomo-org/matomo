@@ -84,7 +84,8 @@
                 customCampaignNameQueryParam: null,
                 customCampaignKeywordParam: null,
                 doNotTrack: self.doNotTrack ? 1 : 0,
-                disableCookies: self.disableCookies ? 1 : 0
+                disableCookies: self.disableCookies ? 1 : 0,
+                trackNoScript: self.trackNoScript ? 1: 0
             };
 
             if (self.useCustomCampaignParams) {
