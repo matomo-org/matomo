@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -19,15 +18,6 @@ class InteractionPosition extends ActionDimension
 {
     protected $columnName = 'interaction_position';
     protected $columnType = 'SMALLINT UNSIGNED DEFAULT NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setType(Segment::TYPE_METRIC);
-        $segment->setSegment('interaction_position');
-        $segment->setName('Actions_ColumnInteractionPosition');
-        $this->addSegment($segment);
-    }
 
     /**
      * @param Request $request

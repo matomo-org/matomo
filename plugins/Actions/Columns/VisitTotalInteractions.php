@@ -25,6 +25,12 @@ class VisitTotalInteractions extends VisitDimension
         $segment->setType(Segment::TYPE_METRIC);
         $segment->setSegment('interactions');
         $segment->setName('General_NbInteractions');
+        $segment->setAcceptedValues('Any positive integer');
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
+            $positions = range(1,50);
+
+            return array_slice($positions, 0, $maxValuesToReturn);
+        });
         $this->addSegment($segment);
     }
 
