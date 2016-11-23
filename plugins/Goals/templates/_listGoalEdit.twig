@@ -45,7 +45,7 @@
             </tr>
         {% else %}
             {% for goal in goals %}
-                <tr>
+                <tr id="{{ goal.idgoal }}">
                     <td class="first">{{ goal.idgoal }}</td>
                     <td>{{ goal.name }}</td>
                     <td>{{ goal.description }}</td>
