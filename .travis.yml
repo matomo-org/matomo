@@ -170,14 +170,6 @@ cache:
   directories:
     - "travis_phantomjs"
 
-
-
-
-
-
-
-
-
 notifications:
   slack:
     rooms:
