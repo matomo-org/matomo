@@ -8,14 +8,10 @@
  */
 namespace Piwik\Plugins\Login;
 
-use Exception;
 use Piwik\AuthResult;
-use Piwik\Db;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Session;
 
 class Auth implements \Piwik\Auth
 {
