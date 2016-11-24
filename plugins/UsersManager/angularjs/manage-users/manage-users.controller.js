@@ -132,7 +132,13 @@
                     var token    = $('tr#' + idRow).find('td#token_auth_user').data('token') || '';
 
                     if ('-' !== password && 32 === token.length) {
-                        piwikHelper.modalConfirm('#confirmPasswordChange', {yes: onValidate});
+                        var confirm = '#confirmPasswordChange';
+
+                        if ($('tr#' + idRow).find('#userLogin').text() == piwik.userLogin) {
+                            confirm = '#confirmPasswordChangeSelf';
+                        }
+
+                        piwikHelper.modalConfirm(confirm, {yes: onValidate});
                     } else {
                         onValidate();
                     }
