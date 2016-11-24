@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -29,8 +30,14 @@ class Model
     private static $rawPrefix = 'user';
     private $table;
 
+    /**
+     * @var Password
+     */
+    private $passwordHelper;
+
     public function __construct()
     {
+        $this->passwordHelper = new Password();
         $this->table = Common::prefixTable(self::$rawPrefix);
     }
 
@@ -187,7 +194,7 @@ class Model
     {
         $user = array(
             'login'            => $userLogin,
-            'password'         => password_hash($passwordTransformed, PASSWORD_BCRYPT),
+            'password'         => $this->passwordHelper->hash($passwordTransformed),
             'alias'            => $alias,
             'email'            => $email,
             'token_auth'       => $tokenAuth,
@@ -241,7 +248,7 @@ class Model
     public function updateUser($userLogin, $password, $email, $alias, $tokenAuth)
     {
         $this->updateUserFields($userLogin, array(
-            'password'   => password_hash($password, PASSWORD_BCRYPT),
+            'password'   => $this->passwordHelper->hash($password),
             'alias'      => $alias,
             'email'      => $email,
             'token_auth' => $tokenAuth

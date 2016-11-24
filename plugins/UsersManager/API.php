@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -42,6 +43,11 @@ class API extends \Piwik\Plugin\API
     private $model;
 
     /**
+     * @var Password
+     */
+    private $password;
+
+    /**
      * @var UserAccessFilter
      */
     private $userFilter;
@@ -51,10 +57,11 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password)
     {
         $this->model = $model;
         $this->userFilter = $filter;
+        $this->password = $password;
     }
 
     /**
@@ -839,14 +846,14 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        if (!empty($user) && password_verify($md5Password, $user['password'])) {
-            if (password_needs_rehash($user['password'], PASSWORD_BCRYPT)) {
-                $this->model->updateUser($userLogin, $md5Password, $user['alias'], $user['email'], $user['token_auth']);
-            }
-
-            return $user['token_auth'];
+        if (!$this->password->verify($md5Password, $user['password'])) {
+            return hash('sha256', $userLogin . microtime(true) . Common::generateUniqId());
         }
 
-        return hash('sha256', $userLogin . microtime(true) . Common::generateUniqId());
+        if ($this->password->needsRehash($user['password'])) {
+            $this->updateUser($userLogin, $md5Password);
+        }
+
+        return $user['token_auth'];
     }
 }

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Login;
 
 use Piwik\AuthResult;
+use Piwik\Auth\Password;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -24,9 +25,15 @@ class Auth implements \Piwik\Auth
      */
     private $userModel;
 
+    /**
+     * @var Password
+     */
+    private $passwordHelper;
+
     public function __construct()
     {
-        $this->userModel = new Model();
+        $this->userModel      = new Model();
+        $this->passwordHelper = new Password();
     }
 
     /**
@@ -65,9 +72,9 @@ class Auth implements \Piwik\Auth
             return new AuthResult(AuthResult::FAILURE, $login, null);
         }
 
-        if (password_verify($passwordHash, $user['password'])) {
-            if (password_needs_rehash($user['password'], PASSWORD_BCRYPT)) {
-                $this->userModel->updateUser($login, $passwordHash, $user['alias'], $user['email'], $user['token_auth']);
+        if ($this->passwordHelper->verify($passwordHash, $user['password'])) {
+            if ($this->passwordHelper->needsRehash($user['password'])) {
+                $this->userModel->updateUser($login, $passwordHash, $user['email'], $user['alias'], $user['token_auth']);
             }
 
             return $this->authenticationSuccess($user);

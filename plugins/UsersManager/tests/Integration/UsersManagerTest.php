@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Access;
+use Piwik\Auth\Password;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -249,7 +250,9 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals($email, $user['email']);
         $this->assertEquals($alias, $user['alias']);
 
-        $this->assertTrue(password_verify(md5($password), $user['password']));
+        $passwordHelper = new Password();
+
+        $this->assertTrue($passwordHelper->verify(md5($password), $user['password']));
     }
 
     /**
