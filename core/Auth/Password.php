@@ -26,6 +26,19 @@ class Password
     }
 
     /**
+     * Returns information about a hashed password (algo, options, ...).
+     *
+     * Can be used to verify whether a string is compatible with password_hash().
+     *
+     * @param string
+     * @return array
+     */
+    public function info($hash)
+    {
+        return password_get_info($hash);
+    }
+
+    /**
      * Rehashes a user's password if necessary.
      *
      * This method expects the password to be pre-hashed by

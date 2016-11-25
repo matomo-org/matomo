@@ -444,9 +444,9 @@ class API extends \Piwik\Plugin\API
             $passwordTransformed = $password;
         }
 
-        $alias = $this->getCleanAlias($alias, $userLogin);
-
-        $token_auth = $this->createTokenAuth($userLogin);
+        $alias               = $this->getCleanAlias($alias, $userLogin);
+        $passwordTransformed = $this->password->hash($passwordTransformed);
+        $token_auth          = $this->createTokenAuth($userLogin);
 
         $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, $token_auth, Date::now()->getDatetime());
 
@@ -574,6 +574,13 @@ class API extends \Piwik\Plugin\API
             if (!$_isPasswordHashed) {
                 UsersManager::checkPassword($password);
                 $password = UsersManager::getPasswordHash($password);
+            }
+
+            $passwordInfo = $this->password->info($password);
+
+            if (!isset($passwordInfo['algo']) || 0 >= $passwordInfo['algo']) {
+                // password may have already been fully hashed
+                $password = $this->password->hash($password);
             }
 
             $passwordHasBeenUpdated = true;
@@ -851,7 +858,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($this->password->needsRehash($user['password'])) {
-            $this->updateUser($userLogin, $md5Password);
+            $this->updateUser($userLogin, $this->password->hash($md5Password));
         }
 
         return $user['token_auth'];

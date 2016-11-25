@@ -190,11 +190,11 @@ class Model
         return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
     }
 
-    public function addUser($userLogin, $passwordTransformed, $email, $alias, $tokenAuth, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)
     {
         $user = array(
             'login'            => $userLogin,
-            'password'         => $this->passwordHelper->hash($passwordTransformed),
+            'password'         => $hashedPassword,
             'alias'            => $alias,
             'email'            => $email,
             'token_auth'       => $tokenAuth,
@@ -245,10 +245,10 @@ class Model
         return $users;
     }
 
-    public function updateUser($userLogin, $password, $email, $alias, $tokenAuth)
+    public function updateUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth)
     {
         $this->updateUserFields($userLogin, array(
-            'password'   => $this->passwordHelper->hash($password),
+            'password'   => $hashedPassword,
             'alias'      => $alias,
             'email'      => $email,
             'token_auth' => $tokenAuth

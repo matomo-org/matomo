@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
+use Piwik\Auth\Password;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
@@ -671,8 +672,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public static function createSuperUser($removeExisting = true)
     {
+        $passwordHelper = new Password();
+
         $login    = self::ADMIN_USER_LOGIN;
-        $password = UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD);
+        $password = $passwordHelper->hash(UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD));
         $token    = APIUsersManager::getInstance()->createTokenAuth($login);
 
         $model = new \Piwik\Plugins\UsersManager\Model();
