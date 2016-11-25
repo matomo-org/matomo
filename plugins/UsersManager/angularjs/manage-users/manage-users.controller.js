@@ -188,18 +188,25 @@
 
         this.regenerateUserTokenAuth = function (userLogin) {
             var parameters = { userLogin: userLogin };
+            var confirm = '#confirmTokenRegenerate';
 
-            setIsLoading();
+            if (userLogin == piwik.userLogin) {
+                confirm = '#confirmTokenRegenerateSelf';
+            }
 
-            piwikApi.post({
-                module: 'API',
-                method: 'UsersManager.regenerateTokenAuth'
-            }, parameters).then(function () {
-                piwik.helper.redirect();
-                self.isLoading = false;
-            }, function () {
-                self.isLoading = false;
-            });
+            piwikHelper.modalConfirm(confirm, {yes: function () {
+                setIsLoading();
+
+                piwikApi.post({
+                    module: 'API',
+                    method: 'UsersManager.regenerateTokenAuth'
+                }, parameters).then(function () {
+                    piwik.helper.redirect();
+                    self.isLoading = false;
+                }, function () {
+                    self.isLoading = false;
+                });
+            }});
         };
 
         $(document).ready(function () {

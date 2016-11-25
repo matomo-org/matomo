@@ -39,18 +39,19 @@
 
             self.loading = true;
 
-            piwikApi.withTokenInUrl();
-            piwikApi.post({
-                module: 'API',
-                method: 'UsersManager.regenerateTokenAuth'
-            }, parameters).then(function (success) {
-                $window.location.reload();
+            piwikHelper.modalConfirm('#confirmTokenRegenerate', {yes: function () {
+                piwikApi.withTokenInUrl();
+                piwikApi.post({
+                    module: 'API',
+                    method: 'UsersManager.regenerateTokenAuth'
+                }, parameters).then(function (success) {
+                    $window.location.reload();
 
-                self.loading = false;
-            }, function (errorMessage) {
-                self.loading = false;
-            });
-
+                    self.loading = false;
+                }, function (errorMessage) {
+                    self.loading = false;
+                });
+            }});
         };
 
         this.save = function () {
