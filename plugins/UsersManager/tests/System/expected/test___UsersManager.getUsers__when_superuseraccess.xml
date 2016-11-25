@@ -5,7 +5,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login1</alias>
 		<email>login1@example.com</email>
-		<token_auth>367ea0b18ee1e641089e5d0a4d5f276d</token_auth>
+		<token_auth>62ea19a81827115ff9c6eca7a57ee8a4442b20d8775c1538bc4d07c71ebd118b</token_auth>
 		<superuser_access>1</superuser_access>
 		
 	</row>
@@ -14,7 +14,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login2</alias>
 		<email>login2@example.com</email>
-		<token_auth>ef3cb848005bffc2e2f3c8edbd95c58f</token_auth>
+		<token_auth>de13ff973244bbb8a142c1516d32795c9ef224f523c07daf538263c3c230b806</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>
@@ -23,7 +23,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login3</alias>
 		<email>login3@example.com</email>
-		<token_auth>4298f4654bddcccac23e3d38c7d8a79d</token_auth>
+		<token_auth>ae8420b16f5b377fe0584892bfb910fa73f7542bf63cf66576a7ddf9e3a63353</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>
@@ -32,7 +32,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login4</alias>
 		<email>login4@example.com</email>
-		<token_auth>dc6fb0514c143d97c72b8be165e7ee0a</token_auth>
+		<token_auth>9ba0022f6268400a0c54d93c8c1b3a692e393b7974b4aa6f41e4f7ed1445c23a</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>
@@ -41,7 +41,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login5</alias>
 		<email>login5@example.com</email>
-		<token_auth>4550293427ba5d0a0c96d6123429e9d3</token_auth>
+		<token_auth>2440f36cb48a5f1f9320dbb10cce652c19c5addba57eb7b351e1422a6eda7f42</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>
@@ -50,7 +50,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login6</alias>
 		<email>login6@example.com</email>
-		<token_auth>2cafd6512d8b2739a7b2b01ab6609272</token_auth>
+		<token_auth>8a5f019786c8af85bf2ca222f1ed12ffd3a6f69933be1c9c98583127e5312bfd</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>
@@ -59,7 +59,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login7</alias>
 		<email>login7@example.com</email>
-		<token_auth>8bda247657d9b13c20843fd97c3fb427</token_auth>
+		<token_auth>12b52f192975c13a5a467a87321a759c281b339dc7a027720a14433999abcf06</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>
@@ -68,7 +68,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login8</alias>
 		<email>login8@example.com</email>
-		<token_auth>8fdfef11755e29a8369a57fe2709445b</token_auth>
+		<token_auth>8ee19de86781b48648ba258fd1d4ad887fa66add0004222d4fb4fdd7a109a045</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>
@@ -77,7 +77,7 @@
 		<password>$2y$10$5iZkBaNU4CdOB4keXwIZqOPF4MwJtk5FZpq41BUFN6QzhM6resPiW</password>
 		<alias>superUserLogin</alias>
 		<email>hello@example.org</email>
-		<token_auth>9ad1de7f8b329ab919d854c556f860c1</token_auth>
+		<token_auth>f7e979e1568d03bf4783c389ae4454e9acfc387fb2a4c21de4a132814d9cc1a9</token_auth>
 		<superuser_access>1</superuser_access>
 		
 	</row>

@@ -5,7 +5,7 @@
 		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login6</alias>
 		<email>login6@example.com</email>
-		<token_auth>2cafd6512d8b2739a7b2b01ab6609272</token_auth>
+		<token_auth>8a5f019786c8af85bf2ca222f1ed12ffd3a6f69933be1c9c98583127e5312bfd</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>

@@ -13,6 +13,7 @@ use Piwik\Auth\Password;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
@@ -75,14 +76,17 @@ class UsersManagerTest extends IntegrationTestCase
         }
         $userAfter = $this->api->getUser($user["login"]);
         unset($userAfter['date_registered']);
+        unset($userAfter['password']);
 
-        // we now compute what the token auth should be, it should always be a hash of the login and the current password
-        // if the password has changed then the token_auth has changed!
+        // implicitly checks password!
         $user['token_auth'] = $this->api->getTokenAuth($user["login"], md5($newPassword));
-        $user['password']   = md5($newPassword);
-        $user['email']      = $newEmail;
-        $user['alias']      = $newAlias;
+
+        $user['email']            = $newEmail;
+        $user['alias']            = $newAlias;
         $user['superuser_access'] = 0;
+
+        unset($user['password']);
+
         $this->assertEquals($user, $userAfter);
     }
 
@@ -239,11 +243,10 @@ class UsersManagerTest extends IntegrationTestCase
             "the date_registered " . strtotime($user['date_registered']) . " is different from the time() " . time());
         $this->assertTrue($user['date_registered'] <= time());
 
-        // check that token is 60 chars
+        // check that password and token are properly set
         $this->assertEquals(60, strlen($user['password']));
-
-        // that the password has been md5
-        $this->assertEquals(md5($login . md5($password)), $user['token_auth']);
+        $this->assertEquals(64, strlen($user['token_auth']));
+        $this->assertEquals($user['token_auth'], $this->api->getTokenAuth($login, UsersManager::getPasswordHash($password)));
 
         // check that all fields are the same
         $this->assertEquals($login, $user['login']);
@@ -252,7 +255,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $passwordHelper = new Password();
 
-        $this->assertTrue($passwordHelper->verify(md5($password), $user['password']));
+        $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash($password), $user['password']));
     }
 
     /**
