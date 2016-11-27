@@ -13,14 +13,14 @@ use Piwik\Common;
 class ProfessionalServices extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Request.getRenamedModuleAndAction' => 'renameProfessionalServicesModule',
-            'Template.afterGoalConversionOverviewReport' => 'getGoalOverviewPromo',
+            'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
         );
     }

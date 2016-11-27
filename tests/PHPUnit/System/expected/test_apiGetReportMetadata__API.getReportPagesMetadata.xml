@@ -1430,7 +1430,7 @@
 				<name>Goal 1 - Thank you</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>15</order>
+				<order>2</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -1456,7 +1456,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
-						<order>13</order>
+						<order>5</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>graphEvolution</viewDataTable>
@@ -1484,7 +1484,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
-						<order>14</order>
+						<order>15</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -1513,7 +1513,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>goalConversionsOverview</action>
-						<order>15</order>
+						<order>25</order>
 						<parameters>
 							<module>Goals</module>
 							<action>goalConversionsOverview</action>
@@ -1535,7 +1535,7 @@
 				<name>Goal Goal 1 - Thank you conversions by type of visit</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>17</order>
+				<order>35</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -2037,7 +2037,7 @@
 				<name>Goal 2 - Hello</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>20</order>
+				<order>3</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -2063,7 +2063,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
-						<order>18</order>
+						<order>5</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>graphEvolution</viewDataTable>
@@ -2091,7 +2091,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
-						<order>19</order>
+						<order>15</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -2120,7 +2120,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>goalConversionsOverview</action>
-						<order>20</order>
+						<order>25</order>
 						<parameters>
 							<module>Goals</module>
 							<action>goalConversionsOverview</action>
@@ -2142,7 +2142,7 @@
 				<name>Goal Goal 2 - Hello conversions by type of visit</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>22</order>
+				<order>35</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -2644,7 +2644,7 @@
 				<name>triggered js</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>25</order>
+				<order>4</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -2670,7 +2670,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
-						<order>23</order>
+						<order>5</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>graphEvolution</viewDataTable>
@@ -2698,7 +2698,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
-						<order>24</order>
+						<order>15</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -2749,7 +2749,7 @@
 				<name>Goal triggered js conversions by type of visit</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>27</order>
+				<order>35</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -3251,7 +3251,7 @@
 				<name>Overview</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>5</order>
+				<order>0</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -3277,7 +3277,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
-						<order>1</order>
+						<order>5</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>graphEvolution</viewDataTable>
@@ -3304,7 +3304,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
-						<order>2</order>
+						<order>15</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -3331,7 +3331,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
-						<order>3</order>
+						<order>25</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -3361,7 +3361,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
-						<order>4</order>
+						<order>25</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -3391,7 +3391,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>get</action>
-						<order>5</order>
+						<order>25</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -3412,7 +3412,7 @@
 				<name>Conversions overview by type of visit</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>7</order>
+				<order>35</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -3969,7 +3969,7 @@
 				<name>Overview</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>10</order>
+				<order>1</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>
@@ -3995,7 +3995,7 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getEvolutionGraph</action>
-						<order>8</order>
+						<order>5</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>graphEvolution</viewDataTable>
@@ -4023,7 +4023,7 @@
 						</subcategory>
 						<module>Ecommerce</module>
 						<action>getSparklines</action>
-						<order>9</order>
+						<order>15</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>sparklines</viewDataTable>
@@ -4051,7 +4051,7 @@
 						</subcategory>
 						<module>Ecommerce</module>
 						<action>getConversionsOverview</action>
-						<order>10</order>
+						<order>25</order>
 						<parameters>
 							<module>Ecommerce</module>
 							<action>getConversionsOverview</action>
@@ -4197,7 +4197,7 @@
 				<name />
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
-				<order>12</order>
+				<order>5</order>
 				<parameters>
 					<module>CoreHome</module>
 					<action>renderWidgetContainer</action>

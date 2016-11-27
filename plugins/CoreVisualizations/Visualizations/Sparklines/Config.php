@@ -34,6 +34,12 @@ class Config extends \Piwik\ViewDataTable\Config
     private $sparklines = array();
 
     /**
+     * If false, will not link them with any evolution graph
+     * @var bool
+     */
+    private $evolutionGraphLinkable = true;
+
+    /**
      * Adds possibility to set html attributes on the sparklines title / headline. For example can be used
      * to set an angular directive
      * @var string
@@ -260,6 +266,25 @@ class Config extends \Piwik\ViewDataTable\Config
         }
 
         $this->sparklines[] = $sparkline;
+    }
+
+    /**
+     * If there are sparklines and evolution graphs on one page, we try to connect them so that when you click on a
+     * sparkline, the evolution graph will update and show the evolution for that sparkline metric. In some cases
+     * we might falsely connect sparklines with an evolution graph that don't belong together. In this case you can
+     * mark all sparklines as "not linkable". This will prevent the sparklines being linked with an evolution graph.
+     */
+    public function setNotLinkableWithAnyEvolutionGraph()
+    {
+        $this->evolutionGraphLinkable = false;
+    }
+
+    /**
+     * Detect whether sparklines are linkable with an evolution graph. {@link setNotLinkableWithAnyEvolutionGraph()}
+     */
+    public function areSparklinesLinkable()
+    {
+        return $this->evolutionGraphLinkable;
     }
 
     /**

@@ -83,6 +83,14 @@
                         }
                     });
 
+                    scope.$watch('formField.uiControlAttributes.disabled', function (val, oldVal) {
+                        if (val !== oldVal) {
+                            $timeout(function () {
+                                $select.material_select();
+                            });
+                        }
+                    });
+
                 } else if (hasUiControl(field, 'textarea')) {
                     element.find('textarea').trigger('autoresize');
                     scope.$watch('formField.value', function (val, oldVal) {
