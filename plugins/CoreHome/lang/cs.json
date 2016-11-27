@@ -65,6 +65,7 @@
         "QuickAccessTitle": "Výsledky hledání pro %s. Pro navigaci ve výsledcích vyhledávání použijte šipky. Zkratka: Zmáčknout 'f' pro hledání.",
         "MenuEntries": "Položky menu",
         "Segments": "Segmenty",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Aktualizace na jedno kliknutí není dostupná při nasazení Piwiku na několika serverech naráz. Stáhněte prosím nejnovější verzi z %1$s a pokračujte.",
         "AdblockIsMaybeUsed": "Pokud používáte blokovač reklam, zakažte ho pro tyto stránky, aby Piwik správně fungoval.",
         "ChangeCurrentWebsite": "Vyberte web, aktuálně vybraný web: %s"
     }

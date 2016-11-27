@@ -1,0 +1,10 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "הפעל",
+        "ActionActivatePlugin": "הפעל תוסף",
+        "ActionInstall": "להתקין",
+        "Authors": "כותבים",
+        "PluginKeywords": "מילות מפתח",
+        "PluginVersionInfo": "%1$s מתוך %2$s"
+    }
+}

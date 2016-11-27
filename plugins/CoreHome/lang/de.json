@@ -7,6 +7,7 @@
         "ClickToEditX": "Klicken Sie um %s zu bearbeiten",
         "CloseSearch": "Suche schließen",
         "CloseWidgetDirections": "Sie können das Widget schließen, indem Sie auf das 'X' oben im Widget klicken.",
+        "ChooseX": "Wähle %1$s",
         "DataForThisReportHasBeenPurged": "Die Daten für diesen Bericht sind älter als %s Monate und wurden gelöscht",
         "DataTableExcludeAggregateRows": "Aggregierte Zeilen werden angezeigt %s Ausschließen",
         "DataTableIncludeAggregateRows": "Aggregierte Zeilen sind ausgeschlossen %s Wieder anzeigen",
@@ -14,6 +15,7 @@
         "Default": "Standard",
         "DonateCall1": "Die Nutzung von Piwik wird immer kostenlos bleiben, was aber nicht heißt, dass es uns nichts kostet, es zu erstellen.",
         "DonateCall2": "Piwik braucht Ihre dauerhafte Unterstützung um zu wachsen und zu gedeihen.",
+        "DonateCall3": "Wenn Sie finden, dass Piwik einen deutlichen Mehrwert für Sie oder Ihr Unternehmen bringt, %1$sspenden Sie bitte%2$s oder %3$serwerben Sie ein Premium Feature%4$s.",
         "DonateFormInstructions": "Klicken Sie auf den Slider um den Betrag zu wählen, dann klicken Sie auf 'Subscribe' um zu spenden.",
         "ExcludeRowsWithLowPopulation": "Alle Zeilen werden angezeigt %s Niedrige Werte ausschließen",
         "ExternalHelp": "Hilfe (öffnet in neuem Tab)",
@@ -63,6 +65,7 @@
         "QuickAccessTitle": "Suche nach '%s'. Benutzen Sie die Pfeiltasten um durch die Ergebnisse zu navigieren. Tastenkürzel: Drücken Sie 'f' um zu suchen.",
         "MenuEntries": "Menüeinträge",
         "Segments": "Segmente",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Das Ein-Klick-Update ist nicht verfügbar, weil Sie Piwik mit mehreren Servern einsetzen. Bitte laden Sie die neueste Version von %1$s herunter, um fortzufahren.",
         "AdblockIsMaybeUsed": "Für den Fall, dass Sie einen Ad-Blocker verwenden, deaktivieren Sie diesen bitte für diese Seite um sicherzustellen, dass Piwik problemlos läuft.",
         "ChangeCurrentWebsite": "Wählen Sie eine Webseite, aktuell gewählte Webseite: %s"
     }

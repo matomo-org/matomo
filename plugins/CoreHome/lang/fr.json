@@ -65,6 +65,7 @@
         "QuickAccessTitle": "Recherche pour %s. Utilisez les flèches de navigation pour parcourir les résultats de recherche. Raccourci : appuyez sur 'f' pour rechercher.",
         "MenuEntries": "Entrées de menu",
         "Segments": "Segments",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "La mise à jour en un clic n'est pas disponible car vous utilisez Piwik sur plusieurs serveurs. Veuillez télécharger la dernière version depuis %1$s pour continuer.",
         "AdblockIsMaybeUsed": "Dans le cas où vous utiliseriez un bloqueur de publicités, veuillez le désactiver pour ce site afin de vous assurer que Piwik fonctionne correctement.",
         "ChangeCurrentWebsite": "Choisir un site web, site couramment sélectionné : %s"
     }
