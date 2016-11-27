@@ -1,13 +1,10 @@
 {
     "CorePluginsAdmin": {
-        "ActionActivatePlugin": "הפעל תוסף",
-        "ActionInstall": "להתקין",
         "Activate": "הפעל",
         "Activated": "הופעל",
         "Active": "פעיל",
         "Activity": "פעילות",
         "AuthorHomepage": "אתר היוצר",
-        "Authors": "כותבים",
         "Deactivate": "כבה",
         "Inactive": "לא פעיל",
         "LicenseHomepage": "אתר רישון השימוש",
@@ -15,7 +12,6 @@
         "OncePluginIsInstalledYouMayActivateHere": "ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
         "MenuPlatform": "פלטפורמה",
         "PluginHomepage": "אתר התוסף",
-        "PluginKeywords": "מילות מפתח",
         "PluginsManagement": "ניהול תוספים",
         "Status": "מצב",
         "Theme": "ערכת עיצוב",

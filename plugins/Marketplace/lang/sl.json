@@ -1,0 +1,9 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Omogoči",
+        "ActionInstall": "Namesti",
+        "PluginKeywords": "Ključne Besede",
+        "PluginVersionInfo": "%1$s from %2$s",
+        "SubscriptionType": "Tip"
+    }
+}
