@@ -279,7 +279,7 @@ Another line</defaultValue>
 			</row>
 			<row>
 				<name>redisHost</name>
-				<title>Redis host</title>
+				<title>Redis host or unix socket</title>
 				<value>127.0.0.1</value>
 				<defaultValue>127.0.0.1</defaultValue>
 				<type>string</type>
@@ -289,7 +289,7 @@ Another line</defaultValue>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Remote host of the Redis server. Max 500 characters are allowed.</inlineHelp>
+				<inlineHelp>Remote host or unix socket of the Redis server. Max 500 characters are allowed.</inlineHelp>
 				<introduction />
 				<condition />
 			</row>
@@ -305,7 +305,7 @@ Another line</defaultValue>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Port the Redis server is running on. Value should be between 1 and 65535.</inlineHelp>
+				<inlineHelp>Port the Redis server is running on. Value should be between 1 and 65535. Use 0 if you are using unix socket to connect to Redis server.</inlineHelp>
 				<introduction />
 				<condition />
 			</row>
