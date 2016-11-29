@@ -131,7 +131,7 @@
         "Country_KP": "Noord-Korea",
         "Country_KR": "Zuid-Korea",
         "Country_KW": "Koeweit",
-        "Country_KY": "Caymaneilanden",
+        "Country_KY": "Kaaimaneilanden",
         "Country_KZ": "Kazachstan",
         "Country_LA": "Laos",
         "Country_LB": "Libanon",
@@ -581,7 +581,7 @@
         "Time_AM": "a.m.",
         "Time_PM": "p.m.",
         "Today": "Vandaag",
-        "Year_Short": "jr.",
+        "Year_Short": "jr",
         "Yesterday": "Gisteren"
     }
 }
