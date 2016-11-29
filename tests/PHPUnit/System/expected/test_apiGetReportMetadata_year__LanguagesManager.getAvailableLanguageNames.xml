@@ -23,7 +23,7 @@
 	<row>
 		<code>bn</code>
 		<name>বাংলা</name>
-		<english_name>Bengali</english_name>
+		<english_name>Bangla</english_name>
 	</row>
 	<row>
 		<code>bs</code>
@@ -182,7 +182,7 @@
 	</row>
 	<row>
 		<code>pt-br</code>
-		<name>Português do Brasil</name>
+		<name>Português (Brasil)</name>
 		<english_name>Brazilian Portuguese</english_name>
 	</row>
 	<row>
@@ -242,7 +242,7 @@
 	</row>
 	<row>
 		<code>tl</code>
-		<name>Filipino</name>
+		<name>Tagalog</name>
 		<english_name>Tagalog</english_name>
 	</row>
 	<row>
