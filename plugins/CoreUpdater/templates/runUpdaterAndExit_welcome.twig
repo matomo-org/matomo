@@ -56,7 +56,7 @@
                 {% if queries is not empty %}
                     <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
                     <div id="sqlQueries" style="display:none;">
-                        <pre># FYI: these are the SQL queries that will be executed to upgrade your database to Piwik {{ piwik_version }}<br/>{% for query in queries %}{{ query }}<br/>{% endfor %}</pre>
+                        <pre># {{ 'CoreUpdater_ListOfSqlQueriesFYI'|translate(piwik_version) }}<br/>{% for query in queries %}{{ query }}<br/>{% endfor %}</pre>
                     </div>
                 {% endif %}
 

@@ -31,6 +31,7 @@
         "Latest2XStableRelease": "Latest stable 2.X",
         "Latest2XBetaRelease": "Latest beta 2.X",
         "LtsSupportVersion": "Long Term Support version",
+        "ListOfSqlQueriesFYI": "FYI: these are the SQL queries that will be executed to upgrade your database to Piwik %s",
         "MajorUpdateWarning1": "This is a major update! It will take longer than usual.",
         "MajorUpdateWarning2": "The following advice is especially important for large installations.",
         "NoteForLargePiwikInstances": "Important notes for large Piwik installations",
