@@ -27,7 +27,7 @@ class UrlHelper
     *
     * @return true if $test matches or is equal to one of the regex/string in $patterns, false otherwise.
     */
-    protected static function in_array_reg($test, $patterns)
+    protected static function in_array_matches_regex($test, $patterns)
     {
         foreach($patterns as $val) {
             if(@preg_match($val, null) === false) {
@@ -62,7 +62,7 @@ class UrlHelper
             // decode encoded square brackets
             $name = str_replace(array('%5B', '%5D'), array('[', ']'), $name);
 
-            if (!self::in_array_reg(strtolower($name), $parametersToExclude)) {
+            if (!self::in_array_matches_regex(strtolower($name), $parametersToExclude)) {
                 if (is_array($value)) {
                     foreach ($value as $param) {
                         if ($param === false) {
