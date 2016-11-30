@@ -235,7 +235,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
-        Http::sendHttpRequestBy('curl', 'https://www.virtual-drums.com', 10);
+        // use a domain from https://badssl.com/
+        Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
     }
 
     /**
@@ -244,7 +245,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testFopenHttpsFailsWithInvalidCertificate()
     {
-        Http::sendHttpRequestBy('fopen', 'https://www.virtual-drums.com', 10);
+        // use a domain from https://badssl.com/
+        Http::sendHttpRequestBy('fopen', 'https://self-signed.badssl.com/', 10);
     }
 
     /**
