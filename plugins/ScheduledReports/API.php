@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Development;
+use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
@@ -611,7 +612,7 @@ class API extends \Piwik\Plugin\API
 
         if (!Development::isEnabled()) {
             @chmod($outputFilename, 0600);
-            @unlink($outputFilename);
+            Filesystem::deleteFileIfExists($outputFilename);
         }
     }
 
