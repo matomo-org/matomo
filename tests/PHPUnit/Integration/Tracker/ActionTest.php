@@ -174,6 +174,21 @@ class ActionTest extends IntegrationTestCase
     }
 
     /**
+     * Testing with some website specific parameters excluded using regular expressions
+     * @dataProvider getTestUrls
+     */
+    public function testExcludeQueryParametersRegExSiteExcluded($url, $filteredUrl)
+    {
+        $excludedQueryParameters = '/p[4|2]/, /^var.*/';
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
+            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+            $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
+            $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
+        $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
+    }
+
+    /**
      * Testing with some website specific and some global excluded query parameters
      * @dataProvider getTestUrls
      */
