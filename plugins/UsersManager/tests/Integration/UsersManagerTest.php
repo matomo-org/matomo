@@ -79,6 +79,9 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['password']);
 
         // implicitly checks password!
+        $userModel = $this->model->getUser($user['login']);
+        $userAfter['token_auth'] = $userModel['token_auth'];
+
         $user['token_auth'] = $this->api->getTokenAuth($user["login"], md5($newPassword));
 
         $user['email']            = $newEmail;
@@ -245,8 +248,12 @@ class UsersManagerTest extends IntegrationTestCase
 
         // check that password and token are properly set
         $this->assertEquals(60, strlen($user['password']));
-        $this->assertEquals(32, strlen($user['token_auth']));
-        $this->assertEquals($user['token_auth'], $this->api->getTokenAuth($login, UsersManager::getPasswordHash($password)));
+
+        $userModel = $this->model->getUser($login);
+        $this->assertEquals(32, strlen($userModel['token_auth']));
+
+        $userModel = $this->model->getUser($login);
+        $this->assertEquals($userModel['token_auth'], $this->api->getTokenAuth($login, UsersManager::getPasswordHash($password)));
 
         // check that all fields are the same
         $this->assertEquals($login, $user['login']);

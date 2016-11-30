@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\UsersManager\tests\Fixtures;
 
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -51,6 +52,7 @@ class ManyUsers extends Fixture
 
     protected function setUpUsers()
     {
+        $model = new Model();
         $api = API::getInstance();
         foreach ($this->users as $login => $permissions) {
             $api->addUser($login, 'password', $login . '@example.com');
@@ -59,7 +61,8 @@ class ManyUsers extends Fixture
                     $api->setUserAccess($login, $access, $idSites);
                 }
             }
-            $user = $api->getUser($login);
+
+            $user = $model->getUser($login);
             $this->users[$login]['token'] = $user['token_auth'];
         }
 

@@ -577,8 +577,9 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
+        $this->checkUserExists($userLogin);
 
-        $userInfo   = $this->getUser($userLogin);
+        $userInfo   = $this->model->getUser($userLogin);
         $token_auth = $userInfo['token_auth'];
 
         $passwordHasBeenUpdated = false;
