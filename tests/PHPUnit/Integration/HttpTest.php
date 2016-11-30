@@ -230,8 +230,12 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * erroe message can be:
+     *      curl_exec: server certificate verification failed. CAfile: /home/travis/build/piwik/piwik/core/DataFiles/cacert.pem CRLfile: none. Hostname requested was: self-signed.badssl.com
+     * or
+     *      curl_exec: SSL certificate problem: self signed certificate. Hostname requested was: self-signed.badssl.com
      * @expectedException \Exception
-     * @expectedExceptionMessage curl_exec: SSL
+     * @expectedExceptionMessageRegExp /curl_exec: .*certificate.* /
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
