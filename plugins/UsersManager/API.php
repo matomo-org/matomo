@@ -216,6 +216,7 @@ class API extends \Piwik\Plugin\API
 
         $users = $this->model->getUsers($logins);
         $users = $this->userFilter->filterUsers($users);
+        $users = $this->enrichUsers($users);
 
         // Non Super user can only access login & alias
         if (!Piwik::hasUserSuperUserAccess()) {
@@ -363,7 +364,10 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        return $this->userFilter->filterUser($user);
+        $user = $this->userFilter->filterUser($user);
+        $user = $this->enrichUser($user);
+
+        return $user;
     }
 
     /**
@@ -380,7 +384,10 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUserByEmail($userEmail);
 
-        return $this->userFilter->filterUser($user);
+        $user = $this->userFilter->filterUser($user);
+        $user = $this->enrichUser($user);
+
+        return $user;
     }
 
     private function checkLogin($userLogin)
@@ -508,16 +515,31 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
 
         $users = $this->model->getUsersHavingSuperUserAccess();
-
-        foreach($users as &$user) {
-            // remove token_auth in API response
-            unset($user['token_auth']);
-        }
+        $users = $this->enrichUsers($users);
 
         // we do not filter these users by access and return them all since we need to print this information in the
         // UI and they are allowed to see this.
 
         return $users;
+    }
+
+    private function enrichUsers($users)
+    {
+        if (!empty($users)) {
+            foreach ($users as $index => $user) {
+                $users[$index] = $this->enrichUser($user);
+            }
+        }
+        return $users;
+    }
+
+    private function enrichUser($user)
+    {
+        if (!empty($user)) {
+            unset($user['token_auth']);
+        }
+
+        return $user;
     }
 
     /**
