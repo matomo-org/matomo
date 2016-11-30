@@ -10,7 +10,6 @@
         "PluginsExtendPiwik": "อธิบายการใช้งานปลั้กอินและแสดงการทำงานของ Piwik.",
         "OncePluginIsInstalledYouMayActivateHere": "เมื่อปลั๊กอินที่ติดตั้งอยู่คุณสามารถเปิดใช้งานหรือยกเลิกการใช้งานได้ ที่นี่",
         "PluginHomepage": "หน้าหลักของปลั๊กอิน",
-        "PluginKeywords": "คีย์เวิร์ด",
         "PluginsManagement": "จัดการปลั้กอิน",
         "Status": "สถานะ",
         "Version": "เวอร์ชั่น",

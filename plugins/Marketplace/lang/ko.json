@@ -1,0 +1,27 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "활성화",
+        "ActionActivatePlugin": "플러그인 활성화",
+        "ActionActivateTheme": "테마 활성화",
+        "ActionInstall": "설치",
+        "AllowedUploadFormats": "zip 포멧을 통해 플러그인이나 테마를 업로드 할 수 있습니다.",
+        "Authors": "작성자",
+        "BackToMarketplace": "마켓플레이스로 돌아가",
+        "Developer": "개발자",
+        "Marketplace": "마켓플레이스",
+        "LastUpdated": "최근 업데이트",
+        "NewVersion": "새로운 버전",
+        "NoPluginsFound": "플러그인을 찾을 수 없습니다.",
+        "NoThemesFound": "테마를 찾을 수 없습니다.",
+        "PluginKeywords": "검색어",
+        "PluginWebsite": "플러그인 웹사이트",
+        "Screenshots": "스크린샷",
+        "StepDownloadingPluginFromMarketplace": "마켓플레이스에서 플러그인 다운로드 중",
+        "StepDownloadingThemeFromMarketplace": "마켓플레이스에서 테마 다운로드 중",
+        "StepUnzippingPlugin": "플러그인 압축 푸는 중",
+        "StepUnzippingTheme": "테마 압축 푸는 중",
+        "SubscriptionType": "유형",
+        "UploadZipFile": "ZIP 파일 업로드",
+        "ViewRepositoryChangelog": "변경사항 보기"
+    }
+}

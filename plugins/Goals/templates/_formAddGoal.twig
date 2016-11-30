@@ -139,6 +139,8 @@
              inline-help="{{ 'Goals_DefaultRevenueHelp'|translate|e('html_attr') }}">
         </div>
 
+        {{ postEvent("Template.endGoalEditTable") }}
+
         <input type="hidden" name="goalIdUpdate" value=""/>
         <div piwik-save-button
              saving="manageGoals.isLoading"

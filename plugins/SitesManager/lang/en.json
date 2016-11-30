@@ -43,7 +43,7 @@
         "KeepURLFragmentsLong": "Keep Page URL fragments when tracking Page URLs",
         "ListOfIpsToBeExcludedOnAllWebsites": "The IPs below will be excluded from being tracked on all websites.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "The Query URLs parameters below will be excluded from URLs on all websites.",
-        "ListOfQueryParametersToExclude": "Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports.",
+        "ListOfQueryParametersToExclude": "Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as %s are suported.",
         "MainDescription": "Your Web Analytics reports need Websites! Add, update, delete Websites, and show the JavaScript to insert in your pages.",
         "MenuManage": "Manage",
         "NotAnEcommerceSite": "Not an Ecommerce site",

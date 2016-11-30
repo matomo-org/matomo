@@ -5,6 +5,7 @@
         "AnonymizeIpExtendedHelp": "Quando gli utenti visitano il tuo sito web, Piwik non userà l'indirizzo IP completo (come %1$s) ma lo renderà prima anonimo (così: %2$s). Questo è uno dei requisiti definiti dalle leggi sulla privacy in alcuni paesi come la Germania.",
         "AnonymizeIpMaskLengtDescription": "Seleziona quanti byte degli indirizzi IP dei visitatori devono essere nascosti.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - es. %2$s",
+        "CannotLockSoDeleteLogActions": "La tabella log_action non sarà svuotata: si prega di assicurare i privilegi LOCK TABLES all'utente MySQL '%s'.",
         "ClickHereSettings": "Accedi alle impostazioni %s.",
         "CurrentDBSize": "Dimensione corrente del database",
         "DBPurged": "DB ripulito.",
