@@ -80,7 +80,7 @@
 		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 		<nb_users_returning>Returning Users</nb_users_returning>
 		<nb_impressions>Impressions</nb_impressions>
-		<nb_interactions>Interactions</nb_interactions>
+		<nb_interactions>Content Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>
 		<nb_visits_percentage>% Visits</nb_visits_percentage>
 		<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>

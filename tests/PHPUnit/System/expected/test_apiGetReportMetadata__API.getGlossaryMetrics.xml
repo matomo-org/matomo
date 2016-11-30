@@ -51,6 +51,11 @@
 		<documentation>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</documentation>
 	</row>
 	<row>
+		<name>Content Interactions</name>
+		<id>nb_interactions</id>
+		<documentation>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</documentation>
+	</row>
+	<row>
 		<name>Conversion Rate</name>
 		<id>conversion_rate</id>
 		<documentation>The percentage of visits that triggered a goal conversion.</documentation>
@@ -89,11 +94,6 @@
 		<name>Interaction Rate</name>
 		<id>interaction_rate</id>
 		<documentation>The ratio of content impressions to interactions.</documentation>
-	</row>
-	<row>
-		<name>Interactions</name>
-		<id>nb_interactions</id>
-		<documentation>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</documentation>
 	</row>
 	<row>
 		<name>Maximum value</name>
