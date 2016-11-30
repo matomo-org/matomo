@@ -8,12 +8,8 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Db;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
  * Actions plugin
@@ -26,7 +22,7 @@ class Actions extends \Piwik\Plugin
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -44,6 +40,7 @@ class Actions extends \Piwik\Plugin
     {
         $visitor['searches'] = $details['visit_total_searches'];
         $visitor['actions']  = $details['visit_total_actions'];
+        $visitor['interactions']  = $details['visit_total_interactions'];
     }
 
     public function addMetricTranslations(&$translations)

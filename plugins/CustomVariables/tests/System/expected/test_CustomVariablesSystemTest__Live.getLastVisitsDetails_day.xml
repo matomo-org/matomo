@@ -58,6 +58,7 @@
 						<customVariablePageValue8>Val_PAGE8</customVariablePageValue8>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -84,6 +85,7 @@
 		<visitDurationPretty>4s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>

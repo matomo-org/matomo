@@ -13,6 +13,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>5</pageId>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.gif</icon>
 				
 			</row>
@@ -39,6 +40,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>0</interactions>
 		<referrerType>campaign</referrerType>
 		<referrerTypeName>Campaigns</referrerTypeName>
 		<referrerName>campaign name - yeah!</referrerName>
@@ -132,6 +134,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>4</pageId>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -158,6 +161,7 @@
 		<visitDurationPretty>6 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>campaign</referrerType>
 		<referrerTypeName>Campaigns</referrerTypeName>
 		<referrerName>campaign name - yeah!</referrerName>
@@ -251,6 +255,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -284,6 +289,7 @@
 						<customVariablePageValue5>looking at &quot;profile page&quot;</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<icon />
@@ -310,6 +316,7 @@
 						<customVariablePageValue4>looking at &quot;profile page&quot;</customVariablePageValue4>
 					</row>
 				</customVariables>
+				<interactionPosition>3</interactionPosition>
 				<icon />
 				
 			</row>
@@ -336,6 +343,7 @@
 		<visitDurationPretty>6 min 4s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>3</actions>
+		<interactions>3</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>

@@ -20,10 +20,11 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageTitle>It's pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>95</pageId>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -50,6 +51,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -124,6 +126,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>46</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -153,6 +156,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -173,9 +177,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file8.zip</url>
 				<pageTitle />
-				<pageIdAction>46</pageIdAction>
+				<pageIdAction>47</pageIdAction>
 				
 				<pageId>48</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -185,9 +190,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/8.html</url>
 				<pageTitle />
-				<pageIdAction>47</pageIdAction>
+				<pageIdAction>48</pageIdAction>
 				
 				<pageId>49</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -196,13 +202,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -229,6 +236,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -318,7 +326,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>45</pageId>
@@ -332,6 +340,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 8</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -358,6 +367,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -440,6 +450,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>41</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -471,9 +482,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file7.zip</url>
 				<pageTitle />
-				<pageIdAction>41</pageIdAction>
+				<pageIdAction>42</pageIdAction>
 				
 				<pageId>42</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -483,9 +495,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/7.html</url>
 				<pageTitle />
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>43</pageIdAction>
 				
 				<pageId>43</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -494,13 +507,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -527,6 +541,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -616,7 +631,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>40</pageId>
@@ -630,6 +645,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 7</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -656,6 +672,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -738,6 +755,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>35</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -767,6 +785,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -787,9 +806,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file6.zip</url>
 				<pageTitle />
-				<pageIdAction>36</pageIdAction>
+				<pageIdAction>37</pageIdAction>
 				
 				<pageId>37</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -799,9 +819,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/6.html</url>
 				<pageTitle />
-				<pageIdAction>37</pageIdAction>
+				<pageIdAction>38</pageIdAction>
 				
 				<pageId>38</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -810,13 +831,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>39</pageId>
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -843,6 +865,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -932,7 +955,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>34</pageId>
@@ -946,6 +969,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 6</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -972,6 +996,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1054,6 +1079,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>30</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -1085,9 +1111,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file5.zip</url>
 				<pageTitle />
-				<pageIdAction>31</pageIdAction>
+				<pageIdAction>32</pageIdAction>
 				
 				<pageId>31</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -1097,9 +1124,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/5.html</url>
 				<pageTitle />
-				<pageIdAction>32</pageIdAction>
+				<pageIdAction>33</pageIdAction>
 				
 				<pageId>32</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -1108,13 +1136,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>33</pageId>
 				<eventCategory>Cat5</eventCategory>
 				<eventAction>Action5</eventAction>
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -1141,6 +1170,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1230,7 +1260,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>29</pageId>
@@ -1244,6 +1274,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 5</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -1270,6 +1301,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1352,6 +1384,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>24</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -1381,6 +1414,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -1401,9 +1435,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file4.zip</url>
 				<pageTitle />
-				<pageIdAction>26</pageIdAction>
+				<pageIdAction>27</pageIdAction>
 				
 				<pageId>26</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -1413,9 +1448,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/4.html</url>
 				<pageTitle />
-				<pageIdAction>27</pageIdAction>
+				<pageIdAction>28</pageIdAction>
 				
 				<pageId>27</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -1424,13 +1460,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>28</pageId>
 				<eventCategory>Cat4</eventCategory>
 				<eventAction>Action4</eventAction>
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -1457,6 +1494,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1546,7 +1584,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>23</pageId>
@@ -1560,6 +1598,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 4</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -1586,6 +1625,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1668,6 +1708,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>19</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -1699,9 +1740,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>21</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				<pageId>20</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -1711,9 +1753,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>22</pageIdAction>
+				<pageIdAction>23</pageIdAction>
 				
 				<pageId>21</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -1722,13 +1765,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>22</pageId>
 				<eventCategory>Cat3</eventCategory>
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -1755,6 +1799,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1837,6 +1882,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>80</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -1868,9 +1914,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>21</pageIdAction>
+				<pageIdAction>22</pageIdAction>
 				
 				<pageId>81</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -1880,9 +1927,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>22</pageIdAction>
+				<pageIdAction>23</pageIdAction>
 				
 				<pageId>82</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -1891,13 +1939,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>83</pageId>
 				<eventCategory>Cat3</eventCategory>
 				<eventAction>Action3</eventAction>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -1924,6 +1973,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1961,7 +2011,7 @@
 		<city>Lhasa</city>
 		<location>Lhasa, Unknown, Tibet</location>
 		<latitude>29.650000</latitude>
-		<longitude>91.099998</longitude>
+		<longitude>91.100000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -2005,7 +2055,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>18</pageId>
@@ -2019,6 +2069,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 3</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -2045,6 +2096,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2134,7 +2186,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>79</pageId>
@@ -2148,6 +2200,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 3</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -2174,6 +2227,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2184,22 +2238,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode />
 		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
+		<deviceType>Tablet</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/tablet.png</deviceTypeIcon>
+		<deviceBrand>Sony</deviceBrand>
+		<deviceModel>Xperia Tablet S</deviceModel>
+		<operatingSystem>Android 4.1</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.1</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 34.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>34.0</browserVersion>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -2211,7 +2265,7 @@
 		<city>Lhasa</city>
 		<location>Lhasa, Unknown, Tibet</location>
 		<latitude>29.650000</latitude>
-		<longitude>91.099998</longitude>
+		<longitude>91.100000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
@@ -2256,6 +2310,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>13</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -2285,6 +2340,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -2305,9 +2361,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>17</pageIdAction>
 				
 				<pageId>15</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -2317,9 +2374,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>17</pageIdAction>
+				<pageIdAction>18</pageIdAction>
 				
 				<pageId>16</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -2328,13 +2386,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>17</pageId>
 				<eventCategory>Cat2</eventCategory>
 				<eventAction>Action2</eventAction>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -2361,6 +2420,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2397,8 +2457,8 @@
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>124.456001</latitude>
-		<longitude>22.231001</longitude>
+		<latitude>124.456000</latitude>
+		<longitude>22.231000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -2443,6 +2503,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>74</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -2472,6 +2533,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -2492,9 +2554,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>16</pageIdAction>
+				<pageIdAction>17</pageIdAction>
 				
 				<pageId>76</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -2504,9 +2567,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>17</pageIdAction>
+				<pageIdAction>18</pageIdAction>
 				
 				<pageId>77</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -2515,13 +2579,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>78</pageId>
 				<eventCategory>Cat2</eventCategory>
 				<eventAction>Action2</eventAction>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -2548,6 +2613,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2629,7 +2695,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>12</pageId>
@@ -2643,6 +2709,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 2</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -2669,6 +2736,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2705,8 +2773,8 @@
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>124.456001</latitude>
-		<longitude>22.231001</longitude>
+		<latitude>124.456000</latitude>
+		<longitude>22.231000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
@@ -2758,7 +2826,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>73</pageId>
@@ -2772,6 +2840,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 2</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -2798,6 +2867,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -2808,22 +2878,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode />
 		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceBrand>Dell</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
+		<operatingSystem>Windows 7</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>7</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 11.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>11.0</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -2880,6 +2950,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>8</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -2911,9 +2982,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>9</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -2923,9 +2995,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>10</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -2934,13 +3007,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>11</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -2967,6 +3041,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3049,6 +3124,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>58</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -3080,9 +3156,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>59</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -3092,9 +3169,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>60</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -3103,13 +3181,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>61</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -3136,6 +3215,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3146,22 +3226,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>HTC</deviceBrand>
+		<deviceModel>Desire</deviceModel>
+		<operatingSystem>MildWild 8.0</operatingSystem>
+		<operatingSystemName>MildWild</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>MLD</operatingSystemCode>
+		<operatingSystemVersion>8.0</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Android Browser</browser>
+		<browserName>Android Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserCode>AN</browserCode>
+		<browserVersion />
 		<events>1</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3173,7 +3253,7 @@
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
 		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
+		<longitude>-123.133000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -3218,6 +3298,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>69</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -3249,9 +3330,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>70</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -3261,9 +3343,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>71</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -3272,13 +3355,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>72</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -3305,6 +3389,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3342,7 +3427,7 @@
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
 		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
+		<longitude>-123.133000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -3379,6 +3464,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>91</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -3410,9 +3496,10 @@
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>11</pageIdAction>
+				<pageIdAction>12</pageIdAction>
 				
 				<pageId>92</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -3422,9 +3509,10 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>13</pageIdAction>
 				
 				<pageId>93</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -3433,13 +3521,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>94</pageId>
 				<eventCategory>Cat1</eventCategory>
 				<eventAction>Action1</eventAction>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -3466,6 +3555,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3480,18 +3570,18 @@
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
+		<operatingSystem>Ubuntu 9.04</operatingSystem>
+		<operatingSystemName>Ubuntu</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.gif</operatingSystemIcon>
+		<operatingSystemCode>UBT</operatingSystemCode>
+		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
+		<browser>Firefox 3.0</browser>
 		<browserName>Firefox</browserName>
 		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<browserVersion>3.0</browserVersion>
 		<events>1</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -3555,7 +3645,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>7</pageId>
@@ -3569,6 +3659,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 1</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -3595,6 +3686,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3684,7 +3776,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>57</pageId>
@@ -3698,6 +3790,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 1</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -3724,6 +3817,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3734,22 +3828,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>HTC</deviceBrand>
+		<deviceModel>Desire</deviceModel>
+		<operatingSystem>MildWild 8.0</operatingSystem>
+		<operatingSystemName>MildWild</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>MLD</operatingSystemCode>
+		<operatingSystemVersion>8.0</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Android Browser</browser>
+		<browserName>Android Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserCode>AN</browserCode>
+		<browserVersion />
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3761,7 +3855,7 @@
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
 		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
+		<longitude>-123.133000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
@@ -3813,7 +3907,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>68</pageId>
@@ -3827,6 +3921,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 1</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -3853,6 +3948,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3863,22 +3959,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode />
 		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 8.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>8.0</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -3890,7 +3986,7 @@
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
 		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
+		<longitude>-123.133000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>11</daysSinceLastVisit>
@@ -3942,7 +4038,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>90</pageId>
@@ -3956,6 +4052,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 1</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -3982,6 +4079,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -3996,18 +4094,18 @@
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
+		<operatingSystem>Ubuntu 9.04</operatingSystem>
+		<operatingSystemName>Ubuntu</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.gif</operatingSystemIcon>
+		<operatingSystemCode>UBT</operatingSystemCode>
+		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
+		<browser>Firefox 3.0</browser>
 		<browserName>Firefox</browserName>
 		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
 		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<browserVersion>3.0</browserVersion>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -4064,6 +4162,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>2</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -4093,6 +4192,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -4116,6 +4216,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>4</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -4128,6 +4229,7 @@
 				<pageIdAction>7</pageIdAction>
 				
 				<pageId>5</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -4136,13 +4238,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>6</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -4169,6 +4272,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4205,8 +4309,8 @@
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
+		<latitude>123.456000</latitude>
+		<longitude>21.321000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -4251,6 +4355,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>52</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -4280,6 +4385,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -4303,6 +4409,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>54</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -4315,6 +4422,7 @@
 				<pageIdAction>7</pageIdAction>
 				
 				<pageId>55</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -4323,13 +4431,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>56</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -4356,6 +4465,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4366,22 +4476,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>Google</deviceBrand>
+		<deviceModel>Nexus 4</deviceModel>
+		<operatingSystem>Android 4.4</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.4</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome Mobile 33.0</browser>
+		<browserName>Chrome Mobile</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CM.gif</browserIcon>
+		<browserCode>CM</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4392,7 +4502,7 @@
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
 		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
+		<latitude>47.249000</latitude>
 		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
@@ -4438,6 +4548,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>63</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -4467,6 +4578,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -4490,6 +4602,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>65</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -4502,6 +4615,7 @@
 				<pageIdAction>7</pageIdAction>
 				
 				<pageId>66</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -4510,13 +4624,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>67</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -4543,6 +4658,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4580,7 +4696,7 @@
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
 		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
+		<longitude>-123.133000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>10</daysSinceLastVisit>
@@ -4617,6 +4733,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>85</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -4646,6 +4763,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -4669,6 +4787,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>87</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -4681,6 +4800,7 @@
 				<pageIdAction>7</pageIdAction>
 				
 				<pageId>88</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -4689,13 +4809,14 @@
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
-				<pageIdAction>4</pageIdAction>
+				<pageIdAction>8</pageIdAction>
 				
 				<pageId>89</pageId>
 				<eventCategory>Cat0</eventCategory>
 				<eventAction>Action0</eventAction>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -4722,6 +4843,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4732,22 +4854,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Phablet</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceBrand>Samsung</deviceBrand>
+		<deviceModel>GALAXY Note 3</deviceModel>
+		<operatingSystem>Android 4.3</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.3</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>QQ Browser 5.0</browser>
+		<browserName>QQ Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.gif</browserIcon>
+		<browserCode>QQ</browserCode>
+		<browserVersion>5.0</browserVersion>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -4811,7 +4933,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
@@ -4825,6 +4947,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 0</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -4851,6 +4974,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4887,8 +5011,8 @@
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
-		<latitude>123.456001</latitude>
-		<longitude>21.320999</longitude>
+		<latitude>123.456000</latitude>
+		<longitude>21.321000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -4940,7 +5064,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>51</pageId>
@@ -4954,6 +5078,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 0</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -4980,6 +5105,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -4990,22 +5116,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Smartphone</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceBrand>Google</deviceBrand>
+		<deviceModel>Nexus 4</deviceModel>
+		<operatingSystem>Android 4.4</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.4</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome Mobile 33.0</browser>
+		<browserName>Chrome Mobile</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CM.gif</browserIcon>
+		<browserCode>CM</browserCode>
+		<browserVersion>33.0</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -5016,7 +5142,7 @@
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
 		<location>Besançon, Franche-Comte, France</location>
-		<latitude>47.249001</latitude>
+		<latitude>47.249000</latitude>
 		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
@@ -5069,7 +5195,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>62</pageId>
@@ -5083,6 +5209,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 0</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -5109,6 +5236,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -5123,18 +5251,18 @@
 		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<operatingSystemVersion>8.1</operatingSystemVersion>
+		<browserFamily>Blink</browserFamily>
+		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
+		<browser>Chrome 32.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>32.0</browserVersion>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -5146,7 +5274,7 @@
 		<city>Vancouver</city>
 		<location>Vancouver, British Columbia, Canada</location>
 		<latitude>49.250000</latitude>
-		<longitude>-123.133003</longitude>
+		<longitude>-123.133000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -5198,7 +5326,7 @@
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
-				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
+				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>84</pageId>
@@ -5212,6 +5340,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 0</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -5238,6 +5367,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -5248,22 +5378,22 @@
 		<referrerSearchEngineIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
+		<deviceType>Phablet</deviceType>
+		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceBrand>Samsung</deviceBrand>
+		<deviceModel>GALAXY Note 3</deviceModel>
+		<operatingSystem>Android 4.3</operatingSystem>
+		<operatingSystemName>Android</operatingSystemName>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemCode>AND</operatingSystemCode>
+		<operatingSystemVersion>4.3</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>QQ Browser 5.0</browser>
+		<browserName>QQ Browser</browserName>
+		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.gif</browserIcon>
+		<browserCode>QQ</browserCode>
+		<browserVersion>5.0</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
