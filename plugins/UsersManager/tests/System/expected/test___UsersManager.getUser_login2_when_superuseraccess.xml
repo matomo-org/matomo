@@ -2,10 +2,10 @@
 <result>
 	<row>
 		<login>login2</login>
-		<password>5f4dcc3b5aa765d61d8327deb882cf99</password>
+		<password>$2y$10$/Lz0vEwEOnFNt17Gak7Js./9OJXOKN7lT5ObczOTBNtmU/ATvoGfe</password>
 		<alias>login2</alias>
 		<email>login2@example.com</email>
-		<token_auth>ef3cb848005bffc2e2f3c8edbd95c58f</token_auth>
+		<token_auth>de13ff973244bbb8a142c1516d32795c9ef224f523c07daf538263c3c230b806</token_auth>
 		<superuser_access>0</superuser_access>
 		
 	</row>

@@ -127,8 +127,18 @@
                     var onValidate = function () {
                         sendUpdateUserAJAX($('tr#' + idRow));
                     };
-                    if ($('tr#' + idRow).find('input#password').val() != '-') {
-                        piwikHelper.modalConfirm('#confirmPasswordChange', {yes: onValidate});
+
+                    var password = $('tr#' + idRow).find('input#password').val();
+                    var token    = $('tr#' + idRow).find('td#token_auth_user').data('token') || '';
+
+                    if ('-' !== password && 32 === token.length) {
+                        var confirm = '#confirmPasswordChange';
+
+                        if ($('tr#' + idRow).find('#userLogin').text() == piwik.userLogin) {
+                            confirm = '#confirmPasswordChangeSelf';
+                        }
+
+                        piwikHelper.modalConfirm(confirm, {yes: onValidate});
                     } else {
                         onValidate();
                     }
@@ -176,6 +186,29 @@
             }});
         };
 
+        this.regenerateUserTokenAuth = function (userLogin) {
+            var parameters = { userLogin: userLogin };
+            var confirm = '#confirmTokenRegenerate';
+
+            if (userLogin == piwik.userLogin) {
+                confirm = '#confirmTokenRegenerateSelf';
+            }
+
+            piwikHelper.modalConfirm(confirm, {yes: function () {
+                setIsLoading();
+
+                piwikApi.post({
+                    module: 'API',
+                    method: 'UsersManager.regenerateTokenAuth'
+                }, parameters).then(function () {
+                    piwik.helper.redirect();
+                    self.isLoading = false;
+                }, function () {
+                    self.isLoading = false;
+                });
+            }});
+        };
+
         $(document).ready(function () {
             var alreadyEdited = [];
             // when click on edituser, the cells become editable
@@ -183,8 +216,9 @@
             // Show the token_auth
             $('.token_auth').click(function () {
                 var token = $(this).data('token');
-                if ($(this).text() != token) {
-                    $(this).text(token);
+
+                if ($('.token_auth_content', this).text() != token) {
+                    $('.token_auth_content', this).text(token);
                 }
             });
         });

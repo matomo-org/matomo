@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -29,8 +30,14 @@ class Model
     private static $rawPrefix = 'user';
     private $table;
 
+    /**
+     * @var Password
+     */
+    private $passwordHelper;
+
     public function __construct()
     {
+        $this->passwordHelper = new Password();
         $this->table = Common::prefixTable(self::$rawPrefix);
     }
 
@@ -183,11 +190,11 @@ class Model
         return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
     }
 
-    public function addUser($userLogin, $passwordTransformed, $email, $alias, $tokenAuth, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)
     {
         $user = array(
             'login'            => $userLogin,
-            'password'         => $passwordTransformed,
+            'password'         => $hashedPassword,
             'alias'            => $alias,
             'email'            => $email,
             'token_auth'       => $tokenAuth,
@@ -238,13 +245,20 @@ class Model
         return $users;
     }
 
-    public function updateUser($userLogin, $password, $email, $alias, $tokenAuth)
+    public function updateUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth)
     {
         $this->updateUserFields($userLogin, array(
-             'password'   => $password,
-             'alias'      => $alias,
-             'email'      => $email,
-             'token_auth' => $tokenAuth
+            'password'   => $hashedPassword,
+            'alias'      => $alias,
+            'email'      => $email,
+            'token_auth' => $tokenAuth
+        ));
+    }
+
+    public function updateUserTokenAuth($userLogin, $tokenAuth)
+    {
+        $this->updateUserFields($userLogin, array(
+            'token_auth' => $tokenAuth
         ));
     }
 

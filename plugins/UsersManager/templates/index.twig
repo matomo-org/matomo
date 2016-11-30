@@ -154,11 +154,29 @@
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
+
     <div class="ui-confirm" id="confirmPasswordChange">
         <h2>{{ 'UsersManager_ChangePasswordConfirm'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
+    <div class="ui-confirm" id="confirmPasswordChangeSelf">
+        <h2>{{ 'UsersManager_ChangePasswordConfirmSelf'|translate }}</h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+
+    <div class="ui-confirm" id="confirmTokenRegenerate">
+        <h2>{{ 'UsersManager_TokenRegenerateConfirm'|translate }}</h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+    <div class="ui-confirm" id="confirmTokenRegenerateSelf">
+        <h2>{{ 'UsersManager_TokenRegenerateConfirmSelf'|translate }}</h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+
     <br/>
     <p>{{ 'UsersManager_UsersManagementMainDescription'|translate }}
         {{ 'UsersManager_ThereAreCurrentlyNRegisteredUsers'|translate("<b>"~usersCount~"</b>")|raw }}</p>
@@ -191,7 +209,13 @@
                         <td id="password" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>-</td>
                         <td id="email" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.email }}</td>
                         <td id="alias" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.alias|raw }}</td>
-                        <td id="token_auth_user" class="token_auth" data-token="{{ user.token_auth }}">{{ user.token_auth|slice(0, 8) }}…</td>
+                        <td id="token_auth_user" class="token_auth" data-token="{{ user.token_auth }}">
+                            <span class="token_auth_content">{{ user.token_auth|slice(0, 8) }}…</span>
+                            <button ng-click='manageUsers.regenerateUserTokenAuth({{ user.login|json_encode }}); $event.stopPropagation();'
+                                    class="table-action">
+                                <span class="icon-reload"></span>
+                            </button>
+                        </td>
                         {% if user.last_seen is defined %}
                         <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
                         {% endif %}

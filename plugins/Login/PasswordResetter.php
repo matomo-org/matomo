@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
@@ -60,6 +61,11 @@ use Piwik\Url;
 class PasswordResetter
 {
     /**
+     * @var Password
+     */
+    protected $passwordHelper;
+
+    /**
      * @var UsersManagerAPI
      */
     protected $usersManagerApi;
@@ -104,9 +110,10 @@ class PasswordResetter
      * @param string|null $confirmPasswordAction
      * @param string|null $emailFromName
      * @param string|null $emailFromAddress
+     * @param Password $passwordHelper
      */
     public function __construct($usersManagerApi = null, $confirmPasswordModule = null, $confirmPasswordAction = null,
-                                $emailFromName = null, $emailFromAddress = null)
+                                $emailFromName = null, $emailFromAddress = null, $passwordHelper = null)
     {
         if (empty($usersManagerApi)) {
             $usersManagerApi = UsersManagerAPI::getInstance();
@@ -130,6 +137,11 @@ class PasswordResetter
             $emailFromAddress = Config::getInstance()->General['login_password_recovery_email_address'];
         }
         $this->emailFromAddress = $emailFromAddress;
+
+        if (empty($passwordHelper)) {
+            $passwordHelper = new Password();
+        }
+        $this->passwordHelper = $passwordHelper;
     }
 
     /**
@@ -383,7 +395,11 @@ class PasswordResetter
      */
     protected function checkPasswordHash($passwordHash)
     {
-        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
+        $hashInfo = $this->passwordHelper->info($passwordHash);
+
+        if (!isset($hashInfo['algo']) || 0 >= $hashInfo['algo']) {
+            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
+        }
     }
 
     /**
@@ -436,7 +452,7 @@ class PasswordResetter
     private function savePasswordResetInfo($login, $newPassword)
     {
         $optionName = $this->getPasswordResetInfoOptionName($login);
-        $optionData = UsersManager::getPasswordHash($newPassword);
+        $optionData = $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword));
 
         Option::set($optionName, $optionData);
     }
