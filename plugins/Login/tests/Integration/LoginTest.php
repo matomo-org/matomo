@@ -459,14 +459,14 @@ class LoginTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $authResult->getCode());
     }
 
-    private function assertSuperUserLogin(AuthResult $authResult, $login = 'superUserLogin', $tokenLength = 64)
+    private function assertSuperUserLogin(AuthResult $authResult, $login = 'superUserLogin', $tokenLength = 32)
     {
         $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $authResult->getCode());
         $this->assertEquals($login, $authResult->getIdentity());
         $this->assertEquals($tokenLength, strlen($authResult->getTokenAuth()));
     }
 
-    private function assertUserLogin(AuthResult $authResult, $login = 'user', $tokenLength = 64)
+    private function assertUserLogin(AuthResult $authResult, $login = 'user', $tokenLength = 32)
     {
         $this->assertEquals(AuthResult::SUCCESS, $authResult->getCode(), 'Authentication failed');
         $this->assertEquals($login, $authResult->getIdentity());

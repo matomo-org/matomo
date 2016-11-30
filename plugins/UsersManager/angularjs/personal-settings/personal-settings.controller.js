@@ -56,7 +56,6 @@
 
         this.save = function () {
 
-            var tokenAuth  = $('pre#token_auth_user').text() || '';
             var postParams = {
                 alias: this.alias,
                 email: this.email,
@@ -70,16 +69,7 @@
                 postParams.passwordBis = this.passwordBis;
             }
 
-            if (this.password && 32 === tokenAuth.length) {
-                postParams.password = this.password;
-
-                piwikHelper.modalConfirm('#confirmPasswordChange', {yes: function () {
-                    updateSettings(postParams);
-                }});
-            } else {
-                updateSettings(postParams);
-            }
-
+            updateSettings(postParams);
         };
     }
 })();

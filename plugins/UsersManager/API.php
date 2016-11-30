@@ -566,11 +566,6 @@ class API extends \Piwik\Plugin\API
         } else {
             $password = Common::unsanitizeInputValue($password);
 
-            if (32 == strlen($token_auth)) {
-                // only refresh legacy tokens
-                $token_auth = $this->createTokenAuth($userLogin);
-            }
-
             if (!$_isPasswordHashed) {
                 UsersManager::checkPassword($password);
                 $password = UsersManager::getPasswordHash($password);
@@ -832,10 +827,7 @@ class API extends \Piwik\Plugin\API
      */
     public function createTokenAuth($userLogin)
     {
-        return hash(
-            'sha256',
-            $userLogin . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt()
-        );
+        return md5($userLogin . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
     /**
@@ -854,7 +846,7 @@ class API extends \Piwik\Plugin\API
         $user = $this->model->getUser($userLogin);
 
         if (!$this->password->verify($md5Password, $user['password'])) {
-            return hash('sha256', $userLogin . microtime(true) . Common::generateUniqId());
+            return md5($userLogin . microtime(true) . Common::generateUniqId());
         }
 
         if ($this->password->needsRehash($user['password'])) {

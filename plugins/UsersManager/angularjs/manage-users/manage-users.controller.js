@@ -124,24 +124,9 @@
                     })
                 ).prepend($('<input type="submit" class="btn updateuser"  value="' + _pk_translate('General_Save') + '" />')
                 .click(function () {
-                    var onValidate = function () {
-                        sendUpdateUserAJAX($('tr#' + idRow));
-                    };
+                    var $tr = $('tr#' + idRow);
 
-                    var password = $('tr#' + idRow).find('input#password').val();
-                    var token    = $('tr#' + idRow).find('td#token_auth_user').data('token') || '';
-
-                    if ('-' !== password && 32 === token.length) {
-                        var confirm = '#confirmPasswordChange';
-
-                        if ($('tr#' + idRow).find('#userLogin').text() == piwik.userLogin) {
-                            confirm = '#confirmPasswordChangeSelf';
-                        }
-
-                        piwikHelper.modalConfirm(confirm, {yes: onValidate});
-                    } else {
-                        onValidate();
-                    }
+                    sendUpdateUserAJAX($tr);
                 })
             );
         }

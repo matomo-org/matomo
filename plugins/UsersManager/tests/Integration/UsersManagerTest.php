@@ -245,7 +245,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         // check that password and token are properly set
         $this->assertEquals(60, strlen($user['password']));
-        $this->assertEquals(64, strlen($user['token_auth']));
+        $this->assertEquals(32, strlen($user['token_auth']));
         $this->assertEquals($user['token_auth'], $this->api->getTokenAuth($login, UsersManager::getPasswordHash($password)));
 
         // check that all fields are the same
