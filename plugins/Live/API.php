@@ -12,16 +12,10 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics\Formatter;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Tracker;
 use Psr\Log\LoggerInterface;
 
 /**

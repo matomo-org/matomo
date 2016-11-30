@@ -315,6 +315,9 @@ class Visitor implements VisitorInterface
                 unset($actionDetail['eventAction']);
             }
 
+            $actionDetail['interactionPosition'] = $actionDetail['interaction_position'];
+            unset($actionDetail['interaction_position']);
+
             // Reconstruct url from prefix
             $url = Tracker\PageUrl::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
             $url = Common::unsanitizeInputValue($url);
