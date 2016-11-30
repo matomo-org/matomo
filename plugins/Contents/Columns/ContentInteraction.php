@@ -30,7 +30,7 @@ class ContentInteraction extends ActionDimension
 
     public function getName()
     {
-        return Piwik::translate('Contents_Interaction');
+        return Piwik::translate('Contents_ContentInteraction');
     }
 
     public function getActionId()
