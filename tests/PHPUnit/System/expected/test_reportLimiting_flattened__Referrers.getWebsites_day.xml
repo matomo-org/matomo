@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>whatever0.com/-1</label>
+		<label>whatever0.com/ - Others</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
@@ -10,7 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>-1</url>
+		<url>Others</url>
 	</row>
 	<row>
 		<label>whatever0.com/index</label>

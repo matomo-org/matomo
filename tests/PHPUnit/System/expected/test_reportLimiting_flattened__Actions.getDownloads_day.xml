@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>cloudsite5.com/-1</label>
+		<label>cloudsite5.com/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -12,7 +12,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 	</row>
 	<row>
-		<label>cloudsite6.com/-1</label>
+		<label>cloudsite6.com/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -23,7 +23,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 	</row>
 	<row>
-		<label>cloudsite7.com/-1</label>
+		<label>cloudsite7.com/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
