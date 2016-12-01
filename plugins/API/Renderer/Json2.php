@@ -11,23 +11,8 @@ namespace Piwik\Plugins\API\Renderer;
 use Piwik\Piwik;
 
 /**
- * Correct API output renderer for JSON. Includes bug fixes for bugs in the old JSON API
- * format.
+ * Left here for Backward compatibility in Piwik 3.X+ for all users who correctly used format=json2 during Piwik 2.X
  */
 class Json2 extends Json
 {
-    public function renderArray($array)
-    {
-        $result = parent::renderArray($array);
-
-        // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
-        if (!empty($array)
-            && Piwik::isAssociativeArray($array)
-            && !Piwik::isMultiDimensionalArray($array)
-        ) {
-            $result = substr($result, 1, strlen($result) - 2);
-        }
-
-        return $result;
-    }
 }

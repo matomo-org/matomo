@@ -249,7 +249,7 @@ var hasBlockedContent = false;
             getParams.module = getParams.module || 'API';
 
             if (!getParams.format) {
-                getParams.format = 'JSON2';
+                getParams.format = 'JSON';
             }
 
             addParams(getParams);

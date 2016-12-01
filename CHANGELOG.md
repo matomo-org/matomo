@@ -11,6 +11,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](http://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Breaking Changes
+* Reporting API: if you call the Reporting API requesting data in `json` format then you may be affected. The `json` formatting has changed, a bug was fixed so that API methods that return simple associative arrays like `array('name' => 'value', 'name2' => 'value2')` will now appear correctly as `{"name":"value","name2":"value2"}` in JSON API output instead of `[{"name":"value","name2":"value2"}]` (as it used to be in Piwik 2). API methods like **SitesManager.getSiteFromId** & **UsersManager.getUser** and others are affected.
 * The menu classes `Piwik\Menu\MenuReporting` and `Piwik\Menu\MenuMain` have been removed
 * The class `Piwik\Plugin\Widgets` has been removed and replaced by `Piwik\Widget\Widget`. For each widget one class is needed from now on. You can generate a widget via `./console generate:widget`.
 * The class `Piwik\WidgetList` class has been moved to `Piwik\Widget\WidgetsList`.
