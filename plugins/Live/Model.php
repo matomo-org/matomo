@@ -52,7 +52,8 @@ class Model
 					log_link_visit_action.server_time as serverTimePretty,
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
 					log_link_visit_action.idlink_va AS pageId,
-					log_link_visit_action.custom_float
+					log_link_visit_action.custom_float,
+					log_link_visit_action.interaction_position
 					" . $sqlCustomVariables . ",
 					log_action_event_category.name AS eventCategory,
 					log_action_event_action.name as eventAction

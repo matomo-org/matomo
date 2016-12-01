@@ -2,6 +2,7 @@
 <result>&lt;!-- Piwik --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
+  // tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot;
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -12,6 +13,5 @@
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//example.org/piwik/piwik.php?idsite=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
 &lt;!-- End Piwik Code --&gt;
 </result>

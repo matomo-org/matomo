@@ -25,6 +25,7 @@
 				
 				<pageId>9</pageId>
 				<generationTime>0.13s</generationTime>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -51,6 +52,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Yahoo!</referrerName>
@@ -126,6 +128,7 @@
 				
 				<pageId>1</pageId>
 				<generationTime>0.23s</generationTime>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -139,6 +142,7 @@
 				
 				<pageId>2</pageId>
 				<generationTime>0.22s</generationTime>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -151,6 +155,7 @@
 				<pageIdAction>5</pageIdAction>
 				
 				<pageId>3</pageId>
+				<interactionPosition />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -163,6 +168,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				<pageId>4</pageId>
+				<interactionPosition />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -175,6 +181,7 @@
 				<pageIdAction>7</pageIdAction>
 				
 				<pageId>5</pageId>
+				<interactionPosition />
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -187,6 +194,7 @@
 				<pageIdAction>8</pageIdAction>
 				
 				<pageId>6</pageId>
+				<interactionPosition />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -211,6 +219,7 @@
 				<pageId>7</pageId>
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<generationTime>0.81s</generationTime>
+				<interactionPosition>3</interactionPosition>
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -224,6 +233,7 @@
 				
 				<pageId>8</pageId>
 				<generationTime>0.02s</generationTime>
+				<interactionPosition>4</interactionPosition>
 				<icon />
 				
 			</row>
@@ -250,6 +260,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>8</actions>
+		<interactions>4</interactions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>referrer.com</referrerName>

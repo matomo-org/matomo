@@ -30,6 +30,24 @@
 			<is_aggregate>1</is_aggregate>
 		</row>
 		<row>
+			<label>CustomVarPage - CustomVarValue0</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>6</nb_actions>
+			<is_aggregate>0</is_aggregate>
+		</row>
+		<row>
+			<label>CustomVarPage - CustomVarValue1</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>6</nb_actions>
+			<is_aggregate>0</is_aggregate>
+		</row>
+		<row>
+			<label>CustomVarPage - CustomVarValue2</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>6</nb_actions>
+			<is_aggregate>0</is_aggregate>
+		</row>
+		<row>
 			<label>CustomVarVisit - CustomVarValue1</label>
 			<nb_visits>3</nb_visits>
 			<nb_actions>9</nb_actions>
@@ -49,24 +67,6 @@
 			<sum_visit_length>3</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
-			<is_aggregate>0</is_aggregate>
-		</row>
-		<row>
-			<label>CustomVarPage - CustomVarValue0</label>
-			<nb_visits>6</nb_visits>
-			<nb_actions>6</nb_actions>
-			<is_aggregate>0</is_aggregate>
-		</row>
-		<row>
-			<label>CustomVarPage - CustomVarValue1</label>
-			<nb_visits>6</nb_visits>
-			<nb_actions>6</nb_actions>
-			<is_aggregate>0</is_aggregate>
-		</row>
-		<row>
-			<label>CustomVarPage - CustomVarValue2</label>
-			<nb_visits>6</nb_visits>
-			<nb_actions>6</nb_actions>
 			<is_aggregate>0</is_aggregate>
 		</row>
 	</result>
@@ -89,23 +89,6 @@
 			<is_aggregate>1</is_aggregate>
 		</row>
 		<row>
-			<label>CustomVarVisit - CustomVarValue1</label>
-			<nb_visits>1</nb_visits>
-			<nb_actions>2</nb_actions>
-			<nb_users>0</nb_users>
-			<max_actions>2</max_actions>
-			<sum_visit_length>1</sum_visit_length>
-			<bounce_count>0</bounce_count>
-			<nb_visits_converted>0</nb_visits_converted>
-			<is_aggregate>0</is_aggregate>
-		</row>
-		<row>
-			<label>CustomVarPage - CustomVarValue1</label>
-			<nb_visits>1</nb_visits>
-			<nb_actions>1</nb_actions>
-			<is_aggregate>0</is_aggregate>
-		</row>
-		<row>
 			<label>CustomVarPage</label>
 			<nb_actions>1</nb_actions>
 			<slots>
@@ -115,6 +98,23 @@
 				</row>
 			</slots>
 			<is_aggregate>1</is_aggregate>
+		</row>
+		<row>
+			<label>CustomVarPage - CustomVarValue1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<is_aggregate>0</is_aggregate>
+		</row>
+		<row>
+			<label>CustomVarVisit - CustomVarValue1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>2</nb_actions>
+			<nb_users>0</nb_users>
+			<max_actions>2</max_actions>
+			<sum_visit_length>1</sum_visit_length>
+			<bounce_count>0</bounce_count>
+			<nb_visits_converted>0</nb_visits_converted>
+			<is_aggregate>0</is_aggregate>
 		</row>
 	</result>
 	<result date="2010-03-07" />

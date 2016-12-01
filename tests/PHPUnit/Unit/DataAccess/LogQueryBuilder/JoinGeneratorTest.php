@@ -148,6 +148,65 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $tables);
     }
 
+    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther()
+    {
+        $tables = array(
+            'log_link_visit_action',
+            'log_action',
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+            )
+        );
+
+        $generator = $this->makeGenerator($tables);
+        usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $expected = array(
+            array (
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => 'log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit',
+            ),
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => 'log_link_visit_action_foo.idaction_url = log_action_foo.idaction',
+            ),
+            'log_link_visit_action',
+            'log_action',
+        );
+
+        $this->assertEquals($expected, $tables);
+
+        // should still be the same if inverted
+        $tables = array(
+            'log_link_visit_action',
+            'log_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+            ),
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+            ),
+        );
+
+        $generator = $this->makeGenerator($tables);
+        usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $this->assertEquals($expected, $tables);
+    }
+
     private function generate($tables)
     {
         $generator = $this->makeGenerator($tables);

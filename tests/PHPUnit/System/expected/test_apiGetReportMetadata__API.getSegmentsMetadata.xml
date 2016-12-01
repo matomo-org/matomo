@@ -27,6 +27,13 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
+		<name>Number of Interactions</name>
+		<segment>interactions</segment>
+		<acceptedValues>Any positive integer</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
 		<name>Number of Internal Searches</name>
 		<segment>searches</segment>
 		<acceptedValues>To select all visits who used internal Site Search, use: &amp;segment=searches&gt;0</acceptedValues>
@@ -482,6 +489,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
+		<name>Content Interaction</name>
+		<segment>contentInteraction</segment>
+		<acceptedValues>The type of interaction with the content. For instance &quot;click&quot; or &quot;submit&quot;.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
 		<name>Content Name</name>
 		<segment>contentName</segment>
 		<acceptedValues>The name of a content block, for instance &quot;Ad Sale&quot;</acceptedValues>
@@ -529,13 +543,6 @@
 		<category>Actions</category>
 		<name>Exit Page URL</name>
 		<segment>exitPageUrl</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Actions</category>
-		<name>Interaction</name>
-		<segment>contentInteraction</segment>
-		<acceptedValues>The type of interaction with the content. For instance &quot;click&quot; or &quot;submit&quot;.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
