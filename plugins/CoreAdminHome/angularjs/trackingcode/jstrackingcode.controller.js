@@ -80,11 +80,12 @@
                 groupPageTitlesByDomain: self.groupByDomain ? 1 : 0,
                 mergeSubdomains: self.trackAllSubdomains ? 1 : 0,
                 mergeAliasUrls: self.trackAllAliases ? 1 : 0,
-                visitorCustomVariables: getCustomVariables(self.customVars),
+                visitorCustomVariables: self.trackCustomVars ? getCustomVariables(self.customVars) : 0,
                 customCampaignNameQueryParam: null,
                 customCampaignKeywordParam: null,
                 doNotTrack: self.doNotTrack ? 1 : 0,
-                disableCookies: self.disableCookies ? 1 : 0
+                disableCookies: self.disableCookies ? 1 : 0,
+                trackNoScript: self.trackNoScript ? 1: 0
             };
 
             if (self.useCustomCampaignParams) {

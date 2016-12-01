@@ -80,6 +80,14 @@
                  value="" inline-help="#jsTrackAllAliasesInlineHelp">
             </div>
 
+            <div piwik-field uicontrol="checkbox" name="javascript-tracking-noscript"
+                 ng-model="jsTrackingCode.trackNoScript"
+                 ng-change="jsTrackingCode.updateTrackingCode()"
+                 disabled="jsTrackingCode.isLoading"
+                 title="{{ 'CoreAdminHome_JSTracking_TrackNoScript'|translate|e('html_attr') }}"
+                 value="" inline-help="">
+            </div>
+
             <h3>{{ 'Mobile_Advanced'|translate }}</h3>
 
             <p>
@@ -95,7 +103,6 @@
 
                 {# visitor custom variable #}
                 <div piwik-field uicontrol="checkbox" name="javascript-tracking-visitor-cv-check"
-                     class="section-toggler-link"
                      ng-model="jsTrackingCode.trackCustomVars"
                      ng-change="jsTrackingCode.updateTrackingCode()"
                      disabled="jsTrackingCode.isLoading"

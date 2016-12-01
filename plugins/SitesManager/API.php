@@ -95,12 +95,13 @@ class API extends \Piwik\Plugin\API
      * @param bool $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
+     * @param bool $trackNoScript
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                                     $doNotTrack = false, $disableCookies = false)
+                                     $doNotTrack = false, $disableCookies = false, $trackNoScript = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -120,7 +121,7 @@ class API extends \Piwik\Plugin\API
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
-                                     $doNotTrack, $disableCookies);
+                                     $doNotTrack, $disableCookies, $trackNoScript);
         $code = str_replace(array('<br>', '<br />', '<br/>'), '', $code);
         return $code;
     }
