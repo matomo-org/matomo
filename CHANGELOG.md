@@ -103,12 +103,13 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * New event `Segment.addSegments` that lets you add segments.
 * New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled. 
 
-### New features
-* New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
-
 ### Changes
 * New now accept tracking requests for up to 1 day in the past instead of only 4 hours
 * If a tracking request has a custom timestamp that is older than one day and the tracking request is not authenticated, we ignore the whole tracking request instead of ignoring the custom timestamp and still tracking the request with the current timestamp
+
+### New features
+* New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
+* New config.ini.php setting: `tracking_requests_require_authentication_when_custom_timestamp_newer_than` to change how far back Piwik will track your requests without authentication. By default, value is set to 86400 (one day). The configured value is in seconds.
 
 ### Library updates
 * Updated AngularJS from 1.2.28 to 1.4.3
