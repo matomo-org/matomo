@@ -4994,6 +4994,11 @@ if (typeof window.Piwik !== 'object') {
              * Add click listener to a DOM element
              */
             function addClickListener(element, enable) {
+                var enableType = typeof enable;
+                if (enableType === 'undefined') {
+                    enable = true;
+                }
+
                 addEventListener(element, 'click', clickHandler(enable), false);
 
                 if (enable) {
@@ -5980,11 +5985,6 @@ if (typeof window.Piwik !== 'object') {
              * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
              */
             this.addListener = function (element, enable) {
-                var enableType = typeof enable;
-                if (enableType === 'undefined') {
-                    enable = true;
-                }
-
                 addClickListener(element, enable);
             };
 
@@ -6003,10 +6003,11 @@ if (typeof window.Piwik !== 'object') {
              *
              * @see https://bugs.webkit.org/show_bug.cgi?id=54783
              *
-             * @param bool enable If "true", use pseudo click-handler (treat middle click and open contextmenu as
+             * @param bool enable Defaults to true.
+             *                    * If "true", use pseudo click-handler (treat middle click and open contextmenu as
              *                    left click). A right click (or any click that opens the context menu) on a link
-             *                    will be tracked as clicked even if "Open in new tab" is not selected. If
-             *                    "false" (default), nothing will be tracked on open context menu or middle click.
+             *                    will be tracked as clicked even if "Open in new tab" is not selected.
+             *                    * If "false" (default), nothing will be tracked on open context menu or middle click.
              *                    The context menu is usually opened to open a link / download in a new tab
              *                    therefore you can get more accurate results by treat it as a click but it can lead
              *                    to wrong click numbers.
