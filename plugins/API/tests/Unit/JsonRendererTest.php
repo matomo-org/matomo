@@ -356,17 +356,14 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
-    /**
-     * backwards compatibility test
-     */
-    public function test_oldJson_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
+    public function test_json_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
     {
         $input = array(
             "firstElement" => "isFirst",
             "secondElement" => "isSecond"
         );
 
-        $expected = '[{"firstElement":"isFirst","secondElement":"isSecond"}]';
+        $expected = '{"firstElement":"isFirst","secondElement":"isSecond"}';
 
         $oldJsonBuilder = new Json($input);
         $actual = $oldJsonBuilder->renderArray($input);
