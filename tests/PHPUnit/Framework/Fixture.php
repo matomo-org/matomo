@@ -688,16 +688,14 @@ class Fixture extends \PHPUnit_Framework_Assert
         if (!empty($user) && !$removeExisting) {
             $token = $user['token_auth'];
         }
-
-        if (empty($user)) {
+        if (empty($user) || $removeExisting) {
             $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
         } else {
             $model->updateUser($login, $password, 'hello@example.org', $login, $token);
         }
 
-        if (empty($user['superuser_access'])) {
-            $model->setSuperUserAccess($login, true);
-        }
+        $setSuperUser = empty($user) || !empty($user['superuser_access']);
+        $model->setSuperUserAccess($login, $setSuperUser);
 
         return $model->getUserByTokenAuth($token);
     }
