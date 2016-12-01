@@ -31,6 +31,7 @@ class Inconsistencies
         return array(
             'bounce_rate',
             'conversion_rate',
+            'abandoned_rate',
             'interaction_rate',
             'exit_rate',
             'bounce_rate_returning',
