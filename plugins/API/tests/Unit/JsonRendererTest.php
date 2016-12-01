@@ -373,7 +373,7 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
     private function makeBuilder($request)
     {
-        return new Json2($request);
+        return new Json($request);
     }
 
     private function assertNoJsonError($response)
