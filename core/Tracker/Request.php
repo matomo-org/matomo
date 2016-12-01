@@ -54,7 +54,7 @@ class Request
 
     const UNKNOWN_RESOLUTION = 'unknown';
 
-    const CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN = 14400; // 4 hours
+    private $customTimestampDoesNotRequireTokenauthWhenNewerThan;
 
     /**
      * @param $params
@@ -70,6 +70,7 @@ class Request
         $this->tokenAuth = $tokenAuth;
         $this->timestamp = time();
         $this->isEmptyRequest = empty($params);
+        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than');
 
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
@@ -465,13 +466,14 @@ class Request
 
         // If timestamp in the past, token_auth is required
         $timeFromNow = $this->timestamp - $cdt;
-        $isTimestampRecent = $timeFromNow < self::CUSTOM_TIMESTAMP_DOES_NOT_REQUIRE_TOKENAUTH_WHEN_NEWER_THAN;
+        $isTimestampRecent = $timeFromNow < $this->customTimestampDoesNotRequireTokenauthWhenNewerThan;
 
         if (!$isTimestampRecent) {
             if (!$this->isAuthenticated()) {
-                Common::printDebug(sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow));
+                $message = sprintf("Custom timestamp is %s seconds old, requires &token_auth...", $timeFromNow);
+                Common::printDebug($message);
                 Common::printDebug("WARN: Tracker API 'cdt' was used with invalid token_auth");
-                return false;
+                throw new InvalidRequestParameterException($message);
             }
         }
 

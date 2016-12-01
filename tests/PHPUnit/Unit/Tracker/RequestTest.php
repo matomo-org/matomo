@@ -49,9 +49,13 @@ class RequestTest extends UnitTestCase
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
-    public function test_cdt_ShouldReturnTheCurrentTimestamp_IfNotAuthenticatedAndTimestampIsNotRecent()
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Custom timestamp is 86500 seconds old
+     */
+    public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
     {
-        $request = $this->buildRequest(array('cdt' => '' . $this->time - 28800));
+        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
@@ -64,9 +68,9 @@ class RequestTest extends UnitTestCase
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfAuthenticatedAndValid()
     {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 28800)));
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $request->setIsAuthenticated();
-        $this->assertSame('' . ($this->time - 28800), $request->getCurrentTimestamp());
+        $this->assertSame('' . ($this->time - 86500), $request->getCurrentTimestamp());
     }
 
     public function test_cdt_ShouldReturnTheCustomTimestamp_IfTimestampIsInFuture()
