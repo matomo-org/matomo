@@ -63,11 +63,20 @@ class Flattener extends DataTableManipulator
     {
         $newDataTable = $dataTable->getEmptyClone($keepFilters = true);
 
-        foreach ($dataTable->getRows() as $rowId => $row) {
-            $this->flattenRow($row, $rowId, $newDataTable);
-        }
+        $this->flattenDataTableInto($dataTable, $newDataTable);
 
         return $newDataTable;
+    }
+
+    /**
+     * @param $dataTable DataTable
+     * @param $newDataTable
+     */
+    protected function flattenDataTableInto($dataTable, $newDataTable, $prefix = '', $logo = false)
+    {
+        foreach ($dataTable->getRows() as $rowId => $row) {
+            $this->flattenRow($row, $rowId, $newDataTable, $prefix, $logo);
+        }
     }
 
     /**
@@ -105,6 +114,7 @@ class Flattener extends DataTableManipulator
         $subTable = $row->getSubtable();
 
         if ($subTable) {
+            $subTable->queueFilter('ReplaceSummaryRowLabel');
             $subTable->applyQueuedFilters();
             $row->deleteMetadata('idsubdatatable_in_db');
         } else {
@@ -124,9 +134,7 @@ class Flattener extends DataTableManipulator
                 $dataTable->addRow($row);
             }
             $prefix = $label . $this->recursiveLabelSeparator;
-            foreach ($subTable->getRows() as $rowId => $row) {
-                $this->flattenRow($row, $rowId, $dataTable, $prefix, $logo);
-            }
+            $this->flattenDataTableInto($subTable, $dataTable, $prefix, $logo);
         }
     }
 
@@ -142,4 +150,5 @@ class Flattener extends DataTableManipulator
 
         return $request;
     }
+
 }

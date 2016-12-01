@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Google - -1</label>
+		<label>Google - Others</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
@@ -13,7 +13,7 @@
 		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
 	</row>
 	<row>
-		<label>Yahoo! - -1</label>
+		<label>Yahoo! - Others</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
