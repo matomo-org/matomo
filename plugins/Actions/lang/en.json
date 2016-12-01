@@ -27,6 +27,7 @@
         "ColumnUniqueDownloads": "Unique Downloads",
         "ColumnUniqueOutlinks": "Unique Outlinks",
         "ColumnIdPageview": "Pageview ID",
+        "ColumnInteractionPosition": "Interaction Position",
         "DownloadsReportDocumentation": "In this report, you can see which files your visitors have downloaded. %s What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.",
         "EntryPagesReportDocumentation": "This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during his visit. %s The entry URLs are displayed as a folder structure.",
         "EntryPageTitles": "Entry page titles",

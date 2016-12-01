@@ -45,14 +45,14 @@
 	<firstVisit>
 		
 		
-		<daysAgo>2148</daysAgo>
+		
 		<referrerType>direct</referrerType>
 		<referralSummary>Direct Entry</referralSummary>
 	</firstVisit>
 	<lastVisit>
 		
 		
-		<daysAgo>2118</daysAgo>
+		
 		<referrerType>direct</referrerType>
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
@@ -73,6 +73,7 @@
 					<pageIdAction>6</pageIdAction>
 					
 					<pageId>31</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -99,6 +100,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -173,6 +175,7 @@
 					<pageIdAction>4</pageIdAction>
 					
 					<pageId>30</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -199,6 +202,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -273,6 +277,7 @@
 					<pageIdAction>2</pageIdAction>
 					
 					<pageId>29</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -299,6 +304,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -373,6 +379,7 @@
 					<pageIdAction>7</pageIdAction>
 					
 					<pageId>28</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -399,6 +406,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -473,6 +481,7 @@
 					<pageIdAction>6</pageIdAction>
 					
 					<pageId>27</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -499,6 +508,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -573,6 +583,7 @@
 					<pageIdAction>4</pageIdAction>
 					
 					<pageId>26</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -599,6 +610,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -673,6 +685,7 @@
 					<pageIdAction>2</pageIdAction>
 					
 					<pageId>25</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -699,6 +712,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -773,6 +787,7 @@
 					<pageIdAction>7</pageIdAction>
 					
 					<pageId>24</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -799,6 +814,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -873,6 +889,7 @@
 					<pageIdAction>6</pageIdAction>
 					
 					<pageId>23</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -899,6 +916,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />
@@ -973,6 +991,7 @@
 					<pageIdAction>4</pageIdAction>
 					
 					<pageId>22</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -999,6 +1018,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>direct</referrerType>
 			<referrerTypeName>Direct Entry</referrerTypeName>
 			<referrerName />

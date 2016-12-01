@@ -18,6 +18,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1365328800</timestamp>
 			</row>
@@ -44,6 +45,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -114,6 +116,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1365246000</timestamp>
 			</row>
@@ -140,6 +143,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -210,6 +214,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1365163200</timestamp>
 			</row>
@@ -236,6 +241,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />

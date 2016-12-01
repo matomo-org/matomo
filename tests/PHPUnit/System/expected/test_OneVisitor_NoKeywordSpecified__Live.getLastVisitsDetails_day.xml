@@ -13,6 +13,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>2</pageId>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -39,6 +40,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -113,6 +115,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>1084</timeSpent>
 				<timeSpentPretty>18 min 4s</timeSpentPretty>
 				<icon />
@@ -152,6 +155,7 @@
 		<visitDurationPretty>18 min 4s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
