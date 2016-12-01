@@ -69,7 +69,7 @@ class Flattener extends DataTableManipulator
 
         $queuedFiltersEnabled = Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) == 0;
         if ($queuedFiltersEnabled) {
-            $newDataTable->applyQueuedFilters();
+//            $newDataTable->applyQueuedFilters();
         }
         return $newDataTable;
     }
