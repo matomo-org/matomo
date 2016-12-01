@@ -80,7 +80,7 @@
                 groupPageTitlesByDomain: self.groupByDomain ? 1 : 0,
                 mergeSubdomains: self.trackAllSubdomains ? 1 : 0,
                 mergeAliasUrls: self.trackAllAliases ? 1 : 0,
-                visitorCustomVariables: getCustomVariables(self.customVars),
+                visitorCustomVariables: self.trackCustomVars ? getCustomVariables(self.customVars) : 0,
                 customCampaignNameQueryParam: null,
                 customCampaignKeywordParam: null,
                 doNotTrack: self.doNotTrack ? 1 : 0,
