@@ -189,6 +189,9 @@ class InvalidLicenses
 
         if (!empty($paidPlugins)) {
             foreach ($paidPlugins as $plugin) {
+                if (!empty($plugin['isFree'])) {
+                    continue;
+                }
                 $pluginName = $plugin['name'];
                 if ($this->isPluginActivated($pluginName)) {
                     if (empty($plugin['consumer']['license'])) {
