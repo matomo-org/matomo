@@ -109,6 +109,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
 * If a tracking request has a custom timestamp that is older than one day and the tracking request is not authenticated, we ignore the whole tracking request instead of ignoring the custom timestamp and still tracking the request with the current timestamp
 
 ### New features
+* Piwik JavaScript Tracking API: we now attempt to track Downloads and Outlinks when the user uses the mouse middle click or the mouse right right click. Previously only left clicks on Downloads and Outlinks were measured. 
 * New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
 * New config.ini.php setting: `tracking_requests_require_authentication_when_custom_timestamp_newer_than` to change how far back Piwik will track your requests without authentication. By default, value is set to 86400 (one day). The configured value is in seconds.
 
