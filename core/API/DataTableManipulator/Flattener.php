@@ -74,6 +74,9 @@ class Flattener extends DataTableManipulator
      */
     protected function flattenDataTableInto($dataTable, $newDataTable, $prefix = '', $logo = false)
     {
+        // this filter is recursive and will be applied to subtables
+        $dataTable->filter('ReplaceSummaryRowLabel');
+
         foreach ($dataTable->getRows() as $rowId => $row) {
             $this->flattenRow($row, $rowId, $newDataTable, $prefix, $logo);
         }
@@ -114,7 +117,6 @@ class Flattener extends DataTableManipulator
         $subTable = $row->getSubtable();
 
         if ($subTable) {
-            $subTable->queueFilter('ReplaceSummaryRowLabel');
             $subTable->applyQueuedFilters();
             $row->deleteMetadata('idsubdatatable_in_db');
         } else {
