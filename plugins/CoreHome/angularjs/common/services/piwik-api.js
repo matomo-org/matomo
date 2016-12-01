@@ -252,7 +252,7 @@ var hasBlockedContent = false;
                 getParams.format = 'JSON2';
             }
 
-            addParams(getParams, 'GET');
+            addParams(getParams);
 
             var promise = send(options);
 
@@ -270,6 +270,12 @@ var hasBlockedContent = false;
             }
 
             return fetch(getParams, options);
+        }
+
+        function addPostParams(_postParams_) {
+            if (_postParams_) {
+                angular.merge(postParams, _postParams_);
+            }
         }
 
         /**
@@ -319,6 +325,7 @@ var hasBlockedContent = false;
             bulkFetch: bulkFetch,
             post: post,
             fetch: fetch,
+            addPostParams: addPostParams,
             /**
              * @deprecated
              */

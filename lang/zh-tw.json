@@ -1,5 +1,7 @@
 {
     "General": {
+        "12HourClock": "12 小時制",
+        "24HourClock": "24 小時制",
         "AboutPiwikX": "關於 Piwik %s",
         "Action": "動作",
         "Actions": "進站活動",
