@@ -234,7 +234,13 @@ class JoinGenerator
             if (isset($tA['tableAlias']) && isset($tB['joinOn']) && strpos($tB['joinOn'], $tA['tableAlias']) !== false) {
                 return -1;
             }
-            return 0;
+
+            $tA = $tA['table'];
+            $tB = $tB['table'];
+
+            if ($tA === $tB) {
+                return 1; // if both join same table keep order
+            }
         }
 
         if (is_array($tA)) {
