@@ -235,12 +235,7 @@ class JoinGenerator
                 return -1;
             }
 
-            $tA = $tA['table'];
-            $tB = $tB['table'];
-
-            if ($tA === $tB) {
-                return 1; // if both join same table keep order
-            }
+            return 0;
         }
 
         if (is_array($tA)) {
