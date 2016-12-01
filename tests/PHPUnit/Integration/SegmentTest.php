@@ -456,6 +456,16 @@ class SegmentTest extends IntegrationTestCase
                 'tableAlias' => 'log_action_bar',
                 'joinOn' => "log_link_visit_action_bar.idaction_url = log_action_bar.idaction"
             ),
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_baz',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_baz',
+                'joinOn' => "log_link_visit_action_baz.idaction_url = log_action_baz.idaction"
+            ),
             'log_action',
         );
 
@@ -487,6 +497,10 @@ class SegmentTest extends IntegrationTestCase
                        ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit
                   LEFT JOIN $logActionTable AS log_action_bar
                        ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction 
+                  LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz
+                       ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit
+                  LEFT JOIN $logActionTable AS log_action_baz
+                       ON log_link_visit_action_baz.idaction_url = log_action_baz.idaction 
                   LEFT JOIN $logActionTable AS log_action
                        ON log_link_visit_action.idaction_url = log_action.idaction 
              WHERE ( log_link_visit_action.server_time >= ?
