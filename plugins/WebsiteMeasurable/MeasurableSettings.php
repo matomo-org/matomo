@@ -183,7 +183,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $self = $this;
         return $this->makeProperty('excluded_parameters', $default = array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($self) {
             $field->title = Piwik::translate('SitesManager_ExcludedParameters');
-            $field->inlineHelp = Piwik::translate('SitesManager_ListOfQueryParametersToExclude')
+            $field->inlineHelp = Piwik::translate('SitesManager_ListOfQueryParametersToExclude', "/^sess.*|.*[dD]ate$/")
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters', array('phpsessid, sessionid, ...'));
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;

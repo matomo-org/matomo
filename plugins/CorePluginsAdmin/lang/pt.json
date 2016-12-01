@@ -1,8 +1,5 @@
 {
     "CorePluginsAdmin": {
-        "ActionActivatePlugin": "Ativar plugin",
-        "ActionActivateTheme": "Ativar tema",
-        "ActionInstall": "Instalar",
         "ActionUninstall": "Desinstalar",
         "Activate": "Activar",
         "Activated": "Activado",
@@ -12,24 +9,18 @@
         "Deactivate": "Desactivar",
         "History": "Histórico",
         "Inactive": "Inactivo",
-        "LastUpdated": "Ultima atualização",
         "LicenseHomepage": "Homepage da licença",
         "PluginsExtendPiwik": "Plugins estendem e expandem a funcionalidade de Piwik.",
         "OncePluginIsInstalledYouMayActivateHere": "Quando um plugin é instalado, pode activá-lo ou desactivá-lo aqui.",
-        "Marketplace": "Mercado",
         "MenuPlatform": "Plataforma",
         "Origin": "Origem",
         "PluginHomepage": "Homepage do Plugin",
-        "PluginKeywords": "Palavras Chave",
         "PluginsManagement": "Gestão de Plugins",
         "Status": "Estado",
-        "Support": "Suporte",
         "Theme": "Tema",
         "Themes": "Temas",
         "ThemesManagement": "Gestão de temas",
-        "Updated": "Atualizado",
         "Version": "Versão",
-        "ViewRepositoryChangelog": "Ver alterações",
         "Websites": "Websites"
     }
 }

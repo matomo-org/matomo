@@ -1,5 +1,6 @@
-{% macro singleSparkline(sparkline, allMetricsDocumentation) %}
-    <div class="sparkline">
+{% macro singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) %}
+
+    <div class="sparkline {% if areSparklinesLinkable is defined and not areSparklinesLinkable %}notLinkable{% endif %}">
         {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
         {% for metric in sparkline.metrics %}
             <span {% if allMetricsDocumentation[metric.column] is defined and allMetricsDocumentation[metric.column] %}title="{{ allMetricsDocumentation[metric.column] }}"{% endif %}>

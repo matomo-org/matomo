@@ -63,7 +63,7 @@
                                     {% if isMultiServerEnvironment %}
                                         <div class="alert alert-warning">{{ 'Marketplace_MultiServerEnvironmentWarning'|translate }}</div>
                                     {% elseif not isAutoUpdateEnabled %}
-                                        <div class="alert alert-warning">{{ 'Marketplace_AutoUpdateDisabledWarning'|translate("'[General]enable_auto_updates=1'", "'config/config.ini.php'") }}</div>
+                                        <div class="alert alert-warning">{{ 'Marketplace_AutoUpdateDisabledWarning'|translate("'[General]enable_auto_update=1'", "'config/config.ini.php'") }}</div>
                                     {% endif %}
                                 {% endif %}
 

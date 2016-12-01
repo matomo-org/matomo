@@ -45,6 +45,6 @@ class DeviceModel extends Base
      */
     public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn('config_device_model');
+        return $visitor->getVisitorColumn($this->columnName);
     }
 }

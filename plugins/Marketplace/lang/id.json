@@ -1,0 +1,8 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Diaktifkan",
+        "PluginKeywords": "Kata Kunci",
+        "PluginVersionInfo": "%1$s dari %2$s",
+        "SubscriptionType": "Jenis"
+    }
+}
