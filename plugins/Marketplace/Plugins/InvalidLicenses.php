@@ -190,7 +190,7 @@ class InvalidLicenses
         if (!empty($paidPlugins)) {
             foreach ($paidPlugins as $plugin) {
                 
-                if (empty($plugin['isPaid'])) {
+                if (!empty($plugin['isFree'])) {
                     continue;
                 }
                 
