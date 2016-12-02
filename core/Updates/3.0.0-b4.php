@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -51,6 +52,8 @@ class Updates_3_0_0_b4 extends Updates
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
         $updater->executeMigrations(__FILE__, $this->getUserPasswordMigrations([]));
+
+        ServerFilesGenerator::createFilesForSecurity();
     }
 
     /**

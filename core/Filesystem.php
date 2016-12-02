@@ -31,7 +31,6 @@ class Filesystem
         TrackerCache::deleteTrackerCache();
         PiwikCache::flushAll();
         self::clearPhpCaches();
-        ServerFilesGenerator::createFilesForSecurity();
     }
 
     /**
