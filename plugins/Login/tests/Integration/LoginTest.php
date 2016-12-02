@@ -433,7 +433,10 @@ class LoginTest extends IntegrationTestCase
 
         API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        $user['tokenAuth'] = API::getInstance()->getTokenAuth($user['login'], md5($user['password']));
+        $model  = new \Piwik\Plugins\UsersManager\Model();
+        $dbUser = $model->getUser($user['login']);
+
+        $user['tokenAuth'] = $dbUser['token_auth'];
 
         return $user;
     }

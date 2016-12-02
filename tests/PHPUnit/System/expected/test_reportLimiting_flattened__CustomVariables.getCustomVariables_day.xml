@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Others</label>
-		<nb_actions>60</nb_actions>
-	</row>
-	<row>
-		<label>name - -1</label>
+		<label>name - Others</label>
 		<nb_visits>19</nb_visits>
 		<nb_actions>19</nb_actions>
 	</row>
@@ -15,7 +11,7 @@
 		<nb_actions>16</nb_actions>
 	</row>
 	<row>
-		<label>liked - -1</label>
+		<label>liked - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_actions>4</nb_actions>
 	</row>
@@ -23,5 +19,9 @@
 		<label>name - thing0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_actions>60</nb_actions>
 	</row>
 </result>

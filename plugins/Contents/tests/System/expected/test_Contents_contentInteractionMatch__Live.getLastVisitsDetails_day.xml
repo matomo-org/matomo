@@ -14,6 +14,7 @@
 				
 				<pageId>1</pageId>
 				<generationTime>0.33s</generationTime>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<icon />
@@ -42,6 +43,7 @@
 		<visitDurationPretty>4 min 31s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -117,6 +119,7 @@
 				
 				<pageId>13</pageId>
 				<generationTime>0.33s</generationTime>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<icon />
@@ -145,6 +148,7 @@
 		<visitDurationPretty>4 min 31s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />

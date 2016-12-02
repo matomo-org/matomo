@@ -34,10 +34,12 @@ class ServerFilesGenerator
         $allow = self::getAllowHtaccessContent();
 
         // more selective allow/deny filters
+        $noDirectoryListing = "Options -Indexes\n";
+
         $allowAny =
             "# Allow any file in this directory\n" .
             "<Files \"*\">\n" .
-                $allow . "\n" .
+            $allow . "\n" .
             "</Files>\n";
 
         $allowStaticAssets =
@@ -49,15 +51,15 @@ class ServerFilesGenerator
 
             "# Allow to serve static files which are safe\n" .
             "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|swf|mp3|mp4|wav|ogg|avi|ttf|eot|woff|woff2|json)$\">\n" .
-                 $allow . "\n" .
+            $allow . "\n" .
             "</Files>\n";
 
         $directoriesToProtect = array(
-            '/js'        => $allowAny,
-            '/libs'      => $denyAll . $allowStaticAssets,
-            '/vendor'    => $denyAll . $allowStaticAssets,
-            '/plugins'   => $denyAll . $allowStaticAssets,
-            '/misc/user' => $denyAll . $allowStaticAssets,
+            '/js'        => $allowAny . $noDirectoryListing,
+            '/libs'      => $denyAll . $allowStaticAssets . $noDirectoryListing,
+            '/vendor'    => $denyAll . $allowStaticAssets . $noDirectoryListing,
+            '/plugins'   => $denyAll . $allowStaticAssets . $noDirectoryListing,
+            '/misc/user' => $denyAll . $allowStaticAssets . $noDirectoryListing,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
@@ -65,10 +67,10 @@ class ServerFilesGenerator
 
         // deny access to these folders
         $directoriesToProtect = array(
-            '/config' => $denyAll,
-            '/core' => $denyAll,
-            '/lang' => $denyAll,
-            '/tmp' => $denyAll,
+            '/config' => $denyAll . $noDirectoryListing,
+            '/core' => $denyAll . $noDirectoryListing,
+            '/lang' => $denyAll . $noDirectoryListing,
+            '/tmp' => $denyAll . $noDirectoryListing,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);

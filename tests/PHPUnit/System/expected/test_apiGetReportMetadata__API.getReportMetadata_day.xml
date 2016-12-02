@@ -1565,7 +1565,7 @@
 		<dimension>Content Name</dimension>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
-			<nb_interactions>Interactions</nb_interactions>
+			<nb_interactions>Content Interactions</nb_interactions>
 		</metrics>
 		<metricsDocumentation>
 			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
@@ -1589,7 +1589,7 @@
 		<dimension>Content Piece</dimension>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
-			<nb_interactions>Interactions</nb_interactions>
+			<nb_interactions>Content Interactions</nb_interactions>
 		</metrics>
 		<metricsDocumentation>
 			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>

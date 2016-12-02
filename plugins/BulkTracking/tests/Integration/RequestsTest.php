@@ -89,7 +89,7 @@ class RequestsTest extends IntegrationTestCase
      */
     public function test_authenticateRequests_shouldThrowAnException_IfTokenIsNotValid()
     {
-        $dummyToken = API::getInstance()->getTokenAuth('test', UsersManager::getPasswordHash('2'));
+        $dummyToken = API::getInstance()->createTokenAuth('test');
         $superUserToken = $this->getSuperUserToken();
 
         $requests = array($this->buildDummyRequest($superUserToken), $this->buildDummyRequest($dummyToken));

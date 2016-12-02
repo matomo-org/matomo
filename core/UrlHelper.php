@@ -17,6 +17,32 @@ use Piwik\Intl\Data\Provider\RegionDataProvider;
  */
 class UrlHelper
 {
+    
+    /**
+    * Checks if a string matches/is equal to one of the patterns/strings.
+    *
+    * @static
+    * @param $test String to test.
+    * @param $patterns Array of strings or regexs.
+    *
+    * @return true if $test matches or is equal to one of the regex/string in $patterns, false otherwise.
+    */
+    protected static function in_array_matches_regex($test, $patterns)
+    {
+        foreach($patterns as $val) {
+            if(@preg_match($val, null) === false) {
+                if( strcasecmp($val, $test) === 0 ) {
+                    return true;
+                }
+            } else {
+                if( preg_match($val, $test) === 1 ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     /**
      * Converts an array of query parameter name/value mappings into a query string.
      * Parameters that are in `$parametersToExclude` will not appear in the result.
@@ -36,7 +62,7 @@ class UrlHelper
             // decode encoded square brackets
             $name = str_replace(array('%5B', '%5D'), array('[', ']'), $name);
 
-            if (!in_array(strtolower($name), $parametersToExclude)) {
+            if (!self::in_array_matches_regex(strtolower($name), $parametersToExclude)) {
                 if (is_array($value)) {
                     foreach ($value as $param) {
                         if ($param === false) {
