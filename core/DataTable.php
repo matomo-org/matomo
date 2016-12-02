@@ -247,7 +247,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * @var bool
      */
-    protected $rebuildIndexContinuously = false;
+    protected $
+        dexContinuously = false;
 
     /**
      * Column name of last time the table was sorted
@@ -698,6 +699,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function rebuildIndex()
     {
+        $this->rowsIndexByLabel = array();
         $this->rebuildIndexContinuously = true;
 
         foreach ($this->rows as $id => $row) {
