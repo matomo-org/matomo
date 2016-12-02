@@ -234,6 +234,7 @@ class JoinGenerator
             if (isset($tA['tableAlias']) && isset($tB['joinOn']) && strpos($tB['joinOn'], $tA['tableAlias']) !== false) {
                 return -1;
             }
+
             return 0;
         }
 
