@@ -8,13 +8,11 @@
  */
 namespace Piwik\Plugins\Login;
 
-use Exception;
 use Piwik\AuthResult;
-use Piwik\Db;
+use Piwik\Auth\Password;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Session;
 
 class Auth implements \Piwik\Auth
 {
@@ -27,9 +25,15 @@ class Auth implements \Piwik\Auth
      */
     private $userModel;
 
+    /**
+     * @var Password
+     */
+    private $passwordHelper;
+
     public function __construct()
     {
-        $this->userModel = new Model();
+        $this->userModel      = new Model();
+        $this->passwordHelper = new Password();
     }
 
     /**
@@ -49,7 +53,7 @@ class Auth implements \Piwik\Auth
      */
     public function authenticate()
     {
-        if (!empty($this->hashedPassword)) { // favor authenticating by password
+        if (!empty($this->hashedPassword)) {
             return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
         } elseif (is_null($this->login)) {
             return $this->authenticateWithToken($this->token_auth);
@@ -64,7 +68,17 @@ class Auth implements \Piwik\Auth
     {
         $user = $this->userModel->getUser($login);
 
-        if (!empty($user['login']) && $user['password'] === $passwordHash) {
+        if (empty($user['login'])) {
+            return new AuthResult(AuthResult::FAILURE, $login, null);
+        }
+
+        if ($this->passwordHelper->verify($passwordHash, $user['password'])) {
+            if ($this->passwordHelper->needsRehash($user['password'])) {
+                $newPasswordHash = $this->passwordHelper->hash($passwordHash);
+
+                $this->userModel->updateUser($login, $newPasswordHash, $user['email'], $user['alias'], $user['token_auth']);
+            }
+
             return $this->authenticationSuccess($user);
         }
 

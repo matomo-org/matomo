@@ -7,13 +7,13 @@
 (function () {
     angular.module('piwikApp').controller('PersonalSettingsController', PersonalSettingsController);
 
-    PersonalSettingsController.$inject = ['piwikApi'];
+    PersonalSettingsController.$inject = ['piwikApi', '$window'];
 
-    function PersonalSettingsController(piwikApi) {
+    function PersonalSettingsController(piwikApi, $window) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
-        
+
         function updateSettings(postParams)
         {
             self.loading = true;
@@ -34,6 +34,26 @@
             });
         }
 
+        this.regenerateTokenAuth = function () {
+            var parameters = { userLogin: piwik.userLogin };
+
+            self.loading = true;
+
+            piwikHelper.modalConfirm('#confirmTokenRegenerate', {yes: function () {
+                piwikApi.withTokenInUrl();
+                piwikApi.post({
+                    module: 'API',
+                    method: 'UsersManager.regenerateTokenAuth'
+                }, parameters).then(function (success) {
+                    $window.location.reload();
+
+                    self.loading = false;
+                }, function (errorMessage) {
+                    self.loading = false;
+                });
+            }});
+        };
+
         this.save = function () {
 
             var postParams = {
@@ -49,16 +69,7 @@
                 postParams.passwordBis = this.passwordBis;
             }
 
-            if (this.password) {
-                postParams.password = this.password;
-
-                piwikHelper.modalConfirm('#confirmPasswordChange', {yes: function () {
-                    updateSettings(postParams);
-                }});
-            } else {
-                updateSettings(postParams);
-            }
-
+            updateSettings(postParams);
         };
     }
 })();
