@@ -247,8 +247,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * @var bool
      */
-    protected $
-        dexContinuously = false;
+    protected $rebuildIndexContinuously = false;
 
     /**
      * Column name of last time the table was sorted
