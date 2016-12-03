@@ -699,6 +699,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function rebuildIndex()
     {
+        $this->rowsIndexByLabel = array();
         $this->rebuildIndexContinuously = true;
 
         foreach ($this->rows as $id => $row) {
