@@ -473,7 +473,7 @@ class LogAggregator
         return in_array($metricId, $metricsRequested);
     }
 
-    protected function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
+    public function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
     {
         $where = "$tableName.$datetimeField >= ?
 				AND $tableName.$datetimeField <= ?
