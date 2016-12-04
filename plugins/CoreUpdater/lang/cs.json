@@ -34,7 +34,6 @@
         "MajorUpdateWarning1": "Toto je velká aktualizace! Zabere více času, než obvykle.",
         "MajorUpdateWarning2": "Následující doporučení je především důležité pro velké instalace.",
         "NoteForLargePiwikInstances": "Důležitá poznámka pro rozsáhlé instalace Piwiku",
-        "NoteItIsExpectedThatQueriesFail": "Poznámka: Pokud budete SQL dotazy spouštět ručně, některé z nich selžou. V tom případě chyby jednoduše ignorujte a spusťte další dotazy",
         "NotificationClickToUpdatePlugins": "Klikněte zde pro aktualizaci vašich zásuvných modulů:",
         "NotificationClickToUpdateThemes": "Klikněte zde pro aktualizaci vašich šablon:",
         "NotificationSubjectAvailableCoreUpdate": "Je dostupný nový Piwik %s",
@@ -73,7 +72,6 @@
         "WarningMessages": "Hlášky upozornění:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automaticky jsme zakázali následující zásuvné moduly: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Můžete aktualizovat na verzi %s automaticky, nebo si stáhněte balíček a nainstalujte jej manuálně:",
-        "YouCouldManuallyExecuteSqlQueries": "Pokud nemůžete použít aktualizaci z příkazového řádku a Piwik nelze aktualizovat (díky vypršení časového limitu v databázi, prohlížeči, nebo z jakéhokoliv jiného důvodu), můžete spustit SQL dotazy ručně",
         "YouMustDownloadPackageOrFixPermissions": "Piwik nemůže přepsat Vaši stávající instalaci. Můžete buď opravit oprávnění k adresářům\/souborům, nebo stáhnout balíček a nainstalovat verzi %s ručně",
         "YourDatabaseIsOutOfDate": "Vaše databáze Piwiku je zastaralá a musí být aktualizována, než budete pokračovat.",
         "ViewVersionChangelog": "Zobrazit protokol změn této verze:"

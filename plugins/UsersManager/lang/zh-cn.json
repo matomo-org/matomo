@@ -6,7 +6,6 @@
         "AnonymousUserHasViewAccess": "提示: 用户 %1$s 可以 %2$s 这个网站。",
         "AnonymousUserHasViewAccess2": "您的分析报表和访客信息是公开的。",
         "ApplyToAllWebsites": "应用至所有网站",
-        "ChangePasswordConfirm": "修改密码同时也会修改用户的授权号 token_auth，要继续吗?",
         "ClickHereToDeleteTheCookie": "点击这里刪除 cookie 并让 Piwik 跟踪您的访问记录",
         "ClickHereToSetTheCookieOnDomain": "点击这里设定一个 cookie 让 %s 的 Piwik 排除您的访问记录",
         "DeleteConfirm": "您确定要删除 %s 用户吗？",

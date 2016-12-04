@@ -42,7 +42,6 @@
         "KeepURLFragmentsLong": "Behåll sidans URL fragment när du spårar sidans URL.",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-adresserna som är listade nedan kommer att bli exkluderade från spårning på samtliga webbplatser.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Webbadressernas parametrar nedan kommer att uteslutas från webbadresser på alla webbplatser.",
-        "ListOfQueryParametersToExclude": "Ange listan med parametrar för webbadress, en per rad, för att exkludera från webbadressernas rapporter.",
         "MainDescription": "Dina rapporter kräver att du har webbplatser upplagda! Lägg till, uppdatera, ta bort webbplatser, och visa JavaScript spårningskoden för att inkludera den på din webbplats.",
         "NotAnEcommerceSite": "Inte en e-handelswebbplats",
         "NotFound": "Inga webbplatser funna",

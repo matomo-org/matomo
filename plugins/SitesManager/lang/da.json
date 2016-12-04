@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "Behold URL-fragmenter ved sporing",
         "ListOfIpsToBeExcludedOnAllWebsites": "Indtast IP-adresser, som skal udelukkes fra at blive sporet på alle hjemmesider.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL-søgeparameterne nedenfor vil blive udelukket fra URL'er på alle hjemmesider.",
-        "ListOfQueryParametersToExclude": "Indtast en liste over URL-søgeparametre, én pr linje, der skal udelukkes fra \"Side URL'er\"-rapporterne.",
         "MainDescription": "Dine webanalyse rapporter behøver hjemmesider! Tilføj, opdater, slet hjemmesider og vis JavaScriptkoden, som skal indsættes på dine sider.",
         "NotAnEcommerceSite": "Ikke en e-handel hjemmesider",
         "NotFound": "Ingen hjemmesider for",

@@ -2,8 +2,6 @@
     "Contents": {
         "PluginDescription": "İçerik ve reklam izleme, sayfalarınızdaki herhangi bir içeriğin (reklam, görsel, herhangi bir öge) başarımının (görülme, tıklanma, CTR) izlenmesini sağlar.",
         "Impressions": "Görülme",
-        "Interactions": "Etkileşim",
-        "Interaction": "Etkileşim",
         "InteractionRate": "Etkileşim Oranı",
         "ContentName": "İçerik Adı",
         "ContentPiece": "İçerik Parçası",

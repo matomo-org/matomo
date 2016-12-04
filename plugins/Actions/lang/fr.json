@@ -27,6 +27,7 @@
         "ColumnUniqueDownloads": "Téléchargements uniques",
         "ColumnUniqueOutlinks": "Liens sortants uniques",
         "ColumnIdPageview": "ID de vue de page",
+        "ColumnInteractionPosition": "Position de l'action",
         "DownloadsReportDocumentation": "Dans ce rapport vous pouvez voir quels fichiers les utilisateurs ont téléchargés. %s Ce que Piwik compte comme un téléchargement est un clic sur un lien de téléchargement. Le fait que le téléchargement ait été terminé ou non n'est pas connu de Piwik.",
         "EntryPagesReportDocumentation": "Ce rapport contient des informations à propos des pages d'entrées qui ont été utilisées durant la période spécifiée. Une page d'entrée est lapremière page qu'un utilisateur voit pendant sa visite. %s Les URLs des pages d'entrée sont affichées dans une structure de dossier.",
         "EntryPageTitles": "Titres de la page d'entrée",

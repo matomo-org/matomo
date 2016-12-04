@@ -26,7 +26,6 @@
         "JsTrackingTagHelp": "這是插入所有頁面的 JavaScript 追蹤原始碼",
         "ListOfIpsToBeExcludedOnAllWebsites": "以下的 IP 位址將會被所有網站忽略。",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "以下的網址查詢參數將會被所有網站忽略。",
-        "ListOfQueryParametersToExclude": "輸入網址查詢參數列表，一行一個，用來將特定網址排除在報告之外。",
         "MainDescription": "你的網站分析報告需要網站！新增、更新、刪除網站，並顯示 JavaScript 追蹤程式碼以供插入在你的網頁之中。",
         "NotFound": "找不到網站",
         "NoWebsites": "你沒有任何網站可以管理。",

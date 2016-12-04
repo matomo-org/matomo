@@ -8,7 +8,6 @@
         "AnonymousUserHasViewAccess2": "당신의 분석 보고서와 방문자 정보가 공개됩니다.",
         "ApplyToAllWebsites": "모든 웹사이트에 적용",
         "ChangeAllConfirm": "모든 웹사이트에 대한 '%s' 권한을 변경하시겠습니까?",
-        "ChangePasswordConfirm": "비밀번호를 변경하면 토큰도 변경됩니다. 정말 계속 하시겠습니까?",
         "ClickHereToDeleteTheCookie": "Cookie를 삭제하고 Piwik이 당신의 방문도 추적하려면 여기를 클릭합니다.",
         "ClickHereToSetTheCookieOnDomain": "%s의 Piwik에 추적하는 웹사이트에서 자신의 방문을 제외하는 Cookie를 설정하려면 여기를 클릭합니다.",
         "ConfirmGrantSuperUserAccess": "정말 '%s'에게 슈퍼 유저 권한을 부여하시겠습니까? 경고: 해당 사용자는 모든 웹사이트에 대해 접근이 가능하며 관리자가 할 수 있는 일을 할 수 있습니다.",

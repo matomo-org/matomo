@@ -37,7 +37,6 @@
         "JsTrackingTagHelp": "Aquí teniu l'etiqueta de seguiment JavaScript per tal d'incloure-la a totes les pàgines",
         "ListOfIpsToBeExcludedOnAllWebsites": "Les IPs indicades a continuació serán excloses del rastreig a tots els llocs web.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Els paràmetres de URL indicats a continuació seran exclosos de les URL a tots els llocs web.",
-        "ListOfQueryParametersToExclude": "Introduïu la llista de Parametres d'URL, un per línea, per a excloure del les URL de pàgina dels informes.",
         "MainDescription": "Els informes d'anàlisi web necessiten llocs web! Afegiu, actualitzeu i esborreu-ne. Veieu també el codi JavaScript que heu d'inserir a les pàgines.",
         "NotAnEcommerceSite": "No es un lloc d'Ecommerce",
         "NotFound": "No s'han trobat llocs web per",

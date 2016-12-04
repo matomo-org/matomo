@@ -8,7 +8,6 @@
         "AnonymousUserHasViewAccess2": "Sus informes de análisis y la información de sus visitantes son vistos públicamente.",
         "ApplyToAllWebsites": "Aplicar a todos los sitios",
         "ChangeAllConfirm": "¿Está seguro que desea otorgar a '%s' acceso a todos sus sitios de internet?",
-        "ChangePasswordConfirm": "Cambiar la contraseña también cambiará el token_auth del usuario. ¿Desea continuar?",
         "ClickHereToDeleteTheCookie": "Haga clic aquí para borrar la cookie y permitir que Piwik realice un seguimiento de sus visitas",
         "ClickHereToSetTheCookieOnDomain": "Haga clic aquí para configurar la cookie que excluirá sus visitas a los sitios de internet a los que Piwik realiza seguimiento en %s",
         "ConfirmGrantSuperUserAccess": "¿Estás seguro que desea conceder acceso 'Super User' a '%s'? Atención: el usuario tendrá acceso a todos los sitios de internet y podrá realizar tareas administrativas.",

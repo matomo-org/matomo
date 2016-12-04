@@ -40,7 +40,6 @@
         "KeepURLFragmentsLong": "Panatilihin ang mga detalye ng Page URL kapag naghahanap ng mga Page URL",
         "ListOfIpsToBeExcludedOnAllWebsites": "Ang IP sa ibaba ay hindi isasama sa sinusubaybayan sa lahat ng mga website.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Ang mga Query URL parameter sa ibaba ay maibubukod mula sa mga URL sa lahat ng website.",
-        "ListOfQueryParametersToExclude": "Ipasok ang listahan ng Mga Parameter ng Query sa URL isa bawat linya upang ibukod mula sa mga URL ng ulat Pahina.",
         "MainDescription": "Ang iyong mga ulat Web Analytics ay kailangan ng Websites! magdagdag mag-update mag-delete ng Websites at ipakita ang JavaScript upang mailagay sa iyong mga pahina.",
         "NotAnEcommerceSite": "Hindi isang site ng Ecommerce",
         "NotFound": "Walang nahanap para sa mga website",

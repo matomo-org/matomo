@@ -7,7 +7,6 @@
         "AnonymousUserHasViewAccess": "Bemærk: %1$s bruger har %2$s adgang til hjemmesiden.",
         "AnonymousUserHasViewAccess2": "Analyserapporter og besøgendes oplysninger er offentligt tilgængelige.",
         "ApplyToAllWebsites": "Tilføj til alle hjemmesider",
-        "ChangePasswordConfirm": "Ændring af adgangskoden vil også ændre brugerens token_auth. Vil du fortsætte?",
         "ClickHereToDeleteTheCookie": "Klik her for at slette cookie og få Piwik til at spore dine besøg",
         "ClickHereToSetTheCookieOnDomain": "Klik her for at sætte en cookie og udeluk egne besøg på hjemmesider der spores af Piwik på %s",
         "ConfirmGrantSuperUserAccess": "Vil du at give '%s' Superbruger adgang? Advarsel: brugeren vil have adgang til alle hjemmesider og vil være i stand til at udføre administrative opgaver.",

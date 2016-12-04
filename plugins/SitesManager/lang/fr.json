@@ -43,7 +43,7 @@
         "KeepURLFragmentsLong": "Conserver les fragments d'URL lors du suivi",
         "ListOfIpsToBeExcludedOnAllWebsites": "Les adresses IP ci-dessous seront exclues des statistiques sur tous les sites web.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Les paramètres ci-dessous seront exclus des statistiques de tous les sites web.",
-        "ListOfQueryParametersToExclude": "Entrez la liste des paramètres URL, un par ligne, à exclure des rapports des URL de pages.",
+        "ListOfQueryParametersToExclude": "Entrez la liste de vos paramètres d'URL à exclure des rapports d'URL de page, un par ligne. Les expressions régulières comme %s sont supportées.",
         "MainDescription": "Piwik a besoin de sites pour générer des rapports ! Ajoutez, éditez et supprimez des sites, et voyez le code JavaScript à inclure dans vos pages.",
         "MenuManage": "Gérer",
         "NotAnEcommerceSite": "N'est pas un site d'e-commerce",
