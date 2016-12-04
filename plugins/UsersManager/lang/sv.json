@@ -8,7 +8,6 @@
         "AnonymousUserHasViewAccess2": "Dina analysrapporter och informationen om dina besökare är publika.",
         "ApplyToAllWebsites": "Använd för alla webbplatser",
         "ChangeAllConfirm": "Är du säker på att du vill ge '%s' tillgång till alla webbplatserna?",
-        "ChangePasswordConfirm": "Vid byte av lösenord kommer också användarens token_auth att ändras. Vill du verkligen fortsätta?",
         "ClickHereToDeleteTheCookie": "Klicka här för att ta bort kakan så att Piwik börjar spåra dina besök igen",
         "ClickHereToSetTheCookieOnDomain": "Klicka här för att sätta kakan som exkluderar dina besök spårade av Piwik för webbplatsen %s",
         "ConfirmGrantSuperUserAccess": "Vill du verkligen bevilja '%s' Superanvändarbehörighet? Varning: Användaren kommer ha tillgång till alla dina webbsidor och ha möjlighet att utföra administrativa uppdrag.",

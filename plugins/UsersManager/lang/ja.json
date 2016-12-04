@@ -7,7 +7,6 @@
         "AnonymousUserHasViewAccess": "注) %1$s ユーザーはウェブサイトへの %2$s アクセス権を持っています。",
         "AnonymousUserHasViewAccess2": "あなたの解析レポートとビジター情報は、誰でも閲覧可能です。",
         "ApplyToAllWebsites": "全ウェブサイトに適用",
-        "ChangePasswordConfirm": "パスワードを変更すると、トークンも変更されます。本当に続けますか？",
         "ClickHereToDeleteTheCookie": "Cookie を削除し、Piwik があなた自身のビジットもトラッキングするようにするには、ここをクリックします。",
         "ClickHereToSetTheCookieOnDomain": "%s の Piwik にトラッキングされるウェブサイトでの、あなた自身のビジットを除外するための Cookie をセットするには、ここをクリックします。",
         "ConfirmGrantSuperUserAccess": "'%s' に対し、スーパーユーザーアクセス権を本当に付与してよろしいですか? 警告:スーパーユーザーアクセス権を付与されたユーザーは、すべてのウェブサイトへのアクセス権を持ち、あらゆる管理タスクを実行できるようになります。",

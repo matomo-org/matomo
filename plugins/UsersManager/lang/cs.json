@@ -8,7 +8,6 @@
         "AnonymousUserHasViewAccess2": "Vaše analytická hlášení a informace o návštěvnících jsou veřejně dostupná.",
         "ApplyToAllWebsites": "Použít na všechny weby",
         "ChangeAllConfirm": "Opravdu chcete uživateli '%s' povolit přístup ke všem webům?",
-        "ChangePasswordConfirm": "Změna hesla také změní uživatelův token_auth. Opravdu chcete pokračovat?",
         "ClickHereToDeleteTheCookie": "Klinětě zde pro vymazání cookie a zaznamenávání vaších návštěv",
         "ClickHereToSetTheCookieOnDomain": "Klikněte zde pro nastavení cookie, která vynechá vaše návštěvy na webech monitorováných Piwikem na %s",
         "ConfirmGrantSuperUserAccess": "Opravdu chcete uživateli %s povolit super-uživatelský přístup?",

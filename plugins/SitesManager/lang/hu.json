@@ -26,7 +26,6 @@
         "JsTrackingTagHelp": "A következő JavaScript követőkódot kell beilleszteni a weboldal összes weblapjának kódjába.",
         "ListOfIpsToBeExcludedOnAllWebsites": "Az alábbi IP címekről érkező látogatók egyik weboldalon sem kerülnek regisztrálásra.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Az alábbi URL paraméterek egyik weboldalon sem kerülnek regisztrálásra.",
-        "ListOfQueryParametersToExclude": "Adj meg soronként egy-egy olyan URL paramétert, melyek nem kerülnek regisztrálásra a Weblap URL jelentésekben.",
         "MainDescription": "A webanalitikai jelentésekhez szükség van weboldalakra! Hozz létre, frissíts vagy törölj weboldalakat, vagy tekintsd meg a weblapokba beillesztendő JavaScript követőkódokat.",
         "NotFound": "Ilyen weboldal nincs",
         "NoWebsites": "Nem került még létrehozásra egyetlen weboldal sem.",

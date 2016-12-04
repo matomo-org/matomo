@@ -34,7 +34,6 @@
         "MajorUpdateWarning1": "這是一個重大更新！這將需要比平常更長的時間。",
         "MajorUpdateWarning2": "下面的建議針對大量安裝時尤其重要。",
         "NoteForLargePiwikInstances": "大型 Piwik 網站重要注意事項",
-        "NoteItIsExpectedThatQueriesFail": "注意：如果你手動執行這些查詢，預計當中會有一些錯誤。在此情況下，只需忽略錯誤，然後執行以下列表。",
         "NotificationClickToUpdatePlugins": "現在點這裡去更新你的外掛：",
         "NotificationClickToUpdateThemes": "現在點這裡去更新你的主題風格：",
         "NotificationSubjectAvailableCoreUpdate": "新版本的Piwik %s 是可用的",
@@ -73,7 +72,6 @@
         "WarningMessages": "警告訊息：",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "我們自動停用了以下的外掛： %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "你可以自動更新至版本 %s ，或是下載壓縮檔並手動安裝它：",
-        "YouCouldManuallyExecuteSqlQueries": "如果你無法使用指令列更新且 Piwik 升級失敗（資料庫超時、瀏覽器超時或任何問題），你可以手動執行 SQL 語法來更新 Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik 無法覆寫你當前的安裝。你可以直接修改目錄\/檔案權限，或是下載壓縮檔然後手動安裝 %s 版本：",
         "YourDatabaseIsOutOfDate": "你的 Piwik 資料庫已經過期了，所以在繼續前必須先升級。",
         "ViewVersionChangelog": "查看對於此版本的更新日誌："

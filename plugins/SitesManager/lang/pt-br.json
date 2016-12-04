@@ -43,7 +43,6 @@
         "KeepURLFragmentsLong": "Mantenha fragmentos de URL da página quando estiver rastreando URLs de páginas",
         "ListOfIpsToBeExcludedOnAllWebsites": "Os IPs abaixo serão excluidos por terem sido rastreados em todos os websites.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros Query URL abaixo serão excluidos das URLs em todos os websites",
-        "ListOfQueryParametersToExclude": "Entre com a lista de parâmetros URL Query, uma por linha, para excluir os relátorios das páginas URL",
         "MainDescription": "Seus relatórios de Web Analytics precisam de websites! Adiciona, atualiza, elimina websites, e mostra o JavaScript necessário para inserir em suas páginas.",
         "MenuManage": "Gerenciar",
         "NotAnEcommerceSite": "Não é um site de Ecommerce",

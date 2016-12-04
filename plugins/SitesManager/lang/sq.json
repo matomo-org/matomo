@@ -43,7 +43,7 @@
         "KeepURLFragmentsLong": "Mbaji fragmentet e URL-ve të Faqeve kur ndiqen URL Faqesh",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-të më poshtë do të përjashtohen nga ndjekja në krejt sajtet.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametrat për URL-ra Kërkesash më poshtë do të përjashtohen nga URL-të për krejt sajtet.",
-        "ListOfQueryParametersToExclude": "Jepni listën e Parametrave për URL-ra Kërkesash, një për rresht, që duhen përjashtuar nga raportet për URL-ra Faqesh.",
+        "ListOfQueryParametersToExclude": "Jepni listën e Parametrave URL Query, një për rresht, që duhen përjashtuar nga raportet URL Faqesh. Mbulohen shprehje të rregullta si %s.",
         "MainDescription": "Raportet tuaja Analizash Web lypin sajte! Shtoni, përditësoni, hiqni sajte, dhe shfaqni JavaScript-in për futje në faqet tuaja.",
         "MenuManage": "Administroni",
         "NotAnEcommerceSite": "Jo sajt E-tregtie",

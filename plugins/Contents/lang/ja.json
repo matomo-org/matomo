@@ -2,8 +2,6 @@
     "Contents": {
         "PluginDescription": "コンテンツやバナーの追跡では、ページのコンテンツの任意の部分(バナー広告、イメージ、任意項目) のパフォーマンス(ビュー、クリック数、CTR )を測定できます。",
         "Impressions": "インプレッション",
-        "Interactions": "インタラクション",
-        "Interaction": "インタラクション",
         "InteractionRate": "インタラクション率",
         "ContentName": "コンテンツ名",
         "ContentPiece": "コンテンツ要素",

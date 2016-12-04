@@ -27,7 +27,6 @@
         "MajorUpdateWarning1": "Este o actualizare majoră! Va dura mai mult decât de obicei.",
         "MajorUpdateWarning2": "Următorul sfat este îndeosebi important pentru instalaţii mari.",
         "NoteForLargePiwikInstances": "Observatii importante pentru instalari Piwik la scara larga",
-        "NoteItIsExpectedThatQueriesFail": "Nota: daca executati aceste interogari manual, este de asteptat ca unele din ele sa esueze. In acest caz, ignorati erorile si rulati-le pe urmatoarele din lista.",
         "NotificationClickToUpdatePlugins": "Click aici pentru a actualiza pluginurile dvs. acum",
         "NotificationClickToUpdateThemes": "Click aici pentru a actualiza temele dvs. acum:",
         "NotificationSubjectAvailableCoreUpdate": "Un nou Piwik %s este disponibil",
@@ -52,7 +51,6 @@
         "WarningMessages": "Mesaj avertisment:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Au fost dezactivate următoarele pluginuri: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Poţi actualiza versiunea %s automat sau o poţi instala manual:",
-        "YouCouldManuallyExecuteSqlQueries": "Daca nu puteti face actualizarea prin linia de comanda si daca Piwik esueaza sa se actualizeze (din cauza lipse de raspuns a bazei de date, lipsa de raspuns a browserului sau orice alta problema), puteti executa manual interogarile SQL pentru a updata Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik nu a putut sa suprascrie instalarea curenta. Puteti fixa permisiunile directorului\/fisierului, sau downloadati pachetul si instalati versiunea %s manual:",
         "YourDatabaseIsOutOfDate": "Baza ta de date este expirata, si trebuie actualizata inainte de a continua."
     }

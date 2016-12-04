@@ -23,7 +23,6 @@
         "MajorUpdateWarning1": "این یک بروزرسانی اصلی است! بیش از معمول زمان خواهد برد.",
         "MajorUpdateWarning2": "توصیه ای که در ادامه می آید به طور ویژه برای نصب های بزرگ مهم می باشد.",
         "NoteForLargePiwikInstances": "نکات مهم برای نصب های بزرگ پیویک",
-        "NoteItIsExpectedThatQueriesFail": "توجه: اگر شما این پرس و جو ها را دستی انجام داده اید , انتظار می رود که بعضی از آنها به شکست بیانجامد. در این مورد , به سادگی از خطاها رد شوید و بعدی را اجرا کنید.",
         "NotificationClickToUpdatePlugins": "برای بروزرسانی پلاگین ها اینجا کلیک کنید:",
         "NotificationClickToUpdateThemes": "برای بروزرسانی قالب ها اینجا کلیک کنید:",
         "NotificationSubjectAvailablePluginUpdate": "بروزرسانی های موجود برای پلاگین های پیویک",
@@ -45,7 +44,6 @@
         "WarningMessages": "پیام های هشدار:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "ما به طور خودکار این افزونه ها را غیر فعال کردیم: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "شما می توانید به طور خودکار به نسخه ی %s بروزرسانی کنید یا بسته را دانلود و دستی نصب کنید:",
-        "YouCouldManuallyExecuteSqlQueries": "اگر شما قادر به استفاده از خط فرمان بروزرسانی نمی باشید و اگر ارتقا پیویک شکست خورد (ناشی از وقفه پایگاه داده ،یا وقفه مرورگر یا هر مشکل دیگری) شما می توانید پرس و جوهای SQL (SQL Queries) را دستی برای بروزرسانی پیویک اجرا کنید.",
         "YouMustDownloadPackageOrFixPermissions": "پیویک قادر به دوباره نویسی سیستم نصب شده کنونی نمی باشد. شما می توانید اجازه ی دسترسی فابل\/پوشه مربوطه را تغییر دهید یا بسته را دانلود و نسخه ی %s را دستی نصب نمایید:",
         "YourDatabaseIsOutOfDate": "پایگاه داده پیویک شما از رده خارج است و قبل از ادامه باید ارتقا یابد."
     }

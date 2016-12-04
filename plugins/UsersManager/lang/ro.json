@@ -6,7 +6,6 @@
         "AnonymousUserHasViewAccess": "Notă: utilizatorul %1$s are acces %2$s la acest website.",
         "AnonymousUserHasViewAccess2": "Rapoartele de analiză și informațiile dvs. despre vizitatori sunt facute publice.",
         "ApplyToAllWebsites": "Aplica tuturor siteurilor",
-        "ChangePasswordConfirm": "Schimbarea parolei va modifica token_auth al utilizatorului. Într-adevăr doreşti să continui?",
         "ClickHereToDeleteTheCookie": "Click aici pentru a șterge cookie-ul și puenti-l pe Piwik sa urmăreasca vizitele",
         "ClickHereToSetTheCookieOnDomain": "Click aici pentru a stabili un cookie care va exclude vizitele dvs. de pe site-urile urmărite cu Piwik pe %s",
         "ConfirmGrantSuperUserAccess": "Chiar vrei să se acorde '%s' acces de Super utilizator? Avertisment: utilizatorul va avea acces la toate site-urile și va fi capabil de a efectua sarcini administrative.",

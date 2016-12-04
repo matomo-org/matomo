@@ -7,7 +7,6 @@
         "AnonymousUserHasViewAccess": "Opmerking: de %1$s gebruiker heeft %2$s toegang tot deze website.",
         "AnonymousUserHasViewAccess2": "Je Analyse rapporten en je bezoekers informatie zijn publiek beschikbaar.",
         "ApplyToAllWebsites": "Pas toe op elke website",
-        "ChangePasswordConfirm": "Als het wachtwoord wordt gewijzigd, zal ook de gebruikers token_auth wijzigen. Wilt u echt doorgaan?",
         "ClickHereToDeleteTheCookie": "Klik hier om de cookie te verwijderen en laat Piwik uw bezoeken volgen.",
         "ClickHereToSetTheCookieOnDomain": "Klik hier om een cookie te plaatsen dat uw bezoeken uitsluit van Piwik op %s",
         "ConfirmGrantSuperUserAccess": "Weet u zeker dat u '%s' Super Gebruiker toegang wilt geven? Waarschuwing: deze gebruiker heeft toegang tot alle websites en kan administratieve taken uitvoeren.",

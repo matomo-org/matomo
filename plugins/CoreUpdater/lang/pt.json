@@ -22,7 +22,6 @@
         "HelpMessageIntroductionWhenWarning": "A actualização foi completa com sucesso. No entanto, ocorreram problemas durante o processo. Por favor veja a descrição acima para mais detalhes. Para mais ajuda:",
         "InstallingTheLatestVersion": "A instalar a versão mais recente",
         "NoteForLargePiwikInstances": "Nota importante para grandes instalações Piwik",
-        "NoteItIsExpectedThatQueriesFail": "Nota: Se executar estas consultas manualmente, é normal que algumas falhem. Nesse caso, simplesmente ignore os erros, e proceda com as consultas seguintes.",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik foi actualizado com sucesso!",
         "PiwikUpdatedSuccessfully": "Piwik actualizado com sucesso!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "A base de dados Piwik será actualizada da versão %1$s para a nova versão %2$s.",
@@ -42,7 +41,6 @@
         "WarningMessages": "Avisos:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Os seguintes plugins foram desactivados automaticamente: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Pode actualizar para a versão %s automaticamente ou transferir o pacote e instalá-lo manualmente:",
-        "YouCouldManuallyExecuteSqlQueries": "Se não puder actualizar pela linha de comandos e Piwik não conseguir actualizar (devido a ultrapassar o limite de tempo da base de dados, navegador, ou outro problema), pode executar estas consultas SQL manualmente para actualizar Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik não consegue substituir a sua instalação actual. Pode tentar corrigir as permissões dos directórios\/ficheiros, ou transferir o pacote e instalar a versão %s manualmente:",
         "YourDatabaseIsOutOfDate": "A sua base de dados Piwik está desactualizada, e tem que ser actualizada antes de continuar."
     }

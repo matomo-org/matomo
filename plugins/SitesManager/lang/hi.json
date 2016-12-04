@@ -42,7 +42,6 @@
         "KeepURLFragmentsLong": "पृष्ठ यूआरएल ट्रैकिंग जब पृष्ठ URL टुकड़े रखो",
         "ListOfIpsToBeExcludedOnAllWebsites": "नीचे आईपी सभी वेबसाइटों पर ट्रैक किए जाने से बाहर रखा जाएगा.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "नीचे प्रश्न यूआरएल मापदंडों को सभी वेबसाइटों को यूआरएल से बाहर रखा जाएगा.",
-        "ListOfQueryParametersToExclude": "URL प्रश्न पैरामीटर, एक प्रति पंक्ति, पृष्ठ यूआरएल रिपोर्टों से को बाहर करने की सूची दर्ज करें.",
         "MainDescription": "आपकी वेब Analytics रिपोर्ट में वेबसाइट की जरूरत है! जोड़ें,अद्यतन,वेबसाइटें हटाने, और अपने पृष्ठों में सम्मिलित करने के लिए जावास्क्रिप्ट दिखाए.",
         "NotAnEcommerceSite": "एक ईकॉमर्स साइट नहीं",
         "NotFound": "वेबसाइटों के लिए नहीं मिला",

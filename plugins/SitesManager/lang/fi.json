@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "Säilytä sivun URL fragmentti seuratessasi sivun URL:ää",
         "ListOfIpsToBeExcludedOnAllWebsites": "Alla olevia IP:itä ei seurata millään verkkosivulla.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametrit joita ei seurata millään verkkosivulla.",
-        "ListOfQueryParametersToExclude": "Kirjoita lista URL-parametreista, joita ei seurata sivujen osoitteet -raporteissa (yksi per rivi).",
         "MainDescription": "Verkkosivujen analysointi tarvitsee verkkosivuja! Lisää, päivitä ja poista verkkosivuja ja katso sivuille lisättävä Javascript-koodi.",
         "NotAnEcommerceSite": "Ei verkkokauppasivu",
         "NotFound": "Sivuja ei löydy",

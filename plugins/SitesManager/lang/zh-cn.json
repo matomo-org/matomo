@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "跟踪网址时保留网址标签",
         "ListOfIpsToBeExcludedOnAllWebsites": "以下的IP地址将被排除在所有网站统计外。",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "以下的网址查询参数将会被所有网站忽略。",
-        "ListOfQueryParametersToExclude": "输入网站查询参数列表，一行一个，用来将特定网址排除在报表之外",
         "MainDescription": "使用网站分析报表功能，必须有网站！在这里添加、修改、删除网站，或者显示需要加入页面代码里的 Javascript 跟踪代码。",
         "NotAnEcommerceSite": "非商业网站",
         "NotFound": "找不到网站",

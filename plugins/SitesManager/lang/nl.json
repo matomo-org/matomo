@@ -39,7 +39,6 @@
         "KeepURLFragmentsLong": "Behoud Pagina URL fragmenten bij het bijhouden van Pagina URL's",
         "ListOfIpsToBeExcludedOnAllWebsites": "De bezoekersinformatie van onderstaande IP-adressen zal worden uitgesloten op alle websites.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "De Query URL parameters hieronder zullen worden uitgesloten van de URL's op alle websites.",
-        "ListOfQueryParametersToExclude": "Voer de lijst in van URL Query Parameters die u wilt uitsluiten (één per lijn).",
         "MainDescription": "Uw webanalyserapport heeft websites nodig! Voeg websites toe, actualiseer of verwijder websites. Toont ook het javascript dat u nodig heeft om in uw webpagina's te integreren.",
         "NotAnEcommerceSite": "Geen E-commerce website",
         "NotFound": "Geen websites gevonden voor",

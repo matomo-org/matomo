@@ -27,7 +27,6 @@
         "JsTrackingTagHelp": "JavaScript Sekimo gairė (Tracking tag) skirta įterpti visuose Jūsų puslapiuose",
         "ListOfIpsToBeExcludedOnAllWebsites": "Žemiau nurodyti IP adresai nebus stebimi visose svetainėse.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Užklausų URL parametrai nurodyti žemiau nebus įtraukiami į URL visose svetainėse.",
-        "ListOfQueryParametersToExclude": "Įveskite URL užklausų parametrų sąrašą, vienas eilutėje.",
         "MainDescription": "Pridėkite, atnaujinkite, šalinkite svetaines ir gaukite JavaScript kodą.",
         "NotAnEcommerceSite": "Nekomercinė svetainė",
         "NotFound": "Nerasta svetainių",

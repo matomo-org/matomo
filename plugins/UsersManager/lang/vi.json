@@ -7,7 +7,6 @@
         "AnonymousUserHasViewAccess": "Lưu ý: Người dùng %1$s có truy cập %2$s đến website này.",
         "AnonymousUserHasViewAccess2": "Các báo cáo phân tích của bạn và thông tin các khách truy cập của bạn là công khai có thể xem được.",
         "ApplyToAllWebsites": "Áp dụng cho tất cả các website",
-        "ChangePasswordConfirm": "Thay đổi mật khẩu cũng sẽ thay đổi token_auth của người dùng. Bạn có thực sự muốn tiếp tục?",
         "ClickHereToDeleteTheCookie": "Click vào đây để xóa các cookie và đã Piwik theo dõi truy cập của bạn",
         "ClickHereToSetTheCookieOnDomain": "Click vào đây để thiết lập một cookie sẽ loại trừ các lượt truy cập của bạn trên các trang web được theo dõi bởi Piwik trên %s",
         "DeleteConfirm": "Bạn có chắc chắn muốn xóa người dùng %s?",

@@ -40,6 +40,7 @@
         "JSTracking_MergeSubdomainsDesc": "Pra, nëse një vizitor viziton %1$s dhe %2$s, ai do të numërohet si një vizitor i vetëm.",
         "JSTracking_PageCustomVars": "Ndiqni për çdo parje faqeje një ndryshore vetjake",
         "JSTracking_PageCustomVarsDesc": "Për shembull, me emër ndryshoreje \"Kategori\" dhe vlerë \"Artikuj Gazete\".",
+        "JSTracking_TrackNoScript": "Ndiqi përdoruesit me JavaScript të çaktivizuar",
         "JSTracking_VisitorCustomVars": "Ndiqni ndryshore vetjake për këtë vizitor",
         "JSTracking_VisitorCustomVarsDesc": "Për shembull, me emër ndryshoreje \"Lloj\" dhe vlerë \"Klient\".",
         "JSTrackingIntro1": "Vizitorët në sajtin tuaj mund t’i ndiqni në mjaft rrugë të ndryshme. Rruga e këshilluar për ta bërë është përmes JavaScript-it. Për të përdorur këtë metodë, duhet të garantoni që çdo faqe e sajtit tuaj të përmbajë një copëz kodi JavaScript, të cilin mund ta prodhoni nga këtu.",

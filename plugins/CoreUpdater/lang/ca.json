@@ -24,7 +24,6 @@
         "MajorUpdateWarning1": "Es tracta una actualització major! Tardarà més de l'habitual",
         "MajorUpdateWarning2": "Aquest avís és extremadament important per instalacion amb gran quantitat d'informació.",
         "NoteForLargePiwikInstances": "Notes importants per instalacions del Piwik amb gran quanitat d'informació",
-        "NoteItIsExpectedThatQueriesFail": "Nota: Si executeu les consultes manualment, s'epera que algunes d'elles fallin. En aquest cas, simplement ignoreu els error i executeu les següents a la llista.",
         "PiwikHasBeenSuccessfullyUpgraded": "El Piwik s'ha actualitzat amb èxit!",
         "PiwikUpdatedSuccessfully": "El Piwik s'ha actualitzat correctament!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "La base de dades s'actualitzarà de la versió %1$s a la nova %2$s.",
@@ -44,7 +43,6 @@
         "WarningMessages": "Avisos:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "S'han desactivat automàticament els connectors següents: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Podeu actualitzar a la versió %s automàticament o baixar-vos el paquet i instal·lar-lo manualment.",
-        "YouCouldManuallyExecuteSqlQueries": "Si no podeu executar l'actualització desde la línia de comandes i el falla l'actualització del Piwik (degut a un temps d'espera massa elevat, o algún altre problema) podeu executar manualment les sentències SQL per actualitzar el Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "El Piwik no pot sobrescriure la instal·lació actual. Podeu corregir els permisos dels fitxers\/directoris o descarregar el paquet i instal·lar la versió %s manualment:",
         "YourDatabaseIsOutOfDate": "La base de dades del Piwik és antiga i cal actualitzar-la abans de continuar."
     }

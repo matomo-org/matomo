@@ -24,7 +24,6 @@
         "MajorUpdateWarning1": "Ini merupakan pembaruan besar! Ini akan memakan waktu yang lebih lama dari biasanya.",
         "MajorUpdateWarning2": "Saran berikut sangat penting untuk pemasangan besar.",
         "NoteForLargePiwikInstances": "Catatan penting untuk instalasi besar Piwik",
-        "NoteItIsExpectedThatQueriesFail": "Catatan: Jika Anda mengeksekusi secara manual kueri tersebut, diperkirakan beberapa akan gagal. Bila ini terjadi, abaikan galat tersebut, dan jalankan kueri selajutnya di daftar.",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik berhasil diperbarui!",
         "PiwikUpdatedSuccessfully": "Pembaruan Piwik berhasil!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "BasisData Piwik akan diperbarui dari versi %1$s ke versi %2$s.",
@@ -44,7 +43,6 @@
         "WarningMessages": "Peringatan:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Pengaya berikut otomatis dimatikan: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Anda dapat memperbarui ke versi %s otomatis atau mengunduh paket dan memasang secara manual:",
-        "YouCouldManuallyExecuteSqlQueries": "Bila Anda tak dapat menggunakan pembaruan dari baris perintah dan bila Piwik gagal untuk melakukan pembaruan (disebabkan oleh basis data kehabisan waktu, a browser timeout, or any other issue), you could manually execute the SQL queries to update Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik tak dapat menimpa intalasi Anda saat ini. Anda dapat mengubah perizinan berkas\/direktori, atau mengunduh paket dan instalasi versi %s secara manual:",
         "YourDatabaseIsOutOfDate": "Basis Data Piwik Anda kedaluwarsa, dan harus diperbarui sebelum Anda dapat melanjutkan."
     }

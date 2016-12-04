@@ -43,7 +43,6 @@
         "KeepURLFragmentsLong": "추적시 URL 조각 보존",
         "ListOfIpsToBeExcludedOnAllWebsites": "다음 IP는 전체 웹사이트의 추적에서 제외됩니다.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "다음 쿼리 URL 매개변수는 전체 웹사이트의 URL에서 제외됩니다.",
-        "ListOfQueryParametersToExclude": "페이지 URL의 보고서에서 제외할 URL 쿼리 매개변수의 목록을 한 줄에 하나씩 입력합니다.",
         "MainDescription": "웹 분석 보고서는 웹사이트가 필요합니다! 이 곳에서 웹사이트를 추가하거나 갱신하거나 삭제할 수 있고, 페이지에 삽입할 자바스크립트를 확인할 수 있니다.",
         "MenuManage": "관리",
         "NotAnEcommerceSite": "전자상거래 사이트가 아님",
