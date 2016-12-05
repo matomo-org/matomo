@@ -18,7 +18,7 @@
         "ColumnSearchCategory": "Search Category",
         "ColumnSearches": "Searches",
         "ColumnSearchesDocumentation": "The number of visits that searched for this keyword on your website's search engine.",
-        "ColumnSearchExits": "% Search Exits",
+        "ColumnSearchExits": "%% Search Exits",
         "ColumnSearchExitsDocumentation": "The percentage of visits that left the website after searching for this Keyword on your Site Search engine.",
         "ColumnSearchResultsCount": "Search Results Count",
         "ColumnSiteSearchKeywords": "Unique Keywords",
