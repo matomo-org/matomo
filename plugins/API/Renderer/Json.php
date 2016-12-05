@@ -16,6 +16,8 @@ use Piwik\ProxyHttp;
 
 /**
  * API output renderer for JSON.
+ * NOTE: This is the old JSON format. It includes bugs that are fixed in the JSON2 API output format.
+ * Please use json2 format instead of this.
  *
  * @deprecated
  */
@@ -57,18 +59,7 @@ class Json extends ApiRenderer
             $result = $jsonRenderer->render();
             return $this->applyJsonpIfNeeded($result);
         }
-
-        $result = $this->renderDataTable($array);
-
-        // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
-        if (!empty($array)
-            && Piwik::isAssociativeArray($array)
-            && !Piwik::isMultiDimensionalArray($array)
-        ) {
-            $result = substr($result, 1, strlen($result) - 2);
-        }
-
-        return $result;
+        return  $this->renderDataTable($array);
     }
 
     public function sendHeader()

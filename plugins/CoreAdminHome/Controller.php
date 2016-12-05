@@ -114,7 +114,7 @@ class Controller extends ControllerAdmin
             return '';
         }
 
-        $response = new ResponseBuilder('json');
+        $response = new ResponseBuilder('json2');
         try {
             $this->checkTokenInUrl();
 
