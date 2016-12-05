@@ -356,14 +356,14 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_json_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
+    public function test_oldJson_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
     {
         $input = array(
             "firstElement" => "isFirst",
             "secondElement" => "isSecond"
         );
 
-        $expected = '{"firstElement":"isFirst","secondElement":"isSecond"}';
+        $expected = '[{"firstElement":"isFirst","secondElement":"isSecond"}]';
 
         $oldJsonBuilder = new Json($input);
         $actual = $oldJsonBuilder->renderArray($input);
@@ -373,7 +373,7 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
     private function makeBuilder($request)
     {
-        return new Json($request);
+        return new Json2($request);
     }
 
     private function assertNoJsonError($response)
