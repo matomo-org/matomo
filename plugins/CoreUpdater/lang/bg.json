@@ -25,7 +25,6 @@
         "MajorUpdateWarning1": "Това е основна актуализация! Това ще отнеме малко повече от обичайното.",
         "MajorUpdateWarning2": "Следният съвет е особено важен за големи инсталации.",
         "NoteForLargePiwikInstances": "Важна бележка за големи Piwik инсталации",
-        "NoteItIsExpectedThatQueriesFail": "Забележка: При ръчното изпълнение на тези въпроси, се очаква, че някои от тях ще се провалят. В такъв случай ги игнорирайте и продължете напред.",
         "NotificationClickToUpdatePlugins": "Щракнете тук, за да обновите вашите добавки:",
         "NotificationClickToUpdateThemes": "Щракнете тук, за да обновите вашите тапети:",
         "NotificationSubjectAvailableCoreUpdate": "Налична е нова Piwik версия %s",
@@ -50,7 +49,6 @@
         "WarningMessages": "Предупредителни съобщения:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Автоматично са деактивирани следните добавки: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Можете да обновите автоматично към версия %s или да изтеглите обновлението и инсталирате ръчно:",
-        "YouCouldManuallyExecuteSqlQueries": "Ако не сте в състояние да използвате актуализациите и ако не успеете да обновите Piwik (поради изчакване на база данни, изчакване на уеб браузъра или друго) можете ръчно да изпълните SQL заявките актуализиране на Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik не е в състояние да презапишете текущата си инсталация. Можете да отстраните директорията\/файла за достъп, или да изтеглите и инсталирате пакет версия %s и ръчно:",
         "YourDatabaseIsOutOfDate": "Базата от данни (БД) на Piwik е остаряла. Трябва да обновите преди да продължите нататък."
     }

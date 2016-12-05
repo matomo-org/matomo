@@ -6,7 +6,6 @@
         "AnonymousUserHasViewAccess": "Tandaan: ang %1$s user ay may %2$s na access sa website na ito",
         "AnonymousUserHasViewAccess2": "Ang iyong ulat na pang analytics at ang mga impormasyon ng iyong mga bisita ay makikita ng publiko.",
         "ApplyToAllWebsites": "Mai-aapply sa lahat ng mga website",
-        "ChangePasswordConfirm": "Kasamang ring mapapalitan ang user's token_auth kapag ikaw ay nagpalita ng password. Gusto mo ba talang ituloy ito?",
         "ClickHereToDeleteTheCookie": "Pindutin dito upang burahin ang cookie at matala ng Piwik ang iyong pagbisita.",
         "ClickHereToSetTheCookieOnDomain": "I-click dito upang magtakda ng cookie na mag buibukod sa iyong mga pagbisita sa mga website na sinusubaybayan ng Piwik sa %s.",
         "ConfirmGrantSuperUserAccess": "Nais mo bang bigyan '%s' Super User access? Babala: ang user ay mag kakaroon ng access sa lahat ng websites at makakagawa ng pang administratibong gawain.",

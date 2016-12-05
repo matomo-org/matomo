@@ -33,7 +33,6 @@
         "MajorUpdateWarning1": "Esta é uma grande atualização! Vai levar mais tempo do que o habitual.",
         "MajorUpdateWarning2": "A consultoria é especialmente importante para grandes instalações.",
         "NoteForLargePiwikInstances": "Nota importante para grandes instalações Piwik",
-        "NoteItIsExpectedThatQueriesFail": "Nota: se você executar manualmente essas queries, é esperado que algumas delas falhem. Nesse caso, simplesmente ignore os erros, e rode os próximos da lista.",
         "NotificationClickToUpdatePlugins": "Clique aqui para atualizar seus plugins agora:",
         "NotificationClickToUpdateThemes": "Clique aqui para atualizar os temas agora:",
         "NotificationSubjectAvailableCoreUpdate": "Novo Piwik %s está disponível",
@@ -71,7 +70,6 @@
         "WarningMessages": "Mensagens de alerta:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Nós automaticamente desativamos os seguintes plugins: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Você pode atualizar para a versão %s automaticamente ou baixar o pacote e instalar manualmente:",
-        "YouCouldManuallyExecuteSqlQueries": "Se você não tem permissão para atualizar pela linha de comando e se o Piwik falhou em atualizar (devido a um timeout do banco de dados, timeout do navegador, ou outro problema), você poderá manualmente executar as queries SQL para atualizar o Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik é incapaz de sobrescrever uma instalação atual. Você pode arrumar as permissões de diretório\/arquivos ou download o pacote e instalar a versão %s manualmente:",
         "YourDatabaseIsOutOfDate": "Seu banco de dados do Piwik está desatualizado e deve ser atualizado antes de continuar.",
         "ViewVersionChangelog": "Ver o changelog para esta versão:"

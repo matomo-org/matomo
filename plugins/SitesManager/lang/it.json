@@ -43,7 +43,7 @@
         "KeepURLFragmentsLong": "Conserva i frammenti di URL Pagina quando si tracciano gli URL Pagina",
         "ListOfIpsToBeExcludedOnAllWebsites": "I seguenti indirizzi IP verranno esclusi dal tracking su tutti i siti.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "I parametri URL Query qui sotto saranno esclusi dagli URL su tutti i siti.",
-        "ListOfQueryParametersToExclude": "Inserisci l'elenco dei parametri di ricerca URL, uno per riga, da escludere dai reports URL Pagina.",
+        "ListOfQueryParametersToExclude": "Crea un elenco con i Parametri Query URL, uno per riga, da escludere dai report URL Pagina. Sono supportate le espressioni regolari come %s.",
         "MainDescription": "Per generare i report dei tuoi siti web, devi configurarli in Piwik! Aggiungi, aggiorna, cancella i siti web e visualizza il codice JavaScript da inserire nelle tue pagine.",
         "MenuManage": "Amministrazione",
         "NotAnEcommerceSite": "Sito non Ecommerce",

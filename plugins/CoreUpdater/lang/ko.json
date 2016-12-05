@@ -29,7 +29,6 @@
         "MajorUpdateWarning1": "중요한 업데이트입니다! 평소보다 더 오래 걸릴지도 모릅니다.",
         "MajorUpdateWarning2": "다음은 무거운 설치시 알아야하는 중요한 내용입니다.",
         "NoteForLargePiwikInstances": "용량이 큰 Piwik 설치시 주의해야 할 점",
-        "NoteItIsExpectedThatQueriesFail": "주의: 이 쿼리를 수동으로 실행하는 경우, 쿼리의 일부는 실패 할 것으로 예상됩니다. 그 경우는 단순히 오류를 무시하고 목록에서 다음 쿼리를 실행하세요.",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik 이 성공적으로 업데이트되었습니다!",
         "PiwikUpdatedSuccessfully": "Piwik 업데이트가 성공적으로 완료되었습니다!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik 데이터베이스가 %1$s 버전에서 %2$s 새 버전으로 업그레이드됩니다.",
@@ -49,7 +48,6 @@
         "WarningMessages": "경고 메세지:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "다음의 플러그인이 자동으로 비활성화되었습니다: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "%s 버전으로 자동 업데이트하거나 수동적으로 패키지를 받아서 업데이트 할 수 있습니다:",
-        "YouCouldManuallyExecuteSqlQueries": "Piwik 업그레이드에 실패(데이터베이스의 시간 초과, 브라우저의 시간 제한 또는 기타 문제로 인해)하고 명령 줄 업데이트를 사용할 수 없는 경우, Piwik를 업데이트하기 위해 직접 SQL 쿼리를 실행할 수 있습니다.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik 현재 설치에 덮어쓸 수 없습니다. 디렉토리\/파일 권한을 수정하거나 패키지를 다운로드하여 수동으로 버전 %s를 설치할 수 있습니다:",
         "YourDatabaseIsOutOfDate": "Piwik 데이터베이스가 오래되었으니 계속하기 이전에 먼저 업그레이드가 되어야 합니다."
     }

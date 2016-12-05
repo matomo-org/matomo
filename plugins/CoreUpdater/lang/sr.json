@@ -34,7 +34,6 @@
         "MajorUpdateWarning1": "Ovo je bitna nadogradnja! Trajaće duže nego inače.",
         "MajorUpdateWarning2": "Sledeći predlog je naročito važan kod dugih instalacija.",
         "NoteForLargePiwikInstances": "Važna napomena za velike Piwik instalacije",
-        "NoteItIsExpectedThatQueriesFail": "Pažnja: ukoliko ručno vršite ove upite, za očekivati je da neki od njih neće proći. U tom slučaju jednostavno ignorišite greške i nastavite sa sledećim upitom sa spiska.",
         "NotificationClickToUpdatePlugins": "Kliknite ovde kako biste nadogradili dodatke:",
         "NotificationClickToUpdateThemes": "Kliknite ovde kako biste ažurirali vaše teme:",
         "NotificationSubjectAvailableCoreUpdate": "Izašao je novi Piwik %s",
@@ -73,7 +72,6 @@
         "WarningMessages": "Poruka upozorenja:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automatski smo deaktivirali sledeće dodatke: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Možete izvršiti automatsku nadogradnju na verziju %s ili preuzeti poslednju verziju Piwik-a i izvršiti ručnu nadogradnju",
-        "YouCouldManuallyExecuteSqlQueries": "Ukoliko niste u mogućnosti da izvršite nadogradnju iz komandne linije i ako Piwik ne uspe da se nadogradi (zbog isteka vremena na bazi, brauzeru ili bilo čega drugog), možete ručno izvršiti SQL upite.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik nije u stanju da prebriše trenutnu instalaciju. Možete ili da popravite dozvole nad datotekama i direktorijumima ili da preuzmete paket sa Interneta i instalirate verziju %s ručno:",
         "YourDatabaseIsOutOfDate": "Piwik baza podataka je zastarela i mora biti nadograđena pre nego što nastavite.",
         "ViewVersionChangelog": "Prikaži zapis promena za ovu verziju:"

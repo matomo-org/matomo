@@ -6,7 +6,6 @@
         "AnonymousUserHasViewAccess": "Catatan: pengguna %1$s memiliki akses %2$s di situs ini.",
         "AnonymousUserHasViewAccess2": "Laporan analitis dan informasi pengunjung Anda dapat dilihat secara terbuka.",
         "ApplyToAllWebsites": "Terapkan ke seluruh situs",
-        "ChangePasswordConfirm": "Mengubah sandi juga mengubah token_auth pengguba. Yakin melanjutkan?",
         "ClickHereToDeleteTheCookie": "Klik di sini untuk menghapus kuki dan mengizinkan Piwik melacak kunjungan Anda",
         "ClickHereToSetTheCookieOnDomain": "Klik di sini untuk mengatur kuki yang akan mengecualikan kunjungan Anda ke situs yang dilacak oleh Piwik %s",
         "DeleteConfirm": "Apakah Anda yakin menghapus pengguna %s?",

@@ -22,7 +22,6 @@
         "HelpMessageIntroductionWhenWarning": "A frissítés sikeres volt, azonban problémák léptek fel a frissítés során. A részletekért kérünk olvasd el a fenti leírást! További segítségért fordulj ide:",
         "InstallingTheLatestVersion": "Legújabb verzió telepítése",
         "NoteForLargePiwikInstances": "Fontos megjegyzés nagyobb weboldalakra telepített Piwik rendszerekhez.",
-        "NoteItIsExpectedThatQueriesFail": "Figyelem: ha kézzel hajtod végre ezeket a parancsokat, elképzelhető, hogy néhányuk nem kerül végrehajtásra. Ebben az esetben egyszerűen ne vedd figyelembe a hibaüzeneteket, és folytasd a következő parancs kiadásával.",
         "PiwikHasBeenSuccessfullyUpgraded": "A Piwik sikeresen frissült!",
         "PiwikUpdatedSuccessfully": "A Piwik frissítése sikeresen megtörtént!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik adatbázisa frissülni fog %1$s verzióról az új %2$s verzióra.",
@@ -42,7 +41,6 @@
         "WarningMessages": "Figyelmeztetések:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automatikusan kikapcsoltuk a következő bővítményeket: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Frissíthetsz automatikusan a %s verzióra, vagy töltsd le a csomagot és telepítsd kézzel:",
-        "YouCouldManuallyExecuteSqlQueries": "Ha nem lehetséges a parancssori frissítés és ha a Piwik nem tud frissíteni az újabb verzióra (adatbázis-műveletek időtúllépése, a böngésző időtúllépése vagy egyéb problémák miatt), kézzel is lehet frissíteni a Piwik-et a megfelelő SQL parancsok segítségével.",
         "YouMustDownloadPackageOrFixPermissions": "A Piwik nem tudta felülírni a jelenlegi rendszert. Kérjük, állítsd be megfelelően a könyvtár- és fájlhozzáférési jogosultságokat, vagy töltsd le a csomagot és telepítsd a %s verziót kézzel:",
         "YourDatabaseIsOutOfDate": "A Piwik adatbázisod elavult. Frissítened kell, mielőtt folytathatnád!"
     }

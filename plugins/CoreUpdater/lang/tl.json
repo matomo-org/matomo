@@ -27,7 +27,6 @@
         "MajorUpdateWarning1": "Ito ay isang mahalagang update! Ito ay mas matagal kaysa sa karaniwan.",
         "MajorUpdateWarning2": "Ang mga sumusunod na payo ay mahalaga para sa mga malalaking pag-install.",
         "NoteForLargePiwikInstances": "Mga mahalagang paalala para sa malalaking installation sa Piwik",
-        "NoteItIsExpectedThatQueriesFail": "Tandaan: Kung e mamanu-mano ang pag execute sa mga queries na ito asahan na ang iba sa mga ito ay hindi matuloy. Sa kasong ganito mangyaring balewalain lamang ang mga errors na ito at ituloy ang susunod sa iyong listahan.",
         "NotificationClickToUpdatePlugins": "Mag-click dito upang i-update ang iyong mga plugin ngayon.",
         "NotificationClickToUpdateThemes": "Mag-click dito upang i-update ang iyong tema ngayon:",
         "NotificationSubjectAvailableCoreUpdate": "Bagong Piwik %s ay maaring magamit",
@@ -52,7 +51,6 @@
         "WarningMessages": "Mga babala mensahe:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Awtomatiko naming idineactivate ang mga sumusunod na plugin: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Maaari mong awtomatikong i-update sa bersyon %s o i-download ang package at mano-manong i-install ito:",
-        "YouCouldManuallyExecuteSqlQueries": "Kung ikaw ay hindi makakagamit ng command line updater at kung ang Piwik ay bigo sa pag-upgrade(dahil sa pag-timeout ng database ng nag-timeout ang browser o kahit anong isyu maari mong e-manu-mano upang paganahin ang mga SQL queries upang ma-update ang Piwik",
         "YouMustDownloadPackageOrFixPermissions": "Ang piwik ay hindi magawang palitan ang iyong kasaluyang installation. Maari mong ayusin ang directory\/file permissions. o mag-download ng package at i-install ang version %s ng manu-mano.",
         "YourDatabaseIsOutOfDate": "Ang iyong Piwik database ay out-of-date at dapat mo na itong e-upgrade bago ka makatuloy sa susunod na proseso."
     }

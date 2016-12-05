@@ -43,7 +43,6 @@
         "KeepURLFragmentsLong": "Zadrži URL fragmente prilikom praćenja",
         "ListOfIpsToBeExcludedOnAllWebsites": "Sledeće IP adrese će biti izuzete iz praćenja na svim sajtovima.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Sledeći parametri će biti izuzeti iz praćenja na svim sajtovima.",
-        "ListOfQueryParametersToExclude": "Navedite listu parametara, jedan po liniji, koje treba izuzeti iz izveštaja",
         "MainDescription": "Potrebni su vam sajtovi da biste mogli da pratite izveštaje. Dodajte, izmenite ili uklonite sajtove, pogledajte JavaScript kod koji je potrebno postaviti na vaše stranice.",
         "MenuManage": "Upravljanje",
         "NotAnEcommerceSite": "Nije sajt za elektronske porudžbine",

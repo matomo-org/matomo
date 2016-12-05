@@ -22,7 +22,6 @@
         "HelpMessageIntroductionWhenWarning": "השדרוג הושלם בהצלחה, בכל אופן התרחשו מספר תקלות במהלך התהליך. יש לקרוא את התיאור להעיל לפרטים. לעזרה נוספת:",
         "InstallingTheLatestVersion": "מתקין את הגירסה העדכנית ביותר",
         "NoteForLargePiwikInstances": "הערה חשובה עבור אתרי Piwik גדולים",
-        "NoteItIsExpectedThatQueriesFail": "יש לשים לב: במידה והשאילתות מורצות באופן ידני, צפוי כי חלק מהם יכשלו. במצב זה, יש להתעלם מהשגיאות, ולהריץ את הבאות בתור.",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik שודרגה בהצלחה!",
         "PiwikUpdatedSuccessfully": "שדרוג Piwik הושלם בהצלחה!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "מסד הנתונים של Piwik ישודרג מגירסה %1$s לגירסה %2$s.",
@@ -42,7 +41,6 @@
         "WarningMessages": "הודעה אזהרה:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "הפעלנו באופן אוטומטי את התוספים הבאים: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "ניתן לשדרג לגירסה %s באופן אוטומטי או להוריד חבילה ולהתקינה באופן ידני:",
-        "YouCouldManuallyExecuteSqlQueries": "במידה ואין ביכלותך לשדרג דרך שורת הפקודה ובמידה וPiwik נכשלת בשדרוג (עקב השעיה של מסד הנתונים, השעיה של הדפדפן או כל בעיה אחרת), ניתן להריץ באופן ידני את השאילתות לשדרוג Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik לא מצליחה לשכתב את ההתקנה הנוכחית. ניתן לתקן את הרשאות התיקיה\/קובץ או להוריד את החבילה ולהתקין את גירסה %s באופן ידני:",
         "YourDatabaseIsOutOfDate": "מסד הנתונים של הPiwik שלך לא בתוקף, חובה לשדרג אותו לפני שנמשיך."
     }

@@ -4,7 +4,6 @@
         "Alias": "Aizstājējvārds",
         "AllWebsites": "Visas vietnes",
         "ApplyToAllWebsites": "Apstipriniet visām vietnēm",
-        "ChangePasswordConfirm": "Mainot lietotāja paroli, tiks izmainīts arī lietotāja token_auth. Vai tiešām vēlaties turpināt?",
         "ClickHereToDeleteTheCookie": "Klikšķiniet šeit, lai dzēstu sīkdatni un atļautu Piwik izsekot Jūsu pašu apmeklējumus",
         "ClickHereToSetTheCookieOnDomain": "Klikšķiniet šeit, lai iestatītu sīkdatni, kas aizliegs izsekot Jūsu pašu apmeklējumus %s",
         "DeleteConfirm": "Vai Jūs tiešām vēlaties dzēst lietotāju %s?",

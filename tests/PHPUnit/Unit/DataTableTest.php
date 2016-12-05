@@ -107,6 +107,35 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($table2->getRowFromIdSubDataTable($idTable3), $table2->getLastRow());
     }
 
+    public function test_rebuildIndex()
+    {
+        $labels = array(0 => 'abc', 1 => 'def', 2 => 'ghi', 3 => 'jkl', 4 => 'mno');
+        $table = new DataTable();
+
+        $rows = array();
+        foreach ($labels as $label) {
+            $row = new Row(array(Row::COLUMNS => array('label' => $label)));
+            $table->addRow($row);
+            $rows[] = $row;
+        }
+
+        foreach ($labels as $label) {
+            $rowVerify1 = $table->getRowFromLabel($label);
+            $this->assertSame($label, $rowVerify1->getColumn('label'));
+        }
+
+        $table->setRows(array($rows[2], $rows[3], $rows[4]));
+        $table->rebuildIndex();// rebuildindex would be called anyway but we force rebuilding the index just to make sure
+
+        // verify still accessible
+        $rowVerify1 = $table->getRowFromLabel('ghi');
+        $this->assertSame('ghi', $rowVerify1->getColumn('label'));
+
+        // verify no longer accessible
+        $rowVerify3 = $table->getRowFromLabel('abc');
+        $this->assertFalse($rowVerify3);
+    }
+
     public function test_clone_shouldIncreasesTableId()
     {
         $table = new DataTable;

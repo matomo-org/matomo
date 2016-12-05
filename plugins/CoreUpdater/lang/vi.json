@@ -24,7 +24,6 @@
         "MajorUpdateWarning1": "Đây là phần cập nhật quan trọng! Vì vậy sẽ mất nhiều thời gian hơn bình thường.",
         "MajorUpdateWarning2": "Lời khuyên sau đây đặc biệt quan trọng cho việc cài đặt quy mô lớn.",
         "NoteForLargePiwikInstances": "Lưu ý quan trọng khi cài đặt Piwik có quy mô lớn.",
-        "NoteItIsExpectedThatQueriesFail": "Ghi nhớ: Nếu bạn muốn thực hiện những câu lệnh này bằng tay và một vài trong số chúng bị lỗi. Trong trường hợp đó, đơn giản là hãy bỏ qua lỗi, và chạy câu lệnh tiếp theo trong danh sách.",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik vừa được cập nhật thành công!",
         "PiwikUpdatedSuccessfully": "Piwik đã cập nhật thành công!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Cơ sở dữ liệu Piwik sẽ được nâng cấp từ phiên bản %1$s lên phiên bản mới %2$s.",
@@ -44,7 +43,6 @@
         "WarningMessages": "Cảnh báo:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Chúng tôi tự động tắt các plugin sau: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Bạn có thể cập nhật tự động phiên bản %s hoặc tải về gói cập nhật và tự cài dặt.",
-        "YouCouldManuallyExecuteSqlQueries": "Nếu bạn không thể sử dụng chế độ dòng lệnh của updater hay nếu bạn cập nhất không thành công (vì lỗi timeout của database, hay timeout của trình duyệt, hay các lỗi khác), bạn có thể tự thực thi các dòng truy vấn SQL để cập nhật Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik không thể ghi đè lên các file cài đặt sẵn có. Bạn có thể sửa lại permission của file\/thư mục, hoặc tải về gói cài đặt và tự cài đặt phiên bản %s.",
         "YourDatabaseIsOutOfDate": "Cơ sở dữ liệu Piwik của bạn đã lỗi thời, và phải được nâng cấp trước khi bạn có thể tiếp tục."
     }

@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "Păstreaza fragmente din URL-ul paginii, atunci când urmarresti URL-ul paginii",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-urile de mai jos vor fi excluse de la urmărire pe toate site-urile.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Interogarea parametrilor URL de mai jos vor fi exclusi de pe URL-uri de pe toate site-urile.",
-        "ListOfQueryParametersToExclude": "Introduceți lista de URL parametrii de interogare, câte unul pe linie, pentru a exclude de la pagina de URL-uri rapoarte.",
         "MainDescription": "Your Web Analytics reports need Websites! Add, update, delete Websites, and show the Javascript to insert in your pages.",
         "NotAnEcommerceSite": "Nu este un site de e-comerţ",
         "NotFound": "Nu sunt website-uri găsite pentru",

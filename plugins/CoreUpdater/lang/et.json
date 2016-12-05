@@ -34,7 +34,6 @@
         "WarningMessages": "Hoiatussõnumid:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Lülitame automaatselt välja järgnevad lisatarkvarad: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Sa võid uuendada versioonile %s automaatselt või laadida alla paki ja paigaldada käsitsi:",
-        "YouCouldManuallyExecuteSqlQueries": "Kui sa ei saa kasutada käsurea kaudu uuendamist ja Piwiku uuendus veebisirvikus ebaõnnestub, siis võid järgnevad SQL käsud otse andmebaasis käivitada.",
         "YourDatabaseIsOutOfDate": "Sinu Piwiku andmebaas on vananenud ja tuleb enne jätkamist uuendada."
     }
 }

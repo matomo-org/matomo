@@ -43,7 +43,6 @@
         "KeepURLFragmentsLong": "Zachovat URL fragmenty stránek při sledování",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP adresy uvedené níže budou vynechány ze záznamu pro všechny weby.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL parametry uvedené níže budou vynechány z URL pro všechny www adresy",
-        "ListOfQueryParametersToExclude": "Zadejte seznam URL parametrů, jeden na řádek, které budou vynechány z hlášení Piwiku",
         "MainDescription": "Vaše analýzy webu potřebují Web! Přidejte, aktualizujte, nebo vymažte je a zobrazte si JavaScriptový kód pro vložení do vaších stránek.",
         "MenuManage": "Spravovat",
         "NotAnEcommerceSite": "Žádná stránka obchodu",

@@ -6,7 +6,6 @@
         "AnonymousUser": "Utilizador anónimo",
         "AnonymousUserHasViewAccess": "Nota: o utilizador %1$s tem %2$s acessos a este website.",
         "ApplyToAllWebsites": "Aplicar a todos os websites",
-        "ChangePasswordConfirm": "Alterar a senha também mudará o token_auth do utilizador. Você deseja continuar?",
         "ClickHereToDeleteTheCookie": "Clique aqui para eliminar o cookie e permitir a Piwik monitorizar as suas visitas.",
         "ClickHereToSetTheCookieOnDomain": "Clique aqui para definir um cookie que excluirá todas as suas visitas de serem monitorizadas por Piwik em %s",
         "DeleteConfirm": "Tem a certeza que deseja eliminar o utilizador %s?",

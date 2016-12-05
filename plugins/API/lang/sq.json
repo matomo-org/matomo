@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Nëse doni ta ndryshoni këtë token, ju lutemi, shkoni te %1$sfaqja juaj e rregullimeve personale%2$s.",
         "GenerateVisits": "Nëse nuk keni të dhëna për ditën e sotme, mund të prodhonit ca të dhëna duke përdorur shtojcën %1$s. Shtojcën %2$s mund ta aktivizoni, mandej klikoni mbi menunë 'Gjenerator Vizitorësh' te pjesa Përgjegjës Piwik-u.",
         "KeepTokenSecret": "Ky token_auth është po aq i fshehtë sa të dhënat tuaja për hyrjen dhe fjalëkalimi juaj, %1$s mos ia jepni kujt%2$s!",
         "LoadedAPIs": "U ngarkua me sukses API %s",

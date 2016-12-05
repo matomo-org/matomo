@@ -26,7 +26,6 @@
         "JsTrackingTagHelp": "นี่คือ JavaScript Tracking Tag ที่ต้องใส่ไว้ทุกหน้าในเว็บของคุณ",
         "ListOfIpsToBeExcludedOnAllWebsites": "IPs ด้านล่างจะถูกแยกออกจากการถูกติดตามบนเว็บไซต์ทั้งหมด",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "คิวรีของพารามิเตอร์แบบ URLs ด้านล่างจะถูกแยกออกจาก URLs บนเว็บไซต์ทั้งหมด",
-        "ListOfQueryParametersToExclude": "ป้อนรายการของ URL คิวรีพารามิเตอร์อย่างใดอย่างหนึ่งสำหรับแต่ละบรรทัด การแยกออกจากรายงานหน้า URLs",
         "MainDescription": "รายงานการวิเคราะห์เว็บไซต์ของคุณ ที่ต้องการ! เพิ่ม, ปรับข้อมูล, ลบเว็บไซต์และแสดงการใช้ Javascript เพื่อแทรกในหน้าเว็บของท่าน",
         "NotFound": "ไม่มีเว็บไซต์ที่ค้นพบสำหรับ",
         "NoWebsites": "คุณไม่มีเว็บไซต์ที่จะจัดการ",

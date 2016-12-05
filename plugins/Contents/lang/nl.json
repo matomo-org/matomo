@@ -2,8 +2,6 @@
     "Contents": {
         "PluginDescription": "Met content- en bannertracking meet je de prestaties (bezoeken, kliks, ctr) van elk stukje content op je webpagina (banner, tekstadvertentie, plaatje).",
         "Impressions": "Vertoningen",
-        "Interactions": "Interacties",
-        "Interaction": "Interactie",
         "InteractionRate": "Aantal interacties",
         "ContentName": "Content naam",
         "ContentPiece": "Contentonderdeel",

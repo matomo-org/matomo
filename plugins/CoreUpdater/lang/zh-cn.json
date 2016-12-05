@@ -32,7 +32,6 @@
         "MajorUpdateWarning1": "这是全面升级！会比平时多花些时间。",
         "MajorUpdateWarning2": "下面的建议对大型网站很重要。",
         "NoteForLargePiwikInstances": "大型 Piwik 网站重要注意事项",
-        "NoteItIsExpectedThatQueriesFail": "注意: 如果您手动执行这些查询，预计当中会有一些错误。在此情況下，只需忽略错误，然后执行以下列表。",
         "NotificationClickToUpdatePlugins": "点击这里更新你的插件：",
         "NotificationClickToUpdateThemes": "点击这里现在就更新你的主题",
         "NotificationSubjectAvailableCoreUpdate": "有一个全新的版本Piwik %s",
@@ -69,7 +68,6 @@
         "WarningMessages": "警告讯息:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "我们自动停用了以下的插件: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "您可以自动升级到版本%s，或者下载安装包手动安装:",
-        "YouCouldManuallyExecuteSqlQueries": "如果您无法通过命令行来更新且 Piwik 升级失败(数据库超时、浏览器超时或任何问题)，您可以手动执行 SQL 语句来更新 Piwik。",
         "YouMustDownloadPackageOrFixPermissions": "Piwik 无法覆盖您之前的安裝。您可以直接修改目录\/文件权限，或是下载压缩包然后手动安裝 %s 版本:",
         "YourDatabaseIsOutOfDate": "您的 Piwik 数据库版本太旧了，必须先升级才能继续！",
         "ViewVersionChangelog": "查看该版本的更新日志："

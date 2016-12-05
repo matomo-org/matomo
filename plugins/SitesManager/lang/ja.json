@@ -42,7 +42,6 @@
         "KeepURLFragmentsLong": "ページ URL をトラッキングする際は、ページ URL フラグメントを保持してください。",
         "ListOfIpsToBeExcludedOnAllWebsites": "次の IP は、全ウェブサイトのトラッキングから除外されます。",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "次のクエリー URL パラメータは、全ウェブサイトの URL から除外されます。",
-        "ListOfQueryParametersToExclude": "ページ URL のリポートから除外する URL クエリーパラメータのリストを、1行に1つずつ入力します。",
         "MainDescription": "ウェブ解析リポートにはウェブサイトが必要です！ ウェブサイトの追加、更新、削除と、ページに挿入する Javascript を表示します。",
         "NotAnEcommerceSite": "eコマースサイトではない",
         "NotFound": "ウェブサイトが見つかりませんでした：",

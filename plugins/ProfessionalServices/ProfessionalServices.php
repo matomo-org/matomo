@@ -65,7 +65,7 @@ class ProfessionalServices extends \Piwik\Plugin
 
         $out .= '
             <p style="margin-top:3em" class=" alert-info alert">Did you know?
-                With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/ab-testing-learn-more/">A/B Testing for Piwik</a> you can immediately increase conversions and sales by creating different versions of a page to see which grows your business.
+                With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/ab-testing-learn-more/">A/B Testing for Piwik</a> you can immediately increase conversions and sales by creating different versions of a page to see which one grows your business.
             </p>
             ';
     }

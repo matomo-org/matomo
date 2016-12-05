@@ -40,6 +40,7 @@
         "JSTracking_MergeSubdomainsDesc": "Hierdurch werden Besucher, die %1$s und %2$s besuchen als eindeutige Besucher gewertet.",
         "JSTracking_PageCustomVars": "Eine benutzerdefinierte Variable für jeden Seitenaufruf aufzeichnen",
         "JSTracking_PageCustomVarsDesc": "Zum Beispiel mit den Variablennamen \"Kategorie\" und dem Wert \"White Papers\"",
+        "JSTracking_TrackNoScript": "Benutzer mit deaktiviertem JavaScript tracken",
         "JSTracking_VisitorCustomVars": "Benutzerdefinierte Variable für diesen Besucher aufzeichnen",
         "JSTracking_VisitorCustomVarsDesc": "Zum Beispiel mit dem Variablennamen \"Typ\" und dem Wert \"Kunde\".",
         "JSTrackingIntro1": "Es gibt viele verschiedene Möglichkeiten Besucher Ihrer Website zu tracken. Die empfohlene Art und Weise dies zu tun, ist die Verwendung von JavaScript. Um diese Methode zu nutzen müssen Sie sicher stellen, dass auf jeder Seite Ihrer Website ein JavaScript-Code eingebunden ist. Diesen können Sie hier generieren.",

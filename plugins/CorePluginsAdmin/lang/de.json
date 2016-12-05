@@ -5,6 +5,7 @@
         "Activated": "Aktiviert",
         "Active": "Aktiv",
         "Activity": "Aktivität",
+        "AlwaysActivatedPluginsList": "Die folgenden Plugins sind immer aktiviert und können nicht deaktiviert werden: %s",
         "AuthorHomepage": "Website des Autors",
         "Changelog": "Änderungsprotokoll",
         "ChangeSettingsPossible": "Sie können die %1$sEinstellungen%2$s für dieses Plugin ändern.",
@@ -42,6 +43,10 @@
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
         "PluginRequirement": "%1$s benötigt %2$s",
         "PluginsManagement": "Pluginverwaltung",
+        "NotDownloadable": "Kann nicht heruntergeladen werden",
+        "PluginNotDownloadable": "Das Plugin kann nicht heruntergeladen werden.",
+        "PluginNotDownloadablePaidReason": "Mögliche Gründe sind eine abgelaufene oder überschrittene Lizenz.",
+        "PluginActivated": "Plugin aktiviert",
         "Status": "Status",
         "SuccessfullyActicated": "Sie haben <strong>%s<\/strong> erfolgreich aktiviert.",
         "TeaserExtendPiwik": "Erweitere Piwik mit Plugins und Themes",
@@ -55,6 +60,7 @@
         "UninstallConfirm": "Sie sind gerade dabei, das Plugin %s zu deinstallieren. Das Plugin wird vollständig von ihrer Plattform entfernt und kann nicht wiederhergestellt werden. Sind sie sicher, dass sie das tun wollen?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Alle Marketplace Plugins anzeigen",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "Wir haben das Plugin %s wegen fehlender Abhängigkeiten deaktiviert:",
         "Websites": "Websites"
     }
 }

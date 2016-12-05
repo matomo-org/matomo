@@ -22,7 +22,6 @@
         "HelpMessageIntroductionWhenWarning": "Oppdateringa var vellykka, med det var problem i prosessen. Sjå forklaringane over for detaljar. For meir hjelp:",
         "InstallingTheLatestVersion": "Installerer siste versjon",
         "NoteForLargePiwikInstances": "Viktig melding for store Piwik-installasjonar",
-        "NoteItIsExpectedThatQueriesFail": "Merk: om du køyrer spurnadene manuelt, er det forventa at nokon vil feila. Om det skjer, kan du berre ignorera dei og fortsetja på lista.",
         "PiwikHasBeenSuccessfullyUpgraded": "Oppdateringa var vellykka!",
         "PiwikUpdatedSuccessfully": "Oppdatering av Piwik var vellukka!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik-databasa vil bli oppgradert frå versjon %1$s til den nye versjonen %2$s.",
@@ -41,7 +40,6 @@
         "WarningMessages": "Åtvaringar:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Me slo automatisk av føljande innstikk: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Du kan oppdatera til versjon %s automatisk, eller lasta ned og installera pakka manuelt:",
-        "YouCouldManuallyExecuteSqlQueries": "Om du ikkje kan nytta kommandolinja og oppdateringa feiler (pga tidsavbrot mot databasen, tidsavbrot i nettlesaren, eller andre problem), kan du manuelt køyre SQL-spurnadane for å oppdatera Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik kan ikkje overskriva den gjeldande installasjonen. Du kan anten fikse katalog\/filtilgangen, eller lasta ned pakken og installera versjon %s manuelt:",
         "YourDatabaseIsOutOfDate": "Piwik-databasa di er gamal, og må bli oppgradert før du kan halda fram."
     }

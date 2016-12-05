@@ -22,7 +22,6 @@
         "HelpMessageIntroductionWhenWarning": "Абнаўленне завершана паспяхова, аднак падчас паўстала некалькі папярэджанняў. Калі ласка, прачытайце нататкі ніжэй. Для дадатковай дапамогі:",
         "InstallingTheLatestVersion": "Усталёўка апошняй версіі",
         "NoteForLargePiwikInstances": "Важныя заўвагі для буйных усталёвак Piwik",
-        "NoteItIsExpectedThatQueriesFail": "Заўвага: калі вы ўручную выконваеце гэтыя запыты, часам адбываецца, што некаторыя з іх церпяць няўдачу. У гэтым выпадку, проста ігнаруйце памылкі, і запускайце наступныя у спісе.",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik паспяхова абноўлены!",
         "PiwikUpdatedSuccessfully": "Piwik абноўлены паспяхова!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik база будзе абноўлена з версіі %1$s да версіі %2$s.",
@@ -42,7 +41,6 @@
         "WarningMessages": "Папярэджанні:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Наступныя плагіны аўтаматычна дэактываваны: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Вы можаце абнавіцца да версіі %s аўтаматычна ці запампаваць усталявальны пакет і ўручную ўсталяваць яго:",
-        "YouCouldManuallyExecuteSqlQueries": "Калі вы не можаце выкарыстоўваць камандны радок для абнаўлення, і калі Piwik не ўдаецца абнавіць (з-за тайм-аўта у базе дадзеных, тайм-аўта ў браўзэр, або па любой іншай падставе), вы можаце ўручную запусціць SQL запыты для абнаўлення Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik не можа перазапісаць бягучыя ўсталёўкі. Вы можаце выправіць правы доступу да файлаў\/каталогаў або загрузіць і ўсталяваць пакет %s ўручную:",
         "YourDatabaseIsOutOfDate": "Тэрмін дзеяння Вашай Piwik базы мінуў, Вам трэба яе абнавіць для працягу."
     }
