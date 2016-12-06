@@ -7,7 +7,7 @@
                 <span class="pluginBody">
                     {{ plugin.description }}
                     <br />
-                    <a href="javascript:;" piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ 'General_MoreDetails'|translate }}</a>
+                    <a href="javascript:;" class="pluginMoreDetails" piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ 'General_MoreDetails'|translate }}</a>
                 </span>
             </div>
             {% if loop.index % 3 == 0 %}
