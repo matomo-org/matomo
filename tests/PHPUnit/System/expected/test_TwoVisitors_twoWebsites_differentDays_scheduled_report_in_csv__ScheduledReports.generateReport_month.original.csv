@@ -334,7 +334,8 @@ No data available
 
 Websites
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-referrer.com/Other_Page.htm,4,20,5,00:15:01,0%,$ 0
+referrer.com/Other_Page.htm,2,10,5,00:15:01,0%,$ 0
+referrer.com/Other_Page.htm,2,10,5,00:15:01,0%,$ 0
 referrer.com/page.htm?param=valuewith some spaces,2,2,1,00:00:00,100%,$ 0
 
 Social Networks
