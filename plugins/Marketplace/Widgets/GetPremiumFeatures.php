@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\Marketplace\Widgets;
 
 use Piwik\Common;
+use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
@@ -30,7 +32,7 @@ class GetPremiumFeatures extends Widget
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('About Piwik');
-        $config->setName('Premium Features');
+        $config->setName(Piwik::translate('Marketplace_PaidPlugins'));
         $config->setOrder(19);
     }
 

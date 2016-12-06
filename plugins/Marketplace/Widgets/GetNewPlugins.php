@@ -30,25 +30,13 @@ class GetNewPlugins extends Widget
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('About Piwik');
-        $paidOnly = Common::getRequestVar('paidOnly', 0, 'int');
-        if ($paidOnly) {
-            $config->setName('Latest Premium Features');
-        } else {
-            $config->setName('Latest Marketplace Updates');
-        }
+        $config->setName('Latest Marketplace Updates');
         $config->setOrder(19);
     }
 
     public function render()
     {
-        $paidOnly = Common::getRequestVar('paidOnly', 0, 'int');
         $isAdminPage = Common::getRequestVar('isAdminPage', 0, 'int');
-
-        if (!empty($paidOnly)) {
-            $purchaseType = PurchaseType::TYPE_PAID;
-        } else {
-            $purchaseType = PurchaseType::TYPE_ALL;
-        }
 
         if (!empty($isAdminPage)) {
             $template = 'getNewPluginsAdmin';
@@ -56,7 +44,7 @@ class GetNewPlugins extends Widget
             $template = 'getNewPlugins';
         }
 
-        $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, $purchaseType);
+        $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_ALL);
 
         return $this->renderTemplate($template, array(
             'plugins' => array_splice($plugins, 0, 3)
