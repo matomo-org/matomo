@@ -247,7 +247,10 @@ class PluginsTest extends IntegrationTestCase
             'canBeUpdated' => false,
             'hasExceededLicense' => false,
             'missingRequirements' =>array ( ),
-            'isMissingLicense' => false
+            'isMissingLicense' => false,
+            'changelog' => array(
+                'url' => 'http://plugins.piwik.org/Barometer/changelog'
+            )
         );
         $this->assertEquals($expected, $plugin);
     }

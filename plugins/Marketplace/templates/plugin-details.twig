@@ -13,8 +13,6 @@
                 {% set latestVersion = '' %}
             {% endif %}
 
-            {% set hasChangelog = plugin.isDownloadable and ((latestVersion and latestVersion.readmeHtml.changelog) or plugin.versions|length > 1) %}
-
             <div class="row">
                 <div class="col s12 m9">
                     <h2>{{ plugin.displayName }}</h2>
@@ -36,10 +34,6 @@
 
                                     {% if latestVersion.readmeHtml.documentation %}
                                         <li class="tab col s3"><a href="#tabs-documentation">{{ 'General_Documentation'|translate }}</a></li>
-                                    {% endif %}
-
-                                    {% if hasChangelog %}
-                                        <li class="tab col s3"><a href="#tabs-changelog">{{ 'CorePluginsAdmin_Changelog'|translate }}</a></li>
                                     {% endif %}
 
                                     {% if plugin.screenshots|length %}
@@ -81,41 +75,6 @@
                             {% if latestVersion.readmeHtml.documentation %}
                                 <div id="tabs-documentation" class="tab-content col s12">
                                     {{ latestVersion.readmeHtml.documentation|raw }}
-                                </div>
-                            {% endif %}
-
-                            {% if hasChangelog %}
-                                <div id="tabs-changelog" class="tab-content col s12">
-                                    {{ marketplaceMacro.missingRequirementsPleaseUpdateNotice(plugin) }}
-                                    {% if plugin.canBeUpdated %}
-                                        <div class="alert alert-warning">
-                                            {{ 'Marketplace_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}
-                                            {% if plugin.repositoryChangelogUrl %}<a rel="noreferrer"  target="_blank" href="{{ plugin.repositoryChangelogUrl }}">{{ 'Marketplace_ViewRepositoryChangelog'|translate }}</a>{% endif %}
-                                        </div>
-                                    {% endif %}
-
-                                    {% if latestVersion.readmeHtml.changelog %}
-                                        {{ latestVersion.readmeHtml.changelog|raw }}
-                                    {% endif %}
-
-                                    <h3>{{ 'CorePluginsAdmin_History'|translate }}</h3>
-
-                                    <ul>
-                                        {% for version in plugin.versions|reverse %}
-                                            <li>
-                                                {% set versionName %}
-                                                    <strong>
-                                                        {% if version.repositoryChangelogUrl %}
-                                                            <a target="_blank" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" href="{{ version.repositoryChangelogUrl }}">{{ version.name }}</a>
-                                                        {% else %}
-                                                            {{ version.name }}
-                                                        {% endif %}
-                                                    </strong>
-                                                {% endset %}
-                                                {{ 'Marketplace_PluginVersionInfo'|translate(versionName, version.release)|raw }}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
                                 </div>
                             {% endif %}
 
@@ -267,7 +226,14 @@
                                 {% if plugin.homepage %}
                                     <a target="_blank" rel="noreferrer" href="{{ plugin.homepage }}">{{ 'Marketplace_PluginWebsite'|translate }}</a>,
                                 {% endif %}
-                                <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a></dd>
+
+                                {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
+                                    <a target="_blank" rel="noreferrer" href="{{ plugin.changelog.url }}">{{ 'CorePluginsAdmin_Changelog'|translate }}</a>,
+                                {% endif %}
+
+                                <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a>
+                            </dd>
+
                             {% if plugin.activity and plugin.activity.numCommits %}
                                 <dt>{{ 'CorePluginsAdmin_Activity'|translate }}</dt>
                                 <dd>
