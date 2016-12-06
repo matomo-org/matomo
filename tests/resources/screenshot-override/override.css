@@ -10,6 +10,7 @@
     display:none;
 }
 
+span.piwik-version,
 span.plugin-version {
     visibility:hidden;
 }
