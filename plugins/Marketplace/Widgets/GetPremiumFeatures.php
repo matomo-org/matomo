@@ -33,7 +33,7 @@ class GetPremiumFeatures extends Widget
     {
         $config->setCategoryId('About Piwik');
         $config->setName(Piwik::translate('Marketplace_PaidPlugins'));
-        $config->setOrder(19);
+        $config->setOrder(20);
     }
 
     public function render()
