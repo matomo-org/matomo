@@ -46,10 +46,6 @@
                                         <li class="tab col s3"><a href="#tabs-screenshots">{{ 'Marketplace_Screenshots'|translate }}</a></li>
                                     {% endif %}
 
-                                    {% if plugin.support is not empty %}
-                                        <li class="tab col s3"><a href="#tabs-support">{{ 'Marketplace_Support'|translate }}</a></li>
-                                    {% endif %}
-
                                     {% if plugin.shop is defined and plugin.shop and plugin.shop.reviews and plugin.shop.reviews.embedUrl is defined and plugin.shop.reviews.embedUrl %}
                                         <li class="tab col s3"><a href="#tabs-reviews">{{ 'Marketplace_Reviews'|translate }}</a></li>
                                     {% endif %}
@@ -135,20 +131,6 @@
                                             </div>
                                         {% endfor %}
                                     </div>
-                                </div>
-                            {% endif %}
-
-                            {% if plugin.support is not empty %}
-                                <div id="tabs-support" class="tab-content col s12">
-                                    <ul>
-                                        {% for entry in plugin.support %}
-                                            {% if entry.name and entry.value %}
-                                                <li>
-                                                    {{ entry.name }}: {{ entry.value }}
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
                                 </div>
                             {% endif %}
 
@@ -299,6 +281,16 @@
                                     {% endif %}</dd>
                             {% endif %}
                         </dl>
+
+                        {% if plugin.support is not empty %}
+                            {% for entry in plugin.support %}
+                                {% if entry.name and entry.value %}
+                                    <dt>{{ entry.name }}</dt>
+                                    <dd>{{ entry.value }}</dd>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
                         <br />
                     </div>
                 </div>
