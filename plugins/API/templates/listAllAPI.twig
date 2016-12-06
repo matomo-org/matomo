@@ -20,7 +20,7 @@
     <div piwik-content-block content-title="{{ 'API_UserAuthentication'|translate|e('html_attr') }}">
         <p>
             {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
-            <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></pre><br/>
+            <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong piwik-show-sensitive-data="{{ token_auth }}" data-click-element-selector="#token_auth"></strong></pre><br/>
             {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}<br />
             {{ 'API_ChangeTokenHint'|translate('<a href="' ~ linkTo({
                 'module': 'UsersManager',

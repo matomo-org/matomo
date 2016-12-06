@@ -5,7 +5,7 @@
 
                 <h3 class="pluginName"
                     title="{{ plugin.description|e('html_attr') }}"
-                    piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ plugin.name }}</h3>
+                    piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ plugin.displayName }}</h3>
                 <p class="description"
                    title="{{ plugin.description|e('html_attr') }}">{{ plugin.description }}</p>
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="widgetBody">
-        <a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'marketplace'}) }}"
+        <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview'}) }}"
             >{{ 'CorePluginsAdmin_ViewAllMarketplacePlugins'|translate }}</a>
     </div>
 

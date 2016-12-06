@@ -42,14 +42,25 @@
 				<segment>referrerName==referrer.com</segment>
 				<subtable>
 					<row>
-						<label>http://referrer.com/Other_Page.htm</label>
-						<nb_visits>3</nb_visits>
-						<nb_actions>15</nb_actions>
+						<label>https://referrer.com/Other_Page.htm</label>
+						<nb_visits>2</nb_visits>
+						<nb_actions>10</nb_actions>
 						<max_actions>5</max_actions>
-						<sum_visit_length>2703</sum_visit_length>
+						<sum_visit_length>1802</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
-						<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+						<sum_daily_nb_users>0</sum_daily_nb_users>
+					</row>
+					<row>
+						<label>http://referrer.com/Other_Page.htm</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>5</nb_actions>
+						<max_actions>5</max_actions>
+						<sum_visit_length>901</sum_visit_length>
+						<bounce_count>0</bounce_count>
+						<nb_visits_converted>0</nb_visits_converted>
+						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 						<sum_daily_nb_users>0</sum_daily_nb_users>
 					</row>
 					<row>

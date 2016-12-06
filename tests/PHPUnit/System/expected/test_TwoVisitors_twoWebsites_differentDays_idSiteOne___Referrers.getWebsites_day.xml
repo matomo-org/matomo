@@ -71,7 +71,7 @@
 			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
-					<label>http://referrer.com/Other_Page.htm</label>
+					<label>https://referrer.com/Other_Page.htm</label>
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_visits>1</nb_visits>
 					<nb_actions>5</nb_actions>

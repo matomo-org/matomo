@@ -109,7 +109,7 @@
 
 <div piwik-content-block
      content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
-    <pre piwik-select-on-focus id="token_auth_user">{{ userTokenAuth }}</pre>
+    <pre piwik-select-on-focus id="token_auth_user" piwik-show-sensitive-data="{{ userTokenAuth }}"></pre>
 
     <p>{{ 'UsersManager_TokenRegenerateLogoutWarning'|translate }}</p>
     <button class="btn btn-link"

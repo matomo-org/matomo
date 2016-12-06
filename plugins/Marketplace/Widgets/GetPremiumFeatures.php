@@ -9,13 +9,15 @@
 namespace Piwik\Plugins\Marketplace\Widgets;
 
 use Piwik\Common;
+use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
-class GetNewPlugins extends Widget
+class GetPremiumFeatures extends Widget
 {
     /**
      * @var Client
@@ -30,24 +32,24 @@ class GetNewPlugins extends Widget
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('About Piwik');
-        $config->setName('Latest Marketplace Updates');
-        $config->setOrder(19);
+        $config->setName(Piwik::translate('Marketplace_PaidPlugins'));
+        $config->setOrder(20);
     }
 
     public function render()
     {
-        $isAdminPage = Common::getRequestVar('isAdminPage', 0, 'int');
+        $template = 'getPremiumFeatures';
 
-        if (!empty($isAdminPage)) {
-            $template = 'getNewPluginsAdmin';
+        $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_PAID);
+
+        if (empty($plugins)) {
+            $plugins = array();
         } else {
-            $template = 'getNewPlugins';
+            $plugins = array_splice($plugins, 0, 20);
         }
 
-        $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_ALL);
-
         return $this->renderTemplate($template, array(
-            'plugins' => array_splice($plugins, 0, 3)
+            'plugins' => $plugins
         ));
     }
 

@@ -84,7 +84,7 @@ class Translator
         }
 
         if (count($args) == 0) {
-            return $translationId;
+            return str_replace('%%', '%', $translationId);
         }
         return vsprintf($translationId, $args);
     }
