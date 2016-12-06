@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Http\ControllerResolver;
 use Piwik\Piwik;
 use Piwik\Plugins\API;
-use Piwik\Plugins\Goals;
 use Piwik\Plugins\Widgetize\tests\Fixtures\WidgetizeFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Widget\WidgetsList;
@@ -991,6 +990,14 @@ class WidgetTest extends SystemTestCase
                     array (
                         'module' => 'Marketplace',
                         'action' => 'getNewPlugins',
+                    ),
+            ), array (
+                'name' => 'Premium Features',
+                'uniqueId' => 'widgetMarketplacegetPremiumFeatures',
+                'parameters' =>
+                    array (
+                        'module' => 'Marketplace',
+                        'action' => 'getPremiumFeatures',
                     ),
             ), array (
                 'name' => 'System Check',
