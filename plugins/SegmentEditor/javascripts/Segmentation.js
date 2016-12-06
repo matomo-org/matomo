@@ -1278,28 +1278,7 @@ $(document).ready(function() {
             segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
             segmentDefinition = encodeURIComponent(segmentDefinition);
 
-            if (piwikHelper.isAngularRenderingThePage()) {
-
-                angular.element(document).injector().invoke(function ($location, $rootScope) {
-                    var $search = $location.search();
-
-                    if (segmentDefinition !== $search.segment) {
-                        // eg when using back button the date might be actually already changed in the URL and we do not
-                        // want to change the URL again
-                        $search.segment = segmentDefinition.replace(/%$/, '%25').replace(/%([^\d].)/g, "%25$1");
-                        $location.search($search);
-                        setTimeout(function () {
-                            try {
-                                $rootScope.$apply();
-                            } catch (e) {}
-                        }, 1);
-                    }
-
-                });
-                return false;
-            } else {
-                return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
-            }
+            return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
         };
 
         this.changeSegmentList = function () {};
