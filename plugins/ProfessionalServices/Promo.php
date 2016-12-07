@@ -44,6 +44,13 @@ class Promo
                 'text' => 'Get powerful insights into how your audience watches your videos and listens to your audio. Media Analytics is now available on the Marketplace.',
             ),
 
+            // Funnels
+            array(
+                'campaignContent' => 'funnels',
+                'url' => 'https://piwik.org/recommends/conversion-funnels',
+                'text' => 'Increase your conversions, sales and revenue with your existing traffic by understanding your conversion funnels and where your visitors drop off.'
+            ),
+
             // Piwik training
             array(
                 'campaignContent' => 'userTraining',
