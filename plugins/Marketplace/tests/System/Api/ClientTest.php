@@ -79,6 +79,7 @@ class ClientTest extends SystemTestCase
             'shop',
             'versions',
             'isDownloadable',
+            'changelog',
             'consumer');
 
         $this->assertNotEmpty($plugin);
