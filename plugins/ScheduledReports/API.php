@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Development;
 use Piwik\Filesystem;
+use Piwik\Http;
 use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
@@ -397,7 +398,7 @@ class API extends \Piwik\Plugin\API
             } catch (\Exception $ex) {
                 // NOTE: can't use warning or error because the log message will appear in the UI as a notification
                 $this->logger->info("Error getting '?{report}' when generating scheduled report: {exception}", array(
-                    'report' => http_build_query($params),
+                    'report' => Http::buildQuery($params),
                     'exception' => $ex->getMessage(),
                 ));
 
