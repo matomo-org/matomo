@@ -354,8 +354,8 @@ login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
 ; name that appears as a Reply-to in the password recovery email
 login_password_recovery_replyto_email_name = "No-reply"
 
-; By default when user logs out he is redirected to Piwik "homepage" usually the Login form.
-; Uncomment the next line to set a URL to redirect the user to after he logs out of Piwik.
+; By default when user logs out they are redirected to Piwik "homepage" usually the Login form.
+; Uncomment the next line to set a URL to redirect the user to after they log out of Piwik.
 ; login_logout_url = http://...
 
 ; Set to 1 to disable the framebuster on standard Non-widgets pages (a click-jacking countermeasure).
@@ -618,8 +618,8 @@ cookie_path =
 record_statistics = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
-; after his last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to 
-; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg 
+; after their last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to
+; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg
 ; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 

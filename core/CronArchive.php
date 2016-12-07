@@ -1609,7 +1609,7 @@ class CronArchive
                 // If user selected one particular website ID
                 $idSites = array($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]);
             } else {
-                // If user selected "All websites"  or some other random value, we pre-process all websites that he has access to
+                // If user selected "All websites" or some other random value, we pre-process all websites that they have access to
                 $idSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess($userLogin);
             }
 

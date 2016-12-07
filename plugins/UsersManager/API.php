@@ -75,7 +75,7 @@ class API extends \Piwik\Plugin\API
                 throw new Exception('UsersManager_API must inherit API');
             }
             self::$instance = $instance;
-            
+
         } catch (Exception $e) {
             self::$instance = StaticContainer::get('Piwik\Plugins\UsersManager\API');
             StaticContainer::getContainer()->set('UsersManager_API', self::$instance);
@@ -261,7 +261,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * For each user, returns his access level for the given $idSite.
+     * For each user, returns their access level for the given $idSite.
      * If a user doesn't have any access to the $idSite ('noaccess'),
      * the user will not be in the returned array.
      *
@@ -698,7 +698,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Specify at least one website ID in &idSites=');
         }
         // it is possible to set user access on websites only for the websites admin
-        // basically an admin can give the view or the admin access to any user for the websites he manages
+        // basically an admin can give the view or the admin access to any user for the websites they manage
         Piwik::checkUserHasAdminAccess($idSites);
 
         $this->model->deleteUserAccess($userLogin, $idSites);
