@@ -44,12 +44,20 @@ class Promo
                 'text' => 'Get powerful insights into how your audience watches your videos and listens to your audio. Media Analytics is now available on the Marketplace.',
             ),
 
+            // Funnels
+            array(
+                'campaignContent' => 'funnels',
+                'url' => 'https://piwik.org/recommends/conversion-funnels',
+                'text' => 'Increase your conversions, sales and revenue by understanding your conversion funnels and where your visitors drop off with Funnels for Piwik.'
+            ),
+
             // Piwik training
             array(
                 'campaignContent' => 'userTraining',
                 'url' => 'https://piwik.org/training/?pk_campaign=' . Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES . '&pk_source=Piwik_App',
                 'text' => 'Want to know how to use all the exciting features in Piwik? Try a User training to be up to speed with working with Piwik.'
             ),
+
 
 
             // Piwik PRO

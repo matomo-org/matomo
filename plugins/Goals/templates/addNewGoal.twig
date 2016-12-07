@@ -17,5 +17,6 @@
             {{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
         </p>
     </div>
+    {{ postEvent("Template.afterGoalCannotAddNewGoal") }}
 
 {% endif %}
