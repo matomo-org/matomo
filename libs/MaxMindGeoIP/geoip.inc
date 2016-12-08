@@ -1921,6 +1921,7 @@ function geoip_region_by_addr($gi, $addr)
     return _get_region($gi, $ipnum);
 }
 
+if(!function_exists('getdnsattributes')) {
 function getdnsattributes($l, $ip)
 {
     $r = new Net_DNS_Resolver();
@@ -1930,7 +1931,7 @@ function getdnsattributes($l, $ip)
     $str = substr($str, 1, -1);
     return $str;
 }
-
+}
 function _safe_substr($string, $start, $length)
 {
     // workaround php's broken substr, strpos, etc handling with
