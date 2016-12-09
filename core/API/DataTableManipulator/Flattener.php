@@ -68,6 +68,8 @@ class Flattener extends DataTableManipulator
 
         $this->flattenDataTableInto($dataTable, $newDataTable);
 
+        $dataTable->applyQueuedFilters();
+
         return $newDataTable;
     }
 
