@@ -55,6 +55,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, filesize($destinationPath));
     }
 
+    public function testBuildQuery()
+    {
+        $this->assertEquals('', Http::buildQuery(array()));
+        $this->assertEquals('test=foo', Http::buildQuery(array('test' => 'foo')));
+        $this->assertEquals('test=foo&bar=baz', Http::buildQuery(array('test' => 'foo', 'bar' => 'baz')));
+    }
+
     /**
      * @dataProvider getMethodsToTest
      */

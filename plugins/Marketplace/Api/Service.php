@@ -127,7 +127,7 @@ class Service
     {
         $endpoint = sprintf('%s/api/%s/', $this->domain, $this->version);
 
-        $query = http_build_query($params);
+        $query = Http::buildQuery($params);
         $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
 
         $response = $this->download($url);
