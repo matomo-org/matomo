@@ -338,6 +338,15 @@ var broadcast = {
         // Now load the new page.
         var newUrl = currentSearchStr + currentHashStr;
 
+        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+        if ($rootScope) {
+            $rootScope.$on('$locationChangeStart', function (event) {
+                if (event) {
+                    event.preventDefault();
+                }
+            })
+        }
+
         if (oldUrl == newUrl) {
             window.location.reload();
         } else {
