@@ -96,12 +96,6 @@ class VisitTotalTime extends VisitDimension
             $t = 0;
         }
 
-        $smallintMysqlLimit = 65534;
-
-        if ($t > $smallintMysqlLimit) {
-            $t = $smallintMysqlLimit;
-        }
-
         return $t;
     }
 
