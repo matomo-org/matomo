@@ -12,6 +12,6 @@ class MeasurableSettings extends \Piwik\Plugins\WebsiteMeasurable\MeasurableSett
 {
     protected function shouldShowSettingsForType($type)
     {
-        return $type !== Type::ID;
+        return $type === Type::ID;
     }
 }
