@@ -144,4 +144,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame('', $storage->getValue('mytest', $default = '', FieldConfig::TYPE_STRING));
     }
 
+    public function test_makeStorage_returnsStorageWithGivenBackend()
+    {
+        $backend = new NullBackend('test');
+        $storage = $this->factory->makeStorage($backend);
+
+        $this->assertTrue($storage instanceof Storage);
+
+        $this->assertSame($backend, $storage->getBackend());
+    }
+
 }
