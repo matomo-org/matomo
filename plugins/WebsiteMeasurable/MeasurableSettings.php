@@ -17,6 +17,7 @@ use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\Url;
+use Piwik\Plugins\MobileAppMeasurable\Type as MobileAppType;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.
@@ -84,6 +85,10 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     protected function init()
     {
+        if ($this->idMeasurableType !== Type::ID && $this->idMeasurableType !== MobileAppType::ID) {
+            return;
+        }
+
         $this->urls = new Urls($this->idSite);
         $this->addSetting($this->urls);
 
