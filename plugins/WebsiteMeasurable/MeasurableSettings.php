@@ -83,9 +83,14 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         parent::__construct($idSite, $idMeasurableType);
     }
 
+    protected function shouldShowSettingsForType($type)
+    {
+        return $type !== Type::ID;
+    }
+
     protected function init()
     {
-        if ($this->idMeasurableType !== Type::ID && $this->idMeasurableType !== MobileAppType::ID) {
+        if (!$this->shouldShowSettingsForType($this->idMeasurableType)) {
             return;
         }
 
