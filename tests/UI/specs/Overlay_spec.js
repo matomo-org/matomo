@@ -69,7 +69,7 @@ describe("Overlay", function () {
     });
 
     it("should show stats for new links when dropdown opened", function (done) {
-        expect.screenshot("page_new_links").to.be.capture(function (page) {
+        expect.screenshot("page_new_links").to.be.similar(0.002).to.be.capture(function (page) {
             var pos = page.webpage.evaluate(function () {
                 var iframe = $('iframe'),
                     innerOffset = $('.dropdown-toggle', iframe.contents()).offset();
