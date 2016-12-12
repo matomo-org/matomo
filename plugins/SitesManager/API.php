@@ -13,8 +13,6 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics\Formatter;
 use Piwik\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -74,10 +72,16 @@ class API extends \Piwik\Plugin\API
      */
     private $settingsMetadata;
 
-    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata)
+    /**
+     * @var Type\TypeManager
+     */
+    private $typeManager;
+
+    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Type\TypeManager $typeManager)
     {
         $this->settingsProvider = $provider;
         $this->settingsMetadata = $settingsMetadata;
+        $this->typeManager = $typeManager;
     }
 
     /**
@@ -555,40 +559,22 @@ class API extends \Piwik\Plugin\API
 
         $this->checkName($siteName);
 
-        if (empty($settingValues)) {
+        if (!isset($settingValues)) {
             $settingValues = array();
         }
 
-        if (isset($urls)) {
-            $settingValues = $this->setSettingValue('urls', $urls, $settingValues);
-        }
-        if (isset($ecommerce)) {
-            $settingValues = $this->setSettingValue('ecommerce', $ecommerce, $settingValues);
-        }
-        if (isset($siteSearch)) {
-            $settingValues = $this->setSettingValue('sitesearch', $siteSearch, $settingValues);
-        }
-        if (isset($searchKeywordParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $settingValues);
-        }
-        if (isset($searchCategoryParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $settingValues);
-        }
-        if (isset($keepURLFragments)) {
-            $settingValues = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $settingValues);
-        }
-        if (isset($excludeUnknownUrls)) {
-            $settingValues = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $settingValues);
-        }
-        if (isset($excludedIps)) {
-            $settingValues = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $settingValues);
-        }
-        if (isset($excludedQueryParameters)) {
-            $settingValues = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $settingValues);
-        }
-        if (isset($excludedUserAgents)) {
-            $settingValues = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $settingValues);
-        }
+        $coreProperties = array();
+        $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $coreProperties, $settingValues);
 
         $timezone = trim($timezone);
         if (empty($timezone)) {
@@ -620,7 +606,12 @@ class API extends \Piwik\Plugin\API
             $bind['group'] = "";
         }
 
-        $allSettings = $this->setAndValidateMeasurableSettings(0, $bind['type'], $settingValues);
+        $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
+
+        // any setting specified in setting values will overwrite other setting
+        if (!empty($settingValues)) {
+            $this->setAndValidateMeasurableSettings(0, $bind['type'], $settingValues);
+        }
 
         foreach ($allSettings as $settings) {
             foreach ($settings->getSettingsWritableByCurrentUser() as $setting) {
@@ -640,7 +631,12 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->getModel()->createSite($bind);
 
-        $this->saveMeasurableSettings($idSite, $bind['type'], $settingValues);
+        if (!empty($coreProperties)) {
+            $this->saveMeasurableSettings($idSite, 'website', $coreProperties);
+        }
+        if (!empty($settingValues)) {
+            $this->saveMeasurableSettings($idSite, $bind['type'], $settingValues);
+        }
 
         // we reload the access list which doesn't yet take in consideration this new website
         Access::getInstance()->reloadAccess();
@@ -657,27 +653,34 @@ class API extends \Piwik\Plugin\API
         return (int) $idSite;
     }
 
-    private function setSettingValue($fieldName, $value, $settingValues)
+    private function setSettingValue($fieldName, $value, $coreProperties, $settingValues)
     {
         $pluginName = 'WebsiteMeasurable';
-        if (empty($settingValues[$pluginName])) {
-            $settingValues[$pluginName] = array();
-        }
 
-        $found = false;
-        foreach ($settingValues[$pluginName] as $key => $setting) {
-            if ($setting['name'] === $fieldName) {
-                $setting['value'] = $value;
-                $found = true;
-                break;
+        if (isset($value)) {
+
+            if (empty($coreProperties[$pluginName])) {
+                $coreProperties[$pluginName] = array();
+            }
+
+            $coreProperties[$pluginName][] = array('name' => $fieldName, 'value' => $value);
+
+        } elseif (!empty($settingValues[$pluginName])) {
+            // we check if the value is defined in the setting values instead
+            foreach ($settingValues[$pluginName] as $key => $setting) {
+                if ($setting['name'] === $fieldName) {
+
+                    if (empty($coreProperties[$pluginName])) {
+                        $coreProperties[$pluginName] = array();
+                    }
+
+                    $coreProperties[$pluginName][] = array('name' => $fieldName, 'value' => $setting['value']);
+                    return $coreProperties;
+                }
             }
         }
 
-        if (!$found) {
-            $settingValues[$pluginName][] = array('name' => $fieldName, 'value' => $value);
-        }
-
-        return $settingValues;
+        return $coreProperties;
     }
 
     public function getSiteSettings($idSite)
@@ -1206,40 +1209,25 @@ class API extends \Piwik\Plugin\API
             $bind['name'] = $siteName;
         }
 
-        if (empty($settingValues)) {
+        if (!isset($settingValues)) {
             $settingValues = array();
         }
 
-        if (isset($urls)) {
-            $settingValues = $this->setSettingValue('urls', $urls, $settingValues);
+        if (empty($coreProperties)) {
+            $coreProperties = array();
         }
-        if (isset($ecommerce)) {
-            $settingValues = $this->setSettingValue('ecommerce', $ecommerce, $settingValues);
-        }
-        if (isset($siteSearch)) {
-            $settingValues = $this->setSettingValue('sitesearch', $siteSearch, $settingValues);
-        }
-        if (isset($searchKeywordParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $settingValues);
-        }
-        if (isset($searchCategoryParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $settingValues);
-        }
-        if (isset($keepURLFragments)) {
-            $settingValues = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $settingValues);
-        }
-        if (isset($excludeUnknownUrls)) {
-            $settingValues = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $settingValues);
-        }
-        if (isset($excludedIps)) {
-            $settingValues = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $settingValues);
-        }
-        if (isset($excludedQueryParameters)) {
-            $settingValues = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $settingValues);
-        }
-        if (isset($excludedUserAgents)) {
-            $settingValues = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $settingValues);
-        }
+
+        $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $coreProperties, $settingValues);
 
         if (isset($currency)) {
             $currency = trim($currency);
@@ -1264,12 +1252,20 @@ class API extends \Piwik\Plugin\API
             $bind['type'] = $this->checkAndReturnType($type);
         }
 
+        if (!empty($coreProperties)) {
+            $this->setAndValidateMeasurableSettings($idSite, $idType = 'website', $coreProperties);
+        }
+
         if (!empty($settingValues)) {
             $this->setAndValidateMeasurableSettings($idSite, $idType = null, $settingValues);
         }
 
         if (!empty($bind)) {
             $this->getModel()->updateSite($bind, $idSite);
+        }
+
+        if (!empty($coreProperties)) {
+            $this->saveMeasurableSettings($idSite, $idType = 'website', $coreProperties);
         }
 
         if (!empty($settingValues)) {
