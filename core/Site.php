@@ -65,6 +65,8 @@ class Site
         $this->id = (int)$idsite;
         if (!isset(self::$infoSites[$this->id])) {
             $site = API::getInstance()->getSiteFromId($this->id);
+            $sites = array(&$site);
+            self::triggerSetSitesEvent($sites);
             self::setSiteFromArray($this->id, $site);
         }
     }

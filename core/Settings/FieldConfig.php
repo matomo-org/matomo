@@ -92,6 +92,14 @@ class FieldConfig
     public $uiControl = null;
 
     /**
+     * Defines a custom template file for a UI control. This file should render a UI control and expose the value in a
+     * "formField.value" angular model. For an example see "plugins/CorePluginsAdmin/angularjs/form-field/field-text.html"
+     *
+     * @var string
+     */
+    public $customUiControlTemplateFile = '';
+
+    /**
      * Name-value mapping of HTML attributes that will be added HTML form control, eg,
      * `array('size' => 3)`. Attributes will be escaped before outputting.
      *
