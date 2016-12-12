@@ -1218,6 +1218,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $coreProperties, $settingValues);
