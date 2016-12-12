@@ -206,11 +206,11 @@ class ApiTest extends IntegrationTestCase
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage SitesManager_OnlyMatchedUrlsAllowed
+     * @dataProvider getDifferentTypesDataProvider
      */
-    public function test_addSite_ShouldFailAndNotCreatedASite_IfASettingIsInvalid()
+    public function test_addSite_ShouldFailAndNotCreatedASite_IfASettingIsInvalid($type)
     {
         try {
-            $type = WebsiteType::ID;
             $settings = array('WebsiteMeasurable' => array(array('name' => 'exclude_unknown_urls', 'value' => 'fooBar')));
             $this->addSiteWithType($type, $settings);
         } catch (Exception $e) {
