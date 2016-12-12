@@ -120,6 +120,7 @@ class SettingsMetadata
             'availableValues' => $availableValues,
             'description' => $config->description,
             'inlineHelp' => $config->inlineHelp,
+            'templateFile' => $config->customUiControlTemplateFile,
             'introduction' => $config->introduction,
             'condition' => $config->condition,
         );
