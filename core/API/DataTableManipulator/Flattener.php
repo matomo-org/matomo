@@ -65,6 +65,7 @@ class Flattener extends DataTableManipulator
 
         // this recursive filter will be applied to subtables
         $dataTable->filter('ReplaceSummaryRowLabel');
+        $dataTable->filter('ReplaceColumnNames');
 
         $this->flattenDataTableInto($dataTable, $newDataTable);
 
