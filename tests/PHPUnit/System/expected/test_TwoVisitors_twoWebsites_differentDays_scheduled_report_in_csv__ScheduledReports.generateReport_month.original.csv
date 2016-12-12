@@ -257,8 +257,8 @@ products,1,1,100%,0.15s
 
 Entry page titles
 label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
-first page view,2,2,100%,0.14s
 second visitor/two days later/a new visit,8,0,0%,0.32s
+first page view,2,2,100%,0.14s
 
 Exit pages
 label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
@@ -268,16 +268,16 @@ products,1,1,100%,0.15s
 
 Exit page titles
 label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
-first page view,2,2,100%,0.14s
 Checkout/Purchasing...,8,8,100%,0.45s
+first page view,2,2,100%,0.14s
 
 Page titles
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
-first page view,2,2,100%,00:00:00,100%,0.14s
-Page Name not defined,1,1,0%,00:00:00,0%,0.22s
 Checkout/Purchasing...,8,8,0%,00:00:00,100%,0.45s
 second visitor/two days later/a new visit,8,8,0%,00:06:00,0%,0.32s
 second visitor/two days later/second page view,8,8,0%,00:09:00,0%,0.17s
+first page view,2,2,100%,00:00:00,100%,0.14s
+Page Name not defined,1,1,0%,00:00:00,0%,0.22s
 
 Site Search Keywords
 No data available
@@ -317,9 +317,9 @@ No data available
 
 Referrer Type
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Direct Entry,1,1,1,00:00:00,100%,$ 0
 Websites,6,22,3.7,00:10:01,33%,$ 0
 Campaigns,4,20,5,00:15:01,0%,$ 0
+Direct Entry,1,1,1,00:00:00,100%,$ 0
 
 All Referrers
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
