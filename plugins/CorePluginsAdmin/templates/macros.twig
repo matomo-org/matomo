@@ -21,8 +21,10 @@
                     </a>
                 </td>
                 <td class="vers">
-                    {% if plugin.repositoryChangelogUrl %}
-                        <a href="javascript:void(0);" title="{{ 'CorePluginsAdmin_Changelog'|translate }}" data-activePluginTab="changelog" piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
+                    {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
+                        <a href="{{ plugin.changelog.url|e('html_attr') }}" title="{{ 'CorePluginsAdmin_Changelog'|translate }}"
+                           target="_blank" rel="noreferrer"
+                        >{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
                     {% else %}
                         {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
                     {% endif %}
