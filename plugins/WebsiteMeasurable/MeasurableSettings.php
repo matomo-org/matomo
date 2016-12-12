@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\WebsiteMeasurable;
 use Piwik\IP;
+use Piwik\Measurable\Type\TypeManager;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -16,8 +17,6 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
-use Piwik\Url;
-use Piwik\Plugins\MobileAppMeasurable\Type as MobileAppType;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.
@@ -75,17 +74,30 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
      */
     private $pluginManager;
 
-    public function __construct(SitesManager\API $api, Plugin\Manager $pluginManager, $idSite, $idMeasurableType)
+    /**
+     * @var TypeManager
+     */
+    private $typeManager;
+
+    public function __construct(SitesManager\API $api, Plugin\Manager $pluginManager, TypeManager $typeManager, $idSite, $idMeasurableType)
     {
         $this->sitesManagerApi = $api;
         $this->pluginManager = $pluginManager;
+        $this->typeManager = $typeManager;
 
         parent::__construct($idSite, $idMeasurableType);
     }
 
     protected function shouldShowSettingsForType($type)
     {
-        return $type === Type::ID;
+        $isWebsite = $type === Type::ID;
+
+        if ($isWebsite) {
+            return true;
+        }
+
+        // if no such type exists, we default to website properties
+        return !$this->typeManager->isExistingType($type);
     }
 
     protected function init()
