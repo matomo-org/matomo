@@ -86,30 +86,14 @@ class ApiTest extends IntegrationTestCase
     }
 
     /**
-     * Test with valid IPs
+     * @dataProvider getDifferentTypesDataProvider
      */
-    public function test_addSite_WhenTypeIsKnown()
+    public function test_addSite_WhenTypeIsKnown($expectedWebsiteType)
     {
-        $this->addSiteTest($expectedWebsiteType = 'mobileapp');
+        $this->addSiteTest($expectedWebsiteType);
     }
 
-    /**
-     * Test with valid IPs
-     */
-    public function test_addSite_WhenTypeIsWebsite()
-    {
-        $this->addSiteTest($expectedWebsiteType = 'website');
-    }
-
-    /**
-     * Test with valid IPs
-     */
-    public function test_addSite_WhenTypeIsRandom()
-    {
-        $this->addSiteTest($expectedWebsiteType = 'myrandomname');
-    }
-
-    private function addSiteTest($expectedWebsiteType)
+    private function addSiteTest($expectedWebsiteType, $settingValues = null)
     {
         $ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
         $timezone = 'Europe/Paris';
@@ -122,7 +106,7 @@ class ApiTest extends IntegrationTestCase
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 1,
             $siteSearch = 1, $searchKeywordParameters = 'search,param', $searchCategoryParameters = 'cat,category',
             $ips, $excludedQueryParameters, $timezone, $currency, $group = null, $startDate = null, $excludedUserAgents,
-            $keepUrlFragment, $expectedWebsiteType);
+            $keepUrlFragment, $expectedWebsiteType, $settingValues);
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($ips, $siteInfo['excluded_ips']);
         $this->assertEquals($timezone, $siteInfo['timezone']);
@@ -138,6 +122,8 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($searchCategoryParameters, $siteInfo['sitesearch_category_parameters']);
         $this->assertEquals($expectedExcludedQueryParameters, $siteInfo['excluded_parameters']);
         $this->assertEquals($expectedExcludedUserAgents, $siteInfo['excluded_user_agents']);
+
+        return $siteInfo;
     }
 
     /**
