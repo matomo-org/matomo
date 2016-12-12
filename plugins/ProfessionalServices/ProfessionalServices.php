@@ -21,6 +21,8 @@ class ProfessionalServices extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Request.getRenamedModuleAndAction' => 'renameProfessionalServicesModule',
             'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
+            'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
+            'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
         );
     }
@@ -55,6 +57,22 @@ class ProfessionalServices extends \Piwik\Plugin
         $isWidget = Common::getRequestVar('widget', 0, 'int');
         return $isWidget;
     }
+
+    public function getGoalFunnelOverviewPromo(&$out)
+    {
+        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Funnels')
+            || $this->isRequestForDashboardWidget()) {
+            return;
+        }
+
+        $out .= '
+            <p style="margin-top:3em;margin-bottom:3em" class=" alert-info alert">Did you know?
+                A Funnel defines a series of actions that you expect your visitors to take on their way to converting a goal.
+                <br/>With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/conversion-funnel/">Funnels for Piwik</a>,
+                you can easily determine your funnel and see where your visitors drop off and how to focus efforts to increase your conversions.
+            </p>';
+    }
+
 
     public function getGoalOverviewPromo(&$out)
     {

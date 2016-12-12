@@ -179,6 +179,15 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
+				<label>Purchase</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
 				<label>rating - La fiancée de l'eau</label>
 				<nb_events>4</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
@@ -198,15 +207,6 @@
 			</row>
 			<row>
 				<label>Search - Search query here</label>
-				<nb_events>2</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
-			</row>
-			<row>
-				<label>Purchase</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -361,6 +361,15 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
+				<label>Purchase</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
 				<label>rating - La fiancée de l'eau</label>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
@@ -380,15 +389,6 @@
 			</row>
 			<row>
 				<label>Search - Search query here</label>
-				<nb_events>1</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
-			</row>
-			<row>
-				<label>Purchase</label>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>

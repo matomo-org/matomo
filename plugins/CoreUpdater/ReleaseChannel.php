@@ -33,7 +33,7 @@ abstract class ReleaseChannel extends BaseReleaseChannel
 
         $url = Config::getInstance()->General['api_service_url']
             . '/1.0/getLatestVersion/'
-            . '?' . http_build_query($parameters, '', '&');
+            . '?' . Http::buildQuery($parameters);
 
         return $url;
     }

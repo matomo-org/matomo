@@ -28,9 +28,5 @@ class FakeSystemSettings extends \Piwik\Plugins\ExampleSettingsPlugin\SystemSett
         return parent::makeSetting($name, $defaultValue, $type, $configureCallback);
     }
 
-    public function addSetting(Setting $setting)
-    {
-        parent::addSetting($setting);
-    }
 }
 

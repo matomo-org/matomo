@@ -31,7 +31,12 @@
                                     {% endif %}
 
                                     {% if plugin.canBeUpdated %}
-                                        <a class="update-available" href="#" piwik-plugin-name="{{ plugin.name }}" data-activePluginTab="changelog"
+                                        <a class="update-available"
+                                            {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
+                                                target="_blank" href="{{ plugin.changelog.url|e('html_attr') }}"
+                                            {% else %}
+                                                href="#" piwik-plugin-name="{{ plugin.name }}"
+                                            {% endif %}
                                            title="{{ 'Marketplace_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}">
                                             {{ 'Marketplace_NewVersion'|translate }}</a>
                                     {% endif %}

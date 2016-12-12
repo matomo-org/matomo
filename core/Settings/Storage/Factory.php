@@ -125,7 +125,13 @@ class Factory
         return new Storage(new Backend\NullBackend($key));
     }
 
-    private function makeStorage(BackendInterface $backend)
+    /**
+     * Makes a new storage object based on a custom backend interface.
+     *
+     * @param BackendInterface $backend
+     * @return Storage
+     */
+    public function makeStorage(BackendInterface $backend)
     {
         if (SettingsServer::isTrackerApiRequest()) {
             $backend = new Backend\Cache($backend);

@@ -162,7 +162,7 @@ class Http
         $fileLength = 0;
 
         if (!empty($requestBody) && is_array($requestBody)) {
-            $requestBody = http_build_query($requestBody);
+            $requestBody = self::buildQuery($requestBody);
         }
 
         // Piwik services behave like a proxy, so we should act like one.
@@ -627,6 +627,11 @@ class Http
                 'data'    => $response
             );
         }
+    }
+
+    public static function buildQuery($params)
+    {
+        return http_build_query($params, '', '&');
     }
 
     private static function buildHeadersForPost($requestBody)
