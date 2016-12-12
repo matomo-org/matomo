@@ -67,7 +67,6 @@
 				<name>excluded_ips</name>
 				<title>Excluded IPs</title>
 				<value>
-					<row/>
 				</value>
 				<defaultValue>
 				</defaultValue>
@@ -88,7 +87,6 @@
 				<name>excluded_parameters</name>
 				<title>Excluded Parameters</title>
 				<value>
-					<row/>
 				</value>
 				<defaultValue>
 				</defaultValue>
@@ -109,7 +107,6 @@
 				<name>excluded_user_agents</name>
 				<title>Excluded User Agents</title>
 				<value>
-					<row/>
 				</value>
 				<defaultValue>
 				</defaultValue>
