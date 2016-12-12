@@ -15,6 +15,10 @@ span.plugin-version {
     visibility:hidden;
 }
 
+.realTimeWidget_datetime {
+    display: none;
+}
+
 .realTimeMap_datetime {
     visibility: hidden;
 }
