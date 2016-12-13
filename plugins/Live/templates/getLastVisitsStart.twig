@@ -9,7 +9,7 @@
                 <span style="display:none;" class="serverTimestamp">{{ visitor.serverTimestamp|raw }}</span>
                 {{ postEvent('Live.visitorLogWidgetViewBeforeVisitInfo', visitor) }}
                 {% set year = visitor.serverTimestamp|date('Y') %}
-                {{ visitor.serverDatePretty|replace({(year): ' '}) }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}({{ visitor.visitDurationPretty|raw }}){% endif %}
+                <span class="realTimeWidget_datetime">{{ visitor.serverDatePretty|replace({(year): ' '}) }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}({{ visitor.visitDurationPretty|raw }}){% endif %}</span>
                 {% if visitor.visitorId|default(false) is not empty %}
                   &nbsp;  <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.userId is not empty %}{{ visitor.userId|raw }}{% endif %}" data-visitor-id="{{ visitor.visitorId }}">
                         {% if visitor.userId is not empty %}<br/>{% endif %}
