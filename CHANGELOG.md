@@ -12,6 +12,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration g
 
 ### Breaking Changes
 * When using the Piwik JavaScript Tracking via `_paq.push`, it is now required to configure the tracker (eg calling `setSiteId` and `setTrackerUrl`) before the `piwik.js` JavaScript tracker is loaded to ensure the tracker works correctly. 
+If the tracker is not initialised correctly, the browser console will display the error "_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. [...]" 
 * The UserManager API methods do no longer return any `token_auth` properties when requesting a user
 * The menu classes `Piwik\Menu\MenuReporting` and `Piwik\Menu\MenuMain` have been removed
 * The class `Piwik\Plugin\Widgets` has been removed and replaced by `Piwik\Widget\Widget`. For each widget one class is needed from now on. You can generate a widget via `./console generate:widget`.
