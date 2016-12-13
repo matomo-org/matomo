@@ -6900,7 +6900,7 @@ if (typeof window.Piwik !== 'object') {
                 if (console !== undefined && console && console.error) {
                     console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
                 }
-            }}
+            }};
         }
     }
 
