@@ -24,6 +24,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>95</pageId>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -50,6 +51,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
@@ -124,6 +126,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>46</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -153,6 +156,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -176,6 +180,7 @@
 				<pageIdAction>47</pageIdAction>
 				
 				<pageId>48</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -188,6 +193,7 @@
 				<pageIdAction>48</pageIdAction>
 				
 				<pageId>49</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -203,6 +209,7 @@
 				<eventAction>Action8</eventAction>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -229,6 +236,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -332,6 +340,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 8</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -358,6 +367,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -440,6 +450,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>41</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon />
@@ -474,6 +485,7 @@
 				<pageIdAction>42</pageIdAction>
 				
 				<pageId>42</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -486,6 +498,7 @@
 				<pageIdAction>43</pageIdAction>
 				
 				<pageId>43</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -501,6 +514,7 @@
 				<eventAction>Action7</eventAction>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -527,6 +541,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -630,6 +645,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 7</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -656,6 +672,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -738,6 +755,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>35</pageId>
+				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -767,6 +785,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
@@ -790,6 +809,7 @@
 				<pageIdAction>37</pageIdAction>
 				
 				<pageId>37</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/download.png</icon>
@@ -802,6 +822,7 @@
 				<pageIdAction>38</pageIdAction>
 				
 				<pageId>38</pageId>
+				<interactionPosition />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<icon>plugins/Morpheus/images/link.gif</icon>
@@ -817,6 +838,7 @@
 				<eventAction>Action6</eventAction>
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
+				<interactionPosition />
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 			</row>
@@ -843,6 +865,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -946,6 +969,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 6</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
 			</row>
@@ -972,6 +996,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />

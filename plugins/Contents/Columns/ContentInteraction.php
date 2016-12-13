@@ -23,14 +23,14 @@ class ContentInteraction extends ActionDimension
     {
         $segment = new Segment();
         $segment->setSegment('contentInteraction');
-        $segment->setName('Contents_Interaction');
+        $segment->setName('Contents_ContentInteraction');
         $segment->setAcceptedValues('The type of interaction with the content. For instance "click" or "submit".');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('Contents_Interaction');
+        return Piwik::translate('Contents_ContentInteraction');
     }
 
     public function getActionId()

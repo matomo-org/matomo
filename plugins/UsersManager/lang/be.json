@@ -4,7 +4,6 @@
         "Alias": "Аліас",
         "AllWebsites": "Усе сайты",
         "ApplyToAllWebsites": "Ужыць да ўсіх сайтаў",
-        "ChangePasswordConfirm": "Зменяючы парол, вы таксама зменяеце token_auth карыстальніка. Вы сапраўды жадаеце працягнуць?",
         "ClickHereToDeleteTheCookie": "Націсніце тут, каб выдаліць cookie і пачаць адсочванне вашых наведванняў Piwik",
         "ClickHereToSetTheCookieOnDomain": "Націсніце тут, каб усталяваць cookie, які выключыць адсочванне вашых наведванняў на вэб-сайтах з Piwik на %s",
         "DeleteConfirm": "Вы сапраўды жадаеце выдаліць карыстача %s?",

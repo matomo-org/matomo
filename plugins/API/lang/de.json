@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Wenn Sie dieses Token ändern wollen, gehen Sie bitte zu Ihren %1$sBenutzereinstellungen%2$s.",
         "GenerateVisits": "Sollten für heute keine Daten verfügbar sein, so können Sie mit dem %1$s Plugin Testdaten erzeugen. Aktivieren Sie das %2$s Plugin und klicken dann auf das 'Besuchergenerator'-Menu in der Piwik-Administration.",
         "KeepTokenSecret": "Der token_auth ist so geheim wie Ihr Login und Passwort, %1$s teilen Sie es niemandem mit%2$s!",
         "LoadedAPIs": "%s APIs erfolgreich geladen",

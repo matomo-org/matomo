@@ -7,6 +7,7 @@
         "ClickToEditX": "Clicca per modificare %s",
         "CloseSearch": "Chiudi la ricerca",
         "CloseWidgetDirections": "Potete chiudere questo widget cliccando sull'icona 'X' nella parte alta del widget stesso.",
+        "ChooseX": "Scegli %1$s",
         "DataForThisReportHasBeenPurged": "I dati di questo report hanno più di un mese %s e sono stati eliminati.",
         "DataTableExcludeAggregateRows": "Le righe di aggregazione vengono visualizzate %s Nascondile",
         "DataTableIncludeAggregateRows": "Le righe di aggregazione sono nascoste %s Visualizzale",
@@ -14,6 +15,7 @@
         "Default": "predefinito",
         "DonateCall1": "Piwik non costerà mai nulla a voi per il suo utilizzo, ma ciò non significa che non costi nulla a noi svilupparlo.",
         "DonateCall2": "Piwik ha bisogno del vostro costante supporto per crescere e prosperare.",
+        "DonateCall3": "Se ritieni che Piwik abbia aggiunto un valore significativo alla tua attività, %1$ssi prega di considerare una donazione%2$s o di %3$sacquistare una funzionalità premium%4$s.",
         "DonateFormInstructions": "Fai clic sul cursore per selezionare una somma, quindi fai clic su sottoscrivi per donare.",
         "ExcludeRowsWithLowPopulation": "Tutte le righe sono visualizzate %s Escludi quelle scarsamente popolate",
         "ExternalHelp": "Aiuto (apri in una nuova scheda)",
@@ -63,6 +65,7 @@
         "QuickAccessTitle": "Ricerca per %s. Utilizza i tasti freccia per navigare tra i risultati della ricerca. Scorciatoia: premi 'f' per cercare.",
         "MenuEntries": "Ingressi da menù",
         "Segments": "Segmenti",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "L'aggiornamento in un click non è disponibile se stai utilizzando Piwik con server multipli. Si prega di scaricare l'ultima versione da %1$s per procedere.",
         "AdblockIsMaybeUsed": "Se stai utilizzando un plugin di blocco della pubblicità, disabilitalo per questo sito, per essere sicuro che Piwik lavori senza problemi.",
         "ChangeCurrentWebsite": "Scegli un sito, attualmente è selezionato: %s"
     }

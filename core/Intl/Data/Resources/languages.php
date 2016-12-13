@@ -30,7 +30,7 @@ return array(
     'bh' => array('Bihari'), // 'Bihari languages'
     'bi' => array('Bislama'),
     'bm' => array('Bambara'),
-    'bn' => array('Bengali'),
+    'bn' => array('Bangla'),
     'bo' => array('Tibetan'),
     'br' => array('Breton'),
     'bs' => array('Bosnian'),

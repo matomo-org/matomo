@@ -28,7 +28,6 @@
         "JsTrackingTagHelp": "Aqui está a tag de Monitorização Javascript para incluir em todas as suas páginas",
         "ListOfIpsToBeExcludedOnAllWebsites": "Os IPs abaixo serão excluídos de ser monitorizados em todos os websites.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros de consulta de endereços abaixo serão excluídos dos endereços de todos os websites.",
-        "ListOfQueryParametersToExclude": "Introduza a lista de parâmetros de consulta de endereços, um por linha, para excluir dos relatórios dos endereços das páginas.",
         "MainDescription": "Os seus relatórios de Analíticas Web necessitam de Websites! Adicione, actualize, elimine Websites, e mostre o JavaScript para inserir nas suas páginas.",
         "NotAnEcommerceSite": "Não é um site de Comércio Electrónico",
         "NotFound": "Nenhum website encontrado para",

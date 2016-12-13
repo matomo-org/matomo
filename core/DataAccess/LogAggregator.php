@@ -158,10 +158,10 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigiin;
     }
 
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy)
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
     {
         $bind = $this->getGeneralQueryBindParams();
-        $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+        $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
 
         $select = 'SELECT';
         if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
@@ -473,7 +473,7 @@ class LogAggregator
         return in_array($metricId, $metricsRequested);
     }
 
-    protected function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
+    public function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
     {
         $where = "$tableName.$datetimeField >= ?
 				AND $tableName.$datetimeField <= ?

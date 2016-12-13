@@ -25,7 +25,6 @@
         "MajorUpdateWarning1": "यह एक प्रमुख अद्यतन है! इसे सामान्य से अधिक समय लगेगा.",
         "MajorUpdateWarning2": "सलाह के बाद बड़े प्रतिष्ठानों के लिए विशेष रूप से महत्वपूर्ण है.",
         "NoteForLargePiwikInstances": "बड़े Piwik प्रतिष्ठानों के लिए महत्वपूर्ण सूचनाएं",
-        "NoteItIsExpectedThatQueriesFail": "नोट: यदि आप मैन्युअल रूप से इन प्रश्नों पर अमल करते हैं, यह उनमें से कुछ असफल उम्मीद है. इस मामले में, बस त्रुटियों पर ध्यान न दें, और सूची में अगले वाले चलाये.",
         "PiwikHasBeenSuccessfullyUpgraded": "Piwik सफलतापूर्वक अद्यतन किया गया है!",
         "PiwikUpdatedSuccessfully": "Piwik सफलतापूर्वक अद्यतन!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Piwik डेटाबेस संस्करण%1$s से नए संस्करण %2$s के लिए उन्नत किया जाएगा",
@@ -45,7 +44,6 @@
         "WarningMessages": "चेतावनी संदेश:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "हमने स्वचालित रूप से निम्नलिखित प्लगिन निष्क्रिय किया: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "आप स्वतः संस्करण %s के लिए अद्यतन या पैकेज को डाउनलोड और स्वयं इसे स्थापित कर सकते हैं:",
-        "YouCouldManuallyExecuteSqlQueries": "आप कमांड लाइन updater का उपयोग करने में सक्षम नहीं हैं और Piwik (डेटाबेस, एक ब्राउज़र मध्यांतर, या किसी भी अन्य मुद्दे के एक मध्यांतर के कारण) अपग्रेड करने में विफल रहता है, तो आप मैन्युअल Piwik अद्यतन करने के लिए एसक्यूएल प्रश्नों पर अमल कर सकते है.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik अपने मौजूदा स्थापना अधिलेखित करने में असमर्थ है. आप या तो निर्देशिका \/ फाइल अनुमति , या पैकेज को डाउनलोड करने और मैन्युअल %s संस्करण स्थापित कर सकते हैं:",
         "YourDatabaseIsOutOfDate": "आपकी Piwik डेटाबेस अप्रचलित है, और जारी रखने से पहले अपग्रेड किया जाना चाहिए."
     }

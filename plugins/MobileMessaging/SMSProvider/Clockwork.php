@@ -91,7 +91,7 @@ class Clockwork extends SMSProvider
 
         $url = self::BASE_API_URL
             . $resource
-            . '?' . http_build_query($parameters, '', '&');
+            . '?' . Http::buildQuery($parameters);
 
         $timeout = self::SOCKET_TIMEOUT;
 

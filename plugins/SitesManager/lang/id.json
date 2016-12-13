@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "Jaga pecahan URL halaman ketika pelacakan URL Halaman",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP berikut ini akan dikecualikan dari pelacakan seluruh situs.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parameter URL berikut akan dikecualikan dari URL situs.",
-        "ListOfQueryParametersToExclude": "Masukkan Parameter Permintaan URL, satu tiap baris, untuk dikecualikan dari laporan URL Halaman.",
         "MainDescription": "Laporan Analisis Ramatraya Anda membutuhkan Situs! Menambah, memperbarui, menghapus Situs, dan menampilkan JavaScript untuk ditampilakan ke halaman Anda.",
         "NotAnEcommerceSite": "Bukan situs Niaga-E",
         "NotFound": "Tak ada situs yang ditemukan",

@@ -40,6 +40,7 @@
         "JSTracking_MergeSubdomainsDesc": "Ainsi si un visiteur visite %1$s et %2$s, cela sera comptabilisé comme une visite unique.",
         "JSTracking_PageCustomVars": "Suivre une variable personnalisée pour chaque affichage de page",
         "JSTracking_PageCustomVarsDesc": "Par exemple, avec une variable nommée \"categorie\" et la valeur \"livre blancs\".",
+        "JSTracking_TrackNoScript": "Suivre les utilisateurs qui n'ont pas activé JavaScript",
         "JSTracking_VisitorCustomVars": "Effectuer le suivi des variables personnalisées pour ce visiteur",
         "JSTracking_VisitorCustomVarsDesc": "Par exemple, avec une variable nommée \"type\" et la valeur \"client\".",
         "JSTrackingIntro1": "Vous pouvez suivre les visiteurs de votre site web de manières variées. La manière recommandée est celle via JavaScript. Pour utiliser cette méthode assurez vous simplement que chaque page web du site a un certain code JavaScript que vous pouvez générer ici.",

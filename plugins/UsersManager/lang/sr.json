@@ -8,7 +8,6 @@
         "AnonymousUserHasViewAccess2": "Vaši analitički podaci i informacije o vašim posetiocima su javno vidljivi.",
         "ApplyToAllWebsites": "Primeni na sve sajtove",
         "ChangeAllConfirm": "Da li ste sigurni da korisniku '%s' želite da dodelite pristup svim sajtovima?",
-        "ChangePasswordConfirm": "Promena lozinke će prouzrokovati i promenu korisnikovog token_auth. Da li ste sigurni da želite da nastavite?",
         "ClickHereToDeleteTheCookie": "Kliknite ovde kako biste obrisali kolačić i time omogućili Piwik da prati i vaše posete",
         "ClickHereToSetTheCookieOnDomain": "Kliknite ovde kako biste postavili kolačić i time onemogućili Piwik da prati i vaše posete %s",
         "ConfirmGrantSuperUserAccess": "Da li zaista želite da '%s' dodelite superkorisnički nivo pristupa? Pažnja: korisnik će dobiti pristup svim sajtovima i moći će da vrši administrativne zadatke.",

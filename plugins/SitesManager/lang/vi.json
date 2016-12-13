@@ -41,7 +41,6 @@
         "KeepURLFragmentsLong": "Giữ các phân đoạn URL trang khi theo dõi các URL trang",
         "ListOfIpsToBeExcludedOnAllWebsites": "Các IP dưới đây sẽ bị loại khỏi theo dõi trên tất cả các trang web.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Các tham số URL truy vấn dưới đây sẽ được loại bỏ từ các URL trên tất cả các trang web.",
-        "ListOfQueryParametersToExclude": "Nhập danh sách các tham số truy vấn URL, mỗi dòng, để loại bỏ từ các báo cáo URL trang.",
         "MainDescription": "Các báo cáo phân tích web của bạn cần các Website! Bổ sung, cập nhật, xóa trang web, và hiển thị các JavaScript để chèn vào các trang của bạn.",
         "NotAnEcommerceSite": "Không phải là một trang web thương mại điện tử",
         "NotFound": "Không có website được tìm thấy cho",

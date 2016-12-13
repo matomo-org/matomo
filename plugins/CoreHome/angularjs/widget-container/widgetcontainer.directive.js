@@ -32,12 +32,13 @@
                 return function (scope, element, attrs, ngModel) {
                     scope.$watch('container', function (container) {
                         if (container && container.widgets && container.widgets[0] && container.widgets[0].parameters) {
-                            var isWidgetized = container.widgets[0].parameters.widget == '1';
+                            var widget = container.widgets[0];
+                            var isWidgetized = widget.parameters.widget == '1';
 
-                            if (isWidgetized) {
-                                container.widgets[0].parameters.showtitle = '0';
+                            if (isWidgetized && widget.viewDataTable && widget.viewDataTable == 'graphEvolution') {
+                                // we hide the first title for Visits Overview with Graph and Goal Overview
+                                widget.parameters.showtitle = '0';
                             }
-
                         }
                     });
                 }

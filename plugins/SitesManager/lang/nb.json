@@ -42,7 +42,6 @@
         "KeepURLFragmentsLong": "Behold URL-fragmenter når URLer spores",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-adressene nedenfor blir ekskludert fra sporing på alle nettsteder.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL-spørreparametrene nedenfor blir ekskludert fra alle side URL-rapporter.",
-        "ListOfQueryParametersToExclude": "Skriv inn listen med URL-spørreparametere, en per linje, for å ekskludere dem fra Side-URL-rapporter.",
         "MainDescription": "Dine analyser trenger nettsteder! Legg til, oppdater, slett websider, og vis koden som du skal legge inn på dine websider.",
         "NotAnEcommerceSite": "Ikke en e-handelside",
         "NotFound": "Ingen nettsteder funnet for",

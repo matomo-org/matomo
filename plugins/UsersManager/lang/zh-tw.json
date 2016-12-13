@@ -7,7 +7,6 @@
         "AnonymousUserHasViewAccess": "注意：這個 %1$s 使用者有 %2$s 訪問該網站。",
         "AnonymousUserHasViewAccess2": "您的分析報告跟你的訪客信息是公開可查看。",
         "ApplyToAllWebsites": "套用至所有網站",
-        "ChangePasswordConfirm": "變更密碼也會更改用戶的token_auth。你真的要繼續嗎？",
         "ClickHereToDeleteTheCookie": "點擊這裡刪除 cookie 並讓 Piwik 追蹤你的訪問紀錄",
         "ClickHereToSetTheCookieOnDomain": "點擊這裡設定一個 cookie 讓 %s 的 Piwik 排除你的訪問紀錄",
         "ConfirmGrantSuperUserAccess": "你真的要授予 '%s' 超級用戶訪問權限？警告：該用戶將有權訪問所有的網站，並能夠執行管理任務。",

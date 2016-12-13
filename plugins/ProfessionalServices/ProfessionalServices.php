@@ -13,14 +13,16 @@ use Piwik\Common;
 class ProfessionalServices extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Request.getRenamedModuleAndAction' => 'renameProfessionalServicesModule',
-            'Template.afterGoalConversionOverviewReport' => 'getGoalOverviewPromo',
+            'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
+            'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
+            'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
         );
     }
@@ -56,6 +58,22 @@ class ProfessionalServices extends \Piwik\Plugin
         return $isWidget;
     }
 
+    public function getGoalFunnelOverviewPromo(&$out)
+    {
+        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Funnels')
+            || $this->isRequestForDashboardWidget()) {
+            return;
+        }
+
+        $out .= '
+            <p style="margin-top:3em;margin-bottom:3em" class=" alert-info alert">Did you know?
+                A Funnel defines a series of actions that you expect your visitors to take on their way to converting a goal.
+                <br/>With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/conversion-funnel/">Funnels for Piwik</a>,
+                you can easily determine your funnel and see where your visitors drop off and how to focus efforts to increase your conversions.
+            </p>';
+    }
+
+
     public function getGoalOverviewPromo(&$out)
     {
         if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('AbTesting')
@@ -65,7 +83,7 @@ class ProfessionalServices extends \Piwik\Plugin
 
         $out .= '
             <p style="margin-top:3em" class=" alert-info alert">Did you know?
-                With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/ab-testing-learn-more/">A/B Testing for Piwik</a> you can immediately increase conversions and sales by creating different versions of a page to see which grows your business.
+                With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/ab-testing-learn-more/">A/B Testing for Piwik</a> you can immediately increase conversions and sales by creating different versions of a page to see which one grows your business.
             </p>
             ';
     }

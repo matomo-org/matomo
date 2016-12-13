@@ -29,6 +29,17 @@ class TypeManager
         return $instances;
     }
 
+    public function isExistingType($typeId)
+    {
+        foreach ($this->getAllTypes() as $type) {
+            if ($type->getId() === $typeId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param string $typeId
      * @return Type|null

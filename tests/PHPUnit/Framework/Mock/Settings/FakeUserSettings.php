@@ -23,9 +23,5 @@ class FakeUserSettings extends \Piwik\Plugins\ExampleSettingsPlugin\UserSettings
         return parent::makeSetting($name, $defaultValue, $type, $configureCallback);
     }
 
-    public function addSetting(Setting $setting)
-    {
-        parent::addSetting($setting);
-    }
 }
 

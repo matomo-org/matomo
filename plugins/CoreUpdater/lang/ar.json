@@ -23,7 +23,6 @@
         "InstallingTheLatestVersion": "جاري تثبيت آخر إصدار",
         "MajorUpdateWarning1": "هذه ترقية رئيسية وكبيرة! ستستغرق أطول من المعتاد.",
         "NoteForLargePiwikInstances": "تنبيه هام لمواقع Piwik الكبير",
-        "NoteItIsExpectedThatQueriesFail": "ملاحظة: إذا قمت بإجراء هذه الاستعلامات يدوياً، فمن المتوقع أن بعضها سيفضل. في هذه الحالة، تجاهل الأخطاء وتابع تنفيذ الاستعلام التالي في القائمة.",
         "PiwikHasBeenSuccessfullyUpgraded": "تم تحديث Piwik بنجاح!",
         "PiwikUpdatedSuccessfully": "تم تحديث Piwik بنجاح!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "ستتم ترقية قاعدة بيانات Piwik من الإصدار %1$s إلى الإصدار الجديد %2$s.",
@@ -43,7 +42,6 @@
         "WarningMessages": "رسائل التحذير:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "لقد قمنا آلياً بتعطيل الإضافات التالية: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "يمكنك التحديث آلياً إلى الإصدار %s أو تحميلها على جهازك وتثبيتها يدوياً:",
-        "YouCouldManuallyExecuteSqlQueries": "إذا كنت غير قادر على استخدام محث الترقية، وإذا فشل Piwik في التحديث (بسبب انتهاء المهلة الزمنية المحددة، انتهاء مهلة المتصفح أو لأي سبب آخر)، يمكنك إجراء استعلام SQL يدوياً لتحديث Piwik.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik غير قادر على الكتابة فوق التثبيت الحالي. يمكنك معالجة صلاحيات المجلدات \/ الملفات، أو تحميل حزمة التثبيت وتثبيت الإصدار %s يدوياً:",
         "YourDatabaseIsOutOfDate": "قاعدة بيانات Piwik غير مُحدَّثَة، ويجب ترقيتها قبل أن تتمكن من المتابعة."
     }

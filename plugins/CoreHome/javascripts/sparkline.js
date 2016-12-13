@@ -55,16 +55,18 @@ window.initializeSparklines = function () {
             return;
         }
 
-        var sparklines = parent.find('div.sparkline');
+        var sparklines = parent.find('div.sparkline:not(.notLinkable)');
 
         // try to find sparklines and add them clickable behaviour
         sparklines.each(function () {
             // find the sparkline and get it's src attribute
             var sparklineUrl = $('img', this).attr('data-src');
 
+            var $this = $(this);
+
             if (sparklineUrl != "") {
 
-                $(this).addClass('linked');
+                $this.addClass('linked');
 
                 var params = broadcast.getValuesFromUrl(sparklineUrl);
                 for (var i = 0; i != sparklineUrlParamsToIgnore.length; ++i) {
@@ -80,8 +82,8 @@ window.initializeSparklines = function () {
                 }
 
                 // on click, reload the graph with the new url
-                $(this).off('click.sparkline');
-                $(this).on('click.sparkline', function () {
+                $this.off('click.sparkline');
+                $this.on('click.sparkline', function () {
                     var reportId = graph.attr('data-report'),
                         dataTable = graph;
 

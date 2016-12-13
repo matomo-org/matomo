@@ -738,7 +738,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if (!isset($params['piwikpro'])) {
                 $params['piwikpro'] = '0';
             }
-            $url .= '?' . http_build_query($params, '', '&');
+            $url .= '?' . Http::buildQuery($params);
             try {
                 Http::sendHttpRequest($url, $timeout = 2);
             } catch (Exception $e) {

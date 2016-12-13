@@ -8,7 +8,6 @@
         "AnonymousUserHasViewAccess2": "Analyysiraporttisi ja kävijätietosi ovat julkisia.",
         "ApplyToAllWebsites": "Päivitä kaikille sivuille",
         "ChangeAllConfirm": "Haluatko varmasti antaa käyttäjälle '%s' pääsyn kaikille verkkosivuille?",
-        "ChangePasswordConfirm": "Salasanan vaihtaminen vaihtaa myös käyttäjän token_auth:n. Haluatko varmasti jatkaa?",
         "ClickHereToDeleteTheCookie": "Paina tästä poistaaksesi cookie",
         "ClickHereToSetTheCookieOnDomain": "Paina tästä luodaksesi cookie sivulle %s",
         "ConfirmGrantSuperUserAccess": "Haluatko varmasti antaa käyttäjälle '%s' Superkäyttäjäoikeudet? Varoitus: käyttäjä saa pääsyn kaikille verkkosivuille ja voi suorittaa hallinnollisia toimenpiteitä.",

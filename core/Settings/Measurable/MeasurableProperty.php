@@ -34,7 +34,7 @@ class MeasurableProperty extends \Piwik\Settings\Setting
         'ecommerce', 'sitesearch', 'sitesearch_keyword_parameters',
         'sitesearch_category_parameters',
         'exclude_unknown_urls', 'excluded_ips', 'excluded_parameters',
-        'excluded_user_agents', 'keep_url_fragment', 'urls'
+        'excluded_user_agents', 'keep_url_fragment', 'urls', 'group'
     );
 
     /**

@@ -12,6 +12,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration g
 
 ### Breaking Changes
 * When using the Piwik JavaScript Tracking via `_paq.push`, it is now required to configure the tracker (eg calling `setSiteId` and `setTrackerUrl`) before the `piwik.js` JavaScript tracker is loaded to ensure the tracker works correctly. 
+* The UserManager API methods do no longer return any `token_auth` properties when requesting a user
 * The menu classes `Piwik\Menu\MenuReporting` and `Piwik\Menu\MenuMain` have been removed
 * The class `Piwik\Plugin\Widgets` has been removed and replaced by `Piwik\Widget\Widget`. For each widget one class is needed from now on. You can generate a widget via `./console generate:widget`.
 * The class `Piwik\WidgetList` class has been moved to `Piwik\Widget\WidgetsList`.
@@ -102,10 +103,17 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `Updater.componentUninstalled` triggered after a component was uninstalled
 * New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.piwik.org/api-reference/tracking-api);
 * New event `Segment.addSegments` that lets you add segments.
-* New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled. 
+* New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled.
+* The `SitesManager.getJavascriptTag` has a new option `getJavascriptTag` to enable the tracking of users that have JavaScript disabled
+
+### Changes
+* New now accept tracking requests for up to 1 day in the past instead of only 4 hours
+* If a tracking request has a custom timestamp that is older than one day and the tracking request is not authenticated, we ignore the whole tracking request instead of ignoring the custom timestamp and still tracking the request with the current timestamp
 
 ### New features
+* Piwik JavaScript Tracking API: we now attempt to track Downloads and Outlinks when the user uses the mouse middle click or the mouse right right click. Previously only left clicks on Downloads and Outlinks were measured. 
 * New "Sparklines" visualization that lets you create a widget showing multiple sparklines.
+* New config.ini.php setting: `tracking_requests_require_authentication_when_custom_timestamp_newer_than` to change how far back Piwik will track your requests without authentication. By default, value is set to 86400 (one day). The configured value is in seconds.
 
 ### Library updates
 * Updated AngularJS from 1.2.28 to 1.4.3

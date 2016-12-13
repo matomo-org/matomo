@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Se desideri cambiare questo token, vai alla tua %1$spagina delle impostazioni personali%2$s.",
         "GenerateVisits": "Se oggi non hai ricevuto visite, le puoi generare usando il plugin %1$s. Abilita il plugin %2$s, quindi clicca su \"Generatore di Visite\" nell'area amministrazione Piwik.",
         "KeepTokenSecret": "Questo token_auth è segreto come il tuo login e la tua password, %1$s non condividerlo %2$s!",
         "LoadedAPIs": "Sono state caricate con successo %s API",

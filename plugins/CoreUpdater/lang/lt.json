@@ -25,7 +25,6 @@
         "InstallingTheLatestVersion": "Įdiegiama naujausia versija",
         "MajorUpdateWarning1": "Tai yra didesnis atnaujinimas! Jis užtruks ilgiau nei įprasta.",
         "NoteForLargePiwikInstances": "Svarbi pastaba apie didelius Piwik diegimus",
-        "NoteItIsExpectedThatQueriesFail": "Pastaba: jei rankiniu būdu įvykdysite šias užklausas, gali būti, jog kai kurios iš jų praneš apie klaidas ir nebus įvykdytos. Paprasčiausias ignoruokite klaidas ir vykdykite sekančias užklausas esančias sąraše.",
         "NotificationClickToUpdatePlugins": "Spustelėkite čia, kad atnaujintumėte savo papildinius dabar:",
         "NotificationClickToUpdateThemes": "Spustelėkite čia, kad atnaujintumėte savo temas dabar:",
         "NotificationSubjectAvailablePluginUpdate": "Jūsų Piwik papildiniams yra atnaujinimų",
@@ -50,7 +49,6 @@
         "WarningMessages": "Įspėjamieji pranešimai:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automatiškai pasyvinome šiuos papildinius: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Galite atnaujinti iki %s versijos automatiškai arba atsisiųsti paketą ir atnaujinti Piwik rankiniu būdu:",
-        "YouCouldManuallyExecuteSqlQueries": "Jei negalite pasinaudoti komandine eilute Piwik atnaujinti ar Piwik tiesiog neatsinaujina (dėl nutrūkusios sesijos, prarasto ryšio su duombaze ar kurios nors kitos priežasties), galite rankiniu būdu įvykdyti SQL užklausas Piwik atnaujinimui.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik negali perrašyti Jūsų dabartinio diegimo. Galite arba pataisyti katalogo\/failo teises, arba atsisiųsti paketą ir įdiegti šią versiją %s rankiniu būdu:",
         "YourDatabaseIsOutOfDate": "Norint tęsti, reikia atnaujinti Piwik duombazę",
         "ViewVersionChangelog": "Rodyti šios versijos keitinių žurnalą:"

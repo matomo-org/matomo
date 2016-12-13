@@ -697,6 +697,11 @@ bulk_requests_use_transaction = 1
 ; DO NOT USE THIS SETTING ON PUBLIC PIWIK SERVERS
 tracking_requests_require_authentication = 1
 
+; By default, Piwik accepts only tracking requests for up to 1 day in the past. For tracking requests with a custom date
+; date is older than 1 day, Piwik requires an authenticated tracking requests. By setting this config to another value
+; You can change how far back Piwik will track your requests without authentication. The configured value is in seconds.
+tracking_requests_require_authentication_when_custom_timestamp_newer_than = 86400;
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data

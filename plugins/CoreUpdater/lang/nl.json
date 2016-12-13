@@ -34,7 +34,6 @@
         "MajorUpdateWarning1": "Dit is een ingrijpende update! Het zal langer dan normaal duren.",
         "MajorUpdateWarning2": "Het volgende advies vooral voor grote installaties bedoelt.",
         "NoteForLargePiwikInstances": "Belangrijke mededeling voor grote Piwik installaties",
-        "NoteItIsExpectedThatQueriesFail": "Opmerking: Als u deze query's handmatig uitvoert zullen sommigen niet kunnen worden uitgevoerd. In dat geval kunt u de fouten negeren en de volgende in de lijst uitvoeren.",
         "NotificationClickToUpdatePlugins": "Klik hier om nu uw plugins bij te werken:",
         "NotificationClickToUpdateThemes": "Klik hier om je thema's nu bij te werken:",
         "NotificationSubjectAvailableCoreUpdate": "Nieuwe Piwik %s is beschikbaar",
@@ -73,7 +72,6 @@
         "WarningMessages": "Waarschuwings bericht:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "We hebben de volgende plugins gedeactiveerd: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "U kunt automatisch updaten naar versie %s of het pakket downloaden en handmatig installeren.",
-        "YouCouldManuallyExecuteSqlQueries": "Als u de opdrachtprompt updater niet kunt gebruiken en piwik kan niet upgraden (vanwege een timeout van de database, een browser timeout of een ander probleem), dan kunt u de SQL queries handmatig uitvoeren om Piwik te updaten.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik kan de huidige installatie niet overschrijven. U kunt de huidige map\/bestands rechten wijzigen, of de nieuwe versie downloaden en versie %s handmatig installeren:",
         "YourDatabaseIsOutOfDate": "Uw Piwik database is niet up to date en zal ge-upgrade moeten worden om verder te kunnen gaan.",
         "ViewVersionChangelog": "Bekijk het wijzigingslogboek voor versie:"

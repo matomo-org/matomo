@@ -228,6 +228,13 @@ class JoinGenerator
         );
 
         if (is_array($tA) && is_array($tB)) {
+            if (isset($tB['tableAlias']) && isset($tA['joinOn']) && strpos($tA['joinOn'], $tB['tableAlias']) !== false) {
+                return 1;
+            }
+            if (isset($tA['tableAlias']) && isset($tB['joinOn']) && strpos($tB['joinOn'], $tA['tableAlias']) !== false) {
+                return -1;
+            }
+
             return 0;
         }
 

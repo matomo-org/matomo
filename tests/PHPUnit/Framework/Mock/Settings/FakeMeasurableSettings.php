@@ -28,9 +28,5 @@ class FakeMeasurableSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Measur
         return parent::makeProperty($name, $defaultValue, $type, $configureCallback);
     }
 
-    public function addSetting(Setting $setting)
-    {
-        parent::addSetting($setting);
-    }
 }
 

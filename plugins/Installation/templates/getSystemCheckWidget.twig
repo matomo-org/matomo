@@ -4,7 +4,7 @@
     {% endif %}
 
     {% if numErrors %}
-        <p class="system-errors"><span class="icon-error"></span> {{ 'General_Errors'|translate }}:</p>
+        <p class="system-errors"><span class="icon-error"></span> {{ 'General_Errors'|translate }}</p>
         <ul>
             {% for error in errors %}
                 <li title="{{ error.getLongErrorMessage|e('html_attr') }}">{{ error.getLabel }}</li>
@@ -20,7 +20,7 @@
                 <br />
             {% endif %}
 
-            <span class="icon-warning"></span> {{ 'General_Warnings'|translate }}:
+            <span class="icon-warning"></span> {{ 'General_Warnings'|translate }}
         </p>
         <ul>
             {% for warning in warnings %}

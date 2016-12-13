@@ -66,6 +66,7 @@
 					<pageIdAction>6</pageIdAction>
 					
 					<pageId>5</pageId>
+					<interactionPosition />
 					<icon>plugins/Morpheus/images/link.gif</icon>
 					
 				</row>
@@ -92,6 +93,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>0</interactions>
 			<referrerType>campaign</referrerType>
 			<referrerTypeName>Campaigns</referrerTypeName>
 			<referrerName>campaign name - yeah!</referrerName>
@@ -185,6 +187,7 @@
 					<pageIdAction>2</pageIdAction>
 					
 					<pageId>4</pageId>
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
 				</row>
@@ -211,6 +214,7 @@
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>campaign</referrerType>
 			<referrerTypeName>Campaigns</referrerTypeName>
 			<referrerName>campaign name - yeah!</referrerName>

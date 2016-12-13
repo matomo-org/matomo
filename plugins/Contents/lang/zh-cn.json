@@ -2,8 +2,6 @@
     "Contents": {
         "PluginDescription": "内容和横幅跟踪，您可以衡量您的网页上任何一部分内容（横幅广告，图像，任何项目）的性能（浏览次数，点击次数，点击率）。",
         "Impressions": "印象",
-        "Interactions": "互动",
-        "Interaction": "互动",
         "InteractionRate": "互动率",
         "ContentName": "内容名称",
         "ContentPiece": "内容块",

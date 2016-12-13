@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Marketplace\tests\System\Api;
 
 use Piwik\Cache;
+use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
@@ -79,6 +80,7 @@ class ClientTest extends SystemTestCase
             'shop',
             'versions',
             'isDownloadable',
+            'changelog',
             'consumer');
 
         $this->assertNotEmpty($plugin);
@@ -210,7 +212,7 @@ class ClientTest extends SystemTestCase
             'num_users' => $this->environment->getNumUsers(),
             'num_websites' => $this->environment->getNumWebsites()
         );
-        $id = 'marketplace.api.2.0.plugins.' . md5(http_build_query($params));
+        $id = 'marketplace.api.2.0.plugins.' . md5(Http::buildQuery($params));
 
         $cache = $this->getCache();
         $this->assertFalse($cache->contains($id));
@@ -239,7 +241,7 @@ class ClientTest extends SystemTestCase
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
             'num_websites' => $this->environment->getNumWebsites());
-        $id = 'marketplace.api.2.0.plugins.' . md5(http_build_query($params));
+        $id = 'marketplace.api.2.0.plugins.' . md5(Http::buildQuery($params));
 
         $cache = $this->getCache();
         $cache->save($id, array('plugins' => array(array('name' => 'foobar'))));

@@ -26,7 +26,6 @@
         "JsTrackingTagHelp": "Oto kod śledzący w JavaScript do umieszczenia na wszystkich twoich stronach",
         "ListOfIpsToBeExcludedOnAllWebsites": "Adresy IP z listy poniżej zostaną wykluczone ze śledzonych na wszystkich stronach.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametry dotyczące listy zapytań z adresami URL przedstawione poniżej zostaną wykluczone ze statystyk na wszystkich stronach.",
-        "ListOfQueryParametersToExclude": "Wprowadź listę z parametrami zapytań URL, po jednym w linii, by móc wykluczyć je z raportów o adresach URL stron.",
         "MainDescription": "Twoje raporty z analityką statystyczną stron wymagają posiadania serwisu internetowego! Dodaj, zaktualizuj, zmień serwis internetowy, i wyświetl kod JavaScript do umieszczenia na stronach.",
         "NotAnEcommerceSite": "Strona nie jest typu Ecommerce",
         "NotFound": "Nie znaleziono stron dla",
