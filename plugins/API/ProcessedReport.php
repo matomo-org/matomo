@@ -197,7 +197,7 @@ class ProcessedReport
          *                          For example, Goals reports depend on the site IDs being
          *                          request. Contains the following information:
          *
-         *                          - **idSites**: The array of site IDs we are getting reports for.
+         *                          - **idSite**: The site ID we are getting reports for.
          *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
          *                                        `'year'`, `'range'`.
          *                          - **date**: A string date within the period or a date range, eg,
