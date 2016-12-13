@@ -98,6 +98,16 @@ class WidgetContainerConfig extends WidgetConfig
     /**
      * Get all added widget configs.
      *
+     * @param WidgetConfig[] $configs
+     */
+    public function setWidgetConfigs($configs)
+    {
+        $this->widgets = $configs;
+    }
+
+    /**
+     * Get all added widget configs.
+     *
      * @return WidgetConfig[]
      */
     public function getWidgetConfigs()
