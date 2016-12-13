@@ -1274,11 +1274,16 @@ $(document).ready(function() {
         }
 
         var self = this;
-        this.changeSegment = function(segmentDefinition) {
+
+        this.uriEncodeSegmentDefinition = function (segmentDefinition) {
             segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
             segmentDefinition = encodeURIComponent(segmentDefinition);
+            return segmentDefinition;
+        };
 
+        this.changeSegment = function(segmentDefinition) {
             if (piwikHelper.isAngularRenderingThePage()) {
+                segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
 
                 angular.element(document).injector().invoke(function ($location, $rootScope) {
                     var $search = $location.search();
@@ -1298,8 +1303,13 @@ $(document).ready(function() {
                 });
                 return false;
             } else {
-                return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
+                return this.forceSegmentReload(segmentDefinition);
             }
+        };
+
+        this.forceSegmentReload = function (segmentDefinition) {
+            segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
+            return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
         };
 
         this.changeSegmentList = function () {};
@@ -1332,7 +1342,7 @@ $(document).ready(function() {
                     self.impl.markCurrentSegment();
 
                     self.$element.find('a.close').click();
-                    self.changeSegment(params.definition);
+                    self.forceSegmentReload(params.definition);
 
                     self.changeSegmentList(self.props.availableSegments);
                 }
@@ -1370,7 +1380,7 @@ $(document).ready(function() {
                     self.impl.markCurrentSegment();
 
                     self.$element.find('a.close').click();
-                    self.changeSegment(params.definition);
+                    self.forceSegmentReload(params.definition);
 
                     self.changeSegmentList(self.props.availableSegments);
                 }
@@ -1408,7 +1418,7 @@ $(document).ready(function() {
                     self.rebuild();
 
                     self.$element.find('a.close').click();
-                    self.changeSegment('');
+                    self.forceSegmentReload('');
                     
                     $('.ui-dialog-content').dialog('close');
 
@@ -1452,7 +1462,7 @@ $(document).ready(function() {
             "addMethod": addSegment,
             "updateMethod": updateSegment,
             "deleteMethod": deleteSegment,
-            "segmentSelectMethod": function () { self.changeSegment.apply(this, arguments); },
+            "segmentSelectMethod": function () { self.changeSegment.apply(self, arguments); },
             "currentSegmentStr": segmentFromRequest,
             "translations": this.props.segmentTranslations
         });
