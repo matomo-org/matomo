@@ -271,7 +271,8 @@ Segmentation = (function($) {
 
                     if( checkSelected == self.currentSegmentStr
                         || checkSelected == decodeURIComponent(self.currentSegmentStr)
-                        || checkSelected == decodeURIComponent(decodeURIComponent(self.currentSegmentStr))){
+                        || checkSelected == unescape(decodeURIComponent(self.currentSegmentStr))
+                    ) {
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
