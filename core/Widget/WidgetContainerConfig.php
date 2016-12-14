@@ -96,6 +96,16 @@ class WidgetContainerConfig extends WidgetConfig
     }
 
     /**
+     * Set (overwrite) widget configs.
+     *
+     * @param WidgetConfig[] $configs
+     */
+    public function setWidgetConfigs($configs)
+    {
+        $this->widgets = $configs;
+    }
+
+    /**
      * Get all added widget configs.
      *
      * @return WidgetConfig[]

@@ -270,6 +270,24 @@ class WidgetContainerConfigTest extends \PHPUnit_Framework_TestCase
         ), $this->config->getWidgetConfigs());
     }
 
+    public function test_setWidgetConfigs_canOverwriteWidgets()
+    {
+        $this->assertSame(array(), $this->config->getWidgetConfigs());
+
+        $this->config->addWidgetConfig($widget1 = $this->createWidgetConfig('widget1'));
+        $this->config->addWidgetConfig($widget2 = $this->createWidgetConfig('widget2'));
+        $this->assertSame(array($widget1,$widget2), $this->config->getWidgetConfigs());
+
+        $widget3 = $this->createWidgetConfig('widget3');
+        $widget4 = new WidgetContainerConfig();
+        $this->config->setWidgetConfigs(array($widget2, $widget3, $widget4));
+        $this->assertSame(array(
+            $widget2,
+            $widget3,
+            $widget4
+        ), $this->config->getWidgetConfigs());
+    }
+
     private function createWidgetConfig($widgetName)
     {
         $config = new WidgetConfig();
