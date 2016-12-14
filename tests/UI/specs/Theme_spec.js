@@ -40,7 +40,7 @@ describe("Theme", function () {
     });
 
     it("should theme the UI demo page", function (done) {
-        expect.screenshot("demo").to.be.capture(function (page) {
+        expect.screenshot("demo").to.be.similar(0.002).to.be.capture(function (page) {
             page.load("?module=Morpheus&action=demo");
         }, done);
     });
