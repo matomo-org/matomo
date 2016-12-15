@@ -65,6 +65,10 @@
                 timeformat: this.timeformat,
             };
 
+            if (this.password) {
+                postParams.password = this.password;
+            }
+
             if (this.passwordBis) {
                 postParams.passwordBis = this.passwordBis;
             }
