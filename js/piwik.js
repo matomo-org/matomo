@@ -26,10 +26,10 @@
  * - Opera 7
  */
 
-/*global JSON2:true */
+/*global JSON_PIWIK:true */
 
-if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.stringify && window.JSON.parse) {
-    JSON2 = window.JSON;
+if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.JSON.stringify && window.JSON.parse) {
+    JSON_PIWIK = window.JSON;
 } else {
     (function () {
         // we make sure to not break any site that uses JSON3 as well as we do not know if they run it in conflict mode
@@ -945,14 +945,14 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
          * end JSON
          ************************************************************/
 
-        JSON2 = exports;
+        JSON_PIWIK = exports;
 
     })();
 }
 
 /* startjslint */
 /*jslint browser:true, plusplus:true, vars:true, nomen:true, evil:true, regexp: false, bitwise: true, white: true */
-/*global JSON2 */
+/*global JSON_PIWIK */
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
@@ -3613,7 +3613,7 @@ if (typeof window.Piwik !== 'object') {
                     cookie = getCookie(cookieName);
 
                 if (cookie.length) {
-                    cookie = JSON2.parse(cookie);
+                    cookie = JSON_PIWIK.parse(cookie);
 
                     if (isObject(cookie)) {
                         return cookie;
@@ -3641,7 +3641,7 @@ if (typeof window.Piwik !== 'object') {
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
-                    JSON2.stringify(browserFeatures) +
+                    JSON_PIWIK.stringify(browserFeatures) +
                     (new Date()).getTime() +
                     Math.random()
                 ).slice(0, 16);
@@ -3792,7 +3792,7 @@ if (typeof window.Piwik !== 'object') {
 
                 if (cookie.length) {
                     try {
-                        cookie = JSON2.parse(cookie);
+                        cookie = JSON_PIWIK.parse(cookie);
                         if (isObject(cookie)) {
                             return cookie;
                         }
@@ -4014,7 +4014,7 @@ if (typeof window.Piwik !== 'object') {
                             purify(referralUrl.slice(0, referralUrlMaxLength))
                         ];
 
-                        setCookie(cookieReferrerName, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain);
+                        setCookie(cookieReferrerName, JSON_PIWIK.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain);
                     }
                 }
 
@@ -4074,14 +4074,14 @@ if (typeof window.Piwik !== 'object') {
 
                 // custom data
                 if (customData) {
-                    request += '&data=' + encodeWrapper(JSON2.stringify(customData));
+                    request += '&data=' + encodeWrapper(JSON_PIWIK.stringify(customData));
                 } else if (configCustomData) {
-                    request += '&data=' + encodeWrapper(JSON2.stringify(configCustomData));
+                    request += '&data=' + encodeWrapper(JSON_PIWIK.stringify(configCustomData));
                 }
 
                 // Custom Variables, scope "page"
                 function appendCustomVariablesToRequest(customVariables, parameterName) {
-                    var customVariablesStringified = JSON2.stringify(customVariables);
+                    var customVariablesStringified = JSON_PIWIK.stringify(customVariables);
                     if (customVariablesStringified.length > 2) {
                         return '&' + parameterName + '=' + encodeWrapper(customVariablesStringified);
                     }
@@ -4108,7 +4108,7 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                     if (configStoreCustomVariablesInCookie) {
-                        setCookie(cookieCustomVariablesName, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                        setCookie(cookieCustomVariablesName, JSON_PIWIK.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
                     }
                 }
 
@@ -4221,7 +4221,7 @@ if (typeof window.Piwik !== 'object') {
                             items.push(ecommerceItems[sku]);
                         }
                     }
-                    request += '&ec_items=' + encodeWrapper(JSON2.stringify(items));
+                    request += '&ec_items=' + encodeWrapper(JSON_PIWIK.stringify(items));
                 }
                 request = getRequest(request, configCustomData, 'ecommerce', lastEcommerceOrderTs);
                 sendRequest(request, configTrackerPause);
@@ -5301,7 +5301,7 @@ if (typeof window.Piwik !== 'object') {
              * To access specific data point, you should use the other functions getAttributionReferrer* and getAttributionCampaign*
              *
              * @return array Attribution array, Example use:
-             *   1) Call JSON2.stringify(piwikTracker.getAttributionInfo())
+             *   1) Call JSON_PIWIK.stringify(piwikTracker.getAttributionInfo())
              *   2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
              */
             this.getAttributionInfo = function () {
@@ -6455,7 +6455,7 @@ if (typeof window.Piwik !== 'object') {
                 if (!isDefined(category) || !category.length) {
                     category = "";
                 } else if (category instanceof Array) {
-                    category = JSON2.stringify(category);
+                    category = JSON_PIWIK.stringify(category);
                 }
 
                 customVariablesPage[5] = ['_pkc', category];
@@ -6637,6 +6637,8 @@ if (typeof window.Piwik !== 'object') {
 
         Piwik = {
             initialized: false,
+
+            JSON: JSON_PIWIK,
 
             /**
              * DOM Document related methods
