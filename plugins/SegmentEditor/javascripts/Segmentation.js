@@ -271,7 +271,8 @@ Segmentation = (function($) {
 
                     if( checkSelected == self.currentSegmentStr
                         || checkSelected == decodeURIComponent(self.currentSegmentStr)
-                        || checkSelected == decodeURIComponent(decodeURIComponent(self.currentSegmentStr))){
+                        || checkSelected == unescape(decodeURIComponent(self.currentSegmentStr))
+                    ) {
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
@@ -1274,10 +1275,41 @@ $(document).ready(function() {
         }
 
         var self = this;
-        this.changeSegment = function(segmentDefinition) {
+
+        this.uriEncodeSegmentDefinition = function (segmentDefinition) {
             segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
             segmentDefinition = encodeURIComponent(segmentDefinition);
+            return segmentDefinition;
+        };
 
+        this.changeSegment = function(segmentDefinition) {
+            if (piwikHelper.isAngularRenderingThePage()) {
+                segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
+
+                angular.element(document).injector().invoke(function ($location, $rootScope) {
+                    var $search = $location.search();
+
+                    if (segmentDefinition !== $search.segment) {
+                        // eg when using back button the date might be actually already changed in the URL and we do not
+                        // want to change the URL again
+                        $search.segment = segmentDefinition.replace(/%$/, '%25').replace(/%([^\d].)/g, "%25$1");
+                        $location.search($search);
+                        setTimeout(function () {
+                            try {
+                                $rootScope.$apply();
+                            } catch (e) {}
+                        }, 1);
+                    }
+
+                });
+                return false;
+            } else {
+                return this.forceSegmentReload(segmentDefinition);
+            }
+        };
+
+        this.forceSegmentReload = function (segmentDefinition) {
+            segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
             return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
         };
 
@@ -1311,7 +1343,7 @@ $(document).ready(function() {
                     self.impl.markCurrentSegment();
 
                     self.$element.find('a.close').click();
-                    self.changeSegment(params.definition);
+                    self.forceSegmentReload(params.definition);
 
                     self.changeSegmentList(self.props.availableSegments);
                 }
@@ -1349,7 +1381,7 @@ $(document).ready(function() {
                     self.impl.markCurrentSegment();
 
                     self.$element.find('a.close').click();
-                    self.changeSegment(params.definition);
+                    self.forceSegmentReload(params.definition);
 
                     self.changeSegmentList(self.props.availableSegments);
                 }
@@ -1387,7 +1419,7 @@ $(document).ready(function() {
                     self.rebuild();
 
                     self.$element.find('a.close').click();
-                    self.changeSegment('');
+                    self.forceSegmentReload('');
                     
                     $('.ui-dialog-content').dialog('close');
 
@@ -1431,7 +1463,7 @@ $(document).ready(function() {
             "addMethod": addSegment,
             "updateMethod": updateSegment,
             "deleteMethod": deleteSegment,
-            "segmentSelectMethod": function () { self.changeSegment.apply(this, arguments); },
+            "segmentSelectMethod": function () { self.changeSegment.apply(self, arguments); },
             "currentSegmentStr": segmentFromRequest,
             "translations": this.props.segmentTranslations
         });
