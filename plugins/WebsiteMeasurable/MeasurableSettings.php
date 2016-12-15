@@ -128,7 +128,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $this->siteSearchKeywords = $this->makeSiteSearchKeywords();
 
         $siteSearchKeywords = $this->siteSearchKeywords->getValue();
-        $this->useDefaultSiteSearchParams->setDefaultValue(empty($siteSearchKeywords));
+        $areSiteSearchKeywordsEmpty = empty($siteSearchKeywords) || (is_array($siteSearchKeywords) && implode("", $siteSearchKeywords) == "");
+        $this->useDefaultSiteSearchParams->setDefaultValue($areSiteSearchKeywordsEmpty);
 
         $this->siteSearchCategory = $this->makeSiteSearchCategory($this->pluginManager);
         /**
