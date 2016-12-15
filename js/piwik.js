@@ -1031,7 +1031,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          DOM, onLoad, onReady*/
+          DOM, onLoad, onReady, JSON */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
