@@ -517,8 +517,10 @@
                         }
                     }
 
-                    // Apply the color scale to the map.
-                    map.getLayer('countries')
+                    var countryLayer = map.getLayer('countries');
+                    if(countryLayer) {
+                        // Apply the color scale to the map.
+                        countryLayer
                         .style('fill', countryFill)
                         .on('mouseenter', function (d, path, evt) {
                             if (evt.shiftKey) { // highlight on mouseover with shift pressed
@@ -531,13 +533,15 @@
                             }
                         });
 
-                    // Update the map tooltips.
-                    map.getLayer('countries').tooltips(function (data) {
-                        var metric = $$('.userCountryMapSelectMetrics').val(),
-                            country = UserCountryMap.countriesByIso[data.iso];
-                        return '<h3>' + country.name + '</h3>' +
-                            formatValueForTooltips(country, metric, target);
-                    });
+                        // Update the map tooltips.
+                        countryLayer.tooltips(function (data) {
+                            var metric = $$('.userCountryMapSelectMetrics').val(),
+                                country = UserCountryMap.countriesByIso[data.iso];
+                            return '<h3>' + country.name + '</h3>' +
+                                formatValueForTooltips(country, metric, target);
+                        });
+                    }
+
                 }
 
                 // if the view hasn't changed (but probably the selected metric),

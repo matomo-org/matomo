@@ -85,7 +85,7 @@ class SyncScreenshots extends ConsoleCommand
 
         $response = Http::sendHttpRequest(
             $url,
-            $timeout = 60,
+            $timeout = 160,
             $userAgent = null,
             $destinationPath = null,
             $followDepth = 0,
@@ -116,7 +116,7 @@ class SyncScreenshots extends ConsoleCommand
 
         Http::sendHttpRequest(
             $url,
-            $timeout = 60,
+            $timeout = 160,
             $userAgent = null,
             $downloadTo,
             $followDepth = 0,
