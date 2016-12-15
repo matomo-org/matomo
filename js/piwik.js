@@ -6638,6 +6638,8 @@ if (typeof window.Piwik !== 'object') {
         Piwik = {
             initialized: false,
 
+            JSON: JSON2,
+
             /**
              * DOM Document related methods
              */
