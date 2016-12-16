@@ -610,7 +610,7 @@ function PiwikTest() {
     });
 
     test("Piwik plugin methods", function() {
-        expect(26);
+        expect(31);
         
         // TESTS FOR retryMissedPluginCalls
 
@@ -720,6 +720,12 @@ function PiwikTest() {
         triggerEvent(_e('click7'), 'myCustomEvent');
 
         strictEqual(true, customEvent, "DOM.addEventListener works");
+
+        strictEqual('object', typeof Piwik.JSON, "Piwik.JSON object is defined");
+        strictEqual('function', typeof Piwik.JSON.stringify, "JSON.stringify method is defined");
+        strictEqual('function', typeof Piwik.JSON.parse, "JSON.parse method is defined");
+        strictEqual('[]', Piwik.JSON.stringify([]));
+        propEqual([], Piwik.JSON.parse('[]'));
     });
     
     test("Query", function() {

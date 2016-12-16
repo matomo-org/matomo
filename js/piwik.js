@@ -1031,7 +1031,7 @@ if (typeof JSON2 !== 'object' && typeof window.JSON === 'object' && window.JSON.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          DOM, onLoad, onReady*/
+          DOM, onLoad, onReady, JSON */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -6637,6 +6637,8 @@ if (typeof window.Piwik !== 'object') {
 
         Piwik = {
             initialized: false,
+
+            JSON: JSON2,
 
             /**
              * DOM Document related methods
