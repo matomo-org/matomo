@@ -508,95 +508,95 @@ function PiwikTest() {
 
         var tracker = Piwik.getTracker(), dummy;
 
-        equal( typeof JSON2.stringify, 'function', 'JSON.stringify function' );
-        equal( typeof JSON2.stringify(dummy), 'undefined', 'undefined' );
+        equal( typeof JSON_PIWIK.stringify, 'function', 'JSON.stringify function' );
+        equal( typeof JSON_PIWIK.stringify(dummy), 'undefined', 'undefined' );
 
-        equal( JSON2.stringify(null), 'null', 'null' );
-        equal( JSON2.stringify(true), 'true', 'true' );
-        equal( JSON2.stringify(false), 'false', 'false' );
-        ok( JSON2.stringify(0) === '0', 'Number 0' );
-        ok( JSON2.stringify(1) === '1', 'Number 1' );
-        ok( JSON2.stringify(-1) === '-1', 'Number -1' );
-        ok( JSON2.stringify(42) === '42', 'Number 42' );
+        equal( JSON_PIWIK.stringify(null), 'null', 'null' );
+        equal( JSON_PIWIK.stringify(true), 'true', 'true' );
+        equal( JSON_PIWIK.stringify(false), 'false', 'false' );
+        ok( JSON_PIWIK.stringify(0) === '0', 'Number 0' );
+        ok( JSON_PIWIK.stringify(1) === '1', 'Number 1' );
+        ok( JSON_PIWIK.stringify(-1) === '-1', 'Number -1' );
+        ok( JSON_PIWIK.stringify(42) === '42', 'Number 42' );
 
-        ok( JSON2.stringify(1.0) === '1.0'
-            || JSON2.stringify(1.0) === '1', 'float 1.0' );
+        ok( JSON_PIWIK.stringify(1.0) === '1.0'
+            || JSON_PIWIK.stringify(1.0) === '1', 'float 1.0' );
 
-        equal( JSON2.stringify(1.1), '1.1', 'float 1.1' );
-        equal( JSON2.stringify(""), '""', 'empty string' );
-        equal( JSON2.stringify('"'), '"' + '\\' + '"' + '"', 'string "' );
-        equal( JSON2.stringify('\\'), '"' + '\\\\' + '"', 'string \\' );
+        equal( JSON_PIWIK.stringify(1.1), '1.1', 'float 1.1' );
+        equal( JSON_PIWIK.stringify(""), '""', 'empty string' );
+        equal( JSON_PIWIK.stringify('"'), '"' + '\\' + '"' + '"', 'string "' );
+        equal( JSON_PIWIK.stringify('\\'), '"' + '\\\\' + '"', 'string \\' );
 
-        equal( JSON2.stringify("1"), '"1"', 'string "1"' );
-        equal( JSON2.stringify("ABC"), '"ABC"', 'string ABC' );
-        equal( JSON2.stringify("\x40\x41\x42\x43"), '"@ABC"', '\\x hex string @ABC' );
+        equal( JSON_PIWIK.stringify("1"), '"1"', 'string "1"' );
+        equal( JSON_PIWIK.stringify("ABC"), '"ABC"', 'string ABC' );
+        equal( JSON_PIWIK.stringify("\x40\x41\x42\x43"), '"@ABC"', '\\x hex string @ABC' );
 
-        ok( JSON2.stringify("\u60a8\u597d") == '"您好"'
-            || JSON2.stringify("\u60a8\u597d") == '"\\u60a8\\u597d"', '\\u Unicode string 您好' );
+        ok( JSON_PIWIK.stringify("\u60a8\u597d") == '"您好"'
+            || JSON_PIWIK.stringify("\u60a8\u597d") == '"\\u60a8\\u597d"', '\\u Unicode string 您好' );
 
-        ok( JSON2.stringify("ßéàêö您好") == '"ßéàêö您好"'
-            || JSON2.stringify("ßéàêö您好") == '"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"', 'string non-ASCII text' );
+        ok( JSON_PIWIK.stringify("ßéàêö您好") == '"ßéàêö您好"'
+            || JSON_PIWIK.stringify("ßéàêö您好") == '"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"', 'string non-ASCII text' );
 
-        equal( JSON2.stringify("20060228T08:00:00"), '"20060228T08:00:00"', 'string "20060228T08:00:00"' );
+        equal( JSON_PIWIK.stringify("20060228T08:00:00"), '"20060228T08:00:00"', 'string "20060228T08:00:00"' );
 
         var d = new Date();
         d.setTime(1240013340000);
-        ok( JSON2.stringify(d) === '"2009-04-18T00:09:00Z"'
-            || JSON2.stringify(d) === '"2009-04-18T00:09:00.000Z"', 'Date');
+        ok( JSON_PIWIK.stringify(d) === '"2009-04-18T00:09:00Z"'
+            || JSON_PIWIK.stringify(d) === '"2009-04-18T00:09:00.000Z"', 'Date');
 
-        equal( JSON2.stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
-        equal( JSON2.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
-        equal( JSON2.stringify(
+        equal( JSON_PIWIK.stringify([1, 2, 3]), '[1,2,3]', 'Array of numbers' );
+        equal( JSON_PIWIK.stringify({'key' : 'value'}), '{"key":"value"}', 'Object (members)' );
+        equal( JSON_PIWIK.stringify(
             [ {'domains' : ['example.com', 'example.ca']},
             {'names' : ['Sean', 'Cathy'] } ]
         ), '[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]', 'Nested members' );
 
         equal( typeof eval('('+dummy+')'), 'undefined', 'eval undefined' );
 
-        equal( typeof JSON2.parse, 'function', 'JSON.parse function' );
+        equal( typeof JSON_PIWIK.parse, 'function', 'JSON.parse function' );
 
         // these throw a SyntaxError
-//      equal( typeof JSON2.parse('undefined'), 'undefined', 'undefined' );
-//      equal( typeof JSON2.parse(dummy), 'undefined', 'undefined' );
-//      equal( JSON2.parse('undefined'), dummy, 'undefined' );
-//      equal( JSON2.parse('undefined'), undefined, 'undefined' );
+//      equal( typeof JSON_PIWIK.parse('undefined'), 'undefined', 'undefined' );
+//      equal( typeof JSON_PIWIK.parse(dummy), 'undefined', 'undefined' );
+//      equal( JSON_PIWIK.parse('undefined'), dummy, 'undefined' );
+//      equal( JSON_PIWIK.parse('undefined'), undefined, 'undefined' );
 
-        strictEqual( JSON2.parse('null'), null, 'null' );
-        strictEqual( JSON2.parse('true'), true, 'true' );
-        strictEqual( JSON2.parse('false'), false, 'false' );
+        strictEqual( JSON_PIWIK.parse('null'), null, 'null' );
+        strictEqual( JSON_PIWIK.parse('true'), true, 'true' );
+        strictEqual( JSON_PIWIK.parse('false'), false, 'false' );
 
-        equal( JSON2.parse('0'), 0, 'Number 0' );
-        equal( JSON2.parse('1'), 1, 'Number 1' );
-        equal( JSON2.parse('-1'), -1, 'Number -1' );
-        equal( JSON2.parse('42'), 42, 'Number 42' );
+        equal( JSON_PIWIK.parse('0'), 0, 'Number 0' );
+        equal( JSON_PIWIK.parse('1'), 1, 'Number 1' );
+        equal( JSON_PIWIK.parse('-1'), -1, 'Number -1' );
+        equal( JSON_PIWIK.parse('42'), 42, 'Number 42' );
 
-        ok( JSON2.parse('1.0') === 1.0
-            || JSON2.parse('1.0') === 1, 'float 1.0' );
+        ok( JSON_PIWIK.parse('1.0') === 1.0
+            || JSON_PIWIK.parse('1.0') === 1, 'float 1.0' );
 
-        equal( JSON2.parse('1.1'), 1.1, 'float 1.1' );
-        equal( JSON2.parse('""'), "", 'empty string' );
-        equal( JSON2.parse('"' + '\\' + '"' + '"'), '"', 'string "' );
-        equal( JSON2.parse('"\\\\"'), '\\', 'string \\' );
+        equal( JSON_PIWIK.parse('1.1'), 1.1, 'float 1.1' );
+        equal( JSON_PIWIK.parse('""'), "", 'empty string' );
+        equal( JSON_PIWIK.parse('"' + '\\' + '"' + '"'), '"', 'string "' );
+        equal( JSON_PIWIK.parse('"\\\\"'), '\\', 'string \\' );
 
-        equal( JSON2.parse('"1"'), "1", 'string "1"' );
-        equal( JSON2.parse('"ABC"'), "ABC", 'string ABC' );
-        equal( JSON2.parse('"@ABC"'), "\x40\x41\x42\x43", 'Hex string @ABC' );
+        equal( JSON_PIWIK.parse('"1"'), "1", 'string "1"' );
+        equal( JSON_PIWIK.parse('"ABC"'), "ABC", 'string ABC' );
+        equal( JSON_PIWIK.parse('"@ABC"'), "\x40\x41\x42\x43", 'Hex string @ABC' );
 
-        ok( JSON2.parse('"您好"') == "\u60a8\u597d"
-            && JSON2.parse('"\\u60a8\\u597d"') == "您好", 'Unicode string 您好' );
+        ok( JSON_PIWIK.parse('"您好"') == "\u60a8\u597d"
+            && JSON_PIWIK.parse('"\\u60a8\\u597d"') == "您好", 'Unicode string 您好' );
 
-        ok( JSON2.parse('"ßéàêö您好"') == "ßéàêö您好"
-            && JSON2.parse('"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"') == "ßéàêö您好", 'string non-ASCII text' );
+        ok( JSON_PIWIK.parse('"ßéàêö您好"') == "ßéàêö您好"
+            && JSON_PIWIK.parse('"\\u00df\\u00e9\\u00e0\\u00ea\\u00f6\\u60a8\\u597d"') == "ßéàêö您好", 'string non-ASCII text' );
 
-        equal( JSON2.parse('"20060228T08:00:00"'), "20060228T08:00:00", 'string "20060228T08:00:00"' );
+        equal( JSON_PIWIK.parse('"20060228T08:00:00"'), "20060228T08:00:00", 'string "20060228T08:00:00"' );
 
         // these aren't converted back to Date objects
-        equal( JSON2.parse('"2009-04-18T00:09:00Z"'), "2009-04-18T00:09:00Z", 'string "2009-04-18T00:09:00Z"' );
-        equal( JSON2.parse('"2009-04-18T00:09:00.000Z"'), "2009-04-18T00:09:00.000Z", 'string "2009-04-18T00:09:00.000Z"' );
+        equal( JSON_PIWIK.parse('"2009-04-18T00:09:00Z"'), "2009-04-18T00:09:00Z", 'string "2009-04-18T00:09:00Z"' );
+        equal( JSON_PIWIK.parse('"2009-04-18T00:09:00.000Z"'), "2009-04-18T00:09:00.000Z", 'string "2009-04-18T00:09:00.000Z"' );
 
-        deepEqual( JSON2.parse('[1,2,3]'), [1, 2, 3], 'Array of numbers' );
-        deepEqual( JSON2.parse('{"key":"value"}'), {'key' : 'value'}, 'Object (members)' );
-        deepEqual( JSON2.parse('[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]'),
+        deepEqual( JSON_PIWIK.parse('[1,2,3]'), [1, 2, 3], 'Array of numbers' );
+        deepEqual( JSON_PIWIK.parse('{"key":"value"}'), {'key' : 'value'}, 'Object (members)' );
+        deepEqual( JSON_PIWIK.parse('[{"domains":["example.com","example.ca"]},{"names":["Sean","Cathy"]}]'),
             [ {'domains' : ['example.com', 'example.ca']}, {'names' : ['Sean', 'Cathy'] } ], 'Nested members' );
     });
 
@@ -610,7 +610,7 @@ function PiwikTest() {
     });
 
     test("Piwik plugin methods", function() {
-        expect(26);
+        expect(31);
         
         // TESTS FOR retryMissedPluginCalls
 
@@ -720,6 +720,12 @@ function PiwikTest() {
         triggerEvent(_e('click7'), 'myCustomEvent');
 
         strictEqual(true, customEvent, "DOM.addEventListener works");
+
+        strictEqual('object', typeof Piwik.JSON, "Piwik.JSON object is defined");
+        strictEqual('function', typeof Piwik.JSON.stringify, "JSON.stringify method is defined");
+        strictEqual('function', typeof Piwik.JSON.parse, "JSON.parse method is defined");
+        strictEqual('[]', Piwik.JSON.stringify([]));
+        propEqual([], Piwik.JSON.parse('[]'));
     });
     
     test("Query", function() {
