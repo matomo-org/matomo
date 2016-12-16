@@ -79,6 +79,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
      */
     private $typeManager;
 
+    /**
+     * @var bool
+     */
+    private $unsetSiteSearchKeywords = false;
+
     public function __construct(SitesManager\API $api, Plugin\Manager $pluginManager, TypeManager $typeManager, $idSite, $idMeasurableType)
     {
         $this->sitesManagerApi = $api;
@@ -123,7 +128,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $this->siteSearchKeywords = $this->makeSiteSearchKeywords();
 
         $siteSearchKeywords = $this->siteSearchKeywords->getValue();
-        $this->useDefaultSiteSearchParams->setDefaultValue(empty($siteSearchKeywords));
+        $areSiteSearchKeywordsEmpty = empty($siteSearchKeywords) || (is_array($siteSearchKeywords) && implode("", $siteSearchKeywords) == "");
+        $this->useDefaultSiteSearchParams->setDefaultValue($areSiteSearchKeywordsEmpty);
 
         $this->siteSearchCategory = $this->makeSiteSearchCategory($this->pluginManager);
         /**
@@ -249,7 +255,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     private function makeUseDefaultSiteSearchParams(SitesManager\API $sitesManagerApi)
     {
-        return $this->makeSetting('use_default_site_search_params', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) use ($sitesManagerApi) {
+        $settings = $this;
+        return $this->makeSetting('use_default_site_search_params', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) use ($sitesManagerApi, $settings) {
 
             if (Piwik::hasUserSuperUserAccess()) {
                 $title = Piwik::translate('SitesManager_SearchUseDefault', array("<a href='#globalSettings'>","</a>"));
@@ -276,19 +283,29 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->description .= Piwik::translate('SitesManager_SearchCategoryLabel');
             $field->description .= ': ';
             $field->description .= $searchCategoryGlobal;
-            $field->transform = function () {
-                return null;// never actually save a value for this
+            $field->transform = function ($value) use ($settings) {
+                if ($value) {
+                    $settings->unsetSiteSearchKeywords = true;
+                }
+                return null; // never actually save a value for this
             };
         });
     }
 
     private function makeSiteSearchKeywords()
     {
-        return $this->makeProperty('sitesearch_keyword_parameters', $default = array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+        $settings = $this;
+        return $this->makeProperty('sitesearch_keyword_parameters', $default = array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($settings) {
             $field->title = Piwik::translate('SitesManager_SearchKeywordLabel');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->inlineHelp = Piwik::translate('SitesManager_SearchKeywordParametersDesc');
-            $field->condition = Piwik::translate('sitesearch && !use_default_site_search_params');
+            $field->condition = 'sitesearch && !use_default_site_search_params';
+            $field->transform = function ($value) use ($settings) {
+                if ($settings->unsetSiteSearchKeywords) {
+                    return '';
+                }
+                return $value;
+            };
         });
     }
 

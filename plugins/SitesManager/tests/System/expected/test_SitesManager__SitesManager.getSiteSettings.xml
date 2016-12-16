@@ -145,8 +145,8 @@
 			<row>
 				<name>use_default_site_search_params</name>
 				<title>Use &lt;a href='#globalSettings'&gt;default&lt;/a&gt; Site Search parameters</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
 				<type>boolean</type>
 				<uiControl>checkbox</uiControl>
 				<uiControlAttributes>

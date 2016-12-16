@@ -226,7 +226,7 @@ class Setting
             $value = call_user_func($config->transform, $value, $this);
         }
 
-        if (isset($this->type)) {
+        if (isset($this->type) && !is_null($value)) {
             settype($value, $this->type);
         }
 
