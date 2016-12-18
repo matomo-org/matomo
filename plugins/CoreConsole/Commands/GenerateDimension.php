@@ -204,7 +204,7 @@ class GenerateDimension extends GeneratePluginBase
 
         if (empty($columnType)) {
             $dialog     = $this->getHelperSet()->get('dialog');
-            $columnType = $dialog->askAndValidate($output, 'Enter the type of the column under which it should be stored in the MySQL database, for instance "VARCHAR(255) NOT NULL": ', $validate);
+        $columnType = $dialog->askAndValidate($output, 'Enter the type of the column under which it should be stored in the MySQL database, for instance "VARCHAR(255) DEFAULT NULL": ', $validate);
         } else {
             $validate($columnType);
         }

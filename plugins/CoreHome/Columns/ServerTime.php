@@ -19,7 +19,7 @@ use Piwik\Tracker;
 class ServerTime extends ActionDimension
 {
     protected $columnName = 'server_time';
-    protected $columnType = 'DATETIME NOT NULL';
+    protected $columnType = 'DATETIME DEFAULT NULL';
 
     public function install()
     {

@@ -18,7 +18,7 @@ use Piwik\Tracker\Visitor;
 class VisitFirstActionTime extends VisitDimension
 {
     protected $columnName = 'visit_first_action_time';
-    protected $columnType = 'DATETIME NOT NULL';
+    protected $columnType = 'DATETIME DEFAULT NULL';
 
     /**
      * @param Request $request
