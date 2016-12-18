@@ -26,7 +26,7 @@ class GenerateDimension extends GeneratePluginBase
             ->addOption('type', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "Visit", an "Action" or a "Conversion" dimension')
             ->addOption('dimensionname', null, InputOption::VALUE_REQUIRED, 'A human readable name of the dimension which will be for instance visible in the UI')
             ->addOption('columnname', null, InputOption::VALUE_REQUIRED, 'The name of the column in the MySQL database the dimension will be stored under')
-            ->addOption('columntype', null, InputOption::VALUE_REQUIRED, 'The MySQL type for your dimension, for instance "VARCHAR(255) NOT NULL".');
+            ->addOption('columntype', null, InputOption::VALUE_REQUIRED, 'The MySQL type for your dimension, for instance "VARCHAR(255) DEFAULT NULL".');
     }
 
     /**
