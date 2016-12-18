@@ -49,7 +49,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function listAllMethods()
     {
         $ApiDocumentation = new DocumentationGenerator();
-        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
+        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''), $displayTitlesAsAngularDirective = false);
     }
 
     public function listAllAPI()

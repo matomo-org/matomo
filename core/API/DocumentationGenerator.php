@@ -48,9 +48,10 @@ class DocumentationGenerator
      *
      * @param bool $outputExampleUrls
      * @param string $prefixUrls
+     * @param bool $displayTitlesAsAngularDirective Set to false for the API ref doc at http://developer.piwik.org/api-reference/reporting-api where we need to display titles without using AngularJS
      * @return string
      */
-    public function getAllInterfaceString($outputExampleUrls = true, $prefixUrls = '')
+    public function getAllInterfaceString($outputExampleUrls = true, $prefixUrls = '', $displayTitlesAsAngularDirective = true)
     {
         if (!empty($prefixUrls)) {
             $prefixUrls = 'http://demo.piwik.org/';
@@ -86,13 +87,19 @@ class DocumentationGenerator
 
             foreach ($toDisplay as $moduleName => $methods) {
                 $toc .= $this->prepareModuleToDisplay($moduleName);
-                $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls);
+                $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective);
             }
         }
 
-        $str = "<div piwik-content-block content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
+        if($displayTitlesAsAngularDirective) {
+            $str = "<div piwik-content-block content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
 				$toc</div>
 				$str";
+        } else {
+            $str = "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>
+				$toc
+				$str";
+        }
 
         return $str;
     }
@@ -102,10 +109,15 @@ class DocumentationGenerator
         return "<a href='#$moduleName'>$moduleName</a><br/>";
     }
 
-    public function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls)
+    public function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective)
     {
         $str = '';
-        $str .= "\n<a name='$moduleName' id='$moduleName'></a><div piwik-content-block content-title='Module " . $moduleName . "'>";
+        $str .= "\n<a name='$moduleName' id='$moduleName'></a>";
+        if($displayTitlesAsAngularDirective) {
+            $str .= "<div piwik-content-block content-title='Module " . $moduleName . "'>";
+        } else {
+            $str .= "<h2>Module " . $moduleName . "</h2>";
+        }
         $info['__documentation'] = $this->checkDocumentation($info['__documentation']);
         $str .= "<div class='apiDescription'> " . $info['__documentation'] . " </div>";
         foreach ($methods as $methodName) {
@@ -124,7 +136,11 @@ class DocumentationGenerator
             $str .= "</div>\n";
         }
 
-        return $str . "</div>";
+        if($displayTitlesAsAngularDirective) {
+            $str .= "</div>";
+        }
+
+        return $str;
     }
 
     public function prepareModulesAndMethods($info, $moduleName)
