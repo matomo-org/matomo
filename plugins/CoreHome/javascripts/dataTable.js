@@ -510,7 +510,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         setMaxTableWidthIfNeeded(domElem, 1200);
 
         var isTableVisualization = this.jsViewDataTable
-            && typeof this.jsViewDataTable === 'object'
+            && typeof this.jsViewDataTable === 'string'
             && typeof this.jsViewDataTable.indexOf === 'function'
             && this.jsViewDataTable.indexOf('table') !== -1;
         if (isTableVisualization) {
