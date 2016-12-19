@@ -49,7 +49,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function listAllMethods()
     {
         $ApiDocumentation = new DocumentationGenerator();
-        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
+        $prefixUrls = Common::getRequestVar('prefixUrl', 'http://demo.piwik.org/', 'string');
+        return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
     }
 
     public function listAllAPI()
@@ -59,7 +60,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
-        $view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
+        $view->list_api_methods_with_links = $ApiDocumentation->getApiDocumentationAsString();
         return $view->render();
     }
 
