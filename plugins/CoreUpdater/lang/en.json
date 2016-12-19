@@ -34,6 +34,8 @@
         "ListOfSqlQueriesFYI": "FYI: these are the SQL queries that will be executed to upgrade your database to Piwik %s",
         "MajorUpdateWarning1": "This is a major update! It will take longer than usual.",
         "MajorUpdateWarning2": "The following advice is especially important for large installations.",
+        "NeedHelpUpgrading": "Need help upgrading Piwik?",
+        "NeedHelpUpgradingText": "If you need support to upgrade your Piwik, the creators of Piwik are here to help you make the Piwik upgrade a success and provide all instructions, best practises and ongoing support. %sContact the Piwik experts to get started upgrading your Piwik safely.%s",
         "NoteForLargePiwikInstances": "Important notes for large Piwik installations",
         "NotificationClickToUpdatePlugins": "Click here to update your plugins now:",
         "NotificationClickToUpdateThemes": "Click here to update your themes now:",
