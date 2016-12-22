@@ -282,7 +282,7 @@ function _mapLegacyOsShortCodes($shortCode)
  */
 function getOsLogo($short)
 {
-    $path = 'plugins/DevicesDetection/images/os/%s.gif';
+    $path = 'plugins/DevicesDetection/images/os/%s.png';
 
     $short = _mapLegacyOsShortCodes($short);
 
