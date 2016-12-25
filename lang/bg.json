@@ -65,7 +65,6 @@
         "ColumnPageBounceRateDocumentation": "Процент посещения, които започват от тази страница и са последвани от незабавно напускане на сайта.",
         "ColumnPageviews": "Входящи прегледи",
         "ColumnPageviewsDocumentation": "Брой посещения на тази страница.",
-        "ColumnPercentageVisits": "Процент",
         "ColumnRevenue": "Приход",
         "ColumnSumVisitLength": "Цялото време прекарано от потребителите (в секунди)",
         "ColumnTotalPageviews": "Общо показвания",

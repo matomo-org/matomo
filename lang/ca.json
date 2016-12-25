@@ -67,7 +67,6 @@
         "ColumnPageBounceRateDocumentation": "El percentatge de visites que han començat en aquesta pàgina i han deixat el lloc web directament.",
         "ColumnPageviews": "Visualitzacions de pàgina",
         "ColumnPageviewsDocumentation": "El número de vegades que s'ha visitat aquesta pàgina.",
-        "ColumnPercentageVisits": "% Visites",
         "ColumnRevenue": "Ingressos",
         "ColumnSumVisitLength": "Temps total acumulat pels visitants (en segons)",
         "ColumnTotalPageviews": "Total de pàgines vistes",

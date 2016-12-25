@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Andelen besök som startade på denna sida och lämnade webbplatsen direkt.",
         "ColumnPageviews": "Sidvisningar",
         "ColumnPageviewsDocumentation": "Antalet gånger som denna sida besöktes.",
-        "ColumnPercentageVisits": "% Besök",
         "ColumnRevenue": "Inkomst",
         "ColumnSumVisitLength": "Total tid spenderad av besökare (i sekunder)",
         "ColumnTotalPageviews": "Totala sidvisningar",

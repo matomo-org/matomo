@@ -69,7 +69,6 @@
         "ColumnPageBounceRateDocumentation": "% käynneistä jotka alkoivat tällä sivulla ja päättyivät heti.",
         "ColumnPageviews": "Sivukatseluita",
         "ColumnPageviewsDocumentation": "Käyntien määrä tällä sivulla.",
-        "ColumnPercentageVisits": "% käyntejä",
         "ColumnRevenue": "Tulot",
         "ColumnSumVisitLength": "Kaikkien kävijöiden aika yhteensä (sekunteja)",
         "ColumnTotalPageviews": "Sivulatauksia yhteensä",

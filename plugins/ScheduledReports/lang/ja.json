@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "表示オプション",
         "AggregateReportsFormat_GraphsOnly": "グラフのみを表示(表は表示しない)",
         "AggregateReportsFormat_TablesAndGraphs": "全てのリポートでリポート表とグラフを表示",
         "AggregateReportsFormat_TablesOnly": "(デフォルト)リポート表を表示(グラフはキーメトリックスのみ)",
@@ -28,6 +29,7 @@
         "PluginDescription": "カスタム レポートを作成し、毎日、毎週、毎月等、 1 つまたは複数の人にメールで送信するようにスケジュールします。サポートされているレポート形式 ( html、pdf、csv、画像)。",
         "ReportFormat": "リポートのフォーマット",
         "ReportHour": "%s 時にレポートを送信します",
+        "ReportHourWithUTC": "%s 時UTC",
         "ReportIncludeNWebsites": "このレポートは、現在利用可能な %s ウェブサイトから、少なくとも 1 訪問以上ある全ウェブサイトの主なメトリクスを含みます。",
         "ReportSent": "送信されたレポート",
         "ReportsIncluded": "リポートに含める情報",

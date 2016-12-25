@@ -69,7 +69,7 @@
         "ColumnPageBounceRateDocumentation": "Përqindje vizitash që zunë fill në këtë faqe dhe e braktisën sajtin menjëherë.",
         "ColumnPageviews": "Parje faqesh",
         "ColumnPageviewsDocumentation": "Sa herë është vizituar kjo faqe.",
-        "ColumnPercentageVisits": "% Vizita",
+        "ColumnPercentageVisits": "%% Vizita",
         "ColumnRevenue": "Të ardhura",
         "ColumnSumVisitLength": "Kohë gjithsej e harxhuar nga vizitorët (në sekonda)",
         "ColumnTotalPageviews": "Parje faqesh Gjithsej",

@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Kategoria wyszukiwania",
         "ColumnSearches": "Wyszukiwania",
         "ColumnSearchesDocumentation": "Liczba wizyt, która wyszukiwała tego słowa kluczowego w wyszukiwarce na Twojej stronie.",
-        "ColumnSearchExits": "% Wyjścia Wyszukiwania",
         "ColumnSearchExitsDocumentation": "Procent odwiedzających którzy zostawili stronę dla danego słowa Kluczowego używając twojego systemu wyszukiwania.",
         "ColumnSearchResultsCount": "Liczba wyników wyszukiwania",
         "ColumnSiteSearchKeywords": "Unikalne słowa kluczowe",

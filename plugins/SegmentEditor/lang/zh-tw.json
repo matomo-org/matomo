@@ -1,0 +1,9 @@
+{
+    "SegmentEditor": {
+        "AddNewSegment": "新增區隔",
+        "ChooseASegment": "選擇區隔",
+        "CurrentlySelectedSegment": "目前選擇的區隔為：%s",
+        "DefaultAllVisits": "所有流量",
+        "SelectSegmentOfVisits": "選擇區隔："
+    }
+}

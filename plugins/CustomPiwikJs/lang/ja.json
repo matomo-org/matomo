@@ -1,0 +1,6 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "書き込み可能なJavaScript トラッカー ( \"\/piwik.js\" )",
+        "DiagnosticPiwikJsNotWritable": "Piwik JavaScript トラッカーファイル \"\/piwik.js\" は書き込み可能ではありません。これは、他のプラグインがJavaScript トラッカーを拡張できないことを意味します。将来的には、一部のコア機能も期待どおりに機能しない可能性があります。"
+    }
+}

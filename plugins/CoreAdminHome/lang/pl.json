@@ -41,7 +41,6 @@
         "JSTracking_VisitorCustomVarsDesc": "Dla przykładu, ze nazwą zmiennej \"Typ\" i wartością \"Klient\".",
         "JSTrackingIntro1": "Możesz śledzić odwiedzających na wiele sposobów. Rekomendowane jest użycie Javascript. By użyć tej metody musisz upewnić się, że każda podstrona ma kod, który możesz wygenerować poniżej.",
         "JSTrackingIntro2": "Kiedy już massz kod śledzenia JavaScript, skopiuj i wklej go na wszystkie strony, które chcesz śledzić w Piwik.",
-        "JSTrackingIntro3": "W większości stron, na blogach i CMS itd. możesz używać pluginu, który załatwi stronę techniczną za Ciebie (sprawdź naszą %1$slistę pluginów do integracji z Piwik%2$s). Jeżeli nie ma żadnych pluginów możesz wyedytować swoją stronę i dodać ten kod w pliku \"footer\".",
         "JSTrackingIntro4": "Jeśli nie chcesz używać JavaScript'u do śledzenia odwiedzających, %1$swygeneruj link śledzenia obrazkiem poniżej%2$s.",
         "JSTrackingIntro5": "Jeśli chcesz zrobić więcej niż śledzić odwiedziny stron, sprawdz listę dostępnych funkcji w %1$sdokumentacji Piwik Śledzenie Javascript%2$s. Przy użyciu tych funkcji możesz śledzić cele, własne zmienne, zamówienia biznesowe i inne.",
         "LogoNotWriteableInstruction": "Aby użyć swojego własnego logo zamiast domyślnego loga Piwik, nadaj uprawnienia do zapisu do katalogu: %1$s Piwik potrzebuje tych uprawnień aby zapisać Twoje loga do pliku %2$s.",

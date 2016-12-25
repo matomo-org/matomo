@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Відсоток відвідувань, які почалися на цій сторінці і відразу ж закінчилися (відвідувач пішов на інший сайт або закрив вкладку).",
         "ColumnPageviews": "Перегляди сторінок",
         "ColumnPageviewsDocumentation": "Кількість переглядів цієї сторінки.",
-        "ColumnPercentageVisits": "% відвідувань",
         "ColumnRevenue": "Прибуток",
         "ColumnSumVisitLength": "Загальний час відвідувачів на сайті (секунд)",
         "ColumnTotalPageviews": "Загальна кількість переглядів сторінок",

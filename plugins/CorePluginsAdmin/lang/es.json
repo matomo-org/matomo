@@ -5,6 +5,7 @@
         "Activated": "Activado",
         "Active": "Activo",
         "Activity": "Actividad",
+        "AlwaysActivatedPluginsList": "Los siguientes complementos están activados siempre y no pueden ser desactivados: %s",
         "AuthorHomepage": "Página de internet del autor",
         "Changelog": "Registro de cambios",
         "ChangeSettingsPossible": "Puede cambiar la %1$sconfiguración%2$s de este complemento.",
@@ -42,6 +43,9 @@
         "PluginNotWorkingAlternative": "Si ha estado utilizando este complemento podrá encontrar una versión más reciente en el Mercado. Si no, quizá desee desinstalarlo.",
         "PluginRequirement": "%1$s requiere %2$s.",
         "PluginsManagement": "Administración de complementos",
+        "NotDownloadable": "No se puede descargar",
+        "PluginNotDownloadable": "Este complemento no se puede descargar.",
+        "PluginActivated": "Complemento activado",
         "Status": "Estado",
         "SuccessfullyActicated": "<strong>%s<\/strong> ha sido activado con éxito.",
         "TeaserExtendPiwik": "Amplíe Piwik con complementos y temas",
@@ -55,6 +59,7 @@
         "UninstallConfirm": "Estás a punto de desinstalar el complemento %s. El complemento será completamente eliminado de su plataforma y no será recuperable. ¿Está seguro que desea hacer esto?",
         "Version": "Versión",
         "ViewAllMarketplacePlugins": "Ver todos los complementos del Marketplace",
+        "WeDeactivatedThePluginAsItHasMissingDependencies": "Desactivamos el complemento %s porque tiene dependencias faltantes:",
         "Websites": "Sitios de internet"
     }
 }

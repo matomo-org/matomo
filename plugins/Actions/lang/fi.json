@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Haun kategoria",
         "ColumnSearches": "Haut",
         "ColumnSearchesDocumentation": "Käynnit, joilla haettiin tällä hakusanalla.",
-        "ColumnSearchExits": "% Haun poistumiset",
         "ColumnSearchExitsDocumentation": "Osuus käynneistä jotka päättyivät tämän hakusanan hakemiseen sivun hakukoneella.",
         "ColumnSearchResultsCount": "Hakutulosten määrä",
         "ColumnSiteSearchKeywords": "Uniikkeja hakusanoja",

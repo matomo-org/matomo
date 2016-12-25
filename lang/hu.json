@@ -63,7 +63,6 @@
         "ColumnPageBounceRateDocumentation": "Látogatások százaléka, mely ezen a weblapon kezdődött, majd további weblapok megtekintése nélkül itt is fejeződött be.",
         "ColumnPageviews": "Lapmegtekintések",
         "ColumnPageviewsDocumentation": "Hányszor látogatták meg ezt a weblapot.",
-        "ColumnPercentageVisits": "% látogatások",
         "ColumnRevenue": "Bevétel",
         "ColumnSumVisitLength": "Látogatók által eltöltött összes idő (másodpercben)",
         "ColumnUniquePageviews": "Egyedi lapmegtekintések",

@@ -70,7 +70,7 @@
         "ColumnPageBounceRateDocumentation": "Prozentsatz der Besuche, die auf dieser Seite starteten und die Website sofort wieder verlassen haben.",
         "ColumnPageviews": "Seitenansichten",
         "ColumnPageviewsDocumentation": "Die Anzahl, wie häufig diese Seite besucht wurde.",
-        "ColumnPercentageVisits": "% Besuche",
+        "ColumnPercentageVisits": "%% Besuche",
         "ColumnRevenue": "Umsatz",
         "ColumnSumVisitLength": "Von Besuchern verbrachte Gesamtzeit (in Sekunden)",
         "ColumnTotalPageviews": "Gesamte Seitenansichten",

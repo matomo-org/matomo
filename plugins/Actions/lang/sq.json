@@ -18,7 +18,7 @@
         "ColumnSearchCategory": "Kategori Kërkimesh",
         "ColumnSearches": "Kërkime",
         "ColumnSearchesDocumentation": "Numri i vizitave nga të cilat pati kërkime për këtë fjalëkyç te motori i kërkimit në sajtin tuaj.",
-        "ColumnSearchExits": "% Largime Nga Kërkimi",
+        "ColumnSearchExits": "%% Largime Nga Kërkimi",
         "ColumnSearchExitsDocumentation": "Përqindja e vizitave që përfunduan me largim nga sajti pas kërkimit për këtë Fjalëkyç te motori i Kërkimeve në Sajtin tuaj.",
         "ColumnSearchResultsCount": "Numër Përfundimesh Kërkimi",
         "ColumnSiteSearchKeywords": "Fjalëkyçe Unikë",

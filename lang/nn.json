@@ -50,7 +50,6 @@
         "ColumnPageBounceRateDocumentation": "Prosenten av vitjingar som starta på denne sida og forsvann frå nettstaden med ein gong.",
         "ColumnPageviews": "Sidevisingar",
         "ColumnPageviewsDocumentation": "Talet på vitjingar av denne sida.",
-        "ColumnPercentageVisits": "% vitjingar",
         "ColumnRevenue": "Inntekter",
         "ColumnSumVisitLength": "Total tid brukt av vitjarar (i sekund)",
         "ColumnUniqueEntrances": "Unike inngangar",

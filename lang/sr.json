@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Procenat poseta koje su počele na ovoj stranici i odmah napustile sajt.",
         "ColumnPageviews": "Pregledane stranice",
         "ColumnPageviewsDocumentation": "Koliko puta je ova stranica posećena.",
-        "ColumnPercentageVisits": "% poseta",
         "ColumnRevenue": "Prihod",
         "ColumnSumVisitLength": "Ukupno vreme provedeno od strane posetilaca (u sekundama)",
         "ColumnTotalPageviews": "Ukupan broj pregleda stranica",

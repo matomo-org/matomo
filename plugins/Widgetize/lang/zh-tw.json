@@ -1,5 +1,6 @@
 {
     "Widgetize": {
+        "OpenInNewWindow": "在新視窗開啟",
         "TopLinkTooltip": "將 Piwik 報表匯出為組件，並於你的 APP 中以 iframe 嵌入展示板。"
     }
 }

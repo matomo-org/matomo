@@ -56,7 +56,6 @@
         "ThankYouUpdatePiwik": "Obrigado por usar o Piwik e mantê-lo atualizado!",
         "PostUpdateMessage": "Piwik será sempre gratuito para baixar e usar, mas ele precisa de seu apoio para continuar a crescer e melhorar.",
         "PostUpdateSupport": "Se você precisar de ajuda para usar Piwik, você pode obter o apoio de seus criadores:",
-        "ProfessionalServices": "Serviços Profissionais",
         "CloudHosting": "Nuvem de hospedagem",
         "Updating": "Atualizando",
         "UpdateUsingHttpsFailed": "Fazendo o download da versão mais recente do Piwik sobre conexão segura HTTPS não teve sucesso, devido ao seguinte erro:",

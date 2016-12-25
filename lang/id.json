@@ -69,7 +69,6 @@
         "ColumnPageBounceRateDocumentation": "Persentase kunjungan yang berawal pada halaman ini dan meninggalkan situs langsung.",
         "ColumnPageviews": "Tampilan Halaman",
         "ColumnPageviewsDocumentation": "Berapa kali halaman ini dikunjungi.",
-        "ColumnPercentageVisits": "% Kunjungan",
         "ColumnRevenue": "Pendapatan",
         "ColumnSumVisitLength": "Jumlah waktu kunjungan tiap pengunjung (dalam detik)",
         "ColumnTotalPageviews": "Jumlah Halaman Ditampilkan",

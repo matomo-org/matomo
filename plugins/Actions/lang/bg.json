@@ -17,7 +17,6 @@
         "ColumnSearchCategory": "Търсена категория",
         "ColumnSearches": "Търсачки",
         "ColumnSearchesDocumentation": "Брой посещения търсениза тази ключова дума от системата за търсене на твоя сайт.",
-        "ColumnSearchExits": "% Изход от търсене",
         "ColumnSearchExitsDocumentation": "Процент посещения, след които, потребителите са напуснали сайта, при търсене за тази ключова дума.",
         "ColumnSearchResultsCount": "Брой резултати от търсенето",
         "ColumnSiteSearchKeywords": "Уникални ключови думи",
