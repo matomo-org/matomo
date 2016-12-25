@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "アップデーターは、%s の最後に実行されました。",
         "UpdaterWillRunNext": "それは次に %s で実行されるようスケジュールされています。",
         "WidgetLocation": "ビジターの位置"
+    },
+    "Intl": {
+        "Country_TI": "チベット"
     }
 }

@@ -59,7 +59,6 @@
         "ColumnPageBounceRateDocumentation": "เปอร์เซ็นต์การเข้าชมที่เริ่มต้นในหน้านี้และด้านซ้ายเว็บไซต์ได้ทันที",
         "ColumnPageviews": "เพจวิว",
         "ColumnPageviewsDocumentation": "จำนวนครั้งที่หน้านี้มีการเข้าชม",
-        "ColumnPercentageVisits": "% เข้าชม",
         "ColumnRevenue": "รายได้",
         "ColumnSumVisitLength": "ระยะเวลาทั้งหมดที่ใช้โดยผู้เข้าชม (วินาที)",
         "ColumnTotalPageviews": "เพจวิวทั้งหมด",

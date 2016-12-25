@@ -17,7 +17,6 @@
         "ColumnSearchCategory": "Kategorija pretrage",
         "ColumnSearches": "Pretrage",
         "ColumnSearchesDocumentation": "Broj posjeta u kojima je tražena ova riječ preko vaše stranice.",
-        "ColumnSearchExits": "% Pretražna napuštanja",
         "ColumnSearchExitsDocumentation": "Percentaža posjeta kod kojih je stranica napuštena poslije pretrage za ovu riječ, izvršeno preko vašeg pretraživača.",
         "ColumnSearchResultsCount": "Broj rezultata u pretragama",
         "ColumnSiteSearchKeywords": "Unikatne riječi",

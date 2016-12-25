@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "فئة البحث",
         "ColumnSearches": "البجث",
         "ColumnSearchesDocumentation": "عدد الزيارات التي تم فيها البحث عن هذه الكلمة باستخدام محرك بحث موقعك.",
-        "ColumnSearchExits": "% البحث موجود",
         "ColumnSearchExitsDocumentation": "نسبة الزيارات التي غادرت موقعك بعد البحث عن هذه الكلمة باستخدام محرك بحث موقعك.",
         "ColumnSearchResultsCount": "عدد نتائج البحث",
         "ColumnSiteSearchKeywords": "الكلمات الدلالية الفريدة",

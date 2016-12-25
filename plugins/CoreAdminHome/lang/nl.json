@@ -44,7 +44,6 @@
         "JSTracking_VisitorCustomVarsDesc": "Bijvoorbeeld met variabele naam \"Type\" en waarde \"Klant\"",
         "JSTrackingIntro1": "Je kunt bezoekers volgen op verschillende manieren. De aanbevolen manier is via JavaScript. Om van deze methode gebruik te maken, moet elke pagina van je website de JavaScript code bevatten, die je hier kan genereren.",
         "JSTrackingIntro2": "Wanneer je de JavaScript code voor je website hebt, kopieer en plak de code naar alle pagina's die je wilt volgen met Piwik",
-        "JSTrackingIntro3": "Op de meeste websites, blogs, CMS, enz. kun je een plugin gebruiken (Zie onze %1$slijst van plugins om Piwik te integeren.%2$s.) Als er geen plugin bestaat, kun je de volgende code in het \"footer\" bestand van je website template plaatsen.",
         "JSTrackingIntro4": "Indien je geen gebruik wilt maken van JavaScript om gebruikers te volgen, %1$skun je een afbeelding tracking link hieronder genereren.%2$s",
         "JSTrackingIntro5": "Indien je meer wilt bijhouden dan paginaweergaves, lees dan de %1$sPiwik Javascript Tracking documentatie%2$s voor de lijst van beschikbare functies. Via deze functies kun je doelen, eigen variabelen, ecommerce bestellingen, afgebroken bestellingen en meer.",
         "LogoNotWriteableInstruction": "Om je eigen logo te gebruiken in plaats van het standaard Piwik logo, zijn er schrijf rechten nodig tot de volgende bestandmap: %1$s Piwik heeft schrijfrechten nodig voor de jouw logo's opgeslagen in de bestanden %2$s",

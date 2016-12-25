@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Zoekcategorie",
         "ColumnSearches": "Aantal zoekopdrachten",
         "ColumnSearchesDocumentation": "Het aantal bezoeken waarbij op dit sleutelwoord werd gezocht met de zoekoptie van uw website.",
-        "ColumnSearchExits": "% verlaten na zoekopdracht",
         "ColumnSearchExitsDocumentation": "Het percentage bezoeken dat uw website heeft verlaten nadat op dit sleutelwoord werd gezocht met de zoekoptie van uw website.",
         "ColumnSearchResultsCount": "Aantal zoekresultaten",
         "ColumnSiteSearchKeywords": "Unieke sleutelwoorden",

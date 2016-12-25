@@ -66,7 +66,6 @@
         "ColumnNbVisitsDocumentation": "Jeśli odwiedzający wchodzi na stronę po raz pierwszy lub gdy odwiedza stronę po 30 minut, to zostanie zapisany jako nowa wizyta.",
         "ColumnPageviews": "Liczba odsłon",
         "ColumnPageviewsDocumentation": "Ile razy tę stronę odwiedziło.",
-        "ColumnPercentageVisits": "% odsłon",
         "ColumnRevenue": "Przychody",
         "ColumnSumVisitLength": "Ogólny czas spędzony przez odwiedzającego (w sekundach)",
         "ColumnTotalPageviews": "Łącznie odwiedzin stron",

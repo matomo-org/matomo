@@ -54,7 +54,6 @@
         "ColumnPageBounceRateDocumentation": "Postotak posjeta koji su započeli na ovoj stranici i napustili stranicu odmah.",
         "ColumnPageviews": "Pregledi stranice",
         "ColumnPageviewsDocumentation": "Broj posjeta na ovu stranicu.",
-        "ColumnPercentageVisits": "% posjete",
         "ColumnSumVisitLength": "Ukupno vrijeme posjetioca (u sekundama)",
         "ColumnUniqueEntrances": "Jedinstveni ulazi",
         "ColumnUniqueExits": "Jedinstveni izlazi",

@@ -41,7 +41,6 @@
         "JSTracking_VisitorCustomVarsDesc": "Esimerkiksi muuttujan nimi \"tyyppi\" ja arvo \"asiakas\".",
         "JSTrackingIntro1": "Voit seurata verkkosivusi kävijöitä monella eri avalla. Suosittelemme JavaScriptin käyttöä. JavaScriptin käyttämiseksi täytyy jokaisella verkkosivusi sivulla olla JavaScript koodi, jonka voit luoda täällä.",
         "JSTrackingIntro2": "Kun sinulla on verkkosivullesi JavaScript seurantakoodi, kopioi ja liitä se kaikille sivuille, joita haluat seurata Piwikin avulla.",
-        "JSTrackingIntro3": "Useimmilla verkkosivuilla, blogeisss CMS-käyttöjärjestelmissä jne voit käyttää valmista liitännäistä, joka tekee teknisen työn puolestasi. (Katso %1$slista Piwikin kanssa käytetyistä liitännäisistä%2$s.) Jos et löydä liitännäistä, voit muokata verkkosivusi malleja ja lisätä koodin alatunnisteeseen.",
         "JSTrackingIntro4": "Mikäli et halua käyttää JavaScriptiä kävijöiden seuraamiseksi, %1$sluo kuvaseurantalinkki alapuolella%2$s.",
         "JSTrackingIntro5": "Jos haluat seurata enemmän kuin vain kävijöiden määrää, lue %1$sPiwikin Javascript seurannan dokumentaatio%2$s, joka sisältää listan mahdollisista toiminnoista. Voit seurata tavoitteita, mukauttaa muuttujia, verkkokaupan tilauksia, hylättyjä ostoskoreja ja muuta.",
         "LogoNotWriteableInstruction": "Käyttääksesi omaa logoa Piwikin oletuslogon sijasta, anna tälle hakemistolle kirjoitusoikeus: %1$s Piwik tarvitsee kirjoitusoikeuden logoillesi tiedostoissa %2$s.",

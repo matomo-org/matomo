@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Prosentandelen av besøk som startet på denne siden og forlot nettstedet med en gang.",
         "ColumnPageviews": "Sidevisninger",
         "ColumnPageviewsDocumentation": "Antallet ganger denne siden har vært besøkt.",
-        "ColumnPercentageVisits": "% besøk",
         "ColumnRevenue": "Inntekter",
         "ColumnSumVisitLength": "Total tid brukt av besøkere (i sekunder)",
         "ColumnTotalPageviews": "Sidevisninger totalt",

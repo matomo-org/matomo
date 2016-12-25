@@ -18,7 +18,7 @@
         "ColumnSearchCategory": "検索カテゴリー",
         "ColumnSearches": "検索",
         "ColumnSearchesDocumentation": "ウェブサイトの検索機能を使って、このキーワードを検索した訪問者の数。",
-        "ColumnSearchExits": "% 検索から離脱",
+        "ColumnSearchExits": "%% 検索終了",
         "ColumnSearchExitsDocumentation": "サイトの検索機能を使って、このキーワードを検索した後、ウェブサイトを離れた訪問者の割合。",
         "ColumnSearchResultsCount": "検索結果数",
         "ColumnSiteSearchKeywords": "単一のキーワード",
@@ -26,6 +26,7 @@
         "ColumnUniqueClicksDocumentation": "このリンクをクリックした訪問者の数です。一回の訪問で複数回リンクがクリックされても、一回としてカウントされます。",
         "ColumnUniqueDownloads": "ユニークダウンロード数",
         "ColumnUniqueOutlinks": "ユニーク外部リンク数",
+        "ColumnIdPageview": "ページビューID",
         "DownloadsReportDocumentation": "訪問者がどのファイルをダウンロードしたか、についてのリポートです。%s Piwikはダウンロードリンクのクリック数をカウントします。ダウンロードが完了したかどうかは判別できません。",
         "EntryPagesReportDocumentation": "これは期間中の入口ページタイトルについてのリポートです。入口ページとは訪問者が最初に見たページです。%s 入口ページのURLはフォルダーの階層で表示されています。",
         "EntryPageTitles": "入口ページタイトル",
@@ -61,6 +62,7 @@
         "WidgetPageUrlsFollowingSearch": "サイト検索後に見られたページ",
         "WidgetSearchCategories": "検索カテゴリー",
         "WidgetSearchKeywords": "サイト検索キーワード",
-        "WidgetSearchNoResultKeywords": "検索結果無しの検索キーワード"
+        "WidgetSearchNoResultKeywords": "検索結果無しの検索キーワード",
+        "ActionType": "アクションタイプ"
     }
 }

@@ -19,6 +19,13 @@
         "ViewUserGuides": "Piwik の設定方法と、効果的なデータ分析方法は、%1$s user guides %2$s をご確認ください。",
         "CommunityHelp": "コミュニティヘルプ",
         "ProfessionalHelp": "プロフェッショナルヘルプ",
+        "ProfessionalServicesOfferIntro": "どのようなサービスを利用できますか？",
+        "ProfessionalServicesOptimizationMaintenance": "Piwik 最適化および保守サービス",
+        "ProfessionalServicesPhoneEmailSupport": "電話とメールのサポート",
+        "ProfessionalServicesTraining": "ユーザー、テクニカル、開発者のトレーニング",
+        "ProfessionalServicesPremiumFeatures": "プレミアム機能",
+        "ProfessionalServicesCustomDevelopment": "カスタム開発サービス",
+        "ProfessionalServicesAnalystConsulting": "アナリストコンサルティングサービス",
         "ContactUs": "お問い合わせ",
         "VisitTheForums": "%1$s フォーラム %2$s にアクセスし、Piwik ユーザーのコミュニティから助けを得る"
     }

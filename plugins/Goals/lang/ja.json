@@ -14,6 +14,7 @@
         "CategoryTextGeneral_Visitors": "ユーザーの位置情報",
         "CategoryTextReferrers_Referrers": "リファラー",
         "CategoryTextVisitsSummary_VisitsSummary": "ユーザー属性",
+        "CategoryTextDevicesDetection_DevicesDetection": "デバイス",
         "CategoryTextGeneral_Visit": "エンゲージメント",
         "ClickOutlink": "外部ウェブサイトへのリンクをクリック",
         "SendEvent": "イベントを送信",
@@ -35,6 +36,7 @@
         "ConversionByTypeReportDocumentation": "このレポートでは、左側のパネルで使用可能なカテゴリごとの目標のパフォーマンス（コンバージョン、コンバージョン率、ビジットあたりの収益）に関する詳細な情報を提供します。 %1$s レポートを表示するには、カテゴリのいずれかをクリックしてください。%2$s 詳細については、%3$s piwik.orgのトラッキングゴール(目標)のドキュメント %4$s を参照してください。",
         "ConversionRate": "%s コンバージョン率",
         "Conversions": "%s コンバージョン",
+        "ConversionsDescription": "コンバージョン",
         "ConversionsOverview": "コンバージョンの概観",
         "ConversionsOverviewBy": "ビジットの種類によるコンバージョン概観",
         "DaysToConv": "日数別のコンバージョン",
@@ -75,8 +77,11 @@
         "NewGoalIntro": "目標コンバージョントラッキングは、あなたのビジネス目標の測定や改善のために、最も効率的な方法の一つです。",
         "NewVisitorsConversionRateIs": "新規ビジターのコンバージョン率は %s です",
         "NoGoalsNeedAccess": "管理者またはスーパー ユーザーのアクセス権を持つユーザーだけが、ウェブサイトの目標を管理できます。ウェブサイトの目標を設定する場合は Piwik の管理者に依頼してください。<br> 目標を追跡することは、ウェブサイトの理解に役立ち、パフォーマンスを最大限に高めるための素晴らしい方法です！",
+        "NoConversionsNoReportsMessage": "選択した目標と期間のコンバージョンデータがないため、レポートは表示されません。",
         "NeedAccess": "管理者またはスーパー ユーザーのアクセス権を持つユーザーだけが、ウェブサイトの目標を管理できます。",
         "Optional": "（オプション）",
+        "OverallConversionRate": "全体的なコンバージョン率 ( 目標達成後のビジット数 )",
+        "OverallRevenue": "全体的な収益",
         "PageTitle": "ページタイトル",
         "Pattern": "パターン",
         "PluginDescription": "目標を作成し、目標のコンバージョンに関する詳細なレポートを参照してください : 時間がたつにつれての推移、1訪問あたりの収入、1キーワードあたり、リファラーあたりのコンバージョン、およびその他。",
@@ -97,6 +102,7 @@
         "VisitUrl": "特定の URL を訪問（ページまたはページグループ）",
         "WhenVisitors": "ビジター",
         "WhereThe": "対象：",
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "訪問したページに JavaScript の 'trackGoal' メソッドを呼び出す必要があります( %1$s詳細はこちら%2$s )",
         "YouCanEnableEcommerceReports": "%1$s ページでこのウェブサイトに%2$s を有効にできます。"
     }
 }
