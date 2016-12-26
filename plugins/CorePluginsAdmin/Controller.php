@@ -324,10 +324,6 @@ class Controller extends Plugin\ControllerAdmin
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';
 
-        // When the CSS merger in StylesheetUIAssetMerger throws an exception, safe mode is displayed.
-        // This flag prevents an infinite loop where safemode would try to re-generate the cache buster which requires CSS merger..
-        $view->disableCacheBuster();
-
         if (!empty($lastError['file'])) {
             preg_match('/piwik\/plugins\/(.*)\//', $lastError['file'], $matches);
 
