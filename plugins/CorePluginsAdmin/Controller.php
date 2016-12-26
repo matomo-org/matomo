@@ -300,20 +300,10 @@ class Controller extends Plugin\ControllerAdmin
         if (Common::isPhpCliMode()) { // TODO: I can't find how this will ever get called / safeMode is never set for Console
             throw new Exception("Error: " . var_export($lastError, true));
         }
-
-        // Trick to lets Super User troubleshoot in safe mode, even when Login is broken
-        $isAllowedToTroubleshootAsSuperUser = false;
-        $salt = Config::getInstance()->General['salt'];
-        if(!empty($salt)) {
-            $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
-            $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
-        }
-
-
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
 
-        $view->isAllowedToTroubleshootAsSuperUser = $isAllowedToTroubleshootAsSuperUser;
+        $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
         $view->plugins         = $this->pluginManager->loadAllPluginsAndGetTheirInfo();
@@ -383,11 +373,13 @@ class Controller extends Plugin\ControllerAdmin
 
     public function deactivate($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
-        $this->dieIfPluginsAdminIsDisabled();
-
-        $this->pluginManager->deactivatePlugin($pluginName);
-        $this->redirectAfterModification($redirectAfter);
+        if($this->isAllowedToTroubleshootAsSuperUser()) {
+            Piwik::doAsSuperUser(function() use ($redirectAfter) {
+                $this->doDeactivatePlugin($redirectAfter);
+            });
+        } else {
+            $this->doDeactivatePlugin($redirectAfter);
+        }
     }
 
     public function uninstall($redirectAfter = true)
@@ -469,6 +461,38 @@ class Controller extends Plugin\ControllerAdmin
         try {
             Filesystem::deleteAllCacheOnUpdate();
         } catch (Exception $e) {}
+    }
+
+    /**
+     * Let Super User troubleshoot in safe mode, even when Login is broken, with this special trick
+     *
+     * @return bool
+     * @throws Exception
+     */
+    protected function isAllowedToTroubleshootAsSuperUser()
+    {
+
+        $isAllowedToTroubleshootAsSuperUser = false;
+        $salt = Config::getInstance()->General['salt'];
+        if (!empty($salt)) {
+            $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
+            $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
+            return $isAllowedToTroubleshootAsSuperUser;
+        }
+        return $isAllowedToTroubleshootAsSuperUser;
+    }
+
+    /**
+     * @param $redirectAfter
+     * @throws Exception
+     */
+    protected function doDeactivatePlugin($redirectAfter)
+    {
+        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
+        $this->dieIfPluginsAdminIsDisabled();
+
+        $this->pluginManager->deactivatePlugin($pluginName);
+        $this->redirectAfterModification($redirectAfter);
     }
 
 }
