@@ -79,7 +79,7 @@
                             {{ pluginName }}
                         </td>
                         <td>
-                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}"
+                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}{% if deactivateIAmSuperUserSalt is not empty %}&i_am_super_user={{ deactivateIAmSuperUserSalt }}{% endif %}"
                                target="_blank">deactivate</a>
                         </td>
                     </tr>

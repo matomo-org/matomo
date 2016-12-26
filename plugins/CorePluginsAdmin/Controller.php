@@ -297,17 +297,17 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
-        if (Common::isPhpCliMode()) { // TODO: I can't find how this will ever get called / safeMode is never set for Console
+        if (Common::isPhpCliMode()) {
             throw new Exception("Error: " . var_export($lastError, true));
         }
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
-
         $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
         $view->plugins         = $this->pluginManager->loadAllPluginsAndGetTheirInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
+        $view->deactivateIAmSuperUserSalt = Common::getRequestVar('i_am_super_user', '', 'string');
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         $view->piwikVersion    = Version::VERSION;
@@ -471,7 +471,6 @@ class Controller extends Plugin\ControllerAdmin
      */
     protected function isAllowedToTroubleshootAsSuperUser()
     {
-
         $isAllowedToTroubleshootAsSuperUser = false;
         $salt = Config::getInstance()->General['salt'];
         if (!empty($salt)) {
