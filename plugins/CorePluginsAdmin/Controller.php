@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
@@ -300,8 +301,19 @@ class Controller extends Plugin\ControllerAdmin
             throw new Exception("Error: " . var_export($lastError, true));
         }
 
+        // Trick to lets Super User troubleshoot in safe mode, even when Login is broken
+        $isAllowedToTroubleshootAsSuperUser = false;
+        $salt = Config::getInstance()->General['salt'];
+        if(!empty($salt)) {
+            $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
+            $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
+        }
+
+
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
+
+        $view->isAllowedToTroubleshootAsSuperUser = $isAllowedToTroubleshootAsSuperUser;
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
         $view->plugins         = $this->pluginManager->loadAllPluginsAndGetTheirInfo();
@@ -311,6 +323,10 @@ class Controller extends Plugin\ControllerAdmin
         $view->piwikVersion    = Version::VERSION;
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';
+
+        // When the CSS merger in StylesheetUIAssetMerger throws an exception, safe mode is displayed.
+        // This flag prevents an infinite loop where safemode would try to re-generate the cache buster which requires CSS merger..
+        $view->disableCacheBuster();
 
         if (!empty($lastError['file'])) {
             preg_match('/piwik\/plugins\/(.*)\//', $lastError['file'], $matches);
