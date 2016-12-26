@@ -143,6 +143,8 @@ class ServerFilesGenerator
     <staticContent>
       <remove fileExtension=".svg" />
       <mimeMap fileExtension=".svg" mimeType="image/svg+xml" />
+      <remove fileExtension=".woff" />
+      <mimeMap fileExtension=".woff" mimeType="application/font-woff" />
     </staticContent>
   </system.webServer>
 </configuration>');
