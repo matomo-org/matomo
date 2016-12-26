@@ -13,6 +13,18 @@ use Piwik\Translate;
 
 class EncodedEntities extends FilterAbstract
 {
+    protected $baseTranslations = array();
+
+    /**
+     * Sets base translations
+     *
+     * @param array $baseTranslations
+     */
+    public function __construct($baseTranslations = array())
+    {
+        $this->baseTranslations = $baseTranslations;
+    }
+
     /**
      * Decodes all encoded entities in the given translations
      *
@@ -24,6 +36,10 @@ class EncodedEntities extends FilterAbstract
     {
         foreach ($translations as $pluginName => $pluginTranslations) {
             foreach ($pluginTranslations as $key => $translation) {
+
+                if ($this->baseTranslations[$pluginName][$key] != Translate::clean($this->baseTranslations[$pluginName][$key])) {
+                    continue; // skip if base translation already contains encoded entities
+                }
 
                 // remove encoded entities
                 $decoded = Translate::clean($translation);
