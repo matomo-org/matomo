@@ -355,7 +355,7 @@ class VisitorProfile
     {
         if ($this->profile['totalPageViewsWithTiming']) {
             $this->profile['averagePageGenerationTime'] =
-                round($this->pageGenerationTimeTotal / (1000 * $this->profile['totalPageViewsWithTiming']), $precision = 2);
+                round($this->pageGenerationTimeTotal / (1000 * $this->profile['totalPageViewsWithTiming']), $precision = 3);
         }
     }
 
