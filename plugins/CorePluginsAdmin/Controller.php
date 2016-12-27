@@ -477,7 +477,6 @@ class Controller extends Plugin\ControllerAdmin
         if (!empty($salt)) {
             $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
             $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
-            return $isAllowedToTroubleshootAsSuperUser;
         }
         return $isAllowedToTroubleshootAsSuperUser;
     }
