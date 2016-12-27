@@ -155,9 +155,11 @@ class ColumnDelete extends BaseFilter
     protected function removeColumnsFromTable(&$table)
     {
         foreach ($table as $index => $row) {
-            foreach($row as $rowIndex => &$rowValue) {
-                if(is_array($rowValue)) {
-                    $this->removeColumnsFromTable($rowValue);
+            if(is_array($row)) {
+                foreach($row as $rowIndex => &$rowValue) {
+                    if(is_array($rowValue)) {
+                        $this->removeColumnsFromTable($rowValue);
+                    }
                 }
             }
             foreach ($this->columnsToRemove as $column) {
