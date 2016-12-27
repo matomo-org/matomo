@@ -530,6 +530,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
+				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
 				<timeSpent>60</timeSpent>
@@ -718,6 +719,7 @@
 				<pageIdAction>15</pageIdAction>
 				
 				<pageId>10</pageId>
+				<generationTimeMilliseconds>666</generationTimeMilliseconds>
 				<generationTime>0.67s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<timeSpent>60</timeSpent>
@@ -1554,6 +1556,7 @@
 				<pageIdAction>15</pageIdAction>
 				
 				<pageId>33</pageId>
+				<generationTimeMilliseconds>666</generationTimeMilliseconds>
 				<generationTime>0.67s</generationTime>
 				<interactionPosition>1</interactionPosition>
 				<timeSpent>60</timeSpent>

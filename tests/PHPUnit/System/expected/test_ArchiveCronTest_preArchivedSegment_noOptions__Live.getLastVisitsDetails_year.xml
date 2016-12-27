@@ -19,6 +19,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>123</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>1</interactionPosition>
 				<timeSpent>0</timeSpent>
@@ -50,6 +51,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>120</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>5</interactionPosition>
 				<timeSpent>0</timeSpent>
@@ -70,6 +72,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>23</generationTimeMilliseconds>
 				<generationTime>0.02s</generationTime>
 				<interactionPosition>9</interactionPosition>
 				<timeSpent>52</timeSpent>
@@ -90,6 +93,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>234</generationTimeMilliseconds>
 				<generationTime>0.23s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<timeSpent>50</timeSpent>
@@ -110,6 +114,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>294</generationTimeMilliseconds>
 				<generationTime>0.29s</generationTime>
 				<interactionPosition>6</interactionPosition>
 				<timeSpent>49</timeSpent>
@@ -130,6 +135,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>237</generationTimeMilliseconds>
 				<generationTime>0.24s</generationTime>
 				<interactionPosition>10</interactionPosition>
 				<timeSpent>26</timeSpent>
@@ -150,6 +156,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>1324</generationTimeMilliseconds>
 				<generationTime>1.32s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<timeSpent>26</timeSpent>
@@ -170,6 +177,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>624</generationTimeMilliseconds>
 				<generationTime>0.62s</generationTime>
 				<interactionPosition>7</interactionPosition>
 				<timeSpent>7</timeSpent>
@@ -190,6 +198,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>543</generationTimeMilliseconds>
 				<generationTime>0.54s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<timeSpent>8</timeSpent>
@@ -210,6 +219,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<generationTimeMilliseconds>343</generationTimeMilliseconds>
 				<generationTime>0.34s</generationTime>
 				<interactionPosition>8</interactionPosition>
 				<icon />
