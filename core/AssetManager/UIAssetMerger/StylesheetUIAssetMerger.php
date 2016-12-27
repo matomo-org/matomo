@@ -13,6 +13,7 @@ use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Common;
+use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
@@ -41,7 +42,11 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $concatenatedAssets = $this->getConcatenatedAssets();
 
         $this->lessCompiler->setFormatter('classic');
-        $compiled = $this->lessCompiler->compile($concatenatedAssets);
+        try {
+            $compiled = $this->lessCompiler->compile($concatenatedAssets);
+        } catch(\Exception $e) {
+            throw new StylesheetLessCompileException($e->getMessage());
+        }
 
         foreach ($this->cssAssetsToReplace as $asset) {
             // to fix #10173
