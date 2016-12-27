@@ -363,7 +363,7 @@ class ProcessedReport
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
-	if (function_exists('mb_substr)) {
+	if (function_exists('mb_substr')) {
             foreach ($columns as &$name) {
                 if (substr($name, 0, 1) === mb_substr($name, 0, 1) {
 		    $name = ucfirst($name);
