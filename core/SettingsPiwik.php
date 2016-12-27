@@ -20,7 +20,9 @@ class SettingsPiwik
     const OPTION_PIWIK_URL = 'piwikUrl';
 
     /**
-     * Get salt from [General] section
+     * Get salt from [General] section. Should ONLY be used as a seed to create hashes
+     *
+     * NOTE: Keep this salt secret! Never output anywhere or share it etc.
      *
      * @return string
      */
