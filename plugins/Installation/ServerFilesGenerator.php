@@ -33,13 +33,10 @@ class ServerFilesGenerator
         $denyAll = self::getDenyAllHtaccessContent();
         $allow = self::getAllowHtaccessContent();
 
-        // more selective allow/deny filters
-        $noDirectoryListing = "Options -Indexes\n";
-
         $allowAny =
             "# Allow any file in this directory\n" .
             "<Files \"*\">\n" .
-            $allow . "\n" .
+            "\t" . $allow . "\n" .
             "</Files>\n";
 
         $allowStaticAssets =
@@ -55,11 +52,11 @@ class ServerFilesGenerator
             "</Files>\n";
 
         $directoriesToProtect = array(
-            '/js'        => $allowAny . $noDirectoryListing,
-            '/libs'      => $denyAll . $allowStaticAssets . $noDirectoryListing,
-            '/vendor'    => $denyAll . $allowStaticAssets . $noDirectoryListing,
-            '/plugins'   => $denyAll . $allowStaticAssets . $noDirectoryListing,
-            '/misc/user' => $denyAll . $allowStaticAssets . $noDirectoryListing,
+            '/js'        => $allowAny,
+            '/libs'      => $denyAll . $allowStaticAssets,
+            '/vendor'    => $denyAll . $allowStaticAssets,
+            '/plugins'   => $denyAll . $allowStaticAssets,
+            '/misc/user' => $denyAll . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
@@ -67,10 +64,10 @@ class ServerFilesGenerator
 
         // deny access to these folders
         $directoriesToProtect = array(
-            '/config' => $denyAll . $noDirectoryListing,
-            '/core' => $denyAll . $noDirectoryListing,
-            '/lang' => $denyAll . $noDirectoryListing,
-            '/tmp' => $denyAll . $noDirectoryListing,
+            '/config' => $denyAll,
+            '/core' => $denyAll,
+            '/lang' => $denyAll,
+            '/tmp' => $denyAll,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
