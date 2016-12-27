@@ -102,9 +102,7 @@ class ColumnDelete extends BaseFilter
         // remove columns specified in $this->columnsToRemove
         if (!empty($this->columnsToRemove)) {
             $this->removeColumnsFromTable($table);
-
             $recurse = true;
-
         }
 
         // remove columns not specified in $columnsToKeep
@@ -154,13 +152,12 @@ class ColumnDelete extends BaseFilter
      */
     protected function removeColumnsFromTable(&$table)
     {
-        foreach ($table as $index => $row) {
-            if(is_array($row)) {
-                foreach($row as $rowIndex => &$rowValue) {
-                    if(is_array($rowValue)) {
-                        $this->removeColumnsFromTable($rowValue);
-                    }
-                }
+        if(!$this->isArrayAccess($table)) {
+            return;
+        }
+        foreach ($table as $index => &$row) {
+            if(!$this->isArrayAccess($row)) {
+                continue;
             }
             foreach ($this->columnsToRemove as $column) {
 
@@ -177,6 +174,17 @@ class ColumnDelete extends BaseFilter
 
                 unset($table[$index][$column]);
             }
+
+            $this->removeColumnsFromTable($row);
         }
+    }
+
+    /**
+     * @param $table
+     * @return bool
+     */
+    protected function isArrayAccess(&$table)
+    {
+        return is_array($table) || $table instanceof \ArrayAccess;
     }
 }
