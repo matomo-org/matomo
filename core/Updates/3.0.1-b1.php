@@ -13,11 +13,12 @@ use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 
-class Updates_3_0_1 extends PiwikUpdates
+class Updates_3_0_1_b1 extends PiwikUpdates
 {
     public function doUpdate(Updater $updater)
     {
         // Allow IIS to serve .woff files (https://github.com/piwik/piwik/pull/11091).
+        // Re-generate .htaccess without 'Options -Indexes' because it does not always work on some servers
         ServerFilesGenerator::createFilesForSecurity();
     }
 }
