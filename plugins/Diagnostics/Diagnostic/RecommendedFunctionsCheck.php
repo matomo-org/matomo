@@ -57,6 +57,7 @@ class RecommendedFunctionsCheck implements Diagnostic
             'parse_ini_file',
             'glob',
             'gzopen',
+            'md5_file',
         );
     }
 
