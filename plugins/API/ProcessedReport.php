@@ -365,7 +365,7 @@ class ProcessedReport
 
 	if (function_exists('mb_substr')) {
             foreach ($columns as &$name) {
-                if (substr($name, 0, 1) === mb_substr($name, 0, 1) {
+                if (substr($name, 0, 1) === mb_substr($name, 0, 1)) {
 		    $name = ucfirst($name);
 		}
             }
