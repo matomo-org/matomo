@@ -1,6 +1,6 @@
 {
   "name": "angular-animate",
-  "version": "1.4.14",
+  "version": "1.4.10",
   "description": "AngularJS module for animations",
   "main": "index.js",
   "scripts": {
@@ -22,12 +22,5 @@
   "bugs": {
     "url": "https://github.com/angular/angular.js/issues"
   },
-  "homepage": "http://angularjs.org",
-  "jspm": {
-    "shim": {
-      "angular-animate": {
-        "deps": ["angular"]
-      }
-    }
-  }
+  "homepage": "http://angularjs.org"
 }
