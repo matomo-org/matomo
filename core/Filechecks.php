@@ -146,7 +146,6 @@ class Filechecks
     public static function getFileIntegrityInformation()
     {
         $messages = array();
-        $messages[] = true;
 
         $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
 
@@ -159,55 +158,21 @@ class Filechecks
                         . ' '
                         . Piwik::translate('General_WarningFileIntegrityNoManifestDeployingFromGit');
 
-            return $messages;
+            return array(
+                $success = true,
+                $messages
+            );
         }
 
-        $files = \Piwik\Manifest::$files;
 
-        $hasMd5file = function_exists('md5_file');
-        $hasMd5 = function_exists('md5');
-        foreach ($files as $path => $props) {
-            $file = PIWIK_INCLUDE_PATH . '/' . $path;
+        $messages = self::getMessagesFilesFoundButNotExpected($messages);
 
-            if (!file_exists($file) || !is_readable($file)) {
-                $messages[] = Piwik::translate('General_ExceptionMissingFile', $file);
-            } elseif (filesize($file) != $props[0]) {
+        $messages = self::getMessagesFilesMismatch($messages);
 
-                if (self::isModifiedPathValid($path)) {
-                    continue;
-                }
-
-                if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
-                    // files that contain binary data (e.g., images) must match the file size
-                    $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-                } else {
-                    // convert end-of-line characters and re-test text files
-                    $content = @file_get_contents($file);
-                    $content = str_replace("\r\n", "\n", $content);
-                    if ((strlen($content) != $props[0])
-                        || (@md5($content) !== $props[1])
-                    ) {
-                        $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-                    }
-                }
-            } elseif ($hasMd5file && (@md5_file($file) !== $props[1])) {
-                if (self::isModifiedPathValid($path)) {
-                    continue;
-                }
-
-                $messages[] = Piwik::translate('General_ExceptionFileIntegrity', $file);
-            }
-        }
-
-        if (count($messages) > 1) {
-            $messages[0] = false;
-        }
-
-        if (!$hasMd5file) {
-            $messages[] = Piwik::translate('General_WarningFileIntegrityNoMd5file');
-        }
-
-        return $messages;
+        return array(
+            $success = empty($messages),
+            $messages
+        );
     }
 
     /**
@@ -325,5 +290,173 @@ class Filechecks
         }
 
         return "$user:$group";
+    }
+
+    /**
+     * Look for files which are in the filesystem, but should not be
+     * @return array
+     */
+    protected static function getFilesFoundButNotExpected()
+    {
+        $files = \Piwik\Manifest::$files;
+
+        $filesFoundButNotExpected = array();
+
+        foreach (Filesystem::globr('.', '*') as $file) {
+            if (is_dir($file)) {
+                continue;
+            }
+            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+
+            if(self::isFileBelongToThirdPartyPlugin($file)) {
+                continue;
+            }
+            if(self::isFileNotInManifestButExpectedAnyway($file)) {
+                continue;
+            }
+
+
+            if (!isset($files[$file])) {
+                $filesFoundButNotExpected[] = $file;
+            }
+        }
+        return $filesFoundButNotExpected;
+    }
+
+    protected static function isFileBelongToThirdPartyPlugin($file)
+    {
+        if(strpos($file, 'plugins/') !== 0) {
+            return false;
+        }
+
+        if(substr_count($file, '/') < 2) {
+            // must be a file plugins/abc.xyz and not a plugin directory
+            return false;
+        }
+
+        $pathRelativeToPlugins = substr($file, strlen('plugins/'));
+        $pluginName = substr($pathRelativeToPlugins, 0, strpos($pathRelativeToPlugins, '/'));
+
+        $knownCorePlugins = Config::getInstance()->Plugins['Plugins'];
+        if(in_array($pluginName, $knownCorePlugins)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected static function isFileNotInManifestButExpectedAnyway($file)
+    {
+        $expected = self::getFilesNotInManifestButExpected();
+        foreach($expected as $expectedPattern) {
+            if(fnmatch($expectedPattern, $file)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected static function getFilesNotInManifestButExpected()
+    {
+        return array(
+            '*/.htaccess',
+            '*/web.config',
+            'bootstrap.php',
+            'favicon.ico',
+            'robots.txt',
+            'config/config.ini.php',
+            'config/common.ini.php',
+            'config/*.config.ini.php',
+            'config/manifest.inc.php',
+            'misc/*.dat',
+            'misc/*.dat.gz',
+            'misc/user/*png',
+            'misc/package/WebAppGallery/*.xml',
+            'misc/package/WebAppGallery/install.sql',
+            'vendor/autoload.php',
+            'vendor/composer/autoload_real.php',
+            'tmp/*',
+        );
+    }
+
+    /**
+     * @param $messages
+     * @return array
+     */
+    protected static function getMessagesFilesFoundButNotExpected($messages)
+    {
+        $filesFoundButNotExpected = self::getFilesFoundButNotExpected();
+        if (count($filesFoundButNotExpected) > 0) {
+
+            $messageFilesToDelete = '';
+            foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
+                $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', $fileFoundNotExpected) . '<br/>';
+            }
+            $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')
+                . '<br/>'
+                . '--> ' . Piwik::translate('General_ExceptionUnexpectedFilePleaseDelete') . ' <--'
+                . '<br/><br/>'
+                . $messageFilesToDelete
+                . '<br/>';
+            return $messages;
+
+        }
+        return $messages;
+    }
+
+    /**
+     * @param $messages
+     * @return array
+     */
+    protected static function getMessagesFilesMismatch($messages)
+    {
+        $messagesMismatch = array();
+        $hasMd5file = function_exists('md5_file');
+        $files = \Piwik\Manifest::$files;
+        $hasMd5 = function_exists('md5');
+        foreach ($files as $path => $props) {
+            $file = PIWIK_INCLUDE_PATH . '/' . $path;
+
+            if (!file_exists($file) || !is_readable($file)) {
+                $messagesMismatch[] = Piwik::translate('General_ExceptionMissingFile', $file);
+            } elseif (filesize($file) != $props[0]) {
+
+                if (self::isModifiedPathValid($path)) {
+                    continue;
+                }
+
+                if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
+                    // files that contain binary data (e.g., images) must match the file size
+                    $messagesMismatch[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+                } else {
+                    // convert end-of-line characters and re-test text files
+                    $content = @file_get_contents($file);
+                    $content = str_replace("\r\n", "\n", $content);
+                    if ((strlen($content) != $props[0])
+                        || (@md5($content) !== $props[1])
+                    ) {
+                        $messagesMismatch[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+                    }
+                }
+            } elseif ($hasMd5file && (@md5_file($file) !== $props[1])) {
+                if (self::isModifiedPathValid($path)) {
+                    continue;
+                }
+
+                $messagesMismatch[] = Piwik::translate('General_ExceptionFileIntegrity', $file);
+            }
+        }
+
+        if (!$hasMd5file) {
+            $messages[] = Piwik::translate('General_WarningFileIntegrityNoMd5file');
+        }
+
+        if (!empty($messagesMismatch)) {
+            $messages[] = Piwik::translate('General_FileIntegrityWarningReupload');
+            $messages[] = Piwik::translate('General_FileIntegrityWarningReuploadBis') . '<br/>';
+            $messages = array_merge($messages, $messagesMismatch);
+        }
+
+        return $messages;
     }
 }

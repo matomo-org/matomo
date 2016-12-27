@@ -31,22 +31,16 @@ class FileIntegrityCheck implements Diagnostic
         $label = $this->translator->translate('Installation_SystemCheckFileIntegrity');
 
         if(Development::isEnabled()) {
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, '(Disabled in development mode)'));
         }
 
-        $messages = Filechecks::getFileIntegrityInformation();
-        $ok = array_shift($messages);
-
-        if (empty($messages)) {
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
-        }
+        list($ok, $messages) = Filechecks::getFileIntegrityInformation();
 
         if ($ok) {
-            $status = DiagnosticResult::STATUS_WARNING;
-            return array(DiagnosticResult::singleResult($label, $status, $messages[0]));
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, implode('<br/>', $messages)));
         }
 
-        $comment = $this->translator->translate('General_FileIntegrityWarningExplanation');
+        $comment = $this->translator->translate('General_FileIntegrityWarning');
 
         // Keep only the 20 first lines else it becomes unmanageable
         if (count($messages) > 20) {

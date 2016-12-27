@@ -306,12 +306,13 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // check file integrity
-        $integrityInfo = Filechecks::getFileIntegrityInformation();
-        if (isset($integrityInfo[1])) {
-            if ($integrityInfo[0] == false) {
-                $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarningExplanation');
-            }
-            $this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
+        list($success, $messages) = Filechecks::getFileIntegrityInformation();
+
+        if (!$success) {
+            $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarning');
+        }
+        if (count($messages) > 0) {
+            $this->warningMessages = array_merge($this->warningMessages, $messages);
         }
         Filesystem::deleteAllCacheOnUpdate();
 
