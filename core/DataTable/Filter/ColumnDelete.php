@@ -30,12 +30,18 @@ use Piwik\DataTable\BaseFilter;
 class ColumnDelete extends BaseFilter
 {
     /**
+     * Hack: when specifying "showColumns", sometimes we'd like to also keep columns that "look" like a given column,
+     * without manually specifying all these columns (which may not be possible if column names are generated dynamically)
+     *
+     * Column will be kept, if they match any name in the $columnsToKeep, or if they look like anyColumnToKeep__anythingHere
+     */
+    const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
+    /**
      * The columns that should be removed from DataTable rows.
      *
      * @var array
      */
     private $columnsToRemove;
-
     /**
      * The columns that should be kept in DataTable rows. All other columns will be
      * removed. If a column is in $columnsToRemove and this variable, it will NOT be kept.
@@ -43,15 +49,6 @@ class ColumnDelete extends BaseFilter
      * @var array
      */
     private $columnsToKeep;
-
-    /**
-     * Hack: when specifying "showColumns", sometimes we'd like to also keep columns that "look" like a given column,
-     * without manually specifying all these columns (which may not be possible if column names are generated dynamically)
-     *
-     * Column will be kept, if they match any name in the $columnsToKeep, or if they look like anyColumnToKeep__anythingHere
-     */
-    const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
-
     /**
      * Delete the column, only if the value was zero
      *
@@ -152,11 +149,11 @@ class ColumnDelete extends BaseFilter
      */
     protected function removeColumnsFromTable(&$table)
     {
-        if(!$this->isArrayAccess($table)) {
+        if (!$this->isArrayAccess($table)) {
             return;
         }
         foreach ($table as $index => &$row) {
-            if(!$this->isArrayAccess($row)) {
+            if (!$this->isArrayAccess($row)) {
                 continue;
             }
             foreach ($this->columnsToRemove as $column) {
