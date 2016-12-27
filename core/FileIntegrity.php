@@ -32,11 +32,11 @@ class FileIntegrity
 
         if (!class_exists('Piwik\\Manifest')) {
             $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest')
-                . ' '
+                . '<br/>'
                 . Piwik::translate('General_WarningFileIntegrityNoManifestDeployingFromGit');
 
             return array(
-                $success = true,
+                $success = false,
                 $messages
             );
         }
