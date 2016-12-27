@@ -112,7 +112,13 @@ class FileIntegrity
 
         $filesFoundButNotExpected = array();
 
-        foreach (Filesystem::globr('.', '*') as $file) {
+        $filesToInvestigate = array_merge(
+            // all normal files
+            Filesystem::globr('.', '*'),
+            // all hidden files
+            Filesystem::globr('.', '.*')
+        );
+        foreach ($filesToInvestigate as $file) {
             if (is_dir($file)) {
                 continue;
             }
