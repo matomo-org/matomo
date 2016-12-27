@@ -23,6 +23,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\Version;
@@ -472,7 +473,7 @@ class Controller extends Plugin\ControllerAdmin
     protected function isAllowedToTroubleshootAsSuperUser()
     {
         $isAllowedToTroubleshootAsSuperUser = false;
-        $salt = Config::getInstance()->General['salt'];
+        $salt = SettingsPiwik::getSalt();
         if (!empty($salt)) {
             $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
             $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
