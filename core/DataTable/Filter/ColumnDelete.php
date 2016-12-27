@@ -36,12 +36,14 @@ class ColumnDelete extends BaseFilter
      * Column will be kept, if they match any name in the $columnsToKeep, or if they look like anyColumnToKeep__anythingHere
      */
     const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
+
     /**
      * The columns that should be removed from DataTable rows.
      *
      * @var array
      */
     private $columnsToRemove;
+
     /**
      * The columns that should be kept in DataTable rows. All other columns will be
      * removed. If a column is in $columnsToRemove and this variable, it will NOT be kept.
@@ -49,6 +51,7 @@ class ColumnDelete extends BaseFilter
      * @var array
      */
     private $columnsToKeep;
+
     /**
      * Delete the column, only if the value was zero
      *
