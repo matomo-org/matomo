@@ -16,9 +16,9 @@ class FileIntegrity
 {
 
     /**
-     * Get file integrity information (in PIWIK_INCLUDE_PATH).
+     * Get file integrity information
      *
-     * @return array(bool, string, ...) Return code (true/false), followed by zero or more error messages
+     * @return array(bool $success, array $messages)
      */
     public static function getFileIntegrityInformation()
     {
@@ -51,84 +51,7 @@ class FileIntegrity
         );
     }
 
-    /**
-     * Look for files which are in the filesystem, but should not be
-     * @return array
-     */
-    protected static function getFilesFoundButNotExpected()
-    {
-        $files = \Piwik\Manifest::$files;
-        $pluginsInManifest = self::getPluginsFoundInManifest();
-
-        $filesFoundButNotExpected = array();
-
-        foreach (Filesystem::globr('.', '*') as $file) {
-            if (is_dir($file)) {
-                continue;
-            }
-            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
-
-            if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
-                continue;
-            }
-            if (self::isFileNotInManifestButExpectedAnyway($file)) {
-                continue;
-            }
-
-
-            if (!isset($files[$file])) {
-                $filesFoundButNotExpected[] = $file;
-            }
-        }
-        return $filesFoundButNotExpected;
-    }
-
-
-    protected static function getPluginsFoundInManifest()
-    {
-        $files = \Piwik\Manifest::$files;
-
-        $pluginsInManifest = array();
-        foreach($files as $file => $manifestIntegrityInfo) {
-            if(strpos($file, 'plugins/') === 0) {
-                $pluginName = self::getPluginNameFromFilepath($file);
-                $pluginsInManifest[] = $pluginName;
-            }
-        }
-        return $pluginsInManifest;
-    }
-
-    protected static function isFileFromPluginNotInManifest($file, $pluginsInManifest)
-    {
-        if (strpos($file, 'plugins/') !== 0) {
-            return false;
-        }
-
-        if (substr_count($file, '/') < 2) {
-            // must be a file plugins/abc.xyz and not a plugin directory
-            return false;
-        }
-
-        $pluginName = self::getPluginNameFromFilepath($file);
-        if(in_array($pluginName, $pluginsInManifest)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    protected static function isFileNotInManifestButExpectedAnyway($file)
-    {
-        $expected = self::getFilesNotInManifestButExpected();
-        foreach ($expected as $expectedPattern) {
-            if (fnmatch($expectedPattern, $file)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected static function getFilesNotInManifestButExpected()
+    protected static function getFilesNotInManifestButExpectedAnyway()
     {
         return array(
             '*/.htaccess',
@@ -150,6 +73,7 @@ class FileIntegrity
             'tmp/*',
         );
     }
+
 
     /**
      * @param $messages
@@ -177,9 +101,91 @@ class FileIntegrity
     }
 
     /**
-     * @param $messages
+     * Look for files which are in the filesystem, but should not be
+     *
      * @return array
      */
+    protected static function getFilesFoundButNotExpected()
+    {
+        $files = \Piwik\Manifest::$files;
+        $pluginsInManifest = self::getPluginsFoundInManifest();
+
+        $filesFoundButNotExpected = array();
+
+        foreach (Filesystem::globr('.', '*') as $file) {
+            if (is_dir($file)) {
+                continue;
+            }
+            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+
+            if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
+                continue;
+            }
+            if (self::isFileNotInManifestButExpectedAnyway($file)) {
+                continue;
+            }
+
+            if (!isset($files[$file])) {
+                $filesFoundButNotExpected[] = $file;
+            }
+        }
+
+        return $filesFoundButNotExpected;
+    }
+
+
+    protected static function getPluginsFoundInManifest()
+    {
+        $files = \Piwik\Manifest::$files;
+
+        $pluginsInManifest = array();
+        foreach($files as $file => $manifestIntegrityInfo) {
+            if(strpos($file, 'plugins/') === 0) {
+                $pluginName = self::getPluginNameFromFilepath($file);
+                $pluginsInManifest[] = $pluginName;
+            }
+        }
+        return $pluginsInManifest;
+    }
+
+    /**
+     * If a plugin folder is not tracked in the manifest then we don't try to report any files in this folder
+     * Could be a third party plugin or any plugin from the Marketplace
+     *
+     * @param $file
+     * @param $pluginsInManifest
+     * @return bool
+     */
+    protected static function isFileFromPluginNotInManifest($file, $pluginsInManifest)
+    {
+        if (strpos($file, 'plugins/') !== 0) {
+            return false;
+        }
+
+        if (substr_count($file, '/') < 2) {
+            // must be a file plugins/abc.xyz and not a plugin directory
+            return false;
+        }
+
+        $pluginName = self::getPluginNameFromFilepath($file);
+        if(in_array($pluginName, $pluginsInManifest)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected static function isFileNotInManifestButExpectedAnyway($file)
+    {
+        $expected = self::getFilesNotInManifestButExpectedAnyway();
+        foreach ($expected as $expectedPattern) {
+            if (fnmatch($expectedPattern, $file)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected static function getMessagesFilesMismatch($messages)
     {
         $messagesMismatch = array();
@@ -266,10 +272,6 @@ class FileIntegrity
         return false;
     }
 
-    /**
-     * @param $file
-     * @return string
-     */
     protected static function getPluginNameFromFilepath($file)
     {
         $pathRelativeToPlugins = substr($file, strlen('plugins/'));

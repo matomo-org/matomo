@@ -181,7 +181,7 @@
         "ExportThisReport": "Export this dataset in other formats",
         "Faq": "FAQ",
         "FileIntegrityWarning": "File integrity check failed and reported some errors. You should fix this issue and then refresh this page until it shows no error.",
-        "FileIntegrityWarningReupload": "This may due to a partial or failed upload of Piwik files.",
+        "FileIntegrityWarningReupload": "Errors below may be due to a partial or failed upload of Piwik files.",
         "FileIntegrityWarningReuploadBis": "Try to reupload all the Piwik files in BINARY mode.",
         "First": "First",
         "Flatten": "Flatten",
