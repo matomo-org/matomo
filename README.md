@@ -37,7 +37,7 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
 ## Requirements
 
   * PHP 5.5.9 or greater
-  * MySQL version 5.5 or greater, or MariaDB
+  * MySQL or MariaDB (database server)
   * PHP extension pdo and pdo_mysql, or the MySQLi extension.
   * Piwik is OS / server independent
 
