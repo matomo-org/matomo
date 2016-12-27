@@ -24,6 +24,7 @@
 				<pageIdAction>13</pageIdAction>
 				
 				<pageId>9</pageId>
+				<generationTimeMilliseconds>134</generationTimeMilliseconds>
 				<generationTime>0.13s</generationTime>
 				<interactionPosition>1</interactionPosition>
 				<icon />
@@ -127,6 +128,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
+				<generationTimeMilliseconds>234</generationTimeMilliseconds>
 				<generationTime>0.23s</generationTime>
 				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
@@ -141,6 +143,7 @@
 				<pageIdAction>4</pageIdAction>
 				
 				<pageId>2</pageId>
+				<generationTimeMilliseconds>224</generationTimeMilliseconds>
 				<generationTime>0.22s</generationTime>
 				<interactionPosition>2</interactionPosition>
 				<timeSpent>180</timeSpent>
@@ -218,6 +221,7 @@
 				
 				<pageId>7</pageId>
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
+				<generationTimeMilliseconds>812</generationTimeMilliseconds>
 				<generationTime>0.81s</generationTime>
 				<interactionPosition>3</interactionPosition>
 				<timeSpent>108</timeSpent>
@@ -232,6 +236,7 @@
 				<pageIdAction>11</pageIdAction>
 				
 				<pageId>8</pageId>
+				<generationTimeMilliseconds>24</generationTimeMilliseconds>
 				<generationTime>0.02s</generationTime>
 				<interactionPosition>4</interactionPosition>
 				<icon />
