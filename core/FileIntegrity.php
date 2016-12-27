@@ -58,6 +58,7 @@ class FileIntegrity
     protected static function getFilesFoundButNotExpected()
     {
         $files = \Piwik\Manifest::$files;
+        $pluginsInManifest = self::getPluginsFoundInManifest();
 
         $filesFoundButNotExpected = array();
 
@@ -67,7 +68,7 @@ class FileIntegrity
             }
             $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
 
-            if (self::isFileBelongToThirdPartyPlugin($file)) {
+            if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
                 continue;
             }
             if (self::isFileNotInManifestButExpectedAnyway($file)) {
@@ -82,7 +83,22 @@ class FileIntegrity
         return $filesFoundButNotExpected;
     }
 
-    protected static function isFileBelongToThirdPartyPlugin($file)
+
+    protected static function getPluginsFoundInManifest()
+    {
+        $files = \Piwik\Manifest::$files;
+
+        $pluginsInManifest = array();
+        foreach($files as $file => $manifestIntegrityInfo) {
+            if(strpos($file, 'plugins/') === 0) {
+                $pluginName = self::getPluginNameFromFilepath($file);
+                $pluginsInManifest[] = $pluginName;
+            }
+        }
+        return $pluginsInManifest;
+    }
+
+    protected static function isFileFromPluginNotInManifest($file, $pluginsInManifest)
     {
         if (strpos($file, 'plugins/') !== 0) {
             return false;
@@ -93,11 +109,8 @@ class FileIntegrity
             return false;
         }
 
-        $pathRelativeToPlugins = substr($file, strlen('plugins/'));
-        $pluginName = substr($pathRelativeToPlugins, 0, strpos($pathRelativeToPlugins, '/'));
-
-        $knownCorePlugins = Config::getInstance()->Plugins['Plugins'];
-        if (in_array($pluginName, $knownCorePlugins)) {
+        $pluginName = self::getPluginNameFromFilepath($file);
+        if(in_array($pluginName, $pluginsInManifest)) {
             return false;
         }
 
@@ -145,22 +158,21 @@ class FileIntegrity
     protected static function getMessagesFilesFoundButNotExpected($messages)
     {
         $filesFoundButNotExpected = self::getFilesFoundButNotExpected();
-        if (empty($filesFoundButNotExpected)) {
+        if (count($filesFoundButNotExpected) > 0) {
+
+            $messageFilesToDelete = '';
+            foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
+                $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', $fileFoundNotExpected) . '<br/>';
+            }
+            $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')
+                . '<br/>'
+                . '--> ' . Piwik::translate('General_ExceptionUnexpectedFilePleaseDelete') . ' <--'
+                . '<br/><br/>'
+                . $messageFilesToDelete
+                . '<br/>';
             return $messages;
+
         }
-
-        $messageFilesToDelete = '';
-        foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
-            $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', $fileFoundNotExpected) . '<br/>';
-        }
-
-        $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')
-            . '<br/>'
-            . '--> ' . Piwik::translate('General_ExceptionUnexpectedFilePleaseDelete') . ' <--'
-            . '<br/><br/>'
-            . $messageFilesToDelete
-            . '<br/>';
-
         return $messages;
     }
 
@@ -252,6 +264,17 @@ class FileIntegrity
         }
 
         return false;
+    }
+
+    /**
+     * @param $file
+     * @return string
+     */
+    protected static function getPluginNameFromFilepath($file)
+    {
+        $pathRelativeToPlugins = substr($file, strlen('plugins/'));
+        $pluginName = substr($pathRelativeToPlugins, 0, strpos($pathRelativeToPlugins, '/'));
+        return $pluginName;
     }
 
 }
