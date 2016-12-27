@@ -98,7 +98,7 @@ class FrontController extends Singleton
      * @param Exception $e
      * @return string
      */
-    private static function generateSafeModeOutputFromException(\Exception $e)
+    private static function generateSafeModeOutputFromException($e)
     {
         $error = array(
             'message' => $e->getMessage(),
@@ -152,6 +152,9 @@ class FrontController extends Singleton
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         } catch(StylesheetLessCompileException $e) {
+            echo $this->generateSafeModeOutputFromException($e);
+            exit;
+        } catch(\Error $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         }
