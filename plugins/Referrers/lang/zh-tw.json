@@ -21,7 +21,7 @@
         "TypeDirectEntries": "%s 個來自直接流量",
         "TypeSearchEngines": "%s 個來自搜尋引擎",
         "TypeWebsites": "%s 個來自網站",
-        "UsingNDistinctUrls": "(使用 %s 不同的網址)",
+        "UsingNDistinctUrls": "（使用 %s 個不同的網址）",
         "Websites": "網站",
         "WidgetExternalWebsites": "外部網站清單",
         "WidgetSocials": "社交網站清單"

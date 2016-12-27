@@ -410,7 +410,7 @@ function DisplayTopKeywords($url = "")
             $api = $api . "&url=" . urlencode($url);
             $keywords = @json_decode(file_get_contents($api), $assoc = true);
             Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
-            if ($keywords === false || isset($keywords["result"])) {
+            if ($keywords === false || isset($keywords["result"]) || !is_array($keywords)) {
                 // DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
                 //echo "Error while fetching the <a href=\'".$api."\'>Top Keywords from Piwik</a>";
                 return;

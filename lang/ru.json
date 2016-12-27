@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Процент посещений, которые начались на этой странице и сразу же закончились (посетитель ушел на другой сайт или закрыл вкладку).",
         "ColumnPageviews": "Просмотры страниц",
         "ColumnPageviewsDocumentation": "Количество просмотров этой страницы.",
-        "ColumnPercentageVisits": "% посещений",
         "ColumnRevenue": "Прибыль",
         "ColumnSumVisitLength": "Общее время посетителей на сайте (секунд)",
         "ColumnTotalPageviews": "Общее число просмотров страниц",

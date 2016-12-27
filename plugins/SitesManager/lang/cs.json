@@ -43,6 +43,7 @@
         "KeepURLFragmentsLong": "Zachovat URL fragmenty stránek při sledování",
         "ListOfIpsToBeExcludedOnAllWebsites": "IP adresy uvedené níže budou vynechány ze záznamu pro všechny weby.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL parametry uvedené níže budou vynechány z URL pro všechny www adresy",
+        "ListOfQueryParametersToExclude": "Vložte seznam url parametrů dotazu, každý na samostatném řádku, které mají být vyloučeny z hlášení URL. Regulární výrazy, jako třeba %s, jsou podporovány.",
         "MainDescription": "Vaše analýzy webu potřebují Web! Přidejte, aktualizujte, nebo vymažte je a zobrazte si JavaScriptový kód pro vložení do vaších stránek.",
         "MenuManage": "Spravovat",
         "NotAnEcommerceSite": "Žádná stránka obchodu",

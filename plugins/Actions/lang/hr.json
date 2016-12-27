@@ -16,7 +16,6 @@
         "ColumnSearchCategory": "Kategorija pretrage",
         "ColumnSearches": "Pretrage",
         "ColumnSearchesDocumentation": "Broj posjetitelja koji su tražili ovu ključnu riječ koristeći tražilicu na vašoj stranici.",
-        "ColumnSearchExits": "% odlazaka preko pretrage",
         "ColumnSearchExitsDocumentation": "Postotak posjetitelja koji su otišli sa vaše stranice nakon traženja ove ključne riječi korištenjem vaše tražilice.",
         "ColumnSearchResultsCount": "Broj rezultata pretrage",
         "ColumnSiteSearchKeywords": "Jedinstvene ključne riječi",

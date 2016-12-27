@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Søkekategori",
         "ColumnSearches": "Søk",
         "ColumnSearchesDocumentation": "Antall besøkende som søkte etter dette nøkkelordet i ditt nettsteds søkemotor.",
-        "ColumnSearchExits": "% Utganger fra søk",
         "ColumnSearchExitsDocumentation": "Antall besøkende som forlot nettsiden etter å ha søkt etter dette nøkkelordet.",
         "ColumnSearchResultsCount": "Antall søkeresultater",
         "ColumnSiteSearchKeywords": "Unike nøkkelord",

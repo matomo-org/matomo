@@ -46,7 +46,6 @@
         "ColumnPageBounceRateDocumentation": "Canran yr ymweliadau a ddechreuodd ar y dudalen hon a gadawodd y wefan yn syth.",
         "ColumnPageviews": "Golygu Tudalennau",
         "ColumnPageviewsDocumentation": "Nifer o weithiau mae'r dudalen hon wedi ymweld â hi.",
-        "ColumnPercentageVisits": "% Ymweliad",
         "ColumnSumVisitLength": "Cyfanswm yr amser a dreulir gan ymwelwyr (mewn eiliadau)",
         "ColumnUniquePageviews": "Golygu Tudalennau Unigryw",
         "ColumnUniquePageviewsDocumentation": "Nifer o ymweliadau a oedd yn cynnwys y dudalen hon. Os oedd y dudalen hon wedi ei gweld sawl gwaith yn ystod un ymweliad, mae'n cael ei chyfrif unwaith yn unig.",

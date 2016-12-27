@@ -9,8 +9,6 @@
 namespace Piwik;
 
 use Piwik\Exception\MissingFilePermissionException;
-use Piwik\Plugins\CustomPiwikJs\Exception\AccessDeniedException;
-use Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
 
 class Filechecks
 {
@@ -102,112 +100,6 @@ class Filechecks
         $ex->setIsHtmlMessage();
 
         throw $ex;
-    }
-
-    private static function isModifiedPathValid($path)
-    {
-        if ($path === 'piwik.js') {
-            // we could have used a postEvent hook to enrich "\Piwik\Manifest::$files;" which would also benefit plugins
-            // that want to check for file integrity but we do not want to risk to break anything right now. It is not
-            // as trivial because piwik.js might be already updated, or updated on the next request. We cannot define
-            // 2 or 3 different filesizes and md5 hashes for one file so we check it here.
-
-            if (Plugin\Manager::getInstance()->isPluginActivated('CustomPiwikJs')) {
-                $trackerUpdater = new TrackerUpdater();
-
-                if ($trackerUpdater->getCurrentTrackerFileContent() === $trackerUpdater->getUpdatedTrackerFileContent()) {
-                    // file was already updated, eg manually or via custom piwik.js, this is a valid piwik.js file as
-                    // it was enriched by tracker plugins
-                    return true;
-                }
-
-                try {
-                    // the piwik.js tracker file was not updated yet, but may be updated just after the update by
-                    // one of the events CustomPiwikJs is listening to or by a scheduled task.
-                    // In this case, we check whether such an update will succeed later and if it will, the file is
-                    // valid as well as it will be updated on the next request
-                    $trackerUpdater->checkWillSucceed();
-                    return true;
-                } catch (AccessDeniedException $e) {
-                    return false;
-                }
-
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Get file integrity information (in PIWIK_INCLUDE_PATH).
-     *
-     * @return array(bool, string, ...) Return code (true/false), followed by zero or more error messages
-     */
-    public static function getFileIntegrityInformation()
-    {
-        $messages = array();
-        $messages[] = true;
-
-        $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
-
-        if (file_exists($manifest)) {
-            require_once $manifest;
-        }
-
-        if (!class_exists('Piwik\\Manifest')) {
-            $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest')
-                        . ' '
-                        . Piwik::translate('General_WarningFileIntegrityNoManifestDeployingFromGit');
-
-            return $messages;
-        }
-
-        $files = \Piwik\Manifest::$files;
-
-        $hasMd5file = function_exists('md5_file');
-        $hasMd5 = function_exists('md5');
-        foreach ($files as $path => $props) {
-            $file = PIWIK_INCLUDE_PATH . '/' . $path;
-
-            if (!file_exists($file) || !is_readable($file)) {
-                $messages[] = Piwik::translate('General_ExceptionMissingFile', $file);
-            } elseif (filesize($file) != $props[0]) {
-
-                if (self::isModifiedPathValid($path)) {
-                    continue;
-                }
-
-                if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
-                    // files that contain binary data (e.g., images) must match the file size
-                    $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-                } else {
-                    // convert end-of-line characters and re-test text files
-                    $content = @file_get_contents($file);
-                    $content = str_replace("\r\n", "\n", $content);
-                    if ((strlen($content) != $props[0])
-                        || (@md5($content) !== $props[1])
-                    ) {
-                        $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-                    }
-                }
-            } elseif ($hasMd5file && (@md5_file($file) !== $props[1])) {
-                if (self::isModifiedPathValid($path)) {
-                    continue;
-                }
-
-                $messages[] = Piwik::translate('General_ExceptionFileIntegrity', $file);
-            }
-        }
-
-        if (count($messages) > 1) {
-            $messages[0] = false;
-        }
-
-        if (!$hasMd5file) {
-            $messages[] = Piwik::translate('General_WarningFileIntegrityNoMd5file');
-        }
-
-        return $messages;
     }
 
     /**
@@ -326,4 +218,6 @@ class Filechecks
 
         return "$user:$group";
     }
+
+
 }

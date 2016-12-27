@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "搜索类别",
         "ColumnSearches": "搜索次数",
         "ColumnSearchesDocumentation": "使用站内搜索来查找这个关键词的次数。",
-        "ColumnSearchExits": "搜索退出率",
         "ColumnSearchExitsDocumentation": "使用站内搜索查找这个关键词之后的访问量所占的百分比。",
         "ColumnSearchResultsCount": "搜索结果数",
         "ColumnSiteSearchKeywords": "关键词数量",

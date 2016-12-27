@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Søgekategori",
         "ColumnSearches": "Søgninger",
         "ColumnSearchesDocumentation": "Antal besøg, der søgte efter dette søgeord på hjemmesidens søgemaskine.",
-        "ColumnSearchExits": "% søgeafslutninger",
         "ColumnSearchExitsDocumentation": "Procentdelen af ​​besøg, der forlod hjemmesiden efter en søgning på søgeordet i søgemaskinen.",
         "ColumnSearchResultsCount": "Antal søgeresultater",
         "ColumnSiteSearchKeywords": "Unikke søgeord",

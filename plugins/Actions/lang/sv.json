@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Sökkategori",
         "ColumnSearches": "Sökningar",
         "ColumnSearchesDocumentation": "Antalet besök som sökte efter detta nyckelord i din webbplats sökmotor.",
-        "ColumnSearchExits": "% Sökutgångar",
         "ColumnSearchExitsDocumentation": "Procentandelen besök som lämnade webbplatsen efter att ha sökt efter detta nyckelord i din webbplats sökmotor.",
         "ColumnSearchResultsCount": "Antal sökresultat",
         "ColumnSiteSearchKeywords": "Unika nyckelord",

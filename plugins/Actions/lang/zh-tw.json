@@ -17,7 +17,7 @@
         "ColumnSearchResultsCount": "搜尋結果筆數",
         "ColumnUniqueClicks": "絕對不重複點擊次數",
         "ColumnUniqueDownloads": "絕對不重複下載次數",
-        "EntryPagesReportDocumentation": "此報告涵括指定時段內之到達網頁相關資訊。所謂的到達網頁，便是訪客入站時所訪問的第一個頁面。 %s 到達網頁之 URL 以資料夾結構顯示。",
+        "EntryPagesReportDocumentation": "此報表包含指定時段內之到達網頁的相關資訊。所謂的到達網頁，是訪客進入網站時所訪問的第一個頁面。%s 到達網頁之 URL 以資料夾結構顯示。",
         "EntryPageTitles": "到達網頁標題",
         "EntryPageTitlesReportDocumentation": "此報告涵括指定時段內，到達網頁標題的相關資訊。",
         "ExitPageTitles": "離站網頁標題",

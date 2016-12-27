@@ -152,9 +152,10 @@ class CreatePull extends TranslationBase
                         $linesSumByLang[$modifiedFile],
                         $languageInfo['percentage_complete']
                     );
+                    $languageCodesTouched[] = $modifiedFile;
                 }
             }
-            $languageCodesTouched = array_merge($languageCodesTouched, $modifiedFiles[1]);
+            $languageCodesTouched = array_unique($languageCodesTouched);
         }
 
         $message = implode('', $messages);

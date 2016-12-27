@@ -70,7 +70,7 @@
         "ColumnPageBounceRateDocumentation": "Το ποσοστό των επισκέψεων που ξεκίνησαν σε αυτή τη σελίδα και άφησαν την ιστοσελίδα αμέσως.",
         "ColumnPageviews": "Προβολές σελίδων",
         "ColumnPageviewsDocumentation": "Οι επισκέψεις αυτής της σελίδας.",
-        "ColumnPercentageVisits": "% Επισκέψεις",
+        "ColumnPercentageVisits": "%% επισκέψεις",
         "ColumnRevenue": "Πρόσοδος",
         "ColumnSumVisitLength": "Συνολικός δαπανηθείς χρόνος επισκεπτών (σε δευτερόλεπτα)",
         "ColumnTotalPageviews": "Συνολικές Προβολές Σελίδων",

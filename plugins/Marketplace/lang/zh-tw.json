@@ -1,6 +1,19 @@
 {
     "Marketplace": {
         "ActivateLicenseKey": "啟用",
-        "PluginKeywords": "關鍵字"
+        "BackToMarketplace": "回到市集",
+        "BrowseMarketplace": "瀏覽市集",
+        "Developer": "開發人員",
+        "Marketplace": "市集",
+        "InstallingNewPluginViaMarketplaceOrUpload": "你可以直接從市集中安裝%1$s或是直接%2$s上傳 .zip 格式%4$s的%3$s。",
+        "AllPaidPluginsInstalledAndActivated": "所有付費外掛已成功安裝並啟用。",
+        "OnlySomePaidPluginsInstalledAndActivated": "部分付費外掛並未成功安裝。",
+        "NotAllowedToBrowseMarketplacePlugins": "你可以瀏覽可安裝的外掛列表來自訂或擴展你的 Piwik。如果你想安裝這些請聯絡你的管理員。",
+        "PluginDescription": "從市集下載外掛和主題來擴展 Piwik 的功能。",
+        "PluginKeywords": "關鍵字",
+        "StepDownloadingPluginFromMarketplace": "正在從市集中下載外掛",
+        "StepDownloadingThemeFromMarketplace": "正在從市集中下載主題",
+        "SubscriptionType": "類型",
+        "TeaserExtendPiwikByUpload": "上傳 ZIP 檔案來擴展 Piwik"
     }
 }

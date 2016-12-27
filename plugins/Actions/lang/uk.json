@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Шукати категорію",
         "ColumnSearches": "Пошуки",
         "ColumnSearchesDocumentation": "Число відвідувань, коли відвідувач шукав саме це ключове слово через пошук на сайті.",
-        "ColumnSearchExits": "% виходів з пошуку",
         "ColumnSearchExitsDocumentation": "Відсоток відвідувань, коли відвідувач пішов з сайту після пошуку на вашому сайті саме цього ключового слова.",
         "ColumnSearchResultsCount": "Лічильник результатів",
         "ColumnSiteSearchKeywords": "Унікальні ключові слова",

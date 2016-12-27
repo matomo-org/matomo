@@ -44,7 +44,6 @@
         "JSTracking_VisitorCustomVarsDesc": "例如, 变量名 \"Type\" 及内容 \"Customer\".",
         "JSTrackingIntro1": "您可以用多种方式统计网站访问，推荐使用 JavaScript。要使用这种方式，需要在网站的每个页面添加一些 JavaScript 代码。在这里可以生成代码。",
         "JSTrackingIntro2": "有了网站的 JavaScript 跟踪代码，您就可以复制并粘贴到所有需要 Piwik 统计的页面上。",
-        "JSTrackingIntro3": "多数网站，例如博客、内容管理网站等，您可以使用已有的插件。(见 %1$s用于集成 Piwik 的插件列表%2$s) 如果没有插件，您可以修改网站模板，把这段代码加入 \"footer\" 文件。",
         "JSTrackingIntro4": "如果您不想用 JavaScript 来跟踪访客，%1$s在下面生成图片跟踪链接%2$s。",
         "JSTrackingIntro5": "如果除了统计访问次数，请在 %1$sPiwik Javascript 跟踪文档%2$s 中查看更多的功能列表。通过这些功能，您可以跟踪目标、自定义变量、订单、丢弃的购物车等。",
         "LogoNotWriteableInstruction": "要使用您的自定义logo替代默认Piwik logo，您需要此目录的权限：%1$s。Piwik需要%2$s的写入权限以便将您的logo存入。",

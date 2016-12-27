@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Percento návštev, ktoré začali na tejto stránke a potom priamo z webového sídla odišli.",
         "ColumnPageviews": "Zobrazené stránky",
         "ColumnPageviewsDocumentation": "Počet návštev stránky",
-        "ColumnPercentageVisits": "% Návštevy",
         "ColumnRevenue": "Tržba",
         "ColumnSumVisitLength": "Celkový čas strávený návštevníkmi (v sekundách)",
         "ColumnTotalPageviews": "Celkovo zobrazených stránok",
