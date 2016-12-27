@@ -12,22 +12,22 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
+use Piwik\FileIntegrity;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
 use Piwik\Version;
-use Piwik\View\OneClickDone;
 use Piwik\View;
+use Piwik\View\OneClickDone;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -306,7 +306,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // check file integrity
-        list($success, $messages) = Filechecks::getFileIntegrityInformation();
+        list($success, $messages) = FileIntegrity::getFileIntegrityInformation();
 
         if (!$success) {
             $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarning');

@@ -8,7 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Development;
-use Piwik\Filechecks;
+use Piwik\FileIntegrity;
 use Piwik\Translation\Translator;
 
 /**
@@ -34,7 +34,7 @@ class FileIntegrityCheck implements Diagnostic
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, '(Disabled in development mode)'));
         }
 
-        list($ok, $messages) = Filechecks::getFileIntegrityInformation();
+        list($ok, $messages) = FileIntegrity::getFileIntegrityInformation();
 
         if ($ok) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, implode('<br/>', $messages)));
