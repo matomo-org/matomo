@@ -361,7 +361,7 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
             self.abort();
 
             callback(new Error("Screenshot load timeout. Details:\n" + timeoutDetails));
-        }, 180 * 1000);
+        }, 240 * 1000);
 
     if (this.webpage === null) {
         this._recreateWebPage();
