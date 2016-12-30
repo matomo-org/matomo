@@ -140,9 +140,9 @@ class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
     protected function makeArray_withoutVisitsColumns()
     {
         $array = array(
-            array('label' => 'row1', 'arrayColumn' => array('columnWithin' => 10)),
-            array('label' => 'row2', 'arrayColumn' => array('columnWithin' => 11)),
-            array('label' => 'row3', 'arrayColumn' => array('columnWithin' => 12)),
+            array('label' => 'row1', 'arrayColumn' => array( 'columnWithin' => 10)),
+            array('label' => 'row2', 'arrayColumn' => array( 'columnWithin' => 11)),
+            array('label' => 'row3', 'arrayColumn' => array( 'columnWithin' => 12)),
         );
         return $array;
     }

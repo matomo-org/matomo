@@ -25,8 +25,10 @@ describe("PivotByDimension", function () {
             page.load(eventsUrl);
             page.click('.dimension:contains(Event Names)');
             showDataTableFooter(page);
-            page.click('.dropdownConfigureIcon');
-            page.click('.dataTablePivotBySubtable');
+            page.evaluate(function(){
+                $('.dropdownConfigureIcon').click();
+                $('.dataTablePivotBySubtable').click();
+            }, 2000);
             page.mouseMove({x: -15, y: -15}); // make sure nothing is highlighted
         }, done);
     });

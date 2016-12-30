@@ -175,7 +175,8 @@ class ColumnDelete extends BaseFilter
                 unset($table[$index][$column]);
             }
 
-            $this->removeColumnsFromTable($row);
+            // Restore me in Piwik 4
+            //$this->removeColumnsFromTable($row);
         }
     }
 
