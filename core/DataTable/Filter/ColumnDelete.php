@@ -152,17 +152,17 @@ class ColumnDelete extends BaseFilter
      */
     protected function removeColumnsFromTable(&$table)
     {
-        if(!$this->isArrayAccess($table)) {
+        if (!$this->isArrayAccess($table)) {
             return;
         }
         foreach ($table as $index => $row) {
-            if(!$this->isArrayAccess($row)) {
+            if (!$this->isArrayAccess($row)) {
                 continue;
             }
-           
+
             foreach ($this->columnsToRemove as $column) {
-                
-                if (is_array($row)) {	
+
+                if (is_array($row)) {
                     if (!array_key_exists($column, $row)) {
                         continue;
                     }
@@ -181,8 +181,7 @@ class ColumnDelete extends BaseFilter
                 unset($table[$index][$column]);
             }
 
-            // Restore me in Piwik 4
-            //$this->removeColumnsFromTable($row);
+            $this->removeColumnsFromTable($row);
         }
     }
 

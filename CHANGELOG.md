@@ -131,6 +131,8 @@ These are only recommendations (because we will keep backward compatibility for 
 * The log importer in `misc/log-analytics` now supports Python 3 (3.5, 3.6, 3.7 or 3.8), it will no longer run with Python 2. If you have any automated scripts that run the importer, you will have to change them to use the Python 3 executable instead.
 * Matomo now uses the SERVER_NAME for host validation and no longer the HOST header. If you're running Matomo behind a load balancer or a proxy you need to ensure that SERVER_NAME is set correctly.
 * Deprecated `piwik` font was removed. Use `matomo` font instead
+* Reporting API: `showColumns` will now apply recursively and remove all columns in the result that are not found in this list, and will apply to all nested datasets. 
+* Reporting API: `hideColumns` will now apply recursively and removes those columns from the result, including any columns found in nested datasets. 
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
 * The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
 * The controller action `Proxy.redirect` has been removed. Instead link to the URL directly in HTML and set an attribute `rel="noreferrer noopener"`  
