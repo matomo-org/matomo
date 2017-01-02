@@ -9,6 +9,7 @@
 
 describe("MultiSitesTest", function () {
     this.timeout(0);
+    this.retries(3);
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var selector = '#multisites,.expandDataTableFooterDrawer';
@@ -39,8 +40,6 @@ describe("MultiSitesTest", function () {
     });
 
     it('should load the all websites dashboard correctly', function (done) {
-        this.retries(3);
-
         expect.screenshot('all_websites').to.be.captureSelector(selector, function (page) {
             page.load("?" + generalParams + "&module=MultiSites&action=index");
             page.wait(3000);
@@ -48,8 +47,6 @@ describe("MultiSitesTest", function () {
     });
 
     it('should load next page correctly', function (done) {
-        this.retries(3);
-
         expect.screenshot('all_websites_page_1').to.be.captureSelector(selector, function (page) {
             page.click('.paging .next');
             page.wait(1000);
