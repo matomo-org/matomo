@@ -108,7 +108,6 @@
         "Export": "Allforio",
         "ExportAsImage": "Allforio fel llun",
         "ExportThisReport": "Allforio'r set ddata hon mewn fformatau eraill",
-        "FileIntegrityWarningExplanation": "Mae rhai gwallau wedi eu darganfod wrth redeg gwiriad cywirdeb ar y ffeil. O ganlyniad mae'n debygol fod methiant rhannol neu llawn wedi digwydd wrth llwytho i fyny rhai o ffeiliau Piwik. Dylech ail lwytho holl ffeiliau Piwik eto yn y modd BINARY ac adnewyddu'r dudalen hon hyd nes ei fod yn dangos dim gwall.",
         "First": "Cyntaf",
         "ForExampleShort": "ee.",
         "FromReferrer": "oddiwrth",

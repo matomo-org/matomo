@@ -27,7 +27,6 @@
         "InjectedHostWarningIntro": "Sada pristupate Piwik-u sa %1$s, ali je Piwik podešen da radi sa ove adrese: %2$s.",
         "JavascriptDisabled": "JavaScript mora bidi uključen kako biste standardno koristili Piwik.<br \/>Izgleda da je JavaScript ili isključen ili nije podržan od strane vašeg brauzera.<br \/>Kako biste omogućili standardni prikaz, uključite JavaScript kroz podešavanja vašeg brauzera a onda %1$spokušajte ponovo%2$s.<br \/>",
         "MainNavigation": "Glavna navigacija",
-        "MakeADifference": "Budite drugačiji: %1$sDonirajte%2$s za Piwik 3.0!",
         "MakeOneTimeDonation": "Možete izvršiti i jednokratnu donaciju.",
         "Menu": "Meni",
         "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%1$s' ali izgleda da nemate postavljena nikakva ovlašćenja. %2$s Tražite od Piwik administratora (kliknite za poruku)%3$s da vam dozvoli 'prikaz' na sajtu.",

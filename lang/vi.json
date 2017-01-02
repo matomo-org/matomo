@@ -163,7 +163,6 @@
         "ExportAsImage": "Xuất ra dạng ảnh(Image)",
         "ExportThisReport": "Xuất dữ liệu này với các định dạng khác",
         "Faq": "Câu hỏi thường gặp (FAQ)",
-        "FileIntegrityWarningExplanation": "File không toàn vẹn và có một vài báo cáo lỗi. Đây là điều rất thường xảy ra khi bạn upload không thành công một hoặc một vài file của Piwik. Bạn có thể upload lại toàn bộ các file của Piwik ở chế độ nhị phân (BINARY mode) và refresh trang Piwik sau khi nó không ghi nhận lỗi nào.",
         "First": "Đầu tiên",
         "Flatten": "Làm phẳng",
         "ForExampleShort": "ví dụ.",

@@ -172,7 +172,6 @@
         "ExportAsImage": "Exportovať ako obrázok",
         "ExportThisReport": "Exportovať tento dátový súbor v iných formátoch",
         "Faq": "Často kladené otázky",
-        "FileIntegrityWarningExplanation": "Kontrola integrity súboru zlyhala a vykazuje nejaké chyby. To je najviac pravdepodobné kvôli čiastočnému nahratiu alebo sa nepodarilo nahrať niektoré zo súborov Piwik. Mali by ste znovu nahrať všetky súbory v binárnom móde a obnovte túto stránku, kým nebude vykazovať žiadne chyby.",
         "First": "Začiatok",
         "Flatten": "Urovnať",
         "ForExampleShort": "napr.",

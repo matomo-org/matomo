@@ -163,7 +163,6 @@
         "ExportAsImage": "Ekspor sebagai Gambar",
         "ExportThisReport": "Ekspor dataset ini ke format lain",
         "Faq": "Pertanyaan yang Sering Diajukan",
-        "FileIntegrityWarningExplanation": "Pemeriksaan integritas berkas gagal dan melaporkan beberapa galat. Kemungkinan ada berkas Piwik yang gagal terunggah. Anda harus mengunggah ulang berkas Piwik dalam modus BINARY dan memuat ulang halaman ini hingga tak menampilkan galat.",
         "First": "Pertama",
         "ForExampleShort": "misalnya",
         "FromReferrer": "dari",
