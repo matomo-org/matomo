@@ -129,6 +129,8 @@
         "EvolutionSummaryGeneric": "%1$s in %2$s comparat cu %3$s in %4$s. Evolutie: %5$s",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Utilizatorul trebuie să fie un Utilizator Super sau utilizatorul \"%s\" în sine.",
         "ExceptionConfigurationFileNotFound": "Fisierul de configurare {%s} nu a fost găsit.",
+        "ExceptionConfigurationFileExistsButNotReadable": "Fisierul de configurare exista %s dar Piwik nu il poate citi.",
+        "ExceptionConfigurationFilePleaseCheckReadableByUser": "Verifica daca %1$s poate fi citit de '%2$s'.",
         "ExceptionDatabaseVersion": "Versiunea dvs. %1$s este %2$s dar Piwik necesita minim %3$s.",
         "ExceptionFileIntegrity": "A esuat verificare integrităţii: %s",
         "ExceptionFilesizeMismatch": "Nepotrivire la mărime fisierului: %1$s (mărime asteptată: %2$s, găsită: %3$s)",
