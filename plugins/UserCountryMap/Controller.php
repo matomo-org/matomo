@@ -189,7 +189,7 @@ class Controller extends \Piwik\Plugin\Controller
             'hours'            => $this->translator->translate('Intl_Hours'),
             'hours_ago'        => $this->translator->translate('UserCountryMap_HoursAgo'),
             'days_ago'         => $this->translator->translate('UserCountryMap_DaysAgo'),
-            'actions'          => $this->translator->translate('VisitsSummary_NbPageviewsDescription'),
+            'actions'          => $this->translator->translate('Transitions_NumPageviews'),
             'searches'         => $this->translator->translate('UserCountryMap_Searches'),
             'goal_conversions' => $this->translator->translate('UserCountryMap_GoalConversions'),
         );
