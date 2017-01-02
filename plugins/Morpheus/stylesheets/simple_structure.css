@@ -16,7 +16,7 @@ body#simple  {
 	text-decoration: none;
 }
 #simple .box {
-    border-radius: 2px;	
+    border-radius: 2px;
     border: solid 1px #ccc;
     max-width: 780px;
     margin: 30px auto 60px auto;
@@ -74,6 +74,10 @@ body#simple  {
 }
 #simple .box .content h2:first-child {
 	margin-top: 0;
+}
+
+#simple .box .content blockquote {
+	word-wrap: break-word;
 }
 
 #simple .box .footer {
