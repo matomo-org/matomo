@@ -64,6 +64,7 @@
         "ColumnPageBounceRateDocumentation": "Procentajul de vizite care au inceput pe aceasta pagina si au parasit imediat site-ul",
         "ColumnPageviews": "Pagini vizualizate",
         "ColumnPageviewsDocumentation": "De cate ori a fost vizitată pagină",
+        "ColumnPercentageVisits": "%% Vizite",
         "ColumnRevenue": "Venit",
         "ColumnSumVisitLength": "Timp total petrecut de vizitatori (in secunde)",
         "ColumnTotalPageviews": "Total Vizualizari",
