@@ -170,7 +170,6 @@
         "ExportAsImage": "Tallenna kuvaksi",
         "ExportThisReport": "Tallenna nämä tiedot eri muodossa",
         "Faq": "UKK",
-        "FileIntegrityWarningExplanation": "Tiedostojen eheystarkistus epäonnistui. Todennäköisesti osa Piwikin tiedostojen tallentamisesta epäonnistui. Tallenna kaikki tiedostot binääritilassa (BINARY mode) ja lataa tämä sivu uudelleen.",
         "First": "Ensimmäinen",
         "Flatten": "Puristettu",
         "ForExampleShort": "esim.",

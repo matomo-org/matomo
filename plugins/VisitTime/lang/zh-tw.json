@@ -1,12 +1,18 @@
 {
     "VisitTime": {
-        "ColumnLocalTime": "訪客端時段",
-        "ColumnServerTime": "伺服器時段",
-        "LocalTime": "依訪客端時段記錄的造訪次數",
-        "NHour": "%s 時",
-        "ServerTime": "依伺服器時段記錄的造訪次數",
-        "SubmenuTimes": "造訪時段",
-        "WidgetLocalTime": "依訪客端時段記錄的造訪次數",
-        "WidgetServerTime": "依伺服器時段記錄的造訪次數"
+        "ColumnLocalTime": "訪客端時間",
+        "ColumnServerTime": "伺服器時間",
+        "DayOfWeek": "星期幾",
+        "LocalTime": "依訪客端時間記錄的訪問次數",
+        "NHour": "%s 點",
+        "PluginDescription": "報告訪客訪問你的網站或應用程式時訪客端和伺服器時間。",
+        "ServerTime": "依伺服器時間記錄的訪問次數",
+        "SubmenuTimes": "訪問時段",
+        "VisitsByDayOfWeek": "以星期幾查看",
+        "WidgetByDayOfWeekDocumentation": "這個圖表顯示你網站每星期接收的訪問數。",
+        "WidgetLocalTime": "依訪客端時間記錄的訪問次數",
+        "WidgetLocalTimeDocumentation": "這個圖片顯示當訪客瀏覽時，%1$s訪客端的時間%2$s是幾點。",
+        "WidgetServerTime": "依伺服器時間記錄的訪問次數",
+        "WidgetServerTimeDocumentation": "這個圖片顯示當訪客瀏覽時，%1$s伺服器的時間%2$s是幾點。"
     }
 }

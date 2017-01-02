@@ -166,7 +166,6 @@
         "ExportAsImage": "이미지로 내보내기",
         "ExportThisReport": "다른 형식으로 데이터셋 내보내기",
         "Faq": "FAQ",
-        "FileIntegrityWarningExplanation": "파일의 무결성 검사가 실패하고 몇 가지 오류가 보고되었습니다. 이것은 대부분의 경우, 파일이 불완전하거나 일부 Piwik 파일을 업로드에 실패했을 때 입니다. 모든 Piwik 파일을 바이너리 모드로 다시 업로드하여 오류가 나타나지 않을 때까지 페이지를 새로 고침할 필요가 있습니다.",
         "First": "처음",
         "ForExampleShort": "예:",
         "Forums": "포럼",

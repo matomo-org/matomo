@@ -21,6 +21,7 @@
         "HappyAnalysing": "Powodzenia!",
         "Installation": "Instalacja",
         "InstallationStatus": "Postęp instalacji",
+        "JsTagArchivingHelp1": "Dla stron o średnim i dużym ruchu można wykonać kilka optymalizacji, by pomóc Piwik'owi działać szybciej (na przykład %1$sustawienie automatycznej archiwizacji%2$s[en]).",
         "LargePiwikInstances": "Pomoc w przypadku dużych instalacji z Piwik",
         "Legend": "Legenda",
         "NfsFilesystemWarning": "Twój system używa systemu plików NFS",

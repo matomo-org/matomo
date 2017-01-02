@@ -175,7 +175,6 @@
         "ExportAsImage": "Exportera som bild",
         "ExportThisReport": "Exportera denna dataserien i andra format",
         "Faq": "FAQ",
-        "FileIntegrityWarningExplanation": "Kontrollen av filintegritet misslyckades och rapporterade några fel. Detta orsakades mest troligt p.g.a. att en misslyckad\/delvis uppladdning av Piwik's filer. Du bör ladda upp Piwik's filer på nytt i binärt läge och uppdatera sidan tills dess att inga felmeddelanden visas.",
         "First": "Först",
         "Flatten": "Tillplattad",
         "ForExampleShort": "t.ex.",

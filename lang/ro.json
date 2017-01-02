@@ -155,7 +155,6 @@
         "ExportAsImage": "Exporta ca imagine",
         "ExportThisReport": "Exporta acest set de date in alt interval",
         "Faq": "FAQ",
-        "FileIntegrityWarningExplanation": "Verificare integritatii fisierelor a esuat si a raportat erori. Acest lucru s-a intamplat din cauza incarcarii partiale a unor fisiere Piwik. Ar trebui sa urcati din nou toate fisierele Piwik in mod BINARY si sa faceti refresh.",
         "First": "Prima",
         "Flatten": "Aplatiza",
         "ForExampleShort": "ex.",

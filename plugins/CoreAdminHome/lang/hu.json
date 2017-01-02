@@ -18,6 +18,7 @@
         "ImageTrackingIntro3": "Az összes lehetséges opciót %1$sKövetés API dokumentáció%2$s tartalmazza.",
         "ImageTrackingLink": "Kép Követési Link",
         "ImportingServerLogs": "Szervernaplók Importálása",
+        "ImportingServerLogsDesc": "A látogatók böngésző (JavaScript vagy kép) általi követése helyett lehetőség van a szervernaplók folyamatos importálására. További részletek: %1$sSzervernapló analízis%2$s.",
         "InvalidPluginsWarning": "A következő bővítmény nem kompatibilisek evvel: %1$s ezért nem lehet őket betölteni: %2$s.",
         "InvalidPluginsYouCanUninstall": "A bővítmények frissíthetők vagy törölhetők a %1$sBővítmények%2$s oldalon.",
         "JavaScriptTracking": "JavaScript Követés",

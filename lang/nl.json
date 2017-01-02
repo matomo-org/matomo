@@ -172,7 +172,6 @@
         "ExportAsImage": "Exporteer als afbeelding",
         "ExportThisReport": "Exporteer deze dataset naar andere formaten",
         "Faq": "Veelgestelde vragen",
-        "FileIntegrityWarningExplanation": "Bestand integriteit controle mislukt en er zijn fouten ontdekt. Dit komt waarschijnlijk door een gedeeltelijke of mislukte upload van enkele Piwik bestanden. We raden u aan alle Piwik bestanden opnieuw te uploaden en deze pagina te vernieuwen tot er geen fouten meer weergegeven worden.",
         "First": "Eerste",
         "Flatten": "Plat maken",
         "ForExampleShort": "bijv.",

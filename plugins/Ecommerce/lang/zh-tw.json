@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "電子商務讓你可以在使用者將產品增加到購物車，或是轉換電子商務銷售時追蹤。也追蹤產品、產品分類查看數以及棄用的購物車。",
+        "Sales": "銷售",
+        "SalesBy": "由 %s 銷售",
+        "SalesAdjective": "銷售 %s"
+    }
+}

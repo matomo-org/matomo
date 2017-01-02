@@ -172,7 +172,6 @@
         "ExportAsImage": "Izvozi kot Sliko",
         "ExportThisReport": "Izvozi to razpredelnico v drugih formatih",
         "Faq": "FAQ",
-        "FileIntegrityWarningExplanation": "Preverjanje integritete ni uspelo in je javilo neke napake. Vzrok za to so verjetno nekatere Piwik datoteke, ki so se delno ali narobe prenesle. Ponovno morate prenesti vse Piwik datoteke na strežnik v BINARY načinu in osvežiti to stran, tako da ne bo več vidne nobene napake.",
         "First": "Prvi",
         "Flatten": "Izravnaj",
         "ForExampleShort": "npr.",

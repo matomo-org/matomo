@@ -129,7 +129,6 @@
         "ExportAsImage": "Resim olarak dışa aktar",
         "ExportThisReport": "Bu veri setini diğer formatlarda ihraç et",
         "Faq": "SSS",
-        "FileIntegrityWarningExplanation": "Dosya bütünlük kontrolü başarısız oldu ve hatalar raporlandı. Bu durum genellikle Piwik dosyalarının yüklenmesinde oluşan hatalardan meydana gelmektedir. Sorunu çözmek için tüm Piwik dosyalarını sunucunuza tekrar yüklemeniz ve sayfayı yenilemeniz gerekmektedir.",
         "First": "İlk",
         "Flatten": "Düzleştir",
         "ForExampleShort": "Örneğin",

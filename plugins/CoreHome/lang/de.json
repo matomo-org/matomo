@@ -30,7 +30,6 @@
         "InjectedHostWarningIntro": "Sie betreten Piwik aktuell von %1$s, allerdings wurde Piwik so konfiguriert, dass es unter dieser Adresse läuft: %2$s.",
         "JavascriptDisabled": "JavaScript muss aktiviert sein, um die Standardansicht von Piwik zu benutzen.<br\/>Es scheint jedoch so, als wäre JavaScript bei Ihnen deaktiviert bzw. würde nicht von Ihrem Browser unterstützt.<br \/>Um die Standardansicht zu benutzen, aktivieren Sie JavaScript in Ihren Browseroptionen und %1$sversuchen Sie es erneut%2$s.<br \/>",
         "MainNavigation": "Hauptnavigation",
-        "MakeADifference": "Machen Sie den Unterschied: %1$sSpenden Sie jetzt%2$s um die Entwicklung von Piwik 3.0 möglich zu machen!",
         "MakeOneTimeDonation": "Stattdessen einmalig spenden.",
         "Menu": "Menü",
         "NoPrivilegesAskPiwikAdmin": "Sie sind angemeldet als '%1$s', aber es wurden keine Berechtigungen für diesen Benutzer in Piwik gesetzt. %2$s Bitte fragen Sie Ihren Piwik Administrator (klicken für E-Mail)%3$s um Zugriff auf die Webseite zu erhalten.",

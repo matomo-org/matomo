@@ -138,7 +138,6 @@
         "Export": "Exportar",
         "ExportAsImage": "Exportar como Imagem",
         "ExportThisReport": "Exportar estes dados noutros formatos",
-        "FileIntegrityWarningExplanation": "A verificação da integridade dos ficheiros falhou e reportou alguns erros. A causa mais provável é uma transferência dos ficheiros de Piwik incompleta ou com erros. Deve voltar a transferir todos os ficheiros de Piwik em modo BINÁRIO e actualizar a página até que não mostre erros.",
         "First": "Primeiro",
         "ForExampleShort": "ex.",
         "Forums": "Fóruns",

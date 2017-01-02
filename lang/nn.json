@@ -125,7 +125,6 @@
         "ExportAsImage": "Eksporter som bilete",
         "ExportThisReport": "Eksporter dette datasettet til andre format",
         "Faq": "OSS",
-        "FileIntegrityWarningExplanation": "Sjekking av filintegritet feila og gav feilmeldingar. Dette skuldast truleg at nokre av filane til Piwik berre vart delvis eller feilaktig lasta opp. Du bør lasta opp Piwik på nytt i BINÆR-modus og oppfriska denne sida til feilmeldingane forsvinn.",
         "First": "Fyrste",
         "ForExampleShort": "t.d.",
         "FromReferrer": "frå",
