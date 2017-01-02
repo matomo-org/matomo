@@ -18,7 +18,7 @@
         "ColumnSearchCategory": "Suchkategorie",
         "ColumnSearches": "Suchanfragen",
         "ColumnSearchesDocumentation": "Die Anzahl der Besucher, die nach diesem Begriff in der internen Suche gesucht haben.",
-        "ColumnSearchExits": "Ausstiegsrate nach Suche",
+        "ColumnSearchExits": "%% Ausstiege nach Suche",
         "ColumnSearchExitsDocumentation": "Der Anteil der Besuche, die nach der internen Suche nach dem Suchbegriff die Website verlassen haben.",
         "ColumnSearchResultsCount": "Anzahl Suchergebnisse",
         "ColumnSiteSearchKeywords": "Eindeutige Suchbegriffe",

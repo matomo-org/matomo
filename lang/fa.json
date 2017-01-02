@@ -68,7 +68,6 @@
         "ColumnPageBounceRateDocumentation": "درصد از بازدیدکننده داشته است آغاز شده است که در این صفحه و سمت چپ وب سایت فورا.",
         "ColumnPageviews": "تعداد بازدید صفحات",
         "ColumnPageviewsDocumentation": "تعداد دفعاتی که از این صفحه بازدید شده",
-        "ColumnPercentageVisits": "% بازدیدها",
         "ColumnRevenue": "درآمد",
         "ColumnSumVisitLength": "کل زمان سپری شده به وسیله بازدید کننده ها (بر اساس ثانیه)",
         "ColumnTotalPageviews": "تمام بازدیدصفحه ها",

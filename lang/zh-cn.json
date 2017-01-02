@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "以该页为起始页后马上离开的百分比。",
         "ColumnPageviews": "浏览次数",
         "ColumnPageviewsDocumentation": "页面被查看的次数。",
-        "ColumnPercentageVisits": "百分比",
         "ColumnRevenue": "收益",
         "ColumnSumVisitLength": "网站停留时间 (秒)",
         "ColumnTotalPageviews": "总的浏览次数",

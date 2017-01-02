@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Danh mục tìm kiếm",
         "ColumnSearches": "Tìm kiếm",
         "ColumnSearchesDocumentation": "Số truy cập tìm kiếm cho từ khóa này bằng công cụ tìm kiếm trên website của bạn.",
-        "ColumnSearchExits": "% tìm kiếm thoát luôn",
         "ColumnSearchExitsDocumentation": "Tỷ lệ khách rời website sau khi tìm kiếm Từ khóa này trên công cụ tìm kiếm Site của bạn",
         "ColumnSearchResultsCount": "Số kết quả tìm kiếm",
         "ColumnSiteSearchKeywords": "Từ khóa duy nhất",

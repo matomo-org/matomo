@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
@@ -22,6 +23,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\Version;
@@ -296,21 +298,26 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
-        if (Common::isPhpCliMode()) { // TODO: I can't find how this will ever get called / safeMode is never set for Console
+        if (Common::isPhpCliMode()) {
             throw new Exception("Error: " . var_export($lastError, true));
         }
-
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
+        $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
         $view->plugins         = $this->pluginManager->loadAllPluginsAndGetTheirInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
+        $view->deactivateIAmSuperUserSalt = Common::getRequestVar('i_am_super_user', '', 'string');
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         $view->piwikVersion    = Version::VERSION;
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';
+
+        // When the CSS merger in StylesheetUIAssetMerger throws an exception, safe mode is displayed.
+        // This flag prevents an infinite loop where safemode would try to re-generate the cache buster which requires CSS merger..
+        $view->disableCacheBuster();
 
         if (!empty($lastError['file'])) {
             preg_match('/piwik\/plugins\/(.*)\//', $lastError['file'], $matches);
@@ -367,11 +374,13 @@ class Controller extends Plugin\ControllerAdmin
 
     public function deactivate($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
-        $this->dieIfPluginsAdminIsDisabled();
-
-        $this->pluginManager->deactivatePlugin($pluginName);
-        $this->redirectAfterModification($redirectAfter);
+        if($this->isAllowedToTroubleshootAsSuperUser()) {
+            Piwik::doAsSuperUser(function() use ($redirectAfter) {
+                $this->doDeactivatePlugin($redirectAfter);
+            });
+        } else {
+            $this->doDeactivatePlugin($redirectAfter);
+        }
     }
 
     public function uninstall($redirectAfter = true)
@@ -453,6 +462,36 @@ class Controller extends Plugin\ControllerAdmin
         try {
             Filesystem::deleteAllCacheOnUpdate();
         } catch (Exception $e) {}
+    }
+
+    /**
+     * Let Super User troubleshoot in safe mode, even when Login is broken, with this special trick
+     *
+     * @return bool
+     * @throws Exception
+     */
+    protected function isAllowedToTroubleshootAsSuperUser()
+    {
+        $isAllowedToTroubleshootAsSuperUser = false;
+        $salt = SettingsPiwik::getSalt();
+        if (!empty($salt)) {
+            $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
+            $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
+        }
+        return $isAllowedToTroubleshootAsSuperUser;
+    }
+
+    /**
+     * @param $redirectAfter
+     * @throws Exception
+     */
+    protected function doDeactivatePlugin($redirectAfter)
+    {
+        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
+        $this->dieIfPluginsAdminIsDisabled();
+
+        $this->pluginManager->deactivatePlugin($pluginName);
+        $this->redirectAfterModification($redirectAfter);
     }
 
 }

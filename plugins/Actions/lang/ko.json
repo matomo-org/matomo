@@ -17,7 +17,6 @@
         "ColumnSearchCategory": "검색 카테고리",
         "ColumnSearches": "검색",
         "ColumnSearchesDocumentation": "웹사이트의 검색 엔진에서 검색어별 방문 횟수입니다.",
-        "ColumnSearchExits": "% 검색 이탈",
         "ColumnSearchExitsDocumentation": "이 검색어로 당신의 사이트에서 검색시도 후 웹사이트를 떠난 방문의 비율입니다.",
         "ColumnSearchResultsCount": "검색 결과 수",
         "ColumnSiteSearchKeywords": "고유 검색어",

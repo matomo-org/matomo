@@ -18,7 +18,6 @@
         "ColumnSearchCategory": "Arama Kategorisi",
         "ColumnSearches": "Aramalar",
         "ColumnSearchesDocumentation": "Bu anahtar sözcük ile web sitenizin arama motorunda yapılan aramaların sayısı.",
-        "ColumnSearchExits": "Arama Çıkış Yüzdesi",
         "ColumnSearchExitsDocumentation": "Bu Anahtar Kelimeyi sitenizin Arama Motorunda aradıktan sonra siteden ayrılanların yüzdesi.",
         "ColumnSearchResultsCount": "Arama Sonucu Sayısı",
         "ColumnSiteSearchKeywords": "Tekil Anahtar Kelimeler",

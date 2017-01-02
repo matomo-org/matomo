@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Het percentage bezoeken dat begonnen is op deze pagina en de website direct verlaten hebben.",
         "ColumnPageviews": "Paginaweergaves",
         "ColumnPageviewsDocumentation": "Aantal keer dat deze pagina bezocht is.",
-        "ColumnPercentageVisits": "% Bezoeken",
         "ColumnRevenue": "Inkomsten",
         "ColumnSumVisitLength": "Totale tijd gespendeerd door de bezoekers (in seconden)",
         "ColumnTotalPageviews": "Totale Paginaweergaves",

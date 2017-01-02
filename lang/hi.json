@@ -65,7 +65,6 @@
         "ColumnPageBounceRateDocumentation": "इस पृष्ठ पर शुरू किया और सीधे वेबसाइट छोड़ दिया उस यात्राओं का प्रतिशत.",
         "ColumnPageviews": "पृष्ठ देखा गया",
         "ColumnPageviewsDocumentation": "कई बार इस पृष्ठ का दौरा किया था।",
-        "ColumnPercentageVisits": "दौरा",
         "ColumnRevenue": "राजस्व",
         "ColumnSumVisitLength": "आगंतुकों द्वारा खर्च कुल समय (सेकंड में)",
         "ColumnTotalPageviews": "कुल पृष्ठ दृश्य",

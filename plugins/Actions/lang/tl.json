@@ -17,7 +17,6 @@
         "ColumnSearchCategory": "Kategorya ng Paghahanap",
         "ColumnSearches": "Mga Paghahanap",
         "ColumnSearchesDocumentation": "Ang bilang ng mga bisita na naghanap para sa keyword na ito sa engine ng paghahanap ng iyong website.",
-        "ColumnSearchExits": "% Mga Exit sa Paghahanap",
         "ColumnSearchExitsDocumentation": "Ang porsyento ng mga pagbisita na iniwanan ang website pagkatapos maghanap ng Keyword na ito sa iyong engine ng paghahanap sa iyong site.",
         "ColumnSearchResultsCount": "Bilang ng Mga Resulta sa Paghahanap",
         "ColumnSiteSearchKeywords": "Natatanging mga Keyword",

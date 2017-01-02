@@ -18,7 +18,7 @@
         "ColumnSearchCategory": "Κατηγορία Αναζήτησης",
         "ColumnSearches": "Αναζητήσεις",
         "ColumnSearchesDocumentation": "Ο αριθμός των επισκέψεων που αναζήτησαν για αυτή τη λέξη-κλειδί στη μηχανή αναζήτησης της ιστοσελίδας σας.",
-        "ColumnSearchExits": "% Έξοδοι Αναζήτησης",
+        "ColumnSearchExits": "%% έξοδοι από αναζητήσεις",
         "ColumnSearchExitsDocumentation": "Το ποσοστό των επισκέψεων που άφησαν την ιστοσελίδα μετά την αναζήτηση για αυτή τη λέξη-κλειδί στην μηχανή Αναζήτησης της Ιστοσελίδας σας.",
         "ColumnSearchResultsCount": "Μετρητής Αποτελεσμάτων Αναζήτησης",
         "ColumnSiteSearchKeywords": "Μοναδικές Λέξεις-κλειδιά",

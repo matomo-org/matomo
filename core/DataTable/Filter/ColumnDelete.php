@@ -101,25 +101,8 @@ class ColumnDelete extends BaseFilter
 
         // remove columns specified in $this->columnsToRemove
         if (!empty($this->columnsToRemove)) {
-            foreach ($table as $index => $row) {
-                foreach ($this->columnsToRemove as $column) {
-                    if (!array_key_exists($column, $row)) {
-                        continue;
-                    }
-                    
-                    if ($this->deleteIfZeroOnly) {
-                        $value = $row[$column];
-                        if ($value === false || !empty($value)) {
-                            continue;
-                        }
-                    }
-
-                    unset($table[$index][$column]);
-                }
-            }
-
+            $this->removeColumnsFromTable($table);
             $recurse = true;
-
         }
 
         // remove columns not specified in $columnsToKeep
@@ -128,6 +111,7 @@ class ColumnDelete extends BaseFilter
                 $columnsToDelete = array();
                 foreach ($row as $name => $value) {
                     $keep = false;
+
                     // @see self::APPEND_TO_COLUMN_NAME_TO_KEEP
                     foreach ($this->columnsToKeep as $nameKeep => $true) {
                         if (strpos($name, $nameKeep . self::APPEND_TO_COLUMN_NAME_TO_KEEP) === 0) {
@@ -160,5 +144,48 @@ class ColumnDelete extends BaseFilter
         }
 
         return $table;
+    }
+
+    /**
+     * @param $table
+     * @return array
+     */
+    protected function removeColumnsFromTable(&$table)
+    {
+        if(!$this->isArrayAccess($table)) {
+            return;
+        }
+        foreach ($table as $index => &$row) {
+            if(!$this->isArrayAccess($row)) {
+                continue;
+            }
+            foreach ($this->columnsToRemove as $column) {
+
+                if (!array_key_exists($column, $row)) {
+                    continue;
+                }
+
+                if ($this->deleteIfZeroOnly) {
+                    $value = $row[$column];
+                    if ($value === false || !empty($value)) {
+                        continue;
+                    }
+                }
+
+                unset($table[$index][$column]);
+            }
+
+            // Restore me in Piwik 4
+            //$this->removeColumnsFromTable($row);
+        }
+    }
+
+    /**
+     * @param $table
+     * @return bool
+     */
+    protected function isArrayAccess(&$table)
+    {
+        return is_array($table) || $table instanceof \ArrayAccess;
     }
 }

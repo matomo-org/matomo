@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "平均載入時間",
         "GenerateQueries": "%s 個查詢已執行",
         "GenerateTime": "頁面生成時間： %s 秒",
         "NbActionsDescription": "%s 個活動（檢視網頁、下載和離開連結）",

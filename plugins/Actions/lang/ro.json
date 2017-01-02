@@ -17,7 +17,6 @@
         "ColumnSearchCategory": "Categorie căutare",
         "ColumnSearches": "Căutări",
         "ColumnSearchesDocumentation": "Numărul de vizite care au căutat după acest cuvânt cheie folosind motorul de căutare de pe site-ul dvs web.",
-        "ColumnSearchExits": "% Căutări abandonate",
         "ColumnSearchExitsDocumentation": "Procentul vizitelor care au parasit siteul dupa ce au cautat acest Cuvant prin intermediul casutei de Search (Cautare) prezenta pe siteul tau.",
         "ColumnSearchResultsCount": "Numărul rezultate căutare",
         "ColumnSiteSearchKeywords": "Cuvinte-cheie unice",

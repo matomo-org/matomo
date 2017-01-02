@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -73,11 +74,11 @@ class FrontController extends Singleton
 
     /**
      * @param $lastError
-     * @return mixed|void
+     * @return string
      * @throws AuthenticationFailedException
      * @throws Exception
      */
-    private static function generateSafeModeOutput($lastError)
+    private static function generateSafeModeOutputFromError($lastError)
     {
         Common::sendResponseCode(500);
 
@@ -91,6 +92,20 @@ class FrontController extends Singleton
         }
 
         return $message;
+    }
+
+    /**
+     * @param Exception $e
+     * @return string
+     */
+    private static function generateSafeModeOutputFromException($e)
+    {
+        $error = array(
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        );
+        return self::generateSafeModeOutputFromError($error);
     }
 
     /**
@@ -133,6 +148,15 @@ class FrontController extends Singleton
              * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
+        } catch (\Twig_Error_Runtime $e) {
+            echo $this->generateSafeModeOutputFromException($e);
+            exit;
+        } catch(StylesheetLessCompileException $e) {
+            echo $this->generateSafeModeOutputFromException($e);
+            exit;
+        } catch(\Error $e) {
+            echo $this->generateSafeModeOutputFromException($e);
+            exit;
         }
     }
 
@@ -202,7 +226,7 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            $message = self::generateSafeModeOutput($lastError);
+            $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
         }
     }

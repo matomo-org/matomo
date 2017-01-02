@@ -28,7 +28,7 @@
 
         <div style="width: 640px">
 
-        {% if not isAnonymousUser %}
+        {% if isAllowedToTroubleshootAsSuperUser or not isAnonymousUser %}
             <p>
                 The following error just broke Piwik{% if showVersion %} (v{{ piwikVersion }}){%  endif %}:
                 <pre>{{ lastError.message }}</pre>
@@ -58,12 +58,13 @@
 
         {% endif %}
 
-        {% if isSuperUser %}
+        {% if isAllowedToTroubleshootAsSuperUser or isSuperUser %}
 
             <h3>Further troubleshooting</h3>
             <p>
                 If this error continues to happen, you may be able to fix this issue by disabling one or more of
-                the Third-Party plugins. You can enable them again in the
+                the Third-Party plugins. If you don't know which plugin is causing this error, we recommend to first disable any plugin not created by "Piwik" and not created by "InnoCraft".
+                You can enable plugin again afterwards in the
                 <a rel="noreferrer" target="_blank" href="index.php?module=CorePluginsAdmin&action=plugins">Plugins</a>
                 or <a target="_blank" href="index.php?module=CorePluginsAdmin&action=themes">Themes</a> page under
                 settings at any time.
@@ -79,7 +80,10 @@
                             {{ pluginName }}
                         </td>
                         <td>
-                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}"
+                            {{ plugin.info.version|default('') }}
+                        </td>
+                        <td>
+                            <a href="index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ pluginName }}&nonce={{ deactivateNonce }}{% if deactivateIAmSuperUserSalt is not empty %}&i_am_super_user={{ deactivateIAmSuperUserSalt }}{% endif %}"
                                target="_blank">deactivate</a>
                         </td>
                     </tr>
@@ -115,7 +119,7 @@
 
         {% elseif isAnonymousUser %}
 
-            <p>Please contact the system administrator, or login to Piwik to learn more.</p>
+            <p>Please contact the system administrator, or <a href="?module={{ loginModule }}">login to Piwik</a> to learn more.</p>
 
         {% else %}
             <p>
@@ -124,6 +128,16 @@
                 to your system administrator.
             </p>
         {% endif %}
+
+
+        {% if not isAllowedToTroubleshootAsSuperUser and not isSuperUser %}
+            <p>If you are Super User, but cannot login because of this error, you can still troubleshoot further. Follow these steps:
+                <br/>1) open the config/config.ini.php file and look for the <code>salt</code> value under <code>[General]</code>.
+                <br/>2) edit this current URL you are viewing and add the following text (replacing <code>salt_value_from_config</code> by the <code>salt</code> value from the config file):
+                <br/><br/><code>index.php?i_am_super_user=salt_value_from_config&....</code>
+            </p>
+        {% endif %}
+
 
         </div>
 

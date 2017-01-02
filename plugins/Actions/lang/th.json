@@ -17,7 +17,6 @@
         "ColumnSearchCategory": "หมวดหมู่การค้นหา",
         "ColumnSearches": "ค้นหา",
         "ColumnSearchesDocumentation": "จำนวนผู้เข้าชมที่ค้นหา Keyword นี้บนระบบค้นหาในเว็บไซต์ของคุณ",
-        "ColumnSearchExits": "% ค้นหาเจอแล้วออก",
         "ColumnSearchExitsDocumentation": "ร้อยละของผู้เข้าชมที่ออกเว็บไซต์หลังค้นหาด้วย keyword นี้บนเครื่องมือค้นหาของเว็บไซต์ของคุณ",
         "ColumnSearchResultsCount": "จำนวนผลการค้นหา",
         "ColumnSiteSearchKeywords": "Keyword ที่ไม่ซ้ำ",

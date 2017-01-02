@@ -17,7 +17,6 @@
         "ColumnSearchCategory": "Categoria de cerca",
         "ColumnSearches": "Cerques",
         "ColumnSearchesDocumentation": "Nombre de visitants que han cercat aquesta paraula clau al cercador de la vostra pàgina web.",
-        "ColumnSearchExits": "% Sortides de les cerques",
         "ColumnSearchExitsDocumentation": "El percentatge de visites que marxen del vostre lloc web desprès de cercar aquesta paraula al cercador del vostre lloc web.",
         "ColumnSearchResultsCount": "Resultats de la cerca",
         "ColumnSiteSearchKeywords": "Paraules clau úniques",

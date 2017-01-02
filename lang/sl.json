@@ -70,7 +70,6 @@
         "ColumnPageBounceRateDocumentation": "Delež obiskov, ki so se začeli na tej strani, a so nemudoma zapustili spletno stran.",
         "ColumnPageviews": "Ogledov strani",
         "ColumnPageviewsDocumentation": "Število obiskov te strani.",
-        "ColumnPercentageVisits": "% Obiskov",
         "ColumnRevenue": "Prihodki",
         "ColumnSumVisitLength": "Skupni čas, ki so ga porabili obiskovalci (v sekundah)",
         "ColumnTotalPageviews": "Vseh ogledov strani",

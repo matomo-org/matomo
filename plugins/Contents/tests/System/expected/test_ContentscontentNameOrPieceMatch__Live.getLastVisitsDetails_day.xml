@@ -13,6 +13,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
+				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
 				<timeSpent>271</timeSpent>
@@ -118,6 +119,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>13</pageId>
+				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
 				<timeSpent>271</timeSpent>

@@ -69,7 +69,6 @@
         "ColumnPageBounceRateDocumentation": "Tỷ lệ truy cập mà đã bắt đầu trên trang này và rời khỏi trang web ngay lập tức.",
         "ColumnPageviews": "Số lượt xem trang",
         "ColumnPageviewsDocumentation": "Số lần trang này được truy cập.",
-        "ColumnPercentageVisits": "% Lượt truy cập",
         "ColumnRevenue": "Doanh thu",
         "ColumnSumVisitLength": "Tổng số thời gian của khách truy cập (tính bằng giây)",
         "ColumnTotalPageviews": "Tổng số lượt xem trang",
