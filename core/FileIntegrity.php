@@ -41,6 +41,9 @@ class FileIntegrity
             );
         }
 
+
+        $messages = self::getMessagesDirectoriesFoundButNotExpected($messages);
+
         $messages = self::getMessagesFilesFoundButNotExpected($messages);
 
         $messages = self::getMessagesFilesMismatch($messages);
@@ -54,11 +57,13 @@ class FileIntegrity
     protected static function getFilesNotInManifestButExpectedAnyway()
     {
         return array(
-            '*/.htaccess',
-            '*/web.config',
+            '*.htaccess',
+            '*web.config',
             'bootstrap.php',
             'favicon.ico',
             'robots.txt',
+            '.bowerrc',
+            '.phpstorm.meta.php',
             'config/config.ini.php',
             'config/common.ini.php',
             'config/*.config.ini.php',
@@ -66,14 +71,56 @@ class FileIntegrity
             'misc/*.dat',
             'misc/*.dat.gz',
             'misc/user/*png',
+            'misc/package',
             'misc/package/WebAppGallery/*.xml',
             'misc/package/WebAppGallery/install.sql',
             'vendor/autoload.php',
             'vendor/composer/autoload_real.php',
             'tmp/*',
+            // Files below are not expected but they used to be present in older Piwik versions and may be still here
+            // As they are not going to cause any trouble we won't report them as 'File to delete'
+            '*.coveralls.yml',
+            '*.scrutinizer.yml',
+            '*.gitignore',
+            '*.gitkeep',
+            '*.gitmodules',
+            '*.gitattributes',
+            '*.bower.json',
+            '*.travis.yml',
         );
     }
 
+    protected static function getMessagesDirectoriesFoundButNotExpected($messages)
+    {
+        $directoriesFoundButNotExpected = self::getDirectoriesFoundButNotExpected();
+        if (count($directoriesFoundButNotExpected) > 0) {
+
+            $messageDirectoriesToDelete = '';
+            foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
+                $messageDirectoriesToDelete .= Piwik::translate('General_ExceptionDirectoryToDelete', $directoryFoundNotExpected) . '<br/>';
+            }
+
+
+            foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
+                $directories[] = realpath($directoryFoundNotExpected);
+            }
+            $deleteAllAtOnce = sprintf('rm -Rf %s', implode(' ', $directories));
+
+            $messages[] = Piwik::translate('General_ExceptionUnexpectedDirectory')
+                . '<br/>'
+                . '--> ' . Piwik::translate('General_ExceptionUnexpectedDirectoryPleaseDelete') . ' <--'
+                . '<br/><br/>'
+                . $messageDirectoriesToDelete
+                . '<br/><br/>'
+                . Piwik::translate('General_ToDeleteAllDirectoriesRunThisCommand')
+                . '<br/>'
+                . $deleteAllAtOnce
+                . '<br/><br/>';
+
+        }
+
+        return $messages;
+    }
 
     /**
      * @param $messages
@@ -88,18 +135,68 @@ class FileIntegrity
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
                 $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', $fileFoundNotExpected) . '<br/>';
             }
+
+            foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
+                $files[] = '"' . realpath($fileFoundNotExpected) . '"';
+            }
+            $deleteAllAtOnce = sprintf('rm %s', implode(' ', $files));
+
             $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')
                 . '<br/>'
                 . '--> ' . Piwik::translate('General_ExceptionUnexpectedFilePleaseDelete') . ' <--'
                 . '<br/><br/>'
                 . $messageFilesToDelete
-                . '<br/>';
+                . '<br/><br/>'
+                . Piwik::translate('General_ToDeleteAllFilesRunThisCommand')
+                . '<br/>'
+                . $deleteAllAtOnce
+                . '<br/><br/>';
+
             return $messages;
 
         }
         return $messages;
     }
 
+    /**
+     * Look for whole directories which are in the filesystem, but should not be
+     *
+     * @return array
+     */
+    protected static function getDirectoriesFoundButNotExpected()
+    {
+        static $cache = null;
+        if(!is_null($cache)) {
+            return $cache;
+        }
+
+        $pluginsInManifest = self::getPluginsFoundInManifest();
+        $directoriesInManifest = self::getDirectoriesFoundInManifest();
+        $directoriesFoundButNotExpected = array();
+
+        foreach (self::getPathsToInvestigate() as $file) {
+            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+            $directory = dirname($file);
+
+            if(in_array($directory, $directoriesInManifest)) {
+                continue;
+            }
+
+            if (self::isFileNotInManifestButExpectedAnyway($file)) {
+                continue;
+            }
+            if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
+                continue;
+            }
+
+            if (!in_array($directory, $directoriesFoundButNotExpected)) {
+                $directoriesFoundButNotExpected[] = $directory;
+            }
+        }
+
+        $cache = self::getParentDirectoriesFromListOfDirectories($directoriesFoundButNotExpected);
+        return $cache;
+    }
     /**
      * Look for files which are in the filesystem, but should not be
      *
@@ -112,13 +209,7 @@ class FileIntegrity
 
         $filesFoundButNotExpected = array();
 
-        $filesToInvestigate = array_merge(
-            // all normal files
-            Filesystem::globr('.', '*'),
-            // all hidden files
-            Filesystem::globr('.', '.*')
-        );
-        foreach ($filesToInvestigate as $file) {
+        foreach (self::getPathsToInvestigate() as $file) {
             if (is_dir($file)) {
                 continue;
             }
@@ -130,6 +221,10 @@ class FileIntegrity
             if (self::isFileNotInManifestButExpectedAnyway($file)) {
                 continue;
             }
+            if (self::isFileFromDirectoryThatShouldBeDeleted($file)) {
+                // we already report the directory as "Directory to delete" so no need to repeat the instruction for each file
+                continue;
+            }
 
             if (!isset($files[$file])) {
                 $filesFoundButNotExpected[] = $file;
@@ -139,6 +234,35 @@ class FileIntegrity
         return $filesFoundButNotExpected;
     }
 
+
+    protected static function isFileFromDirectoryThatShouldBeDeleted($file)
+    {
+        $directoriesWillBeDeleted = self::getDirectoriesFoundButNotExpected();
+        foreach($directoriesWillBeDeleted as $directoryWillBeDeleted) {
+            if(strpos($file, $directoryWillBeDeleted) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected static function getDirectoriesFoundInManifest()
+    {
+        $files = \Piwik\Manifest::$files;
+
+        $directories = array();
+        foreach($files as $file => $manifestIntegrityInfo) {
+            $directory = $file;
+
+            // add this directory and each parent directory
+            while( ($directory = dirname($directory)) && $directory != '.' ) {
+                $directories[] = $directory;
+            }
+        }
+        $directories = array_unique($directories);
+        return $directories;
+
+    }
 
     protected static function getPluginsFoundInManifest()
     {
@@ -237,7 +361,7 @@ class FileIntegrity
 
         if (!empty($messagesMismatch)) {
             $messages[] = Piwik::translate('General_FileIntegrityWarningReupload');
-            $messages[] = Piwik::translate('General_FileIntegrityWarningReuploadBis') . '<br/>';
+            $messages[] = '--> ' . Piwik::translate('General_FileIntegrityWarningReuploadBis') . ' <--<br/>';
             $messages = array_merge($messages, $messagesMismatch);
         }
 
@@ -283,6 +407,62 @@ class FileIntegrity
         $pathRelativeToPlugins = substr($file, strlen('plugins/'));
         $pluginName = substr($pathRelativeToPlugins, 0, strpos($pathRelativeToPlugins, '/'));
         return $pluginName;
+    }
+
+    /**
+     * @return array
+     */
+    protected static function getPathsToInvestigate()
+    {
+        $filesToInvestigate = array_merge(
+        // all normal files
+            Filesystem::globr('.', '*'),
+            // all hidden files
+            Filesystem::globr('.', '.*')
+        );
+        return $filesToInvestigate;
+    }
+
+    /**
+     * @param $directoriesFoundButNotExpected
+     * @return array
+     */
+    protected static function getParentDirectoriesFromListOfDirectories($directoriesFoundButNotExpected)
+    {
+        sort($directoriesFoundButNotExpected);
+
+        $parentDirectoriesOnly = array();
+        foreach ($directoriesFoundButNotExpected as $directory) {
+            $directoryParent = self::getDirectoryParentFromList($directory, $directoriesFoundButNotExpected);
+            if($directoryParent) {
+                $parentDirectoriesOnly[] = $directoryParent;
+            }
+        }
+        $parentDirectoriesOnly = array_unique($parentDirectoriesOnly);
+
+        return $parentDirectoriesOnly;
+    }
+
+    /**
+     * When the parent directory of $directory is found within $directories, return it.
+     *
+     * @param $directory
+     * @param $directories
+     * @return string
+     */
+    protected static function getDirectoryParentFromList($directory, $directories)
+    {
+        foreach($directories as $directoryMaybeParent) {
+            if ($directory == $directoryMaybeParent) {
+                continue;
+            }
+
+            $isParentDirectory = strpos($directory, $directoryMaybeParent) === 0;
+            if ($isParentDirectory) {
+                return $directoryMaybeParent;
+            }
+        }
+        return null;
     }
 
 }
