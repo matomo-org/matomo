@@ -4,6 +4,14 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 4.0.0
+
+
+### Breaking Changes
+
+* Reporting API: `showColumns` will now apply recursively and remove all columns in the result that are not found in this list, and will apply to all nested datasets. 
+* Reporting API: `hideColumns` will now apply recursively and removes those columns from the result, including any columns found in nested datasets. 
+
 ## Piwik 3.0.0
 
 ### New guide
