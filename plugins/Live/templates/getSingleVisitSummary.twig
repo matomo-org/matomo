@@ -26,12 +26,12 @@
         <li>
             {% if visitData.browserName is defined %}
             <div class="visitor-profile-browser" title="{% if visitData.plugins is not defined %}{{ visitData.browser }}{% elseif visitData.plugins %}{{ 'DevicePlugins_BrowserWithPluginsEnabled'|translate(visitData.browser, visitData.plugins) }}{% else %}{{ 'DevicePlugins_BrowserWithNoPluginsEnabled'|translate(visitData.browser) }}{% endif %}">
-                {% if visitData.browserIcon is defined %}<img src="{{ visitData.browserIcon }}"/>{% endif %}<span>{{ visitData.browserName|split(' ')[0] }}</span>
+                {% if visitData.browserIcon is defined %}<img src="{{ visitData.browserIcon }}" width="16px" height="16px"/>{% endif %}<span>{{ visitData.browserName|split(' ')[0] }}</span>
             </div>
             {% endif %}
 
             <div class="visitor-profile-os">
-                {% if visitData.operatingSystemIcon is defined %}<img src="{{ visitData.operatingSystemIcon }}"/>{% endif %}{% if visitData.operatingSystem is defined %}<span>{{ visitData.operatingSystem }}</span>{% endif %}
+                {% if visitData.operatingSystemIcon is defined %}<img src="{{ visitData.operatingSystemIcon }}" width="16px" height="16px"/>{% endif %}{% if visitData.operatingSystem is defined %}<span>{{ visitData.operatingSystem }}</span>{% endif %}
             </div>
         </li>
         {% if visitData.resolution is defined %}<li><span>{{ 'Resolution_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>{% endif %}
