@@ -233,4 +233,14 @@ describe("Dashboard", function () {
         }, done);
     });
 
+    it("should fail to load with invalid token_auth", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        expect.screenshot("invalid_token_auth").to.be.capture(function (page) {
+            var tokenAuth = "anyInvalidToken";
+            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
+        }, done);
+    });
+
 });
