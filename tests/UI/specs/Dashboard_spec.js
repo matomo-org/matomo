@@ -223,4 +223,24 @@ describe("Dashboard", function () {
         }, done);
     });
 
+    it("should load correctly with token_auth", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        expect.screenshot("loaded_token_auth").to.be.capture(function (page) {
+            var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
+            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
+        }, done);
+    });
+
+    it("should fail to load with invalid token_auth", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        expect.screenshot("invalid_token_auth").to.be.capture(function (page) {
+            var tokenAuth = "anyInvalidToken";
+            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
+        }, done);
+    });
+
 });

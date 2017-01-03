@@ -481,8 +481,12 @@ function ajaxHelper() {
                (this.postParams && this.postParams['module'] === 'API' && this.postParams['method']);
     };
 
+    this._isWidgetizedRequest = function () {
+        return (broadcast.getValueFromUrl('module') == 'Widgetize');
+    };
+
     this._getDefaultPostParams = function () {
-        if (this.withToken || this._isRequestToApiMethod()) {
+        if (this.withToken || this._isRequestToApiMethod() || this._isWidgetizedRequest()) {
             return {
                 token_auth: piwik.token_auth
             };
