@@ -1,8 +1,8 @@
 {
     "Live": {
         "AbandonedCartSummary": "%1$s 個棄用的購物車%2$s 和 %3$s 項被棄用的項目%4$s，總價值 %5$s%6$s。",
-        "AveragePageGenerationTime": "這個使用者平均花費 %1$s 載入網頁。",
-        "CalculatedOverNPageViews": "以這個訪客過去 %1$s 次網頁訪問來計算。",
+        "AveragePageGenerationTime": "這個訪客平均花費 %1$s 載入網頁。",
+        "CalculatedOverNPageViews": "以這個訪客過去 %1$s 次網頁瀏覽來計算。",
         "ClickToViewMoreAboutVisit": "點擊以查看這個訪問紀錄的詳細資訊",
         "ConvertedNGoals": "轉換了 %s 個目標",
         "EcommerceSummaryConversions": "%1$s 個訂單%2$s總價值 %3$s%4$s，購買了 %5$s 個項目%6$s。",

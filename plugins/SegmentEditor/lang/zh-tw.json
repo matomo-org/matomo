@@ -11,7 +11,7 @@
         "ChooseASegment": "選擇區隔",
         "CurrentlySelectedSegment": "目前選擇的區隔為：%s",
         "DataAvailableAtLaterDate": "你區隔的分析報表稍後將可用。造成不便請見諒。",
-        "DefaultAllVisits": "所有流量",
+        "DefaultAllVisits": "所有訪問",
         "DragDropCondition": "拖放條件",
         "HideMessageInFuture": "未來隱藏此訊息",
         "LoadingSegmentedDataMayTakeSomeTime": "處理區隔的訪客資料需要花上一些時間...",

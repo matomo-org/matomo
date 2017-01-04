@@ -41,7 +41,7 @@
         "EstimatedSpaceSaved": "預估節省空間",
         "GeolocationAnonymizeIpNote": "注意：選擇 1 字節時地理位置將會顯示與實際位置大略相同的結果。選擇 2 字節或以上，地理位置可能會不準確。",
         "GetPurgeEstimate": "取得清理估計",
-        "KeepBasicMetrics": "保留基本數據（訪問數、網頁查看數、跳出率、目標轉換數、電子商務轉換數等等）",
+        "KeepBasicMetrics": "保留基本數據（訪問數、網頁瀏覽數、跳出率、目標轉換數、電子商務轉換數等等）",
         "KeepDataFor": "保留以下類型的全數資料",
         "KeepReportSegments": "以上保留的資料中，也一並保留區隔報表。",
         "LastDelete": "上次清理時間",
