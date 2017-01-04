@@ -1,6 +1,6 @@
 {
     "Events": {
-        "PluginDescription": "透過事件追蹤來取得訪客活動紀錄報表。",
+        "PluginDescription": "透過追蹤事件來取得訪客活動紀錄報表。",
         "AvgEventValue": "事件平均值為：%s",
         "AvgValue": "平均值",
         "AvgValueDocumentation": "此事件所有值的加總平均",

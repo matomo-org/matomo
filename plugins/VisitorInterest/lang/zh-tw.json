@@ -7,7 +7,7 @@
         "Engagement": "參與度",
         "NPages": "%s 頁",
         "OnePage": "1 頁",
-        "PluginDescription": "報告訪客的黏著度：瀏覽頁面次數、網站停留時間、訪問間隔時間等等。",
+        "PluginDescription": "報告訪客的黏著度：網頁瀏覽數、網站停留時間、訪問間隔時間等等。",
         "VisitNum": "訪問次數",
         "VisitsByDaysSinceLast": "訪問間隔時間",
         "visitsByVisitCount": "訪問次數",

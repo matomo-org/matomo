@@ -16,7 +16,7 @@
         "UsageDetails": "自從此網站建立後已有 %1$s 次訪問數和 %2$s 個活動。",
         "CreatingCustomVariableTakesTime": "建立新的自訂變數欄位可能會花上較久的時間，取決於你的資料庫大小。因此這只可能透過指令列執行指令來達成。",
         "CurrentAvailableCustomVariables": "目前每個網站最多可以建立 %s 個自訂變數。",
-        "ToCreateCustomVarExecute": "要建立新的自訂變數欄位請在 Piwik 安裝時執行以下指令：",
+        "ToCreateCustomVarExecute": "要建立新的自訂變數欄位請在 Piwik 安裝路徑執行以下指令：",
         "SlotsReportIsGeneratedOverTime": "這份報表的資料將會被補充。可能會花上一到兩天來產生資料，並且花上數周才會有完整準確的報表。",
         "MetricsAreOnlyAvailableForVisitScope": "注意：%1$s只有自訂變數的範圍有數據%2$s。",
         "MetricsNotAvailableForPageScope": "自訂變數範圍 %1$s 中，欄位數據的值為 %2$s。"
