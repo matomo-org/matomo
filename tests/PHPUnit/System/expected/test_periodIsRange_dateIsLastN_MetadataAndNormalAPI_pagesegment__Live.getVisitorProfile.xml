@@ -117,7 +117,7 @@
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 			<browser>Firefox 3.0</browser>
 			<browserName>Firefox</browserName>
-			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+			<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
 			<events>0</events>
@@ -238,7 +238,7 @@
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 			<browser>Firefox 3.0</browser>
 			<browserName>Firefox</browserName>
-			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+			<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
 			<events>0</events>

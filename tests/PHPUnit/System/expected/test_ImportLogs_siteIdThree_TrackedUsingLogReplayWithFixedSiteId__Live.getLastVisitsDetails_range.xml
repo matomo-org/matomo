@@ -71,7 +71,7 @@
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -206,7 +206,7 @@
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 8.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
 		<events>0</events>
@@ -310,7 +310,7 @@
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 34.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
 		<events>0</events>
@@ -450,7 +450,7 @@
 		<deviceModel />
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
@@ -577,7 +577,7 @@
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -691,14 +691,14 @@
 		<deviceModel />
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -819,7 +819,7 @@
 		<deviceModel />
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.9</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
@@ -943,7 +943,7 @@
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
@@ -1052,7 +1052,7 @@
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
@@ -1220,7 +1220,7 @@
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 27.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
@@ -1333,7 +1333,7 @@
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -1454,7 +1454,7 @@
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 33.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -1582,7 +1582,7 @@
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 6.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
 		<events>0</events>
@@ -1694,7 +1694,7 @@
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 11.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>11.0</browserVersion>
 		<events>0</events>
@@ -1857,7 +1857,7 @@
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>

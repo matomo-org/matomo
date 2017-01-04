@@ -4,7 +4,7 @@
 		<label>Cookie</label>
 		<nb_visits>2</nb_visits>
 		<nb_visits_percentage>100%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/cookie.gif</logo>
+		<logo>plugins/DevicePlugins/images/plugins/cookIE.png</logo>
 	</row>
 	<row>
 		<label>Flash</label>
