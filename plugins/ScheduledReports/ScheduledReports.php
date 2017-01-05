@@ -64,7 +64,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     private static $managedReportFormats = array(
         ReportRenderer::HTML_FORMAT => 'plugins/Morpheus/images/html_icon.png',
-        ReportRenderer::PDF_FORMAT  => 'plugins/DevicePlugins/images/plugins/pdf.gif',
+        ReportRenderer::PDF_FORMAT  => 'plugins/DevicePlugins/images/plugins/pdf.png',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
     );
 

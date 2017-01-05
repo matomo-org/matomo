@@ -100,15 +100,15 @@
 		<plugins>pdf, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -344,23 +344,23 @@
 		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
@@ -487,19 +487,19 @@
 		<plugins>pdf, flash, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
@@ -607,19 +607,19 @@
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
@@ -729,27 +729,27 @@
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.png</pluginIcon>
 				<pluginName>windowsmedia</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
@@ -857,15 +857,15 @@
 		<plugins>pdf, java, quicktime</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
@@ -975,7 +975,7 @@
 		<plugins>flash</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1085,27 +1085,27 @@
 		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.png</pluginIcon>
 				<pluginName>windowsmedia</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1255,11 +1255,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1369,19 +1369,19 @@
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1491,19 +1491,19 @@
 		<plugins>pdf, flash, java, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1619,11 +1619,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1731,27 +1731,27 @@
 		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/pdf.png</pluginIcon>
 				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/director.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/windowsmedia.png</pluginIcon>
 				<pluginName>windowsmedia</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/gears.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/gears.png</pluginIcon>
 				<pluginName>gears</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1901,11 +1901,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
