@@ -11,7 +11,7 @@
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==RM;browserVersion==0.9</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/RM.png</logo>
 	</row>
 	<row>
 		<label>Epiphany 2.30</label>
@@ -24,7 +24,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==EP;browserVersion==2.30</segment>
-		<logo>plugins/DevicesDetection/images/browsers/EP.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/EP.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 9.0</label>
@@ -37,7 +37,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==IE;browserVersion==9.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/IE.png</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -50,7 +50,7 @@
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==UNK;browserVersion==</segment>
-		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/UNK.png</logo>
 	</row>
 	<row>
 		<label>Chrome 37.0</label>
@@ -63,7 +63,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==37.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.png</logo>
 	</row>
 	<row>
 		<label>Android Browser</label>
@@ -76,7 +76,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==AN;browserVersion==</segment>
-		<logo>plugins/DevicesDetection/images/browsers/AN.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/AN.png</logo>
 	</row>
 	<row>
 		<label>Chrome 19.0</label>
@@ -89,7 +89,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==19.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.png</logo>
 	</row>
 	<row>
 		<label>Chrome 20.0</label>
@@ -102,7 +102,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==20.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.png</logo>
 	</row>
 	<row>
 		<label>Firefox 6.0</label>
@@ -115,7 +115,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==FF;browserVersion==6.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/FF.png</logo>
 	</row>
 	<row>
 		<label>Chrome 11.0</label>
@@ -128,7 +128,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==11.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.png</logo>
 	</row>
 	<row>
 		<label>Chrome 39.0</label>
@@ -141,7 +141,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==39.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.png</logo>
 	</row>
 	<row>
 		<label>Chrome 41.0</label>
@@ -154,7 +154,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==CH;browserVersion==41.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CH.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CH.png</logo>
 	</row>
 	<row>
 		<label>Chrome Mobile 39.0</label>
@@ -167,7 +167,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserCode==CM;browserVersion==39.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CM.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CM.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 5.0</label>
@@ -180,7 +180,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==IE;browserVersion==5.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/IE.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 6.0</label>
@@ -193,7 +193,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==IE;browserVersion==6.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/IE.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 8.0</label>
@@ -206,7 +206,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==IE;browserVersion==8.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/IE.png</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -219,6 +219,6 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==UNK;browserVersion==1.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/UNK.png</logo>
 	</row>
 </result>
