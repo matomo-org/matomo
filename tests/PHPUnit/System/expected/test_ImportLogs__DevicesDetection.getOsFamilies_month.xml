@@ -22,7 +22,7 @@
 		<nb_visits_converted>11</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WIN.png</logo>
 	</row>
 	<row>
 		<label>GNU/Linux</label>
@@ -34,7 +34,7 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/LIN.png</logo>
 	</row>
 	<row>
 		<label>Android</label>
@@ -46,7 +46,7 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/AND.png</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -82,6 +82,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/os/IOS.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/IOS.png</logo>
 	</row>
 </result>

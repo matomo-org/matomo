@@ -11,7 +11,7 @@
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==LIN;operatingSystemVersion==</segment>
-		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/LIN.png</logo>
 	</row>
 	<row>
 		<label>Windows 7</label>
@@ -24,7 +24,7 @@
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==7</segment>
-		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WIN.png</logo>
 	</row>
 	<row>
 		<label>Mac 10.6</label>
@@ -76,7 +76,7 @@
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==XP</segment>
-		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WIN.png</logo>
 	</row>
 	<row>
 		<label>Android 2.3</label>
@@ -89,7 +89,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==AND;operatingSystemVersion==2.3</segment>
-		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/AND.png</logo>
 	</row>
 	<row>
 		<label>Android 4.4</label>
@@ -102,7 +102,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>operatingSystemCode==AND;operatingSystemVersion==4.4</segment>
-		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/AND.png</logo>
 	</row>
 	<row>
 		<label>Bot</label>
@@ -128,7 +128,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==IOS;operatingSystemVersion==7.1</segment>
-		<logo>plugins/DevicesDetection/images/os/IOS.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/IOS.png</logo>
 	</row>
 	<row>
 		<label>Mac</label>
@@ -167,6 +167,6 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==</segment>
-		<logo>plugins/DevicesDetection/images/os/WIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/WIN.png</logo>
 	</row>
 </result>

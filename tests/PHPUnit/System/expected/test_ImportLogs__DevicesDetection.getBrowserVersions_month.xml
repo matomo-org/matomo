@@ -24,7 +24,7 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==EP;browserVersion==2.30</segment>
-		<logo>plugins/DevicesDetection/images/browsers/EP.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/EP.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 9.0</label>
@@ -76,7 +76,7 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<segment>browserCode==AN;browserVersion==</segment>
-		<logo>plugins/DevicesDetection/images/browsers/AN.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/AN.png</logo>
 	</row>
 	<row>
 		<label>Chrome 19.0</label>
@@ -167,7 +167,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserCode==CM;browserVersion==39.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/CM.gif</logo>
+		<logo>plugins/DevicesDetection/images/browsers/CM.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 5.0</label>

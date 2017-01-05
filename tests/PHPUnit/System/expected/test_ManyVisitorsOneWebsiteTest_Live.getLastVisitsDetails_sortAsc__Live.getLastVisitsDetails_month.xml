@@ -95,7 +95,7 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
@@ -216,7 +216,7 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
@@ -337,7 +337,7 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
@@ -458,7 +458,7 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
@@ -610,7 +610,7 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
@@ -762,7 +762,7 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>

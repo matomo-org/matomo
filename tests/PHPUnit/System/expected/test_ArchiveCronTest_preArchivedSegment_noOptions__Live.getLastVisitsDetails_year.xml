@@ -381,7 +381,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
@@ -1108,7 +1108,7 @@
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
@@ -1321,14 +1321,14 @@
 		<deviceModel>Vision</deviceModel>
 		<operatingSystem>Android 2.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>2.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>0</events>

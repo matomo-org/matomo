@@ -68,14 +68,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Safari</browser>
 		<browserName>Safari</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/SF.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -253,7 +253,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -384,7 +384,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -558,7 +558,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -689,7 +689,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -882,7 +882,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -1013,7 +1013,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -1187,7 +1187,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -1318,7 +1318,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -1511,7 +1511,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -1642,7 +1642,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -1816,7 +1816,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -2113,7 +2113,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -2244,7 +2244,7 @@
 		<deviceModel>Xperia Tablet S</deviceModel>
 		<operatingSystem>Android 4.1</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.1</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
@@ -2437,7 +2437,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -2753,7 +2753,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -2884,7 +2884,7 @@
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
@@ -3058,7 +3058,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -3232,14 +3232,14 @@
 		<deviceModel>Desire</deviceModel>
 		<operatingSystem>MildWild 8.0</operatingSystem>
 		<operatingSystemName>MildWild</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -3572,7 +3572,7 @@
 		<deviceModel />
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
 		<operatingSystemName>Ubuntu</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.png</operatingSystemIcon>
 		<operatingSystemCode>UBT</operatingSystemCode>
 		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -3703,7 +3703,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -3834,14 +3834,14 @@
 		<deviceModel>Desire</deviceModel>
 		<operatingSystem>MildWild 8.0</operatingSystem>
 		<operatingSystemName>MildWild</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -3965,7 +3965,7 @@
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
@@ -4096,7 +4096,7 @@
 		<deviceModel />
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
 		<operatingSystemName>Ubuntu</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.png</operatingSystemIcon>
 		<operatingSystemCode>UBT</operatingSystemCode>
 		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -4289,7 +4289,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -4482,14 +4482,14 @@
 		<deviceModel>Nexus 4</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.4</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome Mobile 33.0</browser>
 		<browserName>Chrome Mobile</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CM.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>1</events>
@@ -4860,14 +4860,14 @@
 		<deviceModel>GALAXY Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
 		<events>1</events>
@@ -4991,7 +4991,7 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
@@ -5122,14 +5122,14 @@
 		<deviceModel>Nexus 4</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.4</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome Mobile 33.0</browser>
 		<browserName>Chrome Mobile</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CM.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -5253,7 +5253,7 @@
 		<deviceModel />
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>8.1</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
@@ -5384,14 +5384,14 @@
 		<deviceModel>GALAXY Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.gif</browserIcon>
+		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
 		<events>0</events>

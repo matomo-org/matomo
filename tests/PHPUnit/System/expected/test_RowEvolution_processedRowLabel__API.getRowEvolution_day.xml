@@ -58,7 +58,7 @@
 			</nb_visits_1>
 			<nb_visits_2>
 				<name>Opera (Visits)</name>
-				<logo>plugins/DevicesDetection/images/browsers/OP.gif</logo>
+				<logo>plugins/DevicesDetection/images/browsers/OP.png</logo>
 				<min>0</min>
 				<max>1</max>
 				<change>-100%</change>

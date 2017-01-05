@@ -62,7 +62,7 @@
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
@@ -160,7 +160,7 @@
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
@@ -258,7 +258,7 @@
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>

@@ -23,7 +23,7 @@
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>operatingSystemCode==LIN;operatingSystemVersion==</segment>
-		<logo>plugins/DevicesDetection/images/os/LIN.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/LIN.png</logo>
 	</row>
 	<row>
 		<label>Android 4.0</label>
@@ -36,6 +36,6 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>operatingSystemCode==AND;operatingSystemVersion==4.0</segment>
-		<logo>plugins/DevicesDetection/images/os/AND.gif</logo>
+		<logo>plugins/DevicesDetection/images/os/AND.png</logo>
 	</row>
 </result>
