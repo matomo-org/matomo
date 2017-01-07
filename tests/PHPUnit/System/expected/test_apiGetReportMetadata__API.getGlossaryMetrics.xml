@@ -183,7 +183,7 @@
 	<row>
 		<name>Unique visitors</name>
 		<id>nb_uniq_visitors</id>
-		<documentation>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</documentation>
+		<documentation>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</documentation>
 	</row>
 	<row>
 		<name>Users</name>
@@ -193,6 +193,6 @@
 	<row>
 		<name>Visits</name>
 		<id>nb_visits</id>
-		<documentation>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</documentation>
+		<documentation>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</documentation>
 	</row>
 </result>
