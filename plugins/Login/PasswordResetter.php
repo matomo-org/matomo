@@ -26,7 +26,7 @@ use Piwik\Url;
  *
  * The process to reset a password is as follows:
  *
- * 1. The user chooses to reset a password. He/she enters a new password
+ * 1. The user chooses to reset a password. They enter a new password
  *    and submits it to Piwik.
  * 2. PasswordResetter will store the hash of the password in the Option table.
  *    This is done by {@link initiatePasswordResetProcess()}.
