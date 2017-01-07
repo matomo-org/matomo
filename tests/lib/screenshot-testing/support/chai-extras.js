@@ -188,6 +188,18 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                     console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
                 }
 
+                // remove from failure list if it failed in a try before
+                var failures = [];
+                for (var i = 0; i < app.diffViewerGenerator.failures.length; i++) {
+                    if (app.diffViewerGenerator.failures[i].name == testInfo.name &&
+                        app.diffViewerGenerator.failures[i].baseDirectory == testInfo.baseDirectory) {
+                        app.runner.failures--;
+                        continue;
+                    }
+                    failures.push(app.diffViewerGenerator.failures[i]);
+                }
+                app.diffViewerGenerator.failures = failures;
+
                 done();
             };
 

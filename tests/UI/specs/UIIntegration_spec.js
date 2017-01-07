@@ -94,20 +94,19 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    // random failure here! the 'processed' screenshot displayed in UI test viewer is actually the next processed screenshot
-    //it('should load visitors > visitor log page correctly', function (done) {
-    //    expect.screenshot("visitors_visitorlog").to.be.skippedOnAbort();
-    //    expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
-    //        page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
-    //    }, done);
-    //});
-    //
-    //it('should load visitors with site search > visitor log page correctly', function (done) {
-    //    expect.screenshot("visitors_with_site_search_visitorlog").to.be.skippedOnAbort();
-    //    expect.screenshot("visitors_with_site_search_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
-    //        page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog&period=day&date=2012-01-11");
-    //    }, done);
-    //});
+    it('should load visitors > visitor log page correctly', function (done) {
+        this.retries(3);
+        expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
+        }, done);
+    });
+
+    it('should load visitors with site search > visitor log page correctly', function (done) {
+        this.retries(3);
+        expect.screenshot("visitors_with_site_search_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog&period=day&date=2012-01-11");
+        }, done);
+    });
 
     it('should load the visitors > devices page correctly', function (done) {
         expect.screenshot("visitors_devices").to.be.captureSelector('.pageWrap', function (page) {
@@ -367,12 +366,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // widgetize
     it('should load the widgetized visitor log correctly', function (done) {
+        this.retries(3);
         expect.screenshot('widgetize_visitor_log').to.be.capture(function (page) {
-            expect.screenshot("widgetize_visitor_log").to.be.skippedOnAbort();
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog");
             page.evaluate(function () {
                 $('.expandDataTableFooterDrawer').click();
-            });
+            }, 3000);
         }, done);
     });
 
@@ -380,11 +379,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         this.retries(3);
         expect.screenshot('widgetize_allwebsites').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=MultiSites&actionToWidgetize=standalone");
+            page.wait(1000);
         }, done);
     });
 
     it('should widgetize the ecommerce log correctly', function (done) {
-        expect.screenshot("widgetize_ecommercelog").to.be.skippedOnAbort();
+        this.retries(3);
         expect.screenshot('widgetize_ecommercelog').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Ecommerce&actionToWidgetize=getEcommerceLog&filter_limit=-1");
         }, done);
@@ -411,7 +411,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the ecommerce log page', function (done) {
-        expect.screenshot("ecommerce_log").to.be.skippedOnAbort();
+        this.retries(3);
         expect.screenshot('ecommerce_log').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
         }, done);
@@ -688,59 +688,53 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // extra segment tests
     it('should load the row evolution page correctly when a segment is selected', function (done) {
-        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?module=CustomVariables&action=menuGetCustomVariables&idSite=1&period=year&date=2012-01-13";
-        expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.rowevolution:visible', 'segmented_rowevolution', function (page) {
+        this.retries(3);
+        expect.page().contains('.ui-dialog > .ui-dialog-content > div.rowevolution:visible', /*'segmented_rowevolution',*/ function (page) {
+            var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
+            page.load(url, 1000);
             page.click('.segmentationTitle');
-            page.click('.segname:contains(From Europe)');
+            page.click('.segname:contains(From Europe)', 1000);
 
             page.mouseMove('table.dataTable tbody tr:first-child');
             page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
             page.click('a.actionRowEvolution:visible');
-            page.wait(1000);
+            page.wait(2000);
 
         }, done);
     });
 
     it('should load the segmented visitor log correctly when a segment is selected', function (done) {
         this.retries(3);
-
-        expect.screenshot("segmented_visitorlog").to.be.skippedOnAbort();
-        
-        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
-        expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog:visible', 'segmented_visitorlog', function (page) {
-            page.wait(1000);
-            page.click('.segmentationTitle');
-            page.wait(500);
-            page.click('.segname:contains(From Europe)');
-            page.wait(500);
+        expect.screenshot('segmented_visitorlog').to.be.captureSelector('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog', function (page) {
+            var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
+            page.load(url, 1000);
+            page.evaluate(function(){
+                $('.segmentationTitle').click();
+                $('.segname:contains(From Europe)').click();
+            }, 5000);
             page.mouseMove('table.dataTable tbody tr:first-child');
-            page.wait(500);
-            page.mouseMove('a.actionSegmentVisitorLog:visible'); // necessary to get popover to display
-            page.wait(500);
-            page.click('a.actionSegmentVisitorLog:visible');
-            page.wait(1000);
-
+            page.evaluate(function(){
+                var visitorLogLinkSelector = 'table.dataTable tbody tr:first-child a.actionSegmentVisitorLog';
+                $(visitorLogLinkSelector).click();
+            }, 2000);
         }, done);
     });
 
     it('should not apply current segmented when opening visitor log', function (done) {
         this.retries(3);
 
-        var url = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog&segment=visitCount==2&enableAnimation=0";
-
         delete testEnvironment.queryParamOverride.visitorId;
         testEnvironment.save();
 
         expect.screenshot("visitor_profile_not_segmented").to.be.similar(0.002).to.capture(function (page) {
-            page.load(url);
+            var url = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog&segment=visitCount==2&enableAnimation=0";
+            page.load(url, 1000);
 
             page.evaluate(function () {
                 $('.visitor-log-visitor-profile-link').first().click();
-            });
+            }, 500);
 
-            page.wait(1000);
+            page.wait(2000);
         }, done);
     });
-
-
 });
