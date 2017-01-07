@@ -48,7 +48,7 @@
                             {% if columnId == 'label' %}
                                 {% if rowMetrics[columnId] is defined %}
                                     {% if rowMetadata.logo is defined %}
-                                        <img src='{{ currentPath }}{{ rowMetadata.logo }}'>
+                                        <img width="16px" height="16px" src='{{ currentPath }}{{ rowMetadata.logo }}'>
                                         &nbsp;
                                     {% endif %}
                                     {% if rowMetadata.url is defined %}

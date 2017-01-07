@@ -23,7 +23,7 @@ use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
- * Handles the visitor & his/her actions on the website, saves the data in the DB,
+ * Handles the visitor and their actions on the website, saves the data in the DB,
  * saves information in the cookie, etc.
  *
  * We try to include as little files as possible (no dependency on 3rd party modules).

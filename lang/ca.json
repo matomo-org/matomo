@@ -159,7 +159,6 @@
         "ExportAsImage": "Exportar com a imatge",
         "ExportThisReport": "Guardar aquestes dades en altres formats",
         "Faq": "PMF",
-        "FileIntegrityWarningExplanation": "La verificació de la integritat dels fitxers ha fallat i ha trobat alguns errors. Això segurament és causa de una carrega parcial o incorrecta dels fitxers del Piwik. Haurieu de tornar a pujar tots els fitxers del Piwik en mode BINARY i refrescar aquesta pàgina fins que no mostri errors.",
         "First": "Primer",
         "ForExampleShort": "p.ex.",
         "Forums": "Fòrums",

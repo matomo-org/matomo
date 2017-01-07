@@ -430,7 +430,7 @@ class Report
 
     /**
      * Returns an array of metric documentations and their corresponding translations. Eg
-     * `array('nb_visits' => 'If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after...')`.
+     * `array('nb_visits' => 'If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after...')`.
      * By default the given {@link $metrics} are used and their corresponding translations are looked up automatically.
      * If there is a metric documentation not found, you should add the default metric documentation translation for
      * this metric using the {@hook Metrics.getDefaultMetricDocumentationTranslations} event. If you want to overwrite

@@ -25,6 +25,7 @@
         "InstallationStatus": "Installationstatus",
         "InsufficientPrivilegesHelp": "Du kan tilføje disse rettigheder ved at bruge et værktøj som phpMyAdmin eller ved at udføre de rigtige SQL-forespørgsler. Hvis du ikke ved hvordan man gør, skal du bede din sysadmin til at tildele rettighederne.",
         "InsufficientPrivilegesMain": "Enten eksisterer databasen ikke (og kunne ikke oprettes) eller den angivne bruger har utilstrækkelige privilegier. Databasebrugeren skal have følgende privilegier: %s",
+        "InvalidStateError": "Fejl: Piwik er allerede installeret. %1$s Gå tilbage %2$s til Piwik%3$s.",
         "JsTagArchivingHelp1": "For mellemstore og højt trafikere hjemmesider, er der visse optimeringer, der bør gøres for at hjælpe Piwik til køre hurtigere (såsom %1$soprettelse af auto-arkivering%2$s).",
         "JSTracking_EndNote": "Bemærk: Efter installationen, kan du generere tilpasset sporingskode i %1$sSporingskode%2$s administrator delen.",
         "JSTracking_Intro": "For at spore hjemmeside trafik med Piwik skal du sørge for nogle ekstra kode til hver af hjemmesiderne.",

@@ -16,5 +16,5 @@ function getPluginsLogo($label)
     if ($label == Piwik::translate('General_Others')) {
         return false;
     }
-    return 'plugins/DevicePlugins/images/plugins/' . $label . '.gif';
+    return 'plugins/DevicePlugins/images/plugins/' . $label . '.png';
 }

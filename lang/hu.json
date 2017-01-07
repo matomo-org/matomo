@@ -130,7 +130,6 @@
         "Export": "Export",
         "ExportAsImage": "Exportálás képként",
         "ExportThisReport": "Adatok exportálása más formátumokba",
-        "FileIntegrityWarningExplanation": "A fájlintegritás-ellenőrzés sikertelen volt; néhány hibát jelentve. Ezt nagy valószínűséggel valamelyik Piwik fájl részleges vagy sikertelen feltöltése okozhatta. Kérjük, töltsd fel újra az összes Piwik fájlt BINARY módban és frissítsd ezt a weblapot addig, mindaddig, amíg itt hibaüzenetek jelennek meg.",
         "First": "Első",
         "ForExampleShort": "pl.",
         "FromReferrer": "tól",

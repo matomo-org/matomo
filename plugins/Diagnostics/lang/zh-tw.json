@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "設定檔",
+        "ConfigFileIntroduction": "你可以在這裡查看 Piwik 的配置。如果你在負載平衡的環境中執行 Piwik，頁面可能會根據不同伺服器顯示不同的內容。不同背景顏色的列是和 %1$s 範例檔案中所指定的值不同的設定值。",
+        "HideUnchanged": "如果你只想看有變更過值的設定，你可以%1$s隱藏未修改的值%2$s。",
+        "Sections": "分區"
+    }
+}

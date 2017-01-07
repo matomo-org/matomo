@@ -96,6 +96,10 @@
                             url += '&showtitle=1';
                         }
 
+                        if (broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('token_auth')) {
+                            url += '&token_auth=' + broadcast.getValueFromUrl('token_auth');
+                        }
+
                         url += '&random=' + parseInt(Math.random() * 10000);
 
                         return '?' + url;

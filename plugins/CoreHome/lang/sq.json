@@ -30,7 +30,6 @@
         "InjectedHostWarningIntro": "Po hyni në Piwik që prej %1$s, por Piwik-u qe formësuar të xhirojë në këtë adresë: %2$s.",
         "JavascriptDisabled": "Që të mund të përdorni Piwik-un në parjen standarde duhet të aktivizohet JavaScript-i.<br \/>Por ja që duket se ose JavaScript-i është i çaktivizuar, ose nuk mbulohet nga shfletuesi juaj.<br \/>Që të përdorni parjen standarde, aktivizoni JavaScript-in duke ndryshuar mundësitë përkatëse te shfletuesi juaj, mandej %1$sriprovoni%2$s.<br \/>",
         "MainNavigation": "Lëvizja kryesore",
-        "MakeADifference": "Sillni një ndryshim: %1$sDhuroni tani%2$s që të financohet Piwik 3.0!",
         "MakeOneTimeDonation": "Ose bëni një dhurim njëherësh.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Jeni i futur si '%1$s' por duket se s’keni leje të rregulluara për ju në Piwik. %2$s Kërkojini administratorit tuaj te Piwik (klikoni që t’i dërgoni email)%3$s që t’ju japë të drejta 'parjesh' te një sajt.",

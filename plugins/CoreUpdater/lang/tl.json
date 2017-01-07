@@ -39,6 +39,7 @@
         "TheFollowingDimensionsWillBeUpgradedX": "Ang sumusunod na dimensyon ay i-uupdate: %s",
         "ThereIsNewPluginVersionAvailableForUpdate": "Ang ilang mga plugin na iyong ginamit ay na-update sa Marketplace.",
         "ThereIsNewVersionAvailableForUpdate": "Mayroong bagong bersyon ng Piwik na available para sa pag-update",
+        "TheUpgradeProcessMayFailExecuteCommand": "Kung mayroon kang isang malaking Piwik database ang pag-uupdate ay maaring maging matagal sa browser. Sa ganitong sitwasyon maari kang gumamit ng command line upang makapag update: %s",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Ang proseso ng pag-upgrade ng database ay maaaring matagalan kaya mangyaring maging mapagpasensya.",
         "UnpackingTheUpdate": "Pag-unpack sa update",
         "UpdateAutomatically": "Awtomatikong update",

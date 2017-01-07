@@ -440,7 +440,11 @@ class API extends \Piwik\Plugin\API
                 $totals[$label] = 0;
             }
 
-            foreach ($dataTable->getRows() as $row) {
+            $rows = $dataTable->getRows();
+
+            $rows = $this->filterRowsForTotalsCalculation($rows);
+
+            foreach ($rows as $row) {
                 foreach ($apiMetrics as $totalMetadataName => $recordName) {
                     $totals[$totalMetadataName] += $row->getColumn($recordName);
                 }
@@ -462,12 +466,43 @@ class API extends \Piwik\Plugin\API
             $total  = 0;
             $metric = 'nb_visits';
 
-            foreach ($pastTable->getRows() as $row) {
+            $rows = $pastTable->getRows();
+            $rows = $this->filterRowsForTotalsCalculation($rows);
+
+            foreach ($rows as $row) {
                 $total += $row->getColumn($metric);
             }
 
             $dataTable->setMetadata(self::getTotalMetadataName($metric . '_lastdate'), $total);
         }
+    }
+
+    /**
+     * @param Row[] $rows
+     * @return mixed
+     */
+    private function filterRowsForTotalsCalculation($rows)
+    {
+        /**
+         * Triggered to filter / restrict which rows should be included in the MultiSites (All Websites Dashboard)
+         * totals calculation
+         *
+         * **Example**
+         *
+         *     public function filterMultiSitesRows(&$rows)
+         *     {
+         *         foreach ($rows as $index => $row) {
+         *             if ($row->getColumn('label') === 5) {
+         *                 unset($rows[$index]); // remove idSite 5 from totals
+         *             }
+         *         }
+         *     }
+         *
+         * @param Row[] &$rows An array containing rows, one row for each site. The label columns equals the idSite.
+         */
+        Piwik::postEvent('MultiSites.filterRowsForTotalsCalculation', array(&$rows));
+
+        return $rows;
     }
 
     private static function getTotalMetadataName($name)

@@ -1,8 +1,11 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "這個外掛提供訪客地圖和即時地圖外掛。注意：需要啟用 UserCountry 外掛。",
+        "AndNOthers": "和其他 %s 人",
         "Cities": "城市",
         "Countries": "國家",
         "DaysAgo": "%s 天前",
+        "GoalConversions": "%s 個目標轉換",
         "HoursAgo": "%s 小時前",
         "map": "地圖",
         "MinutesAgo": "%s 分前",

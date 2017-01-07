@@ -124,7 +124,7 @@ class Visitor implements VisitorInterface
 
     /**
      * Removes fields that are not meant to be displayed (md5 config hash)
-     * Or that the user should only access if he is Super User or admin (cookie, IP)
+     * Or that the user should only access if they are Super User or admin (cookie, IP)
      *
      * @param array $visitorDetails
      * @return array
@@ -158,7 +158,7 @@ class Visitor implements VisitorInterface
         //       ==> also update API/API.php getSuggestedValuesForSegment(), the $segmentsNeedActionsInfo array
 
         // flatten visit custom variables
-        if (!empty($visitorDetailsArray['customVariables']) 
+        if (!empty($visitorDetailsArray['customVariables'])
             && is_array($visitorDetailsArray['customVariables'])) {
             foreach ($visitorDetailsArray['customVariables'] as $thisCustomVar) {
                 $visitorDetailsArray = array_merge($visitorDetailsArray, $thisCustomVar);

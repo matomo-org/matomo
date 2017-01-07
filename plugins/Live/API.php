@@ -187,7 +187,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns an array describing a visitor using her last visits (uses a maximum of 100).
+     * Returns an array describing a visitor using their last visits (uses a maximum of 100).
      *
      * @param int $idSite Site ID
      * @param bool|false|string $visitorId The ID of the visitor whose profile to retrieve.

@@ -136,7 +136,6 @@
         "ExportAsImage": "Izvezi kao sliku",
         "ExportThisReport": "Izvezi ovaj zbir podataka u drugim oblicima",
         "Faq": "ČPP",
-        "FileIntegrityWarningExplanation": "Provjera integriteta datoteke nije uspjela i prijavila je određene greške. Najvjerojatniji razlog je nepotpuno ili neuspjelo slanje nekih Piwik datoteka. Pošaljite nanovo sve Piwik datoteke na poslužitelj koristeći BINARY način slanja i osvježite ovu stranicu dok se greške ne otklone.",
         "First": "Početak",
         "ForExampleShort": "npr.",
         "FromReferrer": "od",

@@ -129,7 +129,6 @@
         "ExportAsImage": "Exportiraj kao sliku",
         "ExportThisReport": "Exportiraj skup podataka u drugim formatima",
         "Faq": "Pitanja",
-        "FileIntegrityWarningExplanation": "Provjera integracije fajlova je zaustavljena i reportirala neke greške. Ovo je najvjerovatnije zbog neuspješnog uploada svih fajlova. Trebali biste uploadati sve fajlove ponovo u BINARY modu i osvježiti stranicu.",
         "First": "Prvo",
         "ForExampleShort": "npr.",
         "FromReferrer": "iz",

@@ -36,6 +36,7 @@
         "HelpExcludedIps": "Ipasok ang mga listahan ng IP isa bawat linya na gusto mong ibukod mula pagsusubay-bay ng Piwik. Maa-ari kang gumamit ng mga wildcard hal. %1$s o %2$s",
         "JsTrackingTagHelp": "Narito ang JavaScript Tracking code upang isama sa lahat ng iyong pahina",
         "KeepURLFragments": "Pag track sa mga fragments ng pahina ng URL",
+        "KeepURLFragmentsHelp": "Kung ang checkbox sa ibaba ay naka-uncheck Page URL fragments (lahat pagkatapos ng %1$s) ay aalisin kapag itoy nakita: %2$s ay susubaybayan bilang %3$s",
         "KeepURLFragmentsHelp2": "Maaari mo ring i-override ang setting na ito para sa indibidwal na mga website sa itaas.",
         "KeepURLFragmentsLong": "Panatilihin ang mga detalye ng Page URL kapag naghahanap ng mga Page URL",
         "ListOfIpsToBeExcludedOnAllWebsites": "Ang IP sa ibaba ay hindi isasama sa sinusubaybayan sa lahat ng mga website.",

@@ -111,7 +111,6 @@
         "ExportAsImage": "Eksportuoti kaip paveikslėlį",
         "ExportThisReport": "Eksportuoti šį duomenų rinkinį kitu formatu",
         "Faq": "DUK",
-        "FileIntegrityWarningExplanation": "Failo vientisumo patikra nutraukta ir pateikiama klaidų ataskaita. Tikėtina, jog tai įtakoja nepilnas arba nutrauktas Piwik failų įkėlimas į serverį. Prašome pabandyti pakartotinai perkelti Piwik failus ir atnaujinti šį puslapį kol nebebus rodomi klaidų pranešimai.",
         "First": "Pirmas",
         "ForExampleShort": "pvz.",
         "FromReferrer": "nuo",

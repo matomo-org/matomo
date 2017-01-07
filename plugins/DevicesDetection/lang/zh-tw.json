@@ -37,7 +37,7 @@
         "Tablet": "平板電腦",
         "Phablet": "平板手機",
         "TV": "電視",
-        "UserAgent": "User-Agent",
+        "UserAgent": "User Agent",
         "WidgetBrowsers": "訪客瀏覽器",
         "WidgetBrowsersDocumentation": "這份報表包含訪客所使用的瀏覽器資訊。每個瀏覽器的版本都會分開排列。"
     }

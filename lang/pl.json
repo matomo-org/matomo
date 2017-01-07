@@ -155,7 +155,6 @@
         "ExportAsImage": "Eksport jako obraz",
         "ExportThisReport": "Eksport danych w innych formatach",
         "Faq": "FAQ",
-        "FileIntegrityWarningExplanation": "Weryfikacja integralności plików nie powiodła się i odnotowano pewne błędy. Jest to spowodowane najczęściej brakiem lub częściowym przesłaniem plików należących do Piwik. Należy ponowić wgranie wszystkich plików Piwik w trybie BINARNYM i odświeżyć wyświetlanie tej strony do czasu aż znikną wyświetlane błędy.",
         "First": "Pierwszy",
         "Flatten": "Płaski",
         "ForExampleShort": "np.",

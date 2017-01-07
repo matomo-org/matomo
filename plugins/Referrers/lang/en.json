@@ -10,7 +10,7 @@
         "ColumnWebsite": "Website",
         "ColumnWebsitePage": "Website Page",
         "DirectEntry": "Direct Entry",
-        "DirectEntryDocumentation": "A visitor has entered the URL in his browser and started browsing on your website - he entered the website directly.",
+        "DirectEntryDocumentation": "A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.",
         "Distinct": "Distinct Referrers by Referrer Type",
         "DistinctCampaigns": "distinct campaigns",
         "DistinctKeywords": "distinct keywords",

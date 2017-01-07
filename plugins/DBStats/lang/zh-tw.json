@@ -2,12 +2,20 @@
     "DBStats": {
         "DatabaseUsage": "資料庫使用狀況",
         "DataSize": "資料大小",
-        "DBSize": "資料庫容量",
+        "DBSize": "資料庫大小",
+        "EstimatedSize": "預估大小",
         "IndexSize": "索引大小",
-        "LearnMore": "瞭解更多關於 Piwik 如何處理數據以及使 Piwik 在中高流量的網站上運作得宜，請查閱說明文件 %s。",
-        "MainDescription": "Piwik 儲存所有你的網站分析資料於 MySQL 資料庫中。目前， Piwik 資料表已經使用了 %s。",
+        "LearnMore": "要了解更多關於 Piwik 如何處理數據以及使 Piwik 在中高流量的網站上運作得宜，請查看說明文件 %s。",
+        "MainDescription": "Piwik 將你所有你的網站分析資料儲存於 MySQL 資料庫中。目前， Piwik 資料表已經使用了 %s。",
+        "MetricDataByYear": "年度數據資料表",
+        "MetricTables": "數據資料表",
+        "OtherTables": "其他資料表",
+        "PluginDescription": "提供 MySQL 資料庫詳細的使用情況報表。超級使用者可於診斷功能中查看。",
+        "ReportDataByYear": "年度報表資料表",
+        "ReportTables": "報表資料表",
         "RowCount": "資料列計數",
-        "Table": "表格",
-        "TotalSize": "總容量"
+        "Table": "資料表",
+        "TotalSize": "總大小",
+        "TrackerTables": "追蹤資料表"
     }
 }
