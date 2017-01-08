@@ -115,7 +115,7 @@ class PluginsArchiver
                 continue;
             }
 
-            if (!$forceArchivingWithoutVisits && !$visits && !$archiver->shouldRunWithoutVisits()) {
+            if (!$forceArchivingWithoutVisits && !$visits && !$archiver->shouldRunEvenWhenNoVisits()) {
                 Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s' (no visits).", __FUNCTION__, $pluginName);
                 continue;
             }
@@ -174,7 +174,7 @@ class PluginsArchiver
         $archivers = static::getPluginArchivers();
 
         foreach ($archivers as $pluginName => $archiverClass) {
-            if ($archiverClass::shouldRunWithoutVisits()) {
+            if ($archiverClass::shouldRunEvenWhenNoVisits()) {
                 return true;
             }
         }

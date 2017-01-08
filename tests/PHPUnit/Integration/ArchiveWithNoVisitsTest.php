@@ -32,7 +32,7 @@ class ArchiveWithNoVisitsTest_MockArchiver extends Archiver
         self::$methodsCalled[] = 'aggregateMultipleReports';
     }
 
-    public static function shouldRunWithoutVisits()
+    public static function shouldRunEvenWhenNoVisits()
     {
         return self::$runWithoutVisits;
     }
