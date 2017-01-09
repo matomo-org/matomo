@@ -101,7 +101,8 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         $queryParams = array(
             'idSite'  => self::$fixture->idSite,
             'date'    => self::$fixture->dateTime,
-            'period'  => 'month'
+            'period'  => 'month',
+            'hideColumns' => 'sum_visit_length' // for unknown reasons this field is different in MySQLI only for this system test
         );
 
         // we need to manually reload the translations since they get reset for some reason in IntegrationTestCase::tearDown();
