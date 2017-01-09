@@ -66,6 +66,7 @@ describe("ActionsDataTable", function () {
     });
 
     it("should generate a proper title for the visitor log segmented by the current row", function (done) {
+        this.retries(3);
         expect.screenshot('segmented_visitor_log_hover').to.be.capture(function (page) {
             var row = 'tr:contains("thankyou") ';
             page.mouseMove(row + 'td.column:first');

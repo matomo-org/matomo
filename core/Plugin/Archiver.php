@@ -141,4 +141,16 @@ abstract class Archiver
     {
         return $this->enabled;
     }
+
+    /**
+     * By overwriting this method and returning true, a plugin archiver can force the archiving to run even when there
+     * was no visit for the website/date/period/segment combination
+     * (by default, archivers are skipped when there is no visit).
+     *
+     * @return bool
+     */
+    public static function shouldRunEvenWhenNoVisits()
+    {
+        return false;
+    }
 }

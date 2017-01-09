@@ -111,7 +111,7 @@ class Get extends \Piwik\Plugin\Report
                     $firstRow->setColumn('avg_time_generation', $avgGenerationTime);
                 }
 
-                $numberMetrics = array('nb_visits', 'nb_uniq_visitors', 'nb_uniq_visitors', 'nb_users', 'nb_actions',
+                $numberMetrics = array('nb_visits', 'nb_uniq_visitors', 'nb_users', 'nb_actions',
                                        'nb_pageviews', 'nb_uniq_pageviews', 'nb_searches', 'nb_keywords', 'nb_downloads',
                                        'nb_uniq_downloads', 'nb_outlinks', 'nb_uniq_outlinks', 'max_actions');
                 foreach ($numberMetrics as $metric) {
