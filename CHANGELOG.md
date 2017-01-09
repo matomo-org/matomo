@@ -7,7 +7,9 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ## Piwik 3.0.1
 
 ### New APIs
+* Live API responses now return a new field ‘generationTimeMilliseconds’ (the generation time for this page, in milliseconds) which is internally used to process the Average generation time in the [Visitor Profile](http://piwik.org/docs/user-profile/)
 * Added new event `MultiSites.filterRowsForTotalsCalculation` to filter which sites will be included in the All Websites Dashboard totals calculation.
+* The method `Piwik\Plugin\Archiver::shouldRunEvenWhenNoVisits()` has been added. By overwriting this method and returning true, a plugin archiver can force the archiving to run even when there was no visit for the website/date/period/segment combination (by default, archivers are skipped when there is no visit).
 
 ## Piwik 3.0.0
 
@@ -44,7 +46,6 @@ If the tracker is not initialised correctly, the browser console will display th
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no longer possible to define an introduction text for settings.
 * If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
-* The method `Piwik\Plugin\Archiver::shouldRunEvenWhenNoVisits()` has been added. By overwriting this method and returning true, a plugin archiver can force the archiving to run even when there was no visit for the website/date/period/segment combination (by default, archivers are skipped when there is no visit).
 * The following deprecated events have been removed as mentioned.
  * `Tracker.existingVisitInformation` Use [dimensions](http://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
  * `Tracker.newVisitorInformation`
