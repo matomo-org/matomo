@@ -885,16 +885,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.0.3",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/piwik-php-tracker.git",
-                "reference": "eb4df1e223d4b377d06785c9b5fb3723d16d4465"
+                "reference": "41dd1c03a5c324e3791b9ca82c092337dc3a0cdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/eb4df1e223d4b377d06785c9b5fb3723d16d4465",
-                "reference": "eb4df1e223d4b377d06785c9b5fb3723d16d4465",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/41dd1c03a5c324e3791b9ca82c092337dc3a0cdf",
+                "reference": "41dd1c03a5c324e3791b9ca82c092337dc3a0cdf",
                 "shasum": ""
             },
             "type": "library",
@@ -921,20 +921,20 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2016-07-13 05:26:45"
+            "time": "2016-12-27 09:41:03"
         },
         {
             "name": "piwik/referrer-spam-blacklist",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/referrer-spam-blacklist.git",
-                "reference": "58ecaaf7aced82ddbcc9339e1fc9e7fe9e996eb8"
+                "reference": "bf001c4e2bba063d5f13e714047c4822a975371a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/58ecaaf7aced82ddbcc9339e1fc9e7fe9e996eb8",
-                "reference": "58ecaaf7aced82ddbcc9339e1fc9e7fe9e996eb8",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/bf001c4e2bba063d5f13e714047c4822a975371a",
+                "reference": "bf001c4e2bba063d5f13e714047c4822a975371a",
                 "shasum": ""
             },
             "type": "library",
@@ -943,7 +943,7 @@
                 "Public Domain"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2016-09-28 16:10:53"
+            "time": "2017-01-03 21:55:42"
         },
         {
             "name": "piwik/searchengine-and-social-list",
