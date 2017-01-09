@@ -633,28 +633,39 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 continue;
             }
 
-            $rowsSql = array();
-            $bind = array();
             foreach ($rows as $row) {
+                $rowsSql = array();
+                $bind = array();
+
                 $values = array();
                 foreach ($row as $value) {
                     if (is_null($value)) {
                         $values[] = 'NULL';
-                    } else if (is_numeric($value)) {
-                        $values[] = $value;
-                    } else if (!ctype_print($value)) {
-                        $values[] = "x'" . bin2hex($value) . "'";
                     } else {
-                        $values[] = "?";
-                        $bind[] = $value;
+                        $isNumeric = preg_match('/^[1-9][0-9]*$/', $value);
+                        if ($isNumeric) {
+                            $values[] = $value;
+                        } else if (!ctype_print($value)) {
+                            $values[] = "x'" . bin2hex($value) . "'";
+                        } else {
+                            $values[] = "?";
+                            $bind[] = $value;
+                        }
                     }
                 }
 
                 $rowsSql[] = "(" . implode(',', $values) . ")";
+
+                $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
+                try {
+                    Db::query($sql, $bind);
+                } catch( Exception $e) {
+                    throw new Exception("error while inserting $sql into $table the data. SQl data: " . var_export($sql, true) . ", Bind array: " . var_export($bind, true) . ". Erorr was -> " . $e->getMessage());
+                }
+
             }
 
-            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
-            Db::query($sql, $bind);
+
         }
     }
 
