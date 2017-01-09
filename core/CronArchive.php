@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
 use Piwik\Container\StaticContainer;
@@ -816,9 +817,11 @@ class CronArchive
         $this->requests++;
         $this->processed++;
 
+        $shouldArchiveWithoutVisits = PluginsArchiver::doesAnyPluginArchiveWithoutVisits();
+
         // If there is no visit today and we don't need to process this website, we can skip remaining archives
         if (
-            0 == $visitsToday
+            0 == $visitsToday && !$shouldArchiveWithoutVisits
             && !$shouldArchivePeriods
         ) {
             $this->logger->info("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
@@ -827,7 +830,7 @@ class CronArchive
             return false;
         }
 
-        if (0 == $visitsLastDays
+        if (0 == $visitsLastDays && !$shouldArchiveWithoutVisits
             && !$shouldArchivePeriods
             && $this->shouldArchiveAllSites
         ) {
