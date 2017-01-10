@@ -3303,6 +3303,9 @@ if (typeof window.Piwik !== 'object') {
                     aliasHost = domainFixup(configHostsAlias[i]);
                     aliasPath = getPathName(configHostsAlias[i]);
 
+                    if(stringStartsWith(path, '/') && !stringStartsWith(aliasPath, '/')) {
+                        aliasPath = '/' + aliasPath;
+                    }
                     if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
                         return true;
                     }
