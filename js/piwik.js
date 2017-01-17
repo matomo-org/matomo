@@ -1468,6 +1468,50 @@ if (typeof window.Piwik !== 'object') {
             return matches ? matches[1] : url;
         }
 
+        function removeParameter(url, name) {
+            if (url.indexOf(name + '=') === -1) {
+                // nothing to remove
+                return url;
+            }
+
+            url = String(url);
+
+            var searchPos = url.indexOf('?');
+            var baseUrl = url;
+            var urlHash = '';
+
+            var queryString = '';
+            if (searchPos !== -1) {
+                queryString = url.substr(searchPos + 1);
+                baseUrl = url.substr(0, searchPos);
+            }
+
+            if (queryString) {
+                var hashPos = queryString.indexOf('#');
+                if (hashPos !== -1) {
+                    queryString = url.substr(0, hashPos);
+                    urlHash = url.substr(hashPos + 1);
+                }
+
+                var param;
+                var paramsArr = queryString.split('&');
+
+                for (var i = paramsArr.length - 1; i >= 0; i--) {
+                    param = paramsArr[i].split('=')[0];
+                    if (param === name) {
+                        paramsArr.splice(i, 1);
+                    }
+                }
+
+                baseUrl = baseUrl + '?' + paramsArr.join('&');
+
+                if (urlHash) {
+                    baseUrl += '#' + urlHash;
+                }
+            }
+
+            return baseUrl;
+        }
         /*
          * Extract parameter from URL
          */
@@ -2983,6 +3027,9 @@ if (typeof window.Piwik !== 'object') {
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
+                configVisitorIdUrlParameter = 'pk_vid',
+                configVisitorTimestampParameter = 'pk_vts',
+
                 // First-party cookie domain
                 // User agent defaults to origin hostname
                 configCookieDomain,
@@ -3056,6 +3103,7 @@ if (typeof window.Piwik !== 'object') {
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
                 linkTrackingEnabled = false,
+                crossDomainTrackingEnabled = false,
 
                 // Guard against installing the activity tracker more than once per Tracker instance
                 heartBeatSetUp = false,
@@ -3135,6 +3183,10 @@ if (typeof window.Piwik !== 'object') {
              */
             function purify(url) {
                 var targetPattern;
+
+                // these parameters wouldn't be removed for eg outlinks otherwise in Piwik tracker
+                url = removeParameter(url, configVisitorIdUrlParameter);
+                url = removeParameter(url, configVisitorTimestampParameter);
 
                 if (configDiscardHashTag) {
                     targetPattern = new RegExp('#.*');
@@ -3647,10 +3699,30 @@ if (typeof window.Piwik !== 'object') {
                 ).slice(0, 16);
             }
 
+            function getVisitorIdFromUrlParam() {
+                var visitorId = getParameter(locationHrefAlias, configVisitorIdUrlParameter);
+                var visitorTimestamp = getParameter(locationHrefAlias, configVisitorTimestampParameter);
+
+                if (visitorId && String(visitorId).length == 16 && visitorTimestamp) {
+                    var currentTimestamp = (new Date()).getTime();
+                    var timeoutTimestampInSeconds = 30;
+                    if (currentTimestamp <= (visitorTimestamp + timeoutTimestampInSeconds)) {
+                        return visitorId;
+                    }
+                }
+
+                return '';
+            }
+
             /*
              * Load visitor ID cookie
              */
             function loadVisitorIdCookie() {
+
+                if (!visitorUUID) {
+                    visitorUUID = getVisitorIdFromUrlParam();
+                }
+
                 var now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
                     visitorIdCookieName = getCookieName('id'),
@@ -4860,11 +4932,60 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
+            function replaceCrossDomainLink(sourceElement)
+            {
+                var link = sourceElement.href;
+
+                if (link.indexOf(configVisitorIdUrlParameter) > 0 && link.indexOf(configVisitorTimestampParameter) > 0) {
+                    return;
+                }
+
+                if (link.indexOf('?') > 0) {
+                    link += '&';
+                } else {
+                    link += '?'
+                }
+
+                link += configVisitorIdUrlParameter + '=' + visitorUUID + '&' + configVisitorTimestampParameter + '=' + (new Date().getTime());
+
+                sourceElement.href = link;
+            }
+
+            function isLinkToDifferentDomainButSameSite(element)
+            {
+                var targetLink = element.href;
+                if (targetLink.indexOf('//') === 0
+                    || targetLink.indexOf('http://') === 0
+                    || targetLink.indexOf('https://') === 0) {
+
+                    var originalSourcePath = element.pathname || getPathName(element.href);
+
+                    // browsers, such as Safari, don't downcase hostname and href
+                    var originalSourceHostName = element.hostname || getHostName(element.href);
+                    var sourceHostName = originalSourceHostName.toLowerCase();
+                    if (isSiteHostPath(sourceHostName, originalSourcePath)) {
+                        if (!isSiteHostName(sourceHostName)) {
+                            return true;
+                        }
+
+                        return false;
+                    }
+
+                    return false;
+                }
+
+                return false;
+            }
+
             /*
              * Process clicks
              */
             function processClick(sourceElement) {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
+
+                if (crossDomainTrackingEnabled && link.type === 'link' && isLinkToDifferentDomainButSameSite(sourceElement)) {
+                    replaceCrossDomainLink(sourceElement);
+                }
 
                 if (link && link.type) {
                     link.href = safeDecodeWrapper(link.href);
@@ -4990,6 +5111,30 @@ if (typeof window.Piwik !== 'object') {
                 };
             }
 
+            function crossDomainClickHandler(enable) {
+
+                return function (event) {
+                    if (!crossDomainTrackingEnabled) {
+                        return;
+                    }
+return;
+                    event = event || windowAlias.event;
+console.log(event.type);
+                    var link = getLinkIfShouldBeProcessed(target);
+                    if (!link || link.type !== 'link') {
+                        return;
+                    }
+
+                    var target = getTargetElementFromEvent(event);
+
+                    if (!isLinkToDifferentDomainButSameSite(target.href)) {
+                        return;
+                    }
+
+                    replaceCrossDomainLink(target);
+                };
+            }
+
             /*
              * Add click listener to a DOM element
              */
@@ -5000,6 +5145,8 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 addEventListener(element, 'click', clickHandler(enable), false);
+                // we cannot re-use other click handlers because useCapture = false and it is too late to change link then
+ //               addEventListener(element, 'mousedown', crossDomainClickHandler(enable), true);
 
                 if (enable) {
                     addEventListener(element, 'mouseup', clickHandler(enable), false);
@@ -5748,6 +5895,14 @@ if (typeof window.Piwik !== 'object') {
                      */
                     configHostsAlias.push(domainAlias);
                 }
+            };
+
+            this.enableCrossDomainLinking = function () {
+                crossDomainTrackingEnabled = true;
+            };
+
+            this.diableCrossDomainLinking = function () {
+                crossDomainTrackingEnabled = false;
             };
 
             /**
