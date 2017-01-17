@@ -261,7 +261,6 @@ class FileIntegrity
         }
         $directories = array_unique($directories);
         return $directories;
-
     }
 
     protected static function getPluginsFoundInManifest()
