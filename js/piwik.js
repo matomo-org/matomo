@@ -3528,7 +3528,7 @@ if (typeof window.Piwik !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        if (configRequestMethod === 'POST') {
+                        if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
                             getImage(request, callback);
