@@ -2,6 +2,8 @@
     "MobileMessaging": {
         "PhoneNumbers": "Telefoninumbrid",
         "Settings_APIKey": "API võti",
+        "Settings_CountryCode": "Riigikood",
+        "Settings_SelectCountry": "Vali riik",
         "Settings_CredentialNotProvided": "Enne kui saad luua ja hallata telefoninumbreid, palun ühenda Piwik oma SMS kontoga ülal.",
         "Settings_CredentialNotProvidedByAdmin": "Enne kui saad luua ja hallata telefoninumbreid, palu Piwiku haldajal luua ühendus SMS kontoga.",
         "Settings_CredentialProvided": "Sinu %s SMS API konto on korrektselt seadistatud!",

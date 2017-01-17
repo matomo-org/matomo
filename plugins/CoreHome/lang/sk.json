@@ -1,20 +1,25 @@
 {
     "CoreHome": {
         "CategoryNoData": "Pre túto kategóriu nie sú dáta. Skúste použiť „Vrátane celej populácie“.",
+        "ChangeVisualization": "Zmeniť zobrazenie",
         "CheckForUpdates": "Skontrolovať aktualizácie",
         "CheckPiwikOut": "Vyskúšajte Piwik!",
         "ClickToEditX": "Kliknite pre editovanie %s",
+        "ClickToSeeFullInformation": "Klinite pre viac informácií.",
+        "CloseSearch": "Zavrieť vyhľadávanie",
         "CloseWidgetDirections": "Túto miniaplikáciu môžete zavrieť kliknutím na ikonu 'X' navrchu.",
+        "ChooseX": "Vyberte %1$s",
         "DataForThisReportHasBeenPurged": "Dáta pre tento report sú viac ako %s mesiacov staré a boli zmazané.",
         "DataTableExcludeAggregateRows": "Súhrnné riadky sú zobrazené %s Schovať ich",
         "DataTableIncludeAggregateRows": "Súhrnné riadky sú schované %s Zobraziť ich",
+        "DataTableHowToSearch": "Stlačte enter alebo kliknite na ikonu hľadania pre vyhľadávanie",
         "Default": "Prednastavené",
         "DonateCall1": "Používanie projektu Piwik Vás nebude nikdy nič stáť, ale to neznamená, že jeho vývoj nič nestojí.",
         "DonateCall2": "Piwik potrebuje Vašu neustálu podporu aby rástol a prospieval.",
         "DonateFormInstructions": "Kliknite na bežec a vyberte hodnotu, potom kliknite na subscribe -prispieť- pre finančnú podporu.",
         "ExcludeRowsWithLowPopulation": "Všetky riadky sú zobrazené %s Vylúčiť nízku populáciu",
         "ExternalHelp": "Nápoveda (otvorí sa nová tabuľka)",
-        "FlattenDataTable": "Report je hierarchický %s Urobiť ho jednotný",
+        "FlattenDataTable": "Report je hierarchický %s Urobiť ho plochý",
         "HowMuchIsPiwikWorth": "Ako veľmi je Piwik pre Vás cenný?",
         "IncludeRowsWithLowPopulation": "Riadky s nízkou populáciou sú skryté %s Zobraziť všetky riadky",
         "InjectedHostEmailBody": "Hello, dnes som sa pokúšal vstúpiť do Piwiku ale objavilo sa neznáme hostname varovanie.",
@@ -23,6 +28,7 @@
         "InjectedHostSuperUserWarning": "Piwik môže byť zle nakonfigurovaný (napr., ak bol práve Piwik presunutý na nový server alebo URL). Môžete buďto %1$s kliknúť sem a pridať %2$s ako platné Piwik hostname (ak tomu dôverujete)%3$s, alebo %4$s kliknúť sem a vsúpiť %5$s do Piwiku bezpečne%6$s.",
         "InjectedHostWarningIntro": "Práve vstupujete do Piwiku z %1$s, ale Piwik bol nakonfigurovaný aby bežal na tejto adrese: %2$s.",
         "JavascriptDisabled": "JavaScript musí byť povolený za účelom používania Piwiku v štandardnom prezeraní.<br \/> Ale vyzerá to tak, že JavaScript je buďto vypnutý alebo nie je podporovaný Vašim perhliadačom.<br \/> Pre štandardné prezeranie zmente nastavenia Vášho prehliadača a povoľte JavaScript , potom %1$s skúste znova%2$s.<br \/>",
+        "MainNavigation": "Hlavná navigácia",
         "MakeOneTimeDonation": "Jednorázovo finančne podporiť.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Ste prihlásený ako '%1$s' ale vyzerá to tak , že nemáte žiadne povolenie do Piwiku. %2$s Spýtajte sa Vášho Piwik administrátora (Kliknite pre email)%3$s aby Vám dal 'prezerací' prístup na webstránku.",
@@ -45,6 +51,7 @@
         "YouAreUsingTheLatestVersion": "Používate najnovšiu verziu Piwiku!",
         "ClickRowToExpandOrContract": "Kliknite na tento riadok pre rozvinutie alebo zbalenie podtabuľky.",
         "UndoPivotBySubtable": "Tento report bol pivotovaný %s Naspäť pivot",
+        "NoSuchPage": "Táto stránka neexistuje",
         "PivotBySubtable": "Tento report nebol pivotovaný %1$s Pivotovať podľa %2$s"
     }
 }

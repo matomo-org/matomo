@@ -45,6 +45,7 @@
         "JSTracking_VisitorCustomVarsDesc": "Například se jménem \"Typ\" a hodnotou \"zákazník\".",
         "JSTrackingIntro1": "Návštěvníky vašich stránek můžete sledovat mnoha způsoby. Doporučená metoda je pomocí javascriptu. Aby to bylo možné, každá z vašich stránek musí mít javascriptový kód, který můžete vygenerovat zde,",
         "JSTrackingIntro2": "Až budete mít sledovací javascriptový kód, vložte ho do všech stránek, které mají být Piwikem sledovány.",
+        "JSTrackingIntro3b": "Ve většině případů webových stránek, blogů, CMS, atd. můžete použít již připravený zásuvný modul, který zařídí technické detaily za vás. (Podívejte se na náš %1$sseznam integračních zásuvných modulů Piwiku%2$s.) Pokud zásuvný modul neexistuje, můžete upravit šablony vašich webových stránek přidat tento kód do tagu &lt;\/head&gt;, který je často definován v 'header.php', 'header.tpl' nebo podobném souboru s šablonou.",
         "JSTrackingIntro4": "Pokud nechcete ke sledování návštěvníků použít javascript, %1$svygenerujte obrázkový sledovací tag níže%2$s.",
         "JSTrackingIntro5": "Pokud chcete ne jen sledovat zobrazení stránek, podívejte se na %1$sdokumentaci javascriptového sledování%2$s, kde naleznete seznam dostupných funkcí. S použitím těchto funkcí můžete sledovat cíle, vlastní proměnné, objednávky v e-obchodech, opuštěné košíky a mnoho dalšího.",
         "LogoNotWriteableInstruction": "Pokud chcete místo výcchozího loga použít vlastní, je nutné, abyste měli práva k zápisu adresáře %1$s. Piwik potřebuje práva k zápisu log umístěných v souborech %2$s.",

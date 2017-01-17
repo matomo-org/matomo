@@ -15,6 +15,7 @@
         "ChangeYourPassword": "パスワードを変更してください",
         "MailPasswordChangeBody": "こんにちは、%1$s\n\nパスワードリセット要求が %2$s から受信されました。このパスワードの変更を確認して新しい資格情報でログインできるようにするには、次のリンクにアクセスしてください：\n\n%3$s\n\n注意：パスワードを変更すると、token_auth も変更されます。設定ページであなたの新しいtoken_auth を調べることができます。\n\n外部アプリケーションで API token_auth を使用している場合、またはアーカイブする場合は、token_auth を更新してください。そうでない場合は、API へのリクエストが失敗します。\n\n注：このリンクは24時間後に有効期限が切れます。\n\nPiwik のご利用、ありがとうございます！",
         "MailTopicPasswordChange": "パスワード変更の確認",
+        "NewPassword": "新しいパスワード",
         "NewPasswordRepeat": "新しいパスワード ( 再入力 )",
         "PasswordChanged": "パスワードが変更されました。",
         "PasswordRepeat": "パスワード（再入力）",

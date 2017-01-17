@@ -15,8 +15,11 @@
         "PreviousVisitor": "Predchádzajúci návštevník",
         "RealTimeVisitorCount": "Sledovanie návštev v reálnom čase",
         "Referrer_URL": "Referenčné URL",
+        "ShowMap": "zobraziť mapu",
         "SimpleRealTimeWidget_Message": "%1$s a %2$s v posledných %3$s",
+        "VisitedPages": "Navštívené stránky",
         "VisitorLog": "Záznam návštevníka",
+        "VisitorProfile": "Profil užívateľa",
         "VisitorsInRealTime": "Návštevníci v reálnom čase"
     }
 }

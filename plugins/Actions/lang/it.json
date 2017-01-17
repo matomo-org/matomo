@@ -18,6 +18,7 @@
         "ColumnSearchCategory": "Categoria di Ricerca",
         "ColumnSearches": "Ricerche",
         "ColumnSearchesDocumentation": "Il numero di visite che hanno ricercato questa parola chiave sul motore di ricerca del vostro sito.",
+        "ColumnSearchExits": "%% Esiti Ricerca",
         "ColumnSearchExitsDocumentation": "La percentuale di visite che hanno lasciato il sito dopo aver ricercato questa parola chiave sul motore di ricerca del vostro sito.",
         "ColumnSearchResultsCount": "Numero risultati di ricerca",
         "ColumnSiteSearchKeywords": "Parole chiave uniche",

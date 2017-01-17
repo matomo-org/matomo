@@ -7,9 +7,13 @@
         "Engagement": "Záujem",
         "NPages": "%s stránok",
         "OnePage": "1 stránka",
+        "VisitNum": "Číslo návštevy",
+        "VisitsByDaysSinceLast": "Návštevy v dňoch od poslednej návštevy",
+        "visitsByVisitCount": "Návštevy podľa Čísla Návštevy",
         "VisitsPerDuration": "Návštevy podľa dĺžky trvania návštevy",
         "VisitsPerNbOfPages": "Návštevy na počet stránok",
         "WidgetLengths": "Trvanie návštev",
-        "WidgetPages": "Strany na návštevu"
+        "WidgetPages": "Strany na návštevu",
+        "WidgetVisitsByDaysSinceLast": "Návštevy v dňoch od poslednej návštevy"
     }
 }
