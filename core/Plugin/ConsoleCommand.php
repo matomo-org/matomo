@@ -39,7 +39,7 @@ class ConsoleCommand extends SymfonyCommand
             $value = $input->getOption($name);
 
             if ($option->isValueRequired() && empty($value)) {
-                throw new \InvalidArgumentException(sprintf('The required option %s is not set', $name));
+                throw new \InvalidArgumentException(sprintf('The required option --%s is not set', $name));
             }
         }
     }
