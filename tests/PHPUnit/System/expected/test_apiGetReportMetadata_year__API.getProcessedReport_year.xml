@@ -16,7 +16,7 @@
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>Si un visiteur se rend sur votre site web pour la première fois ou s'il visite une page plus de 30 minutes après sa dernière page, il sera enregistré en tant que nouvelle visite.</nb_visits>
-			<nb_uniq_visitors>Nombre de visiteurs uniques visitant votre site web. Chaque utilisateur n'est compté qu'une seule fois, même s'il visite le site plusieurs fois dans la journée.</nb_uniq_visitors>
+			<nb_uniq_visitors>Le nombre de visiteurs uniques visitant votre site web. Chaque utilisateur n'est comptabilisé qu'une seule fois, même s'il visite le site web plusieurs fois dans une journée.</nb_uniq_visitors>
 			<nb_actions>Nombre d'actions effectuées par vos visiteurs. Les actions peuvent être des visites de pages, téléchargements, liens sortants.</nb_actions>
 			<nb_actions_per_visit>Nombre moyen d'actions (affichages de page, téléchargements ou liens sortants) qui ont été effectuées durant les visites.</nb_actions_per_visit>
 			<avg_time_on_site>Durée moyenne d'une visite</avg_time_on_site>
