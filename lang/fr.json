@@ -62,7 +62,7 @@
         "ColumnNbActions": "Actions",
         "ColumnNbActionsDocumentation": "Nombre d'actions effectuées par vos visiteurs. Les actions peuvent être des visites de pages, téléchargements, liens sortants.",
         "ColumnNbUniqVisitors": "Visiteurs uniques",
-        "ColumnNbUniqVisitorsDocumentation": "Nombre de visiteurs uniques visitant votre site web. Chaque utilisateur n'est compté qu'une seule fois, même s'il visite le site plusieurs fois dans la journée.",
+        "ColumnNbUniqVisitorsDocumentation": "Le nombre de visiteurs uniques visitant votre site web. Chaque utilisateur n'est comptabilisé qu'une seule fois, même s'il visite le site web plusieurs fois dans une journée.",
         "ColumnNbUsers": "Utilisateurs",
         "ColumnNbUsersDocumentation": "Le nombre de visiteurs enregistrés connectés sur votre site. C'est le nombre de visiteurs uniques actifs qui ont un ID utilisateur enregistré (via la fonction nde code de suivi 'setUserId'",
         "ColumnNbVisits": "Visites",
