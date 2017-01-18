@@ -3066,8 +3066,14 @@ if (typeof window.Piwik !== 'object') {
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
+                // the URL parameter that will store the visitorId if cross domain linking is enabled
                 configVisitorIdUrlParameter = 'pk_vid',
+                // timestamp is needed to prevent reusing the visitorId when the URL is shared. The visitorId will be
+                // only reused if the timestamp is less than 30 seconds old.
                 configVisitorTimestampParameter = 'pk_vts',
+                // deviceId parameter is needed to prevent reusing the visitorId when the URL is shared. The visitorId
+                // will be only reused if the device is still the same when opening the link
+                configVisitorDeviceIdParameter = 'pk_vdi',
 
                 // First-party cookie domain
                 // User agent defaults to origin hostname
@@ -3226,6 +3232,7 @@ if (typeof window.Piwik !== 'object') {
                 // these parameters wouldn't be removed for eg outlinks otherwise in Piwik tracker
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
                 url = removeUrlParameter(url, configVisitorTimestampParameter);
+                url = removeUrlParameter(url, configVisitorDeviceIdParameter);
 
                 if (configDiscardHashTag) {
                     targetPattern = new RegExp('#.*');
@@ -3738,15 +3745,32 @@ if (typeof window.Piwik !== 'object') {
                 ).slice(0, 16);
             }
 
+            function generateDeviceSpecificId() {
+                return hash(
+                    (navigatorAlias.userAgent || '') +
+                    (navigatorAlias.platform || '') +
+                    JSON_PIWIK.stringify(browserFeatures))
+                .slice(0, 6);
+            }
+
             function getVisitorIdFromUrlParam() {
                 if (!crossDomainTrackingEnabled) {
                     return '';
                 }
 
+                // we are using locationHrefAlias and not currentUrl on purpose to for sure get the passed URL parameters
+                // from original URL
+                // TODO: problem different timezone or when the time on the computer is not set correctly it may re-use
+                // the same visitorId again. should also have a factor like hashed user agent?
                 var visitorId = getUrlParameter(locationHrefAlias, configVisitorIdUrlParameter);
                 var visitorTimestamp = getUrlParameter(locationHrefAlias, configVisitorTimestampParameter);
+                var visitorDevice = getUrlParameter(locationHrefAlias, configVisitorDeviceIdParameter);
 
-                if (visitorId && String(visitorId).length === 16 && visitorTimestamp) {
+                if (visitorId
+                    && String(visitorId).length === 16
+                    && visitorTimestamp
+                    && visitorDevice
+                    && visitorDevice === generateDeviceSpecificId()) {
                     var currentTimestampInSeconds = Math.floor((new Date()).getTime() / 1000);
                     var timeoutTimestampInSeconds = 30;
                     if (currentTimestampInSeconds <= (visitorTimestamp + timeoutTimestampInSeconds)) {
@@ -3851,7 +3875,6 @@ if (typeof window.Piwik !== 'object') {
                     lastEcommerceOrderTs: lastEcommerceOrderTs
                 };
             }
-
 
             function getRemainingVisitorCookieTimeout() {
                 var now = new Date(),
@@ -4991,6 +5014,7 @@ if (typeof window.Piwik !== 'object') {
                 // and visitorId (eg userId might be set etc)
                 link = removeUrlParameter(link, configVisitorIdUrlParameter);
                 link = removeUrlParameter(link, configVisitorTimestampParameter);
+                link = removeUrlParameter(link, configVisitorDeviceIdParameter);
 
                 if (link.indexOf('?') > 0) {
                     link += '&';
@@ -5004,6 +5028,7 @@ if (typeof window.Piwik !== 'object') {
 
                 link = addUrlParameter(link, configVisitorIdUrlParameter, cookieVisitorIdValues.uuid);
                 link = addUrlParameter(link, configVisitorTimestampParameter, timestamp);
+                link = addUrlParameter(link, configVisitorDeviceIdParameter, generateDeviceSpecificId());
 
                 sourceElement.href = link;
             }
@@ -5927,12 +5952,41 @@ if (typeof window.Piwik !== 'object') {
                 }
             };
 
+            /**
+             * Enables cross domain linking. By default, the visitor ID that identifies a unique visitor is stored in
+             * the browser's cookies. This means the cookie can only be accessed by pages on the same domain.
+             * If you own multiple domains and would like to track all the actions and pageviews of a specific visitor
+             * into the same visit, you may enable cross domain linking. Whenever a user clicks on a link it will append
+             * two URL parameters to the clicked URL: pk_vid (the visitorId) and pk_vts (the current timestamp). This
+             * way the current visitorId is forwarded to the page of the different domain. On the different domain, the
+             * Piwik tracker will recognize the set visitorId from the URL parameter and reuse this parameter if the
+             * page was loaded within 30 seconds. If cross domain linking was not enabled, it would create a new visit
+             * on that page because we wouldn't be able to access the previously created cookie. By enabling cross domain
+             * linking you can track several different domains into one website and won't lose for example the original
+             * referrer.
+             *
+             * To make cross domain linking work you need to set which domains should be considered as your domains by
+             * calling the method "setDomains()" first. We will add the two URL parameters to links that go to a
+             * different domain but only if the domain was previously set with "setDomains()" to make sure not to append
+             * the URL parameters when a link actually goes to a third-party URL.
+             */
             this.enableCrossDomainLinking = function () {
                 crossDomainTrackingEnabled = true;
             };
 
+            /**
+             * Disable cross domain linking if it was previously enabled. See enableCrossDomainLinking();
+             */
             this.disableCrossDomainLinking = function () {
                 crossDomainTrackingEnabled = false;
+            };
+
+            /**
+             * Detect whether cross domain linking is enabled or not. See enableCrossDomainLinking();
+             * @returns bool
+             */
+            this.isCrossDomainLinkingEnabled = function () {
+                return crossDomainTrackingEnabled;
             };
 
             /**
