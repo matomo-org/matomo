@@ -14,6 +14,8 @@
         "ChangeLookByManageThemes": "Výzor Piwiku môžete zmeniť %1$s spravovaním motívov%2$s.",
         "History": "História",
         "Inactive": "Neaktívny",
+        "InstalledPlugins": "Nainštalované pluginy",
+        "InstalledThemes": "Nainštalované témy",
         "InfoPluginUpdateIsRecommended": "Aktualizujte teraz Vaše pluginy aby ste vyťažili z najnovších vylepšení.",
         "InfoThemeIsUsedByOtherUsersAsWell": "Pozn.: ostatní %1$s užívatelia registrovaní na tomto Piwiku používajú motív %2$s.",
         "InfoThemeUpdateIsRecommended": "Aktualizujte svoje motívy, aby ste si mohli vychutnať najnovšiu verziu.",
@@ -31,6 +33,7 @@
         "MissingRequirementsPleaseInstallNotice": "Prosím nainštalujte %1$s %2$s ako je to požadované z %3$s.",
         "NoZipFileSelected": "Prosím vyberte ZIP súbor.",
         "NumUpdatesAvailable": "%s aktualizácia(e) dostupná",
+        "NoPluginSettings": "Žiadne nastavenia pluginu nemôžu byť konfigurované",
         "Origin": "Pôvod",
         "OriginCore": "Jadro",
         "OriginThirdParty": "Tretia strana",
@@ -39,6 +42,7 @@
         "PluginNotWorkingAlternative": "Ak ste používali tento plugin, možno nájdete aj aktuálnejšiu verziu na trhu. Ak nie, možno ju budete chcieť odinštalovať.",
         "PluginRequirement": "%1$s potrebuje %2$s.",
         "PluginsManagement": "Správa modulov",
+        "PluginActivated": "Plugin aktivovaný",
         "Status": "Stav",
         "SuccessfullyActicated": "Úspešne ste aktivovali <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Rozšíriť Piwik s pluginmi a motívmi",
@@ -49,6 +53,6 @@
         "ThemesManagement": "Spravovať motívy",
         "UninstallConfirm": "Práve sa chystáte odinštalovať plugin %s. Plugin bude kompletne odstránený z Vašej platformy a už nebude spätne návratný. Naozaj to chcete urobiť?",
         "Version": "Verzia",
-        "Websites": "Stránky"
+        "Websites": "Webstránky"
     }
 }

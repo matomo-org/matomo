@@ -10,7 +10,7 @@
         "ColumnWebsite": "ウェブサイト",
         "ColumnWebsitePage": "ウェブサイトページ",
         "DirectEntry": "直接アクセス",
-        "DirectEntryDocumentation": "ブラウザにURLを入力して、ウェブサイトの閲覧を開始したビジター - 直接ウェブサイトを見に来た。",
+        "DirectEntryDocumentation": "ビジターがブラウザに URL を入力し、ウェブサイトでブラウジングを開始しました。彼らはウェブサイトに直接訪問しました。",
         "Distinct": "参照元タイプごとの個別参照元",
         "DistinctCampaigns": "個別のキャンペーン",
         "DistinctKeywords": "個別のキーワード",

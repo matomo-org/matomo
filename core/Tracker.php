@@ -76,7 +76,7 @@ class Tracker
             ExceptionHandler::setUp();
 
             Common::printDebug("Debug enabled - Input parameters: ");
-            Common::printDebug(var_export($_GET, true));
+            Common::printDebug(var_export($_GET + $_POST, true));
         }
     }
 

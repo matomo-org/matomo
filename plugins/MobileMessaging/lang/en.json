@@ -27,7 +27,7 @@
         "Settings_PhoneNumbers_Add": "Add a new Phone Number",
         "Settings_PhoneNumbers_CountryCode_Help": "If you do not know the phone country code, look for your country here.",
         "Settings_PhoneNumbers_Help": "Before receiving SMS (text messages) reports on a phone, the phone number must be entered below.",
-        "Settings_PhoneNumbers_HelpAdd": "When you click \"Add\", a SMS containing a code will be sent to the phone. The user receiving the code should then login to Piwik, click on Settings, then click on Mobile Messaging. After entering the code, the user will be able to receive text reports on his phone.",
+        "Settings_PhoneNumbers_HelpAdd": "When you click \"Add\", a SMS containing a code will be sent to the phone. The user receiving the code should then login to Piwik, click on Settings, then click on Mobile Messaging. After entering the code, the user will be able to receive text reports on their phone.",
         "Settings_PleaseSignUp": "To create SMS reports and receive short text messages with your websites' stats on your mobile phone, please sign up with the SMS API and enter your information below.",
         "Settings_SMSAPIAccount": "Manage SMS API Account",
         "Settings_SMSProvider": "SMS Provider",

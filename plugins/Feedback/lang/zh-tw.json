@@ -1,7 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "你想回報 Bug 或是建議新功能？",
-        "HowToCreateTicket": "請閱讀撰寫優質%1$s Bug 回報%2$s或%3$s功能請求%4$s的建議。接著註冊或登入到%5$s我們的問題追蹤區%6$s並建立%7$s新的問題%8$s。",
+        "HowToCreateTicket": "請閱讀撰寫優質 %1$sBug 回報%2$s或%3$s功能請求%4$s的建議。接著註冊或登入到%5$s我們的問題追蹤區%6$s並建立%7$s新的問題%8$s。",
         "IWantTo": "我想要：",
         "LearnWaysToParticipate": "了解所有你可以%1$s參與%2$s的方法",
         "ManuallySendEmailTo": "請手動寄送你的訊息至",

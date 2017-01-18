@@ -27,6 +27,7 @@
         "NfsFilesystemWarning": "Sinu server kasutab NFS failisüsteemi",
         "NfsFilesystemWarningSuffixAdmin": "See tähendab, et Piwik on väga aeglane faili põhiste sessioonidega töötamisel.",
         "Optional": "Valikuline",
+        "Password": "Parool",
         "PasswordDoNotMatch": "salasõnad ei kattu",
         "PercentDone": "%s %% Tehtud",
         "PleaseFixTheFollowingErrors": "Palun paranda järgnevad vead",

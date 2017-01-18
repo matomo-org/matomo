@@ -29,7 +29,7 @@
         "ColumnIdPageview": "瀏覽數 ID",
         "ColumnInteractionPosition": "互動位置",
         "DownloadsReportDocumentation": "在這份報表你可以查看訪客已下載了哪個檔案。%sPiwik 是透過點擊下載連結來計算下載數，但不知道下載完成與否。",
-        "EntryPagesReportDocumentation": "此報表包含指定期間內之到達網頁的相關資訊。所謂的到達網頁，是訪客進入網站時所訪問的第一個網頁。%s 到達網頁之 URL 以資料夾結構顯示。",
+        "EntryPagesReportDocumentation": "此報表包含指定期間內之到達網頁的相關資訊。所謂的到達網頁，是訪客進入網站時所訪問的第一個網頁。%s 到達網頁的網址以資料夾結構顯示。",
         "EntryPageTitles": "到達網頁標題",
         "EntryPageTitlesReportDocumentation": "此報告包含指定期間內，到達網頁標題的相關資訊。",
         "ExitPagesReportDocumentation": "這份報表包含指定期間內離開網頁的資訊。離開網頁是訪客離開網頁前最後留覽的頁面。%s離開網頁的網址以資料夾結構顯示。",
