@@ -3812,18 +3812,14 @@ if (typeof window.Piwik !== 'object') {
 
                 var pattern = new RegExp("^[a-zA-Z0-9]+$");
 
-                if (visitorIdParam.length !== 32 || !pattern.test(visitorIdParam)) {
-                    return '';
+                if (visitorIdParam.length === 32 && pattern.test(visitorIdParam)) {
+                    var visitorDevice = visitorIdParam.substr(16, 32);
+
+                    if (isSameCrossDomainDevice(visitorDevice)) {
+                        var visitorId = visitorIdParam.substr(0, 16);
+                        return visitorId;
+                    }
                 }
-
-                var visitorId = visitorIdParam.substr(0, 16);
-                var visitorDevice = visitorIdParam.substr(16, 32);
-
-                if (isSameCrossDomainDevice(visitorDevice)) {
-                    return String(visitorId);
-                }
-
-                visitorDevice = String(visitorDevice);
 
                 return '';
             }
