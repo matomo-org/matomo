@@ -255,13 +255,12 @@ class FileIntegrity
             $directory = $file;
 
             // add this directory and each parent directory
-            while( ($directory = dirname($directory)) && $directory != '.' ) {
+            while( ($directory = dirname($directory)) && $directory != '.' && $directory != '/') {
                 $directories[] = $directory;
             }
         }
         $directories = array_unique($directories);
         return $directories;
-
     }
 
     protected static function getPluginsFoundInManifest()
