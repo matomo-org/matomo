@@ -990,7 +990,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
     setConversionAttributionFirstReferrer,
     disablePerformanceTracking, setGenerationTimeMs,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking, disableCrossDomainLinking,
+    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
+    disableCrossDomainLinking, isCrossDomainLinkingEnabled,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
@@ -3067,12 +3068,15 @@ if (typeof window.Piwik !== 'object') {
                 configCookieNamePrefix = '_pk_',
 
                 // the URL parameter that will store the visitorId if cross domain linking is enabled
+                // pk_vid = visitor ID
                 configVisitorIdUrlParameter = 'pk_vid',
+
+                // first part of this URL parameter will be the current timestamp, last 6 characters will be deviceId
                 // timestamp is needed to prevent reusing the visitorId when the URL is shared. The visitorId will be
                 // only reused if the timestamp is less than 30 seconds old.
-                configVisitorTimestampParameter = 'pk_vts',
                 // deviceId parameter is needed to prevent reusing the visitorId when the URL is shared. The visitorId
-                // will be only reused if the device is still the same when opening the link
+                // will be only reused if the device is still the same when opening the link.
+                // VDI = visitor device identifier
                 configVisitorDeviceIdParameter = 'pk_vdi',
 
                 // First-party cookie domain
@@ -3231,7 +3235,6 @@ if (typeof window.Piwik !== 'object') {
 
                 // these parameters wouldn't be removed for eg outlinks otherwise in Piwik tracker
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
-                url = removeUrlParameter(url, configVisitorTimestampParameter);
                 url = removeUrlParameter(url, configVisitorDeviceIdParameter);
 
                 if (configDiscardHashTag) {
@@ -3745,38 +3748,73 @@ if (typeof window.Piwik !== 'object') {
                 ).slice(0, 16);
             }
 
-            function generateDeviceSpecificId() {
+            function generateBrowserSpecificId() {
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
-                    JSON_PIWIK.stringify(browserFeatures))
-                .slice(0, 6);
+                    JSON_PIWIK.stringify(browserFeatures)).slice(0, 6);
             }
 
-            function getVisitorIdFromUrlParam() {
+            function getCurrentTimestampInSeconds()
+            {
+                return Math.floor((new Date()).getTime() / 1000);
+            }
+
+            function makeCrossDomainDeviceId()
+            {
+                var timestamp = getCurrentTimestampInSeconds();
+                var browserId = generateBrowserSpecificId();
+                var deviceId = String(timestamp) + browserId;
+
+                return deviceId;
+            }
+
+            function isSameCrossDomainDevice(deviceIdFromUrl)
+            {
+                deviceIdFromUrl = String(deviceIdFromUrl);
+
+                var thisBrowserId = generateBrowserSpecificId();
+                var lengthBrowserId = thisBrowserId.length;
+
+                var browserIdInUrl = deviceIdFromUrl.substr(-1 * lengthBrowserId, lengthBrowserId);
+                var timestampInUrl = parseInt(deviceIdFromUrl.substr(0, deviceIdFromUrl.length - lengthBrowserId), 10);
+
+                if (timestampInUrl && browserIdInUrl && browserIdInUrl === thisBrowserId) {
+                    // we only reuse visitorId when used on same device / browser
+
+                    var currentTimestampInSeconds = getCurrentTimestampInSeconds();
+                    var timeoutInSeconds = 30;
+
+                    if (currentTimestampInSeconds >= timestampInUrl
+                        && currentTimestampInSeconds <= (timestampInUrl + timeoutInSeconds)) {
+                        // we only use visitorId if it was generated max 30 seconds ago
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function getVisitorIdFromUrl(url) {
                 if (!crossDomainTrackingEnabled) {
                     return '';
                 }
 
-                // we are using locationHrefAlias and not currentUrl on purpose to for sure get the passed URL parameters
-                // from original URL
-                // TODO: problem different timezone or when the time on the computer is not set correctly it may re-use
-                // the same visitorId again. should also have a factor like hashed user agent?
-                var visitorId = getUrlParameter(locationHrefAlias, configVisitorIdUrlParameter);
-                var visitorTimestamp = getUrlParameter(locationHrefAlias, configVisitorTimestampParameter);
-                var visitorDevice = getUrlParameter(locationHrefAlias, configVisitorDeviceIdParameter);
+                // problem different timezone or when the time on the computer is not set correctly it may re-use
+                // the same visitorId again. therefore we also have a factor like hashed user agent to reduce possible
+                // activation of a visitorId on other device
+                var visitorId = getUrlParameter(url, configVisitorIdUrlParameter);
+                var visitorDevice = getUrlParameter(url, configVisitorDeviceIdParameter);
 
-                if (visitorId
-                    && String(visitorId).length === 16
-                    && visitorTimestamp
-                    && visitorDevice
-                    && visitorDevice === generateDeviceSpecificId()) {
-                    var currentTimestampInSeconds = Math.floor((new Date()).getTime() / 1000);
-                    var timeoutTimestampInSeconds = 30;
-                    if (currentTimestampInSeconds <= (visitorTimestamp + timeoutTimestampInSeconds)) {
-                        return String(visitorId);
-                    }
+                if (!visitorId || !visitorDevice || String(visitorId).length !== 16) {
+                    return '';
                 }
+
+                if (isSameCrossDomainDevice(visitorDevice)) {
+                    return String(visitorId);
+                }
+
+                visitorDevice = String(visitorDevice);
 
                 return '';
             }
@@ -3787,7 +3825,9 @@ if (typeof window.Piwik !== 'object') {
             function loadVisitorIdCookie() {
 
                 if (!visitorUUID) {
-                    visitorUUID = getVisitorIdFromUrlParam();
+                    // we are using locationHrefAlias and not currentUrl on purpose to for sure get the passed URL parameters
+                    // from original URL
+                    visitorUUID = getVisitorIdFromUrl(locationHrefAlias);
                 }
 
                 var now = new Date(),
@@ -4630,6 +4670,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var link = getLinkIfShouldBeProcessed(targetNode);
+
                 if (linkTrackingEnabled && link && link.type) {
 
                     return false; // will be handled via outlink or download.
@@ -4998,22 +5039,25 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
-            function replaceCrossDomainLink(sourceElement)
+            function replaceHrefForCrossDomainLink(element)
             {
-                if (!sourceElement || !sourceElement.href) {
+                if (!element) {
                     return;
                 }
 
-                var link = sourceElement.href;
+                if (!query.hasNodeAttribute(element, 'href')) {
+                    return;
+                }
 
-                if (startsUrlWithTrackerUrl(link)) {
+                var link = query.getAttributeValueFromNode(element, 'href');
+
+                if (!link || startsUrlWithTrackerUrl(link)) {
                     return;
                 }
 
                 // we need to remove them and add them again if needed to make sure we have latest timestamp
                 // and visitorId (eg userId might be set etc)
                 link = removeUrlParameter(link, configVisitorIdUrlParameter);
-                link = removeUrlParameter(link, configVisitorTimestampParameter);
                 link = removeUrlParameter(link, configVisitorDeviceIdParameter);
 
                 if (link.indexOf('?') > 0) {
@@ -5022,21 +5066,28 @@ if (typeof window.Piwik !== 'object') {
                     link += '?';
                 }
 
-                var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
+                var visitorId = getValuesFromVisitorIdCookie().uuid;
+                var deviceId = makeCrossDomainDeviceId();
 
-                var timestamp = Math.floor((new Date()).getTime() / 1000);
+                link = addUrlParameter(link, configVisitorIdUrlParameter, visitorId);
+                link = addUrlParameter(link, configVisitorDeviceIdParameter, deviceId);
 
-                link = addUrlParameter(link, configVisitorIdUrlParameter, cookieVisitorIdValues.uuid);
-                link = addUrlParameter(link, configVisitorTimestampParameter, timestamp);
-                link = addUrlParameter(link, configVisitorDeviceIdParameter, generateDeviceSpecificId());
-
-                sourceElement.href = link;
+                query.setAnyAttribute(element, 'href', link);
             }
 
-            function isLinkToDifferentDomainButSameSite(element)
+            function isLinkToDifferentDomainButSamePiwikWebsite(element)
             {
-                var targetLink = element.href;
-                var isOutlink = targetLink.indexOf('//') === 0 || targetLink.indexOf('http://') === 0 || targetLink.indexOf('https://');
+                var targetLink = query.getAttributeValueFromNode(element, 'href');
+
+                if (!targetLink) {
+                    return false;
+                }
+
+                targetLink = String(targetLink);
+
+                var isOutlink = targetLink.indexOf('//') === 0
+                             || targetLink.indexOf('http://') === 0
+                             || targetLink.indexOf('https://') === 0;
 
                 if (!isOutlink) {
                     return false;
@@ -5064,8 +5115,9 @@ if (typeof window.Piwik !== 'object') {
             function processClick(sourceElement) {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
-                if (crossDomainTrackingEnabled && !link && isLinkToDifferentDomainButSameSite(sourceElement)) {
-                    replaceCrossDomainLink(sourceElement);
+                if (crossDomainTrackingEnabled && !link && isLinkToDifferentDomainButSamePiwikWebsite(sourceElement)) {
+                    // !link means it is a link to same domain or same website (as set in setDomains())
+                    replaceHrefForCrossDomainLink(sourceElement);
                 }
 
                 if (link && link.type) {
@@ -5957,13 +6009,15 @@ if (typeof window.Piwik !== 'object') {
              * the browser's cookies. This means the cookie can only be accessed by pages on the same domain.
              * If you own multiple domains and would like to track all the actions and pageviews of a specific visitor
              * into the same visit, you may enable cross domain linking. Whenever a user clicks on a link it will append
-             * two URL parameters to the clicked URL: pk_vid (the visitorId) and pk_vts (the current timestamp). This
-             * way the current visitorId is forwarded to the page of the different domain. On the different domain, the
-             * Piwik tracker will recognize the set visitorId from the URL parameter and reuse this parameter if the
-             * page was loaded within 30 seconds. If cross domain linking was not enabled, it would create a new visit
-             * on that page because we wouldn't be able to access the previously created cookie. By enabling cross domain
-             * linking you can track several different domains into one website and won't lose for example the original
-             * referrer.
+             * two URL parameters to the clicked URL: pk_vid (the visitorId) and pk_vdi (which consists of the current
+             * timestamp and the last 6 characters are an id based on the userAgent to identify the users device). This
+             * way the current visitorId is forwarded to the page of the different domain.
+             *
+             * On the different domain, the Piwik tracker will recognize the set visitorId from the URL parameter and
+             * reuse this parameter if the page was loaded within 30 seconds. If cross domain linking was not enabled,
+             * it would create a new visit on that page because we wouldn't be able to access the previously created
+             * cookie. By enabling cross domain linking you can track several different domains into one website and
+             * won't lose for example the original referrer.
              *
              * To make cross domain linking work you need to set which domains should be considered as your domains by
              * calling the method "setDomains()" first. We will add the two URL parameters to links that go to a

@@ -2102,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(72);
+        expect(75);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2143,6 +2143,9 @@ function PiwikTest() {
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
         equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
         equal( typeof tracker.setDomains, 'function', 'setDomains' );
+        equal( typeof tracker.enableCrossDomainLinking, 'function', 'enableCrossDomainLinking' );
+        equal( typeof tracker.disableCrossDomainLinking, 'function', 'disableCrossDomainLinking' );
+        equal( typeof tracker.isCrossDomainLinkingEnabled, 'function', 'isCrossDomainLinkingEnabled' );
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
@@ -2757,6 +2760,135 @@ function PiwikTest() {
         equal('/path2', tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath(null);
+    });
+
+    test("Tracker CrossDomainLinking()", function() {
+        expect(50);
+
+        var tracker = Piwik.getTracker();
+
+        var getVisitorIdFromUrl = tracker.hook.test._getVisitorIdFromUrl;
+        var generateBrowserSpecificId = tracker.hook.test._generateBrowserSpecificId;
+        var isSameCrossDomainDevice = tracker.hook.test._isSameCrossDomainDevice;
+        var makeCrossDomainDeviceId = tracker.hook.test._makeCrossDomainDeviceId;
+        var replaceHrefForCrossDomainLink = tracker.hook.test._replaceHrefForCrossDomainLink;
+        var isLinkToDifferentDomainButSamePiwikWebsite = tracker.hook.test._isLinkToDifferentDomainButSamePiwikWebsite;
+
+        strictEqual(false, tracker.isCrossDomainLinkingEnabled(), 'function', "isCrossDomainLinkingEnabled is disabled by default" );
+
+        tracker.enableCrossDomainLinking();
+        strictEqual(true, tracker.isCrossDomainLinkingEnabled(), 'function', "enableCrossDomainLinking enables cross domain linking" );
+
+        tracker.disableCrossDomainLinking();
+        strictEqual(false, tracker.isCrossDomainLinkingEnabled(), 'function', "disableCrossDomainLinking disables cross domain linking" );
+
+        strictEqual(16, makeCrossDomainDeviceId().length, 'function', "makeCrossDomainDeviceId, should return a 16 character id" );
+        strictEqual(6, generateBrowserSpecificId().length, 'function', "generateBrowserSpecificId, should return a 6 character id" );
+
+        var currentTimestamp = Math.floor((new Date().getTime()) / 1000);
+        var browserId = generateBrowserSpecificId();
+
+        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 30 seconds" );
+        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp - 28) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 28 seconds" );
+        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp - 33) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp is 33 seconds old" );
+        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp + 2) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp was only generated later" );
+        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp)), "isSameCrossDomainDevice, should return false if no device ID given" );
+        strictEqual(false, isSameCrossDomainDevice(browserId), "isSameCrossDomainDevice, should return false if no timestamp given" );
+        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp) + '12345a'), "isSameCrossDomainDevice, should return false if timestamp is valid but browserId is not the same" );
+
+        function makeUrlWithVisitorId(withId, timestamp, browserId)
+        {
+            var url = 'http://www.example.com/?';
+
+            if (withId) {
+                url += 'pk_vid=900d0d1eb6714aa4';
+            }
+            if (timestamp && browserId) {
+                url += '&pk_vdi=' + String(timestamp) + browserId
+            }
+            
+            return url;
+        }
+
+        function makeVisitorIdFromUrl(withId, timestamp, browserId)
+        {
+            var url = makeUrlWithVisitorId(withId, timestamp, browserId);
+
+            return getVisitorIdFromUrl(url);
+        }
+
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, browserId), "getVisitorIdFromUrl, should not return the visitorId if timestamp and browser ID is valid but cross domain is disabled" );
+        tracker.enableCrossDomainLinking();
+        strictEqual('900d0d1eb6714aa4', makeVisitorIdFromUrl(true, currentTimestamp, browserId), "getVisitorIdFromUrl, should return the visitorId if timestamp and browser ID is valid and cross domain is enabled" );
+        strictEqual('', makeVisitorIdFromUrl(false, currentTimestamp, browserId), "getVisitorIdFromUrl, should return empty string if timestamp and browser ID is valid but no visitorId in url" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, 'foobar'), "getVisitorIdFromUrl, should return empty string if visitorId is given but browser ID is not valid" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp + 40, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp is in future" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp - 40, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp was too long ago" );
+        strictEqual('900d0d1eb6714aa4', makeVisitorIdFromUrl(true, currentTimestamp - 20, browserId), "getVisitorIdFromUrl, should return the visitorId if browser ID is valid and timestamp is only 20 seconds old" );
+
+        function makeReplaceHrefForCrossDomainLink(url) {
+            var a = document.createElement('a');
+            if (url !== null) {
+                a.setAttribute('href', url);
+            }
+            replaceHrefForCrossDomainLink(a);
+            return a.getAttribute('href');
+        }
+
+        strictEqual(null, makeReplaceHrefForCrossDomainLink(null), 'replaceHrefForCrossDomainLink, should not change URL if nothing is set');
+        strictEqual('', makeReplaceHrefForCrossDomainLink(''), 'replaceHrefForCrossDomainLink, should not change URL if nothing is set');
+        strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
+        strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
+        
+        tracker.setUserId('test');
+        var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
+        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba6&pk_vdi=14') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
+        ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should set browserId if a url is given');
+
+        replacedUrl = makeReplaceHrefForCrossDomainLink(makeUrlWithVisitorId(true, currentTimestamp, 'foobar'));
+        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba6&pk_vdi=14') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
+        ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should replace browserId if a URL is given');
+
+
+        function makeIsLinkToDifferentDomainButSamePiwikWebsite(url) {
+            var a = document.createElement('a');
+            if (url !== null) {
+                a.setAttribute('href', url);
+            }
+            return isLinkToDifferentDomainButSamePiwikWebsite(a);
+        }
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(null), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if no href is set');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite(''), 'isLinkToDifferentDomainButSamePiwikWebsite, should not return anything if empty href is set');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('?x=1'), 'isLinkToDifferentDomainButSamePiwikWebsite, if local url starting with query');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('/test'), 'isLinkToDifferentDomainButSamePiwikWebsite, if relative url starting with slash');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('test/test.php'), 'isLinkToDifferentDomainButSamePiwikWebsite, if relative url starting with file');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('//www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, if outlink starting with // but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, if outlink starting with http:// but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, if outlink starting with https:// but not going to same website');
+
+        tracker.setDomains(['www.example.org']);
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('//www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, www.example.org, same website, different domain, if outlink starting with // but not going to same website');
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, www.example.org, same website, different domain, if outlink starting with http:// but not going to same website');
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, www.example.org, same website, different domain, if outlink starting with https:// but not going to same website');
+
+        tracker.setDomains(['example.org']);
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('//www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, example.org, not same website, different domain, if outlink starting with // but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, example.org, not same website, different domain, if outlink starting with http:// but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, example.org, not same website, different domain, if outlink starting with https:// but not going to same website');
+
+        tracker.setDomains(['*.example.org']);
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('//www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, *.example.org, same website, different domain, if outlink starting with // but not going to same website');
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, *.example.org, same website, different domain, if outlink starting with http:// but not going to same website');
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://www.example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, *.example.org, same website, different domain, if outlink starting with https:// but not going to same website');
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('//example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, *.example.org, same website, different domain, if outlink starting with // but not going to same website');
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, *.example.org, same website, different domain, if outlink starting with http:// but not going to same website');
+        strictEqual(true, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://example.org'), 'isLinkToDifferentDomainButSamePiwikWebsite, *.example.org, same website, different domain, if outlink starting with https:// but not going to same website');
+
+        tracker.setDomains([document.domain]);
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('//' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with // but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, different domain, if outlink starting with http:// but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, different domain, if outlink starting with https:// but not going to same website');
+
     });
 
     test("Tracker getClassesRegExp()", function() {
