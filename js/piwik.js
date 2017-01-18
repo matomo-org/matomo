@@ -3233,7 +3233,8 @@ if (typeof window.Piwik !== 'object') {
             function purify(url) {
                 var targetPattern;
 
-                // these parameters wouldn't be removed for eg outlinks otherwise in Piwik tracker
+                // we need to remove these parameters here, they wouldn't be removed in Piwik tracker otherwise eg
+                // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
                 url = removeUrlParameter(url, configVisitorDeviceIdParameter);
 
