@@ -63,7 +63,7 @@
         "TheLoginScreen": "The login screen",
         "ThereAreCurrentlyNRegisteredUsers": "There are currently %s registered users.",
         "TokenAuth": "API Authentication Token",
-        "TokenRegenerateConfirm": "Changing the API authentication token will invalidate the user's current token. If the user is currently logged in, he may be required to log in again. Do you really want to continue?",
+        "TokenRegenerateConfirm": "Changing the API authentication token will invalidate the user's current token. If the user is currently logged in, they may be required to log in again. Do you really want to continue?",
         "TokenRegenerateConfirmSelf": "Changing the API authentication token will invalidate your own token. You may be required to log in again if you proceed. Do you really want to change your authentication token?",
         "TokenRegenerateLogoutWarning": "When you re-generate your token you will be logged out and need to log in again.",
         "TokenRegenerateTitle": "Regenerate",
