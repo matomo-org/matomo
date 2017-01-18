@@ -194,17 +194,18 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
 
             <div class="col s12 m{% if displayVisitorsInOwnColumn %}7{% else %}8{% endif %} column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
                 {{ postEvent('Live.visitorLogViewBeforeActionsInfo', visitor) }}
+
+                <strong>
+                    {{ visitor.getColumn('actionDetails')|length }}
+                    {% if visitor.getColumn('actionDetails')|length <= 1 %}
+                        {{ 'General_Action'|translate }}
+                    {% else %}
+                        {{ 'General_Actions'|translate }}
+                    {% endif %}
+                    {% if visitor.getColumn('visitDuration') > 0 %}- {{ visitor.getColumn('visitDurationPretty')|raw }}{% endif %}
+                </strong>
+
                 <div class="visitor-log-page-list">
-                    <strong>
-                        {{ visitor.getColumn('actionDetails')|length }}
-                        {% if visitor.getColumn('actionDetails')|length <= 1 %}
-                            {{ 'General_Action'|translate }}
-                        {% else %}
-                            {{ 'General_Actions'|translate }}
-                        {% endif %}
-                        {% if visitor.getColumn('visitDuration') > 0 %}- {{ visitor.getColumn('visitDurationPretty')|raw }}{% endif %}
-                    </strong>
-                    <br/>
                     <ol class='visitorLog'>
                         {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails')} %}
                     </ol>
