@@ -78,7 +78,7 @@
                     {% else %}
                         <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                              ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "noaccess")'
-                             title="{{'UsersManager_RemoveUserAccess'|translate(login,defaultReportSiteName)}}"
+                             title="{{'UsersManager_RemoveUserAccess'|translate(login,defaultReportSiteName)|e('html_attr')}}"
                         />
                     {% endif %}&nbsp;</td>
                 <td id='view'>
@@ -89,7 +89,7 @@
                     {% else %}
                         <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                              ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "view")'
-                             title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)}}"
+                             title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)|e('html_attr')}}"
                         />
                     {% endif %}&nbsp;</td>
                 <td id='admin'>
@@ -103,7 +103,7 @@
                         {% else %}
                             <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                                  ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "admin")'
-                                 title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)}}"
+                                 title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)|e('html_attr')}}"
                             />
                         {% endif %}&nbsp;
                     {% endif %}

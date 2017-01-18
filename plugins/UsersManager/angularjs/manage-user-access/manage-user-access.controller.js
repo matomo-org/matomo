@@ -43,10 +43,10 @@
         };
 
         this.setAccess = function (login, access) {
+          login=piwik.helper.escape(piwik.helper.htmlEntities(login));
             if ( $('[data-login="' + login + '"]').find("#"+access).has('.accessGranted').length ){
                 return;
             }
-            var currentSite= $(".sites_autocomplete").attr("sitename");
             // callback called when the ajax request Update the user permissions is successful
             function successCallback(response) {
                 var mainDiv = $('[data-login="' + login + '"]');
@@ -56,6 +56,8 @@
                     .attr("class", "updateAccess")
                     .attr("title", function(){
                       var access = grantedDiv.parents('[id]').attr('id');
+                      var currentSite = $(".sites_autocomplete").attr("sitename");
+                      currentSite = piwik.helper.escape(piwik.helper.htmlEntities(currentSite));
                       if (access =="noaccess"){
                         return _pk_translate('UsersManager_UserHasPermission', [login])
                       }
