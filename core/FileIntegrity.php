@@ -255,7 +255,7 @@ class FileIntegrity
             $directory = $file;
 
             // add this directory and each parent directory
-            if( ($directory = dirname($directory)) && $directory != '.' ) {
+            while( ($directory = dirname($directory)) && $directory != '.' && $directory != '/') {
                 $directories[] = $directory;
             }
         }
