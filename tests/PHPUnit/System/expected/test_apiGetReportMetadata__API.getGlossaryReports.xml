@@ -50,7 +50,7 @@
 	</row>
 	<row>
 		<name>Entry pages (Actions)</name>
-		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during his visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
 		<name>Exit page titles (Actions)</name>
@@ -58,7 +58,7 @@
 	</row>
 	<row>
 		<name>Exit pages (Actions)</name>
-		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during his visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
 		<name>Keywords (Referrers)</name>
