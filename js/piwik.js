@@ -1468,25 +1468,46 @@ if (typeof window.Piwik !== 'object') {
             return matches ? matches[1] : url;
         }
 
-        function removeParameter(url, name) {
+        /**
+         * We do not check whether URL contains already url parameter, please use removeUrlParameter() if needed
+         * before calling this method.
+         * This method makes sure to append URL parameters before a possible hash
+         */
+        function addUrlParameter(url, name, value) {
+            url = String(url);
+
+            var hashPos = url.indexOf('#');
+            var urlLength = url.length;
+
+            if (hashPos === -1) {
+                hashPos = urlLength;
+            }
+
+            var baseUrl = url.substring(0, hashPos);
+            var urlHash = url.substring(hashPos, urlLength);
+
+            return baseUrl + '&' + name + '=' + value + urlHash;
+        }
+
+        function removeUrlParameter(url, name) {
+            url = String(url);
+
             if (url.indexOf(name + '=') === -1) {
-                // nothing to remove
+                // nothing to remove, url does not contain this parameter
                 return url;
             }
 
-            url = String(url);
-
             var searchPos = url.indexOf('?');
-            var baseUrl = url;
-            var urlHash = '';
-
-            var queryString = '';
-            if (searchPos !== -1) {
-                queryString = url.substr(searchPos + 1);
-                baseUrl = url.substr(0, searchPos);
+            if (searchPos === -1) {
+                // nothing to remove, no query parameters
+                return url;
             }
 
+            var queryString = url.substr(searchPos + 1);
+            var baseUrl = url.substr(0, searchPos);
+
             if (queryString) {
+                var urlHash = '';
                 var hashPos = queryString.indexOf('#');
                 if (hashPos !== -1) {
                     queryString = url.substr(0, hashPos);
@@ -1503,7 +1524,11 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
 
-                baseUrl = baseUrl + '?' + paramsArr.join('&');
+                var newQueryString = paramsArr.join('&');
+
+                if (newQueryString) {
+                    baseUrl = baseUrl + '?' + newQueryString;
+                }
 
                 if (urlHash) {
                     baseUrl += '#' + urlHash;
@@ -1512,10 +1537,11 @@ if (typeof window.Piwik !== 'object') {
 
             return baseUrl;
         }
+
         /*
          * Extract parameter from URL
          */
-        function getParameter(url, name) {
+        function getUrlParameter(url, name) {
             var regexSearch = "[\\?&#]" + name + "=([^&#]*)";
             var regex = new RegExp(regexSearch);
             var results = regex.exec(url);
@@ -1694,7 +1720,7 @@ if (typeof window.Piwik !== 'object') {
                     referrer = href;
                 }
 
-                href = getParameter(href, 'u');
+                href = getUrlParameter(href, 'u');
                 hostName = getHostName(href);
             } else if (hostName === 'cc.bingj.com' ||                   // Bing
                     hostName === 'webcache.googleusercontent.com' ||    // Google
@@ -3185,8 +3211,8 @@ if (typeof window.Piwik !== 'object') {
                 var targetPattern;
 
                 // these parameters wouldn't be removed for eg outlinks otherwise in Piwik tracker
-                url = removeParameter(url, configVisitorIdUrlParameter);
-                url = removeParameter(url, configVisitorTimestampParameter);
+                url = removeUrlParameter(url, configVisitorIdUrlParameter);
+                url = removeUrlParameter(url, configVisitorTimestampParameter);
 
                 if (configDiscardHashTag) {
                     targetPattern = new RegExp('#.*');
@@ -3704,8 +3730,8 @@ if (typeof window.Piwik !== 'object') {
                     return '';
                 }
 
-                var visitorId = getParameter(locationHrefAlias, configVisitorIdUrlParameter);
-                var visitorTimestamp = getParameter(locationHrefAlias, configVisitorTimestampParameter);
+                var visitorId = getUrlParameter(locationHrefAlias, configVisitorIdUrlParameter);
+                var visitorTimestamp = getUrlParameter(locationHrefAlias, configVisitorTimestampParameter);
 
                 if (visitorId && String(visitorId).length == 16 && visitorTimestamp) {
                     var currentTimestampInSeconds = Math.floor((new Date()).getTime() / 1000);
@@ -4047,7 +4073,7 @@ if (typeof window.Piwik !== 'object') {
                         || !campaignNameDetected.length) {
                         for (i in configCampaignNameParameters) {
                             if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
-                                campaignNameDetected = getParameter(currentUrl, configCampaignNameParameters[i]);
+                                campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
                                 if (campaignNameDetected.length) {
                                     break;
@@ -4057,7 +4083,7 @@ if (typeof window.Piwik !== 'object') {
 
                         for (i in configCampaignKeywordParameters) {
                             if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
-                                campaignKeywordDetected = getParameter(currentUrl, configCampaignKeywordParameters[i]);
+                                campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
 
                                 if (campaignKeywordDetected.length) {
                                     break;
@@ -4948,9 +4974,10 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                if (link.indexOf(configVisitorIdUrlParameter) > 0 && link.indexOf(configVisitorTimestampParameter) > 0) {
-                    return;
-                }
+                // we need to remove them and add them again if needed to make sure we have latest timestamp
+                // and visitorId (eg userId might be set etc)
+                link = removeUrlParameter(link, configVisitorIdUrlParameter);
+                link = removeUrlParameter(link, configVisitorTimestampParameter);
 
                 if (link.indexOf('?') > 0) {
                     link += '&';
@@ -4962,7 +4989,8 @@ if (typeof window.Piwik !== 'object') {
 
                 var timestamp = Math.floor((new Date()).getTime() / 1000);
 
-                link += configVisitorIdUrlParameter + '=' + cookieVisitorIdValues.uuid + '&' + configVisitorTimestampParameter + '=' + timestamp;
+                link = addUrlParameter(url, configVisitorIdUrlParameter, cookieVisitorIdValues.uuid);
+                link = addUrlParameter(url, configVisitorTimestampParameter, timestamp);
 
                 sourceElement.href = link;
             }
@@ -6742,7 +6770,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
