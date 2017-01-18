@@ -2763,7 +2763,7 @@ function PiwikTest() {
     });
 
     test("Tracker CrossDomainLinking()", function() {
-        expect(50);
+        expect(55);
 
         var tracker = Piwik.getTracker();
 
@@ -2789,8 +2789,8 @@ function PiwikTest() {
         var browserId = generateBrowserSpecificId();
 
         strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 30 seconds" );
-        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp - 28) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 28 seconds" );
-        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp - 33) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp is 33 seconds old" );
+        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp - 42) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 28 seconds" );
+        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp - 48) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp is 33 seconds old" );
         strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp + 2) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp was only generated later" );
         strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp)), "isSameCrossDomainDevice, should return false if no device ID given" );
         strictEqual(false, isSameCrossDomainDevice(browserId), "isSameCrossDomainDevice, should return false if no timestamp given" );
@@ -2800,11 +2800,18 @@ function PiwikTest() {
         {
             var url = 'http://www.example.com/?';
 
-            if (withId) {
+            if ('boolean' === typeof withId) {
                 url += 'pk_vid=900d0d1eb6714aa4';
+            } else if (withId) {
+                url += 'pk_vid=' + withId;
             }
+
             if (timestamp && browserId) {
-                url += '&pk_vdi=' + String(timestamp) + browserId
+                if (!withId) {
+                    url+= 'pk_vid=';
+                }
+
+                url += String(timestamp) + browserId
             }
             
             return url;
@@ -2820,10 +2827,15 @@ function PiwikTest() {
         strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, browserId), "getVisitorIdFromUrl, should not return the visitorId if timestamp and browser ID is valid but cross domain is disabled" );
         tracker.enableCrossDomainLinking();
         strictEqual('900d0d1eb6714aa4', makeVisitorIdFromUrl(true, currentTimestamp, browserId), "getVisitorIdFromUrl, should return the visitorId if timestamp and browser ID is valid and cross domain is enabled" );
+        strictEqual('900d0d1eb6714aa3', makeVisitorIdFromUrl('900d0d1eb6714aa3', currentTimestamp, browserId), "getVisitorIdFromUrl, should return the visitorId if timestamp and browser ID is valid and cross domain is enabled" );
+        strictEqual('', makeVisitorIdFromUrl('900d0d1eb6714aa;', currentTimestamp, browserId), "getVisitorIdFromUrl, should not return the visitorId if everything is valid but visitorId contains invalid character" );
+        strictEqual('', makeVisitorIdFromUrl('900d0d1eb6714a', currentTimestamp, browserId), "getVisitorIdFromUrl, should not return the visitorId if everything is valid but visitorId contains not enough characters" );
         strictEqual('', makeVisitorIdFromUrl(false, currentTimestamp, browserId), "getVisitorIdFromUrl, should return empty string if timestamp and browser ID is valid but no visitorId in url" );
         strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, 'foobar'), "getVisitorIdFromUrl, should return empty string if visitorId is given but browser ID is not valid" );
-        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp + 40, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp is in future" );
-        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp - 40, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp was too long ago" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, 'fooba'), "getVisitorIdFromUrl, should return empty string if pk_vid has not 32 character but 31" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, '!test,'), "getVisitorIdFromUrl, should return empty string if pk_vid has invalid characters" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp + 58, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp is in future" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp - 58, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp was too long ago" );
         strictEqual('900d0d1eb6714aa4', makeVisitorIdFromUrl(true, currentTimestamp - 20, browserId), "getVisitorIdFromUrl, should return the visitorId if browser ID is valid and timestamp is only 20 seconds old" );
 
         function makeReplaceHrefForCrossDomainLink(url) {
@@ -2842,11 +2854,11 @@ function PiwikTest() {
         
         tracker.setUserId('test');
         var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
-        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba6&pk_vdi=14') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
+        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba614') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should set browserId if a url is given');
 
         replacedUrl = makeReplaceHrefForCrossDomainLink(makeUrlWithVisitorId(true, currentTimestamp, 'foobar'));
-        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba6&pk_vdi=14') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
+        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba614') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should replace browserId if a URL is given');
 
 
