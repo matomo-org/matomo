@@ -2332,13 +2332,15 @@ function PiwikTest() {
         );
     });
     
-    test("Tracker getHostName(), getParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
-        expect(57);
+    test("Tracker getHostName(), *UrlParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
+        expect(80);
 
         var tracker = Piwik.getTracker();
 
         equal( typeof tracker.hook.test._getHostName, 'function', 'getHostName' );
-        equal( typeof tracker.hook.test._getParameter, 'function', 'getParameter' );
+        equal( typeof tracker.hook.test._getUrlParameter, 'function', '_getUrlParameter' );
+        equal( typeof tracker.hook.test._addUrlParameter, 'function', '_addUrlParameter' );
+        equal( typeof tracker.hook.test._removeUrlParameter, 'function', '_addUrlParameter' );
 
         equal( tracker.hook.test._getHostName('http://example.com'), 'example.com', 'http://example.com');
         equal( tracker.hook.test._getHostName('http://example.com/'), 'example.com', 'http://example.com/');
@@ -2354,26 +2356,51 @@ function PiwikTest() {
         equal( tracker.hook.test._getHostName('http://user@example.com/'), 'example.com', 'http://user@example.com/');
         equal( tracker.hook.test._getHostName('http://user:password@example.com/'), 'example.com', 'http://user:password@example.com/');
 
-        equal( tracker.hook.test._getParameter('http://piwik.org/', 'q'), '', 'no query');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?q=test', 'q'), 'test', '?q');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?q=test#aq=not', 'q'), 'test', '?q');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2', 'q'), 'test2', '&q');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/', 'q'), '', 'no query');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?q=test', 'q'), 'test', '?q');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?q=test#aq=not', 'q'), 'test', '?q');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2', 'q'), 'test2', '&q');
 
-        // getParameter in hash tag
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#aq=not', 'q'), 'test2', '&q');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#aq=not', 'aq'), 'not', '#aq');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'bq'), 'yes', '#bq');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#pk_campaign=campaign', 'pk_campaign'), 'campaign', '#pk_campaign');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'q'), 'test2', '#q');
+        // _getUrlParameter in hash tag
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#aq=not', 'q'), 'test2', '&q');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#aq=not', 'aq'), 'not', '#aq');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'bq'), 'yes', '#bq');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#pk_campaign=campaign', 'pk_campaign'), 'campaign', '#pk_campaign');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'q'), 'test2', '#q');
 
         // URL decoded
-        equal( tracker.hook.test._getParameter('http://piwik.org/?q=http%3a%2f%2flocalhost%2f%3fr%3d1%26q%3dfalse', 'q'), 'http://localhost/?r=1&q=false', 'url');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?q=http%3a%2f%2flocalhost%2f%3fr%3d1%26q%3dfalse&notq=not', 'q'), 'http://localhost/?r=1&q=false', 'url');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?q=http%3a%2f%2flocalhost%2f%3fr%3d1%26q%3dfalse', 'q'), 'http://localhost/?r=1&q=false', 'url');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?q=http%3a%2f%2flocalhost%2f%3fr%3d1%26q%3dfalse&notq=not', 'q'), 'http://localhost/?r=1&q=false', 'url');
 
         // non existing parameters
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'bqq'), "", '#q');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'bq='), "", '#q');
-        equal( tracker.hook.test._getParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'sp='), "", '#q');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'bqq'), "", '#q');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'bq='), "", '#q');
+        equal( tracker.hook.test._getUrlParameter('http://piwik.org/?p=test1&q=test2#bq=yes&aq=not', 'sp='), "", '#q');
+
+        // REMOVE URL PARAMETER
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/', 'q'), 'http://piwik.org/', 'removeUrlParameter, no query');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?', 'q'), 'http://piwik.org/?', 'removeUrlParameter, ? does not contain url param so will not modify url');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=test', 'q'), 'http://piwik.org/', 'removeUrlParameter, ?q');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=', 'q'), 'http://piwik.org/', 'removeUrlParameter, empty parameter');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=&test=34', 'q'), 'http://piwik.org/?test=34', 'removeUrlParameter, empty parameter with other parameter');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=test#aq=not', 'q'), 'http://piwik.org/#aq=not', 'removeUrlParameter, ?q');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?p=test1&q=test2', 'q'), 'http://piwik.org/?p=test1', 'removeUrlParameter, &q');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=test2&p=test1', 'q'), 'http://piwik.org/?p=test1', 'removeUrlParameter, ?q&');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=test2&p=test1', 'terewrer'), 'http://piwik.org/?q=test2&p=test1', 'removeUrlParameter, not existing parameter');
+
+        // ADD URL PARAMETER
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/', 'q', ''), 'http://piwik.org/?q=', 'addUrlParameter, add param with no value to url with no search and no hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/', 'q', 'test'), 'http://piwik.org/?q=test', 'addUrlParameter, add param with value to url with no search and no hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?', 'q', ''), 'http://piwik.org/?q=', 'addUrlParameter, add param with no value to url with search but no hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?', 'q', 'test'), 'http://piwik.org/?q=test', 'addUrlParameter, add param with value to url with search but no hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?#', 'q', ''), 'http://piwik.org/?q=#', 'addUrlParameter, add param with no value to url with empty search and empty hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?#', 'q', 'test'), 'http://piwik.org/?q=test#', 'addUrlParameter, add param with value to url with empty search and empty hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?#foobar', 'q', ''), 'http://piwik.org/?q=#foobar', 'addUrlParameter, add param with no value to url with empty search and hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?#foobar', 'q', 'test'), 'http://piwik.org/?q=test#foobar', 'addUrlParameter, add param with value to url with empty search and hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?x=y&baz=wow#foobar', 'q', ''), 'http://piwik.org/?x=y&baz=wow&q=#foobar', 'addUrlParameter, add param with no value to url with search and hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?x=y&baz=wow#foobar', 'pk_test', 'test'), 'http://piwik.org/?x=y&baz=wow&pk_test=test#foobar', 'addUrlParameter, add param with value to url with search and hash');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?x=y&baz=wow#foobar', 'pk_!?#url', 'http://piwik.org'), 'http://piwik.org/?x=y&baz=wow&pk_!%3F%23url=http%3A%2F%2Fpiwik.org#foobar', 'addUrlParameter, should escape / encode value');
+        equal( tracker.hook.test._addUrlParameter('http://piwik.org/?x=y&baz=wow#foobar', 'baz', 'wow2'), 'http://piwik.org/?x=y&baz=wow&baz=wow2#foobar', 'addUrlParameter, adds same parameter again, if already present');
 
         equal( typeof tracker.hook.test._urlFixup, 'function', 'urlFixup' );
 

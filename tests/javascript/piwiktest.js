@@ -34,7 +34,9 @@ Piwik.addPlugin('testPlugin', {
 				'_beforeUnloadHandler : beforeUnloadHandler,' +
 				'_getProtocolScheme : getProtocolScheme,' +
 				'_getHostName : getHostName,' +
-				'_getParameter : getParameter,' +
+				'_getUrlParameter : getUrlParameter,' +
+				'_addUrlParameter : addUrlParameter,' +
+				'_removeUrlParameter : removeUrlParameter,' +
 				'_urlFixup : urlFixup,' +
 				'_domainFixup : domainFixup,' +
 				'_titleFixup : titleFixup,' +

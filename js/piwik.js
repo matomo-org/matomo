@@ -990,7 +990,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
     setConversionAttributionFirstReferrer,
     disablePerformanceTracking, setGenerationTimeMs,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
+    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking, disableCrossDomainLinking,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
@@ -1468,13 +1468,38 @@ if (typeof window.Piwik !== 'object') {
             return matches ? matches[1] : url;
         }
 
+        function stringStartsWith(str, prefix) {
+            str = String(str);
+            return str.lastIndexOf(prefix, 0) === 0;
+        }
+
+        function stringEndsWith(str, suffix) {
+            str = String(str);
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+
+        function stringContains(str, needle) {
+            str = String(str);
+            return str.indexOf(needle) !== -1;
+        }
+
+        function removeCharactersFromEndOfString(str, numCharactersToRemove) {
+            str = String(str);
+            return str.substr(0, str.length - numCharactersToRemove);
+        }
+
         /**
          * We do not check whether URL contains already url parameter, please use removeUrlParameter() if needed
          * before calling this method.
-         * This method makes sure to append URL parameters before a possible hash
+         * This method makes sure to append URL parameters before a possible hash. Will escape (encode URI component)
+         * the set name and value
          */
         function addUrlParameter(url, name, value) {
             url = String(url);
+
+            if (!value) {
+                value = '';
+            }
 
             var hashPos = url.indexOf('#');
             var urlLength = url.length;
@@ -1483,16 +1508,23 @@ if (typeof window.Piwik !== 'object') {
                 hashPos = urlLength;
             }
 
-            var baseUrl = url.substring(0, hashPos);
-            var urlHash = url.substring(hashPos, urlLength);
+            var baseUrl = url.substr(0, hashPos);
+            var urlHash = url.substr(hashPos, urlLength - hashPos);
 
-            return baseUrl + '&' + name + '=' + value + urlHash;
+            if (baseUrl.indexOf('?') === -1) {
+                baseUrl += '?';
+            } else if (!stringEndsWith(baseUrl, '?')) {
+                baseUrl += '&';
+            }
+            // nothing to if ends with ?
+
+            return baseUrl + encodeWrapper(name) + '=' + encodeWrapper(value) + urlHash;
         }
 
         function removeUrlParameter(url, name) {
             url = String(url);
 
-            if (url.indexOf(name + '=') === -1) {
+            if (url.indexOf('?' + name + '=') === -1 && url.indexOf('&' + name + '=') === -1) {
                 // nothing to remove, url does not contain this parameter
                 return url;
             }
@@ -1510,14 +1542,15 @@ if (typeof window.Piwik !== 'object') {
                 var urlHash = '';
                 var hashPos = queryString.indexOf('#');
                 if (hashPos !== -1) {
-                    queryString = url.substr(0, hashPos);
-                    urlHash = url.substr(hashPos + 1);
+                    urlHash = queryString.substr(hashPos + 1);
+                    queryString = queryString.substr(0, hashPos);
                 }
 
                 var param;
                 var paramsArr = queryString.split('&');
+                var i = paramsArr.length - 1;
 
-                for (var i = paramsArr.length - 1; i >= 0; i--) {
+                for (i; i >= 0; i--) {
                     param = paramsArr[i].split('=')[0];
                     if (param === name) {
                         paramsArr.splice(i, 1);
@@ -1855,26 +1888,6 @@ if (typeof window.Piwik !== 'object') {
                 k++;
             }
             return -1;
-        }
-
-        function stringStartsWith(str, prefix) {
-            str = String(str);
-            return str.lastIndexOf(prefix, 0) === 0;
-        }
-
-        function stringEndsWith(str, suffix) {
-            str = String(str);
-            return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        }
-
-        function stringContains(str, needle) {
-            str = String(str);
-            return str.indexOf(needle) !== -1;
-        }
-
-        function removeCharactersFromEndOfString(str, numCharactersToRemove) {
-            str = String(str);
-            return str.substr(0, str.length - numCharactersToRemove);
         }
 
         /************************************************************
@@ -3733,7 +3746,7 @@ if (typeof window.Piwik !== 'object') {
                 var visitorId = getUrlParameter(locationHrefAlias, configVisitorIdUrlParameter);
                 var visitorTimestamp = getUrlParameter(locationHrefAlias, configVisitorTimestampParameter);
 
-                if (visitorId && String(visitorId).length == 16 && visitorTimestamp) {
+                if (visitorId && String(visitorId).length === 16 && visitorTimestamp) {
                     var currentTimestampInSeconds = Math.floor((new Date()).getTime() / 1000);
                     var timeoutTimestampInSeconds = 30;
                     if (currentTimestampInSeconds <= (visitorTimestamp + timeoutTimestampInSeconds)) {
@@ -4982,15 +4995,15 @@ if (typeof window.Piwik !== 'object') {
                 if (link.indexOf('?') > 0) {
                     link += '&';
                 } else {
-                    link += '?'
+                    link += '?';
                 }
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
 
                 var timestamp = Math.floor((new Date()).getTime() / 1000);
 
-                link = addUrlParameter(url, configVisitorIdUrlParameter, cookieVisitorIdValues.uuid);
-                link = addUrlParameter(url, configVisitorTimestampParameter, timestamp);
+                link = addUrlParameter(link, configVisitorIdUrlParameter, cookieVisitorIdValues.uuid);
+                link = addUrlParameter(link, configVisitorTimestampParameter, timestamp);
 
                 sourceElement.href = link;
             }
@@ -5918,7 +5931,7 @@ if (typeof window.Piwik !== 'object') {
                 crossDomainTrackingEnabled = true;
             };
 
-            this.diableCrossDomainLinking = function () {
+            this.disableCrossDomainLinking = function () {
                 crossDomainTrackingEnabled = false;
             };
 
