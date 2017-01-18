@@ -3700,14 +3700,18 @@ if (typeof window.Piwik !== 'object') {
             }
 
             function getVisitorIdFromUrlParam() {
+                if (!crossDomainTrackingEnabled) {
+                    return '';
+                }
+
                 var visitorId = getParameter(locationHrefAlias, configVisitorIdUrlParameter);
                 var visitorTimestamp = getParameter(locationHrefAlias, configVisitorTimestampParameter);
 
                 if (visitorId && String(visitorId).length == 16 && visitorTimestamp) {
-                    var currentTimestamp = (new Date()).getTime();
+                    var currentTimestampInSeconds = Math.floor((new Date()).getTime() / 1000);
                     var timeoutTimestampInSeconds = 30;
-                    if (currentTimestamp <= (visitorTimestamp + timeoutTimestampInSeconds)) {
-                        return visitorId;
+                    if (currentTimestampInSeconds <= (visitorTimestamp + timeoutTimestampInSeconds)) {
+                        return String(visitorId);
                     }
                 }
 
@@ -4934,7 +4938,15 @@ if (typeof window.Piwik !== 'object') {
 
             function replaceCrossDomainLink(sourceElement)
             {
+                if (!sourceElement || !sourceElement.href) {
+                    return;
+                }
+
                 var link = sourceElement.href;
+
+                if (startsUrlWithTrackerUrl(link)) {
+                    return;
+                }
 
                 if (link.indexOf(configVisitorIdUrlParameter) > 0 && link.indexOf(configVisitorTimestampParameter) > 0) {
                     return;
@@ -4946,7 +4958,11 @@ if (typeof window.Piwik !== 'object') {
                     link += '?'
                 }
 
-                link += configVisitorIdUrlParameter + '=' + visitorUUID + '&' + configVisitorTimestampParameter + '=' + (new Date().getTime());
+                var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
+
+                var timestamp = Math.floor((new Date()).getTime() / 1000);
+
+                link += configVisitorIdUrlParameter + '=' + cookieVisitorIdValues.uuid + '&' + configVisitorTimestampParameter + '=' + timestamp;
 
                 sourceElement.href = link;
             }
@@ -4954,21 +4970,20 @@ if (typeof window.Piwik !== 'object') {
             function isLinkToDifferentDomainButSameSite(element)
             {
                 var targetLink = element.href;
-                if (targetLink.indexOf('//') === 0
-                    || targetLink.indexOf('http://') === 0
-                    || targetLink.indexOf('https://') === 0) {
+                var isOutlink = targetLink.indexOf('//') === 0 || targetLink.indexOf('http://') === 0 || targetLink.indexOf('https://');
 
-                    var originalSourcePath = element.pathname || getPathName(element.href);
+                if (!isOutlink) {
+                    return false;
+                }
 
-                    // browsers, such as Safari, don't downcase hostname and href
-                    var originalSourceHostName = element.hostname || getHostName(element.href);
-                    var sourceHostName = originalSourceHostName.toLowerCase();
-                    if (isSiteHostPath(sourceHostName, originalSourcePath)) {
-                        if (!isSiteHostName(sourceHostName)) {
-                            return true;
-                        }
+                var originalSourcePath = element.pathname || getPathName(element.href);
+                var originalSourceHostName = (element.hostname || getHostName(element.href)).toLowerCase();
 
-                        return false;
+                if (isSiteHostPath(originalSourceHostName, originalSourcePath)) {
+                    // we could also check against config cookie domain but this would require that other website
+                    // sets actually same cookie domain and we cannot rely on it.
+                    if (!isSameHost(domainAlias, domainFixup(originalSourceHostName))) {
+                        return true;
                     }
 
                     return false;
@@ -4983,7 +4998,7 @@ if (typeof window.Piwik !== 'object') {
             function processClick(sourceElement) {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
-                if (crossDomainTrackingEnabled && link.type === 'link' && isLinkToDifferentDomainButSameSite(sourceElement)) {
+                if (crossDomainTrackingEnabled && !link && isLinkToDifferentDomainButSameSite(sourceElement)) {
                     replaceCrossDomainLink(sourceElement);
                 }
 
@@ -5111,30 +5126,6 @@ if (typeof window.Piwik !== 'object') {
                 };
             }
 
-            function crossDomainClickHandler(enable) {
-
-                return function (event) {
-                    if (!crossDomainTrackingEnabled) {
-                        return;
-                    }
-return;
-                    event = event || windowAlias.event;
-console.log(event.type);
-                    var link = getLinkIfShouldBeProcessed(target);
-                    if (!link || link.type !== 'link') {
-                        return;
-                    }
-
-                    var target = getTargetElementFromEvent(event);
-
-                    if (!isLinkToDifferentDomainButSameSite(target.href)) {
-                        return;
-                    }
-
-                    replaceCrossDomainLink(target);
-                };
-            }
-
             /*
              * Add click listener to a DOM element
              */
@@ -5145,8 +5136,6 @@ console.log(event.type);
                 }
 
                 addEventListener(element, 'click', clickHandler(enable), false);
-                // we cannot re-use other click handlers because useCapture = false and it is too late to change link then
- //               addEventListener(element, 'mousedown', crossDomainClickHandler(enable), true);
 
                 if (enable) {
                     addEventListener(element, 'mouseup', clickHandler(enable), false);
