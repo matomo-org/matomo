@@ -54,8 +54,8 @@
             <th class='first'>{{ 'UsersManager_User'|translate }}</th>
             <th>{{ 'UsersManager_Alias'|translate }}</th>
             <th>{{ 'UsersManager_PrivNone'|translate }}</th>
-            <th>{{ 'UsersManager_PrivView'|translate }} <a href="http://piwik.org/faq/general/faq_70/#faq_70" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
-            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="http://piwik.org/faq/general/faq_69/#faq_69" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivView'|translate }} <a href="https://piwik.org/faq/general/faq_70/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="https://piwik.org/faq/general/faq_69/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
         </tr>
         </thead>
 
@@ -63,7 +63,17 @@
 
         {% for login,access in usersAccessByWebsite %}
 
-            {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' title="{{'UsersManager_UserHasPermission'|translate(login)}}"/>{% endset %}
+            {% set accesValid %}
+              <img src='plugins/UsersManager/images/ok.png' class='accessGranted'
+                {% if access == 'noaccess' %}
+                title="{{'UsersManager_UserHasNoPermission'|translate(login,'UsersManager_PrivNone'|translate,defaultReportSiteName)}}"
+                {% elseif access == 'view' %}
+                title="{{'UsersManager_UserHasPermission'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)}}"
+                {% elseif access == 'admin' %}
+                title="{{'UsersManager_UserHasPermission'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)}}"
+                {% endif %}
+              />
+            {% endset %}
             {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
 
             {% if userIsSuperUser or (hasOnlyAdminAccess and (access!='noaccess' or idSiteSelected == 'all'))  %}
@@ -252,7 +262,7 @@
             <tr>
                 <th class='first'>{{ 'UsersManager_User'|translate }}</th>
                 <th>{{ 'UsersManager_Alias'|translate }}</th>
-                <th>{{ 'Installation_SuperUser'|translate }} <a href="http://piwik.org/faq/general/faq_35/#faq_35" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+                <th>{{ 'Installation_SuperUser'|translate }} <a href="https://piwik.org/faq/general/faq_35/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
             </tr>
             </thead>
 

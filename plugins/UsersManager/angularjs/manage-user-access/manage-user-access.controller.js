@@ -51,15 +51,15 @@
             function successCallback(response) {
                 var mainDiv = $('[data-login="' + login + '"]');
                 var grantedDiv = mainDiv.find('.accessGranted');
+                var currentSite = $(".sites_autocomplete").attr("sitename");
+                currentSite = piwik.helper.escape(piwik.helper.htmlEntities(currentSite));
 
                 grantedDiv.attr("src", "plugins/UsersManager/images/no-access.png")
                     .attr("class", "updateAccess")
                     .attr("title", function(){
                       var access = grantedDiv.parents('[id]').attr('id');
-                      var currentSite = $(".sites_autocomplete").attr("sitename");
-                      currentSite = piwik.helper.escape(piwik.helper.htmlEntities(currentSite));
                       if (access =="noaccess"){
-                        return _pk_translate('UsersManager_UserHasPermission', [login])
+                        return _pk_translate('UsersManager_RemoveUserAccess', [login,currentSite])
                       }
                       else if (access =="view") {
                         return _pk_translate('UsersManager_GiveUserAccess', [login,_pk_translate('UsersManager_PrivView'),currentSite]);
@@ -77,8 +77,14 @@
                 mainDiv.find('#' + access + ' img')
                     .attr('src', "plugins/UsersManager/images/ok.png")
                     .attr('class', "accessGranted")
-                    .attr("title",login+" currently has this permission.")
-                ;
+                    .attr("title",function(){
+                      if(access=="noaccess"){
+                        return _pk_translate('UsersManager_UserHasNoPermission', [login,_pk_translate('UsersManager_PrivNone'),currentSite]);
+                      }else {
+                        return _pk_translate('UsersManager_UserHasPermission', [login,access,currentSite]);
+                      }}
+                  )
+                  ;
 
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
