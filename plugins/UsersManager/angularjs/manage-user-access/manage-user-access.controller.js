@@ -43,13 +43,30 @@
         };
 
         this.setAccess = function (login, access) {
-    
+            if ( $('[data-login="' + login + '"]').find("#"+access).has('.accessGranted').length ){
+                return;
+            }
+            var currentSite= $(".sites_autocomplete").attr("sitename");
             // callback called when the ajax request Update the user permissions is successful
             function successCallback(response) {
                 var mainDiv = $('[data-login="' + login + '"]');
-                mainDiv.find('.accessGranted')
-                    .attr("src", "plugins/UsersManager/images/no-access.png")
+                var grantedDiv = mainDiv.find('.accessGranted');
+
+                grantedDiv.attr("src", "plugins/UsersManager/images/no-access.png")
                     .attr("class", "updateAccess")
+                    .attr("title", function(){
+                      var access = grantedDiv.parents('[id]').attr('id');
+                      if (access =="noaccess"){
+                        return "Remove access for '"+login+"' for "+currentSite+".";
+                      }
+                      else if (access =="view") {
+                        return "Give '"+login+"' view access for "+currentSite+".";
+                      }
+                      else if (access =="admin") {
+                        return "Give '"+login+"' admin access for "+currentSite+".";
+                      }
+                    })
+                    .off('click')
                     .click(function () {
                         var access = $(this).parent().attr('id')
                         self.setAccess(login, access);
@@ -58,6 +75,7 @@
                 mainDiv.find('#' + access + ' img')
                     .attr('src', "plugins/UsersManager/images/ok.png")
                     .attr('class', "accessGranted")
+                    .attr("title",login+" currently has this permission.")
                 ;
 
                 var UI = require('piwik/UI');
