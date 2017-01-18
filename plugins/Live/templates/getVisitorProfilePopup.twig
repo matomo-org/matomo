@@ -144,9 +144,6 @@
                 </div>
             </div>
             <div class="visitor-profile-visits-info">
-                <div class="visitor-profile-pages-visited">
-                    <h1>{{ 'Live_VisitedPages'|translate }}</h1>
-                </div>
                 <div class="visitor-profile-visits-container">
                     <ol class="visitor-profile-visits">
                         {% include "@Live/getVisitList.twig" with {'visits': visitorData.lastVisits, 'startCounter': 1} %}
