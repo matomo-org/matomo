@@ -57,13 +57,13 @@
                     .attr("title", function(){
                       var access = grantedDiv.parents('[id]').attr('id');
                       if (access =="noaccess"){
-                        return "Remove access for '"+login+"' for "+currentSite+".";
+                        return _pk_translate('UsersManager_UserHasPermission', [login])
                       }
                       else if (access =="view") {
-                        return "Give '"+login+"' view access for "+currentSite+".";
+                        return _pk_translate('UsersManager_GiveUserAccess', [login,_pk_translate('UsersManager_PrivView'),currentSite]);
                       }
                       else if (access =="admin") {
-                        return "Give '"+login+"' admin access for "+currentSite+".";
+                        return _pk_translate('UsersManager_GiveUserAccess', [login,_pk_translate('UsersManager_PrivAdmin'),currentSite]);
                       }
                     })
                     .off('click')

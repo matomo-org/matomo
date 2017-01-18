@@ -54,8 +54,8 @@
             <th class='first'>{{ 'UsersManager_User'|translate }}</th>
             <th>{{ 'UsersManager_Alias'|translate }}</th>
             <th>{{ 'UsersManager_PrivNone'|translate }}</th>
-            <th>{{ 'UsersManager_PrivView'|translate }} <a href="http://piwik.org/faq/general/faq_70/#faq_70" target="_blank"><span class="icon-help"></span></a></th>
-            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="http://piwik.org/faq/general/faq_69/#faq_69" target="_blank"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivView'|translate }} <a href="http://piwik.org/faq/general/faq_70/#faq_70" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="http://piwik.org/faq/general/faq_69/#faq_69" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
         </tr>
         </thead>
 
@@ -63,7 +63,7 @@
 
         {% for login,access in usersAccessByWebsite %}
 
-            {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' title="{{login}} currently has this permission."/>{% endset %}
+            {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' title="{{'UsersManager_UserHasPermission'|translate(login)}}"/>{% endset %}
             {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
 
             {% if userIsSuperUser or (hasOnlyAdminAccess and (access!='noaccess' or idSiteSelected == 'all'))  %}
@@ -78,7 +78,7 @@
                     {% else %}
                         <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                              ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "noaccess")'
-                             title="Remove access for '{{login}}' for {{ defaultReportSiteName }}."
+                             title="{{'UsersManager_RemoveUserAccess'|translate(login,defaultReportSiteName)}}"
                         />
                     {% endif %}&nbsp;</td>
                 <td id='view'>
@@ -89,7 +89,7 @@
                     {% else %}
                         <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                              ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "view")'
-                             title="Give '{{login}}' view access for {{ defaultReportSiteName }}."
+                             title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)}}"
                         />
                     {% endif %}&nbsp;</td>
                 <td id='admin'>
@@ -103,7 +103,7 @@
                         {% else %}
                             <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                                  ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "admin")'
-                                 title="Give '{{login}}' admin access for {{ defaultReportSiteName }}."
+                                 title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)}}"
                             />
                         {% endif %}&nbsp;
                     {% endif %}
@@ -252,7 +252,7 @@
             <tr>
                 <th class='first'>{{ 'UsersManager_User'|translate }}</th>
                 <th>{{ 'UsersManager_Alias'|translate }}</th>
-                <th>{{ 'Installation_SuperUser'|translate }} <a href="http://piwik.org/faq/general/faq_35/#faq_35" target="_blank"><span class="icon-help"></span></a></th>
+                <th>{{ 'Installation_SuperUser'|translate }} <a href="http://piwik.org/faq/general/faq_35/#faq_35" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
             </tr>
             </thead>
 
