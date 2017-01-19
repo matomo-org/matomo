@@ -100,7 +100,7 @@
             var parts = dateStr.split(',');
             dateStr = parts[0];
         }
-        
+
         var splitDate = dateStr.split('-');
         currentYear = splitDate[0];
         currentMonth = splitDate[1] - 1;
@@ -696,5 +696,14 @@
 
         initTopControls();
     });
+
+                    Mousetrap.bind('d', function(event) {
+                        if (event.preventDefault) {
+                            event.preventDefault();
+                        } else {
+                            event.returnValue = false; // IE
+                        }
+                        $('#date.title').trigger('click')
+                    });
 
 }(jQuery));
