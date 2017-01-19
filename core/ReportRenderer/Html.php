@@ -12,7 +12,10 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\ReportRenderer;
 use Piwik\SettingsPiwik;
+use Piwik\Site;
+use Piwik\Date;
 use Piwik\View;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 
 /**
  * HTML report renderer
@@ -90,10 +93,20 @@ class Html extends ReportRenderer
         $frontPageView = new View('@CoreHome/ReportRenderer/_htmlReportHeader');
         $this->assignCommonParameters($frontPageView);
 
+        $period = $this->report['period'];
+
+        $periods = ScheduledReports::getPeriodToFrequencyAsAdjective();
+        $frontPageView->assign("period", $periods[$period]);
         $frontPageView->assign("reportTitle", $reportTitle);
         $frontPageView->assign("prettyDate", $prettyDate);
         $frontPageView->assign("description", $description);
         $frontPageView->assign("reportMetadata", $reportMetadata);
+        $frontPageView->assign("websiteName", Site::getNameFor($this->idSite));
+        $frontPageView->assign("idSite", $this->idSite);
+        $frontPageView->assign("period", $period);
+
+        $date = Date::now()->setTimezone(Site::getTimezoneFor($this->idSite))->toString();
+        $frontPageView->assign("date", $date);
 
         // segment
         $displaySegment = ($segment != null);

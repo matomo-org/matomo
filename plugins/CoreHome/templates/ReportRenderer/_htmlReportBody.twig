@@ -1,4 +1,8 @@
-<h2 id="{{ reportId }}" style="color: rgb({{ reportTitleTextColor }}); font-size: {{ reportTitleTextSize }}pt; font-weight:normal;">
+{% set fontStyle = "color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, 'Helvetica Neue', sans-serif;"%}
+{% set styleTableHeader = "border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;" ~ fontStyle %}
+{% set styleTableCell = "border-bottom:1px solid rgb(231,231,231);font-size: 15px;padding:17px 15px;" ~ fontStyle %}
+
+<h2 id="{{ reportId }}" style=" {{fontStyle}} font-size: {{ reportTitleTextSize }}pt; font-weight:normal; margin:45px 0 30px 0;">
     {{ reportName }}
 </h2>
 
@@ -13,7 +17,8 @@
                     src="cid:{{ reportId }}"
                 {% endif %}
                 height="{{ graphHeight }}"
-                width="{{ graphWidth }}"/>
+                width="{{ graphWidth }}"
+                margin="0 auto"/>
     {% endif %}
 
     {% if displayGraph and displayTable %}
@@ -22,16 +27,16 @@
     {% endif %}
 
     {% if displayTable %}
-        <table style="border-collapse:collapse; margin-left: 5px;">
-            <thead style="background-color: rgb({{ tableHeaderBgColor }}); color: rgb({{ tableHeaderTextColor }}); font-size: {{ reportTableHeaderTextSize }}pt; text-transform: {{ reportTableHeaderTextTransform }}; line-height:2.5em;">
-            {% for columnName in reportColumns %}
-                <th style="font-weight: {{ reportTableHeaderTextWeight }}; font-size:10px; text-align:left; padding: 6px 0;">
+        <table style="border-collapse:collapse; border:1px solid rgb(231,231,231); padding:5px;">
+            <thead style="background-color: rgb({{tableBgColor}});">
+            {% for columnId, columnName in reportColumns %}
+                <th style="{{ styleTableHeader }}{% if columnId == 'label' %}{%  else %} text-align:right;{% endif %}">
                     &nbsp;{{ columnName }}&nbsp;&nbsp;
                 </th>
             {% endfor %}
             </thead>
             <tbody>
-            {% set cycleValues=['','background-color: rgb('~tableBgColor~')'] %}
+            {% set cycleValues=['background-color: rgb('~tableBgColor~')',''] %}
             {% set cycleIndex=1 %}
             {% for rowId,row in reportRows %}
                 {% set rowMetrics=row.columns %}
@@ -41,10 +46,10 @@
                 {% else %}
                     {% set rowMetadata=null %}
                 {% endif %}
-                <tr style="{{ cycle(cycleValues, cycleIndex) }};line-height: 22px;">
+                <tr style="{{ cycle(cycleValues, cycleIndex) }};{{styleTableCell}}">
                     {% set cycleIndex=cycleIndex+1 %}
                     {% for columnId, columnName in reportColumns %}
-                        <td style="font-size: {{ reportTableRowTextSize }}; {% if columnId == 'label' %}border-right: 1px solid rgb({{ tableCellBorderColor }}); {%  else %}border-left: 1px solid rgb({{ tableCellBorderColor }}); {% endif %} padding: 5px 0 5px 5px;">
+                        <td style="padding:17px 15px;{% if columnId == 'label' %}{%  else %} text-align:right;{% endif %}">
                             {% if columnId == 'label' %}
                                 {% if rowMetrics[columnId] is defined %}
                                     {% if rowMetadata.logo is defined %}
@@ -73,8 +78,9 @@
             </tbody>
         </table>
     {% endif %}
-    <br/>
-    <a style="text-decoration:none; color: rgb({{ reportTitleTextColor }}); font-size: {{ reportBackToTopTextSize }}pt;" href="#reportTop">
-        {{ 'ScheduledReports_TopOfReport'|translate }}
-    </a>
+    <!--Note: The back to top link will not work in the majority email clients-->
+    <p style="width: 100%; text-align:center;">
+      <a style="text-decoration:none; font-size: 9pt;" href="#reportTop">
+          {{ 'ScheduledReports_TopOfReport'|translate }} &#8593;
+    </a></p>
 {% endif %}
