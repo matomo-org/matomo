@@ -697,13 +697,13 @@
         initTopControls();
     });
 
-                    Mousetrap.bind('d', function(event) {
-                        if (event.preventDefault) {
-                            event.preventDefault();
-                        } else {
-                            event.returnValue = false; // IE
-                        }
-                        $('#date.title').trigger('click')
-                    });
+    Mousetrap.bind('d', function(event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.returnValue = false; // IE
+        }
+        $('#periodString .title').trigger('click');
+    });
 
 }(jQuery));
