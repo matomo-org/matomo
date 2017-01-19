@@ -247,7 +247,6 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // configure selectable columns
-        // todo: should use SettingsPiwik::isUniqueVisitorsEnabled
         $period = Common::getRequestVar('period', false);
 
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
