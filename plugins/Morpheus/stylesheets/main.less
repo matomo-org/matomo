@@ -26,9 +26,11 @@ h2 {
     width: 100%;
     padding: 16px 0 16px 0;
     margin: 0;
-    a, a:hover {
-        text-decoration: none;
+    .inlineHelp {
+      a, a:hover {
+        text-decoration: underline;
         color: @theme-color-text;
+      }
     }
 }
 h3 {
@@ -212,7 +214,6 @@ p {
       margin-right: 0;
       a {
         font-family: @theme-fontFamily-base;
-        font-size: 11px;
         line-height: 12px;
         display: inline-block;
         width: 100%;
@@ -505,9 +506,6 @@ div.sparkline {
     top: -19px;
 }
 
-.visitor-profile-date {
-    padding-top: 3px;
-}
 
 .visitor-profile-more-info > a {
     color: @theme-color-link;
@@ -524,15 +522,10 @@ div.sparkline {
     li {
         margin: 0 !important;
         background: @color-silver-l95;
-        padding: 5px 10px !important;
-        border-bottom: 1px solid @color-silver-l80;
+        padding: 7px 10px !important;
         > div {
             border: 0px !important;
             margin: 0 !important;
-        }
-
-        &:first-child {
-            border-top: 1px solid @color-silver-l80;
         }
     }
 
@@ -540,15 +533,8 @@ div.sparkline {
         > li {
             padding: 0 0 0 !important;
             span {
-                color: @theme-color-text-lighter;
-                .font-default(13px, 18px);
                 font-weight: normal;
                 margin-right: 20px;
-            }
-
-            h2 {
-                margin-left: 20px;
-                margin-bottom: 12px;
             }
 
             ol {
@@ -556,24 +542,19 @@ div.sparkline {
                 border-top: 0 !important;
                 li {
                     background: @theme-color-background-contrast !important;
-                    .font-default(11px, 19px);
                     font-weight: normal;
                     color: @theme-color-text-lighter;
                     &:last-child {
                         border-bottom: 0 !important;
+                        padding-bottom: 20px !important;
+                    }
+                    &:first-child {
+                        padding-top: 20px !important;
                     }
                 }
             }
         }
     }
-}
-
-.visitor-profile-visit-title-row {
-  padding-top:10px;
-
-  &:hover {
-    background-color: @color-silver-l90;
-  }
 }
 
 .widget .visitor-profile .visitor-profile-info > div > div {
@@ -602,31 +583,7 @@ div.sparkline {
         }
     }
 
-    h1 {
-        .font-default(15px, 20px);
-        font-weight: normal;
-        color: @theme-color-text;
-    }
 
-    h2 {
-        .font-default(13px, 18px);
-        color: @theme-color-text;
-    }
-
-    p {
-        margin-left: 0;
-        margin-right: 0;
-        .font-default(13px, 18px);
-        color: @color-silver-l60;
-        strong {
-            .font-default(13px, 18px);
-            color: @theme-color-text;
-            font-weight: normal !important;
-        }
-        span {
-            .font-default(13px, 18px);
-        }
-    }
 
     .visitor-profile-avatar {
        ul {

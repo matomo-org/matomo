@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Lisa uus usaldusväärne host",
         "Administration": "Administreerimine",
         "ArchivingSettings": "Arhiveerimise seaded",
         "BrandingSettings": "Brändingu seaded",
@@ -17,6 +18,8 @@
         "LogoUpload": "Vali üleslaadimiseks Logo",
         "MenuDiagnostic": "Diagnostika",
         "MenuGeneralSettings": "Põhiseaded",
+        "MenuSystem": "Süsteem",
+        "MenuDevelopment": "Arendamine",
         "OptOutForYourVisitors": "Piwiku külastajate väljaarvamine",
         "PiwikIsInstalledAt": "Piwik on paigaldatud",
         "TrackAGoal": "Kogu infot eesmärgi kohta",

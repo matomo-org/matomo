@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeIpMaskLength": "%1$s bait(i) - nt. %2$s",
         "ClickHereSettings": "Vajuta siia, et minna %s seadete lehele.",
         "CurrentDBSize": "Praegune andmebaasi suurus",
         "DBPurged": "Andmebaas tühjendatud.",

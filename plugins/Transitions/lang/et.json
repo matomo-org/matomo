@@ -2,6 +2,7 @@
     "Transitions": {
         "BouncesInline": "%s põrget",
         "DirectEntries": "Otse sisenemisi",
+        "ErrorBack": "Mine tagasi eelmisele tegevusele",
         "ExitsInline": "%s väljumist",
         "FromCampaigns": "Tuldud kampaaniad",
         "FromPreviousPages": "Tuldud sisemised lehed",

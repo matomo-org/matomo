@@ -66,7 +66,7 @@
         "ColumnNbUsers": "使用者",
         "ColumnNbUsersDocumentation": "登入到你網站的使用者數。它是有設定了使用者 ID 的不重複使用者（來自追蹤程式碼的功能「setUserId」）。",
         "ColumnNbVisits": "訪問數",
-        "ColumnNbVisitsDocumentation": "如果訪客首次來到你的網站，或是他瀏覽同一頁超過 30 分鐘，就會被紀錄為新訪問。",
+        "ColumnNbVisitsDocumentation": "如果訪客首次來到你的網站，或是他距離上一次瀏覽超過 30 分鐘，就會被紀錄為新訪問。",
         "ColumnPageBounceRateDocumentation": "瀏覽開始於這個頁面並直接離開的訪問百分比。",
         "ColumnPageviews": "瀏覽數",
         "ColumnPageviewsDocumentation": "這個網頁被訪問的次數。",
@@ -431,7 +431,7 @@
         "YearlyReports": "年報表",
         "YearsDays": "%1$s 年 %2$s 天",
         "Yes": "是",
-        "YouAreCurrentlyUsing": "你目前正在使用 Piwik %s。",
+        "YouAreCurrentlyUsing": "你正在使用 Piwik %s。",
         "YouAreViewingDemoShortMessage": "你正在瀏覽 Piwik 範例網站",
         "YouMustBeLoggedIn": "你必須登入才能存取這個功能。",
         "YourChangesHaveBeenSaved": "你的變更已保存。"

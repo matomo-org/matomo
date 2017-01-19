@@ -1,8 +1,10 @@
 {
     "CoreHome": {
         "CategoryNoData": "Informatsioon puudub selles kategoorias. Proovi \"Include all population\".",
+        "ChangeVisualization": "Muuda visualiseerimist",
         "CheckForUpdates": "Kontrolli uuendusi",
         "CheckPiwikOut": "Proovi Piwikut!",
+        "CloseSearch": "Sulge otsing",
         "CloseWidgetDirections": "Sa saad antud vidina sulgeda, valides 'X' vidina ülaservas.",
         "Default": "vaikimisi",
         "ExcludeRowsWithLowPopulation": "Kuvatakse kõiki ridu %s Eemalda ebapopulaarsemad",
@@ -24,6 +26,8 @@
         "UnFlattenDataTable": "Antud raport on lame %s Tee see hierarhiliseks",
         "ViewAllPiwikVideoTutorials": "Vaata kõiki Piwiku video õpetusi",
         "WebAnalyticsReports": "Veebi analüüsi raportid",
-        "YouAreUsingTheLatestVersion": "Kasutad uusimat Piwiku versiooni!"
+        "YouAreUsingTheLatestVersion": "Kasutad uusimat Piwiku versiooni!",
+        "SystemSummaryWidget": "Süsteemi kokkuvõte",
+        "SystemSummaryNWebsites": "%d veebilehte"
     }
 }
