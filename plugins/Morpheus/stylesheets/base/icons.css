@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'piwik';
-    src: url('plugins/Morpheus/fonts/piwik.woff?42xrcb') format('woff');
+    src: url('plugins/Morpheus/fonts/piwik.woff?43xrdb') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -307,4 +307,6 @@
 .icon-funnel:before {
 	content: "\ea5b";
 }
-
+.icon-form:before {
+    content: "\e85d";
+}
