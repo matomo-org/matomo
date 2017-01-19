@@ -159,7 +159,11 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 {% endif %}
                 {% if visitor.getColumn('countryFlag') %}
                     <span class="visitorLogIconWithDetails">
+
                         <img src="{{ visitor.getColumn('countryFlag') }}"/>
+                        {% if visitor.getColumn('city') %}{{ visitor.getColumn('city')|rawSafeDecoded }}{% endif -%}
+                        {%- if visitor.getColumn('region') %}{% if visitor.getColumn('city') %}, {% endif %}{{ visitor.getColumn('region')|rawSafeDecoded }}{% endif %}
+
                         <ul class="details">
                             <li>{{ 'UserCountry_Country'|translate }}: {{ visitor.getColumn('country') }}</li>
                             {% if visitor.getColumn('region') %}<li>{{ 'UserCountry_Region'|translate }}: {{ visitor.getColumn('region') }}</li>{% endif %}
