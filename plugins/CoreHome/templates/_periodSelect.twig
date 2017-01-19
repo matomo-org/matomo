@@ -29,7 +29,7 @@
                         <span id="otherPeriods">
                             {% for label,thisPeriod in periodsNames %}
                                 <p>
-                                    <input type="radio" name="period" id="period_id_{{ label }}" value="{{ linkTo( { 'period': label} ) }}"{% if label==period %} checked="checked"{% endif %} />
+                                    <input type="radio" name="period"  tabindex="4" id="period_id_{{ label }}" value="{{ linkTo( { 'period': label} ) }}"{% if label==period %} checked="checked"{% endif %} />
                                     <label for="period_id_{{ label }}">{{ thisPeriod.singular }}</label>
                                 </p>
                             {% endfor %}
