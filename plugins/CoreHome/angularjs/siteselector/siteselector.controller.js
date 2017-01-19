@@ -45,7 +45,7 @@
         } else {
             event.returnValue = false; // IE
         }
-        $('.siteSelector .title').trigger('click');
+        $('.siteSelector .title').trigger('click').focus();
     });
 
 })();
