@@ -43,7 +43,7 @@ class Alexa implements MetricsProvider
             $value = null;
         }
 
-        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://alexa.com');
+        $logo = "plugins/SEO/images/alexa.com.png";
         $link = self::LINK . urlencode($domain);
 
         return array(

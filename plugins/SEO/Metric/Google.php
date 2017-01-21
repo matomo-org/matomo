@@ -37,7 +37,7 @@ class Google implements MetricsProvider
     {
         $pageCount = $this->fetchIndexedPagesCount($domain);
 
-        $logo = SearchEngine::getInstance()->getLogoFromUrl('http://google.com');
+        $logo = "plugins/SEO/images/google.com.png";
 
         return array(
             new Metric('google-index', 'SEO_Google_IndexedPages', $pageCount, $logo, null, null, 'General_Pages'),
