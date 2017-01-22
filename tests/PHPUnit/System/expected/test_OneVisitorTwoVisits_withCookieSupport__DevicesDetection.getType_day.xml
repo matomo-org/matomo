@@ -24,7 +24,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
 		<segment>deviceType==desktop</segment>
-		<logo>plugins/DevicesDetection/images/screens/normal.gif</logo>
+		<logo>plugins/DevicesDetection/images/screens/normal.png</logo>
 	</row>
 	<row>
 		<label>Camera</label>
@@ -42,31 +42,31 @@
 		<label>Console</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==console</segment>
-		<logo>plugins/DevicesDetection/images/screens/console.gif</logo>
+		<logo>plugins/DevicesDetection/images/screens/console.png</logo>
 	</row>
 	<row>
 		<label>Feature phone</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==feature+phone</segment>
-		<logo>plugins/DevicesDetection/images/screens/mobile.gif</logo>
+		<logo>plugins/DevicesDetection/images/screens/mobile.png</logo>
 	</row>
 	<row>
 		<label>Phablet</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==phablet</segment>
-		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+		<logo>plugins/DevicesDetection/images/screens/unknown.png</logo>
 	</row>
 	<row>
 		<label>Portable media player</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==portable+media+player</segment>
-		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+		<logo>plugins/DevicesDetection/images/screens/unknown.png</logo>
 	</row>
 	<row>
 		<label>Smart display</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==smart+display</segment>
-		<logo>plugins/DevicesDetection/images/screens/unknown.gif</logo>
+		<logo>plugins/DevicesDetection/images/screens/unknown.png</logo>
 	</row>
 	<row>
 		<label>Smartphone</label>
