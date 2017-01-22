@@ -56,6 +56,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     public function test_icoFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
+
+        // filter favicon.ico as it may not be in PNG format which is fine
+        $files = array_filter($files, function($value) { return !preg_match('/favicon.ico/', $value); });
+
         $this->checkFilesAreInPngFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.ico');
         $this->checkFilesAreInPngFormat($files);

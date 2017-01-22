@@ -17,11 +17,11 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 function getBrandLogo($label)
 {
     $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
-    $path = dirname(__FILE__) . '/images/brand/' . $label . '.ico';
+    $path = dirname(__FILE__) . '/images/brand/' . $label . '.png';
     if (file_exists($path)) {
-        return 'plugins/DevicesDetection/images/brand/' . $label . '.ico';
+        return 'plugins/DevicesDetection/images/brand/' . $label . '.png';
     } else {
-        return 'plugins/DevicesDetection/images/brand/Unknown.ico';
+        return 'plugins/DevicesDetection/images/brand/Unknown.png';
     }
 }
 
@@ -160,17 +160,17 @@ function getDeviceTypeLogo($label)
     $label = strtolower($label);
 
     $deviceTypeLogos = Array(
-        "desktop"       => "normal.gif",
+        "desktop"       => "normal.png",
         "smartphone"    => "smartphone.png",
         "tablet"        => "tablet.png",
         "tv"            => "tv.png",
-        "feature phone" => "mobile.gif",
-        "console"       => "console.gif",
+        "feature phone" => "mobile.png",
+        "console"       => "console.png",
         "car browser"   => "carbrowser.png",
         "camera"        => "camera.png");
 
     if (!array_key_exists($label, $deviceTypeLogos)) {
-        $label = 'unknown.gif';
+        $label = 'unknown.png';
     } else {
         $label = $deviceTypeLogos[$label];
     }
