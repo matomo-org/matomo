@@ -7,6 +7,16 @@
 
 Segmentation = (function($) {
 
+  Mousetrap.bind('s', function(event) {
+    if (event.preventDefault) {
+        event.preventDefault();
+    } else {
+        event.returnValue = false; // IE
+    }
+    $('.segmentListContainer .segmentationContainer .title').trigger('click').focus();
+    });
+
+
     function preselectFirstMetricMatch(rowNode)
     {
         var matchValue = $(rowNode).find('.metricMatchBlock option:first').attr('value');
@@ -227,7 +237,7 @@ Segmentation = (function($) {
             var html = self.editorTemplate.find("> .listHtml").clone();
             var segment, injClass;
             var listHtml = '<li data-idsegment="" ' +
-                (self.currentSegmentStr == "" ? " class='segmentSelected' " : "")
+                (self.currentSegmentStr == "" ? " class='segmentSelected' tabindex='4' " : "")
                 + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span></li> ';
@@ -276,7 +286,7 @@ Segmentation = (function($) {
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
-                        +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname">'+getSegmentName(segment)+'</span>';
+                        +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname" tabindex="4">'+getSegmentName(segment)+'</span>';
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
@@ -1420,7 +1430,7 @@ $(document).ready(function() {
 
                     self.$element.find('a.close').click();
                     self.forceSegmentReload('');
-                    
+
                     $('.ui-dialog-content').dialog('close');
 
                     self.changeSegmentList(self.props.availableSegments);

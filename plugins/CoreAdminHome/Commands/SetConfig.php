@@ -73,12 +73,12 @@ Use the --piwik-domain option to specify which instance to modify.
         foreach ($manipulations as $manipulation) {
             $manipulation->manipulate($config);
 
-            $output->writeln("<info>Setting [{$manipulation->getSectionName()}] {$manipulation->getName()} = {$manipulation->getValueString()}</info>");
+            $output->write("<info>Setting [{$manipulation->getSectionName()}] {$manipulation->getName()} = {$manipulation->getValueString()}...</info>");
+            $output->writeln("<info> done.</info>");
         }
 
         $config->forceSave();
 
-        $this->writeSuccessMessage($output, array("Done."));
     }
 
     /**

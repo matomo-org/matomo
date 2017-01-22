@@ -10,7 +10,6 @@
         "ColumnWebsite": "웹사이트",
         "ColumnWebsitePage": "웹사이트 페이지",
         "DirectEntry": "직접 입력",
-        "DirectEntryDocumentation": "브라우저에 URL을 입력하여 웹사이트 검색을 시작한 방문자 - 직접 입력하여 웹사이트를 방문했습다.",
         "Distinct": "리퍼러 타입에 의한 고유 리퍼러",
         "DistinctCampaigns": "고유 캠페인",
         "DistinctKeywords": "고유 검색어",

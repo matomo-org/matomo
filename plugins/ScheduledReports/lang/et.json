@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Kuvamise seaded",
         "AggregateReportsFormat_GraphsOnly": "Kuva ainult graafikud (tabelid puuduvad)",
         "AggregateReportsFormat_TablesAndGraphs": "Kuva tabelid ja graafikud kõikidele raportitele",
         "AggregateReportsFormat_TablesOnly": "(vaikimisi) Kuva raportite tabelid (ja olulistele mõõdikutele ka graafikud)",

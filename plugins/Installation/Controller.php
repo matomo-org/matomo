@@ -80,13 +80,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Installation Step 1: Welcome
      *
      * Can also display an error message when there is a failure early (eg. DB connection failed)
+     *
+     * @param string $possibleErrorMessage Possible error message which may be set in the frontcontroller when event. Config.badConfigurationFile was triggered
      */
-    function welcome()
+    function welcome($possibleErrorMessage = null)
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
 
-        $this->checkPiwikIsNotInstalled();
+        $this->checkPiwikIsNotInstalled($possibleErrorMessage);
         $view = new View(
             '@Installation/welcome',
             $this->getInstallationSteps(),
@@ -594,14 +596,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         LanguagesManager::setLanguageForSession($translator->getCurrentLanguage());
     }
 
-    private function checkPiwikIsNotInstalled()
+    private function checkPiwikIsNotInstalled($possibleErrorMessage = null)
     {
         if (!SettingsPiwik::isPiwikInstalled()) {
             return;
         }
+
+        $possibleErrorMessage = $possibleErrorMessage ? sprintf('<br/><br/>Original error was "%s".<br/>', $possibleErrorMessage) : '';
+
         \Piwik\Plugins\Login\Controller::clearSession();
         $message = Piwik::translate('Installation_InvalidStateError',
-            array('<br /><strong>',
+            array($possibleErrorMessage . '<br /><strong>',
                   // piwik-is-already-installed is checked against in checkPiwikServerWorking
                   '</strong><a id="piwik-is-already-installed" href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
                   '</a>')

@@ -6,7 +6,7 @@
                 {{ 'General_Visit'|translate }} #{{ startCounter }}
 
                 {% if visitInfo.getColumn('visitDuration') != 0 %}
-                    <span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>
+                    <span>&nbsp; ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>
                 {% endif %}
                 <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}">
                     {{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}

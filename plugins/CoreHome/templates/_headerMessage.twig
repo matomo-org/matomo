@@ -16,16 +16,20 @@
      class="piwikSelector borderedControl {% if isPiwikDemo or not latest_version_available %}header_info{% else %}{% endif %} {% if isPiwikDemo %}isPiwikDemo{% else %}piwikTopControl{% endif %} {% if latest_version_available %}update_available{% endif %}"
         >
 
-    <a class="title" href="#">
         {% if isPiwikDemo %}
+        <a class="title" style="cursor:default;">
             {{ 'General_YouAreViewingDemoShortMessage'|translate }}
+          </a>
         {% elseif latest_version_available %}
+        <a class="title" href="?module=CoreUpdater&action=newVersionAvailable" style="cursor:pointer;">
             {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
             <span class="icon-warning"></span>
+          </a>
         {% elseif isSuperUser and isAdminArea is defined and isAdminArea %}
+        <a class="title">
             {{ updateCheck|raw }}
+          </a>
         {% endif %}
-    </a>
 
     <div class="dropdown positionInViewport">
         {% if isPiwikDemo %}

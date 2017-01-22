@@ -190,5 +190,12 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_ConfirmProhibitMySuperUserAccess";
         $translationKeys[] = "UsersManager_ExceptionUserHasViewAccessAlready";
         $translationKeys[] = "UsersManager_ExceptionNoValueForUsernameOrEmail";
+        $translationKeys[] = "UsersManager_GiveUserAccess";
+        $translationKeys[] = "UsersManager_PrivAdmin";
+        $translationKeys[] = "UsersManager_PrivView";
+        $translationKeys[] = "UsersManager_RemoveUserAccess";
+        $translationKeys[] = "UsersManager_UserHasPermission";
+        $translationKeys[] = "UsersManager_UserHasNoPermission";
+        $translationKeys[] = "UsersManager_PrivNone";
     }
 }

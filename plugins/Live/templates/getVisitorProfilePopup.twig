@@ -6,14 +6,14 @@
      data-next-visitor="{{ visitorData.nextVisitorId }}"
      data-prev-visitor="{{ visitorData.previousVisitorId }}"
      tabindex="0">
-    <a href class="visitor-profile-close"></a>
+    <a href class="visitor-profile-close" title="{{ 'General_Close'|translate }} "></a>
     <div class="visitor-profile-info">
         <div>
             <div class="visitor-profile-overview">
                 <div class="visitor-profile-avatar">
                     <div>
                         <div class="visitor-profile-image-frame">
-                            <img src="{{ visitorData.visitorAvatar|default("plugins/Live/images/unknown_avatar.jpg") }}"
+                            <img src="{{ visitorData.visitorAvatar|default("plugins/Live/images/unknown_avatar.png") }}"
                                  alt="{{ visitorData.visitorDescription|default('') }}"
                                  title="{{ visitorData.visitorDescription|default('') }}" />
                         </div>
@@ -144,9 +144,6 @@
                 </div>
             </div>
             <div class="visitor-profile-visits-info">
-                <div class="visitor-profile-pages-visited">
-                    <h1>{{ 'Live_VisitedPages'|translate }}</h1>
-                </div>
                 <div class="visitor-profile-visits-container">
                     <ol class="visitor-profile-visits">
                         {% include "@Live/getVisitList.twig" with {'visits': visitorData.lastVisits, 'startCounter': 1} %}

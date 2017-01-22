@@ -1118,7 +1118,7 @@
 		<module>Actions</module>
 		<action>getEntryPageUrls</action>
 		<dimension>Entry Page URL</dimension>
-		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during his visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<entry_nb_visits>Entrances</entry_nb_visits>
 			<entry_bounce_count>Bounces</entry_bounce_count>
@@ -1191,7 +1191,7 @@
 		<module>Actions</module>
 		<action>getExitPageUrls</action>
 		<dimension>Exit Page URL</dimension>
-		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during his visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<exit_nb_visits>Exits</exit_nb_visits>
 			<nb_visits>Unique Pageviews</nb_visits>

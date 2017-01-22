@@ -8,6 +8,7 @@
         "country_a2": "Satelliidi pakkuja",
         "country_cat": "Katalaani kommuunid",
         "country_o1": "Muu riik",
+        "country_ti": "Tiibet",
         "CurrentLocationIntro": "Antud pakkuja andmete alusel on sinu praegune asukoht",
         "DistinctCountries": "%s eri riigist",
         "DownloadingDb": "Laen alla %s",
@@ -30,5 +31,8 @@
         "SubmenuLocations": "Asukohad",
         "UpdaterWasLastRun": "Uuendaja käivitus viimati %s.",
         "WidgetLocation": "Külastajate asukohad"
+    },
+    "Intl": {
+        "Country_TI": "Tiibet"
     }
 }

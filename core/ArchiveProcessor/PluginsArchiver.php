@@ -138,11 +138,12 @@ class PluginsArchiver
 
                     $this->logAggregator->setQueryOriginHint('');
 
-                    Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s'.",
+                    Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s' %s.",
                         __FUNCTION__,
                         $timer->getMemoryLeak(),
                         $this->params->getPeriod()->getLabel(),
-                        $pluginName
+                        $pluginName,
+                        $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
                     $className = get_class($e);
