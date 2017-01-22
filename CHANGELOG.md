@@ -4,6 +4,11 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 3.0.2
+
+### New APIs
+* The JavaScript Tracker now supports CrossDomain tracking. The following tracker methods were added for this: `enableCrossDomainLinking`, `disableCrossDomainLinking`, `isCrossDomainLinkingEnabled` 
+
 ## Piwik 3.0.1
 
 ### New APIs
