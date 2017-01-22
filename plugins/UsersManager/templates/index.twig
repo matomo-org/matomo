@@ -54,16 +54,28 @@
             <th class='first'>{{ 'UsersManager_User'|translate }}</th>
             <th>{{ 'UsersManager_Alias'|translate }}</th>
             <th>{{ 'UsersManager_PrivNone'|translate }}</th>
-            <th>{{ 'UsersManager_PrivView'|translate }}</th>
-            <th>{{ 'UsersManager_PrivAdmin'|translate }}</th>
+            <th>{{ 'UsersManager_PrivView'|translate }} <a href="https://piwik.org/faq/general/faq_70/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="https://piwik.org/faq/general/faq_69/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
         </tr>
         </thead>
 
         <tbody>
-        {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />{% endset %}
-        {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
 
         {% for login,access in usersAccessByWebsite %}
+
+            {% set accesValid %}
+              <img src='plugins/UsersManager/images/ok.png' class='accessGranted'
+                {% if access == 'noaccess' %}
+                title="{{'UsersManager_UserHasNoPermission'|translate(login,'UsersManager_PrivNone'|translate,defaultReportSiteName)}}"
+                {% elseif access == 'view' %}
+                title="{{'UsersManager_UserHasPermission'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)}}"
+                {% elseif access == 'admin' %}
+                title="{{'UsersManager_UserHasPermission'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)}}"
+                {% endif %}
+              />
+            {% endset %}
+            {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
+
             {% if userIsSuperUser or (hasOnlyAdminAccess and (access!='noaccess' or idSiteSelected == 'all'))  %}
             <tr data-login="{{ login|e('html_attr') }}">
                 <td id='login'>{{ login }}</td>
@@ -76,6 +88,7 @@
                     {% else %}
                         <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                              ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "noaccess")'
+                             title="{{'UsersManager_RemoveUserAccess'|translate(login,defaultReportSiteName)|e('html_attr')}}"
                         />
                     {% endif %}&nbsp;</td>
                 <td id='view'>
@@ -86,6 +99,7 @@
                     {% else %}
                         <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                              ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "view")'
+                             title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)|e('html_attr')}}"
                         />
                     {% endif %}&nbsp;</td>
                 <td id='admin'>
@@ -99,6 +113,7 @@
                         {% else %}
                             <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
                                  ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "admin")'
+                                 title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)|e('html_attr')}}"
                             />
                         {% endif %}&nbsp;
                     {% endif %}
@@ -247,7 +262,7 @@
             <tr>
                 <th class='first'>{{ 'UsersManager_User'|translate }}</th>
                 <th>{{ 'UsersManager_Alias'|translate }}</th>
-                <th>{{ 'Installation_SuperUser'|translate }}</th>
+                <th>{{ 'Installation_SuperUser'|translate }} <a href="https://piwik.org/faq/general/faq_35/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
             </tr>
             </thead>
 
