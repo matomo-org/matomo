@@ -67,7 +67,7 @@
 					
 					<pageId>5</pageId>
 					<interactionPosition />
-					<icon>plugins/Morpheus/images/link.gif</icon>
+					<icon>plugins/Morpheus/images/link.png</icon>
 					
 				</row>
 			</actionDetails>
@@ -105,7 +105,7 @@
 			<languageCode>fr</languageCode>
 			<language>French</language>
 			<deviceType>Desktop</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Windows XP</operatingSystem>
@@ -226,7 +226,7 @@
 			<languageCode>fr</languageCode>
 			<language>French</language>
 			<deviceType>Desktop</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+			<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Windows XP</operatingSystem>
