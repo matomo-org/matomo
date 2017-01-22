@@ -35,12 +35,12 @@ class Development extends SMSProvider
         return PiwikDevelopment::isEnabled();
     }
 
-    public function verifyCredential($apiKey)
+    public function verifyCredential($credentials)
     {
         return true;
     }
 
-    public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
+    public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
         $message = sprintf('An SMS was sent:<br />From: %s<br />To: %s<br />Message: %s', $from, $phoneNumber, $smsText);
 
@@ -50,7 +50,7 @@ class Development extends SMSProvider
         Notification\Manager::notify('StubbedSMSProvider'.preg_replace('/[^a-z0-9]/', '', $phoneNumber), $notification);
     }
 
-    public function getCreditLeft($apiKey)
+    public function getCreditLeft($credentials)
     {
         return 'Balance: 42';
     }

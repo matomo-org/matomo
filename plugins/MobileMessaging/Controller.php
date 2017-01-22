@@ -130,4 +130,24 @@ class Controller extends ControllerAdmin
 
         $this->setBasicVariablesView($view);
     }
+
+    public function getCredentialFields()
+    {
+        $provider = Common::getRequestVar('provider', '');
+
+        $credentialFields = array();
+
+        foreach (SMSProvider::findAvailableSmsProviders() as $availableSmsProvider) {
+            if ($availableSmsProvider->getId() == $provider) {
+                $credentialFields = $availableSmsProvider->getCredentialFields();
+                break;
+            }
+        }
+
+        $view = new View('@MobileMessaging/credentials');
+
+        $view->credentialfields = $credentialFields;
+
+        return $view->render();
+    }
 }

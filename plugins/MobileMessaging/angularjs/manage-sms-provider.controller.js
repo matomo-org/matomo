@@ -16,6 +16,7 @@
         this.isUpdatingAccount = false;
         this.showAccountForm = false;
         this.isUpdateAccountPossible = false;
+        this.credentials = '{}';
 
         function deleteApiAccount() {
             self.isDeletingAccount = true;
@@ -36,8 +37,19 @@
         };
 
         this.isUpdateAccountPossible = function () {
-            this.canBeUpdated = (!!this.apiKey && this.apiKey != '' && !!this.smsProvider);
-            return this.canBeUpdated;
+
+            var self = this;
+            self.canBeUpdated = !!this.smsProvider;
+
+            var credentials = angular.fromJson(this.credentials);
+
+            angular.forEach(credentials, function(value, key) {
+                if (value == '') {
+                    self.canBeUpdated = false;
+                }
+            });
+
+            return self.canBeUpdated;
         }
 
         this.updateAccount = function () {
@@ -46,7 +58,7 @@
 
                 piwikApi.post(
                     {method: 'MobileMessaging.setSMSAPICredential'},
-                    {provider: this.smsProvider, apiKey: this.apiKey},
+                    {provider: this.smsProvider, credentials: angular.fromJson(this.credentials)},
                     {placeat: '#ajaxErrorManageSmsProviderSettings'}
                 ).then(function () {
                     self.isUpdatingAccount = false;

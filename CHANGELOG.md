@@ -6,6 +6,10 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 
 ## Piwik 3.0.2
 
+### Breaking Changes
+* SMS provider now need to define their credential fields by overwriting `getCredentialFields()`. This allows to have SMS providers that require more than only an API key.
+* Therefor the MobileMessaging API method `setSMSAPICredential()` now expects the second parameter to be an array filled with credentials (instead of a string containing an API key)
+
 ### New APIs
 * The JavaScript Tracker now supports CrossDomain tracking. The following tracker methods were added for this: `enableCrossDomainLinking`, `disableCrossDomainLinking`, `isCrossDomainLinkingEnabled`
 * Added JavaScript Tracker method `getLinkTrackingTimer` to get the value of the configured link tracking time

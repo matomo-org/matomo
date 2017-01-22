@@ -25,13 +25,13 @@
              value="{{ provider }}">
         </div>
 
-        <div piwik-field uicontrol="text" name="apiKey"
-             ng-model="manageProvider.apiKey"
-             required="true"
+        <div sms-provider-credentials
+             provider="manageProvider.smsProvider"
+             ng-model="manageProvider.credentials"
+             value="{}"
+             ng-init="manageProvider.isUpdateAccountPossible()"
              ng-change="manageProvider.isUpdateAccountPossible()"
-             title="{{ 'MobileMessaging_Settings_APIKey'|translate|e('html_attr') }}"
-             value="">
-        </div>
+        ></div>
 
         <div piwik-save-button id='apiAccountSubmit'
              disabled="!manageProvider.canBeUpdated"
