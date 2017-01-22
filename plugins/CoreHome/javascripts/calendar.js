@@ -100,7 +100,7 @@
             var parts = dateStr.split(',');
             dateStr = parts[0];
         }
-        
+
         var splitDate = dateStr.split('-');
         currentYear = splitDate[0];
         currentMonth = splitDate[1] - 1;
@@ -215,6 +215,7 @@
                 }
 
             });
+
         } else {
             // Let broadcast do its job:
             // It will replace date value to both search query and hash and load the new page.
@@ -514,7 +515,7 @@
 
         // Apply date range button will reload the page with the selected range
         $('#calendarApply')
-            .on('click', function () {
+            .on("click", function() {
                 var $selectedPeriod = $('#periodMore [name=period]:checked');
 
                 if (!$selectedPeriod.is('#period_id_range')) {
@@ -695,6 +696,15 @@
         }
 
         initTopControls();
+    });
+
+    Mousetrap.bind('d', function(event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.returnValue = false; // IE
+        }
+        $('#periodString .title').trigger('click').focus();
     });
 
 }(jQuery));
