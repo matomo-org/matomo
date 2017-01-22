@@ -2788,9 +2788,9 @@ function PiwikTest() {
         var currentTimestamp = Math.floor((new Date().getTime()) / 1000);
         var browserId = generateBrowserSpecificId();
 
-        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 30 seconds" );
-        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp - 42) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 28 seconds" );
-        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp - 48) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp is 33 seconds old" );
+        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 45 seconds" );
+        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp - 42) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 45 seconds" );
+        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp - 48) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp is 46+ seconds old" );
         strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp + 2) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp was only generated later" );
         strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp)), "isSameCrossDomainDevice, should return false if no device ID given" );
         strictEqual(false, isSameCrossDomainDevice(browserId), "isSameCrossDomainDevice, should return false if no timestamp given" );
@@ -2808,12 +2808,12 @@ function PiwikTest() {
 
             if (timestamp && browserId) {
                 if (!withId) {
-                    url+= 'pk_vid=';
+                    url+= '&pk_vid=';
                 }
 
                 url += String(timestamp) + browserId
             }
-            
+
             return url;
         }
 
@@ -2898,8 +2898,8 @@ function PiwikTest() {
 
         tracker.setDomains([document.domain]);
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('//' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with // but not going to same website');
-        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, different domain, if outlink starting with http:// but not going to same website');
-        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, different domain, if outlink starting with https:// but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with http:// but not going to same website');
+        strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with https:// but not going to same website');
 
     });
 
