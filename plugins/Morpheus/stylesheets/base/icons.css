@@ -310,3 +310,9 @@
 .icon-form:before {
     content: "\e85d";
 }
+.icon-lab:before {
+    content: "\e9aa";
+}
+.icon-archive:before {
+    content: "\e95e";
+}
