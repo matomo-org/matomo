@@ -34,7 +34,15 @@ Piwik.addPlugin('testPlugin', {
 				'_beforeUnloadHandler : beforeUnloadHandler,' +
 				'_getProtocolScheme : getProtocolScheme,' +
 				'_getHostName : getHostName,' +
-				'_getParameter : getParameter,' +
+				'_getUrlParameter : getUrlParameter,' +
+				'_addUrlParameter : addUrlParameter,' +
+				'_removeUrlParameter : removeUrlParameter,' +
+				'_getVisitorIdFromUrl : getVisitorIdFromUrl,' +
+				'_generateBrowserSpecificId : generateBrowserSpecificId,' +
+				'_makeCrossDomainDeviceId: makeCrossDomainDeviceId,' +
+				'_isSameCrossDomainDevice: isSameCrossDomainDevice,' +
+				'_replaceHrefForCrossDomainLink: replaceHrefForCrossDomainLink,' +
+				'_isLinkToDifferentDomainButSamePiwikWebsite: isLinkToDifferentDomainButSamePiwikWebsite,' +
 				'_urlFixup : urlFixup,' +
 				'_domainFixup : domainFixup,' +
 				'_titleFixup : titleFixup,' +

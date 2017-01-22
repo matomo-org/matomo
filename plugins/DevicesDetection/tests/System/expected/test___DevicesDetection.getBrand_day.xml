@@ -18,7 +18,7 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>52.26</revenue>
-		<logo>plugins/DevicesDetection/images/brand/Apple.ico</logo>
+		<logo>plugins/DevicesDetection/images/brand/Apple.png</logo>
 		<segment>deviceBrand==Apple</segment>
 	</row>
 	<row>
@@ -39,7 +39,7 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>62.26</revenue>
-		<logo>plugins/DevicesDetection/images/brand/Unknown.ico</logo>
+		<logo>plugins/DevicesDetection/images/brand/Unknown.png</logo>
 		<segment>deviceBrand==Unknown</segment>
 	</row>
 	<row>
@@ -60,7 +60,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42.26</revenue>
-		<logo>plugins/DevicesDetection/images/brand/HTC.ico</logo>
+		<logo>plugins/DevicesDetection/images/brand/HTC.png</logo>
 		<segment>deviceBrand==HTC</segment>
 	</row>
 	<row>
@@ -73,7 +73,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<logo>plugins/DevicesDetection/images/brand/Philips.ico</logo>
+		<logo>plugins/DevicesDetection/images/brand/Philips.png</logo>
 		<segment>deviceBrand==Philips</segment>
 	</row>
 	<row>
@@ -86,7 +86,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<logo>plugins/DevicesDetection/images/brand/Samsung.ico</logo>
+		<logo>plugins/DevicesDetection/images/brand/Samsung.png</logo>
 		<segment>deviceBrand==Samsung</segment>
 	</row>
 	<row>
@@ -107,7 +107,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
-		<logo>plugins/DevicesDetection/images/brand/ViewSonic.ico</logo>
+		<logo>plugins/DevicesDetection/images/brand/ViewSonic.png</logo>
 		<segment>deviceBrand==ViewSonic</segment>
 	</row>
 </result>

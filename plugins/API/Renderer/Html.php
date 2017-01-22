@@ -13,6 +13,10 @@ use Piwik\Common;
 
 class Html extends ApiRenderer
 {
+    public function renderSuccess($message)
+    {
+        return "<!-- Success: $message -->";
+    }
 
     /**
      * @param $message

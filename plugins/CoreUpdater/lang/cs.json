@@ -35,6 +35,7 @@
         "MajorUpdateWarning1": "Toto je velká aktualizace! Zabere více času, než obvykle.",
         "MajorUpdateWarning2": "Následující doporučení je především důležité pro velké instalace.",
         "NeedHelpUpgrading": "Potřebujete pomoc s aktualizací Piwiku?",
+        "NeedHelpUpgradingText": "Pokud při aktualizaci Piwiku potřebujete pomoct, tvůrci Piwiku vám pomohou, aby se aktualizace podařila, poskytnou vám doporučení i další podporu. %1$sKontaktujte experty na Piwik a začněte s bezpečenou aktualizací Piwiku.%2$s",
         "NoteForLargePiwikInstances": "Důležitá poznámka pro rozsáhlé instalace Piwiku",
         "NotificationClickToUpdatePlugins": "Klikněte zde pro aktualizaci vašich zásuvných modulů:",
         "NotificationClickToUpdateThemes": "Klikněte zde pro aktualizaci vašich šablon:",

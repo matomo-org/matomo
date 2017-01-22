@@ -19,8 +19,8 @@
             {% if widgetizedLink is defined %}<a class="visitor-profile-widget-link" href="{{ widgetizedLink }}" target="_blank" title="{{ 'Widgetize_OpenInNewWindow'|translate }} - {{ 'Live_VisitorProfile'|translate }} {{ 'General_Id'|translate|upper }} {{ visitData.visitorId }}">{% endif %}
                 <strong>{{ visitData.visitorId }}</strong>
             {% if widgetizedLink is defined %}</a>{% endif %}
-            <a class="visitor-profile-export" href="{{ exportLink }}" target="_blank" title="{{ 'General_ExportThisReport'|translate }}" style="visibility:hidden">
-                <img src="plugins/Morpheus/images/export.png"/>
+            <a class="visitor-profile-export" href="{{ exportLink }}" target="_blank" title="{{ 'General_ExportThisReport'|translate }}">
+                <span class="icon-export"></span>
             </a>
         </li>
         <li>

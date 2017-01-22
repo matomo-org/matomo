@@ -32,9 +32,9 @@ class Visitor
         $status = $this->getVisitEcommerceStatus();
 
         if (in_array($status, array('ordered', 'orderedThenAbandonedCart'))) {
-            return "plugins/Morpheus/images/ecommerceOrder.gif";
+            return "plugins/Morpheus/images/ecommerceOrder.png";
         } elseif ($status == 'abandonedCart') {
-            return "plugins/Morpheus/images/ecommerceAbandonedCart.gif";
+            return "plugins/Morpheus/images/ecommerceAbandonedCart.png";
         }
         // Note: it is important that there is no icon when there was no ecommerce conversion
         return null;
@@ -83,7 +83,7 @@ class Visitor
         if ($type == 'returning'
             || $type == 'returningCustomer'
         ) {
-            return "plugins/Live/images/returningVisitor.gif";
+            return "plugins/Live/images/returningVisitor.png";
         }
         return null;
     }

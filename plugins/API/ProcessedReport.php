@@ -363,9 +363,13 @@ class ProcessedReport
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
-        foreach ($columns as &$name) {
-            $name = ucfirst($name);
-        }
+	if (function_exists('mb_substr')) {
+            foreach ($columns as &$name) {
+                if (substr($name, 0, 1) === mb_substr($name, 0, 1)) {
+		    $name = ucfirst($name);
+		}
+            }
+	}
         $website = new Site($idSite);
 
         $period = Period\Factory::build($period, $date);

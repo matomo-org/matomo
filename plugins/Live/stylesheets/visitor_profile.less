@@ -8,11 +8,12 @@
     text-align:left;
 
     h1 {
-        font-size:18px;
-        color:#7e7363;
+        font-size:23px;
         text-shadow:0 1px 0 rgba(255,255,255,1);
         margin:9px 0 0 0;
         padding:0;
+        font-weight: normal;
+        color: @theme-color-text;
 
         a {
             font-size:12px;
@@ -20,21 +21,37 @@
         }
     }
 
+    h2 {
+        display:inline-block;
+        font-size:23px;
+        margin:0 0 0 5px;
+        padding:15px 17px 15px 22px;
+        color:black;
+        border: none;
+        color: @theme-color-text;
+    }
+
     p {
-        font-size:14px;
+        margin-left: 0;
+        margin-right: 0;
+        .font-default(13px, 18px);
+        color: @color-silver-l60;
+        strong {
+            .font-default(13px, 18px);
+            color: @theme-color-text;
+            font-weight: normal !important;
+        }
+        span {
+            .font-default(13px, 18px);
+        }
+    }
+
+    p {
+        font-size:13px;
         color:#5e5e5c;
         line-height:20px;
     }
 
-    h2 {
-        display:inline-block;
-        font-size:14px;
-        margin:0 0 0 5px;
-        padding:0;
-        font-weight:bold;
-        color:black;
-        border: none;
-    }
 
     span.truncated-text-line {
         display:inline-block;
@@ -48,7 +65,7 @@
     span, strong {
         display:inline;
         font-size:14px;
-        color:#5e5e5c;
+        color:#413838;
         line-height:19px;
         padding-left:4px;
     }
@@ -58,27 +75,34 @@
     color:#5e5e5c;
 }
 
-.visitor-profile-widget-link:hover {
-    text-decoration:underline;
+.visitor-profile-export {
+    vertical-align: middle;
+    margin-top:3px;
 }
 
-.visitor-profile-export {
-    float:right;
-    margin-top:3px;
+.visitor-profile-close:before {
+  content: "\e60a";
 }
 
 .visitor-profile-close {
     z-index: 10;
     position:absolute;
-    right:-17px;
-    top:-16px;
-    height:35px;
-    width:35px;
-    background:url(../images/visitor_profile_close.png) no-repeat;
+    right:6px;
+    top: 4px;
+    height:20px;
+    width:21px;
+    background-color: #d4291f;
+    color: #FFFFFF !important;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 400;
+    font-family: piwik;
+    text-decoration: none !important;
+    text-align: center !important;
+    padding: 4.5px;
 }
 
 .visitor-profile a {
-    text-decoration:none;
     color:#255792;
 }
 
@@ -117,22 +141,18 @@
     }
 }
 
-.visitor-profile-summary,.visitor-profile-important-visits,.visitor-profile-avatar,.visitor-profile-location {
-    border-bottom:1px solid #d1cec8;
-}
-
 .visitor-profile-avatar > div {
     position:relative;
     float:left;
     min-height:145px;
-    margin:12px 15px 0 0;
+    margin:6px 15px 0 0;
     padding-bottom:4px;
 }
 
 .visitor-profile-avatar > div:first-child {
     width:166px;
     margin-right:0;
-    padding-left:16px;
+    padding-left:7px;
 
     > .visitor-profile-image-frame {
         width:149px;
@@ -226,10 +246,6 @@
     border-bottom:none;
 }
 
-.visitor-profile-avatar ul li:first-child {
-    border-bottom:1px solid #d1cec8; // make sure there is a border if only one item is shown in the list
-}
-
 .visitor-profile-map {
     padding:0 21px 13px 21px;
 
@@ -295,7 +311,7 @@
 
     p {
         margin:13px 0;
-        font-size:14px;
+        font-size:13px;
     }
 }
 
@@ -311,7 +327,7 @@
     padding: 8px 18px 10px 13px;
 
     h1 {
-        margin-left:6px;
+        margin-left:3px;
     }
 }
 
@@ -331,14 +347,15 @@
         > li {
             display:block;
             font-size:12px;
-            font-weight:700;
-            line-height:25px;
+            font-weight: normal;
+            line-height:10px;
             padding:0 0 10px 13px;
+            margin-right: 20px;
+            color: @theme-color-text-lighter;
 
             span {
                 font-size:13px;
                 font-weight:700;
-                line-height:25px;
                 padding-left:0;
             }
         }
@@ -385,12 +402,12 @@
     }
 
     ol > li ol li span {
-        padding-left:4px;
+        padding-left:5px;
     }
 
     ol > li ol li {
       .action-list-url {
-        margin-left:4px;
+        margin-left:5px;
         line-height:15px;
         font-size:13px;
       }
@@ -417,8 +434,7 @@
 
 .visitor-profile-date {
     float:right;
-    font-size:13px;
-    line-height:26px;
+    margin-top:6px;
 }
 
 .visitor-profile-fog {
@@ -456,7 +472,6 @@ span.visitor-profile-goal-name {
     text-align:center;
 
     > a {
-        font-size:11px;
         display:inline-block;
         color:#5e5e5c;
     }
@@ -467,7 +482,7 @@ span.visitor-profile-goal-name {
 }
 
 .visitor-profile-visit-title-row:hover {
-    background-color:#FAFACF;
+    background-color:#bfbfbf;
 }
 
 .visitor-profile-avatar .loadingPiwik {

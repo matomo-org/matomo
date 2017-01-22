@@ -3,7 +3,7 @@
         <a class="title" tabindex="4"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
         <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
-                <input class="segmentFilter browser-default" type="text" value="{{ 'General_Search'|translate }}"/>
+                <input class="segmentFilter browser-default" type="text" tabindex="4" value="{{ 'General_Search'|translate }}"/>
                 <span/>
             </div>
             <ul class="submenu">
@@ -16,7 +16,7 @@
             </ul>
 
             {% if authorizedToCreateSegments %}
-                <a class="add_new_segment btn">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
+                <a tabindex="4" class="add_new_segment btn">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
             {% else %}
                 <hr/>
                 <ul class="submenu">

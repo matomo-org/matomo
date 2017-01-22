@@ -8,14 +8,14 @@
                 <input type="text" id="seoUrl" size="15" value="{{ urlToRank }}" class="textbox "/>
             </div>
             <div class="col s4">
-                <input type="submit" class="btn btn-small" id="rankbutton" value="{{ 'SEO_Rank'|translate }}"/>
+                <input type="submit" class="btn btn-small" style='margin-top: 2em' id="rankbutton" value="{{ 'SEO_Rank'|translate }}"/>
             </div>
         </div>
 
         {% import "ajaxMacros.twig" as ajax %}
         {{ ajax.LoadingDiv('ajaxLoadingSEO') }}
 
-        <div id="rankStats" align="left" style="margin-top:10px;margin-left: 5px;">
+        <div id="rankStats" align="left" style="margin-top:10px;margin-left: 5px;font-size:14px;">
             {% if ranks is empty %}
                 {{ 'General_Error'|translate }}
             {% else %}
@@ -23,23 +23,23 @@
                     <a href="http://{{ urlToRank }}" rel="noreferrer"  target="_blank">{{ urlToRank }}</a>
                 {% endset %}
                 {{ 'SEO_SEORankingsFor'|translate(cleanUrl)|raw }}
-                <table cellspacing="2" style="margin:auto;line-height:1.5em;padding-top:10px;">
+                <table cellspacing="2" style="margin:auto;line-height:3.5em !important;margin-top:20px;">
 
                     {% for rank in ranks %}
                         <tr>
-{% set seoLink %}{% if rank.logo_link is not empty %}<a class="linkContent" href="?module=Proxy&action=redirect&url={{ rank.logo_link|url_encode }}"
-                                                    target="_blank"
-                         {% if rank.logo_tooltip is not empty %}title="{{ rank.logo_tooltip }}"{% endif %}>{% endif %}{% endset %}
-                            <td>{% if rank.logo_link is not empty %}{{ seoLink|raw }}{% endif %}<img
-                                            style='vertical-align:middle;margin-right:6px;' src='{{ rank.logo }}' border='0'
-                                            alt="{{ rank.label }}">{% if rank.logo_link is not empty %}</a>{% endif %} {{ rank.label|raw }}
+                            {% set seoLink %}{% if rank.logo_link is not empty %}<a class="linkContent" href="?module=Proxy&action=redirect&url={{ rank.logo_link|url_encode }}"
+                                                                                    target="_blank"
+                                                                                    {% if rank.logo_tooltip is not empty %}title="{{ rank.logo_tooltip }}"{% endif %}>{% endif %}{% endset %}
+                                <td>{% if rank.logo_link is not empty %}{{ seoLink|raw }}{% endif %}<img width="24px" height="24px"
+                                                                                                         style='vertical-align:middle;margin-right:6px;' src='{{ rank.logo }}' border='0'
+                                                                                                         alt="{{ rank.label }}">{% if rank.logo_link is not empty %}</a>{% endif %} {{ rank.label|raw }}
                             </td>
                             <td>
                                 <div style="margin-left:15px;">
-                                {% if rank.logo_link is not empty %}{{ seoLink|raw }}{% endif %}
+                                    {% if rank.logo_link is not empty %}{{ seoLink|raw }}{% endif %}
                                     {% if rank.rank %}{{ rank.rank|raw }}{% else %}-{% endif %}
                                     {{ rank.rank_suffix }}
-                                {% if rank.logo_link is not empty %}</a>{% endif %}
+                                    {% if rank.logo_link is not empty %}</a>{% endif %}
                                 </div>
                             </td>
                         </tr>

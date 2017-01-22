@@ -990,7 +990,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
     setConversionAttributionFirstReferrer,
     disablePerformanceTracking, setGenerationTimeMs,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
+    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
+    disableCrossDomainLinking, isCrossDomainLinkingEnabled,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
@@ -1468,10 +1469,113 @@ if (typeof window.Piwik !== 'object') {
             return matches ? matches[1] : url;
         }
 
+        function stringStartsWith(str, prefix) {
+            str = String(str);
+            return str.lastIndexOf(prefix, 0) === 0;
+        }
+
+        function stringEndsWith(str, suffix) {
+            str = String(str);
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+
+        function stringContains(str, needle) {
+            str = String(str);
+            return str.indexOf(needle) !== -1;
+        }
+
+        function removeCharactersFromEndOfString(str, numCharactersToRemove) {
+            str = String(str);
+            return str.substr(0, str.length - numCharactersToRemove);
+        }
+
+        /**
+         * We do not check whether URL contains already url parameter, please use removeUrlParameter() if needed
+         * before calling this method.
+         * This method makes sure to append URL parameters before a possible hash. Will escape (encode URI component)
+         * the set name and value
+         */
+        function addUrlParameter(url, name, value) {
+            url = String(url);
+
+            if (!value) {
+                value = '';
+            }
+
+            var hashPos = url.indexOf('#');
+            var urlLength = url.length;
+
+            if (hashPos === -1) {
+                hashPos = urlLength;
+            }
+
+            var baseUrl = url.substr(0, hashPos);
+            var urlHash = url.substr(hashPos, urlLength - hashPos);
+
+            if (baseUrl.indexOf('?') === -1) {
+                baseUrl += '?';
+            } else if (!stringEndsWith(baseUrl, '?')) {
+                baseUrl += '&';
+            }
+            // nothing to if ends with ?
+
+            return baseUrl + encodeWrapper(name) + '=' + encodeWrapper(value) + urlHash;
+        }
+
+        function removeUrlParameter(url, name) {
+            url = String(url);
+
+            if (url.indexOf('?' + name + '=') === -1 && url.indexOf('&' + name + '=') === -1) {
+                // nothing to remove, url does not contain this parameter
+                return url;
+            }
+
+            var searchPos = url.indexOf('?');
+            if (searchPos === -1) {
+                // nothing to remove, no query parameters
+                return url;
+            }
+
+            var queryString = url.substr(searchPos + 1);
+            var baseUrl = url.substr(0, searchPos);
+
+            if (queryString) {
+                var urlHash = '';
+                var hashPos = queryString.indexOf('#');
+                if (hashPos !== -1) {
+                    urlHash = queryString.substr(hashPos + 1);
+                    queryString = queryString.substr(0, hashPos);
+                }
+
+                var param;
+                var paramsArr = queryString.split('&');
+                var i = paramsArr.length - 1;
+
+                for (i; i >= 0; i--) {
+                    param = paramsArr[i].split('=')[0];
+                    if (param === name) {
+                        paramsArr.splice(i, 1);
+                    }
+                }
+
+                var newQueryString = paramsArr.join('&');
+
+                if (newQueryString) {
+                    baseUrl = baseUrl + '?' + newQueryString;
+                }
+
+                if (urlHash) {
+                    baseUrl += '#' + urlHash;
+                }
+            }
+
+            return baseUrl;
+        }
+
         /*
          * Extract parameter from URL
          */
-        function getParameter(url, name) {
+        function getUrlParameter(url, name) {
             var regexSearch = "[\\?&#]" + name + "=([^&#]*)";
             var regex = new RegExp(regexSearch);
             var results = regex.exec(url);
@@ -1650,7 +1754,7 @@ if (typeof window.Piwik !== 'object') {
                     referrer = href;
                 }
 
-                href = getParameter(href, 'u');
+                href = getUrlParameter(href, 'u');
                 hostName = getHostName(href);
             } else if (hostName === 'cc.bingj.com' ||                   // Bing
                     hostName === 'webcache.googleusercontent.com' ||    // Google
@@ -1785,26 +1889,6 @@ if (typeof window.Piwik !== 'object') {
                 k++;
             }
             return -1;
-        }
-
-        function stringStartsWith(str, prefix) {
-            str = String(str);
-            return str.lastIndexOf(prefix, 0) === 0;
-        }
-
-        function stringEndsWith(str, suffix) {
-            str = String(str);
-            return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        }
-
-        function stringContains(str, needle) {
-            str = String(str);
-            return str.indexOf(needle) !== -1;
-        }
-
-        function removeCharactersFromEndOfString(str, numCharactersToRemove) {
-            str = String(str);
-            return str.substr(0, str.length - numCharactersToRemove);
         }
 
         /************************************************************
@@ -2983,6 +3067,17 @@ if (typeof window.Piwik !== 'object') {
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
+                // the URL parameter that will store the visitorId if cross domain linking is enabled
+                // pk_vid = visitor ID
+                // first part of this URL parameter will be 16 char visitor Id.
+                // The second part is the 10 char current timestamp and the third and last part will be a 6 characters deviceId
+                // timestamp is needed to prevent reusing the visitorId when the URL is shared. The visitorId will be
+                // only reused if the timestamp is less than 45 seconds old.
+                // deviceId parameter is needed to prevent reusing the visitorId when the URL is shared. The visitorId
+                // will be only reused if the device is still the same when opening the link.
+                // VDI = visitor device identifier
+                configVisitorIdUrlParameter = 'pk_vid',
+
                 // First-party cookie domain
                 // User agent defaults to origin hostname
                 configCookieDomain,
@@ -3056,6 +3151,7 @@ if (typeof window.Piwik !== 'object') {
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
                 linkTrackingEnabled = false,
+                crossDomainTrackingEnabled = false,
 
                 // Guard against installing the activity tracker more than once per Tracker instance
                 heartBeatSetUp = false,
@@ -3135,6 +3231,10 @@ if (typeof window.Piwik !== 'object') {
              */
             function purify(url) {
                 var targetPattern;
+
+                // we need to remove this parameter here, they wouldn't be removed in Piwik tracker otherwise eg
+                // for outlinks or referrers
+                url = removeUrlParameter(url, configVisitorIdUrlParameter);
 
                 if (configDiscardHashTag) {
                     targetPattern = new RegExp('#.*');
@@ -3528,7 +3628,7 @@ if (typeof window.Piwik !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        if (configRequestMethod === 'POST') {
+                        if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
                             getImage(request, callback);
@@ -3647,10 +3747,94 @@ if (typeof window.Piwik !== 'object') {
                 ).slice(0, 16);
             }
 
+            function generateBrowserSpecificId() {
+                return hash(
+                    (navigatorAlias.userAgent || '') +
+                    (navigatorAlias.platform || '') +
+                    JSON_PIWIK.stringify(browserFeatures)).slice(0, 6);
+            }
+
+            function getCurrentTimestampInSeconds()
+            {
+                return Math.floor((new Date()).getTime() / 1000);
+            }
+
+            function makeCrossDomainDeviceId()
+            {
+                var timestamp = getCurrentTimestampInSeconds();
+                var browserId = generateBrowserSpecificId();
+                var deviceId = String(timestamp) + browserId;
+
+                return deviceId;
+            }
+
+            function isSameCrossDomainDevice(deviceIdFromUrl)
+            {
+                deviceIdFromUrl = String(deviceIdFromUrl);
+
+                var thisBrowserId = generateBrowserSpecificId();
+                var lengthBrowserId = thisBrowserId.length;
+
+                var browserIdInUrl = deviceIdFromUrl.substr(-1 * lengthBrowserId, lengthBrowserId);
+                var timestampInUrl = parseInt(deviceIdFromUrl.substr(0, deviceIdFromUrl.length - lengthBrowserId), 10);
+
+                if (timestampInUrl && browserIdInUrl && browserIdInUrl === thisBrowserId) {
+                    // we only reuse visitorId when used on same device / browser
+
+                    var currentTimestampInSeconds = getCurrentTimestampInSeconds();
+                    var timeoutInSeconds = 45;
+
+                    if (currentTimestampInSeconds >= timestampInUrl
+                        && currentTimestampInSeconds <= (timestampInUrl + timeoutInSeconds)) {
+                        // we only use visitorId if it was generated max 45 seconds ago
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function getVisitorIdFromUrl(url) {
+                if (!crossDomainTrackingEnabled) {
+                    return '';
+                }
+
+                // problem different timezone or when the time on the computer is not set correctly it may re-use
+                // the same visitorId again. therefore we also have a factor like hashed user agent to reduce possible
+                // activation of a visitorId on other device
+                var visitorIdParam = getUrlParameter(url, configVisitorIdUrlParameter);
+
+                if (!visitorIdParam) {
+                    return '';
+                }
+
+                visitorIdParam = String(visitorIdParam);
+
+                var pattern = new RegExp("^[a-zA-Z0-9]+$");
+
+                if (visitorIdParam.length === 32 && pattern.test(visitorIdParam)) {
+                    var visitorDevice = visitorIdParam.substr(16, 32);
+
+                    if (isSameCrossDomainDevice(visitorDevice)) {
+                        var visitorId = visitorIdParam.substr(0, 16);
+                        return visitorId;
+                    }
+                }
+
+                return '';
+            }
+
             /*
              * Load visitor ID cookie
              */
             function loadVisitorIdCookie() {
+
+                if (!visitorUUID) {
+                    // we are using locationHrefAlias and not currentUrl on purpose to for sure get the passed URL parameters
+                    // from original URL
+                    visitorUUID = getVisitorIdFromUrl(locationHrefAlias);
+                }
+
                 var now = new Date(),
                     nowTs = Math.round(now.getTime() / 1000),
                     visitorIdCookieName = getCookieName('id'),
@@ -3736,7 +3920,6 @@ if (typeof window.Piwik !== 'object') {
                     lastEcommerceOrderTs: lastEcommerceOrderTs
                 };
             }
-
 
             function getRemainingVisitorCookieTimeout() {
                 var now = new Date(),
@@ -3971,7 +4154,7 @@ if (typeof window.Piwik !== 'object') {
                         || !campaignNameDetected.length) {
                         for (i in configCampaignNameParameters) {
                             if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
-                                campaignNameDetected = getParameter(currentUrl, configCampaignNameParameters[i]);
+                                campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
                                 if (campaignNameDetected.length) {
                                     break;
@@ -3981,7 +4164,7 @@ if (typeof window.Piwik !== 'object') {
 
                         for (i in configCampaignKeywordParameters) {
                             if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
-                                campaignKeywordDetected = getParameter(currentUrl, configCampaignKeywordParameters[i]);
+                                campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
 
                                 if (campaignKeywordDetected.length) {
                                     break;
@@ -4492,6 +4675,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var link = getLinkIfShouldBeProcessed(targetNode);
+
                 if (linkTrackingEnabled && link && link.type) {
 
                     return false; // will be handled via outlink or download.
@@ -4860,11 +5044,84 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
+            function replaceHrefForCrossDomainLink(element)
+            {
+                if (!element) {
+                    return;
+                }
+
+                if (!query.hasNodeAttribute(element, 'href')) {
+                    return;
+                }
+
+                var link = query.getAttributeValueFromNode(element, 'href');
+
+                if (!link || startsUrlWithTrackerUrl(link)) {
+                    return;
+                }
+
+                // we need to remove the parameter and add it again if needed to make sure we have latest timestamp
+                // and visitorId (eg userId might be set etc)
+                link = removeUrlParameter(link, configVisitorIdUrlParameter);
+
+                if (link.indexOf('?') > 0) {
+                    link += '&';
+                } else {
+                    link += '?';
+                }
+
+                var visitorId = getValuesFromVisitorIdCookie().uuid;
+                var deviceId = makeCrossDomainDeviceId();
+
+                link = addUrlParameter(link, configVisitorIdUrlParameter, visitorId + deviceId);
+
+                query.setAnyAttribute(element, 'href', link);
+            }
+
+            function isLinkToDifferentDomainButSamePiwikWebsite(element)
+            {
+                var targetLink = query.getAttributeValueFromNode(element, 'href');
+
+                if (!targetLink) {
+                    return false;
+                }
+
+                targetLink = String(targetLink);
+
+                var isOutlink = targetLink.indexOf('//') === 0
+                             || targetLink.indexOf('http://') === 0
+                             || targetLink.indexOf('https://') === 0;
+
+                if (!isOutlink) {
+                    return false;
+                }
+
+                var originalSourcePath = element.pathname || getPathName(element.href);
+                var originalSourceHostName = (element.hostname || getHostName(element.href)).toLowerCase();
+
+                if (isSiteHostPath(originalSourceHostName, originalSourcePath)) {
+                    // we could also check against config cookie domain but this would require that other website
+                    // sets actually same cookie domain and we cannot rely on it.
+                    if (!isSameHost(domainAlias, domainFixup(originalSourceHostName))) {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                return false;
+            }
+
             /*
              * Process clicks
              */
             function processClick(sourceElement) {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
+
+                if (crossDomainTrackingEnabled && !link && isLinkToDifferentDomainButSamePiwikWebsite(sourceElement)) {
+                    // !link means it is a link to same domain or same website (as set in setDomains())
+                    replaceHrefForCrossDomainLink(sourceElement);
+                }
 
                 if (link && link.type) {
                     link.href = safeDecodeWrapper(link.href);
@@ -5751,6 +6008,45 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enables cross domain linking. By default, the visitor ID that identifies a unique visitor is stored in
+             * the browser's cookies. This means the cookie can only be accessed by pages on the same domain.
+             * If you own multiple domains and would like to track all the actions and pageviews of a specific visitor
+             * into the same visit, you may enable cross domain linking. Whenever a user clicks on a link it will append
+             * a URL parameter pk_vid to the clicked URL which consists of these parts: 16 char visitorId, a 10 character
+             * current timestamp and the last 6 characters are an id based on the userAgent to identify the users device).
+             * This way the current visitorId is forwarded to the page of the different domain.
+             *
+             * On the different domain, the Piwik tracker will recognize the set visitorId from the URL parameter and
+             * reuse this parameter if the page was loaded within 45 seconds. If cross domain linking was not enabled,
+             * it would create a new visit on that page because we wouldn't be able to access the previously created
+             * cookie. By enabling cross domain linking you can track several different domains into one website and
+             * won't lose for example the original referrer.
+             *
+             * To make cross domain linking work you need to set which domains should be considered as your domains by
+             * calling the method "setDomains()" first. We will add the URL parameter to links that go to a
+             * different domain but only if the domain was previously set with "setDomains()" to make sure not to append
+             * the URL parameters when a link actually goes to a third-party URL.
+             */
+            this.enableCrossDomainLinking = function () {
+                crossDomainTrackingEnabled = true;
+            };
+
+            /**
+             * Disable cross domain linking if it was previously enabled. See enableCrossDomainLinking();
+             */
+            this.disableCrossDomainLinking = function () {
+                crossDomainTrackingEnabled = false;
+            };
+
+            /**
+             * Detect whether cross domain linking is enabled or not. See enableCrossDomainLinking();
+             * @returns bool
+             */
+            this.isCrossDomainLinkingEnabled = function () {
+                return crossDomainTrackingEnabled;
+            };
+
+            /**
              * Set array of classes to be ignored if present in link
              *
              * @param string|array ignoreClasses
@@ -6598,7 +6894,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
