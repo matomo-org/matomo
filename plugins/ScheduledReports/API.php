@@ -475,6 +475,7 @@ class API extends \Piwik\Plugin\API
         // init report renderer
         $reportRenderer->setIdSite($idSite);
         $reportRenderer->setLocale($language);
+        $reportRenderer->setReport($report);
 
         // render report
         $description = str_replace(array("\r", "\n"), ' ', $report['description']);
