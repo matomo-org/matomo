@@ -70,11 +70,16 @@ class Controller extends ControllerAdmin
             $this->translator->translate('General_Settings'),
             $this->translator->translate('MobileMessaging_SettingsMenu')
         ));
+        $view->credentialError = null;
         $view->creditLeft = 0;
         $currentProvider = '';
         if ($view->credentialSupplied && $view->accountManagedByCurrentUser) {
             $currentProvider = $mobileMessagingAPI->getSMSProvider();
-            $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
+            try {
+                $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
+            } catch (\Exception $e) {
+                $view->credentialError = $e->getMessage();
+            }
         }
 
         $view->delegateManagementOptions = array(

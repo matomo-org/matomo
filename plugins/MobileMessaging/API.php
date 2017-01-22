@@ -79,7 +79,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return bool true if SMS API credential were validated and saved, false otherwise
      */
-    public function setSMSAPICredential($provider, $credentials)
+    public function setSMSAPICredential($provider, $credentials = array())
     {
         $this->checkCredentialManagementRights();
 

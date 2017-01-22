@@ -13,6 +13,7 @@
         "Settings_CredentialNotProvided": "Before you can create and manage phone numbers, please connect Piwik to your SMS Account above.",
         "Settings_CredentialNotProvidedByAdmin": "Before you can create and manage phone numbers, please ask your administrator to connect Piwik to an SMS Account.",
         "Settings_CredentialProvided": "Your %s SMS API account is correctly configured!",
+        "Settings_CredentialInvalid": "Your %1$s SMS API account is configured, but an error occurred while trying to receive the available credits.",
         "Settings_DeleteAccountConfirm": "Are you sure you want to delete this SMS account?",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "The configured SMS provider will be only used by you and not by any other users.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "The configured phone numbers can be only seen and used by you and not by any other users.",
