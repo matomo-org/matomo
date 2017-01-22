@@ -366,3 +366,50 @@ nav {
 .widgetize {
   width: auto;
 }
+
+@media print {
+
+  #secondNavBar{
+    display: none;
+  }
+
+  nav .icon-menu-hamburger, nav .icon-more-verti{
+    display: none;
+  }
+
+  nav ul a{
+    display: none;
+  }
+
+  #root, #standalone {
+    .dashboard-manager{
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }
+
+  #root{
+    .top_controls{
+      .quick-access {
+      display: none !important;
+      }
+    }
+  }
+
+  .dataTableAction{
+    display: none !important;
+  }
+
+  .select-dropdown, .caret{
+    display: none !important;
+  }
+
+  .dataTable td .ratio{
+    margin-right: 4px;
+    visibility: visible;
+  }
+  .dataTableFooterNavigation > .row{
+    margin-bottom: -20px !important;
+  }
+}
+
