@@ -6,6 +6,9 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 
 ## Piwik 3.0.2
 
+### New Features
+* A new SMS provider for sms reports has been added: [ASPSMS.com](http://www.aspsms.com/en/?REF=227830)
+
 ### Breaking Changes
 * SMS provider now need to define their credential fields by overwriting `getCredentialFields()`. This allows to have SMS providers that require more than only an API key.
 * Therefor the MobileMessaging API method `setSMSAPICredential()` now expects the second parameter to be an array filled with credentials (instead of a string containing an API key)

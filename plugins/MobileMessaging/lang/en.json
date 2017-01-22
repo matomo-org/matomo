@@ -39,6 +39,7 @@
         "Settings_VerificationCodeJustSent": "We just sent a SMS to this number with a code: please enter this code above and click \"Validate\".",
         "SettingsMenu": "Mobile Messaging",
         "SMS_Content_Too_Long": "[too long]",
+        "Available_Credits": "Available credits: %1$s",
         "TopLinkTooltip": "Get Web Analytics Reports delivered to your email inbox or your mobile phone.",
         "TopMenu": "Email & SMS Reports",
         "VerificationText": "Code is %1$s. To validate your phone number and receive Piwik SMS reports please copy this code in the form accessible via Piwik > %2$s > %3$s."
