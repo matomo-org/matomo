@@ -65,7 +65,6 @@ class Pdf extends ReportRenderer
     private $tableCellBorderColor;
     private $tableBackgroundColor;
     private $rowTopBottomBorder = array(231, 231, 231);
-    private $report;
     private $reportMetadata;
     private $displayGraph;
     private $evolutionGraph;
