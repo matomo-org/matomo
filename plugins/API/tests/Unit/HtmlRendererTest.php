@@ -32,7 +32,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase
     {
         $response = $this->builder->renderSuccess('ok');
 
-        $this->assertEquals('Success:ok', $response);
+        $this->assertEquals('<!-- Success: ok -->', $response);
     }
 
     public function test_renderException_shouldIncludeTheMessageAndNotExceptionMessage()
