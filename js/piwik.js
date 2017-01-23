@@ -1353,6 +1353,10 @@ if (typeof window.Piwik !== 'object') {
          * Call plugin hook methods
          */
         function executePluginMethod(methodName, params, callback) {
+            if (!methodName) {
+                return '';
+            }
+
             var result = '',
                 i,
                 pluginMethod, value, isFunction;
@@ -6542,10 +6546,11 @@ if (typeof window.Piwik !== 'object') {
              * @param request eg. "param=value&param2=value2"
              * @param customData
              * @param callback
+             * @param pluginMethod
              */
-            this.trackRequest = function (request, customData, callback) {
+            this.trackRequest = function (request, customData, callback, pluginMethod) {
                 trackCallback(function () {
-                    var fullRequest = getRequest(request, customData);
+                    var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
                 });
             };
