@@ -5118,14 +5118,23 @@ if (typeof window.Piwik !== 'object') {
             function processClick(sourceElement) {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
-                if (crossDomainTrackingEnabled && !link && isLinkToDifferentDomainButSamePiwikWebsite(sourceElement)) {
-                    // !link means it is a link to same domain or same website (as set in setDomains())
-                    replaceHrefForCrossDomainLink(sourceElement);
-                }
-
+                // not a link to same domain or the same website (as set in setDomains())
                 if (link && link.type) {
                     link.href = safeDecodeWrapper(link.href);
                     logLink(link.href, link.type, undefined, null, sourceElement);
+                    return;
+                }
+
+
+                // a link to same domain or the same website (as set in setDomains())
+                if (crossDomainTrackingEnabled) {
+                    // in case the clicked element is within the <a> (for example there is a <div> within the <a>) this will get the actual <a> link element
+                    sourceElement = getSourceElement(sourceElement);
+
+                    if(isLinkToDifferentDomainButSamePiwikWebsite(sourceElement)) {
+                        replaceHrefForCrossDomainLink(sourceElement);
+                    }
+
                 }
             }
 
