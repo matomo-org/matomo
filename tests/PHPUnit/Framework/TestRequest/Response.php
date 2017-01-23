@@ -112,12 +112,18 @@ class Response
 
         $apiResponse = $this->normalizePdfContent($apiResponse);
         $apiResponse = $this->removeXmlFields($apiResponse);
+        $apiResponse = $this->removeTodaysDate($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
         $apiResponse = $this->replacePiwikUrl($apiResponse);
 
         return $apiResponse;
+    }
+
+    private function removeTodaysDate($apiResponse)
+    {
+        return str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $apiResponse);
     }
 
     private function normalizeEncodingPhp533($apiResponse)
@@ -175,6 +181,7 @@ class Response
         $response = preg_replace('/\(D:[0-9]{14}/', '(D:19700101000000', $response);
         $response = preg_replace('/\/ID \[ <.*> ]/', '', $response);
         $response = preg_replace('/\/id:\[ <.*> ]/', '', $response);
+
         $response = $this->removeXmlElement($response, "xmp:CreateDate");
         $response = $this->removeXmlElement($response, "xmp:ModifyDate");
         $response = $this->removeXmlElement($response, "xmp:MetadataDate");
