@@ -53,17 +53,6 @@ class Clockwork extends SMSProvider
 			';
     }
 
-    public function getCredentialFields()
-    {
-        return array(
-            array(
-                'type' => 'text',
-                'name' => 'apiKey',
-                'title' => 'MobileMessaging_Settings_APIKey'
-            )
-        );
-    }
-
     public function verifyCredential($credentials)
     {
         $this->getCreditLeft($credentials);

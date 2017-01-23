@@ -84,7 +84,13 @@ abstract class SMSProvider
      */
     public function getCredentialFields()
     {
-        return array();
+        return array(
+            array(
+                'type' => 'text',
+                'name' => 'apiKey',
+                'title' => 'MobileMessaging_Settings_APIKey'
+            )
+        );
     }
 
     /**

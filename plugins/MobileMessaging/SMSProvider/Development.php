@@ -41,6 +41,11 @@ class Development extends SMSProvider
         return true;
     }
 
+    public function getCredentialFields()
+    {
+        return array();
+    }
+
     public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
         Session::start(); // ensure session is writable to add a notification
