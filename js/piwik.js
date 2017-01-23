@@ -1355,13 +1355,14 @@ if (typeof window.Piwik !== 'object') {
         function executePluginMethod(methodName, callback) {
             var result = '',
                 i,
-                pluginMethod, value;
+                pluginMethod, value, isFunction;
 
             for (i in plugins) {
                 if (Object.prototype.hasOwnProperty.call(plugins, i)) {
-                    pluginMethod = plugins[i][methodName];
+                    isFunction = plugins[i] && 'function' === typeof plugins[i][methodName];
 
-                    if (isFunction(pluginMethod)) {
+                    if (isFunction) {
+                        pluginMethod = plugins[i][methodName];
                         value = pluginMethod(callback);
                         if (value) {
                             result += value;
