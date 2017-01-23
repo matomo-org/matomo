@@ -11,6 +11,7 @@ namespace Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Notification;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Development as PiwikDevelopment;
+use Piwik\Session;
 
 /**
  * Used for development only
@@ -42,6 +43,7 @@ class Development extends SMSProvider
 
     public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
+        Session::start(); // ensure session is writable to add a notification
         $message = sprintf('An SMS was sent:<br />From: %s<br />To: %s<br />Message: %s', $from, $phoneNumber, $smsText);
 
         $notification = new Notification($message);
