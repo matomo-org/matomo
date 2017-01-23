@@ -988,7 +988,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
-    setConversionAttributionFirstReferrer, tracker,
+    setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
@@ -4135,7 +4135,7 @@ if (typeof window.Piwik !== 'object') {
                 setSessionCookie();
 
                 // tracker plugin hook
-                request += executePluginMethod(pluginMethod, {tracker: trackerInstance});
+                request += executePluginMethod(pluginMethod, {tracker: trackerInstance, request: request});
 
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
