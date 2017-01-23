@@ -988,7 +988,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
-    setConversionAttributionFirstReferrer,
+    setConversionAttributionFirstReferrer, tracker,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
@@ -1352,7 +1352,7 @@ if (typeof window.Piwik !== 'object') {
         /*
          * Call plugin hook methods
          */
-        function executePluginMethod(methodName, callback) {
+        function executePluginMethod(methodName, params, callback) {
             var result = '',
                 i,
                 pluginMethod, value, isFunction;
@@ -1363,7 +1363,8 @@ if (typeof window.Piwik !== 'object') {
 
                     if (isFunction) {
                         pluginMethod = plugins[i][methodName];
-                        value = pluginMethod(callback);
+                        value = pluginMethod(params || {}, callback);
+
                         if (value) {
                             result += value;
                         }
@@ -2900,6 +2901,7 @@ if (typeof window.Piwik !== 'object') {
                 registeredHooks = {},
 /*</DEBUG>*/
 
+                trackerInstance = this,
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
@@ -4133,7 +4135,7 @@ if (typeof window.Piwik !== 'object') {
                 setSessionCookie();
 
                 // tracker plugin hook
-                request += executePluginMethod(pluginMethod);
+                request += executePluginMethod(pluginMethod, {tracker: trackerInstance});
 
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
@@ -5198,7 +5200,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * initialize test plugin
              */
-            executePluginMethod('run', registerHook);
+            executePluginMethod('run', null, registerHook);
 /*</DEBUG>*/
 
             /************************************************************
