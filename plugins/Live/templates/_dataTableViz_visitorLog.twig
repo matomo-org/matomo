@@ -19,7 +19,7 @@
                         <li>
                             {{ 'General_Plugins'|translate }}:
                             {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
-                                <img src="{{ pluginIcon.pluginIcon }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
+                                <img width="16px" height="16px" src="{{ pluginIcon.pluginIcon }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
                             {% endfor %}
                         </li>
                     {% endif %}
@@ -160,7 +160,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 {% if visitor.getColumn('countryFlag') %}
                     <span class="visitorLogIconWithDetails">
 
-                        <img src="{{ visitor.getColumn('countryFlag') }}"/>
+                        <img height="16px" src="{{ visitor.getColumn('countryFlag') }}"/>
                         {% if visitor.getColumn('city') %}{{ visitor.getColumn('city')|rawSafeDecoded }}{% endif -%}
                         {%- if visitor.getColumn('region') %}{% if visitor.getColumn('city') %}, {% endif %}{{ visitor.getColumn('region')|rawSafeDecoded }}{% endif %}
 
