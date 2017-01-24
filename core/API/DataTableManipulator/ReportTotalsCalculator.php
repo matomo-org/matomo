@@ -92,6 +92,13 @@ class ReportTotalsCalculator extends DataTableManipulator
             $metricNames[$metricId] = Metrics::getReadableColumnName($metricId);
         }
 
+        if (!empty($this->report)) {
+            $reportMetrics = $this->report->getMetricNamesToProcessReportTotals();
+            foreach ($reportMetrics as $metricId => $metricName) {
+                $metricNames[$metricId] = $metricName;
+            }
+        }
+
         foreach ($firstLevelTable->getRows() as $row) {
             $columns = $row->getColumns();
             foreach ($metricNames as $metricId => $metricName) {
