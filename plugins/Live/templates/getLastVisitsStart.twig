@@ -19,7 +19,7 @@
                 {% endif %}
                 <br />
 
-                {% if visitor.countryFlag is defined %}&nbsp;<img src="{{ visitor.countryFlag }}" title="{{ visitor.location|e('html_attr') }}, {{ 'Provider_ColumnProvider'|translate }} {% if visitor.providerName is defined %}{{ visitor.providerName }}{% endif %}"/>{% endif %}
+                {% if visitor.countryFlag is defined %}&nbsp;<img height="16px" src="{{ visitor.countryFlag }}" title="{{ visitor.location|e('html_attr') }}, {{ 'Provider_ColumnProvider'|translate }} {% if visitor.providerName is defined %}{{ visitor.providerName }}{% endif %}"/>{% endif %}
                 {% if visitor.browserIcon is defined %}&nbsp;<img width="16px" height="16px" src="{{ visitor.browserIcon }}" title="{{ visitor.browser|e('html_attr') }}{% if visitor.plugins is defined %}, {{ 'General_Plugins'|translate }}: {{ visitor.plugins }}{% endif %}"/>{% endif %}
                 {% if visitor.operatingSystemIcon is defined %}&nbsp;<img width="16px" height="16px" src="{{ visitor.operatingSystemIcon }}" title="{{ visitor.operatingSystem }}{% if visitor.resolution is defined %}, {{ visitor.resolution }}{% endif %}"/>{% endif %}
                 &nbsp;
