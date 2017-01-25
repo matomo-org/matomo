@@ -14,7 +14,8 @@
                 interval: 1000,
                 onUpdate: function () {
                     // reload page as soon as a visit was detected
-                    document.location.reload();
+                    var urlToday = broadcast.updateParamValue('date=today', window.location.href);
+                    window.location.href = urlToday;
                 },
                 dataUrlParams: {
                     module: 'Live',
