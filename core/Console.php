@@ -207,8 +207,12 @@ class Console extends Application
     private function getDefaultPiwikCommands()
     {
         $commands = array(
-            'Piwik\CliMulti\RequestCommand'
+            'Piwik\CliMulti\RequestCommand',
         );
+
+        $cloud = new Plugin("Cloud");
+        $commands = array_merge($commands, $cloud->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
+
         return $commands;
     }
 }
