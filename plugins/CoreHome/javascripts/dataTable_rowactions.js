@@ -288,6 +288,13 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
         label = this.multiEvolutionRows.join(',');
     }
 
+    $.each(this.dataTable.param, function (index, value) {
+        // we automatically add fields like idDimension, idGoal etc.
+        if (index !== 'idSite' && index.indexOf('id') === 0 && $.isNumeric(value)) {
+            extraParams[index] = value;
+        }
+    });
+
     // check if abandonedCarts is in the dataTable params and if so, propagate to row evolution request
     if (this.dataTable.param.abandonedCarts !== undefined) {
         extraParams['abandonedCarts'] = this.dataTable.param.abandonedCarts;
