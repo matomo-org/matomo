@@ -150,7 +150,7 @@
                 <div piwik-field uicontrol="checkbox" name="javascript-tracking-cross-domain"
                      ng-model="jsTrackingCode.crossDomain"
                      ng-change="jsTrackingCode.updateTrackingCode();jsTrackingCode.onCrossDomainToggle();"
-                     disabled="jsTrackingCode.isLoading || jsTrackingCode.siteUrls.length <= 1"
+                     disabled="jsTrackingCode.isLoading || !jsTrackingCode.hasManySiteUrls"
                      title="{{ 'CoreAdminHome_JSTracking_EnableCrossDomainLinking'|translate|e('html_attr') }}"
                      value="" inline-help="#jsCrossDomain">
                 </div>

@@ -36,6 +36,7 @@
         this.isLoading = false;
         this.customVars = [];
         this.siteUrls = {};
+        this.hasManySiteUrls = false;
         this.maxCustomVariables = parseInt(angular.element('[name=numMaxCustomVariables]').val(), 10);
         this.canAddMoreCustomVariables = this.maxCustomVariables && this.maxCustomVariables > 0;
 
@@ -48,6 +49,7 @@
         var getSiteData = function (idSite, sectionSelect, callback) {
             // if data is already loaded, don't do an AJAX request
             if (self.siteUrls[idSite]) {
+
                 callback();
                 return;
             }
@@ -142,6 +144,12 @@
             $('.current-site-name').html(self.site.name);
 
             getSiteData(this.site.id, '#js-code-options', function () {
+
+                self.hasManySiteUrls = self.siteUrls[self.site.id] && self.siteUrls[self.site.id].length > 1;
+
+                if (!self.hasManySiteUrls) {
+                    self.crossDomain = false; // we make sure to disable cross domain if it has only one url or less
+                }
 
                 var siteHost = getHostNameFromUrl(self.siteUrls[self.site.id][0]);
                 $('.current-site-host').text(siteHost);
