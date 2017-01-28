@@ -117,6 +117,12 @@
             return generateJsCodeAjax;
         };
 
+        this.onCrossDomainToggle = function () {
+            if (this.crossDomain) {
+                this.trackAllAliases = true;
+            }
+        };
+
         this.addCustomVar = function () {
             if (this.canAddMoreCustomVariables) {
                 this.customVars.push({name: '', value: ''});
