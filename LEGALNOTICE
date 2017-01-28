@@ -268,11 +268,11 @@ THIRD-PARTY CONTENT
     License: GPL
     By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-    Name: Material icons ("icon-info2" "icon_outline" "icon_settings") in plugins/Morpheus/fonts
+    Name: Material icons ("icon-info2" "icon-outline" "icon-settings", "icon-form") in plugins/Morpheus/fonts
     Link: https://design.google.com/icons/
     License: Apache License Version 2.0
 
-    Name: IcoMoon - Free icons ("icon-funnel") in plugins/Morpheus/fonts
+    Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive") in plugins/Morpheus/fonts
     Link: https://icomoon.io/#icons-icomoon
     License: GPL
 
