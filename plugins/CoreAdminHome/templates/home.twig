@@ -34,8 +34,10 @@
         {{ feedbackHelp|raw }}
     {% endif %}
 
-    {% if isMarketplaceEnabled %}
+    {% if hasPremiumFeatures and isMarketplaceEnabled %}
         <div piwik-widget-loader='{"module":"Marketplace","action":"getPremiumFeatures"}'></div>
+    {% endif %}
+    {% if hasNewPlugins and isMarketplaceEnabled %}
         <div piwik-widget-loader='{"module":"Marketplace","action":"getNewPlugins", "isAdminPage": "1"}'></div>
     {% endif %}
 
