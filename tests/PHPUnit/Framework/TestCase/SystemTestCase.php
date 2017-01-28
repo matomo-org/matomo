@@ -121,7 +121,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     {
         if (!Fixture::canImagesBeIncludedInScheduledReports()) {
             $this->markTestSkipped(
-                'Scheduled reports generated during integration tests will not contain the image graphs. ' .
+                '(This should not occur on Travis CI server as we expect these tests to run there). Scheduled reports generated during integration tests will not contain the image graphs. ' .
                     'For tests to generate images, use a machine with the following specifications : ' .
                     'OS = '.Fixture::IMAGES_GENERATED_ONLY_FOR_OS.', PHP = '.Fixture::IMAGES_GENERATED_FOR_PHP .
                     ' and GD = ' . Fixture::IMAGES_GENERATED_FOR_GD
