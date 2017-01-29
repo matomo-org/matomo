@@ -210,9 +210,34 @@ class Console extends Application
             'Piwik\CliMulti\RequestCommand',
         );
 
-        $cloud = new Plugin("Cloud");
-        $commands = array_merge($commands, $cloud->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
+        $commandsFromPluginsMarkedInConfig = $this->getCommandsFromPluginsMarkedInConfig();
+        if(!empty($commandsFromPluginsMarkedInConfig)) {
+            $commands = array_merge($commands, $commandsFromPluginsMarkedInConfig);
+        }
 
+        return $commands;
+    }
+
+    private function getCommandsFromPluginsMarkedInConfig()
+    {
+        $general = Config::getInstance()->getFromCommonConfig('General');
+
+        if (empty($general)) {
+            return null;
+        }
+
+        $key = 'always_load_commands_from_plugin';
+        if (empty($general[$key])) {
+            return null;
+        }
+
+        $plugins = explode(',', $general[$key]);
+
+        $commands = array();
+        foreach($plugins as $plugin) {
+            $instance = new Plugin($plugin);
+            $commands = array_merge($commands, $instance->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
+        }
         return $commands;
     }
 }
