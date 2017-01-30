@@ -211,27 +211,15 @@ class Console extends Application
         );
 
         $commandsFromPluginsMarkedInConfig = $this->getCommandsFromPluginsMarkedInConfig();
-        if(!empty($commandsFromPluginsMarkedInConfig)) {
-            $commands = array_merge($commands, $commandsFromPluginsMarkedInConfig);
-        }
+        $commands = array_merge($commands, $commandsFromPluginsMarkedInConfig);
 
         return $commands;
     }
 
     private function getCommandsFromPluginsMarkedInConfig()
     {
-        $general = Config::getInstance()->getFromCommonConfig('General');
-
-        if (empty($general)) {
-            return null;
-        }
-
-        $key = 'always_load_commands_from_plugin';
-        if (empty($general[$key])) {
-            return null;
-        }
-
-        $plugins = explode(',', $general[$key]);
+        $plugins = Config::getInstance()->General['always_load_commands_from_plugin'];
+        $plugins = explode(',', $plugins);
 
         $commands = array();
         foreach($plugins as $plugin) {
