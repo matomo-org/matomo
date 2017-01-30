@@ -138,17 +138,18 @@ class Model
     }
 
     /**
+     * @param $idSite
      * @param $idVisit
      * @return array
      * @throws \Exception
      */
-    public function queryEcommerceConversionsVisitorLifeTimeMetricsForVisit($idVisit)
+    public function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
         $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
-        $ecommerceOrders = Db::fetchRow($sql, array($idVisit));
+        $ecommerceOrders = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
-        $abandonedCarts = Db::fetchRow($sql, array($idVisit));
+        $abandonedCarts = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         return array(
             'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
@@ -543,11 +544,11 @@ class Model
                     COUNT(*) as lifeTimeConversions,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
 					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
-					    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit_visitors
-					    ON (log_visit.idsite = log_visit_visitors.idsite AND log_visit.idvisitor = log_visit_visitors.idvisitor)
 					    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
-					    ON log_visit_visitors.idvisit = log_conversion.idvisit
-					WHERE log_visit.idvisit = ?
+					    ON log_visit.idvisit = log_conversion.idvisit
+					WHERE
+					        log_visit.idsite = ?
+					    AND log_visit.idvisitor = ?
 						AND log_conversion.idgoal = " . $ecommerceIdGoal . "
         ";
         return $sql;

@@ -346,7 +346,7 @@ class API extends \Piwik\Plugin\API
 
                 $visitorDetailsArray['actionDetails'] = array();
                 if (!$doNotFetchActions) {
-                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $timezone);
+                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $idSite, $timezone);
                 }
 
                 if ($flat) {
