@@ -335,6 +335,10 @@ class Visitor implements VisitorInterface
         $visitorDetailsArray['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
         $visitorDetailsArray['totalEcommerceItems'] = $ecommerceMetrics['totalEcommerceItems'];
 
+        $visitorDetailsArray['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
+        $visitorDetailsArray['totalAbandonedCarts'] = $ecommerceMetrics['totalAbandonedCarts'];
+        $visitorDetailsArray['totalAbandonedCartsItems'] = $ecommerceMetrics['totalAbandonedCartsItems'];
+
         $ecommerceDetails = $model->queryEcommerceConversionsForVisit($idVisit, $actionsLimit);
         foreach ($ecommerceDetails as &$ecommerceDetail) {
             if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
