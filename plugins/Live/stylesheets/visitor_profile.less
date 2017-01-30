@@ -264,26 +264,27 @@
     font-style:italic;
 }
 
-.visitor-profile-summary,.visitor-profile-important-visits {
+.visitor-profile-summary,
+.visitor-profile-important-visits,
+.visitor-profile-location,
+.visitor-profile-lifetimevalue
+{
     overflow:hidden;
-    padding:5px 0 0 22px;
-}
+    padding: 5px 0 16px 22px;
 
-.visitor-profile-summary {
-    padding-bottom:18px;
+    p {
+        font-size:13px;
+        line-height: 20px;
+        margin-top: 6px;
+        margin-right: 1em;
+    }
 }
 
 .visitor-profile-important-visits {
-    padding-bottom:16px;
 
     > div > div > p:first-child > strong {
         padding-left:0;
     }
-}
-
-.visitor-profile-summary > div {
-    margin-top:6px;
-    margin-right:1em;
 }
 
 .visitor-profile-summary strong {
@@ -295,23 +296,10 @@
         float:left;
         width:265px;
         height:100%;
-
-        > div {
-            margin-top:13px;
-        }
     }
 
     span {
         padding-left:0;
-    }
-}
-
-.visitor-profile-location, .visitor-profile-lifetimevalue {
-    padding:10px 0 4px 19px;
-
-    p {
-        margin:13px 0;
-        font-size:13px;
     }
 }
 
