@@ -559,6 +559,9 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
+; Comma separated list of plugin names for which console commands should be loaded (applies when Piwik is not installed yet)
+always_load_commands_from_plugin=
+
 ; This controls whether the pivotBy query parameter can be used with any dimension or just subtable
 ; dimensions. If set to 1, it will fetch a report with a segment for each row of the table being pivoted.
 ; At present, this is very inefficient, so it is disabled by default.
