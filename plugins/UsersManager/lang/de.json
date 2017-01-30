@@ -63,7 +63,6 @@
         "TheLoginScreen": "den Loginbildschirm",
         "ThereAreCurrentlyNRegisteredUsers": "Es sind derzeit %s Benutzer registriert.",
         "TokenAuth": "API Authentifizierungs-Token",
-        "TokenRegenerateConfirm": "Den API Authentifizierungs-Token zu ändern wird den aktuellen Token des Benutzers ungültig machen. Wenn Sie fortfahren und der Benutzer aktuell angemeldet ist, wird er sich erneut anmelden müssen. Sind Sie sicher, dass Sie fortfahren möchten?",
         "TokenRegenerateConfirmSelf": "Den API Authentifizierungs-Token zu ändern wird Ihren eigenen Token ungültig machen. Wenn Sie fortfahren, werden Sie sich neu anmelden müssen. Sind Sie sicher, dass Sie Ihren Authentifizierungs-Token ändern wollen?",
         "TokenRegenerateLogoutWarning": "Wenn Sie Ihr Token neu generieren, werden Sie automatisch ausgeloggt und müssen sich neu anmelden.",
         "TokenRegenerateTitle": "Neu generieren",

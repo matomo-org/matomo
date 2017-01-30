@@ -14,6 +14,7 @@
         "PluginDescription": "Rapporteert metrics over nieuwe bezoekers en terugkerende bezoekers.",
         "ReturningVisitDocumentation": "Een terugkerend bezoek is (in tegenstelling tot een nieuw bezoek) gemaakt door iemand die de website teminste één keer eerder heeft bezocht.",
         "ReturningVisitsDocumentation": "Dit is een overzicht van de terugkerende bezoekers.",
+        "ReturnVisits": "terugkerende bezoeken",
         "SubmenuFrequency": "Frequentie",
         "WidgetGraphReturning": "Grafiek terugkerende bezoeken",
         "WidgetOverview": "Frequentie overzicht"

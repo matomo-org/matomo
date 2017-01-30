@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s verlaten winkelmanden%2$s en %3$s verlaten artikelen %4$s met een totaal waarde van %5$s%6$s.",
         "AveragePageGenerationTime": "Elke pagina duurde gemiddeld %1$s om te laden voor deze bezoeker.",
         "CalculatedOverNPageViews": "Berekend met de laatste %1$s paginaweergaves van deze bezoeker.",
         "ClickToViewMoreAboutVisit": "Klik om meer informatie over dit bezoek te zien",
         "ConvertedNGoals": "Behaalde %s Doelen",
-        "EcommerceSummaryConversions": "%1$s bestellingen %2$s voor een totaal van %3$s%4$s, besteld %5$s items %6$s.",
         "FirstVisit": "Eerste bezoek",
         "GoalType": "Type",
         "HideMap": "Verberg kaart",

@@ -63,7 +63,6 @@
         "TheLoginScreen": "La schermata di login",
         "ThereAreCurrentlyNRegisteredUsers": "Al momento ci sono %s utenti registrati.",
         "TokenAuth": "Token Autenticazione API",
-        "TokenRegenerateConfirm": "Il cambiamento del token di autenticazione API invaliderà quello attuale dell'utente. Se questi è attualmente loggato, gli potrebbe essere richiesto di effettuare nuovamente l'accesso. Vuoi veramente continuare?",
         "TokenRegenerateConfirmSelf": "Il cambiamento del token di autenticazione API invaliderà il tuo token. Ti potrebbe essere chiesto di effettuare nuovamente l'accesso, se procedi. Vuoi veramente cambiare il tuo token di autenticazione?",
         "TokenRegenerateLogoutWarning": "Quando rigeneri il tuo token verrai disconnesso e dovrai accedere nuovamente.",
         "TokenRegenerateTitle": "Rigenera",

@@ -4,6 +4,8 @@
         "DirectEntries": "Direkte treff",
         "ErrorBack": "Gå tilbake til forrige handling",
         "ExitsInline": "%s utganger",
+        "NumPageviews": "%s sidevisninger",
+        "NumDownloads": "%s nedlastinger",
         "FromCampaigns": "Fra kampanjer",
         "FromPreviousPages": "Fra interne sider",
         "FromPreviousPagesInline": "%s fra interne sider",

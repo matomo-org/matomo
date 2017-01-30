@@ -22,7 +22,6 @@
         "Settings_PhoneNumber": "전화번호",
         "Settings_PhoneNumbers_Add": "전화번호 추가",
         "Settings_PhoneNumbers_Help": "SMS (문자 메시지)로 보고서를 수신하려면, 전화번호를 아래에 입력해야합니다.",
-        "Settings_PhoneNumbers_HelpAdd": "\"추가\"를 클릭하면, 당신의 휴대 전화로 인증코드가 포함된 SMS를 전송합니다. 코드를 받는 사용자는 Piwik에 로그인하고 설정에 들어가서 모바일 메시징을 클릭합니다. 인증코드를 입력한 후, 사용자는 자신의 휴대 전화로 문자 보고서를 받을 수 있습니다.",
         "Settings_PleaseSignUp": "웹사이트 통계를 짧은 문자 메시지로 생성하여 휴대 전화의 SMS 보고서로 수신하려면, 아래에 정보를 입력하여 SMS API에 가입해 주세요.",
         "Settings_SMSAPIAccount": "SMS API 계정 관리",
         "Settings_SMSProvider": "SMS 공급자",
