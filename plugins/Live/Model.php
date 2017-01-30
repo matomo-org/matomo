@@ -145,8 +145,9 @@ class Model
     public function queryEcommerceConversionsVisitorLifeTimeMetricsForVisit($idVisit)
     {
         $sql = "SELECT
-                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as ecommerceLifeTimeValue,
-                    COUNT(DISTINCT log_conversion.idorder) as ecommerceLifeTimeOrdersCount
+                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as totalEcommerceRevenue,
+                    COUNT(DISTINCT log_conversion.idorder) as totalEcommerceConversions,
+                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as totalEcommerceItems
 					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
 					    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit_visitors
 					    ON (log_visit.idsite = log_visit_visitors.idsite AND log_visit.idvisitor = log_visit_visitors.idvisitor)

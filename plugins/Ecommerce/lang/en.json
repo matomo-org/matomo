@@ -6,7 +6,8 @@
         "SalesAdjective": "Sales %s",
         "LifeTimeValue": "Ecommerce Life Time Value",
         "LifeTimeValueDescription": "Total Ecommerce revenue attributed to this customer across all visits: the sum of revenue of all Ecommerce orders for Visitor ID %s.",
-        "VisitorProfileLTV": "%1$s total revenue in %2$s ecommerce orders."
-
+        "VisitorProfileLTV": "Generated a Life Time Revenue of %1$s.",
+        "VisitorProfileItemsAndOrders": "Purchased %1$s items in %2$s ecommerce orders.",
+        "VisitorProfileAbandonedCartSummary": "Abandoned %1$s carts including %2$s items worth a total of %3$s."
     }
 }

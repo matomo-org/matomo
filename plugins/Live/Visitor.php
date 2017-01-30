@@ -331,8 +331,9 @@ class Visitor implements VisitorInterface
         $goalDetails = $model->queryGoalConversionsForVisit($idVisit, $actionsLimit);
 
         $ecommerceMetrics = $model->queryEcommerceConversionsVisitorLifeTimeMetricsForVisit($idVisit);
-        $visitorDetailsArray['ecommerceLifeTimeValue'] = $ecommerceMetrics['ecommerceLifeTimeValue'];
-        $visitorDetailsArray['ecommerceLifeTimeOrdersCount'] = $ecommerceMetrics['ecommerceLifeTimeOrdersCount'];
+        $visitorDetailsArray['totalEcommerceRevenue'] = $ecommerceMetrics['totalEcommerceRevenue'];
+        $visitorDetailsArray['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
+        $visitorDetailsArray['totalEcommerceItems'] = $ecommerceMetrics['totalEcommerceItems'];
 
         $ecommerceDetails = $model->queryEcommerceConversionsForVisit($idVisit, $actionsLimit);
         foreach ($ecommerceDetails as &$ecommerceDetail) {
