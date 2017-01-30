@@ -79,6 +79,18 @@
                         {% endif %}
                     </div>
                 </div>
+                {% if visitorData.ecommerceLifeTimeValue is defined %}
+                <div class="visitor-profile-lifetimevalue">
+                    <div>
+                        <h1>{{ 'Ecommerce_LifeTimeValue'|translate }}</h1>
+                        <p title="{{ 'Ecommerce_LifeTimeValueDescription'|translate(visitorData.visitorId) }}">
+                            <strong>
+                                {{ 'Ecommerce_VisitorProfileLTV'|translate(visitorData.ecommerceLifeTimeValue|money(idSite), visitorData.ecommerceLifeTimeOrdersCount) }}
+                            </strong>
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
                 <div class="visitor-profile-important-visits">
                     {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
                     <div>

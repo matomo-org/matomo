@@ -77,7 +77,6 @@ class VisitorProfile
         $this->profile['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($this->profile['totalVisitDuration'], true);
 
         $this->handleVisitsSummary($visits);
-        $this->handleAdjacentVisitorIds($visits, $visitorId, $segment);
 
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset($numLastVisits);
@@ -85,6 +84,13 @@ class VisitorProfile
         $this->profile['lastVisits'] = $visits;
 
         $this->profile['userId'] = $visit->getColumn('userId');
+        $this->profile['visitorId'] = $visitorId;
+        $this->handleAdjacentVisitorIds($visits, $visitorId, $segment);
+
+        if($this->isEcommerceEnabled()) {
+            $this->profile['ecommerceLifeTimeValue'] = $visit->getColumn('ecommerceLifeTimeValue');
+            $this->profile['ecommerceLifeTimeOrdersCount'] = $visit->getColumn('ecommerceLifeTimeOrdersCount');
+        }
 
         return $this->profile;
     }
@@ -342,6 +348,8 @@ class VisitorProfile
         $this->profile['hasLatLong'] = false;
 
         if ($this->isEcommerceEnabled()) {
+            $this->profile['ecommerceLifeTimeValue'] = 0;
+            $this->profile['ecommerceLifeTimeOrdersCount'] = 0;
             $this->profile['totalEcommerceConversions'] = 0;
             $this->profile['totalEcommerceRevenue'] = 0;
             $this->profile['totalEcommerceItems'] = 0;

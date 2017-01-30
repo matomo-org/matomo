@@ -330,6 +330,10 @@ class Visitor implements VisitorInterface
         // If the visitor converted a goal, we shall select all Goals
         $goalDetails = $model->queryGoalConversionsForVisit($idVisit, $actionsLimit);
 
+        $ecommerceMetrics = $model->queryEcommerceConversionsVisitorLifeTimeMetricsForVisit($idVisit);
+        $visitorDetailsArray['ecommerceLifeTimeValue'] = $ecommerceMetrics['ecommerceLifeTimeValue'];
+        $visitorDetailsArray['ecommerceLifeTimeOrdersCount'] = $ecommerceMetrics['ecommerceLifeTimeOrdersCount'];
+
         $ecommerceDetails = $model->queryEcommerceConversionsForVisit($idVisit, $actionsLimit);
         foreach ($ecommerceDetails as &$ecommerceDetail) {
             if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {

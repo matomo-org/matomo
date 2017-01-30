@@ -117,8 +117,8 @@ class Model
     {
         $sql = "SELECT
 						case idgoal when " . GoalManager::IDGOAL_CART
-                            . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
-                            . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
+            . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+            . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
 						idorder as orderId,
 						" . LogAggregator::getSqlRevenue('revenue') . " as revenue,
 						" . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
@@ -136,6 +136,29 @@ class Model
         $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
         return $ecommerceDetails;
     }
+
+    /**
+     * @param $idVisit
+     * @return array
+     * @throws \Exception
+     */
+    public function queryEcommerceConversionsVisitorLifeTimeMetricsForVisit($idVisit)
+    {
+        $sql = "SELECT
+                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as ecommerceLifeTimeValue,
+                    COUNT(DISTINCT log_conversion.idorder) as ecommerceLifeTimeOrdersCount
+					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
+					    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit_visitors
+					    ON (log_visit.idsite = log_visit_visitors.idsite AND log_visit.idvisitor = log_visit_visitors.idvisitor)
+					    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
+					    ON log_visit_visitors.idvisit = log_conversion.idvisit
+					WHERE log_visit.idvisit = ?
+						AND idgoal = " . GoalManager::IDGOAL_ORDER . "
+        ";
+        return Db::fetchRow($sql, array($idVisit));
+    }
+
+
 
 
     /**
