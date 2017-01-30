@@ -6025,7 +6025,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Enables cross domain linking. By default, the visitor ID that identifies a unique visitor is stored in
-             * the browser's cookies. This means the cookie can only be accessed by pages on the same domain.
+             * the browser's first party cookies. This means the cookie can only be accessed by pages on the same domain.
              * If you own multiple domains and would like to track all the actions and pageviews of a specific visitor
              * into the same visit, you may enable cross domain linking. Whenever a user clicks on a link it will append
              * a URL parameter pk_vid to the clicked URL which consists of these parts: 16 char visitorId, a 10 character

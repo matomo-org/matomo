@@ -46,7 +46,8 @@ class TrackerCodeGenerator
         $customCampaignKeywordParam = null,
         $doNotTrack = false,
         $disableCookies = false,
-        $trackNoScript = false
+        $trackNoScript = false,
+        $crossDomain = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
 
@@ -62,9 +63,18 @@ class TrackerCodeGenerator
         if ($groupPageTitlesByDomain) {
             $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . "\n";
         }
+        if ($crossDomain) {
+            // When enabling cross domain, we also need to call `setDomains`
+            $mergeAliasUrls = true;
+        }
         if ($mergeSubdomains || $mergeAliasUrls) {
             $options .= $this->getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
         }
+
+        if ($crossDomain) {
+            $options .= '  _paq.push(["enableCrossDomainLinking"]);' . "\n";
+        }
+
         $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
 
         if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
