@@ -26,7 +26,8 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
             $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true, $disableCookies = false, $trackNoScript = true);
+            $doNotTrack = true, $disableCookies = false, $trackNoScript = true,
+            $crossDomain = true);
 
         $expected = "&lt;!-- Piwik --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
@@ -41,6 +42,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
+  _paq.push(['enableCrossDomainLinking', true]);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {

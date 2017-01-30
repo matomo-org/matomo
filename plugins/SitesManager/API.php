@@ -105,7 +105,8 @@ class API extends \Piwik\Plugin\API
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                                     $doNotTrack = false, $disableCookies = false, $trackNoScript = false)
+                                     $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
+                                     $crossDomain = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -125,7 +126,7 @@ class API extends \Piwik\Plugin\API
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
-                                     $doNotTrack, $disableCookies, $trackNoScript);
+                                     $doNotTrack, $disableCookies, $trackNoScript, $crossDomain);
         $code = str_replace(array('<br>', '<br />', '<br/>'), '', $code);
         return $code;
     }
