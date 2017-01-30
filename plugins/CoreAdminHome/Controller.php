@@ -54,12 +54,14 @@ class Controller extends ControllerAdmin
 
         $hasDonateForm = $widgetsList->isDefined('CoreHome', 'getDonateForm');
         $hasPiwikBlog = $widgetsList->isDefined('RssWidget', 'rssPiwik');
+        $hasDiagnostics = $widgetsList->isDefined('About Piwik', 'Installation_SystemCheck');
 
         return $this->renderTemplate('home', array(
             'isMarketplaceEnabled' => $isMarketplaceEnabled,
             'isFeedbackEnabled' => $isFeedbackEnabled,
             'hasDonateForm' => $hasDonateForm,
-            'hasPiwikBlog' => $hasPiwikBlog
+            'hasPiwikBlog' => $hasPiwikBlog,
+            'hasDiagnostics' => $hasDiagnostics,
         ));
     }
 
