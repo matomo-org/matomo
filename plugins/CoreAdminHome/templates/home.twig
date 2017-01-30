@@ -30,7 +30,7 @@
                 </div>
             {% endif %}
         </div>
-    {% else %}
+    {% elseif isFeedbackEnabled %}
         {{ feedbackHelp|raw }}
     {% endif %}
 
