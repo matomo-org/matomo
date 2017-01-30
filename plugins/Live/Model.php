@@ -117,8 +117,8 @@ class Model
     {
         $sql = "SELECT
 						case idgoal when " . GoalManager::IDGOAL_CART
-                            . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
-                            . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
+            . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+            . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
 						idorder as orderId,
 						" . LogAggregator::getSqlRevenue('revenue') . " as revenue,
 						" . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
@@ -137,6 +137,29 @@ class Model
         return $ecommerceDetails;
     }
 
+    /**
+     * @param $idSite
+     * @param $idVisit
+     * @return array
+     * @throws \Exception
+     */
+    public function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
+    {
+        $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
+        $ecommerceOrders = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+
+        $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
+        $abandonedCarts = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+
+        return array(
+            'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
+            'totalEcommerceConversions'  => $ecommerceOrders['lifeTimeConversions'],
+            'totalEcommerceItems'        => $ecommerceOrders['lifeTimeEcommerceItems'],
+            'totalAbandonedCartsRevenue' => $abandonedCarts['lifeTimeRevenue'],
+            'totalAbandonedCarts'        => $abandonedCarts['lifeTimeConversions'],
+            'totalAbandonedCartsItems'   => $abandonedCarts['lifeTimeEcommerceItems']
+        );
+    }
 
     /**
      * @param $idVisit
@@ -508,5 +531,26 @@ class Model
             $where = false;
         }
         return array($whereBind, $where);
+    }
+
+    /**
+     * @param $ecommerceIdGoal
+     * @return string
+     */
+    private function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal($ecommerceIdGoal)
+    {
+        $sql = "SELECT
+                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
+                    COUNT(*) as lifeTimeConversions,
+                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
+					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
+					    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
+					    ON log_visit.idvisit = log_conversion.idvisit
+					WHERE
+					        log_visit.idsite = ?
+					    AND log_visit.idvisitor = ?
+						AND log_conversion.idgoal = " . $ecommerceIdGoal . "
+        ";
+        return $sql;
     }
 } 

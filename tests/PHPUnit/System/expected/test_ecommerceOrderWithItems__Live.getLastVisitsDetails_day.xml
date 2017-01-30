@@ -222,6 +222,12 @@
 		
 		
 		
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -572,6 +578,12 @@
 		
 		
 		
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -800,5 +812,11 @@
 		
 		
 		
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 	</row>
 </result>

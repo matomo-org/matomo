@@ -60,7 +60,6 @@ class VisitorProfile
                 $this->handleIfEventAction($action);
                 $this->handleIfDownloadAction($action);
                 $this->handleIfOutlinkAction($action);
-                $this->handleIfEcommerceAction($action);
                 $this->handleIfSiteSearchAction($action);
                 $this->handleIfPageViewAction($action);
                 $this->handleIfPageGenerationTime($action);
@@ -77,7 +76,6 @@ class VisitorProfile
         $this->profile['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($this->profile['totalVisitDuration'], true);
 
         $this->handleVisitsSummary($visits);
-        $this->handleAdjacentVisitorIds($visits, $visitorId, $segment);
 
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset($numLastVisits);
@@ -85,6 +83,17 @@ class VisitorProfile
         $this->profile['lastVisits'] = $visits;
 
         $this->profile['userId'] = $visit->getColumn('userId');
+        $this->profile['visitorId'] = $visitorId;
+        $this->handleAdjacentVisitorIds($visits, $visitorId, $segment);
+
+        if($this->isEcommerceEnabled()) {
+            $this->profile['totalEcommerceRevenue'] = $visit->getColumn('totalEcommerceRevenue');
+            $this->profile['totalEcommerceConversions'] = $visit->getColumn('totalEcommerceConversions');
+            $this->profile['totalEcommerceItems'] = $visit->getColumn('totalEcommerceItems');
+            $this->profile['totalAbandonedCartsRevenue'] = $visit->getColumn('totalAbandonedCartsRevenue');
+            $this->profile['totalAbandonedCarts'] = $visit->getColumn('totalAbandonedCarts');
+            $this->profile['totalAbandonedCartsItems'] = $visit->getColumn('totalAbandonedCartsItems');
+        }
 
         return $this->profile;
     }
@@ -198,25 +207,6 @@ class VisitorProfile
             return;
         }
         $this->profile['totalPageViews']++;
-    }
-
-    /**
-     * @param $action
-     */
-    private function handleIfEcommerceAction($action)
-    {
-        if (!$this->isEcommerceEnabled()) {
-            return;
-        }
-        if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            ++$this->profile['totalEcommerceConversions'];
-            $this->profile['totalEcommerceRevenue'] += $action['revenue'];
-            $this->profile['totalEcommerceItems'] += $action['items'];
-        } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-            ++$this->profile['totalAbandonedCarts'];
-            $this->profile['totalAbandonedCartsRevenue'] += $action['revenue'];
-            $this->profile['totalAbandonedCartsItems'] += $action['items'];
-        }
     }
 
     private function handleIfGoalAction($action)
@@ -342,8 +332,8 @@ class VisitorProfile
         $this->profile['hasLatLong'] = false;
 
         if ($this->isEcommerceEnabled()) {
-            $this->profile['totalEcommerceConversions'] = 0;
             $this->profile['totalEcommerceRevenue'] = 0;
+            $this->profile['totalEcommerceConversions'] = 0;
             $this->profile['totalEcommerceItems'] = 0;
             $this->profile['totalAbandonedCarts'] = 0;
             $this->profile['totalAbandonedCartsRevenue'] = 0;
