@@ -209,6 +209,23 @@ class Console extends Application
         $commands = array(
             'Piwik\CliMulti\RequestCommand'
         );
+
+        $commandsFromPluginsMarkedInConfig = $this->getCommandsFromPluginsMarkedInConfig();
+        $commands = array_merge($commands, $commandsFromPluginsMarkedInConfig);
+
+        return $commands;
+    }
+
+    private function getCommandsFromPluginsMarkedInConfig()
+    {
+        $plugins = Config::getInstance()->General['always_load_commands_from_plugin'];
+        $plugins = explode(',', $plugins);
+
+        $commands = array();
+        foreach($plugins as $plugin) {
+            $instance = new Plugin($plugin);
+            $commands = array_merge($commands, $instance->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
+        }
         return $commands;
     }
 }

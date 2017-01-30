@@ -98,25 +98,6 @@ class GoalsRequestProcessor extends RequestProcessor
                 $request->setMetadata('Goals', 'visitIsConverted', true);
             }
         }
-
-        // There is an edge case when:
-        // - two manual goal conversions happen in the same second
-        // - which result in handleExistingVisit throwing the exception
-        //   because the UPDATE didn't affect any rows (one row was found, but not updated since no field changed)
-        // - the exception is caught here and will result in a new visit incorrectly
-        // In this case, we cancel the current conversion to be recorded:
-        $isManualGoalConversion = $this->isManualGoalConversion($request);
-        $requestIsEcommerce = $request->getMetadata('Goals', 'isRequestEcommerce');
-        $visitorNotFoundInDb = $request->getMetadata('CoreHome', 'visitorNotFoundInDb');
-
-        if ($visitorNotFoundInDb
-            && ($isManualGoalConversion
-                || $requestIsEcommerce)
-        ) {
-            $request->setMetadata('Goals', 'goalsConverted', array());
-            $request->setMetadata('Goals', 'visitIsConverted', false);
-        }
-
     }
 
     public function recordLogs(VisitProperties $visitProperties, Request $request)

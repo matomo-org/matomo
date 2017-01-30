@@ -251,7 +251,7 @@ class Visitor implements VisitorInterface
      * @param $timezone
      * @return array
      */
-    public static function enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $timezone)
+    public static function enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $idSite, $timezone)
     {
         $idVisit = $visitorDetailsArray['idVisit'];
 
@@ -329,6 +329,15 @@ class Visitor implements VisitorInterface
 
         // If the visitor converted a goal, we shall select all Goals
         $goalDetails = $model->queryGoalConversionsForVisit($idVisit, $actionsLimit);
+
+        $ecommerceMetrics = $model->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $visitorDetailsArray['visitorId']);
+        $visitorDetailsArray['totalEcommerceRevenue'] = $ecommerceMetrics['totalEcommerceRevenue'];
+        $visitorDetailsArray['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
+        $visitorDetailsArray['totalEcommerceItems'] = $ecommerceMetrics['totalEcommerceItems'];
+
+        $visitorDetailsArray['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
+        $visitorDetailsArray['totalAbandonedCarts'] = $ecommerceMetrics['totalAbandonedCarts'];
+        $visitorDetailsArray['totalAbandonedCartsItems'] = $ecommerceMetrics['totalAbandonedCartsItems'];
 
         $ecommerceDetails = $model->queryEcommerceConversionsForVisit($idVisit, $actionsLimit);
         foreach ($ecommerceDetails as &$ecommerceDetail) {

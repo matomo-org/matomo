@@ -988,7 +988,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
-    setConversionAttributionFirstReferrer,
+    setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
     disableCrossDomainLinking, isCrossDomainLinkingEnabled,
@@ -1353,17 +1353,23 @@ if (typeof window.Piwik !== 'object') {
         /*
          * Call plugin hook methods
          */
-        function executePluginMethod(methodName, callback) {
+        function executePluginMethod(methodName, params, callback) {
+            if (!methodName) {
+                return '';
+            }
+
             var result = '',
                 i,
-                pluginMethod, value;
+                pluginMethod, value, isFunction;
 
             for (i in plugins) {
                 if (Object.prototype.hasOwnProperty.call(plugins, i)) {
-                    pluginMethod = plugins[i][methodName];
+                    isFunction = plugins[i] && 'function' === typeof plugins[i][methodName];
 
-                    if (isFunction(pluginMethod)) {
-                        value = pluginMethod(callback);
+                    if (isFunction) {
+                        pluginMethod = plugins[i][methodName];
+                        value = pluginMethod(params || {}, callback);
+
                         if (value) {
                             result += value;
                         }
@@ -2983,6 +2989,7 @@ if (typeof window.Piwik !== 'object') {
                 registeredHooks = {},
 /*</DEBUG>*/
 
+                trackerInstance = this,
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
@@ -4315,7 +4322,7 @@ if (typeof window.Piwik !== 'object') {
                 setSessionCookie();
 
                 // tracker plugin hook
-                request += executePluginMethod(pluginMethod);
+                request += executePluginMethod(pluginMethod, {tracker: trackerInstance, request: request});
 
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
@@ -5463,7 +5470,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * initialize test plugin
              */
-            executePluginMethod('run', registerHook);
+            executePluginMethod('run', null, registerHook);
 /*</DEBUG>*/
 
             /************************************************************
@@ -6018,7 +6025,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Enables cross domain linking. By default, the visitor ID that identifies a unique visitor is stored in
-             * the browser's cookies. This means the cookie can only be accessed by pages on the same domain.
+             * the browser's first party cookies. This means the cookie can only be accessed by pages on the same domain.
              * If you own multiple domains and would like to track all the actions and pageviews of a specific visitor
              * into the same visit, you may enable cross domain linking. Whenever a user clicks on a link it will append
              * a URL parameter pk_vid to the clicked URL which consists of these parts: 16 char visitorId, a 10 character
@@ -6844,10 +6851,11 @@ if (typeof window.Piwik !== 'object') {
              * @param request eg. "param=value&param2=value2"
              * @param customData
              * @param callback
+             * @param pluginMethod
              */
-            this.trackRequest = function (request, customData, callback) {
+            this.trackRequest = function (request, customData, callback, pluginMethod) {
                 trackCallback(function () {
-                    var fullRequest = getRequest(request, customData);
+                    var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
                 });
             };
