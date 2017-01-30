@@ -429,6 +429,20 @@ class Report
     }
 
     /**
+     * Use this method to register metrics to process report totals.
+     *
+     * When a metric is registered, it will process the report total values and as a result show percentage values
+     * in the HTML Table reporting visualization.
+     *
+     * @return string[]  metricId => metricColumn, if the report has only column names and no IDs, it should return
+     *                   metricColumn => metricColumn, eg array('13' => 'nb_pageviews') or array('mymetric' => 'mymetric')
+     */
+    public function getMetricNamesToProcessReportTotals()
+    {
+        return array();
+    }
+
+    /**
      * Returns an array of metric documentations and their corresponding translations. Eg
      * `array('nb_visits' => 'If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after...')`.
      * By default the given {@link $metrics} are used and their corresponding translations are looked up automatically.
