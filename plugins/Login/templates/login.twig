@@ -8,16 +8,6 @@
     {{ parent() }}
 
     <script type="text/javascript" src="libs/bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-    <script type="text/javascript" src="libs/jquery/jquery.smartbanner.js"></script>
-    <link rel="stylesheet" type="text/css" href="libs/jquery/stylesheets/jquery.smartbanner.css" />
-
-    <script type="text/javascript">
-        $(function () {
-            $('#form_login').focus();
-            $('input').placeholder();
-            $.smartbanner({title: "Piwik Mobile 2", author: "Piwik team", hideOnInstall: false, layer: true, icon: "plugins/CoreHome/images/googleplay.png"});
-        });
-    </script>
 {% endblock %}
 
 {% set title %}{{ 'Login_LogIn'|translate }}{% endset %}
