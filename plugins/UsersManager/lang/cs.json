@@ -63,7 +63,6 @@
         "TheLoginScreen": "Přihlašovací obrazovka",
         "ThereAreCurrentlyNRegisteredUsers": "Aktuálně je %s registrovaných uživatelů.",
         "TokenAuth": "Token k autentizaci vůči API",
-        "TokenRegenerateConfirm": "Změna autentizačního tokenu k API zneplatní token uživatele. Pokud je zrovna přihlášen, možná se bude muset znovu přihlásit. Opravdu chcete autentizační token změnit?",
         "TokenRegenerateConfirmSelf": "Změna autentizačního tokenu k API zneplatní váš vlastní token. Možná se budete muset znovu přihlásit. Opravdu chcete váš autentizační token změnit?",
         "TokenRegenerateLogoutWarning": "Po obnovení vašeho tokenu budete odhlášen a budete se muset znovu přihlásit.",
         "TokenRegenerateTitle": "Obnovit",

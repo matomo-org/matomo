@@ -29,6 +29,9 @@
         "VisitorProfile": "방문자 프로필",
         "VisitorsInRealTime": "실시간 방문자",
         "VisitorsLastVisit": "이 방문객의 최신 방문은 %s일 입니다.",
+        "RowActionTooltipDefault": "해당 행에 의해 분할되어진 방문자 로그를 보여줍니다",
+        "RowActionTooltipWithDimension": "해당 %s에 의해 분할되어진 방문자 로그를 보여줍니다",
+        "RowActionTooltipTitle": "분할되어진 방문자 로그를 여세요",
         "OnClickPause": "%s이\/가 시작되었습니다. 멈추기 위해서 클릭해주세요.",
         "OnClickStart": "%s이\/가 멈추었습니다. 시작하기 위해서 클릭해주세요."
     }

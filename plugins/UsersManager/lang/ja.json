@@ -63,7 +63,6 @@
         "TheLoginScreen": "ログイン画面",
         "ThereAreCurrentlyNRegisteredUsers": "現在 %s 名のユーザーが登録されています。",
         "TokenAuth": "API 認証トークン",
-        "TokenRegenerateConfirm": "API 認証トークンを変更すると、ユーザーの現在のトークンが無効になります。ユーザーが現在ログインしている場合は、再度ログインする必要があります。本当に続行しますか？",
         "TokenRegenerateConfirmSelf": "API 認証トークンを変更すると、独自のトークンが無効になります。続行する場合は、再度ログインする必要があります。本当に認証トークンを変更しますか？",
         "TokenRegenerateLogoutWarning": "トークンを再生成すると、ログアウトされ、再度ログインする必要があります。",
         "TokenRegenerateTitle": "再生成する",

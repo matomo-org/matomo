@@ -10,6 +10,7 @@
         "SegmentDisplayedThisWebsiteOnly": "kun dette nettstedet",
         "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
         "VisibleToAllUsers": "alle brukere",
-        "VisibleToMe": "meg"
+        "VisibleToMe": "meg",
+        "SharedWithYou": "Delt med deg"
     }
 }

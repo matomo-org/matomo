@@ -1,5 +1,6 @@
 {
     "Live": {
+        "AveragePageGenerationTime": "Hver side tok i gjennomsnitt %1$s å laste for denne brukeren.",
         "ClickToViewMoreAboutVisit": "Klikk for å se mer informasjon om dette besøket",
         "ConvertedNGoals": "Konverterte %s mål",
         "FirstVisit": "Første besøk",

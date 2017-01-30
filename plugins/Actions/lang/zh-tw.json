@@ -32,7 +32,7 @@
         "EntryPagesReportDocumentation": "此報表包含指定期間內之到達網頁的相關資訊。所謂的到達網頁，是訪客進入網站時所訪問的第一個網頁。%s 到達網頁的網址以資料夾結構顯示。",
         "EntryPageTitles": "到達網頁標題",
         "EntryPageTitlesReportDocumentation": "此報告包含指定期間內，到達網頁標題的相關資訊。",
-        "ExitPagesReportDocumentation": "這份報表包含指定期間內離開網頁的資訊。離開網頁是訪客離開網頁前最後留覽的頁面。%s離開網頁的網址以資料夾結構顯示。",
+        "ExitPagesReportDocumentation": "這份報表包含指定期間內之離開網頁的相關資訊。所謂的離開網頁，是訪客離開網頁前最後瀏覽的頁面。%s 離開網頁的網址以資料夾結構顯示。",
         "ExitPageTitles": "離站網頁標題",
         "ExitPageTitlesReportDocumentation": "此報表包含關於指定期間內離站網頁之標題等資訊",
         "LearnMoreAboutSiteSearchLink": "查看更多關於訪客如何使用你的站內搜尋引擎。",

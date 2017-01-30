@@ -67,6 +67,7 @@
         "Segments": "Segmente",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "S’kryeni dot përditësim me një klikim, ngaqë po e përdorni Piwik-un me disa shërbyes. Ju lutemi, që të mund të vazhdohet, shkarkoni versionin më të ri prej %1$s.",
         "AdblockIsMaybeUsed": "Në rast se përdorni ndonjë bllokues reklamash, ju lutemi çaktivizojeni për këtë sajt, që të siguroni punën pa probleme të Piwik-ut.",
-        "ChangeCurrentWebsite": "Zgjidhni një sajt, sajti i përzgjedhur tani: %s"
+        "ChangeCurrentWebsite": "Zgjidhni një sajt, sajti i përzgjedhur tani: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Platforma kryesuese e analizave të hapura që respekton privatësinë tuaj."
     }
 }

@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Hvis du ønsker at ændre dette token, så gå til din %1$sside for personlige indstillingere%2$s.",
         "GenerateVisits": "Hvis du ikke har data for i dag ,kan du generere nogle data ved hjælp af %1$s programudvidelsen. Aktiver %2$s programudvidelsen, og klik derefter på 'Besøgsgenerator' i menuen under indstillinger.",
         "KeepTokenSecret": "Token_auth er ligeså hemmeligt som brugernavn og adgangskode, %1$sdel det ikke ud%2$s!",
         "LoadedAPIs": "%s APIs indlæst",

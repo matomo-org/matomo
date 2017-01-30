@@ -27,7 +27,6 @@
         "Settings_PhoneNumbers_Add": "Přidat nové telefonní číslo",
         "Settings_PhoneNumbers_CountryCode_Help": "Pokud neznáte telefonní předvolbu země, vyhledejte ji zde.",
         "Settings_PhoneNumbers_Help": "Než budete moci přijímat SMS se statistikami, telefonní číslo musí být zadáno níže.",
-        "Settings_PhoneNumbers_HelpAdd": "Po stisknutí \"přidat\" bude na telefon odeslána SMS s kódem. Uživatel, který obdrží SMS by se měl přihlásit do Piwiku, kliknout na nastavení, pak na Mobilní zprávy a zadat kód. Poté bude moci dostávat statistiky do svého telefonu.",
         "Settings_PleaseSignUp": "Pokud chcetevytvářet SMS hlášení a dostávat krátké zprávy o statistikách do svého telefonu, zaregistrujte se na SMS API a zadejte svoje informace níže.",
         "Settings_SMSAPIAccount": "Správa SMS API účtu",
         "Settings_SMSProvider": "SMS Provider",

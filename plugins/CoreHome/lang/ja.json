@@ -15,6 +15,7 @@
         "Default": "デフォルト",
         "DonateCall1": "Piwik を使用するのに費用はかかりません。しかし、 Piwik の制作に費用がかかっていないと言う意味ではありません",
         "DonateCall2": "Piwik が成長し、成功するには、あなたの継続的なサポートが必要です",
+        "DonateCall3": "Piwik がビジネスや努力に重大な付加価値があると感じた場合は、%3$sプレミアム機能を購入%4$s、または%1$s寄付をご検討ください。%2$s",
         "DonateFormInstructions": "スライダで寄付する金額を選択して寄付するをクリック",
         "ExcludeRowsWithLowPopulation": "全ての行を表示 %s 少ない数の行を除く",
         "ExternalHelp": "ヘルプ（新しいタブで開きます）",
@@ -65,6 +66,7 @@
         "Segments": "セグメント",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "複数のサーバーでPiwikを使用しているため、ワンクリック更新は利用できません。続行するには、%1$s から最新バージョンをダウンロードしてください。",
         "AdblockIsMaybeUsed": "広告ブロッカーを使用している場合には、Piwik が問題なく動作することを確認するために、このサイトでそれを無効にしてください。",
-        "ChangeCurrentWebsite": "ウェブサイトを選ぶ　現在選択されているWebサイト：%s"
+        "ChangeCurrentWebsite": "ウェブサイトを選ぶ　現在選択されているWebサイト：%s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "あなたのプライバシーを尊重するオープンな分析プラットフォームです。"
     }
 }
