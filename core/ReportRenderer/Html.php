@@ -9,7 +9,9 @@
 namespace Piwik\ReportRenderer;
 
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -85,6 +87,7 @@ class Html extends ReportRenderer
     private function epilogue()
     {
         $view = new View('@CoreHome/ReportRenderer/_htmlReportFooter');
+        $view->hasWhiteLabel = Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
         $this->rendering .= $view->render();
     }
 
@@ -104,6 +107,10 @@ class Html extends ReportRenderer
         $frontPageView->assign("websiteName", Site::getNameFor($this->idSite));
         $frontPageView->assign("idSite", $this->idSite);
         $frontPageView->assign("period", $period);
+
+        $customLogo = new CustomLogo();
+        $frontPageView->assign("isCustomLogo", $customLogo->isEnabled() && CustomLogo::hasUserLogo());
+        $frontPageView->assign("logoHeader", $customLogo->getHeaderLogoUrl($pathOnly = false));
 
         $date = Date::now()->setTimezone(Site::getTimezoneFor($this->idSite))->toString();
         $frontPageView->assign("date", $date);
