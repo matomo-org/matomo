@@ -1867,7 +1867,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // also used in action data table
     doHandleRowActions: function (trs) {
-        if (!trs || trs.length >= this.maxNumRowsToHandleEvents) {
+        if (!trs || trs.length > this.maxNumRowsToHandleEvents) {
             return;
         }
 
