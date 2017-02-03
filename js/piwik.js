@@ -992,7 +992,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
     disableCrossDomainLinking, isCrossDomainLinkingEnabled,
-    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
+    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
@@ -5926,6 +5926,15 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setLinkTrackingTimer = function (delay) {
                 configTrackerPause = delay;
+            };
+
+            /**
+             * Get delay for link tracking (in milliseconds)
+             *
+             * @param int delay
+             */
+            this.getLinkTrackingTimer = function () {
+                return configTrackerPause;
             };
 
             /**
