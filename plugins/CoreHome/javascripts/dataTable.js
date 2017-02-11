@@ -95,7 +95,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.workingDivId = this._createDivId();
         domElem.attr('id', this.workingDivId);
 
-	this.maxNumRowsToHandleEvents = 250;
+	this.maxNumRowsToHandleEvents = 255;
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
