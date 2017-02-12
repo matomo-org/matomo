@@ -29,6 +29,7 @@
         "JSTracking_CustomCampaignQueryParamDesc": "Opmerking: %1$s Piwik detecteert automatisch Google Analytics parameters.%2$s",
         "JSTracking_DisableCookies": "Schakel alle tracking cookies uit",
         "JSTracking_DisableCookiesDesc": "Schakelt alle first party cookies uit. Bestaande Piwik cookies voor deze website zullen worden verwijderd bij het opnieuw laden van de pagina.",
+        "JSTracking_EnableCrossDomainLinking": "Avtiveert cross domein linking",
         "JSTracking_EnableDoNotTrack": "Schakel Client side DoNotTrack detectie in.",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Opmerking: Server side DoNotTrack ondersteuning is ingeschakeld, deze optie heeft dus geen effect.",
         "JSTracking_EnableDoNotTrackDesc": "Tracking verzoeken zullen niet worden verzonden indien de bezoeker niet wenst gevolgd te worden.",

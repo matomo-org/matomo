@@ -7,10 +7,18 @@
         "PluginDescription": "Aangepaste variabelen zijn (naam, waarde) paren dat je kunt toewijzen via de Javascript API aan bezoekers of aan één van hun acties. Piwik zal dan het aantal bezoeken, pagina's, conversies voor elk van deze aangepaste namen en waarden rapporteren. Bekijk de gedetailleerde Aangepaste variabelen voor elke gebruik en actie in het Bezoekerslogboek. <br\/>Het is vereist gebruik te maken van de<a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Ecommerce Analyses<\/a> functie!",
         "ScopePage": "omvang pagina",
         "ScopeVisit": "omvang bezoek",
+        "ManageDescription": "Dit overzicht toont alle slots van custom variabelen en het gebruik voor websites '%s'. De namen in elk slot zijn gesorteerd op hoe vaak ze in totaal zijn gebruikt.",
+        "ScopeX": "Scope %s",
         "Index": "Index",
         "Usages": "Gebruikt",
         "Unused": "Ongebruikt",
+        "CreateNewSlot": "Verhoog het aantal van beschikbare Custom Variabelen slots",
         "UsageDetails": "%1$s bezoeken en %2$s acties sinds het maken van deze website.",
-        "SlotsReportIsGeneratedOverTime": "De data voor dit verslag wordt na verloop van tijd gegenereerd. Het kan een dag of twee duren voordat je de data ziet en een paar weken tot het rapport helemaal nauwkeurig is."
+        "CreatingCustomVariableTakesTime": "Het maken van een nieuw custom variabele slot kan een lange tijd in beslag nemen afhankelijk van de grote van de database. Om deze reden is het alleen mogelijk om dit via een commando op de command line uit te voeren.",
+        "CurrentAvailableCustomVariables": "Op dit moment kan je in totaal %s Custom Variables per website gebruiken.",
+        "ToCreateCustomVarExecute": "Om een nieuw custom variabele slot te maken voor het volgende commando uit op je Piwik installatie:",
+        "SlotsReportIsGeneratedOverTime": "De data voor dit verslag wordt na verloop van tijd gegenereerd. Het kan een dag of twee duren voordat je de data ziet en een paar weken tot het rapport helemaal nauwkeurig is.",
+        "MetricsAreOnlyAvailableForVisitScope": "Let op: %1$s metrics zijn beeschikbaar voor Custom Variables alleen voor bereik %2$s .",
+        "MetricsNotAvailableForPageScope": "Voor Custom Variabelen met bereik %1$s, de kolom waarde deze metriek is %2$s"
     }
 }

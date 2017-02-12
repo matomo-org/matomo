@@ -22,7 +22,7 @@
         "ColumnAveragePriceDocumentation": "De gemiddelde inkomsten voor deze %s.",
         "ColumnAverageQuantityDocumentation": "Het gemiddeld aantal %s dat verkocht is in Ecommerce orders.",
         "ColumnConversionRateDocumentation": "Het percentage bezoeken dat het doel %s geactiveerd.",
-        "ColumnConversionRateProductDocumentation": "Het %s conversiepercentage is het aantal orders dat dit prudukt bevat, gedeeld door het aantal bezoeken aan deze pagina.",
+        "ColumnConversionRateProductDocumentation": "Het %s conversiepercentage is het aantal orders dat dit produkt bevat, gedeeld door het aantal bezoeken aan deze pagina.",
         "ColumnConversions": "Conversies",
         "ColumnConversionsDocumentation": "Het aantal conversies voor %s.",
         "ColumnOrdersDocumentation": "Het totaal aantal Ecommerce orders dat tenminste één keer het dit %s bevat.",
