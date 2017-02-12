@@ -68,6 +68,7 @@
         "NoDataForGeoIPReport1": "Er zijn geen gegevens voor dit rapport omdat er geen lokatie informatie beschikbaar is of omdat het bezoekers IP adres niet geografisch bepaald kan worden.",
         "Organization": "Organisatie",
         "OrgDatabase": "Organisatiedatabase",
+        "PeclGeoLiteError": "Je GeoIP database in %1$s heeft de naam %2$s. Helaas zal de PECL module deze niet herkennen. Hernoem de database naar %3$s.",
         "PiwikNotManagingGeoIPDBs": "Piwik beheert momenteel geen GeoIP databases.",
         "PluginDescription": "Rapporteert de locatie van je bezoekers: Land, regio, stad en coördinaten (lengte- en breedtegraad)",
         "Region": "Regio",
