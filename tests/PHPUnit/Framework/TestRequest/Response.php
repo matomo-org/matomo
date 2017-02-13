@@ -253,6 +253,9 @@ class Response
         $response = str_replace('.000000</l', '</l', $response); //lat/long
         $response = str_replace('.00</revenue>', '</revenue>', $response);
 
+        // eg. <totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+        $response = str_replace('.00</t', '</t', $response); //lat/long
+
         return $response;
     }
 
