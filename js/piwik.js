@@ -6334,7 +6334,10 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Install link tracker
+             * Install link tracker.
+             *
+             * If you change the DOM of your website or web application you need to make sure to call this method
+             * again so Piwik can detect links that were added newly.
              *
              * The default behaviour is to use actual click events. However, some browsers
              * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
