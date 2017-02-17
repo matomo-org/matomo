@@ -6857,6 +6857,12 @@ if (typeof window.Piwik !== 'object') {
             // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
             // Piwik.getAsyncTrackers() would return unconfigured trackers
             window.Piwik.addTracker();
+        } else {
+            _paq = {push: function (args) {
+                _paq = [args];
+
+                window.Piwik.addTracker();
+            }};
         }
     }
 
