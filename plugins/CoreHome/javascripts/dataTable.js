@@ -95,6 +95,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.workingDivId = this._createDivId();
         domElem.attr('id', this.workingDivId);
 
+	this.maxNumRowsToHandleEvents = 255;
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
@@ -1502,8 +1503,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $nodes.off('click');
         $nodes.on('click', toggleFooter);
     },
-
+    canHandleRowEvents: function (domElem) {
+        return domElem.find('table > tbody > tr').size() <= this.maxNumRowsToHandleEvents;
+    }, 
     handleColumnHighlighting: function (domElem) {
+        if (!this.canHandleRowEvents(domElem)) {
+            return;
+        }
 
         var maxWidth = {};
         var currentNthChild = null;
@@ -1788,6 +1794,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // also used in action data table
     doHandleRowActions: function (trs) {
+	if (!trs || trs.length > this.maxNumRowsToHandleEvents) {
+            return;
+        }
+
         var self = this;
 
         var merged = $.extend({}, self.param, self.props);
