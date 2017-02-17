@@ -1226,7 +1226,7 @@
                     UserCountryMap.countryData = countryData;
                     UserCountryMap.countriesByIso = countriesByIso;
 
-                    map.loadCSS(config.mapCssPath, function () {
+                    function postCSSLoad() {
                         // map stylesheets are loaded
 
                         // hide loading indicator
@@ -1249,7 +1249,15 @@
 
                         initUserInterface();
 
-                    });
+                    }
+                    // check if CSS is already loaded
+                    if ($("link[href='" + config.mapCssPath + "']").size() === 0) {
+                        // not loaded
+                        map.loadCSS(config.mapCssPath, postCSSLoad);
+                    } else {
+                        // already loaded
+                        postCSSLoad();
+                    }
                 });
 
             function hideOverlay(e) {
