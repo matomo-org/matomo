@@ -89,6 +89,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // initialize your dataTable in your plugin
     },
 
+    _destroy: function() {
+      UIControl.prototype._destroy.call(this);
+      if (this.windowResizeTableAttached) {
+        // remove resize listener to avoid memory leak
+        $(window).off('resize', this._resizeDataTable);
+      }
+    },
+
     //initialisation function
     init: function () {
         var domElem = this.$element;
@@ -577,6 +585,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             $(window).on('resize', resizeDataTable);
+            self._resizeDataTable = resizeDataTable;
         }
     },
 

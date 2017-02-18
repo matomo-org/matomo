@@ -178,12 +178,12 @@
 
             // manage resources
             target.on('piwikDestroyPlot', function () {
-                if (this._resizeListener) {
-                    $(window).off('resize', this._resizeListener);
+                if (self._resizeListener) {
+                    $(window).off('resize', self._resizeListener);
                 }
                 self._plot.destroy();
                 for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
-                    if ($.jqplot.visiblePlots[i] == self._plot) {
+                    if ($.jqplot.visiblePlots[i] === self) {
                         $.jqplot.visiblePlots[i] = null;
                     }
                 }
@@ -394,14 +394,14 @@
                         if ($.jqplot.visiblePlots[i] == null) {
                             continue;
                         }
-                        $.jqplot.visiblePlots[i].destroy();
+                        $.jqplot.visiblePlots[i].destroyPlot();
                     }
                     $.jqplot.visiblePlots = [];
                 });
             }
 
             if (typeof plot != 'undefined') {
-                $.jqplot.visiblePlots.push(plot);
+                $.jqplot.visiblePlots.push(self);
             }
         },
 
