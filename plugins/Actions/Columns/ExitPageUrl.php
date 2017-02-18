@@ -42,6 +42,11 @@ class ExitPageUrl extends VisitDimension
             $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
         }
 
+        // set Exit Page Url only when it is a valid url
+        if($idActionUrl === false) {
+            return false;
+        }
+
         return (int) $idActionUrl;
     }
 
@@ -59,11 +64,12 @@ class ExitPageUrl extends VisitDimension
 
         $id = $action->getIdActionUrlForEntryAndExitIds();
 
-        if (!empty($id)) {
-            $id = (int) $id;
+        // set Exit Page Url only when it is a valid url
+        if (empty($id)) {
+            return false;
         }
 
-        return $id;
+        return (int) $id;
     }
 
     public function getName()
