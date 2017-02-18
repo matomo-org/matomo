@@ -22,7 +22,6 @@
         "Settings_PhoneNumber": "Telefonnummer",
         "Settings_PhoneNumbers_Add": "Lägg till ett nytt telefonnummer",
         "Settings_PhoneNumbers_Help": "Innan du får ett SMS (textmeddelande) rapporter i din telefon, behöver du skriva in ditt nummer här under.",
-        "Settings_PhoneNumbers_HelpAdd": "När du klickar på \"Lägg till\", kommer ett SMS som innehåller en kod att skickas till din telefon. Efter det ska du logga in på Piwik, klicka på inställningar och efter det Mobil Meddelanden. När du skrivit in din kod, kommer du kunna ta emot rapporter direkt till din telefon.",
         "Settings_PleaseSignUp": "För att skapa SMS rapporter och få korta meddelanden med uppdateringar från din webbsidas mobiltelefon, var snäll att anmäl dig med hjälp av SMS API och skriv in informationen nedan.",
         "Settings_SMSAPIAccount": "Hantera SMS API konton",
         "Settings_SMSProvider": "SMS Leverantör",

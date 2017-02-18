@@ -119,7 +119,9 @@ var piwikHelper = {
 
         angular.element(document).injector().invoke(function($compile) {
             var scope = angular.element($element).scope();
-            $compile($element)(scope);
+            if (scope) {
+                $compile($element)(scope);
+            }
         });
     },
 

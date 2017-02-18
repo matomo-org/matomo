@@ -67,6 +67,7 @@
         "Segments": "區隔",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "不支援一鍵更新因為你在數個伺服器上使用 Piwik。請從 %1$s 下載最新版本以繼續。",
         "AdblockIsMaybeUsed": "假如你正在使用廣告封鎖外掛，請將它在此網站上關閉來確保 Piwik 可以正常運作。",
-        "ChangeCurrentWebsite": "選擇一個網站，目前選擇的網站為：%s"
+        "ChangeCurrentWebsite": "選擇一個網站，目前選擇的網站為：%s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "尊重你隱私的開放式分析平台領導。"
     }
 }

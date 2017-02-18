@@ -16,7 +16,7 @@
  *
  * This directive accepts the following attributes:
  *
- * - **save-api-method**: **required** The Piwik API method that handles the POST request.
+ * - **submit-api-method**: **required** The Piwik API method that handles the POST request.
  * - **send-json-payload**: Whether to send the data as a form encoded URL or to send it as JSON.
  *                          If sending as JSON, the payload will still be a form encoded value,
  *                          but will contain a JSON object like `{data: {...form data...}}`.
@@ -39,7 +39,7 @@
  * Usage:
  *
  *     <div piwik-ajax-form
- *          save-api-method="'MyPlugin.myFormSaveMethod'"
+ *          submit-api-method="'MyPlugin.myFormSaveMethod'"
  *          send-json-payload="true"
  *          ng-model="myFormData">
  *

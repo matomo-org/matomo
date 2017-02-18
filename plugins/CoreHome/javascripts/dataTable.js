@@ -264,7 +264,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     // Function called when the AJAX request is successful
     // it looks for the ID of the response and replace the very same ID
     // in the current page with the AJAX response
-    dataTableLoaded: function (response, workingDivId) {
+    dataTableLoaded: function (response, workingDivId, doScroll) {
         var content = $(response);
 
         if ($.trim($('.dataTableControls', content).html()) === '') {
@@ -293,7 +293,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         content.trigger('piwik:dataTableLoaded');
 
-        piwikHelper.lazyScrollTo(content[0], 400);
+        if (doScroll || 'undefined' === typeof doScroll) {
+            piwikHelper.lazyScrollTo(content[0], 400);
+        }
+
         piwikHelper.compileAngularComponents(content);
 
         return content;

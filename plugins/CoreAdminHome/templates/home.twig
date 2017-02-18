@@ -21,21 +21,25 @@
             <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
                 <div piwik-widget-loader='{"module":"CoreHome","action":"getSystemSummary"}'></div>
             </div>
-            <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
-                <div piwik-widget-loader='{"module":"Installation","action":"getSystemCheck"}'></div>
-            </div>
+            {% if hasDiagnostics %}
+                <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
+                    <div piwik-widget-loader='{"module":"Installation","action":"getSystemCheck"}'></div>
+                </div>
+            {% endif %}
             {% if isFeedbackEnabled %}
                 <div class="col s12 m4">
                     {{ feedbackHelp|raw }}
                 </div>
             {% endif %}
         </div>
-    {% else %}
+    {% elseif isFeedbackEnabled %}
         {{ feedbackHelp|raw }}
     {% endif %}
 
-    {% if isMarketplaceEnabled %}
+    {% if hasPremiumFeatures and isMarketplaceEnabled %}
         <div piwik-widget-loader='{"module":"Marketplace","action":"getPremiumFeatures"}'></div>
+    {% endif %}
+    {% if hasNewPlugins and isMarketplaceEnabled %}
         <div piwik-widget-loader='{"module":"Marketplace","action":"getNewPlugins", "isAdminPage": "1"}'></div>
     {% endif %}
 

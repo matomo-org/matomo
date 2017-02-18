@@ -21,6 +21,7 @@
         "PluginDescription": "Je Web Analytics Dashboard. Pas je dashboard aan door nieuwe widgets toe te voegen, sleep ze in het rond, en wijzig de dashboard kolom weergave. Elke gebruiker kan zijn eigen aangepaste dashboard beheren.",
         "RemoveDashboard": "Verwijder dashboard",
         "RemoveDashboardConfirm": "Weet u zeker dat u het dashboard \"%s\" wilt verwijderen?",
+        "RemoveDefaultDashboardNotPossible": "Het standaard dashboard kan niet verwijderd worden",
         "RenameDashboard": "Hernoem dashboard",
         "ResetDashboard": "Reset dashboard",
         "ResetDashboardConfirm": "Wilt u echt uw dashboard lay-out terug te zetten naar de standaard Widgets selectie?",

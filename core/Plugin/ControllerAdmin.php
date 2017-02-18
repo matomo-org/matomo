@@ -88,13 +88,13 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyAnyInvalidPlugin()
     {
-        $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();
-
-        if (empty($missingPlugins)) {
+        if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
 
-        if (!Piwik::hasUserSuperUserAccess()) {
+        $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();
+
+        if (empty($missingPlugins)) {
             return;
         }
 

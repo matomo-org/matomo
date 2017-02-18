@@ -16,7 +16,7 @@
         "Default": "par défaut",
         "DonateCall1": "Piwik ne vous coûtera jamais rien à utiliser, mais cela ne veut pas dire que ça ne nous coûte rien pour le réaliser.",
         "DonateCall2": "Piwik a besoin de votre support pour continuer croître et prospérer.",
-        "DonateCall3": "Si vous pensez que Piwik a ajouté une valeur significative à votre entreprise ou à votre projet, %1$s pensez à faire un don s'il vous plait ! %2$s ou %3$sà acheter une fonctionnalité prenium%4$s.",
+        "DonateCall3": "Si vous pensez que Piwik a ajouté une valeur significative à votre entreprise ou à votre projet, %1$smerci d'envisager un don%2$s ou %3$sl'achat d'une fonctionnalité premium%4$s.",
         "DonateFormInstructions": "Cliquez sur le curseur pour sélectionner un montant, puis cliquez sur s'abonner à faire un don.",
         "ExcludeRowsWithLowPopulation": "Toutes les lignes sont affichées %s Exclure celles peu signifiantes",
         "ExternalHelp": "Aide (nouvel onglet)",
@@ -67,6 +67,7 @@
         "Segments": "Segments",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "La mise à jour en un clic n'est pas disponible car vous utilisez Piwik sur plusieurs serveurs. Veuillez télécharger la dernière version depuis %1$s pour continuer.",
         "AdblockIsMaybeUsed": "Dans le cas où vous utiliseriez un bloqueur de publicités, veuillez le désactiver pour ce site afin de vous assurer que Piwik fonctionne correctement.",
-        "ChangeCurrentWebsite": "Choisir un site web, site couramment sélectionné : %s"
+        "ChangeCurrentWebsite": "Choisir un site web, site couramment sélectionné : %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "La première plateforme d'analyse statique libre respecte votre vie privée."
     }
 }

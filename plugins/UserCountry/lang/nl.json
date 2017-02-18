@@ -34,6 +34,7 @@
         "GeoIPIncorrectDatabaseFormat": "Je GeoIP database lijkt niet het juiste formaat te zijn. Het kan corrupt zijn. Zorg ervoor dat je de binaire versie hebt, en probeer het te vervangen door een nieuw bestand.",
         "GeoIpLocationProviderDesc_Pecl1": "Deze locatie provider gebruikt een GeoIP database en PECL module om precies en efficiënt de locatie van je gebruikers te bepalen.",
         "GeoIpLocationProviderDesc_Pecl2": "We raden deze provider aan omdat deze geen limieten hanteert.",
+        "GeoIpLocationProviderNotRecomnended": "Geografische locatie bepaling werkt, maar je gebruikt niet één van de aanbevolen leveranciers.",
         "GeoIPNoServerVars": "Piwik kan geen GeoIP %s variabelen vinden.",
         "GeoIPPeclCustomDirNotSet": "De %s PHP ini optie is niet ingesteld.",
         "GeoIPServerVarsFound": "Piwik detecteert de volgende GeoIP %s variabelen",
@@ -64,6 +65,7 @@
         "LocationDatabaseHint": "Een locatie database is of een land of een regio of een stad database.",
         "LocationProvider": "Locatie Provider",
         "Longitude": "Lengtegraad",
+        "NoDataForGeoIPReport1": "Er zijn geen gegevens voor dit rapport omdat er geen lokatie informatie beschikbaar is of omdat het bezoekers IP adres niet geografisch bepaald kan worden.",
         "Organization": "Organisatie",
         "OrgDatabase": "Organisatiedatabase",
         "PiwikNotManagingGeoIPDBs": "Piwik beheert momenteel geen GeoIP databases.",
@@ -80,5 +82,8 @@
         "UpdaterWasLastRun": "De updater is voor het laatst uitgevoerd op %s.",
         "UpdaterWillRunNext": "De volgende run is gepland om %s",
         "WidgetLocation": "Bezoekerlocatie"
+    },
+    "Intl": {
+        "Country_TI": "Tibet"
     }
 }

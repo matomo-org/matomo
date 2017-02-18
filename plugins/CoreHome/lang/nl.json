@@ -5,6 +5,7 @@
         "CheckForUpdates": "Controleer op updates",
         "CheckPiwikOut": "Kijk eens naar Piwik!",
         "ClickToEditX": "Klik om %s te bewerken",
+        "ClickToSeeFullInformation": "Klik om de volledige informatie te zien",
         "CloseSearch": "Sluit zoeken",
         "CloseWidgetDirections": "Je kunt deze widget sluiten door op het 'X' icoon bovenaan de widget te klikken.",
         "DataForThisReportHasBeenPurged": "De data voor dit rapport was meer dan %s maanden oud en is reeds opgeschoond.",
@@ -63,6 +64,7 @@
         "MenuEntries": "Menu-items",
         "Segments": "Segmenten",
         "AdblockIsMaybeUsed": "Als je gebruik maakt van een reclame blokker, schakel deze a.u.b. uit zodat je zeker weet dat Piwik werkt zonder problemen.",
-        "ChangeCurrentWebsite": "Kies een website, de nu geselecteerde website is: %s"
+        "ChangeCurrentWebsite": "Kies een website, de nu geselecteerde website is: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Het leidende open analytics platform dat privacy respecteerd."
     }
 }

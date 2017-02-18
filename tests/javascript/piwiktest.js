@@ -12,7 +12,7 @@ Piwik.addPlugin('testPlugin', {
 	 * called when tracker instantiated
 	 * - function or string to be eval()'d
 	 */
-	run: function (registerHookCallback) {
+	run: function (params, registerHookCallback) {
 		registerHookCallback('test',
 			'{' +
 				'_isDefined : isDefined,' +
