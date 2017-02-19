@@ -11,14 +11,13 @@
 					<row>http://piwik.net</row>
 				</value>
 				<defaultValue>
-					<row>http://siteUrl.com/</row>
-					<row>http://siteUrl2.com/</row>
 				</defaultValue>
 				<type>array</type>
 				<uiControl>textarea</uiControl>
 				<uiControlAttributes>
 					<cols>25</cols>
 					<rows>3</rows>
+					<placeholder>https://siteUrl.com/                                                 https://siteUrl2.com/</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
@@ -75,6 +74,7 @@
 				<uiControlAttributes>
 					<cols>20</cols>
 					<rows>4</rows>
+					<placeholder>127.0.0.1</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
