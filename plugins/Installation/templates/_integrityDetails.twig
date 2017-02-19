@@ -2,7 +2,7 @@
     <table>
         {% for msg in warningMessages %}
             <tr>
-                <td>{{ msg }}</td>
+                <td>{{ msg|raw }}</td>
             </tr>
         {% endfor %}
     </table>
