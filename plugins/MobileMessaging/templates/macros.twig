@@ -1,4 +1,4 @@
-{% macro manageSmsApi(credentialSupplied, creditLeft, smsProviderOptions, smsProviders, provider) %}
+{% macro manageSmsApi(credentialSupplied, credentialError, creditLeft, smsProviderOptions, smsProviders, provider) %}
 <div ng-controller="ManageSmsProviderController as manageProvider">
 
     <div piwik-activity-indicator loading="manageProvider.isDeletingAccount"></div>
@@ -6,8 +6,13 @@
 
     {% if credentialSupplied %}
         <p>
-            {{ 'MobileMessaging_Settings_CredentialProvided'|translate(provider) }}
-            {{ creditLeft }}
+            {% if credentialError %}
+                {{ 'MobileMessaging_Settings_CredentialInvalid'|translate(provider) }}<br />
+                {{ credentialError }}
+            {% else %}
+                {{ 'MobileMessaging_Settings_CredentialProvided'|translate(provider) }}
+                {{ creditLeft }}
+            {% endif %}
             <br/>
             {{ 'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate('<a ng-click="manageProvider.showUpdateAccount()" id="displayAccountForm">',"</a>",'<a ng-click="manageProvider.deleteAccount()" id="deleteAccount">',"</a>")|raw }}
         </p>
@@ -25,13 +30,13 @@
              value="{{ provider }}">
         </div>
 
-        <div piwik-field uicontrol="text" name="apiKey"
-             ng-model="manageProvider.apiKey"
-             required="true"
+        <div sms-provider-credentials
+             provider="manageProvider.smsProvider"
+             ng-model="manageProvider.credentials"
+             value="{}"
+             ng-init="manageProvider.isUpdateAccountPossible()"
              ng-change="manageProvider.isUpdateAccountPossible()"
-             title="{{ 'MobileMessaging_Settings_APIKey'|translate|e('html_attr') }}"
-             value="">
-        </div>
+        ></div>
 
         <div piwik-save-button id='apiAccountSubmit'
              disabled="!manageProvider.canBeUpdated"

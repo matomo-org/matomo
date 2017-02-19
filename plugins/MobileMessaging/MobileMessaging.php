@@ -87,9 +87,10 @@ class MobileMessaging extends \Piwik\Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/delegate-mobile-messaging-settings/delegate-mobile-messaging-settings.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-sms-provider/manage-sms-provider.controller.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers/manage-mobile-phone-numbers.controller.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/delegate-mobile-messaging-settings.controller.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-sms-provider.controller.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
