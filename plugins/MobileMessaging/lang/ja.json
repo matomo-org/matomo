@@ -27,7 +27,7 @@
         "Settings_PhoneNumbers_Add": "新しい電話番号を追加",
         "Settings_PhoneNumbers_CountryCode_Help": "電話の国コードがわからない場合は、ここであなたの国を検索してください。",
         "Settings_PhoneNumbers_Help": "SMS レポート(テキストメッセージ)を受け取る前に、電話番号を以下に入力する必要があります。",
-        "Settings_PhoneNumbers_HelpAdd": "\"追加\" をクリックすると、コードを含むSMSが電話に送信されます。コードを受け取ったユーザーは、次に Piwik にログインし、設定をクリック、次にモバイルメッセージをクリックします。コードを入力後、ユーザー自身の電話にテキストメッセージを受け取れるようになります。",
+        "Settings_PhoneNumbers_HelpAdd": "「追加」をクリックすると、コードを含む SMS が電話に送信されます。 コードを受信したユーザーは、Piwik にログインし、「設定」をクリックしてから「モバイルメッセージング」をクリックします。 コードを入力すると、ユーザーは電話でテキストレポートを受け取ることができます。",
         "Settings_PleaseSignUp": "SMS レポートを作成し、携帯電話でウェブサイトの統計情報を含む短いテキストメッセージを受け取るには、SMS API でサインアップし、以下にあなたの情報を入力してください。",
         "Settings_SMSAPIAccount": "SMS API アカウントの管理",
         "Settings_SMSProvider": "SMS プロバイダ",

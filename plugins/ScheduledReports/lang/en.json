@@ -23,7 +23,7 @@
         "NoRecipients": "This report has no recipients",
         "Pagination": "Page %1$s of %2$s",
         "PiwikReports": "Piwik Reports",
-        "PleaseFindAttachedFile": "Please find in attached file your %1$s report for %2$s.",
+        "PleaseFindAttachedFile": "Please find your %1$s report for %2$s in the attached file.",
         "SentFromX": "Sent from %s.",
         "PleaseFindBelow": "Please find below your %1$s report for %2$s.",
         "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",

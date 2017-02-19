@@ -96,6 +96,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.workingDivId = this._createDivId();
         domElem.attr('id', this.workingDivId);
 
+        this.maxNumRowsToHandleEvents = 255;
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
@@ -264,7 +265,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     // Function called when the AJAX request is successful
     // it looks for the ID of the response and replace the very same ID
     // in the current page with the AJAX response
-    dataTableLoaded: function (response, workingDivId) {
+    dataTableLoaded: function (response, workingDivId, doScroll) {
         var content = $(response);
 
         if ($.trim($('.dataTableControls', content).html()) === '') {
@@ -293,7 +294,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         content.trigger('piwik:dataTableLoaded');
 
-        piwikHelper.lazyScrollTo(content[0], 400);
+        if (doScroll || 'undefined' === typeof doScroll) {
+            piwikHelper.lazyScrollTo(content[0], 400);
+        }
+
         piwikHelper.compileAngularComponents(content);
 
         return content;
@@ -1543,6 +1547,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleColumnHighlighting: function (domElem) {
+        if (!this.canHandleRowEvents(domElem)) {
+            return;
+        }
 
         var maxWidth = {};
         var currentNthChild = null;
@@ -1715,6 +1722,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
     },
 
+    canHandleRowEvents: function (domElem) {
+        return domElem.find('table > tbody > tr').size() <= this.maxNumRowsToHandleEvents;
+    },
+
     handleRowActions: function (domElem) {
         this.doHandleRowActions(domElem.find('table > tbody > tr'));
     },
@@ -1859,6 +1870,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // also used in action data table
     doHandleRowActions: function (trs) {
+        if (!trs || trs.length > this.maxNumRowsToHandleEvents) {
+            return;
+        }
+
         var self = this;
 
         var merged = $.extend({}, self.param, self.props);

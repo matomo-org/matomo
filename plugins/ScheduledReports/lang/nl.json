@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Scherm opties",
         "AggregateReportsFormat_GraphsOnly": "Toon alleen Grafieken (geen tabellen)",
         "AggregateReportsFormat_TablesAndGraphs": "Toon zowel tabellen en grafieken voor alle rapporten",
         "AggregateReportsFormat_TablesOnly": "(standaard) Toon tabellen (grafieken alleen voor belangrijke gegevens)",
@@ -39,6 +40,7 @@
         "SentToMe": "Zend naar mij",
         "TableOfContent": "Rapport lijst",
         "ThereIsNoReportToManage": "Er is geen rapport te beheren voor website %s",
+        "TopLinkTooltip": "Creeer Email Rapporten om Piwik statistieken automatisch naar je email adres of die van een klant te versturen!",
         "TopOfReport": "Terug naar boven",
         "UpdateReport": "Rapport bijwerken",
         "WeeklyScheduleHelp": "Wekelijks versturen: Rapport zal worden verzonden elke maandag van de week."

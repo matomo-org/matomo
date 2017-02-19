@@ -71,7 +71,7 @@
 
         <div class="form-group row">
             <div class="col s12 m6 input-field">
-                <input type="text" ng-model="site.name" maxlength="90" />
+                <input type="text" ng-model="site.name" maxlength="90" placeholder="{{ 'General_Name'|translate }}" />
                 <label>{{ 'General_Name'|translate }}</label>
             </div>
             <div class="col s12 m6"></div>
@@ -84,7 +84,7 @@
                 <div piwik-form-field="setting" all-settings="settingsPerPlugin.settings"></div>
             </div>
         </div>
-        
+
         <div piwik-field uicontrol="select" name="currency"
              ng-model="site.currency"
              title="{{ 'SitesManager_Currency'|translate }}"

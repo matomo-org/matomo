@@ -5,8 +5,10 @@
         "CheckForUpdates": "Controleer op updates",
         "CheckPiwikOut": "Kijk eens naar Piwik!",
         "ClickToEditX": "Klik om %s te bewerken",
+        "ClickToSeeFullInformation": "Klik om de volledige informatie te zien",
         "CloseSearch": "Sluit zoeken",
         "CloseWidgetDirections": "Je kunt deze widget sluiten door op het 'X' icoon bovenaan de widget te klikken.",
+        "ChooseX": "Kies %1$s",
         "DataForThisReportHasBeenPurged": "De data voor dit rapport was meer dan %s maanden oud en is reeds opgeschoond.",
         "DataTableExcludeAggregateRows": "Geagregeerde rijen worden getoond %s Verberg ze",
         "DataTableIncludeAggregateRows": "Geagregeerde rijen zijn verborgen %s Toon ze",
@@ -62,7 +64,9 @@
         "QuickAccessTitle": "Zoeken naar %s. Gebruik de pijltjestoetsen om door de zoekopdrachten te navigeren. Shortcut: Druk 'f' om te zoeken.",
         "MenuEntries": "Menu-items",
         "Segments": "Segmenten",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "De één-klik update is niet beschikbaar wanneer Piwik is geïnstalleerd over meerdere servers. Download de laatste versie van Piwik via %1$s om verder te gaan.",
         "AdblockIsMaybeUsed": "Als je gebruik maakt van een reclame blokker, schakel deze a.u.b. uit zodat je zeker weet dat Piwik werkt zonder problemen.",
-        "ChangeCurrentWebsite": "Kies een website, de nu geselecteerde website is: %s"
+        "ChangeCurrentWebsite": "Kies een website, de nu geselecteerde website is: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Het leidende open analytics platform dat privacy respecteerd."
     }
 }

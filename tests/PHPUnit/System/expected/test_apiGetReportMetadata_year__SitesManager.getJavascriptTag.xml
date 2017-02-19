@@ -2,7 +2,7 @@
 <result>&lt;!-- Piwik --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
-  // tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot;
+  /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {

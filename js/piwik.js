@@ -992,7 +992,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
     disableCrossDomainLinking, isCrossDomainLinkingEnabled,
-    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer,
+    addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
@@ -1032,7 +1032,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          DOM, onLoad, onReady, JSON */
+          DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -5929,6 +5929,15 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Get delay for link tracking (in milliseconds)
+             *
+             * @param int delay
+             */
+            this.getLinkTrackingTimer = function () {
+                return configTrackerPause;
+            };
+
+            /**
              * Set list of file extensions to be recognized as downloads
              *
              * @param string|array extensions
@@ -6988,7 +6997,17 @@ if (typeof window.Piwik !== 'object') {
                  *
                  * @param function callback
                  */
-                onReady: trackCallbackOnReady
+                onReady: trackCallbackOnReady,
+
+                /**
+                 * Detect whether a node is visible right now.
+                 */
+                isNodeVisible: isVisible,
+
+                /**
+                 * Detect whether a node has been visible at some point
+                 */
+                isOrWasNodeVisible: content.isNodeVisible
             },
 
             /**

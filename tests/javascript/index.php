@@ -610,7 +610,7 @@ function PiwikTest() {
     });
 
     test("Piwik plugin methods", function() {
-        expect(31);
+        expect(33);
         
         // TESTS FOR retryMissedPluginCalls
 
@@ -703,6 +703,8 @@ function PiwikTest() {
         strictEqual('function', typeof Piwik.DOM.onReady, "DOM.onReady method is defined");
         strictEqual('function', typeof Piwik.DOM.onLoad, "DOM.onLoad method is defined");
         strictEqual('function', typeof Piwik.DOM.addEventListener, "DOM.addEventListener method is defined");
+        strictEqual('function', typeof Piwik.DOM.isNodeVisible, "DOM.isNodeVisible method is defined");
+        strictEqual('function', typeof Piwik.DOM.isOrWasNodeVisible, "DOM.isOrWasNodeVisible method is defined");
 
         Piwik.DOM.onLoad(function () {
             loaded = true;
@@ -2102,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(75);
+        expect(76);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2139,6 +2141,7 @@ function PiwikTest() {
         equal( typeof tracker.getCustomVariable, 'function', 'getCustomVariable' );
         equal( typeof tracker.deleteCustomVariable, 'function', 'deleteCustomVariable' );
         equal( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
+        equal( typeof tracker.getLinkTrackingTimer, 'function', 'getLinkTrackingTimer' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
         equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
@@ -2975,6 +2978,17 @@ function PiwikTest() {
         ok( cookieName.indexOf('testing-another.2.') != -1);
         ok( cookieName.indexOf('testing-another.1.') == -1);
 
+    });
+
+    test("Tracker getLinkTrackingTimer() setLinkTrackingTimer", function() {
+        expect(2);
+
+        var tracker = Piwik.getTracker();
+
+        equal(500, tracker.getLinkTrackingTimer(), 'getLinkTrackingTimer, default is 500');
+        tracker.setLinkTrackingTimer(1091);
+        equal(1091, tracker.getLinkTrackingTimer(), 'setLinkTrackingTimer, changed value');
+        tracker.setLinkTrackingTimer(500);
     });
 
     test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClasses(), setLinkClasses(), and getLinkType()", function() {

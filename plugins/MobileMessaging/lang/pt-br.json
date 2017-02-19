@@ -25,7 +25,6 @@
         "Settings_PhoneNumber": "Número de telefone",
         "Settings_PhoneNumbers_Add": "Adicionar novo número de telefone",
         "Settings_PhoneNumbers_Help": "Antes de receber em seu telefone, relatórios SMS (mensagens de texto) o número do telefone deve ser inserido abaixo.",
-        "Settings_PhoneNumbers_HelpAdd": "Quando clicar em \"Adicionar\", um SMS contendo um código será enviado para o celular. O usuário receber o código deve, então, acessar Piwik, clique em Configurações e clique em mensagens móveis. Após digitar o código, o usuário será capaz de receber relatórios de texto em seu telefone.",
         "Settings_PleaseSignUp": "Para criar relatórios de SMS e receber mensagens curtas de texto com as suas estatísticas de website \"em seu telefone móvel, inscreva-se com a API SMS e insira as informações abaixo.",
         "Settings_SMSAPIAccount": "Gerenciar conta de API SMS",
         "Settings_SMSProvider": "Provedor SMS",

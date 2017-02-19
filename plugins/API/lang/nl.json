@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Om dit token aan te passen ga naar %1$spersonelijke instellingen pagina%2$s.",
         "GenerateVisits": "Als u geen data hebt voor vandaag, kunt u eerst wat data genereren met de %1$s plugin. U kunt de %2$s plugin inschakelen, en dan klikken op het Bezoekers generator menu in het Piwik beheer gedeelte.",
         "KeepTokenSecret": "Deze token_auth is even geheim als uw gebruikersnaam en wachtwoord, %1$sdeel het met niemand%2$s!",
         "LoadedAPIs": "%s API's succesvol geladen",

@@ -37,7 +37,9 @@ class Inconsistencies
             'bounce_rate_returning',
             'nb_visits_percentage',
             '/.*_evolution/',
-            '/goal_.*_conversion_rate/'
+            '/goal_.*_conversion_rate/',
+            '/form_.*_rate/',
+            '/field_.*_rate/',
         );
     }
 }

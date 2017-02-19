@@ -33,6 +33,7 @@
         "LtsSupportVersion": "Version med langsiktig støtte",
         "MajorUpdateWarning1": "Dette er en stor oppdatering! Det vil ta lengre tid enn vanlig.",
         "MajorUpdateWarning2": "Følgende råd er spesielt viktig for store installasjoner.",
+        "NeedHelpUpgrading": "Trenger du hjelp til å oppgradere Piwik?",
         "NoteForLargePiwikInstances": "Viktig merknad for store Piwik-installasjoner",
         "NotificationClickToUpdatePlugins": "Klikk her for å oppdatere dine tillegg nå:",
         "NotificationClickToUpdateThemes": "Klikk her for å oppdatere dine tema nå:",

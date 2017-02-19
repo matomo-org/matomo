@@ -14,6 +14,7 @@
         "CategoryTextGeneral_Visitors": "Gebruikers locatie",
         "CategoryTextReferrers_Referrers": "Herkomst",
         "CategoryTextVisitsSummary_VisitsSummary": "Gebruikers eigenschap",
+        "CategoryTextDevicesDetection_DevicesDetection": "Apparaten",
         "CategoryTextGeneral_Visit": "engagement",
         "ClickOutlink": "Klik op een link naar een externe website",
         "SendEvent": "Stuur een gebeurtenis",
@@ -21,7 +22,7 @@
         "ColumnAveragePriceDocumentation": "De gemiddelde inkomsten voor deze %s.",
         "ColumnAverageQuantityDocumentation": "Het gemiddeld aantal %s dat verkocht is in Ecommerce orders.",
         "ColumnConversionRateDocumentation": "Het percentage bezoeken dat het doel %s geactiveerd.",
-        "ColumnConversionRateProductDocumentation": "Het %s conversiepercentage is het aantal orders dat dit prudukt bevat, gedeeld door het aantal bezoeken aan deze pagina.",
+        "ColumnConversionRateProductDocumentation": "Het %s conversiepercentage is het aantal orders dat dit produkt bevat, gedeeld door het aantal bezoeken aan deze pagina.",
         "ColumnConversions": "Conversies",
         "ColumnConversionsDocumentation": "Het aantal conversies voor %s.",
         "ColumnOrdersDocumentation": "Het totaal aantal Ecommerce orders dat tenminste één keer het dit %s bevat.",
@@ -35,6 +36,7 @@
         "ConversionByTypeReportDocumentation": "Dit rapport bevat gedetailleerde informatie over het doel prestaties (conversies, de wisselkoersen en de inkomsten per bezoek) voor elk van de categorieën in het linkervenster. %1$s Klik op een van de categorieën om het rapport te bekijken. %2$s voor meer informatie, lees de %3$sTracking Doelen documentatie over piwik.org%4$s",
         "ConversionRate": "%s conversie rate",
         "Conversions": "%s conversies",
+        "ConversionsDescription": "conversies",
         "ConversionsOverview": "Overzicht conversies",
         "ConversionsOverviewBy": "Conversies overzicht per type bezoek",
         "DaysToConv": "Dagen voor de conversie",
@@ -78,6 +80,8 @@
         "NoConversionsNoReportsMessage": "Rapporten worden niet getoond omdat er geen conversie gegevens zijn voor het geselecteerde doel en periode.",
         "NeedAccess": "Alleen een Beheerder of een gebruiker met Super User rechten kan Doelen beheren voor een bepaalde website.",
         "Optional": "(optioneel)",
+        "OverallConversionRate": "totale conversie ratio (bezoeken met een afgerond doel)",
+        "OverallRevenue": "totale omzet",
         "PageTitle": "Paginatitel",
         "Pattern": "Patroon",
         "PluginDescription": "Maak Doelen aan en zie gedetaileerde rapporten over behaalde doelen: evoluties over tijd, inkomsten per bezoek, omzet per referrer, per sleutelwoord, en meer.",
@@ -98,6 +102,7 @@
         "VisitUrl": "Bezoek een gegeven url (pagina of groep pagina's)",
         "WhenVisitors": "wanneer bezoekers",
         "WhereThe": "waar de",
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "De bezochte pagina dient een aanroep naar de Javascript 'trackgoal' methode te bevatten (%1$sLees meer%2$s",
         "YouCanEnableEcommerceReports": "U kunt de functie %1$s inschakelen voor deze website in de pagina %2$s."
     }
 }
