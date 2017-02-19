@@ -498,6 +498,12 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         '電訊盈科' => array(1 => self::VALID_UNICODE_DOMAIN),
         'العليان' => array(1 => self::VALID_UNICODE_DOMAIN),
         '嘉里' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'বাংলা' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'католик' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '通販' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'پاکستان' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'كاثوليك' => array(1 => self::VALID_UNICODE_DOMAIN),
+        '天主教' => array(1 => self::VALID_UNICODE_DOMAIN),
     );
 
 
