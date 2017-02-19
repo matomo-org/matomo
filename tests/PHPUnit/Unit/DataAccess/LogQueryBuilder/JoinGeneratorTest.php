@@ -102,6 +102,41 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
+    public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinButAlsoLeft()
+    {
+        $generator = $this->generate(array(
+            'log_link_visit_action',
+            array('table' => 'log_visit', 'joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
+            array('table' => 'log_action', 'join' => 'LeFt JOIN', 'joinOn' => 'log_link_visit_action.idaction_name = log_action.idaction'),
+            'log_action'
+        ));
+
+        $expected  = 'log_link_visit_action AS log_link_visit_action ';
+        $expected .= 'LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit ';
+        $expected .= 'LEFT JOIN log_action AS log_action ON (log_link_visit_action.idaction_name = log_action.idaction AND log_link_visit_action.idaction_url = log_action.idaction)';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_manualJoin()
+    {
+        $generator = $this->generate(array(
+            'log_link_visit_action',
+            array('table' => 'log_visit',
+                'join' => 'RIGHT JOIN','joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
+            array('table' => 'log_action',
+                  'tableAlias' => 'log_action_r',
+                  'join' => 'RIGHT JOIN',
+                  'joinOn' => 'log_link_visit_action.idaction_test = log_action_r.idaction'),
+            'log_action'
+        ));
+
+        $expected  = 'log_link_visit_action AS log_link_visit_action ';
+        $expected .= 'RIGHT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit ';
+        $expected .= 'RIGHT JOIN log_action AS log_action_r ON log_link_visit_action.idaction_test = log_action_r.idaction ';
+        $expected .= 'LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
     public function test_generate_getJoinString_allTables()
     {
         $generator = $this->generate(array(
