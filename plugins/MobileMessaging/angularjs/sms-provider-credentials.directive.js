@@ -39,10 +39,12 @@
                     ctrl.$setViewValue(JSON.stringify(val));
                 }, true);
 
-                // unset credentials when new template is rendered
-                ctrl.$render = function() {
-                    scope.credentials = {};
-                }
+                // unset credentials when new provider is shoosen
+                scope.$watch('provider', function (val, oldVal) {
+                    if(val != oldVal) {
+                        scope.credentials = {};
+                    }
+                }, true);
             }
         };
     }

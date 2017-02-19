@@ -50,7 +50,7 @@
             });
 
             return self.canBeUpdated;
-        }
+        };
 
         this.updateAccount = function () {
             if (this.isUpdateAccountPossible()) {
@@ -67,7 +67,7 @@
                     self.isUpdatingAccount = false;
                 });
             }
-        }
+        };
 
         this.deleteAccount = function () {
             piwikHelper.modalConfirm('#confirmDeleteAccount', {yes: deleteApiAccount});
