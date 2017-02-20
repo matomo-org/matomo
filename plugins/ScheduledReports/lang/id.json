@@ -21,7 +21,6 @@
         "NoRecipients": "Laporan ini tidak memiliki penerima",
         "Pagination": "Halaman %1$s dari %2$s",
         "PiwikReports": "Laporan Piwik",
-        "PleaseFindAttachedFile": "Silakan temukan berkas lampiran laporan %1$s Anda untuk %2$s.",
         "PleaseFindBelow": "Silakan temukan di bawah laporan %1$s Anda untuk %2$s.",
         "ReportFormat": "Bentuk Laporan",
         "ReportIncludeNWebsites": "Laporan akan dimasukkan dalam matriks utama untuk setiap situs dengan sekurangnya satu kunjungan (dari situs %s saat ini yang tersedia).",

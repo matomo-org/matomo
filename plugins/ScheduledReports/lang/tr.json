@@ -22,7 +22,6 @@
         "NoRecipients": "Bu raporun hiç alıcısı yok",
         "Pagination": "%1$s sayfa içerisnde %2$s",
         "PiwikReports": "Piwik Raporları",
-        "PleaseFindAttachedFile": "Lütfen %2$s için %1$s de eklenen dosyayı bul",
         "SentFromX": "%s'den gönder",
         "PleaseFindBelow": "%2$s için %1$s raporunuzu lütfen altta bulun",
         "PluginDescription": "Özelleşmiş rapor yarat ve onları günlük, aylık veya yıllık olarak bir veya daha fazla kişiye gönderilmek üzere zamanla. Birçok rapor formatı desteklenmektedir (html, pdf, csv, images)",

@@ -23,7 +23,6 @@
         "NoRecipients": "Nije definisan primaoc",
         "Pagination": "Strana %1$s od %2$s",
         "PiwikReports": "Piwik izveštaji",
-        "PleaseFindAttachedFile": "u prilogu se nalazi vaš %1$s izveštaj za %2$s.",
         "SentFromX": "Poslato od strane %s.",
         "PleaseFindBelow": "u nastavku je vaš %1$s izveštaj za %2$s.",
         "PluginDescription": "Kreirajte sopstvene izveštaje i zakažite njihovo slanje putem elektronske pošte dnevno, nedeljno ili mesečno jednoj ili više osoba. Više različitih formata je podržano (HTML, PDF, CSV, slike).",
