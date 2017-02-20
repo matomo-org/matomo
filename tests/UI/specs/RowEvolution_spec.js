@@ -27,13 +27,13 @@ describe("RowEvolution", function () {
 
     it('should change the metric shown when a metric sparkline row is clicked', function (done) {
         expect.screenshot('row_evolution_other_metric').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('table.metrics tr[data-i=1]');
+            page.click('table.metrics tr[data-i=2]');
         }, done);
     });
 
     it('should show two serieses when a metric sparkline row is shift+clicked', function (done) {
         expect.screenshot('row_evolution_multiple_series').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('table.metrics tr[data-i=2]', ['shift']);
+            page.click('table.metrics tr[data-i=4]', ['shift']);
         }, done);
     });
 

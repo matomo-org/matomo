@@ -23,6 +23,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Url;
@@ -39,9 +40,8 @@ class ProcessedReport
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
         foreach ($reportsMetadata as $report) {
-            // See ArchiveProcessor/Aggregator.php - unique visitors are not processed for period != day
-            // todo: should use SettingsPiwik::isUniqueVisitorsEnabled instead
-            if (($period && $period != 'day') && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
+            // See ArchiveProcessor/Aggregator.php - unique visitors are not processed for all periods
+            if (($period && !SettingsPiwik::isUniqueVisitorsEnabled($period)) && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
                 unset($report['metrics']['nb_uniq_visitors']);
                 unset($report['metrics']['nb_users']);
             }
