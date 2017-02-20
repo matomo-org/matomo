@@ -1,20 +1,20 @@
 {
     "VisitsSummary": {
-        "AverageGenerationTime": "gemiddelde generatie tijd",
-        "AverageVisitDuration": "gemiddelde bezoekers duur",
+        "AverageGenerationTime": "gemiddelde generatietijd",
+        "AverageVisitDuration": "gemiddelde duur bezoek",
         "GenerateQueries": "%s queries uitgevoerd",
-        "GenerateTime": "%s seconden om deze pagina te genereren",
+        "GenerateTime": "%s seconden om de pagina te genereren",
         "MaxNbActions": "max acties in één bezoek",
         "NbActionsDescription": "%s acties",
         "NbActionsPerVisit": "acties (pagina bezoeken, downloads, outlinks en interne zoekacties) per bezoek",
         "NbDownloadsDescription": "downloads",
-        "NbKeywordsDescription": "unieke keywords",
+        "NbKeywordsDescription": "unieke sleutelwoorden",
         "NbOutlinksDescription": "outlink",
-        "NbPageviewsDescription": "pagina bezoeken",
-        "NbSearchesDescription": "totaal aantal zoekacties op je website",
+        "NbPageviewsDescription": "paginaweergaven",
+        "NbSearchesDescription": "totaal aantal zoekopdrachten op uw website",
         "NbUniqueDownloadsDescription": "unieke downloads",
         "NbUniqueOutlinksDescription": "unieke outlinks",
-        "NbUniquePageviewsDescription": "unieke pagina bezoeken",
+        "NbUniquePageviewsDescription": "unieke paginaweergaven",
         "NbUniqueVisitors": "unieke bezoekers",
         "NbUsersDescription": "gebruikers",
         "NbVisitsDescription": "bezoeken",
@@ -23,7 +23,7 @@
         "VisitsSummary": "Bezoekers samenvatting",
         "VisitsSummaryDocumentation": "Dit is een trendlijn die de ontwikkeling weergeeft.",
         "WidgetLastVisits": "Recente bezoeken",
-        "WidgetOverviewGraph": "Totalen met trendlijn",
-        "WidgetVisits": "Bezoeken totalen"
+        "WidgetOverviewGraph": "Overzicht bezoeken (met grafiek)",
+        "WidgetVisits": "Overzicht bezoeken"
     }
 }

@@ -22,7 +22,6 @@
         "NoRecipients": "这个报表没有收件人",
         "Pagination": "第 %1$s 页，共 %2$s 页",
         "PiwikReports": "Piwik 报表",
-        "PleaseFindAttachedFile": "您的 %2$s 的 %1$s 报表在附件中。",
         "SentFromX": "来自%s发送。",
         "PleaseFindBelow": "下面是您的 %2$s 的 %1$s 报表。",
         "PluginDescription": "创建自定义报告，并安排他们每天通过电子邮件发送，每周或每月一个或几个人。一些报告格式支持（HTML，PDF，CSV，图像）。",
