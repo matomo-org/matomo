@@ -180,7 +180,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_YourCurrentIpAddressIs', array('<i>' . $ip . '</i>'));
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-            $field->uiControlAttributes = array('cols' => '20', 'rows' => '4');
+            $field->uiControlAttributes = array(
+              'cols' => '20',
+              'rows' => '4',
+              'placeholder' => $ip,
+            );
 
             $field->validate = function ($value) {
                 if (!empty($value)) {

@@ -35,6 +35,7 @@
         "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。",
         "SegmentXIsAUnionOf": "%s はこれらのセグメントの結合体です：",
         "CustomSegment": "カスタムセグメント",
-        "SegmentOperatorIsNullOrEmpty": "は、nullまたは空です"
+        "SegmentOperatorIsNullOrEmpty": "は、nullまたは空です",
+        "SegmentOperatorIsNotNullNorEmpty": "null でも空でもありません"
     }
 }

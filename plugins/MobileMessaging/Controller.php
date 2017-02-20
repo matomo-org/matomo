@@ -70,11 +70,16 @@ class Controller extends ControllerAdmin
             $this->translator->translate('General_Settings'),
             $this->translator->translate('MobileMessaging_SettingsMenu')
         ));
+        $view->credentialError = null;
         $view->creditLeft = 0;
         $currentProvider = '';
         if ($view->credentialSupplied && $view->accountManagedByCurrentUser) {
             $currentProvider = $mobileMessagingAPI->getSMSProvider();
-            $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
+            try {
+                $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
+            } catch (\Exception $e) {
+                $view->credentialError = $e->getMessage();
+            }
         }
 
         $view->delegateManagementOptions = array(
@@ -129,5 +134,25 @@ class Controller extends ControllerAdmin
         $view->phoneNumbers = $mobileMessagingAPI->getPhoneNumbers();
 
         $this->setBasicVariablesView($view);
+    }
+
+    public function getCredentialFields()
+    {
+        $provider = Common::getRequestVar('provider', '');
+
+        $credentialFields = array();
+
+        foreach (SMSProvider::findAvailableSmsProviders() as $availableSmsProvider) {
+            if ($availableSmsProvider->getId() == $provider) {
+                $credentialFields = $availableSmsProvider->getCredentialFields();
+                break;
+            }
+        }
+
+        $view = new View('@MobileMessaging/credentials');
+
+        $view->credentialfields = $credentialFields;
+
+        return $view->render();
     }
 }

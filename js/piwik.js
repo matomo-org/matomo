@@ -1032,7 +1032,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          DOM, onLoad, onReady, JSON */
+          DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -6997,7 +6997,17 @@ if (typeof window.Piwik !== 'object') {
                  *
                  * @param function callback
                  */
-                onReady: trackCallbackOnReady
+                onReady: trackCallbackOnReady,
+
+                /**
+                 * Detect whether a node is visible right now.
+                 */
+                isNodeVisible: isVisible,
+
+                /**
+                 * Detect whether a node has been visible at some point
+                 */
+                isOrWasNodeVisible: content.isNodeVisible
             },
 
             /**

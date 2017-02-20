@@ -129,6 +129,7 @@ class ReportTotalsCalculator extends DataTableManipulator
         }
 
         $request = $this->request;
+        unset($request['idSubtable']); // to make sure we work on first level table
 
         /** @var \Piwik\Period $period */
         $period = $table->getMetadata('period');

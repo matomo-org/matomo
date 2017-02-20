@@ -81,7 +81,14 @@ class JoinGenerator
 
                 // join condition provided
                 $alias = isset($table['tableAlias']) ? $table['tableAlias'] : $table['table'];
-                $this->joinString .= " LEFT JOIN " . Common::prefixTable($table['table']) . " AS " . $alias
+
+                if (isset($table['join'])) {
+                    $this->joinString .= ' ' . $table['join'];
+                } else {
+                    $this->joinString .= ' LEFT JOIN';
+                }
+
+                $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
                                    . " ON " . $table['joinOn'];
                 continue;
             }

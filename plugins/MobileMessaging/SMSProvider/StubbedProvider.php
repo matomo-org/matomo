@@ -33,17 +33,17 @@ class StubbedProvider extends SMSProvider
         return defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE;
     }
 
-    public function verifyCredential($apiKey)
+    public function verifyCredential($credentials)
     {
         return true;
     }
 
-    public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
+    public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
         // nothing to do
     }
 
-    public function getCreditLeft($apiKey)
+    public function getCreditLeft($credentials)
     {
         return 1;
     }
