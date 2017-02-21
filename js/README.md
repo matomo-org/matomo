@@ -40,9 +40,7 @@ The js/ folder contains:
   $ unzip yuicompressor-2.4.7.zip
   ```
 
-  To compress the code containing the evil "eval", either apply the patch from
-  http://yuilibrary.com/projects/yuicompressor/ticket/2343811,
-  or run:
+  To compress the code containing the evil "eval", run:
 
   ```bash
   $ cd /path/to/piwik/js/
