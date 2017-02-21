@@ -59,3 +59,6 @@
     branch = master
 
 # Note: do not add new plugin submodules here, but a few lines above
+[submodule "plugins/Morpheus/icons"]
+	path = plugins/Morpheus/icons
+	url = git@github.com:piwik/device-icons.git
