@@ -28,7 +28,7 @@
                 <p>{{ 'MobileMessaging_Settings_DelegatedSmsProviderOnlyAppliesToYou'|translate }}</p>
             {% endif %}
 
-            {{ macro.manageSmsApi(credentialSupplied, creditLeft, smsProviderOptions, smsProviders, provider) }}
+            {{ macro.manageSmsApi(credentialSupplied, credentialError, creditLeft, smsProviderOptions, smsProviders, provider) }}
         </div>
     {% endif %}
 

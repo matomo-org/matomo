@@ -265,7 +265,9 @@ class View implements ViewInterface
         Common::sendHeader('Content-Type: ' . $this->contentType);
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads
         // - when calling sendHeader() multiple times, the last one prevails
-        Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        if(!empty($this->xFrameOptions)) {
+            Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        }
 
         return $this->renderTwigTemplate();
     }
@@ -356,6 +358,7 @@ class View implements ViewInterface
      */
     public function setXFrameOptions($option = 'deny')
     {
+
         if ($option === 'deny' || $option === 'sameorigin') {
             $this->xFrameOptions = $option;
         }

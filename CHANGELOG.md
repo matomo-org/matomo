@@ -6,9 +6,18 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 
 ## Piwik 3.0.2
 
+### New Features
+* A new SMS provider for sms reports has been added: [ASPSMS.com](http://www.aspsms.com/en/?REF=227830)
+
+### Breaking Changes
+* SMS provider now need to define their credential fields by overwriting `getCredentialFields()`. This allows to have SMS providers that require more than only an API key.
+* Therefor the MobileMessaging API method `setSMSAPICredential()` now expects the second parameter to be an array filled with credentials (instead of a string containing an API key)
+
 ### New APIs
 * The JavaScript Tracker now supports CrossDomain tracking. The following tracker methods were added for this: `enableCrossDomainLinking`, `disableCrossDomainLinking`, `isCrossDomainLinkingEnabled`
 * Added JavaScript Tracker method `getLinkTrackingTimer` to get the value of the configured link tracking time
+* Added JavaScript Tracker method `deleteCustomVariables` to delete all custom variables within a certain scope
+* The method `enableLinkTracking` can now be called several times to make Piwik aware of newly added links when your DOM changes
 * Added a new method `Piwik\Plugin\Report::getMetricNamesToProcessReportTotals()` that lets you define which metrics should show percentages in the table report visualization on hover. If defined, these percentages will be automatically calculated.
 
 ## Piwik 3.0.1

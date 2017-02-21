@@ -58,7 +58,7 @@ class GetSystemSummary extends Widget
             'numWebsites' => count($websites),
             'numUsers' => $numUsers,
             'numSegments' => $this->getNumSegments(),
-            'numPlugins' => $this->getNumPlugins(),
+            'numPlugins' => $this->getNumActivatedPlugins(),
             'piwikVersion' => Version::VERSION,
             'mySqlVersion' => $this->getMySqlVersion(),
             'phpVersion' => phpversion()
@@ -77,8 +77,8 @@ class GetSystemSummary extends Widget
         return $db->getServerVersion();
     }
 
-    private function getNumPlugins()
+    private function getNumActivatedPlugins()
     {
-        return count($this->pluginManager->getActivatedPlugins());
+        return $this->pluginManager->getNumberOfActivatedPluginsExcludingAlwaysActivated();
     }
 }

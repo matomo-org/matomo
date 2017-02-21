@@ -22,7 +22,6 @@
         "NoRecipients": "Rapporten har ingen mottagare",
         "Pagination": "Sida %1$s av %2$s",
         "PiwikReports": "Piwik Rapporter",
-        "PleaseFindAttachedFile": "Du finner din rapport %1$s i den bifogade filen för %2$s.",
         "SentFromX": "Skickat från %s.",
         "PleaseFindBelow": "Nedan hittar du din %1$s rapport för %2$s.",
         "PluginDescription": "Skapa anpassade rpaporter och schemalägg att dom ska skickas ut dagligen, veckovis eller månadsvis till en eller flera personer. Det finns stöd för flera format (html, pdf, csv och bilder).",

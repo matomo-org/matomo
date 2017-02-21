@@ -554,13 +554,14 @@ class Manager
         throw new \Exception('Theme not found : ' . $themeName);
     }
 
-    public function getNumberOfActivatedPlugins()
+    public function getNumberOfActivatedPluginsExcludingAlwaysActivated()
     {
         $counter = 0;
 
         $pluginNames = $this->getLoadedPluginsName();
         foreach ($pluginNames as $pluginName) {
-            if ($this->isPluginActivated($pluginName)) {
+            if ($this->isPluginActivated($pluginName)
+                && !$this->isPluginAlwaysActivated($pluginName)) {
                 $counter++;
             }
         }

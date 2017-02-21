@@ -23,7 +23,7 @@
         "NoRecipients": "Ce rapport n'a aucun destinataire",
         "Pagination": "Page %1$s sur %2$s",
         "PiwikReports": "Rapports Piwik",
-        "PleaseFindAttachedFile": "Veuillez trouver en pièce jointe votre rapport %1$s pour %2$s.",
+        "PleaseFindAttachedFile": "Veuillez trouver votre rapport %1$s pour %2$s dans le fichier joint.",
         "SentFromX": "Envoyé depuis %s.",
         "PleaseFindBelow": "Veuillez trouver ci-dessous votre %1$s rapport pour %2$s.",
         "PluginDescription": "Créez des rapports personnalisés et planifiez de les envoyer par courriel quotidiennement, hebdomadairement ou mensuellement à une ou plusieurs personnes. Plusieurs formats de rapports sont supportés (html, pdf, csv, images).",

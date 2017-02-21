@@ -53,14 +53,14 @@ class Clockwork extends SMSProvider
 			';
     }
 
-    public function verifyCredential($apiKey)
+    public function verifyCredential($credentials)
     {
-        $this->getCreditLeft($apiKey);
+        $this->getCreditLeft($credentials);
 
         return true;
     }
 
-    public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
+    public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
         $from = substr($from, 0, self::MAXIMUM_FROM_LENGTH);
 
@@ -75,7 +75,7 @@ class Clockwork extends SMSProvider
         );
 
         $this->issueApiCall(
-            $apiKey,
+            $credentials['apiKey'],
             self::SEND_SMS_RESOURCE,
             $additionalParameters
         );
@@ -120,10 +120,10 @@ class Clockwork extends SMSProvider
         return $result;
     }
 
-    public function getCreditLeft($apiKey)
+    public function getCreditLeft($credentials)
     {
         return $this->issueApiCall(
-            $apiKey,
+            $credentials['apiKey'],
             self::CHECK_CREDIT_RESOURCE
         );
     }

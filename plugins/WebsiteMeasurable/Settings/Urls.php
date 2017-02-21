@@ -22,6 +22,7 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
     {
         $name = 'urls';
         $pluginName = 'WebsiteMeasurable';
+        $defaultValue = array();
         $type = FieldConfig::TYPE_ARRAY;
 
         parent::__construct($name, $defaultValue, $type, $pluginName, $idSite);

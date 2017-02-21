@@ -23,7 +23,6 @@
         "NoRecipients": "このレポートは、受取人がいません",
         "Pagination": "%1$s の %2$s ページ",
         "PiwikReports": "Piwik リポート",
-        "PleaseFindAttachedFile": "%2$s の %1$s のリポートを添付しています。",
         "SentFromX": "%s から送信されます。",
         "PleaseFindBelow": "%2$s の %1$s のリポートをお届けします。",
         "PluginDescription": "カスタム レポートを作成し、毎日、毎週、毎月等、 1 つまたは複数の人にメールで送信するようにスケジュールします。サポートされているレポート形式 ( html、pdf、csv、画像)。",
