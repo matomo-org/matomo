@@ -43,30 +43,55 @@ abstract class SMSProvider
     /**
      * Verify the SMS API credential.
      *
-     * @param string $apiKey API Key
-     * @return bool true if SMS API Key is valid, false otherwise
+     * @param array $credentials contains credentials (eg. like API key, user name, ...)
+     * @return bool true if credentials are valid, false otherwise
      */
-    abstract public function verifyCredential($apiKey);
+    abstract public function verifyCredential($credentials);
 
     /**
      * Get the amount of remaining credits.
      *
-     * @param string $apiKey API Key
+     * @param array $credentials contains credentials (eg. like API key, user name, ...)
      * @return string remaining credits
      */
-    abstract public function getCreditLeft($apiKey);
+    abstract public function getCreditLeft($credentials);
 
     /**
      * Actually send the given text message. This method should only send the text message, it should not trigger
      * any notifications etc.
      *
-     * @param string $apiKey
+     * @param array $credentials contains credentials (eg. like API key, user name, ...)
      * @param string $smsText
      * @param string $phoneNumber
      * @param string $from
      * @return bool true
      */
-    abstract public function sendSMS($apiKey, $smsText, $phoneNumber, $from);
+    abstract public function sendSMS($credentials, $smsText, $phoneNumber, $from);
+
+    /**
+     * Defines the fields that needs to be filled up to provide credentials
+     *
+     * Example:
+     * array (
+     *   array(
+     *     'type' => 'text',
+     *     'name' => 'apiKey',
+     *     'title' => 'Translation_Key_To_Use'
+     *   )
+     * )
+     *
+     * @return array
+     */
+    public function getCredentialFields()
+    {
+        return array(
+            array(
+                'type' => 'text',
+                'name' => 'apiKey',
+                'title' => 'MobileMessaging_Settings_APIKey'
+            )
+        );
+    }
 
     /**
      * Defines whether the SMS Provider is available. If a certain provider should be used only be a limited

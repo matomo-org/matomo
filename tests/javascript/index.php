@@ -610,7 +610,7 @@ function PiwikTest() {
     });
 
     test("Piwik plugin methods", function() {
-        expect(31);
+        expect(33);
         
         // TESTS FOR retryMissedPluginCalls
 
@@ -703,6 +703,8 @@ function PiwikTest() {
         strictEqual('function', typeof Piwik.DOM.onReady, "DOM.onReady method is defined");
         strictEqual('function', typeof Piwik.DOM.onLoad, "DOM.onLoad method is defined");
         strictEqual('function', typeof Piwik.DOM.addEventListener, "DOM.addEventListener method is defined");
+        strictEqual('function', typeof Piwik.DOM.isNodeVisible, "DOM.isNodeVisible method is defined");
+        strictEqual('function', typeof Piwik.DOM.isOrWasNodeVisible, "DOM.isOrWasNodeVisible method is defined");
 
         Piwik.DOM.onLoad(function () {
             loaded = true;

@@ -133,7 +133,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
             $piwikVersion.= '-stable';
         }
 
-        $newRequiredVersion = sprintf('>=%s,<%d.0.0', $piwikVersion, $nextMajorVersion);
+        $newRequiredVersion = sprintf('>=%s,<%d.0.0-b1', $piwikVersion, $nextMajorVersion);
 
 
         if (!empty($pluginJson['require']['piwik'])) {

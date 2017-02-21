@@ -58,6 +58,7 @@ class JoinTables extends \ArrayObject
                 && !empty($table['table'])
                 && $table['table'] === $tableToFind
                 && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)
+                && (!isset($table['join']) || strtolower($table['join']) === 'left join')
                 && isset($table['joinOn']) && $table['joinOn'] === $joinToFind) {
                 return true;
             }
@@ -77,6 +78,7 @@ class JoinTables extends \ArrayObject
             if (is_array($table)
                 && !empty($table['table'])
                 && $table['table'] === $tableNameToFind
+                && (!isset($table['join']) || strtolower($table['join']) === 'left join')
                 && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableNameToFind)) {
                 return $index;
             }

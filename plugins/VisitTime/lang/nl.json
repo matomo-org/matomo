@@ -1,7 +1,7 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Lokale tijd",
-        "ColumnServerTime": "Server tijd",
+        "ColumnServerTime": "Servertijd",
         "DayOfWeek": "Dag van de week",
         "LocalTime": "Uur van de dag (tijdzone bezoeker)",
         "NHour": "%s uur",

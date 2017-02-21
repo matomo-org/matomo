@@ -41,11 +41,21 @@ class API extends \Piwik\Plugin\API
     private function getSMSAPICredential()
     {
         $settings = $this->getCredentialManagerSettings();
+
+        $credentials = isset($settings[MobileMessaging::API_KEY_OPTION]) ? $settings[MobileMessaging::API_KEY_OPTION] : null;
+
+        // fallback for older values, where api key has been stored as string value
+        if (!empty($credentials) && !is_array($credentials)) {
+            $credentials = array(
+                'apiKey' => $credentials
+            );
+        }
+
         return array(
             MobileMessaging::PROVIDER_OPTION =>
                 isset($settings[MobileMessaging::PROVIDER_OPTION]) ? $settings[MobileMessaging::PROVIDER_OPTION] : null,
             MobileMessaging::API_KEY_OPTION  =>
-                isset($settings[MobileMessaging::API_KEY_OPTION]) ? $settings[MobileMessaging::API_KEY_OPTION] : null,
+                $credentials,
         );
     }
 
@@ -65,21 +75,21 @@ class API extends \Piwik\Plugin\API
      * set the SMS API credential
      *
      * @param string $provider SMS API provider
-     * @param string $apiKey API Key
+     * @param array $credentials array with data like API Key or username
      *
      * @return bool true if SMS API credential were validated and saved, false otherwise
      */
-    public function setSMSAPICredential($provider, $apiKey)
+    public function setSMSAPICredential($provider, $credentials = array())
     {
         $this->checkCredentialManagementRights();
 
         $smsProviderInstance = SMSProvider::factory($provider);
-        $smsProviderInstance->verifyCredential($apiKey);
+        $smsProviderInstance->verifyCredential($credentials);
 
         $settings = $this->getCredentialManagerSettings();
 
         $settings[MobileMessaging::PROVIDER_OPTION] = $provider;
-        $settings[MobileMessaging::API_KEY_OPTION] = $apiKey;
+        $settings[MobileMessaging::API_KEY_OPTION] = $credentials;
 
         $this->setCredentialManagerSettings($settings);
 

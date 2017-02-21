@@ -114,7 +114,7 @@
                      ng-model="mailSettings.mailType"
                      title="{{ 'General_AuthenticationMethodSmtp'|translate|e('html_attr') }}"
                      options="{{ mailTypes|json_encode }}"
-                     value="{{ mail.port }}" inline-help="{{ 'General_OnlyUsedIfUserPwdIsSet'|translate|e('html_attr') }}">
+                     value="{{ mail.type }}" inline-help="{{ 'General_OnlyUsedIfUserPwdIsSet'|translate|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="text" name="mailUsername"

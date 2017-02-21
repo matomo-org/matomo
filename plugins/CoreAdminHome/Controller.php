@@ -56,7 +56,7 @@ class Controller extends ControllerAdmin
         $hasPiwikBlog = $widgetsList->isDefined('RssWidget', 'rssPiwik');
         $hasPremiumFeatures = $widgetsList->isDefined('Marketplace', 'getPremiumFeatures');
         $hasNewPlugins = $widgetsList->isDefined('Marketplace', 'getNewPlugins');
-        $hasDiagnostics = $widgetsList->isDefined('About Piwik', 'Installation_SystemCheck');
+        $hasDiagnostics = $widgetsList->isDefined('Installation', 'getSystemCheck');
 
         return $this->renderTemplate('home', array(
             'isMarketplaceEnabled' => $isMarketplaceEnabled,

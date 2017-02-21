@@ -19,6 +19,10 @@
         "ViewUserGuides": "Leer hoe je Piwik moet configureren en hoe je data te analyseren met onze %1$sgebruikers handleidingen%2$s",
         "CommunityHelp": "Hulp van de community",
         "ProfessionalHelp": "Professionele Hulp",
-        "ContactUs": "Contacteer ons"
+        "ProfessionalServicesReviewPiwikSetup": "Een overzicht van je Piwik omgeving",
+        "ProfessionalServicesPhoneEmailSupport": "Telefoon en Email ondersteuning",
+        "ProfessionalServicesPremiumFeatures": "Premium functies",
+        "ContactUs": "Contacteer ons",
+        "VisitTheForums": "Bezoek het %1$s Forums%2$s en ontvang hulp van de community van Piwik users"
     }
 }

@@ -5,8 +5,10 @@
         "CheckForUpdates": "업데이트 확인",
         "CheckPiwikOut": "Piwik 출시 확인!",
         "ClickToEditX": "%s 수정하기",
+        "ClickToSeeFullInformation": "모든 정보를 보실려면 클릭하세요",
         "CloseSearch": "검색 닫기",
         "CloseWidgetDirections": "위젯의 상단에있는 'X'아이콘을 클릭하여 이 위젯을 닫을 수 있습니다.",
+        "ChooseX": "%1$s 를 선택하세요",
         "DataForThisReportHasBeenPurged": "이 보고서의 데이터는 %s 개월 이상 되었기 때문에 제거되었습니다.",
         "DataTableExcludeAggregateRows": "요약 행 표시 %s 숨기기",
         "DataTableIncludeAggregateRows": "요약 행 숨기기 %s 보이기",
@@ -62,7 +64,9 @@
         "QuickAccessTitle": "%s 검색. 검색 결과를 확인할 때 방향키를 사용하세요. 단축키: 'f'는 검색",
         "MenuEntries": "메뉴",
         "Segments": "세그멘트",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "여러개의 서버들에 대해서 피윅을 사용한다면 원클릭 업데이트는 이용불가합니다. %1$s 로 부터 진행하기 위해서 최신버전을 다운로드하세요.",
         "AdblockIsMaybeUsed": "Piwik가 문제 없이 동작하기 위해서 광고 차단기능이 있는 플러그인을 꺼주시길 바랍니다.",
-        "ChangeCurrentWebsite": "웹사이트를 선택하세요, 현재 선택된 웹사이트: %s"
+        "ChangeCurrentWebsite": "웹사이트를 선택하세요, 현재 선택된 웹사이트: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "선두하는 오픈 분석플랫폼은 여러분의 프라이버시를 존중합니다"
     }
 }

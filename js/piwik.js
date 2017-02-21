@@ -1032,7 +1032,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          DOM, onLoad, onReady, JSON */
+          DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -5647,9 +5647,8 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
-             * If piwikUrl is not set, current url will be used.
              *
-             * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param string piwikUrl  The tracker URL of the current tracker instance
              * @param int|string siteId
              * @return Tracker
              */
@@ -7025,7 +7024,17 @@ if (typeof window.Piwik !== 'object') {
                  *
                  * @param function callback
                  */
-                onReady: trackCallbackOnReady
+                onReady: trackCallbackOnReady,
+
+                /**
+                 * Detect whether a node is visible right now.
+                 */
+                isNodeVisible: isVisible,
+
+                /**
+                 * Detect whether a node has been visible at some point
+                 */
+                isOrWasNodeVisible: content.isNodeVisible
             },
 
             /**

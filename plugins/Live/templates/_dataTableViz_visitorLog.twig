@@ -19,7 +19,7 @@
                         <li>
                             {{ 'General_Plugins'|translate }}:
                             {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
-                                <img src="{{ pluginIcon.pluginIcon }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
+                                <img width="16px" height="16px" src="{{ pluginIcon.pluginIcon }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
                             {% endfor %}
                         </li>
                     {% endif %}

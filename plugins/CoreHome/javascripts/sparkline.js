@@ -41,7 +41,7 @@ window.initializeSparklines = function () {
         var graph = $(this);
 
         // we search for .widget to make sure eg in the Dashboard to not update any graph of another report
-        var selectorsToFindParent = ['.widget', '.reporting-page', 'body'];
+        var selectorsToFindParent = ['.widget', '[piwik-widget-container]', '.reporting-page', 'body'];
         var index = 0, selector, parent;
         for (index; index < selectorsToFindParent.length; index++) {
             selector = selectorsToFindParent[index];

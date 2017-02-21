@@ -505,6 +505,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should switch the SMS provider correctly', function (done) {
+        expect.screenshot('admin_settings_mobilemessaging_provider').to.be.captureSelector('.pageWrap', function (page) {
+            page.evaluate(function() {
+                $('[name=smsProviders] ul li:nth-child(2)').click();
+            }, 150);
+        }, done);
+    });
+
     it('should load the themes admin page correctly', function (done) {
         expect.screenshot('admin_themes').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
