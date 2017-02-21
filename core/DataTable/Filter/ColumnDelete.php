@@ -155,7 +155,7 @@ class ColumnDelete extends BaseFilter
         if(!$this->isArrayAccess($table)) {
             return;
         }
-        foreach ($table as $index => &$row) {
+        foreach ($table as $index => $row) {
             if(!$this->isArrayAccess($row)) {
                 continue;
             }
