@@ -36,7 +36,7 @@ class Google implements MetricsProvider
     {
         $pageCount = $this->fetchIndexedPagesCount($domain);
 
-        $logo = "plugins/SEO/images/google.com.png";
+        $logo = "plugins/Morpheus/icons/dist/SEO/google.com.png";
 
         return array(
             new Metric('google-index', 'SEO_Google_IndexedPages', $pageCount, $logo, null, null, 'General_Pages'),

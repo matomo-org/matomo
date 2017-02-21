@@ -20,7 +20,7 @@
 		<revenue>1</revenue>
 		<segment>referrerType==search;referrerName==Yahoo%21</segment>
 		<url>http://search.yahoo.com</url>
-		<logo>plugins/Referrers/images/searchEngines/search.yahoo.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
 		<subtable>
 			<row>
 				<label>purchase</label>

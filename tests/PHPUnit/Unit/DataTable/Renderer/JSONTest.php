@@ -45,10 +45,10 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
 
         $array = array(
             array(Row::COLUMNS  => array('label' => 'Google&copy;', 'bool' => false, 'goals' => array('idgoal=1' => array('revenue' => 5.5, 'nb_conversions' => 10)), 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9),
-                  Row::METADATA => array('url' => 'http://www.google.com/display"and,properly', 'logo' => './plugins/Referrers/images/searchEngines/www.google.com.png'),
+                  Row::METADATA => array('url' => 'http://www.google.com/display"and,properly', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png'),
             ),
             array(Row::COLUMNS              => array('label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'bool' => true, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90),
-                  Row::METADATA             => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referrers/images/searchEngines/www.yahoo.com.png'),
+                  Row::METADATA             => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png'),
                   Row::DATATABLE_ASSOCIATED => $subDataTableForRow2,
             )
         );
@@ -169,10 +169,10 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
     {
         $array1 = array(
             array(Row::COLUMNS  => array('label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11,),
-                  Row::METADATA => array('url' => 'http://www.google.com', 'logo' => './plugins/Referrers/images/searchEngines/www.google.com.png'),
+                  Row::METADATA => array('url' => 'http://www.google.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png'),
             ),
             array(Row::COLUMNS  => array('label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151,),
-                  Row::METADATA => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referrers/images/searchEngines/www.yahoo.com.png'),
+                  Row::METADATA => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png'),
             )
         );
         $table1 = new DataTable();
@@ -180,10 +180,10 @@ class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
 
         $array2 = array(
             array(Row::COLUMNS  => array('label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110,),
-                  Row::METADATA => array('url' => 'http://www.google.com1', 'logo' => './plugins/Referrers/images/searchEngines/www.google.com.png1'),
+                  Row::METADATA => array('url' => 'http://www.google.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png1'),
             ),
             array(Row::COLUMNS  => array('label' => 'Yahoo!1', 'nb_uniq_visitors' => 150, 'nb_visits' => 1510,),
-                  Row::METADATA => array('url' => 'http://www.yahoo.com1', 'logo' => './plugins/Referrers/images/searchEngines/www.yahoo.com.png1'),
+                  Row::METADATA => array('url' => 'http://www.yahoo.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png1'),
             )
         );
         $table2 = new DataTable();
