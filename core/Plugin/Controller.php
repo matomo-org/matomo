@@ -708,7 +708,7 @@ abstract class Controller
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
                 || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
-        $embeddedAsIframe = (Common::getRequestVar('module') == 'Widgetize');
+        $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') == 'Widgetize');
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
         }
