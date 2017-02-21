@@ -19,6 +19,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 * Added JavaScript Tracker method `deleteCustomVariables` to delete all custom variables within a certain scope
 * The method `enableLinkTracking` can now be called several times to make Piwik aware of newly added links when your DOM changes
 * Added a new method `Piwik\Plugin\Report::getMetricNamesToProcessReportTotals()` that lets you define which metrics should show percentages in the table report visualization on hover. If defined, these percentages will be automatically calculated.
+* New HTTP API method `UserCountry.getCountryCodeMapping` to get a list of used country codes to country names
 
 ## Piwik 3.0.1
 
