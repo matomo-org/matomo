@@ -5638,9 +5638,8 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
-             * If piwikUrl is not set, current url will be used.
              *
-             * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param string piwikUrl  The tracker URL of the current tracker instance
              * @param int|string siteId
              * @return Tracker
              */
