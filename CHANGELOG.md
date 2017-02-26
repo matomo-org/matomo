@@ -17,6 +17,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 * The JavaScript Tracker now supports CrossDomain tracking. The following tracker methods were added for this: `enableCrossDomainLinking`, `disableCrossDomainLinking`, `isCrossDomainLinkingEnabled`
 * Added JavaScript Tracker method `getLinkTrackingTimer` to get the value of the configured link tracking time
 * Added a new method `Piwik\Plugin\Report::getMetricNamesToProcessReportTotals()` that lets you define which metrics should show percentages in the table report visualization on hover. If defined, these percentages will be automatically calculated.
+* The event `Tracker.newConversionInformation` now posts a new fourth parameter `$action`
 
 ## Piwik 3.0.1
 
