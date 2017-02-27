@@ -40,30 +40,18 @@ class ControllerResolver
      */
     public function getController($module, $action, array &$parameters)
     {
-        $controller = $this->createPluginController($module, $action);
-        if ($controller) {
-            return $controller;
-        }
-
-        $controller = $this->createWidgetController($module, $action, $parameters);
-        if ($controller) {
-            return $controller;
-        }
-
-        $controller = $this->createReportController($module, $action, $parameters);
-        if ($controller) {
-            return $controller;
-        }
-
-        $controller = $this->createReportMenuController($module, $action, $parameters);
-        if ($controller) {
-            return $controller;
+        foreach(['Plugin', 'Widget', 'Report', 'ReportMenu'] as $controler) {
+            $controller = "create$controller" . 'Controller';
+            $controller = $this->$controller($module, $action, $parameters);
+            if ($controller) {
+                return $controller;
+            }
         }
 
         throw new Exception(sprintf("Action '%s' not found in the module '%s'", $action, $module));
     }
 
-    private function createPluginController($module, $action)
+    private function createPluginController($module, $action, array &$parameters)
     {
         $controllerClass = "Piwik\\Plugins\\$module\\Controller";
         if (!class_exists($controllerClass)) {
