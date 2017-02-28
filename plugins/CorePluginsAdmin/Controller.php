@@ -269,7 +269,9 @@ class Controller extends Plugin\ControllerAdmin
 
     public function safemode($lastError = array())
     {
-        ob_clean();
+        if (ob_get_length()) {
+            ob_clean();
+        }
         
         $this->tryToRepairPiwik();
 
