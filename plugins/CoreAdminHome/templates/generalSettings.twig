@@ -130,8 +130,9 @@
 
                 <div piwik-field uicontrol="password" name="mailPassword"
                      ng-model="mailSettings.mailPassword"
+                     ng-change="mailSettings.passwordChanged = true"
                      title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
-                     value="{{ mail.password }}" inline-help="{{ help|e('html_attr') }}">
+                     value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="select" name="mailEncryption"
