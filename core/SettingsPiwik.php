@@ -433,7 +433,7 @@ class SettingsPiwik
      * @throws \Exception
      * @return string or False if not set
      */
-    protected static function getPiwikInstanceId()
+    public static function getPiwikInstanceId()
     {
         // until Piwik is installed, we use hostname as instance_id
         if (!self::isPiwikInstalled()
