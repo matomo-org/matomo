@@ -25,7 +25,7 @@
                                     <li {% if urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}class="active"{% endif %}
                                         role="menuitem"
                                     >
-                                        <a class="item" tabindex="5"
+                                        <a class="item" tabindex="5" target="_self"
                                            title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
                                            href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">
                                             {{ name|translate }}
@@ -58,7 +58,7 @@
                                 {% for name,urlParameters in level2 %}
                                     {% if name|slice(0,1) != '_' %}
                                         <li>
-                                            <a title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
+                                            <a title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}" target="_self"
                                                href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">{{ name|translate }}</a>
                                         </li>
                                     {% endif %}
