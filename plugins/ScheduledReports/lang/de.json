@@ -23,7 +23,7 @@
         "NoRecipients": "Dieser Bericht hat keine Empfänger",
         "Pagination": "Seite %1$s von %2$s",
         "PiwikReports": "Piwik-Berichte",
-        "PleaseFindAttachedFile": "Sie finden in der angehängten Datei Ihren Bericht (Intervall: %1$s) für %2$s.",
+        "PleaseFindAttachedFile": "Sie finden Ihren %1$s Bericht für %2$s in der angehängten Datei.",
         "SentFromX": "Gesendet von %s",
         "PleaseFindBelow": "Unterhalb befindet sich der Bericht (Intervall: %1$s) für %2$s.",
         "PluginDescription": "Erstellen Sie eigene Berichte und planen Sie deren täglichen, wöchentlichen oder monatlichen Versand an einen oder mehrere Empfänger. Diverse Berichtsformate werden unterstützt (HTML, PDF, CSV, Bilder).",

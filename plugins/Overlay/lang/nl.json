@@ -1,6 +1,6 @@
 {
     "Overlay": {
-        "Clicks": "%s klikken",
+        "Clicks": "%s kliks",
         "ClicksFromXLinks": "%1$s Kliks van één van %2$s links",
         "Domain": "Domein",
         "ErrorNotLoading": "De Pagina Overlay sessie kon nog niet gestart worden.",
@@ -11,7 +11,7 @@
         "Location": "Locatie",
         "NoData": "Er is geen data voor deze pagina gedurende de geselecteerde periode.",
         "OneClick": "1 klik",
-        "OpenFullScreen": "Toon volledig scherm (geen zijbalk)",
+        "OpenFullScreen": "Naar volledig scherm (geen zijbalk)",
         "Overlay": "Pagina Overlay",
         "PluginDescription": "Zie je analyse data als een transparant op je eigenlijke website. Zie hoeveel keer je bezoekers hebben geklik op elke link. Opmerking: Vereist dat de Transitions plugin is ingeschakeld.",
         "RedirectUrlError": "Je probeert Pagina overlay te openen voor de URL \"%1$s\". %2$s Geen enkel domain van de Piwik instellingen komt overeen met de link.",

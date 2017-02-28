@@ -16,7 +16,7 @@
         "Default": "Standard",
         "DonateCall1": "Die Nutzung von Piwik wird immer kostenlos bleiben, was aber nicht heißt, dass es uns nichts kostet, es zu erstellen.",
         "DonateCall2": "Piwik braucht Ihre dauerhafte Unterstützung um zu wachsen und zu gedeihen.",
-        "DonateCall3": "Wenn Sie finden, dass Piwik einen deutlichen Mehrwert für Sie oder Ihr Unternehmen bringt, %1$sspenden Sie bitte%2$s oder %3$serwerben Sie ein Premium Feature%4$s.",
+        "DonateCall3": "Finden Sie, dass Piwik einen deutlichen Mehrwert für Sie oder Ihr Unternehmen hat? %1$sBitte spenden Sie%2$s oder überlegen Sie sich unsere %3$sPremium Features zu kaufen%4$s. Jeder Cent hilft.",
         "DonateFormInstructions": "Klicken Sie auf den Slider um den Betrag zu wählen, dann klicken Sie auf 'Subscribe' um zu spenden.",
         "ExcludeRowsWithLowPopulation": "Alle Zeilen werden angezeigt %s Niedrige Werte ausschließen",
         "ExternalHelp": "Hilfe (öffnet in neuem Tab)",
@@ -49,7 +49,7 @@
         "ThereIsNoDataForThisReport": "Es stehen keine Daten für diesen Bericht zur Verfügung.",
         "UnFlattenDataTable": "Der Bericht ist flach %s Hierarchisch anzeigen",
         "ViewAllPiwikVideoTutorials": "Zeige alle Piwik Video Tutorials an",
-        "WebAnalyticsReports": "Webanalytik Berichte",
+        "WebAnalyticsReports": "Webanalytik-Berichte",
         "YouAreUsingTheLatestVersion": "Sie verwenden die aktuelle Version von Piwik!",
         "ClickRowToExpandOrContract": "Klicken Sie auf diese Zeile um die Untertabelle anzuzeigen oder zu verbergen.",
         "UndoPivotBySubtable": "Pivot erstellt für diesen Bericht %s Pivot rückgängig machen",
@@ -59,14 +59,15 @@
         "SystemSummaryNWebsites": "%d Websites",
         "SystemSummaryNSegments": "%d Segmente",
         "SystemSummaryNActivatedPlugins": "%d aktivierte Plugins",
-        "SystemSummaryPiwikVersion": "Piwik Version",
-        "SystemSummaryMysqlVersion": "MySQL Version",
+        "SystemSummaryPiwikVersion": "Piwik-Version",
+        "SystemSummaryMysqlVersion": "MySQL-Version",
         "SystemSummaryPhpVersion": "PHP-Version",
         "QuickAccessTitle": "Suche nach '%s'. Benutzen Sie die Pfeiltasten um durch die Ergebnisse zu navigieren. Tastenkürzel: Drücken Sie 'f' um zu suchen.",
         "MenuEntries": "Menüeinträge",
         "Segments": "Segmente",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Das Ein-Klick-Update ist nicht verfügbar, weil Sie Piwik mit mehreren Servern einsetzen. Bitte laden Sie die neueste Version von %1$s herunter, um fortzufahren.",
         "AdblockIsMaybeUsed": "Für den Fall, dass Sie einen Ad-Blocker verwenden, deaktivieren Sie diesen bitte für diese Seite um sicherzustellen, dass Piwik problemlos läuft.",
-        "ChangeCurrentWebsite": "Wählen Sie eine Webseite, aktuell gewählte Webseite: %s"
+        "ChangeCurrentWebsite": "Wählen Sie eine Webseite, aktuell gewählte Webseite: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Die führende Open-Source-Analyseplattform, die Ihre Privatsphäre achtet."
     }
 }

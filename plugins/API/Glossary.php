@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\API;
 
+use Piwik\Metrics;
+
 class Glossary
 {
     protected $metadata = array();
@@ -100,6 +102,18 @@ class Glossary
             }
         }
 
+
+        $metricsTranslations = Metrics::getDefaultMetricTranslations();
+        foreach (Metrics::getDefaultMetricsDocumentation() as $metric => $translation) {
+            if (!isset($metrics[$metric]) && isset($metricsTranslations[$metric])) {
+                $metrics[$metric] = array(
+                    'name' => $metricsTranslations[$metric],
+                    'id' => $metric,
+                    'documentation' => $translation
+                );
+            }
+        }
+        
         usort($metrics, function ($a, $b) {
             return strcmp($a['name'], $b['name']);
         });
