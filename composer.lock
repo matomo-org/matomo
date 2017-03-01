@@ -15,7 +15,7 @@
                 "url": "https://github.com/composer/semver.git",
                 "reference": "df4463baa9f44fe6cf0a6da4fde2934d4c0a2747"
             },
-            "dist": {
+            "dist": { 
                 "type": "zip",
                 "url": "https://api.github.com/repos/composer/semver/zipball/df4463baa9f44fe6cf0a6da4fde2934d4c0a2747",
                 "reference": "df4463baa9f44fe6cf0a6da4fde2934d4c0a2747",
