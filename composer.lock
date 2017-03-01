@@ -15,7 +15,7 @@
                 "url": "https://github.com/composer/semver.git",
                 "reference": "df4463baa9f44fe6cf0a6da4fde2934d4c0a2747"
             },
-            "dist": {
+            "dist": { 
                 "type": "zip",
                 "url": "https://api.github.com/repos/composer/semver/zipball/df4463baa9f44fe6cf0a6da4fde2934d4c0a2747",
                 "reference": "df4463baa9f44fe6cf0a6da4fde2934d4c0a2747",
@@ -885,16 +885,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/piwik-php-tracker.git",
-                "reference": "41dd1c03a5c324e3791b9ca82c092337dc3a0cdf"
+                "reference": "5f435290eb8a82b14630882c6e52520eef13f883"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/41dd1c03a5c324e3791b9ca82c092337dc3a0cdf",
-                "reference": "41dd1c03a5c324e3791b9ca82c092337dc3a0cdf",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/5f435290eb8a82b14630882c6e52520eef13f883",
+                "reference": "5f435290eb8a82b14630882c6e52520eef13f883",
                 "shasum": ""
             },
             "type": "library",
@@ -921,20 +921,20 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2016-12-27 09:41:03"
+            "time": "2017-02-18 09:41:30"
         },
         {
             "name": "piwik/referrer-spam-blacklist",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/referrer-spam-blacklist.git",
-                "reference": "bf001c4e2bba063d5f13e714047c4822a975371a"
+                "reference": "0f2c50d94def37f66e389e04f809741cbac2d7cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/bf001c4e2bba063d5f13e714047c4822a975371a",
-                "reference": "bf001c4e2bba063d5f13e714047c4822a975371a",
+                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/0f2c50d94def37f66e389e04f809741cbac2d7cd",
+                "reference": "0f2c50d94def37f66e389e04f809741cbac2d7cd",
                 "shasum": ""
             },
             "type": "library",
@@ -943,20 +943,20 @@
                 "Public Domain"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2017-01-03 21:55:42"
+            "time": "2017-02-27 16:54:54"
         },
         {
             "name": "piwik/searchengine-and-social-list",
-            "version": "1.3.5",
+            "version": "1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/searchengine-and-social-list.git",
-                "reference": "8302a7414bd48f44916bd4858859607838ac2526"
+                "reference": "2d9efdabd2133ffdef0b607999b49ba59491cc43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/8302a7414bd48f44916bd4858859607838ac2526",
-                "reference": "8302a7414bd48f44916bd4858859607838ac2526",
+                "url": "https://api.github.com/repos/piwik/searchengine-and-social-list/zipball/2d9efdabd2133ffdef0b607999b49ba59491cc43",
+                "reference": "2d9efdabd2133ffdef0b607999b49ba59491cc43",
                 "shasum": ""
             },
             "type": "library",
@@ -965,7 +965,7 @@
                 "Public Domain"
             ],
             "description": "Search engine and social network definitions used by Piwik",
-            "time": "2016-11-09 20:36:59"
+            "time": "2017-02-28 16:33:02"
         },
         {
             "name": "psr/log",
@@ -1502,7 +1502,7 @@
             "description": "XHProf: A Hierarchical Profiler for PHP",
             "homepage": "http://pecl.php.net/package/xhprof",
             "keywords": [
-                "performance",
+                "performance", 
                 "profiling"
             ],
             "time": "2015-02-26 14:37:51"
