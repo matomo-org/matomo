@@ -1502,7 +1502,7 @@
             "description": "XHProf: A Hierarchical Profiler for PHP",
             "homepage": "http://pecl.php.net/package/xhprof",
             "keywords": [
-                "performance",
+                "performance", 
                 "profiling"
             ],
             "time": "2015-02-26 14:37:51"
