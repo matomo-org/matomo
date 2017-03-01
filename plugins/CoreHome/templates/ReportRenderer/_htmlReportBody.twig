@@ -46,10 +46,10 @@
                 {% else %}
                     {% set rowMetadata=null %}
                 {% endif %}
-                <tr style="{{ cycle(cycleValues, cycleIndex) }};{{styleTableCell}}">
+                <tr style="{{ cycle(cycleValues, cycleIndex) }};">
                     {% set cycleIndex=cycleIndex+1 %}
                     {% for columnId, columnName in reportColumns %}
-                        <td style="padding:17px 15px;{% if columnId == 'label' %}{%  else %} text-align:right;{% endif %}">
+                        <td style="padding:17px 15px;{% if columnId == 'label' %}{%  else %} text-align:right;{% endif %};{{styleTableCell}}">
                             {% if columnId == 'label' %}
                                 {% if rowMetrics[columnId] is defined %}
                                     {% if rowMetadata.logo is defined %}
