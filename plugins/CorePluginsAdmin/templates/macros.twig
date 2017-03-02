@@ -76,7 +76,8 @@
             <strong>{{ 'CorePluginsAdmin_Origin'|translate }}</strong>
             <a data-filter-origin="all" href="#" class="active">{{ 'General_All'|translate }}<span class="counter"></span></a> |
             <a data-filter-origin="core" href="#">{{ 'CorePluginsAdmin_OriginCore'|translate }}<span class="counter"></span></a> |
-            <a data-filter-origin="noncore" href="#">{{ 'CorePluginsAdmin_OriginThirdParty'|translate }}<span class="counter"></span></a>
+            <a data-filter-origin="official" href="#">{{ 'CorePluginsAdmin_OriginOfficial'|translate }}<span class="counter"></span></a> |
+            <a data-filter-origin="thirdparty" href="#">{{ 'CorePluginsAdmin_OriginThirdParty'|translate }}<span class="counter"></span></a>
         </span>
 
         <span class="status">
@@ -114,7 +115,7 @@
         {% for name,plugin in pluginsInfo %}
             {% set isDefaultTheme = isTheme and name == 'Morpheus' %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
-                <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
+                <tr {% if plugin.activated %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-origin="{% if plugin.isCorePlugin %}core{% elseif plugin.isOfficialPlugin %}official{% else %}thirdparty{% endif %}">
                     <td class="name">
                         <a name="{{ name|e('html_attr') }}"></a>
                         {% if not plugin.isCorePlugin and name in marketplacePluginNames -%}
