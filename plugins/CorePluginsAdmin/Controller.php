@@ -88,6 +88,10 @@ class Controller extends Plugin\ControllerAdmin
         static::dieIfPluginsAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
 
+        if (!CorePluginsAdmin::isPluginUploadEnabled()) {
+            throw new \Exception('Plugin upload disabled by config');
+        }
+
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce(MarketplaceController::INSTALL_NONCE, $nonce)) {

@@ -31,6 +31,7 @@
             <div class="ui-confirm" id="installPluginByUpload">
                 <h2>{{ 'Marketplace_TeaserExtendPiwikByUpload'|translate }}</h2>
 
+                {% if isPluginUploadEnabled %}
                 <p class="description"> {{ 'Marketplace_AllowedUploadFormats'|translate }} </p>
 
                 <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
@@ -39,6 +40,10 @@
                     <br />
                     <input class="startUpload btn" type="submit" value="{{ 'Marketplace_UploadZipFile'|translate }}">
                 </form>
+                {% else %}
+                    <p class="description"> {{ 'Marketplace_PluginUploadDisabled'|translate|raw }} </p>
+                    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+                {% endif %}
             </div>
 
             <div class="row marketplaceActions" ng-controller="PiwikMarketplaceController as marketplace">
