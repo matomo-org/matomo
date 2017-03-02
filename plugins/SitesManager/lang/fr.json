@@ -71,7 +71,7 @@
         "SiteWithoutDataDescription": "Aucune donnée d'analyse n'a été enregistrée pour ce site pour le moment.",
         "SiteWithoutDataSetupTracking": "Veuillez configurer le %1$scode de suivit JavaScript%2$s sur votre site web si vous ne l'avez pas déjà fait.",
         "SiteWithoutDataMessageDisappears": "Ce message disparaitra dès lors que certaines données auront été enregistrées pour ce site web.",
-        "SiteWithoutDataSetupGoals": "Pendant ce temps, peut être voudriez vous %1$sdéfinir des objectifs%2$s.",
+        "SiteWithoutDataSetupGoals": "Pendant ce temps, peut-être voudriez-vous %1$sdéfinir des objectifs%2$s.",
         "SuperUserAccessCan": "Un utilisateur avec un accès super utilisateur peut aussi %1$sconfigurer les paramètres globaux%2$s pour les nouveaux sites web.",
         "Timezone": "Fuseau horaire",
         "TrackingSiteSearch": "Suivi de la recherche interne sur le site",
