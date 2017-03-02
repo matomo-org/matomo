@@ -42,6 +42,8 @@
                 </form>
                 {% else %}
                     <p class="description"> {{ 'Marketplace_PluginUploadDisabled'|translate|raw }} </p>
+                    <pre>[General]
+enable_plugin_upload = 1</pre>
                     <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
                 {% endif %}
             </div>
