@@ -227,7 +227,7 @@ class Controller extends Plugin\ControllerAdmin
 
             if (isset($plugin['info']) && isset($plugin['info']['authors'])) {
                 foreach ($plugin['info']['authors'] as $author) {
-                    if ($author['name'] == 'Piwik' || $author['name'] == 'InnoCraft') {
+                    if (in_array(strtolower($author['name']), array('piwik', 'innocraft'))) {
                         $plugin['isOfficialPlugin'] = true;
                         break;
                     }
