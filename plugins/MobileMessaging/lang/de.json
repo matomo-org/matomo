@@ -13,6 +13,7 @@
         "Settings_CredentialNotProvided": "Bevor Sie Telefonnummern erstellen und verwalten können, verbinden Sie bitte Piwik mit Ihrem SMS Konto oberhalb.",
         "Settings_CredentialNotProvidedByAdmin": "Bevor Sie Telefonnummern anlegen und verwalten können, bitten Sie Ihren Administrator darum Piwik mit einem SMS-Account zu verknüpfen.",
         "Settings_CredentialProvided": "Ihr %s SMS-API Zugang ist korrekt konfiguriert.",
+        "Settings_CredentialInvalid": "Ihr %1$s SMS API Account ist konfiguriert, jedoch ist ein Fehler beim Abrufen des verfügbaren Guthabens aufgetreten.",
         "Settings_DeleteAccountConfirm": "Sind Sie sicher, dass Sie das SMS Konto löschen möchten?",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Der eingestellte SMS-Provider wird nur von Ihnen und nicht von anderen Benutzern verwendet.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Die eingestellten Telefonnummern können nur von Ihnen und nicht von anderen Benutzern gesehen und verwendet werden.",
@@ -38,6 +39,7 @@
         "Settings_VerificationCodeJustSent": "Wir haben Ihnen eine SMS mit einem Code an diese Nummer geschickt: Bitte geben Sie diesen Code unterhalb ein und klicken auf \"Validieren\".",
         "SettingsMenu": "Mobile Messaging",
         "SMS_Content_Too_Long": "[zu lang]",
+        "Available_Credits": "Verfügbares Guthaben: %1$s",
         "TopLinkTooltip": "Erhalten Sie Webanalytik Berichte direkt in Ihren E-Mail Posteingang oder auf Ihr Mobiltelefon!",
         "TopMenu": "E-Mail & SMS Berichte",
         "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Piwik SMS Berichte zu erhalten kopieren Sie bitte diesen Code in das Formular unter Piwik > %2$s > %3$s."

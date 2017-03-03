@@ -234,6 +234,13 @@ abstract class Action
         $this->customFields[$field] = $value;
     }
 
+    public function getCustomField($field)
+    {
+        if (isset($this->customFields[$field])) {
+            return $this->customFields[$field];
+        }
+    }
+
     public function getCustomFields()
     {
         return $this->customFields;

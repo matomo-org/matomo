@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UserCountry;
 
 use Exception;
 use Piwik\Archive;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -162,6 +163,24 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
 
         return $dataTable;
+    }
+
+    /**
+     * Returns a simple mapping from country code to country name
+     *
+     * @return \string[]
+     */
+    public function getCountryCodeMapping()
+    {
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+
+        $countryCodeList = $regionDataProvider->getCountryList();
+
+        array_walk($countryCodeList, function(&$item, $key) {
+            $item = Piwik::translate('Intl_Country_'.strtoupper($key));
+        });
+
+        return $countryCodeList;
     }
 
     /**

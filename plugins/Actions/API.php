@@ -222,7 +222,7 @@ class API extends \Piwik\Plugin\API
     public function getDownloads($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
         $dataTable = Archive::createDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
-        $this->filterActionsDataTable($dataTable, $expanded);
+        $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
 
@@ -237,7 +237,7 @@ class API extends \Piwik\Plugin\API
     public function getOutlinks($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
         $dataTable = Archive::createDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
-        $this->filterActionsDataTable($dataTable, $expanded);
+        $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
 

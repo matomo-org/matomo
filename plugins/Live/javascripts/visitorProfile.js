@@ -73,6 +73,9 @@
 
             $element.on('click', '.visitor-profile-close', function (e) {
                 e.preventDefault();
+                try {
+                    $element.tooltip('destroy');
+                } catch (e) {}
                 Piwik_Popover.close();
                 return false;
             });
