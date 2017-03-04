@@ -84,6 +84,7 @@
         "SystemCheckGlobHelp": "This built-in function has been disabled on your host. Piwik will attempt to emulate this function but may encounter further security restrictions. Functionality may be impacted.",
         "SystemCheckGzcompressHelp": "You need to enable the zlib extension and gzcompress function.",
         "SystemCheckGzuncompressHelp": "You need to enable the zlib extension and gzuncompress function.",
+        "SystemCheckHashHelp": "You need to configure and rebuild PHP with hash() support enabled by excluding the option --disable-hash.",
         "SystemCheckIconvHelp": "You need to configure and rebuild PHP with \"iconv\" support enabled, --with-iconv.",
         "SystemCheckJsonHelp": "The php5-json extension is required for Piwik to read and write JSON data.",
         "SystemCheckMailHelp": "Feedback and Lost Password messages will not be sent without mail().",
