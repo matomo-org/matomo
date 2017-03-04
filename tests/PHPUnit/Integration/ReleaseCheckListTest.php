@@ -61,7 +61,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $files = array_filter($files, function($value) { return !preg_match('/favicon.ico/', $value); });
 
         // filter source files for icon creation as they can be favicons
-        $files = array_filter($files, function($value) { return !preg_match('/icons/src/', $value); });
+        $files = array_filter($files, function($value) { return !preg_match('~icons/src~', $value); });
 
         $this->checkFilesAreInPngFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.ico');
@@ -741,7 +741,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*');
 
         // ignore icon source files as they are large, but not included in the final package
-        $files = array_filter($files, function($value) { return !preg_match('/icons/src/', $value); });
+        $files = array_filter($files, function($value) { return !preg_match('~icons/src~', $value); });
 
         $filesizes = array();
         foreach ($files as $file) {
