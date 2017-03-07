@@ -157,6 +157,13 @@
         };
 
         this.createGoal = function () {
+
+            var parameters = {isAllowed: true};
+            $rootScope.$emit('Goals.initAddGoal', parameters);
+            if (parameters && !parameters.isAllowed) {
+                return;
+            }
+
             this.showAddEditForm();
             initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
             scrollToTop();
