@@ -36,10 +36,10 @@
         {{ feedbackHelp|raw }}
     {% endif %}
 
-    {% if hasPremiumFeatures and isMarketplaceEnabled %}
+    {% if hasPremiumFeatures and isMarketplaceEnabled and isInternetEnabled %}
         <div piwik-widget-loader='{"module":"Marketplace","action":"getPremiumFeatures"}'></div>
     {% endif %}
-    {% if hasNewPlugins and isMarketplaceEnabled %}
+    {% if hasNewPlugins and isMarketplaceEnabled and isInternetEnabled %}
         <div piwik-widget-loader='{"module":"Marketplace","action":"getNewPlugins", "isAdminPage": "1"}'></div>
     {% endif %}
 
