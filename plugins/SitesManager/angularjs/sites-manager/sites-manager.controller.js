@@ -195,7 +195,7 @@
 
         var addSite = function(type) {
 
-            var parameters = {isAllowed: true};
+            var parameters = {isAllowed: true, measurableType: type};
             $rootScope.$emit('SitesManager.initAddSite', parameters);
             if (parameters && !parameters.isAllowed) {
                 return;
