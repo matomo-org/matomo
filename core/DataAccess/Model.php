@@ -304,10 +304,11 @@ class Model
     {
         // duplicate idarchives are Ignored, see https://github.com/piwik/piwik/issues/987
         $query = "INSERT IGNORE INTO " . $tableName . " (" . implode(", ", $fields) . ")
-                  VALUES (?,?,?,?,?,?,?,?)";
+                  VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE " . end($fields) . " = ?";
 
         $bindSql   = $record;
         $bindSql[] = $name;
+        $bindSql[] = $value;
         $bindSql[] = $value;
 
         Db::query($query, $bindSql);
