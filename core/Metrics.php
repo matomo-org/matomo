@@ -369,7 +369,7 @@ class Metrics
 
     public static function getMetricIdsToProcessReportTotal()
     {
-        return array(
+        $metrics = array(
             self::INDEX_NB_VISITS,
             self::INDEX_NB_UNIQ_VISITORS,
             self::INDEX_NB_ACTIONS,
@@ -384,6 +384,10 @@ class Metrics
             self::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
             self::INDEX_REVENUE
         );
+
+        Piwik::postEvent('Metrics.getMetricIdsToProcessReportTotal', array(&$metrics));
+
+        return $metrics;
     }
 
     public static function getDefaultMetricsDocumentation()
