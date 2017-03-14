@@ -25,7 +25,7 @@
 
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.requestErrorDiv(emailSuperUser|default(''), areAdsForProfessionalServicesEnabled, currentModule) }}
-    {{ postEvent("Template.beforeContent", "admin", currentModule) }}
+    {{ postEvent("Template.beforeContent", "admin", currentModule, currentAction) }}
 
     <div class="page">
 
