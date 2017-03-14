@@ -98,6 +98,14 @@ PageRenderer.prototype.mouseup = function (selector, waitTime) {
     this.queuedEvents.push([this._mouseup, waitTime, selector]);
 };
 
+PageRenderer.prototype.selectFrame = function (frameNameOrPosition, waitTime) {
+    this.queuedEvents.push([this._selectFrame, waitTime, frameNameOrPosition]);
+};
+
+PageRenderer.prototype.selectMainFrame = function (waitTime) {
+    this.queuedEvents.push([this._selectMainFrame, waitTime]);
+};
+
 PageRenderer.prototype.reload = function (waitTime) {
     this.queuedEvents.push([this._reload, waitTime]);
 };
@@ -224,6 +232,18 @@ PageRenderer.prototype._mouseup = function (selector, callback) {
     var position = this._getPosition(selector);
     this.webpage.sendEvent('mouseup', position.x, position.y);
 
+    callback();
+};
+
+PageRenderer.prototype._selectFrame = function (frameNameOrPosition, callback) {
+    this.webpage.switchToFrame(frameNameOrPosition);
+    this.wait(100);
+    callback();
+};
+
+PageRenderer.prototype._selectMainFrame = function (callback) {
+    this.webpage.switchToMainFrame();
+    this.wait(100);
     callback();
 };
 
