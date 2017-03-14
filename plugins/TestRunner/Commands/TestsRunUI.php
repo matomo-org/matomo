@@ -38,13 +38,14 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('screenshot-repo', null, InputOption::VALUE_NONE, "For tests");
         $this->addOption('store-in-ui-tests-repo', null, InputOption::VALUE_NONE, "For tests");
         $this->addOption('debug', null, InputOption::VALUE_NONE, "Enable phantomjs debugging");
+        $this->addOption('ignore-ssl-errors', null, InputOption::VALUE_NONE, "Tells PhantomJS to ignores SSL errors, eg self-signed or expired certificate errors");
         $this->addOption('extra-options', null, InputOption::VALUE_REQUIRED, "Extra options to pass to phantomjs.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $specs = $input->getArgument('specs');
-        $persistFixtureData = $input->getOption("persist-fixture-data");
+        $persistFixtureData = $input->getOption('persist-fixture-data');
         $keepSymlinks = $input->getOption('keep-symlinks');
         $printLogs = $input->getOption('print-logs');
         $drop = $input->getOption('drop');
@@ -55,6 +56,7 @@ class TestsRunUI extends ConsoleCommand
         $extraOptions = $input->getOption('extra-options');
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
+        $ignoreSslErrors = $input->getOption('ignore-ssl-errors');
         $debug = $input->getOption('debug');
 
         if (!$skipDeleteAssets) {
@@ -103,6 +105,10 @@ class TestsRunUI extends ConsoleCommand
 
         if ($debug) {
             $phantomJsOptions[] = "--debug=true";
+        }
+
+        if ($ignoreSslErrors) {
+            $phantomJsOptions[] = "--ignore-ssl-errors=true";
         }
 
         if ($extraOptions) {
