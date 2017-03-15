@@ -237,19 +237,27 @@ PageRenderer.prototype._mouseup = function (selector, callback) {
 };
 
 PageRenderer.prototype._selectFrame = function (frameNameOrPosition, callback) {
-    this.frameOffset = this.webpage.evaluate(function (frameName) {
-        // todo eventually we should also try to find frame by position
-        var frame = window.jQuery('iframe[name=' + frameName + ']');
+    if (!this.frameOffset) {
+        // case when selecting a frame within a frame is currently not supported
+        // and we'd need to make sure to not use jQuery in that case as it is likely not available in that frame
+        // within the frame :)
+        this.frameOffset = this.webpage.evaluate(function (frameName) {
+            if ('undefined' === typeof window.jQuery) {
+                return null;
+            }
+            // todo eventually we should also try to find frame by position
+            var frame = window.jQuery('iframe[name=' + frameName + ']');
 
-        if (!frame.size()) {
-            frame = window.jQuery('iframe[id=' + frameName + ']');
-        }
-        if (frame.size()) {
-            return frame.offset();
-        }
+            if (!frame.size()) {
+                frame = window.jQuery('iframe[id=' + frameName + ']');
+            }
+            if (frame.size()) {
+                return frame.offset();
+            }
 
-        return null;
-    }, frameNameOrPosition);
+            return null;
+        }, frameNameOrPosition);
+    }
 
     this.webpage.switchToFrame(frameNameOrPosition);
     this.wait(100);
