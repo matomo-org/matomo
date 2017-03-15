@@ -37,11 +37,17 @@ class Promo
                 'url' => 'https://piwik.org/recommends/media-analytics-website',
                 'text' => 'Ever wondered how people interact and engage with videos or audios on your website? Well now you can, and it integrates perfectly into your Piwik.',
             ),
-
             array(
                 'campaignContent' => 'mediaAnalytics',
                 'url' => 'https://piwik.org/recommends/media-analytics',
                 'text' => 'Get powerful insights into how your audience watches your videos and listens to your audio. Media Analytics is now available on the Marketplace.',
+            ),
+
+            // Form
+            array(
+                'campaignContent' => 'formAnalytics',
+                'url' => 'https://piwik.org/recommends/form-analytics',
+                'text' => 'Increase the conversions on your online forms, by learning everything about your users behavior and their pain points on your forms',
             ),
 
             // Funnels
@@ -57,12 +63,19 @@ class Promo
                 'url' => 'https://piwik.org/training/?pk_campaign=' . Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES . '&pk_source=Piwik_App',
                 'text' => 'Want to know how to use all the exciting features in Piwik? Try a User training to be up to speed with working with Piwik.'
             ),
+            // Keywords performance
+            array(
+                'campaignContent' => 'searchKeywords',
+                'url' => 'https://piwik.org/recommends/search-keywords-performance/',
+                'text' => 'Which queries caused your website to appear in search results? Improve your SEO efforts and monitor your position and performance for each Keyword directly in your Piwik reports.',
+            ),
             // Roll-Up Reporting
             array(
                 'campaignContent' => 'rollUp',
                 'url' => 'https://piwik.org/recommends/roll-up-reporting/',
                 'text' => 'Did you know you can aggregate the collected data across hundreds of sites and display it in a single dashboard?',
             ),
+            // White label
             array(
                 'campaignContent' => 'whiteLabel',
                 'url' => 'https://piwik.org/recommends/white-label/',
