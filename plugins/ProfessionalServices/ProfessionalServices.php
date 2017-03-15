@@ -24,6 +24,7 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
+            'Template.afterReferrersKeywordsReport' => 'getSearchKeywordsPerformancePromo',
         );
     }
 
@@ -56,6 +57,22 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         $isWidget = Common::getRequestVar('widget', 0, 'int');
         return $isWidget;
+    }
+
+    public function getSearchKeywordsPerformancePromo(&$out)
+    {
+        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('SearchEngineKeywordsPerformance')
+            || $this->isRequestForDashboardWidget()) {
+            return;
+        }
+
+        $out .= '
+            <p style="margin-top:3em;margin-bottom:3em" class=" alert-info alert">Did you know?<br/>
+                Use <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/search-keywords-performance/">Search Keywords Performance</a>
+                to see all keywords behind \'keyword not defined\'.
+                All keywords searched by your users on Google, Bing and other search engines will be listed
+                 and you can even monitor the SEO position of your website in their search results.
+            </p>';
     }
 
     public function getGoalFunnelOverviewPromo(&$out)
