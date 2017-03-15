@@ -57,41 +57,33 @@ class Promo
                 'url' => 'https://piwik.org/training/?pk_campaign=' . Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES . '&pk_source=Piwik_App',
                 'text' => 'Want to know how to use all the exciting features in Piwik? Try a User training to be up to speed with working with Piwik.'
             ),
-
-
-
-            // Piwik PRO
-            // https://piwik.org/recommends/piwik-pro-from-app
+            // Roll-Up Reporting
             array(
-                'campaignContent' => 'discoverPower',
-                'url' => 'https://piwik.org/recommends/piwik-pro-from-app',
-                'text' => 'Discover the power of open-source combined with enterprise-grade support and premium functionalities.'
-            ),
-            array(
-                'campaignContent' => 'bringEnterpriseLevel',
-                'url' => 'https://piwik.org/recommends/piwik-pro-from-app',
-                'text' => 'Bring your analytics to enterprise level. Upgrade your Piwik platform and receive access to numerous premium features and assistance from experts.'
-            ),
-            array(
-                'campaignContent' => 'monitoringAndIncident',
-                'url' => 'https://piwik.org/recommends/piwik-pro-from-app',
-                'text' => 'Do you need 24/7 Monitoring and Incident Handling for your Piwik? Get Premium features and enterprise-grade support.'
-            ),
-            array(
-                'campaignContent' => 'slowingDown',
-                'url' => 'https://piwik.org/recommends/piwik-pro-from-app',
-                'text' => 'Is your Piwik slowing down? Piwik experts can help with your server setup!'
+                'campaignContent' => 'rollUp',
+                'url' => 'https://piwik.org/recommends/roll-up-reporting/',
+                'text' => 'Did you know you can aggregate the collected data across hundreds of sites and display it in a single dashboard?',
             ),
             array(
                 'campaignContent' => 'whiteLabel',
-                'url' => 'https://piwik.org/recommends/piwik-pro-from-app',
-                'text' => 'Did you know you can adjust the look and feel of Piwik to your brand, and even replace "Piwik" with your product name? Try the White Label product!',
+                'url' => 'https://piwik.org/recommends/white-label/',
+                'text' => 'Did you know you can give your clients access to their analytics reports where all Piwik-branded widgets are removed? Try the White Label product!',
+            ),
+            // Enterprise
+            array(
+                'campaignContent' => 'bringEnterpriseLevel',
+                'url' => 'https://piwik.org/recommends/enterprise/',
+                'text' => 'Bring your analytics to enterprise level. Upgrade your Piwik platform and receive access to numerous premium features and assistance from experts.'
             ),
             array(
-                'campaignContent' => 'metaSites',
-                'url' => 'https://piwik.org/recommends/piwik-pro-from-app',
-                'text' => 'Did you know you can aggregate the collected data across hundreds of sites and display it in a single dashboard? Get Premium features and enterprise-grade support.',
-            )
+                'campaignContent' => 'slowingDown',
+                'url' => 'https://piwik.org/recommends/enterprise/',
+                'text' => 'Is your Piwik slowing down? Piwik experts can help with your server setup!'
+            ),
+            array(
+                'campaignContent' => 'discoverPower',
+                'url' => 'https://piwik.org/recommends/enterprise/',
+                'text' => 'Discover the power of open-source combined with enterprise-grade support and premium functionalities.'
+            ),
         );
     }
 
