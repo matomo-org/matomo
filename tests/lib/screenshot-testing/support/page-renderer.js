@@ -19,6 +19,7 @@ var PageRenderer = function (baseUrl) {
     this.aborted = false;
     this.baseUrl = baseUrl;
     this.currentFrame = null;
+    this.frameOffset = null;
 
     this.defaultWaitTime = 1000;
     this._isLoading = false;
@@ -236,12 +237,27 @@ PageRenderer.prototype._mouseup = function (selector, callback) {
 };
 
 PageRenderer.prototype._selectFrame = function (frameNameOrPosition, callback) {
+    this.frameOffset = this.webpage.evaluate(function (frameName) {
+        // todo eventually we should also try to find frame by position
+        var frame = window.jQuery('iframe[name=' + frameName + ']');
+
+        if (!frame.size()) {
+            frame = window.jQuery('iframe[id=' + frameName + ']');
+        }
+        if (frame.size()) {
+            return frame.offset();
+        }
+
+        return null;
+    }, frameNameOrPosition);
+
     this.webpage.switchToFrame(frameNameOrPosition);
     this.wait(100);
     callback();
 };
 
 PageRenderer.prototype._selectMainFrame = function (callback) {
+    this.frameOffset = null;
     this.webpage.switchToMainFrame();
     this.wait(100);
     callback();
@@ -337,7 +353,9 @@ PageRenderer.prototype._getPosition = function (selector) {
         return selector;
     }
 
-    var pos = this.webpage.evaluate(function (selector) {
+    var self = this;
+
+    var pos = this.webpage.evaluate(function (selector, frameOffset) {
         var element = window.jQuery(selector),
             offset = element.offset();
 
@@ -351,11 +369,20 @@ PageRenderer.prototype._getPosition = function (selector) {
             return null;
         }
 
+        if (frameOffset) {
+            if (frameOffset.top) {
+                offset.top += frameOffset.top;
+            }
+            if (frameOffset.left) {
+                offset.left += frameOffset.left;
+            }
+        }
+
         return {
             x: offset.left + element.width() / 2,
             y: offset.top + element.height() / 2
         };
-    }, selector);
+    }, selector, self.frameOffset);
 
     return pos;
 };
