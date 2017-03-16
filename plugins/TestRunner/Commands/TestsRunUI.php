@@ -38,7 +38,6 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('screenshot-repo', null, InputOption::VALUE_NONE, "For tests");
         $this->addOption('store-in-ui-tests-repo', null, InputOption::VALUE_NONE, "For tests");
         $this->addOption('debug', null, InputOption::VALUE_NONE, "Enable phantomjs debugging");
-        $this->addOption('ignore-ssl-errors', null, InputOption::VALUE_NONE, "Tells PhantomJS to ignores SSL errors, eg self-signed or expired certificate errors");
         $this->addOption('extra-options', null, InputOption::VALUE_REQUIRED, "Extra options to pass to phantomjs.");
     }
 
@@ -56,7 +55,6 @@ class TestsRunUI extends ConsoleCommand
         $extraOptions = $input->getOption('extra-options');
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
-        $ignoreSslErrors = $input->getOption('ignore-ssl-errors');
         $debug = $input->getOption('debug');
 
         if (!$skipDeleteAssets) {
@@ -107,9 +105,7 @@ class TestsRunUI extends ConsoleCommand
             $phantomJsOptions[] = "--debug=true";
         }
 
-        if ($ignoreSslErrors) {
-            $phantomJsOptions[] = "--ignore-ssl-errors=true";
-        }
+        $phantomJsOptions[] = "--ignore-ssl-errors=true";
 
         if ($extraOptions) {
             $options[] = $extraOptions;
