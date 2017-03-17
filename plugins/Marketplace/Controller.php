@@ -271,6 +271,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
         $view->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
+        $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
 
         return $view->render();
     }
