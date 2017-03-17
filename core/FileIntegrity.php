@@ -74,6 +74,7 @@ class FileIntegrity
             'misc/package',
             'misc/package/WebAppGallery/*.xml',
             'misc/package/WebAppGallery/install.sql',
+            'plugins/ImageGraph/fonts/unifont.ttf',
             'vendor/autoload.php',
             'vendor/composer/autoload_real.php',
             'tmp/*',
