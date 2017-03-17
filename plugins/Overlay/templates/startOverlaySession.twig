@@ -8,20 +8,19 @@
         }
     }
 
-    function removeUrlPrefix(url) {
-        return url.replace(/http(s)?:\/\/(www\.)?/i, "");
-    }
-
     if (window.location.hash) {
         var match = false;
+        var parser = document.createElement('a');
 
         var urlToRedirect = window.location.hash.substr(1);
-        var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
+        parser.href = urlToRedirect;
+        var hostToRedirect = parser.hostname;
 
         var knownUrls = {{ knownUrls|raw }};
         for (var i = 0; i < knownUrls.length; i++) {
-            var testUrl = removeUrlPrefix(knownUrls[i]);
-            if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
+            parser.href = knownUrls[i];
+            var testHost = parser.hostname;
+            if (hostToRedirect == testHost) {
                 match = true;
                 if (navigator.appName == "Microsoft Internet Explorer") {
                     // internet explorer loses the referrer if we use window.location.href=X
