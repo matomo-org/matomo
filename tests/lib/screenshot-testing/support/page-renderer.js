@@ -437,6 +437,10 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         }
 
         var result = page.evaluate(function(selector) {
+            if ('undefined' === typeof $ && 'undefined' !== typeof window.jQuery) {
+                var $ = window.jQuery;
+            }
+
             var docWidth = $(document).width(),
                 docHeight = $(document).height();
 
