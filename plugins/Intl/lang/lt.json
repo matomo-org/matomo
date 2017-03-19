@@ -302,7 +302,7 @@
         "EnglishLanguageName": "Lithuanian",
         "Format_DateTime_Long": "y 'm'. MMMM d 'd'., EEEE {time}",
         "Format_DateTime_Short": "y-MM-dd {time}",
-        "Format_Date_Day_Month": "MM-dd, E",
+        "Format_Date_Day_Month": "y-MM-dd, E",
         "Format_Date_Long": "y 'm'. MMMM d 'd'., EEEE",
         "Format_Date_Short": "y-MM-dd",
         "Format_Interval_Long_D": "y MMMM d–d",

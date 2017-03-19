@@ -302,7 +302,7 @@
         "EnglishLanguageName": "Russian",
         "Format_DateTime_Long": "EEEE, d MMMM y 'г'. {time}",
         "Format_DateTime_Short": "d MMM y 'г'. {time}",
-        "Format_Date_Day_Month": "ccc, d MMM",
+        "Format_Date_Day_Month": "E, d MMM y 'г'.",
         "Format_Date_Long": "EEEE, d MMMM y 'г'.",
         "Format_Date_Short": "d MMM y 'г'.",
         "Format_Interval_Long_D": "d–d MMMM y 'г'.",
