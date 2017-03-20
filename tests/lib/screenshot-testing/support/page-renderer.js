@@ -19,6 +19,7 @@ var PageRenderer = function (baseUrl) {
     this.aborted = false;
     this.baseUrl = baseUrl;
     this.currentFrame = null;
+    this.frameOffset = null;
 
     this.defaultWaitTime = 1000;
     this._isLoading = false;
@@ -96,6 +97,14 @@ PageRenderer.prototype.mousedown = function (selector, waitTime) {
 
 PageRenderer.prototype.mouseup = function (selector, waitTime) {
     this.queuedEvents.push([this._mouseup, waitTime, selector]);
+};
+
+PageRenderer.prototype.selectFrame = function (frameNameOrPosition, waitTime) {
+    this.queuedEvents.push([this._selectFrame, waitTime, frameNameOrPosition]);
+};
+
+PageRenderer.prototype.selectMainFrame = function (waitTime) {
+    this.queuedEvents.push([this._selectMainFrame, waitTime]);
 };
 
 PageRenderer.prototype.reload = function (waitTime) {
@@ -227,6 +236,41 @@ PageRenderer.prototype._mouseup = function (selector, callback) {
     callback();
 };
 
+PageRenderer.prototype._selectFrame = function (frameNameOrPosition, callback) {
+    if (!this.frameOffset) {
+        // case when selecting a frame within a frame is currently not supported
+        // and we'd need to make sure to not use jQuery in that case as it is likely not available in that frame
+        // within the frame :)
+        this.frameOffset = this.webpage.evaluate(function (frameName) {
+            if ('undefined' === typeof window.jQuery) {
+                return null;
+            }
+            // todo eventually we should also try to find frame by position
+            var frame = window.jQuery('iframe[name=' + frameName + ']');
+
+            if (!frame.size()) {
+                frame = window.jQuery('iframe[id=' + frameName + ']');
+            }
+            if (frame.size()) {
+                return frame.offset();
+            }
+
+            return null;
+        }, frameNameOrPosition);
+    }
+
+    this.webpage.switchToFrame(frameNameOrPosition);
+    this.wait(100);
+    callback();
+};
+
+PageRenderer.prototype._selectMainFrame = function (callback) {
+    this.frameOffset = null;
+    this.webpage.switchToMainFrame();
+    this.wait(100);
+    callback();
+};
+
 PageRenderer.prototype._reload = function (callback) {
     this.webpage.reload();
 
@@ -317,7 +361,9 @@ PageRenderer.prototype._getPosition = function (selector) {
         return selector;
     }
 
-    var pos = this.webpage.evaluate(function (selector) {
+    var self = this;
+
+    var pos = this.webpage.evaluate(function (selector, frameOffset) {
         var element = window.jQuery(selector),
             offset = element.offset();
 
@@ -331,11 +377,20 @@ PageRenderer.prototype._getPosition = function (selector) {
             return null;
         }
 
+        if (frameOffset) {
+            if (frameOffset.top) {
+                offset.top += frameOffset.top;
+            }
+            if (frameOffset.left) {
+                offset.left += frameOffset.left;
+            }
+        }
+
         return {
             x: offset.left + element.width() / 2,
             y: offset.top + element.height() / 2
         };
-    }, selector);
+    }, selector, self.frameOffset);
 
     return pos;
 };
@@ -382,6 +437,10 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         }
 
         var result = page.evaluate(function(selector) {
+            if ('undefined' === typeof $ && 'undefined' !== typeof window.jQuery) {
+                var $ = window.jQuery;
+            }
+
             var docWidth = $(document).width(),
                 docHeight = $(document).height();
 
