@@ -437,6 +437,8 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         }
 
         var result = page.evaluate(function(selector) {
+            window.jQuery('html').addClass('uiTest');
+
             if ('undefined' === typeof $ && 'undefined' !== typeof window.jQuery) {
                 var $ = window.jQuery;
             }
