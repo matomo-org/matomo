@@ -439,12 +439,8 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         var result = page.evaluate(function(selector) {
             window.jQuery('html').addClass('uiTest');
 
-            if ('undefined' === typeof $ && 'undefined' !== typeof window.jQuery) {
-                var $ = window.jQuery;
-            }
-
-            var docWidth = $(document).width(),
-                docHeight = $(document).height();
+            var docWidth = window.jQuery(document).width(),
+                docHeight = window.jQuery(document).height();
 
             function isInvalidBoundingRect (rect) {
                 return !rect.width || !rect.height
