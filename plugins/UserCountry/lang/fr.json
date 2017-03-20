@@ -24,7 +24,7 @@
         "DistinctCountries": "%s pays différents",
         "DownloadingDb": "Téléchargement de %s",
         "DownloadNewDatabasesEvery": "Mettre à jour les bases de données tous (toutes) les",
-        "FatalErrorDuringDownload": "Une erreur fatale est arrivée lors du téléchargement de ce fichier. Il y a peut être un problème avec votre connexion Internet, avec la base de données GeoIP que vous téléchargez ou avec Piwik. Essayez de la télécharger et de l'installer manuellement.",
+        "FatalErrorDuringDownload": "Une erreur fatale est arrivée lors du téléchargement de ce fichier. Il y a peut-être un problème avec votre connexion Internet, avec la base de données GeoIP que vous téléchargez ou avec Piwik. Essayez de la télécharger et de l'installer manuellement.",
         "FoundApacheModules": "Piwik a trouvé les modules Apache suivants",
         "FromDifferentCities": "villes différentes",
         "GeoIPCannotFindMbstringExtension": "Impossible de trouver la fonction %1$s. Veuillez vous assurer que l'extension %2$s est installée et chargée.",
