@@ -42,6 +42,7 @@
         "Available_Credits": "Krediti që zotëroni: %1$s",
         "TopLinkTooltip": "Merrni Raporte Analizash Web drejt e te email-i ose celulari juaj.",
         "TopMenu": "Raporte me Email & SMS",
+        "UserKey": "Kyç përdoruesi",
         "VerificationText": "Kodi është %1$s. Që të vleftësohet numri i telefonit tuaj dhe të merrni raporte Piwik me SMS, ju lutemi, kopjojeni këtë kot te formulari përkatës përmes Piwik-ut > %2$s > %3$s."
     }
 }

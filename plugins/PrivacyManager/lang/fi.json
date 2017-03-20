@@ -10,9 +10,9 @@
         "DBPurged": "Tietokannasta poistettiin vanhat tiedot.",
         "DeleteBothConfirm": "Olet ottamassa käyttöön sekä logien että raporttien poistamisen. Tämä poistaa peruuttamattomasti vanhat analytiikkatiedot. Haluatko varmasti tehdä tämän?",
         "DeleteDataDescription": "Voit säätää Piwikin poistamaan vanhat kävijätiedot ja\/tai luodut raportit, jotta tietokannan koko pysyy pienenä.",
-        "DeleteDataDescription2": "Voit valita, että etukäteen luodut raportit säilytetäänja ainoastaan käynnit, avatut sivut ja seurantalogit poistetaan. Tai raportit voidaan poistaa ja logit säilyttää.",
+        "DeleteDataDescription2": "Voit valita, että etukäteen luodut raportit säilytetään, ja ainoastaan käynnit, avatut sivut ja seurantalokit poistetaan. Vaihtoehtoisesti raportit voidaan poistaa ja lokit säilyttää.",
         "DeleteDataInterval": "Poista vanhat tiedot joka",
-        "DeleteOldVisitorLogs": "Poista vanhat kävijälogit",
+        "DeleteOldVisitorLogs": "Poista vanhat kävijälokit",
         "DeleteOldArchivedReports": "Poista arkistoidut raportit",
         "DeleteLogDescription2": "Kun lokeja poistetaan automaattisesti, sinun täytyy tarkistaa, että kaikki aikaisemmat päivittäiset raportit on prosessoitu, jotta tietoja ei häviä.",
         "DeleteLogInfo": "Lokit seuraavista tauluista poistetaan: %s",
@@ -60,8 +60,8 @@
         "TeaserHeadline": "Yksityisyysasetukset",
         "UseAnonymizedIpForVisitEnrichment": "Käytä piilotettuja IP-osoitteita myös käyntejä rikastettaessa.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Geopaikannusliitännäiset parantavat käyttäjien metadataa. Nämä liitännäiset käyttävät oletuksena piilotettuja IP-osoitteita. Jos valitset \"Ei\", käytetään täysiä, ei-piilotettuja IP-osoitteita. Tämä vähentää yksityisyyttä, mutta parantaa datan tarkkuutta.",
-        "UseAnonymizeIp": "Anonymisoi vierailijoiden IP-osoitteet",
-        "UseDeleteLog": "Poista säännöllisesti vanhat käyttäjien lokit tietokannasta",
+        "UseAnonymizeIp": "Anonymisoi kävijöiden IP-osoitteet",
+        "UseDeleteLog": "Poista säännöllisesti vanhat kävijöiden lokit tietokannasta",
         "UseDeleteReports": "Poista vanhat raportit säännöllisesti."
     }
 }
