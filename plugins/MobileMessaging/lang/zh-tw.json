@@ -42,6 +42,7 @@
         "Available_Credits": "可用額度：%1$s",
         "TopLinkTooltip": "從信箱或手機取得網頁分析報表。",
         "TopMenu": "Email 和簡訊報表",
+        "UserKey": "使用者金鑰",
         "VerificationText": "驗證碼為 %1$s。請將此驗證碼填入 Piwik > %2$s > %3$s 的表單中來完成手機驗證。"
     }
 }
