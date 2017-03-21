@@ -41,6 +41,7 @@
     text-align: left;
     background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
     overflow: hidden;
+    transform-origin: 100% 50%;
 }
 
 .PIS_LinkTag span {
@@ -64,6 +65,7 @@
 
 .PIS_LinkTag.PIS_Right {
     background-position: -36px -21px;
+    transform-origin: 0% 50%;
 }
 
 .PIS_LinkTag.PIS_Right span,
@@ -73,6 +75,7 @@
 
 .PIS_LinkTag.PIS_Bottom {
     background-position: 0 0;
+    transform-origin: 100% 50%;
 }
 
 .PIS_LinkTag.PIS_Bottom span,
@@ -82,6 +85,7 @@
 
 .PIS_LinkTag.PIS_BottomRight {
     background-position: -36px 0;
+    transform-origin: 0% 50%;
 }
 
 /**
