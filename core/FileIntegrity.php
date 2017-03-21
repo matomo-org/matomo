@@ -70,6 +70,7 @@ class FileIntegrity
             'config/manifest.inc.php',
             'misc/*.dat',
             'misc/*.dat.gz',
+            'misc/*.bin',
             'misc/user/*png',
             'misc/package',
             'misc/package/WebAppGallery/*.xml',
