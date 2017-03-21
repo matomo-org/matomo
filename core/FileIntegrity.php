@@ -310,7 +310,7 @@ class FileIntegrity
     {
         $expected = self::getFilesNotInManifestButExpectedAnyway();
         foreach ($expected as $expectedPattern) {
-            if (fnmatch($expectedPattern, $file)) {
+            if (fnmatch($expectedPattern, $file, defined('FNM_CASEFOLD') ? FNM_CASEFOLD : 0)) {
                 return true;
             }
         }
