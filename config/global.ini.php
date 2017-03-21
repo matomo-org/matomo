@@ -539,6 +539,10 @@ enable_load_data_infile = 1
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
 
+; By setting this option to 1, it will be possible to upload plugin archives directly in Piwik
+; Enabling this opens a remote code execution vulnarability, which yould be used by attackers gaining access to Piwik admin
+enable_plugin_upload = 0
+
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 

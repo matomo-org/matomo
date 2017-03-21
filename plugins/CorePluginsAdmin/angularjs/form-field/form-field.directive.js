@@ -244,11 +244,34 @@
                     return field.availableValues;
                 }
 
+                function formatPrettyDefaultValue(defaultValue, availableOptions) {
+
+                    if (!angular.isArray(availableOptions)) {
+                        return defaultValue;
+                    }
+
+                    var prettyValues = [];
+
+                    if (!angular.isArray(defaultValue)) {
+                        defaultValue = [defaultValue];
+                    }
+
+                    angular.forEach(availableOptions, function (value, key) {
+                        if (defaultValue.indexOf(value.key) !== -1) {
+                            prettyValues.push(value.value);
+                        }
+                    });
+
+                    return prettyValues.join(', ');
+                }
+
                 return function (scope, element, attrs) {
                     var field = scope.piwikFormField;
+                    var defaultValue = field.defaultValue;
+
 
                     if (angular.isArray(field.defaultValue)) {
-                        field.defaultValue = field.defaultValue.join(',');
+                        field.defaultValue = defaultValue.join(',');
                     }
 
                     if (field.type === 'boolean') {
@@ -262,6 +285,8 @@
                     // we are setting availableOptions and not availableValues again. Otherwise when watching the scope
                     // availableValues and in the watch change availableValues could trigger lots of more watch events
                     field.availableOptions = formatAvailableValues(field);
+
+                    field.defaultValuePretty = formatPrettyDefaultValue(defaultValue, field.availableOptions);
 
                     field.showField = true;
 
