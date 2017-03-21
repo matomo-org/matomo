@@ -8,6 +8,9 @@
 Segmentation = (function($) {
 
     Mousetrap.bind('s', function (event) {
+        if (event.altKey) {
+            return;
+        }
         if (event.preventDefault) {
             event.preventDefault();
         } else {
