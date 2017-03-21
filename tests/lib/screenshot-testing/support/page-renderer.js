@@ -437,6 +437,8 @@ PageRenderer.prototype.capture = function (outputPath, callback, selector) {
         }
 
         var result = page.evaluate(function(selector) {
+            window.jQuery('html').addClass('uiTest');
+
             var docWidth = window.jQuery(document).width(),
                 docHeight = window.jQuery(document).height();
 
