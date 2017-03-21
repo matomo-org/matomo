@@ -42,6 +42,7 @@
         "Available_Credits": "Crédit disponible: %1$s",
         "TopLinkTooltip": "Recevez vos rapports d'analyse web dans votre boite de courriels ou sur votre téléphone mobile!",
         "TopMenu": "Rapports Email & SMS",
+        "UserKey": "Clef utilisateur",
         "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Piwik veuillez copier ce code dans le formulaire accessible via Piwik > %2$s > %3$s."
     }
 }

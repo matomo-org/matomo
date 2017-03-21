@@ -8,6 +8,9 @@
 Segmentation = (function($) {
 
     Mousetrap.bind('s', function (event) {
+        if (event.altKey) {
+            return;
+        }
         if (event.preventDefault) {
             event.preventDefault();
         } else {
@@ -546,6 +549,14 @@ Segmentation = (function($) {
             });
 
             self.target.on('click', '.add_new_segment', function (e) {
+
+                var parameters = {isAllowed: true};
+                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                $rootScope.$emit('Segmentation.initAddSegment', parameters);
+                if (parameters && !parameters.isAllowed) {
+                    return;
+                }
+
                 e.stopPropagation();
                 displayFormAddNewSegment(e);
             });
