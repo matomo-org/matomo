@@ -42,6 +42,7 @@
     background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
     overflow: hidden;
     transform-origin: 100% 50%;
+    transition: 0.2s ease-in-out;
 }
 
 .PIS_LinkTag span {
