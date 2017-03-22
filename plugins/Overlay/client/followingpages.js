@@ -258,32 +258,29 @@ var Piwik_Overlay_FollowingPages = (function () {
                     }
 
                     var zoomFactor = 1 + +tagElement.attr('data-rateofmax');
-                    tagElement.css({
-                        '-webkit-transform': 'scale(' + zoomFactor + ')', 
-                        '-moz-transform': 'scale(' + zoomFactor + ')', 
-                        '-ms-transform': 'scale(' + zoomFactor + ')', 
-                        '-o-transform': 'scale(' + zoomFactor + ')', 
-                        'transform': 'scale(' + zoomFactor + ')',
-                        'opacity': zoomFactor/2 
-                    });
-
                     top = offset.top - tagHeight + 6;
                     left = offset.left - tagWidth + 10;
 
-                    if (isRight = (left < zoomFactor * tagWidth - tagWidth)) {
+                    if (isRight = (left < zoomFactor * tagWidth - tagWidth ) ) {
                         tagElement.addClass('PIS_Right');
                         left = offset.left + linkTag.outerWidth() - 10;
                     }
 
-                    if (top < zoomFactor * tagHeight - tagHeight) {
+                    if (top < zoomFactor * tagHeight - tagHeight ) {
                         tagElement.addClass(isRight ? 'PIS_BottomRight' : 'PIS_Bottom');
                         top = offset.top + linkTag.outerHeight() - 6;
                     }
 
                     tagElement.css({
-                        top: top + 'px',
-                        left: left + 'px'
-                    }).show();
+                        '-webkit-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        '-moz-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        '-ms-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        '-o-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        'transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')',
+                        'opacity': zoomFactor/2 
+                    });
+
+                    tagElement.show();
 
                 }
             }
