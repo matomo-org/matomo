@@ -1943,17 +1943,23 @@ if (typeof window.Piwik !== 'object') {
         var query = {
             htmlCollectionToArray: function (foundNodes)
             {
-                var nodes = [], index;
 
-                if (!foundNodes || !foundNodes.length) {
+                // Old browsers such as IE8
+                if(!Array.prototype.slice) {
+                    var nodes = [], index;
+
+                    if (!foundNodes || !foundNodes.length) {
+                        return nodes;
+                    }
+
+                    for (index = 0; index < foundNodes.length; index++) {
+                        nodes.push(foundNodes[index]);
+                    }
+
                     return nodes;
                 }
 
-                for (index = 0; index < foundNodes.length; index++) {
-                    nodes.push(foundNodes[index]);
-                }
-
-                return nodes;
+                return Array.prototype.slice.call(foundNodes || []);
             },
             find: function (selector)
             {
