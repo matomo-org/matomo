@@ -12,10 +12,10 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
+use Piwik\DataTable\Map;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\SettingsServer;
 use Piwik\Translate;
 
@@ -385,7 +385,7 @@ class API extends \Piwik\Plugin\API
             $hasData = false;
             $hasNonZeroValue = false;
 
-            if (!$isMultiplePeriod) {
+            if (!$isMultiplePeriod || !($reportData instanceof Map)) {
                 $reportMetadata = $processedReport['reportMetadata']->getRows();
 
                 $i = 0;
