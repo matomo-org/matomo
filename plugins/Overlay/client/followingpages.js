@@ -270,12 +270,12 @@ var Piwik_Overlay_FollowingPages = (function () {
                     top = offset.top - tagHeight + 6;
                     left = offset.left - tagWidth + 10;
 
-                    if (isRight = (left < 2)) {
+                    if (isRight = (left < zoomFactor * tagWidth - tagWidth)) {
                         tagElement.addClass('PIS_Right');
                         left = offset.left + linkTag.outerWidth() - 10;
                     }
 
-                    if (top < 2) {
+                    if (top < zoomFactor * tagHeight - tagHeight) {
                         tagElement.addClass(isRight ? 'PIS_BottomRight' : 'PIS_Bottom');
                         top = offset.top + linkTag.outerHeight() - 6;
                     }
