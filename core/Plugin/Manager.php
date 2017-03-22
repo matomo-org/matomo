@@ -502,7 +502,7 @@ class Manager
         Piwik::postEvent('PluginManager.pluginActivated', array($pluginName));
     }
 
-    protected function isPluginInFilesystem($pluginName)
+    public function isPluginInFilesystem($pluginName)
     {
         $existingPlugins = $this->readPluginsDirectory();
         $isPluginInFilesystem = array_search($pluginName, $existingPlugins) !== false;

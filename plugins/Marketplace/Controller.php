@@ -325,6 +325,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     continue;
                 }
 
+                if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
+                    continue;
+                }
+
                 if (empty($paidPlugin['require'])
                     || !$dependency->hasDependencyToDisabledPlugin($paidPlugin['require'])) {
 
