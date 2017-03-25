@@ -223,6 +223,16 @@ class Controller extends Plugin\ControllerAdmin
         foreach ($plugins as $pluginName => &$plugin) {
 
             $plugin['isCorePlugin'] = $this->pluginManager->isPluginBundledWithCore($pluginName);
+            $plugin['isOfficialPlugin'] = false;
+
+            if (isset($plugin['info']) && isset($plugin['info']['authors'])) {
+                foreach ($plugin['info']['authors'] as $author) {
+                    if (in_array(strtolower($author['name']), array('piwik', 'innocraft'))) {
+                        $plugin['isOfficialPlugin'] = true;
+                        break;
+                    }
+                }
+            }
 
             if (!empty($plugin['info']['description'])) {
                 $plugin['info']['description'] = $this->translator->translate($plugin['info']['description']);

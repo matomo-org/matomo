@@ -48,7 +48,8 @@
 
                         updateNumberOfMatchingPluginsInFilter('[data-filter-origin="all"]', 'all', filterStatus);
                         updateNumberOfMatchingPluginsInFilter('[data-filter-origin="core"]', 'core', filterStatus);
-                        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="noncore"]', 'noncore', filterStatus);
+                        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="official"]', 'official', filterStatus);
+                        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="thirdparty"]', 'thirdparty', filterStatus);
                     }
 
                     function updateNumberOfMatchingPluginsInFilter(selectorFilterToUpdate, filterOrigin, filterStatus)
