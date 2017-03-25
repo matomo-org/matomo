@@ -111,7 +111,7 @@ a#overlayTransitions:hover {
 
 #root > nav {
     width: 240px;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 #root > nav > .nav-wrapper > * {
