@@ -325,6 +325,26 @@ abstract class ControllerAdmin extends Controller
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
+        /**
+         * Posted when rendering an admin page and notifications about any warnings or errors should be triggered.
+         * You can use it for example when you have a plugin that needs to be configured in order to work and the
+         * plugin has not been configured yet. It can be also used to cancel / remove other notifications by calling 
+         * eg `Notification\Manager::cancel($notificationId)`.
+         *
+         * **Example**
+         *
+         *     public function onTriggerAdminNotifications(Piwik\Widget\WidgetsList $list)
+         *     {
+         *         if ($pluginFooIsNotConfigured) {
+         *              $notification = new Notification('The plugin foo has not been configured yet');
+         *              $notification->context = Notification::CONTEXT_WARNING;
+         *              Notification\Manager::notify('fooNotConfigured', $notification);
+         *         }
+         *     }
+         *
+         */
+        Piwik::postEvent('Controller.triggerAdminNotifications');
+
         $view->adminMenu = MenuAdmin::getInstance()->getMenu();
 
         $notifications = $view->notifications;

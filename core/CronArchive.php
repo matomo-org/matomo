@@ -1017,7 +1017,7 @@ class CronArchive
     private function checkResponse($response, $url)
     {
         if (empty($response)
-            || stripos($response, 'error')
+            || stripos($response, 'error') !== false
         ) {
             return $this->logNetworkError($url, $response);
         }

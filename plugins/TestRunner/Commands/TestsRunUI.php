@@ -44,7 +44,7 @@ class TestsRunUI extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $specs = $input->getArgument('specs');
-        $persistFixtureData = $input->getOption("persist-fixture-data");
+        $persistFixtureData = $input->getOption('persist-fixture-data');
         $keepSymlinks = $input->getOption('keep-symlinks');
         $printLogs = $input->getOption('print-logs');
         $drop = $input->getOption('drop');
@@ -104,6 +104,8 @@ class TestsRunUI extends ConsoleCommand
         if ($debug) {
             $phantomJsOptions[] = "--debug=true";
         }
+
+        $phantomJsOptions[] = "--ignore-ssl-errors=true";
 
         if ($extraOptions) {
             $options[] = $extraOptions;

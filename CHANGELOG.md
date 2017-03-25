@@ -4,6 +4,14 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 3.0.3
+
+### Breaking Changes
+* New config setting `enable_plugin_upload` lets you enable uploading and installing a Piwik plugin ZIP file by a Super User. This used to be enabled by default, but it is now disabled by default now for security reasons.
+
+### New APIs
+* A new event `Controller.triggerAdminNotifications` has been added to let plugins know when they are supposed to trigger notifications in the admin.
+
 ## Piwik 3.0.2
 
 ### New Features

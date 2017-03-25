@@ -47,6 +47,7 @@
         "ClickRowToExpandOrContract": "Klikkaa tätä riviä avataksesi tai sulkeaksesi alataulukon.",
         "UndoPivotBySubtable": "Tämä raportti on käännetty %s:llä. Kumoa kääntö",
         "PivotBySubtable": "Tämä raportti ei ole käännetty %1$s:n mukaan. Käännetty %2$s:llä.",
+        "SystemSummaryNActivatedPlugins": "%d lisäosaa käytössä",
         "QuickAccessTitle": "Hae %s:llä. Käytä nuolia navigointiin. Oikotie: haku aukeaa painamalla f-näppäintä.",
         "MenuEntries": "Valikon sisältö",
         "Segments": "Segmentit",

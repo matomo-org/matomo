@@ -194,6 +194,13 @@
         };
 
         var addSite = function(type) {
+
+            var parameters = {isAllowed: true, measurableType: type};
+            $rootScope.$emit('SitesManager.initAddSite', parameters);
+            if (parameters && !parameters.isAllowed) {
+                return;
+            }
+
             if (!type) {
                 type = 'website'; // todo shall we really hard code this or trigger an exception or so?
             }

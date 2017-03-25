@@ -4,7 +4,7 @@
         "ConfigurationHelp": "Piwikin asetustiedosto on luotu väärin. Voit joko poistaa tiedoston config\/config.ini.php ja käyttää asennusohjelmaa uudelleen tai korjata tietokannan asetukset.",
         "ConfirmDeleteExistingTables": "Haluatko varmasti poistaa seuraavat taulut tietokannasta: %s? VAROITUS: TAULUJEN TIETOJA EI VOI PALAUTTAA EIKÄ POISTAMISTA VOI KUMOTA!",
         "Congratulations": "Onnittelut",
-        "CongratulationsHelp": "<p>Onnittelut! Piwikin asennus on valmis.<\/p><p>Varmista, että javascript-koodi on lisätty sivuille ja odota ensimmäisiä vierailijoita!<\/p>",
+        "CongratulationsHelp": "<p>Onnittelut! Piwikin asennus on valmis.<\/p><p>Varmista, että JavaScript-koodi on lisätty sivuille, ja odota ensimmäisiä vierailijoita!<\/p>",
         "DatabaseAbilities": "Tietokannan toiminnot",
         "DatabaseCreation": "Tietokannan luominen",
         "DatabaseErrorConnect": "Virhe tietokantayhteyden avaamisessa",
