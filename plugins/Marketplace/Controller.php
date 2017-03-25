@@ -318,17 +318,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         for ($i = 0; $i <= 10; $i++) {
             foreach ($paidPlugins as $index => $paidPlugin) {
+                if (empty($paidPlugin)) {
+                    continue;
+                }
+
                 $pluginName = $paidPlugin['name'];
 
                 if ($this->pluginManager->isPluginActivated($pluginName)) {
-                    unset($paidPlugins[$index]);
+                    // we do not use unset since it might skip a plugin afterwards when removing index
+                    $paidPlugins[$index] = null;
+                    continue;
+                }
+
+                if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
+                    $paidPlugins[$index] = null;
                     continue;
                 }
 
                 if (empty($paidPlugin['require'])
                     || !$dependency->hasDependencyToDisabledPlugin($paidPlugin['require'])) {
 
-                    unset($paidPlugins[$index]);
+                    $paidPlugins[$index] = null;
 
                     try {
                         $this->pluginManager->activatePlugin($pluginName);
@@ -341,6 +351,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     }
                 }
             }
+
+            $paidPlugins = array_filter($paidPlugins);
         }
 
         if ($hasErrors) {
