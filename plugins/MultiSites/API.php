@@ -285,7 +285,7 @@ class API extends \Piwik\Plugin\API
         // ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
         if ($multipleWebsitesRequested
             // We don't delete the 0 visits row, if "Enhanced" mode is on.
-            && !$enhanced
+            && !$enhanced && (empty($showColumns) || in_array(self::NB_VISITS_METRIC, $showColumns))
         ) {
             $dataTable->filter(
                 'ColumnCallbackDeleteRow',
