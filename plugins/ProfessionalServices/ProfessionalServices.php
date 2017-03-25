@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
+use Piwik\View;
 
 class ProfessionalServices extends \Piwik\Plugin
 {
@@ -66,13 +67,8 @@ class ProfessionalServices extends \Piwik\Plugin
             return;
         }
 
-        $out .= '
-            <p style="margin-top:3em;margin-bottom:3em" class=" alert-info alert">Did you know?<br/>
-                Use <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/search-keywords-performance/">Search Keywords Performance</a>
-                to see all keywords behind \'keyword not defined\'.
-                All keywords searched by your users on Google, Bing and other search engines will be listed
-                 and you can even monitor the SEO position of your website in their search results.
-            </p>';
+        $view = new View('@ProfessionalServices/promoSearchKeywords');
+        $out .= $view->render();
     }
 
     public function getGoalFunnelOverviewPromo(&$out)
@@ -82,12 +78,8 @@ class ProfessionalServices extends \Piwik\Plugin
             return;
         }
 
-        $out .= '
-            <p style="margin-top:3em;margin-bottom:3em" class=" alert-info alert">Did you know?
-                A Funnel defines a series of actions that you expect your visitors to take on their way to converting a goal.
-                <br/>With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/conversion-funnel/">Funnels for Piwik</a>,
-                you can easily determine your funnel and see where your visitors drop off and how to focus efforts to increase your conversions.
-            </p>';
+        $view = new View('@ProfessionalServices/promoFunnel');
+        $out .= $view->render();
     }
 
 
@@ -98,11 +90,8 @@ class ProfessionalServices extends \Piwik\Plugin
             return;
         }
 
-        $out .= '
-            <p style="margin-top:3em" class=" alert-info alert">Did you know?
-                With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/ab-testing-learn-more/">A/B Testing for Piwik</a> you can immediately increase conversions and sales by creating different versions of a page to see which one grows your business.
-            </p>
-            ';
+        $view = new View('@ProfessionalServices/promoExperiments.twig');
+        $out .= $view->render();
     }
 
     public function getEventsPromo(&$out)
@@ -110,14 +99,8 @@ class ProfessionalServices extends \Piwik\Plugin
         if($this->isRequestForDashboardWidget()) {
             return;
         }
-        $inlineAd = '';
-        if(!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MediaAnalytics')) {
-            $inlineAd = '<br/>When you publish videos or audios, <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/media-analytics-website">Media Analytics gives deep insights into your audience</a> and how they watch your videos or listens to your music.';
-        }
-        $out .= '<p style="margin-top:3em" class=" alert-info alert">Did you know?
-                <br/>Using Events you can measure any user interaction and gain amazing insights into your audience. <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/event-tracking/">Learn more</a>.
-              <br/> To measure blocks of content such as image galleries, listings or ads: use <a target="_blank" href="?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/content-tracking">Content Tracking</a> and see exactly which content is viewed and clicked.
-              ' . $inlineAd . '
-            </p>';
+        $view = new View('@ProfessionalServices/promoBelowEvents');
+        $view->displayMediaAnalyticsAd = !\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MediaAnalytics');
+        $out .= $view->render();
     }
 }
