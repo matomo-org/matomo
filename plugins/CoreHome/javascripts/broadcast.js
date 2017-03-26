@@ -237,20 +237,16 @@ var broadcast = {
     },
 
     /**
-     * propagateAjax -- update hash values then make ajax calls.
-     *    example :
-     *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
-     *       2) Main menu li also goes through this function.
+     * Returns the current hash with updated parameters that were provided in ajaxUrl
      *
-     * Will propagate your new value into the current hash string and make ajax calls.
+     * Parameters like idGoal and idDashboard will be automatically reset if the won't be relevant anymore
      *
-     * NOTE: this method will only make ajax call and replacing main content.
+     * NOTE: this method does not issue any ajax call, but returns the hash instead
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
-     * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
-     * @return {void}
+     * @return {string} current hash with updated parameters
      */
-    buildReportingUrl: function (ajaxUrl, disableHistory) {
+    buildReportingUrl: function (ajaxUrl) {
 
         // available in global scope
         var currentHashStr = broadcast.getHash();
