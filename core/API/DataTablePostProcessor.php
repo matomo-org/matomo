@@ -170,6 +170,12 @@ class DataTablePostProcessor
     public function applyFlattener($dataTable)
     {
         if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
+            // skip flattening if not supported by report and remove subtables only
+            if ($this->report && !$this->report->supportsFlattening()) {
+                $dataTable->filter('RemoveSubtables');
+                return $dataTable;
+            }
+
             $flattener = new Flattener($this->apiModule, $this->apiMethod, $this->request);
             if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
                 $flattener->includeAggregateRows();

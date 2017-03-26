@@ -502,6 +502,7 @@ class Config
 
         $this->loadDocumentation();
         $this->setShouldShowPivotBySubtable();
+        $this->setShouldShowFlattener();
     }
 
     /** Load documentation from the API */
@@ -752,6 +753,15 @@ class Config
                 $this->pivot_by_dimension = $subtableDimension->getId();
                 $this->pivot_dimension_name = $subtableDimension->getName();
             }
+        }
+    }
+
+    private function setShouldShowFlattener()
+    {
+        $report = ReportsProvider::factory($this->controllerName, $this->controllerAction);
+
+        if ($report && !$report->supportsFlattening()) {
+            $this->show_flatten_table = false;
         }
     }
 
