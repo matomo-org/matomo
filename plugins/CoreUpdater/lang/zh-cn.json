@@ -70,7 +70,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "您可以自动升级到版本%s，或者下载安装包手动安装:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik 无法覆盖您之前的安裝。您可以直接修改目录\/文件权限，或是下载压缩包然后手动安裝 %s 版本:",
         "YourDatabaseIsOutOfDate": "您的 Piwik 数据库版本太旧了，必须先升级才能继续！",
-        "ViewVersionChangelog": "查看该版本的更新日志：",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "查看该版本的更新日志："
     }
 }

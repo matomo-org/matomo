@@ -77,7 +77,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Můžete aktualizovat na verzi %s automaticky, nebo si stáhněte balíček a nainstalujte jej manuálně:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik nemůže přepsat Vaši stávající instalaci. Můžete buď opravit oprávnění k adresářům\/souborům, nebo stáhnout balíček a nainstalovat verzi %s ručně",
         "YourDatabaseIsOutOfDate": "Vaše databáze Piwiku je zastaralá a musí být aktualizována, než budete pokračovat.",
-        "ViewVersionChangelog": "Zobrazit protokol změn této verze:",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "Zobrazit protokol změn této verze:"
     }
 }

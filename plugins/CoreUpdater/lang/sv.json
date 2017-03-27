@@ -70,7 +70,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Du kan uppdatera till den senaste versionen %s automatiskt eller ladda ner paketet och installera det manuellt:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik kunde inte skriva över din aktuella installation. Du kan antingen fixa mapp\/filrättigheterna eller ladda ner paketet och installera versionen %s manuellt:",
         "YourDatabaseIsOutOfDate": "Din Piwik-databas är inte uppdaterad och måste därför uppgraderas innan du kan fortsätta.",
-        "ViewVersionChangelog": "Visa ändringslogg för denna version:",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "Visa ändringslogg för denna version:"
     }
 }

@@ -51,7 +51,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Galite atnaujinti iki %s versijos automatiškai arba atsisiųsti paketą ir atnaujinti Piwik rankiniu būdu:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik negali perrašyti Jūsų dabartinio diegimo. Galite arba pataisyti katalogo\/failo teises, arba atsisiųsti paketą ir įdiegti šią versiją %s rankiniu būdu:",
         "YourDatabaseIsOutOfDate": "Norint tęsti, reikia atnaujinti Piwik duombazę",
-        "ViewVersionChangelog": "Rodyti šios versijos keitinių žurnalą:",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "Rodyti šios versijos keitinių žurnalą:"
     }
 }

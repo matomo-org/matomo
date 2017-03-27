@@ -77,7 +77,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Die Aktualisierung auf Version %s kann automatisch ausgeführt werden. Oder Sie laden das Paket herunter und installieren es manuell:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik kann Ihre aktuelle Installation nicht überschreiben. Sie müssen entweder die Ordner-\/Dateiberechtigungen anpassen oder das Paket herunterladen und die Version %s manuell installieren.",
         "YourDatabaseIsOutOfDate": "Ihre Piwik-Datenbank ist nicht mehr aktuell und muss aktualisiert werden, bevor Sie weiter arbeiten können.",
-        "ViewVersionChangelog": "Änderungen in dieser Version ansehen:",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "Änderungen in dieser Version ansehen:"
     }
 }

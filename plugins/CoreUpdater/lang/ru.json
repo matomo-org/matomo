@@ -73,7 +73,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Вы можете обновиться до версии %s автоматически или скачать установочный пакет и вручную установить его:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik не может перезаписать вашу текущую установку. Вы можете попытаться изменить права доступа к файлам и каталогам, или скачать пакет системы и произвести установку версии %s вручную:",
         "YourDatabaseIsOutOfDate": "База данных Веб-аналитики устарела, ее нужно обновить для продолжения.",
-        "ViewVersionChangelog": "Просмотр изменений для этой версии:",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "Просмотр изменений для этой версии:"
     }
 }

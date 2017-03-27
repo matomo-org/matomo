@@ -77,7 +77,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "%s 버전으로 자동 업데이트하거나 수동적으로 패키지를 받아서 업데이트 할 수 있습니다:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik 현재 설치에 덮어쓸 수 없습니다. 디렉토리\/파일 권한을 수정하거나 패키지를 다운로드하여 수동으로 버전 %s를 설치할 수 있습니다:",
         "YourDatabaseIsOutOfDate": "Piwik 데이터베이스가 오래되었으니 계속하기 이전에 먼저 업그레이드가 되어야 합니다.",
-        "ViewVersionChangelog": "이 버전에 대한 변화로그를 보세요",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "이 버전에 대한 변화로그를 보세요"
     }
 }

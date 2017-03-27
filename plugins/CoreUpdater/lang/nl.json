@@ -76,7 +76,6 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "U kunt automatisch updaten naar versie %s of het pakket downloaden en handmatig installeren.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik kan de huidige installatie niet overschrijven. U kunt de huidige map\/bestands rechten wijzigen, of de nieuwe versie downloaden en versie %s handmatig installeren:",
         "YourDatabaseIsOutOfDate": "Uw Piwik database is niet up to date en zal ge-upgrade moeten worden om verder te kunnen gaan.",
-        "ViewVersionChangelog": "Bekijk het wijzigingslogboek voor versie:",
-        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
+        "ViewVersionChangelog": "Bekijk het wijzigingslogboek voor versie:"
     }
 }
