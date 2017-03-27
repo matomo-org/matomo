@@ -301,6 +301,9 @@
                 clearTimeout(self._resizeTimer);
                 self._resizeTimer = setTimeout(self.resize.bind(self), 300);
             }
+            // Save a reference to the function so it can be cleanly removed
+            // as a listener later.
+            self._onResizeLazy = onResizeLazy;
 
             function activateButton(btn) {
                 $$('.UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
@@ -328,7 +331,7 @@
                 $$('.UserCountryMap_map').off('click').click(zoomOut);
 
                 // handle window resizes
-                $(window).off('resize', onResizeLazy).resize(onResizeLazy);
+                $(window).resize(onResizeLazy);
 
                 // enable metric changes
                 $$('.userCountryMapSelectMetrics').off('change').change(function () {
@@ -1223,7 +1226,7 @@
                     UserCountryMap.countryData = countryData;
                     UserCountryMap.countriesByIso = countriesByIso;
 
-                    map.loadCSS(config.mapCssPath, function () {
+                    function postCSSLoad() {
                         // map stylesheets are loaded
 
                         // hide loading indicator
@@ -1246,7 +1249,15 @@
 
                         initUserInterface();
 
-                    });
+                    }
+                    // check if CSS is already loaded
+                    if ($("link[href='" + config.mapCssPath + "']").size() === 0) {
+                        // not loaded
+                        map.loadCSS(config.mapCssPath, postCSSLoad);
+                    } else {
+                        // already loaded
+                        postCSSLoad();
+                    }
                 });
 
             function hideOverlay(e) {
@@ -1331,6 +1342,7 @@
         destroy: function () {
             this.map.clear();
             $(this.map.container).html('');
+            $(window).off('resize', this._onResizeLazy)
         }
 
     });
