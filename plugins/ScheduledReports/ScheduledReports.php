@@ -341,7 +341,7 @@ class ScheduledReports extends \Piwik\Plugin
                 break;
 
             case 'csv':
-                $message .= "\n$messageFindAttached\n$messageSentFrom";
+                $message = "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
@@ -359,7 +359,7 @@ class ScheduledReports extends \Piwik\Plugin
 
             default:
             case 'pdf':
-                $message .= "\n$messageFindAttached\n$messageSentFrom";
+                $message = "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
