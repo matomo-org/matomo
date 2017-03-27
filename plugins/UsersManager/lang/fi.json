@@ -24,6 +24,7 @@
         "ExceptionEmailExists": "Käyttäjä sähköpostilla '%s' on jo olemassa.",
         "ExceptionInvalidEmail": "Sähköposti ei ole kelvollinen.",
         "ExceptionInvalidLoginFormat": "Käyttäjänimen pitää olla %1$s-%2$s merkkiä pitkä ja saa sisältää vain kirjaimia (ei ääkkösiä), numeroita tai '_' or '-' or '.' or '@' or '+'",
+        "ExceptionInvalidPassword": "Salasanan täytyy olla vähintään %1$s merkkiä pitkä.",
         "ExceptionLoginExists": "Käyttäjätunnus '%s' on jo olemassa.",
         "ExceptionPasswordMD5HashExpected": "UserManager.getTokenAuth haluaa MD5-tiivisteen salasanastasi (32 merkkiä pitkä merkkijono). Kutsu md5()-funktiota salasanallesi ennen kutsumista.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Superkäyttäjäoikeuksien poistaminen käyttäjältä '%s' ei ole mahdollista.",

@@ -513,13 +513,13 @@
         "CompareDocumentation": "Klicken Sie auf den Link unten und öffnen Sie dieses Popup für eine andere Zeile aus der selben Tabelle, um mehrere Einträge zu vergleichen.<br \/>Verwenden Sie Shift-Klick, um die Zeile für den Vergleich zu markieren, ohne dieses Popup zu öffnen.",
         "CompareRows": "Vergleiche Einträge",
         "ComparingRecords": "Vergleiche %s Zeilen",
-        "Documentation": "Klicken Sie auf die Metriken, um sie im großen Entwicklungs-Graphen zu sehen. Verwenden Sie Shift-Klick, um mehrere Metriken gleichzeitig zu sehen.",
+        "Documentation": "Klicken Sie auf die Metriken, um sie in der großen Entwicklungsgrafik zu sehen. Verwenden Sie Shift-Klick, um mehrere Metriken gleichzeitig zu sehen.",
         "MetricBetweenText": "zwischen %1$s und %2$s",
         "MetricChangeText": "%s in diesem Zeitraum",
         "MetricMinMax": "%1$s bewegte sich während dem Zeitraum zwischen %2$s und %3$s",
         "MetricsFor": "Metriken für %s",
         "MultiRowEvolutionTitle": "Entwicklung von mehreren Zeilen",
-        "PickAnotherRow": "Wählen Sie eine andere Zeile zum vergleichen",
+        "PickAnotherRow": "Wählen Sie eine andere Zeile zum Vergleichen",
         "PickARow": "Wählen Sie eine Zeile zum Vergleichen"
     }
 }

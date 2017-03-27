@@ -13,7 +13,7 @@
         "ColumnNoResultKeyword": "Ei hakutuloksia",
         "ColumnPageName": "Sivun nimi",
         "ColumnPagesPerSearch": "Haun tulossivut",
-        "ColumnPagesPerSearchDocumentation": "Käyttäjät hakevat sivulla ja välillä klikkaavat tuloksien seuraavalle sivulle. Tämä on keskiarvo katsotuista hakutulossivuista.",
+        "ColumnPagesPerSearchDocumentation": "Kävijät tekevät sivustolla hakuja ja klikkaavat toisinaan linkkejä tuloksien seuraaville sivuille. Tämä on keskiarvo katsotuista hakutulossivuista.",
         "ColumnPageURL": "Sivun URL",
         "ColumnSearchCategory": "Haun kategoria",
         "ColumnSearches": "Haut",

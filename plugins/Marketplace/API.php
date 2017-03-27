@@ -15,7 +15,7 @@ use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 
 /**
- * The Marketplace API lets you manage your license key so you can download & install in one-click <a target="_blank" rel="noreferrer" href="https://plugins.piwik.org/premium">paid premium plugins</a> you have subscribed to.
+ * The Marketplace API lets you manage your license key so you can download & install in one-click <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/premium-plugins/">paid premium plugins</a> you have subscribed to.
  *
  * @method static \Piwik\Plugins\Marketplace\API getInstance()
  */

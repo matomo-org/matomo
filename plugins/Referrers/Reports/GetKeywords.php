@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Reports;
 
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -39,6 +40,21 @@ class GetKeywords extends Base
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
         }
+
+        $this->configureFooterMessage($view);
     }
+
+    protected function configureFooterMessage(ViewDataTable $view)
+    {
+        if ($this->isSubtableReport) {
+            // no footer message for subtables
+            return;
+        }
+
+        $out = '';
+        EventDispatcher::getInstance()->postEvent('Template.afterReferrersKeywordsReport', array(&$out));
+        $view->config->show_footer_message = $out;
+    }
+
 
 }

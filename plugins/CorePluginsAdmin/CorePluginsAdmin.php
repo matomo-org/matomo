@@ -36,6 +36,11 @@ class CorePluginsAdmin extends Plugin
         return (bool) Config::getInstance()->General['enable_plugins_admin'];
     }
 
+    public static function isPluginUploadEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_plugin_upload'];
+    }
+
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js";

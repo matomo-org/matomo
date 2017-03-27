@@ -260,6 +260,9 @@
                 };
 
                 Mousetrap.bind('f', function(event) {
+                    if (event.altKey) {
+                        return;
+                    }
                     if (event.preventDefault) {
                         event.preventDefault();
                     } else {

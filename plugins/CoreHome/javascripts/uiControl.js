@@ -22,7 +22,7 @@
             throw new Error("no element passed to UIControl constructor");
         }
 
-        this._controlId = UIControl._controls.length;
+        this._controlId = UIControl._nextControlId++;
         UIControl._controls.push(this);
 
         var $element = this.$element = $(element);
@@ -45,6 +45,11 @@
     UIControl._controls = [];
 
     /**
+     * Specifies the next unique control ID to use.
+     */
+    UIControl._nextControlId = 0;
+
+    /**
      * Utility method that will clean up all piwik UI controls whose elements are not attached
      * to the DOM.
      *
@@ -53,6 +58,9 @@
      */
     UIControl.cleanupUnusedControls = function () {
         var controls = UIControl._controls;
+        // reset _controls; we will repopulate it with only active
+        // controls in the loop below.
+        var activeControls = UIControl._controls = [];
 
         for (var i = 0; i != controls.length; ++i) {
             var control = controls[i];
@@ -67,6 +75,9 @@
                     throw new Error("Error: " + control.constructor.name + "'s destroy method does not call " +
                                     "UIControl.destroy. You may have a memory leak.");
                 }
+            } else {
+                // Control is still active / used.
+                activeControls.push(control);
             }
         }
     };

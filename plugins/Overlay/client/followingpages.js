@@ -258,27 +258,29 @@ var Piwik_Overlay_FollowingPages = (function () {
                     }
 
                     var zoomFactor = 1 + +tagElement.attr('data-rateofmax');
-                    tagElement.css({'zoom':zoomFactor, 'opacity': zoomFactor/2 });
-                    offset.top = offset.top / zoomFactor;
-                    offset.left = offset.left / zoomFactor;
-
                     top = offset.top - tagHeight + 6;
                     left = offset.left - tagWidth + 10;
 
-                    if (isRight = (left < 2)) {
+                    if (isRight = (left < zoomFactor * tagWidth - tagWidth ) ) {
                         tagElement.addClass('PIS_Right');
-                        left = offset.left + linkTag.outerWidth() / zoomFactor - 10;
+                        left = offset.left + linkTag.outerWidth() - 10;
                     }
 
-                    if (top < 2) {
+                    if (top < zoomFactor * tagHeight - tagHeight ) {
                         tagElement.addClass(isRight ? 'PIS_BottomRight' : 'PIS_Bottom');
-                        top = offset.top + linkTag.outerHeight() / zoomFactor - 6;
+                        top = offset.top + linkTag.outerHeight() - 6;
                     }
 
                     tagElement.css({
-                        top: top + 'px',
-                        left: left + 'px'
-                    }).show();
+                        '-webkit-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        '-moz-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        '-ms-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        '-o-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        'transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')',
+                        'opacity': zoomFactor/2 
+                    });
+
+                    tagElement.show();
 
                 }
             }
