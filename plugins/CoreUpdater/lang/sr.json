@@ -73,6 +73,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Možete izvršiti automatsku nadogradnju na verziju %s ili preuzeti poslednju verziju Piwik-a i izvršiti ručnu nadogradnju",
         "YouMustDownloadPackageOrFixPermissions": "Piwik nije u stanju da prebriše trenutnu instalaciju. Možete ili da popravite dozvole nad datotekama i direktorijumima ili da preuzmete paket sa Interneta i instalirate verziju %s ručno:",
         "YourDatabaseIsOutOfDate": "Piwik baza podataka je zastarela i mora biti nadograđena pre nego što nastavite.",
-        "ViewVersionChangelog": "Prikaži zapis promena za ovu verziju:"
+        "ViewVersionChangelog": "Prikaži zapis promena za ovu verziju:",
+        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: "
     }
 }
