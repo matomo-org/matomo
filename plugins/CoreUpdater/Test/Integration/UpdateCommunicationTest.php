@@ -79,6 +79,8 @@ CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 CoreUpdater_ViewVersionChangelog
 http://piwik.org/changelog/piwik-33-0-0/
 
+CoreUpdater_ReceiveEmailBecauseIsSuperUser
+
 CoreUpdater_FeedbackRequest
 http://piwik.org/contact/";
 
@@ -94,6 +96,8 @@ CoreUpdater_ThereIsNewVersionAvailableForUpdate
 
 CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 {$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
+
+CoreUpdater_ReceiveEmailBecauseIsSuperUser
 
 CoreUpdater_FeedbackRequest
 http://piwik.org/contact/";
