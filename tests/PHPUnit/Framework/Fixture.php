@@ -794,6 +794,10 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function canImagesBeIncludedInScheduledReports()
     {
+        if(!function_exists('gd_info')) {
+            echo "GD is not installed so cannot run these tests. please enable GD in PHP!\n";
+            return false;
+        }
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
