@@ -80,7 +80,7 @@ class UpdateCommunication
         }
 
         $message .= Piwik::translate('CoreUpdater_ReceiveEmailBecauseIsSuperUser', $host); 
-        $message .= "\n";
+        $message .= "\n\n";
         $message .= Piwik::translate('CoreUpdater_FeedbackRequest');
         $message .= "\n";
         $message .= 'http://piwik.org/contact/';
