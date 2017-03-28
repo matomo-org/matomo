@@ -265,7 +265,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testSocketHttpsWorksEvenWithInvalidCertificate()
     {
-        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net', 10);
+        $result = Http::sendHttpRequestBy('socket', 'https://self-signed.badssl.com/', 10);
         $this->assertNotEmpty($result);
     }
 }
