@@ -89,6 +89,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // initialize your dataTable in your plugin
     },
 
+    _destroy: function() {
+      UIControl.prototype._destroy.call(this);
+      // remove handlers to avoid memory leaks
+      if (this.windowResizeTableAttached) {
+        $(window).off('resize', this._resizeDataTable);
+      }
+      if (this._bodyMouseUp) {
+        $('body').off('mouseup', this._bodyMouseUp);
+      }
+    },
+
     //initialisation function
     init: function () {
         var domElem = this.$element;
@@ -577,6 +588,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             $(window).on('resize', resizeDataTable);
+            self._resizeDataTable = resizeDataTable;
         }
     },
 
@@ -1179,11 +1191,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
 
         //close exportToFormat onClickOutside
-        $('body').on('mouseup', function (e) {
+        self._bodyMouseUp = function (e) {
             if (self.exportToFormat) {
                 self.exportToFormatHide(domElem);
             }
-        });
+        };
+        $('body').on('mouseup', self._bodyMouseUp);
 
         $('.exportToFormatItems a', domElem)
             // prevent click jacking attacks by dynamically adding the token auth when the link is clicked

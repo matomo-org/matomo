@@ -109,6 +109,20 @@ a#overlayTransitions:hover {
     top: 0;
 }
 
+#root > nav {
+    width: 240px;
+    overflow: hidden;
+}
+
+#root > nav > .nav-wrapper > * {
+    display: none;
+}
+
+#root > nav > .nav-wrapper > .accessibility-skip-to-content,
+#root > nav > .nav-wrapper > #logo {
+    display: block;
+}
+
 #overlayIframe {
     border-left: 2px solid #ddd;
 }
