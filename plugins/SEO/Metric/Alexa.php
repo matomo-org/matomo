@@ -42,7 +42,7 @@ class Alexa implements MetricsProvider
             $value = null;
         }
 
-        $logo = "plugins/SEO/images/alexa.com.png";
+        $logo = "plugins/Morpheus/icons/dist/SEO/alexa.com.png";
         $link = self::LINK . urlencode($domain);
 
         return array(

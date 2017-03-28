@@ -12,7 +12,7 @@
 			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>facebook.com</url>
-			<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 		</row>
 		<row>
 			<label>Twitter</label>
@@ -25,7 +25,7 @@
 			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>twitter.com</url>
-			<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 		</row>
 		<row>
 			<label>Flickr</label>
@@ -38,7 +38,7 @@
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>flickr.com</url>
-			<logo>plugins/Referrers/images/socials/flickr.com.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/flickr.com.png</logo>
 		</row>
 		<row>
 			<label>Mixi</label>
@@ -51,7 +51,7 @@
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>mixi.jp</url>
-			<logo>plugins/Referrers/images/socials/mixi.jp.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/mixi.jp.png</logo>
 		</row>
 		<row>
 			<label>Skyrock</label>
@@ -64,7 +64,7 @@
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>skyrock.com</url>
-			<logo>plugins/Referrers/images/socials/skyrock.com.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/skyrock.com.png</logo>
 		</row>
 		<row>
 			<label>Xanga</label>
@@ -77,7 +77,7 @@
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>xanga.com</url>
-			<logo>plugins/Referrers/images/socials/xanga.com.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/xanga.com.png</logo>
 		</row>
 	</result>
 	<result idSite="2">
@@ -92,7 +92,7 @@
 			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>twitter.com</url>
-			<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 		</row>
 		<row>
 			<label>Facebook</label>
@@ -105,7 +105,7 @@
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>facebook.com</url>
-			<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+			<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 		</row>
 	</result>
 </results>

@@ -57,5 +57,8 @@
     path = misc/log-analytics
     url = https://github.com/piwik/piwik-log-analytics.git
     branch = master
+[submodule "plugins/Morpheus/icons"]
+	path = plugins/Morpheus/icons
+	url = https://github.com/piwik/piwik-icons.git
 
 # Note: do not add new plugin submodules here, but a few lines above

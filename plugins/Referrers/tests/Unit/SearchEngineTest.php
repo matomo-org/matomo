@@ -132,7 +132,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
     public function testMissingSearchEngineIcons($url, $searchEngine)
     {
         // Get list of existing favicons
-        $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Referrers/images/searchEngines/');
+        $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Morpheus/icons/dist/searchEngines/');
 
         // Get list of search engines and first appearing URL
         static $searchEngines = array();
@@ -160,7 +160,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
         }
 
         // Get list of existing favicons
-        $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Referrers/images/searchEngines/');
+        $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Morpheus/icons/dist/searchEngines/');
         foreach ($favicons as $name) {
             if ($name[0] == '.' || strpos($name, 'xx.') === 0) {
                 continue;

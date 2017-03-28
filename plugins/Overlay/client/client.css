@@ -35,6 +35,8 @@
 
 .PIS_LinkTag {
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 9999;
     width: 36px;
     height: 21px;

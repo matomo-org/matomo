@@ -53,7 +53,7 @@ class Dmoz implements MetricsProvider
             $value = null;
         }
 
-        $logo = "plugins/SEO/images/dmoz.org.png";
+        $logo = "plugins/Morpheus/icons/dist/SEO/dmoz.org.png";
 
         return array(
             new Metric('dmoz', 'SEO_Dmoz', $value, $logo)

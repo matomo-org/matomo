@@ -64,7 +64,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     private static $managedReportFormats = array(
         ReportRenderer::HTML_FORMAT => 'plugins/Morpheus/images/html_icon.png',
-        ReportRenderer::PDF_FORMAT  => 'plugins/DevicePlugins/images/plugins/pdf.png',
+        ReportRenderer::PDF_FORMAT  => 'plugins/Morpheus/icons/dist/plugins/pdf.png',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
     );
 
@@ -341,7 +341,7 @@ class ScheduledReports extends \Piwik\Plugin
                 break;
 
             case 'csv':
-                $message .= "\n$messageFindAttached\n$messageSentFrom";
+                $message = "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
@@ -359,7 +359,7 @@ class ScheduledReports extends \Piwik\Plugin
 
             default:
             case 'pdf':
-                $message .= "\n$messageFindAttached\n$messageSentFrom";
+                $message = "\n$messageFindAttached\n$messageSentFrom";
 
                 if ($displaySegmentInfo) {
                     $message .= " " . $segmentInfo;
