@@ -4,60 +4,60 @@
 		<label>Cookie</label>
 		<nb_visits>2</nb_visits>
 		<nb_visits_percentage>6%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/cookie.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/cookie.png</logo>
 	</row>
 	<row>
 		<label>Flash</label>
 		<nb_visits>2</nb_visits>
 		<nb_visits_percentage>6%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/flash.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/flash.png</logo>
 	</row>
 	<row>
 		<label>Java</label>
 		<nb_visits>2</nb_visits>
 		<nb_visits_percentage>6%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/java.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/java.png</logo>
 	</row>
 	<row>
 		<label>Director</label>
 		<nb_visits>1</nb_visits>
 		<nb_visits_percentage>3%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/director.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/director.png</logo>
 	</row>
 	<row>
 		<label>Gears</label>
 		<nb_visits>1</nb_visits>
 		<nb_visits_percentage>3%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/gears.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/gears.png</logo>
 	</row>
 	<row>
 		<label>Pdf</label>
 		<nb_visits>1</nb_visits>
 		<nb_visits_percentage>3%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/pdf.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/pdf.png</logo>
 	</row>
 	<row>
 		<label>Windowsmedia</label>
 		<nb_visits>1</nb_visits>
 		<nb_visits_percentage>3%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/windowsmedia.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</logo>
 	</row>
 	<row>
 		<label>Quicktime</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/quicktime.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/quicktime.png</logo>
 	</row>
 	<row>
 		<label>Realplayer</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/realplayer.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/realplayer.png</logo>
 	</row>
 	<row>
 		<label>Silverlight</label>
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
-		<logo>plugins/DevicePlugins/images/plugins/silverlight.png</logo>
+		<logo>plugins/Morpheus/icons/dist/plugins/silverlight.png</logo>
 	</row>
 </result>

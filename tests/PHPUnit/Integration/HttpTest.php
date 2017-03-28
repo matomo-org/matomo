@@ -260,12 +260,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         Http::sendHttpRequestBy('fopen', 'https://self-signed.badssl.com/', 10);
     }
 
-    /**
-     * We check that HTTPS is not supported with the "socket" method
-     */
-    public function testSocketHttpsWorksEvenWithInvalidCertificate()
+    public function testSocketHttpsWorksWithValidCertificate()
     {
-        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net', 10);
+        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net/', 10);
         $this->assertNotEmpty($result);
     }
 }

@@ -59,7 +59,7 @@
 		<referrerKeywordPosition />
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -68,14 +68,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Safari</browser>
 		<browserName>Safari</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/SF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -99,11 +99,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -253,14 +253,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -292,11 +292,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -384,14 +384,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -423,11 +423,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -558,14 +558,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -597,11 +597,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -689,14 +689,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -728,11 +728,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -882,14 +882,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -921,11 +921,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1013,14 +1013,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -1052,11 +1052,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1187,14 +1187,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -1226,11 +1226,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1318,14 +1318,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -1357,11 +1357,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1511,14 +1511,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -1550,11 +1550,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1642,14 +1642,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -1681,11 +1681,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1816,14 +1816,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -1855,11 +1855,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -1990,14 +1990,14 @@
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -2021,11 +2021,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -2113,14 +2113,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -2152,11 +2152,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -2244,14 +2244,14 @@
 		<deviceModel>Xperia Tablet S</deviceModel>
 		<operatingSystem>Android 4.1</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.1</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 34.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
 		<events>0</events>
@@ -2283,11 +2283,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -2437,14 +2437,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -2476,11 +2476,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -2630,14 +2630,14 @@
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -2661,11 +2661,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -2753,14 +2753,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -2792,11 +2792,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -2884,14 +2884,14 @@
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 11.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>11.0</browserVersion>
 		<events>0</events>
@@ -2923,11 +2923,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -3058,14 +3058,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -3097,11 +3097,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -3232,14 +3232,14 @@
 		<deviceModel>Desire</deviceModel>
 		<operatingSystem>MildWild 8.0</operatingSystem>
 		<operatingSystemName>MildWild</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/AN.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -3271,11 +3271,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -3406,14 +3406,14 @@
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -3437,11 +3437,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -3572,14 +3572,14 @@
 		<deviceModel />
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
 		<operatingSystemName>Ubuntu</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UBT.png</operatingSystemIcon>
 		<operatingSystemCode>UBT</operatingSystemCode>
 		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<events>1</events>
@@ -3611,11 +3611,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -3703,14 +3703,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -3742,11 +3742,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -3834,14 +3834,14 @@
 		<deviceModel>Desire</deviceModel>
 		<operatingSystem>MildWild 8.0</operatingSystem>
 		<operatingSystemName>MildWild</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>MLD</operatingSystemCode>
 		<operatingSystemVersion>8.0</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/AN.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
 		<events>0</events>
@@ -3873,11 +3873,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -3965,14 +3965,14 @@
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 8.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
 		<events>0</events>
@@ -4004,11 +4004,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -4096,14 +4096,14 @@
 		<deviceModel />
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
 		<operatingSystemName>Ubuntu</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UBT.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UBT.png</operatingSystemIcon>
 		<operatingSystemCode>UBT</operatingSystemCode>
 		<operatingSystemVersion>9.04</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<events>0</events>
@@ -4135,11 +4135,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -4289,14 +4289,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>1</events>
@@ -4328,11 +4328,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -4482,14 +4482,14 @@
 		<deviceModel>Nexus 4</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.4</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome Mobile 33.0</browser>
 		<browserName>Chrome Mobile</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CM.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>1</events>
@@ -4521,11 +4521,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -4675,14 +4675,14 @@
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
 		<events>1</events>
@@ -4706,11 +4706,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -4860,14 +4860,14 @@
 		<deviceModel>GALAXY Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
 		<events>1</events>
@@ -4899,11 +4899,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -4991,14 +4991,14 @@
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<events>0</events>
@@ -5030,11 +5030,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -5122,14 +5122,14 @@
 		<deviceModel>Nexus 4</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.4</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome Mobile 33.0</browser>
 		<browserName>Chrome Mobile</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CM.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
 		<events>0</events>
@@ -5161,11 +5161,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -5253,14 +5253,14 @@
 		<deviceModel />
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>8.1</operatingSystemVersion>
 		<browserFamily>Blink</browserFamily>
 		<browserFamilyDescription>Blink (Chrome, Opera)</browserFamilyDescription>
 		<browser>Chrome 32.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>32.0</browserVersion>
 		<events>0</events>
@@ -5292,11 +5292,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -5384,14 +5384,14 @@
 		<deviceModel>GALAXY Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.png</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>4.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>QQ Browser 5.0</browser>
 		<browserName>QQ Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/QQ.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
 		<events>0</events>
@@ -5423,11 +5423,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.png</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>

@@ -460,11 +460,11 @@ class SearchEngine extends Singleton
      *
      * @param string $url
      * @return string path
-     * @see plugins/Referrers/images/searchEnginges/
+     * @see plugins/Morpheus/icons/dist/searchEnginges/
      */
     public function getLogoFromUrl($url)
     {
-        $pathInPiwik  = 'plugins/Referrers/images/searchEngines/%s.png';
+        $pathInPiwik  = 'plugins/Morpheus/icons/dist/searchEngines/%s.png';
         $pathWithCode = sprintf($pathInPiwik, $this->getHostFromUrl($url));
         $absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
         if (file_exists($absolutePath)) {
