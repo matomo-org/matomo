@@ -13,7 +13,6 @@
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 </result>

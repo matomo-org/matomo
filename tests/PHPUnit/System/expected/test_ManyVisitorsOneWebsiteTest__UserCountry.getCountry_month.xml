@@ -26,8 +26,7 @@
 		<code>gb</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 		<segment>countryCode==gb</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Canada</label>
@@ -55,8 +54,7 @@
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 		<segment>countryCode==ca</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Russia</label>
@@ -84,8 +82,7 @@
 		<code>ru</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 		<segment>countryCode==ru</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>United States</label>
@@ -113,8 +110,7 @@
 		<code>us</code>
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 		<segment>countryCode==us</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>France</label>
@@ -142,8 +138,7 @@
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Indonesia</label>
@@ -171,8 +166,7 @@
 		<code>id</code>
 		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
 		<segment>countryCode==id</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Italy</label>
@@ -200,8 +194,7 @@
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 		<segment>countryCode==it</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Macedonia</label>
@@ -229,8 +222,7 @@
 		<code>mk</code>
 		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
 		<segment>countryCode==mk</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Tibet</label>
@@ -258,8 +250,7 @@
 		<code>ti</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ti.png</logo>
 		<segment>countryCode==ti</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -287,7 +278,6 @@
 		<code>xx</code>
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 		<segment>countryCode==xx</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 </result>

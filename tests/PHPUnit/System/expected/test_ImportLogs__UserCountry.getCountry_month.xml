@@ -21,8 +21,7 @@
 		<code>jp</code>
 		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
 		<segment>countryCode==jp</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>United States</label>
@@ -45,8 +44,7 @@
 		<code>us</code>
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 		<segment>countryCode==us</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -70,8 +68,7 @@
 		<code>xx</code>
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 		<segment>countryCode==xx</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Brazil</label>
@@ -94,8 +91,7 @@
 		<code>br</code>
 		<logo>plugins/Morpheus/icons/dist/flags/br.png</logo>
 		<segment>countryCode==br</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Australia</label>
@@ -110,8 +106,7 @@
 		<code>au</code>
 		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
 		<segment>countryCode==au</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Canada</label>
@@ -134,8 +129,7 @@
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 		<segment>countryCode==ca</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>South Korea</label>
@@ -158,7 +152,6 @@
 		<code>kr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/kr.png</logo>
 		<segment>countryCode==kr</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 </result>

@@ -26,8 +26,7 @@
 		<code>gb</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 		<segment>countryCode==gb</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Russia</label>
@@ -55,8 +54,7 @@
 		<code>ru</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 		<segment>countryCode==ru</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>France</label>
@@ -84,8 +82,7 @@
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Italy</label>
@@ -113,8 +110,7 @@
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 		<segment>countryCode==it</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Macedonia</label>
@@ -142,7 +138,6 @@
 		<code>mk</code>
 		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
 		<segment>countryCode==mk</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 </result>

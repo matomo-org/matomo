@@ -97,10 +97,10 @@
 		<serverDatePretty>Sunday, April 7, 2013</serverDatePretty>
 		<serverDatePrettyFirstAction>Sunday, April 7, 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>10:00:00</serverTimePrettyFirstAction>
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -201,10 +201,10 @@
 		<serverDatePretty>Saturday, April 6, 2013</serverDatePretty>
 		<serverDatePrettyFirstAction>Saturday, April 6, 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>11:00:00</serverTimePrettyFirstAction>
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -305,10 +305,10 @@
 		<serverDatePretty>Friday, April 5, 2013</serverDatePretty>
 		<serverDatePrettyFirstAction>Friday, April 5, 2013</serverDatePrettyFirstAction>
 		<serverTimePrettyFirstAction>12:00:00</serverTimePrettyFirstAction>
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
