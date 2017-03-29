@@ -30,7 +30,7 @@ class CustomLogo
 
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $defaultLogo = 'plugins/Morpheus/images/logo-header.png';
+        $defaultLogo = 'plugins/Morpheus/images/logo.svg';
         $themeLogo = 'plugins/%s/images/logo-header.png';
         $customLogo = static::getPathUserLogoSmall();
         return $this->getPathToLogo($pathOnly, $defaultLogo, $themeLogo, $customLogo);

@@ -94,7 +94,7 @@ class ExceptionHandler
         }
 
 
-        $logoHeaderUrl = 'plugins/Morpheus/images/logo-header.png';
+        $logoHeaderUrl = 'plugins/Morpheus/images/logo.svg';
         $logoFaviconUrl = 'plugins/CoreHome/images/favicon.png';
         try {
             $logo = new CustomLogo();

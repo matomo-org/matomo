@@ -433,7 +433,7 @@ class FrontController extends Singleton
         }
         Common::sendResponseCode(503);
 
-        $logoUrl = 'plugins/Morpheus/images/logo-header.png';
+        $logoUrl = 'plugins/Morpheus/images/logo.svg';
         $faviconUrl = 'plugins/CoreHome/images/favicon.png';
         try {
             $logo = new CustomLogo();

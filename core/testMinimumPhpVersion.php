@@ -125,7 +125,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if (empty($logoUrl)) {
-            $logoUrl = "plugins/Morpheus/images/logo-header.png";
+            $logoUrl = "plugins/Morpheus/images/logo.svg";
         }
 
         if (empty($faviconUrl)) {
