@@ -7,16 +7,21 @@
  */
 namespace Piwik\Tests\Integration;
 
+use Piwik\API\Proxy;
 use Piwik\Archive as PiwikArchive;
+use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugins\UserLanguage;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
@@ -228,6 +233,59 @@ class ArchiveTest extends IntegrationTestCase
             array(404, array('Actions_Actions_404' => 0)),
         );
     }
+
+    public function testExistingArchivesAreReplaced()
+    {
+        $date = self::$fixture->dateTime;
+        $period = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', $date);
+
+        // request an report to trigger archiving
+        $userLanguageReport = Proxy::getInstance()->call('\\Piwik\\Plugins\\UserLanguage\\API', 'getLanguage', array(
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => $date
+        ));
+
+        $this->assertEquals(1, $userLanguageReport->getRowsCount());
+
+        $parameters = new Parameters(new Site(1), $period, new Segment('', ''));
+        $parameters->setRequestedPlugin('UserLanguage');
+
+        $result    = ArchiveSelector::getArchiveIdAndVisits($parameters, $period->getDateStart()->getDateStartUTC());
+        $idArchive = $result ? array_shift($result) : null;
+
+        if (empty($idArchive)) {
+            $this->fail('Archive should be available');
+        }
+
+        // track a new visits now
+        $fixture = self::$fixture;
+        $t = $fixture::getTracker(1, $date, $defaultInit = true);
+        $t->setBrowserLanguage('id');
+        $fixture::checkResponse($t->doTrackPageView('http://example.org/index.htm'));
+
+        $archiveWriter            = new ArchiveWriter($parameters, !!$idArchive);
+        $archiveWriter->idArchive = $idArchive;
+
+        $archiveProcessor = new ArchiveProcessor($parameters, $archiveWriter,
+            new LogAggregator($parameters));
+
+        $archiveProcessor->setNumberOfVisits(1, 1);
+
+        // directly trigger specific archiver for existing archive
+        $archiver = new UserLanguage\Archiver($archiveProcessor);
+        $archiver->aggregateDayReport();
+
+        // report should be updated
+        $userLanguageReport = Proxy::getInstance()->call('\\Piwik\\Plugins\\UserLanguage\\API', 'getLanguage', array(
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => $date
+        ));
+
+        $this->assertEquals(2, $userLanguageReport->getRowsCount());
+    }
+
 
     private function createManyDifferentArchiveBlobs()
     {
