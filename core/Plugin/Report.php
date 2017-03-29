@@ -120,6 +120,14 @@ class Report
     protected $hasGoalMetrics = false;
 
     /**
+     * Set this property to false in case your report can't/shouldn't be flattened.
+     * In this case, flattener won't be applied even if parameter is provided in a request
+     * @var bool
+     * @api
+     */
+    protected $supportsFlatten = true;
+
+    /**
      * Set it to boolean `true` if your report always returns a constant count of rows, for instance always 24 rows
      * for 1-24 hours.
      * @var bool
@@ -491,6 +499,15 @@ class Report
     public function hasGoalMetrics()
     {
         return $this->hasGoalMetrics;
+    }
+
+    /**
+     * @return bool
+     * @ignore
+     */
+    public function supportsFlatten()
+    {
+        return $this->supportsFlatten;
     }
 
     /**
