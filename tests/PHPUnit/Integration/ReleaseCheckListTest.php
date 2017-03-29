@@ -745,6 +745,9 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*');
 
+        // ignore icon source files as they are large, but not included in the final package
+        $files = array_filter($files, function($value) { return !preg_match('~Morpheus/icons/(?!dist)~', $value); });
+
         $filesizes = array();
         foreach ($files as $file) {
 
