@@ -75,7 +75,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -196,7 +196,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region>Franche-Comte</region>
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
@@ -317,7 +317,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -438,7 +438,7 @@
 		<continentCode>eur</continentCode>
 		<country>Italy</country>
 		<countryCode>it</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/it.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -590,7 +590,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -742,7 +742,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region>Franche-Comte</region>
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
@@ -886,7 +886,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>

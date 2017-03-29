@@ -83,7 +83,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>California</region>
 		<regionCode>CA</regionCode>
 		<city>not a city</city>
@@ -274,7 +274,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -411,7 +411,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -591,7 +591,7 @@
 		<continentCode>eur</continentCode>
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -728,7 +728,7 @@
 		<continentCode>eur</continentCode>
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -927,7 +927,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Hluboká nad Vltavou</city>
@@ -1064,7 +1064,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Hluboká nad Vltavou</city>

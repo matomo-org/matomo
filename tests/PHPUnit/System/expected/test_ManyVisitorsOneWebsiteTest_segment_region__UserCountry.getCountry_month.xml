@@ -24,7 +24,7 @@
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>gb</code>
-		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 		<segment>countryCode==gb</segment>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>

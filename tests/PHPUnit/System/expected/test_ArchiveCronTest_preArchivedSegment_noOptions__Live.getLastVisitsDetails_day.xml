@@ -89,7 +89,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -203,7 +203,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -317,7 +317,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -431,7 +431,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -545,7 +545,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -659,7 +659,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -773,7 +773,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -887,7 +887,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -1001,7 +1001,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
