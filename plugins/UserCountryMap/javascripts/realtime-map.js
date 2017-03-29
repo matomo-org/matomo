@@ -215,10 +215,10 @@
             function visitTooltip(r) {
                 var ds = new Date().getTime() / 1000 - r.lastActionTimestamp,
                     ad = r.actionDetails,
-                    ico = function (src, square) { return '<img' + (square ? ' width="16px" height="16px"' : '') + ' src="' + src + '" alt="" class="icon" />&nbsp;'; };
+                    ico = function (src) { return '<img height="16px" src="' + src + '" alt="" class="icon" />&nbsp;'; };
                 return '<h3>' + (r.city ? r.city + ' / ' : '') + r.country + '</h3>' +
                     // icons
-                    ico(r.countryFlag) + ico(r.browserIcon, true) + ico(r.operatingSystemIcon, true) + '<br/>' +
+                    ico(r.countryFlag) + ico(r.browserIcon) + ico(r.operatingSystemIcon) + '<br/>' +
                     // User ID
                     (r.userId ? _pk_translate('General_UserId') + ':&nbsp;' + r.userId + '<br/>' : '') +
                     // last action

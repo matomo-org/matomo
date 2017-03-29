@@ -245,6 +245,12 @@ THIRD-PARTY CONTENT
 	Notes:
 	- used in Piwik's ExampleUI plugin
 
+	Name:  flag-icon-css - Lipis
+	Link:  https://github.com/lipis/flag-icon-css
+	License:  MIT (Expat)
+	Notes:
+	- used for flag PNGs
+
 	Name: Wine project - tahoma.ttf font
 	Link: http://source.winehq.org/git/wine.git/blob_plain/HEAD:/fonts/tahoma.ttf
 	License: LGPL v2.1
@@ -259,18 +265,18 @@ THIRD-PARTY CONTENT
 	Link: https://www.iconfinder.com/icons/216429/thumbs_up_icon
 	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
 
-    Name: plugins/Insights/images/idea.png
-    Link: https://www.iconfinder.com/icons/6074/brainstorm_bulb_idea_jabber_light_icon
-    License: GPL
-    By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
+	Name: plugins/Insights/images/idea.png
+	Link: https://www.iconfinder.com/icons/6074/brainstorm_bulb_idea_jabber_light_icon
+	License: GPL
+	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-    Name: Material icons ("icon-info2" "icon-outline" "icon-settings", "icon-form") in plugins/Morpheus/fonts
-    Link: https://design.google.com/icons/
-    License: Apache License Version 2.0
+	Name: Material icons ("icon-info2" "icon-outline" "icon-settings", "icon-form") in plugins/Morpheus/fonts
+	Link: https://design.google.com/icons/
+	License: Apache License Version 2.0
 
-    Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive") in plugins/Morpheus/fonts
-    Link: https://icomoon.io/#icons-icomoon
-    License: GPL
+	Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive") in plugins/Morpheus/fonts
+	Link: https://icomoon.io/#icons-icomoon
+	License: GPL
 
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"

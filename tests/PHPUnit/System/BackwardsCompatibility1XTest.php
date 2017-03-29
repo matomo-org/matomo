@@ -119,6 +119,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'Actions.getPageUrls',
             'Actions.getDownloads',
             'Actions.getDownload',
+
+            // new flag dimensions
+            'UserCountry.getCountry',
         );
 
         $apiNotToCall = array(

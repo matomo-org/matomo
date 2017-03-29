@@ -51,7 +51,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
         $countries = $dataProvider->getCountryList(true);
 
         // Get list of existing flag icons
-        $flags = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/UserCountry/images/flags/');
+        $flags = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Morpheus/icons/dist/flags/');
 
         // Get list of countries
         foreach ($countries as $country => $continent) {

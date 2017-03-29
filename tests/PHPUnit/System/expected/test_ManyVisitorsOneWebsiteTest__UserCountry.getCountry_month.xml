@@ -24,10 +24,9 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>gb</code>
-		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 		<segment>countryCode==gb</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Canada</label>
@@ -53,10 +52,9 @@
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>ca</code>
-		<logo>plugins/UserCountry/images/flags/ca.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 		<segment>countryCode==ca</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Russia</label>
@@ -82,10 +80,9 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>ru</code>
-		<logo>plugins/UserCountry/images/flags/ru.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 		<segment>countryCode==ru</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>United States</label>
@@ -111,10 +108,9 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>us</code>
-		<logo>plugins/UserCountry/images/flags/us.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 		<segment>countryCode==us</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>France</label>
@@ -140,10 +136,9 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>fr</code>
-		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Indonesia</label>
@@ -169,10 +164,9 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>id</code>
-		<logo>plugins/UserCountry/images/flags/id.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
 		<segment>countryCode==id</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Italy</label>
@@ -198,10 +192,9 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>it</code>
-		<logo>plugins/UserCountry/images/flags/it.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 		<segment>countryCode==it</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Macedonia</label>
@@ -227,10 +220,9 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>mk</code>
-		<logo>plugins/UserCountry/images/flags/mk.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
 		<segment>countryCode==mk</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Tibet</label>
@@ -256,10 +248,9 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>ti</code>
-		<logo>plugins/UserCountry/images/flags/ti.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/ti.png</logo>
 		<segment>countryCode==ti</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -285,9 +276,8 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>xx</code>
-		<logo>plugins/UserCountry/images/flags/xx.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 		<segment>countryCode==xx</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 </result>

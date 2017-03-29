@@ -30,10 +30,9 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>3111.11</revenue>
 		<code>pl</code>
-		<logo>plugins/UserCountry/images/flags/pl.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/pl.png</logo>
 		<segment>countryCode==pl</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 	<row>
 		<label>France</label>
@@ -54,9 +53,8 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
 		<code>fr</code>
-		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 </result>

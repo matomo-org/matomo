@@ -138,7 +138,7 @@
                                     {{ entry.prettyName }}
                                 {%- endif -%}
 
-                                &nbsp;<img src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>
+                                &nbsp;<img height="16px" src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>
                             {%- endset %}
 
                             {{- 'General_XFromY'|translate(entryVisits, entryCountry)|raw -}}{% if not loop.last %}, {% endif %}
