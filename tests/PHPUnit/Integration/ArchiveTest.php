@@ -247,6 +247,8 @@ class ArchiveTest extends IntegrationTestCase
         ));
 
         $this->assertEquals(1, $userLanguageReport->getRowsCount());
+        $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getFirstRow()->getColumn('label'));
+        $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getLastRow()->getColumn('label'));
 
         $parameters = new Parameters(new Site(1), $period, new Segment('', ''));
         $parameters->setRequestedPlugin('UserLanguage');
@@ -261,8 +263,10 @@ class ArchiveTest extends IntegrationTestCase
         // track a new visits now
         $fixture = self::$fixture;
         $t = $fixture::getTracker(1, $date, $defaultInit = true);
-        $t->setBrowserLanguage('id');
-        $fixture::checkResponse($t->doTrackPageView('http://example.org/index.htm'));
+        $t->setForceVisitDateTime(Date::factory($date)->addHour(1)->getDatetime());
+        $t->setUrl('http://example.org/index.htm');
+        $t->setBrowserLanguage('pt-br');
+        $fixture::checkResponse($t->doTrackPageView('my site'));
 
         $archiveWriter            = new ArchiveWriter($parameters, !!$idArchive);
         $archiveWriter->idArchive = $idArchive;
@@ -284,6 +288,8 @@ class ArchiveTest extends IntegrationTestCase
         ));
 
         $this->assertEquals(2, $userLanguageReport->getRowsCount());
+        $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getFirstRow()->getColumn('label'));
+        $this->assertEquals('UserLanguage_LanguageCode pt', $userLanguageReport->getLastRow()->getColumn('label'));
     }
 
 
