@@ -70,10 +70,12 @@ class FileIntegrity
             'config/manifest.inc.php',
             'misc/*.dat',
             'misc/*.dat.gz',
+            'misc/*.bin',
             'misc/user/*png',
             'misc/package',
             'misc/package/WebAppGallery/*.xml',
             'misc/package/WebAppGallery/install.sql',
+            'plugins/ImageGraph/fonts/unifont.ttf',
             'vendor/autoload.php',
             'vendor/composer/autoload_real.php',
             'tmp/*',
@@ -308,7 +310,7 @@ class FileIntegrity
     {
         $expected = self::getFilesNotInManifestButExpectedAnyway();
         foreach ($expected as $expectedPattern) {
-            if (fnmatch($expectedPattern, $file)) {
+            if (fnmatch($expectedPattern, $file, defined('FNM_CASEFOLD') ? FNM_CASEFOLD : 0)) {
                 return true;
             }
         }

@@ -16,7 +16,7 @@
         "Default": "výchozí",
         "DonateCall1": "Piwik lze používat zadarmo, to ale neznamená, že jeho vývoj nic nestojí.",
         "DonateCall2": "Piwik potřebuje Vaši podporu, aby mohl růst a prosperovat.",
-        "DonateCall3": "Pokud Piwik pomáhá vašemu podnikáním nebo projektu, %1$szvažte prosím zaslání daru%2$s nebo %3$szakoupení prémiových funkcí%4$s.",
+        "DonateCall3": "Pokud se domníváte, že vám Piwik významně pomohl při vašem podnikání nebo projektu, %1$sprosím zvažte příspěvek%2$s nebo %3$szakoupení prémiové funkce%4$s. Každý cent pomůže.",
         "DonateFormInstructions": "Klikněte na posuvník ke zvolení částky, poté klikněte na tlačítko Subscribe.",
         "ExcludeRowsWithLowPopulation": "Všechny řádky jsou zobrazeny %s Vyloučit nízkou populaci",
         "ExternalHelp": "Nápověda (otevře se v nové záložce)",
@@ -67,6 +67,7 @@
         "Segments": "Segmenty",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Aktualizace na jedno kliknutí není dostupná při nasazení Piwiku na několika serverech naráz. Stáhněte prosím nejnovější verzi z %1$s a pokračujte.",
         "AdblockIsMaybeUsed": "Pokud používáte blokovač reklam, zakažte ho pro tyto stránky, aby Piwik správně fungoval.",
-        "ChangeCurrentWebsite": "Vyberte web, aktuálně vybraný web: %s"
+        "ChangeCurrentWebsite": "Vyberte web, aktuálně vybraný web: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Nejrozšířenější otevřená aplatforma pro analýzu, která respektuje vaše soukromí."
     }
 }

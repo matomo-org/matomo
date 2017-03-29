@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ManageUsersController', ManageUsersController);
 
-    ManageUsersController.$inject = ['piwik', 'piwikApi', '$timeout'];
+    ManageUsersController.$inject = ['piwik', 'piwikApi', '$timeout', '$rootScope'];
 
-    function ManageUsersController(piwik, piwikApi, $timeout) {
+    function ManageUsersController(piwik, piwikApi, $timeout, $rootScope) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
@@ -132,6 +132,13 @@
         }
         
         this.createUser = function () {
+
+            var parameters = {isAllowed: true};
+            $rootScope.$emit('UsersManager.initAddUser', parameters);
+            if (parameters && !parameters.isAllowed) {
+                return;
+            }
+
             this.showCreateUser = false;
 
             var numberOfRows = $('table#users')[0].rows.length;

@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(76);
+        expect(77);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2140,6 +2140,7 @@ function PiwikTest() {
         equal( typeof tracker.setCustomVariable, 'function', 'setCustomVariable' );
         equal( typeof tracker.getCustomVariable, 'function', 'getCustomVariable' );
         equal( typeof tracker.deleteCustomVariable, 'function', 'deleteCustomVariable' );
+        equal( typeof tracker.deleteCustomVariables, 'function', 'deleteCustomVariables' );
         equal( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
         equal( typeof tracker.getLinkTrackingTimer, 'function', 'getLinkTrackingTimer' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
@@ -3490,7 +3491,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(124);
+        expect(142);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3560,6 +3561,42 @@ if ($mysql) {
         equal(tracker.getCustomDimension(3), "my third value", "deleteCustomDimension verify a value is set for this dimension" );
         tracker.deleteCustomDimension(3);
         equal(tracker.getCustomDimension(3), null, "deleteCustomDimension verify value was removed" );
+
+
+        tracker.setCustomVariable(1, "new visit1", 'val1', 'visit');
+        tracker.setCustomVariable(5, "new visit5", 'val5');
+        tracker.setCustomVariable(2, "new page2", 'pageval2', 'page');
+        tracker.setCustomVariable(5, "new page5", 'pageval5', 'page');
+        tracker.setCustomVariable(3, "new event3", 'eventval3', 'event');
+        tracker.setCustomVariable(5, "new event5", 'eventval5', 'event');
+
+        deepEqual( tracker.getCustomVariable(1), ["new visit1", "val1"], "deleteCustomVariables, getting a custom variable" );
+        deepEqual( tracker.getCustomVariable(5, 'visit'), ["new visit5", "val5"], "deleteCustomVariables, getting a custom variable" );
+        deepEqual( tracker.getCustomVariable(2, 'page'), ["new page2", "pageval2"], "deleteCustomVariables, getting a page custom variable" );
+        deepEqual( tracker.getCustomVariable(5, 'page'), ["new page5", "pageval5"], "deleteCustomVariables, getting a page custom variable" );
+        deepEqual( tracker.getCustomVariable(3, 'event'), ["new event3", "eventval3"], "deleteCustomVariables, getting a page custom variable" );
+        deepEqual( tracker.getCustomVariable(5, 'event'), ["new event5", "eventval5"], "deleteCustomVariables, getting a page custom variable" );
+
+        tracker.deleteCustomVariables('visit');
+
+        deepEqual( tracker.getCustomVariable(1), false, "deleteCustomVariables, unsets visit variables only" );
+        deepEqual( tracker.getCustomVariable(5, 'visit'), false, "deleteCustomVariables, unsets visit variables only" );
+        deepEqual( tracker.getCustomVariable(2, 'page'), ["new page2", "pageval2"], "getting a page custom variable" );
+        deepEqual( tracker.getCustomVariable(5, 'page'), ["new page5", "pageval5"], "getting a page custom variable" );
+        deepEqual( tracker.getCustomVariable(3, 'event'), ["new event3", "eventval3"], "getting a page custom variable" );
+        deepEqual( tracker.getCustomVariable(5, 'event'), ["new event5", "eventval5"], "getting a page custom variable" );
+
+        tracker.deleteCustomVariables('page');
+
+        deepEqual( tracker.getCustomVariable(2, 'page'), false, "deleteCustomVariables, unsets visit variables only" );
+        deepEqual( tracker.getCustomVariable(5, 'page'), false, "deleteCustomVariables, unsets page variables only" );
+        deepEqual( tracker.getCustomVariable(3, 'event'), ["new event3", "eventval3"], "getting a page custom variable" );
+        deepEqual( tracker.getCustomVariable(5, 'event'), ["new event5", "eventval5"], "getting a page custom variable" );
+
+        tracker.deleteCustomVariables('event');
+
+        deepEqual( tracker.getCustomVariable(3, 'event'), false, "deleteCustomVariables, unsets event variables only" );
+        deepEqual( tracker.getCustomVariable(5, 'event'), false, "deleteCustomVariables, unsets event variables only" );
 
         tracker.setDocumentTitle("PiwikTest");
 

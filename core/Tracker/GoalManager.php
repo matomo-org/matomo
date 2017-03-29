@@ -336,7 +336,7 @@ class GoalManager
             $recorded = $this->getModel()->updateConversion(
                 $visitProperties->getProperty('idvisit'), self::IDGOAL_CART, $conversion);
         } else {
-            $recorded = $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request);
+            $recorded = $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action);
         }
 
         if ($recorded) {
@@ -676,7 +676,7 @@ class GoalManager
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
-            $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request);
+            $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action);
         }
     }
 
@@ -685,9 +685,11 @@ class GoalManager
      *
      * @param array $conversion
      * @param array $visitInformation
+     * @param Request $request
+     * @param Action|null $action
      * @return bool
      */
-    protected function insertNewConversion($conversion, $visitInformation, Request $request)
+    protected function insertNewConversion($conversion, $visitInformation, Request $request, $action)
     {
         /**
          * Triggered before persisting a new [conversion entity](/guides/persistence-and-the-mysql-backend#conversions).
@@ -701,10 +703,12 @@ class GoalManager
          * @param array $visitInformation The visit entity that we are tracking a conversion for. See what
          *                                information it contains [here](/guides/persistence-and-the-mysql-backend#visits).
          * @param \Piwik\Tracker\Request $request An object describing the tracking request being processed.
+         * @param Action|null $action An action object like ActionPageView or ActionDownload, or null if no action is
+         *                            supposed to be processed.
          * @deprecated
          * @ignore
          */
-        Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request));
+        Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request, $action));
 
         $newGoalDebug = $conversion;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);

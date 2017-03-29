@@ -13,6 +13,7 @@
         "Settings_CredentialNotProvided": "Avant de pouvoir créer et gérer les numéros de téléphone veuillez connecter Piwik à votre compte SMS ci-dessus.",
         "Settings_CredentialNotProvidedByAdmin": "Avant de pouvoir créer et gérer vos numéros de téléphone, veuille demander à votre administrateur de connecter Piwik à un compte SMS.",
         "Settings_CredentialProvided": "Votre compte d'API SMS %s est correctement configuré!",
+        "Settings_CredentialInvalid": "Votre compte d'API SMS %1$s est configuré, mais une erreur est survenue lors de la consultation du crédit disponible.",
         "Settings_DeleteAccountConfirm": "Êtes vous sûr(e) de vouloir supprimer ce compte SMS?",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Le service d'envoi de SMS configuré ne sera utilisé que par vous et non par un autre utilisateur.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Le numéro de téléphone configuré ne sera visible et utilisable que par vous et non par un autre utilisateur.",
@@ -38,8 +39,10 @@
         "Settings_VerificationCodeJustSent": "Nous venons juste de vous envoyer un SMS à ce numéro avec un code : veuillez entrer ce code ci-dessus et cliquer sur \"Valider\".",
         "SettingsMenu": "Messagerie Mobile",
         "SMS_Content_Too_Long": "[trop long]",
+        "Available_Credits": "Crédit disponible: %1$s",
         "TopLinkTooltip": "Recevez vos rapports d'analyse web dans votre boite de courriels ou sur votre téléphone mobile!",
         "TopMenu": "Rapports Email & SMS",
+        "UserKey": "Clef utilisateur",
         "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Piwik veuillez copier ce code dans le formulaire accessible via Piwik > %2$s > %3$s."
     }
 }

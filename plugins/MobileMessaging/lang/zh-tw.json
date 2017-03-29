@@ -13,6 +13,7 @@
         "Settings_CredentialNotProvided": "在你建立和管理電話號碼錢，請先在上方將 Piwik 連接到你的簡訊帳號。",
         "Settings_CredentialNotProvidedByAdmin": "在你建立和管理電話號碼錢，請先請求你的管理員將 Piwik 連接到你的簡訊帳號。",
         "Settings_CredentialProvided": "你的 %s 簡訊 API 帳號配置正確！",
+        "Settings_CredentialInvalid": "你的簡訊帳號 %1$s 已配置，但是在嘗試接收可用額度時發生錯誤。",
         "Settings_DeleteAccountConfirm": "你確定要刪除這個簡訊帳號？",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "所配置的簡訊供應商只會由你自己使用。",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "所配置的電話號碼只會由你自己看到及使用。",
@@ -38,8 +39,10 @@
         "Settings_VerificationCodeJustSent": "我們已經發送了一則驗證碼簡訊到此號碼中，請在上方輸入該驗證碼後點擊「驗證」。",
         "SettingsMenu": "手機簡訊",
         "SMS_Content_Too_Long": "[太長]",
+        "Available_Credits": "可用額度：%1$s",
         "TopLinkTooltip": "從信箱或手機取得網頁分析報表。",
         "TopMenu": "Email 和簡訊報表",
+        "UserKey": "使用者金鑰",
         "VerificationText": "驗證碼為 %1$s。請將此驗證碼填入 Piwik > %2$s > %3$s 的表單中來完成手機驗證。"
     }
 }

@@ -980,7 +980,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setCustomData, getCustomData,
     setCustomRequestProcessing,
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
-    deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
+    deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
@@ -1019,7 +1019,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     contentInteractionTrackingSetupDone, contains, match, pathname, piece, trackContentInteractionNode,
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent, logAllContentBlocksOnPage,
-    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain,
+    trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain, piwikTrackers,
     isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
     substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
@@ -5284,20 +5284,29 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Add click handlers to anchor and AREA elements, except those to be ignored
              */
-            function addClickListeners(enable) {
-                if (!linkTrackingInstalled) {
-                    linkTrackingInstalled = true;
+            function addClickListeners(enable, trackerInstance) {
+                linkTrackingInstalled = true;
 
-                    // iterate through anchor elements with href and AREA elements
+                // iterate through anchor elements with href and AREA elements
+                var i,
+                    ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'),
+                    linkElements = documentAlias.links,
+                    linkElement = null, trackerType = null;
 
-                    var i,
-                        ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'),
-                        linkElements = documentAlias.links;
+                if (linkElements) {
+                    for (i = 0; i < linkElements.length; i++) {
+                        linkElement = linkElements[i];
+                        if (!ignorePattern.test(linkElement.className)) {
+                            trackerType = typeof linkElement.piwikTrackers;
 
-                    if (linkElements) {
-                        for (i = 0; i < linkElements.length; i++) {
-                            if (!ignorePattern.test(linkElements[i].className)) {
-                                addClickListener(linkElements[i], enable);
+                            if ('undefined' === trackerType) {
+                                linkElement.piwikTrackers = [];
+                            }
+
+                            if (-1 === indexOfArray(linkElement.piwikTrackers, trackerInstance)) {
+                                // we make sure to setup link only once for each tracker
+                                linkElement.piwikTrackers.push(trackerInstance);
+                                addClickListener(linkElement, enable);
                             }
                         }
                     }
@@ -5638,9 +5647,8 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Adds a new tracker. All sent requests will be also sent to the given siteId and piwikUrl.
-             * If piwikUrl is not set, current url will be used.
              *
-             * @param null|string piwikUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param string piwikUrl  The tracker URL of the current tracker instance
              * @param int|string siteId
              * @return Tracker
              */
@@ -5906,6 +5914,21 @@ if (typeof window.Piwik !== 'object') {
                 // Only delete if it was there already
                 if (this.getCustomVariable(index, scope)) {
                     this.setCustomVariable(index, '', '', scope);
+                }
+            };
+
+            /**
+             * Deletes all custom variables for a certain scope.
+             *
+             * @param string scope
+             */
+            this.deleteCustomVariables = function (scope) {
+                if (scope === "page" || scope === 3) {
+                    customVariablesPage = {};
+                } else if (scope === "event") {
+                    customVariablesEvent = {};
+                } else if (scope === "visit" || scope === 2) {
+                    customVariables = {};
                 }
             };
 
@@ -6310,7 +6333,10 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Install link tracker
+             * Install link tracker.
+             *
+             * If you change the DOM of your website or web application you need to make sure to call this method
+             * again so Piwik can detect links that were added newly.
              *
              * The default behaviour is to use actual click events. However, some browsers
              * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
@@ -6336,9 +6362,10 @@ if (typeof window.Piwik !== 'object') {
             this.enableLinkTracking = function (enable) {
                 linkTrackingEnabled = true;
 
+                var self = this;
                 trackCallback(function () {
                     trackCallbackOnReady(function () {
-                        addClickListeners(enable);
+                        addClickListeners(enable, self);
                     });
                 });
             };

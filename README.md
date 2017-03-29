@@ -53,7 +53,7 @@ See http://piwik.org/docs/requirements/
 
 See http://piwik.org/docs/installation/
 
-If you do not have a server, consider our Piwik Hosting partner: http://piwik.org/hosting/
+If you do not have a server, consider our Piwik Hosting partner: https://www.innocraft.cloud/
 
 ## Changelog
 

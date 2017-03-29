@@ -16,7 +16,7 @@
         "Default": "預設",
         "DonateCall1": "使用 Piwik 永遠不花你任何一毛錢，但那不表示我們開發沒有花到錢。",
         "DonateCall2": "Piwik 需要你的持續支持以成長茁壯。",
-        "DonateCall3": "如果你覺得 Piwik 在你的事業或是奮鬥史中擁有特別的意義，%1$s請考慮捐助%2$s或是%3$s購買高級功能%4$s。",
+        "DonateCall3": "如果你覺得 Piwik 為你的事業或是奮鬥過程中增添了非凡的價值，%1$s請考慮捐助%2$s或是%3$s購買高級功能%4$s。每一分錢都是幫助。",
         "DonateFormInstructions": "使用滑桿來選擇數量，接著點擊 Subscribe 來捐助。",
         "ExcludeRowsWithLowPopulation": "已顯示所有列 %s 排除較低人數",
         "ExternalHelp": "幫助（在新分頁中開啟）",

@@ -22,7 +22,6 @@
         "NoRecipients": "Denne rapport har ingen modtagere",
         "Pagination": "Side %1$s af %2$s",
         "PiwikReports": "Piwik rapporter",
-        "PleaseFindAttachedFile": "Vedlagt i vedhæftede fil din %1$s rapport for %2$s.",
         "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",
         "ReportFormat": "Rapport format",
         "ReportIncludeNWebsites": "Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét ​​besøg (fra %s hjemmesider der pt er tilgængelige).",

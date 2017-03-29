@@ -42,6 +42,7 @@
         "Available_Credits": "Available credits: %1$s",
         "TopLinkTooltip": "Get Web Analytics Reports delivered to your email inbox or your mobile phone.",
         "TopMenu": "Email & SMS Reports",
+        "UserKey": "Userkey",
         "VerificationText": "Code is %1$s. To validate your phone number and receive Piwik SMS reports please copy this code in the form accessible via Piwik > %2$s > %3$s."
     }
 }

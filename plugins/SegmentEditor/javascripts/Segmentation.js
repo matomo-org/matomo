@@ -7,15 +7,17 @@
 
 Segmentation = (function($) {
 
-  Mousetrap.bind('s', function(event) {
-    if (event.preventDefault) {
-        event.preventDefault();
-    } else {
-        event.returnValue = false; // IE
-    }
-    $('.segmentListContainer .segmentationContainer .title').trigger('click').focus();
+    Mousetrap.bind('s', function (event) {
+        if (event.altKey) {
+            return;
+        }
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.returnValue = false; // IE
+        }
+        $('.segmentListContainer .segmentationContainer .title').trigger('click').focus();
     });
-
 
     function preselectFirstMetricMatch(rowNode)
     {
@@ -68,16 +70,10 @@ Segmentation = (function($) {
 
         segmentation.prototype.getSegment = function(){
             var self = this;
-            if($.browser.mozilla) {
-                return self.currentSegmentStr;
-            }
-            return decodeURIComponent(self.currentSegmentStr);
+            return self.currentSegmentStr;
         };
 
         segmentation.prototype.setSegment = function(segmentStr){
-            if(!$.browser.mozilla) {
-                segmentStr = encodeURIComponent(segmentStr);
-            }
             this.currentSegmentStr = segmentStr;
         };
 
@@ -87,7 +83,7 @@ Segmentation = (function($) {
             title += ' '+ _pk_translate('SegmentEditor_CurrentlySelectedSegment', [segmentDescription]);
 
             $(this.content).attr('title', title);
-        }
+        };
 
         segmentation.prototype.markCurrentSegment = function(){
             var current = this.getSegment();
@@ -155,8 +151,7 @@ Segmentation = (function($) {
         };
 
         var getMockedInputRowHtml = function(){
-            var mockedInputRow = '<div class="segment-row"><a class="segment-close" href="#"></a><div class="segment-row-inputs">'+getMockedInputSet().html()+'</div></div>';
-            return mockedInputRow;
+            return '<div class="segment-row"><a class="segment-close" href="#"></a><div class="segment-row-inputs">'+getMockedInputSet().html()+'</div></div>';
         };
 
         var getMockedFormRow = function(){
@@ -275,13 +270,9 @@ Segmentation = (function($) {
 
                     injClass = "";
                     var checkSelected = segment.definition;
-                    if(!$.browser.mozilla) {
-                        checkSelected = encodeURIComponent(checkSelected);
-                    }
 
-                    if( checkSelected == self.currentSegmentStr
-                        || checkSelected == decodeURIComponent(self.currentSegmentStr)
-                        || checkSelected == unescape(decodeURIComponent(self.currentSegmentStr))
+                    if( checkSelected == self.currentSegmentStr ||
+                        checkSelected == decodeURIComponent(self.currentSegmentStr)
                     ) {
                         injClass = 'class="segmentSelected"';
                     }
@@ -352,7 +343,7 @@ Segmentation = (function($) {
         var sanitiseSegmentName = function(segment) {
             segment = piwikHelper.escape(segment);
             return segment;
-        }
+        };
 
         var getFormHtml = function() {
             var html = self.editorTemplate.find("> .segment-element").clone();
@@ -558,6 +549,14 @@ Segmentation = (function($) {
             });
 
             self.target.on('click', '.add_new_segment', function (e) {
+
+                var parameters = {isAllowed: true};
+                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                $rootScope.$emit('Segmentation.initAddSegment', parameters);
+                if (parameters && !parameters.isAllowed) {
+                    return;
+                }
+
                 e.stopPropagation();
                 displayFormAddNewSegment(e);
             });
@@ -1245,8 +1244,6 @@ Segmentation = (function($) {
                         segment = $search.segment
                     }
 
-                    segment = decodeURIComponent(segment);
-
                     if (self.getSegment() != segment) {
                         self.setSegment(segment);
                         self.initHtml();
@@ -1294,8 +1291,6 @@ $(document).ready(function() {
 
         this.changeSegment = function(segmentDefinition) {
             if (piwikHelper.isAngularRenderingThePage()) {
-                segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
-
                 angular.element(document).injector().invoke(function ($location, $rootScope) {
                     var $search = $location.search();
 
@@ -1310,7 +1305,6 @@ $(document).ready(function() {
                             } catch (e) {}
                         }, 1);
                     }
-
                 });
                 return false;
             } else {
@@ -1454,9 +1448,7 @@ $(document).ready(function() {
                     || broadcast.getValueFromUrl('segment');
             }
 
-            if ($.browser.mozilla) {
-                segmentFromRequest = decodeURIComponent(segmentFromRequest);
-            }
+            segmentFromRequest = decodeURIComponent(segmentFromRequest);
 
             return segmentFromRequest;
         }

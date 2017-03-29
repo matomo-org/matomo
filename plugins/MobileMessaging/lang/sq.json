@@ -13,6 +13,7 @@
         "Settings_CredentialNotProvided": "Përpara se të mund të krijoni dhe administroni numra telefoni, ju lutemi, lidheni Piwik-un me Llogarinë tuaj SMS më sipër.",
         "Settings_CredentialNotProvidedByAdmin": "Përpara se të mund të krijoni dhe administroni numra telefoni, ju lutemi, kërkojini përgjegjësit të instalimit tuaj të lidhë Piwik-un me një Llogari SMS.",
         "Settings_CredentialProvided": "API juaj %s është e formësuar saktë!",
+        "Settings_CredentialInvalid": "Llogaria juaj API SMS %1$s është formësuar, por ndodhi një gabim teksa provohej të merrej krediti që zotëroni.",
         "Settings_DeleteAccountConfirm": "Jeni i sigurt se doni të fshihet kjo llogari SMS?",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Furnizuesi i SMS-ve i formësuar do të përdoret vetëm nga ju, dhe jo nga ndonjë përdorues tjetër çfarëdo.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Numrat e telefonave të formësuar mund të shihen dhe përdoren vetëm nga ju, dhe jo nga ndonjë përdorues tjetër çfarëdo.",
@@ -38,8 +39,10 @@
         "Settings_VerificationCodeJustSent": "Sapo dërguam një SMS me një kod te ky numër: ju lutemi, jepeni këtë kod më sipër dhe klikoni mbi \"Vleftësoje\".",
         "SettingsMenu": "Mesazhe Celulari",
         "SMS_Content_Too_Long": "[shumë i gjatë]",
+        "Available_Credits": "Krediti që zotëroni: %1$s",
         "TopLinkTooltip": "Merrni Raporte Analizash Web drejt e te email-i ose celulari juaj.",
         "TopMenu": "Raporte me Email & SMS",
+        "UserKey": "Kyç përdoruesi",
         "VerificationText": "Kodi është %1$s. Që të vleftësohet numri i telefonit tuaj dhe të merrni raporte Piwik me SMS, ju lutemi, kopjojeni këtë kot te formulari përkatës përmes Piwik-ut > %2$s > %3$s."
     }
 }

@@ -23,7 +23,6 @@
         "NoRecipients": "Este relatório não tem destinatários",
         "Pagination": "Página %1$s de %2$s",
         "PiwikReports": "Relatórios Piwik",
-        "PleaseFindAttachedFile": "Por favor, encontrar no arquivo anexo o relatório %1$s para %2$s.",
         "SentFromX": "Enviado de %s.",
         "PleaseFindBelow": "Veja abaixo o seu relatório %1$s para %2$s.",
         "PluginDescription": "Crie relatórios personalizados e programe-os para serem enviado por dia, semana ou mês para uma ou várias pessoas. Vários formatos de relatório são suportados (imagens html, pdf, csv).",

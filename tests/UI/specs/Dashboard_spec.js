@@ -182,6 +182,7 @@ describe("Dashboard", function () {
     });
 
     it("should reset dashboard when reset dashboard process completed", function (done) {
+        this.retries(3);
         expect.screenshot("reset").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=resetDashboard]');

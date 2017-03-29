@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
@@ -50,6 +51,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $ApiDocumentation = new DocumentationGenerator();
         $prefixUrls = Common::getRequestVar('prefixUrl', 'http://demo.piwik.org/', 'string');
+        if (!UrlHelper::isLookLikeUrl($prefixUrls)) {
+            $prefixUrls = '';
+        }
         return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
     }
 

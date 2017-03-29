@@ -258,21 +258,26 @@ var Piwik_Overlay_FollowingPages = (function () {
                     }
 
                     var zoomFactor = 1 + +tagElement.attr('data-rateofmax');
-                    tagElement.css({'zoom':zoomFactor, 'opacity': zoomFactor/2 });
-                    offset.top = offset.top / zoomFactor;
-                    offset.left = offset.left / zoomFactor;
+                    tagElement.css({
+                        '-webkit-transform': 'scale(' + zoomFactor + ')', 
+                        '-moz-transform': 'scale(' + zoomFactor + ')', 
+                        '-ms-transform': 'scale(' + zoomFactor + ')', 
+                        '-o-transform': 'scale(' + zoomFactor + ')', 
+                        'transform': 'scale(' + zoomFactor + ')',
+                        'opacity': zoomFactor/2 
+                    });
 
                     top = offset.top - tagHeight + 6;
                     left = offset.left - tagWidth + 10;
 
                     if (isRight = (left < 2)) {
                         tagElement.addClass('PIS_Right');
-                        left = offset.left + linkTag.outerWidth() / zoomFactor - 10;
+                        left = offset.left + linkTag.outerWidth() - 10;
                     }
 
                     if (top < 2) {
                         tagElement.addClass(isRight ? 'PIS_BottomRight' : 'PIS_Bottom');
-                        top = offset.top + linkTag.outerHeight() / zoomFactor - 6;
+                        top = offset.top + linkTag.outerHeight() - 6;
                     }
 
                     tagElement.css({

@@ -88,6 +88,10 @@ class Controller extends Plugin\ControllerAdmin
         static::dieIfPluginsAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
 
+        if (!CorePluginsAdmin::isPluginUploadEnabled()) {
+            throw new \Exception('Plugin upload disabled by config');
+        }
+
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce(MarketplaceController::INSTALL_NONCE, $nonce)) {
@@ -269,7 +273,9 @@ class Controller extends Plugin\ControllerAdmin
 
     public function safemode($lastError = array())
     {
-        ob_clean();
+        if (ob_get_length()) {
+            ob_clean();
+        }
         
         $this->tryToRepairPiwik();
 

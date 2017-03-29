@@ -61,6 +61,7 @@
         "PluginSettingReadNotAllowed": "Et voi lukea asetusta \"%1$s\" lisäosasta \"%2$s\"",
         "PluginSettingsIntro": "Täällä voit muuttaa kolmannen osapuolen liitännäisten asetuksia:",
         "PluginSettingsValueNotAllowed": "Arvo kentälle \"%1$s\" liitännäisessä \"%2$s\" ei ole sallittu",
+        "SendPluginUpdateCommunication": "Lähetä sähköpostia, kun lisäosiin on saatavissa päivityksiä",
         "SendPluginUpdateCommunicationHelp": "Pääkäyttäjät saavat sähköpostia kun lisäosasta on saatavilla uusi versio.",
         "StableReleases": "Jos Piwik on tärkeä osa liiketointasi, suosittelemme päivittämistä uusimpaan versioon. Jos käytt uusinta beta-versiota ja löydät bugin tai sinulla on ehdotus, %1$slue tämä%2$s.",
         "TrackAGoal": "Seuraa tavoitetta",

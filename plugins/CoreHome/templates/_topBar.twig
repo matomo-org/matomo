@@ -13,7 +13,7 @@
             {{ menu._html|raw }}
         {% else %}
             <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
-               id="topmenu-{{ menu._url.module|lower }}"
+               id="topmenu-{{ menu._url.module|lower }}" target="_self"
                href="index.php{{ menu._url|urlRewriteWithParameters }}" tabindex="3">{{ _self.menuItemLabel(label, icon) }}</a>
         {% endif %}
     {% endmacro %}

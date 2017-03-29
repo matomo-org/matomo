@@ -15,7 +15,6 @@
         "FrontPage": "Esileht",
         "Pagination": "Lehekülg %1$s \/ %2$s",
         "PiwikReports": "Piwiku raportid",
-        "PleaseFindAttachedFile": "Manusest leiad oma %1$s raporti %2$s jaoks.",
         "ReportFormat": "Raporti formaat",
         "ReportIncludeNWebsites": "Antud raport sisaldab põhimõõdikuid kõikide veebilehtede kohta, millel on vähemalt üks külastus (%s veebilehest, mis on kokku saadaval).",
         "ReportSent": "Raport saadetud",
