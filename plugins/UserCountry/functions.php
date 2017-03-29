@@ -22,7 +22,7 @@ use Piwik\Tracker\Visit;
  */
 function getFlagFromCode($code)
 {
-    $pathInPiwik = 'plugins/UserCountry/images/flags/%s.png';
+    $pathInPiwik = 'plugins/Morpheus/icons/dist/flags/%s.png';
     $pathWithCode = sprintf($pathInPiwik, $code);
     $absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
     if (file_exists($absolutePath)) {
