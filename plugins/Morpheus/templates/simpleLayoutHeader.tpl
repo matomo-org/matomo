@@ -11,8 +11,6 @@
 
 <div class="logo">
 	<img title="Piwik" alt="Piwik" src="%logoUrl%"/>
-	<br/>
-	<a href='http://piwik.org/'>free/libre analytics platform</a>
 </div>
 
 <div class="box">

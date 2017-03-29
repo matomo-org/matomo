@@ -4,12 +4,14 @@ body {
 }
 body#simple  {
     background: #fff;
+    margin: 0;
 }
 #simple .logo {
     color: #888;
     text-align: center;
     font-size: 12px;
-    margin-top: 30px;
+    background-color: #37474f !important;
+    padding: 15px 0;
 }
 #simple .logo a {
 	color: #888;
