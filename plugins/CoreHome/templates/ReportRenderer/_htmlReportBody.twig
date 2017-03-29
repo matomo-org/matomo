@@ -54,7 +54,7 @@
                                 {% if rowMetrics[columnId] is defined %}
                                     {% if rowMetadata.logo is defined %}
                                         <img height="16px" src='{{ currentPath }}{{ rowMetadata.logo }}'
-                                            {%- if 'plugins/Morpheus/icons/dist/flags' in rowMetadata.logo %}style="border: 1px solid lightgray; box-sizing: content-box;"{% endif -%}
+                                            {%- if 'plugins/Morpheus/icons/dist/flags' in rowMetadata.logo %} style="border: 1px solid lightgray; "{% endif -%}
                                         >
                                         &nbsp;
                                     {% endif %}
