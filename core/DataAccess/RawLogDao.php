@@ -173,10 +173,12 @@ class RawLogDao
         // delete before unlocking tables so there's no chance a new log row that references an
         // unused action will be inserted.
         $this->deleteUnusedActions();
+
         Db::unlockAllTables();
+
+        $this->dropTempTableForStoringUsedActions();
     }
-
-
+    
     /**
      * Returns the list of the website IDs that received some visits between the specified timestamp.
      *
@@ -310,6 +312,12 @@ class RawLogDao
 					idaction INT(11),
 					PRIMARY KEY (idaction)
 				)";
+        Db::query($sql);
+    }
+
+    private function dropTempTableForStoringUsedActions()
+    {
+        $sql = "DROP TABLE " . Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
         Db::query($sql);
     }
 

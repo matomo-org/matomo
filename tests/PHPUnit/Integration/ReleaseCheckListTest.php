@@ -60,6 +60,9 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         // filter favicon.ico as it may not be in PNG format which is fine
         $files = array_filter($files, function($value) { return !preg_match('/favicon.ico/', $value); });
 
+        // filter source files for icon creation as they can be favicons
+        $files = array_filter($files, function($value) { return !preg_match('~icons/src~', $value); });
+
         $this->checkFilesAreInPngFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.ico');
         $this->checkFilesAreInPngFormat($files);
@@ -193,6 +196,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
             PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
+            PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
         );
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
@@ -596,6 +600,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             return false;
         }
 
+        if($this->isFileIsAnIconButDoesNotBelongToDistribution($file)) {
+            return false;
+        }
+
+
         if($this->isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)) {
             return false;
         }
@@ -809,6 +818,15 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $composer = file_get_contents(PIWIK_INCLUDE_PATH . '/composer.json');
         $composerJson = json_decode($composer, $assoc = true);
         return $composerJson;
+    }
+
+    /**
+     * ignore icon source files as they are large, but not included in the final package
+     *
+     */
+    private function isFileIsAnIconButDoesNotBelongToDistribution($file)
+    {
+        return preg_match('~Morpheus/icons/(?!dist)~', $file);
     }
 
 }

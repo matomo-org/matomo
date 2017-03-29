@@ -162,14 +162,14 @@ class Social extends Singleton
      *
      * @param string $domain
      * @return string path
-     * @see plugins/Referrers/images/socials/
+     * @see plugins/Morpheus/icons/dist/socials/
      */
     public function getLogoFromUrl($domain)
     {
         $social = $this->getSocialNetworkFromDomain($domain);
         $socialNetworks = $this->getDefinitions();
 
-        $filePattern = 'plugins/Referrers/images/socials/%s.png';
+        $filePattern = 'plugins/Morpheus/icons/dist/socials/%s.png';
 
         $socialDomains = array_keys($socialNetworks, $social);
         foreach ($socialDomains as $domain) {

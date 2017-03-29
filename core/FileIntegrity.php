@@ -102,11 +102,17 @@ class FileIntegrity
                 $messageDirectoriesToDelete .= Piwik::translate('General_ExceptionDirectoryToDelete', $directoryFoundNotExpected) . '<br/>';
             }
 
-
+            $directories = array();
             foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
                 $directories[] = realpath($directoryFoundNotExpected);
             }
-            $deleteAllAtOnce = sprintf('rm -Rf %s', implode(' ', $directories));
+
+            $deleteAllAtOnce = array();
+            $chunks = array_chunk($directories, 50);
+
+            foreach ($chunks as $directories) {
+                $deleteAllAtOnce[] = sprintf('rm -Rf %s', implode(' ', $directories));
+            }
 
             $messages[] = Piwik::translate('General_ExceptionUnexpectedDirectory')
                 . '<br/>'
@@ -116,7 +122,7 @@ class FileIntegrity
                 . '<br/><br/>'
                 . Piwik::translate('General_ToDeleteAllDirectoriesRunThisCommand')
                 . '<br/>'
-                . $deleteAllAtOnce
+                . implode('<br />', $deleteAllAtOnce)
                 . '<br/><br/>';
 
         }
@@ -138,10 +144,17 @@ class FileIntegrity
                 $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', $fileFoundNotExpected) . '<br/>';
             }
 
+            $files = array();
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
                 $files[] = '"' . realpath($fileFoundNotExpected) . '"';
             }
-            $deleteAllAtOnce = sprintf('rm %s', implode(' ', $files));
+
+            $deleteAllAtOnce = array();
+            $chunks = array_chunk($files, 50);
+
+            foreach ($chunks as $files) {
+                $deleteAllAtOnce[] = sprintf('rm %s', implode(' ', $files));
+            }
 
             $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')
                 . '<br/>'
@@ -151,7 +164,7 @@ class FileIntegrity
                 . '<br/><br/>'
                 . Piwik::translate('General_ToDeleteAllFilesRunThisCommand')
                 . '<br/>'
-                . $deleteAllAtOnce
+                . implode('<br />', $deleteAllAtOnce)
                 . '<br/><br/>';
 
             return $messages;

@@ -35,6 +35,8 @@
 
 .PIS_LinkTag {
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 9999;
     width: 36px;
     height: 21px;
@@ -42,6 +44,7 @@
     background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
     overflow: hidden;
     transform-origin: 100% 50%;
+    transition: 0.2s ease-in-out;
 }
 
 .PIS_LinkTag span {

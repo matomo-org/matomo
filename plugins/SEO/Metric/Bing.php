@@ -46,7 +46,7 @@ class Bing implements MetricsProvider
             $pageCount = null;
         }
 
-        $logo = "plugins/SEO/images/bing.com.png";
+        $logo = "plugins/Morpheus/icons/dist/SEO/bing.com.png";
 
         return array(
             new Metric('bing-index', 'SEO_Bing_IndexedPages', $pageCount, $logo, null, null, 'General_Pages')

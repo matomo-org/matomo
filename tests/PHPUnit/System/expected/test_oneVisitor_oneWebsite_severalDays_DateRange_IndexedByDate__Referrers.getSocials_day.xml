@@ -17,7 +17,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>facebook.com</url>
-				<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+				<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 			</row>
 		</result>
 		<result date="2010-12-15">
@@ -32,7 +32,7 @@
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>facebook.com</url>
-				<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+				<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 			</row>
 			<row>
 				<label>Twitter</label>
@@ -45,7 +45,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>twitter.com</url>
-				<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
+				<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 			</row>
 		</result>
 		<result date="2010-12-16" />
@@ -67,7 +67,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>facebook.com</url>
-				<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+				<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 			</row>
 		</result>
 		<result date="2010-12-15">
@@ -82,7 +82,7 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>twitter.com</url>
-				<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
+				<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 			</row>
 		</result>
 		<result date="2010-12-16" />

@@ -78,7 +78,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
     const IMAGES_GENERATED_FOR_PHP = '5.6';
-    const IMAGES_GENERATED_FOR_GD = '2.1.1';
+    const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
     const ADMIN_USER_LOGIN = 'superUserLogin';
@@ -794,6 +794,10 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function canImagesBeIncludedInScheduledReports()
     {
+        if(!function_exists('gd_info')) {
+            echo "GD is not installed so cannot run these tests. please enable GD in PHP!\n";
+            return false;
+        }
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&

@@ -12,7 +12,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==search;referrerName==Google</segment>
 		<url>http://google.com</url>
-		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 		<subtable>
 			<row>
 				<label>search term 3</label>
@@ -50,7 +50,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==search;referrerName==Yahoo%21</segment>
 		<url>http://search.yahoo.com</url>
-		<logo>plugins/Referrers/images/searchEngines/search.yahoo.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
 		<subtable>
 			<row>
 				<label>search term 4</label>
@@ -87,6 +87,6 @@
 		<bounce_count>6</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>URL unknown!</url>
-		<logo>plugins/Referrers/images/searchEngines/xx.png</logo>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
 	</row>
 </result>

@@ -49,7 +49,7 @@
 		<metrics>
 			<nb_visits_0>
 				<name>Firefox (Visits)</name>
-				<logo>plugins/DevicesDetection/images/browsers/FF.png</logo>
+				<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 				<min>0</min>
 				<max>1</max>
 			</nb_visits_0>
@@ -58,7 +58,7 @@
 			</nb_visits_1>
 			<nb_visits_2>
 				<name>Opera (Visits)</name>
-				<logo>plugins/DevicesDetection/images/browsers/OP.png</logo>
+				<logo>plugins/Morpheus/icons/dist/browsers/OP.png</logo>
 				<min>0</min>
 				<max>1</max>
 				<change>-100%</change>

@@ -10,7 +10,7 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/CH.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer</label>
@@ -22,7 +22,7 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/IE.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>
 	<row>
 		<label>RockMelt</label>
@@ -34,7 +34,7 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/RM.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/RM.png</logo>
 	</row>
 	<row>
 		<label>Epiphany</label>
@@ -46,7 +46,7 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/EP.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/EP.png</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -58,7 +58,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/UNK.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
 	<row>
 		<label>Android Browser</label>
@@ -70,7 +70,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/AN.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/AN.png</logo>
 	</row>
 	<row>
 		<label>Firefox</label>
@@ -82,7 +82,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/FF.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 	</row>
 	<row>
 		<label>Chrome Mobile</label>
@@ -94,6 +94,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/browsers/CM.png</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/CM.png</logo>
 	</row>
 </result>
