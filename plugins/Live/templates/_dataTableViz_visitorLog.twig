@@ -158,7 +158,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                     </span>
                 {% endif %}
                 {% if visitor.getColumn('countryFlag') %}
-                    <span class="visitorLogIconWithDetails">
+                    <span class="visitorLogIconWithDetails flag">
 
                         <img height="16px" src="{{ visitor.getColumn('countryFlag') }}"/>
                         {% if visitor.getColumn('city') %}{{ visitor.getColumn('city')|rawSafeDecoded }}{% endif -%}
