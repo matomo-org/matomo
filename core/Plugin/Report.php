@@ -125,7 +125,7 @@ class Report
      * @var bool
      * @api
      */
-    protected $supportsFlattening = true;
+    protected $supportsFlatten = true;
 
     /**
      * Set it to boolean `true` if your report always returns a constant count of rows, for instance always 24 rows
@@ -505,9 +505,9 @@ class Report
      * @return bool
      * @ignore
      */
-    public function supportsFlattening()
+    public function supportsFlatten()
     {
-        return $this->supportsFlattening;
+        return $this->supportsFlatten;
     }
 
     /**

@@ -171,7 +171,7 @@ class DataTablePostProcessor
     {
         if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
             // skip flattening if not supported by report and remove subtables only
-            if ($this->report && !$this->report->supportsFlattening()) {
+            if ($this->report && !$this->report->supportsFlatten()) {
                 $dataTable->filter('RemoveSubtables');
                 return $dataTable;
             }

@@ -760,7 +760,7 @@ class Config
     {
         $report = ReportsProvider::factory($this->controllerName, $this->controllerAction);
 
-        if ($report && !$report->supportsFlattening()) {
+        if ($report && !$report->supportsFlatten()) {
             $this->show_flatten_table = false;
         }
     }
