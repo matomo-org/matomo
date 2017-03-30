@@ -93,12 +93,16 @@ class ExceptionHandler
             $message = Common::sanitizeInputValue($message);
         }
 
-        $logo = new CustomLogo();
 
-        $logoHeaderUrl = false;
-        $logoFaviconUrl = false;
+        $logoHeaderUrl = 'plugins/Morpheus/images/logo.svg';
+        $logoFaviconUrl = 'plugins/CoreHome/images/favicon.png';
         try {
-            $logoHeaderUrl = $logo->getHeaderLogoUrl();
+            $logo = new CustomLogo();
+            if ($logo->hasSVGLogo()) {
+                $logoHeaderUrl = $logo->getSVGLogoUrl();
+            } else {
+                $logoHeaderUrl = $logo->getHeaderLogoUrl();
+            }
             $logoFaviconUrl = $logo->getPathUserFavicon();
         } catch (Exception $ex) {
             try {
