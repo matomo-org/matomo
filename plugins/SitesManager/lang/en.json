@@ -73,7 +73,7 @@
         "SiteSearchUse": "You can use Piwik to track and report what visitors are searching in your website's internal search engine.",
         "SiteWithoutDataTitle": "No data has been recorded yet",
         "SiteWithoutDataDescription": "No analytics data has been tracked for this website yet.",
-        "SiteWithoutDataSetupTracking": "Please set up the %1$sJavaScript tracking code%2$s on your website if you haven't done that already.",
+        "SiteWithoutDataSetupTracking": "Please set up the %1$stracking code%2$s below into your website or mobile app if you haven't done already.",
         "SiteWithoutDataMessageDisappears": "This message will disappear as soon as some data was tracked for this website.",
         "SiteWithoutDataSetupGoals": "In the meantime, maybe you would like to %1$sset up some goals%2$s or learn more about the %3$sfeatures%4$s of Piwik in one of our %5$sguides%6$s or %7$sFAQs%8$s.",
         "SuperUserAccessCan": "A user with Super User access can also %1$s specify global settings%2$s for new websites.",
