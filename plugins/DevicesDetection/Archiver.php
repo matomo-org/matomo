@@ -87,8 +87,9 @@ class Archiver extends \Piwik\Plugin\Archiver
             }
 
             while ($conversionRow = $query->fetch()) {
-
-                $metrics->sumMetricsGoals($conversionRow[$labelSQL], $conversionRow);
+                if (isset($conversionRow[$labelSQL])) {
+                    $metrics->sumMetricsGoals($conversionRow[$labelSQL], $conversionRow);
+                }
             }
             $metrics->enrichMetricsWithConversions();
         }
