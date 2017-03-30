@@ -13,5 +13,19 @@
 
     <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer" target="_blank" href="http://piwik.org/docs/javascript-tracking/">','</a>')|raw }}</p>
 
-    <p>{{ 'Installation_JSTracking_EndNote'|translate('','')|raw }}</p>
+    {% if isInstall is defined %}
+        <p>{{ 'Installation_JSTracking_EndNote'|translate('', '')|raw }}</p>
+    {% else %}
+        <p>{{ 'CoreAdminHome_JSTracking_EndNote'|translate('<a href="' ~ linkTo({'module': 'CoreAdminHome', 'action': 'trackingCodeGenerator'}) ~'">','</a>')|raw }}</p>
+    {% endif %}
+
+    <h3>{{ 'SitesManager_LogAnalytics'|translate }}</h3>
+
+    <p>{{ 'SitesManager_LogAnalyticsDescription'|translate('<a href="https://piwik.org/log-analytics/" rel="noreferrer" target="_blank">', '</a>')|raw }}</p>
+
+    <h3>{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</h3>
+
+    <p>{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('<a href="https://piwik.org/integrate/#programming-language-platforms-and-frameworks" rel="noreferrer" target="_blank">','</a>')|raw }}</p>
+    <p></p>
+
 </div>
