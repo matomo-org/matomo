@@ -2,29 +2,30 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\UserLanguage;
 
+use Piwik\Plugins\Live\VisitorDetailsAbstract;
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserLanguage/functions.php';
 
-class Visitor
+class VisitorDetails extends VisitorDetailsAbstract
 {
-    private $details = array();
-
-    public function __construct($details)
+    public function extendVisitorDetails(&$visitor)
     {
-        $this->details = $details;
+        $visitor['languageCode'] = $this->getLanguageCode();
+        $visitor['language']     = $this->getLanguage();
     }
 
-    public function getLanguageCode()
+    protected function getLanguageCode()
     {
         return $this->details['location_browser_lang'];
     }
 
-    public function getLanguage()
+    protected function getLanguage()
     {
         return languageTranslate($this->details['location_browser_lang']);
     }

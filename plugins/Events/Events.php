@@ -27,14 +27,8 @@ class Events extends \Piwik\Plugin
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'ViewDataTable.configure'   => 'configureViewDataTable',
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $visitor['events'] = $details['visit_total_events'];
     }
 
     public function addMetricTranslations(&$translations)

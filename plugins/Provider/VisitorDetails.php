@@ -2,26 +2,24 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Provider;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Live\VisitorDetailsAbstract;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
-
-class Visitor
+class VisitorDetails extends VisitorDetailsAbstract
 {
-    private $details = array();
-
-    public function __construct($details)
+    public function extendVisitorDetails(&$visitor)
     {
-        $this->details = $details;
+        $visitor['providerName'] = $this->getProviderName();
+        $visitor['providerUrl']  = $this->getProviderUrl();
     }
 
-    public function getProvider()
+    protected function getProvider()
     {
         if (isset($this->details['location_provider'])) {
             return $this->details['location_provider'];
@@ -29,12 +27,12 @@ class Visitor
         return Piwik::translate('General_Unknown');
     }
 
-    public function getProviderName()
+    protected function getProviderName()
     {
         return getPrettyProviderName($this->getProvider());
     }
 
-    public function getProviderUrl()
+    protected function getProviderUrl()
     {
         return getHostnameUrl(@$this->details['location_provider']);
     }

@@ -2,27 +2,30 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Referrers;
 
-use Piwik\Url;
+use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\UrlHelper;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
-
-class Visitor
+class VisitorDetails extends VisitorDetailsAbstract
 {
-    private $details = array();
-
-    public function __construct($details)
+    public function extendVisitorDetails(&$visitor)
     {
-        $this->details = $details;
+        $visitor['referrerType']             = $this->getReferrerType();
+        $visitor['referrerTypeName']         = $this->getReferrerTypeName();
+        $visitor['referrerName']             = $this->getReferrerName();
+        $visitor['referrerKeyword']          = $this->getKeyword();
+        $visitor['referrerKeywordPosition']  = $this->getKeywordPosition();
+        $visitor['referrerUrl']              = $this->getReferrerUrl();
+        $visitor['referrerSearchEngineUrl']  = $this->getSearchEngineUrl();
+        $visitor['referrerSearchEngineIcon'] = $this->getSearchEngineIcon();
     }
 
-    public function getReferrerType()
+    protected function getReferrerType()
     {
         try {
             $referrerType = getReferrerTypeFromShortName($this->details['referer_type']);
@@ -33,15 +36,15 @@ class Visitor
         return $referrerType;
     }
 
-    public function getReferrerTypeName()
+    protected function getReferrerTypeName()
     {
         return getReferrerTypeLabel($this->details['referer_type']);
     }
 
-    public function getKeyword()
+    protected function getKeyword()
     {
         $keyword = $this->details['referer_keyword'];
-        
+
         if ($this->getReferrerType() == 'search') {
             $keyword = API::getCleanKeyword($keyword);
         }
@@ -49,7 +52,7 @@ class Visitor
         return urldecode($keyword);
     }
 
-    public function getReferrerUrl()
+    protected function getReferrerUrl()
     {
         if ($this->getReferrerType() == 'search') {
             if ($this->details['referer_keyword'] == API::LABEL_KEYWORD_NOT_DEFINED) {
@@ -62,7 +65,8 @@ class Visitor
             ) {
                 $refUrl = @parse_url($this->details['referer_url']);
                 if (isset($refUrl['host'])) {
-                    $url = SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword('http://google.com', $this->getKeyword());
+                    $url = SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword('http://google.com',
+                        $this->getKeyword());
                     $url = str_replace('google.com', $refUrl['host'], $url);
 
                     return $url;
@@ -77,7 +81,7 @@ class Visitor
         return null;
     }
 
-    public function getKeywordPosition()
+    protected function getKeywordPosition()
     {
         if ($this->getReferrerType() == 'search'
             && strpos($this->getReferrerName(), 'Google') !== false
@@ -98,12 +102,12 @@ class Visitor
         return null;
     }
 
-    public function getReferrerName()
+    protected function getReferrerName()
     {
         return urldecode($this->details['referer_name']);
     }
 
-    public function getSearchEngineUrl()
+    protected function getSearchEngineUrl()
     {
         if ($this->getReferrerType() == 'search'
             && !empty($this->details['referer_name'])
@@ -115,7 +119,7 @@ class Visitor
         return null;
     }
 
-    public function getSearchEngineIcon()
+    protected function getSearchEngineIcon()
     {
         $searchEngineUrl = $this->getSearchEngineUrl();
 
@@ -126,5 +130,4 @@ class Visitor
 
         return null;
     }
-
 }

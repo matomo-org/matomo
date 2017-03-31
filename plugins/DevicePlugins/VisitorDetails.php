@@ -2,26 +2,27 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\DevicePlugins;
 
+use Piwik\Plugins\Live\VisitorDetailsAbstract;
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicePlugins/functions.php';
 
-class Visitor
+class VisitorDetails extends VisitorDetailsAbstract
 {
     const DELIMITER_PLUGIN_NAME = ", ";
 
-    private $details = array();
-
-    public function __construct($details)
+    public function extendVisitorDetails(&$visitor)
     {
-        $this->details = $details;
+        $visitor['plugins']      = $this->getPlugins();
+        $visitor['pluginsIcons'] = $this->getPluginIcons();
     }
 
-    function getPlugins()
+    protected function getPlugins()
     {
         $plugins = array();
         $columns = DevicePlugins::getAllPluginColumns();
@@ -42,7 +43,7 @@ class Visitor
         return implode(self::DELIMITER_PLUGIN_NAME, $pluginShortNames);
     }
 
-    function getPluginIcons()
+    protected function getPluginIcons()
     {
         $pluginNames = $this->getPlugins();
         if (!empty($pluginNames)) {
