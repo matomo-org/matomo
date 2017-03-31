@@ -24,8 +24,6 @@ use Piwik\Tracker\GoalManager;
 
 class Visitor implements VisitorInterface
 {
-    const EVENT_VALUE_PRECISION = 3;
-
     private $details = array();
 
     function __construct($visitorRawData)
@@ -37,7 +35,7 @@ class Visitor implements VisitorInterface
     {
         $visitor = array();
 
-        $instances = $this->getAllVisitorDetailsInstances();
+        $instances = self::getAllVisitorDetailsInstances();
 
         foreach ($instances as $instance) {
             $instance->setDetails($this->details);
@@ -74,7 +72,7 @@ class Visitor implements VisitorInterface
      * @return VisitorDetailsAbstract[]
      * @throws \Exception
      */
-    protected function getAllVisitorDetailsInstances()
+    protected static function getAllVisitorDetailsInstances()
     {
         $cacheId = CacheId::pluginAware('VisitorDetails');
         $cache   = Cache::getTransientCache();
@@ -84,7 +82,7 @@ class Visitor implements VisitorInterface
                 new VisitorDetails() // needs to be first
             ];
 
-            foreach ($this->getAllVisitorDetailsClasses() as $className) {
+            foreach (self::getAllVisitorDetailsClasses() as $className) {
                 $instance = new $className();
 
                 if ($instance instanceof VisitorDetails) {
@@ -106,7 +104,7 @@ class Visitor implements VisitorInterface
      * @return string[]
      * @api
      */
-    protected function getAllVisitorDetailsClasses()
+    protected static function getAllVisitorDetailsClasses()
     {
         return Plugin\Manager::getInstance()->findComponents('VisitorDetails', 'Piwik\Plugins\Live\VisitorDetailsAbstract');
     }
@@ -252,77 +250,16 @@ class Visitor implements VisitorInterface
     {
         $idVisit = $visitorDetailsArray['idVisit'];
 
+        $visitorDetailsManipulators = self::getAllVisitorDetailsInstances();
+
         $model = new Model();
         $actionDetails = $model->queryActionsForVisit($idVisit, $actionsLimit);
 
-        $formatter = new Formatter();
-        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
-
-        foreach ($actionDetails as $actionIdx => &$actionDetail) {
-            $actionDetail =& $actionDetails[$actionIdx];
-            $customVariablesPage = array();
-
-            for ($i = 1; $i <= $maxCustomVariables; $i++) {
-                if (!empty($actionDetail['custom_var_k' . $i])) {
-                    $cvarKey = $actionDetail['custom_var_k' . $i];
-                    $cvarKey = static::getCustomVariablePrettyKey($cvarKey);
-                    $customVariablesPage[$i] = array(
-                        'customVariablePageName' . $i  => $cvarKey,
-                        'customVariablePageValue' . $i => $actionDetail['custom_var_v' . $i],
-                    );
-                }
-                unset($actionDetail['custom_var_k' . $i]);
-                unset($actionDetail['custom_var_v' . $i]);
-            }
-            if (!empty($customVariablesPage)) {
-                $actionDetail['customVariables'] = $customVariablesPage;
-            }
-
-            if ($actionDetail['type'] == Action::TYPE_CONTENT) {
-
-                unset($actionDetails[$actionIdx]);
-                continue;
-
-            } elseif ($actionDetail['type'] == Action::TYPE_EVENT) {
-                // Handle Event
-                if (strlen($actionDetail['pageTitle']) > 0) {
-                    $actionDetail['eventName'] = $actionDetail['pageTitle'];
-                }
-
-                unset($actionDetail['pageTitle']);
-
-            } else if ($actionDetail['type'] == Action::TYPE_SITE_SEARCH) {
-                // Handle Site Search
-                $actionDetail['siteSearchKeyword'] = $actionDetail['pageTitle'];
-                unset($actionDetail['pageTitle']);
-            }
-
-            // Event value / Generation time
-            if ($actionDetail['type'] == Action::TYPE_EVENT) {
-                if (strlen($actionDetail['custom_float']) > 0) {
-                    $actionDetail['eventValue'] = round($actionDetail['custom_float'], self::EVENT_VALUE_PRECISION);
-                }
-            } elseif ($actionDetail['custom_float'] > 0) {
-                $actionDetail['generationTimeMilliseconds'] = $actionDetail['custom_float'];
-                $actionDetail['generationTime'] = $formatter->getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000, true);
-            }
-            unset($actionDetail['custom_float']);
-
-            if ($actionDetail['type'] != Action::TYPE_EVENT) {
-                unset($actionDetail['eventCategory']);
-                unset($actionDetail['eventAction']);
-            }
-
-            $actionDetail['interactionPosition'] = $actionDetail['interaction_position'];
-            unset($actionDetail['interaction_position']);
-
-            // Reconstruct url from prefix
-            $url = Tracker\PageUrl::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
-            $url = Common::unsanitizeInputValue($url);
-
-            $actionDetail['url'] = $url;
-            unset($actionDetail['url_prefix']);
+        foreach ($visitorDetailsManipulators as $instance) {
+            $instance->filterActions($actionDetails);
         }
+
+        $formatter = new Formatter();
 
         // If the visitor converted a goal, we shall select all Goals
         $goalDetails = $model->queryGoalConversionsForVisit($idVisit, $actionsLimit);
@@ -414,39 +351,18 @@ class Visitor implements VisitorInterface
 
         $visitorDetailsArray['goalConversions'] = count($goalDetails);
 
+
+        foreach ($actions as $actionIdx => &$actionDetail) {
+            $actionDetail =& $actions[$actionIdx];
+
+            foreach ($visitorDetailsManipulators as $instance) {
+                $instance->extendActionDetails($actionDetail);
+            }
+        }
+
         $visitorDetailsArray['actionDetails'] = $actions;
 
         foreach ($visitorDetailsArray['actionDetails'] as &$details) {
-            switch ($details['type']) {
-                case 'goal':
-                    $details['icon'] = 'plugins/Morpheus/images/goal.png';
-                    break;
-                case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
-                case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
-                    $details['icon'] = 'plugins/Morpheus/images/' . $details['type'] . '.png';
-                    break;
-                case Action::TYPE_DOWNLOAD:
-                    $details['type'] = 'download';
-                    $details['icon'] = 'plugins/Morpheus/images/download.png';
-                    break;
-                case Action::TYPE_OUTLINK:
-                    $details['type'] = 'outlink';
-                    $details['icon'] = 'plugins/Morpheus/images/link.png';
-                    break;
-                case Action::TYPE_SITE_SEARCH:
-                    $details['type'] = 'search';
-                    $details['icon'] = 'plugins/Morpheus/images/search_ico.png';
-                    break;
-                case Action::TYPE_EVENT:
-                    $details['type'] = 'event';
-                    $details['icon'] = 'plugins/Morpheus/images/event.png';
-                    break;
-                default:
-                    $details['type'] = 'action';
-                    $details['icon'] = null;
-                    break;
-            }
-
             // Convert datetimes to the site timezone
             $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
             $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::DATETIME_FORMAT_SHORT);
@@ -455,18 +371,6 @@ class Visitor implements VisitorInterface
 
 
         return $visitorDetailsArray;
-    }
-
-    private static function getCustomVariablePrettyKey($key)
-    {
-        $rename = array(
-            ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
-            ActionSiteSearch::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
-        );
-        if (isset($rename[$key])) {
-            return $rename[$key];
-        }
-        return $key;
     }
 
     private static function sortByServerTime($a, $b)
