@@ -32,7 +32,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['customVariables'] = $customVariables;
     }
 
-    public function extendActionDetails(&$action)
+    public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
         $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
         $customVariablesPage = array();

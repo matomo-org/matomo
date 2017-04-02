@@ -8,14 +8,23 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\Date;
 use Piwik\Network\IPUtils;
+use Piwik\Site;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendVisitorDetails(&$visitor)
     {
+        $idSite = $this->getIdSite();
+        $website        = new Site($idSite);
+        $timezone       = $website->getTimezone();
+        $currency       = $website->getCurrency();
+        $currencies     = APISitesManager::getInstance()->getCurrencySymbols();
+
         $visitor += array(
-            'idSite'              => $this->getIdSite(),
+            'idSite'              => $idSite,
             'idVisit'             => $this->getIdVisit(),
             'visitIp'             => $this->getIp(),
             'visitorId'           => $this->getVisitorId(),
@@ -32,6 +41,21 @@ class VisitorDetails extends VisitorDetailsAbstract
             'lastActionTimestamp' => $this->getTimestampLastAction(),
             'lastActionDateTime'  => $this->getDateTimeLastAction(),
         );
+
+        $visitor['siteCurrency'] = $currency;
+        $visitor['siteCurrencySymbol'] = @$currencies[$visitor['siteCurrency']];
+        $visitor['serverTimestamp'] = $visitor['lastActionTimestamp'];
+        $visitor['firstActionTimestamp'] = strtotime($this->details['visit_first_action_time']);
+
+        $dateTimeVisit = Date::factory($visitor['lastActionTimestamp'], $timezone);
+        if ($dateTimeVisit) {
+            $visitor['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::TIME_FORMAT);
+            $visitor['serverDatePretty'] = $dateTimeVisit->getLocalized(Date::DATE_FORMAT_LONG);
+        }
+
+        $dateTimeVisitFirstAction = Date::factory($visitor['firstActionTimestamp'], $timezone);
+        $visitor['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::DATE_FORMAT_LONG);
+        $visitor['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::TIME_FORMAT);
     }
 
     function getVisitorId()

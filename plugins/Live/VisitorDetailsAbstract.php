@@ -25,7 +25,7 @@ abstract class VisitorDetailsAbstract
     {
     }
 
-    public function extendActionDetails(&$action)
+    public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
     }
 

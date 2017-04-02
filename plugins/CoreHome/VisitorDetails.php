@@ -22,18 +22,12 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['visitConverted']              = $this->isVisitorGoalConverted();
         $visitor['visitConvertedIcon']          = $this->getVisitorGoalConvertedIcon();
         $visitor['visitCount']                  = $this->getVisitCount();
-        $visitor['firstActionTimestamp']        = $this->getTimestampFirstAction();
         $visitor['visitEcommerceStatus']        = $this->getVisitEcommerceStatus();
         $visitor['visitEcommerceStatusIcon']    = $this->getVisitEcommerceStatusIcon();
         $visitor['daysSinceFirstVisit']         = $this->getDaysSinceFirstVisit();
         $visitor['daysSinceLastEcommerceOrder'] = $this->getDaysSinceLastEcommerceOrder();
         $visitor['visitDuration']               = $this->getVisitLength();
         $visitor['visitDurationPretty']         = $this->getVisitLengthPretty();
-    }
-
-    protected function getTimestampFirstAction()
-    {
-        return strtotime($this->details['visit_first_action_time']);
     }
 
     protected function getVisitEcommerceStatusIcon()

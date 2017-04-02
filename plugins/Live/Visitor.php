@@ -10,16 +10,11 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\Cache;
 use Piwik\CacheId;
-use Piwik\Common;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin;
 use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
-use Piwik\Tracker;
-use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 
 class Visitor implements VisitorInterface
@@ -261,17 +256,39 @@ class Visitor implements VisitorInterface
 
         $formatter = new Formatter();
 
+        foreach ($actionDetails AS $idx => &$action) {
+            // Enrich with time spent per action
+            $nextAction = isset($actionDetails[$idx+1]) ? $actionDetails[$idx+1] : null;
+
+            // Set the time spent for this action (which is the timeSpentRef of the next action)
+            if ($nextAction) {
+                $action['timeSpent'] = $nextAction['timeSpentRef'];
+            } else {
+
+                // Last action of a visit.
+                // By default, Piwik does not know how long the user stayed on the page
+                // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
+                $visitTotalTime = $visitorDetailsArray['visitDuration'];
+                $timeOfLastAction = Date::factory($action['serverTimePretty'])->getTimestamp();
+
+                $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetailsArray['firstActionTimestamp']);
+                $timeSpentOnPage = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
+
+                // Safe net, we assume the time is correct when it's more than 10 seconds
+                if ($timeSpentOnPage > 10) {
+                    $action['timeSpent'] = $timeSpentOnPage;
+                }
+            }
+
+            if (isset($action['timeSpent'])) {
+                $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
+            }
+
+            unset($action['timeSpentRef']); // not needed after timeSpent is added
+        }
+
         // If the visitor converted a goal, we shall select all Goals
         $goalDetails = $model->queryGoalConversionsForVisit($idVisit, $actionsLimit);
-
-        $ecommerceMetrics = $model->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $visitorDetailsArray['visitorId']);
-        $visitorDetailsArray['totalEcommerceRevenue'] = $ecommerceMetrics['totalEcommerceRevenue'];
-        $visitorDetailsArray['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
-        $visitorDetailsArray['totalEcommerceItems'] = $ecommerceMetrics['totalEcommerceItems'];
-
-        $visitorDetailsArray['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
-        $visitorDetailsArray['totalAbandonedCarts'] = $ecommerceMetrics['totalAbandonedCarts'];
-        $visitorDetailsArray['totalAbandonedCartsItems'] = $ecommerceMetrics['totalAbandonedCartsItems'];
 
         $ecommerceDetails = $model->queryEcommerceConversionsForVisit($idVisit, $actionsLimit);
         foreach ($ecommerceDetails as &$ecommerceDetail) {
@@ -307,68 +324,23 @@ class Visitor implements VisitorInterface
             $ecommerceConversion['itemDetails'] = $itemsDetails;
         }
 
-        $actionDetails = array_values($actionDetails);
-
-        // Enrich with time spent per action
-        foreach($actionDetails as $actionIdx => &$actionDetail) {
-
-            // Set the time spent for this action (which is the timeSpentRef of the next action)
-            $nextActionFound = isset($actionDetails[$actionIdx + 1]);
-            if ($nextActionFound) {
-                $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
-            } else {
-
-                // Last action of a visit.
-                // By default, Piwik does not know how long the user stayed on the page
-                // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
-                $visitTotalTime = $visitorDetailsArray['visitDuration'];
-                $timeOfLastAction = Date::factory($actionDetail['serverTimePretty'])->getTimestamp();
-
-                $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetailsArray['firstActionTimestamp']);
-                $timeSpentOnPage = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
-
-                // Safe net, we assume the time is correct when it's more than 10 seconds
-                if ($timeSpentOnPage > 10) {
-                    $actionDetail['timeSpent'] = $timeSpentOnPage;
-                }
-
-            }
-
-            if (isset($actionDetail['timeSpent'])) {
-                $actionDetail['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($actionDetail['timeSpent'], true);
-            }
-
-            unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
-
-        }
-
         $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
         usort($actions, array('static', 'sortByServerTime'));
 
-        foreach ($actions as &$action) {
-            unset($action['idlink_va']);
-        }
-
         $visitorDetailsArray['goalConversions'] = count($goalDetails);
 
+        $actions = array_values($actions);
 
         foreach ($actions as $actionIdx => &$actionDetail) {
             $actionDetail =& $actions[$actionIdx];
+            $nextAction = isset($actions[$actionIdx+1]) ? $actions[$actionIdx+1] : null;
 
             foreach ($visitorDetailsManipulators as $instance) {
-                $instance->extendActionDetails($actionDetail);
+                $instance->extendActionDetails($actionDetail, $nextAction, $visitorDetailsArray);
             }
         }
 
         $visitorDetailsArray['actionDetails'] = $actions;
-
-        foreach ($visitorDetailsArray['actionDetails'] as &$details) {
-            // Convert datetimes to the site timezone
-            $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
-            $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::DATETIME_FORMAT_SHORT);
-            $details['timestamp'] = $dateTimeVisit->getTimestamp();
-        }
-
 
         return $visitorDetailsArray;
     }

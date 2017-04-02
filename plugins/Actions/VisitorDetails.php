@@ -9,9 +9,11 @@
 namespace Piwik\Plugins\Actions;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 
@@ -26,7 +28,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['interactions'] = $this->details['visit_total_interactions'];
     }
 
-    public function extendActionDetails(&$action)
+    public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
         $formatter = new Formatter();
 
@@ -103,5 +105,12 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['icon'] = null;
                 break;
         }
+
+        // Convert datetimes to the site timezone
+        $dateTimeVisit = Date::factory($action['serverTimePretty'], Site::getTimezoneFor($visitorDetails['idSite']));
+        $action['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::DATETIME_FORMAT_SHORT);
+        $action['timestamp'] = $dateTimeVisit->getTimestamp();
+
+        unset($action['idlink_va']);
     }
 }
