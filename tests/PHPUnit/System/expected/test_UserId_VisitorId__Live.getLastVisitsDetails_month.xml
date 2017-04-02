@@ -31,9 +31,9 @@
 				<pageIdAction>3</pageIdAction>
 				<serverTimePretty>Mar 6, 2010 11:25:33</serverTimePretty>
 				<pageId>2</pageId>
-				<interactionPosition>1</interactionPosition>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267874733</timestamp>
 			</row>
@@ -64,9 +64,9 @@
 				<pageIdAction>6</pageIdAction>
 				<serverTimePretty>Mar 6, 2010 13:16:33</serverTimePretty>
 				<pageId>4</pageId>
-				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267881393</timestamp>
 			</row>
@@ -77,9 +77,9 @@
 				<pageIdAction>2</pageIdAction>
 				<serverTimePretty>Mar 6, 2010 13:22:33</serverTimePretty>
 				<pageId>5</pageId>
-				<interactionPosition>2</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
 				<icon />
 				<timestamp>1267881753</timestamp>
 			</row>
@@ -150,9 +150,9 @@
 				<pageIdAction>10</pageIdAction>
 				<serverTimePretty>Mar 6, 2010 16:22:33</serverTimePretty>
 				<pageId>8</pageId>
-				<interactionPosition>1</interactionPosition>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267892553</timestamp>
 			</row>
@@ -163,9 +163,9 @@
 				<pageIdAction>10</pageIdAction>
 				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>9</pageId>
-				<interactionPosition>2</interactionPosition>
 				<timeSpent>721</timeSpent>
 				<timeSpentPretty>12 min 1s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
 				<icon />
 				<timestamp>1267892913</timestamp>
 			</row>

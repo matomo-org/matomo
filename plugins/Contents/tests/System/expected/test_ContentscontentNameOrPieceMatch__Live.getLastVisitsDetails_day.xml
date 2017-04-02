@@ -13,11 +13,11 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>1</pageId>
+				<timeSpent>271</timeSpent>
+				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<timeSpent>271</timeSpent>
-				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<icon />
 				
 			</row>
@@ -71,6 +71,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -104,17 +110,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -129,11 +124,11 @@
 				<pageIdAction>2</pageIdAction>
 				
 				<pageId>13</pageId>
+				<timeSpent>271</timeSpent>
+				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<timeSpent>271</timeSpent>
-				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<icon />
 				
 			</row>
@@ -187,6 +182,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -216,16 +217,5 @@
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 </result>

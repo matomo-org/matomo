@@ -125,6 +125,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -158,17 +164,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -237,6 +232,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -270,17 +271,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -349,6 +339,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -382,17 +378,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -461,6 +446,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -494,17 +485,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -573,6 +553,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -606,17 +592,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -685,6 +660,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -718,17 +699,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -797,6 +767,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -830,17 +806,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -909,6 +874,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -942,17 +913,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1021,6 +981,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1054,17 +1020,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -1133,6 +1088,12 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
+			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Unknown</continent>
 			<continentCode>unk</continentCode>
@@ -1166,17 +1127,6 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		</row>
 	</lastVisits>
 	<userId>0</userId>
