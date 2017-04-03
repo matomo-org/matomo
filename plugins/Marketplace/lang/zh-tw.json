@@ -103,6 +103,7 @@
         "Updated": "已更新",
         "UpdatingPlugin": "更新 %1$s 中",
         "UploadZipFile": "上傳 ZIP 檔案",
+        "PluginUploadDisabled": "外掛上傳已在設定檔案中停用。要啟用這項功能請更新你的配置或聯絡你的管理員。",
         "LicenseKeyExpiresSoon": "你的註冊碼即將過期，請聯絡 %1$s。",
         "LicenseKeyIsExpired": "你的註冊碼已過期，請聯絡 %1$s。",
         "MultiServerEnvironmentWarning": "你在多伺服器中使用 Piwik，因此無法直接安裝或更新外掛。外掛只能在單一伺服器中安裝。請手動下載外掛並部屬到所有伺服器中。",

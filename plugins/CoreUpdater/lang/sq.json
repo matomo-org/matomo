@@ -77,6 +77,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Mund ta përmirësoni automatikisht me versionin %s, ose të shkarkoni paketën dhe ta instaloni atë dorazi:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik-u s’është në gjendje të mbishkruajë instalimin tuaj të tanishëm. Mundeni ose të ndreqni lejet mbi drejtorira\/kartela, ose të shkarkoni paketën dhe instaloni versionin %s dorazi:",
         "YourDatabaseIsOutOfDate": "Baza juaj e të dhënave për Piwik-un është e vjetruar, dhe duhet përmirësuar përpara se të mund të vazhdoni.",
-        "ViewVersionChangelog": "Shihni regjistër ndryshimesh për këtë version:"
+        "ViewVersionChangelog": "Shihni regjistër ndryshimesh për këtë version:",
+        "ReceiveEmailBecauseIsSuperUser": "E morët këtë email ngaqë jeni një Superpërdorues Piwik-u te: %s"
     }
 }

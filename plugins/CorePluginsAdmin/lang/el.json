@@ -37,6 +37,7 @@
         "NoPluginSettings": "Δεν υπάρχουν ρυθμίσεις που μπορούν να παραμετροποιηθούν",
         "Origin": "Προέλευση",
         "OriginCore": "Πυρήνας",
+        "OriginOfficial": "Επίσημο",
         "OriginThirdParty": "Από τρίτες πηγές",
         "PluginHomepage": "Ιστοσελίδα πρόσθετου",
         "PluginNotCompatibleWith": "Το πρόσθετο %1$s δεν είναι συμβατό με το %2$s.",

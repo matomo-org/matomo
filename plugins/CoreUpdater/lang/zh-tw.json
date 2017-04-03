@@ -77,6 +77,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "你可以自動更新至版本 %s ，或是下載壓縮檔並手動安裝它：",
         "YouMustDownloadPackageOrFixPermissions": "Piwik 無法覆寫你當前的安裝。你可以修改資料夾\/檔案權限，或是下載安裝包然後手動安裝版本 %s：",
         "YourDatabaseIsOutOfDate": "你的 Piwik 資料庫已經過期了，所以在繼續前必須先升級。",
-        "ViewVersionChangelog": "查看此版本的更新紀錄："
+        "ViewVersionChangelog": "查看此版本的更新紀錄：",
+        "ReceiveEmailBecauseIsSuperUser": "你會收到這封信件是因為你在 %s 的 Piwik 上是超級使用者。"
     }
 }

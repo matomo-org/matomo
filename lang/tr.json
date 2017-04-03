@@ -26,6 +26,7 @@
         "Cancel": "İptal",
         "CannotUnzipFile": "Zip'den çıkarılamıyor %1$s: %2$s",
         "ChangePassword": "Şifre değiştir",
+        "ChooseDate": "Tarih seçin, şuan seçilen tarih: %s",
         "ChooseLanguage": "Dil seçin",
         "ChoosePeriod": "Zaman aralığı seçin",
         "ClickHere": "Daha fazla bilgi için buraya tıklayın.",
@@ -109,6 +110,7 @@
         "EcommerceOrders": "ETicaret Siparişleri",
         "Edit": "Düzenle",
         "Error": "Hata",
+        "Errors": "Hatalar",
         "ExceptionConfigurationFileNotFound": "Yapılandırma dosyası {%s} bulunamadı.",
         "ExceptionDatabaseVersion": "Sizin %1$s versiyonunuz %2$s ama Piwik en az %3$s kabul eder.",
         "ExceptionFileIntegrity": "Bütünlük kontrolü başarısız: %s",
@@ -375,6 +377,7 @@
         "ReleaseToRefresh": "Yenilemek için bırakın...",
         "Reloading": "Yeniden yükleniyor...",
         "RequestTimedOutShort": "Ağ Zamanaşımı Hatası",
+        "RestrictedCompatibility": "Kısıtlı uyumluluk",
         "SaveSuccessError": "Piwik adresi veya kullanıcı adı ve şifre kombinasyonu yanlış.",
         "SearchWebsite": "Websitelerinde ara",
         "ShowAll": "Tümünü göster",
@@ -384,6 +387,7 @@
         "TryIt": "Dene!",
         "VerifyAccount": "Hesap Doğrulama",
         "ValidateSslCertificate": "SSL Sertifikasını Doğrula",
+        "VerifyLoginData": "Kullanıcı adı ve parolanın doğru olduğundan emin olun.",
         "YouAreOffline": "Üzgünüm, şu anda çevrimdışısınız"
     },
     "RowEvolution": {
