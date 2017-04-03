@@ -13,6 +13,9 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ### New APIs
 * A new event `Controller.triggerAdminNotifications` has been added to let plugins know when they are supposed to trigger notifications in the admin.
 
+### Library updates
+* pChart library has been removed in favor of [CpChart](https://github.com/szymach/c-pchart), a pChart fork with composer support and PSR standards. 
+
 ## Piwik 3.0.2
 
 ### New Features
