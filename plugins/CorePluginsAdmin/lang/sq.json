@@ -37,6 +37,7 @@
         "NoPluginSettings": "S’ka rregullime shtojce që mund të formësohen",
         "Origin": "Origjina",
         "OriginCore": "Bazë",
+        "OriginOfficial": "Zyrtare",
         "OriginThirdParty": "Prej palësh të treta",
         "PluginHomepage": "Faqe Hyrëse e Shtojcës",
         "PluginNotCompatibleWith": "Shtojca %1$s s’është e përputhshme me %2$s.",

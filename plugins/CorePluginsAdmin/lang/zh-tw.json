@@ -37,6 +37,7 @@
         "NoPluginSettings": "沒有可以可以變更設定的外掛",
         "Origin": "來源",
         "OriginCore": "核心",
+        "OriginOfficial": "官方",
         "OriginThirdParty": "第三方",
         "PluginHomepage": "外掛首頁",
         "PluginNotCompatibleWith": "%1$s 個外掛和 %2$s 不相容。",

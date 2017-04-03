@@ -37,6 +37,7 @@
         "NoPluginSettings": "Aucun paramètre de plugin ne peut être configuré",
         "Origin": "Origine",
         "OriginCore": "Principal",
+        "OriginOfficial": "Officiel",
         "OriginThirdParty": "Tierce-Partie",
         "PluginHomepage": "Page d'accueil du plugin",
         "PluginNotCompatibleWith": "Le composant %1$s n'est pas compatible avec %2$s.",

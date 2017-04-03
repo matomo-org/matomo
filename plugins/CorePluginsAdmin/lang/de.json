@@ -37,6 +37,7 @@
         "NoPluginSettings": "Es gibt keine Einstellungen dieser Erweiterung, die konfiguriert werden können",
         "Origin": "Quelle",
         "OriginCore": "Core",
+        "OriginOfficial": "Offiziell",
         "OriginThirdParty": "Dritt-Anbieter",
         "PluginHomepage": "Plugin-Website",
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
