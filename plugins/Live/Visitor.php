@@ -237,110 +237,35 @@ class Visitor implements VisitorInterface
 
     /**
      * @param $visitorDetailsArray
-     * @param $actionsLimit
-     * @param $timezone
      * @return array
      */
-    public static function enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $idSite, $timezone)
+    public static function enrichVisitorArrayWithActions($visitorDetailsArray)
     {
-        $idVisit = $visitorDetailsArray['idVisit'];
-
         $visitorDetailsManipulators = self::getAllVisitorDetailsInstances();
+        $actionDetails = array();
 
-        $model = new Model();
-        $actionDetails = $model->queryActionsForVisit($idVisit, $actionsLimit);
+        foreach ($visitorDetailsManipulators as $instance) {
+            $instance->provideActions($actionDetails, $visitorDetailsArray);
+        }
 
         foreach ($visitorDetailsManipulators as $instance) {
             $instance->filterActions($actionDetails);
         }
 
-        $formatter = new Formatter();
+        usort($actionDetails, array('static', 'sortByServerTime'));
 
-        foreach ($actionDetails AS $idx => &$action) {
-            // Enrich with time spent per action
-            $nextAction = isset($actionDetails[$idx+1]) ? $actionDetails[$idx+1] : null;
+        $actionDetails= array_values($actionDetails);
 
-            // Set the time spent for this action (which is the timeSpentRef of the next action)
-            if ($nextAction) {
-                $action['timeSpent'] = $nextAction['timeSpentRef'];
-            } else {
-
-                // Last action of a visit.
-                // By default, Piwik does not know how long the user stayed on the page
-                // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
-                $visitTotalTime = $visitorDetailsArray['visitDuration'];
-                $timeOfLastAction = Date::factory($action['serverTimePretty'])->getTimestamp();
-
-                $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetailsArray['firstActionTimestamp']);
-                $timeSpentOnPage = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
-
-                // Safe net, we assume the time is correct when it's more than 10 seconds
-                if ($timeSpentOnPage > 10) {
-                    $action['timeSpent'] = $timeSpentOnPage;
-                }
-            }
-
-            if (isset($action['timeSpent'])) {
-                $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
-            }
-
-            unset($action['timeSpentRef']); // not needed after timeSpent is added
-        }
-
-        // If the visitor converted a goal, we shall select all Goals
-        $goalDetails = $model->queryGoalConversionsForVisit($idVisit, $actionsLimit);
-
-        $ecommerceDetails = $model->queryEcommerceConversionsForVisit($idVisit, $actionsLimit);
-        foreach ($ecommerceDetails as &$ecommerceDetail) {
-            if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-                unset($ecommerceDetail['orderId']);
-                unset($ecommerceDetail['revenueSubTotal']);
-                unset($ecommerceDetail['revenueTax']);
-                unset($ecommerceDetail['revenueShipping']);
-                unset($ecommerceDetail['revenueDiscount']);
-            }
-
-            // 25.00 => 25
-            foreach ($ecommerceDetail as $column => $value) {
-                if (strpos($column, 'revenue') !== false) {
-                    if ($value == round($value)) {
-                        $ecommerceDetail[$column] = round($value);
-                    }
-                }
-            }
-        }
-
-        // Enrich ecommerce carts/orders with the list of products
-        usort($ecommerceDetails, array('static', 'sortByServerTime'));
-        foreach ($ecommerceDetails as &$ecommerceConversion) {
-            $idOrder = isset($ecommerceConversion['orderId']) ? $ecommerceConversion['orderId'] : GoalManager::ITEM_IDORDER_ABANDONED_CART;
-
-            $itemsDetails = $model->queryEcommerceItemsForOrder($idVisit, $idOrder, $actionsLimit);
-            foreach ($itemsDetails as &$detail) {
-                if ($detail['price'] == round($detail['price'])) {
-                    $detail['price'] = round($detail['price']);
-                }
-            }
-            $ecommerceConversion['itemDetails'] = $itemsDetails;
-        }
-
-        $actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
-        usort($actions, array('static', 'sortByServerTime'));
-
-        $visitorDetailsArray['goalConversions'] = count($goalDetails);
-
-        $actions = array_values($actions);
-
-        foreach ($actions as $actionIdx => &$actionDetail) {
-            $actionDetail =& $actions[$actionIdx];
-            $nextAction = isset($actions[$actionIdx+1]) ? $actions[$actionIdx+1] : null;
+        foreach ($actionDetails as $actionIdx => &$actionDetail) {
+            $actionDetail =& $actionDetails[$actionIdx];
+            $nextAction = isset($actionDetails[$actionIdx+1]) ? $actionDetails[$actionIdx+1] : null;
 
             foreach ($visitorDetailsManipulators as $instance) {
                 $instance->extendActionDetails($actionDetail, $nextAction, $visitorDetailsArray);
             }
         }
 
-        $visitorDetailsArray['actionDetails'] = $actions;
+        $visitorDetailsArray['actionDetails'] = $actionDetails;
 
         return $visitorDetailsArray;
     }

@@ -12,6 +12,10 @@ abstract class VisitorDetailsAbstract
 {
     protected $details = array();
 
+    /**
+     * Set details of current visit
+     * @param $details
+     */
     public function setDetails($details)
     {
         $this->details = $details;
@@ -21,6 +25,26 @@ abstract class VisitorDetailsAbstract
     {
     }
 
+    public function provideActions(&$actions, $visitorDetails)
+    {
+    }
+
+    /**
+     * Allows filtering the provided actions
+     *
+     * Example:
+     *
+     * public function filterActions(&$actions) {
+     *     foreach ($actions as $idx => $action) {
+     *         if ($action['type'] == Action::TYPE_CONTENT) {
+     *             unset($actions[$idx]);
+     *             continue;
+     *         }
+     *     }
+     * }
+     *
+     * @param $actions
+     */
     public function filterActions(&$actions)
     {
     }
@@ -29,7 +53,7 @@ abstract class VisitorDetailsAbstract
     {
     }
 
-    public function renderAction($action)
+    public function renderAction($action, $previousAction)
     {
     }
 
