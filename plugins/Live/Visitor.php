@@ -67,7 +67,7 @@ class Visitor implements VisitorInterface
      * @return VisitorDetailsAbstract[]
      * @throws \Exception
      */
-    protected static function getAllVisitorDetailsInstances()
+    public static function getAllVisitorDetailsInstances()
     {
         $cacheId = CacheId::pluginAware('VisitorDetails');
         $cache   = Cache::getTransientCache();

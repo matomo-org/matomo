@@ -156,7 +156,8 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['type'] = 'event';
                 $action['icon'] = 'plugins/Morpheus/images/event.png';
                 break;
-            default:
+            case Action::TYPE_PAGE_URL:
+            case '':
                 $action['type'] = 'action';
                 $action['icon'] = null;
                 break;

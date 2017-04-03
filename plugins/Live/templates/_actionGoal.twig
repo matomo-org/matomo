@@ -1,0 +1,13 @@
+<li class="action"
+    title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
+
+{{ action.url }}{% endif %}">
+    <div>
+        {# Goal conversion #}
+        <img src="{{ action.icon }}" />
+        <strong>{{ action.goalName }}</strong>
+        {% if action.revenue > 0 %}, {{ 'General_ColumnRevenue'|translate }}:
+            <strong>{{ action.revenue|money(visitInfo.idSite)|raw }}</strong>
+        {% endif %}
+    </div>
+</li>

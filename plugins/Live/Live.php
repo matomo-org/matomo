@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\Live;
 
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-
 /**
  *
  */
@@ -24,7 +22,8 @@ class Live extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Live.renderAction'                      => 'renderAction'
         );
     }
 
@@ -57,5 +56,13 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "Live_SegmentedVisitorLogTitle";
         $translationKeys[] = "General_Segment";
         $translationKeys[] = "General_And";
+    }
+
+    public function renderAction(&$renderedAction, $action, $previousAction, $visitorDetails)
+    {
+        $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
+        foreach ($visitorDetailsInstances as $instance) {
+            $renderedAction .= $instance->renderAction($action, $previousAction, $visitorDetails);
+        }
     }
 }

@@ -15,11 +15,8 @@
         </div>
         <ol class="visitor-profile-actions">
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
-                                                       'clientSideParameters': {
-                                                            'idSite': idSite,
-                                                            'pageUrlNotDefined': 'General_NotDefined'|translate('Actions_ColumnPageURL'|translate)
-                                                        },
-                                                        'overrideLinkStyle': false} %}
+                                                       'visitInfo': visitInfo,
+                                                       'overrideLinkStyle': false} %}
         </ol>
     </div>
 </li>

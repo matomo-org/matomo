@@ -12,6 +12,7 @@ use Piwik\Date;
 use Piwik\Network\IPUtils;
 use Piwik\Site;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
@@ -56,6 +57,36 @@ class VisitorDetails extends VisitorDetailsAbstract
         $dateTimeVisitFirstAction = Date::factory($visitor['firstActionTimestamp'], $timezone);
         $visitor['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::DATE_FORMAT_LONG);
         $visitor['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::TIME_FORMAT);
+    }
+
+    public function renderAction($action, $previousAction, $visitorDetails)
+    {
+        switch($action['type']) {
+            case 'ecommerceOrder':
+            case 'ecommerceAbandonedCart':
+                $template = '@Live/_actionEcommerce.twig';
+                break;
+            case 'goal':
+                $template = '@Live/_actionGoal.twig';
+                break;
+            case 'action':
+            case 'search':
+            case 'outlink':
+            case 'download':
+            case 'event':
+                $template = '@Live/_actionCommon.twig';
+                break;
+        }
+
+        if (empty($template)) {
+            return;
+        }
+
+        $view                 = new View($template);
+        $view->action         = $action;
+        $view->previousAction = $previousAction;
+        $view->visitInfo      = $visitorDetails;
+        return $view->render();
     }
 
     function getVisitorId()

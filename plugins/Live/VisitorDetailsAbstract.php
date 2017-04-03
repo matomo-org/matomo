@@ -53,7 +53,7 @@ abstract class VisitorDetailsAbstract
     {
     }
 
-    public function renderAction($action, $previousAction)
+    public function renderAction($action, $previousAction, $visitorDetails)
     {
     }
 

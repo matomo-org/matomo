@@ -211,7 +211,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
 
                 <div class="visitor-log-page-list">
                     <ol class='visitorLog'>
-                        {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails')} %}
+                        {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails'), 'visitInfo': visitor} %}
                     </ol>
                 </div>
                 {{ postEvent('Live.visitorLogViewAfterActionsInfo', visitor) }}

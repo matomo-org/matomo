@@ -1,0 +1,71 @@
+{% set customVariablesTooltip %}
+    {% if action.customVariables is defined %}
+        {{ 'CustomVariables_CustomVariables'|translate }}:
+        {% for id,customVariable in action.customVariables %}
+            {% set name = 'customVariablePageName' ~ id %}
+            {% set value = 'customVariablePageValue' ~ id %}
+            - {{ customVariable[name]|raw }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|raw }}{% endif %}
+
+            {# line break above is important #}
+        {% endfor %}
+    {% endif %}
+{% endset %}
+
+<li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
+    title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
+
+{{ action.url }}{% endif %}{% if customVariablesTooltip|trim|length %}
+
+{{ customVariablesTooltip|trim }}{% endif -%}
+        {%- if action.generationTime is defined %}
+
+{{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}
+        {%- if action.timeSpentPretty is defined %}
+
+{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif -%}">
+    <div>
+        {# Page view / Download / Outlink / Event #}
+        {% if action.pageTitle|default(false) is not empty %}
+            <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
+        {% endif %}
+        {% if action.siteSearchKeyword is defined %}
+            {% if action.type == 'search' %}
+                <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}'
+                     class="action-list-action-icon search">
+            {% endif %}
+            <span class="truncated-text-line">{{ action.siteSearchKeyword|rawSafeDecoded }}</span>
+        {% endif %}
+        {% if action.eventCategory|default(false) is not empty %}
+            <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
+            <span class="truncated-text-line event">{{ action.eventCategory|rawSafeDecoded }}
+                - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
+        {% endif %}
+        {% if action.url is not empty %}
+            {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
+            {% if action.type == 'download' or action.type == 'outlink' %}
+                <img src='{{ action.icon }}' class="action-list-action-icon {{ action.type }}">
+            {% endif %}
+
+            {% if action.eventCategory|default(false) is not empty and previousAction.url|default(false) == action.url %}
+                {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
+            {% else %}
+                {% if action.url|trim|lower starts with 'javascript:' or
+                action.url|trim|lower starts with 'vbscript:' or
+                action.url|trim|lower starts with 'data:' %}
+                    {{ action.url }}
+                {% else %}
+                    <a href="{{ action.url }}" rel="noreferrer" target="_blank"
+                       class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
+                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="text-decoration:underline;"{% endif %}>
+                        {{ action.url|replace({'http://': '', 'https://': ''}) }}
+                    </a>
+                {% endif %}
+            {% endif %}
+            {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}
+        {% elseif action.type != 'search' and action.type != 'event' %}
+            <p>
+                <span>{{ 'General_NotDefined'|translate('Actions_ColumnPageURL'|translate) }}</span>
+            </p>
+        {% endif %}
+    </div>
+</li>
