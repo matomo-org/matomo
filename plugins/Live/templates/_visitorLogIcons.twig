@@ -1,0 +1,63 @@
+{% set visitHasEcommerceActivity = visitor.getColumn('visitEcommerceStatusIcon') %}
+{% set breakBeforeVisitorRank = (visitHasEcommerceActivity and visitor.getColumn('visitorTypeIcon')) ? true : false %}
+
+<span class="visitorLogIcons">
+
+    <span class="visitorDetails">
+    {% if visitor.getColumn('browserIcon') %}
+        <span class="visitorLogIconWithDetails">
+            <img src="{{ visitor.getColumn('browserIcon') }}"/>
+            <ul class="details">
+                <li>{{ 'DevicesDetection_ColumnBrowser'|translate }}: {{ visitor.getColumn('browser') }}</li>
+                <li>{{ 'DevicesDetection_BrowserEngine'|translate }}: {{ visitor.getColumn('browserFamily') }}</li>
+                {% if visitor.getColumn('pluginsIcons')|length > 0 %}
+                    <li>
+                        {{ 'General_Plugins'|translate }}:
+                        {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
+                            <img width="16px" height="16px" src="{{ pluginIcon.pluginIcon }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
+                        {% endfor %}
+                    </li>
+                {% endif %}
+            </ul>
+        </span>
+    {% endif %}
+        {% if visitor.getColumn('operatingSystemIcon') %}
+            <span class="visitorLogIconWithDetails">
+            <img src="{{ visitor.getColumn('operatingSystemIcon') }}"/>
+            <ul class="details">
+                <li>{{ 'DevicesDetection_ColumnOperatingSystem'|translate }}: {{ visitor.getColumn('operatingSystem') }}</li>
+            </ul>
+        </span>
+        {% endif %}
+        {% if visitor.getColumn('deviceTypeIcon') %}
+            <span class="visitorLogIconWithDetails">
+            <img src="{{ visitor.getColumn('deviceTypeIcon') }}"/>
+            <ul class="details">
+                <li>{{ 'DevicesDetection_DeviceType'|translate }}: {{ visitor.getColumn('deviceType') }}</li>
+                {% if visitor.getColumn('deviceBrand') %}<li>{{ 'DevicesDetection_DeviceBrand'|translate }}: {{ visitor.getColumn('deviceBrand') }}</li>{% endif %}
+                {% if visitor.getColumn('deviceModel') %}<li>{{ 'DevicesDetection_DeviceModel'|translate }}: {{ visitor.getColumn('deviceModel') }}</li>{% endif %}
+                {% if visitor.getColumn('resolution') %}<li>{{ 'Resolution_ColumnResolution'|translate }}: {{ visitor.getColumn('resolution') }}</li>{% endif %}
+            </ul>
+        </span>
+        {% endif %}
+    </span>
+
+    <span class="visitorType">
+        {# Goals, and/or Ecommerce activity #}
+        {% if visitor.getColumn('visitConverted') %}
+            <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank visitorLogTooltip'
+                  {% if isWidget or breakBeforeVisitorRank %}style="margin-left:0;"{% endif %}>
+                <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
+                <span class='hash'>#</span>
+                {{ visitor.getColumn('goalConversions') }}
+                {% if visitHasEcommerceActivity %}
+                    &nbsp;
+                    <img src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" class='visitorLogTooltip' title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
+                {% endif %}
+            </span>
+        {# Ecommerce activity only (no goal) #}
+        {% elseif visitHasEcommerceActivity %}
+            <img class="visitorLogTooltip" src="{{ visitor.getColumn('visitEcommerceStatusIcon') }}" title="{{ visitor.getColumn('visitEcommerceStatus') }}"/>
+        {% endif %}
+    </span>
+</span>

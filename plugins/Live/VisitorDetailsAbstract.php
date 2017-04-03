@@ -61,7 +61,7 @@ abstract class VisitorDetailsAbstract
     {
     }
 
-    public function renderVisitorDetails()
+    public function renderVisitorDetails($visitorDetails)
     {
     }
 }

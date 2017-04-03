@@ -1,0 +1,109 @@
+{% set referrerContent %}
+    <div class="visitorReferrer">
+        {% if visitInfo.getColumn('referrerType') == 'website' %}
+            {{ 'Referrers_ColumnWebsite'|translate }}:
+            <a href="{{ visitInfo.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl') }}"
+               style="text-decoration:underline;">
+                {{ visitInfo.getColumn('referrerName') }}
+            </a>
+        {% endif %}
+        {% if visitInfo.getColumn('referrerType') == 'campaign' %}
+            {{ 'Referrers_ColumnCampaign'|translate }}: {{ visitInfo.getColumn('referrerName') }}
+            {% if visitInfo.getColumn('referrerKeyword') is not empty %} - {{ visitInfo.getColumn('referrerKeyword') }}{% endif %}
+        {% endif %}
+        {% if visitInfo.getColumn('referrerType') == 'search' %}
+            {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
+            {%- set showKeyword = visitInfo.getColumn('referrerKeyword') is not empty and visitInfo.getColumn('referrerKeyword') != keywordNotDefined -%}
+            {% if visitInfo.getColumn('searchEngineIcon') %}
+                <img src="{{ visitInfo.getColumn('searchEngineIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
+            {% endif %}
+            <span {% if not showKeyword %}title="{{ keywordNotDefined }}" class="visitorLogTooltip"{% endif %}>{{ visitInfo.getColumn('referrerName') }}</span>
+            {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
+                <a href="{{ visitInfo.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" style="text-decoration:underline;">
+                    "{{ visitInfo.getColumn('referrerKeyword') }}"</a>
+            {% endif %}
+            {% set keyword %}{{ visitInfo.getColumn('referrerKeyword') }}{% endset %}
+            {% set searchName %}{{ visitInfo.getColumn('referrerName') }}{% endset %}
+            {% set position %}#{{ visitInfo.getColumn('referrerKeywordPosition') }}{% endset %}
+            {% if visitInfo.getColumn('referrerKeywordPosition') %}
+                <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank visitorLogTooltip'>
+                                <span class='hash'>#</span>
+                    {{ visitInfo.getColumn('referrerKeywordPosition') }}
+                            </span>
+            {% endif %}
+        {% endif %}
+        {% if visitInfo.getColumn('referrerType') == 'direct' %}{{ 'Referrers_DirectEntry'|translate }}{% endif %}
+    </div>
+{% endset %}
+
+<strong class="visitorLogTooltip" title="{% if visitInfo.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitInfo.getColumn('daysSinceLastVisit')) }}{% endif %}">
+    {{ visitInfo.getColumn('serverDatePrettyFirstAction') }}
+    {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}</strong>
+{% if visitInfo.getColumn('visitIp') is not empty %}
+    <br/>
+<span class="visitorLogTooltip" title="{% if visitInfo.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitInfo.getColumn('userId')|raw }}{% endif %}
+
+{% if visitInfo.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitInfo.getColumn('visitorId') }}{% endif -%}
+{%- if visitInfo.getColumn('latitude') or visitInfo.getColumn('longitude') %}
+
+{{ visitInfo.getColumn('location') }}
+
+GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('longitude') }}{% endif %}">
+    IP: {{ visitInfo.getColumn('visitIp') }}
+    {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|raw }}{% endif %}
+
+</span>{% endif %}
+
+{% if visitInfo.getColumn('provider') %}
+    <br/>
+    {{ 'Provider_ColumnProvider'|translate }}:
+    {% if visitInfo.getColumn('providerUrl') %}
+        <a href="{{ visitInfo.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('providerName') }} {{ visitInfo.getColumn('providerUrl') }}" style="text-decoration:underline;">
+    {% endif -%}
+        {{ visitInfo.getColumn('providerName') }}
+    {%- if visitInfo.getColumn('providerUrl') %}</a>{% endif %}
+{% endif %}
+{% if visitInfo.getColumn('visitorTypeIcon') or visitInfo.getColumn('countryFlag') %}
+    <br/>
+{% endif %}
+{% if visitInfo.getColumn('visitorTypeIcon') %}
+    <span class="visitorLogIconWithDetails">
+        <img src="{{ visitInfo.getColumn('visitorTypeIcon') }}"/>
+        <ul class="details">
+            <li>{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitInfo.getColumn('visitCount')) }}</li>
+        </ul>
+    </span>
+{% endif %}
+{% if visitInfo.getColumn('countryFlag') %}
+    <span class="visitorLogIconWithDetails flag">
+
+        <img height="16px" src="{{ visitInfo.getColumn('countryFlag') }}"/>
+        {% if visitInfo.getColumn('city') %}{{ visitInfo.getColumn('city')|rawSafeDecoded }}{% endif -%}
+        {%- if visitInfo.getColumn('region') %}{% if visitInfo.getColumn('city') %}, {% endif %}{{ visitInfo.getColumn('region')|rawSafeDecoded }}{% endif %}
+
+        <ul class="details">
+            <li>{{ 'UserCountry_Country'|translate }}: {{ visitInfo.getColumn('country') }}</li>
+            {% if visitInfo.getColumn('region') %}<li>{{ 'UserCountry_Region'|translate }}: {{ visitInfo.getColumn('region') }}</li>{% endif %}
+            {% if visitInfo.getColumn('city') %}<li>{{ 'UserCountry_City'|translate }}: {{ visitInfo.getColumn('city') }}</li>{% endif %}
+        </ul>
+    </span>
+{% endif %}
+{% if visitInfo.getColumn('customVariables') %}
+    <br/>
+    {% for id,customVariable in visitInfo.getColumn('customVariables') %}
+        {% set name='customVariableName' ~ id %}
+        {% set value='customVariableValue' ~ id %}
+        <br/>
+        <acronym class="visitorLogTooltip" title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
+            {{ customVariable[name]|truncate(30) }}
+        </acronym>
+    {% if customVariable[value]|length > 0 %}: {{ customVariable[value]|truncate(50) }}{% endif %}
+    {% endfor %}
+{% endif %}
+{% if isWidget %}
+    <br/>
+    {% include "@Live/_visitorLogIcons.twig" with {
+        visitor: visitInfo
+    } %}
+{% endif %}
+{{ referrerContent }}

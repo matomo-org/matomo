@@ -89,6 +89,13 @@ class VisitorDetails extends VisitorDetailsAbstract
         return $view->render();
     }
 
+    public function renderVisitorDetails($visitorDetails)
+    {
+        $view                 = new View('@Live/_visitorDetails.twig');
+        $view->visitInfo      = $visitorDetails;
+        return $view->render();
+    }
+
     function getVisitorId()
     {
         if (isset($this->details['idvisitor'])) {

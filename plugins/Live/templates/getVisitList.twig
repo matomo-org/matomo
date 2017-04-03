@@ -15,8 +15,7 @@
         </div>
         <ol class="visitor-profile-actions">
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
-                                                       'visitInfo': visitInfo,
-                                                       'overrideLinkStyle': false} %}
+                                                       'visitInfo': visitInfo} %}
         </ol>
     </div>
 </li>

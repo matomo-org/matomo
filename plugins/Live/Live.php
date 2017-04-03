@@ -15,7 +15,7 @@ class Live extends \Piwik\Plugin
 {
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -23,7 +23,8 @@ class Live extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Live.renderAction'                      => 'renderAction'
+            'Live.renderAction'                      => 'renderAction',
+            'Live.renderVisitorDetails'              => 'renderVisitorDetails'
         );
     }
 
@@ -63,6 +64,14 @@ class Live extends \Piwik\Plugin
         $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
         foreach ($visitorDetailsInstances as $instance) {
             $renderedAction .= $instance->renderAction($action, $previousAction, $visitorDetails);
+        }
+    }
+
+    public function renderVisitorDetails(&$renderedDetails, $visitorDetails)
+    {
+        $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
+        foreach ($visitorDetailsInstances as $instance) {
+            $renderedDetails .= $instance->renderVisitorDetails($visitorDetails);
         }
     }
 }

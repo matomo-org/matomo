@@ -55,8 +55,7 @@
                     {{ action.url }}
                 {% else %}
                     <a href="{{ action.url }}" rel="noreferrer" target="_blank"
-                       class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line"
-                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="text-decoration:underline;"{% endif %}>
+                       class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line">
                         {{ action.url|replace({'http://': '', 'https://': ''}) }}
                     </a>
                 {% endif %}
