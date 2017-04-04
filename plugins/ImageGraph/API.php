@@ -263,7 +263,7 @@ class API extends \Piwik\Plugin\API
                 case StaticGraph::GRAPH_TYPE_BASIC_PIE:
 
                     if (count($ordinateColumns) > 1) {
-                        // pChart doesn't support multiple series on pie charts
+                        // CpChart doesn't support multiple series on pie charts
                         throw new Exception("Pie charts do not currently support multiple series");
                     }
 

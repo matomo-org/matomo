@@ -91,7 +91,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>North Carolina</region>
 		<regionCode>NC</regionCode>
 		<city>Raleigh</city>
@@ -128,10 +128,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -243,7 +243,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>California</region>
 		<regionCode>CA</regionCode>
 		<city>Lake Forest</city>
@@ -267,10 +267,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -365,7 +365,7 @@
 		<continentCode>eur</continentCode>
 		<country>Germany</country>
 		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/de.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -414,10 +414,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -529,7 +529,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -570,10 +570,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -655,7 +655,7 @@
 		<continentCode>eur</continentCode>
 		<country>Belgium</country>
 		<countryCode>be</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/be.png</countryFlag>
 		<region>Limburg</region>
 		<regionCode>05</regionCode>
 		<city>Maaseik</city>
@@ -696,10 +696,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -794,7 +794,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>California</region>
 		<regionCode>CA</regionCode>
 		<city>San Francisco</city>
@@ -843,10 +843,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -939,7 +939,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region>Kanagawa</region>
 		<regionCode>19</regionCode>
 		<city>Nihon'odori</city>
@@ -976,10 +976,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -1074,7 +1074,7 @@
 		<continentCode>eur</continentCode>
 		<country>Germany</country>
 		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/de.png</countryFlag>
 		<region>Nordrhein-Westfalen</region>
 		<regionCode>07</regionCode>
 		<city>Weilerswist</city>
@@ -1103,10 +1103,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -1201,7 +1201,7 @@
 		<continentCode>eur</continentCode>
 		<country>Germany</country>
 		<countryCode>de</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/de.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/de.png</countryFlag>
 		<region>Rheinland-Pfalz</region>
 		<regionCode>08</regionCode>
 		<city>Mainz</city>
@@ -1250,10 +1250,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -1388,7 +1388,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
 		<region>Moscow City</region>
 		<regionCode>48</regionCode>
 		<city>Moscow</city>
@@ -1421,10 +1421,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -1519,7 +1519,7 @@
 		<continentCode>eur</continentCode>
 		<country>Turkey</country>
 		<countryCode>tr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/tr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/tr.png</countryFlag>
 		<region>Rize</region>
 		<regionCode>53</regionCode>
 		<city>Esentepe</city>
@@ -1560,10 +1560,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -1658,7 +1658,7 @@
 		<continentCode>eur</continentCode>
 		<country>Belgium</country>
 		<countryCode>be</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/be.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/be.png</countryFlag>
 		<region>Limburg</region>
 		<regionCode>05</regionCode>
 		<city>Maaseik</city>
@@ -1699,10 +1699,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -1986,7 +1986,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2006,10 +2006,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -2104,7 +2104,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2124,10 +2124,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -2239,7 +2239,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2259,10 +2259,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -2365,7 +2365,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2389,10 +2389,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -2535,7 +2535,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2559,10 +2559,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -2657,7 +2657,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2677,10 +2677,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -2804,7 +2804,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2824,10 +2824,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -2928,7 +2928,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2952,10 +2952,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3056,7 +3056,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -3089,10 +3089,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3185,7 +3185,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -3234,10 +3234,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3332,7 +3332,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>Nunavut</region>
 		<regionCode>NU</regionCode>
 		<city>Igloolik</city>
@@ -3352,10 +3352,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3450,7 +3450,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>New Jersey</region>
 		<regionCode>NJ</regionCode>
 		<city>Mount Laurel</city>
@@ -3470,10 +3470,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3557,7 +3557,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -3577,10 +3577,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3663,7 +3663,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -3683,10 +3683,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3779,7 +3779,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -3803,10 +3803,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -3899,7 +3899,7 @@
 		<continentCode>asi</continentCode>
 		<country>South Korea</country>
 		<countryCode>kr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/kr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/kr.png</countryFlag>
 		<region>Seoul-t'ukpyolsi</region>
 		<regionCode>11</regionCode>
 		<city>Seoul</city>
@@ -3923,10 +3923,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4038,7 +4038,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -4062,10 +4062,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4185,7 +4185,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -4209,10 +4209,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4305,7 +4305,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -4329,10 +4329,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4425,7 +4425,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -4449,10 +4449,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4534,7 +4534,7 @@
 		<continentCode>oce</continentCode>
 		<country>Australia</country>
 		<countryCode>au</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/au.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/au.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -4558,10 +4558,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4654,7 +4654,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -4678,10 +4678,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4774,7 +4774,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -4798,10 +4798,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -4894,7 +4894,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -4914,10 +4914,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5010,7 +5010,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5030,10 +5030,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5126,7 +5126,7 @@
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
 		<countryCode>br</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/br.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5146,10 +5146,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5242,7 +5242,7 @@
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
 		<countryCode>br</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/br.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5262,10 +5262,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5358,7 +5358,7 @@
 		<continentCode>ams</continentCode>
 		<country>Brazil</country>
 		<countryCode>br</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/br.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/br.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5378,10 +5378,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5474,7 +5474,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5494,10 +5494,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5590,7 +5590,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5610,10 +5610,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5706,7 +5706,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5726,10 +5726,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5822,7 +5822,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5842,10 +5842,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -5938,7 +5938,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5958,10 +5958,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -6054,7 +6054,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -6074,10 +6074,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -6170,7 +6170,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -6190,10 +6190,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -6286,7 +6286,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -6306,10 +6306,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -6402,7 +6402,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -6422,10 +6422,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -6518,7 +6518,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -6538,10 +6538,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -6634,7 +6634,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -6654,10 +6654,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
@@ -6750,7 +6750,7 @@
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -6770,10 +6770,10 @@
 		
 		
 		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>

@@ -7,16 +7,6 @@ third-party libraries:
  * HTML/Quickform2/
    - in r2626, php 5.1.6 incompatibility
    - in r3040, exception classes don't follow PEAR naming convention
- * pChart2.1.3/
-   - the following unused files were removed:
-     class/pBarcode39.class.php, class/pBarcode128.class.php,
-     class/pBubble.class.php, class/pCache.class.php, class/pIndicator.class.php,
-     class/pRadar.class.php, class/pScatter.class.php, class/pSplit.class.php,
-     class/pSpring.class.php, class/pStock.class.php, class/pSurface.class.php,
-     data/, examples/, fonts/, palettes/
-   - The bug #4206 (GD with JIS-mapped Japanese Font Support) was fixed in this
-     commit: https://github.com/piwik/piwik/commit/516c13d9b13ca3b908575eb809f7ad9d9397f0e1
-     Changed files: class/pImage.class.php class/pDraw.class.php
  * sparkline/
    - in r1296, remove require_once
    - empty sparklines with floats, off-by-one errors, and locale conflict

@@ -77,7 +77,7 @@
                 var prevelement;
                 var prevhtml;
                 var counter = 0;
-                $(this).find("li").each(function () {
+                $(this).find("> li").each(function () {
                     counter++;
                     $(this).val(counter);
                     var current = $(this).html();

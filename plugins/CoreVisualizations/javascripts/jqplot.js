@@ -407,9 +407,10 @@
 
         /** Export the chart as an image */
         exportAsImage: function (container, lang) {
+            var pixelRatio = window.devicePixelRatio || 1;
             var exportCanvas = document.createElement('canvas');
-            exportCanvas.width = container.width();
-            exportCanvas.height = container.height();
+            exportCanvas.width = Math.round(container.width() * pixelRatio);
+            exportCanvas.height = Math.round(container.height() * pixelRatio);
 
             if (!exportCanvas.getContext) {
                 alert("Sorry, not supported in your browser. Please upgrade your browser :)");
@@ -428,7 +429,7 @@
                     position.left += addPosition.left;
                     position.top += addPosition.top + parseInt(parent.css('marginTop'), 10);
                 }
-                exportCtx.drawImage(canvas[0], Math.round(position.left), Math.round(position.top));
+                exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
             }
 
             var exported = exportCanvas.toDataURL("image/png");
@@ -437,8 +438,8 @@
             img.src = exported;
 
             img = $(img).css({
-                width: exportCanvas.width + 'px',
-                height: exportCanvas.height + 'px'
+                width: Math.round(exportCanvas.width / pixelRatio) + 'px',
+                height: Math.round(exportCanvas.height / pixelRatio) + 'px'
             });
 
             var popover = $(document.createElement('div'));

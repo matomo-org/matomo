@@ -83,7 +83,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>California</region>
 		<regionCode>CA</regionCode>
 		<city>not a city</city>
@@ -268,7 +268,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -399,7 +399,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -573,7 +573,7 @@
 		<continentCode>eur</continentCode>
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -704,7 +704,7 @@
 		<continentCode>eur</continentCode>
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -897,7 +897,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Hluboká nad Vltavou</city>
@@ -1028,7 +1028,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Hluboká nad Vltavou</city>
@@ -1202,7 +1202,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -1333,7 +1333,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -1526,7 +1526,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Kent</region>
 		<regionCode>G5</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -1657,7 +1657,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Kent</region>
 		<regionCode>G5</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -1831,7 +1831,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>London, City of</region>
 		<regionCode>H9</regionCode>
 		<city>London</city>
@@ -2005,7 +2005,7 @@
 		<continentCode>asi</continentCode>
 		<country>Tibet</country>
 		<countryCode>ti</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ti.png</countryFlag>
 		<region>Unknown</region>
 		<regionCode>1</regionCode>
 		<city>Lhasa</city>
@@ -2128,7 +2128,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>London, City of</region>
 		<regionCode>H9</regionCode>
 		<city>London</city>
@@ -2259,7 +2259,7 @@
 		<continentCode>asi</continentCode>
 		<country>Tibet</country>
 		<countryCode>ti</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ti.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ti.png</countryFlag>
 		<region>Unknown</region>
 		<regionCode>1</regionCode>
 		<city>Lhasa</city>
@@ -2452,7 +2452,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -2645,7 +2645,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -2768,7 +2768,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -2899,7 +2899,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -3073,7 +3073,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Nuneaton and Bedworth</city>
@@ -3247,7 +3247,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -3421,7 +3421,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -3587,7 +3587,7 @@
 		<continentCode>asi</continentCode>
 		<country>Indonesia</country>
 		<countryCode>id</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/id.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/id.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -3718,7 +3718,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Nuneaton and Bedworth</city>
@@ -3849,7 +3849,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -3980,7 +3980,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -4111,7 +4111,7 @@
 		<continentCode>asi</continentCode>
 		<country>Indonesia</country>
 		<countryCode>id</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/id.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/id.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -4304,7 +4304,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -4497,7 +4497,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region>Franche-Comte</region>
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
@@ -4690,7 +4690,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -4875,7 +4875,7 @@
 		<continentCode>eur</continentCode>
 		<country>Italy</country>
 		<countryCode>it</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/it.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -5006,7 +5006,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -5137,7 +5137,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region>Franche-Comte</region>
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
@@ -5268,7 +5268,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -5399,7 +5399,7 @@
 		<continentCode>eur</continentCode>
 		<country>Italy</country>
 		<countryCode>it</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/it.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />

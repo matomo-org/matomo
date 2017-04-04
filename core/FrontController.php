@@ -433,16 +433,18 @@ class FrontController extends Singleton
         }
         Common::sendResponseCode(503);
 
-        $logoUrl = null;
-        $faviconUrl = null;
+        $logoUrl = 'plugins/Morpheus/images/logo.svg';
+        $faviconUrl = 'plugins/CoreHome/images/favicon.png';
         try {
             $logo = new CustomLogo();
-            $logoUrl = $logo->getHeaderLogoUrl();
+            if ($logo->hasSVGLogo()) {
+                $logoUrl = $logo->getSVGLogoUrl();
+            } else {
+                $logoUrl = $logo->getHeaderLogoUrl();
+            }
             $faviconUrl = $logo->getPathUserFavicon();
         } catch (Exception $ex) {
         }
-        $logoUrl = $logoUrl ?: 'plugins/Morpheus/images/logo-header.png';
-        $faviconUrl = $faviconUrl ?: 'plugins/CoreHome/images/favicon.png';
 
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
         $page = str_replace('%logoUrl%', $logoUrl, $page);

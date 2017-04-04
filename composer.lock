@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "db7672f3c64f1dbbd65edc6fd119e414",
-    "content-hash": "126d7da5eef61ae7f0764a2cfdf2c068",
+    "hash": "28cc5fd9b5400da4b1e2d40969c2511d",
+    "content-hash": "39dbe45e9a9ada455d5b38be7e6f5fad",
     "packages": [
         {
             "name": "composer/semver",
@@ -15,7 +15,7 @@
                 "url": "https://github.com/composer/semver.git",
                 "reference": "df4463baa9f44fe6cf0a6da4fde2934d4c0a2747"
             },
-            "dist": { 
+            "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/composer/semver/zipball/df4463baa9f44fe6cf0a6da4fde2934d4c0a2747",
                 "reference": "df4463baa9f44fe6cf0a6da4fde2934d4c0a2747",
@@ -1191,6 +1191,73 @@
             "time": "2015-06-25 11:21:15"
         },
         {
+            "name": "szymach/c-pchart",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/szymach/c-pchart.git",
+                "reference": "ed1a876c907c0610eae72592e563e1792e2d455a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/ed1a876c907c0610eae72592e563e1792e2d455a",
+                "reference": "ed1a876c907c0610eae72592e563e1792e2d455a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "behat/behat": "^3.3",
+                "behat/mink": "^1.7",
+                "behat/mink-goutte-driver": "^1.2",
+                "bossa/phpspec2-expect": "^1.0",
+                "sensiolabs/behat-page-object-extension": "^2.0",
+                "squizlabs/php_codesniffer": "^2.8"
+            },
+            "type": "project",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CpChart\\": "src/"
+                },
+                "files": [
+                    "src/Resources/data/constants.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jean-Damien Pogolotti",
+                    "homepage": "http://www.pchart.net",
+                    "role": "Creator of the original pChart library"
+                },
+                {
+                    "name": "Piotr Szymaszek",
+                    "homepage": "https://github.com/szymach",
+                    "role": "Developer of the CpChart wrapper package"
+                }
+            ],
+            "description": "Port of \"pChart\" library into PHP 5",
+            "homepage": "https://github.com/szymach/c-pchart",
+            "keywords": [
+                "CpChart",
+                "c-pChart",
+                "charts",
+                "pchart",
+                "statistics"
+            ],
+            "time": "2017-03-08 22:32:31"
+        },
+        {
             "name": "tecnickcom/tcpdf",
             "version": "6.2.12",
             "source": {
@@ -1502,7 +1569,7 @@
             "description": "XHProf: A Hierarchical Profiler for PHP",
             "homepage": "http://pecl.php.net/package/xhprof",
             "keywords": [
-                "performance", 
+                "performance",
                 "profiling"
             ],
             "time": "2015-02-26 14:37:51"

@@ -77,6 +77,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "You can update to version %s automatically or download the package and install it manually:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik is unable to overwrite your current installation. You can either fix the directory\/file permissions, or download the package and install version %s manually:",
         "YourDatabaseIsOutOfDate": "Your Piwik database is out-of-date, and must be upgraded before you can continue.",
-        "ViewVersionChangelog": "View the changelog for this version:"
+        "ViewVersionChangelog": "View the changelog for this version:",
+        "ReceiveEmailBecauseIsSuperUser": "You receive this email because you are a Super User on the Piwik at: %s"
     }
 }

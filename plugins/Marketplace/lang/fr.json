@@ -103,6 +103,7 @@
         "Updated": "Mis à jour",
         "UpdatingPlugin": "Mise à jour de %1$s",
         "UploadZipFile": "Télécharger fichier ZIP",
+        "PluginUploadDisabled": "Le téléversement de composant est désactivé dans le fichier de configuration. Afin d'activer cette fonctionnalité, veuillez mettre à jour votre configuration ou contacter votre administrateur.",
         "LicenseKeyExpiresSoon": "Votre clef de licence expire bientôt, veuillez contacter %1$s.",
         "LicenseKeyIsExpired": "Votre clef de licence est expirée, veuillez contacter %1$s.",
         "MultiServerEnvironmentWarning": "Vous ne pouvez pas installer ou mettre à jour le composant directement car vous utilisez Piwik sur plusieurs serveurs. Ce composant serait installé sur un seul serveur. A la place téléchargez et déployez le composant manuellement sur tous les serveurs.",

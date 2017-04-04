@@ -31,7 +31,7 @@
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>
-		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
 		<label>Nuneaton and Bedworth, Warwickshire, United Kingdom</label>
@@ -62,6 +62,6 @@
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>
-		<logo>plugins/UserCountry/images/flags/gb.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 </result>

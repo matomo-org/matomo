@@ -32,7 +32,7 @@ class Locale
         setlocale(LC_ALL, $newLocale);
         setlocale(LC_CTYPE, '');
         // Always use english for numbers. otherwise the decimal separator might get localized when casting a float to string
-        setlocale(LC_NUMERIC, array('en_US.UTF-8', 'en-US'));
+        setlocale(LC_NUMERIC, array('en_US.UTF-8', 'en-US', 'C.UTF-8', 'C'));
     }
 
     public static function setDefaultLocale()
