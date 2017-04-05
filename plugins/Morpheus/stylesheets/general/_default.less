@@ -40,6 +40,12 @@ a:focus {
     outline: thin dotted;
 }
 
+@-moz-document url-prefix() { 
+  :focus {
+     outline:0;
+  }
+}
+
 /* remember to highlight inserts somehow! */
 ins {
     text-decoration: none;
