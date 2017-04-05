@@ -15,6 +15,7 @@ use Piwik\Period;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
+use Piwik\Session;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -106,6 +107,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getEvolutionGraph($columns = false)
     {
+        Session::writeClose();
+        
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns');
         }
