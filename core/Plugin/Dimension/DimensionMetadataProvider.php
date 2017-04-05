@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Plugin\Dimension;
+use Piwik\Piwik;
 
 /**
  * Provides metadata about dimensions for the LogDataPurger class.
@@ -72,6 +73,8 @@ class DimensionMetadataProvider
                 $result[$table] = array_unique(array_merge($result[$table], $columns));
             }
         }
+
+        Piwik::postEvent('Db.getActionReferenceColumnsByTable', array(&$result));
 
         return $result;
     }

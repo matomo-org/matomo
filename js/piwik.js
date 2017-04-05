@@ -5629,7 +5629,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Specify the Piwik server URL
+             * Specify the Piwik tracking URL
              *
              * @param string trackerUrl
              */
@@ -5638,11 +5638,19 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik server URL
+             * Returns the Piwik tracking URL
              * @returns string
              */
             this.getTrackerUrl = function () {
                 return configTrackerUrl;
+            };
+
+            /**
+             * Returns the Piwik server URL
+             * @returns string
+             */
+            this.getPiwikUrl = function () {
+                return getPiwikUrlForOverlay(this.getTrackerUrl(), configApiUrl);
             };
 
             /**
@@ -6139,6 +6147,13 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setCustomUrl = function (url) {
                 configCustomUrl = resolveRelativeReference(locationHrefAlias, url);
+            };
+
+            /**
+             * Returns the current url of the page that is currently being visited.
+             */
+            this.getCurrentUrl = function () {
+                return configCustomUrl || locationHrefAlias;
             };
 
             /**
