@@ -22,6 +22,16 @@ Simply copy and paste this tag on websites you wish to track and access your ana
 
 Piwik aims to be a Free software alternative to Google Analytics, and is already used on more than 1,000,000 websites. Privacy is built-in!
 
+## Code Status
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit and integration tests and dozens of system [tests](https://github.com/piwik/piwik/tree/master/tests),
+ running on the hosted distributed continuous integration platform Travis-CI.
+
+Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik)
+
+Code Coverage: [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master)
+
+Issue tracker metrics: [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Average time to resolve an issue") - [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
+
 ## Mission Statement
 
 > « To create, as a community, the leading international Free/Libre web analytics platform, providing access to all functionality through open components and open APIs. »
