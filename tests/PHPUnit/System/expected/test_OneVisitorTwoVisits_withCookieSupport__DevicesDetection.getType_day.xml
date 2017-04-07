@@ -24,7 +24,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
 		<segment>deviceType==desktop</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/normal.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/desktop.png</logo>
 	</row>
 	<row>
 		<label>Camera</label>

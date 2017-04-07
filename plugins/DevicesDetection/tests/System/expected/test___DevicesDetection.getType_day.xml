@@ -81,7 +81,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
 		<segment>deviceType==desktop</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/normal.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/desktop.png</logo>
 	</row>
 	<row>
 		<label>Tv</label>

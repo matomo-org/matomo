@@ -19,7 +19,7 @@
 		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<segment>deviceType==desktop</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/normal.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/desktop.png</logo>
 	</row>
 	<row>
 		<label>Smartphone</label>
