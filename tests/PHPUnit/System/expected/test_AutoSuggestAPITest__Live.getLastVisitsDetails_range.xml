@@ -63,7 +63,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -248,7 +248,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -379,7 +379,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -553,7 +553,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -684,7 +684,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -877,7 +877,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1008,7 +1008,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1182,7 +1182,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1313,7 +1313,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1506,7 +1506,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1637,7 +1637,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1811,7 +1811,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1985,7 +1985,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -2108,7 +2108,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -2239,7 +2239,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Tablet</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/tablet.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/tablet.png</deviceTypeIcon>
 		<deviceBrand>Sony</deviceBrand>
 		<deviceModel>Xperia Tablet S</deviceModel>
 		<operatingSystem>Android 4.1</operatingSystem>
@@ -2432,7 +2432,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -2625,7 +2625,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -2748,7 +2748,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -2879,7 +2879,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Dell</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -3053,7 +3053,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -3227,7 +3227,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>HTC</deviceBrand>
 		<deviceModel>Desire</deviceModel>
 		<operatingSystem>MildWild 8.0</operatingSystem>
@@ -3401,7 +3401,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -3567,7 +3567,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
@@ -3698,7 +3698,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -3829,7 +3829,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>HTC</deviceBrand>
 		<deviceModel>Desire</deviceModel>
 		<operatingSystem>MildWild 8.0</operatingSystem>
@@ -3960,7 +3960,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
@@ -4091,7 +4091,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
@@ -4284,7 +4284,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -4477,7 +4477,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Google</deviceBrand>
 		<deviceModel>Nexus 4</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
@@ -4670,7 +4670,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -4855,7 +4855,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Phablet</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Samsung</deviceBrand>
 		<deviceModel>GALAXY Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>
@@ -4986,7 +4986,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -5117,7 +5117,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Google</deviceBrand>
 		<deviceModel>Nexus 4</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
@@ -5248,7 +5248,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 8.1</operatingSystem>
@@ -5379,7 +5379,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Phablet</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Samsung</deviceBrand>
 		<deviceModel>GALAXY Note 3</deviceModel>
 		<operatingSystem>Android 4.3</operatingSystem>

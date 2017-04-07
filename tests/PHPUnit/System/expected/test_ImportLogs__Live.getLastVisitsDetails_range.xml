@@ -71,7 +71,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 8.1</operatingSystem>
@@ -223,7 +223,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -345,7 +345,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -509,7 +509,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.9</operatingSystem>
@@ -635,7 +635,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -774,7 +774,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.9</operatingSystem>
@@ -919,7 +919,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.9</operatingSystem>
@@ -1054,7 +1054,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Android</operatingSystem>
@@ -1181,7 +1181,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -1368,7 +1368,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 8</operatingSystem>
@@ -1499,7 +1499,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -1638,7 +1638,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -1966,7 +1966,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -2084,7 +2084,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac</operatingSystem>
@@ -2219,7 +2219,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows</operatingSystem>
@@ -2345,7 +2345,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.10</operatingSystem>
@@ -2515,7 +2515,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Samsung</deviceBrand>
 		<deviceModel>GALAXY S5</deviceModel>
 		<operatingSystem>Android 4.4</operatingSystem>
@@ -2637,7 +2637,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.10</operatingSystem>
@@ -2784,7 +2784,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.10</operatingSystem>
@@ -2908,7 +2908,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.10</operatingSystem>
@@ -3036,7 +3036,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -3165,7 +3165,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -3312,7 +3312,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -3430,7 +3430,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Apple</deviceBrand>
 		<deviceModel>iPhone</deviceModel>
 		<operatingSystem>iOS 7.1</operatingSystem>
@@ -3537,7 +3537,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -3643,7 +3643,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -3759,7 +3759,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
@@ -3879,7 +3879,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
@@ -4018,7 +4018,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
@@ -4165,7 +4165,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
@@ -4285,7 +4285,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Bot</operatingSystem>
@@ -4405,7 +4405,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -4514,7 +4514,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
@@ -4634,7 +4634,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>HTC</deviceBrand>
 		<deviceModel>Vision</deviceModel>
 		<operatingSystem>Android 2.3</operatingSystem>
@@ -4754,7 +4754,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
@@ -4874,7 +4874,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -4990,7 +4990,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -5106,7 +5106,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -5222,7 +5222,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -5338,7 +5338,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -5454,7 +5454,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -5570,7 +5570,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -5686,7 +5686,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -5802,7 +5802,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.8</operatingSystem>
@@ -5918,7 +5918,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -6034,7 +6034,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -6150,7 +6150,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -6266,7 +6266,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
@@ -6382,7 +6382,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -6498,7 +6498,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
@@ -6614,7 +6614,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>HTC</deviceBrand>
 		<deviceModel>Vision</deviceModel>
 		<operatingSystem>Android 2.3</operatingSystem>
@@ -6730,7 +6730,7 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/normal.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>

@@ -43,7 +43,7 @@
 		<metrics>
 			<nb_visits_0>
 				<name>Desktop (Visits)</name>
-				<logo>plugins/DevicesDetection/images/screens/normal.png</logo>
+				<logo>plugins/Morpheus/icons/dist/devices/normal.png</logo>
 				<min>0</min>
 				<max>1</max>
 			</nb_visits_0>

@@ -19,7 +19,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>52.26</revenue>
 		<segment>deviceType==tablet</segment>
-		<logo>plugins/DevicesDetection/images/screens/tablet.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/tablet.png</logo>
 	</row>
 	<row>
 		<label>Smartphone</label>
@@ -40,7 +40,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>52.26</revenue>
 		<segment>deviceType==smartphone</segment>
-		<logo>plugins/DevicesDetection/images/screens/smartphone.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/smartphone.png</logo>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -60,7 +60,7 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>52.26</revenue>
-		<logo>plugins/DevicesDetection/images/screens/unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
 	</row>
 	<row>
 		<label>Desktop</label>
@@ -81,7 +81,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
 		<segment>deviceType==desktop</segment>
-		<logo>plugins/DevicesDetection/images/screens/normal.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/normal.png</logo>
 	</row>
 	<row>
 		<label>Tv</label>
@@ -94,48 +94,48 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>deviceType==tv</segment>
-		<logo>plugins/DevicesDetection/images/screens/tv.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/tv.png</logo>
 	</row>
 	<row>
 		<label>Camera</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==camera</segment>
-		<logo>plugins/DevicesDetection/images/screens/camera.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/camera.png</logo>
 	</row>
 	<row>
 		<label>Car browser</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==car+browser</segment>
-		<logo>plugins/DevicesDetection/images/screens/carbrowser.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/carbrowser.png</logo>
 	</row>
 	<row>
 		<label>Console</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==console</segment>
-		<logo>plugins/DevicesDetection/images/screens/console.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/console.png</logo>
 	</row>
 	<row>
 		<label>Feature phone</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==feature+phone</segment>
-		<logo>plugins/DevicesDetection/images/screens/mobile.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/mobile.png</logo>
 	</row>
 	<row>
 		<label>Phablet</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==phablet</segment>
-		<logo>plugins/DevicesDetection/images/screens/unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
 	</row>
 	<row>
 		<label>Portable media player</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==portable+media+player</segment>
-		<logo>plugins/DevicesDetection/images/screens/unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
 	</row>
 	<row>
 		<label>Smart display</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==smart+display</segment>
-		<logo>plugins/DevicesDetection/images/screens/unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
 	</row>
 </result>

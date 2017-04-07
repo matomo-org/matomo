@@ -52,7 +52,7 @@
 		<languageCode>fr</languageCode>
 		<language>Français</language>
 		<deviceType>Inconnu</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Bot</operatingSystem>
@@ -173,7 +173,7 @@
 		<languageCode>fr</languageCode>
 		<language>Français</language>
 		<deviceType>Inconnu</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Bot</operatingSystem>
