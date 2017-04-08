@@ -106,7 +106,7 @@
 		<label>Car browser</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==car+browser</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/carbrowser.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/car_browser.png</logo>
 	</row>
 	<row>
 		<label>Console</label>
@@ -118,24 +118,24 @@
 		<label>Feature phone</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==feature+phone</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/mobile.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/feature_phone.png</logo>
 	</row>
 	<row>
 		<label>Phablet</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==phablet</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/phablet.png</logo>
 	</row>
 	<row>
 		<label>Portable media player</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==portable+media+player</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/portable_media_player.png</logo>
 	</row>
 	<row>
 		<label>Smart display</label>
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==smart+display</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/devices/smart_display.png</logo>
 	</row>
 </result>
