@@ -57,7 +57,7 @@ abstract class VisitorDetailsAbstract
     {
     }
 
-    public function renderIcons()
+    public function renderIcons($visitorDetails)
     {
     }
 

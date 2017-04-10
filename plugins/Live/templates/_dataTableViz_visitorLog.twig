@@ -19,9 +19,7 @@
 
             {% if displayVisitorsInOwnColumn %}
                 <div class="col s12 m2 own-visitor-column">
-                    {% include "@Live/_visitorLogIcons.twig" with {
-                        visitor: visitor
-                    } %}
+                    {{ postEvent('Live.renderVisitorIcons', visitor) }}
                 </div>
             {% endif %}
 

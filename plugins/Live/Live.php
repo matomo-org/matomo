@@ -24,7 +24,8 @@ class Live extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Live.renderAction'                      => 'renderAction',
-            'Live.renderVisitorDetails'              => 'renderVisitorDetails'
+            'Live.renderVisitorDetails'              => 'renderVisitorDetails',
+            'Live.renderVisitorIcons'                => 'renderVisitorIcons'
         );
     }
 
@@ -72,6 +73,14 @@ class Live extends \Piwik\Plugin
         $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
         foreach ($visitorDetailsInstances as $instance) {
             $renderedDetails .= $instance->renderVisitorDetails($visitorDetails);
+        }
+    }
+
+    public function renderVisitorIcons(&$renderedDetails, $visitorDetails)
+    {
+        $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
+        foreach ($visitorDetailsInstances as $instance) {
+            $renderedDetails .= $instance->renderIcons($visitorDetails);
         }
     }
 }
