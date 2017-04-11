@@ -1168,7 +1168,7 @@ if (typeof window.Piwik !== 'object') {
          * @param message
          */
         function logConsoleError(message) {
-            if (typeof(console) !== 'undefined' && console && console.error) {
+            if (typeof console !== 'undefined' && console && console.error) {
                 console.error(message);
             }
         }
