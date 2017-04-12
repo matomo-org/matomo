@@ -4,6 +4,13 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 3.0.4
+
+### New APIs
+* A new event `Db.getActionReferenceColumnsByTable` has been added in case a plugin defines a custom log table which references data to the log_action table 
+* A new JavaScript tracker method `getPiwikUrl` has been added to retrieve the URL of where the Piwik instance is located
+* A new JavaScript tracker method `getCurrentUrl` has been added to retrieve the current URL of the website. 
+
 ## Piwik 3.0.3
 
 ### Breaking Changes

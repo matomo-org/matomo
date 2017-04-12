@@ -5648,7 +5648,8 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik server URL
+             * Returns the Piwik server URL.
+             *
              * @returns string
              */
             this.getPiwikUrl = function () {
@@ -6152,7 +6153,8 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the current url of the page that is currently being visited.
+             * Returns the current url of the page that is currently being visited. If a custom URL was set, the
+             * previously defined custom URL will be returned.
              */
             this.getCurrentUrl = function () {
                 return configCustomUrl || locationHrefAlias;
