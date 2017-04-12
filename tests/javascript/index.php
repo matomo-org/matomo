@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(77);
+        expect(79);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -3412,9 +3412,9 @@ function PiwikTest() {
         equal( getPiwikUrlForOverlay('http://www.example.com/piwik.php'), 'http://www.example.com/', 'with piwik.php and no js folder' );
         equal( getPiwikUrlForOverlay('http://www.example.com/master/js/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
         equal( getPiwikUrlForOverlay('http://www.example.com/master/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
-        equal( getPiwikUrlForOverlay('/piwik.php'), '/', 'only piwik.php with leading slash' );
-        equal( getPiwikUrlForOverlay('piwik.php'), '', 'only piwik.php' );
-        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), '/', 'only piwik.php with leading slash with query' );
+        equal( getPiwikUrlForOverlay('/piwik.php'), toAbsoluteUrl('/'), 'only piwik.php with leading slash' );
+        equal( getPiwikUrlForOverlay('piwik.php'), toAbsoluteUrl(''), 'only piwik.php' );
+        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), toAbsoluteUrl('/'), 'only piwik.php with leading slash with query' );
     });
 
     function generateAnIframeInDocument() {
