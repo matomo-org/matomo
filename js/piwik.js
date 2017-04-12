@@ -2853,6 +2853,8 @@ if (typeof window.Piwik !== 'object') {
                 return apiUrl;
             }
 
+            trackerUrl = content.toAbsoluteUrl(trackerUrl);
+
             // if eg http://www.example.com/js/tracker.php?version=232323 => http://www.example.com/js/tracker.php
             if (stringContains(trackerUrl, '?')) {
                 var posQuery = trackerUrl.indexOf('?');
