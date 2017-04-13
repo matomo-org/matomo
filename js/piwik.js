@@ -5406,7 +5406,7 @@ if (typeof window.Piwik !== 'object') {
                         ag: 'application/x-silverlight'
                     };
 
-                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
+                // detect browser features except IE >= 11 (IE 11 user agent is no longer MSIE)
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
                     // general plugin detection
                     if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
