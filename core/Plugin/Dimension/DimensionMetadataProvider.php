@@ -7,6 +7,7 @@
  */
 
 namespace Piwik\Plugin\Dimension;
+use Piwik\Piwik;
 
 /**
  * Provides metadata about dimensions for the LogDataPurger class.
@@ -72,6 +73,22 @@ class DimensionMetadataProvider
                 $result[$table] = array_unique(array_merge($result[$table], $columns));
             }
         }
+
+        /**
+         * Triggered when detecting which log_action entries to keep. Any log tables that use the log_action
+         * table to reference text via an ID should add their table info so no actions that are still in use
+         * will be accidentally deleted.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Db.getActionReferenceColumnsByTable', function(&$result) {
+         *         $tableNameUnprefixed = 'log_example';
+         *         $columnNameThatReferencesIdActionInLogActionTable = 'idaction_example';
+         *         $result[$tableNameUnprefixed] = array($columnNameThatReferencesIdActionInLogActionTable);
+         *     });
+         * @param array $result
+         */
+        Piwik::postEvent('Db.getActionReferenceColumnsByTable', array(&$result));
 
         return $result;
     }

@@ -982,7 +982,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType,
-    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
+    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
@@ -2852,6 +2852,8 @@ if (typeof window.Piwik !== 'object') {
             if (apiUrl) {
                 return apiUrl;
             }
+
+            trackerUrl = content.toAbsoluteUrl(trackerUrl);
 
             // if eg http://www.example.com/js/tracker.php?version=232323 => http://www.example.com/js/tracker.php
             if (stringContains(trackerUrl, '?')) {
@@ -5629,7 +5631,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Specify the Piwik server URL
+             * Specify the Piwik tracking URL
              *
              * @param string trackerUrl
              */
@@ -5638,11 +5640,20 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik server URL
+             * Returns the Piwik tracking URL
              * @returns string
              */
             this.getTrackerUrl = function () {
                 return configTrackerUrl;
+            };
+
+            /**
+             * Returns the Piwik server URL.
+             *
+             * @returns string
+             */
+            this.getPiwikUrl = function () {
+                return getPiwikUrlForOverlay(this.getTrackerUrl(), configApiUrl);
             };
 
             /**
@@ -6139,6 +6150,14 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setCustomUrl = function (url) {
                 configCustomUrl = resolveRelativeReference(locationHrefAlias, url);
+            };
+
+            /**
+             * Returns the current url of the page that is currently being visited. If a custom URL was set, the
+             * previously defined custom URL will be returned.
+             */
+            this.getCurrentUrl = function () {
+                return configCustomUrl || locationHrefAlias;
             };
 
             /**
