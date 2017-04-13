@@ -134,6 +134,9 @@ class FrontController extends Singleton
         }
 
         try {
+            if(!Piwik::isUserIsAnonymous()){
+                Piwik::postEvent('FrontController.beforeDispatch');
+            }
             $result = $this->doDispatch($module, $action, $parameters);
             return $result;
         } catch (NoAccessException $exception) {
