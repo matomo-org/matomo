@@ -312,6 +312,30 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns users that have given access to given site,
+     * but no access to other sites.
+     */    
+    public function getUsersWithDistinctSiteAccess($idSite, $access)
+    {
+        Piwik::checkUserIsSuperUser();
+
+        $db = Zend_Registry::get('db');
+        $users = $db->fetchAll("SELECT login
+								FROM " . Piwik_Common::prefixTable("access")
+            . " as access1 WHERE idsite = ? AND access = ? AND (SELECT COUNT(login) FROM  " . Piwik_Common::prefixTable("access")
+            . " as access2 WHERE access2.login = access1.login GROUP BY access2.login) = 1 ", array($idSite, $access));
+        $logins = array();
+        foreach ($users as $user) {
+            $logins[] = $user['login'];
+        }
+        if (empty($logins)) {
+            return array();
+        }
+        $logins = implode(',', $logins);
+        return $this->getUsers($logins);
+    }    
+
+    /**
      * For each website ID, returns the access level of the given $userLogin.
      * If the user doesn't have any access to a website ('noaccess'),
      * this website will not be in the returned array.
