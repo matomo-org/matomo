@@ -53,10 +53,6 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Link:  https://github.com/piwik/piwik/blob/master/core/Tracker/javascriptTag.tpl
 	License:  Public Domain
 
-	Name:  jquery.truncate
-	Link:  https://github.com/piwik/piwik/blob/master/libs/jquery/truncate/
-	License:  New BSD
-
 	Name:  piwik.js - JavaScript tracker
 	Link:  https://github.com/piwik/piwik/blob/master/js/piwik.js
 	License:  New BSD
