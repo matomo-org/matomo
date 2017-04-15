@@ -721,4 +721,19 @@ class Plugin extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
     }
+    
+    /**
+     * Returns fileintegrity information if mismatches are found.
+     */
+    public function getFileIntegrityStatus()
+    {
+        Piwik::checkUserIsSuperUser();
+      
+        $result = Piwik::getFileIntegrityInformation();
+        if (isset($result[0]) && $result[0] === false) {
+            array_shift($result);
+            return $result;
+        }
+        return 'OK';
+    }
 }
