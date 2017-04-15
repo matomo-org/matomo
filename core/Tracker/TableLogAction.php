@@ -135,7 +135,7 @@ class TableLogAction
         foreach ($actionsNameAndType as $fieldName => &$actionNameType) {
             @list($name, $type, $urlPrefix) = $actionNameType;
             if (empty($name)) {
-                $fieldNameToActionId[$fieldName] = false;
+                $fieldNameToActionId[$fieldName] = 0;
                 continue;
             }
 
