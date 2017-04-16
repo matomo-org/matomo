@@ -16,7 +16,9 @@ use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
 
-require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
+if (!class_exists('PiwikTracker')) {
+    require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
+}
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
