@@ -1,0 +1,20 @@
+{
+    "name": "thadafinser/piwik-tracker",
+    "description": "the php tracker of piwik",
+    "keywords": ["piwik","web","analytics"],
+    "homepage": "http://piwik.org",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "The Piwik Team",
+            "email": "hello@piwik.org",
+            "homepage": "http://piwik.org/the-piwik-team/"
+        }
+    ],
+    "support": {
+        "forum": "http://forum.piwik.org/",
+        "issues": "http://dev.piwik.org/trac/roadmap",
+        "wiki": "http://dev.piwik.org/",
+        "source": "https://github.com/piwik/piwik"
+    }
+}
