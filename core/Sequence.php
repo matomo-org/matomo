@@ -90,19 +90,19 @@ class Sequence
      */
     public function getNextId()
     {
-        $sql   = 'UPDATE ' . $this->table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
+        $sql = 'UPDATE ' . $this->table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
 
-        $result   = $this->db->query($sql, array($this->name));
+        $result = $this->db->query($sql, array($this->name));
         $rowCount = $result->rowCount();
 
         if (1 !== $rowCount) {
-            throw new Exception("Sequence '" . $this->name . "' not found.");
+            $init = Db::fetchOne("SELECT MAX(idarchive) from " . $this->name);
+            $createdId = $init + 1;
+            $this->create($createdId);
+        } else {
+            $createdId = $this->db->lastInsertId();
         }
-
-        $createdId = $this->db->lastInsertId();
-
-        return (int) $createdId;
-    }
+        return (int)$createdId;    }
 
     /**
      * Returns the current max id.
