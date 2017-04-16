@@ -1,0 +1,13 @@
+[Unit]
+Description=Piwik archiving
+Documentation=http://piwik.org/docs/setup-auto-archiving/
+
+[Service]
+Type=oneshot
+WorkingDirectory=/path/to/your/piwik-installation/
+ExecStart=/path/to/php console core:archive --url=http://url-to-your-piwik-installation.tld/
+User=http
+Group=http
+Nice=19
+IOSchedulingClass=idle
+CPUSchedulingPolicy=idle
