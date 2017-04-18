@@ -65,6 +65,7 @@ class FileIntegrity
             '.bowerrc',
             '.phpstorm.meta.php',
             'config/config.ini.php',
+            'config/config.php',
             'config/common.ini.php',
             'config/*.config.ini.php',
             'config/manifest.inc.php',
