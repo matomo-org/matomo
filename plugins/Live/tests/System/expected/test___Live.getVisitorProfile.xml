@@ -110,7 +110,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -218,7 +218,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -326,7 +326,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -434,7 +434,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -542,7 +542,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -650,7 +650,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -758,7 +758,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -866,7 +866,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -974,7 +974,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
@@ -1082,7 +1082,7 @@
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.png</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
