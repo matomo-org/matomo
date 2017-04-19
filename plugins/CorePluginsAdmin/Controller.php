@@ -247,10 +247,19 @@ class Controller extends Plugin\ControllerAdmin
                     $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
                 }
 
-                $description = '<strong>'
-                    . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
-                    . '</strong><br/>'
-                    . $suffix;
+                if (is_dir(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName)) {
+                    $description = '<strong>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith',
+                            array($pluginName, self::getPiwikVersion()))
+                        . '</strong><br/>'
+                        . $suffix;
+                } else {
+                    $description = '<strong>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotFound',
+                            array($pluginName))
+                        . '</strong><br/>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotFoundAlternative');
+                }
                 $plugin['info'] = array(
                     'description' => $description,
                     'version'     => $this->translator->translate('General_Unknown'),
