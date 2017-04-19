@@ -23,10 +23,13 @@
 				<pageTitle>It's pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>95</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -135,12 +138,15 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>46</pageId>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -158,7 +164,9 @@
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>47</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
@@ -171,6 +179,7 @@
 						<customVariablePageValue4>CAT</customVariablePageValue4>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -189,12 +198,15 @@
 				<pageTitle />
 				<pageIdAction>47</pageIdAction>
 				
+				
 				<pageId>48</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -202,26 +214,32 @@
 				<pageTitle />
 				<pageIdAction>48</pageIdAction>
 				
+				
 				<pageId>49</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
+				<bandwidth />
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -349,7 +367,9 @@
 				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>45</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
@@ -363,6 +383,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 8</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -479,12 +500,15 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>41</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -514,12 +538,15 @@
 				<pageTitle />
 				<pageIdAction>42</pageIdAction>
 				
+				
 				<pageId>42</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -527,26 +554,32 @@
 				<pageTitle />
 				<pageIdAction>43</pageIdAction>
 				
+				
 				<pageId>43</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
+				<bandwidth />
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -674,7 +707,9 @@
 				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>40</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
@@ -688,6 +723,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 7</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -804,12 +840,15 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>35</pageId>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -827,7 +866,9 @@
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>36</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
@@ -840,6 +881,7 @@
 						<customVariablePageValue4>CAT</customVariablePageValue4>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -858,12 +900,15 @@
 				<pageTitle />
 				<pageIdAction>37</pageIdAction>
 				
+				
 				<pageId>37</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -871,26 +916,32 @@
 				<pageTitle />
 				<pageIdAction>38</pageIdAction>
 				
+				
 				<pageId>38</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>39</pageId>
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
+				<bandwidth />
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -1018,7 +1069,9 @@
 				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>34</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
@@ -1032,6 +1085,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 6</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1148,12 +1202,15 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>30</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1183,12 +1240,15 @@
 				<pageTitle />
 				<pageIdAction>32</pageIdAction>
 				
+				
 				<pageId>31</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -1196,26 +1256,32 @@
 				<pageTitle />
 				<pageIdAction>33</pageIdAction>
 				
+				
 				<pageId>32</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>33</pageId>
 				<eventCategory>Cat5</eventCategory>
 				<eventAction>Action5</eventAction>
+				<bandwidth />
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -1343,7 +1409,9 @@
 				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>29</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
@@ -1357,6 +1425,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 5</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1473,12 +1542,15 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>24</pageId>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1496,7 +1568,9 @@
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>25</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
@@ -1509,6 +1583,7 @@
 						<customVariablePageValue4>CAT</customVariablePageValue4>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1527,12 +1602,15 @@
 				<pageTitle />
 				<pageIdAction>27</pageIdAction>
 				
+				
 				<pageId>26</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -1540,26 +1618,32 @@
 				<pageTitle />
 				<pageIdAction>28</pageIdAction>
 				
+				
 				<pageId>27</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>28</pageId>
 				<eventCategory>Cat4</eventCategory>
 				<eventAction>Action4</eventAction>
+				<bandwidth />
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>

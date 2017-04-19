@@ -12,7 +12,9 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>69</pageId>
+				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>292</generationTimeMilliseconds>
 				<generationTime>0.29s</generationTime>
 				<interactionPosition>1</interactionPosition>
@@ -24,6 +26,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -140,7 +143,9 @@
 				<pageTitle>Changelog Archive - Analytics - Piwik</pageTitle>
 				<pageIdAction>44</pageIdAction>
 				
+				
 				<pageId>60</pageId>
+				<bandwidth>43</bandwidth>
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
@@ -152,6 +157,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -159,7 +165,9 @@
 				<pageTitle>Contact the Piwik team - Analytics - Piwik</pageTitle>
 				<pageIdAction>55</pageIdAction>
 				
+				
 				<pageId>68</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
 				<icon />
 				
@@ -169,6 +177,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -268,7 +277,9 @@
 				<pageTitle>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</pageTitle>
 				<pageIdAction>53</pageIdAction>
 				
+				
 				<pageId>67</pageId>
+				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>413</generationTimeMilliseconds>
 				<generationTime>0.41s</generationTime>
 				<interactionPosition>1</interactionPosition>
@@ -280,6 +291,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -408,7 +420,9 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>64</pageId>
+				<bandwidth>43</bandwidth>
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
@@ -420,6 +434,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -427,7 +442,9 @@
 				<pageTitle>What is Piwik? - Analytics - Piwik</pageTitle>
 				<pageIdAction>51</pageIdAction>
 				
+				
 				<pageId>66</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
 				<icon />
 				
@@ -437,6 +454,7 @@
 						<customVariablePageValue1>501</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -557,7 +575,9 @@
 				<pageTitle />
 				<pageIdAction>49</pageIdAction>
 				
+				
 				<pageId>65</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
@@ -567,6 +587,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -687,7 +708,9 @@
 				<pageTitle>Integrate Piwik into your Rails Application - Analytics - Piwik</pageTitle>
 				<pageIdAction>48</pageIdAction>
 				
+				
 				<pageId>63</pageId>
+				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>391</generationTimeMilliseconds>
 				<generationTime>0.39s</generationTime>
 				<interactionPosition>1</interactionPosition>
@@ -699,6 +722,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -827,7 +851,9 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
 				
+				
 				<pageId>62</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
@@ -837,6 +863,7 @@
 						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -953,7 +980,9 @@
 				<pageTitle>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</pageTitle>
 				<pageIdAction>46</pageIdAction>
 				
+				
 				<pageId>61</pageId>
+				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>119</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>1</interactionPosition>
@@ -965,6 +994,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1073,7 +1103,9 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
 				
+				
 				<pageId>59</pageId>
+				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>145</generationTimeMilliseconds>
 				<generationTime>0.15s</generationTime>
 				<interactionPosition>1</interactionPosition>
@@ -1085,6 +1117,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1213,7 +1246,9 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>55</pageId>
+				<bandwidth>43</bandwidth>
 				<timeSpent>2</timeSpent>
 				<timeSpentPretty>2s</timeSpentPretty>
 				<generationTimeMilliseconds>182</generationTimeMilliseconds>
@@ -1227,6 +1262,7 @@
 						<customVariablePageValue1>403</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -1234,7 +1270,9 @@
 				<pageTitle>Download - Analytics - Piwik</pageTitle>
 				<pageIdAction>39</pageIdAction>
 				
+				
 				<pageId>57</pageId>
+				<bandwidth>43</bandwidth>
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
 				<generationTimeMilliseconds>113</generationTimeMilliseconds>
@@ -1248,6 +1286,7 @@
 						<customVariablePageValue1>500</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>download</type>
@@ -1255,7 +1294,9 @@
 				<pageTitle />
 				<pageIdAction>40</pageIdAction>
 				
+				
 				<pageId>58</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
@@ -1265,6 +1306,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1377,7 +1419,9 @@
 				<pageTitle>Hello Installing Piwik - Analytics - Piwik</pageTitle>
 				<pageIdAction>37</pageIdAction>
 				
+				
 				<pageId>56</pageId>
+				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>134</generationTimeMilliseconds>
 				<generationTime>0.13s</generationTime>
 				<interactionPosition>1</interactionPosition>
@@ -1389,6 +1433,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1509,7 +1554,9 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>54</pageId>
+				<bandwidth>43</bandwidth>
 				<generationTimeMilliseconds>58</generationTimeMilliseconds>
 				<generationTime>0.06s</generationTime>
 				<interactionPosition>1</interactionPosition>
@@ -1521,6 +1568,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1641,7 +1689,9 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>50</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
@@ -1659,6 +1709,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1771,7 +1822,9 @@
 				<pageTitle>Piwik Forums</pageTitle>
 				<pageIdAction>31</pageIdAction>
 				
+				
 				<pageId>51</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
@@ -1781,6 +1834,7 @@
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -1909,7 +1963,9 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>33</pageId>
+				<bandwidth>43</bandwidth>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
@@ -1921,6 +1977,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -1928,7 +1985,9 @@
 				<pageTitle>Another Product page with no category</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>52</pageId>
+				<bandwidth>43</bandwidth>
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
@@ -1944,6 +2003,7 @@
 						<customVariablePageValue4>PRODUCT name</customVariablePageValue4>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -1951,7 +2011,9 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>53</pageId>
+				<bandwidth>43</bandwidth>
 				<interactionPosition>3</interactionPosition>
 				<icon />
 				
@@ -1961,6 +2023,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>

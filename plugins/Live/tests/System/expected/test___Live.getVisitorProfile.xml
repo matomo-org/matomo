@@ -1,62 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	
 	<totalVisits>31</totalVisits>
 	<totalVisitDuration>0</totalVisitDuration>
 	<totalActions>31</totalActions>
-	<totalEvents>0</totalEvents>
 	<totalOutlinks>0</totalOutlinks>
 	<totalDownloads>0</totalDownloads>
 	<totalSearches>0</totalSearches>
 	<totalPageViews>31</totalPageViews>
+	<totalUniquePageViews>4</totalUniquePageViews>
+	<totalRevisitedPages>4</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<searches>
+	</searches>
 	<totalGoalConversions>0</totalGoalConversions>
 	<totalConversionsByGoal>
 	</totalConversionsByGoal>
+	<totalEvents>0</totalEvents>
 	<hasLatLong>0</hasLatLong>
-	<searches>
-	</searches>
-	<continents>
-		<row>
-			<continent>eur</continent>
-			<nb_visits>1</nb_visits>
-			<prettyName>Europe</prettyName>
-		</row>
-		<row>
-			<continent>unk</continent>
-			<nb_visits>30</nb_visits>
-			<prettyName>Unknown</prettyName>
-		</row>
-	</continents>
-	<countries>
-		<row>
-			<country>fr</country>
-			<nb_visits>1</nb_visits>
-			<flag>plugins/Morpheus/icons/dist/flags/fr.png</flag>
-			<prettyName>France</prettyName>
-		</row>
-		<row>
-			<country>xx</country>
-			<nb_visits>30</nb_visits>
-			<flag>plugins/Morpheus/icons/dist/flags/xx.png</flag>
-			<prettyName>Unknown</prettyName>
-		</row>
-	</countries>
-	<totalVisitDurationPretty>0s</totalVisitDurationPretty>
-	<firstVisit>
-		
-		
-		
-		<referrerType>direct</referrerType>
-		<referralSummary>Direct Entry</referralSummary>
-	</firstVisit>
-	<lastVisit>
-		
-		
-		
-		<referrerType>direct</referrerType>
-		<referralSummary>Direct Entry</referralSummary>
-	</lastVisit>
-	<visitsAggregated>31</visitsAggregated>
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
@@ -70,15 +31,24 @@
 					<pageTitle>incredible title 0</pageTitle>
 					<pageIdAction>6</pageIdAction>
 					
+					
 					<pageId>31</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -89,7 +59,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -125,10 +94,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -177,15 +146,24 @@
 					<pageTitle>incredible title 2</pageTitle>
 					<pageIdAction>4</pageIdAction>
 					
+					
 					<pageId>30</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -196,7 +174,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -232,10 +209,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -284,15 +261,24 @@
 					<pageTitle>incredible title 1</pageTitle>
 					<pageIdAction>2</pageIdAction>
 					
+					
 					<pageId>29</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -303,7 +289,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -339,10 +324,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -391,15 +376,24 @@
 					<pageTitle>incredible title 0</pageTitle>
 					<pageIdAction>7</pageIdAction>
 					
+					
 					<pageId>28</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -410,7 +404,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -446,10 +439,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -498,15 +491,24 @@
 					<pageTitle>incredible title 2</pageTitle>
 					<pageIdAction>6</pageIdAction>
 					
+					
 					<pageId>27</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -517,7 +519,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -553,10 +554,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -605,15 +606,24 @@
 					<pageTitle>incredible title 1</pageTitle>
 					<pageIdAction>4</pageIdAction>
 					
+					
 					<pageId>26</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -624,7 +634,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -660,10 +669,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -712,15 +721,24 @@
 					<pageTitle>incredible title 0</pageTitle>
 					<pageIdAction>2</pageIdAction>
 					
+					
 					<pageId>25</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -731,7 +749,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -767,10 +784,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -819,15 +836,24 @@
 					<pageTitle>incredible title 2</pageTitle>
 					<pageIdAction>7</pageIdAction>
 					
+					
 					<pageId>24</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -838,7 +864,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -874,10 +899,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -926,15 +951,24 @@
 					<pageTitle>incredible title 1</pageTitle>
 					<pageIdAction>6</pageIdAction>
 					
+					
 					<pageId>23</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -945,7 +979,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -981,10 +1014,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -1033,15 +1066,24 @@
 					<pageTitle>incredible title 0</pageTitle>
 					<pageIdAction>4</pageIdAction>
 					
+					
 					<pageId>22</pageId>
+					<bandwidth />
 					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -1052,7 +1094,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1088,10 +1129,10 @@
 			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 			<browserCode>UNK</browserCode>
 			<browserVersion />
-			<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
 			<totalEcommerceConversions>0</totalEcommerceConversions>
 			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 			<totalAbandonedCarts>0</totalAbandonedCarts>
 			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
@@ -1129,8 +1170,71 @@
 			</pluginsIcons>
 		</row>
 	</lastVisits>
+	
+	
+	<totalVisitDurationPretty>0s</totalVisitDurationPretty>
 	<userId>0</userId>
-	
-	
-	
+	<firstVisit>
+		
+		
+		
+		<referrerType>direct</referrerType>
+		<referralSummary>Direct Entry</referralSummary>
+	</firstVisit>
+	<lastVisit>
+		
+		
+		
+		<referrerType>direct</referrerType>
+		<referralSummary>Direct Entry</referralSummary>
+	</lastVisit>
+	<visitsAggregated>10</visitsAggregated>
+	<visitedPages>
+		<row key="http://example.org/my/dir/page0">8</row>
+		<row key="http://example.org/my/dir/page1">8</row>
+		<row key="http://example.org/my/dir/page2">8</row>
+		<row key="http://example.org/my/dir/page3">7</row>
+	</visitedPages>
+	<devices>
+		<Unknown>
+			<count>30</count>
+			<icon>plugins/Morpheus/icons/dist/devices/unknown.png</icon>
+			<devices>
+				<Unknown>30</Unknown>
+			</devices>
+		</Unknown>
+		<Desktop>
+			<count>1</count>
+			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
+			<devices>
+				<Unknown>1</Unknown>
+			</devices>
+		</Desktop>
+	</devices>
+	<continents>
+		<row>
+			<continent>eur</continent>
+			<nb_visits>1</nb_visits>
+			<prettyName>Europe</prettyName>
+		</row>
+		<row>
+			<continent>unk</continent>
+			<nb_visits>30</nb_visits>
+			<prettyName>Unknown</prettyName>
+		</row>
+	</continents>
+	<countries>
+		<row>
+			<country>fr</country>
+			<nb_visits>1</nb_visits>
+			<flag>plugins/Morpheus/icons/dist/flags/fr.png</flag>
+			<prettyName>France</prettyName>
+		</row>
+		<row>
+			<country>xx</country>
+			<nb_visits>30</nb_visits>
+			<flag>plugins/Morpheus/icons/dist/flags/xx.png</flag>
+			<prettyName>Unknown</prettyName>
+		</row>
+	</countries>
 </result>

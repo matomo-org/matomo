@@ -12,10 +12,13 @@
 				<pageTitle />
 				<pageIdAction>6</pageIdAction>
 				
+				
 				<pageId>5</pageId>
+				<bandwidth />
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -143,10 +146,13 @@
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>4</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -274,12 +280,15 @@
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -298,7 +307,9 @@
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>2</pageId>
+				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
@@ -314,6 +325,7 @@
 						<customVariablePageValue5>looking at &quot;profile page&quot;</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -321,7 +333,9 @@
 				<pageTitle>Profile page for user *_)%</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>3</pageId>
+				<bandwidth />
 				<interactionPosition>3</interactionPosition>
 				<icon />
 				
@@ -339,6 +353,7 @@
 						<customVariablePageValue4>looking at &quot;profile page&quot;</customVariablePageValue4>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>

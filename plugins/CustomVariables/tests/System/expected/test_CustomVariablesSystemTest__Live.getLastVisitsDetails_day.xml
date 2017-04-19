@@ -23,9 +23,12 @@
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>Name_PAGE_1</customVariablePageName1>
@@ -60,7 +63,7 @@
 						<customVariablePageValue8>Val_PAGE8</customVariablePageValue8>
 					</row>
 				</customVariables>
-
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>

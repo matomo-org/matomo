@@ -162,7 +162,9 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>14</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
@@ -186,6 +188,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -193,7 +196,9 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>15</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
@@ -217,6 +222,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -224,7 +230,9 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>16</pageId>
+				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
 				<interactionPosition>3</interactionPosition>
@@ -244,6 +252,7 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
