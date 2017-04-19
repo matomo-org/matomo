@@ -399,9 +399,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should not display API response in the content', function (done) {
-        expect.screenshot('menu_apidisallowed').to.be.captureSelector('#content', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode");
+    it('should not display API response in the content and redirect to dashboard instead', function (done) {
+        expect.page().contains('#dashboardWidgetsArea', /*'menu_apidisallowed',*/ function (page) {
+            var url = "?" + urlBase + "#?" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode";
+            page.load(url, 2000);
         }, done);
     });
 
