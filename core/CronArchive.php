@@ -387,7 +387,7 @@ class CronArchive
                     if ($this->isWebsiteUsingTheTracker($idSite)) {
 
                         if(!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
-                            $this->logger->info("Skipped website id $idSite as archiving is not needed");
+                            $this->logger->info("Skipped website id $idSite as archiving is not needed (no traffic recorded since midnight in website's timezone)");
 
                             $this->skippedDayNoRecentData++;
                             $this->skipped++;
@@ -433,7 +433,7 @@ class CronArchive
         $this->logger->info("Archived today's reports for {$this->websitesWithVisitsSinceLastRun} websites");
         $this->logger->info("Archived week/month/year for {$this->archivedPeriodsArchivesWebsite} websites");
         $this->logger->info("Skipped {$this->skipped} websites");
-        $this->logger->info("- {$this->skippedDayNoRecentData} skipped because no new visit since the last script execution");
+        $this->logger->info("- {$this->skippedDayNoRecentData} skipped because no new visit since midnight (website's timezone)");
         $this->logger->info("- {$this->skippedDayArchivesWebsites} skipped because existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
         $this->logger->info("- {$this->skippedPeriodsArchivesWebsite} skipped because existing week/month/year periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
 
