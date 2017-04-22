@@ -4,7 +4,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
 [![License](https://poser.pugx.org/piwik/piwik/license)](http://piwik.org/free-software/)
 
-## Code Status
+## Code Status 
 
 [![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik/branches)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
@@ -37,7 +37,7 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
 ## Requirements
 
   * PHP 5.5.9 or greater
-  * MySQL version 5.5 or greater, or MariaDB 
+  * MySQL version 5.5 or greater, or MariaDB
   * PHP extension pdo and pdo_mysql, or the MySQLi extension.
   * Piwik is OS / server independent
 
@@ -73,7 +73,7 @@ We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help ch
 
 ## Security
 
-Security is a top priority at Piwik. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us. 
+Security is a top priority at Piwik. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us.
 
 [Learn more](https://piwik.org/security/)
 
