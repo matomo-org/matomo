@@ -92,6 +92,8 @@ var broadcast = {
             hash = (''+hash).substr(1);
         }
 
+        var isWidgetized = broadcast.getValueFromUrl('module') == 'Widgetize';
+
         if (hash) {
 
             if (/^popover=/.test(hash)) {
@@ -124,7 +126,7 @@ var broadcast = {
                 popoverParamUpdated = (popoverParam != '');
             }
 
-            if (pageUrlUpdated || broadcast.forceReload) {
+            if (!isWidgetized && (pageUrlUpdated || broadcast.forceReload)) {
                 Piwik_Popover.close();
 
                 if (hashUrl != broadcast.currentHashUrl || broadcast.forceReload) {
@@ -159,7 +161,9 @@ var broadcast = {
         } else {
             // start page
             Piwik_Popover.close();
-            $('.pageWrap #content:not(.admin)').empty();
+            if (!isWidgetized) {
+                $('.pageWrap #content:not(.admin)').empty();
+            }
         }
     },
 
@@ -425,7 +429,7 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        //broadcast.init(true);
+        broadcast.init(true);
 
         var $location = angular.element(document).injector().get('$location');
 

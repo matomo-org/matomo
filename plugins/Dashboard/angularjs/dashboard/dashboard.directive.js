@@ -93,7 +93,8 @@
 
                 function onLocationChange(event, newUrl, oldUrl)
                 {
-                   if (newUrl !== oldUrl && newUrl.indexOf('category=Dashboard_Dashboard') === -1) {
+                   if (broadcast.getValueFromUrl('module') != 'Widgetize' && newUrl !== oldUrl &&
+                       newUrl.indexOf('category=Dashboard_Dashboard') === -1) {
                        // we remove the dashboard only if we no longer show a dashboard.
                        clearDashboard();
                    }
