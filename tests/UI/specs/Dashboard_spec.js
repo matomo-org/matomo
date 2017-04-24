@@ -124,19 +124,19 @@ describe("Dashboard", function () {
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.click('.widgetpreview-categorylist>li:contains(Live!)');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Times):first');
-            page.click('.widgetpreview-categorylist>li:contains(Times):first');
-
             page.mouseMove('.widgetpreview-categorylist>li:contains(Actions):first');
             page.click('.widgetpreview-categorylist>li:contains(Actions):first');
+
+            page.mouseMove('.widgetpreview-widgetlist>li:contains(Pages):first');
+            page.click('.widgetpreview-widgetlist>li:contains(Pages):first');
         }, done);
     });
 
     it("should open row evolution", function (done) {
         expect.screenshot("rowevolution").to.be.capture(function (page) {
-            page.mouseMove('#widgetActionsgetPageUrls tbody tr:first-child');
-            page.mouseMove('#widgetActionsgetPageUrls a.actionRowEvolution:visible'); // necessary to get popover to display
-            page.click('#widgetActionsgetPageUrls a.actionRowEvolution:visible');
+            page.mouseMove('#widgetActionsgetPageUrls table.dataTable tbody tr:first-child');
+            page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
+            page.click('a.actionRowEvolution:visible');
         }, done);
     });
 
