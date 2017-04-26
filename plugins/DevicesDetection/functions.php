@@ -155,26 +155,13 @@ function getDeviceTypeLogo($label)
 {
     if (is_numeric($label) && in_array($label, DeviceParser::getAvailableDeviceTypes())) {
         $label = array_search($label, DeviceParser::getAvailableDeviceTypes());
-    }
-
-    $label = strtolower($label);
-
-    $deviceTypeLogos = Array(
-        "desktop"       => "normal.png",
-        "smartphone"    => "smartphone.png",
-        "tablet"        => "tablet.png",
-        "tv"            => "tv.png",
-        "feature phone" => "mobile.png",
-        "console"       => "console.png",
-        "car browser"   => "carbrowser.png",
-        "camera"        => "camera.png");
-
-    if (!array_key_exists($label, $deviceTypeLogos)) {
-        $label = 'unknown.png';
+        $label = strtolower($label);
+        $label = str_replace(' ', '_', $label);
     } else {
-        $label = $deviceTypeLogos[$label];
+        $label = "unknown";
     }
-    $path = 'plugins/DevicesDetection/images/screens/' . $label;
+
+    $path = 'plugins/Morpheus/icons/dist/devices/' . $label . ".png";
     return $path;
 }
 

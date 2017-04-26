@@ -23,7 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 
 /**
  * The SEO API lets you access a list of SEO metrics for the specified URL: Google PageRank, Google/Bing indexed pages
- * Alexa Rank, age of the Domain name and count of DMOZ entries.
+ * Alexa Rank and age of the Domain name.
  *
  * @method static API getInstance()
  */

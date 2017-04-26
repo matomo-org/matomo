@@ -78,7 +78,8 @@ describe("Overlay", function () {
                     y: iframe.offset().top + innerOffset.top
                 };
             });
-            page.sendMouseEvent('click', pos, 2000);
+            page.sendMouseEvent('click', pos);
+            page.wait(2000);
 
             removeOptOutIframe(page);
         }, done);
@@ -112,7 +113,9 @@ describe("Overlay", function () {
 
     it("should open row evolution popup when row evolution link clicked", function (done) {
         expect.screenshot("row_evolution").to.be.capture(function (page) {
-            page.click('#overlayRowEvolution');
+            page.evaluate(function () {
+                $('#overlayRowEvolution').click();
+            }, 500);
             page.evaluate(function () {
                 $('.jqplot-xaxis').hide(); // xaxis will change every day so hide it
             });
@@ -123,8 +126,12 @@ describe("Overlay", function () {
 
     it("should open transitions popup when transitions link clicked", function (done) {
         expect.screenshot("transitions").to.be.capture(function (page) {
-            page.click('button.ui-dialog-titlebar-close');
-            page.click('#overlayTransitions');
+            page.evaluate(function () {
+                $('button.ui-dialog-titlebar-close').click();
+            }, 500);
+            page.evaluate(function () {
+                $('#overlayTransitions').click();
+            }, 500);
 
             removeOptOutIframe(page);
         }, done);

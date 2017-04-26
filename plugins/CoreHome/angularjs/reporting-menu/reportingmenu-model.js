@@ -147,6 +147,7 @@
             var pagesPromise = reportingPagesModel.reloadAllPages();
             return pagesPromise.then(function (pages) {
                 model.menu = buildMenuFromPages(pages);
+                return model.menu;
             });
         }
 

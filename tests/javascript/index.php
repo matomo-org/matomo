@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(77);
+        expect(79);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2127,6 +2127,8 @@ function PiwikTest() {
         equal( typeof tracker.getAttributionCampaignName, 'function', 'getAttributionCampaignName' );
         equal( typeof tracker.getAttributionCampaignKeyword, 'function', 'getAttributionCampaignKeyword' );
         equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
+        equal( typeof tracker.getPiwikUrl, 'function', 'getPiwikUrl' );
+        equal( typeof tracker.getCurrentUrl, 'function', 'getCurrentUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
         equal( typeof tracker.setUserId, 'function', 'setUserId' );
@@ -3410,9 +3412,9 @@ function PiwikTest() {
         equal( getPiwikUrlForOverlay('http://www.example.com/piwik.php'), 'http://www.example.com/', 'with piwik.php and no js folder' );
         equal( getPiwikUrlForOverlay('http://www.example.com/master/js/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
         equal( getPiwikUrlForOverlay('http://www.example.com/master/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
-        equal( getPiwikUrlForOverlay('/piwik.php'), '/', 'only piwik.php with leading slash' );
-        equal( getPiwikUrlForOverlay('piwik.php'), '', 'only piwik.php' );
-        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), '/', 'only piwik.php with leading slash with query' );
+        equal( getPiwikUrlForOverlay('/piwik.php'), toAbsoluteUrl('/'), 'only piwik.php with leading slash' );
+        equal( getPiwikUrlForOverlay('piwik.php'), toAbsoluteUrl(''), 'only piwik.php' );
+        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), toAbsoluteUrl('/'), 'only piwik.php with leading slash with query' );
     });
 
     function generateAnIframeInDocument() {
@@ -3491,7 +3493,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(142);
+        expect(149);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3511,13 +3513,35 @@ if ($mysql) {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
+        
+        var piwikUrl = location.href;
+        if (piwikUrl.indexOf('?') > 0) {
+            piwikUrl = piwikUrl.substr(0, piwikUrl.indexOf('?'));
+        }
+        equal(tracker.getPiwikUrl(), piwikUrl, "getPiwikUrl, relative tracker url" );
 
+        tracker.setTrackerUrl("http://apache.piwik/piwik.php");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/', "getPiwikUrl, in root directory" );
+
+        tracker.setTrackerUrl("http://apache.piwik/tracker.php");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/', "getPiwikUrl, with different file name" );
+
+        tracker.setTrackerUrl("http://apache.piwik/tests/javascript/piwik.php?x=1");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/tests/javascript/', "getPiwikUrl, with path and query" );
+
+        tracker.setTrackerUrl("http://apache.piwik/js/piwik.php?x=1");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/', "getPiwikUrl, when using unminified piwik.js" );
+
+        tracker.setTrackerUrl("piwik.php");
+        
         var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
         strictEqual(thirteenMonths, tracker.getConfigVisitorCookieTimeout(), 'default visitor timeout should be 13 months');
 
         var actualTimeout   = tracker.getRemainingVisitorCookieTimeout();
         var isAbout13Months = (thirteenMonths + 1000) > actualTimeout && ((thirteenMonths - 6000) < actualTimeout);
         ok(isAbout13Months, 'remaining cookieTimeout should be about the deault tiemout of 13 months (' + thirteenMonths + ') but is ' + actualTimeout);
+
+        equal(tracker.getCurrentUrl(), location.href, "getCurrentUrl, when no custom url set" );
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
@@ -3526,6 +3550,8 @@ if ($mysql) {
         ok( visitorIdStart == visitorIdStart2, "getVisitorId() same when called twice with more than 1 second delay");
         var customUrl = "http://localhost.localdomain/?utm_campaign=YEAH&utm_term=RIGHT!";
         tracker.setCustomUrl(customUrl);
+
+        equal(tracker.getCurrentUrl(), customUrl, "getCurrentUrl, when custom url set" );
 
         tracker.setCustomData({ "token" : getToken() });
         var data = tracker.getCustomData();
@@ -3561,7 +3587,6 @@ if ($mysql) {
         equal(tracker.getCustomDimension(3), "my third value", "deleteCustomDimension verify a value is set for this dimension" );
         tracker.deleteCustomDimension(3);
         equal(tracker.getCustomDimension(3), null, "deleteCustomDimension verify value was removed" );
-
 
         tracker.setCustomVariable(1, "new visit1", 'val1', 'visit');
         tracker.setCustomVariable(5, "new visit5", 'val5');
