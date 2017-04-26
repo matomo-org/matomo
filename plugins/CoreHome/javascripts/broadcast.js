@@ -304,6 +304,11 @@ var broadcast = {
         // available in global scope
         var currentSearchStr = window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
+        
+        if (!currentSearchStr) {
+            currentSearchStr = '?';
+        }
+        
         var oldUrl = currentSearchStr + currentHashStr;
 
         for (var i = 0; i < params_vals.length; i++) {
