@@ -64,6 +64,11 @@ class Controller extends \Piwik\Plugin\Controller
             'Annotations.getAll', array('date' => $date, 'period' => $period, 'lastN' => $lastN));
         $view->annotations = empty($allAnnotations[$idSite]) ? array() : $allAnnotations[$idSite];
 
+        // Get all users who have created annotation relevant to this view
+        $allAnnotationUsers = empty($view->annotations) ? array() : $this->getAnnotationUsers($view->annotations);
+
+        $view->users = $allAnnotationUsers; 
+
         $view->period = $period;
         $view->lastN = $lastN;
 
@@ -217,5 +222,32 @@ class Controller extends \Piwik\Plugin\Controller
         $view->annotationCounts = reset($annotationCounts); // only one idSite allowed for this action
 
         return $view->render();
+    }
+
+    /**
+     * Private helper method to get user aliases from user logins
+     *
+     * Query Param Input:
+     *  - annotations: List of annotations to get user aliases for  
+     *
+     * Output:
+     *  - List of users with logins and aliases
+     */
+    private function getAnnotationUsers($annotations)
+    {
+        // Loop through all annotations for the current view and if the user field has been set
+        // add it to the usernames array
+        $usernames = array();
+
+        foreach($annotations as $annotation)
+        {   
+            if($annotation['user'] && !in_array($annotation['user'], $usernames))
+            {
+                $usernames[] = $annotation['user'];    
+            }       
+        }
+
+        // Return all users who have created annotations to be shown in this view
+        return Request::processRequest('UsersManager.getUsers', $usernames);   
     }
 }

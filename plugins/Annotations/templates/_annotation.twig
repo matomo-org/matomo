@@ -1,3 +1,11 @@
+{% set annotationAlias = '' %}
+
+{% for user in users %}    
+    {% if annotation.user is same as(user.login) %}
+        {% set annotationAlias = user.alias %}
+    {% endif %}
+{% endfor %}
+
 <tr class="annotation" data-id="{{ annotation.idNote }}" data-date="{{ annotation.date }}">
     <td class="annotation-meta">
         <div class="annotation-star{% if annotation.canEditOrDelete %} annotation-star-changeable{% endif %}" data-starred="{{ annotation.starred }}"
@@ -35,9 +43,9 @@
             </div>
         {% endif %}
     </td>
-    {% if annotation.user is defined and userLogin != 'anonymous' %}
+    {% if annotationAlias is defined and userLogin != 'anonymous' %}
         <td class="annotation-user-cell">
-            <span class="annotation-user">{{ annotation.user }}</span><br/>
+            <span class="annotation-user">{{ annotationAlias|default(annotation.user) }}</span><br/>
             {% if annotation.canEditOrDelete %}
                 <a href="#" class="delete-annotation" style="display:none;" title="{{ 'Annotations_ClickToDelete'|translate }}">{{ 'General_Delete'|translate }}</a>
             {% endif %}
