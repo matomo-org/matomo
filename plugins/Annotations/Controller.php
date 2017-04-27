@@ -119,6 +119,8 @@ class Controller extends \Piwik\Plugin\Controller
             // save the annotation
             $view->annotation = Request::processRequest("Annotations.save");
 
+            $view->users = $this->getAnnotationUsers();
+
             return $view->render();
         }
     }
@@ -233,7 +235,7 @@ class Controller extends \Piwik\Plugin\Controller
      * Output:
      *  - List of users with logins and aliases
      */
-    private function getAnnotationUsers($annotations)
+    private function getAnnotationUsers($annotations = '')
     {
         // Loop through all annotations for the current view and if the user field has been set
         // add it to the usernames array
