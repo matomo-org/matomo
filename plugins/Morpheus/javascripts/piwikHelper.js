@@ -197,7 +197,7 @@ var piwikHelper = {
             options = {};
         }
 
-        var domElem = $(domSelector);
+        var domElem = $(domSelector).clone();
         var buttons = [];
 
         var content = '<div class="modal"><div class="modal-content"></div>';
