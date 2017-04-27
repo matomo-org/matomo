@@ -273,8 +273,8 @@ class ArchiveSelector
                                 WHERE idarchive IN (%s)
                                   AND " . $whereNameIs;
 
-        // get data from every table we're querying
-        $rows = array();
+        // make a list of all archive IDs we want to fetch (for each archive table)
+        $tables = array();
         foreach ($archiveIds as $period => $ids) {
             if (empty($ids)) {
                 throw new Exception("Unexpected: id archive not found for period '$period' '");
@@ -290,6 +290,16 @@ class ArchiveSelector
                 $table = ArchiveTableCreator::getBlobTable($date);
             }
 
+            if (isset($tables[$table])) {
+                $tables[$table] = array_merge($tables[$table], $ids);
+            } else {
+                $tables[$table] = $ids;
+            }
+        }
+
+        // get data from every table we're querying
+        $rows = array();
+        foreach ($tables as $table => $ids) {
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
             $dataRows = Db::fetchAll($sql, $bind);
 
