@@ -6547,7 +6547,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Get the number of page views that have been tracked so far.
+             * Get the number of page views that have been tracked so far within the currently loaded page.
              */
             this.getNumTrackedPageViews = function () {
                 return numTrackedPageviews;
