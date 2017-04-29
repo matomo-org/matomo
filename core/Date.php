@@ -130,6 +130,8 @@ class Date
             $date = self::now();
         } elseif ($dateString == 'today') {
             $date = self::today();
+        } else if ($dateString == 'tomorrow') {
+            $date = self::tomorrow();
         } elseif ($dateString == 'yesterday') {
             $date = self::yesterday();
         } elseif ($dateString == 'yesterdaySameTime') {
@@ -556,6 +558,16 @@ class Date
     public static function today()
     {
         return new Date(strtotime(date("Y-m-d 00:00:00")));
+    }
+
+    /**
+     * Returns a date object set to tomorrow at midnight in UTC.
+     *
+     * @return \Piwik\Date
+     */
+    public static function tomorrow()
+    {
+        return new Date(strtotime('tomorrow'));
     }
 
     /**

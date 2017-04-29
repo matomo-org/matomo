@@ -369,7 +369,7 @@ class GeoIPAutoUpdater extends Task
             /** @var Scheduler $scheduler */
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
-            $scheduler->rescheduleTask(new GeoIPAutoUpdater());
+            $scheduler->rescheduleTaskAndRunTomorrow(new GeoIPAutoUpdater());
         }
     }
 
