@@ -1,28 +1,5 @@
-{% set customVariablesTooltip %}
-    {% if action.customVariables is defined %}
-        {{ 'CustomVariables_CustomVariables'|translate }}:
-        {% for id,customVariable in action.customVariables %}
-            {% set name = 'customVariablePageName' ~ id %}
-            {% set value = 'customVariablePageValue' ~ id %}
-            - {{ customVariable[name]|raw }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|raw }}{% endif %}
-
-            {# line break above is important #}
-        {% endfor %}
-    {% endif %}
-{% endset %}
-
 <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
-    title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
-
-{{ action.url }}{% endif %}{% if customVariablesTooltip|trim|length %}
-
-{{ customVariablesTooltip|trim }}{% endif -%}
-        {%- if action.generationTime is defined %}
-
-{{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}
-        {%- if action.timeSpentPretty is defined %}
-
-{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif -%}">
+    title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {# Page view / Download / Outlink / Event #}
         {% if action.pageTitle|default(false) is not empty %}

@@ -18,11 +18,11 @@ class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendVisitorDetails(&$visitor)
     {
-        $idSite = $this->getIdSite();
-        $website        = new Site($idSite);
-        $timezone       = $website->getTimezone();
-        $currency       = $website->getCurrency();
-        $currencies     = APISitesManager::getInstance()->getCurrencySymbols();
+        $idSite     = $this->getIdSite();
+        $website    = new Site($idSite);
+        $timezone   = $website->getTimezone();
+        $currency   = $website->getCurrency();
+        $currencies = APISitesManager::getInstance()->getCurrencySymbols();
 
         $visitor += array(
             'idSite'              => $idSite,
@@ -43,9 +43,9 @@ class VisitorDetails extends VisitorDetailsAbstract
             'lastActionDateTime'  => $this->getDateTimeLastAction(),
         );
 
-        $visitor['siteCurrency'] = $currency;
-        $visitor['siteCurrencySymbol'] = @$currencies[$visitor['siteCurrency']];
-        $visitor['serverTimestamp'] = $visitor['lastActionTimestamp'];
+        $visitor['siteCurrency']         = $currency;
+        $visitor['siteCurrencySymbol']   = @$currencies[$visitor['siteCurrency']];
+        $visitor['serverTimestamp']      = $visitor['lastActionTimestamp'];
         $visitor['firstActionTimestamp'] = strtotime($this->details['visit_first_action_time']);
 
         $dateTimeVisit = Date::factory($visitor['lastActionTimestamp'], $timezone);
@@ -54,14 +54,14 @@ class VisitorDetails extends VisitorDetailsAbstract
             $visitor['serverDatePretty'] = $dateTimeVisit->getLocalized(Date::DATE_FORMAT_LONG);
         }
 
-        $dateTimeVisitFirstAction = Date::factory($visitor['firstActionTimestamp'], $timezone);
+        $dateTimeVisitFirstAction               = Date::factory($visitor['firstActionTimestamp'], $timezone);
         $visitor['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::DATE_FORMAT_LONG);
         $visitor['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::TIME_FORMAT);
     }
 
     public function renderAction($action, $previousAction, $visitorDetails)
     {
-        switch($action['type']) {
+        switch ($action['type']) {
             case 'ecommerceOrder':
             case 'ecommerceAbandonedCart':
                 $template = '@Live/_actionEcommerce.twig';
@@ -89,17 +89,25 @@ class VisitorDetails extends VisitorDetailsAbstract
         return $view->render();
     }
 
+    public function renderActionTooltip($action, $visitInfo)
+    {
+        $view            = new View('@Live/_actionTooltip');
+        $view->action    = $action;
+        $view->visitInfo = $visitInfo;
+        return $view->render();
+    }
+
     public function renderVisitorDetails($visitorDetails)
     {
-        $view                 = new View('@Live/_visitorDetails.twig');
-        $view->visitInfo      = $visitorDetails;
+        $view            = new View('@Live/_visitorDetails.twig');
+        $view->visitInfo = $visitorDetails;
         return $view->render();
     }
 
     public function renderIcons($visitorDetails)
     {
-        $view                 = new View('@Live/_visitorLogIcons.twig');
-        $view->visitor        = $visitorDetails;
+        $view          = new View('@Live/_visitorLogIcons.twig');
+        $view->visitor = $visitorDetails;
         return $view->render();
     }
 

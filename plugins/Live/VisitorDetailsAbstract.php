@@ -57,6 +57,10 @@ abstract class VisitorDetailsAbstract
     {
     }
 
+    public function renderActionTooltip($action, $visitInfo)
+    {
+    }
+
     public function renderIcons($visitorDetails)
     {
     }

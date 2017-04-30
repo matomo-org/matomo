@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
@@ -52,6 +53,13 @@ class VisitorDetails extends VisitorDetailsAbstract
         if (!empty($customVariablesPage)) {
             $action['customVariables'] = $customVariablesPage;
         }
+    }
+
+    public function renderActionTooltip($action, $visitInfo)
+    {
+        $view         = new View('@CustomVariables/_actionTooltip');
+        $view->action = $action;
+        return $view->render();
     }
 
     private static function getCustomVariablePrettyKey($key)

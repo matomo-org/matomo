@@ -24,6 +24,7 @@ class Live extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Live.renderAction'                      => 'renderAction',
+            'Live.renderActionTooltip'               => 'renderActionTooltip',
             'Live.renderVisitorDetails'              => 'renderVisitorDetails',
             'Live.renderVisitorIcons'                => 'renderVisitorIcons'
         );
@@ -65,6 +66,14 @@ class Live extends \Piwik\Plugin
         $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
         foreach ($visitorDetailsInstances as $instance) {
             $renderedAction .= $instance->renderAction($action, $previousAction, $visitorDetails);
+        }
+    }
+
+    public function renderActionTooltip(&$tooltip, $action, $visitInfo)
+    {
+        $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
+        foreach ($visitorDetailsInstances as $instance) {
+            $tooltip .= $instance->renderActionTooltip($action, $visitInfo);
         }
     }
 

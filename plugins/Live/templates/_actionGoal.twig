@@ -1,7 +1,5 @@
 <li class="action"
-    title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
-
-{{ action.url }}{% endif %}">
+    title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {# Goal conversion #}
         <img src="{{ action.icon }}" />

@@ -1,5 +1,5 @@
 <li class="action"
-    title="{{ action.serverTimePretty }}">
+    title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {# Ecommerce Abandoned Cart / Ecommerce Order #}
         <img src="{{ action.icon }}"/>
