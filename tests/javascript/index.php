@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(79);
+        expect(80);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2179,6 +2179,7 @@ function PiwikTest() {
         equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
         equal( typeof tracker.trackGoal, 'function', 'trackGoal' );
         equal( typeof tracker.trackLink, 'function', 'trackLink' );
+        equal( typeof tracker.getNumTrackedPageViews, 'function', 'getNumTrackedPageViews' );
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
         equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
         // content
@@ -3493,7 +3494,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(149);
+        expect(152);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3513,6 +3514,8 @@ if ($mysql) {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
+
+        strictEqual(0, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, is zero by default');
         
         var piwikUrl = location.href;
         if (piwikUrl.indexOf('?') > 0) {
@@ -3631,6 +3634,8 @@ if ($mysql) {
         referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
+        strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
 
@@ -3638,6 +3643,7 @@ if ($mysql) {
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
+        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageviewCustomTitle = tracker.getConfigIdPageView();
         ok(idPageviewCustomTitle != idPageview, 'trackPageview, should generate a new random pageview id whenever it is called');
