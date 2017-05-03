@@ -49,6 +49,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function listAllMethods()
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         $ApiDocumentation = new DocumentationGenerator();
         $prefixUrls = Common::getRequestVar('prefixUrl', 'http://demo.piwik.org/', 'string');
         if (!UrlHelper::isLookLikeUrl($prefixUrls)) {
