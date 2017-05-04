@@ -11,6 +11,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 * A new JavaScript tracker method `getPiwikUrl` has been added to retrieve the URL of where the Piwik instance is located
 * A new JavaScript tracker method `getCurrentUrl` has been added to retrieve the current URL of the website. 
 * A new JavaScript tracker method `getNumTrackedPageViews` has been added to retrieve the number of tracked page views within the currently loaded page or web application. 
+* A new JavaScript tracker method `areCookiesEnabled` has been added to detect if cookies are enabled. 
 
 ## Piwik 3.0.3
 

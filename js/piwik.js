@@ -959,7 +959,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
-    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
+    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, areCookiesEnabled,
     cookie, domain, readyState, documentElement, doScroll, title, text,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
@@ -6305,6 +6305,13 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setConversionAttributionFirstReferrer = function (enable) {
                 configConversionAttributionFirstReferrer = enable;
+            };
+
+            /**
+             * Returns whether cookies are enabled.
+             */
+            this.areCookiesEnabled = function () {
+                return !configCookiesDisabled;
             };
 
             /**
