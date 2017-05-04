@@ -33,7 +33,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function provideActions(&$actions, $visitorDetails)
     {
-        $actionDetails = $this->queryActionsForVisit($visitorDetails['idVisit']);
+        $actionDetails = $this->queryActionsForVisit($visitorDetails['idVisit'], $visitorDetails['idSite']);
 
         $formatter = new Formatter();
 
@@ -176,15 +176,17 @@ class VisitorDetails extends VisitorDetailsAbstract
      * @return array
      * @throws \Exception
      */
-    protected function queryActionsForVisit($idVisit)
+    protected function queryActionsForVisit($idVisit, $idSite)
     {
         $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
-        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        $customFields = array();
 
-        $sqlCustomVariables = '';
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            $sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
-        }
+        Piwik::postEvent('Actions.getCustomActionDimensionFields', array(&$customFields, $idSite));
+
+        $customFields = array_filter($customFields);
+        array_unshift($customFields, ''); // add empty element at first
+        $sqlCustomVariables = implode(', ', $customFields);
+
         // The second join is a LEFT join to allow returning records that don't have a matching page title
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
         $sql = "

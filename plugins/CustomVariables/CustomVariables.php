@@ -23,6 +23,7 @@ class CustomVariables extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Actions.getCustomActionDimensionFields' => 'provideActionDimensionFields'
         );
     }
 
@@ -117,4 +118,13 @@ class CustomVariables extends \Piwik\Plugin
         $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.js";
     }
 
+    public function provideActionDimensionFields(&$fields, $idSite)
+    {
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
+            $fields[] = 'custom_var_k' . $i;
+            $fields[] = 'custom_var_v' . $i;
+        }
+    }
 }
