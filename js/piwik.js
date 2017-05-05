@@ -3190,7 +3190,9 @@ if (typeof window.Piwik !== 'object') {
 
                 // we measure how many pageviews have been tracked so plugins can use it to eg detect if a
                 // pageview was already tracked or not
-                numTrackedPageviews = 0;
+                numTrackedPageviews = 0,
+
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
 
             // Document title
             try {
@@ -4029,11 +4031,10 @@ if (typeof window.Piwik !== 'object') {
                 // Temporarily allow cookies just to delete the existing ones
                 configCookiesDisabled = false;
 
-                var cookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
                 var index, cookieName;
 
-                for (index = 0; index < cookiesToDelete.length; index++) {
-                    cookieName = getCookieName(cookiesToDelete[index]);
+                for (index = 0; index < configCookiesToDelete.length; index++) {
+                    cookieName = getCookieName(configCookiesToDelete[index]);
                     if (0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
@@ -6283,14 +6284,27 @@ if (typeof window.Piwik !== 'object') {
                 if (!isDefined(msToExpire)) {
                     msToExpire = configSessionCookieTimeout;
                 }
+
+                configCookiesToDelete.push(cookieName);
+
                 setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain);
             };
 
             /**
              * Get first-party cookie value.
+             *
+             * Returns null if cookies are disabled or if no cookie could be found for this name.
+             *
+             * @param string cookieName
              */
             this.getCookie = function (cookieName) {
-                return getCookie(getCookieName(cookieName));
+                var cookieValue = getCookie(getCookieName(cookieName));
+
+                if (cookieValue === 0) {
+                    return null;
+                }
+
+                return cookieValue;
             };
 
             /**

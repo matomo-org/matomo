@@ -2523,7 +2523,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
-        expect(167);
+        expect(168);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2778,6 +2778,7 @@ function PiwikTest() {
         strictEqual(true, tracker.hasCookies());
         tracker.setSessionCookie('mytest', 'myvalue');
         equal('myvalue', tracker.getCookie('mytest'));
+        strictEqual(null, tracker.getCookie('34343434343'), 'not existing cookie returns null');
     });
 
     test("Tracker CrossDomainLinking()", function() {
