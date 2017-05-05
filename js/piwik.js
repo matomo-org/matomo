@@ -959,7 +959,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
-    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, areCookiesEnabled,
+    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
@@ -986,8 +986,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
-    setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
-    setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
+    setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
+    setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
@@ -3190,7 +3190,9 @@ if (typeof window.Piwik !== 'object') {
 
                 // we measure how many pageviews have been tracked so plugins can use it to eg detect if a
                 // pageview was already tracked or not
-                numTrackedPageviews = 0;
+                numTrackedPageviews = 0,
+
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
 
             // Document title
             try {
@@ -4029,11 +4031,10 @@ if (typeof window.Piwik !== 'object') {
                 // Temporarily allow cookies just to delete the existing ones
                 configCookiesDisabled = false;
 
-                var cookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
                 var index, cookieName;
 
-                for (index = 0; index < cookiesToDelete.length; index++) {
-                    cookieName = getCookieName(cookiesToDelete[index]);
+                for (index = 0; index < configCookiesToDelete.length; index++) {
+                    cookieName = getCookieName(configCookiesToDelete[index]);
                     if (0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
@@ -5527,9 +5528,6 @@ if (typeof window.Piwik !== 'object') {
             this.getDomains = function () {
                 return configHostsAlias;
             };
-            this.getConfigCookiePath = function () {
-                return configCookiePath;
-            };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
             };
@@ -6258,13 +6256,74 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set first-party cookie path
+             * Get first-party cookie domain
+             */
+            this.getCookieDomain = function () {
+                return configCookieDomain;
+            };
+
+            /**
+             * Detect if cookies are enabled and supported by browser.
+             */
+            this.hasCookies = function () {
+                return '1' === hasCookies();
+            };
+
+            /**
+             * Set a first-party cookie for the duration of the session.
+             *
+             * @param string cookieName
+             * @param string cookieValue
+             * @param int msToExpire Defaults to session cookie timeout
+             */
+            this.setSessionCookie = function (cookieName, cookieValue, msToExpire) {
+                if (!cookieName) {
+                    throw new Error('Missing cookie name');
+                }
+
+                if (!isDefined(msToExpire)) {
+                    msToExpire = configSessionCookieTimeout;
+                }
+
+                configCookiesToDelete.push(cookieName);
+
+                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain);
+            };
+
+            /**
+             * Get first-party cookie value.
+             *
+             * Returns null if cookies are disabled or if no cookie could be found for this name.
+             *
+             * @param string cookieName
+             */
+            this.getCookie = function (cookieName) {
+                var cookieValue = getCookie(getCookieName(cookieName));
+
+                if (cookieValue === 0) {
+                    return null;
+                }
+
+                return cookieValue;
+            };
+
+            /**
+             * Set first-party cookie path.
              *
              * @param string domain
              */
             this.setCookiePath = function (path) {
                 configCookiePath = path;
                 updateDomainHash();
+            };
+
+            /**
+             * Get first-party cookie path.
+             *
+             * @param string domain
+             */
+            this.getCookiePath = function (path) {
+                return configCookiePath;
             };
 
             /**
@@ -6288,6 +6347,13 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Get session cookie timeout (in seconds).
+             */
+            this.getSessionCookieTimeout = function () {
+                return configSessionCookieTimeout;
+            };
+
+            /**
              * Set referral cookie timeout (in seconds).
              * Defaults to 6 months (15768000000)
              *
@@ -6305,13 +6371,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setConversionAttributionFirstReferrer = function (enable) {
                 configConversionAttributionFirstReferrer = enable;
-            };
-
-            /**
-             * Returns whether cookies are enabled.
-             */
-            this.areCookiesEnabled = function () {
-                return !configCookiesDisabled;
             };
 
             /**

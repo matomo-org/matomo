@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(80);
+        expect(87);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2166,6 +2166,11 @@ function PiwikTest() {
         equal( typeof tracker.setCookieNamePrefix, 'function', 'setCookieNamePrefix' );
         equal( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
+        equal( typeof tracker.setSessionCookie, 'function', 'setSessionCookie' );
+        equal( typeof tracker.getCookie, 'function', 'getCookie' );
+        equal( typeof tracker.hasCookies, 'function', 'hasCookies' );
+        equal( typeof tracker.getCookiePath, 'function', 'getCookiePath' );
+        equal( typeof tracker.getSessionCookieTimeout, 'function', 'getSessionCookieTimeout' );
         equal( typeof tracker.setVisitorCookieTimeout, 'function', 'setVisitorCookieTimeout' );
         equal( typeof tracker.setSessionCookieTimeout, 'function', 'setSessionCookieTimeout' );
         equal( typeof tracker.setReferralCookieTimeout, 'function', 'setReferralCookieTimeout' );
@@ -2182,6 +2187,8 @@ function PiwikTest() {
         equal( typeof tracker.getNumTrackedPageViews, 'function', 'getNumTrackedPageViews' );
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
         equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
+        equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
+        equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
         // content
         equal( typeof tracker.trackAllContentImpressions, 'function', 'trackAllContentImpressions' );
         equal( typeof tracker.trackVisibleContentImpressions, 'function', 'trackVisibleContentImpressions' );
@@ -2516,7 +2523,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
-        expect(165);
+        expect(168);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2756,17 +2763,22 @@ function PiwikTest() {
          */
         tracker.setCookiePath(null);
         tracker.setDomains( ['.' + domainAlias + '/tests'] );
-        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+        equal(null, tracker.getCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath(null);
         tracker.setDomains( ['.' + domainAlias + '/tests/javascript'] );
-        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+        equal(null, tracker.getCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath('/path2');
         tracker.setDomains( ['.' + domainAlias + '/tests/javascript', '.' + domainAlias + '/tests'] );
-        equal('/path2', tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+        equal('/path2', tracker.getCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath(null);
+
+        strictEqual(true, tracker.hasCookies());
+        tracker.setSessionCookie('mytest', 'myvalue');
+        equal('myvalue', tracker.getCookie('mytest'));
+        strictEqual(null, tracker.getCookie('34343434343'), 'not existing cookie returns null');
     });
 
     test("Tracker CrossDomainLinking()", function() {
@@ -3516,7 +3528,7 @@ if ($mysql) {
         tracker.setSiteId(1);
 
         strictEqual(0, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, is zero by default');
-        
+
         var piwikUrl = location.href;
         if (piwikUrl.indexOf('?') > 0) {
             piwikUrl = piwikUrl.substr(0, piwikUrl.indexOf('?'));
