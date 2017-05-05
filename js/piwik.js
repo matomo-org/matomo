@@ -959,7 +959,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
-    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
+    addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, areCookiesEnabled,
     cookie, domain, readyState, documentElement, doScroll, title, text,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
@@ -994,7 +994,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     disableCrossDomainLinking, isCrossDomainLinkingEnabled,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -3186,7 +3186,11 @@ if (typeof window.Piwik !== 'object') {
                 // Domain hash value
                 domainHash,
 
-                configIdPageView;
+                configIdPageView,
+
+                // we measure how many pageviews have been tracked so plugins can use it to eg detect if a
+                // pageview was already tracked or not
+                numTrackedPageviews = 0;
 
             // Document title
             try {
@@ -6304,6 +6308,13 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Returns whether cookies are enabled.
+             */
+            this.areCookiesEnabled = function () {
+                return !configCookiesDisabled;
+            };
+
+            /**
              * Disables all cookies from being set
              *
              * Existing cookies will be deleted on the next call to track
@@ -6543,6 +6554,13 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Get the number of page views that have been tracked so far within the currently loaded page.
+             */
+            this.getNumTrackedPageViews = function () {
+                return numTrackedPageviews;
+            };
+
+            /**
              * Log visit to this page
              *
              * @param string customTitle
@@ -6558,6 +6576,7 @@ if (typeof window.Piwik !== 'object') {
                     });
                 } else {
                     trackCallback(function () {
+                        numTrackedPageviews++;
                         logPageView(customTitle, customData, callback);
                     });
                 }
