@@ -22,7 +22,7 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
-		<logo>plugins/DevicesDetection/images/brand/Unknown.ico</logo>
+		<logo>plugins/Morpheus/icons/dist/brand/Unknown.ico</logo>
 		<segment>deviceBrand==Unknown</segment>
 	</row>
 </result>
