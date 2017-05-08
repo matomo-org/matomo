@@ -32,24 +32,6 @@
                             piwikHelper.modalConfirm('#installAllPaidPluginsAtOnce');
                         });
 
-                        $('.uploadPlugin').click(function (event) {
-                            event.preventDefault();
-
-                            piwikHelper.modalConfirm('#installPluginByUpload', {});
-                        });
-
-
-                        $('#uploadPluginForm').submit(function (event) {
-
-                            var $zipFile = $('[name=pluginZip]');
-                            var fileName = $zipFile.val();
-
-                            if (!fileName || '.zip' != fileName.slice(-4)) {
-                                event.preventDefault();
-                                alert(_pk_translate('CorePluginsAdmin_NoZipFileSelected'));
-                            }
-                        });
-
                         // Keeps the plugin descriptions the same height
                         $('.marketplace .plugin .description').dotdotdot({
                             after: 'a.more',

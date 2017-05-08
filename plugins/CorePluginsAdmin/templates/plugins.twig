@@ -7,6 +7,8 @@
 
 {% block content %}
 
+    {% include '@Marketplace/uploadPluginDialog.twig' %}
+
     <div piwik-content-intro>
         <h2 piwik-enriched-headline>
             {{ title|e('html_attr') }}
@@ -16,14 +18,18 @@
             {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}
 
             {% if isMarketplaceEnabled %}
-                {{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate('<a href="' ~ linkTo({'action':'browsePlugins', 'sort': ''}) ~ '">', '</a>')|raw }}
+                {{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate(
+                    '<a href="' ~ linkTo({'action':'browsePlugins', 'sort': ''}) ~ '">',
+                    '</a>',
+                    '<a href="#" class="uploadPlugin">',
+                    '</a>'
+                )|raw }}
             {% endif %}
 
             {% if not isPluginsAdminEnabled %}
                 <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
             {% endif %}
 
-            <br />
             {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}
         </p>
     </div>

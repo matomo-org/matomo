@@ -53,7 +53,7 @@
         "Status": "Status",
         "SuccessfullyActicated": "You have successfully activated <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Extend Piwik with Plugins and Themes",
-        "TeaserExtendPiwikByPlugin": "Extend Piwik by %1$sinstalling a new plugin%2$s.",
+        "TeaserExtendPiwikByPlugin": "Extend Piwik by %1$sinstalling plugins from the Marketplace%2$s or %3$supload a plugin in .zip format%4$s.",
         "TeaserExtendPiwikByTheme": "Enjoy another look & feel by %1$sinstalling a new theme%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "You may automatically install plugins from the Marketplace or %1$supload a plugin%2$s in .zip format.",
         "Theme": "Theme",

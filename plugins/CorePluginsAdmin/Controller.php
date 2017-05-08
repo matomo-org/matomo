@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
@@ -183,6 +182,9 @@ class Controller extends Plugin\ControllerAdmin
                 // curl exec connection error (ie. server not connected to internet)
             }
         }
+
+        $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
+        $view->installNonce = Nonce::getNonce(MarketplaceController::INSTALL_NONCE);
 
         return $view;
     }
