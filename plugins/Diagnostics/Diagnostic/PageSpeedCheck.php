@@ -72,9 +72,7 @@ class PageSpeedCheck implements Diagnostic
             // If the test failed, we assume Page speed is not enabled
             return false;
         }
-
-        $headers = $page['headers'];
-
-        return isset($headers['X-Mod-Pagespeed']) || isset($headers['X-Page-Speed']);
+        
+        return isset($page['headers']['X-Mod-Pagespeed']) || isset($page['headers']['X-Page-Speed']);
     }
 }
