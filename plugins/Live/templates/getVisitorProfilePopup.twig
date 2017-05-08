@@ -79,6 +79,23 @@
                         {% endif %}
                     </div>
                 </div>
+                {% if visitorData.devices is defined %}
+                <div class="visitor-profile-devices">
+                    <h1>{{ 'DevicesDetection_Devices'|translate }}</h1>
+                    <div>
+                        {%- for type,entry in visitorData.devices -%}
+                        <p>
+                            <img height="16" src="{{ entry.icon }}" />
+                            <span>{{ 'DevicesDetection_XVisitsFromDevices'|translate('<strong>' ~ entry.count ~ '</strong>', '<strong>' ~ type ~ '</strong>')|raw }}:<br />
+                            {%- for type,count in entry.devices -%}
+                                {{ type }} ({{ count }}x){% if not loop.last %}, {% endif %}
+                            {%- endfor -%}
+                            </span>
+                        </p>
+                        {%- endfor -%}
+                    </div>
+                </div>
+                {% endif %}
                 {% if visitorData.totalEcommerceRevenue is defined %}
                 <div class="visitor-profile-lifetimevalue">
                     <h1>{{ 'Goals_Ecommerce'|translate }}</h1>

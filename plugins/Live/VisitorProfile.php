@@ -26,6 +26,7 @@ class VisitorProfile
     private $continents = array();
     private $countries = array();
     private $cities = array();
+    private $devices = array();
     private $pageGenerationTimeTotal = 0;
 
     public function __construct($idSite)
@@ -65,6 +66,7 @@ class VisitorProfile
                 $this->handleIfPageGenerationTime($action);
             }
             $this->handleGeoLocation($visit);
+            $this->handleDeviceData($visit);
         }
 
         $this->handleGeoLocationCountries();
@@ -81,6 +83,7 @@ class VisitorProfile
         $visits->deleteRowsOffset($numLastVisits);
 
         $this->profile['lastVisits'] = $visits;
+        $this->profile['devices'] = $this->devices;
 
         $this->profile['userId'] = $visit->getColumn('userId');
         $this->profile['visitorId'] = $visitorId;
@@ -242,6 +245,31 @@ class VisitorProfile
             ++$this->profile['totalSearches'];
         }
         ++$this->siteSearchKeywords[$keyword];
+    }
+
+    private function handleDeviceData(DataTable\Row $visit)
+    {
+        $deviceType = $visit->getColumn('deviceType');
+        $deviceTypeIcon = $visit->getColumn('deviceTypeIcon');
+        $deviceBrand = $visit->getColumn('deviceBrand');
+        $deviceModel = $visit->getColumn('deviceModel');
+        $deviceName = trim($deviceBrand . " " . $deviceModel);
+
+        if (!isset($this->devices[$deviceType])) {
+            $this->devices[$deviceType] = array(
+                'count' => 0,
+                'icon' => $deviceTypeIcon,
+                'devices' => array()
+            );
+        }
+
+        ++$this->devices[$deviceType]['count'];
+
+        if (!isset($this->devices[$deviceType]['devices'][$deviceName])) {
+            $this->devices[$deviceType]['devices'][$deviceName] = 0;
+        }
+
+        ++$this->devices[$deviceType]['devices'][$deviceName];
     }
 
     private function handleGeoLocation(DataTable\Row $visit)
