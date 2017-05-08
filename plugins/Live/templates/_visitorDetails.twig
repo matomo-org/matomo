@@ -39,7 +39,7 @@ GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('lo
 {% if visitInfo.getColumn('countryFlag') %}
     <span class="visitorLogIconWithDetails flag">
 
-        <img height="16px" src="{{ visitInfo.getColumn('countryFlag') }}"/>
+        <img src="{{ visitInfo.getColumn('countryFlag') }}"/>
         {% if visitInfo.getColumn('city') %}{{ visitInfo.getColumn('city')|rawSafeDecoded }}{% endif -%}
         {%- if visitInfo.getColumn('region') %}{% if visitInfo.getColumn('city') %}, {% endif %}{{ visitInfo.getColumn('region')|rawSafeDecoded }}{% endif %}
 
@@ -49,18 +49,6 @@ GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('lo
             {% if visitInfo.getColumn('city') %}<li>{{ 'UserCountry_City'|translate }}: {{ visitInfo.getColumn('city') }}</li>{% endif %}
         </ul>
     </span>
-{% endif %}
-{% if visitInfo.getColumn('customVariables') %}
-    <br/>
-    {% for id,customVariable in visitInfo.getColumn('customVariables') %}
-        {% set name='customVariableName' ~ id %}
-        {% set value='customVariableValue' ~ id %}
-        <br/>
-        <acronym class="visitorLogTooltip" title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
-            {{ customVariable[name]|truncate(30) }}
-        </acronym>
-    {% if customVariable[value]|length > 0 %}: {{ customVariable[value]|truncate(50) }}{% endif %}
-    {% endfor %}
 {% endif %}
 {% if isWidget %}
     <br />

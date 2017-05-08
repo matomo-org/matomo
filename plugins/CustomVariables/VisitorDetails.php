@@ -35,13 +35,13 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
-        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        $maxCustomVariables  = CustomVariables::getNumUsableCustomVariables();
         $customVariablesPage = array();
 
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             if (!empty($action['custom_var_k' . $i])) {
-                $cvarKey = $action['custom_var_k' . $i];
-                $cvarKey = static::getCustomVariablePrettyKey($cvarKey);
+                $cvarKey                 = $action['custom_var_k' . $i];
+                $cvarKey                 = static::getCustomVariablePrettyKey($cvarKey);
                 $customVariablesPage[$i] = array(
                     'customVariablePageName' . $i  => $cvarKey,
                     'customVariablePageValue' . $i => $action['custom_var_v' . $i],
@@ -59,6 +59,13 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $view         = new View('@CustomVariables/_actionTooltip');
         $view->action = $action;
+        return $view->render();
+    }
+
+    public function renderVisitorDetails($visitInfo)
+    {
+        $view            = new View('@CustomVariables/_visitorDetails');
+        $view->visitInfo = $visitInfo;
         return $view->render();
     }
 

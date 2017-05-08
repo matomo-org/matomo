@@ -32,7 +32,15 @@
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}">&rarr;</a>{% endif %}
                         </div>
                         <div class="visitor-profile-latest-visit">
-                            {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns(), 'showLocation': false} %}
+                            <div class="visitor-profile-id">
+                                <span>{{ 'General_Id'|translate|upper }}</span>
+                                {% if widgetizedLink is defined %}<a class="visitor-profile-widget-link" href="{{ widgetizedLink }}" target="_blank" title="{{ 'Widgetize_OpenInNewWindow'|translate }} - {{ 'Live_VisitorProfile'|translate }} {{ 'General_Id'|translate|upper }} {{ visitorData.visitorId }}">{% endif %}
+                                    <strong>{{ visitorData.visitorId }}</strong>
+                                    {% if widgetizedLink is defined %}</a>{% endif %}
+                                <a class="visitor-profile-export" href="{{ exportLink }}" target="_blank" title="{{ 'General_ExportThisReport'|translate }}">
+                                    <span class="icon-export"></span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <p style="clear:both; border:none!important;"></p>

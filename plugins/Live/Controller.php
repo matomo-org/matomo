@@ -123,22 +123,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getSingleVisitSummary()
-    {
-        $view = new View('@Live/getSingleVisitSummary.twig');
-        $visits = Request::processRequest('Live.getLastVisitsDetails', array(
-                                                                            'segment' => 'visitId==' . Common::getRequestVar('visitId'),
-                                                                            'period'  => false,
-                                                                            'date'    => false
-                                                                       ));
-        $view->visitData = $visits->getFirstRow()->getColumns();
-        $view->visitReferralSummary = VisitorProfile::getReferrerSummaryForVisit($visits->getFirstRow());
-        $view->showLocation =  \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountry');
-        $this->setWidgetizedVisitorProfileUrl($view);
-        $view->exportLink = $this->getVisitorProfileExportLink();
-        return $view->render();
-    }
-
     public function getVisitList()
     {
         $startCounter = Common::getRequestVar('filter_offset', 0, 'int');

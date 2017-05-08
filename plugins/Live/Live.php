@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -26,7 +26,7 @@ class Live extends \Piwik\Plugin
             'Live.renderAction'                      => 'renderAction',
             'Live.renderActionTooltip'               => 'renderActionTooltip',
             'Live.renderVisitorDetails'              => 'renderVisitorDetails',
-            'Live.renderVisitorIcons'                => 'renderVisitorIcons'
+            'Live.renderVisitorIcons'                => 'renderVisitorIcons',
         );
     }
 

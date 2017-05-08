@@ -206,9 +206,6 @@
 
 .visitor-profile-latest-visit {
     position:relative;
-}
-
-.visitor-profile-latest-visit-column {
     padding-top:6px;
     display:inline-block;
     vertical-align:top;
@@ -221,10 +218,6 @@
 
 .visitor-profile-os {
     display:inline-block;
-}
-
-.visitor-profile-latest-visit-column:last-child {
-    margin-left:9px;
 }
 
 .visitor-profile-avatar ul {
@@ -240,6 +233,10 @@
 
 .visitor-profile-id {
     height:24px;
+
+    .icon-export {
+        vertical-align: top;
+    }
 }
 
 .visitor-profile-avatar ul li:last-child {
@@ -477,6 +474,28 @@ span.visitor-profile-goal-name {
     background-color:#bfbfbf;
 }
 
+.visitor-profile-visit-details {
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #f2f2f2;
+
+    .visitorLogIconWithDetails {
+        margin-right: 5px;
+    }
+
+    .visitorDetails, .visitorType {
+        display: inline-block;
+    }
+
+    .visitorType > span {
+        padding: 3px 5px;
+    }
+
+    .visitorLogIconWithDetails.flag>img {
+        margin: auto 5px auto 0;
+    }
+}
+
 .visitor-profile-avatar .loadingPiwik {
     padding:0;
     margin:0;
@@ -528,13 +547,6 @@ a.visitor-profile-next-visitor,a.visitor-profile-prev-visitor {
 .visitor-profile-no-visits {
     color:#999;
     font-size:13px;
-}
-
-.visitor-profile-latest-visit-loc {
-    display:inline-block;
-    position:absolute;
-    right:4px;
-    top:-24px;
 }
 
 // overrides for the widgetized visitor profile

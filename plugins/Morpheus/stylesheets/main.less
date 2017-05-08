@@ -524,7 +524,7 @@ div.sparkline {
         background: @color-silver-l95;
         padding: 7px 10px !important;
         > div {
-            border: 0px !important;
+            border: 0 !important;
             margin: 0 !important;
         }
     }
@@ -532,7 +532,7 @@ div.sparkline {
     ol.visitor-profile-visits {
         > li {
             padding: 0 0 0 !important;
-            span {
+            .visitor-profile-date {
                 font-weight: normal;
                 margin-right: 20px;
             }
@@ -544,12 +544,9 @@ div.sparkline {
                     background: @theme-color-background-contrast !important;
                     font-weight: normal;
                     color: @theme-color-text-lighter;
-                    &:last-child {
-                        border-bottom: 0 !important;
-                        padding-bottom: 20px !important;
-                    }
-                    &:first-child {
-                        padding-top: 20px !important;
+
+                    span {
+                      font-weight: normal;
                     }
                 }
             }

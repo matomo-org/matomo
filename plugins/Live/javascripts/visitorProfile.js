@@ -93,7 +93,7 @@
             });
 
             $element.on('click', '.visitor-profile-visit-title-row', function () {
-                self._loadIndividualVisitDetails($('h2', this));
+                // show visit infos
             });
 
             $element.on('click', '.visitor-profile-prev-visitor', function (e) {
@@ -140,10 +140,14 @@
             });
 
             $element.tooltip({
+                items: '[title],.visitorLogIconWithDetails',
                 track: true,
                 show: false,
                 hide: false,
                 content: function() {
+                    if ($(this).hasClass('visitorLogIconWithDetails')) {
+                        return $('<ul>').html($('ul', $(this)).html());
+                    }
                     var title = $(this).attr('title');
                     return $('<a>').text( title ).html().replace(/\n/g, '<br />');
                 },
@@ -231,37 +235,6 @@
         _showNoMoreVisitsSpan: function () {
             var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits')).addClass('visitor-profile-no-visits');
             $('.visitor-profile-more-info', this.$element).html(noMoreSpan);
-        },
-
-        _loadIndividualVisitDetails: function ($visitElement) {
-            var self = this,
-                $element = this.$element,
-                visitId = $visitElement.attr('data-idvisit');
-
-            $('.visitor-profile-avatar .loadingPiwik', $element).css('display', 'inline-block');
-            piwikHelper.lazyScrollTo($('.visitor-profile-avatar', $element)[0], 400);
-
-            var ajax = new ajaxHelper();
-            ajax.addParams({
-                module: 'Live',
-                action: 'getSingleVisitSummary',
-                visitId: visitId,
-                idSite: piwik.idSite
-            }, 'GET');
-            ajax.setCallback(function (response) {
-                $('.visitor-profile-avatar .loadingPiwik', $element).hide();
-
-                $('.visitor-profile-current-visit', $element).removeClass('visitor-profile-current-visit');
-                $visitElement.closest('li').addClass('visitor-profile-current-visit');
-
-                var $latestVisitSection = $('.visitor-profile-latest-visit', $element);
-                $latestVisitSection
-                    .html(response)
-                    .parent()
-                    .effect('highlight', {color: '#FFFFCB'}, 1200);
-            });
-            ajax.setFormat('html');
-            ajax.send();
         },
 
         _loadPreviousVisitor: function () {
