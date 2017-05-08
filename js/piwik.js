@@ -986,15 +986,15 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
-    setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
-    setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
+    setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
+    setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
     disableCrossDomainLinking, isCrossDomainLinkingEnabled,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, trackRequest, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -3186,7 +3186,13 @@ if (typeof window.Piwik !== 'object') {
                 // Domain hash value
                 domainHash,
 
-                configIdPageView;
+                configIdPageView,
+
+                // we measure how many pageviews have been tracked so plugins can use it to eg detect if a
+                // pageview was already tracked or not
+                numTrackedPageviews = 0,
+
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
 
             // Document title
             try {
@@ -4025,11 +4031,10 @@ if (typeof window.Piwik !== 'object') {
                 // Temporarily allow cookies just to delete the existing ones
                 configCookiesDisabled = false;
 
-                var cookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
                 var index, cookieName;
 
-                for (index = 0; index < cookiesToDelete.length; index++) {
-                    cookieName = getCookieName(cookiesToDelete[index]);
+                for (index = 0; index < configCookiesToDelete.length; index++) {
+                    cookieName = getCookieName(configCookiesToDelete[index]);
                     if (0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
@@ -5523,9 +5528,6 @@ if (typeof window.Piwik !== 'object') {
             this.getDomains = function () {
                 return configHostsAlias;
             };
-            this.getConfigCookiePath = function () {
-                return configCookiePath;
-            };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
             };
@@ -6254,13 +6256,74 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set first-party cookie path
+             * Get first-party cookie domain
+             */
+            this.getCookieDomain = function () {
+                return configCookieDomain;
+            };
+
+            /**
+             * Detect if cookies are enabled and supported by browser.
+             */
+            this.hasCookies = function () {
+                return '1' === hasCookies();
+            };
+
+            /**
+             * Set a first-party cookie for the duration of the session.
+             *
+             * @param string cookieName
+             * @param string cookieValue
+             * @param int msToExpire Defaults to session cookie timeout
+             */
+            this.setSessionCookie = function (cookieName, cookieValue, msToExpire) {
+                if (!cookieName) {
+                    throw new Error('Missing cookie name');
+                }
+
+                if (!isDefined(msToExpire)) {
+                    msToExpire = configSessionCookieTimeout;
+                }
+
+                configCookiesToDelete.push(cookieName);
+
+                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain);
+            };
+
+            /**
+             * Get first-party cookie value.
+             *
+             * Returns null if cookies are disabled or if no cookie could be found for this name.
+             *
+             * @param string cookieName
+             */
+            this.getCookie = function (cookieName) {
+                var cookieValue = getCookie(getCookieName(cookieName));
+
+                if (cookieValue === 0) {
+                    return null;
+                }
+
+                return cookieValue;
+            };
+
+            /**
+             * Set first-party cookie path.
              *
              * @param string domain
              */
             this.setCookiePath = function (path) {
                 configCookiePath = path;
                 updateDomainHash();
+            };
+
+            /**
+             * Get first-party cookie path.
+             *
+             * @param string domain
+             */
+            this.getCookiePath = function (path) {
+                return configCookiePath;
             };
 
             /**
@@ -6281,6 +6344,13 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setSessionCookieTimeout = function (timeout) {
                 configSessionCookieTimeout = timeout * 1000;
+            };
+
+            /**
+             * Get session cookie timeout (in seconds).
+             */
+            this.getSessionCookieTimeout = function () {
+                return configSessionCookieTimeout;
             };
 
             /**
@@ -6543,6 +6613,13 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Get the number of page views that have been tracked so far within the currently loaded page.
+             */
+            this.getNumTrackedPageViews = function () {
+                return numTrackedPageviews;
+            };
+
+            /**
              * Log visit to this page
              *
              * @param string customTitle
@@ -6558,6 +6635,7 @@ if (typeof window.Piwik !== 'object') {
                     });
                 } else {
                     trackCallback(function () {
+                        numTrackedPageviews++;
                         logPageView(customTitle, customData, callback);
                     });
                 }

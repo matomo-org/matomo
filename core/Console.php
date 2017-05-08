@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Version;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -30,7 +31,7 @@ class Console extends Application
     {
         $this->setServerArgsIfPhpCgi();
 
-        parent::__construct();
+        parent::__construct('Piwik', Version::VERSION);
 
         $this->environment = $environment;
 

@@ -163,6 +163,7 @@
                 piwikHelper.hideAjaxError();
                 $(this).parents('tr').remove();
                 $('.add-user').toggle();
+                self.showCreateUser = true;
             });
         };
 
