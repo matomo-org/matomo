@@ -239,8 +239,9 @@ abstract class StaticGraph extends BaseFactory
         foreach ($this->ordinateSeries as $column => $data) {
             $this->pData->addPoints($data, $column);
             $this->pData->setSerieDescription($column, $this->ordinateLabels[$column]);
+
             if (isset($this->ordinateLogos[$column])) {
-                $ordinateLogo = $this->ordinateLogos[$column];
+                $ordinateLogo = $this->createResizedImageCopyIfNeeded($this->ordinateLogos[$column]);
                 $this->pData->setSeriePicture($column, $ordinateLogo);
             }
         }
@@ -249,6 +250,38 @@ abstract class StaticGraph extends BaseFactory
 
         $this->pData->addPoints($this->abscissaSeries, self::ABSCISSA_SERIE_NAME);
         $this->pData->setAbscissa(self::ABSCISSA_SERIE_NAME);
+    }
+
+    protected function createResizedImageCopyIfNeeded($image)
+    {
+        $size = getimagesize($image);
+
+        if ($size[0] <= 16 && $size[1] <= 16) {
+            return $image; // use original image if size fits
+        }
+
+        $ratio = $size[0] / $size[1];
+        if ($ratio > 1) {
+            $width  = 16;
+            $height = 16 / $ratio;
+        } else {
+            $width  = 16 * $ratio;
+            $height = 16;
+        }
+
+        $newImage = self::getOutputPath(md5($image) . '.png');
+
+        $src = imagecreatefromstring(file_get_contents($image));
+        $dst = imagecreatetruecolor($width, $height);
+        imagesavealpha($dst, true);
+        $color = imagecolorallocatealpha($dst, 0, 0, 0, 127);
+        imagefill($dst, 0, 0, $color);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+        imagedestroy($src);
+        imagepng($dst, $newImage);
+        imagedestroy($dst);
+
+        return $newImage;
     }
 
     protected function initpImage()
