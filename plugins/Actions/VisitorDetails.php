@@ -184,7 +184,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $customFields = array_filter($customFields);
         array_unshift($customFields, ''); // add empty element at first
-        $sqlCustomVariables = implode(', ', $customFields);
+        $customActionDimensionFields = implode(', ', $customFields);
 
         // The second join is a LEFT join to allow returning records that don't have a matching page title
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
@@ -202,7 +202,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float,
 					log_link_visit_action.interaction_position
-					" . $sqlCustomVariables . ",
+					" . $customActionDimensionFields . ",
 					log_action_event_category.name AS eventCategory,
 					log_action_event_action.name as eventAction
 				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
