@@ -1037,6 +1037,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global AnalyticsTracker:true */
 /*members initialize */
 /*global define */
+/*global console */
 /*members amd */
 /*members error */
 /*members log */
@@ -1167,7 +1168,9 @@ if (typeof window.Piwik !== 'object') {
          * @param message
          */
         function logConsoleError(message) {
-            if (typeof console !== 'undefined' && console && console.error) {
+            // needed to write it this way for jslint
+            var consoleType = typeof console;
+            if (consoleType !== 'undefined' && console && console.error) {
                 console.error(message);
             }
         }
@@ -6766,7 +6769,9 @@ if (typeof window.Piwik !== 'object') {
                 var contentNodes = content.findContentNodes();
                 var contents = content.collectContent(contentNodes);
 
-                if (typeof console !== 'undefined' && console && console.log) {
+                // needed to write it this way for jslint
+                var consoleType = typeof console;
+                if (consoleType !== 'undefined' && console && console.error) {
                     console.log(contents);
                 }
             };
@@ -7276,7 +7281,9 @@ if (typeof window.Piwik !== 'object') {
             window.Piwik.addTracker();
         } else {
             _paq = {push: function (args) {
-                if (typeof console !== 'undefined' && console && console.error) {
+                // needed to write it this way for jslint
+                var consoleType = typeof console;
+                if (consoleType !== 'undefined' && console && console.error) {
                     console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
                 }
             }};
