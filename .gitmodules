@@ -46,6 +46,10 @@
 	path = plugins/Bandwidth
 	url = https://github.com/piwik/plugin-Bandwidth.git
     branch = master
+[submodule "plugins/LoginLdap"]
+	path = plugins/LoginLdap
+	url = https://github.com/piwik/plugin-LoginLdap.git
+    branch = master
 
 
 # Add new Plugin submodule above this line ^^

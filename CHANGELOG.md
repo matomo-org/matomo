@@ -10,6 +10,8 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 * A new event `Db.getActionReferenceColumnsByTable` has been added in case a plugin defines a custom log table which references data to the log_action table 
 * A new JavaScript tracker method `getPiwikUrl` has been added to retrieve the URL of where the Piwik instance is located
 * A new JavaScript tracker method `getCurrentUrl` has been added to retrieve the current URL of the website. 
+* A new JavaScript tracker method `getNumTrackedPageViews` has been added to retrieve the number of tracked page views within the currently loaded page or web application. 
+* New JavaScript tracker methods `setSessionCookie`, `getCookie`, `hasCookies`, `getCookieDomain`, `getCookiePath`, and `getSessionCookieTimeout` have been added for better cookie support in plugins. 
 
 ## Piwik 3.0.3
 
