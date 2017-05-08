@@ -195,6 +195,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
 					log_action.idaction AS pageIdAction,
+					log_link_visit_action.idpageview,
 					log_link_visit_action.idlink_va,
 					log_link_visit_action.server_time as serverTimePretty,
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
