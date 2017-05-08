@@ -6849,7 +6849,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // needed to write it this way for jslint
                 var consoleType = typeof console;
-                if (consoleType !== 'undefined' && console && console.error) {
+                if (consoleType !== 'undefined' && console && console.log) {
                     console.log(contents);
                 }
             };
