@@ -104,6 +104,7 @@ class TestingEnvironmentVariables
 
         $disabledPlugins = $pluginList->getCorePluginsDisabledByDefault();
         $disabledPlugins[] = 'LoginHttpAuth';
+        $disabledPlugins[] = 'LoginLdap';
         $disabledPlugins[] = 'ExampleVisualization';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
