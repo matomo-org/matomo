@@ -26,6 +26,8 @@ class Model
     public function removeGoneFiles($source, $target)
     {
         Filesystem::unlinkTargetFilesNotPresentInSource($source . '/core', $target . '/core');
+        Filesystem::unlinkTargetFilesNotPresentInSource($source . '/libs', $target . '/libs');
+        Filesystem::unlinkTargetFilesNotPresentInSource($source . '/vendor', $target . '/vendor');
 
         foreach ($this->getPluginsFromDirectoy($source) as $pluginDir) {
             Filesystem::unlinkTargetFilesNotPresentInSource($source . $pluginDir, $target . $pluginDir);
