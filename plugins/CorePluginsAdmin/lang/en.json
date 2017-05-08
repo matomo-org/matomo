@@ -41,6 +41,8 @@
         "OriginThirdParty": "Third-party",
         "PluginHomepage": "Plugin Homepage",
         "PluginNotCompatibleWith": "%1$s plugin is not compatible with %2$s.",
+        "PluginNotFound": "Plugin %1$s not found on filesystem.",
+        "PluginNotFoundAlternative": "If you've been using this plugin, try reuploading or reinstalling it from the marketplace. If not, click uninstall to remove it from the list.",
         "PluginNotWorkingAlternative": "If you've been using this plugin, maybe you can find a more recent version in the Marketplace. If not, you may want to uninstall it.",
         "PluginRequirement": "%1$s requires %2$s.",
         "PluginsManagement": "Manage Plugins",
