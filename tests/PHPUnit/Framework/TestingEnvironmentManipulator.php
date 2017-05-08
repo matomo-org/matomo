@@ -227,21 +227,27 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     private function getPluginAndRequiredPlugins($pluginName, $plugins)
     {
-        if (!in_array($pluginName, $plugins)) {
-            $plugins[] = $pluginName;
-        }
+        $pluginJsonPath = $this->makePathToPluginJson($pluginName);
+        $pluginJson = json_decode(trim(file_get_contents($pluginJsonPath)), true);
 
-        $pluginMetadataLoader = new Plugin\MetadataLoader($pluginName);
-        $pluginInfo = $pluginMetadataLoader->load();
-
-        if (!empty($pluginInfo['require'])) {
-            foreach ($pluginInfo['require'] as $possiblePluginName => $requiredVersion) {
-                if (file_exists(Plugin\Manager::getPluginsDirectory() . $possiblePluginName . '/plugin.json')) {
+        if (!empty($pluginJson['require'])) {
+            foreach ($pluginJson['require'] as $possiblePluginName => $requiredVersion) {
+                if (file_exists($this->makePathToPluginJson($possiblePluginName))) {
                     $plugins = $this->getPluginAndRequiredPlugins($possiblePluginName, $plugins);
                 }
             }
         }
+
+        if (!in_array($pluginName, $plugins)) {
+            $plugins[] = $pluginName;
+        }
+
         return $plugins;
+    }
+
+    private function makePathToPluginJson($pluginName)
+    {
+        return Plugin\Manager::getPluginsDirectory() . $pluginName . '/' . Plugin\MetadataLoader::PLUGIN_JSON_FILENAME;
     }
 
     private function classExists($klass)
