@@ -1038,7 +1038,6 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members initialize */
 /*global define */
 /*members amd */
-/*global console:true */
 /*members error */
 /*members log */
 
