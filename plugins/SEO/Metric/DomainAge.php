@@ -129,10 +129,21 @@ class DomainAge implements MetricsProvider
     private function getUrl($url)
     {
         try {
-            return str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
+            return $this->getHttpResponse($url);
+        } catch (\Exception $e) {
+        }
+
+        $httpUrl = str_replace('https://', 'http://', $url);
+        try {
+            return $this->getHttpResponse($httpUrl);
         } catch (\Exception $e) {
             $this->logger->warning('Error while getting SEO stats (domain age): {message}', array('message' => $e->getMessage()));
             return '';
         }
+    }
+
+    private function getHttpResponse($url)
+    {
+        return str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
     }
 }
