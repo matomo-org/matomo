@@ -54,7 +54,13 @@ class API extends \Piwik\Plugin\API
         $table->filter('Piwik\Plugins\VisitTime\DataTable\Filter\AddSegmentByLabelInUTC', array($timezone, $period, $date));
 
         if ($hideFutureHoursWhenToday) {
-            $table = $this->removeHoursInFuture($table, $idSite, $period, $date);
+            if ($table instanceof DataTable\Map) {
+                foreach ($table->getDataTables() as &$dataTable) {
+                    $dataTable = $this->removeHoursInFuture($dataTable, $idSite, $period, $date);
+                }
+            } else {
+                $table = $this->removeHoursInFuture($table, $idSite, $period, $date);
+            }
         }
 
         return $table;

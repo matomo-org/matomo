@@ -19,7 +19,7 @@
 		<sum_daily_nb_uniq_visitors>33</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
-		<logo>plugins/DevicesDetection/images/brand/Unknown.png</logo>
+		<logo>plugins/Morpheus/icons/dist/brand/Unknown.png</logo>
 		<segment>deviceBrand==Unknown</segment>
 	</row>
 	<row>
@@ -40,7 +40,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/brand/HTC.png</logo>
+		<logo>plugins/Morpheus/icons/dist/brand/HTC.png</logo>
 		<segment>deviceBrand==HTC</segment>
 	</row>
 	<row>
@@ -61,7 +61,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/brand/Apple.png</logo>
+		<logo>plugins/Morpheus/icons/dist/brand/Apple.png</logo>
 		<segment>deviceBrand==Apple</segment>
 	</row>
 	<row>
@@ -82,7 +82,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<logo>plugins/DevicesDetection/images/brand/Samsung.png</logo>
+		<logo>plugins/Morpheus/icons/dist/brand/Samsung.png</logo>
 		<segment>deviceBrand==Samsung</segment>
 	</row>
 </result>

@@ -16,13 +16,12 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)
 {
+    $path = 'plugins/Morpheus/icons/dist/brand/%s.png';
     $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
-    $path = dirname(__FILE__) . '/images/brand/' . $label . '.png';
-    if (file_exists($path)) {
-        return 'plugins/DevicesDetection/images/brand/' . $label . '.png';
-    } else {
-        return 'plugins/DevicesDetection/images/brand/Unknown.png';
+    if (!file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $label))) {
+        $label = "unk";
     }
+    return sprintf($path, $label);
 }
 
 function getBrowserFamilyFullName($label)
