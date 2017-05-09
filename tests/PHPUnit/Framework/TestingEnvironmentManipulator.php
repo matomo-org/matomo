@@ -228,12 +228,15 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     private function getPluginAndRequiredPlugins($pluginName, $plugins)
     {
         $pluginJsonPath = $this->makePathToPluginJson($pluginName);
-        $pluginJson = json_decode(trim(file_get_contents($pluginJsonPath)), true);
 
-        if (!empty($pluginJson['require'])) {
-            foreach ($pluginJson['require'] as $possiblePluginName => $requiredVersion) {
-                if (file_exists($this->makePathToPluginJson($possiblePluginName))) {
-                    $plugins = $this->getPluginAndRequiredPlugins($possiblePluginName, $plugins);
+        if (file_exists($pluginJsonPath)) {
+            $pluginJson = json_decode(trim(file_get_contents($pluginJsonPath)), true);
+
+            if (!empty($pluginJson['require'])) {
+                foreach ($pluginJson['require'] as $possiblePluginName => $requiredVersion) {
+                    if (file_exists($this->makePathToPluginJson($possiblePluginName))) {
+                        $plugins = $this->getPluginAndRequiredPlugins($possiblePluginName, $plugins);
+                    }
                 }
             }
         }
