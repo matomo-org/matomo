@@ -126,6 +126,11 @@ class PluginList
      * the order of the plugin config.php and which config will be loaded first. We want to make sure to require the
      * config or a required plugin first before loading the plugin that requires it.
      *
+     * We do not sort using this logic on each request since it is much slower than `sortPlugins()`. The order
+     * of plugins in config.ini.php is only important for the ContainerFactory. During a regular request it is otherwise
+     * fine to load the plugins in the order of `sortPlugins()` since we will make sure that required plugins will be
+     * loaded first in plugin manager.
+     *
      * @param string[] $plugins
      * @param array[] $pluginJsonCache  For internal testing only
      * @return \string[]
