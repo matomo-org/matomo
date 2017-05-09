@@ -10,10 +10,12 @@ namespace Piwik\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Contains methods that calculate metrics by aggregating log data (visits, actions, conversions,
@@ -141,16 +143,23 @@ class LogAggregator
     private $queryOriginHint = '';
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+
+    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
      */
-    public function __construct(Parameters $params)
+    public function __construct(Parameters $params, LoggerInterface $logger = null)
     {
         $this->dateStart = $params->getDateStart();
         $this->dateEnd = $params->getDateEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
+        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
     public function setQueryOriginHint($nameOfOrigiin)
@@ -168,6 +177,8 @@ class LogAggregator
             $query['sql'] = trim($query['sql']);
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
+
+        $this->logger->debug($query['sql']);
 
         return $query;
     }
