@@ -148,6 +148,8 @@
                     <div class="visitor-profile-map" style="display:none" data-href="{{ userCountryMapUrl|default('') }}">
                     </div>
                 </div>
+
+                {{ postEvent('Template.afterVisitorProfileOverview') }}
             </div>
             <div class="visitor-profile-visits-info">
                 <div class="visitor-profile-visits-container">
