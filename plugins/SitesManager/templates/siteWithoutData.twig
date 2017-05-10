@@ -45,6 +45,11 @@
             '<a href="https://piwik.org/features/" rel="noreferrer" target="_blank">', "</a>",
             '<a href="https://piwik.org/docs/" rel="noreferrer" target="_blank">', "</a>",
             '<a href="https://piwik.org/faq/" rel="noreferrer" target="_blank">', "</a>")|raw }}
+
+            <br />
+            <br />
+            <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
+               class="btn ignoreSitesWithoutData">{{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}</a>
         </p>
 
         {{ trackingHelp|raw }}
