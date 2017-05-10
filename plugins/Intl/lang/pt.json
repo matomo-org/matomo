@@ -302,7 +302,7 @@
         "EnglishLanguageName": "Portuguese",
         "Format_DateTime_Long": "EEEE, d 'de' MMMM 'de' y {time}",
         "Format_DateTime_Short": "dd\/MM\/y {time}",
-        "Format_Date_Day_Month": "E, d\/MM",
+        "Format_Date_Day_Month": "E, d\/MM\/y",
         "Format_Date_Long": "EEEE, d 'de' MMMM 'de' y",
         "Format_Date_Short": "dd\/MM\/y",
         "Format_Interval_Long_D": "d–d 'de' MMMM 'de' y",

@@ -266,7 +266,7 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['Format_Time_12'] = $calendarData['dateTimeFormats']['availableFormats']['hms'];
             $translations['Intl']['Format_Time_24'] = $calendarData['dateTimeFormats']['availableFormats']['Hms'];
             $translations['Intl']['Format_Date_Long'] = $calendarData['dateFormats']['full'];
-            $translations['Intl']['Format_Date_Day_Month'] = $calendarData['dateTimeFormats']['availableFormats']['MMMEd'];
+            $translations['Intl']['Format_Date_Day_Month'] = $calendarData['dateTimeFormats']['availableFormats']['yMMMEd'];
             $translations['Intl']['Format_Date_Short'] = $calendarData['dateFormats']['medium'];
             $translations['Intl']['Format_Month_Short'] = $calendarData['dateTimeFormats']['availableFormats']['yMMM'];
             $translations['Intl']['Format_Month_Long'] = $this->transformDateFormat($calendarData['dateTimeFormats']['availableFormats']['yMMM'], array('MMM' => 'MMMM', 'LLL' => 'LLLL'));

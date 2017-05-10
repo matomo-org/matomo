@@ -302,7 +302,7 @@
         "EnglishLanguageName": "Korean",
         "Format_DateTime_Long": "y년 M월 d일 EEEE {time}",
         "Format_DateTime_Short": "y. M. d. {time}",
-        "Format_Date_Day_Month": "MMM d일 (E)",
+        "Format_Date_Day_Month": "y년 MMM d일 (E)",
         "Format_Date_Long": "y년 M월 d일 EEEE",
         "Format_Date_Short": "y. M. d.",
         "Format_Interval_Long_D": "y년 M월 d일~d일",

@@ -302,7 +302,7 @@
         "EnglishLanguageName": "Serbian",
         "Format_DateTime_Long": "EEEE, dd. MMMM y. {time}",
         "Format_DateTime_Short": "dd.MM.y. {time}",
-        "Format_Date_Day_Month": "E d. MMM",
+        "Format_Date_Day_Month": "E, d. MMM y.",
         "Format_Date_Long": "EEEE, dd. MMMM y.",
         "Format_Date_Short": "dd.MM.y.",
         "Format_Interval_Long_D": "dd.–dd. MMMM y.",
