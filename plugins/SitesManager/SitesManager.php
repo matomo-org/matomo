@@ -8,12 +8,12 @@
  */
 namespace Piwik\Plugins\SitesManager;
 
+use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Measurable\Settings\Storage;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
@@ -28,7 +28,7 @@ class SitesManager extends \Piwik\Plugin
     const KEEP_URL_FRAGMENT_NO = 2;
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -38,8 +38,16 @@ class SitesManager extends \Piwik\Plugin
             'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
+        $numWebsites = count($websites);
+        $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
     }
 
     public function redirectDashboardToWelcomePage(&$module, &$action)

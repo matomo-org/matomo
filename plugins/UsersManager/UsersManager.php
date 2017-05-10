@@ -9,8 +9,10 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\SettingsPiwik;
 
 /**
@@ -33,8 +35,21 @@ class UsersManager extends \Piwik\Plugin
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Platform.initialized'                   => 'onPlatformInitialized',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'CronArchive.getTokenAuth'               => 'getCronArchiveTokenAuth'
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $userLogins = Request::processRequest('UsersManager.getUsersLogin', array('filter_limit' => '-1'));
+
+        $numUsers = count($userLogins);
+        if (in_array('anonymous', $userLogins)) {
+            $numUsers--;
+        }
+
+        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers), $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
     }
 
     public function onPlatformInitialized()

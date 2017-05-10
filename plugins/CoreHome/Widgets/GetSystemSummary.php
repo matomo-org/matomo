@@ -12,11 +12,11 @@ use Piwik\API\Request;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CoreHome\SystemSummary\Item;
 use Piwik\Plugins\SegmentEditor\Services\StoredSegmentService;
 use Piwik\Version;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
-use Piwik\View;
 
 class GetSystemSummary extends Widget
 {
@@ -46,29 +46,64 @@ class GetSystemSummary extends Widget
 
     public function render()
     {
-        $userLogins = Request::processRequest('UsersManager.getUsersLogin', array('filter_limit' => '-1'));
-        $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
+        $mysqlVersion = $this->getMySqlVersion();
 
-        $numUsers = count($userLogins);
-        if (in_array('anonymous', $userLogins)) {
-            $numUsers--;
-        }
+        $systemSummary = array();
+
+        /**
+         * Triggered to add system summary items that are shown in the System Summary widget.
+         *
+         * **Example**
+         *
+         *     public function addSystemSummaryItem(&$systemSummary)
+         *     {
+         *         $numUsers = 5;
+         *         $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers), $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user');
+         *     }
+         *
+         * @param Item[] &$systemSummary An array containing system summary items.
+         */
+        Piwik::postEvent('System.addSystemSummaryItems', array(&$systemSummary));
+
+        $systemSummary[] = new Item($key = 'piwik-version', Piwik::translate('CoreHome_SystemSummaryPiwikVersion'), Version::VERSION, $url = null, $icon = '', $order = 21);
+        $systemSummary[] = new Item($key = 'php-version', Piwik::translate('CoreHome_SystemSummaryMysqlVersion'), phpversion(), $url = null, $icon = '', $order = 22);
+        $systemSummary[] = new Item($key = 'mysql-version', Piwik::translate('CoreHome_SystemSummaryPhpVersion'), $mysqlVersion, $url = null, $icon = '', $order = 23);
+
+        $systemSummary = array_filter($systemSummary);
+        usort($systemSummary, function ($itemA, $itemB) {
+            if ($itemA->getOrder() == $itemB->getOrder()) {
+                return 0;
+            }
+            if ($itemA->getOrder() > $itemB->getOrder()) {
+                return 1;
+            }
+            return -1;
+        });
+
+        /**
+         * Triggered to filter system summary items that are shown in the System Summary widget. A plugin might also
+         * sort the system summary items differently.
+         *
+         * **Example**
+         *
+         *     public function filterSystemSummaryItems(&$systemSummary)
+         *     {
+         *         foreach ($systemSummaryItems as $index => $item) {
+         *             if ($item && $item->getKey() === 'users') {
+         *                 $systemSummaryItems[$index] = null;
+         *             }
+         *         }
+         *     }
+         *
+         * @param Item[] &$systemSummary An array containing system summary items.
+         */
+        Piwik::postEvent('System.filterSystemSummaryItems', array(&$systemSummary));
+
+        $systemSummary = array_filter($systemSummary);
 
         return $this->renderTemplate('getSystemSummary', array(
-            'numWebsites' => count($websites),
-            'numUsers' => $numUsers,
-            'numSegments' => $this->getNumSegments(),
-            'numPlugins' => $this->getNumActivatedPlugins(),
-            'piwikVersion' => Version::VERSION,
-            'mySqlVersion' => $this->getMySqlVersion(),
-            'phpVersion' => phpversion()
+            'items' => $systemSummary
         ));
-    }
-
-    private function getNumSegments()
-    {
-        $segments = $this->storedSegmentService->getAllSegmentsAndIgnoreVisibility();
-        return count($segments);
     }
 
     private function getMySqlVersion()
@@ -77,8 +112,4 @@ class GetSystemSummary extends Widget
         return $db->getServerVersion();
     }
 
-    private function getNumActivatedPlugins()
-    {
-        return $this->pluginManager->getNumberOfActivatedPluginsExcludingAlwaysActivated();
-    }
 }
