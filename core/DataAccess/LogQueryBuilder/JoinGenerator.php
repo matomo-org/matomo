@@ -62,6 +62,25 @@ class JoinGenerator
                 }
             }
         }
+
+        foreach ($this->tables as $index => $table) {
+            if (is_array($table)) {
+                if (!isset($table['tableAlias'])) {
+                    $tableName = $table['table'];
+                    $numTables = count($this->tables);
+                    for ($j = $index + 1; $j < $numTables; $j++) {
+                        if (!isset($this->tables[$j])) {
+                            continue;
+                        }
+
+                        $tableOther = $this->tables[$j];
+                        if (is_string($tableOther) && $tableOther === $tableName) {
+                            unset($this->tables[$j]);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
