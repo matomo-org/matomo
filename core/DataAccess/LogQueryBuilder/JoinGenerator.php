@@ -62,6 +62,7 @@ class JoinGenerator
                 }
             }
         }
+
         foreach ($this->tables as $index => $table) {
             if (is_array($table)) {
                 if (!isset($table['tableAlias'])) {
@@ -77,6 +78,19 @@ class JoinGenerator
                             unset($this->tables[$j]);
                         }
                     }
+                }
+            } elseif (is_string($table)) {
+                $numTables = count($this->tables);
+
+                for ($j = $index + 1; $j < $numTables; $j++) {
+                    if (isset($this->tables[$j]) && is_array($this->tables[$j]) && !isset($this->tables[$j]['tableAlias'])) {
+                        $tableOther = $this->tables[$j];
+                        if ($table === $tableOther['table']) {
+                            $message = sprintf('Please reorganize the joined tables as the table %s in %s cannot be joined correctly. We recommend to join tables with arrays first. %s', $table, json_encode($this->tables), json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10)));
+                            throw new Exception($message);
+                        }
+                    }
+
                 }
             }
         }
