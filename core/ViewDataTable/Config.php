@@ -463,6 +463,14 @@ class Config
     public $export_limit = '';
 
     /**
+     * Message to show if not data is available for the report
+     * Defaults to `CoreHome_ThereIsNoDataForThisReport` if not set
+     *
+     * @var string
+     */
+    public $no_data_message = '';
+
+    /**
      * @ignore
      */
     public $report_id = '';
