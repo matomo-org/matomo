@@ -115,6 +115,21 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
+    public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArrayAndFurtherTablesAfterwards()
+    {
+        $generator = $this->generate(array(
+            'log_visit',
+            array('table' => 'log_conversion', 'joinOn' => 'log_visit.idvisit2 = log_conversion.idvisit2'),
+            'log_conversion',
+            'log_link_visit_action'
+        ));
+
+        $expected  = 'log_visit AS log_visit ';
+        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_visit.idvisit2 = log_conversion.idvisit2 ';
+        $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
     public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinButAlsoLeft()
     {
         $generator = $this->generate(array(

@@ -62,7 +62,6 @@ class JoinGenerator
                 }
             }
         }
-
         foreach ($this->tables as $index => $table) {
             if (is_array($table)) {
                 if (!isset($table['tableAlias'])) {
