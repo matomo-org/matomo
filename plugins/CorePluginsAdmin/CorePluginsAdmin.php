@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CoreHome\SystemSummary;
 
 class CorePluginsAdmin extends Plugin
 {
@@ -21,8 +23,15 @@ class CorePluginsAdmin extends Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $numPlugins = Plugin\Manager::getInstance()->getNumberOfActivatedPluginsExcludingAlwaysActivated();
+        $systemSummary[] = new SystemSummary\Item($key = 'plugins', Piwik::translate('CoreHome_SystemSummaryNActivatedPlugins', $numPlugins), $value = null, $url = array('module' => 'CorePluginsAdmin', 'action' => 'plugins'), $icon = '', $order = 11);
     }
 
     public function getStylesheetFiles(&$stylesheets)

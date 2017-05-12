@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Config;
-use Piwik\Db;
+use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\SystemSummary;
 
 /**
  */
@@ -26,8 +28,17 @@ class SegmentEditor extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
             'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
+            'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $storedSegments = StaticContainer::get('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService');
+        $segments = $storedSegments->getAllSegmentsAndIgnoreVisibility();
+        $numSegments = count($segments);
+        $systemSummary[] = new SystemSummary\Item($key = 'segments', Piwik::translate('CoreHome_SystemSummaryNSegments', $numSegments), $value = null, $url = null, $icon = 'icon-segment', $order = 6);
     }
 
     function getSegmentEditorHtml(&$out)
