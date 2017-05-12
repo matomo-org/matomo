@@ -53,6 +53,8 @@
                 <div class="pk-emptyDataTable">
                 {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
                     {{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}
+                {% elseif properties.no_data_message %}
+                    {{ properties.no_data_message|raw }}
                 {% else %}
                     {{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}
                 {% endif %}
