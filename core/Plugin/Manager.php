@@ -868,17 +868,17 @@ class Manager
         }
 
         if ($newPlugin->hasMissingDependencies()) {
-            $this->deactivatePlugin($pluginName);
+            $this->unloadPluginFromMemory($pluginName);
 
             // at this state we do not know yet whether current user has super user access. We do not even know
             // if someone is actually logged in.
-            $message  = Piwik::translate('CorePluginsAdmin_WeDeactivatedThePluginAsItHasMissingDependencies', array($pluginName, $newPlugin->getMissingDependenciesAsString()));
+            $message  = Piwik::translate('CorePluginsAdmin_WeCouldNotLoadThePluginAsItHasMissingDependencies', array($pluginName, $newPlugin->getMissingDependenciesAsString()));
             $message .= ' ';
             $message .= Piwik::translate('General_PleaseContactYourPiwikAdministrator');
 
             $notification = new Notification($message);
             $notification->context = Notification::CONTEXT_ERROR;
-            Notification\Manager::notify('PluginManager_PluginDeactivated', $notification);
+            Notification\Manager::notify('PluginManager_PluginUnloaded', $notification);
             return $pluginsToPostPendingEventsTo;
         }
 
