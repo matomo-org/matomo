@@ -50,7 +50,6 @@
         "Status": "Status",
         "SuccessfullyActicated": "U hebt <strong>%s<\/strong> succesvol geactiveerd.",
         "TeaserExtendPiwik": "Breidt Piwik uit met plugins en thema's",
-        "TeaserExtendPiwikByPlugin": "Breid Piwik uit door een nieuwe plugin %2$s te installeren%1$s.",
         "TeaserExtendPiwikByTheme": "Geniet van een andere look & feel door %1$shet installeren van een nieuw thema%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Je kunt automatisch plugins installeren van de Martkplaats, of een %1$splugin uploaden%2$s in een .zip bestand.",
         "Theme": "Thema",

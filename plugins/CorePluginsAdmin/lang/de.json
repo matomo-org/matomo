@@ -51,7 +51,6 @@
         "Status": "Status",
         "SuccessfullyActicated": "Sie haben <strong>%s<\/strong> erfolgreich aktiviert.",
         "TeaserExtendPiwik": "Erweitere Piwik mit Plugins und Themes",
-        "TeaserExtendPiwikByPlugin": "Erweitern Sie Piwik durch die %1$sInstallation eines neuen Plugins%2$s.",
         "TeaserExtendPiwikByTheme": "Wechseln Sie das Erscheinungsbild durch die %1$sInstallation eines neuen Themes%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Sie können Plugins aus dem Marketplace automatisiert installieren oder ein Plugin im .zip Format %1$shochladen%2$s.",
         "Theme": "Theme",

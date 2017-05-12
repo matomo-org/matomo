@@ -103,6 +103,7 @@
         "Updated": "Aktualizováno",
         "UpdatingPlugin": "Aktualizace %1$s",
         "UploadZipFile": "Nahrát zip soubor",
+        "PluginUploadDisabled": "Nahrání zásuvného modulu je zakázáno v konfiguračním souboru. Pokud chcete tuto funkci povolit, upravte konfigurační soubor, nebo kontaktujte administrátora.",
         "LicenseKeyExpiresSoon": "Váš licenční klíč brzy vyprší, kontaktujte prosím %1$s.",
         "LicenseKeyIsExpired": "Váš licenční klíč vypršel, kontaktujte prosím %1$s.",
         "MultiServerEnvironmentWarning": "Zásuvný modul nelze instalovat nebo aktualizovat přímo, protože používáte Piwik na několika serverech. Modul by byl nainstalován pouze na jednom serveru. Namísto toho modul stáhněte a ručně nainstalujte na všechny své servery.",

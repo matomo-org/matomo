@@ -51,7 +51,6 @@
         "Status": "État",
         "SuccessfullyActicated": "Vous avez activé avec succès <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Etendre Piwik avec des composants additionnels et des thèmes",
-        "TeaserExtendPiwikByPlugin": "Etendre Piwik en %1$sinstallant un nouveau composant additionnel%2$s.",
         "TeaserExtendPiwikByTheme": "Profitez d'une nouvelle charte graphique en %1$sinstallant un nouveau thème%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Vous pouvez installer automatiquement un plugin à partir du Marketplace ou %1$supload a plugin%2$s au format .zip.",
         "Theme": "Thème",

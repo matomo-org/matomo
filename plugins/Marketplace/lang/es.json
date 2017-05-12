@@ -103,6 +103,7 @@
         "Updated": "Actualizado",
         "UpdatingPlugin": "Actualizando %1$s",
         "UploadZipFile": "Carga un archivo ZIP",
+        "PluginUploadDisabled": "Subir plugins está deshabilitado desde el fichero de configuración. Para habilitar esta funcionalidad, por favor, contacta con tu administrador.",
         "LicenseKeyExpiresSoon": "Tu clave de licencia expira pronto, por favor, contacta con %1$s.",
         "LicenseKeyIsExpired": "Tu clave de licencia ha expirado, por favor, contacta con %1$s.",
         "MultiServerEnvironmentWarning": "No puedes instalar o actualizar el complemento directamente ya que estás usando Piwik en múltiples servidores y el complemento sería instalado en un solo servidor. Descarga el complemento y despliégalo manualmente en todos tu servidores.",
