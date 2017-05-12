@@ -45,7 +45,6 @@
         "Status": "Status",
         "SuccessfullyActicated": "Du har aktivert <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Utvid Piwik med utvidelser og temaer",
-        "TeaserExtendPiwikByPlugin": "Utvid Piwik ved å %1$sinstallere en ny utvidelse%2$s.",
         "TeaserExtendPiwikByTheme": "Prøv et nytt utseende ved å %1$sinstallere et nytt tema%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Du kan installere utvidelser fra markedsplassen automatisk eller %1$slaste opp en utvidelse%2$s i .zip-format.",
         "Theme": "Tema",

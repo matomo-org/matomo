@@ -84,6 +84,7 @@
         "SystemCheckGlobHelp": "Esta función integrada se ha desactivado en su host. Piwik intentará emular esta función, pero puede encontrarse con restricciones de seguridad. La funcionalidad puede verse afectada.",
         "SystemCheckGzcompressHelp": "Es necesario habilitar la extensión zlib y la función gzcompress.",
         "SystemCheckGzuncompressHelp": "Es necesario habilitar la extensión zlib y la función gzcompress.",
+        "SystemCheckHashHelp": "Necesitas configurar y recompilar PHP con soporte habilitado para \"hash()\": quitar la opción --disable-hash.",
         "SystemCheckIconvHelp": "Necesita configurar y reconstruir PHP con soporte \"iconv\" habilitado, --with-iconv.",
         "SystemCheckJsonHelp": "Para leer y escribir datos JSON es necesario tener la extensión php5-json.",
         "SystemCheckMailHelp": "Los mensajes de Feedback y Recuperar Contraseña no se enviarán sin un correo electrónico().",

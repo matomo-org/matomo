@@ -45,6 +45,7 @@
         "JSTracking_TrackNoScript": "JavaScriptを無効にしてユーザーを追跡する",
         "JSTracking_VisitorCustomVars": "この訪問者のためのカスタム変数を追跡します。",
         "JSTracking_VisitorCustomVarsDesc": "たとえば、変数名\"Type\"で、値が\"Customer\"の場合、",
+        "JSTracking_EndNote": "注：カスタマイズしたトラッキングコードは、%1$sトラッキングコード%2$s管理セクションで生成できます。",
         "JSTrackingIntro1": "様々な方法で訪問者を追跡できますが、JavaScriptでトラックすることが推奨されています。そのためには、各々のウェブページにここで生成されたJavaScriptコードを埋め込みます。",
         "JSTrackingIntro2": "ウェブサイトのためのJavaScriptのトラッキングコードをコピーして、追跡したいすべてのページにペーストします。",
         "JSTrackingIntro3b": "ほとんどのウェブサイト、ブログ、CMS などでは、あらかじめ作られたプラグインを使って技術的な仕事をすることができます。 プラグインが存在しない場合は、ウェブサイトのテンプレートを編集し、このコードを 'header.php' 、'header.tpl' などのテンプレートファイルで定義されている &lt;\/head&gt; タグに追加することができます( %1$s Piwik の統合に使用されるプラグインのリスト%2$s を参照 ) 。",

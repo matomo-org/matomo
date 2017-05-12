@@ -509,7 +509,7 @@
         "YouAreOffline": "Sorry, u bent momenteel offline"
     },
     "RowEvolution": {
-        "AvailableMetrics": "Beschikbare gegevens",
+        "AvailableMetrics": "Beschikbare statistieken",
         "CompareDocumentation": "Klik op de onderstaande link en open een popup voor een volgende rij uit dezelfde tabel om meerdere gegevens te vergelijken.<br\/>Gebruik shift-click om de rij voor vergelijking te markeren zonder deze popup te openen.",
         "CompareRows": "Records vergelijken",
         "ComparingRecords": "Bezig met %s rijen te vergelijken",

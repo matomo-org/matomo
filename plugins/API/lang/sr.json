@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Ukoliko želite da promenite ovaj token, molimo vas da to učinite na %1$sstranici sa ličnim podešavanjima%2$s.",
         "GenerateVisits": "Ukoliko nema podataka za danas, onda ih prvo generišite pomoću dodatka %1$s. Aktivirajte dodatak %2$s a onda kliknite na 'Generator posetilaca' na stranici za Piwik administraciju.",
         "KeepTokenSecret": "token_auth je poverljivi podatak poput vašeg korisničkog imena i lozinke, stoga ga %1$s nemojte nikome pokazivati%2$s!",
         "LoadedAPIs": "Uspešno učitano API-ja: %s",

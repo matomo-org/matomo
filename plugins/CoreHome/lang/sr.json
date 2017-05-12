@@ -5,8 +5,10 @@
         "CheckForUpdates": "Proveri da li se pojavila nova verzija",
         "CheckPiwikOut": "Proverite!",
         "ClickToEditX": "Kliknite kako biste izmenili %s",
+        "ClickToSeeFullInformation": "Kliknite ovde za više informacija",
         "CloseSearch": "Zatvori pretragu",
         "CloseWidgetDirections": "Možete zatvoriti ovaj vidžet tako što ćete kliknuti na sličicu 'X' na vrhu.",
+        "ChooseX": "Izaberite %1$s",
         "DataForThisReportHasBeenPurged": "Podaci za ovaj izveštaj su više od %s meseci stari te su obrisani.",
         "DataTableExcludeAggregateRows": "Zbirni redovi su prikazani %s Sakrij ih",
         "DataTableIncludeAggregateRows": "Zbirni redovi su sakriveni %s Prikaži ih",
@@ -14,6 +16,7 @@
         "Default": "podrazumevano",
         "DonateCall1": "Piwik vas nikada neće ništa koštati ali to ne znači da nas Piwik ništa ne košta dok ga pravimo.",
         "DonateCall2": "Piwiku je potrebna vaša stalna podrška kako bi rastao i napredovao.",
+        "DonateCall3": "Ukoliko imate osećaj da je Piwik u znatnoj meri dodao vrednost vašem biznisu, %1$smolimo vas da razmislite o donaciji%2$s ili %3$snaručivanju premium usluga%4$s. Svaki dinar je od pomoći.",
         "DonateFormInstructions": "Kliknite na klizač kako biste odabrali iznos pa onda kliknite na \"subscribe\"",
         "ExcludeRowsWithLowPopulation": "Svi redovi su prikazani %s Sakrij slabu populaciju",
         "ExternalHelp": "Pomoć (otvara se u novom tabu)",
@@ -62,7 +65,9 @@
         "QuickAccessTitle": "Pretraga za %s. Koristite tastere sa strelicama kako biste se kretali kroz rezultate pretrage. Prečica: pritisnite 'f' za pretragu.",
         "MenuEntries": "Stavke menija",
         "Segments": "Segmenti",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Nadogradnja jednim klikom nije moguća zato što koristite Piwik na više servera. Molimo vas da preuzmete poslednju verziju sa %1$s kako biste nastavili.",
         "AdblockIsMaybeUsed": "Ukoliko koristite bloker reklama, molimo vas da ga isključite na ovom sajtu kako biste bili sigurni da Piwik radi bez ikakvih problema.",
-        "ChangeCurrentWebsite": "Izaberite sajt, trenutno izabrani sajt je %s"
+        "ChangeCurrentWebsite": "Izaberite sajt, trenutno izabrani sajt je %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Vodeća otvorena analitička platforma koja poštuje vašu privatnost."
     }
 }

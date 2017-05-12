@@ -3,7 +3,6 @@
         "PluginDescription": "此外掛提取和顯示 SEO 數據：目前網站的 Alexa 排名、Google Pagerank、收錄的頁面數量和反向連結。",
         "AlexaRank": "Alexa 排名",
         "Bing_IndexedPages": "Bing 收錄頁面",
-        "Dmoz": "DMOZ 條目",
         "DomainAge": "網域年齡",
         "Google_IndexedPages": "Google 收錄頁面",
         "Rank": "評級",
