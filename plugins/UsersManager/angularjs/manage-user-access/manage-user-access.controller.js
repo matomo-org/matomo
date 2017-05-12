@@ -42,7 +42,7 @@
             }
         };
 
-        this.setAccess = function (login, access) 
+        this.setAccess = function (login, access) {
           login = String(login);
           login=piwik.helper.escape(piwik.helper.htmlEntities(login));
             if ( $('[data-login="' + login + '"]').find("#"+access).has('.accessGranted').length ){
