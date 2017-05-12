@@ -17,6 +17,7 @@ use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
+use Piwik\Session\SessionNamespace;
 
 /**
  *
@@ -69,6 +70,11 @@ class SitesManager extends \Piwik\Plugin
 
         $trackerModel = new TrackerModel();
         if ($trackerModel->isSiteEmpty($siteId)) {
+            $session = new SessionNamespace('siteWithoutData');
+            if (!empty($session->ignoreMessage)) {
+                return;
+            }
+
             $module = 'SitesManager';
             $action = 'siteWithoutData';
         }

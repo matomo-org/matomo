@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Session;
 use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -128,6 +129,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Common::sendHeader('Content-type: text/php');
         Common::sendHeader('Content-Disposition: attachment; filename="' . $filename . '"');
         return file_get_contents($path . $filename);
+    }
+
+    public function ignoreNoDataMessage()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $session = new Session\SessionNamespace('siteWithoutData');
+        $session->ignoreMessage = true;
+        $session->setExpirationSeconds($oneHour = 60 * 60);
+
+        $url = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreHome', 'action' => 'index'));
+        Url::redirectToUrl($url);
     }
 
     public function siteWithoutData()
