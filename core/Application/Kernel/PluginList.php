@@ -8,6 +8,8 @@
 
 namespace Piwik\Application\Kernel;
 
+use Piwik\Plugin\MetadataLoader;
+
 /**
  * Lists the currently activated plugins. Used when setting up Piwik's environment before
  * initializing the DI container.
@@ -111,8 +113,28 @@ class PluginList
         $otherPluginsToLoadAfterDefaultPlugins = array_diff($plugins, $defaultPluginsLoadedFirst);
 
         // sort by name to have a predictable order for those extra plugins
-        sort($otherPluginsToLoadAfterDefaultPlugins);
+        $self = $this;
+        $pluginJsonCache = array();
+        usort($otherPluginsToLoadAfterDefaultPlugins, function ($a, $b) use ($self, &$pluginJsonCache) {
+            if (!isset($pluginJsonCache[$a])) {
+                $pluginJsonCache[$a] = MetadataLoader::loadPluginInfoJson($a);
+            }
 
+            if (!empty($pluginJsonCache[$a]['require'][$b])) {
+                return 1;
+            }
+
+            if (!isset($pluginJsonCache[$b])) {
+                $pluginJsonCache[$b] = MetadataLoader::loadPluginInfoJson($b);
+            }
+
+            if (!empty($pluginJsonCache[$b]['require'][$a])) {
+                return -1;
+            }
+
+            return 0;
+        });
+        
         $sorted = array_merge($defaultPluginsLoadedFirst, $otherPluginsToLoadAfterDefaultPlugins);
 
         return $sorted;

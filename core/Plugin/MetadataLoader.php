@@ -50,7 +50,7 @@ class MetadataLoader
     public function load()
     {
         $defaults = $this->getDefaultPluginInformation();
-        $plugin   = $this->loadPluginInfoJson();
+        $plugin   = self::loadPluginInfoJson($this->pluginName);
 
         // use translated plugin description if available
         if ($defaults['description'] != Piwik::translate($defaults['description'])) {
@@ -71,7 +71,7 @@ class MetadataLoader
 
     public function hasPluginJson()
     {
-        $hasJson = $this->loadPluginInfoJson();
+        $hasJson = $this->loadPluginInfoJson($this->pluginName);
 
         return !empty($hasJson);
     }
@@ -90,13 +90,13 @@ class MetadataLoader
         );
     }
 
-    private function loadPluginInfoJson()
+    public static function loadPluginInfoJson($pluginName)
     {
-        $path = $this->getPathToPluginFolder() . '/' . self::PLUGIN_JSON_FILENAME;
-        return $this->loadJsonMetadata($path);
+        $path = \Piwik\Plugin\Manager::getPluginsDirectory() . $pluginName . '/' . self::PLUGIN_JSON_FILENAME;
+        return self::loadJsonMetadata($path);
     }
 
-    private function loadJsonMetadata($path)
+    private static function loadJsonMetadata($path)
     {
         if (!file_exists($path)) {
             return array();
