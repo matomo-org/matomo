@@ -1569,57 +1569,55 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var self = this;
 
         // higlight all columns on hover
-        $('td', domElem).hover(
-            function() {
-
-                if ($(this).hasClass('label')) {
-                    return;
-                }
-
-                var table    = $(this).closest('table');
-                var nthChild = $(this).parent('tr').children().index($(this)) + 1;
-                var rows     = $('> tbody > tr', table);
-
-                if (!maxWidth[nthChild]) {
-                    maxWidth[nthChild] = 0;
-                    rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                        var width = $(element).width();
-                        if (width > maxWidth[nthChild]) {
-                            maxWidth[nthChild] = width;
-                        }
-                    });
-                    rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                        $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
-                    });
-                }
-
-                if (currentNthChild === nthChild) {
-                    return;
-                }
-
-                currentNthChild = nthChild;
-
-                rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
-                self.repositionRowActions($(this).parent('tr'));
-            },
-            function(event) {
-
-                var table    = $(this).closest('table');
-                var tr       = $(this).parent('tr').children();
-                var nthChild = $(this).parent('tr').children().index($(this));
-                var targetTd = $(event.relatedTarget).closest('td');
-                var nthChildTarget = targetTd.parent('tr').children().index(targetTd);
-
-                if (nthChild == nthChildTarget) {
-                    return;
-                }
-
-                currentNthChild = null;
-
-                var rows     = $('tr', table);
-                rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
+        $('td', domElem).hover(function() {
+            var $this = $(this);
+            if ($this.hasClass('label')) {
+                return;
             }
-        );
+
+            var table    = $this.closest('table');
+            var nthChild = $this.parent('tr').children().index($(this)) + 1;
+            var rows     = $('> tbody > tr', table);
+
+            if (!maxWidth[nthChild]) {
+                maxWidth[nthChild] = 0;
+                rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
+                    var width = $(element).width();
+                    if (width > maxWidth[nthChild]) {
+                        maxWidth[nthChild] = width;
+                    }
+                });
+                rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
+                    $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
+                });
+            }
+
+            if (currentNthChild === nthChild) {
+                return;
+            }
+
+            currentNthChild = nthChild;
+
+            rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
+            self.repositionRowActions($this.parent('tr'));
+        }, function(event) {
+            var $this = $(this);
+            var table    = $this.closest('table');
+            var $parentTr = $this.parent('tr');
+            var tr       = $parentTr.children();
+            var nthChild = $parentTr.children().index($this);
+            var targetTd = $(event.relatedTarget).closest('td');
+            var nthChildTarget = targetTd.parent('tr').children().index(targetTd);
+
+            if (nthChild == nthChildTarget) {
+                return;
+            }
+
+            currentNthChild = null;
+
+            var rows = $('tr', table);
+            rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
+        });
     },
 
     //behaviour for 'nested DataTable' (DataTable loaded on a click on a row)
@@ -1918,23 +1916,44 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // show actions that are available for the row on hover
             var actionsDom = null;
 
-            tr.hover(function () {
-                    if (actionsDom === null) {
-                        // create dom nodes on the fly
-                        actionsDom = self.createRowActions(availableActionsForReport, tr, actionInstances);
-                        td.prepend(actionsDom);
-                    }
-                    // reposition and show the actions
-                    self.repositionRowActions(tr);
-                    if ($(window).width() >= 600) {
-                        actionsDom.show();
-                    }
-                },
-                function () {
+            var useTouchEvent = false;
+            var listenEvent = 'mouseenter';
+            var userAgent = String(navigator.userAgent).toLowerCase();
+            if (userAgent.match(/(iPod|iPhone|iPad|Android|IEMobile|Windows Phone)/i)) {
+                useTouchEvent = true;
+                listenEvent = 'click';
+            }
+
+            tr.on(listenEvent, function () {
+                if (useTouchEvent && actionsDom && actionsDom.prop('rowActionsVisible')) {
+                    actionsDom.prop('rowActionsVisible', false);
+                    actionsDom.hide();
+                    return;
+                }
+
+                if (actionsDom === null) {
+                    // create dom nodes on the fly
+                    actionsDom = self.createRowActions(availableActionsForReport, tr, actionInstances);
+                    td.prepend(actionsDom);
+                }
+
+                // reposition and show the actions
+                self.repositionRowActions(tr);
+                if ($(window).width() >= 600 || useTouchEvent) {
+                    actionsDom.show();
+                }
+
+                if (useTouchEvent) {
+                    actionsDom.prop('rowActionsVisible', true);
+                }
+            });
+            if (!useTouchEvent) {
+                tr.on('mouseleave', function () {
                     if (actionsDom !== null) {
                         actionsDom.hide();
                     }
                 });
+            }
         });
     },
 
