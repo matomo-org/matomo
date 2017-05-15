@@ -95,6 +95,17 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     }
 
     /**
+     * Return number of affected rows in last query
+     *
+     * @param mixed $queryResult Result from query()
+     * @return int
+     */
+    public function rowCount($queryResult)
+    {
+        return mysqli_affected_rows($this->_connection);
+    }
+
+    /**
      * Returns true if this adapter's required extensions are enabled
      *
      * @return bool

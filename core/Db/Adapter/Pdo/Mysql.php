@@ -194,6 +194,17 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
+     * Return number of affected rows in last query
+     *
+     * @param mixed $queryResult Result from query()
+     * @return int
+     */
+    public function rowCount($queryResult)
+    {
+        return $queryResult->rowCount();
+    }
+
+    /**
      * Retrieve client version in PHP style
      *
      * @return string
