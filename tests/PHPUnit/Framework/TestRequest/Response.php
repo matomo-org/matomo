@@ -213,6 +213,7 @@ class Response
 
         $oldInput = $input;
         $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/', '', $input);
+        $input = str_replace('<' . $xmlElement . ' />', '', $input);
 
         // check we didn't delete the whole string
         if ($testNotSmallAfter && $input != $oldInput) {
