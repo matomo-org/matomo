@@ -50,7 +50,6 @@
         "Status": "Статус",
         "SuccessfullyActicated": "Ви успішно активували <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Поліпшення Piwik за допомогою Плагінів і Тим",
-        "TeaserExtendPiwikByPlugin": "Piwik продовжує %1$sвстановлювати новий плагін%2$s .",
         "TeaserExtendPiwikByTheme": "Насолоджуйтесь інший видом та відчувайте себе по-новому зі %1$sвстановленням нової теми%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Ви автоматично можете встановити плагіни з Маркету або %1$sзавантажити плагін%2$s в форматі zip.",
         "Theme": "Тема",

@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 use Exception;
 use Piwik\Piwik;
 use Piwik\Version;
+use Piwik\Plugin;
 
 /**
  * @see core/Version.php
@@ -90,10 +91,20 @@ class MetadataLoader
         );
     }
 
-    private function loadPluginInfoJson()
+    /**
+     * It is important that this method works without using anything from DI
+     * @return array|mixed
+     */
+    public function loadPluginInfoJson()
+    {
+        $path = $this->getPathToPluginJson();
+        return $this->loadJsonMetadata($path);
+    }
+
+    public function getPathToPluginJson()
     {
         $path = $this->getPathToPluginFolder() . '/' . self::PLUGIN_JSON_FILENAME;
-        return $this->loadJsonMetadata($path);
+        return $path;
     }
 
     private function loadJsonMetadata($path)

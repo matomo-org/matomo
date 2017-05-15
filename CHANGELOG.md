@@ -8,6 +8,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 
 ### New APIs
 * A new event `Db.getActionReferenceColumnsByTable` has been added in case a plugin defines a custom log table which references data to the log_action table 
+* The event `System.addSystemSummaryItems` and `System.filterSystemSummaryItems` have been added so plugins can add items and filter items of the system summary widget
 * A new JavaScript tracker method `getPiwikUrl` has been added to retrieve the URL of where the Piwik instance is located
 * A new JavaScript tracker method `getCurrentUrl` has been added to retrieve the current URL of the website. 
 * A new JavaScript tracker method `getNumTrackedPageViews` has been added to retrieve the number of tracked page views within the currently loaded page or web application. 

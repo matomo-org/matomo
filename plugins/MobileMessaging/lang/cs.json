@@ -13,6 +13,7 @@
         "Settings_CredentialNotProvided": "Než budete moci vytvářet a spravovat telefonní čísla, musíte připojit Piwik ke svému SMS účtu výše.",
         "Settings_CredentialNotProvidedByAdmin": "Než budete moci vytvářet a spravovat telefonní čísla, požádejte svého administrátora, aby připojil Piwik k SMS účtu.",
         "Settings_CredentialProvided": "Váš %s SMS API účet je nastaven správně!",
+        "Settings_CredentialInvalid": "Váš %1$s účet pro SMS je nastaven, ale při získávání dostupných kreditů došlo k chybě.",
         "Settings_DeleteAccountConfirm": "Opravdu chcete odstranit tento SMS účet?",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Nastavený poskytovatel SMS bude použit pouze vámi a žádnými jinými uživateli.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Nastavená telefonní čísla mohou být zobrazena a použita pouze vámi a žádnými dalšími uživateli.",
@@ -38,8 +39,10 @@
         "Settings_VerificationCodeJustSent": "Právě jsme na zadané telefonní číslo odeslali SMS s kódem. Zadejte ho výše a stiskněte \"ověřit\".",
         "SettingsMenu": "Mobilní zprávy",
         "SMS_Content_Too_Long": "[příliš dlouhé]",
+        "Available_Credits": "Dostupné kredity: %1$s",
         "TopLinkTooltip": "Nechte si webové analýzy zasílat na email nebo na svůj mobilní telefon.",
         "TopMenu": "Email a SMS hlášení",
+        "UserKey": "Userkey",
         "VerificationText": "Kód je %1$s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Piwik > %2$s > %3$s."
     }
 }

@@ -50,7 +50,10 @@
 	path = plugins/LoginLdap
 	url = https://github.com/piwik/plugin-LoginLdap.git
     branch = master
-
+[submodule "plugins/MarketingCampaignsReporting"]
+	path = plugins/MarketingCampaignsReporting
+	url = https://github.com/piwik/plugin-MarketingCampaignsReporting.git
+    branch = master
 
 # Add new Plugin submodule above this line ^^
 # 

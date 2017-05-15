@@ -85,6 +85,21 @@ class DbTest extends IntegrationTestCase
         Db::destroyDatabaseObject();
     }
 
+    /**
+     * @dataProvider getDbAdapter
+     */
+    public function test_getRowCount($adapter, $expectedClass)
+    {
+        Db::destroyDatabaseObject();
+        Config::getInstance()->database['adapter'] = $adapter;
+        $db = Db::get();
+        // make sure test is useful and setting adapter works
+        $this->assertInstanceOf($expectedClass, $db);
+
+        $result = $db->query('select 21');
+        $this->assertEquals(1, $db->rowCount($result));
+    }
+
     public function getDbAdapter()
     {
         return array(

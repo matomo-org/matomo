@@ -1,0 +1,9 @@
+{
+    "Ecommerce": {
+        "Sales": "销售",
+        "SalesBy": "由%s销售",
+        "SalesAdjective": "销售%s",
+        "LifeTimeValue": "商业生命周期",
+        "VisitorProfileLTV": "生成一个生命周期值%1$s"
+    }
+}

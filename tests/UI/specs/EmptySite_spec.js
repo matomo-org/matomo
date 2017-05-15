@@ -19,4 +19,11 @@ describe("EmptySite", function () {
             page.load(urlToTest);
         }, done);
     });
+
+    it('should be possible to ignore this screen for one hour', function (done) {
+        expect.screenshot('emptySiteDashboard_ignored').to.be.captureSelector('.page', function (page) {
+            page.click('.ignoreSitesWithoutData');
+            page.wait(1000)
+        }, done);
+    });
 });

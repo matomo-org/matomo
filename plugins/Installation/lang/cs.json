@@ -84,6 +84,7 @@
         "SystemCheckGlobHelp": "Tato vestavěná funkce byla na vašem hostiteli zakázaná. Piwik se pokusí tuto funkci emulovat, ale můžete zaznamenat další bezpečnostní omezení. Toto bude mít vliv na funčnost",
         "SystemCheckGzcompressHelp": "Musíte povolit rozšíření zlib a funkci gzcompress.",
         "SystemCheckGzuncompressHelp": "Musíte povolit rozšíření zlib a funkci gzuncompress.",
+        "SystemCheckHashHelp": "Je nutné, aby jste znovu nakonfigurovali a sestavili PHP s povolenou podporou hash(), vynecháním volby --disable-hash.",
         "SystemCheckIconvHelp": "Musíte nakonfigurovat a překompilovat PHP s podporou pro \"icont\", --with-iconv",
         "SystemCheckJsonHelp": "Piwik pro čtení a zápis JSON dat potřebuje rozšíření php5-json.",
         "SystemCheckMailHelp": "Bez funkce mail(), nebudou odeslány zprávy s odezvou, nebo při zapomenutém heslu",

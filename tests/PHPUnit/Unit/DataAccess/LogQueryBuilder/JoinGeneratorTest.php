@@ -102,6 +102,57 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
+    public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArray()
+    {
+        $generator = $this->generate(array(
+            'log_visit',
+            array('table' => 'log_conversion', 'joinOn' => 'log_visit.idvisit2 = log_conversion.idvisit2'),
+            'log_conversion'
+        ));
+
+        $expected  = 'log_visit AS log_visit ';
+        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_visit.idvisit2 = log_conversion.idvisit2';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArrayAndFurtherTablesAfterwards()
+    {
+        $generator = $this->generate(array(
+            'log_visit',
+            array('table' => 'log_conversion', 'joinOn' => 'log_visit.idvisit2 = log_conversion.idvisit2'),
+            'log_conversion',
+            'log_link_visit_action'
+        ));
+
+        $expected  = 'log_visit AS log_visit ';
+        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_visit.idvisit2 = log_conversion.idvisit2 ';
+        $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Please reorganize the joined tables as the table log_conversion in {"0":"log_visit","1":"log_conversion","2":"log_link_visit_action","3":{"table":"log_conversion","joinOn":"log_link_visit_action.idvisit2 = log_conversion.idvisit2"}} cannot be joined correctly.
+     */
+    public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArrayInverted()
+    {
+        $generator = $this->generate(array(
+            'log_visit',
+            'log_conversion',
+            'log_link_visit_action',
+            array('table' => 'log_conversion', 'joinOn' => 'log_link_visit_action.idvisit2 = log_conversion.idvisit2'),
+        ));
+
+        $expected  = 'log_visit AS log_visit ';
+        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_visit.idvisit2 = log_conversion.idvisit2 ';
+        $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit ';
+        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_conversion.idvisit = log_visit.idvisit ';
+
+        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_visit.idvisit2 = log_conversion.idvisit2 ';
+        $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
     public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinButAlsoLeft()
     {
         $generator = $this->generate(array(
