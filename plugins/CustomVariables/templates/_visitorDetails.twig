@@ -1,5 +1,6 @@
 {% if visitInfo.getColumn('customVariables') %}
     <div class="visitorCustomVariables">
+        <br /><b>{{ 'CustomVariables_CustomVariables'|translate }}</b>
     {% for id,customVariable in visitInfo.getColumn('customVariables') %}
         {% set name='customVariableName' ~ id %}
         {% set value='customVariableValue' ~ id %}

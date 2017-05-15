@@ -90,6 +90,7 @@ class Response
     private function normalizeApiResponse($apiResponse)
     {
         $apiResponse = $this->removeSubtableIdsFromXml($apiResponse);
+        $apiResponse = $this->removePageViewIds($apiResponse);
 
         if ($this->shouldDeleteLiveIds()) {
             $apiResponse = $this->removeAllIdsFromXml($apiResponse);
@@ -129,6 +130,15 @@ class Response
     private function normalizeEncodingPhp533($apiResponse)
     {
         return str_replace('&amp;#039;', "'", $apiResponse);
+    }
+
+    private function removePageViewIds($apiResponse)
+    {
+        $toRemove = array(
+            'idpageview',
+        );
+
+        return $this->removeXmlFields($apiResponse, $toRemove);
     }
 
     private function removeAllIdsFromXml($apiResponse)
