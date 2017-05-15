@@ -92,8 +92,11 @@
                 return false;
             });
 
-            $element.on('click', '.visitor-profile-visit-title-row', function () {
-                // show visit infos
+            $element.on('click', '.visitor-profile-show-actions', function () {
+                console.log();
+                $('.visitor-profile-actions', $(this).parents('li')).slideToggle();
+                $('.show-text, .hide-text', $(this)).toggle();
+                return false;
             });
 
             $element.on('click', '.visitor-profile-prev-visitor', function (e) {

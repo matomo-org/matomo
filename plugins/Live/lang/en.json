@@ -24,6 +24,8 @@
         "RealTimeVisitorCount": "Real Time Visitor Count",
         "Referrer_URL": "Referrer URL",
         "ShowMap": "show map",
+        "ShowActions": "Show %1$s actions",
+        "HideActions": "Hide %1$s actions",
         "SimpleRealTimeWidget_Message": "%1$s and %2$s in the last %3$s",
         "ViewVisitorProfile": "View visitor profile",
         "VisitedPages": "Visited pages",

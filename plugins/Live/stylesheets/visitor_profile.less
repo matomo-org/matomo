@@ -375,6 +375,7 @@
     ol.visitor-profile-actions {
         counter-reset:item;
         list-style-type:none;
+        display: none;
 
         > li:before {
             content:counter(item) "  ";
@@ -560,6 +561,15 @@ a.visitor-profile-next-visitor,a.visitor-profile-prev-visitor {
 .visitor-profile-no-visits {
     color:#999;
     font-size:13px;
+}
+
+.visitor-profile-show-actions {
+    float: right;
+    display: inline-block;
+
+    .hide-text {
+        display: none;
+    }
 }
 
 // overrides for the widgetized visitor profile
