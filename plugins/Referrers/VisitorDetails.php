@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\UrlHelper;
+use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
@@ -23,6 +24,13 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['referrerUrl']              = $this->getReferrerUrl();
         $visitor['referrerSearchEngineUrl']  = $this->getSearchEngineUrl();
         $visitor['referrerSearchEngineIcon'] = $this->getSearchEngineIcon();
+    }
+
+    public function renderVisitorDetails($visitorDetails)
+    {
+        $view            = new View('@Referrers/_visitorDetails.twig');
+        $view->visitInfo = $visitorDetails;
+        return $view->render();
     }
 
     protected function getReferrerType()
