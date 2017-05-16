@@ -4,9 +4,9 @@
         {% set name='customVariableName' ~ id %}
         {% set value='customVariableValue' ~ id %}
         <br/>
-        <acronym class="visitorLogTooltip" title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
+        <abbr class="visitorLogTooltip" title="{{ 'CustomVariables_CustomVariables'|translate }} ({{ 'CustomVariables_Index'|translate }} {{ id }})">
             {{ customVariable[name]|truncate(30) }}
-        </acronym>
+        </abbr>
         {% if customVariable[value]|length > 0 %}: {{ customVariable[value]|truncate(50) }}{% endif %}
     {% endfor %}
     </div>
