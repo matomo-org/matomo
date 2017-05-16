@@ -15,16 +15,6 @@ GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('lo
     {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|raw }}{% endif %}
 
 </span>{% endif %}
-
-{% if visitInfo.getColumn('provider') %}
-    <br/>
-    {{ 'Provider_ColumnProvider'|translate }}:
-    {% if visitInfo.getColumn('providerUrl') %}
-        <a href="{{ visitInfo.getColumn('providerUrl') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('providerName') }} {{ visitInfo.getColumn('providerUrl') }}" style="text-decoration:underline;">
-    {% endif -%}
-        {{ visitInfo.getColumn('providerName') }}
-    {%- if visitInfo.getColumn('providerUrl') %}</a>{% endif %}
-{% endif %}
 {% if isWidget %}
     <br />
     {{ postEvent('Live.renderVisitorIcons', visitInfo) }}

@@ -10,13 +10,32 @@ namespace Piwik\Plugins\Provider;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\View;
+
+/**
+ * @see plugins/Provider/functions.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendVisitorDetails(&$visitor)
     {
+        $visitor['provider'] = $this->details['location_provider'];
         $visitor['providerName'] = $this->getProviderName();
         $visitor['providerUrl']  = $this->getProviderUrl();
+    }
+
+    public function renderVisitorDetails($visitorDetails)
+    {
+        if (empty($visitorDetails['provider'])) {
+            return '';
+        }
+
+        $view            = new View('@Provider/_visitorDetails.twig');
+        $view->visitInfo = $visitorDetails;
+        $out = $view->render();
+        return $out;
     }
 
     protected function getProvider()
