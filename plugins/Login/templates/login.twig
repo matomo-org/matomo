@@ -78,6 +78,7 @@
                         <div class="row">
                             <div class="col s12 input-field">
                                 <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="10" autofocus="autofocus"/>
                                 <label for="login_form_login"><i class="icon-user icon"></i> {{ 'General_Username'|translate }}</label>
                             </div>
@@ -87,6 +88,7 @@
                             <div class="col s12 input-field">
                                 <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
                                 <input type="password" placeholder="" name="form_password" id="login_form_password" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="20" />
                                 <label for="login_form_password"><i class="icon-locked icon"></i> {{ 'General_Password'|translate }}</label>
                             </div>
@@ -131,6 +133,7 @@
                             <div class="col s12 input-field">
                                 <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
                                 <input type="text" placeholder="" name="form_login" id="reset_form_login" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="10"/>
                                 <label for="reset_form_login">{{ 'Login_LoginOrEmail'|translate }}</label>
                             </div>
@@ -138,6 +141,7 @@
                         <div class="row">
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="form_password" id="reset_form_password" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="20" autocomplete="off"/>
                                 <label for="reset_form_password">{{ 'Login_NewPassword'|translate }}</label>
                             </div>
@@ -145,6 +149,7 @@
                         <div class="row">
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
+                                       autocorrect="off" autocapitalize="none"
                                        size="20" tabindex="30" autocomplete="off"/>
                                 <label for="reset_form_password_bis">{{ 'Login_NewPasswordRepeat'|translate }}</label>
                             </div>
