@@ -25,31 +25,6 @@ GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('lo
         {{ visitInfo.getColumn('providerName') }}
     {%- if visitInfo.getColumn('providerUrl') %}</a>{% endif %}
 {% endif %}
-{% if visitInfo.getColumn('visitorTypeIcon') or visitInfo.getColumn('countryFlag') %}
-    <br/>
-{% endif %}
-{% if visitInfo.getColumn('visitorTypeIcon') %}
-    <span class="visitorLogIconWithDetails">
-        <img src="{{ visitInfo.getColumn('visitorTypeIcon') }}"/>
-        <ul class="details">
-            <li>{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitInfo.getColumn('visitCount')) }}</li>
-        </ul>
-    </span>
-{% endif %}
-{% if visitInfo.getColumn('countryFlag') %}
-    <span class="visitorLogIconWithDetails flag">
-
-        <img src="{{ visitInfo.getColumn('countryFlag') }}"/>
-        {% if visitInfo.getColumn('city') %}{{ visitInfo.getColumn('city')|rawSafeDecoded }}{% endif -%}
-        {%- if visitInfo.getColumn('region') %}{% if visitInfo.getColumn('city') %}, {% endif %}{{ visitInfo.getColumn('region')|rawSafeDecoded }}{% endif %}
-
-        <ul class="details">
-            <li>{{ 'UserCountry_Country'|translate }}: {{ visitInfo.getColumn('country') }}</li>
-            {% if visitInfo.getColumn('region') %}<li>{{ 'UserCountry_Region'|translate }}: {{ visitInfo.getColumn('region') }}</li>{% endif %}
-            {% if visitInfo.getColumn('city') %}<li>{{ 'UserCountry_City'|translate }}: {{ visitInfo.getColumn('city') }}</li>{% endif %}
-        </ul>
-    </span>
-{% endif %}
 {% if isWidget %}
     <br />
     {{ postEvent('Live.renderVisitorIcons', visitInfo) }}

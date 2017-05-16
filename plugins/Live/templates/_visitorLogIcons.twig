@@ -4,6 +4,26 @@
 <span class="visitorLogIcons">
 
     <span class="visitorDetails">
+    {% if visitor.getColumn('visitorTypeIcon') %}
+        <span class="visitorLogIconWithDetails visitorTypeIcon">
+            <img src="{{ visitor.getColumn('visitorTypeIcon') }}"/>
+            <ul class="details">
+                <li>{{ 'General_ReturningVisitor'|translate }} - {{ 'General_NVisits'|translate(visitor.getColumn('visitCount')) }}</li>
+            </ul>
+        </span>
+    {% endif %}
+    {% if visitor.getColumn('countryFlag') %}
+        <span class="visitorLogIconWithDetails flag">
+
+            <img src="{{ visitor.getColumn('countryFlag') }}"/>
+            <ul class="details">
+                <li>{{ 'UserCountry_Country'|translate }}: {{ visitor.getColumn('country') }}</li>
+                {% if visitor.getColumn('region') %}<li>{{ 'UserCountry_Region'|translate }}: {{ visitor.getColumn('region') }}</li>{% endif %}
+                {% if visitor.getColumn('city') %}<li>{{ 'UserCountry_City'|translate }}: {{ visitor.getColumn('city') }}</li>{% endif %}
+                {% if visitor.getColumn('language') %}<li>{{ 'UserLanguage_BrowserLanguage'|translate }}: {{ visitor.getColumn('language') }}</li>{% endif %}
+            </ul>
+        </span>
+    {% endif %}
     {% if visitor.getColumn('browserIcon') %}
         <span class="visitorLogIconWithDetails">
             <img src="{{ visitor.getColumn('browserIcon') }}"/>
