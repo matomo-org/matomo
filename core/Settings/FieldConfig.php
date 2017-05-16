@@ -27,6 +27,16 @@ class FieldConfig
     const UI_CONTROL_TEXT = 'text';
 
     /**
+     * Shows an email text field. To use this field assign it to the `$uiControl` property.
+     */
+    const UI_CONTROL_EMAIL = 'email';
+
+    /**
+     * Shows a URL text field. To use this field assign it to the `$uiControl` property.
+     */
+    const UI_CONTROL_URL = 'url';
+
+    /**
      * Shows a text area. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_TEXTAREA = 'textarea';
