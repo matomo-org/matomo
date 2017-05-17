@@ -964,7 +964,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
-    parentNode, tagName, hostname, className,
+    parentNode, tagName, hostname, className,classList,
     userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
@@ -2193,7 +2193,17 @@ if (typeof window.Piwik !== 'object') {
             },
             hasNodeCssClass: function (node, klassName)
             {
-                if (node && klassName && node.className) {
+                if(!node || !klassName) {
+                    return false;
+                }
+
+                // For modern browsers cf http://caniuse.com/#search=classList
+                if(node.classList) {
+                    return node.classList.contains(klassName);
+                }
+
+                // Compat mode
+                if (node.className) {
                     var classes = typeof node.className === "string" ? node.className.split(' ') : [];
                     if (-1 !== indexOfArray(classes, klassName)) {
                         return true;
