@@ -552,8 +552,8 @@ enable_delete_old_data_settings_admin = 1
 ; - "Email server settings"
 enable_general_settings_admin = 1
 
-; By setting this option to 0, all outgoing connections will be disabled
-; It also disables enable_auto_update, enable_update_communication if enabled!
+; Disabling this will disable features like automatic updates for Piwik,
+; its plugins and components like the GeoIP database, referrer spam blacklist or search engines and social network definitions
 enable_internet_features = 1
 
 ; By setting this option to 0, it will disable the "Auto update" feature
