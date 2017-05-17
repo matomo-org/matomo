@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugins\CustomPiwikJs\TrackingCode;
 
-use Piwik\Filesystem;
 use Piwik\Plugin;
 use Piwik\Plugins\CustomPiwikJs\File;
 

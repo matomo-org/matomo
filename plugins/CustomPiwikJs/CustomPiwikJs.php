@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomPiwikJs;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Log;
 use Piwik\Plugin;
 
@@ -30,7 +31,7 @@ class CustomPiwikJs extends Plugin
     public function updateTracker()
     {
         try {
-            $trackerUpdater = new TrackerUpdater();
+            $trackerUpdater = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater');
             $trackerUpdater->update();
         } catch (\Exception $e) {
             Log::error('There was an error while updating the javascript tracker: ' . $e->getMessage());
