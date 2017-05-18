@@ -37,13 +37,7 @@ class Resolution extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $resolution = $request->getParam('res');
-
-        if (!empty($resolution)) {
-            return substr($resolution, 0, 9);
-        }
-
-        return $resolution;
+        return $request->getResolution();
     }
 
     public function getName()
