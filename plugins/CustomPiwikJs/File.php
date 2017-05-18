@@ -52,6 +52,11 @@ class File
         return file_get_contents($this->file);
     }
 
+    public function getPath()
+    {
+        return $this->file;
+    }
+
     public function getName()
     {
         return basename($this->file);

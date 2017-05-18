@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomPiwikJs\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles;
@@ -44,7 +45,7 @@ class UpdateTracker extends ConsoleCommand
 
     public function updateTracker($sourceFile, $targetFile, $ignoreMinified)
     {
-        $pluginTrackerFiles = new PluginTrackerFiles();
+        $pluginTrackerFiles = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles');
 
         if ($ignoreMinified) {
             if (empty($sourceFile) || $sourceFile === $this->getPathOriginalPiwikJs()) {

@@ -98,6 +98,11 @@ class FileTest extends IntegrationTestCase
         $this->assertSame('notExisTinGFile.js', $this->makeNotReadableFile()->getName());
     }
 
+    public function test_getPath()
+    {
+        $this->assertSame($this->dir . 'notExisTinGFile.js', $this->makeNotReadableFile()->getPath());
+    }
+
     public function test_hasReadAccess()
     {
         $this->assertTrue($this->makeFile()->hasReadAccess());
