@@ -47,19 +47,35 @@ class TrackerUpdater
             $toFile = PIWIK_DOCUMENT_ROOT . self::TARGET_PIWIK_JS;
         }
 
-        $this->setFromFile(new File($fromFile));
-        $this->setToFile(new File($toFile));
+        $this->setFromFile($fromFile);
+        $this->setToFile($toFile);
         $this->trackerFiles = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles');
     }
 
     public function setFromFile($fromFile)
     {
+        if (is_string($fromFile)) {
+            $fromFile = new File($fromFile);
+        }
         $this->fromFile = $fromFile;
+    }
+
+    public function getFromFile()
+    {
+        return $this->fromFile;
     }
 
     public function setToFile($toFile)
     {
+        if (is_string($toFile)) {
+            $toFile = new File($toFile);
+        }
         $this->toFile = $toFile;
+    }
+
+    public function getToFile()
+    {
+        return $this->toFile;
     }
 
     public function setTrackerFiles(PluginTrackerFiles $trackerFiles)

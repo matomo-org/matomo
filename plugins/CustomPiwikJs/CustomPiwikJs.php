@@ -31,8 +31,10 @@ class CustomPiwikJs extends Plugin
     public function updateTracker()
     {
         try {
-            $trackerUpdater = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater');
-            $trackerUpdater->update();
+            if (Plugin\Manager::getInstance()->isPluginActivated('CustomPiwikJs')) {
+                $trackerUpdater = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater');
+                $trackerUpdater->update();
+            }
         } catch (\Exception $e) {
             Log::error('There was an error while updating the javascript tracker: ' . $e->getMessage());
         }
