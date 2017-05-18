@@ -148,7 +148,7 @@
 
         function getTemplate(field) {
             var control = field.uiControl;
-            if (control === 'password') {
+            if (control === 'password' || control === 'url' || control === 'search' || control === 'email') {
                 control = 'text'; // we use same template for text and password both
             }
 
