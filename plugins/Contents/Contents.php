@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Contents;
 
+use Piwik\Common;
 use Piwik\Piwik;
 
 class Contents extends \Piwik\Plugin
@@ -21,6 +22,7 @@ class Contents extends \Piwik\Plugin
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         );
     }
 
@@ -40,5 +42,25 @@ class Contents extends \Piwik\Plugin
     {
         $translations['nb_impressions'] = Piwik::translate('Contents_ImpressionsMetricDocumentation');
         $translations['nb_interactions'] = Piwik::translate('Contents_InteractionsMetricDocumentation');
+    }
+
+    public function provideActionDimensionFields(&$fields, &$joins, $idSite)
+    {
+        $fields[] = 'idaction_content_interaction';
+        $fields[] = 'idaction_content_name';
+        $fields[] = 'idaction_content_piece';
+        $fields[] = 'idaction_content_target';
+        $fields[] = 'log_action_content_name.name as contentName';
+        $fields[] = 'log_action_content_piece.name as contentPiece';
+        $fields[] = 'log_action_content_target.name as contentTarget';
+        $fields[] = 'log_action_content_interaction.name as contentInteraction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_name
+					ON  log_link_visit_action.idaction_content_name = log_action_content_name.idaction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_piece
+					ON  log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_target
+					ON  log_link_visit_action.idaction_content_target = log_action_content_target.idaction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_content_interaction
+					ON  log_link_visit_action.idaction_content_interaction = log_action_content_interaction.idaction';
     }
 }

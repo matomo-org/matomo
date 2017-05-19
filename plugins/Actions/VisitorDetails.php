@@ -179,8 +179,9 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
         $customFields = array();
+        $customJoins  = array();
 
-        Piwik::postEvent('Actions.getCustomActionDimensionFields', array(&$customFields, $idSite));
+        Piwik::postEvent('Actions.getCustomActionDimensionFieldsAndJoins', array(&$customFields, &$customJoins, $idSite));
 
         $customFields = array_filter($customFields);
         array_unshift($customFields, ''); // add empty element at first
@@ -214,6 +215,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_action
 					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction
+					" . implode(" ",$customJoins) . "
 				WHERE log_link_visit_action.idvisit = ?
 				ORDER BY server_time ASC
 				LIMIT 0, $actionsLimit
