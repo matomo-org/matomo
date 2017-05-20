@@ -14,16 +14,6 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
-    public function filterActions(&$actions)
-    {
-        /*foreach ($actions as $idx => $action) {
-            if ($action['type'] == Action::TYPE_CONTENT) {
-                unset($actions[$idx]);
-                continue;
-            }
-        }*/
-    }
-
     public function renderAction($action, $previousAction, $visitorDetails)
     {
         if ($action['type'] != Action::TYPE_CONTENT) {
@@ -34,6 +24,17 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
+        return $view->render();
+    }
+
+    public function renderActionTooltip($action, $visitInfo)
+    {
+        if ($action['type'] != Action::TYPE_CONTENT) {
+            return;
+        }
+
+        $view         = new View('@Contents/_actionTooltip');
+        $view->action = $action;
         return $view->render();
     }
 }

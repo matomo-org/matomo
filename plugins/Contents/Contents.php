@@ -46,10 +46,6 @@ class Contents extends \Piwik\Plugin
 
     public function provideActionDimensionFields(&$fields, &$joins, $idSite)
     {
-        $fields[] = 'idaction_content_interaction';
-        $fields[] = 'idaction_content_name';
-        $fields[] = 'idaction_content_piece';
-        $fields[] = 'idaction_content_target';
         $fields[] = 'log_action_content_name.name as contentName';
         $fields[] = 'log_action_content_piece.name as contentPiece';
         $fields[] = 'log_action_content_target.name as contentTarget';

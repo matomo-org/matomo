@@ -1,9 +1,15 @@
 <li class="content"
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
-        {{ 'Contents_ContentName'|translate }}: {{ action.contentName }} -
-        {{ 'Contents_ContentPiece'|translate }}: {{ action.contentPiece }} -
-        {{ 'Contents_ContentTarget'|translate }}: {{ action.contentTarget }}
-        {{ 'Contents_ContentInteraction'|translate }}: {{ action.contentInteraction }}
+        {% if action.contentInteraction %}
+        <span class="icon-document" title="{{ 'Contents_ContentInteraction'|translate }}"></span>
+        {% else %}
+        <span class="icon-show" title="{{ 'Contents_ContentImpression'|translate }}"></span>
+        {% endif %}
+        {% if action.contentInteraction %}
+            [{{ action.contentInteraction }}]
+        {% endif %}
+        {{ action.contentName }} -
+        {{ action.contentPiece }}
     </div>
 </li>
