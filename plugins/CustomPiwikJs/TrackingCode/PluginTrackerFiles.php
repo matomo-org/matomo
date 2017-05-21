@@ -7,7 +7,7 @@
  */
 namespace Piwik\Plugins\CustomPiwikJs\TrackingCode;
 
-use Piwik\Filesystem;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CustomPiwikJs\File;
 
@@ -71,7 +71,30 @@ class PluginTrackerFiles
             }
         }
 
+        foreach ($jsFiles as $plugin => $file) {
+            if (!$this->shouldIncludeFile($plugin)) {
+                unset($jsFiles[$plugin]);
+            }
+        }
+
         return $jsFiles;
+    }
+
+    protected function shouldIncludeFile($pluginName)
+    {
+        $shouldAddFile = true;
+
+        /**
+         * Detect if a custom tracker file should be added to the piwik.js tracker or not.
+         *
+         * This is useful for example if a plugin only wants to add its tracker file when the plugin is configured.
+         *
+         * @param bool &$shouldAddFile Decides whether the tracker file belonging to the given plugin should be added or not.
+         * @param string $pluginName The name of the plugin this file belongs to
+         */
+        Piwik::postEvent('CustomPiwikJs.shouldAddTrackerFile', array(&$shouldAddFile, $pluginName));
+
+        return $shouldAddFile;
     }
 
     protected function isPluginActivated($pluginName)

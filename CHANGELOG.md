@@ -7,6 +7,8 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ## Piwik 3.0.5
 
 ### New APIs
+* The events `ScheduledTasks.shouldExecuteTask`, `ScheduledTasks.execute`, `ScheduledTasks.execute.end` have been added to customize the behaviour of scheduled tasks.
+* A new event `CustomPiwikJs.shouldAddTrackerFile` has been added to let plugins customize which tracker files should be included in piwik.js JavaScript tracker
 * A new API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been added to update the piwik.js JavaScript tracker
 
 ## Piwik 3.0.4
@@ -18,6 +20,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 * A new JavaScript tracker method `getCurrentUrl` has been added to retrieve the current URL of the website. 
 * A new JavaScript tracker method `getNumTrackedPageViews` has been added to retrieve the number of tracked page views within the currently loaded page or web application. 
 * New JavaScript tracker methods `setSessionCookie`, `getCookie`, `hasCookies`, `getCookieDomain`, `getCookiePath`, and `getSessionCookieTimeout` have been added for better cookie support in plugins. 
+* `email` and `url` form fields can now be used in settings.
 
 ## Piwik 3.0.3
 
