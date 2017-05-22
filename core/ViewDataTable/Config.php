@@ -121,7 +121,6 @@ class Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'export_limit',
         'columns_to_display'
     );
 
@@ -456,13 +455,6 @@ class Config
     public $hide_annotations_view = true;
 
     /**
-     * The filter_limit query parameter value to use in export links.
-     *
-     * Defaulted to the value of the `[General] API_datatable_default_limit` INI config option.
-     */
-    public $export_limit = '';
-
-    /**
      * Message to show if not data is available for the report
      * Defaults to `CoreHome_ThereIsNoDataForThisReport` if not set
      *
@@ -492,7 +484,6 @@ class Config
      */
     public function __construct()
     {
-        $this->export_limit = \Piwik\Config::getInstance()->General['API_datatable_default_limit'];
         $this->translations = array_merge(
             Metrics::getDefaultMetrics(),
             Metrics::getDefaultProcessedMetrics()
