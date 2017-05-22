@@ -179,6 +179,7 @@ class Model
         $sql   = "INSERT INTO $table (name, hash, type, url_prefix) VALUES (?,CRC32(?),?,?)";
 
         $db = $this->getDb();
+        $name = ($type == Action::TYPE_PAGE_URL) ? strtolower($name) : $name;
         $db->query($sql, array($name, $name, $type, $urlPrefix));
 
         $actionId = $db->lastInsertId();
@@ -200,6 +201,7 @@ class Model
     public function getIdActionMatchingNameAndType($name, $type)
     {
         $sql  = $this->getSqlSelectActionId();
+        $name = ($type == Action::TYPE_PAGE_URL) ? strtolower($name) : $name;
         $bind = array($name, $name, $type);
 
         $idAction = $this->getDb()->fetchOne($sql, $bind);
