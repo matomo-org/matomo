@@ -23,27 +23,29 @@ class ActivatePlugin extends ConsoleCommand
     {
         $this->setName('plugin:activate');
         $this->setDescription('Activate a plugin.');
-        $this->addArgument('plugin', InputArgument::REQUIRED, 'The plugin name.');
+        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to activate. Multiple plugin names can be specified separated by a space.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginManager = Manager::getInstance();
 
-        $plugin = $input->getArgument('plugin');
+        $plugins = $input->getArgument('plugin');
 
-        if ($pluginManager->isPluginActivated($plugin)) {
-            $output->writeln('<comment>The plugin is already activated.</comment>');
-            return;
+        foreach ($plugins as $plugin) {
+            if ($pluginManager->isPluginActivated($plugin)) {
+                $output->writeln(sprintf('<comment>The plugin %s is already activated.</comment>', $plugin));
+                continue;
+            }
+
+            if ($dependencies = $pluginManager->loadPlugin($plugin)->getMissingDependenciesAsString()) {
+                $output->writeln("<error>$dependencies</error>");
+                continue;
+            }
+
+            $pluginManager->activatePlugin($plugin);
+
+            $output->writeln("Activated plugin <info>$plugin</info>");
         }
-
-        if ($dependencies = $pluginManager->loadPlugin($plugin)->getMissingDependenciesAsString()) {
-            $output->writeln("<error>$dependencies</error>");
-            return;
-        }
-
-        $pluginManager->activatePlugin($plugin);
-
-        $output->writeln("Activated plugin <info>$plugin</info>");
     }
 }
