@@ -133,6 +133,7 @@ class Http
      * @param string $httpUsername HTTP Auth username
      * @param string $httpPassword HTTP Auth password
      * @param array|string $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
+     * @param array $additionalHeaders List of additional headers to set for the request
      *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
@@ -152,7 +153,8 @@ class Http
         $httpMethod = 'GET',
         $httpUsername = null,
         $httpPassword = null,
-        $requestBody = null
+        $requestBody = null,
+        $additionalHeaders = array()
     ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
@@ -264,6 +266,7 @@ class Http
                 . $xff . "\r\n"
                 . $via . "\r\n"
                 . $rangeHeader
+                . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                 . "Connection: close\r\n";
             fwrite($fsock, $requestHeader);
 
@@ -358,7 +361,9 @@ class Http
                         $getExtendedInfo,
                         $httpMethod,
                         $httpUsername,
-                        $httpPassword
+                        $httpPassword,
+                        $requestBody,
+                        $additionalHeaders
                     );
                 }
 
@@ -427,6 +432,7 @@ class Http
                             . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
                             . $xff . "\r\n"
                             . $via . "\r\n"
+                            . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
                         'max_redirects' => 5, // PHP 5.1.0
                         'timeout'       => $timeout, // PHP 5.2.1
@@ -504,12 +510,12 @@ class Http
                 // curl options (sorted oldest to newest)
                 CURLOPT_URL            => $aUrl,
                 CURLOPT_USERAGENT      => $userAgent,
-                CURLOPT_HTTPHEADER     => array(
+                CURLOPT_HTTPHEADER     => array_merge(array(
                     $xff,
                     $via,
                     $rangeHeader,
                     $acceptLanguage
-                ),
+                ), $additionalHeaders),
                 // only get header info if not saving directly to file
                 CURLOPT_HEADER         => is_resource($file) ? false : true,
                 CURLOPT_CONNECTTIMEOUT => $timeout,
