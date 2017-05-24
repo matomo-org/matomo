@@ -13,7 +13,10 @@ use Piwik\Plugins\CustomPiwikJs\TrackingCode\PiwikJsManipulator;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles;
 
 /**
- * Updates the Javascript file containing the Tracker.
+ * Updates the Piwik JavaScript Tracker "piwik.js" in case plugins extend the tracker.
+ *
+ * Usage:
+ * StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater')->update();
  */
 class TrackerUpdater
 {
@@ -83,6 +86,12 @@ class TrackerUpdater
         $this->trackerFiles = $trackerFiles;
     }
 
+    /**
+     * Checks whether the Piwik JavaScript tracker file "piwik.js" is writable.
+     * @throws \Exception In case the piwik.js file is not writable.
+     *
+     * @api
+     */
     public function checkWillSucceed()
     {
         $this->fromFile->checkReadable();
@@ -102,6 +111,15 @@ class TrackerUpdater
         return $newContent;
     }
 
+    /**
+     * Updates / re-generates the Piwik JavaScript tracker "piwik.js".
+     *
+     * It may not be possible to update the "piwik.js" tracker file if the file is not writable. It won't throw
+     * an exception in such a case and instead just to nothing. To check if the update would succeed, call
+     * {@link checkWillSucceed()}.
+     *
+     * @api
+     */
     public function update()
     {
         if (!$this->toFile->hasWriteAccess() || !$this->fromFile->hasReadAccess()) {

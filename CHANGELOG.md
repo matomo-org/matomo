@@ -9,6 +9,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ### New APIs
 * The events `ScheduledTasks.shouldExecuteTask`, `ScheduledTasks.execute`, `ScheduledTasks.execute.end` have been added to customize the behaviour of scheduled tasks.
 * A new event `CustomPiwikJs.shouldAddTrackerFile` has been added to let plugins customize which tracker files should be included in piwik.js JavaScript tracker
+* A new API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been added to update the piwik.js JavaScript tracker
 
 ### New commands
 * The commands `plugin:activate` and `plugin:deactivate` can now activate and deactivate multiple plugins at once
