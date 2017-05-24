@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Notification\Manager as NotificationManager;
@@ -263,9 +262,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         // perform check (but only once every 10s)
         UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
-
-        $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
-        $marketplace->clearAllCacheEntries();
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
