@@ -577,6 +577,8 @@
         "PeriodWeeks": "weeks",
         "PeriodYear": "year",
         "PeriodYears": "years",
+        "PeriodFiscalYear": "fiscal year",
+        "PeriodFiscalYears": "fiscal years",
         "Seconds": "seconds",
         "Time_AM": "AM",
         "Time_PM": "PM",

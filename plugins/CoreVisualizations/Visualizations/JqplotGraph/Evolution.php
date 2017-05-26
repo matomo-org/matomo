@@ -147,6 +147,8 @@ class Evolution extends JqplotGraph
                 return 24;
             case 'year':
                 return 5;
+            case 'fisyear':
+                return 5;
             case 'day':
             default:
                 return 30;
@@ -186,6 +188,9 @@ class Evolution extends JqplotGraph
                 $steps = 5;
                 break;
             case 'year':
+                $steps = 5;
+                break;
+            case 'fisyear':
                 $steps = 5;
                 break;
             default:

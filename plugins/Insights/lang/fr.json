@@ -30,6 +30,7 @@
         "TitleRowNewDetails": "'%1$s' augmenté de %2$s et est nouveau comparé à %3$s.",
         "WeekComparedToPreviousWeek": "semaine précédente",
         "WidgetCategory": "Idées",
-        "YearComparedToPreviousYear": "année précédente"
+        "YearComparedToPreviousYear": "année précédente",
+        "FiscalYearComparedToPreviousYear": "année financière précédente"
     }
 }
