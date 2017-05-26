@@ -652,11 +652,12 @@ class ScheduledReports extends \Piwik\Plugin
     public static function getPeriodToFrequencyAsAdjective()
     {
         return array(
-            Schedule::PERIOD_DAY   => Piwik::translate('General_DailyReport'),
-            Schedule::PERIOD_WEEK  => Piwik::translate('General_WeeklyReport'),
-            Schedule::PERIOD_MONTH => Piwik::translate('General_MonthlyReport'),
-            Schedule::PERIOD_YEAR  => Piwik::translate('General_YearlyReport'),
-            Schedule::PERIOD_RANGE => Piwik::translate('General_RangeReports'),
+            Schedule::PERIOD_DAY     => Piwik::translate('General_DailyReport'),
+            Schedule::PERIOD_WEEK    => Piwik::translate('General_WeeklyReport'),
+            Schedule::PERIOD_MONTH   => Piwik::translate('General_MonthlyReport'),
+            Schedule::PERIOD_YEAR    => Piwik::translate('General_YearlyReport'),
+            Schedule::PERIOD_FISYEAR => Piwik::translate('General_FiscalYearlyReport'),
+            Schedule::PERIOD_RANGE   => Piwik::translate('General_RangeReports'),
         );
     }
 

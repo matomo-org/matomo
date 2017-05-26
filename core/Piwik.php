@@ -15,6 +15,7 @@ use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Period\FisYear;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Translation\Translator;
 
@@ -41,6 +42,7 @@ class Piwik
         'month' => Month::PERIOD_ID,
         'year'  => Year::PERIOD_ID,
         'range' => Range::PERIOD_ID,
+        'fisyear' => FisYear::PERIOD_ID,
     );
 
     /**

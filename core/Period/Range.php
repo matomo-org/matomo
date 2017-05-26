@@ -167,6 +167,10 @@ class Range extends Period
             case 'year':
                 $lastN = min($lastN, 10);
                 break;
+
+            case 'fisyear':
+                $lastN = min($lastN, 10);
+                break;
         }
         return $lastN;
     }

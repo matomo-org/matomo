@@ -190,6 +190,13 @@
                          title="{{ 'General_YearlyReports'|translate|e('html_attr') }} ({{ 'General_Recommended'|translate|e('html_attr') }})"
                          value="{{ deleteData.config.delete_reports_keep_year_reports }}">
                     </div>
+                    {# todomc : Delete old Reports pour le fiscal year avec un keep recommended #}
+                    <div piwik-field uicontrol="checkbox" name="deleteReportsKeepFisYear"
+                         ng-model="deleteReports.keepDataForFisYear"
+                         ng-change="deleteReports.reloadDbStats()"
+                         title="{{ 'General_FiscalYearlyReports'|translate|e('html_attr') }} ({{ 'General_Recommended'|translate|e('html_attr') }})"
+                         value="{{ deleteData.config.delete_reports_keep_fiscal_year_reports }}">
+                    </div>
                     <div piwik-field uicontrol="checkbox" name="deleteReportsKeepRange"
                          ng-model="deleteReports.keepDataForRange"
                          ng-change="deleteReports.reloadDbStats()"

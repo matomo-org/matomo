@@ -479,6 +479,8 @@ class DataPurgingTest extends IntegrationTestCase
     /**
      * Test that purgeData works correctly when the 'keep yearly reports' setting is set to true.
      */
+
+    //todomc : S'informer sur le keep yearly reports pour voir si je dois faire la même chose pour le fisyear
     public function testPurgeDataDeleteReportsKeepYearlyReports()
     {
         PrivacyManager::savePurgeDataSettings(array(

@@ -220,6 +220,10 @@ abstract class Controller
                 'singular' => Piwik::translate('General_DateRangeInPeriodList'),
                 'plural' => Piwik::translate('General_DateRangeInPeriodList')
             ),
+            'fisyear'  => array(
+                'singular' => Piwik::translate('Intl_PeriodFiscalYear'),
+                'plural' => Piwik::translate('Intl_PeriodFiscalYears'),
+            ),
         );
 
         $periodNames = array_intersect_key($periodNames, array_fill_keys($availablePeriods, true));

@@ -686,7 +686,14 @@ class CronArchive
     {
         $success = true;
 
-        foreach (array('week', 'month', 'year') as $period) {
+        $periodList = array('week', 'month', 'year');
+
+        //Add fiscal year to pre-processed archive if present in config
+        if (in_array('fisyear', PeriodFactory::getPeriodsEnabledForAPI())) {
+            array_push($periodList, 'fisyear');
+        }
+
+        foreach ($periodList as $period) {
             if (!$this->shouldProcessPeriod($period)) {
                 // if any period was skipped, we do not mark the Periods archiving as successful
                 $success = false;
@@ -1434,7 +1441,7 @@ class CronArchive
      */
     private function getDefaultPeriodsToProcess()
     {
-        return array('day', 'week', 'month', 'year', 'range');
+        return array('day', 'week', 'month', 'year', 'range', 'fisyear');
     }
 
     /**
@@ -1497,6 +1504,8 @@ class CronArchive
             $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
         } elseif ($period == 'week') {
             $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
+        } elseif ($period == 'fisyear') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
         }
         if (empty($lastTimestampWebsiteProcessed)) {
             $creationDateFor = \Piwik\Site::getCreationDateFor($idSite);

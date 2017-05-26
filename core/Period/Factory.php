@@ -54,6 +54,10 @@ class Factory
             case 'year':
                 return new Year($date);
                 break;
+
+            case 'fisyear':
+                return new FisYear($date);
+                break;
         }
     }
 
