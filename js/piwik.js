@@ -5323,7 +5323,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
 
-            function enableTrackOnlyVisibleContent (checkOnSroll, timeIntervalInMs, tracker) {
+            function enableTrackOnlyVisibleContent (checkOnScroll, timeIntervalInMs, tracker) {
 
                 if (isTrackOnlyVisibleContentEnabled) {
                     // already enabled, do not register intervals again
@@ -5366,7 +5366,7 @@ if (typeof window.Piwik !== 'object') {
                         }, intervalInMs);
                     }
 
-                    if (checkOnSroll) {
+                    if (checkOnScroll) {
 
                         // scroll event is executed after each pixel, so we make sure not to
                         // execute event too often. otherwise FPS goes down a lot!
@@ -6701,20 +6701,20 @@ if (typeof window.Piwik !== 'object') {
              *                                     In case your frames per second goes down you might want to increase
              *                                     this value or disable it by passing the value `0`.
              */
-            this.trackVisibleContentImpressions = function (checkOnSroll, timeIntervalInMs) {
+            this.trackVisibleContentImpressions = function (checkOnScroll, timeIntervalInMs) {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
 
-                if (!isDefined(checkOnSroll)) {
-                    checkOnSroll = true;
+                if (!isDefined(checkOnScroll)) {
+                    checkOnScroll = true;
                 }
 
                 if (!isDefined(timeIntervalInMs)) {
                     timeIntervalInMs = 750;
                 }
 
-                enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs, this);
+                enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
 
                 trackCallback(function () {
                     trackCallbackOnLoad(function () {
