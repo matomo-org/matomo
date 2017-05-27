@@ -73,7 +73,6 @@ class VisitorDetails extends VisitorDetailsAbstract
             case 'search':
             case 'outlink':
             case 'download':
-            case 'event':
                 $template = '@Live/_actionCommon.twig';
                 break;
         }

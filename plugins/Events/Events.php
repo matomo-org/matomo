@@ -28,6 +28,7 @@ class Events extends \Piwik\Plugin
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'ViewDataTable.configure'   => 'configureViewDataTable',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         );
     }
 
@@ -258,5 +259,15 @@ class Events extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Events/stylesheets/datatable.less";
+    }
+
+    public function provideActionDimensionFields(&$fields, &$joins, $idSite)
+    {
+        $fields[] = 'log_action_event_category.name AS eventCategory';
+        $fields[] = 'log_action_event_action.name as eventAction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_event_action
+					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_event_category
+					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction';
     }
 }

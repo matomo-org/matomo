@@ -1,7 +1,7 @@
 <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
-        {# Page view / Download / Outlink / Event #}
+        {# Page view / Download / Outlink #}
         {% if action.pageTitle|default(false) is not empty %}
             <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
         {% endif %}
@@ -12,33 +12,24 @@
             {% endif %}
             <span class="truncated-text-line">{{ action.siteSearchKeyword|rawSafeDecoded }}</span>
         {% endif %}
-        {% if action.eventCategory|default(false) is not empty %}
-            <img src='{{ action.icon }}' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
-            <span class="truncated-text-line event">{{ action.eventCategory|rawSafeDecoded }}
-                - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
-        {% endif %}
         {% if action.url is not empty %}
             {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
             {% if action.type == 'download' or action.type == 'outlink' %}
                 <img src='{{ action.icon }}' class="action-list-action-icon {{ action.type }}">
             {% endif %}
 
-            {% if action.eventCategory|default(false) is not empty and previousAction.url|default(false) == action.url %}
-                {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
+            {% if action.url|trim|lower starts with 'javascript:' or
+            action.url|trim|lower starts with 'vbscript:' or
+            action.url|trim|lower starts with 'data:' %}
+                {{ action.url }}
             {% else %}
-                {% if action.url|trim|lower starts with 'javascript:' or
-                action.url|trim|lower starts with 'vbscript:' or
-                action.url|trim|lower starts with 'data:' %}
-                    {{ action.url }}
-                {% else %}
-                    <a href="{{ action.url }}" rel="noreferrer" target="_blank"
-                       class="{% if action.eventCategory|default(false) is empty %}action-list-url{# don't put URL on new line for events #}{% endif %} truncated-text-line">
-                        {{ action.url|replace({'http://': '', 'https://': ''}) }}
-                    </a>
-                {% endif %}
+                <a href="{{ action.url }}" rel="noreferrer" target="_blank"
+                   class="action-list-url truncated-text-line">
+                    {{ action.url|replace({'http://': '', 'https://': ''}) }}
+                </a>
             {% endif %}
             {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}
-        {% elseif action.type != 'search' and action.type != 'event' %}
+        {% elseif action.type != 'search' %}
             <p>
                 <span>{{ 'General_NotDefined'|translate('Actions_ColumnPageURL'|translate) }}</span>
             </p>

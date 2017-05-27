@@ -151,10 +151,6 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['type'] = 'search';
                 $action['icon'] = 'plugins/Morpheus/images/search_ico.png';
                 break;
-            case Action::TYPE_EVENT:
-                $action['type'] = 'event';
-                $action['icon'] = 'plugins/Morpheus/images/event.png';
-                break;
             case Action::TYPE_PAGE_URL:
             case '':
                 $action['type'] = 'action';
@@ -203,18 +199,12 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float,
 					log_link_visit_action.interaction_position
-					" . $customActionDimensionFields . ",
-					log_action_event_category.name AS eventCategory,
-					log_action_event_action.name as eventAction
+					" . $customActionDimensionFields . "
 				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_category
-					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_action
-					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction
 					" . implode(" ",$customJoins) . "
 				WHERE log_link_visit_action.idvisit = ?
 				ORDER BY server_time ASC
