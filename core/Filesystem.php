@@ -92,11 +92,21 @@ class Filesystem
             @chmod($path, 0755);
             if (!is_writable($path)) {
                 @chmod($path, 0775);
-                // enough! we're not going to make the directory world-writeable
+                // enough! we're not going to make the directory world-writeable, unless specifically allowed in config
+
+                if (!is_writable($path) && self::allowWorldWritableFilePermissions()) {
+                    @chmod($path, 0777);
+                }
             }
         }
 
         self::createIndexFilesToPreventDirectoryListing($path);
+    }
+
+    private function allowWorldWritableFilePermissions()
+    {
+        $allowWorldWritable = Config::getInstance()->General['allow_world_writable_file_permissions'];
+        return !empty($allowWorldWritable);
     }
 
     /**
@@ -494,9 +504,18 @@ class Filesystem
         if (!@copy($source, $dest)) {
             @chmod($dest, 0755);
             if (!@copy($source, $dest)) {
+
                 $message = "Error while creating/copying file to <code>$dest</code>. <br />"
                     . Filechecks::getErrorMessageMissingPermissions(self::getPathToPiwikRoot());
-                throw new Exception($message);
+
+                if (self::allowWorldWritableFilePermissions()) {
+                    @chmod($dest, 0777);
+                    if (!@copy($source, $dest)) {
+                        throw new Exception($message);
+                    }
+                } else {
+                    throw new Exception($message);
+                }
             }
         }
 
