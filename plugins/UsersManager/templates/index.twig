@@ -162,6 +162,12 @@
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
+<div class="ui-confirm" id="confirmAnonymousAccess">
+    <h2>{{ 'UsersManager_AnonymousAccessConfirmation'|translate()|raw }}</h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>
+
 {% if userIsSuperUser %}
 <div piwik-content-block content-title="{{ 'UsersManager_UsersManagement'|translate|e('html_attr') }}">
     <div class="ui-confirm" id="confirmUserRemove">
