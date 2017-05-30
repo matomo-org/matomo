@@ -106,19 +106,29 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
 
     protected function getTimeFormat()
     {
-        if (is_null($this->use12HourClock)) {
-            $this->use12HourClock = LanguagesManager::uses12HourClockForCurrentUser();
-        }
-
         $timeFormat = 'Intl_Format_Time_24';
 
-        if ($this->use12HourClock) {
+        if ($this->uses12HourClock()) {
             $timeFormat = 'Intl_Format_Time_12';
         }
 
         $template = $this->translator->translate($timeFormat);
 
         return $template;
+    }
+
+    /**
+     * Returns if time is present as 12 hour clock (eg am/pm)
+     *
+     * @return bool
+     */
+    public function uses12HourClock()
+    {
+        if (is_null($this->use12HourClock)) {
+            $this->use12HourClock = LanguagesManager::uses12HourClockForCurrentUser();
+        }
+
+        return $this->use12HourClock;
     }
 
     /**
