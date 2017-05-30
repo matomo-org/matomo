@@ -28,6 +28,7 @@ class VisitorProfile
     private $cities = array();
     private $devices = array();
     private $pageGenerationTimeTotal = 0;
+    private $visitedPageUrls = array();
 
     public function __construct($idSite)
     {
@@ -84,6 +85,8 @@ class VisitorProfile
 
         $this->profile['lastVisits'] = $visits;
         $this->profile['devices'] = $this->devices;
+        arsort($this->visitedPageUrls);
+        $this->profile['visitedPages'] = $this->visitedPageUrls;
 
         $this->profile['userId'] = $visit->getColumn('userId');
         $this->profile['visitorId'] = $visitorId;
@@ -210,6 +213,17 @@ class VisitorProfile
             return;
         }
         $this->profile['totalPageViews']++;
+        $pageUrl = $action['url'];
+        if (!empty($pageUrl)) {
+            if (!array_key_exists($pageUrl, $this->visitedPageUrls)) {
+                $this->visitedPageUrls[$pageUrl] = 0;
+                $this->profile['totalUniquePageViews']++;
+            }
+            $this->visitedPageUrls[$pageUrl]++;
+            if ($this->visitedPageUrls[$pageUrl] == 2) {
+                $this->profile['totalRevisitedPages']++;
+            }
+        }
     }
 
     private function handleIfGoalAction($action)
@@ -354,6 +368,8 @@ class VisitorProfile
         $this->profile['totalDownloads'] = 0;
         $this->profile['totalSearches'] = 0;
         $this->profile['totalPageViews'] = 0;
+        $this->profile['totalUniquePageViews'] = 0;
+        $this->profile['totalRevisitedPages'] = 0;
         $this->profile['totalPageViewsWithTiming'] = 0;
         $this->profile['totalGoalConversions'] = 0;
         $this->profile['totalConversionsByGoal'] = array();

@@ -79,6 +79,24 @@
                         {% endif %}
                     </div>
                 </div>
+                {% if visitorData.totalPageViews > 0 %}
+                <div class="visitor-profile-pages">
+                    <h1>{{ 'Live_TopVisitedPages'|translate }}</h1>
+                    <div>
+                        <p>
+                        <strong>{{ visitorData.totalPageViews }} {{ 'General_ColumnPageviews'|translate }}</strong> ({{ visitorData.totalUniquePageViews }} {{ 'General_ColumnUniquePageviews'|translate }}{% if visitorData.totalRevisitedPages %},
+                        {{ visitorData.totalRevisitedPages }} {{ 'Live_RevisitedPages'|translate }}{% endif %})
+                        </p>
+                        <ul>
+                            {% for url,count in visitorData.visitedPages %}
+                                {% if loop.index < 6 and count > 1 %}
+                                <li><span class="repeat icon-refresh">{{ count }}</span> {{ url }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
                 {% if visitorData.devices is defined %}
                 <div class="visitor-profile-devices">
                     <h1>{{ 'DevicesDetection_Devices'|translate }}</h1>

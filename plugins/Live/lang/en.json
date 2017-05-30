@@ -29,6 +29,8 @@
         "SimpleRealTimeWidget_Message": "%1$s and %2$s in the last %3$s",
         "ViewVisitorProfile": "View visitor profile",
         "VisitedPages": "Visited pages",
+        "RevisitedPages": "Revisited pages",
+        "TopVisitedPages": "Top visited pages",
         "VisitorLog": "Visitor Log",
         "VisitorLogDocumentation": "This table shows the latest visits within the selected date range. You can see when a visitor's last visit occurred by hovering over the date of a visit. %1$s If the date range includes today, you can see your visitors real time! %2$s The data displayed here is always live, regardless of whether and how often you are using the archiving cron job.",
         "VisitorProfile": "Visitor profile",
