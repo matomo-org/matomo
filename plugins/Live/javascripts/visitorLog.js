@@ -72,25 +72,23 @@
                 });
             });
 
-            // Replace duplicated page views by a NX count instead of using too much vertical space
+            // show refresh icon for duplicate page views in a row
             $("ol.visitorLog").each(function () {
                 var prevelement;
                 var prevhtml;
-                var counter = 0;
+                var counter = 0, duplicateCounter = 0;
                 $(this).find("> li").each(function () {
                     counter++;
                     $(this).val(counter);
                     var current = $(this).html();
+
                     if (current == prevhtml) {
-                        var repeat = prevelement.find(".repeat");
-                        if (repeat.length) {
-                            repeat.html((parseInt(repeat.html()) + 1) + "x");
-                        } else {
-                            prevelement.find('>div').prepend($("<span>2x</span>").attr({'class': 'repeat', 'title': _pk_translate('Live_PageRefreshed')}));
-                        }
-                        $(this).hide();
+                        $(this).find('>div').prepend($("<span>"+(duplicateCounter+2)+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
+                        duplicateCounter++;
+
                     } else {
                         prevhtml = current;
+                        duplicateCounter = 0;
                         prevelement = $(this);
                     }
 
