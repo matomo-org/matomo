@@ -108,11 +108,11 @@
 			</row>
 		</customVariables>
 		<resolution>1366x768</resolution>
-		<plugins>pdf, flash, java</plugins>
+		<plugins>cookie, flash, java, pdf</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -121,6 +121,10 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 		</pluginsIcons>
 		
@@ -386,11 +390,11 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1200</resolution>
-		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -399,6 +403,10 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
@@ -546,11 +554,11 @@
 			</row>
 		</customVariables>
 		<resolution>2880x1800</resolution>
-		<plugins>pdf, flash, java, quicktime</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -559,6 +567,10 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
@@ -672,11 +684,11 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
-		<plugins>pdf, flash, java, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -685,6 +697,10 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
@@ -811,11 +827,11 @@
 			</row>
 		</customVariables>
 		<resolution>1360x768</resolution>
-		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -826,16 +842,20 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
-			</row>
-			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
 			</row>
 		</pluginsIcons>
 		
@@ -956,15 +976,19 @@
 			</row>
 		</customVariables>
 		<resolution>2560x1440</resolution>
-		<plugins>pdf, java, quicktime</plugins>
+		<plugins>cookie, java, pdf, quicktime</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
@@ -1091,8 +1115,12 @@
 			</row>
 		</customVariables>
 		<resolution>360x640</resolution>
-		<plugins>flash</plugins>
+		<plugins>cookie, flash</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -1218,11 +1246,11 @@
 			</row>
 		</customVariables>
 		<resolution>2560x1440</resolution>
-		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -1233,16 +1261,20 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
-			</row>
-			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
 			</row>
 		</pluginsIcons>
 		
@@ -1405,8 +1437,12 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -1536,11 +1572,11 @@
 			</row>
 		</customVariables>
 		<resolution>1366x768</resolution>
-		<plugins>pdf, flash, java, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -1549,6 +1585,10 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
@@ -1675,11 +1715,11 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
-		<plugins>pdf, flash, java, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -1688,6 +1728,10 @@
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
@@ -3073,8 +3117,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -3202,31 +3250,35 @@
 			</row>
 		</customVariables>
 		<resolution>1280x800</resolution>
-		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
+		<plugins>cookie, director, flash, gears, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-				<pluginName>java</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/gears.png</pluginIcon>
 				<pluginName>gears</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
 			</row>
 		</pluginsIcons>
 		
