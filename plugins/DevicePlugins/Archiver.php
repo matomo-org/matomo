@@ -54,18 +54,16 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateByPlugin()
     {
-        $selects = array(
-            "sum(case log_visit.config_pdf when 1 then 1 else 0 end) as pdf",
-            "sum(case log_visit.config_flash when 1 then 1 else 0 end) as flash",
-            "sum(case log_visit.config_java when 1 then 1 else 0 end) as java",
-            "sum(case log_visit.config_director when 1 then 1 else 0 end) as director",
-            "sum(case log_visit.config_quicktime when 1 then 1 else 0 end) as quicktime",
-            "sum(case log_visit.config_realplayer when 1 then 1 else 0 end) as realplayer",
-            "sum(case log_visit.config_windowsmedia when 1 then 1 else 0 end) as windowsmedia",
-            "sum(case log_visit.config_gears when 1 then 1 else 0 end) as gears",
-            "sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight",
-            "sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie"
-        );
+        $selects = array();
+        $columns = DevicePlugins::getAllPluginColumns();
+
+        foreach ($columns as $column) {
+            $selects[] = sprintf(
+                "sum(case log_visit.%s when 1 then 1 else 0 end) as %s",
+                $column->getColumnName(),
+                substr($column->getColumnName(), 7)
+            );
+        }
 
         $query = $this->getLogAggregator()->queryVisitsByDimension(array(), false, $selects, $metrics = array());
         $data = $query->fetch();

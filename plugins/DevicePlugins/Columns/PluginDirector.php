@@ -9,12 +9,11 @@
 namespace Piwik\Plugins\DevicePlugins\Columns;
 
 use Piwik\Common;
-use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
-class PluginDirector extends VisitDimension
+class PluginDirector extends DevicePluginColumn
 {
     protected $columnName = 'config_director';
     protected $columnType = 'TINYINT(1) NULL';
