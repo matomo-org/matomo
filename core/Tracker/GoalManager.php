@@ -249,6 +249,13 @@ class GoalManager
             }
         }
 
+        $dimensions = $request->getMetadata('Goals', 'customDimensions');
+        if (!is_null($dimensions)) {
+            foreach ($dimensions as $key => $value) {
+                $goal[$key] = $value;
+            }
+        }
+
         // some goals are converted, so must be ecommerce Order or Cart Update
         $isRequestEcommerce = $request->getMetadata('Ecommerce', 'isRequestEcommerce');
         if ($isRequestEcommerce) {
