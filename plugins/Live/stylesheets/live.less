@@ -220,7 +220,7 @@ ol.visitorLog p {
      width:100%;
   }
 
-  .card {
+  .widget & .card {
 
     &:hover .visitor-log-visitor-profile-link {
       display:inline;
@@ -236,12 +236,15 @@ ol.visitorLog p {
 a.visitor-log-visitor-profile-link {
     z-index: 2;
     position:absolute;
-    display:none;
     right: 15px;
     top: 15px;
     font-style:italic;
     font-size:13px;
     background-color: inherit !important;
+
+    .widget & {
+        display:none;
+    }
 
     img {
         margin-top: -2px;
