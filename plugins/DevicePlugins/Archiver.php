@@ -12,6 +12,7 @@ namespace Piwik\Plugins\DevicePlugins;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Plugins\DevicePlugins\Columns\DevicePluginColumn;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicePlugins/functions.php';
 
@@ -52,6 +53,10 @@ class Archiver extends \Piwik\Plugin\Archiver
         );
     }
 
+    /**
+     * Archives reports for all available plugin columns
+     * @see DevicePluginColumn
+     */
     protected function aggregateByPlugin()
     {
         $selects = array();
@@ -61,7 +66,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $selects[] = sprintf(
                 "sum(case log_visit.%s when 1 then 1 else 0 end) as %s",
                 $column->getColumnName(),
-                substr($column->getColumnName(), 7)
+                substr($column->getColumnName(), 7) // remove leading `config_`
             );
         }
 

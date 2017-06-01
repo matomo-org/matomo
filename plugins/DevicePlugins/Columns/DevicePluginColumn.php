@@ -10,6 +10,11 @@ namespace Piwik\Plugins\DevicePlugins\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
 
+/**
+ * Columns extending this class will be automatically considered as new browser plugin
+ *
+ * Note: The column name needs to start with `config_` to be handled correctly
+ */
 abstract class DevicePluginColumn extends VisitDimension
 {
 
