@@ -23,17 +23,13 @@ class Visitor
 
     function getPlugins()
     {
-        $plugins = array(
-            'config_pdf',
-            'config_flash',
-            'config_java',
-            'config_director',
-            'config_quicktime',
-            'config_realplayer',
-            'config_windowsmedia',
-            'config_gears',
-            'config_silverlight',
-        );
+        $plugins = array();
+        $columns = DevicePlugins::getAllPluginColumns();
+
+        foreach ($columns as $column) {
+            $plugins[] = $column->getColumnName();
+        }
+
         $pluginShortNames = array();
 
         foreach ($plugins as $plugin) {

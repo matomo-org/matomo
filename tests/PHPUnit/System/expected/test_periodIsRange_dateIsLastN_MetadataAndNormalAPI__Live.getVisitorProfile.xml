@@ -144,8 +144,12 @@
 				</row>
 			</customVariables>
 			<resolution>1111x222</resolution>
-			<plugins>flash, java</plugins>
+			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
 				<row>
 					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 					<pluginName>flash</pluginName>
@@ -271,8 +275,12 @@
 				</row>
 			</customVariables>
 			<resolution>1111x222</resolution>
-			<plugins>flash, java</plugins>
+			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
 				<row>
 					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 					<pluginName>flash</pluginName>
