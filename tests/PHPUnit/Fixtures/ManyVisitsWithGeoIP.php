@@ -116,9 +116,13 @@ class ManyVisitsWithGeoIP extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
         for ($i = 0; $i != $visitorCount; ++$i) {
             $t->setVisitorId( substr(md5($i + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
+
+            $userAgent = null;
             if ($setIp) {
+                $userAgent = current($this->userAgents);
+
                 $t->setIp(current($this->ips));
-                $t->setUserAgent(current($this->userAgents));
+                $t->setUserAgent($userAgent);
                 next($this->userAgents);
                 next($this->ips);
             } else {
@@ -140,6 +144,10 @@ class ManyVisitsWithGeoIP extends Fixture
             }
 
             // second visit
+            if ($userAgent) {
+                $t->setUserAgent($userAgent); // unset in doTrack...
+            }
+
             $date = $date->addHour(1);
             $t->setForceVisitDateTime($date->getDatetime());
             $t->setUrl("http://piwik.net/space/quest/iv");
@@ -155,6 +163,10 @@ class ManyVisitsWithGeoIP extends Fixture
 
             if (!$doBulk) {
                 self::checkResponse($r);
+            }
+
+            if ($userAgent) {
+                $t->setUserAgent($userAgent); // unset in doTrack...
             }
 
             // Track site search (for AutoSuggestAPI test)
