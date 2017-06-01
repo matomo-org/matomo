@@ -194,7 +194,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t5->setUrl('http://asteroidm.com');
         // all params suppplied, one that differs from url referrer
         $t5->setAttributionInfo(json_encode(array('Recruiting Drive', 'am i a mutant?',
-            Date::factory($dateTime)->addHour(1)->getDatetime(), 'http://sentinelwatch.org')));
+            urlencode(Date::factory($dateTime)->addHour(1)->getDatetime()), 'http://sentinelwatch.org')));
         self::checkResponse($t5->doTrackPageView('Fighting Back'));
 
         $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
@@ -202,7 +202,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t5->setUrl('http://mutantrights.org');
         // params supplied, for existing campaign
         $t5->setAttributionInfo(json_encode(array('GA Campaign', 'some keyword',
-            Date::factory($dateTime)->addHour(2)->getDatetime())));
+            urlencode(Date::factory($dateTime)->addHour(2)->getDatetime()))));
         self::checkResponse($t5->doTrackPageView('Mutant Registration'));
     }
 
