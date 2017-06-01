@@ -3,6 +3,7 @@
     {% include "@CoreHome/_periodSelect.twig" %}
     {{ postEvent("Template.nextToCalendar") }}
     {% render dashboardSettingsControl %}
+    {% if dashboards|length %}
     <div id="Dashboard" class="piwikTopControl borderedControl piwikSelector">
         <ul>
             {% for dashboard in dashboards %}
@@ -13,6 +14,7 @@
             {% endfor %}
         </ul>
     </div>
+    {% endif %}
 </div>
 {% import 'ajaxMacros.twig' as ajax %}
 {{ ajax.loadingDiv }}
