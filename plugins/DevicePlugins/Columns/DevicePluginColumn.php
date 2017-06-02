@@ -19,7 +19,7 @@ abstract class DevicePluginColumn extends VisitDimension
 {
     /**
      * Can be overwritten by Columns in other plugins to
-     * set a custom plugin not included in Piwik Core
+     * set a custom icon not included in Piwik Core
      */
     public $columnIcon = null;
 }
