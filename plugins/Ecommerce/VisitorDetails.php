@@ -124,7 +124,6 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsForVisit($idVisit)
     {
-        $limit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
         $sql = "SELECT
 						case idgoal when " . GoalManager::IDGOAL_CART
             . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
@@ -141,8 +140,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
 					WHERE idvisit = ?
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY server_time ASC
-					LIMIT 0, $limit";
+					ORDER BY server_time ASC";
         $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
         return $ecommerceDetails;
     }
@@ -156,7 +154,6 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceItemsForOrder($idVisit, $idOrder)
     {
-        $limit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
         $sql = "SELECT
 							log_action_sku.name as itemSKU,
 							log_action_name.name as itemName,
@@ -173,7 +170,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 						WHERE idvisit = ?
 							AND idorder = ?
 							AND deleted = 0
-						LIMIT 0, $limit
 				";
 
         $bind = array($idVisit, $idOrder);

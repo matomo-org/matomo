@@ -58,7 +58,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $this->lastVisitId = $idVisit;
-        $limit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
         $sql = "
 				SELECT
 						'goal' as type,
@@ -78,7 +77,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 				WHERE log_conversion.idvisit = ?
 					AND log_conversion.idgoal > 0
                 ORDER BY server_time ASC
-				LIMIT 0, $limit
 			";
         $this->lastGoalResult = Db::fetchAll($sql, array($idVisit));
         return $this->lastGoalResult;

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\Cache;
 use Piwik\CacheId;
+use Piwik\Config;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Metrics\Formatter;
@@ -241,6 +242,7 @@ class Visitor implements VisitorInterface
      */
     public static function enrichVisitorArrayWithActions($visitorDetailsArray)
     {
+        $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
         $visitorDetailsManipulators = self::getAllVisitorDetailsInstances();
         $actionDetails = array();
 
@@ -254,7 +256,13 @@ class Visitor implements VisitorInterface
 
         usort($actionDetails, array('static', 'sortByServerTime'));
 
-        $actionDetails= array_values($actionDetails);
+        $actionDetails = array_values($actionDetails);
+
+        // limit actions
+        if ($actionsLimit < count($actionDetails)) {
+            $visitorDetailsArray['truncatedActionsCount'] = count($actionDetails) - $actionsLimit;
+            $actionDetails = array_slice($actionDetails, 0, $actionsLimit);
+        }
 
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];

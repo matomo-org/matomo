@@ -16,8 +16,12 @@
         <div class="visitor-profile-visit-details">
             {{ postEvent('Live.renderVisitorIcons', visitInfo) }}
             <a href="#" class="visitor-profile-show-actions">
-                <span class="show-text">{{ 'Live_ShowActions'|translate(visitInfo.getColumn('actionDetails')|length) }}</span>
-                <span class="hide-text">{{ 'Live_HideActions'|translate(visitInfo.getColumn('actionDetails')|length) }}</span>
+                {% set actionCount = visitInfo.getColumn('actionDetails')|length %}
+                {% if visitInfo.truncatedActionsCount is defined %}
+                    {% set actionCount = actionCount + visitInfo.truncatedActionsCount %}
+                {% endif %}
+                <span class="show-text">{{ 'Live_ShowActions'|translate(actionCount) }}</span>
+                <span class="hide-text">{{ 'Live_HideActions'|translate(actionCount) }}</span>
             </a>
         </div>
         <ol class="visitor-profile-actions">

@@ -173,7 +173,6 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryActionsForVisit($idVisit, $idSite)
     {
-        $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
         $customFields = array();
         $customJoins  = array();
 
@@ -208,7 +207,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 					" . implode(" ",$customJoins) . "
 				WHERE log_link_visit_action.idvisit = ?
 				ORDER BY server_time ASC
-				LIMIT 0, $actionsLimit
 				 ";
         $actionDetails = Db::fetchAll($sql, array($idVisit));
         return $actionDetails;

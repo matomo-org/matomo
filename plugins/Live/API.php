@@ -313,11 +313,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->$filter(function ($table) use ($idSite, $flat, $doNotFetchActions) {
             /** @var DataTable $table */
-            $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
-
             $visitorFactory = new VisitorFactory();
-            $website        = new Site($idSite);
-            $timezone       = $website->getTimezone();
 
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
             $table->deleteRow(DataTable::ID_SUMMARY_ROW);
@@ -330,7 +326,7 @@ class API extends \Piwik\Plugin\API
 
                 $visitorDetailsArray['actionDetails'] = array();
                 if (!$doNotFetchActions) {
-                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $idSite, $timezone);
+                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray);
                 }
 
                 if ($flat) {

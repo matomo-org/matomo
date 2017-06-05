@@ -27,8 +27,12 @@
                 {{ postEvent('Live.visitorLogViewBeforeActionsInfo', visitor) }}
 
                 <strong>
-                    {{ visitor.getColumn('actionDetails')|length }}
-                    {% if visitor.getColumn('actionDetails')|length <= 1 %}
+                    {% set actionCount = visitor.getColumn('actionDetails')|length %}
+                    {% if visitor.truncatedActionsCount is defined %}
+                        {% set actionCount = actionCount + visitor.truncatedActionsCount %}
+                    {% endif %}
+                    {{ actionCount }}
+                    {% if actionCount <= 1 %}
                         {{ 'General_Action'|translate }}
                     {% else %}
                         {{ 'General_Actions'|translate }}
