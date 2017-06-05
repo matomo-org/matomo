@@ -63,6 +63,9 @@ class ControllerResolver
             return $controller;
         }
 
+        if (!headers_sent()) {
+            http_response_code(404);
+        }
         throw new Exception(sprintf("Action '%s' not found in the module '%s'", $action, $module));
     }
 
