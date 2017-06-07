@@ -7,8 +7,10 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tracker\TrackerConfig;
 
 /**
  * @group TrackerTest
@@ -112,6 +114,16 @@ class TrackerResponseTest extends SystemTestCase
 
         $expected = "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
         $this->assertHttpResponseText($expected, $url);
+    }
+
+
+    public function test_response_ShouldReturnPiwikMessageWithHttp503_InCaseOfMaintenanceMode()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $this->assertResponseCode(200, $url);
+
+        $url = $url . "&forceEnableTrackerMaintenanceMode=1";
+        $this->assertResponseCode(503, $url);
     }
 
 }

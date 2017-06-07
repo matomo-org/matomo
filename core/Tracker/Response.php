@@ -71,6 +71,7 @@ class Response
     public function outputResponse(Tracker $tracker)
     {
         if (!$tracker->shouldRecordStatistics()) {
+            Common::sendResponseCode(503);
             $this->outputApiResponse($tracker);
             Common::printDebug("Logging disabled, display transparent logo");
         } elseif (!$tracker->hasLoggedRequests()) {
