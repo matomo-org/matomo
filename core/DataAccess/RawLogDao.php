@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
+use Piwik\Plugin\LogTablesProvider;
 
 /**
  * DAO that queries log tables.
@@ -25,9 +26,15 @@ class RawLogDao
      */
     private $dimensionMetadataProvider;
 
-    public function __construct(DimensionMetadataProvider $provider = null)
+    /**
+     * @var LogTablesProvider
+     */
+    private $logTablesProvider;
+
+    public function __construct(DimensionMetadataProvider $provider = null, LogTablesProvider $logTablesProvider = null)
     {
         $this->dimensionMetadataProvider = $provider ?: StaticContainer::get('Piwik\Plugin\Dimension\DimensionMetadataProvider');
+        $this->logTablesProvider = $logTablesProvider ?: StaticContainer::get('Piwik\Plugin\LogTablesProvider');
     }
 
     /**
@@ -226,22 +233,15 @@ class RawLogDao
         return Db::query($sql, array_merge(array_values($values), array($idVisit)));
     }
 
-    private function getIdFieldForLogTable($logTable)
+    protected function getIdFieldForLogTable($logTable)
     {
-        switch ($logTable) {
-            case 'log_visit':
-                return 'idvisit';
-            case 'log_link_visit_action':
-                return 'idlink_va';
-            case 'log_conversion':
-                return 'idvisit';
-            case 'log_conversion_item':
-                return 'idvisit';
-            case 'log_action':
-                return 'idaction';
-            default:
-                throw new \InvalidArgumentException("Unknown log table '$logTable'.");
+        $idColumns = $this->getTableIdColumns();
+
+        if (isset($idColumns[$logTable])) {
+            return $idColumns[$logTable];
         }
+
+        throw new \InvalidArgumentException("Unknown log table '$logTable'.");
     }
 
     // TODO: instead of creating a log query like this, we should re-use segments. to do this, however, there must be a 1-1
@@ -291,11 +291,10 @@ class RawLogDao
         return $sql;
     }
 
-
-    private function getMaxIdsInLogTables()
+    protected function getMaxIdsInLogTables()
     {
-        $tables = array('log_conversion', 'log_link_visit_action', 'log_visit', 'log_conversion_item');
         $idColumns = $this->getTableIdColumns();
+        $tables = array_keys($idColumns);
 
         $result = array();
         foreach ($tables as $table) {
@@ -349,8 +348,17 @@ class RawLogDao
 
     private function lockLogTables()
     {
+        $tables = $this->getTableIdColumns();
+        unset($tables['log_action']); // we write lock it
+        $tableNames = array_keys($tables);
+
+        $readLocks = array();
+        foreach ($tableNames as $tableName) {
+            $readLocks[] = Common::prefixTable($tableName);
+        }
+
         Db::lockTables(
-            $readLocks = Common::prefixTables('log_conversion', 'log_link_visit_action', 'log_visit', 'log_conversion_item'),
+            $readLocks,
             $writeLocks = Common::prefixTables('log_action')
         );
     }
@@ -367,13 +375,18 @@ class RawLogDao
         Db::query($deleteSql);
     }
 
-    private function getTableIdColumns()
+    protected function getTableIdColumns()
     {
-        return array(
-            'log_link_visit_action' => 'idlink_va',
-            'log_conversion'        => 'idvisit',
-            'log_visit'             => 'idvisit',
-            'log_conversion_item'   => 'idvisit'
-        );
+        $columns = array();
+
+        foreach ($this->logTablesProvider->getAllLogTables() as $logTable) {
+            $idColumn = $logTable->getIdColumn();
+
+            if (!empty($idColumn)) {
+                $columns[$logTable->getName()] = $idColumn;
+            }
+        }
+
+        return $columns;
     }
 }
