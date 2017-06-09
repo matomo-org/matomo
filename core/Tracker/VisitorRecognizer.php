@@ -101,6 +101,12 @@ class VisitorRecognizer
         $isNewVisitForced = $request->getParam('new_visit');
         $isNewVisitForced = !empty($isNewVisitForced);
         $enforceNewVisit  = $isNewVisitForced || $this->trackerAlwaysNewVisitor;
+        if($isNewVisitForced) {
+            Common::printDebug("-> New visit forced: &new_visit=1 in request");
+        }
+        if($this->trackerAlwaysNewVisitor) {
+            Common::printDebug("-> New visit forced: Debug.tracker_always_new_visitor = 1 in config.ini.php");
+        }
 
         if (!$enforceNewVisit
             && $visitRow
