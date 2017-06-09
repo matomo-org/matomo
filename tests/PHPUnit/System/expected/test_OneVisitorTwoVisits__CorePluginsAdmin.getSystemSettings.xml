@@ -35,8 +35,8 @@
 				<uiControlAttributes>
 				</uiControlAttributes>
 				<availableValues>
-					<row key="1">Yes</row>
-					<row key="0">No (Default)</row>
+					<row key="1">Yes (Default)</row>
+					<row key="0">No</row>
 				</availableValues>
 				<description />
 				<inlineHelp>An email will be sent to Super Users when there is a new version available for a plugin.</inlineHelp>
