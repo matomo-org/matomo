@@ -1,0 +1,9 @@
+{
+    "Ecommerce": {
+        "Sales": "Sprzedaże",
+        "LifeTimeValueDescription": "Całkowita sprzedaż przypisana do tego użytkownika w trakcie wszystkich wizyt: suma sprzedaży dla użytkownika o numerze %s.",
+        "VisitorProfileLTV": "Zakupił na łączną kwotę %1$s.",
+        "VisitorProfileItemsAndOrders": "zakupił łącznie %1$s przedmiotów w trakcie %2$s zamówień.",
+        "VisitorProfileAbandonedCartSummary": "Porzucił %1$s koszyków zakupowych na %2$s przedmiotów o łącznej wartości %3$s."
+    }
+}

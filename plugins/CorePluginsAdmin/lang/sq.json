@@ -63,7 +63,7 @@
         "UninstallConfirm": "Ju ndan një hap nga çinstalimi i shtojcës %s. Shtojca do të hiqet plotësisht nga platforma juaj dhe ky veprim s’mund të zhbëhet. Jeni i sigurt se doni të bëhet kështu?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Shihni krejt shtojcat e Marketplace-it",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "E çaktivizuam shtojcën %s, ngaqë ka varësi të paplotësuara:",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Shtojca %1$s s’u ngarkua dot, ngaqë ka varësi të paplotësuara: %2$s",
         "Websites": "Sajte"
     }
 }

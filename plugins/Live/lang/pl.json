@@ -1,6 +1,9 @@
 {
     "Live": {
+        "AveragePageGenerationTime": "Średni czas ładowania podstron dla tego oglądającego wyniósł:%1$s.",
+        "CalculatedOverNPageViews": "Obliczono biorąc pod uwagę ostatnie %1$s wyświetleń strony.",
         "ClickToViewMoreAboutVisit": "Kliknij po więcej informacji o tej wizycie",
+        "ConvertedNGoals": "Osiągnięto %s celów",
         "FirstVisit": "Pierwsza wizyta",
         "GoalType": "Rodzaj",
         "HideMap": "ukryj mapę",
@@ -10,11 +13,14 @@
         "LastVisit": "Ostatnia wizyta",
         "LinkVisitorLog": "Zobacz szczegółowy log twoich odwiedzających",
         "LoadMoreVisits": "Załaduj więcej odwiedzin",
+        "MorePagesNotDisplayed": "pozostałe podstrony dla tego oglądającego nie zostaną wyświetlone",
         "NbVisitor": "1 gość",
         "NbVisitors": "%s gości",
         "NextVisitor": "Następny gość",
+        "NoMoreVisits": "Nie było więcej wizyt tego oglądającego.",
         "PageRefreshed": "Ile razy ta strona została oglądana\/ odświeżana z rzędu.",
         "PreviousVisitor": "Poprzedni odwiedzający",
+        "RealTimeVisitorCount": "Licznik odwiedzin aktualizowany w czasie rzeczywistym",
         "Referrer_URL": "Przysyłający adres URL",
         "ShowMap": "Pokaż mapę",
         "SimpleRealTimeWidget_Message": "%1$s %2$s na %3$s ostatni",
@@ -23,6 +29,9 @@
         "VisitorLog": "Log odwiedzających",
         "VisitorProfile": "Profil odwiedzającego",
         "VisitorsInRealTime": "Odwiedzający w czasie rzeczywistym",
-        "VisitorsLastVisit": "Ostatnia wizyta tego gościa była %s dni temu."
+        "VisitorsLastVisit": "Ostatnia wizyta tego gościa była %s dni temu.",
+        "VisitsFrom": "%1$s%2$s wizyt%3$s z",
+        "VisitSummary": "Spędził łącznie %1$s%2$s w serwisie%3$s i obejrzał %4$s podstron%5$s w trakcie %6$s wizyt%7$s.",
+        "VisitSummaryWithActionDetails": "Spędził łącznie %1$s%2$s w serwisie%3$s i przeprowadził %4$s działań%5$s (%6$s) w trakcie %7$s wizyt%8$s."
     }
 }

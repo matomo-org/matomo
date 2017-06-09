@@ -59,7 +59,6 @@
         "UninstallConfirm": "Je staat op het punt een plugin %s installatie ongedaan te maken. De plugin zal volledig worden verwijderd van het platform, dit kan niet ongedaan worden. Weet je zeker dat je dat wil?",
         "Version": "Versie",
         "ViewAllMarketplacePlugins": "Alle Marktplaats-plugins bekijken",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "We hebben de plugin %s uitgeschakeld, omdat het afhankelijkheden mist:",
         "Websites": "Websites"
     }
 }
