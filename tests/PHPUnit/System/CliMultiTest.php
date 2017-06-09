@@ -144,7 +144,7 @@ class CliMultiTest extends SystemTestCase
     {
         $this->cliMulti->runAsSuperUser();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
-        $this->assertStringStartsWith('Error in Piwik: Error: no website was found', $response[0]);
+        $this->assertContains('Error: no website was found', $response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()

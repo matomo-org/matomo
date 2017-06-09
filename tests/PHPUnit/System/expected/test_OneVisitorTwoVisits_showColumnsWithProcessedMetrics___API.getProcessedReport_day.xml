@@ -14,7 +14,7 @@
 			<nb_visits>Visits</nb_visits>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
