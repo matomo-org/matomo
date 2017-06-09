@@ -14,6 +14,14 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    public function extendActionDetails(&$action, $nextAction, $visitorDetails)
+    {
+        if ($action['type'] == Action::TYPE_EVENT) {
+            $action['type'] = 'event';
+            $action['icon'] = 'plugins/Morpheus/images/event.png';
+        }
+    }
+
     public function extendVisitorDetails(&$visitor)
     {
         $visitor['events'] = $this->details['visit_total_events'];
@@ -21,7 +29,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderAction($action, $previousAction, $visitorDetails)
     {
-        if ($action['type'] != Action::TYPE_EVENT) {
+        if ($action['type'] != 'event') {
             return;
         }
 

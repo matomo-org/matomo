@@ -14,6 +14,16 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    public function extendActionDetails(&$action, $nextAction, $visitorDetails)
+    {
+        if ($action['type'] != Action::TYPE_CONTENT) {
+            unset($action['contentName']);
+            unset($action['contentPiece']);
+            unset($action['contentTarget']);
+            unset($action['contentInteraction']);
+        }
+    }
+
     public function renderAction($action, $previousAction, $visitorDetails)
     {
         if ($action['type'] != Action::TYPE_CONTENT) {
