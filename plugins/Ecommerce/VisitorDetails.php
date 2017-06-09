@@ -34,11 +34,16 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['totalAbandonedCartsItems']   = $ecommerceMetrics['totalAbandonedCartsItems'];
     }
 
-    public function provideActions(&$actions, $visitorDetails)
+    public function provideActionsForVisitIds(&$actions, $idVisits)
     {
-        $ecommerceDetails = $this->queryEcommerceConversionsForVisit($visitorDetails['idVisit']);
+        $ecommerceDetails = $this->queryEcommerceConversionsForVisits($idVisits);
 
-        foreach ($ecommerceDetails as &$ecommerceDetail) {
+        foreach ($ecommerceDetails as $ecommerceDetail) {
+
+            $idVisit = $ecommerceDetail['idvisit'];
+
+            unset($ecommerceDetail['idvisit']);
+
             if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
                 unset($ecommerceDetail['orderId']);
                 unset($ecommerceDetail['revenueSubTotal']);
@@ -58,16 +63,16 @@ class VisitorDetails extends VisitorDetailsAbstract
 
             $idOrder = isset($ecommerceDetail['orderId']) ? $ecommerceDetail['orderId'] : GoalManager::ITEM_IDORDER_ABANDONED_CART;
 
-            $itemsDetails = $this->queryEcommerceItemsForOrder($visitorDetails['idVisit'], $idOrder);
+            $itemsDetails = $this->queryEcommerceItemsForOrder($idVisit, $idOrder);
             foreach ($itemsDetails as &$detail) {
                 if ($detail['price'] == round($detail['price'])) {
                     $detail['price'] = round($detail['price']);
                 }
             }
             $ecommerceDetail['itemDetails'] = $itemsDetails;
-        }
 
-        $actions = array_merge($actions, $ecommerceDetails);
+            $actions[$idVisit][] = $ecommerceDetail;
+        }
     }
 
     /**
@@ -122,9 +127,10 @@ class VisitorDetails extends VisitorDetailsAbstract
      * @return array
      * @throws \Exception
      */
-    protected function queryEcommerceConversionsForVisit($idVisit)
+    protected function queryEcommerceConversionsForVisits($idVisits)
     {
         $sql = "SELECT
+						idvisit,
 						case idgoal when " . GoalManager::IDGOAL_CART
             . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
@@ -138,10 +144,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 						log_conversion.server_time as serverTimePretty,
 						log_conversion.idlink_va
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-					WHERE idvisit = ?
+					WHERE idvisit IN ('".implode("','", $idVisits)."')
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY server_time ASC";
-        $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
+					ORDER BY idvisit, server_time ASC";
+        $ecommerceDetails = Db::fetchAll($sql);
         return $ecommerceDetails;
     }
 

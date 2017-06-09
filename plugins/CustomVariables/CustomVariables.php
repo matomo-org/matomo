@@ -118,7 +118,7 @@ class CustomVariables extends \Piwik\Plugin
         $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.js";
     }
 
-    public function provideActionDimensionFields(&$fields, &$joins, $idSite)
+    public function provideActionDimensionFields(&$fields, &$joins)
     {
         $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
 

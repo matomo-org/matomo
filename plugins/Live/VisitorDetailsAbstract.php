@@ -36,7 +36,25 @@ abstract class VisitorDetailsAbstract
      * @param $actions
      * @param $visitorDetails
      */
-    public function provideActions(&$actions, $visitorDetails)
+    public function provideActionsForVisit(&$actions, $visitorDetails)
+    {
+    }
+
+    /**
+     * Makes it possible to enrich the action set for multiple visits identified by given visit ids
+     *
+     * action set to enrich needs to have the following structure
+     *
+     * $actions = array (
+     *     'idvisit' => array ( list of actions for this visit id ),
+     *     'idvisit' => array ( list of actions for this visit id ),
+     *     ...
+     * )
+     *
+     * @param array $actions   action set to enrich
+     * @param array $visitIds  list of visit ids
+     */
+    public function provideActionsForVisitIds(&$actions, $visitIds)
     {
     }
 
@@ -45,7 +63,7 @@ abstract class VisitorDetailsAbstract
      *
      * Example:
      *
-     * public function filterActions(&$actions) {
+     * public function filterActions(&$actions, $visitorDetailsArray) {
      *     foreach ($actions as $idx => $action) {
      *         if ($action['type'] == Action::TYPE_CONTENT) {
      *             unset($actions[$idx]);
@@ -55,8 +73,9 @@ abstract class VisitorDetailsAbstract
      * }
      *
      * @param $actions
+     * @param $visitorDetailsArray
      */
-    public function filterActions(&$actions)
+    public function filterActions(&$actions, $visitorDetailsArray)
     {
     }
 

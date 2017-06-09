@@ -318,6 +318,18 @@ class API extends \Piwik\Plugin\API
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
             $table->deleteRow(DataTable::ID_SUMMARY_ROW);
 
+            $actionsByVisitId = array();
+
+            if (!$doNotFetchActions) {
+                $visitIds = $table->getColumn('idvisit');
+
+                $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
+
+                foreach ($visitorDetailsManipulators as $instance) {
+                    $instance->provideActionsForVisitIds($actionsByVisitId, $visitIds);
+                }
+            }
+
             foreach ($table->getRows() as $visitorDetailRow) {
                 $visitorDetailsArray = Visitor::cleanVisitorDetails($visitorDetailRow->getColumns());
 
@@ -326,7 +338,8 @@ class API extends \Piwik\Plugin\API
 
                 $visitorDetailsArray['actionDetails'] = array();
                 if (!$doNotFetchActions) {
-                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray);
+                    $bulkFetchedActions  = isset($actionsByVisitId[$visitorDetailsArray['idVisit']]) ? $actionsByVisitId[$visitorDetailsArray['idVisit']] : array();
+                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $bulkFetchedActions);
                 }
 
                 if ($flat) {

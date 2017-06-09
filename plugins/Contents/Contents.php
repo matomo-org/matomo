@@ -44,7 +44,7 @@ class Contents extends \Piwik\Plugin
         $translations['nb_interactions'] = Piwik::translate('Contents_InteractionsMetricDocumentation');
     }
 
-    public function provideActionDimensionFields(&$fields, &$joins, $idSite)
+    public function provideActionDimensionFields(&$fields, &$joins)
     {
         $fields[] = 'log_action_content_name.name as contentName';
         $fields[] = 'log_action_content_piece.name as contentPiece';

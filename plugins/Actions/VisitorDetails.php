@@ -30,17 +30,36 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['interactions'] = $this->details['visit_total_interactions'];
     }
 
-    public function provideActions(&$actions, $visitorDetails)
+    public function provideActionsForVisitIds(&$actions, $visitIds)
     {
-        $actionDetails = $this->queryActionsForVisit($visitorDetails['idVisit'], $visitorDetails['idSite']);
+        $actionDetails = $this->queryActionsForVisits($visitIds);
+        foreach ($actionDetails as $action) {
+            $idVisit = $action['idvisit'];
+            unset($action['idvisit']);
+            $actions[$idVisit][] = $action;
+        }
+    }
+
+
+    public function provideActionsForVisit(&$actions, $visitorDetails)
+    {
+        $actionDetails = $actions;
 
         $formatter = new Formatter();
+
+        $actionTypesToHandle = array(
+            Action::TYPE_PAGE_URL,
+            Action::TYPE_SITE_SEARCH,
+            Action::TYPE_EVENT,
+            Action::TYPE_OUTLINK,
+            Action::TYPE_DOWNLOAD
+        );
 
         // Enrich with time spent per action
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
 
-            if ($idx < $nextActionId) {
+            if ($idx < $nextActionId || !in_array($action['type'], $actionTypesToHandle)) {
                 continue; // skip to next action having timeSpentRef
             }
 
@@ -48,8 +67,10 @@ class VisitorDetails extends VisitorDetailsAbstract
             $nextActionId = $idx+1;
             $nextAction = null;
 
-            while (isset($actionDetails[$nextActionId]) && $actionDetails[$nextActionId]['type'] == Action::TYPE_CONTENT) {
-                $nextActionId++; // skip content interactions
+            while (isset($actionDetails[$nextActionId]) &&
+                (!in_array($actionDetails[$nextActionId]['type'], $actionTypesToHandle) ||
+                    !array_key_exists('timeSpentRef', $actionDetails[$nextActionId]))) {
+                $nextActionId++;
             }
             $nextAction = isset($actionDetails[$nextActionId]) ? $actionDetails[$nextActionId] : null;
 
@@ -80,7 +101,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             unset($action['timeSpentRef']); // not needed after timeSpent is added
         }
 
-        $actions = array_merge($actions, $actionDetails);
+        $actions = $actionDetails;
     }
 
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
@@ -171,12 +192,12 @@ class VisitorDetails extends VisitorDetailsAbstract
      * @return array
      * @throws \Exception
      */
-    protected function queryActionsForVisit($idVisit, $idSite)
+    protected function queryActionsForVisits($idVisits)
     {
         $customFields = array();
         $customJoins  = array();
 
-        Piwik::postEvent('Actions.getCustomActionDimensionFieldsAndJoins', array(&$customFields, &$customJoins, $idSite));
+        Piwik::postEvent('Actions.getCustomActionDimensionFieldsAndJoins', array(&$customFields, &$customJoins));
 
         $customFields = array_filter($customFields);
         array_unshift($customFields, ''); // add empty element at first
@@ -186,6 +207,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
         $sql = "
 				SELECT
+					log_link_visit_action.idvisit,
 					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
 					log_action.name AS url,
 					log_action.url_prefix,
@@ -205,10 +227,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 					" . implode(" ",$customJoins) . "
-				WHERE log_link_visit_action.idvisit = ?
-				ORDER BY server_time ASC
+				WHERE log_link_visit_action.idvisit IN ('".implode("','", $idVisits)."')
+				ORDER BY log_link_visit_action.idvisit, server_time ASC
 				 ";
-        $actionDetails = Db::fetchAll($sql, array($idVisit));
+        $actionDetails = Db::fetchAll($sql);
         return $actionDetails;
     }
 }

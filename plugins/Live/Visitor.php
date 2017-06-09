@@ -237,21 +237,22 @@ class Visitor implements VisitorInterface
     }
 
     /**
-     * @param $visitorDetailsArray
+     * @param array $visitorDetailsArray
+     * @param array $actionDetails  preset action details
+     *
      * @return array
      */
-    public static function enrichVisitorArrayWithActions($visitorDetailsArray)
+    public static function enrichVisitorArrayWithActions($visitorDetailsArray, $actionDetails = array())
     {
         $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
         $visitorDetailsManipulators = self::getAllVisitorDetailsInstances();
-        $actionDetails = array();
 
         foreach ($visitorDetailsManipulators as $instance) {
-            $instance->provideActions($actionDetails, $visitorDetailsArray);
+            $instance->provideActionsForVisit($actionDetails, $visitorDetailsArray);
         }
 
         foreach ($visitorDetailsManipulators as $instance) {
-            $instance->filterActions($actionDetails);
+            $instance->filterActions($actionDetails, $visitorDetailsArray);
         }
 
         usort($actionDetails, array('static', 'sortByServerTime'));

@@ -261,7 +261,7 @@ class Events extends \Piwik\Plugin
         $stylesheets[] = "plugins/Events/stylesheets/datatable.less";
     }
 
-    public function provideActionDimensionFields(&$fields, &$joins, $idSite)
+    public function provideActionDimensionFields(&$fields, &$joins)
     {
         $fields[] = 'log_action_event_category.name AS eventCategory';
         $fields[] = 'log_action_event_action.name as eventAction';
