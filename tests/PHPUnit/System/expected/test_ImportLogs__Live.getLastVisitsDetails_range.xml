@@ -1088,10 +1088,10 @@
 		<operatingSystemVersion />
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 27.0</browser>
-		<browserName>Firefox</browserName>
+		<browser>Firefox Mobile 27.0</browser>
+		<browserName>Firefox Mobile</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
-		<browserCode>FF</browserCode>
+		<browserCode>FM</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<events>0</events>
 		<continent>Europe</continent>
@@ -5052,8 +5052,8 @@
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Epiphany 2.30</browser>
-		<browserName>Epiphany</browserName>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -5284,8 +5284,8 @@
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Epiphany 2.30</browser>
-		<browserName>Epiphany</browserName>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -5516,8 +5516,8 @@
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Epiphany 2.30</browser>
-		<browserName>Epiphany</browserName>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -6212,8 +6212,8 @@
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Epiphany 2.30</browser>
-		<browserName>Epiphany</browserName>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
@@ -6560,8 +6560,8 @@
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Epiphany 2.30</browser>
-		<browserName>Epiphany</browserName>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
