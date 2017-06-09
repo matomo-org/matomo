@@ -41,6 +41,7 @@
         "OriginThirdParty": "Dritt-Anbieter",
         "PluginHomepage": "Plugin-Website",
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
+        "PluginNotFound": "Plugin %1$s ist am Dateisystem nicht vorhanden.",
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
         "PluginRequirement": "%1$s benötigt %2$s",
         "PluginsManagement": "Pluginverwaltung",
@@ -60,7 +61,6 @@
         "UninstallConfirm": "Sie sind gerade dabei, das Plugin %s zu deinstallieren. Das Plugin wird vollständig von ihrer Plattform entfernt und kann nicht wiederhergestellt werden. Sind sie sicher, dass sie das tun wollen?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Alle Marketplace Plugins anzeigen",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Wir haben das Plugin %s wegen fehlender Abhängigkeiten deaktiviert:",
         "Websites": "Websites"
     }
 }
