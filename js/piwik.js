@@ -3196,7 +3196,7 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
 
-                isSecureCookie;
+                isSecureCookie = false;
 
             // Document title
             try {
@@ -3232,7 +3232,7 @@ if (typeof window.Piwik !== 'object') {
              * Set cookie secure flag
              */
             function setSecureCookie(value) {
-                isSecureCookie = value == 1 ? true : false;
+                isSecureCookie = !!value;
             }
 
             /*
