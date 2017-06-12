@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Columns\Dimension;
+use Piwik\Columns\Column;
 use Piwik\Piwik;
 
-class SearchNoResultKeyword extends Dimension
+class SearchNoResultKeyword extends Column
 {
     public function getName()
     {

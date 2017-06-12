@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Columns\Dimension;
+use Piwik\Columns\Column;
 use Piwik\Piwik;
 
-class Continent extends Dimension
+class Continent extends Column
 {
     public function getName()
     {

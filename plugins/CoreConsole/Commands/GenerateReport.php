@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Piwik\Columns\Dimension;
+use Piwik\Columns\Column;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
@@ -246,8 +246,8 @@ class GenerateReport extends GeneratePluginBase
         }
 
         $plugin     = Manager::getInstance()->loadPlugin($pluginName);
-        $dimensions = Dimension::getAllDimensions();
-        $dimensions = array_merge($dimensions, Dimension::getDimensions($plugin));
+        $dimensions = Column::getAllDimensions();
+        $dimensions = array_merge($dimensions, Column::getDimensions($plugin));
 
         foreach ($dimensions as $dimension) {
             $name = $dimension->getName();

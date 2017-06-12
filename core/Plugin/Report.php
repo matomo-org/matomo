@@ -11,7 +11,7 @@ namespace Piwik\Plugin;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Cache;
-use Piwik\Columns\Dimension;
+use Piwik\Columns\Column;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
@@ -153,7 +153,7 @@ class Report
     /**
      * An instance of a dimension if the report has one. You can create a new dimension using the Piwik console CLI tool
      * if needed.
-     * @var \Piwik\Columns\Dimension
+     * @var \Piwik\Columns\Column
      */
     protected $dimension;
 
@@ -695,7 +695,7 @@ class Report
     }
 
     /**
-     * @return \Piwik\Columns\Dimension
+     * @return \Piwik\Columns\Column
      * @ignore
      */
     public function getDimension()
@@ -726,7 +726,7 @@ class Report
     /**
      * Returns the Dimension instance of this report's subtable report.
      *
-     * @return Dimension|null The subtable report's dimension or null if there is subtable report or
+     * @return Column|null The subtable report's dimension or null if there is subtable report or
      *                        no dimension for the subtable report.
      * @api
      */
@@ -816,11 +816,11 @@ class Report
     /**
      * Finds a top level report that provides stats for a specific Dimension.
      *
-     * @param Dimension $dimension The dimension whose report we're looking for.
+     * @param Column $dimension The dimension whose report we're looking for.
      * @return Report|null The
      * @api
      */
-    public static function getForDimension(Dimension $dimension)
+    public static function getForDimension(Column $dimension)
     {
         return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
             return !$report->isSubtableReport()

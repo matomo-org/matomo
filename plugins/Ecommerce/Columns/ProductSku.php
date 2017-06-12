@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Ecommerce\Columns;
 
-use Piwik\Columns\Dimension;
+use Piwik\Columns\Column;
 use Piwik\Piwik;
 
-class ProductSku extends Dimension
+class ProductSku extends Column
 {
     public function getName()
     {

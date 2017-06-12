@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 use Exception;
+use Piwik\Columns\Column;
 
 /**
  * Creates a new segment that can be used for instance within the {@link \Piwik\Columns\Dimension::configureSegment()}
@@ -34,7 +35,7 @@ class Segment
      * Segment type 'dimension'. Can be used along with {@link setType()}.
      * @api
      */
-    const TYPE_DIMENSION = 'dimension';
+    const TYPE_DIMENSION = Column::TYPE_DIMENSION;
 
     /**
      * Segment type 'metric'. Can be used along with {@link setType()}.

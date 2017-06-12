@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\ExampleTracker\Columns;
 
-use Piwik\Columns\Dimension;
+use Piwik\Columns\Column;
 use Piwik\Piwik;
 
 /**
@@ -16,7 +16,7 @@ use Piwik\Piwik;
  *
  * See {@link http://developer.piwik.org/api-reference/Piwik/Columns\Dimension} for more information.
  */
-class ExampleDimension extends Dimension
+class ExampleDimension extends Column
 {
 
     /**
