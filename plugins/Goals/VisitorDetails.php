@@ -45,7 +45,10 @@ class VisitorDetails extends VisitorDetailsAbstract
         $this->lastVisitIds = $idVisits;
         $this->lastGoalResults = array();
         $goalConversionDetails = $this->queryGoalConversionsForVisits($idVisits);
-        foreach ($goalConversionDetails as $goalConversionDetail) {
+
+        // use while / array_shift combination instead of foreach to save memory
+        while(is_array($goalConversionDetails) && count($goalConversionDetails)) {
+            $goalConversionDetail = array_shift($goalConversionDetails);
             $idVisit = $goalConversionDetail['idvisit'];
 
             unset($goalConversionDetail['idvisit']);

@@ -38,7 +38,9 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $ecommerceDetails = $this->queryEcommerceConversionsForVisits($idVisits);
 
-        foreach ($ecommerceDetails as $ecommerceDetail) {
+        // use while / array_shift combination instead of foreach to save memory
+        while(is_array($ecommerceDetails) && count($ecommerceDetails)) {
+            $ecommerceDetail = array_shift($ecommerceDetails);
 
             $idVisit = $ecommerceDetail['idvisit'];
 
