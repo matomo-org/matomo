@@ -15,11 +15,9 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
-use Piwik\Tracker;
 use Piwik\Plugin;
 use Exception;
 
@@ -41,6 +39,23 @@ abstract class VisitDimension extends Column
     const INSTALLER_PREFIX = 'log_visit.';
 
     protected $dbTableName = 'log_visit';
+
+    public function install()
+    {
+        if (empty($this->columnType) || empty($this->columnName)) {
+            return array();
+        }
+        
+        $changes = array(
+            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+        );
+
+        if ($this->isHandlingLogConversion()) {
+            $changes['log_conversion'] = array("ADD COLUMN `$this->columnName` $this->columnType");
+        }
+
+        return $changes;
+    }
 
     /**
      * @see ActionDimension::update()

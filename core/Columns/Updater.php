@@ -212,7 +212,8 @@ class Updater extends \Piwik\Updates
     }
 
     /**
-     * @param ActionDimension|ConversionDimension|VisitDimension $dimension
+     * @param PiwikUpdater $updater
+     * @param Column $dimension
      * @param string $componentPrefix
      * @param array $columns
      * @param array $versions
