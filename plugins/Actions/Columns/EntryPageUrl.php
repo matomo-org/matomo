@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -19,6 +20,11 @@ class EntryPageUrl extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_url';
     protected $columnType = 'INTEGER(11) UNSIGNED NULL  DEFAULT NULL';
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin();
+    }
 
     protected function configureSegments()
     {

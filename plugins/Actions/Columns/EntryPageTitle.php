@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -19,6 +20,11 @@ class EntryPageTitle extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin();
+    }
 
     protected function configureSegments()
     {

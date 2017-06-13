@@ -97,6 +97,14 @@ abstract class Dimension
     protected $dbTableName = '';
     protected $metricId = '';
 
+    /**
+     * @return Join|null
+     */
+    public function getDbColumnJoin()
+    {
+        return null;
+    }
+
     public function getMetricId()
     {
         if (!empty($this->metricId)) {
@@ -260,11 +268,14 @@ abstract class Dimension
 
     protected function configureMetrics()
     {
-        if ($this->segmentName && $this->category && $this->columnName && $this->dbTableName && $this->nameSingular) {
+        if ($this->getMetricId() && $this->dbTableName && $this->columnName && $this->getNamePlural()) {
             $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_COUNT);
             $this->addMetric($metric);
 
             $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_SUM);
+            $this->addMetric($metric);
+
+            $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_UNIQUE);
             $this->addMetric($metric);
         }
     }

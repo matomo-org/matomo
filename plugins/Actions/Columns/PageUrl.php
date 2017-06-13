@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Actions\Segment;
@@ -16,6 +17,11 @@ class PageUrl extends ActionDimension
 {
     protected $columnName = 'idaction_url';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin();
+    }
 
     protected function configureSegments()
     {

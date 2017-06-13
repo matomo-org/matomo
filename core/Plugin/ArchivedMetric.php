@@ -16,13 +16,14 @@ use Piwik\Metrics\Formatter;
 
 class ArchivedMetric extends Metric
 {
-    const AGGREGATION_COUNT = 'count';
+    const AGGREGATION_COUNT = 'nb';
     const AGGREGATION_SUM = 'sum';
+    const AGGREGATION_UNIQUE = 'uniq';
 
     /**
      * @var Dimension
      */
-    private $column;
+    private $dimension;
 
     /**
      * @var string
@@ -34,38 +35,39 @@ class ArchivedMetric extends Metric
      */
     protected $idSite;
 
-    public function __construct(Dimension $column, $aggregation)
+    public function __construct(Dimension $dimension, $aggregation)
     {
-        $this->column = $column;
+        $this->dimension = $dimension;
+        $this->aggregation = $aggregation;
     }
 
     public function getCategory()
     {
-        return $this->column->getCategory();
+        return $this->dimension->getCategory();
     }
 
     public function getName()
     {
-        return $this->aggregation . '_' . $this->column->getMetricId();
+        return $this->aggregation . '_' . $this->dimension->getMetricId();
     }
 
     public function compute(Row $row)
     {
-        switch ($this->column->getType()) {
+        switch ($this->dimension->getType()) {
             case Dimension::TYPE_MONEY:
-                return round($this->getMetric($row, $this->column->getMetricId()), 2);
+                return round($this->getMetric($row, $this->dimension->getMetricId()), 2);
 
             case Dimension::TYPE_DURATION_S:
             case Dimension::TYPE_DURATION_MS:
-                return (int) $this->getMetric($row, $this->column->getMetricId());
+                return (int) $this->getMetric($row, $this->dimension->getMetricId());
         }
 
-        return $this->getMetric($row, $this->column->getMetricId());
+        return $this->getMetric($row, $this->dimension->getMetricId());
     }
 
     public function format($value, Formatter $formatter)
     {
-        switch ($this->column->getType()) {
+        switch ($this->dimension->getType()) {
             case Dimension::TYPE_MONEY:
                 return $formatter->getPrettyMoney($value, $this->idSite);
             case Dimension::TYPE_FLOAT:
@@ -83,27 +85,46 @@ class ArchivedMetric extends Metric
 
     public function getTranslatedName()
     {
-        return $this->column->getName();
+        switch ($this->aggregation) {
+            case self::AGGREGATION_COUNT;
+                return $this->dimension->getNamePlural();
+            case self::AGGREGATION_SUM;
+                return 'Total ' . $this->dimension->getNamePlural();
+            case self::AGGREGATION_UNIQUE;
+                return 'Unique ' . $this->dimension->getNamePlural();
+        }
+
+        return $this->dimension->getNamePlural();
     }
 
     public function getDocumentation()
     {
         switch ($this->aggregation) {
             case self::AGGREGATION_COUNT;
-                return 'The number of ' . $this->column->getNamePlural();
+                return 'The number of ' . $this->dimension->getNamePlural();
             case self::AGGREGATION_SUM;
-                return 'The sum of ' . $this->column->getNamePlural();
+                return 'The sum of ' . $this->dimension->getNamePlural();
+            case self::AGGREGATION_UNIQUE;
+                return 'Unique ' . $this->dimension->getNamePlural();
         }
     }
 
-    public function getTable()
+    public function getDbTableName()
     {
-        return $this->column->getDbTableName();
+        return $this->dimension->getDbTableName();
     }
 
     public function getQuery()
     {
-        return $this->aggregation . '(' . $this->column->getDbTableName() . '.'  . $this->column->getColumnName() .')';
+        $column = $this->dimension->getDbTableName() . '.'  . $this->dimension->getColumnName();
+
+        if ($this->aggregation === self::AGGREGATION_UNIQUE) {
+            return 'count(distinct ' . $column .')';
+        } elseif ($this->aggregation === self::AGGREGATION_COUNT) {
+            return 'count(' . $column .')';
+        }
+
+        return $this->aggregation . '(' . $column .')';
     }
 
     public function beforeFormat($report, DataTable $table)

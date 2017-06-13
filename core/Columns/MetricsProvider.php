@@ -30,28 +30,17 @@ class MetricsProvider
             return null;
         }
 
-        $klassName = $listMetrics[$metricName];
-
-        return new $klassName;
+        return $listMetrics[$metricName];
     }
 
     private static function getMapOfNameToMetric()
     {
-        $cacheId = CacheId::pluginAware('MetricFactoryMap');
+        $metrics = new static();
+        $metrics = $metrics->getAllMetrics();
 
-        $cache = PiwikCache::getEagerCache();
-        if ($cache->contains($cacheId)) {
-            $mapNameToMetric = $cache->fetch($cacheId);
-        } else {
-            $metrics = new static();
-            $metrics = $metrics->getAllMetrics();
-
-            $mapNameToMetric = array();
-            foreach ($metrics as $metric) {
-                $mapNameToMetric[$metric->getName()] = get_class($metric);
-            }
-
-            $cache->save($cacheId, $mapNameToMetric);
+        $mapNameToMetric = array();
+        foreach ($metrics as $metric) {
+            $mapNameToMetric[$metric->getName()] = $metric;
         }
 
         return $mapNameToMetric;
@@ -93,7 +82,8 @@ class MetricsProvider
             }
 
             foreach ($metrics as $metric) {
-                $instances[] = new $metric();
+                // TODO we cannot pick up most of them automatically because they have constructor parameters!
+               //  $instances[] = new $metric();
             }
 
             /**
