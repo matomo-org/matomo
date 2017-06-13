@@ -53,6 +53,11 @@ abstract class Metric
      */
     abstract public function getTranslatedName();
 
+    public function getCategory()
+    {
+        return '';
+    }
+
     /**
      * Returns a string describing what the metric represents. The result will be included in report metadata
      * API output, including processed reports.

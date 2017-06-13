@@ -24,6 +24,7 @@
         "ColumnConversionRateDocumentation": "The percentage of visits that triggered the goal %s.",
         "ColumnConversionRateProductDocumentation": "The %s conversion rate is the number of orders containing this product divided by number of visits on the product page.",
         "ColumnConversions": "Conversions",
+        "Conversion": "Conversion",
         "ColumnConversionsDocumentation": "The number of conversions for %s.",
         "ColumnOrdersDocumentation": "The total number of Ecommerce orders which contained this %s at least once.",
         "ColumnPurchasedProductsDocumentation": "The number of purchased products is the sum of Product quantities sold in all Ecommerce orders.",

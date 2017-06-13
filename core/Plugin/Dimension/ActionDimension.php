@@ -36,6 +36,7 @@ abstract class ActionDimension extends Column
     const INSTALLER_PREFIX = 'log_link_visit_action.';
 
     protected $dbTableName = 'log_link_visit_action';
+    protected $category = 'General_Actions';
 
     /**
      * If the value you want to save for your dimension is something like a page title or page url, you usually do not

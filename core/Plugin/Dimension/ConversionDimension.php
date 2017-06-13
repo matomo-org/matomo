@@ -41,6 +41,7 @@ abstract class ConversionDimension extends Column
     const INSTALLER_PREFIX = 'log_conversion.';
 
     protected $dbTableName = 'log_conversion';
+    protected $category = 'Goals_Conversion';
 
     /**
      * Get all conversion dimensions that are defined by all activated plugins.

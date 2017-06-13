@@ -15,7 +15,7 @@ class Continent extends Column
     protected $columnName = 'location_country';
     protected $dbTableName = 'log_visit';
     protected $category = 'UserCountry_VisitLocation';
-    protected $name = 'UserCountry_Continent';
+    protected $nameSingular = 'UserCountry_Continent';
     protected $segmentName = 'continentCode';
     protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce';
     protected $sqlFilter = 'Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent';

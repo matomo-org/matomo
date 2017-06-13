@@ -23,6 +23,7 @@
         "PluginDescription": "Reports the Referrers data: Search Engines, Keywords, Websites, Campaigns, Social media, Direct entry.",
         "Referrer": "Referrer",
         "ReferrerName": "Referrer Name",
+        "ReferrerNames": "Referrer Names",
         "Referrers": "Referrers",
         "ReferrersOverview": "Referrers Overview",
         "ReferrerTypes": "Referrer Types",

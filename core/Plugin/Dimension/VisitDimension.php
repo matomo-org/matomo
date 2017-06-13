@@ -39,13 +39,14 @@ abstract class VisitDimension extends Column
     const INSTALLER_PREFIX = 'log_visit.';
 
     protected $dbTableName = 'log_visit';
+    protected $category = 'General_Visitors';
 
     public function install()
     {
         if (empty($this->columnType) || empty($this->columnName)) {
             return array();
         }
-        
+
         $changes = array(
             $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType")
         );

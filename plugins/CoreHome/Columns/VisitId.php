@@ -18,18 +18,17 @@ use Piwik\Plugin\Segment;
  */
 class VisitId extends VisitDimension
 {
+    protected $columnName = 'idvisit';
+    protected $acceptValues = 'Any integer.';
+    protected $category = 'General_Visit';
+    protected $name = 'General_VisitId';
+    protected $segmentName = 'visitId';
+    protected $allowAnonymous = false;
+
     protected function configureSegments()
     {
-        parent::configureSegments();
-
         $segment = new Segment();
-        $segment->setType('dimension');
-        $segment->setCategory(Piwik::translate('General_Visit'));
-        $segment->setName(Piwik::translate('General_Visit') . " ID");
-        $segment->setSegment('visitId');
-        $segment->setAcceptedValues('Any integer.');
-        $segment->setSqlSegment('log_visit.idvisit');
-        $segment->setRequiresAtLeastViewAccess(true);
+        $segment->setType(Segment::TYPE_DIMENSION);
         $this->addSegment($segment);
     }
 }

@@ -29,7 +29,7 @@ class Country extends Base
     protected $columnType = 'CHAR(3) NULL';
 
     protected $category =  'UserCountry_VisitLocation';
-    protected $name = 'UserCountry_Country';
+    protected $nameSingular = 'UserCountry_Country';
     protected $segmentName = 'countryCode';
     protected $acceptValues = 'de, us, fr, in, es, etc.';
 

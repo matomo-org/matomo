@@ -10,6 +10,8 @@ namespace Piwik\Columns;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugin\ArchivedMetric;
+use Piwik\Plugin\Metric;
 use Piwik\Plugin\Segment;
 use Exception;
 
@@ -24,19 +26,33 @@ abstract class Column extends Dimension
      * @api
      */
     const TYPE_DIMENSION = 'dimension';
+    const TYPE_TEXT = 'text';
     const TYPE_MONEY = 'money';
     const TYPE_DURATION_MS = 'duration_ms';
     const TYPE_DURATION_S = 'duration_s';
     const TYPE_NUMBER = 'number';
     const TYPE_FLOAT = 'float';
-
-    protected $type = self::TYPE_DIMENSION;
+    const TYPE_URL = 'url';
+    const TYPE_DATE = 'date';
+    const TYPE_TIME = 'time';
+    const TYPE_DATETIME = 'datetime';
+    const TYPE_TIMESTAMP = 'timestamp';
+    const TYPE_BOOL = 'bool';
 
     /**
-     * Translation key for name
+     * Holds an array of metric instances
+     * @var Metric[]
+     */
+    protected $metrics = array();
+
+    protected $type = '';
+
+    /**
+     * Translation key for name singular
      * @var string
      */
-    protected $name = '';
+    protected $nameSingular = '';
+    protected $namePlural = '';
 
     /**
      * Translation key for category
@@ -50,6 +66,16 @@ abstract class Column extends Dimension
     protected $sqlFilterValue;
     protected $allowAnonymous;
     protected $dbTableName = '';
+    protected $metricId = '';
+
+    public function getMetricId()
+    {
+        if (!empty($this->metricId)) {
+            return $this->metricId;
+        }
+
+        return $this->columnName;
+    }
 
     /**
      * Installs the action dimension in case it is not installed yet. The installation is already implemented based on
@@ -161,24 +187,49 @@ abstract class Column extends Dimension
 
     public function getName()
     {
-        if (!empty($this->name)) {
-            return Piwik::translate($this->name);
+        if (!empty($this->nameSingular)) {
+            return Piwik::translate($this->nameSingular);
         }
 
-        return $this->name;
+        return $this->nameSingular;
+    }
+
+    public function getNamePlural()
+    {
+        if (!empty($this->namePlural)) {
+            return Piwik::translate($this->namePlural);
+        }
+
+        return $this->getName();
     }
 
     protected function configureSegments()
     {
-        if ($this->segmentName && $this->category && $this->columnName && $this->dbTableName && $this->name) {
+        if ($this->segmentName && $this->category && $this->columnName && $this->dbTableName && $this->nameSingular) {
             $segment = new Segment();
             $segment->setSegment($this->segmentName);
             $segment->setCategory($this->category);
-            $segment->setName($this->name);
+            $segment->setName($this->nameSingular);
             $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
 
             $this->addSegment($segment);
         }
+    }
+
+    protected function configureMetrics()
+    {
+        if ($this->segmentName && $this->category && $this->columnName && $this->dbTableName && $this->nameSingular) {
+            $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_COUNT);
+            $this->addMetric($metric);
+
+            $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_SUM);
+            $this->addMetric($metric);
+        }
+    }
+
+    protected function addMetric(Metric $metric)
+    {
+        $this->metrics[] = $metric;
     }
 
     /**
@@ -190,10 +241,17 @@ abstract class Column extends Dimension
      */
     protected function addSegment(Segment $segment)
     {
-        if (!$segment->getType() && $this->getType() == self::TYPE_DIMENSION) {
-            $segment->setType(Segment::TYPE_DIMENSION);
-        } elseif (!$segment->getType()) {
-            $segment->setType(Segment::TYPE_METRIC);
+        if (!$segment->getType()) {
+            $metricTypes = array(self::TYPE_NUMBER, self::TYPE_FLOAT, self::TYPE_MONEY, self::TYPE_DURATION_S, self::TYPE_DURATION_MS, self::TYPE_DATE, self::TYPE_DATETIME, self::TYPE_TIME);
+            if (in_array($this->getType(), $metricTypes)) {
+                $segment->setType(Segment::TYPE_METRIC);
+            } else {
+                $segment->setType(Segment::TYPE_DIMENSION);
+            }
+        }
+
+        if (!$segment->getName() && $this->nameSingular) {
+            $segment->setName($this->nameSingular);
         }
 
         $sqlSegment = $segment->getSqlSegment();
@@ -232,7 +290,45 @@ abstract class Column extends Dimension
      */
     public function getType()
     {
-        return $this->type;
+        if (!empty($this->type)) {
+            return $this->type;
+        }
+
+        if (!empty($this->columnType)) {
+            // best guess
+            $type = strtolower($this->columnType);
+            if (strpos($type, 'datetime') !== false) {
+                return self::TYPE_DATETIME;
+            } elseif (strpos($type, 'timestamp') !== false) {
+                return self::TYPE_TIMESTAMP;
+            } elseif (strpos($type, 'date') !== false) {
+                return self::TYPE_DATETIME;
+            } elseif (strpos($type, 'time') !== false) {
+                return self::TYPE_TIME;
+            } elseif (strpos($type, 'float') !== false) {
+                return self::TYPE_FLOAT;
+            } elseif (strpos($type, 'decimal') !== false) {
+                return self::TYPE_FLOAT;
+            } elseif (strpos($type, 'int') !== false) {
+                return self::TYPE_NUMBER;
+            }
+        }
+
+        return self::TYPE_TEXT;
+    }
+
+    /**
+     * Get the list of configured segments.
+     * @return Metric[]
+     * @ignore
+     */
+    public function getMetrics()
+    {
+        if (empty($this->metrics)) {
+            $this->configureMetrics();
+        }
+
+        return $this->metrics;
     }
 
     /**

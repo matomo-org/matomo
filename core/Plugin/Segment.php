@@ -35,7 +35,7 @@ class Segment
      * Segment type 'dimension'. Can be used along with {@link setType()}.
      * @api
      */
-    const TYPE_DIMENSION = Column::TYPE_DIMENSION;
+    const TYPE_DIMENSION = 'dimension';
 
     /**
      * Segment type 'metric'. Can be used along with {@link setType()}.

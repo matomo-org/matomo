@@ -394,6 +394,7 @@
         "View": "View",
         "ViewDocumentationFor": "View documentation for %1$s",
         "Visit": "Visit",
+        "VisitId": "Visit ID",
         "VisitConvertedGoal": "Visit converted at least one Goal",
         "VisitConvertedGoalId": "Visit converted a specific Goal Id",
         "VisitConvertedNGoals": "Visit converted %s Goals",
