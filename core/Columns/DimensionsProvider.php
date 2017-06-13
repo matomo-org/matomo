@@ -11,11 +11,11 @@ namespace Piwik\Columns;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 
-class ColumnsProvider
+class DimensionsProvider
 {
     /**
      * @param $dimensionId
-     * @return Column
+     * @return Dimension
      */
     public function factory($dimensionId)
     {
@@ -54,11 +54,11 @@ class ColumnsProvider
 
     /**
      * Returns a list of all available dimensions.
-     * @return Column[]
+     * @return Dimension[]
      */
     public function getAllDimensions()
     {
-        return Column::getAllDimensions();
+        return Dimension::getAllDimensions();
     }
 
 }

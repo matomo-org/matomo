@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\VisitTime\Columns;
 
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
-class DayOfTheWeek extends Column
+class DayOfTheWeek extends Dimension
 {
     public function getName()
     {

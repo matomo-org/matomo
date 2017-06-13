@@ -11,7 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Cache;
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
@@ -1333,7 +1333,7 @@ class Manager
      * @param ConversionDimension|VisitDimension|ActionDimension $dimension
      * @param VisitDimension[]|ActionDimension[]|ConversionDimension[] $allDimensions
      */
-    private function uninstallDimension($prefix, Column $dimension, $allDimensions)
+    private function uninstallDimension($prefix, Dimension $dimension, $allDimensions)
     {
         if (!$this->doesAnotherPluginDefineSameColumnWithDbEntry($dimension, $allDimensions)) {
             $dimension->uninstall();

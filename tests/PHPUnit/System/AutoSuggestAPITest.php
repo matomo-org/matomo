@@ -9,7 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
 use Piwik\Application\Environment;
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
@@ -162,7 +162,7 @@ class AutoSuggestAPITest extends SystemTestCase
             $environment->init();
             $environment->getContainer()->get('Piwik\Plugin\Manager')->loadActivatedPlugins();
 
-            foreach (Column::getAllDimensions() as $dimension) {
+            foreach (Dimension::getAllDimensions() as $dimension) {
                 if ($dimension instanceof CustomVariableName
                     || $dimension instanceof CustomVariableValue
                 ) {

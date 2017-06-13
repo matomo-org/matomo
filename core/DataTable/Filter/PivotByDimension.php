@@ -9,7 +9,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Exception;
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
@@ -63,7 +63,7 @@ class PivotByDimension extends BaseFilter
      * The pivot-by Dimension. The metadata in this class is used to determine if we can
      * pivot the report and used to fetch intersected tables.
      *
-     * @var Column
+     * @var Dimension
      */
     private $pivotByDimension;
 
@@ -125,7 +125,7 @@ class PivotByDimension extends BaseFilter
      * The subtable dimension of the report being pivoted. Used to determine if and
      * how intersected tables are fetched.
      *
-     * @var Column|null
+     * @var Dimension|null
      */
     private $subtableDimension;
 
@@ -317,7 +317,7 @@ class PivotByDimension extends BaseFilter
 
     private function setPivotByDimension($pivotByDimension)
     {
-        $this->pivotByDimension = Column::factory($pivotByDimension);
+        $this->pivotByDimension = Dimension::factory($pivotByDimension);
         if (empty($this->pivotByDimension)) {
             throw new Exception("Invalid dimension '$pivotByDimension'.");
         }
@@ -530,8 +530,8 @@ class PivotByDimension extends BaseFilter
     }
 
     /**
-     * @param Column|null $lhs
-     * @param Column|null $rhs
+     * @param Dimension|null $lhs
+     * @param Dimension|null $rhs
      * @return bool
      */
     private static function areDimensionsEqualAndNotNull($lhs, $rhs)
@@ -540,8 +540,8 @@ class PivotByDimension extends BaseFilter
     }
 
     /**
-     * @param Column|null $lhs
-     * @param Column|null $rhs
+     * @param Dimension|null $lhs
+     * @param Dimension|null $rhs
      * @return bool
      */
     private static function areDimensionsNotEqualAndNotNull($lhs, $rhs)

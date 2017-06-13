@@ -10,7 +10,7 @@ namespace Piwik\Plugin\Dimension;
 
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -34,7 +34,7 @@ use Exception;
  * @api
  * @since 2.5.0
  */
-abstract class VisitDimension extends Column
+abstract class VisitDimension extends Dimension
 {
     const INSTALLER_PREFIX = 'log_visit.';
 

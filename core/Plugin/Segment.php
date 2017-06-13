@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugin;
 use Exception;
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 
 /**
  * Creates a new segment that can be used for instance within the {@link \Piwik\Columns\Dimension::configureSegment()}

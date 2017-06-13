@@ -10,7 +10,7 @@ namespace Piwik\Plugin\Dimension;
 
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
 use Piwik\Tracker\Action;
@@ -31,7 +31,7 @@ use Exception;
  * @api
  * @since 2.5.0
  */
-abstract class ActionDimension extends Column
+abstract class ActionDimension extends Dimension
 {
     const INSTALLER_PREFIX = 'log_link_visit_action.';
 

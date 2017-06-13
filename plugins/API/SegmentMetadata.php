@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\API;
 
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 
@@ -37,7 +37,7 @@ class SegmentMetadata
          */
         Piwik::postEvent('Segment.addSegments', array(&$segments));
 
-        foreach (Column::getAllDimensions() as $dimension) {
+        foreach (Dimension::getAllDimensions() as $dimension) {
             foreach ($dimension->getSegments() as $segment) {
                 $segments[] = $segment;
             }

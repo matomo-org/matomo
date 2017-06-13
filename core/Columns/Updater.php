@@ -213,7 +213,7 @@ class Updater extends \Piwik\Updates
 
     /**
      * @param PiwikUpdater $updater
-     * @param Column $dimension
+     * @param Dimension $dimension
      * @param string $componentPrefix
      * @param array $columns
      * @param array $versions

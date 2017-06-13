@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 
-class Continent extends Column
+class Continent extends Dimension
 {
     protected $columnName = 'location_country';
     protected $dbTableName = 'log_visit';

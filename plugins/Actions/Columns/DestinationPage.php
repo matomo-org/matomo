@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Columns\Column;
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 
-class DestinationPage extends Column
+class DestinationPage extends Dimension
 {
     public function getName()
     {

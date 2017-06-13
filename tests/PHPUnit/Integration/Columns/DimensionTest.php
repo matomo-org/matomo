@@ -10,10 +10,10 @@ namespace Piwik\Plugins\Test\Columns
 {
     // there is a test that requires the class to be defined in a plugin
 
-    use Piwik\Columns\Column;
+    use Piwik\Columns\Dimension;
     use Piwik\Plugin\Segment;
 
-    class DimensionTest extends Column
+    class DimensionTest extends Dimension
     {
         protected $columnName  = 'test_dimension';
         protected $columnType  = 'INTEGER (10) DEFAULT 0';
@@ -45,7 +45,7 @@ namespace Piwik\Plugins\Test\Columns
 
 namespace Piwik\Tests\Integration\Columns
 {
-    use Piwik\Columns\Column;
+    use Piwik\Columns\Dimension;
     use Piwik\Config;
     use Piwik\Plugin\Dimension\ActionDimension;
     use Piwik\Plugin\Dimension\ConversionDimension;
@@ -106,7 +106,7 @@ namespace Piwik\Tests\Integration\Columns
         {
             Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals', 'CustomVariables'));
 
-            $dimensions = Column::getAllDimensions();
+            $dimensions = Dimension::getAllDimensions();
 
             $this->assertGreaterThan(20, count($dimensions));
 
@@ -122,7 +122,7 @@ namespace Piwik\Tests\Integration\Columns
                     $foundAction = true;
                 } else if ($dimension instanceof VisitDimension) {
                     $foundVisit = true;
-                } else if ($dimension instanceof Column) {
+                } else if ($dimension instanceof Dimension) {
                     $foundNormal = true;
                 } else {
                     $this->fail('Unexpected dimension class found');
@@ -141,7 +141,7 @@ namespace Piwik\Tests\Integration\Columns
         {
             Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
 
-            $dimensions = Column::getDimensions(Manager::getInstance()->loadPlugin('Actions'));
+            $dimensions = Dimension::getDimensions(Manager::getInstance()->loadPlugin('Actions'));
 
             $this->assertGreaterThan(10, count($dimensions));
 
@@ -166,7 +166,7 @@ namespace Piwik\Tests\Integration\Columns
         {
             Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
 
-            $dimensions = Column::getDimensions(Manager::getInstance()->loadPlugin('Goals'));
+            $dimensions = Dimension::getDimensions(Manager::getInstance()->loadPlugin('Goals'));
 
             $this->assertGreaterThan(2, count($dimensions));
 
@@ -215,7 +215,7 @@ namespace Piwik\Tests\Integration\Columns
         {
             Manager::getInstance()->loadPlugins(array('ExampleTracker'));
 
-            $dimension = Column::factory("ExampleTracker.ExampleDimension");
+            $dimension = Dimension::factory("ExampleTracker.ExampleDimension");
             $this->assertInstanceOf('Piwik\Plugins\ExampleTracker\Columns\ExampleDimension', $dimension);
         }
    }
