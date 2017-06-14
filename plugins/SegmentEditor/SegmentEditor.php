@@ -109,7 +109,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_CurrentlySelectedSegment';
         $translationKeys[] = 'SegmentEditor_OperatorAND';
         $translationKeys[] = 'SegmentEditor_OperatorOR';
-        $translationKeys[] = 'SegmentEditor_AddCondition';
+        $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
         $translationKeys[] = 'General_OperationEquals';
         $translationKeys[] = 'General_OperationNotEquals';
         $translationKeys[] = 'General_OperationAtMost';

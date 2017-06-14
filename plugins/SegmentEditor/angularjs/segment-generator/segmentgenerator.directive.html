@@ -46,7 +46,7 @@
 
             <div class="segment-add-or" ng-click="segmentGenerator.addNewOrCondition(condition)">
                 <div>
-                    <a> + Add <span>OR</span> condition </a>
+                    <a ng-bind-html="'+' + ('SegmentEditor_AddANDorORCondition'|translate:'&lt;span>' + ('SegmentEditor_OperatorOR'|translate) +  '&lt;/span>')"></a>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
 
     <div class="segment-add-row initial" ng-click="segmentGenerator.addNewAndCondition()">
         <div>
-            <a>+ {{ 'SegmentEditor_AddCondition'|translate }}</a>
+            <a ng-bind-html="'+' + ('SegmentEditor_AddANDorORCondition'|translate:'&lt;span>' + ('SegmentEditor_OperatorAND'|translate) +  '&lt;/span>')"></a>
         </div>
     </div>
 </div>
