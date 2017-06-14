@@ -18,7 +18,7 @@
         return Math.ceil((daysSinceYearStart + onejan.getDay()) / 7);
     };
 
-    var currentYear, currentMonth, currentDay, currentDate, currentWeek;
+    var currentFiscalYear, currentYear, currentMonth, currentDay, currentDate, currentWeek;
 
     function formatDateString(date) {
         var month = date.getMonth() + 1;
@@ -82,6 +82,12 @@
             displayDate = _pk_translate('Intl_Month_Long_StandAlone_' + (currentMonth+1)) + ' ' + currentYear;
         } else if (selectedPeriod === 'year') {
             displayDate = currentYear;
+        } else if (selectedPeriod === 'fisyear') {
+            if (currentMonth+1 < piwik.fisYearStartMonth) {
+                displayDate = (Number(currentYear)-1) + "-" + currentYear;
+            } else {
+                displayDate = currentYear + "-" + (Number(currentYear)+1);
+            }
         } else if (selectedPeriod === 'range' || selectedPeriod === 'week') {
             displayDate = _pk_translate('General_DateRangeFromTo', [piwik.startDateString, piwik.endDateString]);
         }
@@ -174,6 +180,19 @@
             && dateYear == currentYear
             ) {
             valid = true;
+        }
+        else if (piwik.period == "fisyear") {
+            if ((currentMonth + 1) >= piwik.fisYearStartMonth) {
+                if ((dateYear == currentYear && (dateMonth + 1) >= piwik.fisYearStartMonth)
+                || (dateYear == currentYear+1 && (dateMonth + 1) < piwik.fisYearStartMonth)) {
+                    valid = true;
+                }
+            } else {
+                if ((dateYear == currentYear-1 && (dateMonth + 1) >= piwik.fisYearStartMonth)
+                || (dateYear == currentYear && (dateMonth + 1) < piwik.fisYearStartMonth)) {
+                    valid = true;
+                }
+            }
         }
         else if (piwik.period == "week"
             && date.getWeek() == currentWeek
@@ -354,6 +373,11 @@
                     $('a', $(this).parent().parent()).addClass('ui-state-hover');
                     toggleWhitespaceHighlighting('ui-state-hover', true, true);
                     break;
+                case 'fisyear':
+                    // highlight table (month + whitespace)
+                    $('a', $(this).parent().parent()).addClass('ui-state-hover');
+                    toggleWhitespaceHighlighting('ui-state-hover', true, true);
+                    break;
             }
         };
 
@@ -364,6 +388,11 @@
 
             // color whitespace
             if (piwik.period == 'year') {
+                var viewedYear = $('.ui-datepicker-year', datepickerElem).val(),
+                    toggle = selectedPeriod == 'year' && currentYear == viewedYear;
+                toggleWhitespaceHighlighting('ui-datepicker-current-period', toggle, toggle);
+            }
+            else if (piwik.period == 'fisyear') {
                 var viewedYear = $('.ui-datepicker-year', datepickerElem).val(),
                     toggle = selectedPeriod == 'year' && currentYear == viewedYear;
                 toggleWhitespaceHighlighting('ui-datepicker-current-period', toggle, toggle);
@@ -574,14 +603,14 @@
             togglePeriodPickers(true);
 
             // set months step to 12 for year period (or set back to 1 if leaving year period)
-            if (selectedPeriod == 'year' || lastPeriod == 'year') {
+            if (selectedPeriod == 'year' || lastPeriod == 'year' || selectedPeriod == 'fisyear' || lastPeriod == 'fisyear') {
                 // setting stepMonths will change the month in view back to the selected date. to avoid
                 // we set the selected date to the month in view.
                 var currentMonth = $('.ui-datepicker-month', datepickerElem).val(),
                     currentYear = $('.ui-datepicker-year', datepickerElem).val();
 
                 datepickerElem
-                    .datepicker('option', 'stepMonths', selectedPeriod == 'year' ? 12 : 1)
+                    .datepicker('option', 'stepMonths', (selectedPeriod == 'year') || (selectedPeriod == 'fisyear') ? 12 : 1)
                     .datepicker('setDate', new Date(currentYear, currentMonth));
             }
 

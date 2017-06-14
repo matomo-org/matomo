@@ -64,6 +64,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $settings['delete_reports_keep_week_reports']    = Common::getRequestVar("keepWeek", 0);
         $settings['delete_reports_keep_month_reports']   = Common::getRequestVar("keepMonth", 0);
         $settings['delete_reports_keep_year_reports']    = Common::getRequestVar("keepYear", 0);
+        $settings['delete_reports_keep_fisyear_reports'] = Common::getRequestVar("keepFiscalYear", 0);
         $settings['delete_reports_keep_range_reports']   = Common::getRequestVar("keepRange", 0);
         $settings['delete_reports_keep_segment_reports'] = Common::getRequestVar("keepSegments", 0);
         $settings['delete_logs_max_rows_per_query']      = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
@@ -123,6 +124,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                       'description' => ''
                 )
             );
+            //$view->fiscalYearEnabled = PiwikConfig::getInstance()->General['fiscal_year_enabled'];
+            $view->fiscalYearEnabled = strpos(PiwikConfig::getInstance()->General['enabled_periods_API'], "fisyear");
             $view->scheduleDeletionOptions = array(
                 array('key' => '1',
                       'value' => Piwik::translate('Intl_PeriodDay')),

@@ -59,8 +59,6 @@ class FisYear extends Period
      * Also adjusts the financial year in function of what is needed
      * (ex. 2016 or 2017 in fiscal year 2016-2017)
      *
-     * todomc : Trouver une façon de propager la date jusqu'ici pour définir la bonne
-     *          année fiscale.
      */
     protected function generate()
     {

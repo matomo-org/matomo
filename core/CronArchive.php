@@ -1500,12 +1500,10 @@ class CronArchive
     private function getDateLastN($idSite, $period, $lastTimestampWebsiteProcessed)
     {
         $dateLastMax = self::DEFAULT_DATE_LAST;
-        if ($period == 'year') {
+        if ($period == 'year' || $period == 'fisyear') {
             $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
         } elseif ($period == 'week') {
             $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
-        } elseif ($period == 'fisyear') {
-            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
         }
         if (empty($lastTimestampWebsiteProcessed)) {
             $creationDateFor = \Piwik\Site::getCreationDateFor($idSite);

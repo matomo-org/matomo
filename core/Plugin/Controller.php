@@ -639,6 +639,11 @@ abstract class Controller
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
 
+        //Get the starting month of the fiscal year if "fisyear" is present in periods allowed
+        if (in_array('fisyear', self::getEnabledPeriodsInUI())) {
+            $view->fisYearStartMonth = Config::getInstance()->General['fiscal_year_start_month'];
+        }
+
         $language = LanguagesManager::getLanguageForSession();
         $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 

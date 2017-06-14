@@ -25,6 +25,8 @@
 
     {% if period is defined %}piwik.period = "{{ period }}";{% endif %}
 
+    {% if fisYearStartMonth is defined %}piwik.fisYearStartMonth = "{{ fisYearStartMonth }}";{% endif %}
+
 {# piwik.currentDateString should not be used other than by the calendar Javascript
             (it is not set to the expected value when period=range)
         Use broadcast.getValueFromUrl('date') instead

@@ -100,7 +100,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setDeleteReportsSettings($enableDeleteReports = 0, $deleteReportsOlderThan = 3,
                                              $keepBasic = 0, $keepDay = 0, $keepWeek = 0, $keepMonth = 0,
-                                             $keepYear = 0, $keepRange = 0, $keepSegments = 0)
+                                             $keepYear = 0, $keepRange = 0, $keepSegments = 0, $keepFiscalYear = 0)
     {
         $settings = array();
 
@@ -119,6 +119,7 @@ class API extends \Piwik\Plugin\API
         $settings['delete_reports_keep_week_reports']    = (int) $keepWeek;
         $settings['delete_reports_keep_month_reports']   = (int) $keepMonth;
         $settings['delete_reports_keep_year_reports']    = (int) $keepYear;
+        $settings['delete_reports_keep_fisyear_reports'] = (int) $keepFiscalYear;
         $settings['delete_reports_keep_range_reports']   = (int) $keepRange;
         $settings['delete_reports_keep_segment_reports'] = (int) $keepSegments;
         $settings['delete_logs_max_rows_per_query']      = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];

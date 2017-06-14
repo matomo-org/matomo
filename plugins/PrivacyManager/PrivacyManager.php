@@ -54,6 +54,7 @@ class PrivacyManager extends Plugin
         'delete_reports_keep_week_reports'     => 'Deletereports',
         'delete_reports_keep_month_reports'    => 'Deletereports',
         'delete_reports_keep_year_reports'     => 'Deletereports',
+        'delete_reports_keep_fisyear_reports'  => 'Deletereports',
         'delete_reports_keep_range_reports'    => 'Deletereports',
         'delete_reports_keep_segment_reports'  => 'Deletereports',
     );
@@ -275,6 +276,7 @@ class PrivacyManager extends Plugin
      * - delete_reports_keep_week_reports: If set to 1, keeps old weekly reports.
      * - delete_reports_keep_month_reports: If set to 1, keeps old monthly reports.
      * - delete_reports_keep_year_reports: If set to 1, keeps old yearly reports.
+     * - delete_reports_keep_fisyear_reports: If set to 1, keeps old fiscal year reports.
      */
     public function deleteReportData()
     {

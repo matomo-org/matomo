@@ -197,7 +197,6 @@ class ArchiveInvalidator
                 $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
             }
 
-// todomc : Ajuster l'invalidation des rapports et des périodes au fisyear. Présentement pas traiter correctement'
             if ($periodType != 'year'
                 && $periodType != 'range'
                 && $periodType != 'fisyear'
