@@ -16,14 +16,14 @@
 
     function piwikSegmentGenerator($document, piwik, $filter, $timeout){
         var defaults = {
-            segmentFilter: '',
+            segmentDefinition: '',
             addInitialCondition: false
         };
 
         return {
             restrict: 'A',
             scope: {
-                segmentFilter: '=',
+                segmentDefinition: '@',
                 addInitialCondition: '=',
             },
             require: "?ngModel",
@@ -40,18 +40,17 @@
 
                 return function (scope, element, attrs, ngModel) {
                     if (ngModel) {
-                        ngModel.$setViewValue(scope.segmentFilter);
-                    }
-
-                    if (ngModel) {
                         ngModel.$render = function() {
-                            scope.segmentFilter = ngModel.$viewValue;
+                            scope.segmentDefinition = ngModel.$viewValue;
+                            if (scope.segmentDefinition) {
+                                scope.segmentGenerator.setSegmentString(scope.segmentDefinition);
+                            }
                         };
                     }
 
-                    scope.$watch('segmentFilter', function (newValue) {
+                    scope.$watch('segmentDefinition', function (newValue) {
                         if (ngModel) {
-                            ngModel.$setViewValue(segmentFilter);
+                            ngModel.$setViewValue(newValue);
                         }
                     });
                 };

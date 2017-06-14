@@ -23,12 +23,14 @@
 
   .segment-add-row,
   .segment-add-or {
+    cursor: pointer;
     font-size: 14px;
     font-weight: bold;
     background: @theme-color-background-contrast;
     color: #b9b9b9;
     text-align: center;
     position: relative;
+    .border-radius(5px);
   }
 
   .segment-add-row > div,
@@ -44,9 +46,20 @@
     text-decoration: none;
   }
 
+  .segment-input {
+    select, input {
+      .font-default(12px, 14px);
+      color: @theme-color-text;
+      font-weight: 600;
+      margin: 0;
+      height: 32px;
+    }
+  }
+
   .segment-add-row > div a span,
   .segment-add-or > div a span {
-    color: #255792;
+    color: @theme-color-brand;
+    text-shadow: none;
   }
 
   .segment-add-row {
@@ -88,6 +101,7 @@
     width: 15px;
     height: 15px;
     background: url(plugins/SegmentEditor/images/segment-close.png) 0 0 no-repeat;
+    z-index: 9999;
   }
 
   .segment-row .segment-loading {

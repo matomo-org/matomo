@@ -9,6 +9,59 @@
 
     SegmentGeneratorController.$inject = ['$scope', 'piwik', 'piwikApi', 'segmentGeneratorModel', '$filter', '$timeout'];
 
+    var findAndExplodeByMatch = function(metric){
+        var matches = ["==" , "!=" , "<=", ">=", "=@" , "!@","<",">", "=^", "=$"];
+        var newMetric = {};
+        var minPos = metric.length;
+        var match, index;
+        var singleChar = false;
+
+        for (var key=0; key < matches.length; key++) {
+            match = matches[key];
+            index = metric.indexOf(match);
+            if(index !== -1){
+                if(index < minPos){
+                    minPos = index;
+                    if(match.length === 1){
+                        singleChar = true;
+                    }
+                }
+            }
+        }
+
+        if (minPos < metric.length) {
+            // sth found - explode
+            if(singleChar == true){
+                newMetric.segment = metric.substr(0,minPos);
+                newMetric.matches = metric.substr(minPos,1);
+                newMetric.value = metric.substr(minPos+1);
+            } else {
+                newMetric.segment = metric.substr(0,minPos);
+                newMetric.matches = metric.substr(minPos,2);
+                newMetric.value = metric.substr(minPos+2);
+            }
+            // if value is only "" -> change to empty string
+            if(newMetric.value === '""')
+            {
+                newMetric.value = "";
+            }
+        }
+
+        newMetric.value = decodeURIComponent(newMetric.value);
+        return newMetric;
+    };
+
+    function generateUniqueId() {
+        var id = '';
+        var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+        for (var i = 1; i <= 10; i++) {
+            id += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        return id;
+    }
+
     function SegmentGeneratorController($scope, piwik, piwikApi, segmentGeneratorModel, $filter, $timeout) {
         var translate = $filter('translate');
 
@@ -16,17 +69,7 @@
         var firstSegment = '';
         var firstMatch = '';
         this.conditions = [];
-
-        function generateUniqueId() {
-            var id = '';
-            var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-            for (var i = 1; i <= 10; i++) {
-                id += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-
-            return id;
-        }
+        this.model = segmentGeneratorModel;
 
         this.segments = {};
 
@@ -50,23 +93,36 @@
         };
         this.matches[''] = this.matches.dimension;
 
-        this.addAndCondition = function () {
+        this.addNewAndCondition = function () {
             var condition = {orConditions: []};
-            this.addOrCondition(condition);
 
-            this.conditions.push(condition);
+            this.addAndCondition(condition);
+            this.addNewOrCondition(condition);
+
+            return condition;
         };
 
-        this.addOrCondition = function (condition) {
+        this.addAndCondition = function (condition) {
+            this.conditions.push(condition);
+            this.updateSegmentDefinition();
+        }
+
+        this.addNewOrCondition = function (condition) {
             var orCondition = {
-                id: generateUniqueId(),
                 segment: firstSegment,
                 matches: firstMatch,
-                value: '',
-                isLoading: false
+                value: ''
             };
 
+            this.addOrCondition(condition, orCondition);
+        };
+
+        this.addOrCondition = function (condition, orCondition) {
+            orCondition.isLoading = false;
+            orCondition.id = generateUniqueId();
+
             condition.orConditions.push(orCondition);
+            this.updateSegmentDefinition();
 
             $timeout(function () {
                 self.updateAutocomplete(orCondition);
@@ -75,6 +131,8 @@
 
         this.updateAutocomplete = function (orCondition) {
             orCondition.isLoading = true;
+
+            this.updateSegmentDefinition();
 
             var resolved = false;
 
@@ -141,7 +199,60 @@
                     self.conditions.splice(index, 1);
                 }
             }
+
+            this.updateSegmentDefinition();
         };
+
+        this.getSegmentString = function () {
+            var segmentStr = '';
+
+            angular.forEach(this.conditions, function (conditions) {
+                var subSegmentStr = '';
+
+                angular.forEach(conditions.orConditions, function (orCondition){
+                    if (subSegmentStr !== ''){
+                        subSegmentStr += ","; // OR operator
+                    }
+
+                    subSegmentStr += orCondition.segment + orCondition.matches +  encodeURIComponent(orCondition.value);
+                })
+
+                if (segmentStr !== '') {
+                    segmentStr += ";"; // add AND operator between segment blocks
+                }
+
+                segmentStr += subSegmentStr;
+            });
+
+            return segmentStr
+        };
+
+        this.setSegmentString = function (segmentStr) {
+            var orCondition, condition;
+
+            this.conditions = [];
+
+            var blocks = segmentStr.split(';');
+
+            for (var key = 0; key < blocks.length; key++) {
+                var condition = {orConditions: []};
+                this.addAndCondition(condition);
+
+                blocks[key] = blocks[key].split(',');
+                for (var innerkey = 0; innerkey < blocks[key].length; innerkey++) {
+                    orCondition = findAndExplodeByMatch(blocks[key][innerkey]);
+                    this.addOrCondition(condition, orCondition);
+                }
+            }
+        };
+
+        this.updateSegmentDefinition = function () {
+            $scope.segmentDefinition = this.getSegmentString();
+        }
+
+        if ($scope.segmentDefinition) {
+            this.setSegmentString($scope.segmentDefinition);
+        }
 
         segmentGeneratorModel.loadSegments().then(function (segments) {
 
@@ -166,8 +277,8 @@
                 self.segmentList.push({group: segment.category, key: segment.segment, value: segment.name});
             });
 
-            if ($scope.addInitialCondition) {
-                self.addAndCondition();
+            if ($scope.addInitialCondition && self.conditions.length === 0) {
+                self.addNewAndCondition();
             }
         });
     }

@@ -9,7 +9,7 @@
         <input type="text" placeholder="Search" ng-model="formField.searchTerm" class="expandableSearch browser-default">
         <ul class="collection firstLevel">
             <li ng-repeat="options in formField.availableOptions" class="collection-item" ng-show="options.values|filter:formField.searchTerm|length">
-                <h4 class="expandableListCategory" ng-click="formField.showCategory == options.group ? formField.showCategory = '' : formField.showCategory = options.group">{{ options.group }} <span class="secondary-content icon-arrow-right"></span></h4>
+                <h4 class="expandableListCategory" ng-click="formField.showCategory == options.group ? formField.showCategory = '' : formField.showCategory = options.group">{{ options.group }} <span class="secondary-content" ng-class='{"icon-arrow-right": formField.showCategory != options.group, "icon-arrow-bottom": formField.showCategory == options.group}'></span></h4>
 
                 <ul ng-show="formField.showCategory == options.group || formField.searchTerm" class="collection">
                     <li class="expandableListItem collection-item" ng-repeat="children in options.values|filter:formField.searchTerm" ng-click="formField.value = children.key;formField.showSelect = false;">{{ children.value }} <span ng-show="children.tooltip" title="{{ children.tooltip }}" class="secondary-content icon-help"></span></li>

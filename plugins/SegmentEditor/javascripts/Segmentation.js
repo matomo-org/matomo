@@ -19,11 +19,6 @@ Segmentation = (function($) {
         $('.segmentListContainer .segmentationContainer .title').trigger('click').focus();
     });
 
-    function preselectFirstMetricMatch(rowNode)
-    {
-        var matchValue = $(rowNode).find('.metricMatchBlock option:first').attr('value');
-        $(rowNode).find('.metricMatchBlock select').val(matchValue);
-    }
 
     var segmentation = function segmentation(config) {
         if (!config.target) {
@@ -126,93 +121,6 @@ Segmentation = (function($) {
                 segmentationTitle.text(title);
                 this.setTooltip(title);
             }
-        };
-
-        var getAndDiv = function(){
-            if(typeof andDiv === "undefined"){
-                var andDiv = self.editorTemplate.find("> div.segment-and").clone();
-            }
-            return andDiv.clone();
-        };
-
-        var getOrDiv = function(){
-            if(typeof orDiv === "undefined"){
-                var orDiv = self.editorTemplate.find("> div.segment-or").clone();
-            }
-            return orDiv.clone();
-        };
-
-        var getMockedInputSet = function(){
-            var mockedInputSet = self.editorTemplate.find("div.segment-row-inputs").clone();
-            var clonedInput    = mockedInputSet.clone();
-            preselectFirstMetricMatch(clonedInput);
-
-            return clonedInput;
-        };
-
-        var getMockedInputRowHtml = function(){
-            return '<div class="segment-row"><a class="segment-close" href="#"></a><div class="segment-row-inputs">'+getMockedInputSet().html()+'</div></div>';
-        };
-
-        var getMockedFormRow = function(){
-            var mockedFormRow = self.editorTemplate.find("div.segment-rows").clone();
-            $(mockedFormRow).find(".segment-row").append(getMockedInputSet()).after(getAddOrBlockButtonHtml).after(getOrDiv());
-            var clonedRow = mockedFormRow.clone();
-            preselectFirstMetricMatch(clonedRow);
-
-            return clonedRow;
-        };
-
-        var getInitialStateRowsHtml = function(){
-            if(typeof initialStateRows === "undefined"){
-                var content = self.editorTemplate.find("div.initial-state-rows").html();
-                var initialStateRows = $(content).clone();
-            }
-            return initialStateRows;
-        };
-
-        var revokeInitialStateRows = function(){
-            $(self.form).find(".segment-add-row").remove();
-            $(self.form).find(".segment-and").remove();
-        };
-
-        var appendSpecifiedRowHtml= function(metric) {
-            return;
-            var mockedRow = getMockedFormRow();
-            $(self.form).find(".segment-content > h3").after(mockedRow);
-            $(self.form).find(".segment-content").append(getAndDiv());
-            $(self.form).find(".segment-content").append(getAddNewBlockButtonHtml());
-            $(self.form).find(".metricList").val(metric).trigger("change");
-            preselectFirstMetricMatch(mockedRow);
-        };
-
-        var appendComplexRowHtml = function(block){
-            return;
-            var key;
-            var newRow = getMockedFormRow();
-
-            var x = $(newRow).find(".metricMatchBlock select");
-            $(newRow).find(".metricListBlock select").val(block[0].metric);
-            $(newRow).find(".metricMatchBlock select").val(block[0].match);
-            $(newRow).find(".metricValueBlock input").val(block[0].value);
-
-            if(block.length > 1) {
-                $(newRow).find(".segment-add-or").remove();
-                for(key = 1; key < block.length;key++) {
-                    var newSubRow = $(getMockedInputRowHtml()).clone();
-                    $(newSubRow).find(".metricListBlock select").val(block[key].metric);
-                    $(newSubRow).find(".metricMatchBlock select").val(block[key].match);
-                    $(newSubRow).find(".metricValueBlock input").val(block[key].value);
-                    $(newRow).append(newSubRow).append(getOrDiv());
-                }
-                $(newRow).append(getAddOrBlockButtonHtml());
-            }
-            $(self.form).find(".segment-content").append(newRow).append(getAndDiv());
-        };
-
-        var applyInitialStateModification = function(){
-            $(self.form).find(".segment-add-row").remove();
-            $(self.form).find(".segment-content").append(getInitialStateRowsHtml());
         };
 
         var getSegmentFromId = function (id) {
@@ -372,62 +280,6 @@ Segmentation = (function($) {
             });
         };
 
-        var findAndExplodeByMatch = function(metric){
-            var matches = ["==" , "!=" , "<=", ">=", "=@" , "!@","<",">", "=^", "=$"];
-            var newMetric = {};
-            var minPos = metric.length;
-            var match, index;
-            var singleChar = false;
-
-            for(var key=0; key < matches.length; key++)
-            {
-                match = matches[key];
-                index = metric.indexOf(match);
-                if( index != -1){
-                    if(index < minPos){
-                        minPos = index;
-                        if(match.length == 1){
-                            singleChar = true;
-                        }
-                    }
-                }
-            }
-
-            if(minPos < metric.length){
-                // sth found - explode
-                if(singleChar == true){
-                    newMetric.metric = metric.substr(0,minPos);
-                    newMetric.match = metric.substr(minPos,1);
-                    newMetric.value = metric.substr(minPos+1);
-                } else {
-                    newMetric.metric = metric.substr(0,minPos);
-                    newMetric.match = metric.substr(minPos,2);
-                    newMetric.value = metric.substr(minPos+2);
-                }
-                // if value is only "" -> change to empty string
-                if(newMetric.value == '""')
-                {
-                    newMetric.value = "";
-                }
-            }
-
-            newMetric.value = decodeURIComponent(newMetric.value);
-            return newMetric;
-        };
-
-        var parseSegmentStr = function(segmentStr)
-        {
-            var blocks;
-            blocks = segmentStr.split(";");
-            for(var key in blocks){
-                blocks[key] = blocks[key].split(",");
-                for(var innerkey = 0; innerkey < blocks[key].length; innerkey++){
-                    blocks[key][innerkey] = findAndExplodeByMatch(blocks[key][innerkey]);
-                }
-            }
-            return blocks;
-        };
-
         var openEditForm = function(segment){
             addForm("edit", segment);
 
@@ -441,14 +293,6 @@ Segmentation = (function($) {
                 .html( getSegmentName(segment) )
                 .prop( 'title', getSegmentTooltipEnrichedWithUsername(segment));
 
-            if(segment.definition != ""){
-                revokeInitialStateRows();
-                var blocks = parseSegmentStr(segment.definition);
-                for(var key in blocks){
-                    appendComplexRowHtml(blocks[key]);
-                }
-                $(self.form).find(".segment-content").append(getAddNewBlockButtonHtml());
-            }
             $(self.form).find(".metricList").each( function(){
                 $(this).trigger("change", true);
             });
@@ -708,16 +552,6 @@ Segmentation = (function($) {
 
         };
 
-        var getAddNewBlockButtonHtml = function()
-        {
-            if(typeof addNewBlockButton === "undefined")
-            {
-                var addNewBlockButton = self.editorTemplate.find("> div.segment-add-row").clone();
-            }
-            return addNewBlockButton.clone();
-
-        };
-
         var getAddOrBlockButtonHtml = function(){
             if(typeof addOrBlockButton === "undefined") {
                 var addOrBlockButton = self.editorTemplate.find("div.segment-add-or").clone();
@@ -847,6 +681,9 @@ Segmentation = (function($) {
                 $(self.form).find('.visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
                 $(self.form).find('.auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
 
+                if (segment.definition != ""){
+                    self.form.find('[piwik-segment-generator]').attr('segment-definition', segment.definition);
+                }
             }
 
             makeDropList(".enable_all_users" , ".enable_all_users_select");
@@ -874,34 +711,14 @@ Segmentation = (function($) {
             self.target.closest('.segmentEditorPanel').removeClass('editing');
         };
 
-        var parseForm = function(){
-            var segmentStr = "";
-            $(self.form).find(".segment-rows").each( function(){
-                var subSegmentStr = "";
-
-                $(this).find(".segment-row").each( function(){
-                    if(subSegmentStr != ""){
-                        subSegmentStr += ","; // OR operator
-                    }
-                    $(this).find(".segment-row-inputs").each( function(){
-                        var metric = $(this).find(".metricList option:selected").val();
-                        var match = $(this).find(".metricMatchBlock > select option:selected").val();
-                        var value = $(this).find(".segment-input input").val();
-                        subSegmentStr += metric + match + encodeURIComponent(value);
-                    });
-                });
-                if(segmentStr != "")
-                {
-                    segmentStr += ";"; // add AND operator between segment blocks
-                }
-                segmentStr += subSegmentStr;
-            });
-            return segmentStr
-        };
+        function getSegmentGeneratorController()
+        {
+            return angular.element(self.form.find('.segment-generator')).scope().segmentGenerator;
+        }
 
         var parseFormAndSave = function(){
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
-            var segmentStr = parseForm();
+            var segmentStr = getSegmentGeneratorController().getSegmentString();
             var segmentId = $(self.form).find('.available_segments_select > option:selected').attr("data-idsegment");
             var user = $(self.form).find(".enable_all_users_select option:selected").val();
             var autoArchive = $(self.form).find(".auto_archive_select option:selected").val() || 0;

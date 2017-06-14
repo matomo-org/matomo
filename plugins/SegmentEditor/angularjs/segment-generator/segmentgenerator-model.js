@@ -47,7 +47,6 @@
                 return response;
             }).finally(function () {
                 model.isLoading = false;
-                model.currentRequest = null;
             });
         }
     }

@@ -1,4 +1,6 @@
 <div class="segment-generator">
+    <div piwik-activity-indicator loading="segmentGenerator.model.isLoading"></div>
+
     <div ng-repeat="condition in segmentGenerator.conditions">
         <div class="segment-rows">
             <div ng-repeat="orCondition in condition.orConditions" class="orCondId{{ orCondition.id }}">
@@ -20,6 +22,7 @@
                             <div piwik-field uicontrol="select" name="matches"
                                  style="display: inline-block"
                                  full-width="true"
+                                 ng-change="segmentGenerator.updateSegmentDefinition()"
                                  ng-model="orCondition.matches"
                                  options="segmentGenerator.matches[segmentGenerator.segments[orCondition.segment].type]">
                             </div>
@@ -28,7 +31,8 @@
                             <div class="form-group row" style="width: 100%;">
                                 <div class="input-field col s12">
                                     <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-                                    <input ng-model="orCondition.value"
+                                    <input ng-model="orCondition.value" placeholder="Value"
+                                           ng-change="segmentGenerator.updateSegmentDefinition()"
                                            type="text" class="autocomplete" title="Value" autocomplete="off">
                                 </div>
                             </div>
@@ -40,18 +44,18 @@
                 <div class="segment-or">{{ 'SegmentEditor_OperatorOR'|translate }}</div>
             </div>
 
-            <div class="segment-add-or" ng-click="addOr">
+            <div class="segment-add-or" ng-click="segmentGenerator.addNewOrCondition(condition)">
                 <div>
-                    <a ng-click="segmentGenerator.addOrCondition(condition)"> + Add <span>OR</span> condition </a>
+                    <a> + Add <span>OR</span> condition </a>
                 </div>
             </div>
         </div>
         <div class="segment-and">{{ 'SegmentEditor_OperatorAND'|translate }}</div>
     </div>
 
-    <div class="segment-add-row initial">
+    <div class="segment-add-row initial" ng-click="segmentGenerator.addNewAndCondition()">
         <div>
-            <a ng-click="segmentGenerator.addAndCondition()">+ Add condition</a>
+            <a>+ {{ 'SegmentEditor_AddCondition'|translate }}</a>
         </div>
     </div>
 </div>

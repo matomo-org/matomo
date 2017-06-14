@@ -2,21 +2,44 @@
 
   position: relative;
 
+  .secondary-content {
+    font-size: 16px;
+    margin-top: -3px;
+    color: @theme-color-link;
+  }
+
   ul {
     min-width: 250px;
 
     &.collection.firstLevel {
       border-top: 0;
+      > li {
+        padding: 0 !important;
+      }
     }
 
-    .expandableListItem, .expandableListCategory {
-      cursor: pointer;
+    .expandableListCategory {
+      padding: 10px 20px;
+    }
+
+    li {
+      &:hover {
+        background: #f2f2f2 !important;
+      }
+
+      &.collection-item {
+        cursor: pointer;
+      }
     }
 
     ul {
+      margin-top: 0;
+      margin-bottom: 0;
+
       li {
         padding-top: 6px !important;
         padding-bottom: 6px !important;
+        padding-left: 30px !important;
         min-width: 200px;
 
         &:hover {
@@ -39,7 +62,7 @@
   .expandableList {
     position: absolute;
     z-index: 9999;
-    margin-top: -4px;
+    margin-top: -48px;
     background: #fff;
   }
 }
