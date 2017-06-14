@@ -1,0 +1,45 @@
+.expandableSelector {
+
+  position: relative;
+
+  ul {
+    min-width: 250px;
+
+    &.collection.firstLevel {
+      border-top: 0;
+    }
+
+    .expandableListItem, .expandableListCategory {
+      cursor: pointer;
+    }
+
+    ul {
+      li {
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+        min-width: 200px;
+
+        &:hover {
+          background: #f2f2f2 !important;
+        }
+      }
+    }
+  }
+
+  .expandableSearch {
+    vertical-align: top;
+    padding: 7px 6px !important;
+    border: 1px solid #d0d0d0 !important;
+    background: #fff !important;
+    font-size: 11px !important;
+    color: #454545 !important;
+    margin: 5px !important;
+  }
+
+  .expandableList {
+    position: absolute;
+    z-index: 9999;
+    margin-top: -4px;
+    background: #fff;
+  }
+}

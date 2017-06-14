@@ -63,6 +63,12 @@ class FieldConfig
     const UI_CONTROL_SINGLE_SELECT = 'select';
 
     /**
+     * Shows an expandable select field which is useful when each selectable value belongs to a group.
+     * To use this field assign it to the `$uiControl` property.
+     */
+    const UI_CONTROL_SINGLE_EXPANDABLE_SELECT = 'expandable-select';
+
+    /**
      * Generates a hidden form field. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_HIDDEN = 'hidden';
