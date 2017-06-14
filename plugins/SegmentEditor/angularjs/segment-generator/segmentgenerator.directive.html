@@ -1,0 +1,57 @@
+<div class="segment-generator">
+    <div ng-repeat="condition in segmentGenerator.conditions">
+        <div class="segment-rows">
+            <div ng-repeat="orCondition in condition.orConditions" class="orCondId{{ orCondition.id }}">
+                <div class="segment-row">
+                    <a ng-click="segmentGenerator.removeOrCondition(condition, orCondition)" class="segment-close"></a>
+                    <a href="#" class="segment-loading" ng-show="orCondition.isLoading"></a>
+                    <div class="segment-row-inputs valign-wrapper">
+                        <div class="segment-input metricListBlock valign-wrapper">
+                            <div piwik-field uicontrol="expandable-select" name="segments"
+                                 title="{{ segmentGenerator.segments[orCondition.segment].name }}"
+                                 full-width="true"
+                                 style="width: 100%;"
+                                 ng-change="segmentGenerator.updateAutocomplete(orCondition)"
+                                 ng-model="orCondition.segment"
+                                 options="segmentGenerator.segmentList">
+                            </div>
+                        </div>
+                        <div class="segment-input metricMatchBlock valign-wrapper">
+                            <div piwik-field uicontrol="select" name="matches"
+                                 style="display: inline-block"
+                                 full-width="true"
+                                 ng-model="orCondition.matches"
+                                 options="segmentGenerator.matches[segmentGenerator.segments[orCondition.segment].type]">
+                            </div>
+                        </div>
+                        <div class="segment-input metricValueBlock valign-wrapper">
+                            <div class="form-group row" style="width: 100%;">
+                                <div class="input-field col s12">
+                                    <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                                    <input ng-model="orCondition.value"
+                                           type="text" class="autocomplete" title="Value" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="segment-or">{{ 'SegmentEditor_OperatorOR'|translate }}</div>
+            </div>
+
+            <div class="segment-add-or" ng-click="addOr">
+                <div>
+                    <a ng-click="segmentGenerator.addOrCondition(condition)"> + Add <span>OR</span> condition </a>
+                </div>
+            </div>
+        </div>
+        <div class="segment-and">{{ 'SegmentEditor_OperatorAND'|translate }}</div>
+    </div>
+
+    <div class="segment-add-row initial">
+        <div>
+            <a ng-click="segmentGenerator.addAndCondition()">+ Add condition</a>
+        </div>
+    </div>
+</div>

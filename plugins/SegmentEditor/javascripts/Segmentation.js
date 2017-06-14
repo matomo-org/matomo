@@ -177,16 +177,17 @@ Segmentation = (function($) {
         };
 
         var appendSpecifiedRowHtml= function(metric) {
+            return;
             var mockedRow = getMockedFormRow();
             $(self.form).find(".segment-content > h3").after(mockedRow);
             $(self.form).find(".segment-content").append(getAndDiv());
             $(self.form).find(".segment-content").append(getAddNewBlockButtonHtml());
-            doDragDropBindings();
             $(self.form).find(".metricList").val(metric).trigger("change");
             preselectFirstMetricMatch(mockedRow);
         };
 
         var appendComplexRowHtml = function(block){
+            return;
             var key;
             var newRow = getMockedFormRow();
 
@@ -212,7 +213,6 @@ Segmentation = (function($) {
         var applyInitialStateModification = function(){
             $(self.form).find(".segment-add-row").remove();
             $(self.form).find(".segment-content").append(getInitialStateRowsHtml());
-            doDragDropBindings();
         };
 
         var getSegmentFromId = function (id) {
@@ -361,7 +361,7 @@ Segmentation = (function($) {
                 newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+getSegmentTooltipEnrichedWithUsername(segment)+'">'+getSegmentName(segment)+'</option>';
                 segmentsDropdown.append(newOption);
             }
-            $(html).find(".segment-content > h3").after(getInitialStateRowsHtml()).show();
+            $(html).find(".segment-content > h3").after('<div piwik-segment-generator add-initial-condition="true"></div>').show();
             return html;
         };
 
@@ -452,13 +452,11 @@ Segmentation = (function($) {
             $(self.form).find(".metricList").each( function(){
                 $(this).trigger("change", true);
             });
-            doDragDropBindings();
         };
 
         var displayFormAddNewSegment = function (e) {
             closeAllOpenLists();
             addForm("new");
-            doDragDropBindings();
         };
 
         var filterSegmentList = function (keyword) {
@@ -559,17 +557,6 @@ Segmentation = (function($) {
 
                 e.stopPropagation();
                 displayFormAddNewSegment(e);
-            });
-
-            self.target.on('change', "select.metricList", function (e, persist) {
-                if (typeof persist === "undefined") {
-                    persist = false;
-                }
-                alterMatchesList(this, true);
-
-                doDragDropBindings();
-
-                autoSuggestValues(this, persist);
             });
 
             // attach event that will clear segment list filtering input after clicking x
@@ -719,136 +706,6 @@ Segmentation = (function($) {
             // segment manipulation events
             //
 
-            // upon clicking - add new segment block, then bind 'x' action to newly added row
-            self.target.on('click', ".segment-add-row a", function(event, data){
-                var mockedRow = getMockedFormRow();
-                $(self.form).find(".segment-and:last").after(getAndDiv()).after(mockedRow);
-                if(typeof data !== "undefined"){
-                    $(self.form).find(".metricList:last").val(data);
-                }
-                $(self.form).find(".metricList:last").trigger('change');
-                preselectFirstMetricMatch(mockedRow);
-                doDragDropBindings();
-            });
-
-            self.target.on("click", ".segment-add-row span", function(event, data){
-                if(typeof data !== "undefined") {
-                    var mockedRow = getMockedFormRow();
-                    $(self.form).find(".segment-and:last").after(getAndDiv()).after(mockedRow);
-                    preselectFirstMetricMatch(mockedRow);
-                    $(self.form).find(".metricList:last").val(data).trigger('change');
-                    doDragDropBindings();
-                }
-            });
-
-            // add new OR block
-            self.target.on("click", ".segment-add-or a", function(event, data){
-                var parentRows = $(event.currentTarget).parents(".segment-rows");
-
-                parentRows.find(".segment-or:last").after(getOrDiv()).after(getMockedInputRowHtml());
-                if(typeof data !== "undefined"){
-                    parentRows.find(".metricList:last").val(data);
-                }
-                parentRows.find(".metricList:last").trigger('change');
-
-                var addedRow = parentRows.find('.segment-row:last');
-                preselectFirstMetricMatch(addedRow);
-                doDragDropBindings();
-            });
-
-            self.target.on("click", ".segment-close",  function (e) {
-                var target = e.currentTarget;
-                var rowCnt = $(target).parents(".segment-rows").find(".segment-row").length;
-                var globalRowCnt = $(self.form).find(".segment-close").length;
-                if(rowCnt > 1){
-                    $(target).parents(".segment-row").next().remove();
-                    $(target).parents(".segment-row").remove();
-                }
-                else if(rowCnt == 1){
-                    $(target).parents(".segment-rows").next().remove();
-                    $(target).parents(".segment-rows").remove();
-                    if(globalRowCnt == 1){
-                        applyInitialStateModification();
-                    }
-                }
-            });
-        };
-
-        // Request auto-suggest values
-        var autoSuggestValues = function(select, persist) {
-            var type = $(select).find("option:selected").attr("value");
-            if(!persist) {
-                var parents = $(select).parents('.segment-row');
-                var loadingElement = parents.find(".segment-loading");
-                loadingElement.show();
-                var inputElement = parents.find(".metricValueBlock input");
-                var segmentName = $('option:selected',select).attr('value');
-
-                var ajaxHandler = new ajaxHelper();
-                ajaxHandler.addParams({
-                    module: 'API',
-                    format: 'json',
-                    method: 'API.getSuggestedValuesForSegment',
-                    segmentName: segmentName
-                }, 'GET');
-                ajaxHandler.useRegularCallbackInCaseOfError = true;
-                ajaxHandler.setTimeout(20000);
-                ajaxHandler.setErrorCallback(function(response) {
-                    loadingElement.hide();
-                    inputElement.autocomplete({
-                        source: [],
-                        minLength: 0
-                    });
-                    $(inputElement).autocomplete('search', $(inputElement).val());
-                });
-                ajaxHandler.setCallback(function(response) {
-                    loadingElement.hide();
-
-                    if (response && response.result != 'error') {
-
-                        inputElement.autocomplete({
-                            source: response,
-                            minLength: 0,
-                            select: function(event, ui){
-                                event.preventDefault();
-                                $(inputElement).val(ui.item.value);
-                            }
-                        });
-                    }
-
-                    inputElement.click(function (e) {
-                        $(inputElement).autocomplete('search', $(inputElement).val());
-                    });
-                });
-                ajaxHandler.send();
-            }
-        };
-
-        var alterMatchesList = function(select, persist){
-            var oldMatch;
-            var type = $(select).find("option:selected").attr("data-type");
-            var matchSelector = $(select).parents(".segment-input").siblings(".metricMatchBlock").find("select");
-            if(persist === true){
-                oldMatch = matchSelector.find("option:selected").val();
-            } else {
-                oldMatch = "";
-            }
-
-            if(type === "dimension" || type === "metric"){
-                matchSelector.empty();
-                var optionsHtml = "";
-                for(var key in self.availableMatches[type]){
-                    optionsHtml += '<option value="'+key+'">'+self.availableMatches[type][key]+'</option>';
-                }
-            }
-
-            matchSelector.append(optionsHtml);
-
-            if (matchSelector.find('option[value="' + oldMatch + '"]').length) {
-                matchSelector.val(oldMatch);
-            } else {
-                preselectFirstMetricMatch(matchSelector.parent());
-            }
         };
 
         var getAddNewBlockButtonHtml = function()
@@ -868,16 +725,6 @@ Segmentation = (function($) {
             return addOrBlockButton.clone();
         };
 
-        var placeSegmentationFormControls = function(){
-            doDragDropBindings();
-            $(self.form).find(".scrollable").jScrollPane({
-                showArrows: true,
-                autoReinitialise: true,
-                verticalArrowPositions: 'os',
-                horizontalArrowPositions: 'os'
-            });
-        };
-
         function openEditFormGivenSegment(option) {
             var idsegment = option.attr("data-idsegment");
 
@@ -889,42 +736,6 @@ Segmentation = (function($) {
                 openEditForm(segment);
             }
         }
-
-        var doDragDropBindings = function(){
-            $(self.form).find(".segment-nav div > ul > li > ul > li").sortable({
-                cursor: 'move',
-                revert: 10,
-                revertDuration: 0,
-                snap: false,
-                helper: 'clone',
-                appendTo: 'body'
-            });
-
-            $(self.form).find(".metricListBlock").droppable({
-                hoverClass: "hovered",
-                drop: function( event, ui ) {
-                    $(this).find("select").val(ui.draggable.parent().attr("data-metric")).trigger("change");
-                }
-            });
-
-            $(self.form).find(".segment-add-row > div").droppable({
-                hoverClass: "hovered",
-                drop: function( event, ui ) {
-                    $(this).find("a").trigger("click", [ui.draggable.parent().attr("data-metric")]);
-                    if($(this).find("a > span").length == 0){
-                        revokeInitialStateRows();
-                        appendSpecifiedRowHtml([ui.draggable.parent().attr("data-metric")]);
-                    }
-                }
-            });
-
-            $(self.form).find(".segment-add-or > div").droppable({
-                hoverClass: "hovered",
-                drop: function( event, ui ) {
-                    $(this).find("a").trigger("click", [ui.draggable.parent().attr("data-metric")]);
-                }
-            });
-        };
 
         var searchSegments = function(search){
             // pre-process search string to normalized form
@@ -1025,8 +836,6 @@ Segmentation = (function($) {
             ) {
                 self.form.addClass('anchorRight');
             }
-
-            placeSegmentationFormControls();
 
             if(mode == "edit") {
                 var userSelector = $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);

@@ -21,7 +21,7 @@ class DimensionsProvider
     {
         $listDimensions = self::getMapOfNameToDimension();
 
-        if (!array_key_exists($dimensionId, $listDimensions)) {
+        if (empty($listDimensions) || !is_array($listDimensions) || !$dimensionId || !array_key_exists($dimensionId, $listDimensions)) {
             return null;
         }
 
