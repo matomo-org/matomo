@@ -30,6 +30,7 @@
         "TitleRowNewDetails": "'%1$s' increased by %2$s and is new compared to %3$s.",
         "WeekComparedToPreviousWeek": "previous week",
         "WidgetCategory": "Insights",
-        "YearComparedToPreviousYear": "previous year"
+        "YearComparedToPreviousYear": "previous year",
+        "FiscalYearComparedToPreviousYear": "previous fiscal year"
     }
 }

@@ -301,7 +301,7 @@ class SettingsPiwik
         $result = !empty($generalSettings[$settingName]) && $generalSettings[$settingName] == 1;
 
         // check enable_processing_unique_visitors_year_and_range for backwards compatibility
-        if (($periodLabel == 'year' || $periodLabel == 'range')
+        if (($periodLabel == 'fisyear' || $periodLabel == 'year' || $periodLabel == 'range')
             && isset($generalSettings['enable_processing_unique_visitors_year_and_range'])
         ) {
             $result |= $generalSettings['enable_processing_unique_visitors_year_and_range'] == 1;

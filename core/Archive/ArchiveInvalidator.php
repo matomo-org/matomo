@@ -199,6 +199,7 @@ class ArchiveInvalidator
 
             if ($periodType != 'year'
                 && $periodType != 'range'
+                && $periodType != 'fisyear'
             ) {
                 $periodsToInvalidate[] = Period\Factory::build('year', $date);
             }

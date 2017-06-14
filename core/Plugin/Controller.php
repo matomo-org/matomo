@@ -220,6 +220,10 @@ abstract class Controller
                 'singular' => Piwik::translate('General_DateRangeInPeriodList'),
                 'plural' => Piwik::translate('General_DateRangeInPeriodList')
             ),
+            'fisyear'  => array(
+                'singular' => Piwik::translate('Intl_PeriodFiscalYear'),
+                'plural' => Piwik::translate('Intl_PeriodFiscalYears'),
+            ),
         );
 
         $periodNames = array_intersect_key($periodNames, array_fill_keys($availablePeriods, true));
@@ -634,6 +638,11 @@ abstract class Controller
         $view->rawDate = $rawDate;
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
+
+        //Get the starting month of the fiscal year if "fisyear" is present in periods allowed
+        if (in_array('fisyear', self::getEnabledPeriodsInUI())) {
+            $view->fisYearStartMonth = Config::getInstance()->General['fiscal_year_start_month'];
+        }
 
         $language = LanguagesManager::getLanguageForSession();
         $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();

@@ -27,6 +27,7 @@ abstract class Schedule
     const PERIOD_HOUR = 'hour';
     const PERIOD_YEAR = 'year';
     const PERIOD_RANGE = 'range';
+    const PERIOD_FISYEAR = 'fisyear';
 
     /**
      * @link http://php.net/manual/en/function.date.php, format string : 'G'

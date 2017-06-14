@@ -901,7 +901,7 @@ class Date
      * Adds a period to `$this` date and returns the result in a new Date instance.
      *
      * @param int $n The number of periods to add. Can be negative.
-     * @param string $period The type of period to add (YEAR, MONTH, WEEK, DAY, ...)
+     * @param string $period The type of period to add (YEAR, MONTH, WEEK, DAY, FISYEAR...)
      * @return \Piwik\Date
      */
     public function addPeriod($n, $period)
@@ -920,6 +920,11 @@ class Date
 
             $daysToAdd = min($dateInfo['mday'], self::getMaxDaysInMonth($ts)) - 1;
             $ts += self::NUM_SECONDS_IN_DAY * $daysToAdd;
+        } elseif (strtolower($period) == 'fisyear') {
+            $templabel = 'year';
+            $time = $n < 0 ? "$n $templabel" : "+$n $templabel";
+
+            $ts = strtotime($time, $this->timestamp);
         } else {
             $time = $n < 0 ? "$n $period" : "+$n $period";
 

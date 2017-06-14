@@ -429,6 +429,8 @@
         "XFromY": "%1$s from %2$s",
         "YearlyReport": "yearly",
         "YearlyReports": "Yearly reports",
+        "FiscalYearlyReport": "yearly",
+        "FiscalYearlyReports": "Yearly reports (Fiscal)",
         "YearsDays": "%1$s years %2$s days",
         "Yes": "Yes",
         "YouAreCurrentlyUsing": "You are currently using Piwik %s.",

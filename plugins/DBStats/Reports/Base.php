@@ -52,6 +52,7 @@ abstract class Base extends \Piwik\Plugin\Report
         $view->config->addTranslations(array(
             'label'          => Piwik::translate('DBStats_Table'),
             'year'           => Piwik::translate('Intl_PeriodYear'),
+            'fisyear'        => Piwik::translate('Intl_PeriodFiscalYear'),
             'data_size'      => Piwik::translate('DBStats_DataSize'),
             'index_size'     => Piwik::translate('DBStats_IndexSize'),
             'total_size'     => Piwik::translate('DBStats_TotalSize'),

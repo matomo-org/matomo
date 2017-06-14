@@ -193,6 +193,7 @@ class Controller extends ControllerAdmin
             'week'       => $this->translator->translate('General_CurrentWeek'),
             'month'      => $this->translator->translate('General_CurrentMonth'),
             'year'       => $this->translator->translate('General_CurrentYear'),
+            'fisyear'    => $this->translator->translate('General_CurrentYear'),
         );
 
         $mappingDatesToPeriods = array(
@@ -205,6 +206,7 @@ class Controller extends ControllerAdmin
             'week' => 'week',
             'month' => 'month',
             'year' => 'year',
+            'fisyear' => 'fisyear',
         );
 
         // assertion

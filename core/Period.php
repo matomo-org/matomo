@@ -172,7 +172,7 @@ abstract class Period
     /**
      * Returns the label for the current period.
      *
-     * @return string `"day"`, `"week"`, `"month"`, `"year"`, `"range"`
+     * @return string `"day"`, `"week"`, `"month"`, `"year"`, `"range"`, `"fisyear"`
      */
     public function getLabel()
     {
