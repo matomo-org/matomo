@@ -897,13 +897,12 @@ class Archive
         $idArchivesByMonth = array();
 
         foreach (array_keys($doneFlags) as $doneFlag) {
-            if (empty($this->idarchives[$doneFlag])) {
-                continue;
-            }
-
-            foreach ($this->idarchives[$doneFlag] as $dateRange => $idarchives) {
-                foreach ($idarchives as $id) {
-                    $idArchivesByMonth[$dateRange][] = $id;
+            foreach ($this->params->getPeriods() as $period) {
+                $dateRange = $period->getRangeString();
+                foreach ($this->params->getIdSites() as $idSite) {
+                    if (isset($this->idarchives[$doneFlag][$dateRange][$idSite])) {
+                        $idArchivesByMonth[$dateRange][] = $this->idarchives[$doneFlag][$dateRange][$idSite];
+                    }
                 }
             }
         }
