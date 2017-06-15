@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Piwik\Archive\IdArchiveCache;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchiveInvalidator;
@@ -113,34 +114,6 @@ class Archive
     const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
 
     /**
-     * List of archive IDs for the site, periods and segment we are querying with.
-     * Archive IDs are indexed by done flag and period, ie:
-     *
-     * array(
-     *     'done.Referrers' => array(
-     *         '2010-01-01' => 1,
-     *         '2010-01-02' => 2,
-     *     ),
-     *     'done.VisitsSummary' => array(
-     *         '2010-01-01' => 3,
-     *         '2010-01-02' => 4,
-     *     ),
-     * )
-     *
-     * or,
-     *
-     * array(
-     *     'done.all' => array(
-     *         '2010-01-01' => 1,
-     *         '2010-01-02' => 2
-     *     )
-     * )
-     *
-     * @var array
-     */
-    private $idarchives = array();
-
-    /**
      * If set to true, the result of all get functions (ie, getNumeric, getBlob, etc.)
      * will be indexed by the site ID, even if we're only querying data for one site.
      *
@@ -172,6 +145,11 @@ class Archive
     private $invalidator;
 
     /**
+     * @var IdArchiveCache
+     */
+    private $idArchiveCahe;
+
+    /**
      * @param Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
@@ -183,7 +161,8 @@ class Archive
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
 
-        $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+        $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $this->idArchiveCahe = StaticContainer::get(IdArchiveCache::class);
     }
 
     /**
@@ -606,7 +585,7 @@ class Archive
      * query archive tables for IDs w/o launching archiving, or launch archiving and
      * get the idarchive from ArchiveProcessor instances.
      *
-     * @param string $archiveNames
+     * @param string[] $archiveNames
      * @return array
      */
     private function getArchiveIds($archiveNames)
@@ -640,7 +619,7 @@ class Archive
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
             if (!Rules::isArchivingDisabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())) {
-                $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
+                $this->cacheArchiveIdsAfterLaunching($archiveGroups);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
             }
@@ -659,7 +638,7 @@ class Archive
      * @param array $archiveGroups @see getArchiveGroupOfReport
      * @param array $plugins List of plugin names to archive.
      */
-    private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
+    private function cacheArchiveIdsAfterLaunching($archiveGroups)
     {
         $this->invalidatedReportsIfNeeded();
 
@@ -707,9 +686,9 @@ class Archive
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
 
         foreach ($idarchivesByReport as $doneFlag => $idarchivesByDate) {
-            foreach ($idarchivesByDate as $dateRange => $idarchives) {
-                foreach ($idarchives as $idSite => $idarchive) {
-                    $this->idarchives[$doneFlag][$dateRange][$idSite] = $idarchive;
+            foreach ($idarchivesByDate as $dateRange => $idArchives) {
+                foreach ($idArchives as $idSite => $idArchive) {
+                    $this->idArchiveCahe->set($idSite, $dateRange, $doneFlag, $idArchive);
                 }
             }
         }
@@ -776,30 +755,6 @@ class Archive
         // we cast the result as float because returns false when no visitors
         return round((float)$value, 2);
     }
-
-    /**
-     * Initializes the archive ID cache ($this->idarchives) for a particular 'done' flag.
-     *
-     * It is necessary that each archive ID caching function call this method for each
-     * unique 'done' flag it encounters, since the getArchiveIds function determines
-     * whether archiving should be launched based on whether $this->idarchives has a
-     * an entry for a specific 'done' flag.
-     *
-     * If this  function is not called, then periods with no visits will not add
-     * entries to the cache. If the archive is used again, SQL will be executed to
-     * try and find the archive IDs even though we know there are none.
-     *
-     * @param string $doneFlag
-     */
-    /*
-     TODO: instead of this function, let's set idarchive entries to null (for done flag, idarchive + period)
-    private function initializeArchiveIdCache($doneFlag)
-    {
-        if (!isset($this->idarchives[$doneFlag])) {
-            $this->idarchives[$doneFlag] = array();
-        }
-    }
-    */
 
     /**
      * Returns the archiving group identifier given a plugin.
@@ -872,15 +827,12 @@ class Archive
         // process for each plugin as well
         foreach ($archiveGroups as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, [$idSite]);
-            if (isset($this->idarchives[$doneFlag][$periodString][$idSite])) {
+            if ($this->idArchiveCahe->has($idSite, $periodString, $doneFlag)) {
                 continue;
             }
 
             $idArchive = $archiveLoader->prepareArchive($plugin);
-
-            if ($idArchive) {
-                $this->idarchives[$doneFlag][$periodString][$idSite] = $idArchive;
-            }
+            $this->idArchiveCahe->set($idSite, $periodString, $doneFlag, $idArchive);
         }
     }
 
@@ -893,8 +845,8 @@ class Archive
             foreach ($this->params->getPeriods() as $period) {
                 $dateRange = $period->getRangeString();
                 foreach ($this->params->getIdSites() as $idSite) {
-                    if (isset($this->idarchives[$doneFlag][$dateRange][$idSite])) {
-                        $idArchivesByMonth[$dateRange][] = $this->idarchives[$doneFlag][$dateRange][$idSite];
+                    if ($this->idArchiveCahe->hasNonEmpty($idSite, $dateRange, $doneFlag)) {
+                        $idArchivesByMonth[$dateRange][] = $this->idArchiveCahe->get($idSite, $dateRange, $doneFlag);
                     }
                 }
             }
