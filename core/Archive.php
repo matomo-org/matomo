@@ -706,14 +706,6 @@ class Archive
         $idarchivesByReport = ArchiveSelector::getArchiveIds(
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
 
-        // initialize archive ID cache for each report
-        foreach ($plugins as $plugin) {
-            $doneFlag = $this->getDoneStringForPlugin($plugin, $this->params->getIdSites());
-            $this->initializeArchiveIdCache($doneFlag);
-            $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
-            $this->initializeArchiveIdCache($globalDoneFlag);
-        }
-
         foreach ($idarchivesByReport as $doneFlag => $idarchivesByDate) {
             foreach ($idarchivesByDate as $dateRange => $idarchives) {
                 foreach ($idarchives as $idSite => $idarchive) {
@@ -799,12 +791,15 @@ class Archive
      *
      * @param string $doneFlag
      */
+    /*
+     TODO: instead of this function, let's set idarchive entries to null (for done flag, idarchive + period)
     private function initializeArchiveIdCache($doneFlag)
     {
         if (!isset($this->idarchives[$doneFlag])) {
             $this->idarchives[$doneFlag] = array();
         }
     }
+    */
 
     /**
      * Returns the archiving group identifier given a plugin.
@@ -877,8 +872,6 @@ class Archive
         // process for each plugin as well
         foreach ($archiveGroups as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, [$idSite]);
-            $this->initializeArchiveIdCache($doneFlag);
-
             if (isset($this->idarchives[$doneFlag][$periodString][$idSite])) {
                 continue;
             }
