@@ -716,8 +716,8 @@ class Archive
 
         foreach ($idarchivesByReport as $doneFlag => $idarchivesByDate) {
             foreach ($idarchivesByDate as $dateRange => $idarchives) {
-                foreach ($idarchives as $idarchive) {
-                    $this->idarchives[$doneFlag][$dateRange][] = $idarchive;
+                foreach ($idarchives as $idSite => $idarchive) {
+                    $this->idarchives[$doneFlag][$dateRange][$idSite] = $idarchive;
                 }
             }
         }
@@ -872,17 +872,17 @@ class Archive
 
         $periodString = $period->getRangeString();
 
-        $idSites = array($site->getId());
+        $idSite = $site->getId();
         
         // process for each plugin as well
         foreach ($archiveGroups as $plugin) {
-            $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
+            $doneFlag = $this->getDoneStringForPlugin($plugin, [$idSite]);
             $this->initializeArchiveIdCache($doneFlag);
 
             $idArchive = $archiveLoader->prepareArchive($plugin);
 
             if ($idArchive) {
-                $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                $this->idarchives[$doneFlag][$periodString][$idSite] = $idArchive;
             }
         }
     }

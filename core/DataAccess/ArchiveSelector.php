@@ -209,7 +209,7 @@ class ArchiveSelector
                 //FIXMEA duplicate with Archive.php
                 $dateStr = $row['date1'] . ',' . $row['date2'];
 
-                $result[$row['name']][$dateStr][] = $row['idarchive'];
+                $result[$row['name']][$dateStr][$row['idsite']] = $row['idarchive'];
             }
         }
 
