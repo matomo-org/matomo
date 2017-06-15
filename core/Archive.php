@@ -621,14 +621,13 @@ class Archive
             $doneFlag = $this->getDoneStringForPlugin($plugin, $this->params->getIdSites());
 
             $doneFlags[$doneFlag] = true;
-            if (!isset($this->idarchives[$doneFlag])) {
-                $archiveGroup = $this->getArchiveGroupOfPlugin($plugin);
 
-                if ($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
-                    $archiveGroup = reset($plugins);
-                }
-                $archiveGroups[] = $archiveGroup;
+            $archiveGroup = $this->getArchiveGroupOfPlugin($plugin);
+
+            if ($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
+                $archiveGroup = reset($plugins);
             }
+            $archiveGroups[] = $archiveGroup;
 
             $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
             if ($globalDoneFlag !== $doneFlag) {
@@ -703,6 +702,7 @@ class Archive
      */
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
+        // TODO: if the archives already exist in the cache, we don't need to re-query
         $idarchivesByReport = ArchiveSelector::getArchiveIds(
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
 
@@ -878,6 +878,10 @@ class Archive
         foreach ($archiveGroups as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, [$idSite]);
             $this->initializeArchiveIdCache($doneFlag);
+
+            if (isset($this->idarchives[$doneFlag][$periodString][$idSite])) {
+                continue;
+            }
 
             $idArchive = $archiveLoader->prepareArchive($plugin);
 
