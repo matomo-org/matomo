@@ -69,4 +69,16 @@ class IdArchiveCache
     {
         $this->idArchives[$idSite][$dateRange][$doneFlag] = $idArchive;
     }
+
+    public function flushBySite(array $idSites)
+    {
+        foreach ($idSites as $idSite) {
+            unset($this->idArchives[$idSite]);
+        }
+    }
+
+    public function flushAll()
+    {
+        $this->idArchives = [];
+    }
 }

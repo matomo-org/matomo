@@ -52,9 +52,15 @@ class ArchiveInvalidator
      */
     private $model;
 
-    public function __construct(Model $model)
+    /**
+     * @var IdArchiveCache
+     */
+    private $idArchiveCache;
+
+    public function __construct(Model $model, IdArchiveCache $idArchiveCache)
     {
         $this->model = $model;
+        $this->idArchiveCache = $idArchiveCache;
     }
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
@@ -260,6 +266,11 @@ class ArchiveInvalidator
             }
 
             $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
+
+            // since we invalidated archives for these sites, remove those entries from the cache
+            // NOTE: we could be more precise and only invalidate the archives that updateArchiveAsInvalidated
+            // invalidates, but that would be a lot harder.
+            $this->idArchiveCache->flushBySite($idSites);
         }
     }
 
