@@ -24,6 +24,8 @@ class Parameters
     /**
      * The list of Period's to query archive data for.
      *
+     * NOTE: every period must be of the same type (ie, all months or all days, etc.)
+     *
      * @var Period[]
      */
     private $periods = array();
@@ -55,5 +57,10 @@ class Parameters
     public function getIdSites()
     {
         return $this->idSites;
+    }
+
+    public function getPeriodLabel()
+    {
+        return reset($this->periods)->getLabel();
     }
 }
