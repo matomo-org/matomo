@@ -35,7 +35,14 @@ class Archive extends PiwikArchive
     {
         return parent::get($archiveNames, $archiveDataType, $idSubtable);
     }
+}
 
+class TestArchiveQueryFactory extends PiwikArchive\ArchiveQueryFactory
+{
+    protected function newArchiveInstance(PiwikArchive\Parameters $params, $forceIndexedBySite, $forceIndexedByDate)
+    {
+        return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
+    }
 }
 
 /**
@@ -387,9 +394,15 @@ class ArchiveTest extends IntegrationTestCase
         return $archive->getNumeric('nb_visits');
     }
 
+    /**
+     * @param $period
+     * @param string $day
+     * @return Archive
+     */
     private function getArchive($period, $day = '2010-03-04,2010-03-07')
     {
-        return Archive::build(self::$fixture->idSite, $period, $day);
+        $factory = new TestArchiveQueryFactory();
+        return $factory->build(self::$fixture->idSite, $period, $day);
     }
 }
 
