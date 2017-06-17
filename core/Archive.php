@@ -144,13 +144,13 @@ class Archive
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
     public function __construct(Parameters $params, $forceIndexedBySite = false,
-                                   $forceIndexedByDate = false)
+                                   $forceIndexedByDate = false, ArchiveTableStore $archiveTableStore = null)
     {
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
 
-        $this->archiveTableStore = StaticContainer::get(ArchiveTableStore::class);
+        $this->archiveTableStore = $archiveTableStore ?: StaticContainer::get(ArchiveTableStore::class);
     }
 
     /**
