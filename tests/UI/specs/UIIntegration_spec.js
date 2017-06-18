@@ -420,6 +420,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load the ecommerce log page with segment', function (done) {
+        this.retries(3);
+        expect.screenshot('ecommerce_log_segmented').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "&segment=countryCode%3D%3DUS#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog&segment=countryCode%3D%3DUS");
+        }, done);
+    });
+
     it('should load the ecommerce products page', function (done) {
         expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_Products");
