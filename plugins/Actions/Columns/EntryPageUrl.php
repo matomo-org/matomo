@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\Join\ActionNameJoin;
-use Piwik\Piwik;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -20,19 +18,15 @@ class EntryPageUrl extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_url';
     protected $columnType = 'INTEGER(11) UNSIGNED NULL  DEFAULT NULL';
+    protected $segmentName = 'entryPageUrl';
+    protected $nameSingular = 'Actions_ColumnEntryPageURL';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_JOIN_ID;
 
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();
-    }
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('entryPageUrl');
-        $segment->setName('Actions_ColumnEntryPageURL');
-        $this->addSegment($segment);
     }
 
     /**
@@ -74,11 +68,6 @@ class EntryPageUrl extends VisitDimension
         }
 
         return false;
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnEntryPageURL');
     }
 
 }

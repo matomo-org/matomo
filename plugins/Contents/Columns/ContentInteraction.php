@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\Contents\Columns;
 
 use Piwik\Columns\Join\ActionNameJoin;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
@@ -21,23 +19,14 @@ class ContentInteraction extends ActionDimension
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
     protected $type = self::TYPE_JOIN_ID;
     protected $acceptValues = 'The type of interaction with the content. For instance "click" or "submit".';
+    protected $segmentName = 'contentInteraction';
+    protected $nameSingular = 'Contents_ContentInteraction';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();
-    }
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('contentInteraction');
-        $segment->setName('Contents_ContentInteraction');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Contents_ContentInteraction');
     }
 
     public function getActionId()

@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\Contents\Columns;
 
 use Piwik\Columns\Join\ActionNameJoin;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
@@ -19,25 +17,16 @@ class ContentPiece extends ActionDimension
 {
     protected $columnName = 'idaction_content_piece';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $segmentName = 'contentPiece';
+    protected $nameSingular = 'Contents_ContentPiece';
+    protected $acceptValues = 'The actual content. For instance "ad.jpg" or "My text ad"';
     protected $type = self::TYPE_JOIN_ID;
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();
-    }
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('contentPiece');
-        $segment->setName('Contents_ContentPiece');
-        $segment->setAcceptedValues('The actual content. For instance "ad.jpg" or "My text ad"');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Contents_ContentPiece');
     }
 
     public function getActionId()

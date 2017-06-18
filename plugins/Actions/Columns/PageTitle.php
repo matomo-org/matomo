@@ -9,32 +9,21 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\Join\ActionNameJoin;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
 
 class PageTitle extends ActionDimension
 {
     protected $columnName = 'idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED';
     protected $type = self::TYPE_JOIN_ID;
+    protected $segmentName = 'pageTitle';
+    protected $nameSingular = 'Actions_ColumnPageName';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();
-    }
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('pageTitle');
-        $segment->setName('Actions_ColumnPageName');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnPageName');
     }
 
 }

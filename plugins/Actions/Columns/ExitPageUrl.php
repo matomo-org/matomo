@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\Join;
 use Piwik\Piwik;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -21,18 +20,14 @@ class ExitPageUrl extends VisitDimension
     protected $columnName = 'visit_exit_idaction_url';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL DEFAULT 0';
     protected $type = self::TYPE_JOIN_ID;
+    protected $segmentName = 'exitPageUrl';
+    protected $nameSingular = 'Actions_ColumnExitPageURL';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {
         return new Join\ActionNameJoin();
-    }
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('exitPageUrl');
-        $segment->setName('Actions_ColumnExitPageURL');
-        $this->addSegment($segment);
     }
 
     /**
@@ -71,10 +66,5 @@ class ExitPageUrl extends VisitDimension
         }
 
         return $id;
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnExitPageURL');
     }
 }

@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Tracker\Action;
 use Exception;
 
@@ -30,26 +28,17 @@ class ActionType extends ActionDimension
         Action::TYPE_DOWNLOAD => 'downloads'
     );
 
-    /**
-     * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
-     * @return string
-     */
-    public function getName()
-    {
-        return Piwik::translate('Actions_ActionType');
-    }
+    protected $columnName = 'type';
+    protected $segmentName = 'actionType';
+    protected $type = self::TYPE_ENUM;
+    protected $nameSingular = 'Actions_ActionType';
+    protected $category = 'General_Actions';
 
-    protected function configureSegments()
+    public function __construct()
     {
+        $this->acceptValues = sprintf('A type of action, such as: %s', implode(', ', $this->types));
         $types = $this->types;
-
-        $segment = new Segment();
-        $segment->setSegment('actionType');
-        $segment->setName('Actions_ActionType');
-        $segment->setSqlSegment('log_action.type');
-        $segment->setType(Segment::TYPE_DIMENSION);
-        $segment->setAcceptedValues(sprintf('A type of action, such as: %s', implode(', ', $types)));
-        $segment->setSqlFilter(function ($type) use ($types) {
+        $this->sqlFilter = function ($type) use ($types) {
             if (array_key_exists($type, $types)) {
                 return $type;
             }
@@ -61,10 +50,10 @@ class ActionType extends ActionDimension
             }
 
             return $index;
-        });
-        $segment->setSuggestedValuesCallback(function ($idSite, $maxSuggestionsToReturn) use ($types) {
+        };
+        $this->suggestedValuesCallback = function ($idSite, $maxSuggestionsToReturn) use ($types) {
             return array_slice(array_values($types), 0, $maxSuggestionsToReturn);
-        });
-        $this->addSegment($segment);
+        };
     }
+
 }

@@ -8,25 +8,13 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
 
 class SearchKeyword extends ActionDimension
 {
     protected $columnName = 'idaction_name';
+    protected $segmentName = 'siteSearchKeyword';
+    protected $nameSingular = 'Actions_SiteSearchKeyword';
     protected $type = self::TYPE_TEXT;
 
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('siteSearchKeyword');
-        $segment->setName('Actions_SiteSearchKeyword');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('General_ColumnKeyword');
-    }
 }
