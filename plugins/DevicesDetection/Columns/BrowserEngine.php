@@ -18,6 +18,7 @@ class BrowserEngine extends Base
 {
     protected $columnName = 'config_browser_engine';
     protected $columnType = 'VARCHAR(10) NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

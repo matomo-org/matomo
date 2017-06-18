@@ -19,6 +19,7 @@ class City extends Base
 {
     protected $columnName = 'location_city';
     protected $columnType = 'varchar(255) DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

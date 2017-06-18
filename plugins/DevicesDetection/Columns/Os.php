@@ -19,6 +19,7 @@ class Os extends Base
 {
     protected $columnName = 'config_os';
     protected $columnType = 'CHAR(3) NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

@@ -18,6 +18,7 @@ class VisitTotalInteractions extends VisitDimension
 {
     protected $columnName = 'visit_total_interactions';
     protected $columnType = 'SMALLINT UNSIGNED DEFAULT 0';
+    protected $type = self::TYPE_NUMBER;
 
     protected function configureSegments()
     {

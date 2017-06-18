@@ -18,19 +18,21 @@ use Piwik\Plugin\Segment;
  */
 class VisitIp extends VisitDimension
 {
+    protected $columnName = 'location_ip';
+    protected $type = self::TYPE_TEXT;
+    protected $allowAnonymous = false;
+
     protected function configureSegments()
     {
         parent::configureSegments();
 
         $segment = new Segment();
-        $segment->setType('metric');
+        $segment->setType(Segment::TYPE_METRIC);
         $segment->setCategory(Piwik::translate('General_Visit'));
         $segment->setName('General_VisitorIP');
         $segment->setSegment('visitIp');
         $segment->setAcceptedValues('13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255');
-        $segment->setSqlSegment('log_visit.location_ip');
         $segment->setSqlFilterValue(array('Piwik\Network\IPUtils', 'stringToBinaryIP'));
-        $segment->setRequiresAtLeastViewAccess(true);
         $this->addSegment($segment);
     }
 }

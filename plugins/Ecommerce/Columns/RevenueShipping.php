@@ -17,7 +17,6 @@ class RevenueShipping extends BaseConversion
 {
     protected $columnName = 'revenue_shipping';
     protected $columnType = 'float default NULL';
-
     protected $type = self::TYPE_MONEY;
 
     /**

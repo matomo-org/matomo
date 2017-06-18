@@ -19,6 +19,7 @@ class Region extends Base
 {
     protected $columnName = 'location_region';
     protected $columnType = 'char(2) DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

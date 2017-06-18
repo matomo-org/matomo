@@ -33,6 +33,7 @@ class VisitGoalBuyer extends VisitDimension
 
     protected $columnName = 'visit_goal_buyer';
     protected $columnType = 'TINYINT(1) NULL';
+    protected $type = self::TYPE_ENUM;
 
     protected function configureSegments()
     {

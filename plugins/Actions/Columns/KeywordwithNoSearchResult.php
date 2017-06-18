@@ -13,6 +13,8 @@ use Piwik\Piwik;
 
 class KeywordwithNoSearchResult extends Dimension
 {
+    protected $type = self::TYPE_TEXT;
+
     public function getName()
     {
         return Piwik::translate('Actions_ColumnNoResultKeyword');

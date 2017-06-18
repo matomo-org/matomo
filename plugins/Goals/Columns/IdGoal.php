@@ -15,6 +15,7 @@ use Piwik\Plugin\Segment;
 class IdGoal extends ConversionDimension
 {
     protected $columnName = 'idgoal';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

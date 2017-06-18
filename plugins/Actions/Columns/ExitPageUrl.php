@@ -20,6 +20,7 @@ class ExitPageUrl extends VisitDimension
 {
     protected $columnName = 'visit_exit_idaction_url';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL DEFAULT 0';
+    protected $type = self::TYPE_JOIN_ID;
 
     public function getDbColumnJoin()
     {

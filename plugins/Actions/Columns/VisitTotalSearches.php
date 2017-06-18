@@ -19,6 +19,7 @@ class VisitTotalSearches extends VisitDimension
 {
     protected $columnName = 'visit_total_searches';
     protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
+    protected $type = self::TYPE_NUMBER;
 
     protected function configureSegments()
     {

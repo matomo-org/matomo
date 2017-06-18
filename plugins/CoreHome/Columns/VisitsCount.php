@@ -18,6 +18,7 @@ class VisitsCount extends VisitDimension
 {
     protected $columnName = 'visitor_count_visits';
     protected $columnType = 'INT(11) UNSIGNED NOT NULL';
+    protected $type = self::TYPE_NUMBER;
 
     protected function configureSegments()
     {

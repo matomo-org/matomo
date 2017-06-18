@@ -20,6 +20,8 @@ class TotalEvents extends VisitDimension
     protected $columnName = 'visit_total_events';
     protected $columnType = 'INT(11) UNSIGNED NULL';
 
+    protected $type = self::TYPE_NUMBER;
+
     protected function configureSegments()
     {
         $segment = new Segment();

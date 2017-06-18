@@ -17,6 +17,7 @@ use Piwik\Tracker\Request;
 class Provider extends Base
 {
     protected $columnName = 'location_provider';
+    protected $type = self::TYPE_TEXT;
 
     /**
      * @param Request $request

@@ -19,6 +19,8 @@ class InteractionPosition extends ActionDimension
     protected $columnName = 'interaction_position';
     protected $columnType = 'SMALLINT UNSIGNED DEFAULT NULL';
 
+    protected $type = self::TYPE_NUMBER;
+
     /**
      * @param Request $request
      * @param Visitor $visitor

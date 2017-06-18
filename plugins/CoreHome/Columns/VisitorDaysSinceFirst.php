@@ -18,6 +18,7 @@ class VisitorDaysSinceFirst extends VisitDimension
 {
     protected $columnName = 'visitor_days_since_first';
     protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
+    protected $type = self::TYPE_NUMBER;
 
     protected function configureSegments()
     {

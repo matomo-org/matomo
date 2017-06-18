@@ -19,6 +19,7 @@ class VisitFirstActionTime extends VisitDimension
 {
     protected $columnName = 'visit_first_action_time';
     protected $columnType = 'DATETIME NOT NULL';
+    protected $type = self::TYPE_DATETIME;
 
     /**
      * @param Request $request

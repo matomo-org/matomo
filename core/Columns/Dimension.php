@@ -35,6 +35,7 @@ abstract class Dimension
      */
     const TYPE_DIMENSION = 'dimension';
     const TYPE_TEXT = 'text';
+    const TYPE_ENUM = 'enum';
     const TYPE_MONEY = 'money';
     const TYPE_DURATION_MS = 'duration_ms';
     const TYPE_DURATION_S = 'duration_s';
@@ -47,6 +48,7 @@ abstract class Dimension
     const TYPE_TIMESTAMP = 'timestamp';
     const TYPE_BOOL = 'bool';
     const TYPE_PERCENT = 'percent';
+    const TYPE_JOIN_ID = 'join_id';
 
     /**
      * This will be the name of the column in the database table if a $columnType is specified.
@@ -264,12 +266,11 @@ abstract class Dimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        return;
         if ($this->getMetricId() && $this->dbTableName && $this->columnName && $this->getNamePlural()) {
             if (in_array($this->getType(), array(self::TYPE_DATETIME, self::TYPE_DATE, self::TYPE_TIME, self::TYPE_TIMESTAMP))) {
                 // we do not generate any metrics from these types
                 return;
-            } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT))) {
+            } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT, self::TYPE_ENUM, self::TYPE_JOIN_ID))) {
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
                 $metricsList->addMetric($metric);
             } else {
@@ -277,6 +278,9 @@ abstract class Dimension
                 $metricsList->addMetric($metric);
 
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+                $metricsList->addMetric($metric);
+
+                $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
                 $metricsList->addMetric($metric);
             }
         }
@@ -522,6 +526,11 @@ abstract class Dimension
     {
         if (!empty($this->type)) {
             return $this->type;
+        }
+
+        if ($this->getDbColumnJoin()) {
+            // best guess
+            return self::TYPE_JOIN_ID;
         }
 
         if (!empty($this->columnType)) {

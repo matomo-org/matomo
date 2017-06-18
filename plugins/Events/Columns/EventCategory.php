@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Events\Segment;
@@ -19,6 +20,12 @@ class EventCategory extends ActionDimension
 {
     protected $columnName = 'idaction_event_category';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $type = self::TYPE_JOIN_ID;
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin();
+    }
 
     protected function configureSegments()
     {

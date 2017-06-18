@@ -18,6 +18,7 @@ class VisitGoalConverted extends VisitDimension
 {
     protected $columnName = 'visit_goal_converted';
     protected $columnType = 'TINYINT(1) NULL';
+    protected $type = self::TYPE_BOOL;
 
     protected function configureSegments()
     {

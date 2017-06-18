@@ -13,6 +13,8 @@ use Piwik\Piwik;
 
 class Keyword extends Dimension
 {
+    protected $type = self::TYPE_TEXT;
+
     public function getName()
     {
         return Piwik::translate('General_ColumnKeyword');

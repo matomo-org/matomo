@@ -19,6 +19,7 @@ class VisitTotalTime extends VisitDimension
 {
     protected $columnName = 'visit_total_time';
     protected $columnType = 'INT(11) UNSIGNED NOT NULL';
+    protected $type = self::TYPE_DURATION_S;
 
     protected function configureSegments()
     {

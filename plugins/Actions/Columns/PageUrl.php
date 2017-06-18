@@ -17,6 +17,7 @@ class PageUrl extends ActionDimension
 {
     protected $columnName = 'idaction_url';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $type = self::TYPE_JOIN_ID;
 
     public function getDbColumnJoin()
     {

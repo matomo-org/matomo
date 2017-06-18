@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Events\Segment;
@@ -18,6 +19,12 @@ use Piwik\Tracker\Request;
 class EventName extends ActionDimension
 {
     protected $columnName = 'idaction_name';
+    protected $type = self::TYPE_JOIN_ID;
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin();
+    }
 
     protected function configureSegments()
     {

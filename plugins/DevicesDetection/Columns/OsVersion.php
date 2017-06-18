@@ -18,6 +18,7 @@ class OsVersion extends Base
 {
     protected $columnName = 'config_os_version';
     protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

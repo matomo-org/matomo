@@ -17,7 +17,6 @@ class Revenue extends BaseConversion
 {
     protected $columnName = 'revenue';
     protected $columnType = 'float default NULL';
-
     protected $type = self::TYPE_MONEY;
 
     /**

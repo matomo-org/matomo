@@ -18,6 +18,7 @@ class BrowserName extends Base
 {
     protected $columnName = 'config_browser_name';
     protected $columnType = 'VARCHAR(10) NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

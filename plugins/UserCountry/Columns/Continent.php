@@ -12,8 +12,9 @@ use Piwik\Columns\Dimension;
 
 class Continent extends Dimension
 {
-    protected $columnName = 'location_country';
     protected $dbTableName = 'log_visit';
+    protected $columnName = 'location_country';
+    protected $type = self::TYPE_TEXT;
     protected $category = 'UserCountry_VisitLocation';
     protected $nameSingular = 'UserCountry_Continent';
     protected $segmentName = 'continentCode';

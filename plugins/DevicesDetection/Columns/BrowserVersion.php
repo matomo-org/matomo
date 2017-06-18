@@ -18,6 +18,7 @@ class BrowserVersion extends Base
 {
     protected $columnName = 'config_browser_version';
     protected $columnType = 'VARCHAR(20) NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

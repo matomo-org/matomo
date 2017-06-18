@@ -17,6 +17,7 @@ class ReferrerName extends Base
 {
     protected $columnName = 'referer_name';
     protected $columnType = 'VARCHAR(70) NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected $nameSingular = 'Referrers_ReferrerName';
     protected $namePlural = 'Referrers_ReferrerNames';

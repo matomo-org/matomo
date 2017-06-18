@@ -14,12 +14,14 @@ use Piwik\Plugins\Actions\Segment;
 
 class SearchKeyword extends ActionDimension
 {
+    protected $columnName = 'idaction_name';
+    protected $type = self::TYPE_TEXT;
+
     protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('siteSearchKeyword');
         $segment->setName('Actions_SiteSearchKeyword');
-        $segment->setSqlSegment('log_link_visit_action.idaction_name');
         $this->addSegment($segment);
     }
 

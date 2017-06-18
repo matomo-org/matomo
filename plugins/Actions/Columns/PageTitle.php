@@ -17,6 +17,7 @@ class PageTitle extends ActionDimension
 {
     protected $columnName = 'idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED';
+    protected $type = self::TYPE_JOIN_ID;
 
     public function getDbColumnJoin()
     {

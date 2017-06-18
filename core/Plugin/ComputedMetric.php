@@ -143,7 +143,7 @@ class ComputedMetric extends ProcessedMetric
             $metric2 = $metric->getMetric($this->metric2);
 
             if ($metric1 && $metric1 instanceof ArchivedMetric && $metric2 && $metric2 instanceof ArchivedMetric) {
-                return 'Avg. ' . $metric1->getDimension()->getName() . ' per ' . $metric2->getDimension()->getNamePlural();
+                return 'Avg. ' . $metric1->getDimension()->getName() . ' per ' . $metric2->getDimension()->getName();
             }
 
             if ($metric1 && $metric1 instanceof ArchivedMetric) {

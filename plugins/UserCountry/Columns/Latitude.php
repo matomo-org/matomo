@@ -19,6 +19,7 @@ class Latitude extends Base
 {
     protected $columnName = 'location_latitude';
     protected $columnType = 'decimal(9, 6) DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

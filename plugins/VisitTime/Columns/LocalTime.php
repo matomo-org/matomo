@@ -19,6 +19,7 @@ class LocalTime extends VisitDimension
 {
     protected $columnName = 'visitor_localtime';
     protected $columnType = 'TIME NULL';
+    protected $type = self::TYPE_TIME;
 
     protected function configureSegments()
     {

@@ -23,6 +23,7 @@ class Keyword extends Base
     protected $namePlural = 'Referrers_Keywords';
     protected $segmentName = 'referrerKeyword';
     protected $acceptValues = 'Encoded%20Keyword, keyword';
+    protected $type = self::TYPE_TEXT;
 
     /**
      * @param Request $request

@@ -29,6 +29,8 @@ class UserId extends VisitDimension
      * @var string
      */
     protected $columnName = 'user_id';
+    protected $type = self::TYPE_TEXT;
+    protected $allowAnonymous = false;
 
     /**
      * @var string
@@ -38,13 +40,11 @@ class UserId extends VisitDimension
     protected function configureSegments()
     {
         $segment = new Segment();
-        $segment->setType('dimension');
+        $segment->setType(Segment::TYPE_DIMENSION);
         $segment->setSegment('userId');
         $segment->setCategory(Piwik::translate('General_Visit'));
         $segment->setName('General_UserId');
         $segment->setAcceptedValues('any non empty unique string identifying the user (such as an email address or a username).');
-        $segment->setSqlSegment('log_visit.user_id');
-        $segment->setRequiresAtLeastViewAccess(true);
         $this->addSegment($segment);
     }
 

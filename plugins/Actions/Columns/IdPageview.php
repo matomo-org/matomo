@@ -18,6 +18,7 @@ class IdPageview extends ActionDimension
 {
     protected $columnName = 'idpageview';
     protected $columnType = 'CHAR(6) NULL DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
 
     /**
      * @param Request $request

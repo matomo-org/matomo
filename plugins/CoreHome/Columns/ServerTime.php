@@ -20,6 +20,7 @@ class ServerTime extends ActionDimension
 {
     protected $columnName = 'server_time';
     protected $columnType = 'DATETIME NOT NULL';
+    protected $type = self::TYPE_DATETIME;
 
     public function install()
     {

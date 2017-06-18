@@ -17,6 +17,7 @@ class ReferrerUrl extends Base
 {
     protected $columnName = 'referer_url';
     protected $columnType = 'TEXT NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {

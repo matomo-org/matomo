@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Contents\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Actions\Segment;
@@ -18,13 +19,19 @@ class ContentInteraction extends ActionDimension
 {
     protected $columnName = 'idaction_content_interaction';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $type = self::TYPE_JOIN_ID;
+    protected $acceptValues = 'The type of interaction with the content. For instance "click" or "submit".';
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin();
+    }
 
     protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('contentInteraction');
         $segment->setName('Contents_ContentInteraction');
-        $segment->setAcceptedValues('The type of interaction with the content. For instance "click" or "submit".');
         $this->addSegment($segment);
     }
 

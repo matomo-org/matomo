@@ -26,6 +26,7 @@ use Piwik\Tracker\Visitor;
 class VisitLastActionTime extends VisitDimension
 {
     protected $columnName = 'visit_last_action_time';
+    protected $type = self::TYPE_DATETIME;
     // we do not install or define column definition here as we need to create this column when installing as there is
     // an index on it. Currently we do not define the index here... although we could overwrite the install() method
     // and add column 'visit_last_action_time' and add index. Problem is there is also an index

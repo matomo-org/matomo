@@ -18,6 +18,7 @@ class ReferrerType extends Base
 {
     protected $columnName = 'referer_type';
     protected $columnType = 'TINYINT(1) UNSIGNED NULL';
+    protected $type = self::TYPE_ENUM;
 
     protected function configureSegments()
     {

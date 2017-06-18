@@ -17,6 +17,8 @@ use Piwik\Tracker\Visitor;
 
 class Website extends Base
 {
+    protected $type = self::TYPE_TEXT;
+
     /**
      * Set using the `[Tracker] create_new_visit_when_website_referrer_changes` INI config option.
      * If true, will force new visits if the referrer website changes.

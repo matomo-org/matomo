@@ -13,6 +13,8 @@ use Piwik\Piwik;
 
 class ProductCategory extends Dimension
 {
+    protected $type = self::TYPE_TEXT;
+
     public function getName()
     {
         return Piwik::translate('Goals_ProductCategory');

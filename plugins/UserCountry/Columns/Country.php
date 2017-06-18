@@ -27,6 +27,7 @@ class Country extends Base
 {
     protected $columnName = 'location_country';
     protected $columnType = 'CHAR(3) NULL';
+    protected $type = self::TYPE_TEXT;
 
     protected $category =  'UserCountry_VisitLocation';
     protected $nameSingular = 'UserCountry_Country';

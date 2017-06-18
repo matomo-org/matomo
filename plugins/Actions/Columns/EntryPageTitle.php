@@ -20,6 +20,7 @@ class EntryPageTitle extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
+    protected $type = self::TYPE_JOIN_ID;
 
     public function getDbColumnJoin()
     {

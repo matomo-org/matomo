@@ -27,13 +27,14 @@ class VisitorId extends VisitDimension
     protected $nameSingular = 'General_VisitorID';
     protected $namePlural = 'General_Visitors';
     protected $allowAnonymous = false;
+    protected $type = self::TYPE_TEXT;
 
     protected function configureSegments()
     {
         parent::configureSegments();
 
         $segment = new Segment();
-        $segment->setType('dimension');
+        $segment->setType(Segment::TYPE_DIMENSION);
         $segment->setSegment('visitorId');
         $segment->setAcceptedValues('34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()');
         $segment->setSqlFilterValue(array('Piwik\Common', 'convertVisitorIdToBin'));
