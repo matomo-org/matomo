@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Ecommerce;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\FrontController;
+use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Translation\Translator;
@@ -103,7 +104,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         } else {
             $_GET['segment'] = 'visitEcommerceStatus!=none';
         }
-        $_SERVER['QUERY_STRING'] = http_build_query($_GET);
+        $_SERVER['QUERY_STRING'] = Http::buildQuery($_GET);
 
         $_GET['widget'] = 1;
         $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
