@@ -19,6 +19,7 @@ use Exception;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Columns\DimensionMetricFactory;
 
 /**
  * @api
@@ -45,6 +46,7 @@ abstract class Dimension
     const TYPE_DATETIME = 'datetime';
     const TYPE_TIMESTAMP = 'timestamp';
     const TYPE_BOOL = 'bool';
+    const TYPE_PERCENT = 'percent';
 
     /**
      * This will be the name of the column in the database table if a $columnType is specified.
@@ -67,12 +69,6 @@ abstract class Dimension
      * @var Segment[]
      */
     protected $segments = array();
-
-    /**
-     * Holds an array of metric instances
-     * @var Metric[]
-     */
-    protected $metrics = array();
 
     protected $type = '';
 
@@ -266,20 +262,25 @@ abstract class Dimension
         }
     }
 
-    protected function configureMetrics()
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
+        return;
         if ($this->getMetricId() && $this->dbTableName && $this->columnName && $this->getNamePlural()) {
-            $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_COUNT);
-            $this->addMetric($metric);
+            if (in_array($this->getType(), array(self::TYPE_DATETIME, self::TYPE_DATE, self::TYPE_TIME, self::TYPE_TIMESTAMP))) {
+                // we do not generate any metrics from these types
+                return;
+            } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT))) {
+                $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
+                $metricsList->addMetric($metric);
+            } else {
+                $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT);
+                $metricsList->addMetric($metric);
 
-            $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_SUM);
-            $this->addMetric($metric);
-
-            $metric = new ArchivedMetric($this, ArchivedMetric::AGGREGATION_UNIQUE);
-            $this->addMetric($metric);
+                $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+                $metricsList->addMetric($metric);
+            }
         }
     }
-
 
     /**
      * Check whether a dimension has overwritten a specific method.
@@ -293,11 +294,6 @@ abstract class Dimension
         $declaringClass = $method->getDeclaringClass();
 
         return 0 === strpos($declaringClass->name, 'Piwik\Plugins');
-    }
-
-    protected function addMetric(Metric $metric)
-    {
-        $this->metrics[] = $metric;
     }
 
     /**
@@ -549,20 +545,6 @@ abstract class Dimension
         }
 
         return self::TYPE_TEXT;
-    }
-
-    /**
-     * Get the list of configured segments.
-     * @return Metric[]
-     * @ignore
-     */
-    public function getMetrics()
-    {
-        if (empty($this->metrics)) {
-            $this->configureMetrics();
-        }
-
-        return $this->metrics;
     }
 
     /**

@@ -8,25 +8,39 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\MetricsList;
+use Piwik\Plugin\ArchivedMetric;
+use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Segment;
+use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
-use Piwik\Tracker;
 use Piwik\Tracker\Visitor;
 
 class VisitTotalActions extends VisitDimension
 {
     protected $columnName = 'visit_total_actions';
     protected $columnType = 'INT(11) UNSIGNED NULL';
+    protected $metricId = 'actions';
+    protected $nameSingular = 'General_TrackingScopeAction';
+    protected $namePlural = 'General_ColumnNbActions';
+    protected $category = 'General_Visit';
+    protected $segmentName = 'actions';
+    protected $type = self::TYPE_NUMBER;
 
-    protected function configureSegments()
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $segment = new Segment();
-        $segment->setType(Segment::TYPE_METRIC);
-        $segment->setSegment('actions');
-        $segment->setName('General_NbActions');
-        $this->addSegment($segment);
+        $metric = $dimensionMetricFactory->createCustomMetric('bounce_count', 'Bounces', 'sum(case %s when 1 then 1 when 0 then 1 else 0 end)');
+        $metricsList->addMetric($metric);
+
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+        $metricsList->addMetric($metric);
+
+        $metric = $dimensionMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_visitors', ComputedMetric::AGGREGATION_AVG);
+        $metricsList->addMetric($metric);
+
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
+        $metricsList->addMetric($metric);
     }
 
     /**

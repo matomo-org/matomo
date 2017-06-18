@@ -9,19 +9,17 @@ namespace Piwik\Plugin;
 
 use Piwik\Archive\DataTableFactory;
 use Piwik\Columns\Dimension;
+use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 
-class ArchivedMetric extends Metric
+class ComputedMetric extends ProcessedMetric
 {
-    const AGGREGATION_COUNT = 'count(%s)';
-    const AGGREGATION_SUM = 'sum(%s)';
-    const AGGREGATION_MAX = 'max(%s)';
-    const AGGREGATION_MIN = 'min(%s)';
-    const AGGREGATION_UNIQUE = 'count(distinct %s)';
+    const AGGREGATION_AVG = 'avg';
+    const AGGREGATION_RATE = 'rate';
 
     /**
      * @var string
@@ -37,35 +35,20 @@ class ArchivedMetric extends Metric
     private $type = '';
     private $translatedName = '';
     private $documentation = '';
-    private $dbTable = '';
-    private $dbColumn = '';
+    private $metric1 = '';
+    private $metric2 = '';
     private $category = '';
 
-    /**
-     * @var Dimension
-     */
-    private $dimension;
-
-    public function __construct($dbTable, $dbColumn, $aggregation = 'nb')
+    public function __construct($metric1, $metric2, $aggregation = 'avg')
     {
-        if (!empty($aggregation) && strpos($aggregation, '%s') === false) {
-            throw new \Exception(sprintf('The given aggregation for %s.%s needs to include a %%s for the column name', $dbTable, $dbColumn));
-        }
-
-        $this->setDbTable($dbTable);
-        $this->setDbColumn($dbColumn);
+        $this->setMetric1($metric1);
+        $this->setMetric2($metric2);
         $this->aggregation = $aggregation;
     }
 
-    public function setDimension($dimension)
+    public function getDependentMetrics()
     {
-        $this->dimension = $dimension;
-        return $this;
-    }
-
-    public function getDimension()
-    {
-        return $this->dimension;
+        return array($this->metric1, $this->metric2);
     }
 
     public function setCategory($category)
@@ -79,15 +62,15 @@ class ArchivedMetric extends Metric
         return $this->category;
     }
 
-    public function setDbTable($dbTable)
+    public function setMetric1($metric1)
     {
-        $this->dbTable = $dbTable;
+        $this->metric1 = $metric1;
         return $this;
     }
 
-    public function setDbColumn($dbColumn)
+    public function setMetric2($metric2)
     {
-        $this->dbColumn = $dbColumn;
+        $this->metric2 = $metric2;
         return $this;
     }
 
@@ -122,20 +105,18 @@ class ArchivedMetric extends Metric
 
     public function compute(Row $row)
     {
-        switch ($this->type) {
-            case Dimension::TYPE_MONEY:
-                return round($this->getMetric($row, $this->getName()), 2);
+        $metric1 = $this->getMetric($row, $this->metric1);
+        $metric2 = $this->getMetric($row, $this->metric2);
 
-            case Dimension::TYPE_DURATION_S:
-            case Dimension::TYPE_DURATION_MS:
-                return (int) $this->getMetric($row, $this->getName());
-        }
-
-        return $this->getMetric($row, $this->getName());
+        return Piwik::getQuotientSafe($metric1, $metric2, $precision = 0);
     }
 
     public function format($value, Formatter $formatter)
     {
+        if ($this->aggregation === self::AGGREGATION_RATE) {
+            return $formatter->getPrettyPercentFromQuotient($value);
+        }
+
         switch ($this->type) {
             case Dimension::TYPE_MONEY:
                 return $formatter->getPrettyMoney($value, $this->idSite);
@@ -156,32 +137,27 @@ class ArchivedMetric extends Metric
 
     public function getTranslatedName()
     {
-        if (!empty($this->translatedName)) {
-            return Piwik::translate($this->translatedName);
-        }
+        if (!$this->translatedName) {
+            $metric = MetricsList::get();
+            $metric1 = $metric->getMetric($this->metric1);
+            $metric2 = $metric->getMetric($this->metric2);
 
+            if ($metric1 && $metric1 instanceof ArchivedMetric && $metric2 && $metric2 instanceof ArchivedMetric) {
+                return 'Avg. ' . $metric1->getDimension()->getName() . ' per ' . $metric2->getDimension()->getNamePlural();
+            }
+
+            if ($metric1 && $metric1 instanceof ArchivedMetric) {
+                return 'Avg. ' . $metric1->getDimension()->getName();
+            }
+
+            return $metric1 . ' per ' . $metric2;
+        }
         return $this->translatedName;
     }
 
     public function getDocumentation()
     {
         return $this->documentation;
-    }
-
-    public function getDbTableName()
-    {
-        return $this->dbTable;
-    }
-
-    public function getQuery()
-    {
-        $column = $this->dbTable . '.'  . $this->dbColumn;
-
-        if (!empty($this->aggregation)) {
-            return sprintf($this->aggregation, $column);
-        }
-
-        return $column;
     }
 
     public function beforeFormat($report, DataTable $table)

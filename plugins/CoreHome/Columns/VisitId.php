@@ -8,9 +8,10 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
 
 /**
  * Dimension for the log_visit.idvisit column. This column is added in the CREATE TABLE
@@ -22,13 +23,15 @@ class VisitId extends VisitDimension
     protected $acceptValues = 'Any integer.';
     protected $category = 'General_Visit';
     protected $name = 'General_VisitId';
+    protected $namePlural = 'General_ColumnNbVisits';
     protected $segmentName = 'visitId';
     protected $allowAnonymous = false;
+    protected $metricId = 'visits';
+    protected $type = self::TYPE_TEXT;
 
-    protected function configureSegments()
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $segment = new Segment();
-        $segment->setType(Segment::TYPE_DIMENSION);
-        $this->addSegment($segment);
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
+        $metricsList->addMetric($metric);
     }
 }

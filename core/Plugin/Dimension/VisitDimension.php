@@ -39,7 +39,7 @@ abstract class VisitDimension extends Dimension
     const INSTALLER_PREFIX = 'log_visit.';
 
     protected $dbTableName = 'log_visit';
-    protected $category = 'General_Visitors';
+    protected $category = 'General_Visit';
 
     public function install()
     {
