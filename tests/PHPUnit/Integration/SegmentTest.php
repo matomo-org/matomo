@@ -929,6 +929,39 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenLimit_withCustomJoinsAndSameColumns()
+    {
+        $select = "log_action_visit_entry_idaction_name.name AS 'EntryPageTitle', log_action_idaction_event_action.name AS 'EventAction', count(distinct log_visit.idvisit) AS 'nb_uniq_visits', count(distinct log_visit.idvisitor) AS 'nb_uniq_visitors', sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_visit.visit_total_actions) AS 'sum_actions', sum(log_visit.visit_goal_converted) AS 'sum_visit_goal_converted'";
+        $from = array('log_visit', array('table' => 'log_action', 'tableAlias' => 'log_action_visit_entry_idaction_name', 'joinOn' => 'log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction'), 'log_link_visit_action', array('table' => 'log_action', 'tableAlias' => 'log_action_idaction_event_action', 'joinOn' => 'log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction'));
+        $where = '';
+        $bind = array(1);
+
+        $segment = '';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = 'nb_uniq_visits, log_action_idaction_event_action.name';
+        $groupBy = 'log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name';
+        $limit = 33;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
+
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.name AS 'EntryPageTitle', log_inner.name02fd90a35677a359ea5611a4bc456a6f AS 'EventAction', count(distinct log_inner.idvisit) AS 'nb_uniq_visits', count(distinct log_inner.idvisitor) AS 'nb_uniq_visitors', sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_inner.visit_total_actions) AS 'sum_actions', sum(log_inner.visit_goal_converted) AS 'sum_visit_goal_converted' 
+                FROM ( 
+                  SELECT log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name as name02fd90a35677a359ea5611a4bc456a6f, log_visit.idvisit, log_visit.idvisitor, log_visit.visit_total_actions, log_visit.visit_goal_converted 
+                  FROM log_visit AS log_visit 
+                  LEFT JOIN log_action AS log_action_visit_entry_idaction_name ON log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction 
+                  LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                  LEFT JOIN log_action AS log_action_idaction_event_action ON log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction 
+                  ORDER BY nb_uniq_visits, log_action_idaction_event_action.name LIMIT 0, 33 ) 
+                AS log_inner 
+                GROUP BY log_inner.name, log_inner.name02fd90a35677a359ea5611a4bc456a6f 
+                ORDER BY nb_uniq_visits, log_inner.name02fd90a35677a359ea5611a4bc456a6f",
+            "bind" => array(1));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
 
     public function test_getSelectQuery_whenLimitAndOffset_outerQueryShouldNotHaveOffset()
     {

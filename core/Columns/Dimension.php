@@ -254,12 +254,18 @@ abstract class Dimension
      */
     protected function configureSegments()
     {
-        if ($this->segmentName && $this->category && $this->columnName && $this->dbTableName && $this->nameSingular) {
+        if ($this->segmentName && $this->category
+            && ($this->sqlSegment || ($this->columnName && $this->dbTableName))
+            && $this->nameSingular) {
             $segment = new Segment();
             $segment->setSegment($this->segmentName);
             $segment->setCategory($this->category);
             $segment->setName($this->nameSingular);
-            $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
+            if (!empty($this->sqlSegment)) {
+                $segment->setSqlSegment($this->sqlSegment);
+            } else {
+                $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
+            }
 
             $this->addSegment($segment);
         }

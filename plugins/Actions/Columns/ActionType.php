@@ -29,6 +29,7 @@ class ActionType extends ActionDimension
     );
 
     protected $columnName = 'type';
+    protected $dbTableName = 'log_action';
     protected $segmentName = 'actionType';
     protected $type = self::TYPE_ENUM;
     protected $nameSingular = 'Actions_ActionType';

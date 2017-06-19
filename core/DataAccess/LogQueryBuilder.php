@@ -113,6 +113,23 @@ class LogQueryBuilder
                 . "Please use a table prefix.");
         }
 
+        $fieldNames = array();
+        $toBeReplaced = array();
+        foreach ($neededFields as &$neededField) {
+            $parts = explode('.', $neededField);
+            if (count($parts) === 2 && !empty($parts[1])) {
+                if (in_array($parts[1], $fieldNames, $strict = true)) {
+                    // eg when selecting 2 dimensions log_action_X.name
+                    $columnAs = $parts[1] . md5($neededField);
+                    $fieldNames[] = $columnAs;
+                    $toBeReplaced[$neededField] = $parts[0] . '.' . $columnAs;
+                    $neededField .= ' as ' .  $columnAs;
+                } else {
+                    $fieldNames[] = $parts[1];
+                }
+            }
+        }
+
         preg_match_all("/". $matchTables . "/", $from, $matchesFrom);
 
         $innerSelect = implode(", \n", $neededFields);
@@ -136,10 +153,20 @@ class LogQueryBuilder
             // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
             $innerGroupBy = false;
         }
+        if (!empty($toBeReplaced)) {
+            $select = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $select);
+            if (!empty($groupBy)) {
+                $groupBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $groupBy);
+            }
+            if (!empty($orderBy)) {
+                $orderBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $orderBy);
+            }
+        }
 
         $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerGroupBy, $innerOrderBy, $innerLimitAndOffset);
 
         $select = preg_replace('/'.$matchTables.'\./', 'log_inner.', $select);
+
         $from = "
         (
             $innerQuery
