@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\Join\SiteNameJoin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
-use Piwik\Tracker;
 use Piwik\Tracker\Visitor;
 
 class IdSite extends VisitDimension
@@ -23,7 +23,12 @@ class IdSite extends VisitDimension
     // INDEX(idsite, config_id, visit_last_action_time) and we maybe not be sure whether config_id already exists at
     // installing point (we do not know whether visit_last_action_time or idsite column would be added first).
 
-    protected $type = self::TYPE_TEXT;
+    protected $type = self::TYPE_JOIN_ID;
+
+    public function getDbColumnJoin()
+    {
+        return new SiteNameJoin();
+    }
 
     /**
      * @param Request $request

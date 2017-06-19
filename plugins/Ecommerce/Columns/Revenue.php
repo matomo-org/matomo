@@ -20,6 +20,7 @@ class Revenue extends BaseConversion
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'General_ColumnRevenue';
+    // TODO add filter to only include dimensios with goalId 0 or -1? for ecommerce?
 
     /**
      * @param Request $request

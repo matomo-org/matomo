@@ -13,6 +13,7 @@
 
     &.collection.firstLevel {
       border-top: 0;
+      margin-top: 0;
       > li {
         padding: 0 !important;
       }
@@ -20,6 +21,7 @@
 
     .expandableListCategory {
       padding: 10px 20px;
+      color: @theme-color-link;
     }
 
     li {
@@ -49,6 +51,13 @@
     }
   }
 
+  .searchContainer {
+    padding: 5px;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0;
+  }
+
   .expandableSearch {
     vertical-align: top;
     padding: 7px 6px !important;
@@ -56,7 +65,6 @@
     background: #fff !important;
     font-size: 11px !important;
     color: #454545 !important;
-    margin: 5px !important;
   }
 
   .expandableList {

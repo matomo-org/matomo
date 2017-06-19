@@ -4,6 +4,7 @@
         "Sales": "Sales",
         "SalesBy": "Sales by %s",
         "SalesAdjective": "Sales %s",
+        "NumberOfItems": "Number of Items in Cart",
         "LifeTimeValue": "Ecommerce Life Time Value",
         "LifeTimeValueDescription": "Total Ecommerce revenue attributed to this customer across all visits: the sum of revenue of all Ecommerce orders for Visitor ID %s.",
         "VisitorProfileLTV": "Generated a Life Time Revenue of %1$s.",
