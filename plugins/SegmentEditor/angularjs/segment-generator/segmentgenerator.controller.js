@@ -93,6 +93,8 @@
         };
         this.matches[''] = this.matches.dimension;
 
+        this.andConditionLabel = '';
+
         this.addNewAndCondition = function () {
             var condition = {orConditions: []};
 
@@ -103,6 +105,7 @@
         };
 
         this.addAndCondition = function (condition) {
+            this.andConditionLabel = translate('SegmentEditor_OperatorAND');
             this.conditions.push(condition);
             this.updateSegmentDefinition();
         }
@@ -197,6 +200,9 @@
                 var index = self.conditions.indexOf(condition);
                 if (index > -1) {
                     self.conditions.splice(index, 1);
+                }
+                if (self.conditions.length === 0) {
+                    self.andConditionLabel = '';
                 }
             }
 

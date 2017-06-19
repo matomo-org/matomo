@@ -232,6 +232,15 @@ class Segment
     }
 
     /**
+     * @return string
+     * @ignore
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
      * Returns the name of this segment as it should appear in segment expressions.
      *
      * @return string
