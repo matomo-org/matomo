@@ -57,9 +57,9 @@ class LogQueryBuilder
 
         if ($useSpecialConversionGroupBy) {
             $innerGroupBy = "CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
-            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $innerGroupBy);
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $innerGroupBy);
         } elseif ($joinWithSubSelect) {
-            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables);
         } else {
             $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
         }
@@ -91,9 +91,20 @@ class LogQueryBuilder
      * @throws Exception
      * @return string
      */
-    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $innerGroupBy = null)
+    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, JoinTables $tables, $innerGroupBy = null)
     {
-        $matchTables = '(' . implode('|', $this->getKnownTables()) . ')';
+        $matchTables = $this->getKnownTables();
+        foreach ($tables as $table) {
+            if (is_array($table) && isset($table['tableAlias']) && !in_array($table['tableAlias'], $matchTables, $strict = true)) {
+                $matchTables[] = $table['tableAlias'];
+            } elseif (is_array($table) && isset($table['table']) && !in_array($table['table'], $matchTables, $strict = true)) {
+                $matchTables[] = $table['table'];
+            } elseif (!in_array($table, $matchTables, $strict = true)) {
+                $matchTables[] = $table;
+            }
+        }
+
+        $matchTables = '(' . implode('|', $matchTables) . ')';
         preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
         $neededFields = array_unique($matches[0]);
 
