@@ -517,7 +517,6 @@ class DataPurgingTest extends IntegrationTestCase
      * Test that purgeData works correctly when the 'keep fiscal year reports' setting is set to true.
      */
 
-    //todo : Not sure how this function should be used or when it should be called
     public function testPurgeDataDeleteReportsKeepFiscalYearReports()
     {
         PrivacyManager::savePurgeDataSettings(array(
@@ -536,7 +535,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 14  // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 15  // 5 days, 4 weeks & 1 year to remove + 1 fiscal year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
