@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\DataTable;
+
 abstract class VisitorDetailsAbstract
 {
     protected $details = array();
@@ -126,6 +128,53 @@ abstract class VisitorDetailsAbstract
      * @param $visitorDetails
      */
     public function renderVisitorDetails($visitorDetails)
+    {
+    }
+
+    /**
+     * Allows manipulating the visitor profile properties
+     * Will be called when visitor profile is initialized
+     *
+     * @param DataTable $visits
+     * @param array $profile
+     * @return void
+     */
+    public function initProfile($visits, &$profile)
+    {
+    }
+
+    /**
+     * Allows manipulating the visitor profile properties based on included actions
+     * Will be called for every action within the profile
+     *
+     * @param DataTable\Row $visit
+     * @param array $profile
+     * @return void
+     */
+    public function handleProfileVisit($visit, &$profile)
+    {
+    }
+
+    /**
+     * Allows manipulating the visitor profile properties based on included actions
+     * Will be called for every action within the profile
+     *
+     * @param array $action
+     * @param array $profile
+     * @return void
+     */
+    public function handleProfileAction($action, &$profile)
+    {
+    }
+
+    /**
+     * Will be called after iterating over all actions
+     *
+     * @param DataTable $visits
+     * @param array $profile
+     * @return void
+     */
+    public function finalizeProfile($visits, &$profile)
     {
     }
 }

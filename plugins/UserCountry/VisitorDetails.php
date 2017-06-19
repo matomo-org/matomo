@@ -118,4 +118,78 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         return null;
     }
+
+
+    private $cities     = array();
+    private $countries  = array();
+    private $continents = array();
+
+    public function initProfile($visits, &$profile)
+    {
+        $this->cities          = array();
+        $this->continents      = array();
+        $this->countries       = array();
+        $profile['hasLatLong'] = false;
+    }
+
+    public function handleProfileVisit($visit, &$profile)
+    {
+        // realtime map only checks for latitude
+        $hasLatitude = $visit->getColumn('latitude') !== false;
+        if ($hasLatitude) {
+            $profile['hasLatLong'] = true;
+        }
+
+        $countryCode = $visit->getColumn('countryCode');
+        if (!isset($this->countries[$countryCode])) {
+            $this->countries[$countryCode] = 0;
+        }
+        ++$this->countries[$countryCode];
+
+        $continentCode = $visit->getColumn('continentCode');
+        if (!isset($this->continents[$continentCode])) {
+            $this->continents[$continentCode] = 0;
+        }
+        ++$this->continents[$continentCode];
+
+        if ($countryCode && !array_key_exists($countryCode, $this->cities)) {
+            $this->cities[$countryCode] = array();
+        }
+        $city = $visit->getColumn('city');
+        if (!empty($city)) {
+            $this->cities[$countryCode][] = $city;
+        }
+    }
+
+    public function finalizeProfile($visits, &$profile)
+    {
+        // transform country/continents/search keywords into something that will look good in XML
+        $profile['countries'] = $profile['continents'] = array();
+
+        // sort by visit/action
+        asort($this->continents);
+        foreach ($this->continents as $continentCode => $nbVisits) {
+            $profile['continents'][] = array(
+                'continent'  => $continentCode,
+                'nb_visits'  => $nbVisits,
+                'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode)
+            );
+        }
+
+        // sort by visit/action
+        asort($this->countries);
+
+        foreach ($this->countries as $countryCode => $nbVisits) {
+            $countryInfo = array(
+                'country'    => $countryCode,
+                'nb_visits'  => $nbVisits,
+                'flag'       => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
+                'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode)
+            );
+            if (!empty($this->cities[$countryCode])) {
+                $countryInfo['cities'] = array_unique($this->cities[$countryCode]);
+            }
+            $profile['countries'][] = $countryInfo;
+        }
+    }
 }

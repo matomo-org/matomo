@@ -34,8 +34,8 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $actionDetails = $this->queryActionsForVisits($visitIds);
         // use while / array_shift combination instead of foreach to save memory
-        while(is_array($actionDetails) && count($actionDetails)) {
-            $action = array_shift($actionDetails);
+        while (is_array($actionDetails) && count($actionDetails)) {
+            $action  = array_shift($actionDetails);
             $idVisit = $action['idvisit'];
             unset($action['idvisit']);
             $actions[$idVisit][] = $action;
@@ -66,8 +66,8 @@ class VisitorDetails extends VisitorDetailsAbstract
             }
 
             // search for next action with timeSpentRef
-            $nextActionId = $idx+1;
-            $nextAction = null;
+            $nextActionId = $idx + 1;
+            $nextAction   = null;
 
             while (isset($actionDetails[$nextActionId]) &&
                 (!in_array($actionDetails[$nextActionId]['type'], $actionTypesToHandle) ||
@@ -84,11 +84,11 @@ class VisitorDetails extends VisitorDetailsAbstract
                 // Last action of a visit.
                 // By default, Piwik does not know how long the user stayed on the page
                 // If enableHeartBeatTimer() is used in piwik.js then we can find the accurate time on page for the last pageview
-                $visitTotalTime = $visitorDetails['visitDuration'];
+                $visitTotalTime   = $visitorDetails['visitDuration'];
                 $timeOfLastAction = Date::factory($action['serverTimePretty'])->getTimestamp();
 
                 $timeSpentOnAllActionsApartFromLastOne = ($timeOfLastAction - $visitorDetails['firstActionTimestamp']);
-                $timeSpentOnPage = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
+                $timeSpentOnPage                       = $visitTotalTime - $timeSpentOnAllActionsApartFromLastOne;
 
                 // Safe net, we assume the time is correct when it's more than 10 seconds
                 if ($timeSpentOnPage > 10) {
@@ -118,10 +118,12 @@ class VisitorDetails extends VisitorDetailsAbstract
 
             unset($action['pageTitle']);
 
-        } else if ($action['type'] == Action::TYPE_SITE_SEARCH) {
-            // Handle Site Search
-            $action['siteSearchKeyword'] = $action['pageTitle'];
-            unset($action['pageTitle']);
+        } else {
+            if ($action['type'] == Action::TYPE_SITE_SEARCH) {
+                // Handle Site Search
+                $action['siteSearchKeyword'] = $action['pageTitle'];
+                unset($action['pageTitle']);
+            }
         }
 
         // Event value / Generation time
@@ -182,9 +184,10 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         // Convert datetimes to the site timezone
-        $dateTimeVisit = Date::factory($action['serverTimePretty'], Site::getTimezoneFor($visitorDetails['idSite']));
+        $dateTimeVisit              = Date::factory($action['serverTimePretty'],
+            Site::getTimezoneFor($visitorDetails['idSite']));
         $action['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::DATETIME_FORMAT_SHORT);
-        $action['timestamp'] = $dateTimeVisit->getTimestamp();
+        $action['timestamp']        = $dateTimeVisit->getTimestamp();
 
         unset($action['idlink_va']);
     }
@@ -207,7 +210,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         // The second join is a LEFT join to allow returning records that don't have a matching page title
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
-        $sql = "
+        $sql           = "
 				SELECT
 					log_link_visit_action.idvisit,
 					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
@@ -228,11 +231,142 @@ class VisitorDetails extends VisitorDetailsAbstract
 					ON  log_link_visit_action.idaction_url = log_action.idaction
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
-					" . implode(" ",$customJoins) . "
-				WHERE log_link_visit_action.idvisit IN ('".implode("','", $idVisits)."')
+					" . implode(" ", $customJoins) . "
+				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
 				ORDER BY log_link_visit_action.idvisit, server_time ASC
 				 ";
         $actionDetails = Db::fetchAll($sql);
         return $actionDetails;
+    }
+
+
+    private $visitedPageUrls         = array();
+    private $siteSearchKeywords      = array();
+    private $pageGenerationTimeTotal = 0;
+
+    public function initProfile($visits, &$profile)
+    {
+        $this->visitedPageUrls               = array();
+        $this->siteSearchKeywords            = array();
+        $this->pageGenerationTimeTotal       = 0;
+        $profile['totalActions']             = 0;
+        $profile['totalOutlinks']            = 0;
+        $profile['totalDownloads']           = 0;
+        $profile['totalSearches']            = 0;
+        $profile['totalPageViews']           = 0;
+        $profile['totalUniquePageViews']     = 0;
+        $profile['totalRevisitedPages']      = 0;
+        $profile['totalPageViewsWithTiming'] = 0;
+        $profile['searches']                 = array();
+    }
+
+    public function handleProfileVisit($visit, &$profile)
+    {
+        $profile['totalActions'] += $visit->getColumn('actions');
+    }
+
+    public function handleProfileAction($action, &$profile)
+    {
+        $this->handleIfDownloadAction($action, $profile);
+        $this->handleIfOutlinkAction($action, $profile);
+        $this->handleIfSiteSearchAction($action, $profile);
+        $this->handleIfPageViewAction($action, $profile);
+        $this->handleIfPageGenerationTime($action, $profile);
+    }
+
+    public function finalizeProfile($visits, &$profile)
+    {
+        arsort($this->visitedPageUrls);
+        $profile['visitedPages'] = $this->visitedPageUrls;
+
+        $this->handleSiteSearches($profile);
+        $this->handleAveragePageGenerationTime($profile);
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfDownloadAction($action, &$profile)
+    {
+        if ($action['type'] != 'download') {
+            return;
+        }
+        $profile['totalDownloads']++;
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfOutlinkAction($action, &$profile)
+    {
+        if ($action['type'] != 'outlink') {
+            return;
+        }
+        $profile['totalOutlinks']++;
+    }
+
+    /**
+     * @param $action
+     */
+    private function handleIfPageViewAction($action, &$profile)
+    {
+        if ($action['type'] != 'action') {
+            return;
+        }
+        $profile['totalPageViews']++;
+        $pageUrl = $action['url'];
+        if (!empty($pageUrl)) {
+            if (!array_key_exists($pageUrl, $this->visitedPageUrls)) {
+                $this->visitedPageUrls[$pageUrl] = 0;
+                $profile['totalUniquePageViews']++;
+            }
+            $this->visitedPageUrls[$pageUrl]++;
+            if ($this->visitedPageUrls[$pageUrl] == 2) {
+                $profile['totalRevisitedPages']++;
+            }
+        }
+    }
+
+    private function handleIfSiteSearchAction($action, &$profile)
+    {
+        if (!isset($action['siteSearchKeyword'])) {
+            return;
+        }
+        $keyword = $action['siteSearchKeyword'];
+
+        if (!isset($this->siteSearchKeywords[$keyword])) {
+            $this->siteSearchKeywords[$keyword] = 0;
+            ++$profile['totalSearches'];
+        }
+        ++$this->siteSearchKeywords[$keyword];
+    }
+
+    private function handleSiteSearches(&$profile)
+    {
+        // sort by visit/action
+        arsort($this->siteSearchKeywords);
+
+        foreach ($this->siteSearchKeywords as $keyword => $searchCount) {
+            $profile['searches'][] = array(
+                'keyword'  => $keyword,
+                'searches' => $searchCount
+            );
+        }
+    }
+
+    private function handleIfPageGenerationTime($action, &$profile)
+    {
+        if (isset($action['generationTimeMilliseconds'])) {
+            $this->pageGenerationTimeTotal += $action['generationTimeMilliseconds'];
+            ++$profile['totalPageViewsWithTiming'];
+        }
+    }
+
+    private function handleAveragePageGenerationTime(&$profile)
+    {
+        if ($profile['totalPageViewsWithTiming']) {
+            $profile['averagePageGenerationTime'] =
+                round($this->pageGenerationTimeTotal / (1000 * $profile['totalPageViewsWithTiming']), $precision = 3);
+        }
     }
 }

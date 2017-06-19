@@ -47,4 +47,26 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view->action = $action;
         return $view->render();
     }
+
+
+/*
+    public function initProfile($visits, &$profile)
+    {
+        $profile['totalContentImpressions'] = 0;
+        $profile['totalContentInteractions'] = 0;
+    }
+
+    public function handleProfileAction($action, &$profile)
+    {
+        if ($action['type'] != Action::TYPE_CONTENT) {
+            return;
+        }
+
+        if (!empty($action['contentInteraction'])) {
+            $profile['totalContentInteractions']++;
+        } else {
+            $profile['totalContentImpressions']++;
+        }
+    }
+*/
 }

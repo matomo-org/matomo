@@ -25,7 +25,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     const EVENT_VALUE_PRECISION = 3;
 
     protected $lastGoalResults = array();
-    protected $lastVisitIds = array();
+    protected $lastVisitIds    = array();
 
     public function extendVisitorDetails(&$visitor)
     {
@@ -42,14 +42,14 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function provideActionsForVisitIds(&$actions, $idVisits)
     {
-        $this->lastVisitIds = $idVisits;
+        $this->lastVisitIds    = $idVisits;
         $this->lastGoalResults = array();
         $goalConversionDetails = $this->queryGoalConversionsForVisits($idVisits);
 
         // use while / array_shift combination instead of foreach to save memory
-        while(is_array($goalConversionDetails) && count($goalConversionDetails)) {
+        while (is_array($goalConversionDetails) && count($goalConversionDetails)) {
             $goalConversionDetail = array_shift($goalConversionDetails);
-            $idVisit = $goalConversionDetail['idvisit'];
+            $idVisit              = $goalConversionDetail['idvisit'];
 
             unset($goalConversionDetail['idvisit']);
 
@@ -81,10 +81,44 @@ class VisitorDetails extends VisitorDetailsAbstract
 						AND
 						goal.idgoal = log_conversion.idgoal)
 					AND goal.deleted = 0
-				WHERE log_conversion.idvisit IN ('".implode("','", $idVisits)."')
+				WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
 					AND log_conversion.idgoal > 0
                 ORDER BY log_conversion.idvisit, server_time ASC
 			";
         return Db::fetchAll($sql);
+    }
+
+
+    public function initProfile($visits, &$profile)
+    {
+        $profile['totalGoalConversions']   = 0;
+        $profile['totalConversionsByGoal'] = array();
+    }
+
+    public function handleProfileVisit($visit, &$profile)
+    {
+        $profile['totalGoalConversions'] += $visit->getColumn('goalConversions');
+    }
+
+    public function handleProfileAction($action, &$profile)
+    {
+        if ($action['type'] != 'goal') {
+            return;
+        }
+
+        $idGoal    = $action['goalId'];
+        $idGoalKey = 'idgoal=' . $idGoal;
+
+        if (!isset($profile['totalConversionsByGoal'][$idGoalKey])) {
+            $profile['totalConversionsByGoal'][$idGoalKey] = 0;
+        }
+        ++$profile['totalConversionsByGoal'][$idGoalKey];
+
+        if (!empty($action['revenue'])) {
+            if (!isset($profile['totalRevenueByGoal'][$idGoalKey])) {
+                $profile['totalRevenueByGoal'][$idGoalKey] = 0;
+            }
+            $profile['totalRevenueByGoal'][$idGoalKey] += $action['revenue'];
+        }
     }
 }

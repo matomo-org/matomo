@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\PageUrl;
@@ -24,10 +25,11 @@ class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendVisitorDetails(&$visitor)
     {
-        $ecommerceMetrics = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'], $visitor['visitorId']);
-        $visitor['totalEcommerceRevenue']      = $ecommerceMetrics['totalEcommerceRevenue'];
-        $visitor['totalEcommerceConversions']  = $ecommerceMetrics['totalEcommerceConversions'];
-        $visitor['totalEcommerceItems']        = $ecommerceMetrics['totalEcommerceItems'];
+        $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
+            $visitor['visitorId']);
+        $visitor['totalEcommerceRevenue']     = $ecommerceMetrics['totalEcommerceRevenue'];
+        $visitor['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
+        $visitor['totalEcommerceItems']       = $ecommerceMetrics['totalEcommerceItems'];
 
         $visitor['totalAbandonedCartsRevenue'] = $ecommerceMetrics['totalAbandonedCartsRevenue'];
         $visitor['totalAbandonedCarts']        = $ecommerceMetrics['totalAbandonedCarts'];
@@ -39,7 +41,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $ecommerceDetails = $this->queryEcommerceConversionsForVisits($idVisits);
 
         // use while / array_shift combination instead of foreach to save memory
-        while(is_array($ecommerceDetails) && count($ecommerceDetails)) {
+        while (is_array($ecommerceDetails) && count($ecommerceDetails)) {
             $ecommerceDetail = array_shift($ecommerceDetails);
 
             $idVisit = $ecommerceDetail['idvisit'];
@@ -85,10 +87,10 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
-        $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
+        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
         $ecommerceOrders = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
-        $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
+        $sql            = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
         $abandonedCarts = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         return array(
@@ -131,7 +133,7 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsForVisits($idVisits)
     {
-        $sql = "SELECT
+        $sql              = "SELECT
 						idvisit,
 						case idgoal when " . GoalManager::IDGOAL_CART
             . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
@@ -146,7 +148,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 						log_conversion.server_time as serverTimePretty,
 						log_conversion.idlink_va
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-					WHERE idvisit IN ('".implode("','", $idVisits)."')
+					WHERE idvisit IN ('" . implode("','", $idVisits) . "')
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
 					ORDER BY idvisit, server_time ASC";
         $ecommerceDetails = Db::fetchAll($sql);
@@ -184,5 +186,30 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $itemsDetails = Db::fetchAll($sql, $bind);
         return $itemsDetails;
+    }
+
+    public function initProfile($visits, &$profile)
+    {
+        if (Site::isEcommerceEnabledFor($visits->getFirstRow()->getColumn('idSite'))) {
+            $profile['totalEcommerceRevenue']      = 0;
+            $profile['totalEcommerceConversions']  = 0;
+            $profile['totalEcommerceItems']        = 0;
+            $profile['totalAbandonedCarts']        = 0;
+            $profile['totalAbandonedCartsRevenue'] = 0;
+            $profile['totalAbandonedCartsItems']   = 0;
+        }
+    }
+
+    public function finalizeProfile($visits, &$profile)
+    {
+        $lastVisit = $visits->getLastRow();
+        if ($lastVisit && Site::isEcommerceEnabledFor($lastVisit->getColumn('idSite'))) {
+            $profile['totalEcommerceRevenue']      = $lastVisit->getColumn('totalEcommerceRevenue');
+            $profile['totalEcommerceConversions']  = $lastVisit->getColumn('totalEcommerceConversions');
+            $profile['totalEcommerceItems']        = $lastVisit->getColumn('totalEcommerceItems');
+            $profile['totalAbandonedCartsRevenue'] = $lastVisit->getColumn('totalAbandonedCartsRevenue');
+            $profile['totalAbandonedCarts']        = $lastVisit->getColumn('totalAbandonedCarts');
+            $profile['totalAbandonedCartsItems']   = $lastVisit->getColumn('totalAbandonedCartsItems');
+        }
     }
 }

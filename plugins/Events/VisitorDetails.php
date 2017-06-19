@@ -39,4 +39,18 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view->visitInfo      = $visitorDetails;
         return $view->render();
     }
+
+
+    public function initProfile($visits, &$profile)
+    {
+        $profile['totalEvents'] = 0;
+    }
+
+    public function handleProfileAction($action, &$profile)
+    {
+        if ($action['type'] != 'event') {
+            return;
+        }
+        $profile['totalEvents']++;
+    }
 }

@@ -113,4 +113,42 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         return getBrowserLogo($this->details['config_browser_name'] . ";" . $this->details['config_browser_version']);
     }
+
+
+    private $devices = array();
+
+    public function initProfile($visits, &$profile)
+    {
+        $this->devices = array();
+    }
+
+    public function handleProfileVisit($visit, &$profile)
+    {
+        $deviceType     = $visit->getColumn('deviceType');
+        $deviceTypeIcon = $visit->getColumn('deviceTypeIcon');
+        $deviceBrand    = $visit->getColumn('deviceBrand');
+        $deviceModel    = $visit->getColumn('deviceModel');
+        $deviceName     = trim($deviceBrand . " " . $deviceModel);
+
+        if (!isset($this->devices[$deviceType])) {
+            $this->devices[$deviceType] = array(
+                'count'   => 0,
+                'icon'    => $deviceTypeIcon,
+                'devices' => array()
+            );
+        }
+
+        ++$this->devices[$deviceType]['count'];
+
+        if (!isset($this->devices[$deviceType]['devices'][$deviceName])) {
+            $this->devices[$deviceType]['devices'][$deviceName] = 0;
+        }
+
+        ++$this->devices[$deviceType]['devices'][$deviceName];
+    }
+
+    public function finalizeProfile($visits, &$profile)
+    {
+        $profile['devices'] = $this->devices;
+    }
 }
