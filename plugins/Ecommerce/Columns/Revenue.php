@@ -18,6 +18,8 @@ class Revenue extends BaseConversion
     protected $columnName = 'revenue';
     protected $columnType = 'float default NULL';
     protected $type = self::TYPE_MONEY;
+    protected $category = 'Goals_Ecommerce';
+    protected $nameSingular = 'General_ColumnRevenue';
 
     /**
      * @param Request $request

@@ -9,14 +9,18 @@
 namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\Dimension;
-use Piwik\Piwik;
+use Piwik\Columns\Join\ActionNameJoin;
 
 class ProductName extends Dimension
 {
-    protected $type = self::TYPE_TEXT;
+    protected $type = self::TYPE_JOIN_ID;
+    protected $dbTableName = 'log_conversion_item';
+    protected $columnName = 'idaction_name';
+    protected $nameSingular = 'Goals_ProductName';
+    protected $category = 'Goals_Ecommerce';
 
-    public function getName()
+    public function getDbColumnJoin()
     {
-        return Piwik::translate('Goals_ProductName');
+        return new ActionNameJoin();
     }
 }

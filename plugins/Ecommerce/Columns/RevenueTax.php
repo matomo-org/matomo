@@ -18,6 +18,8 @@ class RevenueTax extends BaseConversion
     protected $columnName = 'revenue_tax';
     protected $columnType = 'float default NULL';
     protected $type = self::TYPE_MONEY;
+    protected $category = 'Goals_Ecommerce';
+    protected $nameSingular = 'General_Tax';
 
     /**
      * @param Request $request
