@@ -31,6 +31,10 @@
         "VisitorProfile": "访客资料",
         "VisitorsInRealTime": "实时访客",
         "VisitorsLastVisit": "此访客上次访问是%s天前。",
-        "VisitsFrom": "%1$s%2$s 次访问%3$s 来自"
+        "VisitsFrom": "%1$s%2$s 次访问%3$s 来自",
+        "RowActionTooltipDefault": "用这行显示访客日志",
+        "RowActionTooltipWithDimension": "用%s显示访客日志。",
+        "OnClickPause": "%s已经开始。点击停止。",
+        "OnClickStart": "%s已经停止。点击开始。"
     }
 }

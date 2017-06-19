@@ -27,6 +27,7 @@ use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\Widget\WidgetsList;
+use Piwik\SettingsPiwik;
 
 class Controller extends ControllerAdmin
 {
@@ -48,6 +49,8 @@ class Controller extends ControllerAdmin
 
     public function home()
     {
+        $isInternetEnabled = SettingsPiwik::isInternetEnabled();
+        
         $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
         $isFeedbackEnabled = Plugin\Manager::getInstance()->isPluginLoaded('Feedback');
         $widgetsList = WidgetsList::get();
@@ -59,6 +62,7 @@ class Controller extends ControllerAdmin
         $hasDiagnostics = $widgetsList->isDefined('Installation', 'getSystemCheck');
 
         return $this->renderTemplate('home', array(
+            'isInternetEnabled' => $isInternetEnabled,
             'isMarketplaceEnabled' => $isMarketplaceEnabled,
             'hasPremiumFeatures' => $hasPremiumFeatures,
             'hasNewPlugins' => $hasNewPlugins,

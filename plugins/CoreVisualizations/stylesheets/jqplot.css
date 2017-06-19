@@ -157,6 +157,12 @@ a.rowevolution-startmulti {
     font-weight: bold;
 }
 
+.rowevolution table.metrics td.text img {
+    max-width: 16px;
+    max-height: 16px;
+    vertical-align: bottom;
+}
+
 .multirowevolution table.metrics td.text {
     padding-top: 8px;
 }

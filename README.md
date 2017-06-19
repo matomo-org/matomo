@@ -53,7 +53,13 @@ See http://piwik.org/docs/requirements/
 
 See http://piwik.org/docs/installation/
 
-If you do not have a server, consider our Piwik Hosting partner: https://www.innocraft.cloud/
+## Free trial 
+
+If you do not have a server or don't want to host yourself you can use our Piwik Cloud partner service (30 day free trial): https://www.innocraft.cloud/
+
+## Online Demo
+
+Check out the online demo for Piwik at [demo.piwik.org](https://demo.piwik.org/)
 
 ## Changelog
 

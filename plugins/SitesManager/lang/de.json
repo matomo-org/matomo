@@ -76,6 +76,7 @@
         "SiteWithoutDataSetupTracking": "Bitte fügen Sie den folgenden %1$sTracking Code%2$s auf ihrer Website ein, insofern Sie dies noch nicht getan haben.",
         "SiteWithoutDataMessageDisappears": "Diese Nachricht wird verschwinden sobald die ersten Daten für diese Website aufgezeichnet wurden.",
         "SiteWithoutDataSetupGoals": "Währenddessen möchten Sie möglicherweise %1$sZiele definieren%2$s oder mehr über die %3$sFunktionen%4$s von Piwik in einem unserer %5$sAnleitungen%6$s oder %7$sFAQs%8$s erfahren.",
+        "SiteWithoutDataIgnoreMessage": "Diese Nachricht für eine Stunde verbergen",
         "SuperUserAccessCan": "Ein Nutzer mit Hauptadministrator-Berechtigung kann ebenfalls %1$sglobale Einstellungen%2$s für neue Websites vornehmen.",
         "Timezone": "Zeitzone",
         "TrackingSiteSearch": "Die interne Suche auswerten",

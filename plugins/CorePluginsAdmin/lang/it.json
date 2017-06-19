@@ -59,7 +59,6 @@
         "UninstallConfirm": "State per disinstallare un plugin %s. Questo verrà completamente rimosso dalla vostra piattaforma e non potrà essere recuperato. Siete sicuri di volerlo fare?",
         "Version": "Versione",
         "ViewAllMarketplacePlugins": "Scopri tutti i plugin del Marketplace",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Abbiamo disabilitato il plugin %s perché ha delle dipendenze mancanti:",
         "Websites": "Siti web"
     }
 }

@@ -420,6 +420,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load the ecommerce log page with segment', function (done) {
+        this.retries(3);
+        expect.screenshot('ecommerce_log_segmented').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "&segment=countryCode%3D%3DUS#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog&segment=countryCode%3D%3DUS");
+        }, done);
+    });
+
     it('should load the ecommerce products page', function (done) {
         expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_Products");
@@ -562,6 +569,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect.screenshot('fatal_error_safemode').to.be.capture(function (page) {
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=safemode&idSite=1&period=day&date=yesterday&activated"
                     + "&error_message=" + message + "&error_file=" + file + "&error_line=" + line + "&tests_hide_piwik_version=1");
+            page.evaluate(function () {
+                var elements = document.querySelectorAll('table tr td:nth-child(2)');
+                for (var i in elements) {
+                    if (elements.hasOwnProperty(i) && elements[i].innerText.match(/^[0-9]\.[0-9]\.[0-9]$/)) {
+                        elements[i].innerText = '3.0.0'
+                    }
+                }
+            });
         }, done);
     });
 

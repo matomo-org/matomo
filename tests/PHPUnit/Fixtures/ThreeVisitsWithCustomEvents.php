@@ -61,6 +61,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
 
         $this->dateTime = Date::factory($this->dateTime)->addHour(0.5);
         $vis2 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
+        $vis2->setUrl('http://example.com/piwik/');
         $vis2->setIp('111.1.1.1');
         $vis2->setPlugins($flash = false, $java = false, $director = true);
 
@@ -70,6 +71,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
 
         $this->dateTime = Date::factory($this->dateTime)->addDay(1);
         $vis3 = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
+        $vis3->setUrl('http://example.com/piwik/');
         $vis3->setIp('111.1.1.2');
         $vis3->setPlugins($flash = false, $java = false, $director = true);
 

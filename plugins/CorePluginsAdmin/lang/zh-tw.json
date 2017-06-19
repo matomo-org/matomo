@@ -63,7 +63,7 @@
         "UninstallConfirm": "你將要移除外掛 %s。這個外掛將完全從你的平台中刪除，而且操作無法復原。你確定要繼續？",
         "Version": "版本",
         "ViewAllMarketplacePlugins": "查看市集中的所有外掛",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "我們停用了外掛 %s，因為他遺失了依賴元件：",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "外掛 %1$s 無法載入，因為它遺失了依賴元件：%2$s",
         "Websites": "網站"
     }
 }

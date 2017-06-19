@@ -37,9 +37,12 @@
         "NoPluginSettings": "Нет настроек плагинов, которые могут быть сконфигурированы",
         "Origin": "Происхождение",
         "OriginCore": "Основные",
+        "OriginOfficial": "Официальные",
         "OriginThirdParty": "Сторонние",
         "PluginHomepage": "Дом. страница плагина",
         "PluginNotCompatibleWith": "Плагин %1$s не совместим с %2$s.",
+        "PluginNotFound": "Плагин %1$s не найден в файловой системе.",
+        "PluginNotFoundAlternative": "Если вы использовали этот плагин, попробуйте перезагрузить или переустановить его с маркета. Если нет, нажмите удалить, чтобы убрать его из списка.",
         "PluginNotWorkingAlternative": "Если вы используете этот плагин, может быть, вы сможете найти более новые версии в Marketplace. Если нет — можете удалить его.",
         "PluginRequirement": "%1$s требуется %2$s.",
         "PluginsManagement": "Управление плагинами",
@@ -50,6 +53,7 @@
         "Status": "Статус",
         "SuccessfullyActicated": "Вы успешно активировали <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Улучшение Piwik с помощью Плагинов и Тем",
+        "TeaserExtendPiwikByPlugin": "Расширьте Piwik, %1$sустановив плагины из Маркета%2$s или %3$sзагрузив плагин в формате .zip%4$s.",
         "TeaserExtendPiwikByTheme": "Насладитесь другим внешним видом %1$sустановив новую тему%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Вы автоматически можете установить плагины из Marketplace или %1$sзагрузить плагин%2$s в формате zip.",
         "Theme": "Тема",
@@ -59,7 +63,7 @@
         "UninstallConfirm": "Вы собираетесь удалить плагин %s. Плагин будет безвозвратно удалён из системы. Вы уверены, что хотите сделать это?",
         "Version": "Версия",
         "ViewAllMarketplacePlugins": "Посмотреть все плагины в Marketplace",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Мы отключили плагин %s, потому что у него есть недостающие зависимости:",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Плагин %1$s не может быть загружен, потому что у него есть недостающие зависимости: %2$s",
         "Websites": "Сайты"
     }
 }

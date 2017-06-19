@@ -60,7 +60,6 @@
         "UninstallConfirm": "Ukoliko deinstalirate dodatak %s, on će biti uklonjen sa vaše platforme i više neće biti moguće vratiti ga. Da li ste sigurni da želite to da uradite?",
         "Version": "Verzija",
         "ViewAllMarketplacePlugins": "Prikaži sve dodatke sa Marketa",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Dodatak %s je isključen zato što mu nedostaju zavisnosti:",
         "Websites": "Sajtovi"
     }
 }

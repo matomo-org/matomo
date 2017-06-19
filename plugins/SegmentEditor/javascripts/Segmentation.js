@@ -1314,7 +1314,7 @@ $(document).ready(function() {
 
         this.forceSegmentReload = function (segmentDefinition) {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
-            return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
+            return broadcast.propagateNewPage('', true, 'segment=' + segmentDefinition);
         };
 
         this.changeSegmentList = function () {};

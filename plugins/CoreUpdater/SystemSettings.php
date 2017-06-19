@@ -100,8 +100,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->makeSetting('enable_plugin_update_communication', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->introduction = Piwik::translate('CoreAdminHome_SendPluginUpdateCommunication');
             $field->uiControl = FieldConfig::UI_CONTROL_RADIO;
-            $field->availableValues = array('1' => Piwik::translate('General_Yes'),
-                                            '0' => sprintf('%s (%s)', Piwik::translate('General_No'), Piwik::translate('General_Default')));
+            $field->availableValues = array('1' => sprintf('%s (%s)', Piwik::translate('General_Yes'), Piwik::translate('General_Default')),
+                                            '0' => Piwik::translate('General_No'));
             $field->inlineHelp = Piwik::translate('CoreAdminHome_SendPluginUpdateCommunicationHelp');
         });
     }

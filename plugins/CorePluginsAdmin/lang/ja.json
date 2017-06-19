@@ -60,7 +60,6 @@
         "UninstallConfirm": "プラグイン %s をアンインストールしようとしています。実行されると、プラグインは完全にプラットフォームから削除され、回復できなくなります。本当にアンインストールを実行してもよろしいですか？",
         "Version": "バージョン",
         "ViewAllMarketplacePlugins": "マーケットプレイスのプラグインをすべて表示",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "依存関係がないため、プラグイン %s を無効にしました：",
         "Websites": "ウェブサイト"
     }
 }

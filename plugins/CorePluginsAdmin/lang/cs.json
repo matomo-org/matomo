@@ -60,7 +60,6 @@
         "UninstallConfirm": "Chystáte se odebrat zásuvný modul %s. Tento modul bude kompletně odebrán z platformy a akci nebude možné vrátit zpět. Jste si jisti, že to chcete provést?",
         "Version": "Verze",
         "ViewAllMarketplacePlugins": "Zobrazit všechny zásuvné moduly v marketplace zásuvných modulů",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Zásuvný modul %s byl vypnut, chybí závislosti:",
         "Websites": "Stránky"
     }
 }
