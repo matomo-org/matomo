@@ -278,10 +278,16 @@ class JoinGenerator
         }
 
         if (is_array($tA)) {
+            if (isset($tA['joinOn']) && is_string($tA['joinOn']) && strpos($tA['joinOn'] . '.', $tB) === 0) {
+                return 1; // tA requires tB so needs to be listed before
+            }
             return -1;
         }
 
         if (is_array($tB)) {
+            if (isset($tB['joinOn']) && is_string($tB['joinOn']) &&  strpos($tB['joinOn'] . '.', $tA) === 0) {
+                return -1; // tB requires tA so needs to be listed before
+            }
             return 1;
         }
 

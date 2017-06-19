@@ -255,6 +255,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         usort($tables, array($generator, 'sortTablesForJoin'));
 
         $expected = array(
+            'log_link_visit_action',
             array (
                 'table' => 'log_link_visit_action',
                 'tableAlias' => 'log_link_visit_action_foo',
@@ -265,7 +266,6 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
                 'tableAlias' => 'log_action_foo',
                 'joinOn' => 'log_link_visit_action_foo.idaction_url = log_action_foo.idaction',
             ),
-            'log_link_visit_action',
             'log_action',
         );
 
@@ -289,6 +289,42 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $generator = $this->makeGenerator($tables);
         usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $this->assertEquals($expected, $tables);
+    }
+
+    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther2()
+    {
+        $tables = array(
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_entry_idaction_name',
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
+            ),
+            'log_link_visit_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_event_action',
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+            )
+        );
+
+        $generator = $this->makeGenerator($tables);
+        usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $expected = array(
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_entry_idaction_name',
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
+            ),
+            'log_link_visit_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_event_action',
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+            )
+        );
 
         $this->assertEquals($expected, $tables);
     }
