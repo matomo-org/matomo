@@ -18,6 +18,7 @@ class Provider extends Base
 {
     protected $columnName = 'location_provider';
     protected $type = self::TYPE_TEXT;
+    protected $category = 'UserCountry_VisitLocation';
 
     /**
      * @param Request $request

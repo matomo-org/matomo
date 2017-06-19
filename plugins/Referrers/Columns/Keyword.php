@@ -9,8 +9,6 @@
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Common;
-use Piwik\Piwik;
-use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -24,6 +22,7 @@ class Keyword extends Base
     protected $segmentName = 'referrerKeyword';
     protected $acceptValues = 'Encoded%20Keyword, keyword';
     protected $type = self::TYPE_TEXT;
+    protected $category = 'Referrers_Referrers';
 
     /**
      * @param Request $request

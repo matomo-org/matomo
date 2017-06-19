@@ -12,15 +12,11 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Common;
-use Piwik\Db;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Plugin\Segment;
 use Piwik\Plugin;
-use Exception;
 
 /**
  * Defines a new conversion dimension that records any visit related information during tracking.

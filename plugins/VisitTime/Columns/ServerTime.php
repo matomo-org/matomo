@@ -8,27 +8,16 @@
  */
 namespace Piwik\Plugins\VisitTime\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\VisitTime\Segment;
 
 class ServerTime extends VisitDimension
 {
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
+    protected $category = 'General_Visit';
+    protected $segmentName = 'visitServerHour';
+    protected $nameSingular = 'VisitTime_ColumnServerTime';
+    protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';
+    protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
 
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('visitServerHour');
-        $segment->setName('VisitTime_ColumnServerTime');
-        $segment->setSqlSegment('HOUR(log_visit.visit_last_action_time)');
-        $segment->setAcceptedValues('0, 1, 2, 3, ..., 20, 21, 22, 23');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('VisitTime_ColumnServerTime');
-    }
 }

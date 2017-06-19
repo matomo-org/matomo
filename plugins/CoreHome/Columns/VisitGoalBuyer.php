@@ -33,20 +33,16 @@ class VisitGoalBuyer extends VisitDimension
 
     protected $columnName = 'visit_goal_buyer';
     protected $columnType = 'TINYINT(1) NULL';
+    protected $segmentName = 'visitEcommerceStatus';
+    protected $category = 'General_Visit';
+    protected $nameSingular = 'General_EcommerceVisitStatusDesc';
     protected $type = self::TYPE_ENUM;
 
-    protected function configureSegments()
+    public function __construct()
     {
         $example = Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"');
-        $acceptedValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;
-
-        $segment = new Segment();
-        $segment->setSegment('visitEcommerceStatus');
-        $segment->setName('General_EcommerceVisitStatusDesc');
-        $segment->setAcceptedValues($acceptedValues);
-        $segment->setSqlFilterValue(__NAMESPACE__ . '\VisitGoalBuyer::getVisitEcommerceStatus');
-
-        $this->addSegment($segment);
+        $this->acceptValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;
+        $this->sqlFilter = __NAMESPACE__ . '\VisitGoalBuyer::getVisitEcommerceStatus';
     }
 
     /**

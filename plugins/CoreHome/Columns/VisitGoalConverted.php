@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -19,15 +18,10 @@ class VisitGoalConverted extends VisitDimension
     protected $columnName = 'visit_goal_converted';
     protected $columnType = 'TINYINT(1) NULL';
     protected $type = self::TYPE_BOOL;
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('visitConverted');
-        $segment->setName('General_VisitConvertedGoal');
-        $segment->setAcceptedValues('0, 1');
-        $this->addSegment($segment);
-    }
+    protected $segmentName = 'visitConverted';
+    protected $nameSingular = 'General_VisitConvertedGoal';
+    protected $acceptValues = '0, 1';
+    protected $category = 'General_Visit';
 
     /**
      * @param Request $request

@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\Events\Columns;
 
 use Piwik\Columns\Join\ActionNameJoin;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Events\Segment;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -20,23 +18,14 @@ class EventName extends ActionDimension
 {
     protected $columnName = 'idaction_name';
     protected $type = self::TYPE_JOIN_ID;
+    protected $category = 'Events_Events';
+    protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
+    protected $segmentName = 'eventName';
+    protected $nameSingular = 'Events_EventName';
 
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();
-    }
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('eventName');
-        $segment->setName('Events_EventName');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Events_EventName');
     }
 
     public function getActionId()

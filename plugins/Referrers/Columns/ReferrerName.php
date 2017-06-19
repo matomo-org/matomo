@@ -23,6 +23,7 @@ class ReferrerName extends Base
     protected $namePlural = 'Referrers_ReferrerNames';
     protected $segmentName = 'referrerName';
     protected $acceptValues = 'twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName';
+    protected $category = 'Referrers_Referrers';
 
     /**
      * @param Request $request

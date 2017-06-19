@@ -10,7 +10,6 @@ namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\Device\DeviceParserAbstract;
 use Piwik\Piwik;
-use Piwik\Plugins\DevicesDetection\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -20,22 +19,17 @@ class DeviceBrand extends Base
     protected $columnName = 'config_device_brand';
     protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'DevicesDetection_DeviceBrand';
+    protected $segmentName = 'deviceBrand';
+    protected $category = 'General_Visit';
 
-    public function getName()
-    {
-        return Piwik::translate('DevicesDetection_DeviceBrand');
-    }
-
-    protected function configureSegments()
+    public function __construct()
     {
         $brands = DeviceParserAbstract::$deviceBrands;
         $brandList = implode(", ", $brands);
+        $this->acceptValues = $brandList;
 
-        $segment = new Segment();
-        $segment->setSegment('deviceBrand');
-        $segment->setName('DevicesDetection_DeviceBrand');
-        $segment->setAcceptedValues($brandList);
-        $segment->setSqlFilter(function ($brand) use ($brandList, $brands) {
+        $this->acceptValues = function ($brand) use ($brandList, $brands) {
             if ($brand == Piwik::translate('General_Unknown')) {
                 return '';
             }
@@ -44,8 +38,7 @@ class DeviceBrand extends Base
                 throw new \Exception("deviceBrand segment must be one of: $brandList");
             }
             return $index;
-        });
-        $this->addSegment($segment);
+        };
     }
 
     /**

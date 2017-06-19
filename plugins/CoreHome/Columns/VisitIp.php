@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 
@@ -21,18 +20,16 @@ class VisitIp extends VisitDimension
     protected $columnName = 'location_ip';
     protected $type = self::TYPE_TEXT;
     protected $allowAnonymous = false;
+    protected $category = 'General_Visit';
+    protected $segmentName = 'visitIp';
+    protected $nameSingular = 'General_VisitorIP';
+    protected $acceptValues = '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255';
+    protected $sqlFilterValue = array('Piwik\Network\IPUtils', 'stringToBinaryIP');
 
     protected function configureSegments()
     {
-        parent::configureSegments();
-
         $segment = new Segment();
-        $segment->setType(Segment::TYPE_METRIC);
-        $segment->setCategory(Piwik::translate('General_Visit'));
-        $segment->setName('General_VisitorIP');
-        $segment->setSegment('visitIp');
-        $segment->setAcceptedValues('13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255');
-        $segment->setSqlFilterValue(array('Piwik\Network\IPUtils', 'stringToBinaryIP'));
+        $segment->setType(Segment::TYPE_METRIC); // we cannot remove this for now as it would assign dimension based on text type
         $this->addSegment($segment);
     }
 }

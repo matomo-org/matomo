@@ -35,7 +35,7 @@ abstract class Dimension
      */
     const TYPE_DIMENSION = 'dimension';
     const TYPE_TEXT = 'text';
-    const TYPE_ENUM = 'enum';
+    const TYPE_ENUM = 'enum'; // todo automatically generate sqlFilterValue from enum values?
     const TYPE_MONEY = 'money';
     const TYPE_DURATION_MS = 'duration_ms';
     const TYPE_DURATION_S = 'duration_s';
@@ -48,7 +48,7 @@ abstract class Dimension
     const TYPE_TIMESTAMP = 'timestamp';
     const TYPE_BOOL = 'bool';
     const TYPE_PERCENT = 'percent';
-    const TYPE_JOIN_ID = 'join_id';
+    const TYPE_JOIN_ID = 'join_id'; // todo maybe we can automatically set sqlfilter for the join column?
 
     /**
      * This will be the name of the column in the database table if a $columnType is specified.
@@ -90,6 +90,7 @@ abstract class Dimension
     protected $suggestedValuesCallback;
     protected $acceptValues;
     protected $sqlFilter;
+    protected $sqlSegment;
     protected $sqlFilterValue;
     protected $allowAnonymous;
     protected $dbTableName = '';
@@ -307,7 +308,7 @@ abstract class Dimension
     protected function addSegment(Segment $segment)
     {
         if (!$segment->getType()) {
-            $metricTypes = array(self::TYPE_NUMBER, self::TYPE_FLOAT, self::TYPE_MONEY, self::TYPE_DURATION_S, self::TYPE_DURATION_MS, self::TYPE_DATE, self::TYPE_DATETIME, self::TYPE_TIME);
+            $metricTypes = array(self::TYPE_NUMBER, self::TYPE_FLOAT, self::TYPE_MONEY, self::TYPE_DURATION_S, self::TYPE_DURATION_MS);
             if (in_array($this->getType(), $metricTypes)) {
                 $segment->setType(Segment::TYPE_METRIC);
             } else {

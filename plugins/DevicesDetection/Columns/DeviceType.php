@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Exception;
 use Piwik\Tracker\Visitor;
@@ -20,32 +18,24 @@ class DeviceType extends Base
 {
     protected $columnName = 'config_device_type';
     protected $columnType = 'TINYINT( 100 ) NULL DEFAULT NULL';
+    protected $category = 'General_Visit';
+    protected $segmentName = 'deviceType';
     protected $type = self::TYPE_ENUM;
+    protected $nameSingular = 'DevicesDetection_DeviceType';
 
-    protected function configureSegments()
+    public function __construct()
     {
         $deviceTypes    = DeviceParser::getAvailableDeviceTypeNames();
         $deviceTypeList = implode(", ", $deviceTypes);
 
-        $segment = new Segment();
-        $segment->setCategory('General_Visit');
-        $segment->setSegment('deviceType');
-        $segment->setName('DevicesDetection_DeviceType');
-        $segment->setAcceptedValues($deviceTypeList);
-        $segment->setSqlFilter(function ($type) use ($deviceTypeList, $deviceTypes) {
+        $this->acceptValues = $deviceTypeList;
+        $this->sqlFilter = function ($type) use ($deviceTypeList, $deviceTypes) {
             $index = array_search(strtolower(trim(urldecode($type))), $deviceTypes);
             if ($index === false) {
                 throw new Exception("deviceType segment must be one of: $deviceTypeList");
             }
             return $index;
-        });
-
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('DevicesDetection_DeviceType');
+        };
     }
 
     /**

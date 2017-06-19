@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugins\DevicesDetection\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -18,22 +16,12 @@ class BrowserEngine extends Base
 {
     protected $columnName = 'config_browser_engine';
     protected $columnType = 'VARCHAR(10) NULL';
+    protected $segmentName = 'browserEngine';
+    protected $nameSingular = 'DevicesDetection_BrowserEngine';
+    protected $category = 'General_Visit';
+    protected $acceptValues = 'Trident, WebKit, Presto, Gecko, Blink, etc.';
+    protected $suggestedValuesCallback = '\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines';
     protected $type = self::TYPE_TEXT;
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('browserEngine');
-        $segment->setName('DevicesDetection_BrowserEngine');
-        $segment->setAcceptedValues('Trident, WebKit, Presto, Gecko, Blink, etc.');
-        $segment->setSuggestedValuesCallback('\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('DevicesDetection_BrowserEngine');
-    }
 
     /**
      * @param Request $request

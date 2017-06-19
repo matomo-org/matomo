@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugins\DevicesDetection\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -18,21 +16,11 @@ class BrowserVersion extends Base
 {
     protected $columnName = 'config_browser_version';
     protected $columnType = 'VARCHAR(20) NULL';
+    protected $segmentName = 'browserVersion';
+    protected $nameSingular = 'DevicesDetection_BrowserVersion';
+    protected $acceptValues = '1.0, 8.0, etc.';
+    protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('browserVersion');
-        $segment->setName('DevicesDetection_BrowserVersion');
-        $segment->setAcceptedValues('1.0, 8.0, etc.');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('DevicesDetection_BrowserVersion');
-    }
 
     /**
      * @param Request $request

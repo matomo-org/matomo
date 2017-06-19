@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -18,11 +17,8 @@ class DeviceModel extends Base
     protected $columnName = 'config_device_model';
     protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
-
-    public function getName()
-    {
-        return Piwik::translate('DevicesDetection_DeviceModel');
-    }
+    protected $nameSingular = 'DevicesDetection_DeviceModel';
+    protected $category = 'General_Visit';
 
     /**
      * @param Request $request
