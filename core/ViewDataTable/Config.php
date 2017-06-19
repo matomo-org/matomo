@@ -11,6 +11,7 @@ namespace Piwik\ViewDataTable;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
@@ -82,7 +83,7 @@ use Piwik\Plugin\ReportsProvider;
  *
  * @api
  */
-class Config
+class   Config
 {
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
@@ -518,13 +519,12 @@ class Config
         }
 
         $apiParameters = array();
-        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
-        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
-        if ($idDimension > 0) {
-            $apiParameters['idDimension'] = $idDimension;
-        }
-        if ($idGoal > 0) {
-            $apiParameters['idGoal'] = $idGoal;
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            $idEntity = Common::getRequestVar($entityName, 0, 'int');
+            if ($idEntity > 0) {
+                $apiParameters[$entityName] = $idEntity;
+            }
         }
 
         $report = API::getInstance()->getMetadata($idSite, $this->controllerName, $this->controllerAction, $apiParameters);

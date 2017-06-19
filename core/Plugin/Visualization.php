@@ -13,6 +13,7 @@ use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
@@ -279,13 +280,12 @@ class Visualization extends ViewDataTable
         $action  = $this->requestConfig->getApiMethodToRequest();
 
         $apiParameters = array();
-        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
-        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
-        if ($idDimension > 0) {
-            $apiParameters['idDimension'] = $idDimension;
-        }
-        if ($idGoal > 0) {
-            $apiParameters['idGoal'] = $idGoal;
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            $idEntity = Common::getRequestVar($entityName, 0, 'int');
+            if ($idEntity > 0) {
+                $apiParameters[$entityName] = $idEntity;
+            }
         }
 
         $metadata = ApiApi::getInstance()->getMetadata($idSite, $module, $action, $apiParameters);
