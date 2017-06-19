@@ -742,6 +742,7 @@ delete_reports_keep_day_reports      = 0
 delete_reports_keep_week_reports     = 0
 delete_reports_keep_month_reports    = 1
 delete_reports_keep_year_reports     = 1
+delete_reports_keep_fisyear_reports  = 1
 delete_reports_keep_range_reports    = 0
 delete_reports_keep_segment_reports  = 0
 

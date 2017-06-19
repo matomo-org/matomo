@@ -37,6 +37,7 @@
                 keepYear: getInt(this.keepDataForYear),
                 keepRange: getInt(this.keepDataForRange),
                 keepSegments: getInt(this.keepDataForSegments),
+                keepFisYear: getInt(this.keepDataForFisYear),
             };
         }
 
