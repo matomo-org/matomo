@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\Cache;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -97,7 +98,7 @@ class Loader
 
             $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
-            $pluginsArchiver->finalizeArchive();
+            $pluginsArchiver->finalizeArchive($this->getFinalArchiveStatus());
 
             $this->params->setRequestedPlugin($requestedPlugin);
 
@@ -123,7 +124,7 @@ class Loader
         $forceArchivingWithoutVisits = !$this->isThereSomeVisits($visits) && $this->shouldArchiveForSiteEvenWhenNoVisits();
         $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits);
 
-        $idArchive = $pluginsArchiver->finalizeArchive();
+        $idArchive = $pluginsArchiver->finalizeArchive($this->getFinalArchiveStatus());
 
         return array($idArchive, $visits);
     }
@@ -246,5 +247,14 @@ class Loader
         }
 
         return $cache->fetch($cacheKey);
+    }
+
+    private function getFinalArchiveStatus()
+    {
+        $status = ArchiveWriter::DONE_OK;
+        if ($this->isArchiveTemporary()) {
+            $status = ArchiveWriter::DONE_OK_TEMPORARY;
+        }
+        return $status;
     }
 }

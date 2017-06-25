@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
@@ -53,10 +54,10 @@ class ChunksTest extends IntegrationTestCase
         $recordName = 'Actions_MyRecord';
         $archiver = $this->createPluginsArchiver();
         $archiver->archiveProcessor->insertBlobRecord($recordName, $blobs);
-        $archiver->finalizeArchive();
+        $archiver->finalizeArchive(ArchiveWriter::DONE_OK);
 
         // verify they were split into chunks
-        $archiveRows = $this->getAllRowsFromArchiveBlobTable('name');
+        $archiveRows = $this->getAllRowsFromArchiveBlobTable();
         $expectedArchiveNames = array(
             $recordName,
             $recordName. '_chunk_0_99',

@@ -61,7 +61,7 @@ class ArchiveWriter
         'name',
         'value');
 
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
+    public function __construct(ArchiveProcessor\Parameters $params)
     {
         $this->idArchive = false;
         $this->idSite    = $params->getSite()->getId();
@@ -70,7 +70,6 @@ class ArchiveWriter
 
         $idSites = array($this->idSite);
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
-        $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();
     }
@@ -126,14 +125,14 @@ class ArchiveWriter
         $this->logArchiveStatusAsIncomplete();
     }
 
-    public function finalizeArchive()
+    public function finalizeArchive($status)
     {
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
         $this->getModel()->deletePreviousArchiveStatus($numericTable, $idArchive, $this->doneFlag);
 
-        $this->logArchiveStatusAsFinal();
+        $this->logArchiveStatusAsFinal($status);
     }
 
     protected function compress($data)
@@ -163,14 +162,8 @@ class ArchiveWriter
         $this->insertRecord($this->doneFlag, self::DONE_ERROR);
     }
 
-    protected function logArchiveStatusAsFinal()
+    protected function logArchiveStatusAsFinal($status) // TODO: remove this method
     {
-        $status = self::DONE_OK;
-
-        if ($this->isArchiveTemporary) {
-            $status = self::DONE_OK_TEMPORARY;
-        }
-
         $this->insertRecord($this->doneFlag, $status);
     }
 

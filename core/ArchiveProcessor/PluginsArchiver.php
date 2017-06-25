@@ -53,7 +53,7 @@ class PluginsArchiver
     {
         $this->params = $params;
         $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = new ArchiveWriter($this->params, $this->isTemporaryArchive);
+        $this->archiveWriter = new ArchiveWriter($this->params);
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);
@@ -160,10 +160,10 @@ class PluginsArchiver
         }
     }
 
-    public function finalizeArchive()
+    public function finalizeArchive($status)
     {
-        $this->params->logStatusDebug($this->archiveWriter->isArchiveTemporary);
-        $this->archiveWriter->finalizeArchive();
+        $this->params->logStatusDebug($this->isTemporaryArchive);
+        $this->archiveWriter->finalizeArchive($status);
         return $this->archiveWriter->getIdArchive();
     }
 
