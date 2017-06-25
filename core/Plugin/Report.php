@@ -840,7 +840,7 @@ class Report
 
         $result = array();
         foreach ($processedMetrics as $processedMetric) {
-            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+            if ($processedMetric instanceof ProcessedMetric || $processedMetric instanceof ArchivedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
             }
         }
