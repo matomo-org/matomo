@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Archive;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
@@ -53,6 +54,7 @@ class ChunksTest extends IntegrationTestCase
 
         $recordName = 'Actions_MyRecord';
         $archiver = $this->createPluginsArchiver();
+        $archiver->initNewArchive();
         $archiver->archiveProcessor->insertBlobRecord($recordName, $blobs);
         $archiver->finalizeArchive(ArchiveWriter::DONE_OK);
 
@@ -139,11 +141,7 @@ class ChunksTest extends IntegrationTestCase
     private function createPluginsArchiver()
     {
         $params = $this->createArchiveProcessorParamaters();
-
-        $archiveWriter = new ArchiveWriter($params);
-        $archiveWriter->initNewArchive();
-
-        return new ArchiveProcessor\PluginsArchiver($params, $archiveWriter, $isTemporary = false);
+        return new ArchiveProcessor\PluginsArchiver($params, StaticContainer::get(Archive\ArchiveTableStore::class), $isTemporary = false);
     }
 
     public function provideContainerConfig()

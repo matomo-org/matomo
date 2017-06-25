@@ -108,7 +108,7 @@ class ArchiveWriter
         $this->insertRecord($name, $values);
     }
 
-    public function getIdArchive()
+    private function getIdArchive()
     {
         if ($this->idArchive === false) {
             throw new Exception("Must call allocateNewArchiveId() first");
@@ -119,8 +119,9 @@ class ArchiveWriter
 
     public function initNewArchive()
     {
-        $this->allocateNewArchiveId();
+        $idArchive = $this->allocateNewArchiveId();
         $this->logArchiveStatusAsIncomplete();
+        return $idArchive;
     }
 
     public function finalizeArchive($status)

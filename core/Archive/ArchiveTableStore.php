@@ -12,8 +12,10 @@ namespace Piwik\Archive;
 
 use Piwik\Archive;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor\Parameters as ArchiveProcessorParams;
 use Piwik\Cache\Transient;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Metrics;
@@ -101,6 +103,35 @@ class ArchiveTableStore
         return ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
     }
 
+    public function getArchiveIdAndVisits(ArchiveProcessorParams $params, $minDatetimeArchiveProcessedUTC)
+    {
+        return ArchiveSelector::getArchiveIdAndVisits($params, $minDatetimeArchiveProcessedUTC);
+    }
+
+    public function insertRecord(ArchiveProcessorParams $params, $column, $value)
+    {
+        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter->insertRecord($column, $value);
+    }
+
+    public function insertBlobRecord(ArchiveProcessorParams $params, $name, $values)
+    {
+        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter->insertBlobRecord($name, $values);
+    }
+
+    public function startArchive(ArchiveProcessorParams $params)
+    {
+        $archiveWriter = new ArchiveWriter($params);
+        return $archiveWriter->initNewArchive();
+    }
+
+    public function finishArchive(ArchiveProcessorParams $params, $status)
+    {
+        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter->finalizeArchive($status);
+    }
+
     /**
      * Gets the IDs of the archives we're querying for and stores them in $this->archives.
      * This function will launch the archiving process for each period/site/plugin if
@@ -175,7 +206,7 @@ class ArchiveTableStore
     private function prepareArchive(Parameters $params, array $archiveGroups, Site $site, Period $period)
     {
         $parameters = new \Piwik\ArchiveProcessor\Parameters($site, $period, $params->getSegment());
-        $archiveLoader = new \Piwik\ArchiveProcessor\Loader($parameters);
+        $archiveLoader = new \Piwik\ArchiveProcessor\Loader($parameters, $this);
 
         $periodString = $period->getRangeString();
 

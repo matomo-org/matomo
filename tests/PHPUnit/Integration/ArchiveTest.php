@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -278,7 +279,7 @@ class ArchiveTest extends IntegrationTestCase
         $archiveWriter            = new ArchiveWriter($parameters, !!$idArchive);
         $archiveWriter->idArchive = $idArchive;
 
-        $archiveProcessor = new ArchiveProcessor($parameters, $archiveWriter,
+        $archiveProcessor = new ArchiveProcessor($parameters, StaticContainer::get(PiwikArchive\ArchiveTableStore::class),
             new LogAggregator($parameters));
 
         $archiveProcessor->setNumberOfVisits(1, 1);

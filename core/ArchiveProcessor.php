@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Archive\ArchiveTableStore;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -75,9 +76,9 @@ use Piwik\DataTable\Row;
 class ArchiveProcessor
 {
     /**
-     * @var \Piwik\DataAccess\ArchiveWriter
+     * @var ArchiveTableStore
      */
-    private $archiveWriter;
+    private $archiveTableStore;
 
     /**
      * @var \Piwik\DataAccess\LogAggregator
@@ -110,11 +111,11 @@ class ArchiveProcessor
      */
     private $skipUniqueVisitorsCalculationForMultipleSites = true;
 
-    public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
+    public function __construct(Parameters $params, ArchiveTableStore $archiveTableStore, LogAggregator $logAggregator)
     {
         $this->params = $params;
         $this->logAggregator = $logAggregator;
-        $this->archiveWriter = $archiveWriter;
+        $this->archiveTableStore = $archiveTableStore;
 
         $this->skipUniqueVisitorsCalculationForMultipleSites = Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
     }
@@ -257,7 +258,7 @@ class ArchiveProcessor
 
         foreach ($metrics as $column => $value) {
             $value = Common::forceDotAsSeparatorForDecimalPoint($value);
-            $this->archiveWriter->insertRecord($column, $value);
+            $this->archiveTableStore->insertRecord($this->params, $column, $value);
         }
         // if asked for only one field to sum
         if (count($metrics) == 1) {
@@ -313,7 +314,7 @@ class ArchiveProcessor
         $value = round($value, 2);
         $value = Common::forceDotAsSeparatorForDecimalPoint($value);
 
-        $this->archiveWriter->insertRecord($name, $value);
+        $this->archiveTableStore->insertRecord($this->params, $name, $value);
     }
 
     /**
@@ -330,7 +331,7 @@ class ArchiveProcessor
      */
     public function insertBlobRecord($name, $values)
     {
-        $this->archiveWriter->insertBlobRecord($name, $values);
+        $this->archiveTableStore->insertBlobRecord($this->params, $name, $values);
     }
 
     /**

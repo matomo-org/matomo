@@ -9,8 +9,8 @@
 
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Archive\ArchiveTableStore;
 use Piwik\ArchiveProcessor;
-use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
@@ -48,15 +48,15 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
-    public function __construct(Parameters $params, ArchiveWriter $archiveWriter, $isTemporaryArchive)
+    public function __construct(Parameters $params, ArchiveTableStore $archiveTableStore, $isTemporaryArchive)
     {
         $this->params = $params;
         $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = $archiveWriter;
+        $this->archiveTableStore = $archiveTableStore;
 
         $this->logAggregator = new LogAggregator($params);
 
-        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
+        $this->archiveProcessor = new ArchiveProcessor($this->params, $archiveTableStore, $this->logAggregator);
 
         $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
     }
@@ -161,8 +161,7 @@ class PluginsArchiver
     public function finalizeArchive($status)
     {
         $this->params->logStatusDebug($this->isTemporaryArchive);
-        $this->archiveWriter->finalizeArchive($status);
-        return $this->archiveWriter->getIdArchive();
+        $this->archiveTableStore->finishArchive($this->params, $status);
     }
 
     /**
@@ -285,6 +284,6 @@ class PluginsArchiver
 
     public function initNewArchive()
     {
-        $this->archiveWriter->initNewArchive();
+        return $this->archiveTableStore->startArchive($this->params);
     }
 }
