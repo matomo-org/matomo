@@ -10,7 +10,6 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -49,12 +48,11 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
-    public function __construct(Parameters $params, $isTemporaryArchive)
+    public function __construct(Parameters $params, ArchiveWriter $archiveWriter, $isTemporaryArchive)
     {
         $this->params = $params;
         $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = new ArchiveWriter($this->params);
-        $this->archiveWriter->initNewArchive();
+        $this->archiveWriter = $archiveWriter;
 
         $this->logAggregator = new LogAggregator($params);
 
@@ -283,5 +281,10 @@ class PluginsArchiver
         Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
 
         return $archiver;
+    }
+
+    public function initNewArchive()
+    {
+        $this->archiveWriter->initNewArchive();
     }
 }

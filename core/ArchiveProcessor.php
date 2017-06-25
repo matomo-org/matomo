@@ -382,7 +382,7 @@ class ArchiveProcessor
      * Note: public only for use in closure in PHP 5.3.
      *
      * @param $table
-     * @return \Piwik\Period
+     * @return bool
      */
     public function areColumnsNotAlreadyRenamed($table)
     {

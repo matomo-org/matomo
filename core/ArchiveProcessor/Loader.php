@@ -96,7 +96,11 @@ class Loader
 
             $this->params->setRequestedPlugin('VisitsSummary');
 
-            $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+            $archiveWriter = new ArchiveWriter($this->params);
+
+            $pluginsArchiver = new PluginsArchiver($this->params, $archiveWriter, $this->isArchiveTemporary());
+            $pluginsArchiver->initNewArchive();
+
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $pluginsArchiver->finalizeArchive($this->getFinalArchiveStatus());
 
@@ -111,7 +115,10 @@ class Loader
 
     protected function prepareAllPluginsArchive($visits, $visitsConverted)
     {
-        $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+        $archiveWriter = new ArchiveWriter($this->params);
+
+        $pluginsArchiver = new PluginsArchiver($this->params, $archiveWriter, $this->isArchiveTemporary());
+        $pluginsArchiver->initNewArchive();
 
         if ($this->mustProcessVisitCount($visits)
             || $this->doesRequestedPluginIncludeVisitsSummary()
