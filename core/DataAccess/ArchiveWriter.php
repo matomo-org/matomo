@@ -59,9 +59,9 @@ class ArchiveWriter
         'name',
         'value');
 
-    public function __construct(ArchiveProcessor\Parameters $params)
+    public function __construct(ArchiveProcessor\Parameters $params, $idArchive = false)
     {
-        $this->idArchive = false;
+        $this->idArchive = $idArchive;
         $this->idSite    = $params->getSite()->getId();
         $this->segment   = $params->getSegment();
         $this->period    = $params->getPeriod();

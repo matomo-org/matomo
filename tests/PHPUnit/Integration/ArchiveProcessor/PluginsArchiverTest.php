@@ -69,6 +69,7 @@ class PluginsArchiverTest extends IntegrationTestCase
 
         $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters(),
             StaticContainer::get(ArchiveTableStore::class), $isTemporary = false);
+        $this->pluginsArchiver->initNewArchive();
     }
 
     private function createArchiveProcessorParamaters()

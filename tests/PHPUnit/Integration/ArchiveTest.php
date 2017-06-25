@@ -280,7 +280,7 @@ class ArchiveTest extends IntegrationTestCase
         $archiveWriter->idArchive = $idArchive;
 
         $archiveProcessor = new ArchiveProcessor($parameters, StaticContainer::get(PiwikArchive\ArchiveTableStore::class),
-            new LogAggregator($parameters));
+            new LogAggregator($parameters), $idArchive);
 
         $archiveProcessor->setNumberOfVisits(1, 1);
 
@@ -363,7 +363,7 @@ class ArchiveTest extends IntegrationTestCase
         foreach ($blobs as $name => $blob) {
             $writer->insertBlobRecord($name, $blob);
         }
-        $writer->finalizeArchive();
+        $writer->finalizeArchive(ArchiveWriter::DONE_OK);
     }
 
     private function assertArchiveTablesAreNotEmpty($tableMonth)

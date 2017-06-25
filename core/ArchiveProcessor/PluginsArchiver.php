@@ -27,7 +27,7 @@ use Exception;
 class PluginsArchiver
 {
     /**
-     * @param ArchiveProcessor $archiveProcessor
+     * @var ArchiveProcessor $archiveProcessor
      */
     public $archiveProcessor;
 
@@ -48,6 +48,11 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
+    /**
+     * @var int
+     */
+    private $idArchive;
+
     public function __construct(Parameters $params, ArchiveTableStore $archiveTableStore, $isTemporaryArchive)
     {
         $this->params = $params;
@@ -55,9 +60,6 @@ class PluginsArchiver
         $this->archiveTableStore = $archiveTableStore;
 
         $this->logAggregator = new LogAggregator($params);
-
-        $this->archiveProcessor = new ArchiveProcessor($this->params, $archiveTableStore, $this->logAggregator);
-
         $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
     }
 
@@ -161,7 +163,7 @@ class PluginsArchiver
     public function finalizeArchive($status)
     {
         $this->params->logStatusDebug($this->isTemporaryArchive);
-        $this->archiveTableStore->finishArchive($this->params, $status);
+        $this->archiveTableStore->finishArchive($this->params, $this->idArchive, $status);
     }
 
     /**
@@ -282,8 +284,12 @@ class PluginsArchiver
         return $archiver;
     }
 
+    // NOTE: this class can have an inconsistent state if this isn't called. need to rethink this & related classes,
+    //       make sure all are designed to have consistent state.
     public function initNewArchive()
     {
-        return $this->archiveTableStore->startArchive($this->params);
+        $this->idArchive = $this->archiveTableStore->startArchive($this->params);
+        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveTableStore, $this->logAggregator, $this->idArchive);
+        return $this->idArchive;
     }
 }

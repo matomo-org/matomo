@@ -13,11 +13,11 @@ use Piwik\Archive\ArchiveTableStore;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
+
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  *
@@ -111,11 +111,18 @@ class ArchiveProcessor
      */
     private $skipUniqueVisitorsCalculationForMultipleSites = true;
 
-    public function __construct(Parameters $params, ArchiveTableStore $archiveTableStore, LogAggregator $logAggregator)
+    /**
+     * @var int
+     */
+    private $idArchive;
+
+    public function __construct(Parameters $params, ArchiveTableStore $archiveTableStore, LogAggregator $logAggregator,
+                                $idArchive)
     {
         $this->params = $params;
         $this->logAggregator = $logAggregator;
         $this->archiveTableStore = $archiveTableStore;
+        $this->idArchive = $idArchive;
 
         $this->skipUniqueVisitorsCalculationForMultipleSites = Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
     }
@@ -258,7 +265,7 @@ class ArchiveProcessor
 
         foreach ($metrics as $column => $value) {
             $value = Common::forceDotAsSeparatorForDecimalPoint($value);
-            $this->archiveTableStore->insertRecord($this->params, $column, $value);
+            $this->archiveTableStore->insertRecord($this->params, $this->idArchive, $column, $value);
         }
         // if asked for only one field to sum
         if (count($metrics) == 1) {
@@ -314,7 +321,7 @@ class ArchiveProcessor
         $value = round($value, 2);
         $value = Common::forceDotAsSeparatorForDecimalPoint($value);
 
-        $this->archiveTableStore->insertRecord($this->params, $name, $value);
+        $this->archiveTableStore->insertRecord($this->params, $this->idArchive, $name, $value);
     }
 
     /**
@@ -331,7 +338,7 @@ class ArchiveProcessor
      */
     public function insertBlobRecord($name, $values)
     {
-        $this->archiveTableStore->insertBlobRecord($this->params, $name, $values);
+        $this->archiveTableStore->insertBlobRecord($this->params, $this->idArchive, $name, $values);
     }
 
     /**

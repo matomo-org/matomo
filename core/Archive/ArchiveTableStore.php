@@ -108,15 +108,15 @@ class ArchiveTableStore
         return ArchiveSelector::getArchiveIdAndVisits($params, $minDatetimeArchiveProcessedUTC);
     }
 
-    public function insertRecord(ArchiveProcessorParams $params, $column, $value)
+    public function insertRecord(ArchiveProcessorParams $params, $idArchive, $column, $value)
     {
-        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter = new ArchiveWriter($params, $idArchive);
         $archiveWriter->insertRecord($column, $value);
     }
 
-    public function insertBlobRecord(ArchiveProcessorParams $params, $name, $values)
+    public function insertBlobRecord(ArchiveProcessorParams $params, $idArchive, $name, $values)
     {
-        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter = new ArchiveWriter($params, $idArchive);
         $archiveWriter->insertBlobRecord($name, $values);
     }
 
@@ -126,9 +126,9 @@ class ArchiveTableStore
         return $archiveWriter->initNewArchive();
     }
 
-    public function finishArchive(ArchiveProcessorParams $params, $status)
+    public function finishArchive(ArchiveProcessorParams $params, $idArchive, $status)
     {
-        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter = new ArchiveWriter($params, $idArchive);
         $archiveWriter->finalizeArchive($status);
     }
 

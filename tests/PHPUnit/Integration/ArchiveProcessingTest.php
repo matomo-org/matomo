@@ -10,9 +10,11 @@ namespace Piwik\Tests\Integration;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Archive\ArchiveTableStore;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
@@ -102,7 +104,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $segment = new Segment('', $site->getId());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
-        return new ArchiveProcessorTest($params);
+        return new ArchiveProcessorTest($params, StaticContainer::get(ArchiveTableStore::class));
     }
 
     /**
