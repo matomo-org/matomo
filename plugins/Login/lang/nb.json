@@ -15,6 +15,7 @@
         "ChangeYourPassword": "Endret ditt passord",
         "MailTopicPasswordChange": "Bekreft passordendring",
         "NewPassword": "Nytt passord",
+        "NewPasswordRepeat": "Nytt passord (gjenta)",
         "PasswordChanged": "Passordet er endret.",
         "PasswordRepeat": "Passord (gjenta)",
         "PasswordsDoNotMatch": "Passordene stemmer ikke overens.",
