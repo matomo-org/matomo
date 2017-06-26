@@ -4957,7 +4957,7 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (String(category).length === 0 || String(action).length === 0) {
+                if (this.trim(String(category)).length === 0 || this.trim(String(action)).length === 0) {
                     return false;
                 }
                 var request = getRequest(
