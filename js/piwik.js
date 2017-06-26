@@ -3194,7 +3194,9 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
+
+                isSecureCookie = false;
 
             // Document title
             try {
@@ -3206,7 +3208,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain, secure) {
+            function setCookie(cookieName, value, msToExpire, path, domain) {
                 if (configCookiesDisabled) {
                     return;
                 }
@@ -3223,7 +3225,14 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (secure ? ';secure' : '');
+                    (isSecureCookie ? ';secure' : '');
+            }
+
+            /*
+             * Set cookie secure flag
+             */
+            function setSecureCookie(value) {
+                isSecureCookie = !!value;
             }
 
             /*
