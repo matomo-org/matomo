@@ -1590,6 +1590,15 @@ if (typeof window.Piwik !== 'object') {
             return results ? decodeWrapper(results[1]) : '';
         }
 
+        function trim(text)
+        {
+            if (text && String(text) === text) {
+                return text.replace(/^\s+|\s+$/g, '');
+            }
+
+            return text;
+        }
+
         /*
          * UTF-8 encoding
          */
@@ -2625,11 +2634,7 @@ if (typeof window.Piwik !== 'object') {
             },
             trim: function (text)
             {
-                if (text && String(text) === text) {
-                    return text.replace(/^\s+|\s+$/g, '');
-                }
-
-                return text;
+                return trim(text);
             },
             isOrWasNodeInViewport: function (node)
             {
@@ -4957,7 +4962,8 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (String(category).length === 0 || String(action).length === 0) {
+                if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                    logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }
                 var request = getRequest(

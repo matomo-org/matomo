@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Columns;
 
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Events\Segment;
@@ -51,6 +52,6 @@ class EventCategory extends ActionDimension
             return $eventCategory;
         }
 
-        return false;
+        throw new InvalidRequestParameterException('Param `e_c` must not be empty or filled with whitespaces');
     }
 }
