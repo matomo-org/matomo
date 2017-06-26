@@ -42,6 +42,7 @@
         "PluginHomepage": "Plugin-Website",
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
         "PluginNotFound": "Plugin %1$s ist am Dateisystem nicht vorhanden.",
+        "PluginNotFoundAlternative": "Wenn Sie dieses Plugin benutzt haben, versuchen Sie es erneut hochzuladen oder erneut aus dem Marketplace zu installieren. Falls nicht, klicken Sie auf deinstallieren um es aus der Liste zu entfernen.",
         "PluginNotWorkingAlternative": "Wenn Sie dieses Plugin eingesetzt haben, finden Sie möglicherweise eine neuere Version im Marketplace. Wenn nicht, sollten Sie es deinstallieren.",
         "PluginRequirement": "%1$s benötigt %2$s",
         "PluginsManagement": "Pluginverwaltung",
@@ -52,6 +53,7 @@
         "Status": "Status",
         "SuccessfullyActicated": "Sie haben <strong>%s<\/strong> erfolgreich aktiviert.",
         "TeaserExtendPiwik": "Erweitere Piwik mit Plugins und Themes",
+        "TeaserExtendPiwikByPlugin": "Erweitern Sie Piwik, indem Sie %1$sPlugins aus dem Marketplace installieren%2$s oder %3$sein Plugin im .zip Format hochladen%4$s.",
         "TeaserExtendPiwikByTheme": "Wechseln Sie das Erscheinungsbild durch die %1$sInstallation eines neuen Themes%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Sie können Plugins aus dem Marketplace automatisiert installieren oder ein Plugin im .zip Format %1$shochladen%2$s.",
         "Theme": "Theme",
@@ -61,6 +63,7 @@
         "UninstallConfirm": "Sie sind gerade dabei, das Plugin %s zu deinstallieren. Das Plugin wird vollständig von ihrer Plattform entfernt und kann nicht wiederhergestellt werden. Sind sie sicher, dass sie das tun wollen?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Alle Marketplace Plugins anzeigen",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Das Plugin %1$s konnte nicht geladen werden, da folgende Abhängigkeiten fehlen: %2$s",
         "Websites": "Websites"
     }
 }

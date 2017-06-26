@@ -8,6 +8,7 @@
         "NbPageviewsDescription": "sidevisninger",
         "NbUniqueDownloadsDescription": "unike nedlastinger",
         "NbUniquePageviewsDescription": "unike sidevisninger",
+        "NbUniqueVisitors": "unike besøkende",
         "NbUsersDescription": "brukere",
         "PluginDescription": "Rapporterer generelle analysetall: besøk, unike besøkere, antall handlinger, sprettfrekvens, etc.",
         "VisitsSummary": "Besøksammendrag",

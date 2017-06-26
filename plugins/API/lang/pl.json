@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "W celu zmiany tokenu, proszę odwiedź %1$s strony ustawień osobistych %2$s.",
         "GenerateVisits": "Jeżeli nie posiadasz żadnych danych do dnia dzisiejszego, możesz na początek wygenerować trochę symulowanych danych testowych używając wtyczki o nazwie %1$s. Możesz aktywować i uruchomić wtyczkę %2$s, a następnie kliknąć w menu przycisk Potwierdź w 'generatorze odwiedzin', w strefie menu Konfiguracja administratora systemu Piwik.",
         "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %1$s nie upowszechniaj go%2$s!",
         "LoadedAPIs": "Środowisko API załadowano %s pomyślnie",
