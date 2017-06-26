@@ -4963,6 +4963,7 @@ if (typeof window.Piwik !== 'object') {
             {
                 // Category and Action are required parameters
                 if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                    logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }
                 var request = getRequest(
