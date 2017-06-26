@@ -111,14 +111,27 @@ class Controller extends \Piwik\Plugin\Controller
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->exportLink = $this->getVisitorProfileExportLink();
 
-        if (Common::getRequestVar('showMap', 1) == 1
-            && !empty($view->visitorData['hasLatLong'])
-            && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
-        ) {
-            $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
+        $this->setWidgetizedVisitorProfileUrl($view);
+
+        $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
+
+        $summaryEntries = array();
+
+        foreach ($visitorDetailsManipulators as $instance) {
+            $summaryEntries = array_merge($summaryEntries, $instance->renderProfileSummary($view->visitorData));
         }
 
-        $this->setWidgetizedVisitorProfileUrl($view);
+        usort($summaryEntries, function($a, $b) {
+            return version_compare($a[0], $b[0]);
+        });
+
+        $summary = '';
+
+        foreach ($summaryEntries AS $summaryEntry) {
+            $summary .= $summaryEntry[1];
+        }
+
+        $view->profileSummary = $summary;
 
         return $view->render();
     }
@@ -170,24 +183,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
     }
 
-    private function getUserCountryMapUrlForVisitorProfile()
-    {
-        $params = array(
-            'module'             => 'UserCountryMap',
-            'action'             => 'realtimeMap',
-            'segment'            => self::getSegmentWithVisitorId(),
-            'visitorId'          => false,
-            'changeVisitAlpha'   => 0,
-            'removeOldVisits'    => 0,
-            'realtimeWindow'     => 'false',
-            'showFooterMessage'  => 0,
-            'showDateTime'       => 0,
-            'doNotRefreshVisits' => 1
-        );
-        return Url::getCurrentQueryStringWithParametersModified($params);
-    }
-
-    private static function getSegmentWithVisitorId()
+    public static function getSegmentWithVisitorId()
     {
         static $cached = null;
         if ($cached === null) {

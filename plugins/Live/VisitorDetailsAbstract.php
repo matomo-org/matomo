@@ -177,4 +177,20 @@ abstract class VisitorDetailsAbstract
     public function finalizeProfile($visits, &$profile)
     {
     }
+
+    /**
+     * Render and return additional parts for profile summary
+     * returned array needs to look like this:
+     * array (
+     *          20,   // order id
+     *          'rendered html content'
+     * )
+     *
+     * @param array $profile
+     * @return array
+     */
+    public function renderProfileSummary($profile)
+    {
+        return array();
+    }
 }

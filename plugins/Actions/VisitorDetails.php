@@ -18,6 +18,7 @@ use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
+use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
@@ -281,6 +282,13 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $this->handleSiteSearches($profile);
         $this->handleAveragePageGenerationTime($profile);
+    }
+
+    public function renderProfileSummary($profile)
+    {
+        $view              = new View('@Actions/_profileSummary.twig');
+        $view->visitorData = $profile;
+        return array(array(10, $view->render()));
     }
 
     /**

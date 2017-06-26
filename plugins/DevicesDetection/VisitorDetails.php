@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
+use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -150,5 +151,12 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function finalizeProfile($visits, &$profile)
     {
         $profile['devices'] = $this->devices;
+    }
+
+    public function renderProfileSummary($profile)
+    {
+        $view              = new View('@DevicesDetection/_profileSummary.twig');
+        $view->visitorData = $profile;
+        return array(array(20, $view->render()));
     }
 }

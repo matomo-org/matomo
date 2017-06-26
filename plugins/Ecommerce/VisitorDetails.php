@@ -20,6 +20,7 @@ use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\PageUrl;
+use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
@@ -211,5 +212,13 @@ class VisitorDetails extends VisitorDetailsAbstract
             $profile['totalAbandonedCarts']        = $lastVisit->getColumn('totalAbandonedCarts');
             $profile['totalAbandonedCartsItems']   = $lastVisit->getColumn('totalAbandonedCartsItems');
         }
+    }
+
+    public function renderProfileSummary($profile)
+    {
+        $view              = new View('@Ecommerce/_profileSummary.twig');
+        $view->idSite      = Common::getRequestVar('idSite', null, 'int');
+        $view->visitorData = $profile;
+        return array(array(30, $view->render()));
     }
 }
