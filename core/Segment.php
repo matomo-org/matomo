@@ -253,7 +253,7 @@ class Segment
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
 
             if (isset($segment['sqlFilterValue'])) {
-                $value = call_user_func($segment['sqlFilterValue'], $value);
+                $value = call_user_func($segment['sqlFilterValue'], $value, $segment['sqlSegment']);
             }
 
             // apply presentation filter

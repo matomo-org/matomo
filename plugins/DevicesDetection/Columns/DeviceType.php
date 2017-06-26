@@ -29,13 +29,12 @@ class DeviceType extends Base
         $deviceTypeList = implode(", ", $deviceTypes);
 
         $this->acceptValues = $deviceTypeList;
-        $this->sqlFilter = function ($type) use ($deviceTypeList, $deviceTypes) {
-            $index = array_search(strtolower(trim(urldecode($type))), $deviceTypes);
-            if ($index === false) {
-                throw new Exception("deviceType segment must be one of: $deviceTypeList");
-            }
-            return $index;
-        };
+    }
+
+    public function getEnumColumnValues()
+    {
+        $values = DeviceParser::getAvailableDeviceTypes();
+        return array_flip($values);
     }
 
     /**

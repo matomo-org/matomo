@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 use Exception;
@@ -38,23 +40,16 @@ class ActionType extends ActionDimension
     public function __construct()
     {
         $this->acceptValues = sprintf('A type of action, such as: %s', implode(', ', $this->types));
-        $types = $this->types;
-        $this->sqlFilter = function ($type) use ($types) {
-            if (array_key_exists($type, $types)) {
-                return $type;
-            }
+    }
 
-            $index = array_search(strtolower(trim(urldecode($type))), $types);
+    public function getEnumColumnValues()
+    {
+        return $this->types;
+    }
 
-            if ($index === false) {
-                throw new Exception("actionType must be one of: " . implode(', ', $types));
-            }
-
-            return $index;
-        };
-        $this->suggestedValuesCallback = function ($idSite, $maxSuggestionsToReturn) use ($types) {
-            return array_slice(array_values($types), 0, $maxSuggestionsToReturn);
-        };
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // do not genereate any metric for this
     }
 
 }

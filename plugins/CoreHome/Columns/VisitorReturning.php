@@ -32,10 +32,15 @@ class VisitorReturning extends VisitDimension
     {
         $this->acceptValues  = 'new, returning, returningCustomer. ';
         $this->acceptValues .= Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"');
+    }
 
-        $this->sqlFilterValue = function ($type) {
-            return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
-        };
+    public function getEnumColumnValues()
+    {
+        return array(
+            self::IS_NEW => 'new',
+            self::IS_RETURNING => 'returning',
+            self::IS_RETURNING_CUSTOMER => 'returningCustomer'
+        );
     }
 
     /**

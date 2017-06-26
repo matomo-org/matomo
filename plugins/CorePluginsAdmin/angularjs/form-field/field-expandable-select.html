@@ -14,7 +14,7 @@
                 <h4 class="expandableListCategory" ng-click="formField.showCategory == options.group ? formField.showCategory = '' : formField.showCategory = options.group">{{ options.group }} <span class="secondary-content" ng-class='{"icon-arrow-right": formField.showCategory != options.group, "icon-arrow-bottom": formField.showCategory == options.group}'></span></h4>
 
                 <ul ng-show="formField.showCategory == options.group || formField.searchTerm" class="collection">
-                    <li class="expandableListItem collection-item" ng-repeat="children in options.values|filter:formField.searchTerm" ng-click="formField.value = children.key;formField.showSelect = false;">{{ children.value }} <span ng-show="children.tooltip" title="{{ children.tooltip }}" class="secondary-content icon-help"></span></li>
+                    <li class="expandableListItem collection-item valign-wrapper" ng-repeat="children in options.values|filter:formField.searchTerm" ng-click="formField.value = children.key;formField.showSelect = false;"><span class="primary-content">{{ children.value }}</span> <span ng-show="children.tooltip" title="{{ children.tooltip }}" class="secondary-content icon-help"></span></li>
                 </ul>
             </li>
         </ul>

@@ -42,7 +42,11 @@ class VisitGoalBuyer extends VisitDimension
     {
         $example = Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"');
         $this->acceptValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;
-        $this->sqlFilter = __NAMESPACE__ . '\VisitGoalBuyer::getVisitEcommerceStatus';
+    }
+
+    public function getEnumColumnValues()
+    {
+        return self::$visitEcommerceStatus;
     }
 
     /**
@@ -78,17 +82,6 @@ class VisitGoalBuyer extends VisitDimension
         }
 
         return false;
-    }
-
-    public static function getVisitEcommerceStatus($status)
-    {
-        $id = array_search($status, self::$visitEcommerceStatus);
-
-        if ($id === false) {
-            throw new \Exception("Invalid 'visitEcommerceStatus' segment value $status");
-        }
-
-        return $id;
     }
 
     /**

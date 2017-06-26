@@ -13,13 +13,11 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComponentFactory;
-use Piwik\Plugin\Metric;
 use Piwik\Plugin\Segment;
 use Exception;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Columns\DimensionMetricFactory;
 
 /**
  * @api
@@ -97,11 +95,21 @@ abstract class Dimension
     protected $metricId = '';
 
     /**
+     * To be implemented when a column references another column
      * @return Join|null
      */
     public function getDbColumnJoin()
     {
         return null;
+    }
+
+    /**
+     * To be implemented when a column represents an enum
+     * @return array
+     */
+    public function getEnumColumnValues()
+    {
+        return array();
     }
 
     public function getMetricId()
@@ -340,15 +348,64 @@ abstract class Dimension
             $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
         }
 
-        if ($this->acceptValues) {
+        if (!$this->suggestedValuesCallback) {
+            // we can generate effecient value callback for enums automatically
+            $enum = $this->getEnumColumnValues();
+            if (!empty($enum)) {
+                $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) use ($enum) {
+                    $values = array_values($enum);
+                    return array_slice($values, 0, $maxValuesToReturn);
+                };
+            }
+        }
+
+        if (!$this->acceptValues) {
+            // we can generate accept values for enums automatically
+            $enum = $this->getEnumColumnValues();
+            if (!empty($enum)) {
+                $enumValues = array_values($enum);
+                $enumValues = array_slice($enumValues, 0, 20);
+                $this->acceptValues = 'Eg. ' . implode(', ', $enumValues);
+            };
+        }
+
+        if ($this->acceptValues && !$segment->getAcceptValues()) {
             $segment->setAcceptedValues($this->acceptValues);
         }
 
-        if ($this->sqlFilterValue) {
+        if (!$this->sqlFilterValue && !$segment->getSqlFilter() && !$segment->getSqlFilterValue()) {
+            // no sql filter configured, we try to configure automatically for enums
+            $enum = $this->getEnumColumnValues();
+            if (!empty($enum)) {
+                $this->sqlFilterValue = function ($value, $sqlSegmentName) use ($enum) {
+                    if (isset($enum[$value])) {
+                        return $value;
+                    }
+
+                    $id = array_search($value, $enum);
+
+                    if ($id === false) {
+                        $id = array_search(strtolower(trim(urldecode($value))), $enum);
+
+                        if ($id === false) {
+                            throw new \Exception("Invalid '$sqlSegmentName' segment value $value");
+                        }
+                    }
+
+                    return $id;
+                };
+            };
+        }
+
+        if ($this->suggestedValuesCallback && !$segment->getSuggestedValuesCallback()) {
+            $segment->setSuggestedValuesCallback($this->suggestedValuesCallback);
+        }
+
+        if ($this->sqlFilterValue && !$segment->getSqlFilterValue()) {
             $segment->setSqlFilterValue($this->sqlFilterValue);
         }
 
-        if ($this->sqlFilter) {
+        if ($this->sqlFilter && !$segment->getSqlFilter()) {
             $segment->setSqlFilter($this->sqlFilter);
         }
 
@@ -544,6 +601,11 @@ abstract class Dimension
         if ($this->getDbColumnJoin()) {
             // best guess
             return self::TYPE_JOIN_ID;
+        }
+
+        if ($this->getEnumColumnValues()) {
+            // best guess
+            return self::TYPE_ENUM;
         }
 
         if (!empty($this->columnType)) {

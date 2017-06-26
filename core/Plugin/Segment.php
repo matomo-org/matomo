@@ -203,6 +203,21 @@ class Segment
         return $this->sqlSegment;
     }
 
+    public function getSqlFilterValue()
+    {
+        return $this->sqlFilterValue;
+    }
+
+    public function getAcceptValues()
+    {
+        return $this->acceptValues;
+    }
+
+    public function getSqlFilter()
+    {
+        return $this->sqlFilter;
+    }
+
     /**
      * Set (overwrite) the type of this segment which is usually either a 'dimension' or a 'metric'.
      * @param string $type See constansts TYPE_*
@@ -248,6 +263,11 @@ class Segment
     public function getSegment()
     {
         return $this->segment;
+    }
+
+    public function getSuggestedValuesCallback()
+    {
+        return $this->suggestedValuesCallback;
     }
 
     /**

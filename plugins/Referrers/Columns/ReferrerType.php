@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
+use Piwik\Common;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -22,6 +23,16 @@ class ReferrerType extends Base
     protected $sqlFilterValue = 'Piwik\Plugins\Referrers\getReferrerTypeFromShortName';
     protected $acceptValues = 'direct, search, website, campaign';
     protected $category = 'Referrers_Referrers';
+
+    public function getEnumColumnValues()
+    {
+        return array(
+            Common::REFERRER_TYPE_SEARCH_ENGINE => 'search',
+            Common::REFERRER_TYPE_WEBSITE       => 'website',
+            Common::REFERRER_TYPE_DIRECT_ENTRY  => 'direct',
+            Common::REFERRER_TYPE_CAMPAIGN      => 'campaign',
+        );
+    }
 
     /**
      * @param Request $request
