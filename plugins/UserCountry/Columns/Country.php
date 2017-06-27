@@ -12,9 +12,11 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
+use Piwik\Metrics\Formatter;
 use Piwik\Network\IP;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
+use function Piwik\Plugins\UserCountry\countryTranslate;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\Visitor;
@@ -31,6 +33,11 @@ class Country extends Base
     protected $nameSingular = 'UserCountry_Country';
     protected $segmentName = 'countryCode';
     protected $acceptValues = 'de, us, fr, in, es, etc.';
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return countryTranslate($value);
+    }
 
     /**
      * @param Request $request

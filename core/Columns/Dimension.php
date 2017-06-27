@@ -18,6 +18,7 @@ use Exception;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Metrics\Formatter;
 
 /**
  * @api
@@ -32,6 +33,7 @@ abstract class Dimension
      * @api
      */
     const TYPE_DIMENSION = 'dimension';
+    const TYPE_BINARY = 'binary';
     const TYPE_TEXT = 'text';
     const TYPE_ENUM = 'enum'; // todo automatically generate sqlFilterValue from enum values?
     const TYPE_MONEY = 'money';
@@ -222,6 +224,11 @@ abstract class Dimension
         }
     }
 
+    public function getCategoryKey()
+    {
+        return $this->category;
+    }
+
     public function getCategory()
     {
         if (!empty($this->category)) {
@@ -247,6 +254,11 @@ abstract class Dimension
         }
 
         return $this->getName();
+    }
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return $value;
     }
 
     /**
@@ -287,7 +299,7 @@ abstract class Dimension
             if (in_array($this->getType(), array(self::TYPE_DATETIME, self::TYPE_DATE, self::TYPE_TIME, self::TYPE_TIMESTAMP))) {
                 // we do not generate any metrics from these types
                 return;
-            } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT, self::TYPE_ENUM, self::TYPE_JOIN_ID))) {
+            } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT, self::TYPE_BINARY, self::TYPE_ENUM, self::TYPE_JOIN_ID))) {
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
                 $metricsList->addMetric($metric);
             } else {
@@ -430,6 +442,11 @@ abstract class Dimension
         }
 
         return $this->segments;
+    }
+
+    public function getSegmentName()
+    {
+        return $this->segmentName;
     }
 
     /**
@@ -627,6 +644,8 @@ abstract class Dimension
                 return self::TYPE_FLOAT;
             } elseif (strpos($type, 'int') !== false) {
                 return self::TYPE_NUMBER;
+            } elseif (strpos($type, 'BINARY') !== false) {
+                return self::TYPE_BINARY;
             }
         }
 

@@ -122,21 +122,29 @@ class ArchivedMetric extends Metric
 
     public function compute(Row $row)
     {
+        $value = $this->getMetric($row, $this->getName());
         switch ($this->type) {
             case Dimension::TYPE_MONEY:
-                return round($this->getMetric($row, $this->getName()), 2);
-
+                return round($value, 2);
             case Dimension::TYPE_DURATION_S:
             case Dimension::TYPE_DURATION_MS:
-                return (int) $this->getMetric($row, $this->getName());
+                return (int) $value;
         }
 
-        return $this->getMetric($row, $this->getName());
+        return $value;
     }
 
     public function format($value, Formatter $formatter)
     {
         switch ($this->type) {
+            case Dimension::TYPE_ENUM:
+                if (!empty($this->dimension)) {
+                    $values = $this->dimension->getEnumColumnValues();
+                    if (isset($values[$value])) {
+                        return $values[$value];
+                    }
+                }
+                return $value;
             case Dimension::TYPE_MONEY:
                 return $formatter->getPrettyMoney($value, $this->idSite);
             case Dimension::TYPE_FLOAT:
@@ -149,6 +157,10 @@ class ArchivedMetric extends Metric
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);
+        }
+
+        if (!empty($this->dimension)) {
+            return $this->dimension->formatValue($value, $formatter);
         }
 
         return $value;

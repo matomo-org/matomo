@@ -22,8 +22,7 @@ class VisitTotalActions extends VisitDimension
     protected $columnName = 'visit_total_actions';
     protected $columnType = 'INT(11) UNSIGNED NULL';
     protected $metricId = 'actions';
-    protected $nameSingular = 'General_TrackingScopeAction';
-    protected $namePlural = 'General_ColumnNbActions';
+    protected $nameSingular = 'Actions_ActionsInVisit';
     protected $category = 'General_Visit';
     protected $segmentName = 'actions';
     protected $type = self::TYPE_NUMBER;

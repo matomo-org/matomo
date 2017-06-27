@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Metrics\Formatter;
+use function Piwik\Plugins\UserCountry\continentTranslate;
 
 class Continent extends Dimension
 {
@@ -20,5 +22,10 @@ class Continent extends Dimension
     protected $segmentName = 'continentCode';
     protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce';
     protected $sqlFilter = 'Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent';
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return continentTranslate($value);
+    }
 
 }

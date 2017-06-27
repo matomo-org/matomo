@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
 
@@ -28,7 +29,7 @@ class VisitorId extends VisitDimension
     protected $acceptValues = '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()';
     protected $allowAnonymous = false;
     protected $sqlFilterValue = array('Piwik\Common', 'convertVisitorIdToBin');
-    protected $type = self::TYPE_TEXT;
+    protected $type = self::TYPE_BINARY;
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
