@@ -16,9 +16,9 @@ use Piwik\Columns;
  */
 class ActionNameJoin extends Columns\Join
 {
-    public function __construct()
+    public function __construct($discriminatorValue)
     {
-        return parent::__construct('log_action', 'idaction', 'name');
+        return parent::__construct('log_action', 'idaction', 'name', 'type', $discriminatorValue);
     }
 
 }

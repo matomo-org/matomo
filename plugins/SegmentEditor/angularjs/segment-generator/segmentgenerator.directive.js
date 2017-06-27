@@ -44,6 +44,8 @@
                             scope.segmentDefinition = ngModel.$viewValue;
                             if (scope.segmentDefinition) {
                                 scope.segmentGenerator.setSegmentString(scope.segmentDefinition);
+                            } else {
+                                scope.segmentGenerator.setSegmentString('');
                             }
                         };
                     }

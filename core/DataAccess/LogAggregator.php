@@ -501,7 +501,7 @@ class LogAggregator
      *
      * @return array
      */
-    protected function getGeneralQueryBindParams()
+    public function getGeneralQueryBindParams()
     {
         $bind = array($this->dateStart->getDateStartUTC(), $this->dateEnd->getDateEndUTC());
         $bind = array_merge($bind, $this->sites);

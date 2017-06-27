@@ -237,6 +237,10 @@
             var orCondition, condition;
 
             this.conditions = [];
+            
+            if (!segmentStr) {
+                return;
+            }
 
             var blocks = segmentStr.split(';');
 

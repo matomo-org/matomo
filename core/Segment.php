@@ -107,6 +107,11 @@ class Segment
         }
     }
 
+    public function getSegmentExpression()
+    {
+        return $this->segmentExpression;
+    }
+
     private function getAvailableSegments()
     {
         // segment metadata

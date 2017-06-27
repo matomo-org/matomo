@@ -118,7 +118,9 @@ abstract class Dimension
             return $this->metricId;
         }
 
-        return $this->columnName;
+        $id = $this->getId();
+
+        return str_replace(array('.', ' ', '-'), '_', strtolower($id));
     }
 
     /**

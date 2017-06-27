@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Actions\Columns;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Tracker\Action;
 
 class PageUrl extends ActionDimension
 {
@@ -25,7 +26,7 @@ class PageUrl extends ActionDimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin();
+        return new ActionNameJoin(Action::TYPE_PAGE_URL);
     }
 
     public function getName()

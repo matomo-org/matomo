@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\Dimension;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Tracker\Action;
 
 class ProductName extends Dimension
 {
@@ -21,6 +22,6 @@ class ProductName extends Dimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin();
+        return new ActionNameJoin(Action::TYPE_ECOMMERCE_ITEM_NAME);
     }
 }

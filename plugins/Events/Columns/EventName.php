@@ -25,7 +25,7 @@ class EventName extends ActionDimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin();
+        return new ActionNameJoin($this->getActionId());
     }
 
     public function getActionId()

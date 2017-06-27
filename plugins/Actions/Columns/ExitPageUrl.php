@@ -27,7 +27,7 @@ class ExitPageUrl extends VisitDimension
 
     public function getDbColumnJoin()
     {
-        return new Join\ActionNameJoin();
+        return new Join\ActionNameJoin(Action::TYPE_PAGE_URL);
     }
 
     /**

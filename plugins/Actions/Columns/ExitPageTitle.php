@@ -26,7 +26,7 @@ class ExitPageTitle extends VisitDimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin();
+        return new ActionNameJoin(Action::TYPE_PAGE_TITLE);
     }
 
     /**

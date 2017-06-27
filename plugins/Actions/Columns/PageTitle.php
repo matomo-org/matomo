@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Tracker\Action;
 
 class PageTitle extends ActionDimension
 {
@@ -23,7 +24,7 @@ class PageTitle extends ActionDimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin();
+        return new ActionNameJoin(Action::TYPE_PAGE_TITLE);
     }
 
 }
