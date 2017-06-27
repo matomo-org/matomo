@@ -7,7 +7,9 @@
     <div ng-show="formField.showSelect" class="expandableList z-depth-2">
 
         <div class="searchContainer">
-            <input type="text" placeholder="Search" ng-model="formField.searchTerm" class="expandableSearch browser-default">
+            <input type="text" placeholder="Search"
+                   ng-model="formField.searchTerm" class="expandableSearch browser-default"
+                   piwik-focus-if="formField.showSelect">
         </div>
         <ul class="collection firstLevel">
             <li ng-repeat="options in formField.availableOptions" class="collection-item" ng-show="options.values|filter:formField.searchTerm|length">
