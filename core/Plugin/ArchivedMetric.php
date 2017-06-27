@@ -175,6 +175,11 @@ class ArchivedMetric extends Metric
         return $this->translatedName;
     }
 
+    public function getDependentMetrics()
+    {
+        return array();
+    }
+
     public function getDocumentation()
     {
         return $this->documentation;

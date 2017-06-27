@@ -224,11 +224,6 @@ abstract class Dimension
         }
     }
 
-    public function getCategoryKey()
-    {
-        return $this->category;
-    }
-
     public function getCategory()
     {
         if (!empty($this->category)) {
