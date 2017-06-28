@@ -516,7 +516,38 @@ class DataPurgingTest extends IntegrationTestCase
     /**
      * Test that purgeData works correctly when the 'keep fiscal year reports' setting is set to true.
      */
-    //todo: Add test function
+
+    public function testPurgeDataDeleteReportsKeepFiscalYearReports()
+    {
+        PrivacyManager::savePurgeDataSettings(array(
+                                                         'delete_reports_keep_fisyear_reports' => 1
+                                                    ));
+
+        // get purge data prediction
+        $prediction = PrivacyManager::getPurgeEstimate();
+
+        // perform checks on prediction
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
+        $contents = 3; // one content impression per day, so 3 purged
+        $expectedPrediction = array(
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => 15  // 5 days, 4 weeks & 1 year to remove + 1 fiscal year to remove + 1 garbage report + 2 range reports + 1 segmented report
+        );
+        $this->assertEquals($expectedPrediction, $prediction);
+
+        // purge data
+        $this->_setTimeToRun();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
+
+        // perform checks
+        $this->checkLogDataPurged();
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 49);
+    }
 
     /**
      * Test no concurrency issues when deleting log data from log_action table.
