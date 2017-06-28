@@ -53,7 +53,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $prefixUrls = Common::getRequestVar('prefixUrl', 'http://demo.piwik.org/', 'string');
-        if (!UrlHelper::isLookLikeUrl($prefixUrls)) {
+        if (!UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0) {
             $prefixUrls = '';
         }
         return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
