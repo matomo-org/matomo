@@ -103,7 +103,7 @@ class RawLogDaoTest extends SystemTestCase
             'log_link_visit_action' => '11',
             'log_visit' => '1',
         );
-        $this->assertSame($expected, $this->dao->getMaxIdsInLogTables());
+        $this->assertEquals($expected, $this->dao->getMaxIdsInLogTables());
     }
 
     public function getVisitsInTimeFrameData()
