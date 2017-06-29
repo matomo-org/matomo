@@ -2152,6 +2152,7 @@ function PiwikTest() {
         equal( typeof tracker.enableCrossDomainLinking, 'function', 'enableCrossDomainLinking' );
         equal( typeof tracker.disableCrossDomainLinking, 'function', 'disableCrossDomainLinking' );
         equal( typeof tracker.isCrossDomainLinkingEnabled, 'function', 'isCrossDomainLinkingEnabled' );
+        equal( typeof tracker.setCrossDomainLinkingTimeout, 'function', 'isCrossDomainLinkingEnabled' );
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
