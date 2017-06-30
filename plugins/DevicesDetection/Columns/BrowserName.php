@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -21,6 +22,11 @@ class BrowserName extends Base
     protected $acceptValues = 'FF, IE, CH, SF, OP, etc.';
     protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return \Piwik\Plugins\DevicesDetection\getBrowserName($value);
+    }
 
     /**
      * @param Request $request

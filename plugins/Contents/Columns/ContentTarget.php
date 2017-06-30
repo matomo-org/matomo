@@ -17,7 +17,7 @@ class ContentTarget extends ActionDimension
 {
     protected $columnName = 'idaction_content_target';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_URL;
     protected $nameSingular = 'Contents_ContentTarget';
     protected $segmentName = 'contentTarget';
     protected $category = 'General_Actions';

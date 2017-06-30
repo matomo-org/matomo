@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserLanguage\Columns;
 
 use Piwik\Common;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -23,6 +24,11 @@ class Language extends VisitDimension
     protected $segmentName = 'languageCode';
     protected $acceptValues = 'de, fr, en-gb, zh-cn, etc.';
     protected $type = self::TYPE_TEXT;
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return \Piwik\Plugins\UserLanguage\languageTranslateWithCode($value);
+    }
 
     /**
      * @param Request $request

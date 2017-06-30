@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -22,6 +23,11 @@ class BrowserEngine extends Base
     protected $acceptValues = 'Trident, WebKit, Presto, Gecko, Blink, etc.';
     protected $suggestedValuesCallback = '\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines';
     protected $type = self::TYPE_TEXT;
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return \Piwik\Plugins\DevicesDetection\getBrowserEngineName($value);
+    }
 
     /**
      * @param Request $request

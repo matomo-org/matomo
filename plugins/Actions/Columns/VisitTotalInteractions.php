@@ -24,7 +24,7 @@ class VisitTotalInteractions extends VisitDimension
     protected $acceptValues = 'Any positive integer';
     protected $category = 'General_Visit';
 
-    protected function __construct()
+    public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             $positions = range(1,50);

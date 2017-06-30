@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Common;
+use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -23,6 +24,11 @@ class ReferrerType extends Base
     protected $sqlFilterValue = 'Piwik\Plugins\Referrers\getReferrerTypeFromShortName';
     protected $acceptValues = 'direct, search, website, campaign';
     protected $category = 'Referrers_Referrers';
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return \Piwik\Plugins\Referrers\getReferrerTypeLabel($value);
+    }
 
     public function getEnumColumnValues()
     {

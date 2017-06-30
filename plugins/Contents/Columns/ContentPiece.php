@@ -20,7 +20,7 @@ class ContentPiece extends ActionDimension
     protected $segmentName = 'contentPiece';
     protected $nameSingular = 'Contents_ContentPiece';
     protected $acceptValues = 'The actual content. For instance "ad.jpg" or "My text ad"';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 

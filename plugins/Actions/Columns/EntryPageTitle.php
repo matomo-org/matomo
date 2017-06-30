@@ -18,7 +18,7 @@ class EntryPageTitle extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_TEXT;
     protected $segmentName = 'entryPageTitle';
     protected $nameSingular = 'Actions_ColumnEntryPageTitle';
     protected $category = 'General_Actions';

@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Tracker\Action;
 
 class SearchKeyword extends ActionDimension
 {
@@ -16,5 +18,10 @@ class SearchKeyword extends ActionDimension
     protected $segmentName = 'siteSearchKeyword';
     protected $nameSingular = 'Actions_SiteSearchKeyword';
     protected $type = self::TYPE_TEXT;
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin(Action::TYPE_SITE_SEARCH);
+    }
 
 }

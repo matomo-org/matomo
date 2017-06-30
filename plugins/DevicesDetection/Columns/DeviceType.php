@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
 use Exception;
 use Piwik\Tracker\Visitor;
@@ -29,6 +30,11 @@ class DeviceType extends Base
         $deviceTypeList = implode(", ", $deviceTypes);
 
         $this->acceptValues = $deviceTypeList;
+    }
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return \Piwik\Plugins\DevicesDetection\getDeviceTypeLabel($value);
     }
 
     public function getEnumColumnValues()

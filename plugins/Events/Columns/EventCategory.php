@@ -18,7 +18,7 @@ class EventCategory extends ActionDimension
 {
     protected $columnName = 'idaction_event_category';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_TEXT;
     protected $category = 'Events_Events';
     protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
     protected $segmentName = 'eventCategory';

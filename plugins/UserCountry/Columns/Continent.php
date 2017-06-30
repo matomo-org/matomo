@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Common;
 use Piwik\Metrics\Formatter;
-use function Piwik\Plugins\UserCountry\continentTranslate;
 
 class Continent extends Dimension
 {
@@ -25,7 +25,8 @@ class Continent extends Dimension
 
     public function formatValue($value, Formatter $formatter)
     {
-        return continentTranslate($value);
+        $value = Common::getContinent($value);
+        return \Piwik\Plugins\UserCountry\continentTranslate($value);
     }
 
 }

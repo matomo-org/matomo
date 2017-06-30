@@ -245,6 +245,7 @@
         "NbSearches": "Number of Internal Searches",
         "NeedMoreHelp": "Need more help?",
         "Never": "Never",
+        "New": "New",
         "NewReportsWillBeProcessedByCron": "When Piwik archiving is not triggered by the browser, new reports will be processed by the crontab.",
         "NewUpdatePiwikX": "New Update: Piwik %s",
         "NewVisitor": "New Visitor",

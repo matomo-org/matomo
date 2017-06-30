@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Tracker\Action;
 
 class DownloadUrl extends ActionDimension
 {
@@ -17,4 +19,10 @@ class DownloadUrl extends ActionDimension
     protected $columnName = 'idaction_url';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $type = self::TYPE_URL;
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin(Action::TYPE_DOWNLOAD);
+    }
 }

@@ -19,7 +19,7 @@ class PageUrl extends ActionDimension
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
     protected $segmentName = 'pageUrl';
     protected $nameSingular = 'Actions_ColumnPageURL';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_URL;
     protected $acceptValues = 'All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';

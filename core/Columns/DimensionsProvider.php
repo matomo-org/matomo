@@ -25,16 +25,14 @@ class DimensionsProvider
             return null;
         }
 
-        $klassName = $listDimensions[$dimensionId];
-
-        return new $klassName;
+        return $listDimensions[$dimensionId];
     }
 
     private static function getMapOfNameToDimension()
     {
         $cacheId = CacheId::pluginAware('DimensionFactoryMap');
 
-        $cache = PiwikCache::getEagerCache();
+        $cache = PiwikCache::getTransientCache();
         if ($cache->contains($cacheId)) {
             $mapIdToDimension = $cache->fetch($cacheId);
         } else {
@@ -43,7 +41,7 @@ class DimensionsProvider
 
             $mapIdToDimension = array();
             foreach ($dimensions as $dimension) {
-                $mapIdToDimension[$dimension->getId()] = get_class($dimension);
+                $mapIdToDimension[$dimension->getId()] = $dimension;
             }
 
             $cache->save($cacheId, $mapIdToDimension);

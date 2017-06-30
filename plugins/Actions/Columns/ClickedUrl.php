@@ -8,7 +8,10 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Tracker\Action;
 
 class ClickedUrl extends ActionDimension
 {
@@ -17,4 +20,10 @@ class ClickedUrl extends ActionDimension
     protected $nameSingular = 'Actions_ColumnClickedURL';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $type = self::TYPE_URL;
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin(Action::TYPE_OUTLINK);
+    }
 }

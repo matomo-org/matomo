@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreHome\Segment;
@@ -42,6 +43,26 @@ class VisitGoalBuyer extends VisitDimension
     {
         $example = Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"');
         $this->acceptValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;
+    }
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        switch ($value) {
+            case 'ordered':
+            case self::TYPE_BUYER_ORDERED:
+                return Piwik::translate('CoreHome_VisitStatusOrdered');
+            case 'abandonedCart':
+            case self::TYPE_BUYER_OPEN_CART:
+                return Piwik::translate('Goals_AbandonedCart');
+            case 'orderedThenAbandonedCart':
+            case self::TYPE_BUYER_ORDERED_AND_OPEN_CART:
+                return Piwik::translate('CoreHome_VisitStatusOrderedThenAbandoned');
+            case 'none';
+            case self::TYPE_BUYER_NONE:
+                return Piwik::translate('UserCountryMap_None');
+        }
+
+        return $value;
     }
 
     public function getEnumColumnValues()

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Settings;
@@ -23,6 +24,11 @@ class Os extends Base
     protected $acceptValues = 'WIN, MAC, LIN, AND, IPD, etc.';
     protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return \Piwik\Plugins\DevicesDetection\getOSFamilyFullName($value);
+    }
 
     public function getName()
     {

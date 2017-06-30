@@ -19,7 +19,7 @@ class ExitPageUrl extends VisitDimension
 {
     protected $columnName = 'visit_exit_idaction_url';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL DEFAULT 0';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_URL;
     protected $segmentName = 'exitPageUrl';
     protected $nameSingular = 'Actions_ColumnExitPageURL';
     protected $category = 'General_Actions';

@@ -16,7 +16,7 @@ class PageTitle extends ActionDimension
 {
     protected $columnName = 'idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_TEXT;
     protected $segmentName = 'pageTitle';
     protected $nameSingular = 'Actions_ColumnPageName';
     protected $category = 'General_Actions';

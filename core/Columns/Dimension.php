@@ -294,7 +294,7 @@ abstract class Dimension
             if (in_array($this->getType(), array(self::TYPE_DATETIME, self::TYPE_DATE, self::TYPE_TIME, self::TYPE_TIMESTAMP))) {
                 // we do not generate any metrics from these types
                 return;
-            } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT, self::TYPE_BINARY, self::TYPE_ENUM, self::TYPE_JOIN_ID))) {
+            } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT, self::TYPE_BINARY, self::TYPE_ENUM))) {
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
                 $metricsList->addMetric($metric);
             } else {
@@ -614,7 +614,7 @@ abstract class Dimension
 
         if ($this->getDbColumnJoin()) {
             // best guess
-            return self::TYPE_JOIN_ID;
+            return self::TYPE_TEXT;
         }
 
         if ($this->getEnumColumnValues()) {

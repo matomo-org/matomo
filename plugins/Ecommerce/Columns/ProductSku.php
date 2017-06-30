@@ -14,7 +14,7 @@ use Piwik\Tracker\Action;
 
 class ProductSku extends Dimension
 {
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_TEXT;
     protected $dbTableName = 'log_conversion_item';
     protected $columnName = 'idaction_sku';
     protected $nameSingular = 'Goals_ProductSKU';

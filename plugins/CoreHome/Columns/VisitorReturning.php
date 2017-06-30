@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
@@ -32,6 +33,21 @@ class VisitorReturning extends VisitDimension
     {
         $this->acceptValues  = 'new, returning, returningCustomer. ';
         $this->acceptValues .= Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"');
+    }
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        switch ($value) {
+            case 'new':
+                return Piwik::translate('General_New');
+            case 'returning':
+                return Piwik::translate('CoreHome_VisitTypeReturning');
+            case 'returningCustomer':
+                return Piwik::translate('CoreHome_VisitTypeReturningCustomer');
+
+        }
+
+        return $value;
     }
 
     public function getEnumColumnValues()

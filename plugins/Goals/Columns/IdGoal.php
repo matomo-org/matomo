@@ -14,7 +14,7 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 class IdGoal extends ConversionDimension
 {
     protected $columnName = 'idgoal';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_TEXT;
     protected $category = 'General_Visit'; // todo but into conversion table?
     protected $nameSingular = 'General_VisitConvertedGoalId';
     protected $segmentName = 'visitConvertedGoalId';

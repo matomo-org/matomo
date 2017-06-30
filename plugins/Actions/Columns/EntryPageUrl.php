@@ -22,7 +22,7 @@ class EntryPageUrl extends VisitDimension
     protected $nameSingular = 'Actions_ColumnEntryPageURL';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_URL;
 
     public function getDbColumnJoin()
     {

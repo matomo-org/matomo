@@ -18,7 +18,7 @@ class EventAction extends ActionDimension
 {
     protected $columnName = 'idaction_event_action';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
-    protected $type = self::TYPE_JOIN_ID;
+    protected $type = self::TYPE_TEXT;
     protected $segmentName = 'eventAction';
     protected $nameSingular = 'Events_EventAction';
     protected $category = 'Events_Events';

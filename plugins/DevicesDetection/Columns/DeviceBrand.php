@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\Device\DeviceParserAbstract;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -22,6 +23,12 @@ class DeviceBrand extends Base
     protected $nameSingular = 'DevicesDetection_DeviceBrand';
     protected $segmentName = 'deviceBrand';
     protected $category = 'General_Visit';
+
+
+    public function formatValue($value, Formatter $formatter)
+    {
+        return \Piwik\Plugins\DevicesDetection\getDeviceBrandLabel($value);
+    }
 
     public function __construct()
     {

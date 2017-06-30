@@ -16,7 +16,6 @@ use Piwik\Metrics\Formatter;
 use Piwik\Network\IP;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
-use function Piwik\Plugins\UserCountry\countryTranslate;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\Visitor;
@@ -36,7 +35,7 @@ class Country extends Base
 
     public function formatValue($value, Formatter $formatter)
     {
-        return countryTranslate($value);
+        return \Piwik\Plugins\UserCountry\countryTranslate($value);
     }
 
     /**

@@ -12,7 +12,7 @@ use Piwik\Columns\Dimension;
 
 class ProductPrice extends Dimension
 {
-    protected $type = self::TYPE_FLOAT;
+    protected $type = self::TYPE_MONEY;
     protected $dbTableName = 'log_conversion_item';
     protected $columnName = 'price';
     protected $nameSingular = 'Goals_ProductPrice';
