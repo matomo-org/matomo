@@ -29,7 +29,7 @@ class VisitIp extends VisitDimension
     protected $acceptValues = '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255';
     protected $sqlFilterValue = array('Piwik\Network\IPUtils', 'stringToBinaryIP');
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         $value = Common::hex2bin($value);
         $value = IPUtils::binaryToStringIP($value);

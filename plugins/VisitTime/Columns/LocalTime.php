@@ -8,10 +8,13 @@
  */
 namespace Piwik\Plugins\VisitTime\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
 class LocalTime extends VisitDimension
 {
@@ -23,6 +26,11 @@ class LocalTime extends VisitDimension
     protected $sqlSegment = 'HOUR(log_visit.visitor_localtime)';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
     protected $category = 'General_Visit';
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
+    }
 
     /**
      * @param Request $request

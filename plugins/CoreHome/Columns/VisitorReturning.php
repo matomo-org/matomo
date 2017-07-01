@@ -35,15 +35,18 @@ class VisitorReturning extends VisitDimension
         $this->acceptValues .= Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"');
     }
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         switch ($value) {
-            case 'new':
-                return Piwik::translate('General_New');
+            case self::IS_RETURNING:
             case 'returning':
                 return Piwik::translate('CoreHome_VisitTypeReturning');
+            case self::IS_RETURNING_CUSTOMER:
             case 'returningCustomer':
                 return Piwik::translate('CoreHome_VisitTypeReturningCustomer');
+            case ($value === 0 || $value === '0'):
+            case 'new':
+                return Piwik::translate('General_New');
 
         }
 

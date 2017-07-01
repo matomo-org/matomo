@@ -25,7 +25,7 @@ class Language extends VisitDimension
     protected $acceptValues = 'de, fr, en-gb, zh-cn, etc.';
     protected $type = self::TYPE_TEXT;
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         return \Piwik\Plugins\UserLanguage\languageTranslateWithCode($value);
     }

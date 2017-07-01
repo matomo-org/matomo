@@ -37,6 +37,7 @@ abstract class Dimension
     const TYPE_TEXT = 'text';
     const TYPE_ENUM = 'enum'; // todo automatically generate sqlFilterValue from enum values?
     const TYPE_MONEY = 'money';
+    const TYPE_BYTE = 'byte';
     const TYPE_DURATION_MS = 'duration_ms';
     const TYPE_DURATION_S = 'duration_s';
     const TYPE_NUMBER = 'number';
@@ -251,8 +252,46 @@ abstract class Dimension
         return $this->getName();
     }
 
-    public function formatValue($value, Formatter $formatter)
+    public function isAnonymousAllowed()
     {
+        return $this->allowAnonymous;
+    }
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        switch ($this->type) {
+            case Dimension::TYPE_BOOL:
+                if (empty($value)) {
+                    return Piwik::translate('General_No');
+                }
+
+                return Piwik::translate('General_Yes');
+            case Dimension::TYPE_ENUM:
+                if (!empty($this->dimension)) {
+                    $values = $this->dimension->getEnumColumnValues();
+                    if (isset($values[$value])) {
+                        return $values[$value];
+                    }
+                }
+                break;
+            case Dimension::TYPE_MONEY:
+                return $formatter->getPrettyMoney($value, $idSite);
+            case Dimension::TYPE_FLOAT:
+                return $formatter->getPrettyNumber((float) $value, $precision = 2);
+            case Dimension::TYPE_NUMBER:
+                return $formatter->getPrettyNumber($value);
+            case Dimension::TYPE_DURATION_S:
+                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
+            case Dimension::TYPE_DURATION_MS:
+                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
+            case Dimension::TYPE_PERCENT:
+                return $formatter->getPrettyPercentFromQuotient($value);
+            case Dimension::TYPE_URL:
+                return str_replace(array('http://', 'https://'), '', $value);
+            case Dimension::TYPE_BYTE:
+                return $formatter->getPrettySizeFromBytes($value);
+        }
+
         return $value;
     }
 
@@ -452,6 +491,18 @@ abstract class Dimension
     public function getColumnName()
     {
         return $this->columnName;
+    }
+
+    public function getSqlSegment()
+    {
+        if (!empty($this->sqlSegment)) {
+            return $this->sqlSegment;
+        }
+
+        if ($this->dbTableName && $this->columnName) {
+            return "`" . $this->dbTableName . '`.`' . $this->columnName . "`";
+        }
+
     }
 
     /**

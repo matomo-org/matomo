@@ -8,7 +8,10 @@
  */
 namespace Piwik\Plugins\VisitTime\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
 class ServerTime extends VisitDimension
 {
@@ -19,5 +22,10 @@ class ServerTime extends VisitDimension
     protected $nameSingular = 'VisitTime_ColumnServerTime';
     protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
+    }
 
 }

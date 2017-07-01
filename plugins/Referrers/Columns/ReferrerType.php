@@ -25,7 +25,7 @@ class ReferrerType extends Base
     protected $acceptValues = 'direct, search, website, campaign';
     protected $category = 'Referrers_Referrers';
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         return \Piwik\Plugins\Referrers\getReferrerTypeLabel($value);
     }

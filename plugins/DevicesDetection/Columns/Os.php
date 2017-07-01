@@ -25,7 +25,7 @@ class Os extends Base
     protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         return \Piwik\Plugins\DevicesDetection\getOSFamilyFullName($value);
     }

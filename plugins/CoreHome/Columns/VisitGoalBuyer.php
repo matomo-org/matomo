@@ -45,7 +45,7 @@ class VisitGoalBuyer extends VisitDimension
         $this->acceptValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;
     }
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         switch ($value) {
             case 'ordered':

@@ -23,7 +23,7 @@ class Continent extends Dimension
     protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce';
     protected $sqlFilter = 'Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent';
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         $value = Common::getContinent($value);
         return \Piwik\Plugins\UserCountry\continentTranslate($value);

@@ -32,7 +32,7 @@ class DeviceType extends Base
         $this->acceptValues = $deviceTypeList;
     }
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         return \Piwik\Plugins\DevicesDetection\getDeviceTypeLabel($value);
     }

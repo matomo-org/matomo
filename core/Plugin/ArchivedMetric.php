@@ -136,39 +136,8 @@ class ArchivedMetric extends Metric
 
     public function format($value, Formatter $formatter)
     {
-        switch ($this->type) {
-            case Dimension::TYPE_BOOL:
-                if (empty($value)) {
-                    return Piwik::translate('General_No');
-                }
-
-                return Piwik::translate('General_Yes');
-            case Dimension::TYPE_ENUM:
-                if (!empty($this->dimension)) {
-                    $values = $this->dimension->getEnumColumnValues();
-                    if (isset($values[$value])) {
-                        return $values[$value];
-                    }
-                }
-                break;
-            case Dimension::TYPE_MONEY:
-                return $formatter->getPrettyMoney($value, $this->idSite);
-            case Dimension::TYPE_FLOAT:
-                return $formatter->getPrettyNumber((float) $value, $precision = 2);
-            case Dimension::TYPE_NUMBER:
-                return $formatter->getPrettyNumber($value);
-            case Dimension::TYPE_DURATION_S:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
-            case Dimension::TYPE_DURATION_MS:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
-            case Dimension::TYPE_PERCENT:
-                return $formatter->getPrettyPercentFromQuotient($value);
-            case Dimension::TYPE_URL:
-                return str_replace(array('http://', 'https://'), '', $value);
-        }
-
         if (!empty($this->dimension)) {
-            return $this->dimension->formatValue($value, $formatter);
+            return $this->dimension->formatValue($value, $this->idSite, $formatter);
         }
 
         return $value;

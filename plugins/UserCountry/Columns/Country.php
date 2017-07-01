@@ -33,7 +33,7 @@ class Country extends Base
     protected $segmentName = 'countryCode';
     protected $acceptValues = 'de, us, fr, in, es, etc.';
 
-    public function formatValue($value, Formatter $formatter)
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
         return \Piwik\Plugins\UserCountry\countryTranslate($value);
     }
