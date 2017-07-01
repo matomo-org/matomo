@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Contents\Columns;
 
+use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
@@ -26,7 +27,12 @@ class ContentTarget extends ActionDimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin($this->getActionId());
+        return new ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', $this->getActionId());
     }
 
     public function getActionId()

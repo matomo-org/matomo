@@ -107,6 +107,14 @@ abstract class Dimension
     }
 
     /**
+     * @return Discriminator|null
+     */
+    public function getDbDiscriminator()
+    {
+        return null;
+    }
+
+    /**
      * To be implemented when a column represents an enum
      * @return array
      */

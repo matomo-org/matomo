@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Tracker\Action;
 
@@ -24,4 +25,10 @@ class ProductSku extends Dimension
     {
         return new ActionNameJoin(Action::TYPE_ECOMMERCE_ITEM_SKU);
     }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_ECOMMERCE_ITEM_SKU);
+    }
+
 }

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
@@ -26,7 +27,12 @@ class EntryPageTitle extends VisitDimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin(Action::TYPE_PAGE_TITLE);
+        return new ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_TITLE);
     }
 
     /**

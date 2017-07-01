@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -27,7 +28,12 @@ class ExitPageUrl extends VisitDimension
 
     public function getDbColumnJoin()
     {
-        return new Join\ActionNameJoin(Action::TYPE_PAGE_URL);
+        return new Join\ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_URL);
     }
 
     /**

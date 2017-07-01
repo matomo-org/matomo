@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Ecommerce\Columns;
 
+use Piwik\Columns\Discriminator;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -20,7 +21,11 @@ class Revenue extends BaseConversion
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'General_ColumnRevenue';
-    // TODO add filter to only include dimensios with goalId 0 or -1? for ecommerce?
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator($this->dbTableName, 'idgoal', GoalManager::IDGOAL_ORDER);
+    }
 
     /**
      * @param Request $request

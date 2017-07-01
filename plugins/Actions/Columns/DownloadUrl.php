@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
@@ -23,6 +24,11 @@ class DownloadUrl extends ActionDimension
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin(Action::TYPE_DOWNLOAD);
+        return new ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_DOWNLOAD);
     }
 }
