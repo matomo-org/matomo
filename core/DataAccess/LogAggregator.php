@@ -11,8 +11,10 @@ namespace Piwik\DataAccess;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\DataArray;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Tracker\GoalManager;
 
 /**
@@ -147,8 +149,8 @@ class LogAggregator
      */
     public function __construct(Parameters $params)
     {
-        $this->dateStart = $params->getDateStart();
-        $this->dateEnd = $params->getDateEnd();
+        $this->dateStart = $params->getDateTimeStart();
+        $this->dateEnd = $params->getDateTimeEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
     }
@@ -503,7 +505,7 @@ class LogAggregator
      */
     protected function getGeneralQueryBindParams()
     {
-        $bind = array($this->dateStart->getDateStartUTC(), $this->dateEnd->getDateEndUTC());
+        $bind = array($this->dateStart->toString(Date::DATE_TIME_FORMAT), $this->dateEnd->toString(Date::DATE_TIME_FORMAT));
         $bind = array_merge($bind, $this->sites);
 
         return $bind;
