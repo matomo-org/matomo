@@ -1,5 +1,5 @@
 {% if visitorData.devices is defined %}
-    <div class="visitor-profile-devices">
+    <div class="visitor-profile-summary visitor-profile-devices">
         <h1>{{ 'DevicesDetection_Devices'|translate }}</h1>
         <div>
             {%- for type,entry in visitorData.devices -%}
