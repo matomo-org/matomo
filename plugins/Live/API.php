@@ -227,6 +227,8 @@ class API extends \Piwik\Plugin\API
          * Triggered in the Live.getVisitorProfile API method. Plugins can use this event
          * to discover and add extra data to visitor profiles.
          *
+         * This event is deprecated, use [VisitorDetails](/api-reference/Piwik/Plugins/Live/VisitorDetailsAbstract#extendVisitorDetails) classes instead.
+         *
          * For example, if an email address is found in a custom variable, a plugin could load the
          * gravatar for the email and add it to the visitor profile, causing it to display in the
          * visitor profile popup.
@@ -237,6 +239,7 @@ class API extends \Piwik\Plugin\API
          * - **visitorDescription**: Text to be used as the tooltip of the avatar image.
          *
          * @param array &$visitorProfile The unaugmented visitor profile info.
+         * @deprecated
          */
         Piwik::postEvent('Live.getExtraVisitorDetails', array(&$result));
 

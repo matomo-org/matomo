@@ -10,13 +10,21 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\DataTable;
 
+/**
+ * Class VisitorDetailsAbstract
+ *
+ * This class can be implemented in a plugin to extend the Live reports, visitor log and profile
+ *
+ * @api
+ */
 abstract class VisitorDetailsAbstract
 {
     protected $details = array();
 
     /**
      * Set details of current visit
-     * @param $details
+     *
+     * @param array $details
      */
     public function setDetails($details)
     {
@@ -26,7 +34,18 @@ abstract class VisitorDetailsAbstract
     /**
      * Makes it possible to extend the visitor details returned from API
      *
-     * @param $visitor
+     * **Example**
+     *
+     *    public function extendVisitorDetails(&$visitor) {
+     *        $crmData = Model::getCRMData($visitor['userid']);
+     *
+     *        foreach ($crmData as $prop => $value) {
+     *            $visitor[$prop] = $value;
+     *        }
+     *    }
+     *
+     * @param array $visitor
+     * @return void
      */
     public function extendVisitorDetails(&$visitor)
     {
@@ -35,8 +54,16 @@ abstract class VisitorDetailsAbstract
     /**
      * Makes it possible to enrich the action set for a single visit
      *
-     * @param $actions
-     * @param $visitorDetails
+     * **Example**
+     *
+     *    public function provideActionsForVisit(&$actions, $visitorDetails) {
+     *        $adviews = Model::getAdviews($visitorDetails['visitid']);
+     *        $actions += $adviews;
+     *    }
+     *
+     * @param array $actions List of action to manipulate
+     * @param array $visitorDetails
+     * @return void
      */
     public function provideActionsForVisit(&$actions, $visitorDetails)
     {
@@ -53,6 +80,15 @@ abstract class VisitorDetailsAbstract
      *     ...
      * )
      *
+     * **Example**
+     *
+     *    public function provideActionsForVisitIds(&$actions, $visitIds) {
+     *        $adviews = Model::getAdviewsByVisitIds($visitIds);
+     *        foreach ($adviews as $idVisit => $adView) {
+     *            $actions[$idVisit][] = $adView;
+     *        }
+     *    }
+     *
      * @param array $actions   action set to enrich
      * @param array $visitIds  list of visit ids
      */
@@ -63,19 +99,19 @@ abstract class VisitorDetailsAbstract
     /**
      * Allows filtering the provided actions
      *
-     * Example:
+     * **Example:**
      *
-     * public function filterActions(&$actions, $visitorDetailsArray) {
-     *     foreach ($actions as $idx => $action) {
-     *         if ($action['type'] == Action::TYPE_CONTENT) {
-     *             unset($actions[$idx]);
-     *             continue;
+     *     public function filterActions(&$actions, $visitorDetailsArray) {
+     *         foreach ($actions as $idx => $action) {
+     *             if ($action['type'] == 'customaction') {
+     *                 unset($actions[$idx]);
+     *                 continue;
+     *             }
      *         }
      *     }
-     * }
      *
-     * @param $actions
-     * @param $visitorDetailsArray
+     * @param array $actions
+     * @param array $visitorDetailsArray
      */
     public function filterActions(&$actions, $visitorDetailsArray)
     {
@@ -84,9 +120,9 @@ abstract class VisitorDetailsAbstract
     /**
      * Allows extended each action with additional information
      *
-     * @param $action
-     * @param $nextAction
-     * @param $visitorDetails
+     * @param array $action
+     * @param array $nextAction
+     * @param array $visitorDetails
      */
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
@@ -95,9 +131,10 @@ abstract class VisitorDetailsAbstract
     /**
      * Called when rendering a single Action
      *
-     * @param $action
-     * @param $previousAction
-     * @param $visitorDetails
+     * @param array $action
+     * @param array $previousAction
+     * @param array $visitorDetails
+     * @return string
      */
     public function renderAction($action, $previousAction, $visitorDetails)
     {
@@ -106,8 +143,9 @@ abstract class VisitorDetailsAbstract
     /**
      * Called for rendering the tooltip on actions
      *
-     * @param $action
-     * @param $visitInfo
+     * @param array $action
+     * @param array $visitInfo
+     * @return string
      */
     public function renderActionTooltip($action, $visitInfo)
     {
@@ -116,7 +154,8 @@ abstract class VisitorDetailsAbstract
     /**
      * Called when rendering the Icons in visitor log
      *
-     * @param $visitorDetails
+     * @param array $visitorDetails
+     * @return string
      */
     public function renderIcons($visitorDetails)
     {
@@ -125,7 +164,15 @@ abstract class VisitorDetailsAbstract
     /**
      * Called when rendering the visitor details in visitor log
      *
-     * @param $visitorDetails
+     * **Example**
+     *    public function renderVisitorDetails($visitorDetails) {
+     *        $view            = new View('@MyPlugin/_visitorDetails.twig');
+     *        $view->visitInfo = $visitorDetails;
+     *        return $view->render();
+     *    }
+     *
+     * @param array $visitorDetails
+     * @return string
      */
     public function renderVisitorDetails($visitorDetails)
     {
@@ -134,6 +181,14 @@ abstract class VisitorDetailsAbstract
     /**
      * Allows manipulating the visitor profile properties
      * Will be called when visitor profile is initialized
+     *
+     * **Example**
+     *
+     *    public function initProfile($visit, &$profile) {
+     *        // initialize properties that will be filled based on visits or actions
+     *        $profile['totalActions']         = 0;
+     *        $profile['totalActionsOfMyType'] = 0;
+     *    }
      *
      * @param DataTable $visits
      * @param array $profile
@@ -144,8 +199,14 @@ abstract class VisitorDetailsAbstract
     }
 
     /**
-     * Allows manipulating the visitor profile properties based on included actions
+     * Allows manipulating the visitor profile properties based on included visits
      * Will be called for every action within the profile
+     *
+     * **Example**
+     *
+     *    public function handleProfileVisit($visit, &$profile) {
+     *        $profile['totalActions'] += $visit->getColumn('actions');
+     *    }
      *
      * @param DataTable\Row $visit
      * @param array $profile
@@ -159,6 +220,17 @@ abstract class VisitorDetailsAbstract
      * Allows manipulating the visitor profile properties based on included actions
      * Will be called for every action within the profile
      *
+     * **Example**
+     *
+     *    public function handleProfileAction($action, &$profile)
+     *    {
+     *        if ($action['type'] != 'myactiontype') {
+     *            return;
+     *        }
+     *
+     *        $profile['totalActionsOfMyType']++;
+     *    }
+     *
      * @param array $action
      * @param array $profile
      * @return void
@@ -169,6 +241,17 @@ abstract class VisitorDetailsAbstract
 
     /**
      * Will be called after iterating over all actions
+     * Can be used to set profile information that requires data that was set while iterating over visits & actions
+     *
+     * **Example**
+     *
+     *    public function finalizeProfile($visits, &$profile) {
+     *        $profile['isPowerUser'] = false;
+     *
+     *        if ($profile['totalActionsOfMyType'] > 20) {
+     *            $profile['isPowerUser'] = true;
+     *        }
+     *    }
      *
      * @param DataTable $visits
      * @param array $profile
@@ -185,6 +268,19 @@ abstract class VisitorDetailsAbstract
      *          20,   // order id
      *          'rendered html content'
      * )
+     *
+     * **Example**
+     *
+     *    public function renderProfileSummary($profile) {
+     *
+     *        if (empty($profile['totalActionsOfMyType'])) {
+     *            return; // render template only if necessary
+     *        }
+     *
+     *        $view              = new View('@MyPlugin/_profileSummary.twig');
+     *        $view->visitorData = $profile;
+     *        return array(array(10, $view->render()));
+     *    }
      *
      * @param array $profile
      * @return array
