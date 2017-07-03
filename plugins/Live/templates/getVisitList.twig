@@ -13,6 +13,9 @@
                 </span>
             </h2>
         </div>
+        <div class="visitor-profile-visit-details-extended">
+            {{ postEvent('Live.renderVisitorDetails', visitInfo) }}
+        </div>
         <div class="visitor-profile-visit-details">
             {{ postEvent('Live.renderVisitorIcons', visitInfo) }}
             <a href="#" class="visitor-profile-show-actions">

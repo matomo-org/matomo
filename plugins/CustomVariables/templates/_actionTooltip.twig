@@ -7,4 +7,4 @@
         {# line break above is important #}
         - {{ customVariable[name]|raw }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|raw }}{% endif %}
     {% endfor %}
-{% endif %}
+{% endif -%}
