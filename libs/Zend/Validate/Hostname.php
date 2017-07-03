@@ -504,6 +504,16 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         'پاکستان' => array(1 => self::VALID_UNICODE_DOMAIN),
         'كاثوليك' => array(1 => self::VALID_UNICODE_DOMAIN),
         '天主教' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ಭಾರತ' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ଭାରତ' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ভাৰত' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'भारतम्' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'भारोत' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'اتصالات' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'بارت' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ڀارت' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'عرب' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ഭാരതം' => array(1 => self::VALID_UNICODE_DOMAIN),
     );
 
 
