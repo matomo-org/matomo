@@ -52,40 +52,6 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($label);
     }
 
-    public function testFactoryDay()
-    {
-        $period = Period\Factory::build('day', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Day', $period);
-    }
-
-    public function testFactoryMonth()
-    {
-        $period = Period\Factory::build('month', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Month', $period);
-    }
-
-    public function testFactoryWeek()
-    {
-        $period = Period\Factory::build('week', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Week', $period);
-    }
-
-    public function testFactoryYear()
-    {
-        $period = Period\Factory::build('year', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Year', $period);
-    }
-
-    public function testFactoryInvalid()
-    {
-        try {
-            Period\Factory::build('inValid', Date::today());
-        } catch (\Exception $e) {
-            return;
-        }
-        $this->fail('Expected Exception not raised');
-    }
-
     public function testValidate_ValidDates()
     {
         Period::checkDateFormat('today');

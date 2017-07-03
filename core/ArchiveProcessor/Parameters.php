@@ -159,7 +159,11 @@ class Parameters
     public function isSingleSiteDayArchive()
     {
         $oneSite = $this->isSingleSite();
-        $oneDay = $this->getPeriod()->getLabel() == 'day';
+
+        $period = $this->getPeriod();
+        $secondsInPeriod = $period->getDateEnd()->getTimestampUTC() - $period->getDateStart()->getTimestampUTC();
+        $oneDay = $secondsInPeriod <= Date::NUM_SECONDS_IN_DAY;
+
         return $oneDay && $oneSite;
     }
 
