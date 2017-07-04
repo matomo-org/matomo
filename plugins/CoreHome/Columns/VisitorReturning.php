@@ -33,6 +33,9 @@ class VisitorReturning extends VisitDimension
     {
         $this->acceptValues  = 'new, returning, returningCustomer. ';
         $this->acceptValues .= Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"');
+        $this->sqlFilterValue = function ($type) {
+            return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
+        };
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)
