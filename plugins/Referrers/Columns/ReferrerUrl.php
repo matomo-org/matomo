@@ -18,7 +18,7 @@ class ReferrerUrl extends Base
     protected $columnType = 'TEXT NULL';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'referrerUrl';
-    protected $name = 'Live_Referrer_URL';
+    protected $nameSingular = 'Live_Referrer_URL';
     protected $category = 'Referrers_Referrers';
     protected $acceptValues = 'http%3A%2F%2Fwww.example.org%2Freferer-page.htm';
 
