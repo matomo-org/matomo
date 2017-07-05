@@ -35,7 +35,7 @@ abstract class Dimension
     const TYPE_DIMENSION = 'dimension';
     const TYPE_BINARY = 'binary';
     const TYPE_TEXT = 'text';
-    const TYPE_ENUM = 'enum'; // todo automatically generate sqlFilterValue from enum values?
+    const TYPE_ENUM = 'enum';
     const TYPE_MONEY = 'money';
     const TYPE_BYTE = 'byte';
     const TYPE_DURATION_MS = 'duration_ms';
@@ -49,7 +49,6 @@ abstract class Dimension
     const TYPE_TIMESTAMP = 'timestamp';
     const TYPE_BOOL = 'bool';
     const TYPE_PERCENT = 'percent';
-    const TYPE_JOIN_ID = 'join_id'; // todo maybe we can automatically set sqlfilter for the join column?
 
     /**
      * This will be the name of the column in the database table if a $columnType is specified.

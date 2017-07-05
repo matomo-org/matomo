@@ -62,9 +62,9 @@ class VisitorReturning extends VisitDimension
     public function getEnumColumnValues()
     {
         return array(
-            self::IS_NEW => 'new',
+            self::IS_RETURNING_CUSTOMER => 'returningCustomer',
             self::IS_RETURNING => 'returning',
-            self::IS_RETURNING_CUSTOMER => 'returningCustomer'
+            self::IS_NEW => 'new',
         );
     }
 
