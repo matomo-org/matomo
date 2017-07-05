@@ -19,6 +19,7 @@ class SearchKeyword extends ActionDimension
     protected $segmentName = 'siteSearchKeyword';
     protected $nameSingular = 'Actions_SiteSearchKeyword';
     protected $type = self::TYPE_TEXT;
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {

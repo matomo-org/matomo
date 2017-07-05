@@ -436,9 +436,9 @@ class API extends \Piwik\Plugin\API
         $apiParameters = array();
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
-            if ($entityName === 'idGoal') {
+            if ($entityName === 'idGoal' && $idGoal) {
                 $apiParameters['idGoal'] = $idGoal;
-            } elseif ($entityName === 'idDimension') {
+            } elseif ($entityName === 'idDimension' && $idDimension) {
                 $apiParameters['idDimension'] = $idDimension;
             } else {
                 // ideally it would get the value from API params but dynamic params is not possible yet in API. If this
