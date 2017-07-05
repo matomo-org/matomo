@@ -322,15 +322,6 @@ abstract class Dimension
             && ($this->sqlSegment || ($this->columnName && $this->dbTableName))
             && $this->nameSingular) {
             $segment = new Segment();
-            $segment->setSegment($this->segmentName);
-            $segment->setCategory($this->category);
-            $segment->setName($this->nameSingular);
-            if (!empty($this->sqlSegment)) {
-                $segment->setSqlSegment($this->sqlSegment);
-            } else {
-                $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
-            }
-
             $this->addSegment($segment);
         }
     }
@@ -382,9 +373,13 @@ abstract class Dimension
      */
     protected function addSegment(Segment $segment)
     {
+        if (!$segment->getSegment() && $this->segmentName) {
+            $segment->setSegment($this->segmentName);
+        }
+
         if (!$segment->getType()) {
             $metricTypes = array(self::TYPE_NUMBER, self::TYPE_FLOAT, self::TYPE_MONEY, self::TYPE_DURATION_S, self::TYPE_DURATION_MS);
-            if (in_array($this->getType(), $metricTypes)) {
+            if (in_array($this->getType(), $metricTypes, $strict = true)) {
                 $segment->setType(Segment::TYPE_METRIC);
             } else {
                 $segment->setType(Segment::TYPE_DIMENSION);
@@ -400,8 +395,16 @@ abstract class Dimension
         }
 
         $sqlSegment = $segment->getSqlSegment();
-        if (!empty($this->columnName) && empty($sqlSegment)) {
-            $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
+
+        if (empty($sqlSegment) && !$segment->getUnionOfSegments()) {
+            if (!empty($this->sqlSegment)) {
+                $segment->setSqlSegment($this->sqlSegment);
+            } elseif ($this->dbTableName && $this->columnName) {
+                $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
+            } else {
+                debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+                throw new Exception('Segment cannot be added because no sql segment is set');
+            }
         }
 
         if (!$this->suggestedValuesCallback) {
