@@ -93,7 +93,7 @@ abstract class Dimension
     protected $sqlFilter;
     protected $sqlSegment;
     protected $sqlFilterValue;
-    protected $allowAnonymous;
+    protected $allowAnonymous = true;
     protected $dbTableName = '';
     protected $metricId = '';
 
@@ -402,7 +402,6 @@ abstract class Dimension
             } elseif ($this->dbTableName && $this->columnName) {
                 $segment->setSqlSegment($this->dbTableName . '.' . $this->columnName);
             } else {
-                debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
                 throw new Exception('Segment cannot be added because no sql segment is set');
             }
         }
@@ -511,9 +510,8 @@ abstract class Dimension
         }
 
         if ($this->dbTableName && $this->columnName) {
-            return "`" . $this->dbTableName . '`.`' . $this->columnName . "`";
+            return $this->dbTableName . '.' . $this->columnName;
         }
-
     }
 
     /**
