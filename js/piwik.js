@@ -6746,6 +6746,10 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                contentName = trim(contentName);
+                contentPiece = trim(contentPiece);
+                contentTarget = trim(contentTarget);
+
                 if (!contentName) {
                     return;
                 }
@@ -6806,6 +6810,11 @@ if (typeof window.Piwik !== 'object') {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
+
+                contentInteraction = trim(contentInteraction);
+                contentName = trim(contentName);
+                contentPiece = trim(contentPiece);
+                contentTarget = trim(contentTarget);
 
                 if (!contentInteraction || !contentName) {
                     return;
