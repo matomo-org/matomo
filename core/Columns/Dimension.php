@@ -264,6 +264,17 @@ abstract class Dimension
         return $this->allowAnonymous;
     }
 
+    public function groupValue($value, $idSite)
+    {
+        switch ($this->type) {
+            case Dimension::TYPE_URL:
+                return str_replace(array('http://', 'https://'), '', $value);
+            case Dimension::TYPE_BOOL:
+                return !empty($value) ? '1' : '0';
+        }
+        return $value;
+    }
+
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         switch ($this->type) {
@@ -293,8 +304,6 @@ abstract class Dimension
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);
-            case Dimension::TYPE_URL:
-                return str_replace(array('http://', 'https://'), '', $value);
             case Dimension::TYPE_BYTE:
                 return $formatter->getPrettySizeFromBytes($value);
         }
