@@ -36,7 +36,7 @@ class DeviceBrand extends Base
         $brandList = implode(", ", $brands);
         $this->acceptValues = $brandList;
 
-        $this->acceptValues = function ($brand) use ($brandList, $brands) {
+        $this->sqlFilter = function ($brand) use ($brandList, $brands) {
             if ($brand == Piwik::translate('General_Unknown')) {
                 return '';
             }
