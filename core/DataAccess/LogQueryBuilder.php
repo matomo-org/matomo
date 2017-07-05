@@ -99,7 +99,7 @@ class LogQueryBuilder
                 $matchTables[] = $table['tableAlias'];
             } elseif (is_array($table) && isset($table['table']) && !in_array($table['table'], $matchTables, $strict = true)) {
                 $matchTables[] = $table['table'];
-            } elseif (!in_array($table, $matchTables, $strict = true)) {
+            } elseif (is_string($table) && !in_array($table, $matchTables, $strict = true)) {
                 $matchTables[] = $table;
             }
         }
