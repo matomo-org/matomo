@@ -20,7 +20,7 @@ class Revenue extends BaseConversion
     protected $columnType = 'float default NULL';
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Ecommerce';
-    protected $nameSingular = 'General_ColumnRevenue';
+    protected $nameSingular = 'Ecommerce_OrderValue';
 
     public function getDbDiscriminator()
     {

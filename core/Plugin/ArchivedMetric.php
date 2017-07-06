@@ -18,10 +18,15 @@ use Piwik\Piwik;
 class ArchivedMetric extends Metric
 {
     const AGGREGATION_COUNT = 'count(%s)';
+    const AGGREGATION_COUNT_PREFIX = 'nb_';
     const AGGREGATION_SUM = 'sum(%s)';
+    const AGGREGATION_SUM_PREFIX = 'sum_';
     const AGGREGATION_MAX = 'max(%s)';
+    const AGGREGATION_MAX_PREFIX = 'max_';
     const AGGREGATION_MIN = 'min(%s)';
+    const AGGREGATION_MIN_PREFIX = 'min_';
     const AGGREGATION_UNIQUE = 'count(distinct %s)';
+    const AGGREGATION_UNIQUE_PREFIX = 'nb_uniq_';
 
     /**
      * @var string

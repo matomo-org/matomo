@@ -56,11 +56,11 @@ class DimensionMetricFactory
         if ($aggregation === ComputedMetric::AGGREGATION_AVG) {
             $name = 'avg_' . $metricName1 . '_per_' . $metricName2;
             $translatedName = '';
-            $documentation = 'Average value of ' . $this->dimension->getName() . ' per ' . $metricName2;
+            $documentation = 'Average value of "' . $this->dimension->getName() . '" per "' . $metricName2 . '"';
         } elseif ($aggregation === ComputedMetric::AGGREGATION_RATE) {
             $name = $this->dimension->getMetricId() . '_rate';
             $translatedName = $this->dimension->getName() . ' Rate';
-            $documentation = 'The percentage of ' . $this->dimension->getNamePlural();
+            $documentation = 'The percentage of "' . $this->dimension->getNamePlural() . '"';
         } else {
             throw new \Exception('Not supported aggregation type');
         }
@@ -98,27 +98,27 @@ class DimensionMetricFactory
 
         switch ($aggregation) {
             case ArchivedMetric::AGGREGATION_COUNT;
-                $prefix = 'nb_';
+                $prefix = ArchivedMetric::AGGREGATION_COUNT_PREFIX;
                 $translatedName = $dimension->getNamePlural();
                 $documentation = 'The number of ' . $dimension->getNamePlural();
                 break;
             case ArchivedMetric::AGGREGATION_SUM;
-                $prefix = 'sum_';
+                $prefix = ArchivedMetric::AGGREGATION_SUM_PREFIX;
                 $translatedName = 'Total ' . $dimension->getNamePlural();
                 $documentation = 'The total number of ' . $dimension->getNamePlural();
                 break;
             case ArchivedMetric::AGGREGATION_MAX;
-                $prefix = 'max_';
+                $prefix = ArchivedMetric::AGGREGATION_MAX_PREFIX;
                 $translatedName = 'Max ' . $dimension->getNamePlural();
                 $documentation = 'The maximum value of ' . $dimension->getNamePlural();
                 break;
             case ArchivedMetric::AGGREGATION_MIN;
-                $prefix = 'min_';
+                $prefix = ArchivedMetric::AGGREGATION_MIN_PREFIX;
                 $translatedName = 'Min ' . $dimension->getNamePlural();
                 $documentation = 'The minimum value of ' . $dimension->getNamePlural();
                 break;
             case ArchivedMetric::AGGREGATION_UNIQUE;
-                $prefix = 'nb_uniq_';
+                $prefix = ArchivedMetric::AGGREGATION_UNIQUE_PREFIX;
                 $translatedName = 'Unique ' . $dimension->getNamePlural();
                 $documentation = 'Unique ' . $dimension->getNamePlural();
                 break;

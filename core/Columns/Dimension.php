@@ -347,11 +347,6 @@ abstract class Dimension
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
                 $metricsList->addMetric($metric);
 
-                if ($this->getDbTableName() === 'log_visit') {
-                    $metric = $dimensionMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_visits', Plugin\ComputedMetric::AGGREGATION_AVG);
-                    $metricsList->addMetric($metric);
-                }
-
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
                 $metricsList->addMetric($metric);
             }

@@ -106,6 +106,24 @@ class MetricsList
             $dimension->configureMetrics($list, $factory);
         }
 
+        $computedFactory = new ComputedMetricFactory($list);
+
+        /**
+         * Triggered to add new metrics that cannot be picked up automatically by the platform.
+         * This is useful if the plugin allows a user to create metrics dynamically. For example
+         * CustomDimensions or CustomVariables.
+         *
+         * **Example**
+         *
+         *     public function addMetric(&$list)
+         *     {
+         *         $list->addMetric(new MyCustomMetric());
+         *     }
+         *
+         * @param MetricsList $list An instance of the MetricsList. You can add metrics to the list this way.
+         */
+        Piwik::postEvent('Metric.addComputedMetrics', array($list, $computedFactory));
+
         // TODO implement a sort based on category and then alpabetically!
         // usort($instances, array($this, 'sort'));
 

@@ -82,6 +82,7 @@
         "NeedAccess": "Only an Administrator or a user with Super User access can manage Goals for a given website.",
         "Optional": "(optional)",
         "OverallConversionRate": "overall conversion rate (visits with a completed goal)",
+        "ColumnOverallRevenue": "Overall revenue",
         "OverallRevenue": "overall revenue",
         "PageTitle": "Page Title",
         "Pattern": "Pattern",
