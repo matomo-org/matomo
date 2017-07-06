@@ -115,6 +115,7 @@ class LogQueryBuilder
 
         $fieldNames = array();
         $toBeReplaced = array();
+        $epregReplace = array();
         foreach ($neededFields as &$neededField) {
             $parts = explode('.', $neededField);
             if (count($parts) === 2 && !empty($parts[1])) {
@@ -122,7 +123,13 @@ class LogQueryBuilder
                     // eg when selecting 2 dimensions log_action_X.name
                     $columnAs = $parts[1] . md5($neededField);
                     $fieldNames[] = $columnAs;
-                    $toBeReplaced[$neededField] = $parts[0] . '.' . $columnAs;
+                    // we make sure to not replace a idvisitor column when duplicate column is idvisit
+                    $toBeReplaced[$neededField . ' '] = $parts[0] . '.' . $columnAs . ' ';
+                    $toBeReplaced[$neededField . ')'] = $parts[0] . '.' . $columnAs . ')';
+                    $toBeReplaced[$neededField . '`'] = $parts[0] . '.' . $columnAs . '`';
+                    $toBeReplaced[$neededField . ','] = $parts[0] . '.' . $columnAs . ',';
+                    // replace when string ends this, we need to use regex to check for this
+                    $epregReplace["/(" . $neededField . ")$/"] = $parts[0] . '.' . $columnAs;
                     $neededField .= ' as ' .  $columnAs;
                 } else {
                     $fieldNames[] = $parts[1];
@@ -154,11 +161,14 @@ class LogQueryBuilder
             $innerGroupBy = false;
         }
         if (!empty($toBeReplaced)) {
+            $select = preg_replace(array_keys($epregReplace), array_values($epregReplace), $select);
             $select = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $select);
             if (!empty($groupBy)) {
+                $groupBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $groupBy);
                 $groupBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $groupBy);
             }
             if (!empty($orderBy)) {
+                $orderBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $orderBy);
                 $orderBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $orderBy);
             }
         }

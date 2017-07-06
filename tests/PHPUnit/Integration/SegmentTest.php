@@ -963,6 +963,66 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenLimit_withCustomJoinsAndSameColumnsAndSimilarColumns()
+    {
+        $select = 'log_link_visit_action.idvisit,
+                   log_visit.idvisit,
+                   count(log_visit.idvisit) as numvisits,
+                   count(distinct log_visit.idvisit ) as numvisitors,
+                   log_visit.idvisitor,
+                  log_action.name as url,
+                  sum(log_link_visit_action.time_spent) as `13`,
+                  sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`';
+        $from = array('log_visit', 'log_link_visit_action');
+        $where = '';
+        $bind = array(1);
+
+        $segment = '';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = 'url, log_visit.idvisit';
+        $groupBy = 'log_visit.idvisit, log_visit.idvisit , log_visit.idvisitor, log_visit.idvisitor , log_link_visit_action.idvisit';
+        $limit = 33;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
+
+        // should have replaced some idvisit columns but not idvisitor column
+        $expected = array(
+            "sql"  => "
+                SELECT
+				log_inner.idvisit,
+                   log_inner.idvisit5d489886e80b4258a9407b219a4e2811,
+                   count(log_inner.idvisit5d489886e80b4258a9407b219a4e2811) as numvisits,
+                   count(distinct log_inner.idvisit5d489886e80b4258a9407b219a4e2811 ) as numvisitors,
+                   log_inner.idvisitor,
+                  log_inner.name as url,
+                  sum(log_inner.time_spent) as `13`,
+                  sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
+			FROM
+				
+        (
+            
+			SELECT
+				log_link_visit_action.idvisit, 
+log_visit.idvisit as idvisit5d489886e80b4258a9407b219a4e2811, 
+log_visit.idvisitor, 
+log_action.name, 
+log_link_visit_action.time_spent, 
+log_visit.visit_total_actions
+			FROM
+				log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+			ORDER BY
+				url, log_visit.idvisit LIMIT 0, 33
+        ) AS log_inner
+			GROUP BY
+				log_inner.idvisit5d489886e80b4258a9407b219a4e2811, log_inner.idvisit5d489886e80b4258a9407b219a4e2811 , log_inner.idvisitor, log_inner.idvisitor , log_inner.idvisit
+			ORDER BY
+				url, log_inner.idvisit5d489886e80b4258a9407b219a4e2811",
+            "bind" => array(1));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function test_getSelectQuery_whenLimitAndOffset_outerQueryShouldNotHaveOffset()
     {
         $select = 'sum(log_visit.visit_total_time) as sum_visit_length';

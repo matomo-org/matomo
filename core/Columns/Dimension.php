@@ -264,6 +264,16 @@ abstract class Dimension
         return $this->allowAnonymous;
     }
 
+    public function setSqlSegment($segment)
+    {
+        $this->sqlSegment = $segment;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
     public function groupValue($value, $idSite)
     {
         switch ($this->type) {
