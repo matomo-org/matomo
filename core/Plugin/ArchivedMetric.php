@@ -45,13 +45,14 @@ class ArchivedMetric extends Metric
     private $dbTable = '';
     private $dbColumn = '';
     private $category = '';
+    private $query = '';
 
     /**
      * @var Dimension
      */
     private $dimension;
 
-    public function __construct($dbTable, $dbColumn, $aggregation = 'nb')
+    public function __construct($dbTable, $dbColumn, $aggregation = false)
     {
         if (!empty($aggregation) && strpos($aggregation, '%s') === false) {
             throw new \Exception(sprintf('The given aggregation for %s.%s needs to include a %%s for the column name', $dbTable, $dbColumn));
@@ -120,6 +121,12 @@ class ArchivedMetric extends Metric
         return $this;
     }
 
+    public function setQuery($query)
+    {
+        $this->query = $query;
+        return $this;
+    }
+
     public function getName()
     {
         return $this->name;
@@ -174,6 +181,10 @@ class ArchivedMetric extends Metric
 
     public function getQuery()
     {
+        if ($this->query) {
+            return $this->query;
+        }
+
         $column = $this->dbTable . '.'  . $this->dbColumn;
 
         if (!empty($this->aggregation)) {

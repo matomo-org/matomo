@@ -108,7 +108,7 @@ class ComputedMetric extends ProcessedMetric
         $metric1 = $this->getMetric($row, $this->metric1);
         $metric2 = $this->getMetric($row, $this->metric2);
 
-        return Piwik::getQuotientSafe($metric1, $metric2, $precision = 0);
+        return Piwik::getQuotientSafe($metric1, $metric2, $precision = 2);
     }
 
     public function format($value, Formatter $formatter)

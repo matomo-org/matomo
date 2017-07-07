@@ -8,8 +8,13 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\Columns\ComputedMetricFactory;
+use Piwik\Columns\Dimension;
+use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\ArchivedMetric;
+use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
@@ -77,9 +82,71 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
-            'Category.addSubcategories' => 'addSubcategories'
+            'Category.addSubcategories' => 'addSubcategories',
+            'Metric.addMetrics' => 'addMetrics',
+            'Metric.addComputedMetrics' => 'addComputedMetrics'
         );
         return $hooks;
+    }
+
+    public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
+    {
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+        $goals = API::getInstance()->getGoals($idSite);
+
+        foreach ($goals as $goal) {
+            $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visits', ComputedMetric::AGGREGATION_RATE);
+            $list->addMetric($metric);
+        }
+    }
+
+    public function addMetrics(MetricsList $metricsList)
+    {
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+        $goals = API::getInstance()->getGoals($idSite);
+
+        foreach ($goals as $goal) {
+            $custom = new GoalDimension($goal, 'idgoal', 'Conversions goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom->setType(Dimension::TYPE_NUMBER);
+            $custom->setSqlSegment('count(distinct log_conversion.idvisit, log_conversion.buster)');
+
+            $metric = new ArchivedMetric($custom->getDbTableName(), $custom->getColumnName(), ArchivedMetric::AGGREGATION_SUM);
+            $metric->setDimension($custom);
+            $metric->setQuery('count(distinct log_conversion.idvisit, log_conversion.buster)');
+            $metric->setTranslatedName($custom->getName());
+            $metric->setCategory($custom->getCategory());
+            $metric->setName('goal_' . $goal['idgoal'] . '_conversion');
+            $metricsList->addMetric($metric);
+
+            // TODO add conversion rate
+
+            $custom = new GoalDimension($goal, 'revenue', 'Revenue goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom->setType(Dimension::TYPE_MONEY);
+            $metric = new ArchivedMetric($custom->getDbTableName(), $custom->getColumnName(), ArchivedMetric::AGGREGATION_SUM);
+            $metric->setDimension($custom);
+            $metric->setTranslatedName($custom->getName());
+            $metric->setName('goal_' . $goal['idgoal'] . '_revenue');
+            $metric->setCategory($custom->getCategory());
+            $metricsList->addMetric($metric);
+
+            $custom = new GoalDimension($goal, 'visitor_days_since_first', 'Days to conversion goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom->setType(Dimension::TYPE_NUMBER);
+            $metric = new ArchivedMetric($custom->getDbTableName(), $custom->getColumnName(), ArchivedMetric::AGGREGATION_SUM);
+            $metric->setDimension($custom);
+            $metric->setTranslatedName($custom->getName());
+            $metric->setCategory($custom->getCategory());
+            $metric->setName('goal_' . $goal['idgoal'] . '_daystoconversion');
+            $metricsList->addMetric($metric);
+
+            $custom = new GoalDimension($goal, 'visitor_count_visits', 'Visits to conversion goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom->setType(Dimension::TYPE_NUMBER);
+            $metric = new ArchivedMetric($custom->getDbTableName(), $custom->getColumnName(), ArchivedMetric::AGGREGATION_SUM);
+            $metric->setDimension($custom);
+            $metric->setTranslatedName($custom->getName());
+            $metric->setCategory($custom->getCategory());
+            $metric->setName('goal_' . $goal['idgoal'] . '_visitstoconversion');
+            $metricsList->addMetric($metric);
+        }
     }
 
     public function addSubcategories(&$subcategories)
@@ -107,7 +174,6 @@ class Goals extends \Piwik\Plugin
             $subcategories[] = $category;
         }
     }
-
 
     public function addMetricTranslations(&$translations)
     {
