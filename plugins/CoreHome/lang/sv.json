@@ -16,6 +16,7 @@
         "Default": "standard",
         "DonateCall1": "Piwik kommer alltid vara gratis att använda men det innebär inte att det inte kostar något att skapa den.",
         "DonateCall2": "Piwik behöver ditt fortsatta stöd för att växa och frodas.",
+        "DonateCall3": "Om du tycker att Piwik bidragit till din verksamhet är vi tacksamma om du överväger att %1$sdonera%2$s eller %3$sköpa premiumfunktioner%4$s. Varje öre bidrar.",
         "DonateFormInstructions": "Klicka på slidern för att välja ett värde, klicka sedan på registrera för att donera.",
         "ExcludeRowsWithLowPopulation": "Alla rader visas %s Dölj rader med låga värden",
         "ExternalHelp": "Hjälp (öppnas i en ny flik)",
@@ -32,6 +33,7 @@
         "MakeOneTimeDonation": "Donera en engångssumma istället.",
         "Menu": "Meny",
         "NoPrivilegesAskPiwikAdmin": "Du är inloggad som '%1$s' men det verkar som om du inte har några rättigheter satta i Piwik. %2$s Fråga din Piwik administratör (klicka för att e-posta)%3$s för att få läsrättighet till en webbplats.",
+        "OnlyForSuperUserAccess": "Denna widget visas bara för superanvändare i standardkontrollpanelen.",
         "PageOf": "%1$s av %2$s",
         "PeriodRange": "Intervall",
         "ReportGeneratedOn": "Rapporten genererades på %s",
@@ -63,7 +65,9 @@
         "QuickAccessTitle": "Sök efter %s. Använd piltangenterna för att navigera i sökresultatet. Genväg: Tryck på 'f' för att söka.",
         "MenuEntries": "Menyposter",
         "Segments": "Segment",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "En-klicksuppgradering är inte tillgängligt för du använder Piwik på flera servrar. Ladda ner den senaste versionen från %1$sför att fortsätta.",
         "AdblockIsMaybeUsed": "Om du blockerar annonser vänligen inaktivera blockeringen på den här webbplatsen för att Piwik ska fungera utan några problem.",
-        "ChangeCurrentWebsite": "Välj en webbplats, vald webbplats just nu: %s"
+        "ChangeCurrentWebsite": "Välj en webbplats, vald webbplats just nu: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Den ledande analysplattformen som respekterar personlig integritet."
     }
 }
