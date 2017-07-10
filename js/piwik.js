@@ -936,7 +936,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 
             // Export for asynchronous module loaders.
             if (isLoader) {
-                define('piwik-tracker', function () {
+                define('piwik-json', function () {
                     return JSON3;
                 });
             }
