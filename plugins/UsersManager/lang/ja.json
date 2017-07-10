@@ -36,6 +36,7 @@
         "ExceptionNoValueForUsernameOrEmail": "ユーザー名またはメールアドレスを入力してください。",
         "ExcludeVisitsViaCookie": "自分自身のビジットを除外（Cookie 使用）",
         "ForAnonymousUsersReportDateToLoadByDefault": "anonymous ユーザー用にデフォルトで読み込むリポートの日付",
+        "GiveUserAccess": "ユーザー '%1$s' にウェブサイト %3$s の %2$s 権限を与えます",
         "GiveViewAccess": "%1$s の閲覧アクセスを許可します",
         "GiveViewAccessTitle": "既存のユーザーに %s のレポートを表示する権限を付与します",
         "GiveViewAccessInstructions": "既存のユーザーに %s のアクセス権限を与えるには、既存のユーザーのユーザー名または電子メールアドレスを入力します",

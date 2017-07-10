@@ -1,6 +1,6 @@
 {
     "Actions": {
-        "AvgGenerationTimeTooltip": "%3$s ～ %4$s の間の %2$s のヒット %1$s に基づく平均",
+        "AvgGenerationTimeTooltip": "%3$s ～ %4$s の間の %2$s のヒット ( 複数 ) %1$s に基づく平均",
         "ColumnClickedURL": "クリックされた URL",
         "ColumnActionURL": "アクション URL",
         "ColumnClicks": "クリック数",
@@ -27,6 +27,7 @@
         "ColumnUniqueDownloads": "ユニークダウンロード数",
         "ColumnUniqueOutlinks": "ユニーク外部リンク数",
         "ColumnIdPageview": "ページビューID",
+        "ColumnInteractionPosition": "インタラクションポジション",
         "DownloadsReportDocumentation": "訪問者がどのファイルをダウンロードしたか、についてのリポートです。%s Piwikはダウンロードリンクのクリック数をカウントします。ダウンロードが完了したかどうかは判別できません。",
         "EntryPagesReportDocumentation": "このレポートには、指定した期間中に使用されたエントリーのページに関する情報が含まれています。 エントリーページは、ユーザーが訪問中に見る最初のページです。%s エントリ URL は、フォルダ構造として表示されます。",
         "EntryPageTitles": "入口ページタイトル",

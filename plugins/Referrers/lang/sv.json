@@ -10,6 +10,7 @@
         "ColumnWebsite": "Webbplats",
         "ColumnWebsitePage": "Webbplatsens sida",
         "DirectEntry": "Direkttrafik",
+        "DirectEntryDocumentation": "En besökare har angett URL:en i sin webbläsare och besökt din webbplats - det är ett direktbesök.",
         "Distinct": "Distinkta hänvisningar av den refererande typen",
         "DistinctCampaigns": "distinkta kampanjer",
         "DistinctKeywords": "distinkta nyckelord",
