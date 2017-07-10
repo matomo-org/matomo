@@ -217,7 +217,8 @@
                 period: '',
                 date: '',
                 visitorId: $element.attr('data-visitor-id'),
-                filter_offset: $('.visitor-profile-visits>li', $element).length
+                filter_offset: $('.visitor-profile-visits>li', $element).length,
+                start_number: $('.visitor-profile-visits>li:last', $element).data('number') - 1
             }, 'GET');
             ajax.setCallback(function (response) {
                 if (response == "") { // no more visits left

@@ -53,7 +53,7 @@
             <div class="visitor-profile-visits-info">
                 <div class="visitor-profile-visits-container">
                     <ol class="visitor-profile-visits">
-                        {% include "@Live/getVisitList.twig" with {'visits': visitorData.lastVisits, 'startCounter': 1} %}
+                        {% include "@Live/getVisitList.twig" with {'visits': visitorData.lastVisits, 'startCounter': visitorData.totalVisits} %}
                     </ol>
                 </div>
                 <div class="visitor-profile-more-info">

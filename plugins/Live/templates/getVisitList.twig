@@ -1,5 +1,5 @@
 {% for visitInfo in visits.getRows() %}
-<li>
+<li data-number="{{ startCounter }}">
     <div>
         <div class="visitor-profile-visit-title-row">
             <h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}" title="{{ 'Live_ClickToViewMoreAboutVisit'|translate }}">
@@ -33,5 +33,5 @@
         </ol>
     </div>
 </li>
-{% set startCounter = startCounter + 1 %}
+{% set startCounter = startCounter - 1 %}
 {% endfor %}
