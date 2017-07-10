@@ -1,12 +1,11 @@
 {
-  "name": "ngDialog",
-  "version": "0.2.14",
+  "name": "ng-dialog",
   "homepage": "https://github.com/likeastore/ngDialog",
   "description": "Modal dialogs and popups provider for Angular.js applications",
   "main": [
-      "js/ngDialog.js",
-      "css/ngDialog.css",
-      "css/ngDialog-theme-default.css"
+    "js/ngDialog.js",
+    "css/ngDialog.css",
+    "css/ngDialog-theme-default.css"
   ],
   "keywords": [
     "angular.js",
@@ -33,6 +32,12 @@
     "Gruntfile.js"
   ],
   "dependencies": {
-    "angular": "~1"
+    "angular": ">=1.5"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.5"
+  },
+  "resolutions": {
+    "angular": "1.6.1"
   }
 }
