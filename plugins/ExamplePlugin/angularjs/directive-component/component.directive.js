@@ -22,7 +22,7 @@
         return {
             restrict: 'A',
             scope: {
-               // showAllSitesItem: '='
+               // showAllSitesItem: '<'
             },
             templateUrl: 'plugins/ExamplePlugin/angularjs/directive-component/component.directive.html?cb=' + piwik.cacheBuster,
             controller: 'ComponentController',
