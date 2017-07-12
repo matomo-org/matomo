@@ -1,0 +1,86 @@
+<div
+    id="periodString"
+    piwik-expand-on-click
+    class="piwikTopControl piwikSelector borderedControl periodSelector"
+>
+    <a
+        id="date"
+        class="title"
+        title="{{ 'General_ChooseDate'|translate:prettyDateLong }}"
+        tabindex="4"
+    >
+        <span class="icon icon-calendar"></span>
+        {{ prettyDate }}
+    </a>
+    <div id="periodMore" class="dropdown">
+        <table>
+            <tr>
+                <td>
+                    <div class="period-range" style="display:none;">
+                        <div id="calendarRangeFrom">
+                            <h6>
+                                {{ 'General_DateRangeFrom'|translate }}
+                                <input
+                                    tabindex="4"
+                                    type="text"
+                                    id="inputCalendarFrom"
+                                    name="inputCalendarFrom"
+                                    class="browser-default"
+                                />
+                            </h6>
+
+                            <div id="calendarFrom"></div>
+                        </div>
+                        <div id="calendarRangeTo">
+                            <h6>
+                                {{ 'General_DateRangeTo'|translate }}
+                                <input
+                                    tabindex="4"
+                                    type="text"
+                                    id="inputCalendarTo"
+                                    name="inputCalendarTo"
+                                    class="browser-default"
+                                />
+                            </h6>
+
+                            <div id="calendarTo"></div>
+                        </div>
+                    </div>
+                    <div class="period-date">
+                        <div id="datepicker"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="period-type">
+                        <h6>{{ 'General_Period'|translate }}</h6>
+                        <div id="otherPeriods">
+                            <p ng-repeat="period in periodSelector.periods">
+                                <input
+                                    type="radio"
+                                    name="period"
+                                    tabindex="4"
+                                    ng-attr-id="period_id_{{ period }}"
+                                    ng-checked="period === periodSelector.selectedPeriod"
+                                />
+
+                                <label ng-attr-for="period_id_{{ period }}">
+                                    {{ periodSelector.periodTranslations[period].singular }}
+                                </label>
+                            </p>
+                        </div>
+                        <input
+                            tabindex="4"
+                            type="submit"
+                            value="{{ 'General_Apply'|translate }}"
+                            id="calendarApply"
+                            class="btn"
+                        />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="period-click-tooltip" style="display:none;">
+        {{ 'General_ClickToChangePeriod'|translate }}
+    </div>
+</div>
