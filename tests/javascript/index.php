@@ -2873,7 +2873,7 @@ function PiwikTest() {
         
         tracker.setUserId('test');
         var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
-        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba615') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given ' + replacedUrl);
+        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba615') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should set browserId if a url is given');
 
         replacedUrl = makeReplaceHrefForCrossDomainLink(makeUrlWithVisitorId(true, currentTimestamp, 'foobar'));

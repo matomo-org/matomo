@@ -417,7 +417,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 strpos($file, '/tests/') !== false ||
                 strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
-                strpos($file, '/libs/') !== false ||
                 (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
                 strpos($file, '/tmp/') !== false ||
                 strpos($file, '/phantomjs/') !== false
