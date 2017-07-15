@@ -1,7 +1,5 @@
 <div
     piwik-period-selector
-    pretty-date="{{ prettyDate|e('html_attr') }}"
-    pretty-date-long="{{ prettyDateLong|e('html_attr') }}"
     periods="{{ periodsNames|keys|json_encode|e('html_attr') }}"
     period-translations="{{ periodsNames|json_encode|e('html_attr') }}"
 >

@@ -6,17 +6,20 @@
     <a
         id="date"
         class="title"
-        title="{{ 'General_ChooseDate'|translate:prettyDateLong }}"
+        title="{{ 'General_ChooseDate'|translate:periodSelector.getPrettyDate() }}"
         tabindex="4"
     >
         <span class="icon icon-calendar"></span>
-        {{ prettyDate }}
+        {{ periodSelector.getPrettyDate() }}
     </a>
     <div id="periodMore" class="dropdown">
         <table>
             <tr>
                 <td>
-                    <div class="period-range" style="display:none;">
+                    <div
+                        class="period-range"
+                        ng-if="periodSelector.selectedPeriod === 'range'"
+                    >
                         <div id="calendarRangeFrom">
                             <h6>
                                 {{ 'General_DateRangeFrom'|translate }}
@@ -26,10 +29,19 @@
                                     id="inputCalendarFrom"
                                     name="inputCalendarFrom"
                                     class="browser-default"
+                                    ng-model="periodSelector.startRangeDate"
+                                    ng-keyup="periodSelector.onRangeInputChanged('from', $event)"
                                 />
                             </h6>
 
-                            <div id="calendarFrom"></div>
+                            <div
+                                id="calendarFrom"
+                                piwik-date-picker
+                                view-date="periodSelector.startRangeDate"
+                                selected-dates="periodSelector.fromPickerSelectedDates"
+                                date-select="periodSelector.setStartRangeDate(date)"
+                            >
+                            </div>
                         </div>
                         <div id="calendarRangeTo">
                             <h6>
@@ -40,14 +52,38 @@
                                     id="inputCalendarTo"
                                     name="inputCalendarTo"
                                     class="browser-default"
+                                    ng-model="periodSelector.endRangeDate"
+                                    ng-keyup="periodSelector.onRangeInputChanged('to', $event)"
                                 />
                             </h6>
 
-                            <div id="calendarTo"></div>
+                            <div
+                                id="calendarTo"
+                                piwik-date-picker
+                                view-date="periodSelector.endRangeDate"
+                                selected-dates="periodSelector.toPickerSelectedDates"
+                                date-select="periodSelector.setEndRangeDate(date)"
+                            >
+                            </div>
                         </div>
                     </div>
-                    <div class="period-date">
-                        <div id="datepicker"></div>
+                    <div
+                        class="period-date"
+                        ng-if="periodSelector.selectedPeriod !== 'range'"
+                    >
+                        <div
+                            id="datepicker"
+                            piwik-date-picker
+                            selected-dates="periodSelector.selectedDates"
+                            highlighted-dates="periodSelector.highlightedDates"
+                            view-date="periodSelector.dateValue"
+                            step-months="periodSelector.getMonthStepCount()"
+                            disable-month-dropdown="periodSelector.selectedPeriod === 'year'"
+                            cell-hover="periodSelector.onHoverNormalCell(date, $cell)"
+                            cell-hover-leave="periodSelector.onHoverLeaveNormalCells()"
+                            date-select="periodSelector.setPiwikPeriodAndDate(periodSelector.selectedPeriod, date)"
+                        >
+                        </div>
                     </div>
                 </td>
                 <td>
@@ -60,10 +96,18 @@
                                     name="period"
                                     tabindex="4"
                                     ng-attr-id="period_id_{{ period }}"
-                                    ng-checked="period === periodSelector.selectedPeriod"
+                                    ng-model="periodSelector.selectedPeriod"
+                                    ng-value="period"
+                                    ng-change="periodSelector.onSelectPeriod(period, $event)"
+                                    ng-dblclick="periodSelector.changeViewedPeriod(period)"
                                 />
 
-                                <label ng-attr-for="period_id_{{ period }}">
+                                <label
+                                    ng-attr-for="period_id_{{ period }}"
+                                    ng-attr-title="{{ period === periodSelector.selectedPeriod ? '' : ('General_ClickToChangePeriod'|translate) }}"
+                                    ng-class="{'selected-period-label': period === periodSelector.selectedPeriod}"
+                                    ng-dblclick="periodSelector.changeViewedPeriod(period)"
+                                >
                                     {{ periodSelector.periodTranslations[period].singular }}
                                 </label>
                             </p>
@@ -74,13 +118,11 @@
                             value="{{ 'General_Apply'|translate }}"
                             id="calendarApply"
                             class="btn"
+                            ng-click="periodSelector.onApplyClicked()"
                         />
                     </div>
                 </td>
             </tr>
         </table>
-    </div>
-    <div class="period-click-tooltip" style="display:none;">
-        {{ 'General_ClickToChangePeriod'|translate }}
     </div>
 </div>
