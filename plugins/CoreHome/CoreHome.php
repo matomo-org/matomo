@@ -315,6 +315,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Intl_Day_Min_StandAlone_5';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_6';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_7';
+        $translationKeys[] = 'Intl_PeriodDay';
+        $translationKeys[] = 'Intl_PeriodWeek';
+        $translationKeys[] = 'Intl_PeriodMonth';
+        $translationKeys[] = 'Intl_PeriodYear';
+        $translationKeys[] = 'General_DateRangeInPeriodList';
         $translationKeys[] = 'General_And';
         $translationKeys[] = 'General_All';
         $translationKeys[] = 'General_Search';

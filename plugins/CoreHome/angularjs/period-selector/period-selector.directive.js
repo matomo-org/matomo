@@ -18,8 +18,7 @@
         return {
             restrict: 'A',
             scope: {
-                periods: '<',
-                periodTranslations: '<'
+                periods: '<'
             },
             templateUrl: 'plugins/CoreHome/angularjs/period-selector/period-selector.directive.html?cb=' + piwik.cacheBuster,
             controller: 'PeriodSelectorController',

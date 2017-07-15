@@ -1,6 +1,5 @@
 <div
     piwik-period-selector
-    periods="{{ periodsNames|keys|json_encode|e('html_attr') }}"
-    period-translations="{{ periodsNames|json_encode|e('html_attr') }}"
+    periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
 >
 </div>

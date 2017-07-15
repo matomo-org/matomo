@@ -26,6 +26,7 @@
         vm.setPiwikPeriodAndDate = setPiwikPeriodAndDate;
         vm.onApplyClicked = onApplyClicked;
         vm.updateSelectedValuesFromHash = updateSelectedValuesFromHash;
+        vm.getPeriodDisplayText = getPeriodDisplayText;
 
         vm.updateSelectedValuesFromHash();
         initTopControls(); // must be called when a top control changes width
@@ -41,14 +42,18 @@
                 vm.startRangeDate = parts[0];
                 vm.endRangeDate = parts[1];
 
-                vm.dateValue = parseDate(parts[0]);
+                vm.dateValue = piwikPeriods.parseDate(parts[0]);
             } else {
-                vm.dateValue = parseDate(search.date);
+                vm.dateValue = piwikPeriods.parseDate(search.date);
 
                 var range = piwikPeriods.parse(search.period, search.date).getDateRange();
                 vm.startRangeDate = formatDate(range[0]);
                 vm.endRangeDate = formatDate(range[1]);
             }
+        }
+
+        function getPeriodDisplayText(periodLabel) {
+            return piwikPeriods.get(periodLabel).getDisplayText();
         }
 
         function getCurrentlyViewingText() {
@@ -74,8 +79,8 @@
             if (vm.selectedPeriod === 'range') {
                 var dateFrom = vm.startRangeDate,
                     dateTo = vm.endRangeDate,
-                    oDateFrom = parseDate(dateFrom),
-                    oDateTo = parseDate(dateTo);
+                    oDateFrom = piwikPeriods.parseDate(dateFrom),
+                    oDateTo = piwikPeriods.parseDate(dateTo);
 
                 if (!isValidDate(oDateFrom)
                     || !isValidDate(oDateTo)
@@ -121,29 +126,6 @@
                 $search.period = period;
                 $location.search($search);
             }
-        }
-
-        function parseDate(strDate) {
-            if (strDate === 'today') {
-                return getToday();
-            }
-
-            if (strDate === 'yesterday') {
-                var yesterday = getToday();
-                yesterday.setDate(yesterday.getDate() - 1);
-                return yesterday;
-            }
-
-            return $.datepicker.parseDate('yy-mm-dd', strDate);
-        }
-
-        function getToday() {
-            var date = new Date();
-            date.setHours(0);
-            date.setMinutes(0);
-            date.setSeconds(0);
-            date.setMilliseconds(0);
-            return date;
         }
 
         function isValidDate(d) {

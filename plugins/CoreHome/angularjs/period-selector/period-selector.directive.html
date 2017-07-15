@@ -60,7 +60,7 @@
                                     ng-class="{'selected-period-label': period === periodSelector.selectedPeriod}"
                                     ng-dblclick="periodSelector.changeViewedPeriod(period)"
                                 >
-                                    {{ periodSelector.periodTranslations[period].singular }}
+                                    {{ periodSelector.getPeriodDisplayText(period) }}
                                 </label>
                             </p>
                         </div>

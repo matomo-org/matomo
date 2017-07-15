@@ -28,6 +28,8 @@
  *                       must be Date objects, not strings, and are inclusive.
  * - (_static_) **parse(strDate)**: creates a new instance of this period from the
  *                                  value of the 'date' query parameter.
+ * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
+ *                                  'week', etc.
  *
  * Then call piwik.addCustomPeriod w/ your period class:
  *
@@ -41,7 +43,7 @@
 (function () {
     angular.module('piwikApp.service').factory('piwikPeriods', piwikPeriods);
 
-    var periods = {};
+    var periods = {}, periodOrder = [];
 
     piwik.addCustomPeriod = addCustomPeriod;
 
@@ -51,6 +53,9 @@
     }
 
     DayPeriod.parse = singleDatePeriodFactory(DayPeriod);
+    DayPeriod.getDisplayText = function () {
+        return _pk_translate('Intl_PeriodDay');
+    };
 
     DayPeriod.prototype = {
         getPrettyString: function () {
@@ -70,6 +75,10 @@
     }
 
     WeekPeriod.parse = singleDatePeriodFactory(WeekPeriod);
+
+    WeekPeriod.getDisplayText = function () {
+        return _pk_translate('Intl_PeriodWeek');
+    };
 
     WeekPeriod.prototype = {
         getPrettyString: function () {
@@ -102,6 +111,10 @@
 
     MonthPeriod.parse = singleDatePeriodFactory(MonthPeriod);
 
+    MonthPeriod.getDisplayText = function () {
+        return _pk_translate('Intl_PeriodMonth');
+    };
+
     MonthPeriod.prototype = {
         getPrettyString: function () {
             return _pk_translate('Intl_Month_Long_StandAlone_' + (this.dateInPeriod.getMonth() + 1)) + ' ' +
@@ -128,6 +141,10 @@
     }
 
     YearPeriod.parse = singleDatePeriodFactory(YearPeriod);
+
+    YearPeriod.getDisplayText = function () {
+        return _pk_translate('Intl_PeriodYear');
+    };
 
     YearPeriod.prototype = {
         getPrettyString: function () {
@@ -163,6 +180,10 @@
         return new RangePeriod(start, end);
     };
 
+    RangePeriod.getDisplayText = function () {
+        return _pk_translate('General_DateRangeInPeriodList');
+    };
+
     RangePeriod.prototype = {
         getPrettyString: function () {
             var start = $.datepicker.formatDate('yy-mm-dd', this.startDate);
@@ -180,9 +201,15 @@
     // piwikPeriods service
     function piwikPeriods() {
         return {
+            getAllLabels: getAllLabels,
             get: get,
-            parse: parse
+            parse: parse,
+            parseDate: parseDate
         };
+
+        function getAllLabels() {
+            return [].concat(periodOrder);
+        }
 
         function get(strPeriod) {
             var periodClass = periods[strPeriod];
@@ -196,6 +223,7 @@
         function parse(strPeriod, strDate) {
             return get(strPeriod).parse(strDate);
         }
+
     }
 
     function addCustomPeriod(name, periodClass) {
@@ -204,11 +232,35 @@
         }
 
         periods[name] = periodClass;
+        periodOrder.push(name);
     }
 
     function singleDatePeriodFactory(periodClass) {
         return function (strDate) {
-            return new periodClass($.datepicker.parseDate('yy-mm-dd', strDate));
+            return new periodClass(parseDate(strDate));
         };
+    }
+
+    function parseDate(strDate) {
+        if (strDate === 'today') {
+            return getToday();
+        }
+
+        if (strDate === 'yesterday') {
+            var yesterday = getToday();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday;
+        }
+
+        return $.datepicker.parseDate('yy-mm-dd', strDate);
+    }
+
+    function getToday() {
+        var date = new Date();
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+        return date;
     }
 })();
