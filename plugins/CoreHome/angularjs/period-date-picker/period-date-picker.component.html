@@ -1,0 +1,12 @@
+<div
+    piwik-date-picker
+    selected-dates="$ctrl.selectedDates"
+    highlighted-dates="$ctrl.highlightedDates"
+    view-date="$ctrl.date"
+    step-months="$ctrl.period === 'year' ? 12 : 1"
+    disable-month-dropdown="$ctrl.period === 'year'"
+    cell-hover="$ctrl.onHoverNormalCell(date, $cell)"
+    cell-hover-leave="$ctrl.onHoverLeaveNormalCells()"
+    date-select="$ctrl.onDateSelected(date)"
+>
+</div>

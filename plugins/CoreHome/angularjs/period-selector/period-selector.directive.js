@@ -12,9 +12,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikPeriodSelector', piwikPeriodSelector);
 
-    piwikPeriodSelector.$inject = ['piwik', '$location'];
+    piwikPeriodSelector.$inject = ['piwik', '$location', 'piwikPeriods'];
 
-    function piwikPeriodSelector(piwik, $location) {
+    function piwikPeriodSelector(piwik, $location, piwikPeriods) {
         return {
             restrict: 'A',
             scope: {
@@ -26,23 +26,16 @@
             controllerAs: 'periodSelector',
             bindToController: true,
             link: function (scope, element) {
+                // the period & date currently being viewed
                 scope.periodSelector.periodValue = null;
                 scope.periodSelector.dateValue = null;
 
                 scope.periodSelector.selectedPeriod = null;
-                scope.periodSelector.selectedDate = null;
-
-                scope.periodSelector.selectedDates = null;
-                scope.periodSelector.highlightedDates = null;
 
                 scope.periodSelector.startRangeDate = null;
                 scope.periodSelector.endRangeDate = null;
 
-                scope.periodSelector.getPrettyDate = getPrettyDate;
-                scope.periodSelector.onHoverNormalCell = onHoverNormalCell;
-                scope.periodSelector.onHoverLeaveNormalCells = onHoverLeaveNormalCells;
-                scope.periodSelector.getMonthStepCount = getMonthStepCount;
-                scope.periodSelector.onSelectPeriod = onSelectPeriod;
+                scope.periodSelector.getCurrentlyViewingText = getCurrentlyViewingText;
                 scope.periodSelector.changeViewedPeriod = changeViewedPeriod;
                 scope.periodSelector.setPiwikPeriodAndDate = setPiwikPeriodAndDate;
                 scope.periodSelector.onApplyClicked = onApplyClicked;
@@ -56,56 +49,18 @@
                     var search = $location.search();
 
                     scope.periodSelector.periodValue = search.period;
-                    scope.periodSelector.dateValue = search.date.indexOf(',') === -1 ? parseDate(search.date) : parseDate(search.date.split(',')[0]);
+                    scope.periodSelector.dateValue = search.date.indexOf(',') === -1 ? parseDate(search.date) :
+                        parseDate(search.date.split(',')[0]);
 
                     scope.periodSelector.selectedPeriod = scope.periodSelector.periodValue;
-                    scope.periodSelector.selectedDate = scope.periodSelector.dateValue;
 
                     scope.periodSelector.startRangeDate = piwik.startDateString;
                     scope.periodSelector.endRangeDate = piwik.endDateString;
-
-                    setSelectedDateRange();
                 }
 
-                function getPrettyDate() {
-                    var period = scope.periodSelector.periodValue;
-                    var date = scope.periodSelector.dateValue;
-
-                    if (period === 'month') {
-                        return _pk_translate('Intl_Month_Long_StandAlone_' + (date.getMonth() + 1)) + ' ' + date.getFullYear();
-                    } else if (period === 'year') {
-                        return date.getFullYear();
-                    } else if (period === 'week') {
-                        var weekDates = getDateRangeForPeriod(period, date);
-                        var startWeek = $.datepicker.formatDate('yy-mm-dd', weekDates[0]);
-                        var endWeek = $.datepicker.formatDate('yy-mm-dd', weekDates[1]);
-
-                        return _pk_translate('General_DateRangeFromTo', [startWeek, endWeek]);
-                    } else if (period === 'range') {
-                        return _pk_translate('General_DateRangeFromTo', [piwik.startDateString, piwik.endDateString]);
-                    } else {
-                        return $.datepicker.formatDate('yy-mm-dd', date);
-                    }
-                }
-
-                function onHoverNormalCell(cellDate, $cell) {
-                    // don't highlight anything if the period is month, and we're hovering over calendar whitespace.
-                    // since there are no dates, it's doesn't make sense what you're selecting.
-                    if ($cell.hasClass('ui-datepicker-other-month') && scope.periodSelector.selectedPeriod === 'month') {
-                        scope.periodSelector.highlightedDates = null;
-                        return;
-                    }
-
-                    scope.periodSelector.highlightedDates = getDateRangeForPeriod(scope.periodSelector.selectedPeriod, cellDate);
-                }
-
-                function onHoverLeaveNormalCells() {
-                    scope.periodSelector.highlightedDates = null;
-                }
-
-                function onSelectPeriod(period) {
-                    scope.periodSelector.selectedPeriod = period;
-                    setSelectedDateRange();
+                function getCurrentlyViewingText() {
+                    var search = $location.search();
+                    return piwikPeriods.parse(search.period, search.date).getPrettyString();
                 }
 
                 function changeViewedPeriod(period) {
@@ -152,10 +107,9 @@
                     date = date || scope.periodSelector.dateValue;
 
                     piwik.period = period;
+                    piwik.currentDateString = $.datepicker.formatDate('yy-mm-dd', date);
 
-                    var dateRange = getDateRangeForPeriod(period, date);
-
-                    piwik.currentDateString = $.datepicker.formatDate('yy-mm-dd', date); // TODO: abstract these parse/formatdate calls
+                    var dateRange = piwikPeriods.parse(period, piwik.currentDateString).getDateRange();
                     piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
                     piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
 
@@ -173,58 +127,6 @@
                         $search.date = date;
                         $search.period = period;
                         $location.search($search);
-                    }
-                }
-
-                function setSelectedDateRange() {
-                    if (scope.periodSelector.periodValue !== scope.periodSelector.selectedPeriod) {
-                        scope.periodSelector.selectedDates = null;
-                        return;
-                    }
-
-                    scope.periodSelector.selectedDates = getDateRangeForPeriod(scope.periodSelector.periodValue,
-                        scope.periodSelector.dateValue);
-                }
-
-                function getMonthStepCount() {
-                    return scope.periodSelector.selectedPeriod === 'year' ? 12 : 1;
-                }
-
-                function getDateRangeForPeriod(period, date) {
-                    switch (period) {
-                        case 'day':
-                            return [date, date];
-                        case 'week':
-                            var daysToMonday = (date.getDay() + 6) % 7;
-
-                            var startWeek = new Date(date.getTime());
-                            startWeek.setDate(date.getDate() - daysToMonday);
-
-                            var endWeek = new Date(startWeek.getTime());
-                            endWeek.setDate(startWeek.getDate() + 6);
-
-                            return [startWeek, endWeek];
-                        case 'month':
-                            var startMonth = new Date(date.getTime());
-                            startMonth.setDate(1);
-
-                            var endMonth = new Date(date.getTime());
-                            endMonth.setMonth(endMonth.getMonth() + 1);
-                            endMonth.setDate(0);
-
-                            return [startMonth, endMonth];
-                        case 'year':
-                            var startYear = new Date(date.getTime());
-                            startYear.setMonth(0);
-                            startYear.setDate(1);
-
-                            var endYear = new Date(date.getTime());
-                            endYear.setMonth(12);
-                            endYear.setDate(0);
-
-                            return [startYear, endYear];
-                        default:
-                            return [];
                     }
                 }
 

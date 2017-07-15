@@ -71,6 +71,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
     }
 
@@ -122,6 +123,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-url.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/report-metadata-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/reporting-pages-model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/periods.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
@@ -202,6 +204,7 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/date-picker/date-picker.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";

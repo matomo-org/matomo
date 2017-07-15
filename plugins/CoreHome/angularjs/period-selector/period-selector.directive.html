@@ -6,11 +6,11 @@
     <a
         id="date"
         class="title"
-        title="{{ 'General_ChooseDate'|translate:periodSelector.getPrettyDate() }}"
+        title="{{ 'General_ChooseDate'|translate:periodSelector.getCurrentlyViewingText() }}"
         tabindex="4"
     >
         <span class="icon icon-calendar"></span>
-        {{ periodSelector.getPrettyDate() }}
+        {{ periodSelector.getCurrentlyViewingText() }}
     </a>
     <div id="periodMore" class="dropdown">
         <table>
@@ -29,19 +29,13 @@
                         class="period-date"
                         ng-show="periodSelector.selectedPeriod !== 'range'"
                     >
-                        <div
+                        <piwik-period-date-picker
                             id="datepicker"
-                            piwik-date-picker
-                            selected-dates="periodSelector.selectedDates"
-                            highlighted-dates="periodSelector.highlightedDates"
-                            view-date="periodSelector.dateValue"
-                            step-months="periodSelector.getMonthStepCount()"
-                            disable-month-dropdown="periodSelector.selectedPeriod === 'year'"
-                            cell-hover="periodSelector.onHoverNormalCell(date, $cell)"
-                            cell-hover-leave="periodSelector.onHoverLeaveNormalCells()"
-                            date-select="periodSelector.setPiwikPeriodAndDate(periodSelector.selectedPeriod, date)"
+                            period="periodSelector.selectedPeriod"
+                            date="periodSelector.periodValue === periodSelector.selectedPeriod ? periodSelector.dateValue : null"
+                            select="periodSelector.setPiwikPeriodAndDate(periodSelector.selectedPeriod, date)"
                         >
-                        </div>
+                        </piwik-period-date-picker>
                     </div>
                 </td>
                 <td>
@@ -56,7 +50,7 @@
                                     ng-attr-id="period_id_{{ period }}"
                                     ng-model="periodSelector.selectedPeriod"
                                     ng-value="period"
-                                    ng-change="periodSelector.onSelectPeriod(period, $event)"
+                                    ng-change="periodSelector.selectedPeriod = period"
                                     ng-dblclick="periodSelector.changeViewedPeriod(period)"
                                 />
 
