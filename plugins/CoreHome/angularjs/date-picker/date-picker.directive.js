@@ -95,11 +95,6 @@
 
                 scope.$watch('disableMonthDropdown', enableDisableMonthDropdown);
 
-                // make sure cell stays highlighted when mouse leaves cell (overrides jquery-ui behavior)
-                element.on('mouseout', 'tbody td a', function () {
-                    $(this).addClass('ui-state-hover');
-                });
-
                 element.on('mouseover', 'tbody td a', setDatePickerCellColors);
 
                 // on hover cell, execute scope.cellHover()
@@ -108,8 +103,10 @@
                         return;
                     }
 
+                    var monthYear = getMonthYearDisplayed();
+
                     var $dateCell = $(this);
-                    var dateValue = getCellDate($dateCell);
+                    var dateValue = getCellDate($dateCell, monthYear[0], monthYear[1]);
                     scope.cellHover({ date: dateValue, $cell: $dateCell });
 
                     $timeout(); // trigger new digest
@@ -188,14 +185,23 @@
                     // unhighlight datepicker's "current day"
                     $calendarTable.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day');
 
+                    var monthYear = getMonthYearDisplayed();
+
                     var $firstDateCell = $calendarTable.find('td').first();
-                    var currentDate = getCellDate($firstDateCell);
+                    var currentDate = getCellDate($firstDateCell, monthYear[0], monthYear[1]);
 
                     $calendarTable.find('td').each(function () {
                         setDateCellColor($(this), currentDate);
 
                         currentDate.setDate(currentDate.getDate() + 1);
                     });
+                }
+
+                function getMonthYearDisplayed() {
+                    var $firstCellWithMonth = element.find('td[data-month]');
+                    var month = parseInt($firstCellWithMonth.attr('data-month'));
+                    var year = parseInt($firstCellWithMonth.attr('data-year'));
+                    return [month, year];
                 }
 
                 function setDateCellColor($dateCell, dateValue) {
@@ -224,19 +230,17 @@
                     }
                 }
 
-                function getCellDate($dateCell) {
+                function getCellDate($dateCell, month, year) {
                     if ($dateCell.hasClass('ui-datepicker-other-month')) {
-                        return getOtherMonthDate($dateCell);
+                        return getOtherMonthDate($dateCell, month, year);
                     }
 
-                    var month = parseInt($dateCell.attr('data-month'));
-                    var year = parseInt($dateCell.attr('data-year'));
-                    var day = parseInt($dateCell.children('a').text());
+                    var day = parseInt($dateCell.children('a,span').text());
 
                     return new Date(year, month, day);
                 }
 
-                function getOtherMonthDate($dateCell) {
+                function getOtherMonthDate($dateCell, month, year) {
                     var date;
 
                     var $row = $dateCell.parent();
@@ -244,18 +248,18 @@
 
                     // if in the first row, the date cell is before the current month
                     if ($row.is(':first-child')) {
-                        var $firstDateInMonth = $row.children('td[data-month]').first();
+                        var $firstDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').first();
 
-                        date = getCellDate($firstDateInMonth);
+                        date = getCellDate($firstDateInMonth, month, year);
                         date.setDate($rowCells.index($dateCell) - $rowCells.index($firstDateInMonth) + 1);
                         return date;
                     }
 
                     // the date cell is after the current month
-                    var $lastDateInMonth = $row.children('td[data-month]').last();
+                    var $lastDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').last();
 
-                    date = getCellDate($lastDateInMonth);
-                    date.setDate($rowCells.index($dateCell) - $rowCells.index($lastDateInMonth) + 1);
+                    date = getCellDate($lastDateInMonth, month, year);
+                    date.setDate(date.getDate() + $rowCells.index($dateCell) - $rowCells.index($lastDateInMonth));
                     return date;
                 }
 

@@ -36,23 +36,32 @@
     function DateRangePickerController() {
         var vm = this;
 
-        try {
-            var startDateParsed = $.datepicker.parseDate('yy-mm-dd', vm.startDate);
-            vm.fromPickerSelectedDates = [startDateParsed, startDateParsed];
-        } catch (e) {
-            // ignore
-        }
+        vm.fromPickerSelectedDates = null;
+        vm.toPickerSelectedDates = null;
+        vm.fromPickerHighlightedDates = null;
+        vm.toPickerHighlightedDates = null;
 
-        try {
-            var endDateParsed = $.datepicker.parseDate('yy-mm-dd', vm.endDate);
-            vm.toPickerSelectedDates = [endDateParsed, endDateParsed];
-        } catch (e) {
-            // ignore
-        }
-
+        vm.$onChanges = $onChanges;
         vm.setStartRangeDate = setStartRangeDate;
         vm.setEndRangeDate = setEndRangeDate;
         vm.onRangeInputChanged = onRangeInputChanged;
+        vm.getNewHighlightedDates = getNewHighlightedDates;
+
+        function $onChanges() {
+            try {
+                var startDateParsed = $.datepicker.parseDate('yy-mm-dd', vm.startDate);
+                vm.fromPickerSelectedDates = [startDateParsed, startDateParsed];
+            } catch (e) {
+                // ignore
+            }
+
+            try {
+                var endDateParsed = $.datepicker.parseDate('yy-mm-dd', vm.endDate);
+                vm.toPickerSelectedDates = [endDateParsed, endDateParsed];
+            } catch (e) {
+                // ignore
+            }
+        }
 
         function onRangeInputChanged(source, $event) {
             var dateStr = source === 'from' ? vm.startDate : vm.endDate;
@@ -103,6 +112,14 @@
                 start: vm.startDate,
                 end: vm.endDate
             });
+        }
+
+        function getNewHighlightedDates(date, $cell) {
+            if ($cell.hasClass('ui-datepicker-unselectable')) {
+                return null;
+            }
+
+            return [date, date];
         }
     }
 })();

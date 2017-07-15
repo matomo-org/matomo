@@ -31,11 +31,13 @@
         controller: PeriodDatePickerController
     });
 
-    PeriodDatePickerController.$inject = ['piwikPeriods'];
+    PeriodDatePickerController.$inject = ['piwikPeriods', 'piwik'];
 
-    function PeriodDatePickerController(piwikPeriods) {
+    function PeriodDatePickerController(piwikPeriods, piwik) {
+        var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
+            piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
+
         var vm = this;
-
         vm.selectedDates = null;
         vm.highlightedDates = null;
         vm.onHoverNormalCell = onHoverNormalCell;
@@ -44,15 +46,21 @@
         vm.$onChanges = $onChanges;
 
         function onHoverNormalCell(cellDate, $cell) {
-            // don't highlight anything if the period is month, and we're hovering over calendar whitespace.
+            var isOutOfMinMaxDateRange = cellDate < piwikMinDate || cellDate > piwikMaxDate;
+
+            // don't highlight anything if the period is month or day, and we're hovering over calendar whitespace.
             // since there are no dates, it's doesn't make sense what you're selecting.
-            if ($cell.hasClass('ui-datepicker-other-month') && vm.period === 'month') {
+            var shouldNotHighlightFromWhitespace = $cell.hasClass('ui-datepicker-other-month') && (vm.period === 'month'
+                || vm.period === 'day');
+
+            if (isOutOfMinMaxDateRange
+                || shouldNotHighlightFromWhitespace
+            ) {
                 vm.highlightedDates = null;
                 return;
             }
 
-            var periodClass = piwikPeriods.get(vm.period);
-            vm.highlightedDates = (new periodClass(cellDate)).getDateRange();
+            vm.highlightedDates = getBoundedDateRange(cellDate);
         }
 
         function onHoverLeaveNormalCells() {
@@ -65,8 +73,7 @@
                 return;
             }
 
-            var periodClass = piwikPeriods.get(vm.period);
-            vm.selectedDates = (new periodClass(vm.date)).getDateRange();
+            vm.selectedDates = getBoundedDateRange(vm.date);
         }
 
         function onDateSelected(date) {
@@ -75,6 +82,17 @@
             }
 
             vm.select({ date: date });
+        }
+
+        function getBoundedDateRange(date) {
+            var periodClass = piwikPeriods.get(vm.period);
+            var dates = (new periodClass(date)).getDateRange();
+
+            // make sure highlighted date range is within min/max date range
+            dates[0] = piwikMinDate < dates[0] ? dates[0] : piwikMinDate;
+            dates[1] = piwikMaxDate > dates[1] ? dates[1] : piwikMaxDate;
+
+            return dates;
         }
     }
 })();

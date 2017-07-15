@@ -17,7 +17,10 @@
         piwik-date-picker
         view-date="$ctrl.startDate"
         selected-dates="$ctrl.fromPickerSelectedDates"
+        highlighted-dates="$ctrl.fromPickerHighlightedDates"
         date-select="$ctrl.setStartRangeDate(date)"
+        cell-hover="$ctrl.fromPickerHighlightedDates = $ctrl.getNewHighlightedDates(date, $cell)"
+        cell-hover-leave="$ctrl.fromPickerHighlightedDates = null"
     >
     </div>
 </div>
@@ -40,7 +43,10 @@
         piwik-date-picker
         view-date="$ctrl.endRangeDate"
         selected-dates="$ctrl.toPickerSelectedDates"
+        highlighted-dates="$ctrl.toPickerHighlightedDates"
         date-select="$ctrl.setEndRangeDate(date)"
+        cell-hover="$ctrl.toPickerHighlightedDates = $ctrl.getNewHighlightedDates(date, $cell)"
+        cell-hover-leave="$ctrl.toPickerHighlightedDates = null"
     >
     </div>
 </div>

@@ -49,13 +49,21 @@
                     var search = $location.search();
 
                     scope.periodSelector.periodValue = search.period;
-                    scope.periodSelector.dateValue = search.date.indexOf(',') === -1 ? parseDate(search.date) :
-                        parseDate(search.date.split(',')[0]);
+                    scope.periodSelector.selectedPeriod = search.period;
 
-                    scope.periodSelector.selectedPeriod = scope.periodSelector.periodValue;
+                    if (search.period === 'range') {
+                        var parts = search.date.split(',');
+                        scope.periodSelector.startRangeDate = parts[0];
+                        scope.periodSelector.endRangeDate = parts[1];
 
-                    scope.periodSelector.startRangeDate = piwik.startDateString;
-                    scope.periodSelector.endRangeDate = piwik.endDateString;
+                        scope.periodSelector.dateValue = parseDate(parts[0]);
+                    } else {
+                        scope.periodSelector.dateValue = parseDate(search.date);
+
+                        var range = piwikPeriods.parse(search.period, search.date).getDateRange();
+                        scope.periodSelector.startRangeDate = $.datepicker.formatDate('yy-mm-dd', range[0]);
+                        scope.periodSelector.endRangeDate = $.datepicker.formatDate('yy-mm-dd', range[1]);
+                    }
                 }
 
                 function getCurrentlyViewingText() {
