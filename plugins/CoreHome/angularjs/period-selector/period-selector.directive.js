@@ -38,9 +38,6 @@
                 scope.periodSelector.startRangeDate = null;
                 scope.periodSelector.endRangeDate = null;
 
-                scope.periodSelector.fromPickerSelectedDates = null;
-                scope.periodSelector.toPickerSelectedDates = null;
-
                 scope.periodSelector.getPrettyDate = getPrettyDate;
                 scope.periodSelector.onHoverNormalCell = onHoverNormalCell;
                 scope.periodSelector.onHoverLeaveNormalCells = onHoverLeaveNormalCells;
@@ -49,9 +46,6 @@
                 scope.periodSelector.changeViewedPeriod = changeViewedPeriod;
                 scope.periodSelector.setPiwikPeriodAndDate = setPiwikPeriodAndDate;
                 scope.periodSelector.onApplyClicked = onApplyClicked;
-                scope.periodSelector.setStartRangeDate = setStartRangeDate;
-                scope.periodSelector.setEndRangeDate = setEndRangeDate;
-                scope.periodSelector.onRangeInputChanged = onRangeInputChanged;
 
                 scope.$on('$locationChangeSuccess', updateSelectedValuesFromHash);
 
@@ -70,41 +64,7 @@
                     scope.periodSelector.startRangeDate = piwik.startDateString;
                     scope.periodSelector.endRangeDate = piwik.endDateString;
 
-                    scope.periodSelector.fromPickerSelectedDates = [parseDate(scope.periodSelector.startRangeDate), parseDate(scope.periodSelector.startRangeDate)];
-                    scope.periodSelector.toPickerSelectedDates = [parseDate(scope.periodSelector.endRangeDate), parseDate(scope.periodSelector.endRangeDate)];
-
                     setSelectedDateRange();
-                }
-
-                function setStartRangeDate(date) {
-                    scope.periodSelector.startRangeDate = $.datepicker.formatDate('yy-mm-dd', date);
-                    scope.periodSelector.fromPickerSelectedDates = [date, date];
-                }
-
-                function setEndRangeDate(date) {
-                    scope.periodSelector.endRangeDate = $.datepicker.formatDate('yy-mm-dd', date);
-                    scope.periodSelector.toPickerSelectedDates = [date, date];
-                }
-
-                function onRangeInputChanged(source, $event) {
-                    var dateStr = source === 'from' ? scope.periodSelector.startRangeDate : scope.periodSelector.endRangeDate;
-
-                    var date;
-                    try {
-                        date = $.datepicker.parseDate('yy-mm-dd', dateStr);
-                    } catch (e) {
-                        return;
-                    }
-
-                    if (source === 'from') {
-                        scope.periodSelector.fromPickerSelectedDates = [date, date];
-                    } else {
-                        scope.periodSelector.toPickerSelectedDates = [date, date];
-                    }
-
-                    if ($event.keyCode === 13) {
-                        onApplyClicked();
-                    }
                 }
 
                 function getPrettyDate() {

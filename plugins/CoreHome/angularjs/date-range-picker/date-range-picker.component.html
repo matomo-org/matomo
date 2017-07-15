@@ -1,0 +1,46 @@
+<div id="calendarRangeFrom">
+    <h6>
+        {{ 'General_DateRangeFrom'|translate }}
+        <input
+            tabindex="4"
+            type="text"
+            id="inputCalendarFrom"
+            name="inputCalendarFrom"
+            class="browser-default"
+            ng-model="$ctrl.startDate"
+            ng-keyup="$ctrl.onRangeInputChanged('from', $event)"
+        />
+    </h6>
+
+    <div
+        id="calendarFrom"
+        piwik-date-picker
+        view-date="$ctrl.startDate"
+        selected-dates="$ctrl.fromPickerSelectedDates"
+        date-select="$ctrl.setStartRangeDate(date)"
+    >
+    </div>
+</div>
+<div id="calendarRangeTo">
+    <h6>
+        {{ 'General_DateRangeTo'|translate }}
+        <input
+            tabindex="4"
+            type="text"
+            id="inputCalendarTo"
+            name="inputCalendarTo"
+            class="browser-default"
+            ng-model="$ctrl.endDate"
+            ng-keyup="$ctrl.onRangeInputChanged('to', $event)"
+        />
+    </h6>
+
+    <div
+        id="calendarTo"
+        piwik-date-picker
+        view-date="$ctrl.endRangeDate"
+        selected-dates="$ctrl.toPickerSelectedDates"
+        date-select="$ctrl.setEndRangeDate(date)"
+    >
+    </div>
+</div>

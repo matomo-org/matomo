@@ -16,60 +16,18 @@
         <table>
             <tr>
                 <td>
-                    <div
+                    <piwik-date-range-picker
+                        ng-show="periodSelector.selectedPeriod === 'range'"
                         class="period-range"
-                        ng-if="periodSelector.selectedPeriod === 'range'"
+                        start-date="periodSelector.startRangeDate"
+                        end-date="periodSelector.endRangeDate"
+                        range-change="periodSelector.startRangeDate = start; periodSelector.endRangeDate = end"
+                        submit="periodSelector.onApplyClicked()"
                     >
-                        <div id="calendarRangeFrom">
-                            <h6>
-                                {{ 'General_DateRangeFrom'|translate }}
-                                <input
-                                    tabindex="4"
-                                    type="text"
-                                    id="inputCalendarFrom"
-                                    name="inputCalendarFrom"
-                                    class="browser-default"
-                                    ng-model="periodSelector.startRangeDate"
-                                    ng-keyup="periodSelector.onRangeInputChanged('from', $event)"
-                                />
-                            </h6>
-
-                            <div
-                                id="calendarFrom"
-                                piwik-date-picker
-                                view-date="periodSelector.startRangeDate"
-                                selected-dates="periodSelector.fromPickerSelectedDates"
-                                date-select="periodSelector.setStartRangeDate(date)"
-                            >
-                            </div>
-                        </div>
-                        <div id="calendarRangeTo">
-                            <h6>
-                                {{ 'General_DateRangeTo'|translate }}
-                                <input
-                                    tabindex="4"
-                                    type="text"
-                                    id="inputCalendarTo"
-                                    name="inputCalendarTo"
-                                    class="browser-default"
-                                    ng-model="periodSelector.endRangeDate"
-                                    ng-keyup="periodSelector.onRangeInputChanged('to', $event)"
-                                />
-                            </h6>
-
-                            <div
-                                id="calendarTo"
-                                piwik-date-picker
-                                view-date="periodSelector.endRangeDate"
-                                selected-dates="periodSelector.toPickerSelectedDates"
-                                date-select="periodSelector.setEndRangeDate(date)"
-                            >
-                            </div>
-                        </div>
-                    </div>
+                    </piwik-date-range-picker>
                     <div
                         class="period-date"
-                        ng-if="periodSelector.selectedPeriod !== 'range'"
+                        ng-show="periodSelector.selectedPeriod !== 'range'"
                     >
                         <div
                             id="datepicker"
