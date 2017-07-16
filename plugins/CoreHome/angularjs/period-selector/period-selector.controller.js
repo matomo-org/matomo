@@ -21,6 +21,8 @@
         vm.startRangeDate = null;
         vm.endRangeDate = null;
 
+        vm.isLoadingNewPage = false;
+
         vm.getCurrentlyViewingText = getCurrentlyViewingText;
         vm.changeViewedPeriod = changeViewedPeriod;
         vm.setPiwikPeriodAndDate = setPiwikPeriodAndDate;
@@ -32,24 +34,35 @@
         initTopControls(); // must be called when a top control changes width
 
         function updateSelectedValuesFromHash() {
-            var search = $location.search();
+            var strDate = getQueryParamValue('date');
+            var strPeriod = getQueryParamValue('period');
 
-            vm.periodValue = search.period;
-            vm.selectedPeriod = search.period;
+            vm.periodValue = strPeriod;
+            vm.selectedPeriod = strPeriod;
 
-            if (search.period === 'range') {
-                var parts = search.date.split(',');
+            if (strPeriod === 'range') {
+                var parts = strDate.split(',');
                 vm.startRangeDate = parts[0];
                 vm.endRangeDate = parts[1];
 
                 vm.dateValue = piwikPeriods.parseDate(parts[0]);
             } else {
-                vm.dateValue = piwikPeriods.parseDate(search.date);
+                vm.dateValue = piwikPeriods.parseDate(strDate);
 
-                var range = piwikPeriods.parse(search.period, search.date).getDateRange();
+                var range = piwikPeriods.parse(strPeriod, strDate).getDateRange();
                 vm.startRangeDate = formatDate(range[0]);
                 vm.endRangeDate = formatDate(range[1]);
             }
+        }
+
+        function getQueryParamValue(name) {
+            // $location doesn't parse the URL before the hashbang, but it can hold the query param
+            // values, if the page doesn't have the hashbang.
+            var result = $location.search()[name];
+            if (!result) {
+                result = broadcast.getValueFromUrl(name);
+            }
+            return result;
         }
 
         function getPeriodDisplayText(periodLabel) {
@@ -57,8 +70,10 @@
         }
 
         function getCurrentlyViewingText() {
-            var search = $location.search();
-            return piwikPeriods.parse(search.period, search.date).getPrettyString();
+            var strDate = getQueryParamValue('date');
+            var strPeriod = getQueryParamValue('period');
+
+            return piwikPeriods.parse(strPeriod, strDate).getPrettyString();
         }
 
         function changeViewedPeriod(period) {
@@ -88,7 +103,7 @@
                 ) {
                     // TODO: use a notification instead?
                     $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange'));
-                    piwikHelper.modalConfirm('#alert', {});
+                    piwik.helper.modalConfirm('#alert', {});
                     return;
                 }
 
@@ -101,8 +116,8 @@
         }
 
         function setPiwikPeriodAndDate(period, date) {
-            period = period || vm.periodValue;
-            date = date || vm.dateValue;
+            vm.selectedPeriod = period;
+            vm.dateValue = date;
 
             piwik.period = period;
             piwik.currentDateString = formatDate(date);
@@ -116,16 +131,26 @@
         }
 
         function propagateNewUrlParams(date, period) {
-            vm.closePeriodSelector(); // defined in directive
+            if (piwik.helper.isAngularRenderingThePage()) {
+                vm.closePeriodSelector(); // defined in directive
 
-            var $search = $location.search();
-            if (date !== $search.date || period !== $search.period) {
-                // eg when using back button the date might be actually already changed in the URL and we do not
-                // want to change the URL again
-                $search.date = date;
-                $search.period = period;
-                $location.search($search);
+                var $search = $location.search();
+                if (date !== $search.date || period !== $search.period) {
+                    // eg when using back button the date might be actually already changed in the URL and we do not
+                    // want to change the URL again
+                    $search.date = date;
+                    $search.period = period;
+                    $location.search($search);
+                }
+
+                return;
             }
+
+            vm.isLoadingNewPage = true;
+
+            // not in an angular context (eg, embedded dashboard), so must actually
+            // change the URL
+            broadcast.propagateNewPage('date=' + date + '&period=' + period);
         }
 
         function isValidDate(d) {
