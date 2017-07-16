@@ -305,6 +305,8 @@
         "Format_Date_Day_Month": "MMM d일 (E)",
         "Format_Date_Long": "y년 M월 d일 EEEE",
         "Format_Date_Short": "y. M. d.",
+        "Format_Hour_12": "a h시",
+        "Format_Hour_24": "H시",
         "Format_Interval_Long_D": "y년 M월 d일~d일",
         "Format_Interval_Long_M": "y년 M월 d일 ~ M월 d일",
         "Format_Interval_Long_Y": "y년 M월 d일 ~ y년 M월 d일",
