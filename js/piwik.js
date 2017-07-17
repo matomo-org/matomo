@@ -3090,7 +3090,7 @@ if (typeof window.Piwik !== 'object') {
                 configVisitorIdUrlParameter = 'pk_vid',
 
                 // Cross domain linking, the visitor ID is transmitted only in the 180 seconds following the click.
-                configVisitorIdUrlParameterTimeoutInSeconds = 120,
+                configVisitorIdUrlParameterTimeoutInSeconds = 180,
 
                 // First-party cookie domain
                 // User agent defaults to origin hostname
@@ -3802,14 +3802,13 @@ if (typeof window.Piwik !== 'object') {
                     // we only reuse visitorId when used on same device / browser
 
                     var currentTimestampInSeconds = getCurrentTimestampInSeconds();
-                    var timeoutInSeconds = configVisitorIdUrlParameterTimeoutInSeconds;
 
-                    if (timeoutInSeconds <= 0) {
+                    if (configVisitorIdUrlParameterTimeoutInSeconds <= 0) {
                         return true;
                     }
                     if (currentTimestampInSeconds >= timestampInUrl
-                        && currentTimestampInSeconds <= (timestampInUrl + timeoutInSeconds)) {
-                        // we only use visitorId if it was generated max 45 seconds ago
+                        && currentTimestampInSeconds <= (timestampInUrl + configVisitorIdUrlParameterTimeoutInSeconds)) {
+                        // we only use visitorId if it was generated max 180 seconds ago
                         return true;
                     }
                 }
