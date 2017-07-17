@@ -94,5 +94,8 @@
         "UpdaterWasLastRun": "Sensate uppdateringen gjordes den %s.",
         "UpdaterWillRunNext": "Den är planerar att köras på %s.",
         "WidgetLocation": "Besökares plats"
+    },
+    "Intl": {
+        "Country_TI": "Tibet"
     }
 }

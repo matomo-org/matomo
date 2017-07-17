@@ -1,6 +1,16 @@
 {
     "Contents": {
+        "PluginDescription": "Śledzenie treści i banerów pozwala Ci zmierzyć wydajność (wyświetleń, kliknięć, CTR) dowolnego fragmentu treści na Twojej stronie (baner reklamowy, obrazek, dowolny element).",
+        "Impressions": "Wyświetlenia treści",
+        "ContentInteraction": "Interakcja",
+        "ContentInteractions": "Interakcje",
+        "InteractionRate": "Częstość interakcji",
         "ContentName": "Nazwa treści",
-        "Contents": "Treść"
+        "ContentPiece": "Fragment treści",
+        "ContentTarget": "Cel treści",
+        "Contents": "Treść",
+        "InteractionsMetricDocumentation": "Liczba interakcji wykonanych na zawartości (np. 'kliknięcie' w baner lub reklamę).",
+        "ImpressionsMetricDocumentation": "Liczba wyświetleń bloku treści, takiego jak baner czy reklama, na stronie.",
+        "InteractionRateMetricDocumentation": "Stosunek wyświetleń treści do interakcji"
     }
 }

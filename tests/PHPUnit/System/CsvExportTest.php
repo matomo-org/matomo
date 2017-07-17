@@ -59,7 +59,7 @@ class CsvExportTest extends SystemTestCase
                                                          'hideColumns' => 'serverDate,actionDetails,serverTimestamp,serverTimePretty,'
                                                                         . 'serverDatePretty,serverDatePrettyFirstAction,serverTimePrettyFirstAction,'
                                                                         . 'goalTimePretty,serverTimePretty,visitorId,visitServerHour,date,'
-                                                                        . 'prettyDate,serverDateTimePrettyFirstAction'
+                                                                        . 'prettyDate,serverDateTimePrettyFirstAction,totalEcommerceRevenue,totalAbandonedCartsRevenue'
                                                      )))
         );
     }

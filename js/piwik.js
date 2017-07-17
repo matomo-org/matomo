@@ -1590,6 +1590,15 @@ if (typeof window.Piwik !== 'object') {
             return results ? decodeWrapper(results[1]) : '';
         }
 
+        function trim(text)
+        {
+            if (text && String(text) === text) {
+                return text.replace(/^\s+|\s+$/g, '');
+            }
+
+            return text;
+        }
+
         /*
          * UTF-8 encoding
          */
@@ -2625,11 +2634,7 @@ if (typeof window.Piwik !== 'object') {
             },
             trim: function (text)
             {
-                if (text && String(text) === text) {
-                    return text.replace(/^\s+|\s+$/g, '');
-                }
-
-                return text;
+                return trim(text);
             },
             isOrWasNodeInViewport: function (node)
             {
@@ -4962,7 +4967,8 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (String(category).length === 0 || String(action).length === 0) {
+                if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                    logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }
                 var request = getRequest(
@@ -5328,7 +5334,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
 
-            function enableTrackOnlyVisibleContent (checkOnSroll, timeIntervalInMs, tracker) {
+            function enableTrackOnlyVisibleContent (checkOnScroll, timeIntervalInMs, tracker) {
 
                 if (isTrackOnlyVisibleContentEnabled) {
                     // already enabled, do not register intervals again
@@ -5371,7 +5377,7 @@ if (typeof window.Piwik !== 'object') {
                         }, intervalInMs);
                     }
 
-                    if (checkOnSroll) {
+                    if (checkOnScroll) {
 
                         // scroll event is executed after each pixel, so we make sure not to
                         // execute event too often. otherwise FPS goes down a lot!
@@ -6715,20 +6721,20 @@ if (typeof window.Piwik !== 'object') {
              *                                     In case your frames per second goes down you might want to increase
              *                                     this value or disable it by passing the value `0`.
              */
-            this.trackVisibleContentImpressions = function (checkOnSroll, timeIntervalInMs) {
+            this.trackVisibleContentImpressions = function (checkOnScroll, timeIntervalInMs) {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
 
-                if (!isDefined(checkOnSroll)) {
-                    checkOnSroll = true;
+                if (!isDefined(checkOnScroll)) {
+                    checkOnScroll = true;
                 }
 
                 if (!isDefined(timeIntervalInMs)) {
                     timeIntervalInMs = 750;
                 }
 
-                enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs, this);
+                enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
 
                 trackCallback(function () {
                     trackCallbackOnLoad(function () {
@@ -6753,6 +6759,10 @@ if (typeof window.Piwik !== 'object') {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
+
+                contentName = trim(contentName);
+                contentPiece = trim(contentPiece);
+                contentTarget = trim(contentTarget);
 
                 if (!contentName) {
                     return;
@@ -6814,6 +6824,11 @@ if (typeof window.Piwik !== 'object') {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
+
+                contentInteraction = trim(contentInteraction);
+                contentName = trim(contentName);
+                contentPiece = trim(contentPiece);
+                contentTarget = trim(contentTarget);
 
                 if (!contentInteraction || !contentName) {
                     return;

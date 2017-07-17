@@ -1,6 +1,7 @@
 {
     "Insights": {
-        "ControlComparedToDescription": "Wzrost stosunku do",
+        "PluginDescription": "Dostarcza informacji o ruchu na stronie. Informacje te dostępne są w postaci widżetów pulpitu jak też jako ikona w raportach, tak abyś widział najważniejsze trendy w swoich danych.",
+        "ControlComparedToDescription": "Wzrost w stosunku do",
         "DayComparedToPreviousDay": "poprzedniego dnia",
         "DayComparedToPreviousWeek": "tego samego dnia w poprzednim tygodniu",
         "DayComparedToPreviousYear": "ten sam dzień w poprzednim roku",
