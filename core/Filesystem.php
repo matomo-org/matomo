@@ -31,6 +31,12 @@ class Filesystem
         TrackerCache::deleteTrackerCache();
         PiwikCache::flushAll();
         self::clearPhpCaches();
+        
+        $pluginManager = Plugin\Manager::getInstance();
+        $plugins = $pluginManager->getLoadedPlugins();
+        foreach ($plugins as $plugin) {
+            $plugin->reloadPluginInformation();
+        }
     }
 
     /**
