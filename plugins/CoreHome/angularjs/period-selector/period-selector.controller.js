@@ -4,6 +4,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 (function () {
     angular.module('piwikApp').controller('PeriodSelectorController', PeriodSelectorController);
 
@@ -111,12 +112,13 @@
                     return;
                 }
 
+                vm.periodValue = 'range';
+
                 propagateNewUrlParams(dateFrom + ',' + dateTo, 'range');
                 return;
             }
 
             setPiwikPeriodAndDate(vm.selectedPeriod, vm.dateValue);
-
         }
 
         function setPiwikPeriodAndDate(period, date) {
@@ -128,8 +130,11 @@
             piwik.currentDateString = formatDate(date);
 
             var dateRange = piwikPeriods.parse(period, piwik.currentDateString).getDateRange();
-            piwik.startDateString = formatDate(dateRange[0]);
-            piwik.endDateString = formatDate(dateRange[1]);
+            vm.startRangeDate = formatDate(dateRange[0]);
+            vm.endRangeDate = formatDate(dateRange[1]);
+
+            piwik.startDateString = vm.startRangeDate;
+            piwik.endDateString = vm.endRangeDate;
 
             propagateNewUrlParams(piwik.currentDateString, vm.selectedPeriod);
             initTopControls();
