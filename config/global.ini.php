@@ -544,6 +544,9 @@ enable_plugins_admin = 1
 ; an attacker who gained Super User access could execute custom PHP code in a Piwik plugin.
 enable_plugin_upload = 0
 
+; By setting this option to 0 (e.g. in common.config.ini.php) the installer will be disabled.
+enable_installer = 1
+
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
