@@ -70,10 +70,14 @@
         }
 
         function getCurrentlyViewingText() {
-            var strDate = getQueryParamValue('date');
-            var strPeriod = getQueryParamValue('period');
+            var date;
+            if (vm.periodValue === 'range') {
+                date = formatDate(vm.startRangeDate) + ',' + formatDate(vm.endRangeDate);
+            } else {
+                date = formatDate(vm.dateValue);
+            }
 
-            return piwikPeriods.parse(strPeriod, strDate).getPrettyString();
+            return piwikPeriods.parse(vm.periodValue, date).getPrettyString();
         }
 
         function changeViewedPeriod(period) {
