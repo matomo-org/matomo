@@ -580,6 +580,22 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // invalid site parameter
+    it('should show login form for non super user if invalid idsite given', function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        expect.screenshot('invalid_idsite').to.be.capture(function (page) {
+            page.load("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
+        }, done);
+    });
+
+    it('should show error for super user if invalid idsite given', function (done) {
+        expect.screenshot('invalid_idsite_superuser').to.be.capture(function (page) {
+            page.load("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
+        }, done);
+    });
+
     // DB error message
     it('should fail correctly when db information in config is incorrect', function (done) {
 
