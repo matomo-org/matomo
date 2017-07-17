@@ -116,6 +116,7 @@
         }
 
         function setPiwikPeriodAndDate(period, date) {
+            vm.periodValue = period;
             vm.selectedPeriod = period;
             vm.dateValue = date;
 
