@@ -990,8 +990,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
-    disableCrossDomainLinking, isCrossDomainLinkingEnabled,
+    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
+    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
@@ -3094,6 +3094,9 @@ if (typeof window.Piwik !== 'object') {
                 // VDI = visitor device identifier
                 configVisitorIdUrlParameter = 'pk_vid',
 
+                // Cross domain linking, the visitor ID is transmitted only in the 180 seconds following the click.
+                configVisitorIdUrlParameterTimeoutInSeconds = 180,
+
                 // First-party cookie domain
                 // User agent defaults to origin hostname
                 configCookieDomain,
@@ -3804,11 +3807,13 @@ if (typeof window.Piwik !== 'object') {
                     // we only reuse visitorId when used on same device / browser
 
                     var currentTimestampInSeconds = getCurrentTimestampInSeconds();
-                    var timeoutInSeconds = 45;
 
+                    if (configVisitorIdUrlParameterTimeoutInSeconds <= 0) {
+                        return true;
+                    }
                     if (currentTimestampInSeconds >= timestampInUrl
-                        && currentTimestampInSeconds <= (timestampInUrl + timeoutInSeconds)) {
-                        // we only use visitorId if it was generated max 45 seconds ago
+                        && currentTimestampInSeconds <= (timestampInUrl + configVisitorIdUrlParameterTimeoutInSeconds)) {
+                        // we only use visitorId if it was generated max 180 seconds ago
                         return true;
                     }
                 }
@@ -6116,6 +6121,15 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * By default, the two visits across domains will be linked together
+             * when the link is click and the page is loaded within 180 seconds.
+             * @param timeout in seconds
+             */
+            this.setCrossDomainLinkingTimeout = function (timeout) {
+                configVisitorIdUrlParameterTimeoutInSeconds = timeout;
+            };
+
+            /**
              * Set array of classes to be ignored if present in link
              *
              * @param string|array ignoreClasses
@@ -7063,7 +7077,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
