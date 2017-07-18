@@ -2873,12 +2873,13 @@ function PiwikTest() {
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
         
         tracker.setUserId('test');
+        debugger;
         var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
-        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba614') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
+        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should set browserId if a url is given');
 
         replacedUrl = makeReplaceHrefForCrossDomainLink(makeUrlWithVisitorId(true, currentTimestamp, 'foobar'));
-        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba614') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
+        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should replace browserId if a URL is given');
 
 
