@@ -1,6 +1,6 @@
 {
     "Installation": {
-        "CollaborativeProject": "Piwik is een samenwerkingsproject, met liefde gebouwd door mensen van over de hele wereld.",
+        "CollaborativeProject": "Piwik is een samenwerkingsproject, met liefde gebouwd door mensen van over de hele were",
         "ConfigurationHelp": "Uw Piwik configuratie bestand is waarschijnlijk niet correct geconfigureerd. U kunt ofwel config\/config.ini.php verwijderen en de installatie vervolgen of de toegangsgegevens voor de database corrigeren.",
         "ConfirmDeleteExistingTables": "Bent u zeker dat u de tabellen wilt verwijderen: %s uit uw datbase? WAARSCHUWING: DATA VAN DEZE TABELLEN KAN NIET WORDEN HERSTELD!",
         "Congratulations": "Gefeliciteerd",
@@ -12,7 +12,7 @@
         "DatabaseSetup": "Database instellen",
         "DatabaseSetupAdapter": "Adapter",
         "DatabaseSetupDatabaseName": "Naam database",
-        "DatabaseSetupLogin": "Inlog",
+        "DatabaseSetupLogin": "Login",
         "DatabaseSetupServer": "Server database",
         "DatabaseSetupTablePrefix": "Voorvoegsel tabel",
         "Email": "Email",

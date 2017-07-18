@@ -738,16 +738,16 @@
         },
         {
             "name": "piwik/decompress",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/component-decompress.git",
-                "reference": "73203590e061fe1c143454dc9c76c077871c4fa1"
+                "reference": "15088059c38378939db8a3490b67b569797a6a3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-decompress/zipball/73203590e061fe1c143454dc9c76c077871c4fa1",
-                "reference": "73203590e061fe1c143454dc9c76c077871c4fa1",
+                "url": "https://api.github.com/repos/piwik/component-decompress/zipball/15088059c38378939db8a3490b67b569797a6a3a",
+                "reference": "15088059c38378939db8a3490b67b569797a6a3a",
                 "shasum": ""
             },
             "require": {
@@ -770,7 +770,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2017-02-18T10:07:00+00:00"
+            "time": "2017-07-14T10:45:10+00:00"
         },
         {
             "name": "piwik/device-detector",

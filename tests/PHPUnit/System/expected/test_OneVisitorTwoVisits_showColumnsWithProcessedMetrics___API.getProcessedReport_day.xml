@@ -34,122 +34,122 @@
 	</columns>
 	<reportData>
 		<row>
-			<label>0h</label>
+			<label>00</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>1h</label>
+			<label>01</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>2h</label>
+			<label>02</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>3h</label>
+			<label>03</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>4h</label>
+			<label>04</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>5h</label>
+			<label>05</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>6h</label>
+			<label>06</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>7h</label>
+			<label>07</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>8h</label>
+			<label>08</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>9h</label>
+			<label>09</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>10h</label>
+			<label>10</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>11h</label>
+			<label>11</label>
 			<nb_visits>1</nb_visits>
 			<revenue>$ 42</revenue>
 		</row>
 		<row>
-			<label>12h</label>
+			<label>12</label>
 			<nb_visits>1</nb_visits>
 			<revenue>$ 1</revenue>
 		</row>
 		<row>
-			<label>13h</label>
+			<label>13</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>14h</label>
+			<label>14</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>15h</label>
+			<label>15</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>16h</label>
+			<label>16</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>17h</label>
+			<label>17</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>18h</label>
+			<label>18</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>19h</label>
+			<label>19</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>20h</label>
+			<label>20</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>21h</label>
+			<label>21</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>22h</label>
+			<label>22</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
-			<label>23h</label>
+			<label>23</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$ 0</revenue>
 		</row>
