@@ -66,7 +66,7 @@
             if (!self.param.filter_pattern_recursive) {
                 self.numberOfSubtables = rows.filter('.subDataTable').click(function () {
                     self.onClickActionSubDataTable(this)
-                }).size();
+                }).length;
             }
             self.applyCosmetics(domElem, rows);
             self.handleColumnHighlighting(domElem);

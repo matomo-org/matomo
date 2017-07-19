@@ -1571,7 +1571,7 @@ Piwik_Transitions_Util = {
      */
     replacePlaceholderInHtml: function (container, value, spanClass) {
         var span = container.find('span');
-        if (span.size() == 0) {
+        if (!span.length) {
             var html = container.html().replace(/%s/, '<span></span>');
             span = container.html(html).find('span');
             if (!spanClass) {

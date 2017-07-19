@@ -24,7 +24,7 @@
 
                     var $position = element.find('.dropdown.positionInViewport');
 
-                    if ($position.size()) {
+                    if ($position.length) {
                         piwik.helper.setMarginLeftToBeInViewport($position);
                     }
                 });
@@ -66,7 +66,7 @@
 
                     var $position = element.find('.dropdown.positionInViewport');
 
-                    if ($position.size()) {
+                    if ($position.length) {
                         piwik.helper.setMarginLeftToBeInViewport($position);
                     }
                 });

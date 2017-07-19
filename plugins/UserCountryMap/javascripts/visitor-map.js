@@ -1172,7 +1172,7 @@
 
                         // use the popover title returned from the server
                         var title = box.find('div.popover-title');
-                        if (title.size() > 0) {
+                        if (title.length) {
                             Piwik_Popover.setTitle(title.html());
                             title.remove();
                         }
@@ -1251,7 +1251,7 @@
 
                     }
                     // check if CSS is already loaded
-                    if ($("link[href='" + config.mapCssPath + "']").size() === 0) {
+                    if (!$("link[href='" + config.mapCssPath + "']").length) {
                         // not loaded
                         map.loadCSS(config.mapCssPath, postCSSLoad);
                     } else {

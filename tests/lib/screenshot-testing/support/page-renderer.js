@@ -248,10 +248,10 @@ PageRenderer.prototype._selectFrame = function (frameNameOrPosition, callback) {
             // todo eventually we should also try to find frame by position
             var frame = window.jQuery('iframe[name=' + frameName + ']');
 
-            if (!frame.size()) {
+            if (!frame.length) {
                 frame = window.jQuery('iframe[id=' + frameName + ']');
             }
-            if (frame.size()) {
+            if (frame.length) {
                 return frame.offset();
             }
 
