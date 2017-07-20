@@ -246,7 +246,7 @@ var Piwik_Overlay_FollowingPages = (function () {
                     }
 
                     // see comment in highlightLink()
-                    if (hasOneChild && linkTag.find('> img').size() == 1) {
+                    if (hasOneChild && linkTag.find('> img').length === 1) {
                         offset = linkTag.find('> img').offset();
                         if (offset.left == 0 && offset.top == 0) {
                             offset = linkTag.offset();
@@ -318,7 +318,7 @@ var Piwik_Overlay_FollowingPages = (function () {
         var visibility = el.css('visibility');
         if (visibility == 'inherit') {
             el = el.parent();
-            if (el.size() > 0) {
+            if (el.length) {
                 return getVisibility(el);
             }
         }
@@ -326,21 +326,21 @@ var Piwik_Overlay_FollowingPages = (function () {
     }
 
     /**
-     * Find out whether a link has only one child. Using .children().size() == 1 doesn't work
+     * Find out whether a link has only one child. Using .children().length === 1 doesn't work
      * because it doesn't take additional text nodes into account.
      */
     function checkHasOneChild(linkTag) {
-        var hasOneChild = (linkTag.children().size() == 1);
+        var hasOneChild = (linkTag.children().length === 1);
         if (hasOneChild) {
             // if the element contains one tag and some text, hasOneChild is set incorrectly
             var contents = linkTag.contents();
-            if (contents.size() > 1) {
+            if (contents.length > 1) {
                 // find non-empty text nodes
                 contents = contents.filter(function () {
                     return this.nodeType == 3 && // text node
                         $.trim(this.data).length > 0; // contains more than whitespaces
                 });
-                if (contents.size() > 0) {
+                if (contents.length) {
                     hasOneChild = false;
                 }
             }
@@ -354,7 +354,7 @@ var Piwik_Overlay_FollowingPages = (function () {
             return typeof this.piwikDiscovered == 'undefined' || this.piwikDiscovered === null;
         });
 
-        if (newLinks.size() == 0) {
+        if (!newLinks.length) {
             return;
         }
 
@@ -386,7 +386,7 @@ var Piwik_Overlay_FollowingPages = (function () {
 
         var offset, height;
         var hasOneChild = checkHasOneChild(linkTag);
-        if (hasOneChild && linkTag.find('img').size() == 1) {
+        if (hasOneChild && linkTag.find('img').length === 1) {
             // if the <a> tag contains only an <img>, the offset and height methods don't work properly.
             // as a result, the box around the image link would be wrong. we use the image to derive
             // the offset and height instead of the link to get correct values.

@@ -432,7 +432,7 @@ var piwikHelper = {
     lazyScrollTo: function(elem, time, forceScroll)
     {
         var $elem = $(elem);
-        if (!$elem.size()) {
+        if (!$elem.length) {
             return;
         }
 

@@ -603,14 +603,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         } else {
             var inReportPage = domElem.parents('.theWidgetContent').first();
             var displayedAsCard = inReportPage.find('> .card > .card-content');
-            if (displayedAsCard.size()) {
+            if (displayedAsCard.length) {
                 $domNodeToSetOverflow = displayedAsCard.first();
             } else {
                 $domNodeToSetOverflow = inReportPage;
             }
         }
 
-        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.size()) {
+        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.length) {
             return;
         }
 
@@ -795,7 +795,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
 
         var $searchAction = $('.dataTableAction.searchAction', domElem);
-        if (!$searchAction.size()) {
+        if (!$searchAction.length) {
             return;
         }
 
@@ -1353,7 +1353,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $('.dropdownConfigureIcon', domElem).remove();
         }
 
-        if (ul.find('li').size() == 0) {
+        if (!ul.find('li').length) {
             hideConfigurationIcon();
             return;
         }
@@ -1680,7 +1680,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 $(this).toggleClass('expanded');
                 self.repositionRowActions($(this));
             }
-        ).size();
+        ).length;
     },
 
     // tooltip for column documentation
@@ -1710,7 +1710,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // headline
                 top = top + thPosTop;
 
-                if (th.next().size() == 0) {
+                if (!th.next().length) {
                     left = (-1 * tooltip.outerWidth()) + th.width() +
                         parseInt(th.css('padding-right'), 10);
                 }
@@ -1734,7 +1734,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     canHandleRowEvents: function (domElem) {
-        return domElem.find('table > tbody > tr').size() <= this.maxNumRowsToHandleEvents;
+        return domElem.find('table > tbody > tr').length <= this.maxNumRowsToHandleEvents;
     },
 
     handleRowActions: function (domElem) {
@@ -1773,19 +1773,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var $headline = domElem.prev('h2');
-            if (!$headline.size()) {
+            if (!$headline.length) {
                 return;
             }
 
             var $title = $headline.find('.title:not(.ng-hide)');
-            if ($title.size()) {
+            if ($title.length) {
                 $title.text(relatedReportName);
 
                 var scope = $title.scope();
 
                 if (scope) {
                     var $doc = domElem.find('.reportDocumentation');
-                    if ($doc.size()) {
+                    if ($doc.length) {
                         scope.inlineHelp = $.trim($doc.html());
                     }
                     scope.featureName = $.trim(relatedReportName);
