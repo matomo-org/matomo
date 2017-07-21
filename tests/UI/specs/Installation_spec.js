@@ -36,6 +36,15 @@ describe("Installation", function () {
     it("should display an error message when trying to access a resource w/o a config.ini.php file", function (done) {
         expect.screenshot("access_no_config").to.be.capture(function (page) {
             page.load("?module=CoreHome&action=index&ignoreClearAllViewDataTableParameters=1");
+
+            page.evaluate(function () {
+                // ensure screenshots are reporting travis config file for comparison
+                // no jQuery existing on these error pages...
+                document.body.innerHTML = document.body.innerHTML.replace(
+                    /{\/.*\/test\.config\.ini\.php}/,
+                    '{/home/travis/build/piwik/piwik/tests/lib/screenshot-testing/../../../tmp/test.config.ini.php}'
+                );
+            });
         }, done);
     });
 
