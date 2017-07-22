@@ -114,4 +114,14 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertHttpResponseText($expected, $url);
     }
 
+
+    public function test_response_ShouldReturnPiwikMessageWithHttp503_InCaseOfMaintenanceMode()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $this->assertResponseCode(200, $url);
+
+        $url = $url . "&forceEnableTrackerMaintenanceMode=1";
+        $this->assertResponseCode(503, $url);
+    }
+
 }
