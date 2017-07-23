@@ -63,6 +63,10 @@
                     show: false,
                     hide: false,
                     tooltipClass: 'small',
+                    content: function() {
+                        var title = $(this).attr('title');
+                        return $('<a>').text( title ).html().replace(/\n/g, '<br />');
+                    },
                     open: function () {
                         tooltipIsOpened = true;
                     },
