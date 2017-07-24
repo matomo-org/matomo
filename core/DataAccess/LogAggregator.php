@@ -178,7 +178,8 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
-        $this->logger->debug($query['sql']);
+	// Uncomment to log on DEBUG level all archiving queries
+        // $this->logger->debug($query['sql']);
 
         return $query;
     }
