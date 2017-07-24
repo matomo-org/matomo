@@ -159,10 +159,14 @@ ol.visitorLog li {
     font-weight: bold;
     border: 1px solid @theme-color-text-light;
     border-radius: 3px;
-    padding: 2px;
+    padding: 3px;
     display: block;
     margin: 0 5px 0 5px;
     float: left;
+
+    &.icon-refresh:before {
+      padding-right: 2px;
+    }
 }
 
 .dataTableVizVisitorLog hr {
@@ -223,6 +227,7 @@ ol.visitorLog p {
 
   .visitorLog > li > div {
     width: 95%;
+    line-height: 1.35em;
   }
 
   .dataTableWrapper {
