@@ -150,6 +150,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function finalizeProfile($visits, &$profile)
     {
+        uasort($this->devices, function($a, $b){
+            return strcmp($b['count'], $a['count']);
+        });
         $profile['devices'] = $this->devices;
     }
 
