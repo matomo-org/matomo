@@ -77,6 +77,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setUrl('http://example.org/');
         $t->setGenerationTime(251);
+        $t->setDebugStringAppend('bw_bytes=12053');
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
@@ -92,6 +93,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setUrl('http://example.org/product42');
         $t->setEcommerceView($sku = 'P42X4D', $name = 'product 42', $category = 'software', $price = 60);
         $t->setGenerationTime(83);
+        $t->setDebugStringAppend('bw_bytes=36053');
         self::checkResponse($t->doTrackPageView('product 42'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.14)->getDatetime());
@@ -105,6 +107,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.25)->getDatetime());
         $t->setUrl('http://example.org/search');
         $t->setGenerationTime(318);
+        $t->setDebugStringAppend('bw_bytes=2583');
         self::checkResponse($t->doTrackPageView('product search'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.29)->getDatetime());
@@ -122,6 +125,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setUrl('http://example.org/fancyproduct');
         $t->setEcommerceView($sku = 'F4NCYX', $name = 'fancy product', $category = 'software', $price = 40);
         $t->setGenerationTime(151);
+        $t->setDebugStringAppend('bw_bytes=68895');
         self::checkResponse($t->doTrackPageView('fancy product'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
@@ -130,6 +134,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setUrl('http://example.org/cart');
         $t->setGenerationTime(33);
+        $t->setDebugStringAppend('bw_bytes=1590');
         self::checkResponse($t->doTrackPageView('cart'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
@@ -144,6 +149,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setUrlReferrer('http://www.google.com/search?q=product%2042');
         $t->setUrl('http://example.org/product42');
         $t->setGenerationTime(96);
+        $t->setDebugStringAppend('bw_bytes=6851');
         self::checkResponse($t->doTrackPageView('product 42'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.09)->getDatetime());
@@ -154,6 +160,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
         $t->setUrl('http://example.org/');
         $t->setGenerationTime(511);
+        $t->setDebugStringAppend('bw_bytes=2012');
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
@@ -168,6 +175,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setCustomVariable(1, 'promo', 'summer', 'visit');
         $t->setUrl('http://example.org/');
         $t->setGenerationTime(195);
+        $t->setDebugStringAppend('bw_bytes=631');
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
@@ -184,6 +192,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setUrl('http://example.org/');
         $t->setGenerationTime(111);
+        $t->setDebugStringAppend('bw_bytes=555');
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
