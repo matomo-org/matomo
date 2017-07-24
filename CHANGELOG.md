@@ -2,7 +2,7 @@
 
 This is the Developer Changelog for Piwik platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
 
-The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
+The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
 ## Piwik 3.0.5
 
@@ -41,7 +41,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ## Piwik 3.0.2
 
 ### New Features
-* A new SMS provider for sms reports has been added: [ASPSMS.com](http://www.aspsms.com/en/?REF=227830)
+* A new SMS provider for sms reports has been added: [ASPSMS.com](https://www.aspsms.com/en/?REF=227830)
 
 ### New APIs
 * The JavaScript Tracker now supports CrossDomain tracking. The following tracker methods were added for this: `enableCrossDomainLinking`, `disableCrossDomainLinking`, `isCrossDomainLinkingEnabled`
@@ -59,7 +59,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ## Piwik 3.0.1
 
 ### New APIs
-* Live API responses now return a new field ‘generationTimeMilliseconds’ (the generation time for this page, in milliseconds) which is internally used to process the Average generation time in the [Visitor Profile](http://piwik.org/docs/user-profile/)
+* Live API responses now return a new field ‘generationTimeMilliseconds’ (the generation time for this page, in milliseconds) which is internally used to process the Average generation time in the [Visitor Profile](https://piwik.org/docs/user-profile/)
 * Added new event `MultiSites.filterRowsForTotalsCalculation` to filter which sites will be included in the All Websites Dashboard totals calculation.
 * The method `Piwik\Plugin\Archiver::shouldRunEvenWhenNoVisits()` has been added. By overwriting this method and returning true, a plugin archiver can force the archiving to run even when there was no visit for the website/date/period/segment combination (by default, archivers are skipped when there is no visit).
 
@@ -67,7 +67,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 
 ### New guide
 
-Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](http://developer.piwik.org/guides/migrate-piwik-2-to-3).
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Breaking Changes
 * When using the Piwik JavaScript Tracking via `_paq.push`, it is now required to configure the tracker (eg calling `setSiteId` and `setTrackerUrl`) before the `piwik.js` JavaScript tracker is loaded to ensure the tracker works correctly. 
@@ -99,17 +99,17 @@ If the tracker is not initialised correctly, the browser console will display th
 * It is no longer possible to define an introduction text for settings.
 * If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 * The following deprecated events have been removed as mentioned.
- * `Tracker.existingVisitInformation` Use [dimensions](http://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
+ * `Tracker.existingVisitInformation` Use [dimensions](https://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
  * `Tracker.newVisitorInformation`
  * `Tracker.recordAction`
  * `Tracker.recordEcommerceGoal`
  * `Tracker.recordStandardGoals`
- * `API.getSegmentDimensionMetadata` Define segments in [Dimension](http://developer.piwik.org/guides/dimensions) instead
- * `Menu.Admin.addItems` Create a [Menu](http://developer.piwik.org/guides/menus) instead of using `Menu` events
+ * `API.getSegmentDimensionMetadata` Define segments in [Dimension](https://developer.piwik.org/guides/dimensions) instead
+ * `Menu.Admin.addItems` Create a [Menu](https://developer.piwik.org/guides/menus) instead of using `Menu` events
  * `Menu.Reporting.addItems`
  * `Menu.Top.addItems`
- * `ViewDataTable.addViewDataTable` Create a [Visualization](http://developer.piwik.org/guides/visualizing-report-data) instead
- * `ViewDataTable.getDefaultType` Specify the default type in a [Report](http://developer.piwik.org/guides/custom-reports) instead
+ * `ViewDataTable.addViewDataTable` Create a [Visualization](https://developer.piwik.org/guides/visualizing-report-data) instead
+ * `ViewDataTable.getDefaultType` Specify the default type in a [Report](https://developer.piwik.org/guides/custom-reports) instead
  * `Login.authenticate`  Create a custom SessionInitializer instead of using `Login` events
  * `Login.initSession.end`
  * `Login.authenticate.successful`
@@ -640,5 +640,5 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### Internal change
  -->
 
-Find the general Piwik Changelogs for each release at [piwik.org/changelog](http://piwik.org/changelog/)
+Find the general Piwik Changelogs for each release at [piwik.org/changelog](https://piwik.org/changelog/)
  
