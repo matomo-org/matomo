@@ -3201,7 +3201,7 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
 
-		isSecureCookie = false;
+		secureCookie = false;
 
             // Document title
             try {
@@ -3230,14 +3230,21 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (isSecureCookie ? ';secure' : '');
+                    (secureCookie ? ';secure' : '');
             }
 
 	    /*
              * Set cookie secure flag
              */
             function setSecureCookie(value) {
-                isSecureCookie = !!value;
+                secureCookie = !!value;
+            }
+		
+	    /*
+             * Get cookie secure flag
+             */
+            function isSecureCookie() {
+                return secureCookie;
             }
 
             /*
