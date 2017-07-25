@@ -98,7 +98,6 @@
         "SystemCheckOtherExtensions": "기타 확장",
         "SystemCheckOtherFunctions": "기타 함수",
         "SystemCheckPageSpeedDisabled": "PageSpeed 비활성화",
-        "SystemCheckPageSpeedWarn": "우리는 웹서버 %s 내 PageSpeed 모듈을 비활성화 하는 것을 추천합니다. 그간 Piwik에 여러 문제들이 PageSpeed와 연관있었습니다.",
         "SystemCheckPackHelp": "pack() 함수는 Piwik에서 방문자를 추적하는 데 필요합니다.",
         "SystemCheckParseIniFileHelp": "이 내장 함수는 호스트에서 비활성화되어 있습니다. Piwik이 함수의 에뮬레이션을 시도하지만, 새로운 보안 제한으로 발생하는 경우가 있습니다. 또한 트래커 성능에도 영향을 미칩니다.",
         "SystemCheckPdoAndMysqliHelp": "Linux 서버는 다음 옵션으로 PHP를 컴파일합니다: %1$sphp.ini에 다음 줄을 추가합니다: %2$s",

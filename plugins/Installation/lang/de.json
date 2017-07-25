@@ -99,7 +99,6 @@
         "SystemCheckOtherExtensions": "Andere Erweiterungen",
         "SystemCheckOtherFunctions": "Andere Funktionen",
         "SystemCheckPageSpeedDisabled": "PageSpeed deaktiviert",
-        "SystemCheckPageSpeedWarn": "Wir empfehlen, das PageSpeed Modul auf Ihrem Web Server zu deaktivieren %s: PageSpeed wurde als Verursacher diverser Probleme im Zusammenhang mit Piwik gemeldet.",
         "SystemCheckPackHelp": "Die Funktion pack() wird benötigt um Besucher in Piwik tracken zu können.",
         "SystemCheckParseIniFileHelp": "Diese Funktion wird von Ihrem System nicht unterstützt. Piwik wird versuchen, diese Funktion zu emulieren, aber es könnte sein, dass dadurch Sicherheitseinstellungen gelockert werden müssen. Die Geschwindigkeit des Tracker könnte auch beeinflußt werden.",
         "SystemCheckPdoAndMysqliHelp": "Auf einem Linux-Server können Sie PHP mit den folgenden Optionen kompilieren: %1$s In Ihrer php.ini fügen Sie dann die folgenden Zeilen ein: %2$s",
