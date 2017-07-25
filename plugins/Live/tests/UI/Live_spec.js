@@ -25,4 +25,21 @@ describe("Live", function () {
         }, done);
     });
 
+    it('should show all action details', function (done) {
+        expect.screenshot('visitor_profile_actions_hidden').to.be.captureSelector('.ui-dialog', function (page) {
+            page.click('.visitor-profile-toggle-actions', 100);
+        }, done);
+    });
+
+    it('should show visit details', function (done) {
+        expect.screenshot('visitor_profile_visit_details').to.be.captureSelector('.ui-dialog', function (page) {
+            page.click('.visitor-profile-visit-title:first-child', 100);
+        }, done);
+    });
+
+    it('should show action details', function (done) {
+        expect.screenshot('visitor_profile_action_details').to.be.captureSelector('.ui-dialog', function (page) {
+            page.click('.visitor-profile-show-actions:first-child', 100);
+        }, done);
+    });
 });

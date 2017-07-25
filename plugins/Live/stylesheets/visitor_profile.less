@@ -80,26 +80,53 @@
     margin-top:3px;
 }
 
-.visitor-profile-close:before {
-  content: "\e60a";
-}
-
-.visitor-profile-close {
+.visitor-profile-options {
     z-index: 10;
     position:absolute;
     right:6px;
-    top: 4px;
-    height:20px;
-    width:21px;
-    background-color: #d4291f;
-    color: #FFFFFF !important;
-    border-radius: 3px;
-    font-size: 9px;
-    font-weight: 400;
-    font-family: piwik;
-    text-decoration: none !important;
-    text-align: center !important;
-    padding: 4.5px;
+    height:28px;
+
+    .visitor-profile > div& {
+        width: auto;
+    }
+}
+
+.visitor-profile-toggle-actions,
+.visitor-profile-close {
+    float: right;
+    text-decoration: none!important;
+
+    &:before {
+        content: "\e60a";
+        padding: 4.5px;
+        background-color: #d4291f;
+        color: #FFFFFF !important;
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 400;
+        font-family: piwik;
+        line-height: 9px;
+        height: 18px;
+        display: block;
+        margin: 5px 0;
+    }
+}
+
+.visitor-profile-toggle-actions {
+    margin-right: 5px;
+
+    &:before {
+        content: "\e62b";
+        color: #000!important;
+        padding: 1px;
+        font-size: 16px;
+        line-height: 16px;
+        background-color: #fff;
+
+        .minimized& {
+            content: "\e61c";
+        }
+    }
 }
 
 .visitor-profile a {
@@ -128,15 +155,15 @@
     }
 
     .visitor-profile-overview { // first column
-      width:574px;
+      width:575px;
       border-left:none;
       margin:0 -3px 0 0;
       border-right:1px solid #d1cec8;
     }
     .visitor-profile-visits-info { // last column
-      width:573.5px;
+      width:575px;
       border-bottom:none;
-      margin:0 0 0 -4px;
+      margin:28px 0 0 -3px;
       border-left:1px solid #d1cec8;
     }
 }
@@ -390,7 +417,6 @@
     ol.visitor-profile-actions {
         counter-reset:item;
         list-style-type:none;
-        display: none;
 
         > li:before {
             content:counter(item) "  ";
@@ -592,7 +618,7 @@ a.visitor-profile-next-visitor,a.visitor-profile-prev-visitor {
     float: right;
     display: inline-block;
 
-    .hide-text {
+    .show-text {
         display: none;
     }
 }

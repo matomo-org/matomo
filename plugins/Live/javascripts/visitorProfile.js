@@ -80,6 +80,17 @@
                 return false;
             });
 
+            $element.on('click', '.visitor-profile-toggle-actions', function (e) {
+                e.preventDefault();
+                $(this).toggleClass('minimized');
+                if ($(this).hasClass('minimized')) {
+                    $('.visitor-profile-show-actions', $element).has('.hide-text:visible').click();
+                } else {
+                    $('.visitor-profile-show-actions', $element).has('.show-text:visible').click();
+                }
+                return false;
+            });
+
             $element.on('click', '.visitor-profile-more-info>a', function (e) {
                 e.preventDefault();
                 self._loadMoreVisits();
