@@ -99,7 +99,6 @@
         "SystemCheckOtherExtensions": "Andere extensies",
         "SystemCheckOtherFunctions": "Andere functies",
         "SystemCheckPageSpeedDisabled": "PageSpeed uitgeschakeld",
-        "SystemCheckPageSpeedWarn": "We raden aan om de PageSpeed module op je webserver uit te schakelen %s: We ontvingen meldingen erdoor over verschillende problemen met Piwik.",
         "SystemCheckPackHelp": "De pack()-functie is vereist om bezoekers te volgen in Piwik.",
         "SystemCheckParseIniFileHelp": "Deze ingebouwde functie is uitgeschakeld op uw host. Piwik zal proberen deze functie te emuleren maar dit kan andere veiligheidsbeperkingen oplopen. De Tracker prestaties zullen ook veranderen.",
         "SystemCheckPdoAndMysqliHelp": "Op een Linux server kunt u php compileren met de volgende opties: %1$s in uw php.ini, voeg de volgende regels toe: %2$s",

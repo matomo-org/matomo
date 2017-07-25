@@ -99,7 +99,6 @@
         "SystemCheckOtherExtensions": "Ostala proširenja",
         "SystemCheckOtherFunctions": "Ostale funkcije",
         "SystemCheckPageSpeedDisabled": "PageSpeed isključen",
-        "SystemCheckPageSpeedWarn": "Preporučujemo da isključite PageSpeed modul u veb serveru %s: prijavljeno je da PageSpeed uzrokuje nekoliko problema kada je u pitanju Piwik.",
         "SystemCheckPackHelp": "pack() funkcija je neophodna za praćenje posetilaca.",
         "SystemCheckParseIniFileHelp": "Ova funkcija je isključena na vašem serveru. Piwik će pokušati da je emulira ali može da naleti na neke dalja sigurnosna ograničenja. Takođe će biti i uticaja na treker.",
         "SystemCheckPdoAndMysqliHelp": "Na Linux serveru možete kompajlirati PHP sa sledećim opcijama: %1$s U datoteku php.ini dodajte sledeće linije: %2$s",

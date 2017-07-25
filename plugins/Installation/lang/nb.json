@@ -98,7 +98,6 @@
         "SystemCheckOtherExtensions": "Andre utvidelser",
         "SystemCheckOtherFunctions": "Andre funksjoner",
         "SystemCheckPageSpeedDisabled": "PageSpeed deaktivert",
-        "SystemCheckPageSpeedWarn": "Vi anbefaler å deaktivere PageSpeed-modulen i din webserver %s: PageSpeed har blitt rapportert å forårsake flere feil i Piwik.",
         "SystemCheckPackHelp": "pack()-funksjonen er nødvendig for å spore besøkende i Piwik.",
         "SystemCheckParseIniFileHelp": "Denne innebygde funksjonen har blitt deaktivert på verten. Piwik vil forsøke å etterligne denne funksjonen, men kan møte ytterligere sikkerhetsbegrensninger. Sporingsytelsen vil også bli påvirket.",
         "SystemCheckPdoAndMysqliHelp": "På en GNU\/Linux-server kan du kompilere php med følgende valg: %1$s I din php.ini, legg til følgende linjer: %2$s",
