@@ -33,7 +33,7 @@ class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $formatted = "ERROR Foo 1970-01-01 00:00:00 Hello world\n";
+        $formatted = "ERROR Foo 1970-01-01 00:00:00 GMT+0000 Hello world\n";
 
         $this->assertEquals($formatted, $formatter->format($record));
     }
