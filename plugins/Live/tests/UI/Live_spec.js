@@ -39,7 +39,13 @@ describe("Live", function () {
 
     it('should show action details', function (done) {
         expect.screenshot('visitor_profile_action_details').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('.visitor-profile-show-actions:first-child', 100);
+            page.click('.visitor-profile-visits li:first-child .visitor-profile-show-actions', 100);
+        }, done);
+    });
+
+    it('should show action tooltip', function (done) {
+        expect.screenshot('visitor_profile_action_tooltip').to.be.captureSelector('.ui-dialog', function (page) {
+            page.mouseMove('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child', 100);
         }, done);
     });
 });

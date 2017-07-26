@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Live\tests\Fixtures;
 use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\Goals\API as GoalsApi;
+use Piwik\Plugins\CustomDimensions\API as CustomDimensionsApi;
 
 /**
  * Generates many visits for the same visitor
@@ -26,6 +27,9 @@ class VisitsWithAllActionsAndDevices extends Fixture
         }
 
         GoalsApi::getInstance()->addGoal(1, 'Successfully used Search', 'manually', '', 'contains');
+        
+        CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'age', 'visit', 1);
+        CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'currency', 'action', 1);
 
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->setTokenAuth(self::getTokenAuth());
@@ -56,7 +60,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(86.8)->getDatetime(), 'Mozilla/5.0 (Linux; U; Android 4.1.2; zh-cn; ZTE N799D Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30; 360browser(securitypay,securityinstalled); 360(android,uppayplugin); 360 Aphone Browser (5.4.0)');
 
         $this->trackVisitSmartphone($t, Date::factory($this->dateTime)->addHour(101.6)->getDatetime());
-        $this->trackVisitTablet($t, Date::factory($this->dateTime)->addHour(156.6)->getDatetime());
+        $this->trackVisitTablet($t, Date::factory($this->dateTime)->addHour(156.9)->getDatetime());
     }
 
     public function tearDown()
@@ -150,10 +154,13 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setUrl('http://example.org/product42');
         $t->setGenerationTime(96);
         $t->setDebugStringAppend('bw_bytes=6851');
+        $t->setCustomVariable(1, 'custom', 'variable', 'page');
+        $t->setCustomTrackingParameter('dimension1', '42');
+        $t->setCustomTrackingParameter('dimension2', '€');
         self::checkResponse($t->doTrackPageView('product 42'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.09)->getDatetime());
-        $t->setUrl('http://example.org/product42');
+        $t->setUrl('http://example.org/cart');
         $t->addEcommerceItem('P42X4D', 'product 42', 'software', $price = 60, $qty = 1);
         self::checkResponse($t->doTrackEcommerceOrder('R52Z6P', 66, 60, 6, 0, 0));
 
