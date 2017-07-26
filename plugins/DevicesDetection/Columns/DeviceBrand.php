@@ -28,6 +28,7 @@ class DeviceBrand extends Base
     protected function configureSegments()
     {
         $brands = DeviceParserAbstract::$deviceBrands;
+        natcasesort ($brands);
         $brandList = implode(", ", $brands);
 
         $segment = new Segment();
