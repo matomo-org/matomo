@@ -9,7 +9,7 @@
             <ul>
                 {% for url,count in visitorData.visitedPages %}
                     {% if loop.index < 6 and count > 1 %}
-                        <li><span class="repeat icon-refresh">{{ count }}</span> {{ url }}</li>
+                        <li><span class="repeat icon-refresh" title="{{ 'Live_PageRefreshed'|translate }}">{{ count }}</span> {{ url }}</li>
                     {% endif %}
                 {% endfor %}
             </ul>
