@@ -9,13 +9,11 @@
 namespace Piwik\DataAccess;
 
 use Exception;
-use Piwik\Archive;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-use Piwik\Period;
 
 /**
  * This class is used to create a new Archive.
@@ -61,16 +59,15 @@ class ArchiveWriter
         'name',
         'value');
 
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
+    public function __construct(ArchiveProcessor\Parameters $params, $idArchive = false)
     {
-        $this->idArchive = false;
+        $this->idArchive = $idArchive;
         $this->idSite    = $params->getSite()->getId();
         $this->segment   = $params->getSegment();
         $this->period    = $params->getPeriod();
 
         $idSites = array($this->idSite);
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
-        $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();
     }
@@ -111,7 +108,7 @@ class ArchiveWriter
         $this->insertRecord($name, $values);
     }
 
-    public function getIdArchive()
+    private function getIdArchive()
     {
         if ($this->idArchive === false) {
             throw new Exception("Must call allocateNewArchiveId() first");
@@ -122,18 +119,19 @@ class ArchiveWriter
 
     public function initNewArchive()
     {
-        $this->allocateNewArchiveId();
+        $idArchive = $this->allocateNewArchiveId();
         $this->logArchiveStatusAsIncomplete();
+        return $idArchive;
     }
 
-    public function finalizeArchive()
+    public function finalizeArchive($status)
     {
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
         $this->getModel()->deletePreviousArchiveStatus($numericTable, $idArchive, $this->doneFlag);
 
-        $this->logArchiveStatusAsFinal();
+        $this->logArchiveStatusAsFinal($status);
     }
 
     protected function compress($data)
@@ -163,14 +161,8 @@ class ArchiveWriter
         $this->insertRecord($this->doneFlag, self::DONE_ERROR);
     }
 
-    protected function logArchiveStatusAsFinal()
+    protected function logArchiveStatusAsFinal($status) // TODO: remove this method
     {
-        $status = self::DONE_OK;
-
-        if ($this->isArchiveTemporary) {
-            $status = self::DONE_OK_TEMPORARY;
-        }
-
         $this->insertRecord($this->doneFlag, $status);
     }
 

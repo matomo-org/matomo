@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -36,7 +37,14 @@ class Archive extends PiwikArchive
     {
         return parent::get($archiveNames, $archiveDataType, $idSubtable);
     }
+}
 
+class TestArchiveQueryFactory extends PiwikArchive\ArchiveQueryFactory
+{
+    protected function newArchiveInstance(PiwikArchive\Parameters $params, $forceIndexedBySite, $forceIndexedByDate)
+    {
+        return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
+    }
 }
 
 /**
@@ -271,8 +279,8 @@ class ArchiveTest extends IntegrationTestCase
         $archiveWriter            = new ArchiveWriter($parameters, !!$idArchive);
         $archiveWriter->idArchive = $idArchive;
 
-        $archiveProcessor = new ArchiveProcessor($parameters, $archiveWriter,
-            new LogAggregator($parameters));
+        $archiveProcessor = new ArchiveProcessor($parameters, StaticContainer::get(PiwikArchive\ArchiveTableStore::class),
+            new LogAggregator($parameters), $idArchive);
 
         $archiveProcessor->setNumberOfVisits(1, 1);
 
@@ -355,7 +363,7 @@ class ArchiveTest extends IntegrationTestCase
         foreach ($blobs as $name => $blob) {
             $writer->insertBlobRecord($name, $blob);
         }
-        $writer->finalizeArchive();
+        $writer->finalizeArchive(ArchiveWriter::DONE_OK);
     }
 
     private function assertArchiveTablesAreNotEmpty($tableMonth)
@@ -387,9 +395,15 @@ class ArchiveTest extends IntegrationTestCase
         return $archive->getNumeric('nb_visits');
     }
 
+    /**
+     * @param $period
+     * @param string $day
+     * @return Archive
+     */
     private function getArchive($period, $day = '2010-03-04,2010-03-07')
     {
-        return Archive::build(self::$fixture->idSite, $period, $day);
+        $factory = new TestArchiveQueryFactory();
+        return $factory->build(self::$fixture->idSite, $period, $day);
     }
 }
 

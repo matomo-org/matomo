@@ -148,9 +148,11 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             'archive_numeric_2011_01' => (6 + 3),
 
             // nothing in Feb
-            'archive_blob_2011_02'    => 0,
             'archive_numeric_2011_02' => 0,
         );
+        $tablesThatShouldNotExist = [
+            'archive_blob_2011_02',
+        ];
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Db::get()->fetchOne($sql);
@@ -159,6 +161,9 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
                 $this->printDebugWhenTestFails($table);
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
+        }
+        foreach ($tablesThatShouldNotExist as $table) {
+            $this->assertEmpty(Db::fetchAll("SHOW TABLES LIKE '$table'"));
         }
     }
 

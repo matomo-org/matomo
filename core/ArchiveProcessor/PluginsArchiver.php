@@ -9,9 +9,8 @@
 
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Archive\ArchiveTableStore;
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
-use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
@@ -28,7 +27,7 @@ use Exception;
 class PluginsArchiver
 {
     /**
-     * @param ArchiveProcessor $archiveProcessor
+     * @var ArchiveProcessor $archiveProcessor
      */
     public $archiveProcessor;
 
@@ -49,17 +48,18 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
-    public function __construct(Parameters $params, $isTemporaryArchive)
+    /**
+     * @var int
+     */
+    private $idArchive;
+
+    public function __construct(Parameters $params, ArchiveTableStore $archiveTableStore, $isTemporaryArchive)
     {
         $this->params = $params;
         $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = new ArchiveWriter($this->params, $this->isTemporaryArchive);
-        $this->archiveWriter->initNewArchive();
+        $this->archiveTableStore = $archiveTableStore;
 
         $this->logAggregator = new LogAggregator($params);
-
-        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
-
         $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
     }
 
@@ -160,11 +160,10 @@ class PluginsArchiver
         }
     }
 
-    public function finalizeArchive()
+    public function finalizeArchive($status)
     {
-        $this->params->logStatusDebug($this->archiveWriter->isArchiveTemporary);
-        $this->archiveWriter->finalizeArchive();
-        return $this->archiveWriter->getIdArchive();
+        $this->params->logStatusDebug($this->isTemporaryArchive);
+        $this->archiveTableStore->finishArchive($this->params, $this->idArchive, $status);
     }
 
     /**
@@ -283,5 +282,14 @@ class PluginsArchiver
         Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
 
         return $archiver;
+    }
+
+    // NOTE: this class can have an inconsistent state if this isn't called. need to rethink this & related classes,
+    //       make sure all are designed to have consistent state.
+    public function initNewArchive()
+    {
+        $this->idArchive = $this->archiveTableStore->startArchive($this->params);
+        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveTableStore, $this->logAggregator, $this->idArchive);
+        return $this->idArchive;
     }
 }

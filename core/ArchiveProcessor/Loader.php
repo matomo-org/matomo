@@ -8,12 +8,12 @@
  */
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Archive;
+use Piwik\Archive\ArchiveTableStore;
 use Piwik\Cache;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Piwik;
 
 /**
@@ -40,9 +40,15 @@ class Loader
      */
     protected $params;
 
-    public function __construct(Parameters $params)
+    /**
+     * @var ArchiveTableStore
+     */
+    protected $archiveTableStore;
+
+    public function __construct(Parameters $params, ArchiveTableStore $archiveTableStore)
     {
         $this->params = $params;
+        $this->archiveTableStore = $archiveTableStore;
     }
 
     /**
@@ -95,9 +101,11 @@ class Loader
 
             $this->params->setRequestedPlugin('VisitsSummary');
 
-            $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+            $pluginsArchiver = new PluginsArchiver($this->params, $this->archiveTableStore, $this->isArchiveTemporary());
+            $pluginsArchiver->initNewArchive();
+
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
-            $pluginsArchiver->finalizeArchive();
+            $pluginsArchiver->finalizeArchive($this->getFinalArchiveStatus());
 
             $this->params->setRequestedPlugin($requestedPlugin);
 
@@ -110,7 +118,8 @@ class Loader
 
     protected function prepareAllPluginsArchive($visits, $visitsConverted)
     {
-        $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+        $pluginsArchiver = new PluginsArchiver($this->params, $this->archiveTableStore, $this->isArchiveTemporary());
+        $idArchive = $pluginsArchiver->initNewArchive();
 
         if ($this->mustProcessVisitCount($visits)
             || $this->doesRequestedPluginIncludeVisitsSummary()
@@ -123,7 +132,7 @@ class Loader
         $forceArchivingWithoutVisits = !$this->isThereSomeVisits($visits) && $this->shouldArchiveForSiteEvenWhenNoVisits();
         $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits);
 
-        $idArchive = $pluginsArchiver->finalizeArchive();
+        $pluginsArchiver->finalizeArchive($this->getFinalArchiveStatus());
 
         return array($idArchive, $visits);
     }
@@ -168,7 +177,7 @@ class Loader
             return $noArchiveFound;
         }
 
-        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
+        $idAndVisits = $this->archiveTableStore->getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
 
         if (!$idAndVisits) {
             return $noArchiveFound;
@@ -246,5 +255,14 @@ class Loader
         }
 
         return $cache->fetch($cacheKey);
+    }
+
+    private function getFinalArchiveStatus()
+    {
+        $status = ArchiveWriter::DONE_OK;
+        if ($this->isArchiveTemporary()) {
+            $status = ArchiveWriter::DONE_OK_TEMPORARY;
+        }
+        return $status;
     }
 }

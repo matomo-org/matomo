@@ -7,8 +7,10 @@
  */
 namespace Piwik\Tests\Integration\Archive;
 
+use Piwik\Archive\ArchiveTableStore;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Db;
@@ -65,7 +67,9 @@ class PluginsArchiverTest extends IntegrationTestCase
 
         Fixture::createWebsite('2015-01-01 00:00:00');
 
-        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters(), $isTemporary = false);
+        $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters(),
+            StaticContainer::get(ArchiveTableStore::class), $isTemporary = false);
+        $this->pluginsArchiver->initNewArchive();
     }
 
     private function createArchiveProcessorParamaters()

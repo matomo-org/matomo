@@ -8,8 +8,10 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Archive\IdArchiveCache;
 use Piwik\Cache;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Framework\Mock\TestConfig;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -32,6 +34,7 @@ class BlobReportLimitingTest extends SystemTestCase
     public function setUp()
     {
         Cache::getTransientCache()->flushAll();
+        StaticContainer::get(IdArchiveCache::class)->flushAll();
         parent::setUp();
     }
 
