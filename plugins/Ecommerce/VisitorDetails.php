@@ -219,6 +219,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view              = new View('@Ecommerce/_profileSummary.twig');
         $view->idSite      = Common::getRequestVar('idSite', null, 'int');
         $view->visitorData = $profile;
-        return array(array(30, $view->render()));
+        return array(array(40, $view->render()));
     }
 }
