@@ -1,11 +1,113 @@
 .visitor-profile {
+  .visitor-profile-avatar {
+    ul {
+      width: 100% !important;
+      li {
+        display: block;
+        border: 0px;
+        &:first-child {
+          border: 0px !important;
+        }
+        span {
+          color: @theme-color-text-lighter;
+          .font-default(13px, 18px);
+          padding-left: 0;
+        }
+
+        strong {
+          color: @theme-color-text;
+          .font-default(13px, 18px);
+          font-weight: normal !important;
+        }
+
+        .visitor-profile-os,
+        .visitor-profile-browser {
+          margin-left: 0;
+          img {
+            margin-right: 5px;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+  }
+
+  .visitor-profile-avatar > div:nth-child(2n) {
+    width: 376px;
+  }
+
+  .visitor-profile-latest-visit {
+    .visitor-profile-latest-visit-column {
+      display: inline-block;
+      margin-left: 0;
+    }
+
+    .visitor-profile-latest-visit-column:first-child {
+      width: 50%;
+      margin-right:-4px;
+    }
+
+    .visitor-profile-latest-visit-column:last-child {
+      width: 50%;
+      margin-right:-4px;
+    }
+  }
+}
+
+.visitor-profile-latest-visit-loc {
+  display: inline-block;
+  position: absolute;
+  right: 4px;
+  top: -19px;
+}
+
+
+.visitor-profile-visits-container {
+  li {
+    margin: 0 !important;
+    background: @color-silver-l95;
+    padding: 7px 10px !important;
+    > div {
+      border: 0 !important;
+      margin: 0 !important;
+    }
+  }
+
+  ol.visitor-profile-visits {
+    > li {
+      padding: 0 0 0 !important;
+      .visitor-profile-date {
+        font-weight: normal;
+        margin-right: 20px;
+      }
+
+      ol {
+        background: @theme-color-background-contrast !important;
+        border-top: 0 !important;
+        li {
+          background: @theme-color-background-contrast !important;
+          font-weight: normal;
+          color: @theme-color-text-lighter;
+        }
+      }
+    }
+  }
+}
+
+.widget .visitor-profile .visitor-profile-info > div > div {
+  min-width: 100% !important;
+}
+
+.visitor-profile {
     position:relative;
     width:1150px;
-    border:1px solid #a19e96;
-    border-radius:5px;
-    background:url(../images/visitor_profile_background.jpg) repeat;
     box-shadow:5px 5px 5px rgba(0,0,0,0.22);
     text-align:left;
+
+    a {
+        color: @theme-color-link;
+        font-weight: normal;
+    }
 
     h1 {
         font-size:23px;
@@ -36,11 +138,7 @@
         margin-right: 0;
         .font-default(13px, 18px);
         color: @color-silver-l60;
-        strong {
-            .font-default(13px, 18px);
-            color: @theme-color-text;
-            font-weight: normal !important;
-        }
+
         span {
             .font-default(13px, 18px);
         }
@@ -139,14 +237,8 @@
 
 .visitor-profile-info {
     height:auto;
-    border-top:2px solid #f6f6f6;
-    border-bottom:1px solid #d1cec8;
-    border-radius:5px 5px 0 0;
-    box-shadow:inset 0 25px 15px -10px #e0e0e0, inset 0 -25px 15px -10px #e0e0e0;
 
     > div { // row
-        border-bottom:1px solid #d1cec8;
-
         > div { // columns
             vertical-align:top;
             height:auto;
@@ -159,6 +251,12 @@
       border-left:none;
       margin:0 -3px 0 0;
       border-right:1px solid #d1cec8;
+
+      p strong {
+        .font-default(13px, 18px);
+        color: @theme-color-text;
+        font-weight: normal !important;
+      }
     }
     .visitor-profile-visits-info { // last column
       width:575px;
@@ -174,6 +272,11 @@
     min-height:145px;
     margin:6px 15px 0 0;
     padding-bottom:4px;
+
+
+    > img {
+        display: none;
+    }
 }
 
 .visitor-profile-avatar > div:first-child {
@@ -184,7 +287,6 @@
     > .visitor-profile-image-frame {
         width:149px;
         height:154px;
-        background:url(../images/avatar_frame.png) no-repeat;
 
         > img { // avatar image
             max-width:122px;
@@ -218,8 +320,10 @@
     border-radius:0 0 5px 5px;
     text-align:center;
     padding:0 0 13px;
+    margin: 5px 0 15px 0;
 
-    > a {
+  > a {
+        .font-default(12px, 16px);
         font-size:14px;
         text-decoration:none;
         color:#255792;
@@ -379,9 +483,9 @@
     overflow-y:auto;
     overflow-x: hidden;
     position:relative;
-    margin-right:10px;
     border-bottom:none!important;
-    padding:0 18px 0 13px;
+    padding: 0;
+    margin: 0;
 
     .action-list-action-icon {
         margin-right:4px;
@@ -399,7 +503,6 @@
 
             span {
                 font-size:13px;
-                font-weight:700;
                 padding-left:0;
             }
         }
