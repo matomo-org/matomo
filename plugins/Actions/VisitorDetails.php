@@ -286,9 +286,14 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderProfileSummary($profile)
     {
-        $view              = new View('@Actions/_profileSummary.twig');
-        $view->visitorData = $profile;
-        return array(array(10, $view->render()));
+        // only render top pages if at least one page was visited more than once
+        if ($profile['totalRevisitedPages'] > 0) {
+            $view              = new View('@Actions/_profileSummary.twig');
+            $view->visitorData = $profile;
+            return array(array(10, $view->render()));
+        }
+
+        return array();
     }
 
     /**

@@ -3,11 +3,7 @@
         <h1>{{ 'Live_TopVisitedPages'|translate }}</h1>
         <div>
             <p>
-                {% if visitorData.totalRevisitedPages > 0 %}
                 <strong>{{ visitorData.totalPageViews }} {{ 'General_ColumnPageviews'|translate }}</strong> ({{ visitorData.totalUniquePageViews }} {{ 'General_ColumnUniquePageviews'|translate }}, {{ visitorData.totalRevisitedPages }} {{ 'Live_RevisitedPages'|translate }})
-                {% else %}
-                    <strong>{{ visitorData.totalPageViews }} {{ 'General_ColumnUniquePageviews'|translate }}</strong>
-                {% endif %}
             </p>
             <ul>
                 {% for url,count in visitorData.visitedPages %}
