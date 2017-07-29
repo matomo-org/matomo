@@ -13,11 +13,12 @@
     {% if visitInfo.getColumn('referrerType') == 'search' %}
         {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
         {%- set showKeyword = visitInfo.getColumn('referrerKeyword') is not empty and visitInfo.getColumn('referrerKeyword') != keywordNotDefined -%}
-        {% if visitInfo.getColumn('searchEngineIcon') %}
-            <img src="{{ visitInfo.getColumn('searchEngineIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
+        {{ 'General_FromReferrer'|translate }}
+        {% if visitInfo.getColumn('referrerSearchEngineIcon') %}
+            <img width="16" src="{{ visitInfo.getColumn('referrerSearchEngineIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
         {% endif %}
         <span {% if not showKeyword %}title="{{ keywordNotDefined }}" class="visitorLogTooltip"{% endif %}>{{ visitInfo.getColumn('referrerName') }}</span>
-        {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
+        {%- if showKeyword %}, {{ 'Referrers_Keywords'|translate }}:
             <a href="{{ visitInfo.getColumn('referrerUrl') }}" rel="noreferrer" target="_blank" style="text-decoration:underline;">
                 "{{ visitInfo.getColumn('referrerKeyword') }}"</a>
         {% endif %}
