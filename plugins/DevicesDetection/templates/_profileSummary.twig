@@ -5,11 +5,15 @@
             {%- for type,entry in visitorData.devices -%}
                 <p>
                     <img height="16" src="{{ entry.icon }}" />
-                    <span>{{ 'DevicesDetection_XVisitsFromDevices'|translate('<strong>' ~ entry.count ~ '</strong>', '<strong>' ~ type ~ '</strong>')|raw }}:<br />
-                        {%- for type,count in entry.devices -%}
+                    {% if entry.devices|length == 1 and 'General_Unknown'|translate in entry.devices|keys %}
+                        <span>{{ 'DevicesDetection_XVisitsFromDevices'|translate('<strong>' ~ entry.count ~ '</strong>', '<strong>' ~ type ~ '</strong>')|raw }}
+                    {% else %}
+                    <span>{{ 'DevicesDetection_XVisitsFromDevices'|translate('<strong>' ~ entry.count ~ '</strong>', '<strong>' ~ type ~ '</strong>')|raw }}:
+                        {% for type,count in entry.devices -%}
                             {{ type }} ({{ count }}x){% if not loop.last %}, {% endif %}
                         {%- endfor -%}
-                            </span>
+                    </span>
+                    {% endif %}
                 </p>
             {%- endfor -%}
         </div>
