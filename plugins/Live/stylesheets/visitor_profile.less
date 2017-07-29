@@ -35,32 +35,7 @@
   .visitor-profile-avatar > div:nth-child(2n) {
     width: 376px;
   }
-
-  .visitor-profile-latest-visit {
-    .visitor-profile-latest-visit-column {
-      display: inline-block;
-      margin-left: 0;
-    }
-
-    .visitor-profile-latest-visit-column:first-child {
-      width: 50%;
-      margin-right:-4px;
-    }
-
-    .visitor-profile-latest-visit-column:last-child {
-      width: 50%;
-      margin-right:-4px;
-    }
-  }
 }
-
-.visitor-profile-latest-visit-loc {
-  display: inline-block;
-  position: absolute;
-  right: 4px;
-  top: -19px;
-}
-
 
 .visitor-profile-visits-container {
   li {
@@ -340,6 +315,15 @@
     padding-top:6px;
     display:inline-block;
     vertical-align:top;
+
+    .visitorLogIcons {
+        display: block;
+        margin: 10px 0 0 -9px;
+      
+        .visitorTypeIcon {
+            display: none;
+        }
+    }
 }
 
 .visitor-profile-browser {
@@ -662,6 +646,10 @@ span.visitor-profile-goal-name {
     .visitorLogIconWithDetails.flag>img {
         margin: auto 5px auto 0;
     }
+
+  .visitorTypeIcon {
+    display: none;
+  }
 }
 
 .visitor-profile-avatar .loadingPiwik {

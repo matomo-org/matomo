@@ -27,7 +27,6 @@
                             {% if visitorData.previousVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}">&larr;</a>{% endif %}
                             <h1>{{ 'Live_VisitorProfile'|translate }}
                                 {%- if visitorData.userId is not empty %}: <span title="{{'General_UserId'|translate}}: {{ visitorData.userId|raw }}">{{ visitorData.userId|raw }}</span>{% endif -%}
-                                <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/>
                             </h1>
                             <a href="http://piwik.org/docs/user-profile/" class="visitorProfileHelp" rel="noreferrer"  target="_blank" title="{{ 'General_ViewDocumentationFor'|translate("Live_VisitorProfile"|translate|ucwords) }}">
                                 <span class="icon-help"></span>
@@ -44,9 +43,9 @@
                                     <span class="icon-export"></span>
                                 </a>
                             </div>
+                            {{ postEvent('Live.renderVisitorIcons', visitorData.lastVisits|first) }}
                         </div>
                     </div>
-                    <p style="clear:both; border:none!important;"></p>
                 </div>
 
                 {{ profileSummary|raw }}
