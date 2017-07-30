@@ -108,20 +108,32 @@ var piwikHelper = {
      * compiling of angular components manually.
      *
      * @param selector
+     * @param {object} options
+     * @param {object} options.scope if supplied, a new isolate scope is created as the parent scope of the
+     *                               compiled angular components. The properties in this object are
+     *                               added to the new scope.
      */
-    compileAngularComponents: function (selector) {
+    compileAngularComponents: function (selector, options) {
+        options = options || {};
+
         var $element = $(selector);
 
         if (!$element.length) {
-
             return;
         }
 
         angular.element(document).injector().invoke(function($compile) {
             var scope = angular.element($element).scope();
-            if (scope) {
-                $compile($element)(scope);
+            if (!scope) {
+                return;
             }
+
+            if (options.scope) {
+                scope = scope.$new(true);
+                $.extend(scope, options.scope);
+            }
+
+            $compile($element)(scope);
         });
     },
 
