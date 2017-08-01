@@ -290,7 +290,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         if ($profile['totalRevisitedPages'] > 0) {
             $view              = new View('@Actions/_profileSummary.twig');
             $view->visitorData = $profile;
-            return array(array(10, $view->render()));
+            return array(array(20, $view->render()));
         }
 
         return array();

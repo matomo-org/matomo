@@ -170,6 +170,18 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setDebugStringAppend('bw_bytes=2012');
         self::checkResponse($t->doTrackPageView('home'));
 
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
+        $t->setUrl('http://example.org/');
+        $t->setGenerationTime(511);
+        $t->setDebugStringAppend('bw_bytes=2012');
+        self::checkResponse($t->doTrackPageView('home'));
+
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
+        $t->setUrl('http://example.org/');
+        $t->setGenerationTime(222);
+        $t->setDebugStringAppend('bw_bytes=950');
+        self::checkResponse($t->doTrackPageView('home'));
+
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
     }
 

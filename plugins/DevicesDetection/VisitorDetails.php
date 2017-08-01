@@ -163,8 +163,12 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderProfileSummary($profile)
     {
+        if (empty($profile['devices'])) {
+            return [];
+        }
+
         $view              = new View('@DevicesDetection/_profileSummary.twig');
         $view->visitorData = $profile;
-        return array(array(30, $view->render()));
+        return [[30, $view->render()]];
     }
 }

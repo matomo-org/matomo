@@ -91,10 +91,11 @@
                         duplicateCounter++;
 
                     } else {
-                        prevhtml = current;
                         duplicateCounter = 0;
-                        prevelement = $(this);
                     }
+
+                    prevhtml = current;
+                    prevelement = $(this);
 
                     var $this = $(this);
                     var tooltipIsOpened = false;
@@ -106,19 +107,20 @@
                         }
                     });
 
-                    $this.tooltip({
-                        track: true,
-                        show: false,
-                        hide: false,
-                        content: function() {
-                            var title = $(this).attr('title');
-                            return $('<a>').text( title ).html().replace(/\n/g, '<br />');
-                        },
-                        tooltipClass: 'small',
-                        open: function() { tooltipIsOpened = true; },
-                        close: function() { tooltipIsOpened = false; }
-                    });
                 });
+            });
+
+            $("ol.visitorLog > li").tooltip({
+                track: true,
+                show: false,
+                hide: false,
+                content: function() {
+                    var title = $(this).attr('title');
+                    return $('<a>').text( title ).html().replace(/\n/g, '<br />');
+                },
+                tooltipClass: 'small',
+                open: function() { tooltipIsOpened = true; },
+                close: function() { tooltipIsOpened = false; }
             });
 
             // launch visitor profile on visitor profile link click
