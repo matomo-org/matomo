@@ -268,7 +268,7 @@ class GeoIPAutoUpdater extends Task
             }
 
             $tempFile = GeoIp::getPathForGeoIpDatabase($tempFilename);
-            rename($tempFile, $oldDbFile);
+            copy($tempFile, $oldDbFile);
 
             // delete original archive
             if ($unlink) {
