@@ -111,8 +111,14 @@ class FileIntegrity
             $deleteAllAtOnce = array();
             $chunks = array_chunk($directories, 50);
 
+            $command = 'rm -Rf';
+
+            if (SettingsServer::isWindows()) {
+                $command = 'rmdir /s /q';
+            }
+
             foreach ($chunks as $directories) {
-                $deleteAllAtOnce[] = sprintf('rm -Rf %s', implode(' ', $directories));
+                $deleteAllAtOnce[] = sprintf('%s %s', $command, implode(' ', $directories));
             }
 
             $messages[] = Piwik::translate('General_ExceptionUnexpectedDirectory')
@@ -153,8 +159,14 @@ class FileIntegrity
             $deleteAllAtOnce = array();
             $chunks = array_chunk($files, 50);
 
+            $command = 'rm';
+
+            if (SettingsServer::isWindows()) {
+                $command = 'del';
+            }
+
             foreach ($chunks as $files) {
-                $deleteAllAtOnce[] = sprintf('rm %s', implode(' ', $files));
+                $deleteAllAtOnce[] = sprintf('%s %s', $command, implode(' ', $files));
             }
 
             $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')
