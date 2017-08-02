@@ -155,6 +155,12 @@ abstract class GeoIp extends LocationProvider
         $countryCode = strtoupper($countryCode);
         $regionCode = strtoupper($regionCode);
 
+        // ensure tibet is shown as region of china
+        if ($countryCode == 'TI' && $regionCode == '1') {
+            $regionCode = '14';
+            $countryCode = 'CN';
+        }
+
         if (isset($regionNames[$countryCode][$regionCode])) {
             return $regionNames[$countryCode][$regionCode];
         } else {
