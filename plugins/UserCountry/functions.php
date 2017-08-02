@@ -22,6 +22,10 @@ use Piwik\Tracker\Visit;
  */
 function getFlagFromCode($code)
 {
+    if (strtolower($code) == 'ti') {
+        $code = 'cn';
+    }
+
     $pathInPiwik = 'plugins/Morpheus/icons/dist/flags/%s.png';
     $pathWithCode = sprintf($pathInPiwik, $code);
     $absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
@@ -55,6 +59,10 @@ function countryTranslate($label)
 {
     if ($label == Visit::UNKNOWN_CODE || $label == '') {
         return Piwik::translate('General_Unknown');
+    }
+
+    if (strtolower($label) == 'ti') {
+        $label = 'cn';
     }
 
     // Try to get name from Intl plugin
