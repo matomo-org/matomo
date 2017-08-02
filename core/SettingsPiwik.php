@@ -236,7 +236,7 @@ class SettingsPiwik
 
     /**
      * Check if outgoing internet connections are enabled
-     * This is often disable in an intranet enviroment
+     * This is often disable in an intranet environment
      * 
      * @return bool
      */
