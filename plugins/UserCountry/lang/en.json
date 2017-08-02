@@ -16,7 +16,6 @@
         "country_a2": "Satellite Provider",
         "country_cat": "Catalan-speaking communities",
         "country_o1": "Other Country",
-        "country_ti": "Tibet",
         "CurrentLocationIntro": "According to this provider, your current location is",
         "DefaultLocationProviderDesc1": "The default location provider guesses a visitor's country based on the language they use.",
         "DefaultLocationProviderDesc2": "This is not very accurate, so %1$swe recommend installing and using %2$sGeoIP%3$s.%4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "The updater was last run on %s.",
         "UpdaterWillRunNext": "It is next scheduled to run on %s.",
         "WidgetLocation": "Visitor Location"
-    },
-    "Intl": {
-        "Country_TI": "Tibet"
     }
 }
