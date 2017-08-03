@@ -466,8 +466,11 @@ class CronArchive
     }
 
     private function getHumanReadableBytesSize($memoryInBytes, $precision = 2) {
-        for($i = 0; ($memoryInBytes / 1024) > 0.9; $i++, $memoryInBytes /= 1024) {}
-        return round($memoryInBytes, $precision).['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
+        for($i = 0; ($memoryInBytes / 1024) > 0.9; $i++)
+        {
+            $memoryInBytes /= 1024;
+        }
+        return round($memoryInBytes, $precision) . ['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
     }
 
     /**
