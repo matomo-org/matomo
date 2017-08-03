@@ -122,7 +122,7 @@ Will pre-process for website id = 1, period = year, date = last%s
 - pre-processing segment 1/1 actions>=2
 Archived website id = 1, period = year, 1 segments, 1 visits in last %s years, 1 visits this year, Time elapsed: %s
 Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]
-Mermory usage: %s
+Memory usage: %s
 Done archiving!
 ---------------------------
 SUMMARY
@@ -136,7 +136,7 @@ Skipped 0 websites
 Total API requests: %s
 done: 1/1 100%, 1 vtoday, 1 wtoday, 1 wperiods, %s req, %s ms, no error
 Time elapsed: %s
-Mermory peak usage: %s
+Memory peak usage: %s
 
 LOG;
         $this->assertStringMatchesFormat($expected, $logger->output);

@@ -414,7 +414,7 @@ class CronArchive
             Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idSite));
 
             $completed = $this->archiveSingleSite($idSite, $requestsBefore);
-            $this->logger->info("Mermory usage: " . $this->getHumanReadableBytesSize(memory_get_usage()));
+            $this->logger->info("Memory usage: " . $this->getHumanReadableBytesSize(memory_get_usage()));
 
             /**
              * This event is triggered immediately after the cron archiving process starts archiving data for a single
@@ -462,7 +462,7 @@ class CronArchive
         );
 
         $this->logger->info($timer->__toString());
-        $this->logger->info("Mermory peak usage: " . $this->getHumanReadableBytesSize(memory_get_peak_usage()));
+        $this->logger->info("Memory peak usage: " . $this->getHumanReadableBytesSize(memory_get_peak_usage()));
     }
 
     private function getHumanReadableBytesSize($memoryInBytes, $precision = 2) {
