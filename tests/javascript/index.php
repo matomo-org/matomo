@@ -2979,6 +2979,15 @@ function PiwikTest() {
         equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
     });
 
+    test("Tracker setSecureCookie(), isSecureCookie()", function() {
+        expect(1);
+
+        var tracker = Piwik.getTracker();
+
+        tracker.hook.test._setSecureCookie(1);
+        equal( tracker.hook.test._isSecureCookie(), 1);
+    });
+
     test("Tracker getCookieName() contains website ID", function() {
         expect(4);
 

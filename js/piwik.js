@@ -986,7 +986,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
-    setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
+    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, isSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
@@ -3202,7 +3202,9 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
+
+                secureCookie = false;
 
             // Document title
             try {
@@ -3214,7 +3216,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain, secure) {
+            function setCookie(cookieName, value, msToExpire, path, domain) {
                 if (configCookiesDisabled) {
                     return;
                 }
@@ -3231,7 +3233,21 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (secure ? ';secure' : '');
+                    (secureCookie ? ';secure' : '');
+            }
+
+            /*
+             * Set cookie secure flag
+             */
+            function setSecureCookie(value) {
+                secureCookie = !!value;
+            }
+
+            /**
+             * Get secure cookie flag value
+             */
+            function isSecureCookie() {
+                return secureCookie;
             }
 
             /*
@@ -7077,7 +7093,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'setSecureCookie'];
 
         function createFirstTracker(piwikUrl, siteId)
         {

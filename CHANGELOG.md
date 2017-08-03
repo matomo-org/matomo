@@ -6,6 +6,9 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 
 ## Piwik 3.0.5
 
+### New Features
+* New method `setSecureCookie` that sets the cookie's secure parameter
+
 ### New APIs
 * The events `ScheduledTasks.shouldExecuteTask`, `ScheduledTasks.execute`, `ScheduledTasks.execute.end` have been added to customize the behaviour of scheduled tasks.
 * A new event `CustomPiwikJs.shouldAddTrackerFile` has been added to let plugins customize which tracker files should be included in piwik.js JavaScript tracker
