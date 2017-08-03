@@ -155,8 +155,15 @@ class PluginSettingsTable implements BackendInterface
             throw new Exception('No userLogin specified. Cannot remove all settings for this user');
         }
 
-        $table = Common::prefixTable('plugin_setting');
-        Db::get()->query(sprintf('DELETE FROM %s WHERE user_login = ?', $table), array($userLogin));
+        try {
+            $table = Common::prefixTable('plugin_setting');
+            Db::get()->query(sprintf('DELETE FROM %s WHERE user_login = ?', $table), array($userLogin));
+        } catch (Exception $e) {
+            if ($e->getCode() != 42) {
+                // ignore table not found error, which might occur when updating from an older version of Piwik
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -169,7 +176,14 @@ class PluginSettingsTable implements BackendInterface
      */
     public static function removeAllSettingsForPlugin($pluginName)
     {
-        $table = Common::prefixTable('plugin_setting');
-        Db::get()->query(sprintf('DELETE FROM %s WHERE plugin_name = ?', $table), array($pluginName));
+        try {
+            $table = Common::prefixTable('plugin_setting');
+            Db::get()->query(sprintf('DELETE FROM %s WHERE plugin_name = ?', $table), array($pluginName));
+        } catch (Exception $e) {
+            if ($e->getCode() != 42) {
+                // ignore table not found error, which might occur when updating from an older version of Piwik
+                throw $e;
+            }
+        }
     }
 }
