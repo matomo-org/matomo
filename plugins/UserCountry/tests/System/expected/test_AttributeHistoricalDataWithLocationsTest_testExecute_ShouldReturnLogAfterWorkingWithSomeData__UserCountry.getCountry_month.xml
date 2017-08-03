@@ -2,25 +2,25 @@
 <result>
 	<row>
 		<label>China</label>
-		<nb_visits>18</nb_visits>
-		<nb_actions>50</nb_actions>
+		<nb_visits>20</nb_visits>
+		<nb_actions>55</nb_actions>
 		<max_actions>5</max_actions>
-		<bounce_count>9</bounce_count>
+		<bounce_count>10</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>18</nb_conversions>
-				<nb_visits_converted>18</nb_visits_converted>
-				<revenue>90</revenue>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
 			</row>
 			<row idgoal='2'>
-				<nb_conversions>9</nb_conversions>
-				<nb_visits_converted>9</nb_visits_converted>
-				<revenue>45</revenue>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
 			</row>
 		</goals>
-		<nb_conversions>27</nb_conversions>
-		<revenue>135</revenue>
-		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+		<nb_conversions>30</nb_conversions>
+		<revenue>150</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>cn</code>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
@@ -133,33 +133,6 @@
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 		<segment>countryCode==it</segment>
-		<logoHeight>16</logoHeight>
-	</row>
-	<row>
-		<label>Tibet</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>4</max_actions>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>15</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<code>ti</code>
-		<logo>plugins/Morpheus/icons/dist/flags/ti.png</logo>
-		<segment>countryCode==ti</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
