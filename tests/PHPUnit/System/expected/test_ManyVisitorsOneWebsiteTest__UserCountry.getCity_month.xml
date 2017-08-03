@@ -162,7 +162,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 	</row>
 	<row>
-		<label>Lhasa, Unknown, Tibet</label>
+		<label>Lhasa, Xizang, China</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -190,9 +190,9 @@
 		<city_name>Lhasa</city_name>
 		<region>1</region>
 		<country>ti</country>
-		<country_name>Tibet</country_name>
-		<region_name>Unknown</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/ti.png</logo>
+		<country_name>China</country_name>
+		<region_name>Xizang</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 	<row>
 		<label>London, London, City of, United Kingdom</label>
