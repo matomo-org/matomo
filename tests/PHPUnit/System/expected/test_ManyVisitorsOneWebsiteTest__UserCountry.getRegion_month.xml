@@ -262,7 +262,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>regionCode==1;countryCode==ti</segment>
+		<segment>regionCode==14;countryCode==cn</segment>
 		<region>14</region>
 		<country>cn</country>
 		<country_name>China</country_name>
