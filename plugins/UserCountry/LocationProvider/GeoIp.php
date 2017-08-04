@@ -54,7 +54,6 @@ abstract class GeoIp extends LocationProvider
      */
     public function completeLocationResult(&$location)
     {
-        $this->fixupLocation($location);
         parent::completeLocationResult($location);
 
         // set region name if region code is set
@@ -65,21 +64,6 @@ abstract class GeoIp extends LocationProvider
             $countryCode = $location[self::COUNTRY_CODE_KEY];
             $regionCode = (string)$location[self::REGION_CODE_KEY];
             $location[self::REGION_NAME_KEY] = self::getRegionNameFromCodes($countryCode, $regionCode);
-        }
-    }
-
-    /**
-     * Fix up data to work with our SVG maps which include 'Tib' boundaries
-     */
-    protected function fixupLocation(&$location)
-    {
-        if (!empty($location[self::REGION_CODE_KEY])
-            && $location[self::REGION_CODE_KEY] == '14'
-            && !empty($location[self::COUNTRY_CODE_KEY])
-            && strtoupper($location[self::COUNTRY_CODE_KEY]) == 'CN'
-        ) {
-            $location[self::COUNTRY_CODE_KEY] = 'ti';
-            $location[self::REGION_CODE_KEY] = '1';
         }
     }
 
