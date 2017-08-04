@@ -2246,10 +2246,10 @@
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>China</country>
-		<countryCode>ti</countryCode>
+		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region>Xizang</region>
-		<regionCode>1</regionCode>
+		<regionCode>14</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
@@ -2526,10 +2526,10 @@
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>China</country>
-		<countryCode>ti</countryCode>
+		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region>Xizang</region>
-		<regionCode>1</regionCode>
+		<regionCode>14</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
