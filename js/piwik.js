@@ -1198,7 +1198,7 @@ if (typeof window.Piwik !== 'object') {
 
                 var isStaticPluginCall = isString(f) && f.indexOf('::') > 0;
                 if (isStaticPluginCall) {
-                    // a static method will not be called on a tracker and is not dependent on the existance of a
+                    // a static method will not be called on a tracker and is not dependent on the existence of a
                     // tracker etc
                     fParts = f.split('::');
                     context = fParts[0];
@@ -7307,7 +7307,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (!siteId && !piwikUrl) {
-                    // for BC and by default we just return the initally created tracker
+                    // for BC and by default we just return the initially created tracker
                     return firstTracker;
                 }
 
