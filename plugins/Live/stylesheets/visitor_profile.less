@@ -630,17 +630,29 @@ span.visitor-profile-goal-name {
     background-color: #fff;
     padding: 10px;
     border-bottom: 1px solid #f2f2f2;
+    overflow: hidden;
 
     .visitorLogIconWithDetails {
         margin-right: 5px;
     }
 
-    .visitorDetails, .visitorType {
-        display: inline-block;
+    .visitorType {
+      display: inline-block;
+      float: left;
+      margin-right: 15px;
+
+      > span {
+        padding: 3px 5px;
+      }
     }
 
-    .visitorType > span {
-        padding: 3px 5px;
+    .visitorDetails {
+      display: inline-block;
+      visibility: hidden;
+    }
+
+    &:hover .visitorDetails {
+      visibility: visible;
     }
 
     .visitorLogIconWithDetails.flag>img {

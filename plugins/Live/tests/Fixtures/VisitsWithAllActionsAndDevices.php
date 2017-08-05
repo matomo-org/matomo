@@ -95,6 +95,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.org/product42');
+        $t->setCustomTrackingParameter('dimension2', 'NZD');
         $t->setEcommerceView($sku = 'P42X4D', $name = 'product 42', $category = 'software', $price = 60);
         $t->setGenerationTime(83);
         $t->setDebugStringAppend('bw_bytes=36053');
@@ -192,6 +193,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         $t->setUrlReferrer('http://www.nice.website/page3');
         $t->setCustomVariable(1, 'promo', 'summer', 'visit');
+        $t->setCustomTrackingParameter('dimension1', '16');
         $t->setUrl('http://example.org/');
         $t->setGenerationTime(195);
         $t->setDebugStringAppend('bw_bytes=631');
