@@ -199,6 +199,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderProfileSummary($profile)
     {
+        if (empty($profile['countries'])) {
+            return array();
+        }
+
         $view              = new View('@UserCountry/_profileSummary.twig');
         $view->visitorData = $profile;
 
