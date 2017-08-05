@@ -25,9 +25,9 @@ describe("Live", function () {
         }, done);
     });
 
-    it('should show all action details', function (done) {
+    it('should hide all action details', function (done) {
         expect.screenshot('visitor_profile_actions_hidden').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('.visitor-profile-toggle-actions', 100);
+            page.click('.visitor-profile-toggle-actions', 350);
         }, done);
     });
 
