@@ -14,8 +14,7 @@ describe("Live", function () {
 
     it('should show visitor log', function (done) {
         expect.screenshot('visitor_log').to.be.captureSelector('.reporting-page', function (page) {
-            page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
-            page.wait(3000);
+            page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog", 3000);
         }, done);
     });
 
@@ -44,7 +43,7 @@ describe("Live", function () {
     });
 
     it('should show action tooltip', function (done) {
-        expect.screenshot('visitor_profile_action_tooltip').to.be.captureSelector('.ui-dialog', function (page) {
+        expect.screenshot('visitor_profile_action_tooltip').to.be.captureSelector('.ui-tooltip:visible', function (page) {
             page.mouseMove('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child', 100);
         }, done);
     });
