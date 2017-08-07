@@ -24,7 +24,7 @@ describe("Live", function () {
             page.evaluate(function(){
                 $('.card:first-child .visitor-log-visitor-profile-link').click();
             });
-            page.wait(5000);
+            page.wait(6000);
         }, done);
     });
 
@@ -39,7 +39,7 @@ describe("Live", function () {
     it('should show visit details', function (done) {
         expect.screenshot('visitor_profile_visit_details').to.be.captureSelector('.ui-dialog', function (page) {
             page.evaluate(function(){
-                $('.visitor-profile-visit-title:first-child').click();
+                $('.visitor-profile-visit-title')[0].click();
             }, 200);
         }, done);
     });
