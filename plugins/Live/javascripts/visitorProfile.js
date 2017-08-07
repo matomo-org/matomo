@@ -97,12 +97,6 @@
                 return false;
             });
 
-            $element.on('click', '.visitor-profile-see-more-cvars>a', function (e) {
-                e.preventDefault();
-                $('.visitor-profile-extra-cvars', $element).slideToggle();
-                return false;
-            });
-
             $element.on('click', '.visitor-profile-visit-title-row', function () {
                $('.visitor-profile-visit-details-extended', $(this).parents('li')).slideToggle();
             });
