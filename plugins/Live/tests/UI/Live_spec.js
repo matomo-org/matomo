@@ -9,7 +9,6 @@
 
 describe("Live", function () {
     this.timeout(0);
-    this.retries(3);
 
     this.fixture = "Piwik\\Plugins\\Live\\tests\\Fixtures\\VisitsWithAllActionsAndDevices";
 
@@ -31,13 +30,17 @@ describe("Live", function () {
 
     it('should hide all action details', function (done) {
         expect.screenshot('visitor_profile_actions_hidden').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('.visitor-profile-toggle-actions', 500);
+            page.evaluate(function(){
+                $('.visitor-profile-toggle-actions').click();
+            }, 500);
         }, done);
     });
 
     it('should show visit details', function (done) {
         expect.screenshot('visitor_profile_visit_details').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('.visitor-profile-visit-title:first-child', 200);
+            page.evaluate(function(){
+                $('.visitor-profile-visit-title:first-child').click();
+            }, 200);
         }, done);
     });
 
