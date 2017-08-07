@@ -285,8 +285,16 @@
       width: 50%;
       padding: 4px;
 
+      img {
+        float: left;
+      }
+
       &:after {
         content: attr(profile-header-text);
+        text-overflow: ellipsis;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
 
