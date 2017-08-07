@@ -13,7 +13,7 @@
         </span>
     {% endif %}
     {% if visitor.getColumn('countryFlag') %}
-        <span class="visitorLogIconWithDetails flag">
+        <span class="visitorLogIconWithDetails flag" profile-header-text="{% if visitor.getColumn('city') %}{{ visitor.getColumn('city')|e('html_attr') }}{% else %}{{ visitor.getColumn('country') }}{% endif %}">
 
             <img src="{{ visitor.getColumn('countryFlag') }}"/>
             <ul class="details">
@@ -25,7 +25,7 @@
         </span>
     {% endif %}
     {% if visitor.getColumn('browserIcon') %}
-        <span class="visitorLogIconWithDetails">
+        <span class="visitorLogIconWithDetails" profile-header-text="{{ visitor.getColumn('browser')|e('html_attr') }}">
             <img src="{{ visitor.getColumn('browserIcon') }}"/>
             <ul class="details">
                 <li>{{ 'DevicesDetection_ColumnBrowser'|translate }}: {{ visitor.getColumn('browser') }}</li>
@@ -42,7 +42,7 @@
         </span>
     {% endif %}
         {% if visitor.getColumn('operatingSystemIcon') %}
-            <span class="visitorLogIconWithDetails">
+            <span class="visitorLogIconWithDetails" profile-header-text="{{ visitor.getColumn('operatingSystem')|e('html_attr') }}">
             <img src="{{ visitor.getColumn('operatingSystemIcon') }}"/>
             <ul class="details">
                 <li>{{ 'DevicesDetection_ColumnOperatingSystem'|translate }}: {{ visitor.getColumn('operatingSystem') }}</li>
@@ -50,7 +50,7 @@
         </span>
         {% endif %}
         {% if visitor.getColumn('deviceTypeIcon') %}
-            <span class="visitorLogIconWithDetails">
+            <span class="visitorLogIconWithDetails" profile-header-text="{{ visitor.getColumn('resolution')|e('html_attr') }}">
             <img src="{{ visitor.getColumn('deviceTypeIcon') }}"/>
             <ul class="details">
                 <li>{{ 'DevicesDetection_DeviceType'|translate }}: {{ visitor.getColumn('deviceType') }}</li>

@@ -318,7 +318,18 @@
 
     .visitorLogIcons {
         display: block;
-        margin: 10px 0 0 -9px;
+        margin: 0 0 0 -9px;
+
+        .visitorLogIconWithDetails {
+          display: block;
+          float: left;
+          width: 50%;
+          padding: 4px;
+
+          &:after {
+            content: attr(profile-header-text);
+          }
+        }
       
         .visitorTypeIcon, .visitorType  {
             display: none;
