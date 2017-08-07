@@ -50,7 +50,7 @@
         </span>
         {% endif %}
         {% if visitor.getColumn('deviceTypeIcon') %}
-            <span class="visitorLogIconWithDetails" profile-header-text="{{ visitor.getColumn('resolution')|e('html_attr') }}">
+            <span class="visitorLogIconWithDetails" profile-header-text="{% if visitor.getColumn('resolution') %}{{ visitor.getColumn('resolution')|e('html_attr') }}{% else %}{{ visitor.getColumn('deviceType') }}{% endif %}">
             <img src="{{ visitor.getColumn('deviceTypeIcon') }}"/>
             <ul class="details">
                 <li>{{ 'DevicesDetection_DeviceType'|translate }}: {{ visitor.getColumn('deviceType') }}</li>
