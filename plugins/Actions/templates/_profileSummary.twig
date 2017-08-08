@@ -1,10 +1,7 @@
 {% if visitorData.totalPageViews > 0 %}
     <div class="visitor-profile-summary visitor-profile-pages">
-        <h1>{{ 'Live_TopVisitedPages'|translate }}</h1>
+        <h1>{{ 'Actions_RevisitedPages'|translate }}</h1>
         <div>
-            <p>
-                <strong>{{ visitorData.totalPageViews }} {{ 'General_ColumnPageviews'|translate }}</strong> ({{ visitorData.totalUniquePageViews }} {{ 'General_ColumnUniquePageviews'|translate }}, {{ visitorData.totalRevisitedPages }} {{ 'Live_RevisitedPages'|translate }})
-            </p>
             <ul>
                 {% for url,count in visitorData.visitedPages %}
                     {% if loop.index < 6 and count > 1 %}
