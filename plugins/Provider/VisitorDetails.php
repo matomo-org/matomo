@@ -29,13 +29,12 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderVisitorDetails($visitorDetails)
     {
         if (empty($visitorDetails['provider'])) {
-            return '';
+            return [];
         }
 
         $view            = new View('@Provider/_visitorDetails.twig');
         $view->visitInfo = $visitorDetails;
-        $out = $view->render();
-        return $out;
+        return [[ 20, $view->render() ]];
     }
 
     protected function getProvider()

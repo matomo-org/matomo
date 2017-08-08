@@ -70,7 +70,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $view            = new View('@CustomVariables/_visitorDetails');
         $view->visitInfo = $visitInfo;
-        return $view->render();
+        return [[ 50, $view->render() ]];
     }
 
     private static function getCustomVariablePrettyKey($key)

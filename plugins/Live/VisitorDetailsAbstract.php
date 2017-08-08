@@ -163,6 +163,11 @@ abstract class VisitorDetailsAbstract
 
     /**
      * Called when rendering the visitor details in visitor log
+     * returned array needs to look like this:
+     * array (
+     *          20,   // order id
+     *          'rendered html content'
+     * )
      *
      * **Example**
      *    public function renderVisitorDetails($visitorDetails) {
@@ -172,10 +177,11 @@ abstract class VisitorDetailsAbstract
      *    }
      *
      * @param array $visitorDetails
-     * @return string
+     * @return array
      */
     public function renderVisitorDetails($visitorDetails)
     {
+        return array();
     }
 
     /**

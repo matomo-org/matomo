@@ -106,7 +106,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $view            = new View('@Live/_visitorDetails.twig');
         $view->visitInfo = $visitorDetails;
-        return $view->render();
+        return [[ 0, $view->render() ]];
     }
 
     public function renderIcons($visitorDetails)

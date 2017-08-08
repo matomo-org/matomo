@@ -79,10 +79,21 @@ class Live extends \Piwik\Plugin
 
     public function renderVisitorDetails(&$renderedDetails, $visitorDetails)
     {
+        $detailEntries = [];
         $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
+
         foreach ($visitorDetailsInstances as $instance) {
-            $renderedDetails .= $instance->renderVisitorDetails($visitorDetails);
+            $detailEntries = array_merge($detailEntries, $instance->renderVisitorDetails($visitorDetails));
         }
+
+        usort($detailEntries, function($a, $b) {
+            return version_compare($a[0], $b[0]);
+        });
+
+        foreach ($detailEntries AS $detailEntry) {
+            $renderedDetails .= $detailEntry[1];
+        }
+
     }
 
     public function renderVisitorIcons(&$renderedDetails, $visitorDetails)

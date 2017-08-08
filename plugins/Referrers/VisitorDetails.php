@@ -30,7 +30,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $view            = new View('@Referrers/_visitorDetails.twig');
         $view->visitInfo = $visitorDetails;
-        return $view->render();
+        return [[ 10, $view->render() ]];
     }
 
     protected function getReferrerType()
