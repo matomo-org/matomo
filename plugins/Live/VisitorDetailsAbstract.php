@@ -142,13 +142,19 @@ abstract class VisitorDetailsAbstract
 
     /**
      * Called for rendering the tooltip on actions
+     * returned array needs to look like this:
+     * array (
+     *          20,   // order id
+     *          'rendered html content'
+     * )
      *
      * @param array $action
      * @param array $visitInfo
-     * @return string
+     * @return array
      */
     public function renderActionTooltip($action, $visitInfo)
     {
+        return [];
     }
 
     /**

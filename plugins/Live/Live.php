@@ -71,9 +71,19 @@ class Live extends \Piwik\Plugin
 
     public function renderActionTooltip(&$tooltip, $action, $visitInfo)
     {
+        $detailEntries = [];
         $visitorDetailsInstances = Visitor::getAllVisitorDetailsInstances();
+
         foreach ($visitorDetailsInstances as $instance) {
-            $tooltip .= $instance->renderActionTooltip($action, $visitInfo);
+            $detailEntries = array_merge($detailEntries, $instance->renderActionTooltip($action, $visitInfo));
+        }
+
+        usort($detailEntries, function($a, $b) {
+            return version_compare($a[0], $b[0]);
+        });
+
+        foreach ($detailEntries AS $detailEntry) {
+            $tooltip .= $detailEntry[1];
         }
     }
 
@@ -93,7 +103,6 @@ class Live extends \Piwik\Plugin
         foreach ($detailEntries AS $detailEntry) {
             $renderedDetails .= $detailEntry[1];
         }
-
     }
 
     public function renderVisitorIcons(&$renderedDetails, $visitorDetails)

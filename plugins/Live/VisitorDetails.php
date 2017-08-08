@@ -99,7 +99,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view            = new View('@Live/_actionTooltip');
         $view->action    = $action;
         $view->visitInfo = $visitInfo;
-        return $view->render();
+        return [[ 0, $view->render() ]];
     }
 
     public function renderVisitorDetails($visitorDetails)

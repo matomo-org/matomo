@@ -40,11 +40,11 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderActionTooltip($action, $visitInfo)
     {
         if ($action['type'] != Action::TYPE_CONTENT) {
-            return;
+            return [];
         }
 
         $view         = new View('@Contents/_actionTooltip');
         $view->action = $action;
-        return $view->render();
+        return [[ 10, $view->render() ]];
     }
 }

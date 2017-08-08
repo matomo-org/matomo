@@ -58,12 +58,12 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderActionTooltip($action, $visitInfo)
     {
         if (empty($action['customVariables'])) {
-            return;
+            return [];
         }
 
         $view         = new View('@CustomVariables/_actionTooltip');
         $view->action = $action;
-        return $view->render();
+        return [[ 40, $view->render() ]];
     }
 
     public function renderVisitorDetails($visitInfo)
