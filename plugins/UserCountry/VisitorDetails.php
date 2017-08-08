@@ -213,7 +213,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
         }
 
-        return array(array(50, $view->render()));
+        return array(array(100, $view->render()));
     }
 
     private function getUserCountryMapUrlForVisitorProfile()

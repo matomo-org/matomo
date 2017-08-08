@@ -200,7 +200,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $viewVisits->visitorData = $profile;
 
         return array(array(0,  $view->render()),
-                     array(10, $viewVisits->render()));
+                     array(30, $viewVisits->render()));
 
     }
 

@@ -169,6 +169,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $view              = new View('@DevicesDetection/_profileSummary.twig');
         $view->visitorData = $profile;
-        return [[30, $view->render()]];
+        return [[50, $view->render()]];
     }
 }
