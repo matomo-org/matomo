@@ -84,4 +84,103 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
         return $key;
     }
+
+
+    protected $customVariables = [];
+
+    public function initProfile($visits, &$profile)
+    {
+        $this->customVariables = [
+            Model::SCOPE_PAGE => [],
+            Model::SCOPE_VISIT  => [],
+        ];
+    }
+
+    public function handleProfileAction($action, &$profile)
+    {
+        if (empty($action['customVariables'])) {
+            return;
+        }
+
+        foreach ($action['customVariables'] as $index => $customVariable) {
+
+            $scope = Model::SCOPE_PAGE;
+            $name = $customVariable['customVariablePageName'.$index];
+            $value = $customVariable['customVariablePageValue'.$index];
+
+            if (empty($value)) {
+                continue;
+            }
+
+            if (!array_key_exists($name, $this->customVariables[$scope])) {
+                $this->customVariables[$scope][$name] = [];
+            }
+
+            if (!array_key_exists($value, $this->customVariables[$scope][$name])) {
+                $this->customVariables[$scope][$name][$value] = 0;
+            }
+
+            $this->customVariables[$scope][$name][$value]++;
+        }
+    }
+
+    public function handleProfileVisit($visit, &$profile)
+    {
+        if (empty($visit['customVariables'])) {
+            return;
+        }
+
+        foreach ($visit['customVariables'] as $index => $customVariable) {
+
+            $scope = Model::SCOPE_VISIT;
+            $name = $customVariable['customVariableName'.$index];
+            $value = $customVariable['customVariableValue'.$index];
+
+            if (empty($value)) {
+                continue;
+            }
+
+            if (!array_key_exists($name, $this->customVariables[$scope])) {
+                $this->customVariables[$scope][$name] = [];
+            }
+
+            if (!array_key_exists($value, $this->customVariables[$scope][$name])) {
+                $this->customVariables[$scope][$name][$value] = 0;
+            }
+
+            $this->customVariables[$scope][$name][$value]++;
+        }
+    }
+
+    public function finalizeProfile($visits, &$profile)
+    {
+        $customVariables = $this->customVariables;
+        foreach ($customVariables as $scope => &$variables) {
+
+            if (empty($variables)) {
+                unset($customVariables[$scope]);
+                continue;
+            }
+
+            foreach ($variables AS $name => &$values) {
+                arsort($values);
+            }
+        }
+        if (!empty($customVariables)) {
+            $profile['customVariables'] = $customVariables;
+        }
+    }
+
+    public function renderProfileSummary($profile)
+    {
+        if (empty($profile['customVariables']) || (
+                empty($profile['customVariables'][Model::SCOPE_PAGE]) &&
+                empty($profile['customVariables'][Model::SCOPE_VISIT]) )) {
+            return [];
+        }
+
+        $view              = new View('@CustomVariables/_profileSummary.twig');
+        $view->visitorData = $profile;
+        return [[15, $view->render()]];
+    }
 }

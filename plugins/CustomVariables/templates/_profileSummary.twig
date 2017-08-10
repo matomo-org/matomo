@@ -1,0 +1,31 @@
+{% if visitorData.customVariables['visit'] is defined and visitorData.customVariables['visit']|length > 0 %}
+    <div class="visitor-profile-summary visitor-profile-customvariables">
+        <h1>{{ 'CustomVariables_CustomVariables'|translate }} ({{ 'General_TrackingScopeVisit'|translate }})</h1>
+        <div>
+            {%- for name,dimension in visitorData.customVariables['visit'] -%}
+                <p>
+                    <span>{{ name }}: </span>
+                    {%- for value,count in dimension -%}
+                        <strong title="{{ count }}x">{{ value }}</strong>{% if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                </p>
+            {%- endfor -%}
+        </div>
+    </div>
+{% endif %}
+
+{% if visitorData.customVariables['page'] is defined and visitorData.customVariables['page']|length > 0 %}
+    <div class="visitor-profile-summary visitor-profile-customvariables">
+        <h1>{{ 'CustomVariables_CustomVariables'|translate }} ({{ 'General_TrackingScopeAction'|translate }})</h1>
+        <div>
+            {%- for name,dimension in visitorData.customVariables['page'] -%}
+                <p>
+                    <span>{{ name }}: </span>
+                    {%- for value,count in dimension -%}
+                        <strong title="{{ count }}x">{{ value }}</strong>{% if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                </p>
+            {%- endfor -%}
+        </div>
+    </div>
+{% endif %}
