@@ -64,7 +64,7 @@
 
     <span class="visitorType">
         {# Goals, and/or Ecommerce activity #}
-        {% if visitor.getColumn('visitConverted') %}
+        {% if visitor.getColumn('goalConversions') %}
             <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.getColumn('goalConversions')) }}" class='visitorRank visitorLogTooltip'
                   {% if isWidget or breakBeforeVisitorRank %}style="margin-left:0;"{% endif %}>
                 <img src="{{ visitor.getColumn('visitConvertedIcon') }}"/>
