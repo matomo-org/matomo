@@ -111,6 +111,12 @@
   }
 }
 
+.visitor-profile-customvariables {
+  span {
+    padding-left: 0;
+  }
+}
+
 .visitor-profile-widget-link {
   color: #5e5e5c;
 }
@@ -232,6 +238,18 @@
 
     h1 {
       display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 0;
+      max-width: 330px;
+      line-height: 30px;
+      vertical-align: top;
+
+      > span {
+        font-size: inherit;
+        line-height: inherit;
+      }
     }
   }
 
@@ -598,6 +616,8 @@ span.visitor-profile-goal-name {
 
 .visitor-profile-header {
   position: relative;
+  line-height: 30px;
+  margin-top: 9px;
 
   .visitorProfileHelp {
     display: none;
