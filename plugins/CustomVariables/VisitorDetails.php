@@ -167,8 +167,38 @@ class VisitorDetails extends VisitorDetailsAbstract
             }
         }
         if (!empty($customVariables)) {
-            $profile['customVariables'] = $customVariables;
+
+            $profile['customVariables'] = $this->convertForProfile($customVariables);
         }
+    }
+
+    protected function convertForProfile($customVariables)
+    {
+        $convertedVariables = [];
+
+        foreach ($customVariables as $scope => $scopeVariables) {
+
+            $convertedVariables[$scope] = [];
+
+            foreach ($scopeVariables as $name => $values) {
+
+                $variable = [
+                    'name' => $name,
+                    'values' => []
+                ];
+
+                foreach ($values as $value => $count) {
+                    $variable['values'][] = [
+                        'value' => $value,
+                        'count' => $count
+                    ];
+                }
+
+                $convertedVariables[$scope][] = $variable;
+            }
+        }
+
+        return $convertedVariables;
     }
 
     public function renderProfileSummary($profile)

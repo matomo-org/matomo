@@ -23,13 +23,13 @@
             <div>
                 <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</p>
                 <p>
-                    {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
-                        {%- if visitorData.firstVisit.referrerType == 'website' %}
-                            <a href="{{ visitorData.firstVisit.referrerUrl }}" target="_blank">
-                                {{ visitorData.firstVisit.referralSummary }}
+                    {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
+                        {%- if visitorData.lastVisit.referrerType == 'website' %}
+                            <a href="{{ visitorData.lastVisit.referrerUrl }}" target="_blank">
+                                {{ visitorData.lastVisit.referralSummary }}
                             </a>
                         {% else %}
-                            {{ visitorData.firstVisit.referralSummary }}
+                            {{ visitorData.lastVisit.referralSummary }}
                         {% endif %}
                     </strong>
                 </p>

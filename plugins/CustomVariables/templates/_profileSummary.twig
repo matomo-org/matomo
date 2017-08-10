@@ -2,11 +2,11 @@
     <div class="visitor-profile-summary visitor-profile-customvariables">
         <h1>{{ 'CustomVariables_CustomVariables'|translate }} ({{ 'General_TrackingScopeVisit'|translate }})</h1>
         <div>
-            {%- for name,dimension in visitorData.customVariables['visit'] -%}
+            {%- for variable in visitorData.customVariables['visit'] -%}
                 <p>
-                    <span>{{ name }}: </span>
-                    {%- for value,count in dimension -%}
-                        <strong title="{{ count }}x">{{ value }}</strong>{% if not loop.last %}, {% endif %}
+                    <span>{{ variable.name }}: </span>
+                    {%- for value in variable.values -%}
+                        <strong title="{{ value.count }}x">{{ value.value }}</strong>{% if not loop.last %}, {% endif %}
                     {%- endfor -%}
                 </p>
             {%- endfor -%}
@@ -18,11 +18,11 @@
     <div class="visitor-profile-summary visitor-profile-customvariables">
         <h1>{{ 'CustomVariables_CustomVariables'|translate }} ({{ 'General_TrackingScopeAction'|translate }})</h1>
         <div>
-            {%- for name,dimension in visitorData.customVariables['page'] -%}
+            {%- for variable in visitorData.customVariables['page'] -%}
                 <p>
-                    <span>{{ name }}: </span>
-                    {%- for value,count in dimension -%}
-                        <strong title="{{ count }}x">{{ value }}</strong>{% if not loop.last %}, {% endif %}
+                    <span>{{ variable.name }}: </span>
+                    {%- for value in variable.values -%}
+                        <strong title="{{ value.count }}x">{{ value.value }}</strong>{% if not loop.last %}, {% endif %}
                     {%- endfor -%}
                 </p>
             {%- endfor -%}
