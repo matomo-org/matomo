@@ -5,7 +5,16 @@
         <div>
             <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</p>
             <p>
-                {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.firstVisit.referralSummary }}</strong></p>
+                {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
+                    {%- if visitorData.firstVisit.referrerType == 'website' %}
+                        <a href="{{ visitorData.firstVisit.referrerUrl }}" target="_blank">
+                            {{ visitorData.firstVisit.referralSummary }}
+                        </a>
+                    {% else %}
+                        {{ visitorData.firstVisit.referralSummary }}
+                    {% endif %}
+                </strong>
+            </p>
         </div>
     </div>
     {% if visitorData.lastVisits.getRowsCount() != 1 %}
@@ -14,7 +23,16 @@
             <div>
                 <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</p>
                 <p>
-                    {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.lastVisit.referralSummary }}</strong></p>
+                    {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
+                        {%- if visitorData.firstVisit.referrerType == 'website' %}
+                            <a href="{{ visitorData.firstVisit.referrerUrl }}" target="_blank">
+                                {{ visitorData.firstVisit.referralSummary }}
+                            </a>
+                        {% else %}
+                            {{ visitorData.firstVisit.referralSummary }}
+                        {% endif %}
+                    </strong>
+                </p>
             </div>
         </div>
     {% endif %}

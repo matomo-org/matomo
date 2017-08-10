@@ -220,6 +220,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             'prettyDate'      => Date::factory($serverDate)->getLocalized(Date::DATE_FORMAT_LONG),
             'daysAgo'         => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
             'referrerType'    => $visit->getColumn('referrerType'),
+            'referrerUrl'     => $visit->getColumn('referrerUrl') ?: '',
             'referralSummary' => self::getReferrerSummaryForVisit($visit),
         );
     }
