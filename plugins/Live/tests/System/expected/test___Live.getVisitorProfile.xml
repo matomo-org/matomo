@@ -1179,6 +1179,7 @@
 		
 		
 		<referrerType>direct</referrerType>
+		<referrerUrl />
 		<referralSummary>Direct Entry</referralSummary>
 	</firstVisit>
 	<lastVisit>
@@ -1186,6 +1187,7 @@
 		
 		
 		<referrerType>direct</referrerType>
+		<referrerUrl />
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
 	<visitsAggregated>10</visitsAggregated>

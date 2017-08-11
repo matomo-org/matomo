@@ -290,6 +290,7 @@
 		
 		
 		<referrerType>campaign</referrerType>
+		<referrerUrl />
 		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
 	</firstVisit>
 	<lastVisit>
@@ -297,6 +298,7 @@
 		
 		
 		<referrerType>campaign</referrerType>
+		<referrerUrl />
 		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>
@@ -327,4 +329,26 @@
 			<prettyName>France</prettyName>
 		</row>
 	</countries>
+	<customVariables>
+		<visit>
+			<row>
+				<name>VisitorType</name>
+				<values>
+					<row>
+						<value>LoggedOut</value>
+						<count>2</count>
+					</row>
+				</values>
+			</row>
+			<row>
+				<name>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</name>
+				<values>
+					<row>
+						<value>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</value>
+						<count>2</count>
+					</row>
+				</values>
+			</row>
+		</visit>
+	</customVariables>
 </result>
