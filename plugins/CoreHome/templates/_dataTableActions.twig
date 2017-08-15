@@ -47,9 +47,26 @@
         {% endif %}
 
         {% if properties.show_export %}
-        <a class='dropdown-button dataTableAction activateExportSelection'
-           href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
-           data-activates='dropdownExport{{ randomIdForDropdown }}'><span class="icon-export"></span></a>
+            {% set requestParams = properties.request_parameters_to_modify|json_encode %}
+
+            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","PHP":"PHP","HTML":"HTML"} %}
+            {% if properties.show_export_as_rss_feed %}
+                {% set formats = formats|merge({"RSS": "RSS"}) %}
+            {% endif %}
+
+            <a class='dataTableAction activateExportSelection' piwik-report-export
+               report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
+               api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
+               href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
+               ><span class="icon-export"></span></a>
+        {% endif %}
+
+        {% if properties.show_export_as_image_icon %}
+            <a class="dataTableAction tableIcon" href="javascript:;" id="dataTableFooterExportAsImageIcon"
+               onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;"
+               title="{{ 'General_ExportAsImage'|translate }}">
+                <span class="icon-image"></span>
+            </a>
         {% endif %}
 
         {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
@@ -68,30 +85,6 @@
                        type="text"
                        class="dataTableSearchInput browser-default" />
             </a>
-        {% endif %}
-
-        {% if properties.show_export %}
-        <ul id='dropdownExport{{ randomIdForDropdown }}' class='dropdown-content exportToFormatItems'>
-            {% set requestParams = properties.request_parameters_to_modify|json_encode %}
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.filter_limit }}">CSV</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.filter_limit }}">TSV (Excel)</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.filter_limit }}">XML</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.filter_limit }}">Json</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.filter_limit }}">Php</a></li>
-            {% if properties.show_export_as_rss_feed %}
-                <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.filter_limit }}" date="last10">
-                        <span class="icon-feed"></span> RSS
-                    </a>
-                </li>
-            {% endif %}
-            {% if properties.show_export_as_image_icon %}
-                <li><a class="tableIcon" href="javascript:;" id="dataTableFooterExportAsImageIcon" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
-                        <span class="icon-image"></span>
-                        {{ 'General_ExportAsImage'|translate }}
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
         {% endif %}
 
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
