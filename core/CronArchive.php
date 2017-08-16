@@ -404,6 +404,7 @@ class CronArchive
                 }
             }
 
+
             /**
              * This event is triggered before the cron archiving process starts archiving data for a single
              * site.
@@ -413,6 +414,7 @@ class CronArchive
             Piwik::postEvent('CronArchive.archiveSingleSite.start', array($idSite));
 
             $completed = $this->archiveSingleSite($idSite, $requestsBefore);
+            $this->logger->info("Memory usage: " . $this->getHumanReadableBytesSize(memory_get_usage()));
 
             /**
              * This event is triggered immediately after the cron archiving process starts archiving data for a single
@@ -460,6 +462,15 @@ class CronArchive
         );
 
         $this->logger->info($timer->__toString());
+        $this->logger->info("Memory peak usage: " . $this->getHumanReadableBytesSize(memory_get_peak_usage()));
+    }
+
+    private function getHumanReadableBytesSize($memoryInBytes, $precision = 2) {
+        for($i = 0; ($memoryInBytes / 1024) > 0.9; $i++)
+        {
+            $memoryInBytes /= 1024;
+        }
+        return round($memoryInBytes, $precision) . ['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
     }
 
     /**
