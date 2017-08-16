@@ -24,8 +24,12 @@
                     <div>
                         <div class="visitor-profile-header">
                             {% if visitorData.previousVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}">&larr;</a>{% endif %}
-                            <h1>{{ 'Live_VisitorProfile'|translate }}
-                                {%- if visitorData.userId is not empty %}: <span title="{{'General_UserId'|translate}}: {{ visitorData.userId|raw }}">{{ visitorData.userId|raw }}</span>{% endif -%}
+                            <h1>
+                                {%- if visitorData.userId is empty %}
+                                    {{ 'Live_VisitorProfile'|translate }}
+                                {%- else %}
+                                    <span title="{{'General_UserId'|translate}}: {{ visitorData.userId|raw }}">{{ visitorData.userId|raw }}</span>
+                                {% endif -%}
                             </h1>
                             <a href="http://piwik.org/docs/user-profile/" class="visitorProfileHelp" rel="noreferrer"  target="_blank" title="{{ 'General_ViewDocumentationFor'|translate("Live_VisitorProfile"|translate|ucwords) }}">
                                 <span class="icon-help"></span>

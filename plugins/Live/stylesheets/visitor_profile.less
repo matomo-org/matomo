@@ -238,9 +238,7 @@
 
     h1 {
       display: inline-block;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+      word-wrap: break-word;
       margin: 0;
       max-width: 330px;
       line-height: 30px;
@@ -468,7 +466,7 @@
   ol.visitor-profile-actions {
     counter-reset: item;
     list-style-type: none;
-    margin-bottom: 4px;
+    margin-bottom: 20px;
 
     > li:before {
       content: counter(item) "  ";
@@ -631,7 +629,7 @@ span.visitor-profile-goal-name {
   display: none;
   position: absolute;
   right: 100%;
-  bottom: 0;
+  top: 0;
   margin-right: 2px;
 }
 
