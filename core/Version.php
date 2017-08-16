@@ -20,7 +20,7 @@ final class Version
      * The current Piwik version.
      * @var string
      */
-    const VERSION = '3.0.5-b1';
+    const VERSION = '3.0.5-b2';
 
     public function isStableVersion($version)
     {
