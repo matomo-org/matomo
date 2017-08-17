@@ -119,7 +119,6 @@ class Mail extends Zend_Mail
         $host = trim($mailConfig['host']);
         $tr = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
         Mail::setDefaultTransport($tr);
-        @ini_set("smtp_port", $mailConfig['port']);
     }
 
     public function send($transport = null)
