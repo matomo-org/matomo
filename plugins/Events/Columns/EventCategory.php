@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Events\Columns;
 
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;
@@ -53,6 +54,6 @@ class EventCategory extends ActionDimension
             return $eventCategory;
         }
 
-        return false;
+        throw new InvalidRequestParameterException('Param `e_c` must not be empty or filled with whitespaces');
     }
 }

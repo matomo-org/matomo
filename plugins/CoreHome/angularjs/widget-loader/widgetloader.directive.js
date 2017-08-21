@@ -135,11 +135,11 @@
                             if (scope.widgetName) {
                                 // we need to respect the widget title, which overwrites a possibly set report title
                                 var $title = currentElement.find('> .card-content .card-title');
-                                if ($title.size()) {
+                                if ($title.length) {
                                     $title.text(scope.widgetName);
                                 } else {
                                     $title = currentElement.find('> h2');
-                                    if ($title.size()) {
+                                    if ($title.length) {
                                         $title.text(scope.widgetName);
                                     }
                                 }

@@ -185,7 +185,7 @@ var Piwik_Overlay_Client = (function () {
 
             return function () {
                 item.remove();
-                if (statusBar.children().size() == 0) {
+                if (!statusBar.children().length) {
                     statusBar.hide();
                 }
             };
@@ -194,7 +194,7 @@ var Piwik_Overlay_Client = (function () {
         /** Hide all notifications with a certain class */
         hideNotifications: function (className) {
             statusBar.find('.PIS_' + className).remove();
-            if (statusBar.children().size() == 0) {
+            if (!statusBar.children().length) {
                 statusBar.hide();
             }
         },

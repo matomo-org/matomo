@@ -725,6 +725,14 @@ class Date
                 return $this->toString('h');
             case "h":
                 return $this->toString('g');
+            case "KK": // 00 .. 11
+                return str_pad($this->toString('g') - 1, 2, '0');
+            case "K": // 0 .. 11
+                return $this->toString('g') - 1;
+            case "kk": // 01 .. 24
+                return str_pad($this->toString('G') + 1, 2, '0');
+            case "k": // 1 .. 24
+                return $this->toString('G') + 1;
             // minute
             case "mm":
             case "m":
@@ -755,7 +763,7 @@ class Date
     }
 
     protected static $tokens = array(
-        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'z', 'Z', 'v',
+        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'k', 'K', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'z', 'Z', 'v',
     );
 
     /**

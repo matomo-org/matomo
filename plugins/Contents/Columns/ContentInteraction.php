@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Contents\Columns;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
@@ -42,12 +43,11 @@ class ContentInteraction extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        $interaction = $request->getParam('c_i');
-
-        if (empty($interaction)) {
+        if (!($action instanceof ActionContent)) {
             return false;
         }
 
+        $interaction = $request->getParam('c_i');
         $interaction = trim($interaction);
 
         if (strlen($interaction) > 0) {

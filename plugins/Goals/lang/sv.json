@@ -14,6 +14,7 @@
         "CategoryTextGeneral_Visitors": "användarens plats",
         "CategoryTextReferrers_Referrers": "hänvisningar",
         "CategoryTextVisitsSummary_VisitsSummary": "användarinformation",
+        "CategoryTextDevicesDetection_DevicesDetection": "Enheter",
         "CategoryTextGeneral_Visit": "engagemang",
         "ClickOutlink": "klickar på en länk till en extern webbplats",
         "SendEvent": "triggar en händelse",
@@ -35,6 +36,7 @@
         "ConversionByTypeReportDocumentation": "Denna rapport ger detaljerad information om målprestanda (omvandlingar, omvandlingsgrader och intäkter per besök) för varje kategori som finns i den vänstra panelen. %1$s Klicka på en av kategorierna för att visa rapporten. %2$s För mer information, läs %3$sdokumentationen om Spårningsmål på piwik.org%4$s",
         "ConversionRate": "%s omvandlingsgrad",
         "Conversions": "%s omvandlingar",
+        "ConversionsDescription": "konverteringar",
         "ConversionsOverview": "Omvandlingsöversikt",
         "ConversionsOverviewBy": "Omvandlingsöversikt per typ av besök",
         "DaysToConv": "Dagar till omvandling",
@@ -78,6 +80,8 @@
         "NoConversionsNoReportsMessage": "Rapporterna visas inte eftersom det inte finns någon konverteringsdata för det valda målet och perioden.",
         "NeedAccess": "Bara en administratör eller användare med Superbehörighet kan hantera mål för angiven hemsida.",
         "Optional": "(frivilligt)",
+        "OverallConversionRate": "total konverteringsgrad (besök med ett uppnått mål)",
+        "OverallRevenue": "total intäkt",
         "PageTitle": "Sidtitel",
         "Pattern": "mönster",
         "PluginDescription": "Skapa mål och se detaljerade rapporter för målkonverteringar: utveckling över tid, intäkt per besök, konverteringar per hänvisningskälla, nyckelord med mera.",
@@ -98,6 +102,7 @@
         "VisitUrl": "besöker en definerad URL (sida eller grupp av sidor)",
         "WhenVisitors": "när besökarna",
         "WhereThe": "där",
+        "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Den besökta sidan behöver inkludera ett anrop till 'trackGoal'-metoden i javaskript (%1$slär dig mer%2$s)",
         "YouCanEnableEcommerceReports": "Du kan aktivera %1$s för denna webbplats på sidan %2$s."
     }
 }

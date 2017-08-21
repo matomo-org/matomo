@@ -17,6 +17,11 @@ class LinkVisitAction extends LogTable
         return 'log_link_visit_action';
     }
 
+    public function getIdColumn()
+    {
+        return 'idlink_va';
+    }
+
     public function getColumnToJoinOnIdAction()
     {
         return 'idaction_url';

@@ -25,6 +25,7 @@ use Piwik\Plugins\UserLanguage;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Archive\Chunk;
@@ -261,12 +262,11 @@ class ArchiveTest extends IntegrationTestCase
         }
 
         // track a new visits now
-        $fixture = self::$fixture;
-        $t = $fixture::getTracker(1, $date, $defaultInit = true);
+        $t = Fixture::getTracker(1, $date, $defaultInit = true);
         $t->setForceVisitDateTime(Date::factory($date)->addHour(1)->getDatetime());
-        $t->setUrl('http://example.org/index.htm');
+        $t->setUrl('http://site.com/index.htm');
         $t->setBrowserLanguage('pt-br');
-        $fixture::checkResponse($t->doTrackPageView('my site'));
+        Fixture::checkResponse($t->doTrackPageView('my_site'));
 
         $archiveWriter            = new ArchiveWriter($parameters, !!$idArchive);
         $archiveWriter->idArchive = $idArchive;

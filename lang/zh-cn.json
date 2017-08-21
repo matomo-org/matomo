@@ -26,6 +26,7 @@
         "Cancel": "取消",
         "CannotUnzipFile": "不能解压缩文件%1$s: %2$s",
         "ChangePassword": "修改密码",
+        "ChangeTagCloudView": "请注意：您可以通过报表下方的控制按钮，用不同于标签云的其它格式显示报表。",
         "ChooseDate": "选择日期，当前选择的日期为：%s",
         "ChooseLanguage": "选择语言",
         "ChoosePeriod": "选择时间段",

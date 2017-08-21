@@ -3,6 +3,7 @@
         "AddUser": "Přidat nového uživatele",
         "Alias": "Alias",
         "AllWebsites": "Všechny weby",
+        "AnonymousAccessConfirmation": "Chystáte anonymnímu uživateli poskytnout přístup k tomuto webu. Znamená to, že vaše analytické přehledy a informace o vašich návštěvnících budou veřejně viditelné i bez přihlášení. Opravdu chcete pokračovat?",
         "AnonymousUser": "Anonymní uživatel",
         "AnonymousUserHasViewAccess": "Poznámka: %1$s uživatel má právo k přístupu k %2$s",
         "AnonymousUserHasViewAccess2": "Vaše analytická hlášení a informace o návštěvnících jsou veřejně dostupná.",

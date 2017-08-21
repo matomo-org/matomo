@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Contents\Columns;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
@@ -42,18 +44,17 @@ class ContentName extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        $contentName = $request->getParam('c_n');
-
-        if (empty($contentName)) {
+        if (!($action instanceof ActionContent)) {
             return false;
         }
 
+        $contentName = $request->getParam('c_n');
         $contentName = trim($contentName);
 
         if (strlen($contentName) > 0) {
             return $contentName;
         }
 
-        return false;
+        throw new InvalidRequestParameterException('Param `c_n` must not be empty or filled with whitespaces');
     }
 }

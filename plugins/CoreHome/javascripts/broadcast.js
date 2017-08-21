@@ -315,10 +315,15 @@ var broadcast = {
         if (!currentSearchStr) {
             currentSearchStr = '?';
         }
-        
+
         var oldUrl = currentSearchStr + currentHashStr;
 
         for (var i = 0; i < params_vals.length; i++) {
+
+            if(params_vals[i].length == 0) {
+                continue; // updating with empty string would destroy some values
+            }
+
             // update both the current search query and hash string
             currentSearchStr = broadcast.updateParamValue(params_vals[i], currentSearchStr);
 

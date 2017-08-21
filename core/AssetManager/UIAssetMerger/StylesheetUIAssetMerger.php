@@ -38,7 +38,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function getMergedAssets()
     {
         // note: we're using setImportDir on purpose (not addImportDir)
-        $this->lessCompiler->setImportDir(PIWIK_USER_PATH);
+        $this->lessCompiler->setImportDir(PIWIK_DOCUMENT_ROOT);
         $concatenatedAssets = $this->getConcatenatedAssets();
 
         $this->lessCompiler->setFormatter('classic');
@@ -183,7 +183,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $baseDirectory = dirname($uiAsset->getRelativeLocation());
 
         return function ($matches) use ($baseDirectory) {
-            $absolutePath = PIWIK_USER_PATH . "/$baseDirectory/" . $matches[2];
+            $absolutePath = PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2];
 
             // Allow to import extension less file
             if (strpos($matches[2], '.') === false) {

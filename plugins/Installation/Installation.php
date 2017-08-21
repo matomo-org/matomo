@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
+use Piwik\SettingsPiwik;
 use Piwik\View as PiwikView;
 
 /**
@@ -61,6 +62,10 @@ class Installation extends \Piwik\Plugin
     public function dispatchIfNotInstalledYet(&$module, &$action, &$parameters)
     {
         $general = Config::getInstance()->General;
+
+        if (!SettingsPiwik::isPiwikInstalled() && !$general['enable_installer']) {
+            throw new \Exception('Piwik is not set up yet');
+        }
 
         if (empty($general['installation_in_progress'])) {
             return;

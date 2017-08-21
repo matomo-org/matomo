@@ -360,10 +360,6 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         'TR'  => array(1 => '/^[\x{002d}0-9a-zğıüşöç]{1,63}$/iu'),
         'VE'  => array(1 => '/^[\x{002d}0-9a-záéíóúüñ]{1,63}$/iu'),
         'VN'  => array(1 => '/^[ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯư\x{1EA0}-\x{1EF9}]{1,63}$/iu'),
-        'ایران' => array(1 => '/^[\x{0621}-\x{0624}\x{0626}-\x{063A}\x{0641}\x{0642}\x{0644}-\x{0648}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06CC}\x{06F0}-\x{06F9}]{1,30}$/iu'),
-        '中国' => 'Hostname/Cn.php',
-        '公司' => 'Hostname/Cn.php',
-        '网络' => 'Hostname/Cn.php', 
         'कॉम' => array(1 => self::VALID_UNICODE_DOMAIN),
         'セール' => array(1 => self::VALID_UNICODE_DOMAIN),
         '佛山' => array(1 => self::VALID_UNICODE_DOMAIN),
@@ -504,6 +500,16 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         'پاکستان' => array(1 => self::VALID_UNICODE_DOMAIN),
         'كاثوليك' => array(1 => self::VALID_UNICODE_DOMAIN),
         '天主教' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ಭಾರತ' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ଭାରତ' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ভাৰত' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'भारतम्' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'भारोत' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'اتصالات' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'بارت' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ڀارت' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'عرب' => array(1 => self::VALID_UNICODE_DOMAIN),
+        'ഭാരതം' => array(1 => self::VALID_UNICODE_DOMAIN),
     );
 
 

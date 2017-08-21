@@ -21,6 +21,16 @@ abstract class LogTable {
     abstract public function getName();
 
     /**
+     * Get the name of the column that represents the primary key. For example "idvisit" or "idlink_va". If the table
+     * does not have a unique ID for each row, you may choose a column that comes closest to it, for example "idvisit".
+     * @return string
+     */
+    public function getIdColumn()
+    {
+        return '';
+    }
+
+    /**
      * Get the name of the column that can be used to join a visit with another table. This is the name of the column
      * that represents the "idvisit".
      * @return string
