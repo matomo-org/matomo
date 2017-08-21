@@ -62,9 +62,6 @@
         _setupControl: function () {
             // focus the popup so it will accept key events
             this.$element.focus();
-
-            // highlight the first visit
-            $('.visitor-profile-visits>li:first-child', this.$element).addClass('visitor-profile-current-visit');
         },
 
         _bindEventCallbacks: function () {
@@ -84,9 +81,9 @@
                 e.preventDefault();
                 $(this).toggleClass('minimized');
                 if ($(this).hasClass('minimized')) {
-                    $('.visitor-profile-show-actions', $element).has('.hide-text:visible').click();
+                    $('.visitor-profile-actions', $element).slideUp();
                 } else {
-                    $('.visitor-profile-show-actions', $element).has('.show-text:visible').click();
+                    $('.visitor-profile-actions', $element).slideDown();
                 }
                 return false;
             });
@@ -97,13 +94,12 @@
                 return false;
             });
 
-            $element.on('click', '.visitor-profile-visit-title-row', function () {
+            $element.on('click', '.visitor-profile-visit-title', function () {
                $('.visitor-profile-visit-details-extended', $(this).parents('li')).slideToggle();
             });
 
             $element.on('click', '.visitor-profile-show-actions', function () {
                 $('.visitor-profile-actions', $(this).parents('li')).slideToggle();
-                $('.show-text, .hide-text', $(this)).toggle();
                 return false;
             });
 
