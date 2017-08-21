@@ -11,6 +11,7 @@
 
     .alert {
       margin: 20px 20px 20px 0;
+      font-size: 13px;
     }
   }
 
@@ -224,6 +225,13 @@
   }
 }
 
+.visitor-profile-pages {
+  li {
+    display: block;
+    clear: both;
+  }
+}
+
 .visitor-profile-latest-visit {
 
   padding-top: 6px;
@@ -369,51 +377,14 @@
 }
 
 ol.visitor-profile-actions {
-  counter-reset: item;
-  list-style-type: none;
   margin-bottom: 20px;
 
   li {
-    padding: 7px 10px;
-    line-height: 22px;
-    vertical-align: top;
-
-    &:before {
-      content: counter(item) " ";
-      counter-increment: item;
-      padding-right: 5px;
-      vertical-align: top;
-    }
-
-    .action-list-url {
-      display: inline-block;
-    }
+    padding: 0 10px 7px;
+    margin: 0;
 
     p {
       line-height: 15px;
-    }
-
-    > div {
-      display: inline-block;
-      width: 90%;
-      vertical-align: top;
-    }
-
-    img {
-      margin: 4px 4px 0 0;
-      display: block;
-      vertical-align: middle;
-      float: left;
-      max-height: 14px;
-      position: relative;
-
-      &.outlink {
-        margin: 7px 6px 4px 3px;
-      }
-    }
-
-    .truncated-text-line {
-      margin: 0
     }
   }
 }

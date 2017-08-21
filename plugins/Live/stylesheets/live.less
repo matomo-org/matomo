@@ -89,7 +89,8 @@
 }
 
 ol.visitorLog {
-    list-style: decimal inside none;
+  counter-reset: item;
+  list-style-type: none;
 }
 
 .truncated-text-line {
@@ -99,15 +100,18 @@ ol.visitorLog {
     display:inline-block;
     max-width:90%;
     overflow: -moz-hidden-unscrollable;
-
-    &.event {
-      margin-top: 1px;
-      margin-right: 15px;
-    }
 }
 
-ol.visitorLog li {
+ol.visitorLog > li {
     margin-bottom: 7px;
+    line-height: 20px;
+
+  &:before {
+    content: counter(item) " ";
+    counter-increment: item;
+    padding-right: 5px;
+    vertical-align: top;
+  }
 
   &.more {
       list-style-type: none;
@@ -157,9 +161,8 @@ ol.visitorLog li {
 
 .repeat {
     font-weight: bold;
-    padding: 3px;
     display: block;
-    margin: 0 5px 0 5px;
+    margin: 5px 5px 5px 0;
     float: left;
 
     &.icon-refresh:before {
@@ -269,20 +272,22 @@ a.visitor-log-visitor-profile-link {
 
 .visitorLog {
     > li > div {
-        display:inline-block;
-        width:90%;
-        vertical-align:top;
+      display: inline-block;
+      width: 90%;
+
+      > * {
+        vertical-align: top;
+      }
     }
 }
 
 .action-list-action-icon {
     display: inline;
-    vertical-align: middle;
+    margin: 2px 3px 0 0;
+    max-height: 16px;
 
     &.outlink {
-      margin-bottom: 4px;
-      margin-right: 3px;
-      margin-left: 3px;
+      margin: 7px 3px 0 0;
     }
 }
 

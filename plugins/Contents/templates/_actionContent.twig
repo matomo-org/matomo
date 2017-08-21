@@ -2,9 +2,9 @@
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {% if action.contentInteraction %}
-        <span class="icon-document" title="{{ 'Contents_ContentInteraction'|translate }}"></span>
+        <span class="icon-document action-list-action-icon" title="{{ 'Contents_ContentInteraction'|translate }}"></span>
         {% else %}
-        <span class="icon-show" title="{{ 'Contents_ContentImpression'|translate }}"></span>
+        <span class="icon-show action-list-action-icon" title="{{ 'Contents_ContentImpression'|translate }}"></span>
         {% endif %}
         {% if action.contentInteraction %}
             [{{ action.contentInteraction }}]
