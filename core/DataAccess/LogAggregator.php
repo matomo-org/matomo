@@ -153,6 +153,11 @@ class LogAggregator
         $this->sites = $params->getIdSites();
     }
 
+    public function getSegment()
+    {
+        return $this->segment;
+    }
+
     public function setQueryOriginHint($nameOfOrigiin)
     {
         $this->queryOriginHint = $nameOfOrigiin;

@@ -72,4 +72,8 @@ abstract class LogTable {
         return;
     }
 
+    public function getPrimaryKey()
+    {
+        return array();
+    }
 }

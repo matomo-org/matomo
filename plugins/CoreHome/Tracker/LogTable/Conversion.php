@@ -21,4 +21,9 @@ class Conversion extends LogTable
     {
         return 'idvisit';
     }
+
+    public function getPrimaryKey()
+    {
+        return array('idvisit', 'idgoal', 'buster');
+    }
 }

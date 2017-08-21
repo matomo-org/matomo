@@ -325,9 +325,23 @@ class SegmentExpression
         $table = preg_replace('/^[A-Z_]+\(/', '', $table);
         $tableExists = !$table || in_array($table, $availableTables);
 
-        if (!$tableExists) {
-            $availableTables[] = $table;
+        if ($tableExists) {
+            return;
         }
+
+        if (is_array($availableTables)) {
+            foreach ($availableTables as $availableTable) {
+                if (is_array($availableTable)) {
+                    if (!isset($availableTable['tableAlias']) && $availableTable['table'] === $table) {
+                        return;
+                    } elseif (isset($availableTable['tableAlias']) && $availableTable['tableAlias'] === $table) {
+                        return;
+                    }
+                }
+            }
+        }
+
+        $availableTables[] = $table;
     }
 
     /**

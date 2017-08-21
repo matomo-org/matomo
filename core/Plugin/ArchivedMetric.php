@@ -43,7 +43,6 @@ class ArchivedMetric extends Metric
     private $translatedName = '';
     private $documentation = '';
     private $dbTable = '';
-    private $dbColumn = '';
     private $category = '';
     private $query = '';
 
@@ -52,14 +51,14 @@ class ArchivedMetric extends Metric
      */
     private $dimension;
 
-    public function __construct($dbTable, $dbColumn, $aggregation = false)
+    public function __construct(Dimension $dimension, $aggregation = false)
     {
         if (!empty($aggregation) && strpos($aggregation, '%s') === false) {
-            throw new \Exception(sprintf('The given aggregation for %s.%s needs to include a %%s for the column name', $dbTable, $dbColumn));
+            throw new \Exception(sprintf('The given aggregation for %s.%s needs to include a %%s for the column name', $dimension->getDbTableName(), $dimension->getColumnName()));
         }
 
-        $this->setDbTable($dbTable);
-        $this->setDbColumn($dbColumn);
+        $this->setDimension($dimension);
+        $this->setDbTable($dimension->getDbTableName());
         $this->aggregation = $aggregation;
     }
 
@@ -88,12 +87,6 @@ class ArchivedMetric extends Metric
     public function setDbTable($dbTable)
     {
         $this->dbTable = $dbTable;
-        return $this;
-    }
-
-    public function setDbColumn($dbColumn)
-    {
-        $this->dbColumn = $dbColumn;
         return $this;
     }
 
@@ -185,7 +178,7 @@ class ArchivedMetric extends Metric
             return $this->query;
         }
 
-        $column = $this->dbTable . '.'  . $this->dbColumn;
+        $column = $this->dbTable . '.'  . $this->dimension->getColumnName();
 
         if (!empty($this->aggregation)) {
             return sprintf($this->aggregation, $column);

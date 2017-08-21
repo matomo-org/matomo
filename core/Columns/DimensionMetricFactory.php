@@ -37,13 +37,12 @@ class DimensionMetricFactory
             throw new \Exception(sprintf('Cannot make metric from dimension %s because DB table or column missing', $this->dimension->getId()));
         }
 
-        $metric = new ArchivedMetric($this->dimension->getDbTableName(), $this->dimension->getColumnName(), $aggregation);
+        $metric = new ArchivedMetric($this->dimension, $aggregation);
         $metric->setType($this->dimension->getType());
         $metric->setName($metricName);
         $metric->setTranslatedName($readableName);
         $metric->setDocumentation($documentation);
         $metric->setCategory($this->dimension->getCategory());
-        $metric->setDimension($this->dimension);
 
         return $metric;
     }

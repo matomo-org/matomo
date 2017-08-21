@@ -21,10 +21,16 @@ class LogQueryBuilder
      * @var LogTablesProvider
      */
     private $logTableProvider;
+    private $forcedInnerGroupBy = '';
 
     public function __construct(LogTablesProvider $logTablesProvider)
     {
         $this->logTableProvider = $logTablesProvider;
+    }
+
+    public function forceInnerGroupBySubselect($innerGroupBy)
+    {
+        $this->forcedInnerGroupBy = $innerGroupBy;
     }
 
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
@@ -55,7 +61,11 @@ class LogQueryBuilder
             && $fromInitially == array('log_conversion')
             && strpos($from, 'log_link_visit_action') !== false);
 
-        if ($useSpecialConversionGroupBy) {
+        if ($this->forcedInnerGroupBy) {
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $this->forcedInnerGroupBy);
+        } elseif ($this->forcedInnerGroupBy === false) {
+            $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
+        } elseif ($useSpecialConversionGroupBy) {
             $innerGroupBy = "CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $innerGroupBy);
         } elseif ($joinWithSubSelect) {
@@ -145,6 +155,19 @@ class LogQueryBuilder
 
         $innerLimitAndOffset = $limitAndOffset;
 
+        if (!empty($toBeReplaced)) {
+            $select = preg_replace(array_keys($epregReplace), array_values($epregReplace), $select);
+            $select = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $select);
+            if (!empty($groupBy)) {
+                $groupBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $groupBy);
+                $groupBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $groupBy);
+            }
+            if (!empty($orderBy)) {
+                $orderBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $orderBy);
+                $orderBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $orderBy);
+            }
+        }
+
         if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
             $innerGroupBy = "log_visit.idvisit";
         } elseif (!isset($innerGroupBy)) {
@@ -159,18 +182,6 @@ class LogQueryBuilder
         if ($innerLimitAndOffset) {
             // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
             $innerGroupBy = false;
-        }
-        if (!empty($toBeReplaced)) {
-            $select = preg_replace(array_keys($epregReplace), array_values($epregReplace), $select);
-            $select = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $select);
-            if (!empty($groupBy)) {
-                $groupBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $groupBy);
-                $groupBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $groupBy);
-            }
-            if (!empty($orderBy)) {
-                $orderBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $orderBy);
-                $orderBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $orderBy);
-            }
         }
 
         $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerGroupBy, $innerOrderBy, $innerLimitAndOffset);
