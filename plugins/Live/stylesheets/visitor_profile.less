@@ -8,11 +8,6 @@
     padding: 0;
     margin: 0;
     overflow: visible;
-
-    .alert {
-      margin: 20px 20px 20px 0;
-      font-size: 13px;
-    }
   }
 
   > .ui-dialog-titlebar {
@@ -28,9 +23,13 @@
   font-size: 13px;
   line-height: 20px;
 
-  .widget & {
+  body .widget & {
     width: auto;
     box-shadow: none;
+
+    p {
+      margin: 0;
+    }
   }
 
   a {
@@ -48,7 +47,7 @@
   p {
     color: #5e5e5c;
 
-    .widget & {
+    body:not(.widgetized) .widget & {
       padding-bottom: 0;
     }
 
@@ -56,6 +55,11 @@
       color: @theme-color-text;
       font-weight: normal !important;
     }
+  }
+
+  p.alert {
+    margin: 8px 20px 20px 0 !important;
+    font-size: 13px;
   }
 }
 
@@ -121,6 +125,10 @@
   }
 }
 
+.visitor-profile-info {
+  overflow: hidden;
+}
+
 .visitor-profile-visits-info,
 .visitor-profile-overview {
   display: inline-block;
@@ -130,10 +138,24 @@
   box-sizing: content-box;
   float: left;
 
-  .widget & {
+  body:not(.widgetized) .widget & {
     width: 100%;
     border: none;
     margin: 0;
+  }
+
+  body.widgetized .widget & {
+    width: 50%;
+    box-sizing: border-box;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  body.widgetized .widget {
+    .visitor-profile-visits-info,
+    .visitor-profile-overview {
+      width: 100%;
+    }
   }
 }
 
@@ -147,7 +169,7 @@
   padding: 22px 0 0 22px;
   width: 553px;
 
-  .widget & {
+  body:not(.widgetized) .widget & {
     padding: 0 10px;
   }
 }
@@ -220,8 +242,7 @@
   padding: 5px 0 16px 0;
 
   p {
-    margin-top: 6px;
-    margin-right: 1em;
+    margin: 6px 1em 0 0;
   }
 }
 
@@ -273,7 +294,7 @@
 
 .visitor-profile-important-visits > div {
   float: left;
-  width: 265px;
+  width: 50%;
   height: 100%;
 }
 
@@ -297,7 +318,7 @@
 }
 
 .visitor-profile-map {
-  padding: 0 21px 13px 2px;
+  padding: 10px 21px 13px 2px;
 }
 
 .visitor-profile-visit-title {
