@@ -159,7 +159,7 @@ class ArchivedMetric extends Metric
 
     public function getDependentMetrics()
     {
-        return array();
+        return array($this->getName());
     }
 
     public function getDocumentation()

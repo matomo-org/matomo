@@ -111,6 +111,7 @@ class   Config
         'show_related_reports',
         'show_limit_control',
         'show_search',
+        'show_export',
         'enable_sort',
         'show_bar_chart',
         'show_pie_chart',
@@ -319,6 +320,11 @@ class   Config
      * Controls whether the search box under the datatable is shown.
      */
     public $show_search = true;
+
+    /**
+     * Controls whether the export feature under the datatable is shown.
+     */
+    public $show_export = true;
 
     /**
      * Controls whether the user can sort DataTables by clicking on table column headings.

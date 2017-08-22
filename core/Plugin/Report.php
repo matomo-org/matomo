@@ -390,6 +390,7 @@ class Report
         if (empty($restrictToColumns)) {
             $restrictToColumns = array_merge($allMetrics, array_keys($this->getProcessedMetrics()));
         }
+        $restrictToColumns = array_unique($restrictToColumns);
 
         $processedMetricsById = $this->getProcessedMetricsById();
         $metricsSet = array_flip($allMetrics);

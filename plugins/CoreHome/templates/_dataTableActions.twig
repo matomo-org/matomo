@@ -46,9 +46,11 @@
             {{ visualizationIcons|raw }}
         {% endif %}
 
+        {% if properties.show_export %}
         <a class='dropdown-button dataTableAction activateExportSelection'
            href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
            data-activates='dropdownExport{{ randomIdForDropdown }}'><span class="icon-export"></span></a>
+        {% endif %}
 
         {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
             <a class='dataTableAction annotationView'
@@ -68,6 +70,7 @@
             </a>
         {% endif %}
 
+        {% if properties.show_export %}
         <ul id='dropdownExport{{ randomIdForDropdown }}' class='dropdown-content exportToFormatItems'>
             {% set requestParams = properties.request_parameters_to_modify|json_encode %}
             <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.filter_limit }}">CSV</a></li>
@@ -89,6 +92,8 @@
                 </li>
             {% endif %}
         </ul>
+        {% endif %}
+
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
             {% if properties.show_flatten_table %}
                 {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
