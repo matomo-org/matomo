@@ -401,10 +401,28 @@ table.dataTable {
           background-color: @color-silver-l95;
         }
 
+        // for third level tables
+        td.cellSubDataTable {
+          table {
+            table {
+            tr td {
+              background: @theme-color-background-contrast !important;
+            }
+            tr:hover td {
+              background: @theme-color-background-contrast !important;
+
+              &:not(.cellSubDataTable) {
+                background-color: @color-silver-l95 !important;
+              }
+            }
+            }
+          }
+        }
+
         .cellSubDataTable td {
           background: @theme-color-background-contrast;
         }
-        .cellSubDataTable tr:hover td {
+        .cellSubDataTable tr:hover td:not(.cellSubDataTable) {
           background-color: @theme-color-background-base;
         }
       }
