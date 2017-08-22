@@ -1,5 +1,6 @@
 {
     "LanguagesManager": {
-        "AboutPiwikTranslations": "Tentang penerjemahan Piwik"
+        "AboutPiwikTranslations": "Tentang penerjemahan Piwik",
+        "TranslationSearch": "Pencarian Translasi"
     }
 }

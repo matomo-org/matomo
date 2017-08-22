@@ -5,8 +5,10 @@
         "CheckForUpdates": "Søg efter opdateringer",
         "CheckPiwikOut": "Tjek Piwik!",
         "ClickToEditX": "Klik for at redigere %s",
+        "ClickToSeeFullInformation": "Klik for at se den fulde information",
         "CloseSearch": "Luk søgning",
         "CloseWidgetDirections": "Luk modulet ved at klikke på 'X' ikonet øverst.",
+        "ChooseX": "Vælg %1$s",
         "DataForThisReportHasBeenPurged": "Data til rapporten er er mere end %s måneder gamle og er blevet ryddet op.",
         "DataTableExcludeAggregateRows": "Samlede rækker vises %s Skjul dem",
         "DataTableIncludeAggregateRows": "Samlede rækker er skjult %s Vis dem",
@@ -49,11 +51,20 @@
         "YouAreUsingTheLatestVersion": "Du bruger den seneste version af Piwik!",
         "ClickRowToExpandOrContract": "Klik på rækken for at udvide eller sammentrække undertabelen.",
         "UndoPivotBySubtable": "Rapporten er blevet pivoteret %s Fortryd pivot.",
+        "NoSuchPage": "Denne side findes ikke",
         "PivotBySubtable": "Rapporten er ikke pivoteret %1$s Pivoter med %2$s.",
+        "SystemSummaryWidget": "Systemoversigt",
+        "SystemSummaryNWebsites": "%d websteder",
+        "SystemSummaryNSegments": "%d segmenter",
+        "SystemSummaryNActivatedPlugins": "%d aktiverede programudvidelser",
+        "SystemSummaryPiwikVersion": "Piwik version",
+        "SystemSummaryMysqlVersion": "MySQL version",
+        "SystemSummaryPhpVersion": "PHP version",
         "QuickAccessTitle": "Søg efter %s. Brug pil-tasterne for at navigere igennem søgeresultaterne. Genvej: Tryk 'f' for at søge.",
         "MenuEntries": "Menu indgange",
         "Segments": "Segmenter",
         "AdblockIsMaybeUsed": "Hvis du bruger en annonce blokering skal du deaktivere denne for at sikre, at Piwik arbejder uden problemer.",
-        "ChangeCurrentWebsite": "Vælg et website. Det aktuelle website er: %s"
+        "ChangeCurrentWebsite": "Vælg et website. Det aktuelle website er: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Den førende åbne analyse platform som respekterer dit privatliv."
     }
 }
