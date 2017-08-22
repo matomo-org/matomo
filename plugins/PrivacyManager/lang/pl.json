@@ -60,7 +60,8 @@
         "Teaser": "Ta strona umożliwia dostosowanie Piwik'a pod kątem przestrzegania zapisów prawa dotyczących prywatności poprzez: %1$sanonimizację adresów IP odwiedzających%2$s, %3$sautomatyczne usuwanie archiwalnych logów odwiedzin z bazy danych%4$s oraz %5$sdostarczanie mechanizmu wypisania się ze śledzenia w Twoim serwisie%6$s.",
         "TeaserHeadline": "Ustawienia prywatności",
         "UseAnonymizedIpForVisitEnrichment": "Korzystaj z Anonimizowanych adresów IP przy analizowaniu wizyt.",
-        "UseAnonymizeIp": "Anonimizacja odwiedzających' adres IP",
+        "UseAnonymizedIpForVisitEnrichmentNote": "Wtyczki takie jak Geolokalizacja (bazując na IP i dostawcy) wzbogacają metadane odwiedzających. Domyślnie te wtyczki wykorzystują anonimizowane adresy IP. Wybierając 'Nie', wybierasz wykorzystanie pełnego, nie anonimizowanego adresu IP, co zwiększa dokładność danych kosztem prywatności.",
+        "UseAnonymizeIp": "Anonimizacja adresów IP odwiedzających",
         "UseDeleteLog": "Regularnie usuwanie starych logów odwiedzających z bazy danych",
         "UseDeleteReports": "Regularnie usuwaj stare raporty z bazy danych"
     }

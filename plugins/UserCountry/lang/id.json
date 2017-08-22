@@ -87,5 +87,8 @@
         "UpdaterHasNotBeenRun": "Pembaruan belum pernah berjalan.",
         "UpdaterWasLastRun": "Pembaruan terakhir berjalan dalam %s.",
         "WidgetLocation": "Lokasi Pengunjung"
+    },
+    "Intl": {
+        "Country_TI": "Tibet"
     }
 }

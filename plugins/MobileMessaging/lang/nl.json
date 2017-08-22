@@ -38,8 +38,10 @@
         "Settings_VerificationCodeJustSent": "We hebben net een SMS met een code naar dit nummer verstuurd: Gelieve de code hierboven in te vullen en klik op \"Valideer\".",
         "SettingsMenu": "Mobiele berichten",
         "SMS_Content_Too_Long": "[te lang]",
+        "Available_Credits": "Beschikbare credits: %1$s",
         "TopLinkTooltip": "Krijg je Web Analyse rapporten toegestuurd naar je mailbox of je mobiele telefoon!",
         "TopMenu": "E-mail & SMS-rapporten",
+        "UserKey": "Userkey",
         "VerificationText": "Code %1$s. Kopieer deze code naar Piwik > %2$s > %3$s om je telefoonnummer te valideren en sms rapporten te ontvangen."
     }
 }
