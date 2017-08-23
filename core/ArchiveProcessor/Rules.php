@@ -128,11 +128,18 @@ class Rules
                 $minimumArchiveTime = false;
             } else {
                 // This week, this month, this year:
-                // accept any archive that was processed today after 00:00:01 this morning
                 $timezone = $site->getTimezone();
-                $minimumArchiveTime = Date::factory(Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+                $hoursBackWeAcceptArchive = 12;
+                $minimumArchiveTimeToday = Date::factory(Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+                $minimumArchiveTimeLastHours = Date::factory('now', $timezone)->subHour($hoursBackWeAcceptArchive)->setTimezone($timezone)->getTimestamp();
+
+                // either accept any archive that was processed today after 00:00:01 this morning
+                // or accept any archive that was generated within the last 12 hours.
+                // what ever time goes further back we accept
+                $minimumArchiveTime = min($minimumArchiveTimeToday, $minimumArchiveTimeLastHours);
             }
         }
+
         return $minimumArchiveTime;
     }
 
