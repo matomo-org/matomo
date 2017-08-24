@@ -24,7 +24,7 @@
             restrict: 'A',
             scope: {
                 segmentDefinition: '@',
-                addInitialCondition: '=',
+                addInitialCondition: '='
             },
             require: "?ngModel",
             templateUrl: 'plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.html?cb=' + piwik.cacheBuster,
