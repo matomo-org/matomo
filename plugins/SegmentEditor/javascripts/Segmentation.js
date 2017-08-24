@@ -444,8 +444,10 @@ Segmentation = (function($) {
             //
 
             self.target.on('click',  "a.editSegmentName", function (e) {
-                var oldName = $(e.currentTarget).parents("h3").find("span").text();
-                $(e.currentTarget).parents("h3").find("span").hide();
+                var $h3 = $(e.currentTarget).parents("h3");
+                $h3.css({'margin': '0 0 0 6px'});
+                var oldName = $h3.find("span").text();
+                $h3.find("span").hide();
                 $(e.currentTarget).hide();
                 $(e.currentTarget).before('<input class="edit_segment_name" type="text"/>');
                 $(e.currentTarget).siblings(".edit_segment_name").focus().val(oldName);
@@ -474,48 +476,6 @@ Segmentation = (function($) {
             self.target.on('change', '.available_segments_select', function (e) {
                 var option = $(e.currentTarget).find('option:selected');
                 openEditFormGivenSegment(option);
-            });
-
-            // attach event that shows/hides child elements of each metric category
-            self.target.on('click', '.segment-nav a.metric_category', function (e) {
-                $(e.currentTarget).siblings("ul").toggle();
-            });
-
-            self.target.on('click', ".custom_select_search a", function (e) {
-                $(self.form).find(".segmentSearch").val("").trigger("keyup").val(self.translations['General_Search']);
-            });
-
-            // attach event that will clear search input upon focus if its content is default
-            self.target.on('focus', '.segmentSearch', function (e) {
-                var search = $(e.currentTarget).val();
-                if(search == self.translations['General_Search'])
-                    $(e.currentTarget).val("");
-            });
-
-            // attach event that will set search input value upon blur if its content is not null
-            self.target.on('blur', '.segmentSearch', function (e) {
-                var search = $(e.currentTarget).val();
-                if(search == ""){
-                    clearSearchMetricHighlight();
-                    $(e.currentTarget).val(self.translations['General_Search']);
-                }
-            });
-
-            // bind search action triggering - only when input text is longer than 2 chars
-            self.target.on('keyup', '.segmentSearch', function (e) {
-                var search = $(e.currentTarget).val();
-                if( search.length >= 2)
-                {
-                    clearTimeout(self.timer);
-                    self.searchAllowed = true;
-                    self.timer = setTimeout(function(){
-                        searchSegments(search);
-                    }, 500);
-                }
-                else{
-                    self.searchAllowed = false;
-                    clearSearchMetricHighlight();
-                }
             });
 
             self.target.on('click', ".delete", function() {
@@ -573,67 +533,6 @@ Segmentation = (function($) {
                 openEditForm(segment);
             }
         }
-
-        var searchSegments = function(search){
-            // pre-process search string to normalized form
-            search = normalizeSearchString(search);
-
-            // ---
-            // clear all previous search highlights and hide all categories
-            // to allow further showing only matching ones, while others remain invisible
-            clearSearchMetricHighlight();
-            $(self.form).find('.segment-nav div > ul > li').hide();
-            var curStr = "";
-            var curMetric = "";
-
-            // 1 - do most obvious selection -> mark whole categories matching search string
-            // also expand whole category
-            $(self.form).find('.segment-nav div > ul > li').each( function(){
-                    curStr = normalizeSearchString($(this).find("a.metric_category").text());
-                    if(curStr.indexOf(search) > -1) {
-                        $(this).addClass("searchFound");
-                        $(this).find("ul").show();
-                        $(this).find("li").show();
-                        $(this).show();
-                    }
-                }
-            );
-
-            // 2 - among all unselected categories find metrics which match and mark parent as search result
-            $(self.form).find(".segment-nav div > ul > li:not(.searchFound)").each(function(){
-                var parent = this;
-                $(this).find("li").each( function(){
-                    var curStr = normalizeSearchString($(this).text());
-                    var curMetric = normalizeSearchString($(this).attr("data-metric"));
-                    $(this).hide();
-                    if(curStr.indexOf(search) > -1 || curMetric.indexOf(search) > -1){
-                        $(this).show();
-                        $(parent).find("ul").show();
-                        $(parent).addClass("searchFound").show();
-                    }
-                });
-            });
-
-            if( $(self.form).find("li.searchFound").length == 0)
-            {
-                $(self.form).find("div > ul").prepend('<li class="no_results"><a>'+self.translations['General_SearchNoResults']+'</a></li>').show();
-            }
-            // check if search allow flag was revoked - then clear all search results
-            if(self.searchAllowed == false)
-            {
-                clearSearchMetricHighlight();
-                self.searchAllowed = true;
-            }
-
-        };
-
-        var clearSearchMetricHighlight = function(){
-            $(self.form).find('.no_results').remove();
-            $(self.form).find('.segment-nav div > ul > li').removeClass("searchFound").show();
-            $(self.form).find('.segment-nav div > ul > li').removeClass("others").show();
-            $(self.form).find('.segment-nav div > ul > li > ul > li').show();
-            $(self.form).find('.segment-nav div > ul > li > ul').hide();
-        };
 
         var normalizeSearchString = function(search){
             search = search.replace(/^\s+|\s+$/g, ''); // trim
