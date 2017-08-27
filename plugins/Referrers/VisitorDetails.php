@@ -62,26 +62,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getReferrerUrl()
     {
-        if ($this->getReferrerType() == 'search') {
-            if ($this->details['referer_keyword'] == API::LABEL_KEYWORD_NOT_DEFINED) {
-
-                return 'http://piwik.org/faq/general/#faq_144';
-
-            } // Case URL is google.XX/url.... then we rewrite to the search result page url
-            elseif ($this->getReferrerName() == 'Google'
-                && strpos($this->details['referer_url'], '/url')
-            ) {
-                $refUrl = @parse_url($this->details['referer_url']);
-                if (isset($refUrl['host'])) {
-                    $url = SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword('http://google.com',
-                        $this->getKeyword());
-                    $url = str_replace('google.com', $refUrl['host'], $url);
-
-                    return $url;
-                }
-            }
-        }
-
         if (UrlHelper::isLookLikeUrl($this->details['referer_url'])) {
             return $this->details['referer_url'];
         }
