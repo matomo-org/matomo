@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Live;
 
-use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
@@ -17,7 +16,6 @@ use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\Referrers\API as APIReferrers;
-use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
@@ -187,21 +185,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $profile['firstVisit']       = $this->getVisitorProfileVisitSummary(end($rows));
         $profile['lastVisit']        = $this->getVisitorProfileVisitSummary(reset($rows));
         $profile['visitsAggregated'] = count($rows);
-    }
-
-    public function renderProfileSummary($profile)
-    {
-        $idSite            = Common::getRequestVar('idSite', null, 'int');
-        $view              = new View('@Live/_profileSummary.twig');
-        $view->goals       = APIGoals::getInstance()->getGoals($idSite);
-        $view->visitorData = $profile;
-
-        $viewVisits              = new View('@Live/_profileSummaryVisits.twig');
-        $viewVisits->visitorData = $profile;
-
-        return array(array(0,  $view->render()),
-                     array(30, $viewVisits->render()));
-
     }
 
     /**

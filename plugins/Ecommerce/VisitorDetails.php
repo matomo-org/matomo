@@ -213,16 +213,4 @@ class VisitorDetails extends VisitorDetailsAbstract
             $profile['totalAbandonedCartsItems']   = $lastVisit->getColumn('totalAbandonedCartsItems');
         }
     }
-
-    public function renderProfileSummary($profile)
-    {
-        if (empty($profile['totalEcommerceRevenue'])) {
-            return [];
-        }
-
-        $view              = new View('@Ecommerce/_profileSummary.twig');
-        $view->idSite      = Common::getRequestVar('idSite', null, 'int');
-        $view->visitorData = $profile;
-        return array(array(20, $view->render()));
-    }
 }

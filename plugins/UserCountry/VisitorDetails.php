@@ -195,41 +195,4 @@ class VisitorDetails extends VisitorDetailsAbstract
             $profile['countries'][] = $countryInfo;
         }
     }
-
-
-    public function renderProfileSummary($profile)
-    {
-        if (empty($profile['countries'])) {
-            return array();
-        }
-
-        $view              = new View('@UserCountry/_profileSummary.twig');
-        $view->visitorData = $profile;
-
-        if (Common::getRequestVar('showMap', 1) == 1
-            && !empty($view->visitorData['hasLatLong'])
-            && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
-        ) {
-            $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
-        }
-
-        return array(array(100, $view->render()));
-    }
-
-    private function getUserCountryMapUrlForVisitorProfile()
-    {
-        $params = array(
-            'module'             => 'UserCountryMap',
-            'action'             => 'realtimeMap',
-            'segment'            => Live\Controller::getSegmentWithVisitorId(),
-            'visitorId'          => false,
-            'changeVisitAlpha'   => 0,
-            'removeOldVisits'    => 0,
-            'realtimeWindow'     => 'false',
-            'showFooterMessage'  => 0,
-            'showDateTime'       => 0,
-            'doNotRefreshVisits' => 1
-        );
-        return Url::getCurrentQueryStringWithParametersModified($params);
-    }
 }

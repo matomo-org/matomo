@@ -284,18 +284,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $this->handleAveragePageGenerationTime($profile);
     }
 
-    public function renderProfileSummary($profile)
-    {
-        // only render top pages if at least one page was visited more than once
-        if ($profile['totalRevisitedPages'] > 0) {
-            $view              = new View('@Actions/_profileSummary.twig');
-            $view->visitorData = $profile;
-            return array(array(40, $view->render()));
-        }
-
-        return array();
-    }
-
     /**
      * @param $action
      */

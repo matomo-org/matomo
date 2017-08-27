@@ -9,10 +9,14 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
+use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\Live\ProfileSummary\ProfileSummaryAbstract;
 use Piwik\Url;
 use Piwik\View;
 
@@ -113,12 +117,12 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->setWidgetizedVisitorProfileUrl($view);
 
-        $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
-
         $summaryEntries = array();
 
-        foreach ($visitorDetailsManipulators as $instance) {
-            $summaryEntries = array_merge($summaryEntries, $instance->renderProfileSummary($view->visitorData));
+        $profileSummaries = self::getAllProfileSummaryInstances();
+        foreach ($profileSummaries as $profileSummary) {
+            $profileSummary->setProfile($view->visitorData);
+            $summaryEntries[] = [$profileSummary->getOrder(), $profileSummary->render()];
         }
 
         usort($summaryEntries, function($a, $b) {
@@ -201,5 +205,42 @@ class Controller extends \Piwik\Plugin\Controller
             $cached = urlencode($segment . 'visitorId==' . $idVisitor);
         }
         return $cached;
+    }
+
+
+    /**
+     * Returns all available profile summaries
+     *
+     * @return ProfileSummaryAbstract[]
+     * @throws \Exception
+     */
+    public static function getAllProfileSummaryInstances()
+    {
+        $cacheId = CacheId::pluginAware('ProfileSummaries');
+        $cache   = Cache::getTransientCache();
+
+        if (!$cache->contains($cacheId)) {
+            $instances = [];
+
+            foreach (self::getAllProfileSummaryClasses() as $className) {
+                $instance = new $className();
+                $instances[] = $instance;
+            }
+
+            $cache->save($cacheId, $instances);
+        }
+
+        return $cache->fetch($cacheId);
+    }
+
+    /**
+     * Returns class names of all VisitorDetails classes.
+     *
+     * @return string[]
+     * @api
+     */
+    protected static function getAllProfileSummaryClasses()
+    {
+        return Plugin\Manager::getInstance()->findMultipleComponents('ProfileSummary', 'Piwik\Plugins\Live\ProfileSummary\ProfileSummaryAbstract');
     }
 }

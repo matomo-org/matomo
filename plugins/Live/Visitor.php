@@ -63,7 +63,7 @@ class Visitor implements VisitorInterface
     }
 
     /**
-     * Returns all available activities
+     * Returns all available visitor details instances
      *
      * @return VisitorDetailsAbstract[]
      * @throws \Exception

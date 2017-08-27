@@ -200,17 +200,4 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         return $convertedVariables;
     }
-
-    public function renderProfileSummary($profile)
-    {
-        if (empty($profile['customVariables']) || (
-                empty($profile['customVariables'][Model::SCOPE_PAGE]) &&
-                empty($profile['customVariables'][Model::SCOPE_VISIT]) )) {
-            return [];
-        }
-
-        $view              = new View('@CustomVariables/_profileSummary.twig');
-        $view->visitorData = $profile;
-        return [[15, $view->render()]];
-    }
 }

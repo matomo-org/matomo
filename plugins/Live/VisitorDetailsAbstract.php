@@ -272,33 +272,4 @@ abstract class VisitorDetailsAbstract
     public function finalizeProfile($visits, &$profile)
     {
     }
-
-    /**
-     * Render and return additional parts for profile summary
-     * returned array needs to look like this:
-     * array (
-     *          20,   // order id
-     *          'rendered html content'
-     * )
-     *
-     * **Example**
-     *
-     *    public function renderProfileSummary($profile) {
-     *
-     *        if (empty($profile['totalActionsOfMyType'])) {
-     *            return; // render template only if necessary
-     *        }
-     *
-     *        $view              = new View('@MyPlugin/_profileSummary.twig');
-     *        $view->visitorData = $profile;
-     *        return array(array(10, $view->render()));
-     *    }
-     *
-     * @param array $profile
-     * @return array
-     */
-    public function renderProfileSummary($profile)
-    {
-        return array();
-    }
 }
