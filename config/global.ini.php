@@ -276,6 +276,17 @@ default_period = day
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 150
 
+; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
+; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
+; is set. In this case it will default to "time_before_today_archive_considered_outdated";
+time_before_week_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to monthly archives
+time_before_month_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to yearly archives
+time_before_year_archive_considered_outdated = -1
+
 ; This setting is overriden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Piwik archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
