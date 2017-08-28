@@ -1125,7 +1125,7 @@
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox Mobile 27.0</browser>
 		<browserName>Firefox Mobile</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FM.png</browserIcon>
 		<browserCode>FM</browserCode>
 		<browserVersion>27.0</browserVersion>
 		<totalEcommerceRevenue>0</totalEcommerceRevenue>
