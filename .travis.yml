@@ -16,6 +16,8 @@ php:
   - 5.5
 #  - hhvm
 
+dist: precise
+
 services:
   - redis-server
 
