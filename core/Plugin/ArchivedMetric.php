@@ -125,25 +125,31 @@ class ArchivedMetric extends Metric
         return $this->name;
     }
 
-    public function compute(Row $row)
-    {
-        $value = $this->getMetric($row, $this->getName());
-        switch ($this->type) {
-            case Dimension::TYPE_MONEY:
-                return round($value, 2);
-            case Dimension::TYPE_DURATION_S:
-                return (int) $value;
-            case Dimension::TYPE_DURATION_MS:
-                return number_format($value / 1000, 2);
-        }
-
-        return $value;
-    }
-
     public function format($value, Formatter $formatter)
     {
-        if (!empty($this->dimension)) {
-            return $this->dimension->formatValue($value, $this->idSite, $formatter);
+        switch ($this->type) {
+            case Dimension::TYPE_BOOL:
+                return $formatter->getPrettyNumber($value);
+            case Dimension::TYPE_ENUM:
+                return $formatter->getPrettyNumber($value);
+            case Dimension::TYPE_MONEY:
+                return $formatter->getPrettyMoney($value, $this->idSite);
+            case Dimension::TYPE_FLOAT:
+                return $formatter->getPrettyNumber((float) $value, $precision = 2);
+            case Dimension::TYPE_NUMBER:
+                return $formatter->getPrettyNumber($value);
+            case Dimension::TYPE_DURATION_S:
+                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
+            case Dimension::TYPE_DURATION_MS:
+                $val = number_format($value / 1000, 2);
+                if ($val > 60) {
+                    $val = round($val);
+                }
+                return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
+            case Dimension::TYPE_PERCENT:
+                return $formatter->getPrettyPercentFromQuotient($value);
+            case Dimension::TYPE_BYTE:
+                return $formatter->getPrettySizeFromBytes($value);
         }
 
         return $value;
