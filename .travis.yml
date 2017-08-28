@@ -16,8 +16,6 @@ php:
   - 5.5
 #  - hhvm
 
-dist: precise
-
 services:
   - redis-server
 
@@ -80,6 +78,8 @@ matrix:
     # AngularJS tests need to run only on one PHP version
     - php: 5.5
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+
+dist: precise
 
 sudo: required
 
