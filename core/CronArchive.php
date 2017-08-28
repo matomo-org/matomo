@@ -1279,6 +1279,16 @@ class CronArchive
         }
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
+
+        foreach (array('week', 'month', 'year', 'range') as $period) {
+            $ttl = Rules::getPeriodArchiveTimeToLiveDefault($period);
+
+            if (!empty($ttl) && $ttl !== $this->todayArchiveTimeToLive) {
+                $this->logger->info("- Reports for $period will be processed at most every " . $ttl
+                    . " seconds. You can change this value in config/config.ini.php by changing the value for 'time_before_" . $period . "_archive_considered_outdated' in the '[General]' section.");
+            }
+        }
+
         $this->logger->info("- Reports for the current week/month/year will be refreshed at most every "
             . $this->processPeriodsMaximumEverySeconds . " seconds.");
 
