@@ -318,6 +318,26 @@ class Report
     }
 
     /**
+     *
+     * Processing a uniqueId for each report, can be used by UIs as a key to match a given report
+     * @return string
+     */
+    public function getId()
+    {
+        $params = $this->getParameters();
+
+        $paramsKey = $this->getModule() . '.' . $this->getAction();
+
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
+                $paramsKey .= '_' . $key . '--' . $value;
+            }
+        }
+
+        return $paramsKey;
+    }
+
+    /**
      * lets you add any amount of widgets for this report. If a report defines a {@link $categoryId} and a
      * {@link $subcategoryId} a widget will be generated automatically.
      *
@@ -390,6 +410,7 @@ class Report
         if (empty($restrictToColumns)) {
             $restrictToColumns = array_merge($allMetrics, array_keys($this->getProcessedMetrics()));
         }
+        $restrictToColumns = array_unique($restrictToColumns);
 
         $processedMetricsById = $this->getProcessedMetricsById();
         $metricsSet = array_flip($allMetrics);
@@ -840,7 +861,7 @@ class Report
 
         $result = array();
         foreach ($processedMetrics as $processedMetric) {
-            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+            if ($processedMetric instanceof ProcessedMetric || $processedMetric instanceof ArchivedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
             }
         }
