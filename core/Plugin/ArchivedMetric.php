@@ -132,8 +132,9 @@ class ArchivedMetric extends Metric
             case Dimension::TYPE_MONEY:
                 return round($value, 2);
             case Dimension::TYPE_DURATION_S:
-            case Dimension::TYPE_DURATION_MS:
                 return (int) $value;
+            case Dimension::TYPE_DURATION_MS:
+                return number_format($value / 1000, 2);
         }
 
         return $value;

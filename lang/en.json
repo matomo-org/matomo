@@ -56,6 +56,7 @@
         "ColumnExits": "Exits",
         "ColumnExitsDocumentation": "Number of visits that ended on this page.",
         "ColumnGenerationTime": "Generation time",
+        "ColumnPageGenerationTime": "Page Generation time",
         "ColumnKeyword": "Keyword",
         "ColumnLabel": "Label",
         "ColumnMaxActions": "Maximum actions in one visit",

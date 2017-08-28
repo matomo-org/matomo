@@ -16,7 +16,7 @@ use Piwik\Tracker\GoalManager;
 
 class Order extends BaseConversion
 {
-    protected $columnName = 'orderid';
+    protected $columnName = 'idorder';
     protected $type = self::TYPE_NUMBER;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Ecommerce_Order';
