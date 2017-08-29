@@ -167,6 +167,7 @@
                         select: function(event, ui){
                             event.preventDefault();
                             orCondition.value = ui.item.value;
+                            self.updateSegmentDefinition();
                             $timeout(function () {
                                 $scope.$apply();
                             });
