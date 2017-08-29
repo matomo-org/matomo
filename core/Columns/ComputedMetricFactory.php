@@ -59,8 +59,8 @@ class ComputedMetricFactory
             $documentation = 'Average value of "' . $metric1->getTranslatedName() . '" per "' . $metric2->getTranslatedName() . '"';
         } elseif ($aggregation === ComputedMetric::AGGREGATION_RATE) {
             $name = $metricName1 . '_rate';
-            $translatedName = $metricName1 . ' Rate';
-            $documentation = 'The percentage of "' . $dimension1->getNamePlural() . '"';
+            $translatedName = null;
+            $documentation = 'The ratio of "' . $dimension1->getNamePlural() . '" out of all "' . $dimension2->getNamePlural() . '"';
         } else {
             throw new \Exception('Not supported aggregation type');
         }

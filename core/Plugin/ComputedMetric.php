@@ -125,9 +125,13 @@ class ComputedMetric extends ProcessedMetric
             case Dimension::TYPE_NUMBER:
                 return $formatter->getPrettyNumber($value);
             case Dimension::TYPE_DURATION_S:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
+                return $formatter->getPrettyTimeFromSeconds(round($value), $displayAsSentence = false);
             case Dimension::TYPE_DURATION_MS:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
+                $val = number_format($value / 1000, 2);
+                if ($val > 60) {
+                    $val = round($val);
+                }
+                return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);
         }
@@ -142,15 +146,23 @@ class ComputedMetric extends ProcessedMetric
             $metric1 = $metric->getMetric($this->metric1);
             $metric2 = $metric->getMetric($this->metric2);
 
-            if ($metric1 && $metric1 instanceof ArchivedMetric && $metric2 && $metric2 instanceof ArchivedMetric) {
-                return 'Avg. ' . $metric1->getDimension()->getName() . ' per ' . $metric2->getDimension()->getName();
-            }
+            if ($this->aggregation === self::AGGREGATION_AVG) {
+                if ($metric1 && $metric1 instanceof ArchivedMetric && $metric2 && $metric2 instanceof ArchivedMetric) {
+                    return 'Avg. ' . $metric1->getDimension()->getName() . ' per ' . $metric2->getDimension()->getName();
+                }
 
-            if ($metric1 && $metric1 instanceof ArchivedMetric) {
-                return 'Avg. ' . $metric1->getDimension()->getName();
-            }
+                if ($metric1 && $metric1 instanceof ArchivedMetric) {
+                    return 'Avg. ' . $metric1->getDimension()->getName();
+                }
 
-            return $metric1 . ' per ' . $metric2;
+                return $metric1 . ' per ' . $metric2;
+            } else if ($this->aggregation === self::AGGREGATION_RATE) {
+                if ($metric1 && $metric1 instanceof ArchivedMetric) {
+                    return $metric1->getTranslatedName() . ' Rate';
+                } else {
+                    return $this->metric1 . ' Rate';
+                }
+            }
         }
         return $this->translatedName;
     }

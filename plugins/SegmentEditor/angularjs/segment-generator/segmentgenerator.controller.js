@@ -62,6 +62,13 @@
         return id;
     }
 
+    function stripTags(text) {
+        if (text) {
+            text = ('' + text).replace(/(<([^>]+)>)/ig,"");
+        }
+        return text;
+    }
+
     function SegmentGeneratorController($scope, piwik, piwikApi, segmentGeneratorModel, $filter, $timeout) {
         var translate = $filter('translate');
 
@@ -264,33 +271,48 @@
             this.setSegmentString($scope.segmentDefinition);
         }
 
-        segmentGeneratorModel.loadSegments().then(function (segments) {
-
-            self.segmentList = [];
-
-            var groups = {};
-            angular.forEach(segments, function (segment) {
-                if (!segment.category) {
-                    segment.category = 'Others';
-                }
-
-                if (!firstSegment) {
-                    firstSegment = segment.segment;
-                    if (segment.type && self.matches[segment.type]) {
-                        firstMatch = self.matches[segment.type][0].key;
-                    } else {
-                        firstMatch = self.matches[''][0].key
-                    }
-                }
-
-                self.segments[segment.segment] = segment;
-                self.segmentList.push({group: segment.category, key: segment.segment, value: segment.name});
-            });
-
-            if ($scope.addInitialCondition && self.conditions.length === 0) {
-                self.addNewAndCondition();
+        $scope.$watch('siteSpecific', function (newValue, oldValue) {
+            if (newValue != oldValue) {
+                reloadSegments(newValue);
             }
         });
+
+        reloadSegments($scope.siteSpecific);
+
+        function reloadSegments(siteSpecific) {
+            segmentGeneratorModel.loadSegments(siteSpecific).then(function (segments) {
+
+                self.segmentList = [];
+
+                var groups = {};
+                angular.forEach(segments, function (segment) {
+                    if (!segment.category) {
+                        segment.category = 'Others';
+                    }
+
+                    if (!firstSegment) {
+                        firstSegment = segment.segment;
+                        if (segment.type && self.matches[segment.type]) {
+                            firstMatch = self.matches[segment.type][0].key;
+                        } else {
+                            firstMatch = self.matches[''][0].key
+                        }
+                    }
+
+                    self.segments[segment.segment] = segment;
+
+                    var segmentData = {group: segment.category, key: segment.segment, value: segment.name};
+                    if ('acceptedValues' in segment && segment.acceptedValues) {
+                        segmentData.tooltip = stripTags(segment.acceptedValues);
+                    }
+                    self.segmentList.push(segmentData);
+                });
+
+                if ($scope.addInitialCondition && self.conditions.length === 0) {
+                    self.addNewAndCondition();
+                }
+            });
+        }
     }
 
 })();

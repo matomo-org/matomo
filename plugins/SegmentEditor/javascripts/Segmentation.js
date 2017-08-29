@@ -269,7 +269,7 @@ Segmentation = (function($) {
                 newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+getSegmentTooltipEnrichedWithUsername(segment)+'">'+getSegmentName(segment)+'</option>';
                 segmentsDropdown.append(newOption);
             }
-            $(html).find(".segment-content > h3").after('<div piwik-segment-generator add-initial-condition="true"></div>').show();
+            $(html).find(".segment-content > h3").after('<div piwik-segment-generator site-specific="true" add-initial-condition="true"></div>').show();
             return html;
         };
 

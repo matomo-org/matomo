@@ -17,14 +17,16 @@
     function piwikSegmentGenerator($document, piwik, $filter, $timeout){
         var defaults = {
             segmentDefinition: '',
-            addInitialCondition: false
+            addInitialCondition: false,
+            siteSpecific: true
         };
 
         return {
             restrict: 'A',
             scope: {
                 segmentDefinition: '@',
-                addInitialCondition: '='
+                addInitialCondition: '=',
+                siteSpecific: '='
             },
             require: "?ngModel",
             templateUrl: 'plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.html?cb=' + piwik.cacheBuster,

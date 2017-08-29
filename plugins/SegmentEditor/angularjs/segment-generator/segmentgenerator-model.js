@@ -7,12 +7,13 @@
 (function () {
     angular.module('piwikApp').factory('segmentGeneratorModel', segmentGeneratorModel);
 
-    segmentGeneratorModel.$inject = ['piwikApi'];
+    segmentGeneratorModel.$inject = ['piwikApi', 'piwik'];
 
-    function segmentGeneratorModel(piwikApi) {
+    function segmentGeneratorModel(piwikApi, piwik) {
 
         var initialSegments = null;
         var limitPromise = null;
+        var fetchedSiteSpecific = null;
 
         var model = {
             isLoading: false,
@@ -22,8 +23,7 @@
 
         return model;
 
-        function loadSegments() {
-
+        function loadSegments(siteSpecific) {
             if (model.isLoading) {
                 if (limitPromise) {
                     limitPromise.abort();
@@ -33,8 +33,20 @@
 
             model.isLoading = true;
 
+            // we need to clear last limit result because we now fetch different data
+            if (fetchedSiteSpecific != siteSpecific) {
+                limitPromise = null;
+                fetchedSiteSpecific = siteSpecific;
+            }
+
             if (!limitPromise) {
-                limitPromise = piwikApi.fetch({method: 'API.getSegmentsMetadata', filter_limit: '-1'});
+                var params = {method: 'API.getSegmentsMetadata',filter_limit: '-1'};
+
+                if (siteSpecific) {
+                    params.idSites = (piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'));
+                }
+
+                limitPromise = piwikApi.fetch(params);
             }
 
             return limitPromise.then(function (response) {
