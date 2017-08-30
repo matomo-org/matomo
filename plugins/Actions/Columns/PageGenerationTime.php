@@ -8,7 +8,11 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\Discriminator;
+use Piwik\Columns\MetricsList;
+use Piwik\Plugin\ArchivedMetric;
+use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 
@@ -22,5 +26,24 @@ class PageGenerationTime extends ActionDimension
     public function getDbDiscriminator()
     {
         return new Discriminator('log_action', 'type', Action::TYPE_PAGE_URL);
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        $metric1 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+        $metricsList->addMetric($metric1);
+
+        $metric2 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
+        $metricsList->addMetric($metric2);
+
+        $metric3 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
+        $metric3->setName('pageviews_with_generation_time');
+        $metric3->setTranslatedName('Page views with generation time');
+        $metricsList->addMetric($metric3);
+
+        $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
+        $metric->setName('avg_page_generation_time');
+        $metric->setTranslatedName('Avg. generation time');
+        $metricsList->addMetric($metric);
     }
 }

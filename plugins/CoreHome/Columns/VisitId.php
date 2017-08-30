@@ -41,5 +41,8 @@ class VisitId extends VisitDimension
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
         $metricsList->addMetric($metric);
+
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT);
+        $metricsList->addMetric($metric);
     }
 }

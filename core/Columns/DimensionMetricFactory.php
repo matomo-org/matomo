@@ -55,16 +55,14 @@ class DimensionMetricFactory
         if ($aggregation === ComputedMetric::AGGREGATION_AVG) {
             $name = 'avg_' . $metricName1 . '_per_' . $metricName2;
             $translatedName = '';
-            $documentation = 'Average value of "' . $this->dimension->getName() . '" per "' . $metricName2 . '"';
         } elseif ($aggregation === ComputedMetric::AGGREGATION_RATE) {
             $name = $this->dimension->getMetricId() . '_rate';
             $translatedName = $this->dimension->getName() . ' Rate';
-            $documentation = 'The percentage of "' . $this->dimension->getNamePlural() . '"';
         } else {
             throw new \Exception('Not supported aggregation type');
         }
 
-        $name = str_replace(array('nb_uniq_', 'uniq_', 'nb_', 'sum_', 'max_', 'min_', '_rate', '_count'), '', $name);
+        $name = str_replace(array('nb_uniq_', 'uniq_', 'nb_', 'sum_', 'max_', 'min_', '_rate', '_count', 'nb_with_'), '', $name);
 
         $metric = new ComputedMetric($metricName1, $metricName2, $aggregation);
         if ($aggregation === ComputedMetric::AGGREGATION_RATE) {
@@ -74,7 +72,6 @@ class DimensionMetricFactory
         }
         $metric->setName($name);
         $metric->setTranslatedName($translatedName);
-        $metric->setDocumentation($documentation);
         $metric->setCategory($this->dimension->getCategory());
         return $metric;
     }
@@ -120,6 +117,11 @@ class DimensionMetricFactory
                 $prefix = ArchivedMetric::AGGREGATION_UNIQUE_PREFIX;
                 $translatedName = 'Unique ' . $dimension->getNamePlural();
                 $documentation = 'Unique ' . $dimension->getNamePlural();
+                break;
+            case ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE;
+                $prefix = ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX;
+                $translatedName = 'Entries with ' . $dimension->getName();
+                $documentation = 'The number of entries that have a value set for ' . $dimension->getName();
                 break;
         }
 

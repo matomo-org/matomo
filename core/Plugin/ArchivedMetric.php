@@ -27,6 +27,8 @@ class ArchivedMetric extends Metric
     const AGGREGATION_MIN_PREFIX = 'min_';
     const AGGREGATION_UNIQUE = 'count(distinct %s)';
     const AGGREGATION_UNIQUE_PREFIX = 'nb_uniq_';
+    const AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(if(%s > 0, 1, 0))';
+    const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'n_with_';
 
     /**
      * @var string

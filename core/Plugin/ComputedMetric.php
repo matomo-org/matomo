@@ -169,6 +169,29 @@ class ComputedMetric extends ProcessedMetric
 
     public function getDocumentation()
     {
+        if (!$this->documentation) {
+            $metric = MetricsList::get();
+            $metric1 = $metric->getMetric($this->metric1);
+            $metric2 = $metric->getMetric($this->metric2);
+
+            if ($this->aggregation === self::AGGREGATION_AVG) {
+                if ($metric1 && $metric1 instanceof ArchivedMetric && $metric2 && $metric2 instanceof ArchivedMetric) {
+                    return 'Average value of "' . $metric1->getDimension()->getName() . '" per "' . $metric2->getTranslatedName() . '"';
+                }
+
+                if ($metric1 && $metric1 instanceof ArchivedMetric) {
+                    return 'Average value of "' . $metric1->getDimension()->getName();
+                }
+
+                return $metric1 . ' per ' . $metric2;
+            } else if ($this->aggregation === self::AGGREGATION_RATE) {
+                if ($metric1 && $metric1 instanceof ArchivedMetric) {
+                    return 'The percentage of "' . $metric1->getDimension()->getNamePlural() . '"';
+                } else {
+                    return 'The percentage of "' . $this->metric1 . '"';
+                }
+            }
+        }
         return $this->documentation;
     }
 
