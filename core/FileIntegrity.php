@@ -79,6 +79,7 @@ class FileIntegrity
             'plugins/ImageGraph/fonts/unifont.ttf',
             'vendor/autoload.php',
             'vendor/composer/autoload_real.php',
+            'vendor/szymach/c-pchart/app/cache/*.db',
             'tmp/*',
             // Files below are not expected but they used to be present in older Piwik versions and may be still here
             // As they are not going to cause any trouble we won't report them as 'File to delete'
