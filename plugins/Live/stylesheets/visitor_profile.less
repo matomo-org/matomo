@@ -263,9 +263,17 @@
       float: left;
       width: 50%;
       padding: 4px 0;
+      height: 16px;
+      position: relative;
 
       img {
         float: left;
+        margin-left: 2px;
+      }
+
+      &.flag img {
+        box-sizing: border-box;
+        margin-left: 0;
       }
 
       &:after {
@@ -274,6 +282,8 @@
         display: block;
         overflow: hidden;
         white-space: nowrap;
+        position: absolute;
+        left: 26px;
       }
     }
 
