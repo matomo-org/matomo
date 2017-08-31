@@ -158,6 +158,18 @@ class VisitorDetails extends VisitorDetailsAbstract
             }
             return $cmp;
         });
+
+        foreach ($this->devices as $type => $devicesData) {
+            $typeDevices = [];
+            foreach ($devicesData['devices'] as $name => $count) {
+                $typeDevices[] = [
+                    'name'  => $name,
+                    'count' => $count
+                ];
+            }
+            $this->devices[$type]['devices'] = $typeDevices;
+        }
+
         $profile['devices'] = $this->devices;
     }
 }
