@@ -2352,14 +2352,20 @@
 			<count>30</count>
 			<icon>plugins/Morpheus/icons/dist/devices/unknown.png</icon>
 			<devices>
-				<Unknown>30</Unknown>
+				<row>
+					<name>Unknown</name>
+					<count>30</count>
+				</row>
 			</devices>
 		</Unknown>
 		<Desktop>
 			<count>1</count>
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
-				<Unknown>1</Unknown>
+				<row>
+					<name>Unknown</name>
+					<count>1</count>
+				</row>
 			</devices>
 		</Desktop>
 	</devices>

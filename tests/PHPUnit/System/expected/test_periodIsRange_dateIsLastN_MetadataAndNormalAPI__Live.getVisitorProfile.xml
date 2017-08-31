@@ -310,7 +310,10 @@
 			<count>2</count>
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
-				<Unknown>2</Unknown>
+				<row>
+					<name>Unknown</name>
+					<count>2</count>
+				</row>
 			</devices>
 		</Desktop>
 	</devices>
