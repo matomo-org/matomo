@@ -8,6 +8,10 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
+use Piwik\Piwik;
+use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -22,6 +26,17 @@ class VisitGoalConverted extends VisitDimension
     protected $nameSingular = 'General_VisitConvertedGoal';
     protected $acceptValues = '0, 1';
     protected $category = 'General_Visit';
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        $metric1 = $dimensionMetricFactory->createCustomMetric('nb_visits_converted', 'Visits Converted', 'sum(case %s when 1 then 1 else 0 end)');
+        $metricsList->addMetric($metric1);
+
+        $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), 'nb_visits', ComputedMetric::AGGREGATION_RATE);
+        $metric->setTranslatedName(Piwik::translate('General_ColumnConversionRate'));
+        $metric->setName('visits_conversion_rate');
+        $metricsList->addMetric($metric);
+    }
 
     /**
      * @param Request $request

@@ -8,8 +8,10 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join;
+use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
@@ -25,6 +27,11 @@ class ExitPageUrl extends VisitDimension
     protected $nameSingular = 'Actions_ColumnExitPageURL';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        parent::configureMetrics($metricsList, $dimensionMetricFactory);
+    }
 
     public function getDbColumnJoin()
     {

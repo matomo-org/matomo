@@ -123,7 +123,7 @@ class ComputedMetric extends ProcessedMetric
             case Dimension::TYPE_FLOAT:
                 return $formatter->getPrettyNumber($value, $precision = 2);
             case Dimension::TYPE_NUMBER:
-                return $formatter->getPrettyNumber($value);
+                return $formatter->getPrettyNumber($value, 1); // we still need to round to have somewhat more accurate result
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds(round($value), $displayAsSentence = false);
             case Dimension::TYPE_DURATION_MS:
