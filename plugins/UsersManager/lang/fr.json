@@ -3,6 +3,7 @@
         "AddUser": "Ajouter un nouvel utilisateur",
         "Alias": "Alias",
         "AllWebsites": "Tous les sites Internet",
+        "AnonymousAccessConfirmation": "Vous êtes sur le point de donner aux usagers anonymes la permission de \"lecture\" sure ce site. Cela signifie que les rapports d'analyse et les informations de vos visiteurs seront visible de manière publique par n'importe qui même sans identifiant. Etes vous sûr(e) de vouloir continuer?",
         "AnonymousUser": "Utilisateur anonyme",
         "AnonymousUserHasViewAccess": "Note : l'utilisateur %1$s a un accès en %2$s à ce site web.",
         "AnonymousUserHasViewAccess2": "Vos rapports d'analyse et les informations de vos visiteurs sont visibles publiquement.",

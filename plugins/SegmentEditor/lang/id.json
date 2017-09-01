@@ -8,15 +8,19 @@
         "ChooseASegment": "Pilih pecahan",
         "DefaultAllVisits": "Semua kunjungan",
         "DragDropCondition": "Kondisi Seret dan Taruh",
+        "HideMessageInFuture": "Sembunyikan pesan ini di masa mendatang",
         "LoadingSegmentedDataMayTakeSomeTime": "Memproses pecahan data pengunjung mungkin membutuhkan waktu beberapa menit...",
         "OperatorAND": "TAMBAH",
         "OperatorOR": "ATAU",
         "SaveAndApply": "Simpan dan Terapkan",
         "SegmentDisplayedAllWebsites": "seluruh situs",
         "SegmentDisplayedThisWebsiteOnly": "hanya situs ini",
+        "SegmentIsDisplayedForWebsite": "dan diproses untuk",
         "ThisSegmentIsVisibleTo": "Pecahan ini tampak untuk:",
         "VisibleToAllUsers": "seluruh pengunjung",
         "VisibleToMe": "saya",
-        "YouMustBeLoggedInToCreateSegments": "Anda harus masuk-log untuk membuat dan menyunting pecahan pengunjung kustom."
+        "SharedWithYou": "Berbagi dengan Anda",
+        "YouMustBeLoggedInToCreateSegments": "Anda harus masuk-log untuk membuat dan menyunting pecahan pengunjung kustom.",
+        "SegmentOperatorIsNotNullNorEmpty": "tidak boleh null atau kosong"
     }
 }

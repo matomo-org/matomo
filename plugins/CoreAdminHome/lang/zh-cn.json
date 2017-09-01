@@ -50,7 +50,7 @@
         "JSTrackingIntro2": "当有了网站的 JavaScript 追踪代码，您就可以复制并粘贴到所有需要 Piwik 追踪的页面上。",
         "JSTrackingIntro3b": "多数网站，例如博客、内容管理网站等，您可以使用预制的插件来帮你完成技术性的工作。（参见%1$s用于集成 Piwik 的插件列表%2$s。）如果没有插件，您可以修改网站模板，把这段代码加入到 &lt;\/head&gt; tag标签里，该标签一般定义在“header.php”、“header.tpl”或者类似的模板文件中。",
         "JSTrackingIntro4": "如果您不想用 JavaScript 来追踪访客，%1$s在下面生成图片追踪链接%2$s。",
-        "JSTrackingIntro5": "如果您不只是想追踪页面访问，请查看 %1$sPiwik Javascript 追踪文档%2$s 中的更多功能列表。通过这些功能，您可以追踪目标、自定义变量、电子商务订单、放弃的购物车等等。",
+        "JSTrackingIntro5": "如果您不只是想追踪页面访问，请查看 %1$sPiwik Javascript 追踪文档%2$s 中的更多功能列表。通过这些功能，您可以追踪目标、自定义变量、电子商务订单、被放弃的购物车等等。",
         "LogoNotWriteableInstruction": "要使用您的自定义图标替代 Piwik 默认的，请给予此文件夹写入权限：%1$s。Piwik 需要%2$s的写入权限以便将您的图标存储下来。",
         "FileUploadDisabled": "您的 PHP 配置中关闭了文件上传功能。如果要上传您的自定义图标，请在 php.ini 文件中设置 %s ，并重启您的 WEB 服务器。",
         "LogoUploadFailed": "无法处理上传的文件。请检查该文件是否为有效格式。",

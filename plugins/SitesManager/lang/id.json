@@ -1,6 +1,7 @@
 {
     "SitesManager": {
         "AddSite": "Tambahkan situs baru",
+        "AddMeasurable": "Tambah pengukuran baru",
         "AdvancedTimezoneSupportNotFound": "Dukungan wilayah waktu tingkat lanjut tidak ditemukan dalam PHP Anda (didukung di PHP>=5.2). Anda dapat memilih secara manual perbedaan UTC.",
         "AliasUrlHelp": "Disarankan, tetapi tak diharuskan, menentukan bermacam URL, satu tiap baris, yang pengunjung Anda gunakan untuk mengakses situs ini. Nama pengganti URL untuk situs tidak akan tampil di Pengarah > Laporan Situs. Harap diperhatikan bahwa tidak perlu menentukan URL dengan atau tanpa 'www' sebagai kedua pertimbangan otomatis Piwik.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Mengubah wilayah waktu Anda hanya berpengaruh terhadap data berikutnya, bukan data sebelumnya.",
@@ -32,6 +33,7 @@
         "GlobalListExcludedQueryParameters": "Daftar umum parameter Permintaan URL untuk dikecualikan",
         "GlobalListExcludedUserAgents": "Daftar Global agen pengguna terkecualikan",
         "GlobalListExcludedUserAgents_Desc": "Bila agen pengguna penggunjung mengandung larik apapun yang Anda tentukan, pengunjung akan dikecualikan dari Piwik.",
+        "GlobalSettings": "Pengaturan global",
         "GlobalWebsitesSettings": "Pengaturan situs umum",
         "HelpExcludedIps": "Masukkan daftar IP, satu tiap baris, yang ingin Anda kecualikan pelacakan Piwik. Anda dapat gunakan `wildcards`, seperti %1$s atau %2$s",
         "JsTrackingTagHelp": "Ini merupakan kode Pelacakan JavaScript untuk dimasukkan ke seluruh halaman Anda",

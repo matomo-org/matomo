@@ -9,6 +9,7 @@
         "PluginDescription": "Buat dan unduh laporan SMS tersesuaikan dan kirimkan ke perangkat bergerak Anda secara harian, mingguan, atau bulanan.",
         "Settings_APIKey": "Kunci API",
         "Settings_CountryCode": "Kode Negara",
+        "Settings_SelectCountry": "Pilih negara",
         "Settings_CredentialNotProvided": "Sebelum Anda dapat membuat dan mengelola nomor telepon, harap menghubungkan Piwik dengan Akun SMS Anda di atas.",
         "Settings_CredentialNotProvidedByAdmin": "Sebelum Anda dapat membuat dan mengelola nomor telepon, harap tanyakan pengelola Anda untuk menghubungkan Piwik kepada sebuah Akun SMS.",
         "Settings_CredentialProvided": "API SMS %s Anda berhasil diatur!",
