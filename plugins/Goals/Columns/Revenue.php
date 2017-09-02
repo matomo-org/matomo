@@ -13,7 +13,6 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 class Revenue extends ConversionDimension
 {
     protected $columnName = 'revenue';
-    protected $columnType = 'float default NULL';
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Goals';
     protected $nameSingular = 'Goals_ColumnOverallRevenue';
