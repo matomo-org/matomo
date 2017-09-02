@@ -3,6 +3,12 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
+		<name>Actions In Visit</name>
+		<segment>actions</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
 		<name>Days since first visit</name>
 		<segment>daysSinceFirstVisit</segment>
 	</row>
@@ -17,12 +23,6 @@
 		<category>Visit</category>
 		<name>Days since last visit</name>
 		<segment>daysSinceLastVisit</segment>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visit</category>
-		<name>Number of Actions</name>
-		<segment>actions</segment>
 	</row>
 	<row>
 		<type>metric</type>

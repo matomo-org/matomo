@@ -166,7 +166,7 @@ describe("SegmentSelectorEditorTest", function () {
                 $('input.edit_segment_name').val('').change();
             });
             page.sendKeys('input.edit_segment_name', 'edited segment');
-            page.click('.segmentRow0 .segment-or:first'); // click somewhere else to save new name 
+            page.click('.segmentRow0 .segment-or:first'); // click somewhere else to save new name
 
             selectFieldValue(page, '.segmentRow0 .segment-row:first .metricMatchBlock', 'Is not');
             selectFieldValue(page, '.segmentRow0 .segment-row:last .metricMatchBlock', 'Is not');
