@@ -127,7 +127,7 @@ Segmentation = (function($) {
             if(self.availableSegments.length > 0) {
                 for(var i = 0; i < self.availableSegments.length; i++)
                 {
-                    segment = self.availableSegments[i];
+                    var segment = self.availableSegments[i];
                     if(segment.idsegment == id) {
                         return segment;
                     }

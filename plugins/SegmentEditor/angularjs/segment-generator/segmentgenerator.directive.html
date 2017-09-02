@@ -1,7 +1,7 @@
 <div class="segment-generator">
     <div piwik-activity-indicator loading="segmentGenerator.model.isLoading"></div>
 
-    <div ng-repeat="condition in segmentGenerator.conditions">
+    <div ng-repeat="(conditionIndex,condition) in segmentGenerator.conditions" class="segmentRow{{conditionIndex}}">
         <div class="segment-rows">
             <div ng-repeat="orCondition in condition.orConditions" class="orCondId{{ orCondition.id }}">
                 <div class="segment-row">
