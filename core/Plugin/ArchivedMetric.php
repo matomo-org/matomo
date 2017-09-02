@@ -28,7 +28,7 @@ class ArchivedMetric extends Metric
     const AGGREGATION_UNIQUE = 'count(distinct %s)';
     const AGGREGATION_UNIQUE_PREFIX = 'nb_uniq_';
     const AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(if(%s > 0, 1, 0))';
-    const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'n_with_';
+    const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'nb_with_';
 
     /**
      * @var string
@@ -141,7 +141,7 @@ class ArchivedMetric extends Metric
             case Dimension::TYPE_NUMBER:
                 return $formatter->getPrettyNumber($value);
             case Dimension::TYPE_DURATION_S:
-                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = false);
+                return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
             case Dimension::TYPE_DURATION_MS:
                 $val = number_format($value / 1000, 2);
                 if ($val > 60) {

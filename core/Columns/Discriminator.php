@@ -9,6 +9,7 @@
 namespace Piwik\Columns;
 
 use Exception;
+use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
  * @api
@@ -32,12 +33,20 @@ class Discriminator
         if (empty($discriminatorColumn) || !isset($discriminatorValue)) {
             throw new Exception('Both discriminatorColumn and discriminatorValue need to be defined');
         }
-        if (isset($discriminatorColumn) && !is_numeric($discriminatorValue)) {
-            throw new Exception('$discriminatorValue needs to be null or numeric');
-        }
         $this->table = $table;
         $this->discriminatorColumn = $discriminatorColumn;
         $this->discriminatorValue = $discriminatorValue;
+
+        if (!$this->isValid()) {
+            // if adding another string value please post an event instead to get a list of allowed values
+            throw new Exception('$discriminatorValue needs to be null or numeric');
+        }
+    }
+
+    public function isValid()
+    {
+        return isset($this->discriminatorColumn)
+            && (is_numeric($this->discriminatorValue) || $this->discriminatorValue == ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY);
     }
 
     /**

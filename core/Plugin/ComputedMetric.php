@@ -125,7 +125,7 @@ class ComputedMetric extends ProcessedMetric
             case Dimension::TYPE_NUMBER:
                 return $formatter->getPrettyNumber($value, 1); // we still need to round to have somewhat more accurate result
             case Dimension::TYPE_DURATION_S:
-                return $formatter->getPrettyTimeFromSeconds(round($value), $displayAsSentence = false);
+                return $formatter->getPrettyTimeFromSeconds(round($value), $displayAsSentence = true);
             case Dimension::TYPE_DURATION_MS:
                 $val = number_format($value / 1000, 2);
                 if ($val > 60) {

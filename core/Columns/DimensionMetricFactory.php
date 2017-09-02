@@ -125,6 +125,8 @@ class DimensionMetricFactory
                 break;
         }
 
-        return $this->createCustomMetric($prefix . $dimension->getMetricId(), $translatedName, $aggregation, $documentation);
+        $metricId = strtolower($dimension->getMetricId());
+
+        return $this->createCustomMetric($prefix . $metricId, $translatedName, $aggregation, $documentation);
     }
 }
