@@ -24,6 +24,7 @@ class CustomVariables extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Dimension.addDimensions' => 'addDimensions'
         );
     }
 
@@ -35,6 +36,20 @@ class CustomVariables extends \Piwik\Plugin
     public function uninstall()
     {
         Model::uninstall();
+    }
+
+    public function addDimensions(&$instances)
+    {
+        foreach (Model::getScopes() as $scope) {
+            $model = new Model($scope);
+            $highestIndex = $model->getHighestCustomVarIndex();
+
+            foreach (range(1, $highestIndex) as $index) {
+                $custom = new CustomDimension();
+                $custom->initCustomDimension($index, $model);
+                $instances[] = $custom;
+            }
+        }
     }
 
     public function extendVisitorDetails(&$visitor, $details)
