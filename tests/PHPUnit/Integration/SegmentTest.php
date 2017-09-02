@@ -512,7 +512,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit_WithSameTableAliasButDifferentJoin()
+    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit_WithNoTableAliasButDifferentJoin()
     {
         $actionType = 3;
         $idSite = 1;
@@ -549,7 +549,7 @@ class SegmentTest extends IntegrationTestCase
                   LEFT JOIN $logVisitTable AS log_visit
                        ON log_visit.idvisit = log_link_visit_action.idvisit
                   LEFT JOIN $logActionTable AS log_action
-                       ON (log_link_visit_action.idaction_name = log_action.idaction AND log_link_visit_action.idaction_url = log_action.idaction)
+                       ON log_link_visit_action.idaction_name = log_action.idaction
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )

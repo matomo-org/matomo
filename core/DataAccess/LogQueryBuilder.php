@@ -155,6 +155,22 @@ class LogQueryBuilder
 
         $innerLimitAndOffset = $limitAndOffset;
 
+        $innerOrderBy = "NULL";
+        if ($innerLimitAndOffset && $orderBy) {
+            // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
+            $innerOrderBy = $orderBy;
+        }
+        if ($innerLimitAndOffset) {
+            // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
+            $innerGroupBy = false;
+        }
+
+        if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
+            $innerGroupBy = "log_visit.idvisit";
+        } elseif (!isset($innerGroupBy)) {
+            throw new Exception('Cannot use subselect for join as no group by rule is specified');
+        }
+
         if (!empty($toBeReplaced)) {
             $select = preg_replace(array_keys($epregReplace), array_values($epregReplace), $select);
             $select = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $select);
@@ -166,22 +182,6 @@ class LogQueryBuilder
                 $orderBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $orderBy);
                 $orderBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $orderBy);
             }
-        }
-
-        if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
-            $innerGroupBy = "log_visit.idvisit";
-        } elseif (!isset($innerGroupBy)) {
-            throw new Exception('Cannot use subselect for join as no group by rule is specified');
-        }
-
-        $innerOrderBy = "NULL";
-        if ($innerLimitAndOffset && $orderBy) {
-            // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
-            $innerOrderBy = $orderBy;
-        }
-        if ($innerLimitAndOffset) {
-            // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
-            $innerGroupBy = false;
         }
 
         $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerGroupBy, $innerOrderBy, $innerLimitAndOffset);
