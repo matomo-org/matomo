@@ -22,7 +22,6 @@ class VisitorId extends VisitDimension
 {
     protected $columnName = 'idvisitor';
     protected $metricId = 'visitors';
-    protected $category = 'General_Visit';
     protected $nameSingular = 'General_VisitorID';
     protected $namePlural = 'General_Visitors';
     protected $segmentName = 'visitorId';

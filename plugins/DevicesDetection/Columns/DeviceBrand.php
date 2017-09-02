@@ -22,7 +22,6 @@ class DeviceBrand extends Base
     protected $type = self::TYPE_TEXT;
     protected $nameSingular = 'DevicesDetection_DeviceBrand';
     protected $segmentName = 'deviceBrand';
-    protected $category = 'General_Visit';
 
 
     public function formatValue($value, $idSite, Formatter $formatter)

@@ -30,7 +30,6 @@ class UserId extends VisitDimension
     protected $type = self::TYPE_TEXT;
     protected $allowAnonymous = false;
     protected $segmentName = 'userId';
-    protected $category = 'General_Visit';
     protected $nameSingular = 'General_UserId';
     protected $acceptValues = 'any non empty unique string identifying the user (such as an email address or a username).';
 

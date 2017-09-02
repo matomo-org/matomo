@@ -53,7 +53,7 @@ abstract class Metric
      */
     abstract public function getTranslatedName();
 
-    public function getCategory()
+    public function getCategoryId()
     {
         return '';
     }

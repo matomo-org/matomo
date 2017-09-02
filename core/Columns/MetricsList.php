@@ -51,7 +51,7 @@ class MetricsList
     public function remove($metricCategory, $metricName = false)
     {
         foreach ($this->metrics as $index => $metric) {
-            if ($metric->getCategory() === $metricCategory) {
+            if ($metric->getCategoryId() === $metricCategory) {
                 if (!$metricName || $metric->getName() === $metricName) {
                     unset($this->metrics[$index]);
                 }

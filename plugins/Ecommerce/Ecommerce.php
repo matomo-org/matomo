@@ -32,7 +32,7 @@ class Ecommerce extends \Piwik\Plugin
 
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
     {
-        $category = Piwik::translate('Goals_Ecommerce');
+        $category = 'Goals_Ecommerce';
 
         $metrics = $list->getMetrics();
         foreach ($metrics as $metric) {
@@ -41,7 +41,7 @@ class Ecommerce extends \Piwik\Plugin
                 if ($metric->getDbTableName() === 'log_conversion'
                     && $metricName !== 'nb_uniq_orders'
                     && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0
-                    && $metric->getCategory() === $category) {
+                    && $metric->getCategoryId() === $category) {
                     $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_orders', ComputedMetric::AGGREGATION_AVG);
                     $list->addMetric($metric);
                 }

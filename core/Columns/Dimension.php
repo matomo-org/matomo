@@ -232,12 +232,8 @@ abstract class Dimension
         }
     }
 
-    public function getCategory()
+    public function getCategoryId()
     {
-        if (!empty($this->category)) {
-            return Piwik::translate($this->category);
-        }
-
         return $this->category;
     }
 

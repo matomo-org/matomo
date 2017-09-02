@@ -81,7 +81,7 @@ class ArchivedMetric extends Metric
         return $this;
     }
 
-    public function getCategory()
+    public function getCategoryId()
     {
         return $this->category;
     }

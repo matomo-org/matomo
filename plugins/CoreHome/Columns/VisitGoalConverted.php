@@ -25,7 +25,6 @@ class VisitGoalConverted extends VisitDimension
     protected $segmentName = 'visitConverted';
     protected $nameSingular = 'General_VisitConvertedGoal';
     protected $acceptValues = '0, 1';
-    protected $category = 'General_Visit';
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {

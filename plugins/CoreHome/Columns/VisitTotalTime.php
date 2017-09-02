@@ -21,7 +21,6 @@ class VisitTotalTime extends VisitDimension
     protected $columnType = 'INT(11) UNSIGNED NOT NULL';
     protected $segmentName = 'visitDuration';
     protected $nameSingular = 'General_ColumnVisitDuration';
-    protected $category = 'General_Visit';
     protected $type = self::TYPE_DURATION_S;
 
     /**

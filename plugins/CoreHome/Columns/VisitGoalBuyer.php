@@ -35,7 +35,6 @@ class VisitGoalBuyer extends VisitDimension
     protected $columnName = 'visit_goal_buyer';
     protected $columnType = 'TINYINT(1) NULL';
     protected $segmentName = 'visitEcommerceStatus';
-    protected $category = 'General_Visit';
     protected $nameSingular = 'General_EcommerceVisitStatusDesc';
     protected $type = self::TYPE_ENUM;
 

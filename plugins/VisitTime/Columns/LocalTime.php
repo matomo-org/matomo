@@ -25,7 +25,6 @@ class LocalTime extends VisitDimension
     protected $nameSingular = 'VisitTime_ColumnLocalTime';
     protected $sqlSegment = 'HOUR(log_visit.visitor_localtime)';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
-    protected $category = 'General_Visit';
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

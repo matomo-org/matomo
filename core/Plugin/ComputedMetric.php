@@ -57,7 +57,7 @@ class ComputedMetric extends ProcessedMetric
         return $this;
     }
 
-    public function getCategory()
+    public function getCategoryId()
     {
         return $this->category;
     }

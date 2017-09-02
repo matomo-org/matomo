@@ -23,7 +23,6 @@ class VisitIp extends VisitDimension
     protected $columnName = 'location_ip';
     protected $type = self::TYPE_BINARY;
     protected $allowAnonymous = false;
-    protected $category = 'General_Visit';
     protected $segmentName = 'visitIp';
     protected $nameSingular = 'General_VisitorIP';
     protected $acceptValues = '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255';

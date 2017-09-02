@@ -76,7 +76,7 @@ class ComputedMetricFactory
         $metric->setName($name);
         $metric->setTranslatedName($translatedName);
         $metric->setDocumentation($documentation);
-        $metric->setCategory($dimension1->getCategory());
+        $metric->setCategory($dimension1->getCategoryId());
         return $metric;
     }
 

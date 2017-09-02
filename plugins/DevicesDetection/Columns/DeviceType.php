@@ -19,7 +19,6 @@ class DeviceType extends Base
 {
     protected $columnName = 'config_device_type';
     protected $columnType = 'TINYINT( 100 ) NULL DEFAULT NULL';
-    protected $category = 'General_Visit';
     protected $segmentName = 'deviceType';
     protected $type = self::TYPE_ENUM;
     protected $nameSingular = 'DevicesDetection_DeviceType';

@@ -17,7 +17,6 @@ class ServerTime extends VisitDimension
 {
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
-    protected $category = 'General_Visit';
     protected $segmentName = 'visitServerHour';
     protected $nameSingular = 'VisitTime_ColumnServerTime';
     protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';

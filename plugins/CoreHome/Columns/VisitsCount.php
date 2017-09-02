@@ -19,7 +19,6 @@ class VisitsCount extends VisitDimension
     protected $columnType = 'INT(11) UNSIGNED NOT NULL';
     protected $segmentName = 'visitCount';
     protected $nameSingular = 'General_NumberOfVisits';
-    protected $category = 'General_Visit';
     protected $type = self::TYPE_NUMBER;
 
     /**

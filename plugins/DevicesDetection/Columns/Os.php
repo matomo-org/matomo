@@ -22,7 +22,6 @@ class Os extends Base
     protected $segmentName = 'operatingSystemCode';
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystem';
     protected $acceptValues = 'WIN, MAC, LIN, AND, IPD, etc.';
-    protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
 
     public function formatValue($value, $idSite, Formatter $formatter)

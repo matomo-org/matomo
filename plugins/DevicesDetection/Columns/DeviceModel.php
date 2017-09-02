@@ -18,7 +18,6 @@ class DeviceModel extends Base
     protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
     protected $nameSingular = 'DevicesDetection_DeviceModel';
-    protected $category = 'General_Visit';
 
     /**
      * @param Request $request

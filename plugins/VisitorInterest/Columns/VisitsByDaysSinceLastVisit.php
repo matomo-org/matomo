@@ -20,7 +20,6 @@ class VisitsByDaysSinceLastVisit extends VisitDimension
     protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'daysSinceLastVisit';
-    protected $category = 'General_Visit';
     protected $nameSingular = 'General_DaysSinceLastVisit';
 
     public function getName()

@@ -19,7 +19,6 @@ class OsVersion extends Base
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystemVersion';
     protected $namePlural = 'DevicesDetection_OperatingSystemVersions';
     protected $segmentName = 'operatingSystemVersion';
-    protected $category = 'General_Visit';
     protected $acceptValues = 'XP, 7, 2.3, 5.1, ...';
     protected $type = self::TYPE_TEXT;
 

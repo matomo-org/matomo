@@ -20,7 +20,6 @@ class VisitTotalSearches extends VisitDimension
     protected $segmentName = 'searches';
     protected $nameSingular = 'General_NbSearches';
     protected $acceptValues = 'To select all visits who used internal Site Search, use: &segment=searches>0';
-    protected $category = 'General_Visit';
     protected $type = self::TYPE_NUMBER;
 
     /**

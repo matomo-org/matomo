@@ -19,7 +19,6 @@ class BrowserVersion extends Base
     protected $segmentName = 'browserVersion';
     protected $nameSingular = 'DevicesDetection_BrowserVersion';
     protected $acceptValues = '1.0, 8.0, etc.';
-    protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
 
     /**

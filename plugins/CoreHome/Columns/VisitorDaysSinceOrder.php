@@ -19,7 +19,7 @@ class VisitorDaysSinceOrder extends VisitDimension
     protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
     protected $segmentName = 'daysSinceLastEcommerceOrder';
     protected $nameSingular = 'General_DaysSinceLastEcommerceOrder';
-    protected $category = 'General_Visit'; // todo put into ecommerce category?
+    protected $category = 'General_Visitors'; // todo put into ecommerce category?
     protected $type = self::TYPE_NUMBER;
 
     /**

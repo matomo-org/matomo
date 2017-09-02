@@ -21,7 +21,6 @@ class Resolution extends VisitDimension
     protected $acceptValues = '1280x1024, 800x600, etc.';
     protected $segmentName = 'resolution';
     protected $nameSingular = 'Resolution_ColumnResolution';
-    protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
 
     /**

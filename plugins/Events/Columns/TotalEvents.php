@@ -19,7 +19,6 @@ class TotalEvents extends VisitDimension
     protected $columnType = 'INT(11) UNSIGNED NULL';
     protected $segmentName = 'events';
     protected $nameSingular = 'Events_TotalEvents';
-    protected $category = 'General_Visit';
     protected $acceptValues = 'To select all visits who triggered an Event, use: &segment=events>0';
 
     protected $type = self::TYPE_NUMBER;

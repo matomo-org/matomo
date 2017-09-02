@@ -42,7 +42,7 @@ class DimensionMetricFactory
         $metric->setName($metricName);
         $metric->setTranslatedName($readableName);
         $metric->setDocumentation($documentation);
-        $metric->setCategory($this->dimension->getCategory());
+        $metric->setCategory($this->dimension->getCategoryId());
 
         return $metric;
     }
@@ -72,7 +72,7 @@ class DimensionMetricFactory
         }
         $metric->setName($name);
         $metric->setTranslatedName($translatedName);
-        $metric->setCategory($this->dimension->getCategory());
+        $metric->setCategory($this->dimension->getCategoryId());
         return $metric;
     }
 

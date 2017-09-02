@@ -20,7 +20,6 @@ class BrowserName extends Base
     protected $segmentName = 'browserCode';
     protected $nameSingular = 'DevicesDetection_ColumnBrowser';
     protected $acceptValues = 'FF, IE, CH, SF, OP, etc.';
-    protected $category = 'General_Visit';
     protected $type = self::TYPE_TEXT;
 
     public function formatValue($value, $idSite, Formatter $formatter)
