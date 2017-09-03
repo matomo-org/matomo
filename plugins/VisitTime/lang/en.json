@@ -1,7 +1,11 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Local time",
+        "ColumnLocalHour": "Local time - hour",
+        "ColumnLocalMinute": "Local time - minute",
         "ColumnServerTime": "Server time",
+        "ColumnServerHour": "Server time - hour",
+        "ColumnServerMinute": "Server time - minute",
         "DayOfWeek": "Day of the week",
         "LocalTime": "Visits per local time",
         "NHour": "%sh",
