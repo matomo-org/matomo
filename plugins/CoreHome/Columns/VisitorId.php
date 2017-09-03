@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreHome\Columns;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Metrics\Formatter;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
 
@@ -33,6 +34,8 @@ class VisitorId extends VisitDimension
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
+        $metric->setTranslatedName(Piwik::translate('General_ColumnNbUniqVisitors'));
+        $metric->setName('nb_uniq_visitors');
         $metricsList->addMetric($metric);
     }
 }

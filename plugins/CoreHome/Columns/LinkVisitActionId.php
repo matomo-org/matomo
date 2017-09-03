@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -28,12 +29,13 @@ class LinkVisitActionId extends ActionDimension
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metric->setTranslatedName('Hits');
+        $metric->setTranslatedName(Piwik::translate('General_ColumnHits'));
         $metric->setName('hits');
         $metricsList->addMetric($metric);
 
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metric->setTranslatedName('Page views');
+        $metric->setTranslatedName(Piwik::translate('General_ColumnPageviews'));
+        $metric->setDocumentation(Piwik::translate('General_ColumnPageviewsDocumentation'));
         $metric->setName('pageviews');
         $metricsList->addMetric($metric);
     }

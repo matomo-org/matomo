@@ -20,6 +20,7 @@ class City extends Base
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'city';
     protected $nameSingular = 'UserCountry_City';
+    protected $namePlural = 'UserCountryMap_Cities';
     protected $acceptValues = 'Sydney, Sao Paolo, Rome, etc.';
     protected $category = 'UserCountry_VisitLocation';
 

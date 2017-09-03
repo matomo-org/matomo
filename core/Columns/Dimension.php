@@ -397,7 +397,7 @@ abstract class Dimension
             }
         }
 
-        if (!$segment->getCategory() && $this->category) {
+        if (!$segment->getCategoryId() && $this->category) {
             $segment->setCategory($this->category);
         }
 

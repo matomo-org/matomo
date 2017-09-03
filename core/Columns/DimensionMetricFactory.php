@@ -8,6 +8,7 @@
  */
 namespace Piwik\Columns;
 
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Report;
@@ -62,7 +63,7 @@ class DimensionMetricFactory
             throw new \Exception('Not supported aggregation type');
         }
 
-        $name = str_replace(array('nb_uniq_', 'uniq_', 'nb_', 'sum_', 'max_', 'min_', '_rate', '_count', 'nb_with_'), '', $name);
+        $name = str_replace(array('nb_uniq_', 'nb_with_', 'uniq_', 'nb_', 'sum_', 'max_', 'min_', '_rate', '_count', 'nb_with_'), '', $name);
 
         $metric = new ComputedMetric($metricName1, $metricName2, $aggregation);
         if ($aggregation === ComputedMetric::AGGREGATION_RATE) {
@@ -96,32 +97,32 @@ class DimensionMetricFactory
             case ArchivedMetric::AGGREGATION_COUNT;
                 $prefix = ArchivedMetric::AGGREGATION_COUNT_PREFIX;
                 $translatedName = $dimension->getNamePlural();
-                $documentation = 'The number of ' . $dimension->getNamePlural();
+                $documentation = Piwik::translate('General_ComputedMetricCountDocumentation', $dimension->getNamePlural());
                 break;
             case ArchivedMetric::AGGREGATION_SUM;
                 $prefix = ArchivedMetric::AGGREGATION_SUM_PREFIX;
-                $translatedName = 'Total ' . $dimension->getNamePlural();
-                $documentation = 'The total number of ' . $dimension->getNamePlural();
+                $translatedName = Piwik::translate('General_ComputedMetricSum', $dimension->getNamePlural());
+                $documentation  = Piwik::translate('General_ComputedMetricSumDocumentation', $dimension->getNamePlural());
                 break;
             case ArchivedMetric::AGGREGATION_MAX;
                 $prefix = ArchivedMetric::AGGREGATION_MAX_PREFIX;
-                $translatedName = 'Max ' . $dimension->getNamePlural();
-                $documentation = 'The maximum value of ' . $dimension->getNamePlural();
+                $translatedName = Piwik::translate('General_ComputedMetricMax', $dimension->getNamePlural());
+                $documentation  = Piwik::translate('General_ComputedMetricMaxDocumentation', $dimension->getNamePlural());
                 break;
             case ArchivedMetric::AGGREGATION_MIN;
                 $prefix = ArchivedMetric::AGGREGATION_MIN_PREFIX;
-                $translatedName = 'Min ' . $dimension->getNamePlural();
-                $documentation = 'The minimum value of ' . $dimension->getNamePlural();
+                $translatedName = Piwik::translate('General_ComputedMetricMin', $dimension->getNamePlural());
+                $documentation  = Piwik::translate('General_ComputedMetricMinDocumentation', $dimension->getNamePlural());
                 break;
             case ArchivedMetric::AGGREGATION_UNIQUE;
                 $prefix = ArchivedMetric::AGGREGATION_UNIQUE_PREFIX;
-                $translatedName = 'Unique ' . $dimension->getNamePlural();
-                $documentation = 'Unique ' . $dimension->getNamePlural();
+                $translatedName = Piwik::translate('General_ComputedMetricUniqueCount', $dimension->getNamePlural());
+                $documentation  = Piwik::translate('General_ComputedMetricUniqueCountDocumentation', $dimension->getNamePlural());
                 break;
             case ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE;
                 $prefix = ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX;
-                $translatedName = 'Entries with ' . $dimension->getName();
-                $documentation = 'The number of entries that have a value set for ' . $dimension->getName();
+                $translatedName = Piwik::translate('General_ComputedMetricCountWithValue', $dimension->getName());
+                $documentation  = Piwik::translate('General_ComputedMetricCountWithValueDocumentation', $dimension->getName());
                 break;
         }
 

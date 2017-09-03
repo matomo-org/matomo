@@ -95,7 +95,10 @@ class Goals extends \Piwik\Plugin
         $goals = API::getInstance()->getGoals($idSite);
 
         foreach ($goals as $goal) {
-            $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visits', ComputedMetric::AGGREGATION_RATE);
+            $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visitors', ComputedMetric::AGGREGATION_RATE);
+            $goalName = Piwik::translate('Goals_GoalX', $goal['name']);
+            $metricName = Piwik::translate('Goals_ConversionRate', $goalName);
+            $metric->setTranslatedName($metricName);
             $list->addMetric($metric);
         }
     }
@@ -117,8 +120,6 @@ class Goals extends \Piwik\Plugin
             $metric->setCategory($custom->getCategoryId());
             $metric->setName('goal_' . $goal['idgoal'] . '_conversion');
             $metricsList->addMetric($metric);
-
-            // TODO add conversion rate
 
             $custom = new GoalDimension($goal, 'revenue', 'Revenue goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
             $custom->setType(Dimension::TYPE_MONEY);

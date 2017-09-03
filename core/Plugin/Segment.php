@@ -250,7 +250,7 @@ class Segment
      * @return string
      * @ignore
      */
-    public function getCategory()
+    public function getCategoryId()
     {
         return $this->category;
     }

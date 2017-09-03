@@ -24,6 +24,7 @@ class Provider extends VisitDimension
     protected $segmentName = 'provider';
     protected $category = 'UserCountry_VisitLocation';
     protected $nameSingular = 'Provider_ColumnProvider';
+    protected $namePlural = 'Provider_WidgetProviders';
     protected $acceptValues = 'comcast.net, proxad.net, etc.';
     protected $type = self::TYPE_TEXT;
 

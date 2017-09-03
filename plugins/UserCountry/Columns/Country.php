@@ -30,6 +30,7 @@ class Country extends Base
 
     protected $category =  'UserCountry_VisitLocation';
     protected $nameSingular = 'UserCountry_Country';
+    protected $namePlural = 'UserCountryMap_Countries';
     protected $segmentName = 'countryCode';
     protected $acceptValues = 'de, us, fr, in, es, etc.';
 

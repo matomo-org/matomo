@@ -8,6 +8,7 @@
  */
 namespace Piwik\Columns;
 
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Report;
@@ -51,21 +52,25 @@ class ComputedMetricFactory
             $name = 'avg_' . $metricName1 . '_per_' . $metricName2;
 
             if ($dimension1 && $dimension2) {
-                $translatedName  = 'Avg. ' . $dimension1->getName() . ' per ' . $dimension2->getName();
+                $translatedName = Piwik::translate('General_ComputedMetricAverage', array($dimension1->getName(), $dimension2->getName()));
             } else {
-                $translatedName = 'Avg. ' . $dimension1->getName();
+                $translatedName = Piwik::translate('General_AverageX', array($dimension1->getName()));
             }
 
-            $documentation = 'Average value of "' . $metric1->getTranslatedName() . '" per "' . $metric2->getTranslatedName() . '"';
+            if (empty($metric2)) {
+                $x = 1;
+            }
+            $documentation = Piwik::translate('General_ComputedMetricAverageDocumentation', array($metric1->getTranslatedName(), $metric2->getTranslatedName()));
+
         } elseif ($aggregation === ComputedMetric::AGGREGATION_RATE) {
             $name = $metricName1 . '_rate';
             $translatedName = null;
-            $documentation = 'The ratio of "' . $dimension1->getNamePlural() . '" out of all "' . $dimension2->getNamePlural() . '"';
+            $documentation = Piwik::translate('General_ComputedMetricRateDocumentation', array($dimension1->getNamePlural(), $dimension2->getNamePlural()));
         } else {
             throw new \Exception('Not supported aggregation type');
         }
 
-        $name = str_replace(array('nb_uniq_', 'uniq_', 'nb_', 'sum_', 'max_', 'min_', '_count'), '', $name);
+        $name = str_replace(array('nb_uniq_', 'nb_with_', 'uniq_', 'nb_', 'sum_', 'max_', 'min_', '_count'), '', $name);
 
         $metric = new ComputedMetric($metricName1, $metricName2, $aggregation);
         if ($aggregation === ComputedMetric::AGGREGATION_RATE) {

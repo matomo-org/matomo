@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
@@ -39,9 +40,8 @@ class VisitId extends VisitDimension
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metricsList->addMetric($metric);
-
-        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT);
+        $metric->setTranslatedName(Piwik::translate('General_ColumnNbVisits'));
+        $metric->setName('nb_visits');
         $metricsList->addMetric($metric);
     }
 }

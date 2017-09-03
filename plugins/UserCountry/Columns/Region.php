@@ -21,6 +21,7 @@ class Region extends Base
     protected $category = 'UserCountry_VisitLocation';
     protected $segmentName = 'regionCode';
     protected $nameSingular = 'UserCountry_Region';
+    protected $namePlural = 'UserCountryMap_Regions';
     protected $acceptValues = '01 02, OR, P8, etc.<br/>eg. region=A1;country=fr';
 
     /**

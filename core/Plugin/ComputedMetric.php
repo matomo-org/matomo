@@ -148,19 +148,23 @@ class ComputedMetric extends ProcessedMetric
 
             if ($this->aggregation === self::AGGREGATION_AVG) {
                 if ($metric1 && $metric1 instanceof ArchivedMetric && $metric2 && $metric2 instanceof ArchivedMetric) {
-                    return 'Avg. ' . $metric1->getDimension()->getName() . ' per ' . $metric2->getDimension()->getName();
+
+                    $metric1Name = $metric1->getDimension()->getName();
+                    $metric2Name = $metric2->getDimension()->getName();
+                    return Piwik::translate('General_ComputedMetricAverage', array($metric1Name, $metric2Name));
                 }
 
                 if ($metric1 && $metric1 instanceof ArchivedMetric) {
-                    return 'Avg. ' . $metric1->getDimension()->getName();
+                    $metric1Name = $metric1->getDimension()->getName();
+                    return Piwik::translate('General_AverageX', array($metric1Name));
                 }
 
                 return $metric1 . ' per ' . $metric2;
             } else if ($this->aggregation === self::AGGREGATION_RATE) {
                 if ($metric1 && $metric1 instanceof ArchivedMetric) {
-                    return $metric1->getTranslatedName() . ' Rate';
+                    return Piwik::translate('General_ComputedMetricRate', array($metric1->getTranslatedName()));
                 } else {
-                    return $this->metric1 . ' Rate';
+                    return Piwik::translate('General_ComputedMetricRate', array($this->metric1));
                 }
             }
         }

@@ -46,9 +46,9 @@ class CoreHome extends \Piwik\Plugin
             if ($metric instanceof ArchivedMetric && $metric->getDimension()) {
                 $metricName = $metric->getName();
                 if ($metric->getDbTableName() === 'log_visit'
-                    && $metricName !== 'nb_uniq_visits'
+                    && $metricName !== 'nb_uniq_visitors'
                     && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0) {
-                    $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_visits', ComputedMetric::AGGREGATION_AVG);
+                    $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_visitors', ComputedMetric::AGGREGATION_AVG);
                     $list->addMetric($metric);
                 }
             }

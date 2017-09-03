@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\MetricsList;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -28,21 +29,24 @@ class VisitTotalActions extends VisitDimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $metric1 = $dimensionMetricFactory->createCustomMetric('bounce_count', 'Bounces', 'sum(case %s when 1 then 1 when 0 then 1 else 0 end)');
+        $metric1 = $dimensionMetricFactory->createCustomMetric('bounce_count', Piwik::translate('General_ColumnBounces'), 'sum(case %s when 1 then 1 when 0 then 1 else 0 end)');
+        $metric1->setDocumentation(Piwik::translate('General_ColumnBouncesDocumentation'));
         $metricsList->addMetric($metric1);
 
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
         $metricsList->addMetric($metric);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_visitors', ComputedMetric::AGGREGATION_AVG);
+        $metric->setDocumentation(Piwik::translate('General_ColumnActionsPerVisitDocumentation'));
         $metricsList->addMetric($metric);
 
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
         $metricsList->addMetric($metric);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), 'nb_visits', ComputedMetric::AGGREGATION_RATE);
-        $metric->setTranslatedName('Bounce Rate');
+        $metric->setTranslatedName(Piwik::translate('General_ColumnBounceRate'));
         $metric->setName('bounce_rate');
+        $metric->setDocumentation(Piwik::translate('General_ColumnBounceRateDocumentation'));
         $metricsList->addMetric($metric);
     }
 

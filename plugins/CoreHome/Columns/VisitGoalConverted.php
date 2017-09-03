@@ -28,11 +28,12 @@ class VisitGoalConverted extends VisitDimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $metric1 = $dimensionMetricFactory->createCustomMetric('nb_visits_converted', 'Visits Converted', 'sum(case %s when 1 then 1 else 0 end)');
+        $metric1 = $dimensionMetricFactory->createCustomMetric('nb_visits_converted', Piwik::translate('General_ColumnVisitsWithConversions'), 'sum(case %s when 1 then 1 else 0 end)');
         $metricsList->addMetric($metric1);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), 'nb_visits', ComputedMetric::AGGREGATION_RATE);
         $metric->setTranslatedName(Piwik::translate('General_ColumnConversionRate'));
+        $metric->setDocumentation(Piwik::translate('General_ColumnConversionRateDocumentation'));
         $metric->setName('visits_conversion_rate');
         $metricsList->addMetric($metric);
     }
