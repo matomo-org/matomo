@@ -21,6 +21,7 @@ class Os extends Base
     protected $columnType = 'CHAR(3) NULL';
     protected $segmentName = 'operatingSystemCode';
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystem';
+    protected $namePlural = 'DevicesDetection_OperatingSystems';
     protected $acceptValues = 'WIN, MAC, LIN, AND, IPD, etc.';
     protected $type = self::TYPE_TEXT;
 

@@ -17,6 +17,7 @@ class DownloadUrl extends ActionDimension
 {
     protected $segmentName = 'downloadUrl';
     protected $nameSingular = 'Actions_ColumnDownloadURL';
+    protected $namePlural = 'Actions_ColumnDownloadURLs';
     protected $columnName = 'idaction_url';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';

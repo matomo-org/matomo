@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -20,6 +22,11 @@ class VisitsCount extends VisitDimension
     protected $segmentName = 'visitCount';
     protected $nameSingular = 'General_NumberOfVisits';
     protected $type = self::TYPE_NUMBER;
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // no metrics for this dimension, it would be rather confusing I think
+    }
 
     /**
      * @param Request $request

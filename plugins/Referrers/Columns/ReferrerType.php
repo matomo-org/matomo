@@ -21,6 +21,7 @@ class ReferrerType extends Base
     protected $type = self::TYPE_ENUM;
     protected $segmentName = 'referrerType';
     protected $nameSingular = 'Referrers_Type';
+    protected $namePlural = 'Referrers_ReferrerTypes';
     protected $sqlFilterValue = 'Piwik\Plugins\Referrers\getReferrerTypeFromShortName';
     protected $acceptValues = 'direct, search, website, campaign';
     protected $category = 'Referrers_Referrers';

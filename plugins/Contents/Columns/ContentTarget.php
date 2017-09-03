@@ -21,6 +21,7 @@ class ContentTarget extends ActionDimension
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
     protected $type = self::TYPE_URL;
     protected $nameSingular = 'Contents_ContentTarget';
+    protected $namePlural = 'Contents_ContentTargets';
     protected $segmentName = 'contentTarget';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';

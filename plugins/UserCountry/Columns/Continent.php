@@ -19,6 +19,7 @@ class Continent extends Dimension
     protected $type = self::TYPE_TEXT;
     protected $category = 'UserCountry_VisitLocation';
     protected $nameSingular = 'UserCountry_Continent';
+    protected $namePlural = 'UserCountry_Continents';
     protected $segmentName = 'continentCode';
     protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce';
     protected $sqlFilter = 'Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent';

@@ -22,6 +22,7 @@ class DeviceType extends Base
     protected $segmentName = 'deviceType';
     protected $type = self::TYPE_ENUM;
     protected $nameSingular = 'DevicesDetection_DeviceType';
+    protected $namePlural = 'DevicesDetection_DeviceTypes';
 
     public function __construct()
     {

@@ -21,6 +21,7 @@ class Latitude extends Base
     protected $category = 'UserCountry_VisitLocation';
     protected $segmentName = 'latitude';
     protected $nameSingular = 'UserCountry_Latitude';
+    protected $namePlural = 'UserCountry_Latitudes';
     protected $acceptValues = '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.';
 
     /**

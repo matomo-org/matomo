@@ -23,6 +23,7 @@ class ContentInteraction extends ActionDimension
     protected $acceptValues = 'The type of interaction with the content. For instance "click" or "submit".';
     protected $segmentName = 'contentInteraction';
     protected $nameSingular = 'Contents_ContentInteraction';
+    protected $namePlural = 'Contents_ContentInteractions';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 

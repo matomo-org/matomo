@@ -18,6 +18,7 @@ class SearchKeyword extends ActionDimension
     protected $columnName = 'idaction_name';
     protected $segmentName = 'siteSearchKeyword';
     protected $nameSingular = 'Actions_SiteSearchKeyword';
+    protected $namePlural = 'Actions_SiteSearchKeywords';
     protected $type = self::TYPE_TEXT;
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 

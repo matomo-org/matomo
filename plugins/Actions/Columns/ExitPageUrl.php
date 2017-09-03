@@ -25,6 +25,7 @@ class ExitPageUrl extends VisitDimension
     protected $type = self::TYPE_URL;
     protected $segmentName = 'exitPageUrl';
     protected $nameSingular = 'Actions_ColumnExitPageURL';
+    protected $namePlural = 'Actions_ColumnExitPageURLs';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 

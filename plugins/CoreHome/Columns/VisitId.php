@@ -41,6 +41,7 @@ class VisitId extends VisitDimension
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
         $metric->setTranslatedName(Piwik::translate('General_ColumnNbVisits'));
+        $metric->setDocumentation(Piwik::translate('General_ColumnNbVisitsDocumentation'));
         $metric->setName('nb_visits');
         $metricsList->addMetric($metric);
     }

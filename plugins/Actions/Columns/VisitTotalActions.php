@@ -36,10 +36,6 @@ class VisitTotalActions extends VisitDimension
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
         $metricsList->addMetric($metric);
 
-        $metric = $dimensionMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_visitors', ComputedMetric::AGGREGATION_AVG);
-        $metric->setDocumentation(Piwik::translate('General_ColumnActionsPerVisitDocumentation'));
-        $metricsList->addMetric($metric);
-
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
         $metricsList->addMetric($metric);
 

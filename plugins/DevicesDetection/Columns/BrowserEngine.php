@@ -19,6 +19,7 @@ class BrowserEngine extends Base
     protected $columnType = 'VARCHAR(10) NULL';
     protected $segmentName = 'browserEngine';
     protected $nameSingular = 'DevicesDetection_BrowserEngine';
+    protected $namePlural = 'DevicesDetection_BrowserEngines';
     protected $acceptValues = 'Trident, WebKit, Presto, Gecko, Blink, etc.';
     protected $suggestedValuesCallback = '\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines';
     protected $type = self::TYPE_TEXT;

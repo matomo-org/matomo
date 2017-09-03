@@ -22,6 +22,7 @@ class ContentName extends ActionDimension
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
     protected $segmentName = 'contentName';
     protected $nameSingular = 'Contents_ContentName';
+    protected $namePlural = 'Contents_ContentNames';
     protected $acceptValues = 'The name of a content block, for instance "Ad Sale"';
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';

@@ -19,6 +19,7 @@ class ProductName extends Dimension
     protected $dbTableName = 'log_conversion_item';
     protected $columnName = 'idaction_name';
     protected $nameSingular = 'Goals_ProductName';
+    protected $namePlural = 'Goals_ProductNames';
     protected $category = 'Goals_Ecommerce';
 
     public function getDbColumnJoin()

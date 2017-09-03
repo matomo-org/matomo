@@ -22,6 +22,7 @@ class EntryPageTitle extends VisitDimension
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'entryPageTitle';
     protected $nameSingular = 'Actions_ColumnEntryPageTitle';
+    protected $namePlural = 'Actions_WidgetEntryPageTitles';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 

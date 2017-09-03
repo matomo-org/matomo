@@ -21,6 +21,7 @@ class EntryPageUrl extends VisitDimension
     protected $columnType = 'INTEGER(11) UNSIGNED NULL  DEFAULT NULL';
     protected $segmentName = 'entryPageUrl';
     protected $nameSingular = 'Actions_ColumnEntryPageURL';
+    protected $namePlural = 'Actions_ColumnEntryPageURLs';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_URL;

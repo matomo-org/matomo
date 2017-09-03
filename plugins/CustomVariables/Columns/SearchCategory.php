@@ -17,6 +17,7 @@ class SearchCategory extends ActionDimension
     protected $type = self::TYPE_TEXT;
     protected $columnName = 'custom_var_v4';
     protected $nameSingular = 'Actions_SiteSearchCategory';
+    protected $namePlural = 'Actions_SiteSearchCategories';
 
     public function getDbDiscriminator()
     {

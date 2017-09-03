@@ -22,6 +22,7 @@ class Longitude extends Base
     protected $acceptValues = '-70.664, 14.326, etc.';
     protected $segmentName = 'longitude';
     protected $nameSingular = 'UserCountry_Longitude';
+    protected $namePlural = 'UserCountry_Longitudes';
 
     /**
      * @param Request $request

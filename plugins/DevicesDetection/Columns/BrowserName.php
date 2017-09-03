@@ -19,6 +19,7 @@ class BrowserName extends Base
     protected $columnType = 'VARCHAR(10) NULL';
     protected $segmentName = 'browserCode';
     protected $nameSingular = 'DevicesDetection_ColumnBrowser';
+    protected $namePlural = 'DevicesDetection_Browsers';
     protected $acceptValues = 'FF, IE, CH, SF, OP, etc.';
     protected $type = self::TYPE_TEXT;
 

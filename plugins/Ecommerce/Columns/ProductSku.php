@@ -19,11 +19,12 @@ class ProductSku extends Dimension
     protected $dbTableName = 'log_conversion_item';
     protected $columnName = 'idaction_sku';
     protected $nameSingular = 'Goals_ProductSKU';
+    protected $namePlural = 'Goals_ProductSKUs';
     protected $category = 'Goals_Ecommerce';
 
     public function getDbColumnJoin()
     {
-        return new ActionNameJoin(Action::TYPE_ECOMMERCE_ITEM_SKU);
+        return new ActionNameJoin();
     }
 
     public function getDbDiscriminator()

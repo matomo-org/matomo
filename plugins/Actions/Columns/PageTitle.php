@@ -19,7 +19,8 @@ class PageTitle extends ActionDimension
     protected $columnType = 'INTEGER(10) UNSIGNED';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'pageTitle';
-    protected $nameSingular = 'Actions_ColumnPageName';
+    protected $nameSingular = 'Goals_PageTitle';
+    protected $namePlural = 'Actions_WidgetPageTitles';
     protected $category = 'General_Actions';
     protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 

@@ -23,6 +23,7 @@ class EventName extends ActionDimension
     protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
     protected $segmentName = 'eventName';
     protected $nameSingular = 'Events_EventName';
+    protected $namePlural = 'Events_EventNames';
 
     public function getDbColumnJoin()
     {

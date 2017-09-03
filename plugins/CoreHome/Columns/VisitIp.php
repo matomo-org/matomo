@@ -25,6 +25,7 @@ class VisitIp extends VisitDimension
     protected $allowAnonymous = false;
     protected $segmentName = 'visitIp';
     protected $nameSingular = 'General_VisitorIP';
+    protected $namePlural = 'General_VisitorIPs';
     protected $acceptValues = '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255';
     protected $sqlFilterValue = array('Piwik\Network\IPUtils', 'stringToBinaryIP');
 

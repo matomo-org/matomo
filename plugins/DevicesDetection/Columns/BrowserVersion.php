@@ -18,6 +18,7 @@ class BrowserVersion extends Base
     protected $columnType = 'VARCHAR(20) NULL';
     protected $segmentName = 'browserVersion';
     protected $nameSingular = 'DevicesDetection_BrowserVersion';
+    protected $namePlural = 'DevicesDetection_BrowserVersions';
     protected $acceptValues = '1.0, 8.0, etc.';
     protected $type = self::TYPE_TEXT;
 

@@ -21,6 +21,7 @@ class Language extends VisitDimension
     protected $columnType = 'VARCHAR(20) NULL';
     protected $category = 'UserCountry_VisitLocation';
     protected $nameSingular = 'General_Language';
+    protected $namePlural = 'General_Languages';
     protected $segmentName = 'languageCode';
     protected $acceptValues = 'de, fr, en-gb, zh-cn, etc.';
     protected $type = self::TYPE_TEXT;

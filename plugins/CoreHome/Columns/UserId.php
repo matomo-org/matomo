@@ -31,6 +31,7 @@ class UserId extends VisitDimension
     protected $allowAnonymous = false;
     protected $segmentName = 'userId';
     protected $nameSingular = 'General_UserId';
+    protected $namePlural = 'General_UserIds';
     protected $acceptValues = 'any non empty unique string identifying the user (such as an email address or a username).';
 
     /**

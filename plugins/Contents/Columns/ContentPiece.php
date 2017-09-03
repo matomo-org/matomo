@@ -21,6 +21,7 @@ class ContentPiece extends ActionDimension
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
     protected $segmentName = 'contentPiece';
     protected $nameSingular = 'Contents_ContentPiece';
+    protected $namePlural = 'Contents_ContentPieces';
     protected $acceptValues = 'The actual content. For instance "ad.jpg" or "My text ad"';
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';

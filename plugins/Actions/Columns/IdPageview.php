@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -36,6 +38,11 @@ class IdPageview extends ActionDimension
     public function getName()
     {
         return Piwik::translate('Actions_ColumnIdPageview');
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // metrics for idpageview do not really make any sense
     }
 
 }
