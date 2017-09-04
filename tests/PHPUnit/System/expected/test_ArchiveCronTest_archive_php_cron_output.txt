@@ -18,7 +18,7 @@ INFO [2017-01-22 00:03:37] NOTES
 INFO [2017-01-22 00:03:37] - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
 INFO [2017-01-22 00:03:37]   See the doc at: http://piwik.org/docs/setup-auto-archiving/
 INFO [2017-01-22 00:03:37] - Reports for today will be processed at most every 150 seconds. You can change this value in Piwik UI > Settings > General Settings.
-INFO [2017-01-22 00:03:37] - Reports for the current week/month/year will be refreshed at most every 3600 seconds.
+INFO [2017-01-22 00:03:37] - Reports for the current week/month/year will be requested at most every 3600 seconds.
 INFO [2017-01-22 00:03:37] - Will invalidate archived reports for 2012-08-09 for following websites ids: 1
 INFO [2017-01-22 00:03:37] - Will invalidate archived reports for 2012-08-10 for following websites ids: 1
 INFO [2017-01-22 00:03:37] - Will invalidate archived reports for 2012-08-11 for following websites ids: 1
