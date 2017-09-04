@@ -6,6 +6,9 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 
 ## Piwik 3.0.5
 
+### Breaking Changes
+* The event `Live.getAllVisitorDetails` has been deprecated and will be removed in Piwik 4. Use a `VisitorDetails` class instead (see Live plugin). 
+
 ### New Features
 * New method `setSecureCookie` that sets the cookie's secure parameter
 

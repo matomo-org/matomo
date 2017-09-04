@@ -9,42 +9,8 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Db;
-
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class DevicesDetection extends \Piwik\Plugin
 {
-    /**
-     * @see Piwik\Plugin::registerEvents
-     */
-    public function registerEvents()
-    {
-        return array(
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
-        );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['deviceType']               = $instance->getDeviceType();
-        $visitor['deviceTypeIcon']           = $instance->getDeviceTypeIcon();
-        $visitor['deviceBrand']              = $instance->getDeviceBrand();
-        $visitor['deviceModel']              = $instance->getDeviceModel();
-        $visitor['operatingSystem']          = $instance->getOperatingSystem();
-        $visitor['operatingSystemName']      = $instance->getOperatingSystemName();
-        $visitor['operatingSystemIcon']      = $instance->getOperatingSystemIcon();
-        $visitor['operatingSystemCode']      = $instance->getOperatingSystemCode();
-        $visitor['operatingSystemVersion']   = $instance->getOperatingSystemVersion();
-        $visitor['browserFamily']            = $instance->getBrowserEngine();
-        $visitor['browserFamilyDescription'] = $instance->getBrowserEngineDescription();
-        $visitor['browser']                  = $instance->getBrowser();
-        $visitor['browserName']              = $instance->getBrowserName();
-        $visitor['browserIcon']              = $instance->getBrowserIcon();
-        $visitor['browserCode']              = $instance->getBrowserCode();
-        $visitor['browserVersion']           = $instance->getBrowserVersion();
-    }
 }

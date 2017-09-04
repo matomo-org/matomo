@@ -12,7 +12,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>11</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -31,11 +38,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -43,7 +46,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>12</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -62,11 +72,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<interactionPosition>2</interactionPosition>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -74,7 +80,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>13</pageId>
+				<bandwidth />
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -89,11 +102,7 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>3</interactionPosition>
-				<timeSpent>361</timeSpent>
-				<timeSpentPretty>6 min 1s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -134,13 +143,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>2</visitCount>
-		
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -176,6 +190,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -221,17 +241,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>4</totalEcommerceConversions>
-		<totalEcommerceItems>12</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>3</totalAbandonedCarts>
-		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -245,18 +254,21 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>5</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -264,18 +276,21 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>6</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>2</interactionPosition>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -283,7 +298,14 @@
 				<pageTitle>Looking at product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>7</pageId>
+				<bandwidth />
+				<timeSpent>720</timeSpent>
+				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -302,11 +324,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>3</interactionPosition>
-				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -372,7 +390,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>8</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>4</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -391,11 +416,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<interactionPosition>4</interactionPosition>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -403,7 +424,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>9</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>5</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -422,11 +450,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<interactionPosition>5</interactionPosition>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -434,7 +458,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>10</pageId>
+				<bandwidth />
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<interactionPosition>6</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -449,11 +480,7 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>6</interactionPosition>
-				<timeSpent>361</timeSpent>
-				<timeSpentPretty>6 min 1s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -494,13 +521,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>2</visitCount>
-		
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -536,6 +568,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -581,17 +619,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>4</totalEcommerceConversions>
-		<totalEcommerceItems>12</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>3</totalAbandonedCarts>
-		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -616,7 +643,14 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -635,11 +669,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -647,7 +677,14 @@
 				<pageTitle>Another Product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>2</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -666,11 +703,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>2</interactionPosition>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -678,7 +711,14 @@
 				<pageTitle>Another Product page with no category</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>3</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -697,11 +737,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<interactionPosition>3</interactionPosition>
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -709,7 +745,12 @@
 				<pageTitle>Another Product page with multiple categories</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>4</pageId>
+				<bandwidth />
+				<interactionPosition>4</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -724,14 +765,18 @@
 						<customVariablePageValue5>[&quot;Multiple Category 1&quot;,&quot;&quot;,0,&quot;Multiple Category 2&quot;,&quot;Electronics &amp; Cameras&quot;,&quot;Multiple Category 4&quot;,&quot;Multiple Category 5&quot;,&quot;SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttt</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>4</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -742,7 +787,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -778,6 +822,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -819,16 +869,5 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
-		<totalEcommerceConversions>4</totalEcommerceConversions>
-		<totalEcommerceItems>12</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>3</totalAbandonedCarts>
-		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 	</row>
 </result>
