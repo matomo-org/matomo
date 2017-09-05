@@ -68,6 +68,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderVisitorDetails($visitInfo)
     {
+        if (empty($visitInfo['customVariables'])) {
+            return [];
+        }
+
         $view            = new View('@CustomVariables/_visitorDetails');
         $view->visitInfo = $visitInfo;
         return [[ 50, $view->render() ]];
