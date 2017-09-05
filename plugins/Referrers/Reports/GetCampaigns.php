@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Reports;
 
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Referrers\Columns\Campaign;
@@ -34,6 +35,20 @@ class GetCampaigns extends Base
         $view->config->addTranslation('label', $this->dimension->getName());
 
         $view->requestConfig->filter_limit = 25;
+
+        $this->configureFooterMessage($view);
     }
 
+
+    protected function configureFooterMessage(ViewDataTable $view)
+    {
+        if ($this->isSubtableReport) {
+            // no footer message for subtables
+            return;
+        }
+
+        $out = '';
+        EventDispatcher::getInstance()->postEvent('Template.afterCampaignsReport', array(&$out));
+        $view->config->show_footer_message = $out;
+    }
 }
