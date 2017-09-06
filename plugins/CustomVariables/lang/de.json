@@ -14,7 +14,7 @@
         "Unused": "Unbenutzt",
         "CreateNewSlot": "Die Anzahl verfügbarer benutzerdefinierter Variablen erhöhen",
         "UsageDetails": "%1$s Besuche und %2$s Aktionen seit der Erstellung dieser Website.",
-        "CreatingCustomVariableTakesTime": "Neue benutzerdefinierte Variablen zu erstellen kann viel Zeit beanspruchen, abhängig von der Grösse Ihrer Datenbank. Deshalb ist dieser Vorgang nur über Kommandozeilen verfügbar.",
+        "CreatingCustomVariableTakesTime": "Neue benutzerdefinierte Variablen zu erstellen kann viel Zeit beanspruchen, abhängig von der Größe Ihrer Datenbank. Deshalb ist dieser Vorgang nur über Kommandozeilen verfügbar.",
         "CurrentAvailableCustomVariables": "Aktuell können Sie bis zu %s benutzerdefinierte Variablen pro Seite einsetzen.",
         "ToCreateCustomVarExecute": "Um eine neue benutzerdefinierte Variable zu erstellen, führen Sie in Ihrer Piwik Installation folgende Befehle aus:",
         "SlotsReportIsGeneratedOverTime": "Daten für diesen Bericht werden periodisch veröffentlicht. Es mag ein oder zwei Tage dauern, bis Daten sichtbar sind und einige Wochen bis der Bericht vollständig aussagekräftig ist.",

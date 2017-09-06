@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s opuštěných košíků%2$s a %3$s opuštěných položek%4$s celkem za %5$s%6$s.",
         "AveragePageGenerationTime": "Pro tohoto návštěvníka se každá stránka načetla v průměru za %1$s.",
         "CalculatedOverNPageViews": "Vypočítáno na základě %1$s posledních zobrazení stránek tohoto návštěvníka.",
         "ClickToViewMoreAboutVisit": "Klikněte pro zobrazení více informací o této návštěvě",
         "ConvertedNGoals": "Proměněno %s cílů",
-        "EcommerceSummaryConversions": "%1$s objednávek%2$s celkem za %3$s%4$s, zakoupeno %5$s položek%6$s.",
         "FirstVisit": "První návštěva",
         "GoalType": "Typ",
         "HideMap": "skrýt mapu",
