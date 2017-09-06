@@ -42,7 +42,11 @@ class CustomVariables extends \Piwik\Plugin
     {
         foreach (Model::getScopes() as $scope) {
             $model = new Model($scope);
-            $highestIndex = $model->getHighestCustomVarIndex();
+            try {
+                $highestIndex = $model->getHighestCustomVarIndex();
+            } catch (\Exception $e) {
+                continue; // ignore error for tests to work as this might be executed before Piwik tables are installed
+            }
 
             foreach (range(1, $highestIndex) as $index) {
                 $custom = new CustomDimension();
