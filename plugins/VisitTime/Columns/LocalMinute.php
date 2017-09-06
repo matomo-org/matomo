@@ -19,7 +19,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 class LocalMinute extends VisitDimension
 {
     protected $columnName = 'visitor_localtime';
-    protected $columnType = 'TIME NULL';
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'visitLocalHour';
     protected $nameSingular = 'VisitTime_ColumnLocalMinute';
