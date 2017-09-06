@@ -99,6 +99,7 @@
         "SystemCheckOtherExtensions": "Pozostałe rozszerzenia",
         "SystemCheckOtherFunctions": "Pozostałe funkcje",
         "SystemCheckPageSpeedDisabled": "PageSpeed wyłączone",
+        "SystemCheckPageSpeedWarning": "Zalecamy wyłączenie modułu PageSpeed Twojego serwera www %s: otrzymaliśmy wiele zgłoszeń z informacjami, że PageSpeed: psuł strony raportów, psuł Row Evolution i powodował wiele innych trudnych do zdiagnozowania sytuacji. Proszę wyłącz mod_pagespeed na tym serwerze.",
         "SystemCheckPackHelp": "Funkcja pack() jest wymagana do śledzenia odwiedzających w Piwik.",
         "SystemCheckParseIniFileHelp": "Ta wbudowana funkcja została wyłączona przez twój hosting. Piwik podejmie próbę jej emulacji, ale może napotkać kolejne ograniczenia związane z bezpieczeństwem. Może to mieć wpływ na wydajność śledzenia.",
         "SystemCheckPdoAndMysqliHelp": "Na serwerach pracujących w oparciu o system Linux możesz skompilować PHP z użyciem następującej opcji: %1$s W pliku php.ini, dodaj następujące linie: %2$s",
