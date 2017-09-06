@@ -232,11 +232,20 @@ abstract class Dimension
         }
     }
 
+    /**
+     * Returns the ID of the category (typically a translation key).
+     * @return string
+     */
     public function getCategoryId()
     {
         return $this->category;
     }
 
+    /**
+     * Returns the translated name of this dimension which is typically in singular.
+     *
+     * @return string
+     */
     public function getName()
     {
         if (!empty($this->nameSingular)) {
@@ -246,6 +255,10 @@ abstract class Dimension
         return $this->nameSingular;
     }
 
+    /**
+     * Returns a translated name in plural for this dimension.
+     * @return string
+     */
     public function getNamePlural()
     {
         if (!empty($this->namePlural)) {
@@ -255,21 +268,40 @@ abstract class Dimension
         return $this->getName();
     }
 
+    /**
+     * Defines whether an anonymous user is allowed to view this dimension
+     * @return bool
+     */
     public function isAnonymousAllowed()
     {
         return $this->allowAnonymous;
     }
 
+    /**
+     * Sets (overwrites) the SQL segment
+     * @param $segment
+     */
     public function setSqlSegment($segment)
     {
         $this->sqlSegment = $segment;
     }
 
+    /**
+     * Sets (overwrites the dimension type)
+     * @param $type
+     */
     public function setType($type)
     {
         $this->type = $type;
     }
 
+    /**
+     * A dimension should group values by using this method. Otherwise the same row may appear several times.
+     *
+     * @param mixed $value
+     * @param int $idSite
+     * @return mixed
+     */
     public function groupValue($value, $idSite)
     {
         switch ($this->type) {
@@ -283,6 +315,14 @@ abstract class Dimension
         return $value;
     }
 
+    /**
+     * Formats the dimension value. By default, the dimension is formatted based on the set dimension type.
+     *
+     * @param mixed $value
+     * @param int $idSite
+     * @param Formatter $formatter
+     * @return mixed
+     */
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         switch ($this->type) {
@@ -342,6 +382,14 @@ abstract class Dimension
         }
     }
 
+    /**
+     * Configures metrics for this dimension.
+     *
+     * For certain dimension types, some metrics will be added automatically.
+     *
+     * @param MetricsList $metricsList
+     * @param DimensionMetricFactory $dimensionMetricFactory
+     */
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         if ($this->getMetricId() && $this->dbTableName && $this->columnName && $this->getNamePlural()) {
