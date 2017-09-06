@@ -22,6 +22,13 @@ class ServerMinute extends VisitDimension
     protected $sqlSegment = 'MINUTE(log_visit.visit_last_action_time)';
     protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
 
+    public function __construct()
+    {
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+            return range(1, min(59, $maxValuesToReturn));
+        };
+    }
+
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         return $value;
