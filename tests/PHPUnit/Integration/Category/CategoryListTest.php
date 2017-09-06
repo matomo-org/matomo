@@ -42,7 +42,10 @@ class CategoryListTest extends IntegrationTestCase
             'Referrers_Referrers',
             'Goals_Goals',
             'Goals_Ecommerce',
+            'Events_Events',
+            'UserCountry_VisitLocation',
             'Live!',
+            'CustomVariables_CustomVariables',
             'ExampleUI_UiFramework'
         ), array_keys($list->getCategories()));
     }

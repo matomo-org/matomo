@@ -29,15 +29,4 @@ class LocalMinute extends VisitDimension
     {
         return $value;
     }
-
-    /**
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
-     * @return mixed
-     */
-    public function onNewVisit(Request $request, Visitor $visitor, $action)
-    {
-        return $request->getLocalTime();
-    }
 }
