@@ -29,6 +29,7 @@ use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
@@ -157,7 +158,8 @@ class API extends \Piwik\Plugin\API
 
         $isNotAnonymous = !Piwik::isUserIsAnonymous();
 
-        $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        $sites   = implode('.', $idSites);
         $cache   = Cache::getTransientCache();
         $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
         $cachKey = CacheId::pluginAware($cachKey);

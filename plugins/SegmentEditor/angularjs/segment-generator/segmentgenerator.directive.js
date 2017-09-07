@@ -18,7 +18,7 @@
         var defaults = {
             segmentDefinition: '',
             addInitialCondition: false,
-            siteSpecific: true
+            idsite: piwik.idSite
         };
 
         return {
@@ -26,7 +26,7 @@
             scope: {
                 segmentDefinition: '@',
                 addInitialCondition: '=',
-                siteSpecific: '='
+                idsite: '='
             },
             require: "?ngModel",
             templateUrl: 'plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.html?cb=' + piwik.cacheBuster,

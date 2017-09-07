@@ -272,16 +272,16 @@
             this.setSegmentString($scope.segmentDefinition);
         }
 
-        $scope.$watch('siteSpecific', function (newValue, oldValue) {
+        $scope.$watch('idsite', function (newValue, oldValue) {
             if (newValue != oldValue) {
                 reloadSegments(newValue);
             }
         });
 
-        reloadSegments($scope.siteSpecific);
+        reloadSegments($scope.idsite);
 
-        function reloadSegments(siteSpecific) {
-            segmentGeneratorModel.loadSegments(siteSpecific).then(function (segments) {
+        function reloadSegments(idsite) {
+            segmentGeneratorModel.loadSegments(idsite).then(function (segments) {
 
                 self.segmentList = [];
 
