@@ -1,5 +1,4 @@
-{% if visitInfo.getColumn('customVariables') %}
-    <div class="visitorCustomVariables">
+<div class="visitorCustomVariables">
     {% for id,customVariable in visitInfo.getColumn('customVariables') %}
         {% set name='customVariableName' ~ id %}
         {% set value='customVariableValue' ~ id %}
@@ -9,5 +8,4 @@
         </abbr>
         {% if customVariable[value]|length > 0 %}: {{ customVariable[value]|truncate(50) }}{% endif %}
     {% endfor %}
-    </div>
-{% endif %}
+</div>
