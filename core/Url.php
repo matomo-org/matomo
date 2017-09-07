@@ -128,8 +128,16 @@ class Url
     {
         $url = '';
 
+        // insert extra path info if proxy_uri_header is set and enabled
+        if (isset(Config::getInstance()->General['proxy_uri_header'])
+            && Config::getInstance()->General['proxy_uri_header'] == 1
+            && !empty($_SERVER['HTTP_X_FORWARDED_URI'])
+        ) {
+            $url .= $_SERVER['HTTP_X_FORWARDED_URI'];
+        }
+
         if (!empty($_SERVER['REQUEST_URI'])) {
-            $url = $_SERVER['REQUEST_URI'];
+            $url .= $_SERVER['REQUEST_URI'];
 
             // strip http://host (Apache+Rails anomaly)
             if (preg_match('~^https?://[^/]+($|/.*)~D', $url, $matches)) {

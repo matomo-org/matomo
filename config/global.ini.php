@@ -489,6 +489,10 @@ multi_server_environment = 0
 ;proxy_ips[] = 199.27.128.0/21
 ;proxy_ips[] = 173.245.48.0/20
 
+; Set to 1 if you're using a proxy which is rewriting the URI.
+; By enabling this flag the header HTTP_X_FORWARDED_URI will be considered for the current script name.
+proxy_uri_header = 0
+
 ; Whether to enable trusted host checking. This can be disabled if you're running Piwik
 ; on several URLs and do not wish to constantly edit the trusted host list.
 enable_trusted_host_check = 1
