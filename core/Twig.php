@@ -356,7 +356,7 @@ class Twig
             $template .= '>';
 
             if (!empty($options['raw'])) {
-                $template .= $message;
+                $template .= piwik_fix_lbrace($message);
             } else {
                 $template .= twig_escape_filter($twigEnv, $message, 'html');
             }
