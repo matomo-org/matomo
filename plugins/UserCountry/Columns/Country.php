@@ -22,6 +22,8 @@ use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
+
 class Country extends Base
 {
     protected $columnName = 'location_country';
