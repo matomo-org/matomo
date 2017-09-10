@@ -160,8 +160,8 @@ abstract class GeoIp extends LocationProvider
     public static function getRegionNames()
     {
         if (is_null(self::$regionNames)) {
-            $GEOIP_REGION_NAME = array();
-            require_once PIWIK_INCLUDE_PATH . '/libs/MaxMindGeoIP/geoipregionvars.php';
+            global $GEOIP_REGION_NAME;
+            require_once PIWIK_INCLUDE_PATH . '/vendor/geoip/geoip/src/geoipregionvars.php';
             self::$regionNames = $GEOIP_REGION_NAME;
         }
 
