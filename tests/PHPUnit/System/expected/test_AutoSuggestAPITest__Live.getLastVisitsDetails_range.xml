@@ -2052,10 +2052,10 @@
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
-		<region>London, City of</region>
+		<region>London</region>
 		<regionCode>H9</regionCode>
 		<city>London</city>
-		<location>London, London, City of, United Kingdom</location>
+		<location>London, London, United Kingdom</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -2384,10 +2384,10 @@
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
-		<region>London, City of</region>
+		<region>London</region>
 		<regionCode>H9</regionCode>
 		<city>London</city>
-		<location>London, London, City of, United Kingdom</location>
+		<location>London, London, United Kingdom</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
