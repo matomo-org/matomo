@@ -303,6 +303,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 $notification = new Notification($e->getMessage());
                 $notification->context = Notification::CONTEXT_ERROR;
+                if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
+                    $notification->raw = true;
+                }
                 Notification\Manager::notify('Marketplace_Install' . $pluginName, $notification);
 
                 $hasErrors = true;
@@ -404,6 +407,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $notification->context = Notification::CONTEXT_ERROR;
             $notification->type = Notification::TYPE_PERSISTENT;
             $notification->flags = Notification::FLAG_CLEAR;
+            if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
+                $notification->raw = true;
+            }
             Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
 
             Url::redirectToReferrer();
