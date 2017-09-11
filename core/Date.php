@@ -178,17 +178,34 @@ class Date
     }
 
     /**
-     * Returns the start of the day of the current timestamp in UTC. For example,
-     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
-     * be `'2007-07-24'`.
-     *
      * @return string
+     * @deprecated
      */
     public function getDateStartUTC()
     {
+        return $this->getStartOfDay()->toString(self::DATE_TIME_FORMAT);
+    }
+
+    /**
+     * Returns the start of the day of the current timestamp in UTC. For example,
+     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
+     * be `'2007-07-24'` as a Date.
+     *
+     * @return Date
+     */
+    public function getStartOfDay()
+    {
         $dateStartUTC = gmdate('Y-m-d', $this->timestamp);
-        $date = Date::factory($dateStartUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateStartUTC)->setTimezone($this->timezone);
+    }
+
+    /**
+     * @return string
+     * @deprecated
+     */
+    public function getDateEndUTC()
+    {
+        return $this->getEndOfDay()->toString(self::DATE_TIME_FORMAT);
     }
 
     /**
@@ -196,13 +213,12 @@ class Date
      * if the current timestamp is `'2007-07-24 14:03:24'` in UTC, the result will
      * be `'2007-07-24 23:59:59'`.
      *
-     * @return string
+     * @return Date
      */
-    public function getDateEndUTC()
+    public function getEndOfDay()
     {
         $dateEndUTC = gmdate('Y-m-d 23:59:59', $this->timestamp);
-        $date = Date::factory($dateEndUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateEndUTC)->setTimezone($this->timezone);
     }
 
     /**
