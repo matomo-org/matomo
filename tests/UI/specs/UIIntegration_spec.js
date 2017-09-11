@@ -672,7 +672,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + generalParams + "&module=Feedback&action=index");
 
             page.evaluate(function () {
-                $('.enrichedHeadline span').each(function () {
+                $('.enrichedHeadline .title').each(function () {
                     if ($(this).text().indexOf("Piwik") !== -1) {
                         var replace = $(this).text().replace(/Piwik\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Piwik');
                         $(this).text(replace);

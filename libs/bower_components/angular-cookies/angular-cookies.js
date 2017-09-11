@@ -1,9 +1,9 @@
 /**
- * @license AngularJS v1.4.10
- * (c) 2010-2015 Google, Inc. http://angularjs.org
+ * @license AngularJS v1.6.5
+ * (c) 2010-2017 Google, Inc. http://angularjs.org
  * License: MIT
  */
-(function(window, angular, undefined) {'use strict';
+(function(window, angular) {'use strict';
 
 /**
  * @ngdoc module
@@ -22,13 +22,14 @@
 
 
 angular.module('ngCookies', ['ng']).
+  info({ angularVersion: '1.6.5' }).
   /**
    * @ngdoc provider
    * @name $cookiesProvider
    * @description
    * Use `$cookiesProvider` to change the default behavior of the {@link ngCookies.$cookies $cookies} service.
    * */
-   provider('$cookies', [function $CookiesProvider() {
+   provider('$cookies', [/** @this */function $CookiesProvider() {
     /**
      * @ngdoc property
      * @name $cookiesProvider#defaults
@@ -51,6 +52,16 @@ angular.module('ngCookies', ['ng']).
      * Note: By default, the address that appears in your `<base>` tag will be used as the path.
      * This is important so that cookies will be visible for all routes when html5mode is enabled.
      *
+     * @example
+     *
+     * ```js
+     * angular.module('cookiesProviderExample', ['ngCookies'])
+     *   .config(['$cookiesProvider', function($cookiesProvider) {
+     *     // Setting default options
+     *     $cookiesProvider.defaults.domain = 'foo.com';
+     *     $cookiesProvider.defaults.secure = true;
+     *   }]);
+     * ```
      **/
     var defaults = this.defaults = {};
 
@@ -184,6 +195,9 @@ angular.module('ngCookies').
  * @ngdoc service
  * @name $cookieStore
  * @deprecated
+ * sinceVersion="v1.4.0"
+ * Please use the {@link ngCookies.$cookies `$cookies`} service instead.
+ *
  * @requires $cookies
  *
  * @description
@@ -192,11 +206,6 @@ angular.module('ngCookies').
  * deserialized by angular's toJson/fromJson.
  *
  * Requires the {@link ngCookies `ngCookies`} module to be installed.
- *
- * <div class="alert alert-danger">
- * **Note:** The $cookieStore service is **deprecated**.
- * Please use the {@link ngCookies.$cookies `$cookies`} service instead.
- * </div>
  *
  * @example
  *
@@ -299,9 +308,9 @@ function $$CookieWriter($document, $log, $browser) {
     // - 4096 bytes per cookie
     var cookieLength = str.length + 1;
     if (cookieLength > 4096) {
-      $log.warn("Cookie '" + name +
-        "' possibly not set or overflowed because it was too large (" +
-        cookieLength + " > 4096 bytes)!");
+      $log.warn('Cookie \'' + name +
+        '\' possibly not set or overflowed because it was too large (' +
+        cookieLength + ' > 4096 bytes)!');
     }
 
     return str;
@@ -314,7 +323,7 @@ function $$CookieWriter($document, $log, $browser) {
 
 $$CookieWriter.$inject = ['$document', '$log', '$browser'];
 
-angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterProvider() {
+angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$CookieWriterProvider() {
   this.$get = $$CookieWriter;
 });
 
