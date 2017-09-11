@@ -32,12 +32,14 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        $dataTable->filter('GroupBy', array('label', function($label) {
-            if (strtolower($label) == 'ti') {
-                return 'cn';
-            }
-            return $label;
-        }));
+        if ($dataTable->getRowFromLabel('ti')) {
+            $dataTable->filter('GroupBy', array('label', function ($label) {
+                if ($label == 'ti') {
+                    return 'cn';
+                }
+                return $label;
+            }));
+        }
 
         // apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
         $dataTable->filter('AddSegmentValue');
@@ -83,12 +85,14 @@ class API extends \Piwik\Plugin\API
         $unk = Visit::UNKNOWN_CODE;
 
         // show visits tracked as Tibet as region of China
-        $dataTable->filter('GroupBy', array('label', function($label) {
-            if (strtolower($label) == '1|ti') {
-                return '14|cn';
-            }
-            return $label;
-        }));
+        if ($dataTable->getRowFromLabel('1|ti')) {
+            $dataTable->filter('GroupBy', array('label', function ($label) {
+                if ($label == '1|ti') {
+                    return '14|cn';
+                }
+                return $label;
+            }));
+        }
 
         // split the label and put the elements into the 'region' and 'country' metadata fields
         $dataTable->filter('ColumnCallbackAddMetadata',
