@@ -32,13 +32,24 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        if ($dataTable->getRowFromLabel('ti')) {
-            $dataTable->filter('GroupBy', array('label', function ($label) {
-                if ($label == 'ti') {
-                    return 'cn';
-                }
-                return $label;
-            }));
+        $dataTables = [$dataTable];
+
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+        }
+
+        foreach ($dataTables as $dt) {
+            if ($dt->getRowFromLabel('ti')) {
+                $dt->filter('GroupBy', array(
+                    'label',
+                    function ($label) {
+                        if ($label == 'ti') {
+                            return 'cn';
+                        }
+                        return $label;
+                    }
+                ));
+            }
         }
 
         // apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
@@ -85,13 +96,24 @@ class API extends \Piwik\Plugin\API
         $unk = Visit::UNKNOWN_CODE;
 
         // show visits tracked as Tibet as region of China
-        if ($dataTable->getRowFromLabel('1|ti')) {
-            $dataTable->filter('GroupBy', array('label', function ($label) {
-                if ($label == '1|ti') {
-                    return '14|cn';
-                }
-                return $label;
-            }));
+        $dataTables = [$dataTable];
+
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+        }
+
+        foreach ($dataTables as $dt) {
+            if ($dt->getRowFromLabel('1|ti')) {
+                $dt->filter('GroupBy', array(
+                    'label',
+                    function ($label) {
+                        if ($label == '1|ti') {
+                            return 'cn';
+                        }
+                        return $label;
+                    }
+                ));
+            }
         }
 
         // split the label and put the elements into the 'region' and 'country' metadata fields
