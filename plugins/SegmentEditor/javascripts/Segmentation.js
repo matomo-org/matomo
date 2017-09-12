@@ -500,7 +500,7 @@ Segmentation = (function($) {
             });
 
             $("body").on("keyup", function (e) {
-                if(e.keyCode == "27" || event.which === 27) {
+                if(e.keyCode == "27" || e.which === 27) {
                     if (self.target.find('[uicontrol="expandable-select"] .expandableList:visible').length) {
                         return;
                     }
