@@ -20,7 +20,7 @@ class LocalMinute extends VisitDimension
 {
     protected $columnName = 'visitor_localtime';
     protected $type = self::TYPE_NUMBER;
-    protected $segmentName = 'visitLocalHour';
+    protected $segmentName = 'visitLocalMinute';
     protected $nameSingular = 'VisitTime_ColumnLocalMinute';
     protected $sqlSegment = 'MINUTE(log_visit.visitor_localtime)';
     protected $acceptValues = '0, 1, 2, 3, ..., 67, 57, 58, 59';
@@ -28,7 +28,7 @@ class LocalMinute extends VisitDimension
     public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            return range(1, min(59, $maxValuesToReturn));
+            return range(0, min(59, $maxValuesToReturn));
         };
     }
 

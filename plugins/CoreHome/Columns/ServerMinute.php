@@ -22,11 +22,12 @@ class ServerMinute extends ActionDimension
     protected $sqlSegment = 'MINUTE(log_link_visit_action.server_time)';
     protected $nameSingular = 'VisitTime_ColumnServerMinute';
     protected $type = self::TYPE_DATETIME;
+    protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
 
     public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            return range(1, min(59, $maxValuesToReturn));
+            return range(0, min(59, $maxValuesToReturn));
         };
     }
 

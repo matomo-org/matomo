@@ -29,7 +29,7 @@ class ServerTime extends ActionDimension
     public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            return range(1, min(24, $maxValuesToReturn));
+            return range(0, min(23, $maxValuesToReturn));
         };
     }
 

@@ -25,7 +25,7 @@ class ServerMinute extends VisitDimension
     public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            return range(1, min(59, $maxValuesToReturn));
+            return range(0, min(59, $maxValuesToReturn));
         };
     }
 
