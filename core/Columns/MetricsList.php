@@ -10,6 +10,7 @@ namespace Piwik\Columns;
 
 use Piwik\Cache;
 use Piwik\Piwik;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 
@@ -59,6 +60,10 @@ class MetricsList
         }
     }
 
+    /**
+     * @param string $metricName
+     * @return ArchivedMetric|null
+     */
     public function getMetric($metricName)
     {
         foreach ($this->metrics as $index => $metric) {
@@ -66,6 +71,7 @@ class MetricsList
                 return $metric;
             }
         }
+        return null;
     }
 
     /**
