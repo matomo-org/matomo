@@ -234,7 +234,6 @@ class CountryCallingCodes
 //		'tf' => 'MISSING CODE',
         'tg' => '228',
         'th' => '66',
-//		'ti' => 'MISSING CODE',
         'tj' => '992',
         'tk' => '690',
         'tl' => '670',

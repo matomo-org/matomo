@@ -16,7 +16,6 @@
         "country_a2": "衛星網路供應商",
         "country_cat": "加泰羅尼亞語社區",
         "country_o1": "其他國家",
-        "country_ti": "西藏",
         "CurrentLocationIntro": "根據這個地理位置供應商，你目前的位置是",
         "DefaultLocationProviderDesc1": "預設的地理位置供應商是透過訪客使用的語言來猜測他的國家。",
         "DefaultLocationProviderDesc2": "這不是那麼準確，所以%1$s我們推薦安裝並使用 %2$sGeoIP%3$s。%4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "上次自動更新執行於 %s。",
         "UpdaterWillRunNext": "下次自動更新將於 %s 執行。",
         "WidgetLocation": "訪客所在地點"
-    },
-    "Intl": {
-        "Country_TI": "西藏"
     }
 }

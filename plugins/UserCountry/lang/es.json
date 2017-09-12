@@ -16,7 +16,6 @@
         "country_a2": "Proveedor Satelital",
         "country_cat": "Comunidades de habla catalana",
         "country_o1": "Otro país",
-        "country_ti": "Tibet",
         "CurrentLocationIntro": "De acuerdo a este proveedor, su actual ubicación es",
         "DefaultLocationProviderDesc1": "La ubicación predeterminada del proveedor asume que el país del visitante es por el lenguaje que el mismo utiliza.",
         "DefaultLocationProviderDesc2": "No es muy preciso, por lo tanto %1$srecomendamos instalar y utilizar %2$sGeoIP%3$s.%4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "El actualizador se ejecutó por última vez en %s.",
         "UpdaterWillRunNext": "Está programada la ejecución para el %s.",
         "WidgetLocation": "Ubicación del visitante"
-    },
-    "Intl": {
-        "Country_TI": "Tíbet"
     }
 }
