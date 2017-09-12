@@ -28,7 +28,7 @@
 		<type>metric</type>
 		<category>Visitors</category>
 		<name>Local time - minute</name>
-		<segment>visitLocalHour</segment>
+		<segment>visitLocalMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 67, 57, 58, 59</acceptedValues>
 	</row>
 	<row>
@@ -542,6 +542,7 @@
 		<category>Actions</category>
 		<name>Server time - minute</name>
 		<segment>actionServerMinute</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
