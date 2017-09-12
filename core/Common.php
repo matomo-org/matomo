@@ -1026,6 +1026,10 @@ class Common
 
         $countryList = $dataProvider->getCountryList();
 
+        if ($country == 'ti') {
+            $country = 'cn';
+        }
+
         return isset($countryList[$country]) ? $countryList[$country] : 'unk';
     }
 

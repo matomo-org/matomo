@@ -16,7 +16,6 @@
         "country_a2": "Dostawca satelitarny",
         "country_cat": "społeczność mówiąca po Katalońsku",
         "country_o1": "Nieokreślony kraj pochodzenia",
-        "country_ti": "Tybet",
         "CurrentLocationIntro": "Według tego dostawcy, twoją aktualną lokalizacją jest",
         "DefaultLocationProviderDesc1": "Domyślny dostawca usług geolokacyjnych zgaduje państwo odwiedzającego na podstawie języka używanego w przeglądarce.",
         "DefaultLocationProviderDesc2": "Ten sposób określania lokalizacji jest bardzo niedokładny, dlatego %1$szalecamy zainstalowanie i korzystanie z %2$sGeoIP%3$s. %4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "Ostatnia aktualizacja odbyła się %s.",
         "UpdaterWillRunNext": "Następna aktualizacja zaplanowana na %s.",
         "WidgetLocation": "Lokalizacja odwiedzającego"
-    },
-    "Intl": {
-        "Country_TI": "Tybet"
     }
 }

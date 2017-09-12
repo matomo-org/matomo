@@ -16,7 +16,6 @@
         "country_a2": "衛星プロバイダ",
         "country_cat": "カタロニア語圏のコミュニティ",
         "country_o1": "その他の国",
-        "country_ti": "チベット",
         "CurrentLocationIntro": "このプロバイダーによると、あなたの現在地は",
         "DefaultLocationProviderDesc1": "デフォルトロケーションプロバイダーでは、ビジターの国は使用言語に基づいて推測されます。",
         "DefaultLocationProviderDesc2": "精度が低いため、%1$s%2$sGeoIP%3$sのインストールと使用をお勧めします。%4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "アップデーターは、%s の最後に実行されました。",
         "UpdaterWillRunNext": "それは次に %s で実行されるようスケジュールされています。",
         "WidgetLocation": "ビジターの位置"
-    },
-    "Intl": {
-        "Country_TI": "チベット"
     }
 }

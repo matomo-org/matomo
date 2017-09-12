@@ -16,7 +16,6 @@
         "country_a2": "위성 공급자",
         "country_cat": "카탈로니아 지역의 커뮤니티",
         "country_o1": "기타 국가",
-        "country_ti": "티베트",
         "CurrentLocationIntro": "이 공급자에 따르면, 현재 위치는",
         "DefaultLocationProviderDesc1": "방문자의 국가에 기반하는 언어에서 추측하는 기본 위치 공급자입니다.",
         "DefaultLocationProviderDesc2": "이것은 매우 부정확합니다. 그래서 %1$s우리는 %2$sGeoIP%3$s를 설치하여 사용하는 것을 추천합니다.%4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "%s에 마지막 업데이트 확인",
         "UpdaterWillRunNext": "%s에 실행이 계획되어 있습니다.",
         "WidgetLocation": "방문자 위치"
-    },
-    "Intl": {
-        "Country_TI": "티베트"
     }
 }
