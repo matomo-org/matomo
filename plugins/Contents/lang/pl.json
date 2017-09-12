@@ -2,6 +2,7 @@
     "Contents": {
         "PluginDescription": "Śledzenie treści i banerów pozwala Ci zmierzyć wydajność (wyświetleń, kliknięć, CTR) dowolnego fragmentu treści na Twojej stronie (baner reklamowy, obrazek, dowolny element).",
         "Impressions": "Wyświetlenia treści",
+        "ContentImpression": "Wyświetlenia treści",
         "ContentInteraction": "Interakcja",
         "ContentInteractions": "Interakcje",
         "InteractionRate": "Częstość interakcji",

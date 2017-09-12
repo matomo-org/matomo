@@ -197,6 +197,11 @@ describe("Dashboard", function () {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=resetDashboard]');
             page.click('.modal.open .modal-footer a:contains(Yes)', 4000);
+            page.evaluate(function(){
+                $('#widgetReferrersgetReferrerType').hide();
+                $('#widgetReferrersgetReferrerType').offsetHeight;
+                $('#widgetReferrersgetReferrerType').show();
+            }, 100);
             page.mouseMove('.dashboard-manager');
         }, done);
     });

@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s кинутих кошиків%2$s та %3$s кинуті речей%4$s на загальну суму %5$s%6$s.",
         "AveragePageGenerationTime": "В середньому потрібно %1$s у цього відвідувача для повного завантаження сторінки.",
         "CalculatedOverNPageViews": "Розраховано на основі цього відвідувача з %1$s переглядом сторінки(ок).",
         "ClickToViewMoreAboutVisit": "Подивитися більш детальну інформацію про цей візит",
         "ConvertedNGoals": "Цілей досягнуто: %s",
-        "EcommerceSummaryConversions": "%1$s замовлень%2$s в цілому %3$s%4$s, куплено %5$s предметів%6$s.",
         "FirstVisit": "Перше відвідування",
         "GoalType": "Тип",
         "HideMap": "приховати карту",

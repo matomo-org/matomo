@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s carrelli abbandonati%2$s e %3$s articoli abbandonati%4$s per un valore complessivo di %5$s%6$s.",
         "AveragePageGenerationTime": "Ciascuna pagina ha richiesto una media di %1$s per essere caricata per questo visitatore.",
         "CalculatedOverNPageViews": "Calcolate usando le ultime %1$s pagine visualizzate da questo visitatore.",
         "ClickToViewMoreAboutVisit": "Clicca per vedere ulteriori informazioni su questa visita",
         "ConvertedNGoals": "%s Obiettivi Convertiti",
-        "EcommerceSummaryConversions": "%1$s ordini%2$s per un totale di %3$s%4$s, acquistati %5$s articoli%6$s.",
         "FirstVisit": "Prima visita",
         "GoalType": "Tipo",
         "HideMap": "nascondi mappa",

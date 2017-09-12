@@ -2,6 +2,7 @@
     "Contents": {
         "PluginDescription": "追蹤內容和橫幅讓你衡量網頁中任何區塊內容（橫幅廣告、圖片、任何項目）的表現（瀏覽數、點擊數、CTR）。",
         "Impressions": "曝光",
+        "ContentImpression": "內容曝光",
         "ContentInteraction": "內容互動",
         "ContentInteractions": "內容互動",
         "InteractionRate": "互動率",

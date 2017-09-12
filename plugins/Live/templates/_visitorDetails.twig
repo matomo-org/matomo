@@ -1,0 +1,17 @@
+<strong class="visitor-log-datetime visitorLogTooltip" title="{% if visitInfo.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitInfo.getColumn('daysSinceLastVisit')) }}{% endif %}">
+    {{ visitInfo.getColumn('serverDatePrettyFirstAction') }}
+    {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}</strong>
+{% if visitInfo.getColumn('visitIp') is not empty %}
+<span class="visitor-log-ip-location visitorLogTooltip" title="{% if visitInfo.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitInfo.getColumn('userId')|raw }}
+{% endif %}{% if visitInfo.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitInfo.getColumn('visitorId') }}
+{% endif %}{% if visitInfo.getColumn('idVisit') is not empty %}
+{{ 'General_Visit'|translate }} ID: {{ visitInfo.getColumn('idVisit') }}
+{% endif %}{% if visitInfo.getColumn('latitude') or visitInfo.getColumn('longitude') %}{{ visitInfo.getColumn('location') }}
+GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('longitude') }}{% endif %}">
+    IP: {{ visitInfo.getColumn('visitIp') }}
+    {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|raw }}{% endif %}
+</span>{% endif %}
+{% if isWidget %}
+    <br />
+    {{ postEvent('Live.renderVisitorIcons', visitInfo) }}
+{% endif %}

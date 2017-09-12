@@ -154,12 +154,36 @@ class Parameters
     }
 
     /**
+     * Returns the start day of the period in the site's timezone (includes the time of day).
+     *
+     * @return Date
+     */
+    public function getDateTimeStart()
+    {
+        return $this->getPeriod()->getDateTimeStart()->setTimezone($this->getSite()->getTimezone());
+    }
+
+    /**
+     * Returns the end day of the period in the site's timezone (includes the time of day).
+     *
+     * @return Date
+     */
+    public function getDateTimeEnd()
+    {
+        return $this->getPeriod()->getDateTimeEnd()->setTimezone($this->getSite()->getTimezone());
+    }
+
+    /**
      * @return bool
      */
     public function isSingleSiteDayArchive()
     {
         $oneSite = $this->isSingleSite();
-        $oneDay = $this->getPeriod()->getLabel() == 'day';
+
+        $period = $this->getPeriod();
+        $secondsInPeriod = $period->getDateEnd()->getTimestampUTC() - $period->getDateStart()->getTimestampUTC();
+        $oneDay = $secondsInPeriod <= Date::NUM_SECONDS_IN_DAY;
+
         return $oneDay && $oneSite;
     }
 

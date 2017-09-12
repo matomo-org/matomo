@@ -2,6 +2,7 @@
     "Contents": {
         "PluginDescription": "Content and banner tracking lets you measure the performance (views, clicks, CTR) of any piece of content on your pages (Banner ad, image, any item).",
         "Impressions": "Impressions",
+        "ContentImpression": "Content Impression",
         "ContentInteraction": "Content Interaction",
         "ContentInteractions": "Content Interactions",
         "InteractionRate": "Interaction Rate",

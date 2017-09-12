@@ -25,7 +25,7 @@ class CoreHome extends \Piwik\Plugin
     const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -34,7 +34,6 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
             'Metric.addComputedMetrics'              => 'addComputedMetrics'
         );
     }
@@ -59,25 +58,6 @@ class CoreHome extends \Piwik\Plugin
     public function filterMergedJavaScripts(&$mergedContent)
     {
         $mergedContent = preg_replace('/(sourceMappingURL=(.*?).map)/', '', $mergedContent);
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['userId']                      = $instance->getUserId();
-        $visitor['visitorType']                 = $instance->getVisitorReturning();
-        $visitor['visitorTypeIcon']             = $instance->getVisitorReturningIcon();
-        $visitor['visitConverted']              = $instance->isVisitorGoalConverted();
-        $visitor['visitConvertedIcon']          = $instance->getVisitorGoalConvertedIcon();
-        $visitor['visitCount']                  = $instance->getVisitCount();
-        $visitor['firstActionTimestamp']        = $instance->getTimestampFirstAction();
-        $visitor['visitEcommerceStatus']        = $instance->getVisitEcommerceStatus();
-        $visitor['visitEcommerceStatusIcon']    = $instance->getVisitEcommerceStatusIcon();
-        $visitor['daysSinceFirstVisit']         = $instance->getDaysSinceFirstVisit();
-        $visitor['daysSinceLastEcommerceOrder'] = $instance->getDaysSinceLastEcommerceOrder();
-        $visitor['visitDuration']               = $instance->getVisitLength();
-        $visitor['visitDurationPretty']         = $instance->getVisitLengthPretty();
     }
 
     public function getStylesheetFiles(&$stylesheets)

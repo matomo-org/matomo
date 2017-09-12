@@ -307,11 +307,16 @@
                         field.defaultValue = defaultValue.join(',');
                     }
 
+                    // convert boolean values since angular 1.6 uses strict equals when determining if a model value
+                    // matches the ng-value of an input.
                     if (field.type === 'boolean') {
-                        if (field.value && field.value > 0 && field.value !== '0') {
-                            field.value = true;
-                        } else {
-                            field.value = false;
+                        var valueIsTruthy = field.value && field.value > 0 && field.value !== '0';
+
+                        // for checkboxes, the value MUST be either true or faluse
+                        if (field.uiControl === 'checkbox') {
+                            field.value = valueIsTruthy;
+                        } else if (field.uiControl === 'radio') {
+                            field.value = valueIsTruthy ? '1' : '0';
                         }
                     }
 

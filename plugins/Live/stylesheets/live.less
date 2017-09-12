@@ -74,7 +74,7 @@
 .ui-dialog.ui-widget {
   .dataTableVizVisitorLog {
     .dataTableFeatures {
-      border-bottom: 0px;
+      border-bottom: 0;
     }
   }
 }
@@ -89,7 +89,8 @@
 }
 
 ol.visitorLog {
-    list-style: decimal inside none;
+  counter-reset: item;
+  list-style-type: none;
 }
 
 .truncated-text-line {
@@ -99,15 +100,27 @@ ol.visitorLog {
     display:inline-block;
     max-width:90%;
     overflow: -moz-hidden-unscrollable;
-
-    &.event {
-      margin-top: 1px;
-      margin-right: 15px;
-    }
 }
 
-ol.visitorLog li {
+ol.visitorLog > li {
     margin-bottom: 7px;
+    line-height: 20px;
+
+  &:before {
+    content: counter(item) " ";
+    counter-increment: item;
+    padding-right: 5px;
+    vertical-align: top;
+  }
+
+  &.more {
+      list-style-type: none;
+      font-weight: bold;
+
+      .icon-info {
+        vertical-align: middle;
+      }
+  }
 }
 
 #visitsLive img {
@@ -148,12 +161,13 @@ ol.visitorLog li {
 
 .repeat {
     font-weight: bold;
-    border: 1px solid @theme-color-text-light;
-    border-radius: 3px;
-    padding: 2px;
     display: block;
-    margin: 0px 5px 0px 5px;
+    margin: 5px 5px 5px 0;
     float: left;
+
+    &.icon-refresh:before {
+      padding-right: 2px;
+    }
 }
 
 .dataTableVizVisitorLog hr {
@@ -201,7 +215,7 @@ ol.visitorLog p {
 .dataTableVizVisitorLog {
 
   .card {
-    padding: 15px 0px;
+    padding: 15px 0;
     font-size: 13px;
     text-align: left;
 
@@ -220,12 +234,16 @@ ol.visitorLog p {
      width:100%;
   }
 
-  .card {
+  .widget & .card {
 
     &:hover .visitor-log-visitor-profile-link {
       display:inline;
     }
   }
+}
+
+.visitor-log-datetime {
+  display: block;
 }
 
 .visitor-log-page-list {
@@ -236,12 +254,15 @@ ol.visitorLog p {
 a.visitor-log-visitor-profile-link {
     z-index: 2;
     position:absolute;
-    display:none;
     right: 15px;
     top: 15px;
     font-style:italic;
     font-size:13px;
     background-color: inherit !important;
+
+    .widget & {
+        display:none;
+    }
 
     img {
         margin-top: -2px;
@@ -249,33 +270,29 @@ a.visitor-log-visitor-profile-link {
     }
 }
 
-.visitorLog,.visitor-profile-actions {
+.visitorLog {
     > li > div {
-        display:inline-block;
-        width:90%;
-        vertical-align:top;
+      display: inline-block;
+      width: 90%;
+
+      > * {
+        vertical-align: top;
+      }
     }
 }
 
 .action-list-action-icon {
-    float:left;
-    margin-right:4px;
+    display: inline;
+    margin: 2px 3px 0 0;
+    max-height: 16px;
 
-    &.event {
-      margin-top: 0;
-    }
     &.outlink {
-      margin-top: 4px;
-      margin-right: 4px;
-      margin-left: 4px;
-    }
-    &.search {
-      margin-right: 4px;
+      margin: 7px 3px 0 0;
     }
 }
 
 .action-list-url {
-    display:block;
+    display: inline-block;
 }
 
 .visitorLogIcons {
@@ -288,18 +305,16 @@ a.visitor-log-visitor-profile-link {
 }
 
 .visitorLogIcons>span>span>img {
-    margin: auto 0 auto 0px;
+    margin: auto 5px auto 0;
 }
 
-.visitorLogIcons .visitorLogIconWithDetails>img {
-    margin: auto 5px auto 0;
-    width: 16px;
+.visitorLogIconWithDetails>img {
+    margin: auto 5px -2px 0;
     height: 16px;
 }
 
 .visitorLogIconWithDetails.flag>img {
     border: 1px solid lightgray;
-    box-sizing: content-box;
 }
 
 .visitorLogIcons>span.visitorRank>img {
@@ -316,7 +331,7 @@ a.visitor-log-visitor-profile-link {
 .own-visitor-column {
   .visitorLogIcons {
     .visitorDetails {
-      margin-top: 0px;
+      margin-top: 0;
     }
     .visitorType {
       margin-top: 8px;
@@ -327,6 +342,10 @@ a.visitor-log-visitor-profile-link {
 .visitorReferrer {
     clear:both;
     padding-top: 1em;
+
+    * {
+      vertical-align: middle;
+    }
 }
 
 .segmentedlog {
