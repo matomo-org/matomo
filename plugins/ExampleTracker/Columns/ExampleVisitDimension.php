@@ -44,25 +44,16 @@ class ExampleVisitDimension extends VisitDimension
      * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
      * @return string
      */
-    public function getName()
-    {
-        return Piwik::translate('ExampleTracker_DimensionName');
-    }
+    protected $nameSingular = 'ExampleTracker_DimensionName';
 
     /**
-     * By defining one or multiple segments a user will be able to filter their visitors by this column. For instance
+     * By defining a segment a user will be able to filter their visitors by this column. For instance
      * show all reports only considering users having more than 10 achievement points. If you do not want to define a
      * segment for this dimension just remove the column.
      */
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('achievementPoints');
-        $segment->setCategory('General_Visit');
-        $segment->setName('ExampleTracker_DimensionName');
-        $segment->setAcceptedValues('Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99');
-        $this->addSegment($segment);
-    }
+    protected $segmentName = 'achievementPoints';
+
+    protected $acceptValues = 'Here you should explain which values are accepted/useful for segments: Any number, for instance 1, 2, 3 , 99';
 
     /**
      * The onNewVisit method is triggered when a new visitor is detected. This means here you can define an initial
