@@ -22,13 +22,6 @@ class ServerTime extends VisitDimension
     protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
 
-    public function __construct()
-    {
-        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            return range(0, min(23, $maxValuesToReturn));
-        };
-    }
-
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         return \Piwik\Plugins\VisitTime\getTimeLabel($value);

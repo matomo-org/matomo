@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	<row>0</row>
 	<row>1</row>
 	<row>2</row>
 	<row>3</row>
@@ -23,5 +24,4 @@
 	<row>21</row>
 	<row>22</row>
 	<row>23</row>
-	<row>24</row>
 </result>
