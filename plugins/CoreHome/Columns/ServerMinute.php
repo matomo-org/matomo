@@ -8,12 +8,8 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
 
 class ServerMinute extends ActionDimension
 {

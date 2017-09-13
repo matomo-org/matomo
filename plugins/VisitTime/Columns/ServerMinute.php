@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\VisitTime\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 
@@ -27,6 +29,11 @@ class ServerMinute extends VisitDimension
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(0, min(59, $maxValuesToReturn));
         };
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // no metrics for this dimension
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)

@@ -8,11 +8,10 @@
  */
 namespace Piwik\Plugins\VisitTime\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\Request;
-use Piwik\Tracker\Visitor;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
@@ -30,6 +29,11 @@ class LocalMinute extends VisitDimension
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(0, min(59, $maxValuesToReturn));
         };
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // no metrics for this dimension
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)
