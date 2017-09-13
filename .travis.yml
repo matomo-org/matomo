@@ -11,11 +11,6 @@
 
 language: php
 
-php:
-  - 5.6
-  - 5.5
-#  - hhvm
-
 services:
   - redis-server
 
@@ -36,19 +31,6 @@ git:
 
 # Separate different test suites
 env:
-  matrix:
-    # PDO Mysql
-    - TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # Javascript tests
-    - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
-    # All tests after another
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
-    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
-    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
     - SKIP_INSTALL_MYSQL_56=1
@@ -57,34 +39,39 @@ env:
 
 matrix:
   fast_finish: true
-  exclude:
-    # Run test suites separately only on PHP 5.6 with PDO
-    - php: 5.5
+  include:
+    # PDO Mysql
+    - php: 5.6
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.5
+      sudo: required
+    - php: 5.6
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.5
+      sudo: required
+    - php: 5.6
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # run UI tests on PHP 5.5 only
+      sudo: false
+    # Javascript tests
     - php: 5.6
-      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
-    - php: 5.6
-      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
-    # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
-    - php: 5.5
-      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
-    - php: 5.5
-      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
-    # Javascript tests need to run only on one PHP version
-    - php: 5.5
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    # AngularJS tests need to run only on one PHP version
-    - php: 5.5
+      sudo: false
+    - php: 5.6
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+      sudo: false
+    # All tests after another
+    - php: 5.6
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
+      sudo: required
+    - php: 5.5
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
+      sudo: false
+    - php: 5.5
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
+      sudo: false
 
 dist: trusty
-
-sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
