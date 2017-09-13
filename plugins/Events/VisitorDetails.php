@@ -16,10 +16,14 @@ class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
-        if ($action['type'] == Action::TYPE_EVENT) {
+        if (!empty($action['eventType'])) {
             $action['type'] = 'event';
             $action['icon'] = 'plugins/Morpheus/images/event.png';
+        } else {
+            unset($action['eventCategory']);
+            unset($action['eventAction']);
         }
+        unset($action['eventType']);
     }
 
     public function extendVisitorDetails(&$visitor)

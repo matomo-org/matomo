@@ -111,24 +111,23 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $formatter = new Formatter();
 
-        if ($action['type'] == Action::TYPE_EVENT) {
+        if (!empty($action['eventType'])) {
             // Handle Event
             if (strlen($action['pageTitle']) > 0) {
                 $action['eventName'] = $action['pageTitle'];
             }
 
             unset($action['pageTitle']);
+        }
 
-        } else {
-            if ($action['type'] == Action::TYPE_SITE_SEARCH) {
-                // Handle Site Search
-                $action['siteSearchKeyword'] = $action['pageTitle'];
-                unset($action['pageTitle']);
-            }
+        if ($action['type'] == Action::TYPE_SITE_SEARCH) {
+            // Handle Site Search
+            $action['siteSearchKeyword'] = $action['pageTitle'];
+            unset($action['pageTitle']);
         }
 
         // Event value / Generation time
-        if ($action['type'] == Action::TYPE_EVENT) {
+        if (!empty($action['eventType'])) {
             if (strlen($action['custom_float']) > 0) {
                 $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
             }
@@ -137,11 +136,6 @@ class VisitorDetails extends VisitorDetailsAbstract
             $action['generationTime'] = $formatter->getPrettyTimeFromSeconds($action['custom_float'] / 1000, true);
         }
         unset($action['custom_float']);
-
-        if ($action['type'] != Action::TYPE_EVENT) {
-            unset($action['eventCategory']);
-            unset($action['eventAction']);
-        }
 
         if (array_key_exists('interaction_position', $action)) {
             $action['interactionPosition'] = $action['interaction_position'];
@@ -214,7 +208,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $sql           = "
 				SELECT
 					log_link_visit_action.idvisit,
-					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
+					COALESCE(log_action.type, log_action_title.type) AS type,
 					log_action.name AS url,
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
