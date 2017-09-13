@@ -21,6 +21,11 @@ class LogQueryBuilder
      * @var LogTablesProvider
      */
     private $logTableProvider;
+
+    /**
+     * Forces to use a subselect when generating the query. Set value to `false` to force not using a subselect.
+     * @var string
+     */
     private $forcedInnerGroupBy = '';
 
     public function __construct(LogTablesProvider $logTablesProvider)
@@ -28,6 +33,10 @@ class LogQueryBuilder
         $this->logTableProvider = $logTablesProvider;
     }
 
+    /**
+     * Forces to use a subselect when generating the query.
+     * @var string
+     */
     public function forceInnerGroupBySubselect($innerGroupBy)
     {
         $this->forcedInnerGroupBy = $innerGroupBy;
@@ -61,10 +70,8 @@ class LogQueryBuilder
             && $fromInitially == array('log_conversion')
             && strpos($from, 'log_link_visit_action') !== false);
 
-        if ($this->forcedInnerGroupBy) {
+        if (!empty($this->forcedInnerGroupBy)) {
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $this->forcedInnerGroupBy);
-        } elseif ($this->forcedInnerGroupBy === false) {
-            $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
         } elseif ($useSpecialConversionGroupBy) {
             $innerGroupBy = "CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $innerGroupBy);

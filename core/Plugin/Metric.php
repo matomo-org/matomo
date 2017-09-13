@@ -53,6 +53,11 @@ abstract class Metric
      */
     abstract public function getTranslatedName();
 
+    /**
+     * Returns the category that this metric belongs to.
+     * @return string
+     * @api since Piwik 3.2.0
+     */
     public function getCategoryId()
     {
         return '';

@@ -35,6 +35,7 @@ class ActionType extends ActionDimension
     protected $segmentName = 'actionType';
     protected $type = self::TYPE_ENUM;
     protected $nameSingular = 'Actions_ActionType';
+    protected $namePlural = 'Actions_ActionTypes';
     protected $category = 'General_Actions';
 
     public function __construct()

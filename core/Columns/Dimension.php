@@ -72,6 +72,13 @@ abstract class Dimension
      */
     protected $segments = array();
 
+    /**
+     * Defines what kind of data type this dimension holds. By default the type is auto-detected based on
+     * `$columnType` but sometimes it may be needed to correct this value. Depending on this type, a dimension will be
+     * formatted differently for example.
+     * @var string
+     * @api since Piwik 3.2.0
+     */
     protected $type = '';
 
     /**
@@ -79,6 +86,12 @@ abstract class Dimension
      * @var string
      */
     protected $nameSingular = '';
+
+    /**
+     * Translation key for name plural
+     * @var string
+     * @api since Piwik 3.2.0
+     */
     protected $namePlural = '';
 
     /**
@@ -86,19 +99,95 @@ abstract class Dimension
      * @var string
      */
     protected $category = '';
+
+    /**
+     * By defining a segment name a user will be able to filter their visitors by this column. If you do not want to
+     * define a segment for this dimension, simply leave the name empty.
+     * @api since Piwik 3.2.0
+     */
     protected $segmentName = '';
+
+    /**
+     * Sets a callback which will be executed when user will call for suggested values for segment.
+     *
+     * @var callable
+     * @api since Piwik 3.2.0
+     */
     protected $suggestedValuesCallback;
+
+    /**
+     * Here you should explain which values are accepted/useful for your segment, for example:
+     * "1, 2, 3, etc." or "comcast.net, proxad.net, etc.". If the value needs any special encoding you should mention
+     * this as well. For example "Any URL including protocol. The URL must be URL encoded."
+     *
+     * @var string
+     * @api since Piwik 3.2.0
+     */
     protected $acceptValues;
-    protected $sqlFilter;
+
+    /**
+     * Defines to which column in the MySQL database the segment belongs (if one is conifugred). Defaults to
+     * `$this.dbTableName . '.'. $this.columnName` but you can customize it eg like `HOUR(log_visit.visit_last_action_time)`.
+     *
+     * @param string $sqlSegment
+     * @api since Piwik 3.2.0
+     */
     protected $sqlSegment;
+
+    /**
+     * Interesting when specifying a segment. Sometimes you want users to set segment values that differ from the way
+     * they are actually stored. For instance if you want to allow to filter by any URL than you might have to resolve
+     * this URL to an action id. Or a country name maybe has to be mapped to a 2 letter country code. You can do this by
+     * specifing either a callable such as `array('Classname', 'methodName')` or by passing a closure.
+     * There will be four values passed to the given closure or callable: `string $valueToMatch`, `string $segment`
+     * (see {@link setSegment()}), `string $matchType` (eg SegmentExpression::MATCH_EQUAL or any other match constant
+     * of this class) and `$segmentName`.
+     *
+     * If the closure returns NULL, then Piwik assumes the segment sub-string will not match any visitor.
+     *
+     * @var string|\Closure
+     * @api since Piwik 3.2.0
+     */
+    protected $sqlFilter;
+
+    /**
+     * Similar to {@link $sqlFilter} you can map a given segment value to another value. For instance you could map
+     * "new" to 0, 'returning' to 1 and any other value to '2'. You can either define a callable or a closure. There
+     * will be only one value passed to the closure or callable which contains the value a user has set for this
+     * segment.
+     * @var string|array
+     * @api since Piwik 3.2.0
+     */
     protected $sqlFilterValue;
+
+    /**
+     * Defines whether this dimension (and segment based on this dimension) is available to anonymous users.
+     * @var bool
+     * @api since Piwik 3.2.0
+     */
     protected $allowAnonymous = true;
+
+    /**
+     * The name of the database table this dimension refers to
+     * @var string
+     * @api
+     */
     protected $dbTableName = '';
+
+    /**
+     * By default the metricId is automatically generated based on the dimensionId. This might sometimes not be as
+     * readable and quite long. If you want more expressive metric names like `nb_visits` compared to
+     * `nb_corehomevisitid`, you can eg set a metricId `visit`.
+     *
+     * @var string
+     * @api since Piwik 3.2.0
+     */
     protected $metricId = '';
 
     /**
      * To be implemented when a column references another column
      * @return Join|null
+     * @api since Piwik 3.2.0
      */
     public function getDbColumnJoin()
     {
@@ -107,6 +196,7 @@ abstract class Dimension
 
     /**
      * @return Discriminator|null
+     * @api since Piwik 3.2.0
      */
     public function getDbDiscriminator()
     {
@@ -114,14 +204,19 @@ abstract class Dimension
     }
 
     /**
-     * To be implemented when a column represents an enum
+     * To be implemented when a column represents an enum.
      * @return array
+     * @api since Piwik 3.2.0
      */
     public function getEnumColumnValues()
     {
         return array();
     }
 
+    /**
+     * Get the metricId which is used to generate metric names based on this dimension.
+     * @return string
+     */
     public function getMetricId()
     {
         if (!empty($this->metricId)) {
@@ -258,6 +353,7 @@ abstract class Dimension
     /**
      * Returns a translated name in plural for this dimension.
      * @return string
+     * @api since Piwik 3.2.0
      */
     public function getNamePlural()
     {
@@ -271,6 +367,7 @@ abstract class Dimension
     /**
      * Defines whether an anonymous user is allowed to view this dimension
      * @return bool
+     * @api since Piwik 3.2.0
      */
     public function isAnonymousAllowed()
     {
@@ -280,6 +377,7 @@ abstract class Dimension
     /**
      * Sets (overwrites) the SQL segment
      * @param $segment
+     * @api since Piwik 3.2.0
      */
     public function setSqlSegment($segment)
     {
@@ -289,6 +387,7 @@ abstract class Dimension
     /**
      * Sets (overwrites the dimension type)
      * @param $type
+     * @api since Piwik 3.2.0
      */
     public function setType($type)
     {
@@ -301,6 +400,7 @@ abstract class Dimension
      * @param mixed $value
      * @param int $idSite
      * @return mixed
+     * @api since Piwik 3.2.0
      */
     public function groupValue($value, $idSite)
     {
@@ -322,6 +422,7 @@ abstract class Dimension
      * @param int $idSite
      * @param Formatter $formatter
      * @return mixed
+     * @api since Piwik 3.2.0
      */
     public function formatValue($value, $idSite, Formatter $formatter)
     {
@@ -333,11 +434,9 @@ abstract class Dimension
 
                 return Piwik::translate('General_Yes');
             case Dimension::TYPE_ENUM:
-                if (!empty($this->dimension)) {
-                    $values = $this->dimension->getEnumColumnValues();
-                    if (isset($values[$value])) {
-                        return $values[$value];
-                    }
+                $values = $this->getEnumColumnValues();
+                if (isset($values[$value])) {
+                    return $values[$value];
                 }
                 break;
             case Dimension::TYPE_MONEY:
@@ -547,6 +646,11 @@ abstract class Dimension
         return $this->segments;
     }
 
+    /**
+     * Returns the name of the segment that this dimension defines
+     * @return string
+     * @api since Piwik 3.2.0
+     */
     public function getSegmentName()
     {
         return $this->segmentName;
@@ -562,6 +666,11 @@ abstract class Dimension
         return $this->columnName;
     }
 
+    /**
+     * Returns a sql segment expression for this dimension.
+     * @return string
+     * @api since Piwik 3.2.0
+     */
     public function getSqlSegment()
     {
         if (!empty($this->sqlSegment)) {
@@ -583,6 +692,11 @@ abstract class Dimension
         return !empty($this->columnType);
     }
 
+    /**
+     * Returns the name of the database table this dimension belongs to.
+     * @return string
+     * @api since Piwik 3.2.0
+     */
     public function getDbTableName()
     {
         return $this->dbTableName;
@@ -601,6 +715,17 @@ abstract class Dimension
     {
         $className = get_class($this);
 
+        return $this->generateIdFromClass($className);
+    }
+
+    /**
+     * @param string $className
+     * @return string
+     * @throws Exception
+     * @ignore
+     */
+    protected function generateIdFromClass($className)
+    {
         // parse plugin name & dimension name
         $regex = "/Piwik\\\\Plugins\\\\([^\\\\]+)\\\\" . self::COMPONENT_SUBNAMESPACE . "\\\\([^\\\\]+)/";
         if (!preg_match($regex, $className, $matches)) {
@@ -721,9 +846,9 @@ abstract class Dimension
     }
 
     /**
-     * TODO in Piwik 4 rename to getColumnType, rename getColumnType to getDbColumnType
-     *
+     * Returns the type of the dimension which defines what kind of value this dimension stores.
      * @return string
+     * @api since Piwik 3.2.0
      */
     public function getType()
     {
@@ -749,7 +874,7 @@ abstract class Dimension
             } elseif (strpos($type, 'timestamp') !== false) {
                 return self::TYPE_TIMESTAMP;
             } elseif (strpos($type, 'date') !== false) {
-                return self::TYPE_DATETIME;
+                return self::TYPE_DATE;
             } elseif (strpos($type, 'time') !== false) {
                 return self::TYPE_TIME;
             } elseif (strpos($type, 'float') !== false) {
@@ -758,7 +883,7 @@ abstract class Dimension
                 return self::TYPE_FLOAT;
             } elseif (strpos($type, 'int') !== false) {
                 return self::TYPE_NUMBER;
-            } elseif (strpos($type, 'BINARY') !== false) {
+            } elseif (strpos($type, 'binary') !== false) {
                 return self::TYPE_BINARY;
             }
         }

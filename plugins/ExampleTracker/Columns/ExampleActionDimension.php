@@ -27,6 +27,12 @@ use Piwik\Tracker\Action;
 class ExampleActionDimension extends ActionDimension
 {
     /**
+     * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
+     * @return string
+     */
+    protected $nameSingular = 'ExampleTracker_DimensionName';
+
+    /**
      * This will be the name of the column in the log_link_visit_action table if a $columnType is specified.
      * @var string
      */
@@ -41,28 +47,21 @@ class ExampleActionDimension extends ActionDimension
     protected $columnType = 'VARCHAR(255) DEFAULT NULL';
 
     /**
-     * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
-     * @return string
+     * The type of the dimension is automatically detected by the columnType. If the type of the dimension is not
+     * detected correctly, you may want to adjust the type manually. The configured type will affect how the dimension
+     * is formatted in the UI.
+     * @var string
      */
-    public function getName()
-    {
-        return Piwik::translate('ExampleTracker_DimensionName');
-    }
+    // protected $type = self::TYPE_TEXT;
 
     /**
-     * By defining one or multiple segments a user will be able to filter their visitors by this column. For instance
+     * By defining a segment a user will be able to filter their visitors by this column. For instance
      * show all actions only considering users having more than 10 achievement points. If you do not want to define a
-     * segment for this dimension just remove the column.
+     * segment for this dimension, simply leave the name empty.
      */
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('keywords');
-        $segment->setCategory('General_Actions');
-        $segment->setName('ExampleTracker_DimensionName');
-        $segment->setAcceptedValues('Here you should explain which values are accepted/useful: Any word, for instance MyKeyword1, MyKeyword2');
-        $this->addSegment($segment);
-    }
+    protected $segmentName = 'keywords';
+
+    protected $acceptValues = 'Here you should explain which values are accepted/useful for segments: Any word, for instance MyKeyword1, MyKeyword2';
 
     /**
      * This event is triggered before a new action is logged to the log_link_visit_action table. It overwrites any

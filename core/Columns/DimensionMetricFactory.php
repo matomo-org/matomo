@@ -53,26 +53,9 @@ class DimensionMetricFactory
      */
     public function createComputedMetric($metricName1, $metricName2, $aggregation)
     {
-        if ($aggregation === ComputedMetric::AGGREGATION_AVG) {
-            $name = 'avg_' . $metricName1 . '_per_' . $metricName2;
-            $translatedName = '';
-        } elseif ($aggregation === ComputedMetric::AGGREGATION_RATE) {
-            $name = $this->dimension->getMetricId() . '_rate';
-            $translatedName = $this->dimension->getName() . ' Rate';
-        } else {
-            throw new \Exception('Not supported aggregation type');
-        }
-
-        $name = str_replace(array('nb_uniq_', 'nb_with_', 'uniq_', 'nb_', 'sum_', 'max_', 'min_', '_rate', '_count', 'nb_with_'), '', $name);
-
+        // We cannot use reuse ComputedMetricFactory here as it would result in an endless loop since ComputedMetricFactory
+        // requires a MetricsList which is just being built here...
         $metric = new ComputedMetric($metricName1, $metricName2, $aggregation);
-        if ($aggregation === ComputedMetric::AGGREGATION_RATE) {
-            $metric->setType(Dimension::TYPE_PERCENT);
-        } else {
-            $metric->setType($this->dimension->getType());
-        }
-        $metric->setName($name);
-        $metric->setTranslatedName($translatedName);
         $metric->setCategory($this->dimension->getCategoryId());
         return $metric;
     }

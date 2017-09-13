@@ -107,6 +107,11 @@ class Segment
         }
     }
 
+    /**
+     * Returns the segment expression.
+     * @return SegmentExpression
+     * @api since Piwik 3.2.0
+     */
     public function getSegmentExpression()
     {
         return $this->segmentExpression;

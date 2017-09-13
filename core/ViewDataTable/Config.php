@@ -323,6 +323,8 @@ class   Config
 
     /**
      * Controls whether the export feature under the datatable is shown.
+     *
+     * @api since Piwik 3.2.0
      */
     public $show_export = true;
 

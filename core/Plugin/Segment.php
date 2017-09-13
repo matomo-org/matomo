@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugin;
 use Exception;
-use Piwik\Columns\Dimension;
 
 /**
  * Creates a new segment that can be used for instance within the {@link \Piwik\Columns\Dimension::configureSegment()}
@@ -203,16 +202,28 @@ class Segment
         return $this->sqlSegment;
     }
 
+    /**
+     * @return string
+     * @ignore
+     */
     public function getSqlFilterValue()
     {
         return $this->sqlFilterValue;
     }
 
+    /**
+     * @return string
+     * @ignore
+     */
     public function getAcceptValues()
     {
         return $this->acceptValues;
     }
 
+    /**
+     * @return string
+     * @ignore
+     */
     public function getSqlFilter()
     {
         return $this->sqlFilter;
@@ -265,6 +276,10 @@ class Segment
         return $this->segment;
     }
 
+    /**
+     * @return string
+     * @ignore
+     */
     public function getSuggestedValuesCallback()
     {
         return $this->suggestedValuesCallback;

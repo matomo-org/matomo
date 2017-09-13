@@ -62,7 +62,7 @@ class MetricsList
 
     /**
      * @param string $metricName
-     * @return ArchivedMetric|null
+     * @return Metric|ArchivedMetric|null
      */
     public function getMetric($metricName)
     {
@@ -130,9 +130,6 @@ class MetricsList
          */
         Piwik::postEvent('Metric.addComputedMetrics', array($list, $computedFactory));
 
-        // TODO implement a sort based on category and then alpabetically!
-        // usort($instances, array($this, 'sort'));
-
         /**
          * Triggered to filter metrics.
          *
@@ -152,7 +149,6 @@ class MetricsList
             $availableMetrics[] = $metric->getName();
         }
 
-        // todo maybe remove this as it might be still ok to include them in the list if some plugin handles it
         foreach ($list->metrics as $index => $metric) {
             if ($metric instanceof ProcessedMetric) {
                 $depMetrics = $metric->getDependentMetrics();
