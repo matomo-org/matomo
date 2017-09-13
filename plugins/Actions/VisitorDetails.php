@@ -22,8 +22,6 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
-    const EVENT_VALUE_PRECISION = 3;
-
     public function extendVisitorDetails(&$visitor)
     {
         $visitor['searches']     = $this->details['visit_total_searches'];
@@ -50,19 +48,11 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $formatter = new Formatter();
 
-        $actionTypesToHandle = array(
-            Action::TYPE_PAGE_URL,
-            Action::TYPE_SITE_SEARCH,
-            Action::TYPE_EVENT,
-            Action::TYPE_OUTLINK,
-            Action::TYPE_DOWNLOAD
-        );
-
         // Enrich with time spent per action
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
 
-            if ($idx < $nextActionId || !in_array($action['type'], $actionTypesToHandle)) {
+            if ($idx < $nextActionId || !$this->shouldHandleAction($action)) {
                 continue; // skip to next action having timeSpentRef
             }
 
@@ -71,7 +61,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $nextAction   = null;
 
             while (isset($actionDetails[$nextActionId]) &&
-                (!in_array($actionDetails[$nextActionId]['type'], $actionTypesToHandle) ||
+                (!$this->shouldHandleAction($actionDetails[$nextActionId]) ||
                     !array_key_exists('timeSpentRef', $actionDetails[$nextActionId]))) {
                 $nextActionId++;
             }
@@ -107,18 +97,21 @@ class VisitorDetails extends VisitorDetailsAbstract
         $actions = $actionDetails;
     }
 
+    private function shouldHandleAction($action) {
+        $actionTypesToHandle = array(
+            Action::TYPE_PAGE_URL,
+            Action::TYPE_SITE_SEARCH,
+            Action::TYPE_EVENT,
+            Action::TYPE_OUTLINK,
+            Action::TYPE_DOWNLOAD
+        );
+
+        return in_array($action['type'], $actionTypesToHandle) || !empty($action['eventType']);
+    }
+
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
         $formatter = new Formatter();
-
-        if (!empty($action['eventType'])) {
-            // Handle Event
-            if (strlen($action['pageTitle']) > 0) {
-                $action['eventName'] = $action['pageTitle'];
-            }
-
-            unset($action['pageTitle']);
-        }
 
         if ($action['type'] == Action::TYPE_SITE_SEARCH) {
             // Handle Site Search
@@ -126,16 +119,16 @@ class VisitorDetails extends VisitorDetailsAbstract
             unset($action['pageTitle']);
         }
 
-        // Event value / Generation time
-        if (!empty($action['eventType'])) {
-            if (strlen($action['custom_float']) > 0) {
-                $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
-            }
-        } elseif (isset($action['custom_float']) && $action['custom_float'] > 0) {
+        // Generation time
+        if ($this->shouldHandleAction($action) && empty($action['eventType']) && isset($action['custom_float']) && $action['custom_float'] > 0) {
             $action['generationTimeMilliseconds'] = $action['custom_float'];
             $action['generationTime'] = $formatter->getPrettyTimeFromSeconds($action['custom_float'] / 1000, true);
+            unset($action['custom_float']);
         }
-        unset($action['custom_float']);
+
+        if (array_key_exists('custom_float', $action) && is_null($action['custom_float'])) {
+            unset($action['custom_float']);
+        }
 
         if (array_key_exists('interaction_position', $action)) {
             $action['interactionPosition'] = $action['interaction_position'];

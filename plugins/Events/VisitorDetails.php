@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Events;
 
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
@@ -14,11 +15,24 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    const EVENT_VALUE_PRECISION = 3;
+
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
         if (!empty($action['eventType'])) {
             $action['type'] = 'event';
             $action['icon'] = 'plugins/Morpheus/images/event.png';
+
+            if (strlen($action['pageTitle']) > 0) {
+                $action['eventName'] = $action['pageTitle'];
+            }
+
+            if (isset($action['custom_float']) && strlen($action['custom_float']) > 0) {
+                $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
+            }
+
+            unset($action['pageTitle']);
+            unset($action['custom_float']);
         } else {
             unset($action['eventCategory']);
             unset($action['eventAction']);
