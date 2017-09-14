@@ -284,6 +284,7 @@ class DocumentationGenerator
         $aParameters['disable_generic_filters'] = false;
         $aParameters['expanded'] = false;
         $aParameters['idDimenson'] = false;
+        $aParameters['format_metrics'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
