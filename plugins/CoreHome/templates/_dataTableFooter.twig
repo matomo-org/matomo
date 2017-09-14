@@ -21,7 +21,7 @@
                 {% include "@CoreHome/_dataTableActions.twig" %}
             </div>
 
-            {% if properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control %}
+            {% if not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
                 <div class="col s3 m3 limitSelection"
                      title="{{ 'General_RowsToDisplay'|translate }}" alt="{{ 'General_RowsToDisplay'|translate }}"
                      ></div>
