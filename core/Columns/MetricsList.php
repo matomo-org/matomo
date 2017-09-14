@@ -14,6 +14,16 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 
+/**
+ * Manages the global list of metrics that can be used in reports.
+ *
+ * Metrics are added automatically by dimensions as well as through the {@hook Metric.addMetrics} and
+ * {@hook Metric.addComputedMetrics} and filtered through the {@hook Metric.filterMetrics} event.
+ * Observers for this event should call the {@link addMetric()} method to add metrics or use any of the other
+ * methods to remove metrics.
+ *
+ * @api since Piwik 3.2.0
+ */
 class MetricsList
 {
     /**

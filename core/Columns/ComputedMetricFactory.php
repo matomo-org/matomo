@@ -13,6 +13,11 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Report;
 
+/**
+ * A factory to create computed metrics.
+ *
+ * @api since Piwik 3.2.0
+ */
 class ComputedMetricFactory
 {
     /**
@@ -21,8 +26,9 @@ class ComputedMetricFactory
     private $metricsList = null;
 
     /**
-     * Generates a new report widget factory.
-     * @param Report $report  A report instance, widgets will be created based on the data provided by this report.
+     * Generates a new report metric factory.
+     * @param MetricsList $list A report list instance
+     * @ignore
      */
     public function __construct(MetricsList $list)
     {

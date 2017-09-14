@@ -13,6 +13,12 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Report;
 
+
+/**
+ * A factory to create metrics from a dimension.
+ *
+ * @api since Piwik 3.2.0
+ */
 class DimensionMetricFactory
 {
     /**
@@ -21,8 +27,8 @@ class DimensionMetricFactory
     private $dimension = null;
 
     /**
-     * Generates a new report widget factory.
-     * @param Report $report  A report instance, widgets will be created based on the data provided by this report.
+     * Generates a new dimension metric factory.
+     * @param Dimension $dimension A dimension instance the created metrics should be based on.
      */
     public function __construct(Dimension $dimension)
     {

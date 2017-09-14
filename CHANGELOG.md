@@ -8,7 +8,14 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 
 ### New APIs
 * Reports and visualizations can now hide the export icons with a new property `$view->config->show_export`.
-
+* The following events have been added:
+  * `Metric.addMetrics` Triggered to add new metrics that cannot be picked up automatically by the platform.
+  * `Metric.addComputedMetrics` Triggeed to add computed metrics that are not generated automatically
+  * `Metric.filterMetrics` Triggered to filter metrics
+* The following new API classes have been added:
+ * `Piwik\Columns\MetricsList` Holds a list of all available metrics
+ * `Piwik\Columns\ComputedMetricFactory` Can be used to create computed metrics
+ * `Piwik\Columns\DimensionMetricFactory` Can be used to create metrics directly within a dimension
 
 ## Piwik 3.1.0
 
