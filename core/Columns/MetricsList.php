@@ -94,6 +94,16 @@ class MetricsList
         $cache = Cache::getTransientCache();
         $cacheKey = 'MetricsList';
 
+        foreach (array('idsite', 'idSite') as $param) {
+            if (!empty($_GET[$param]) && is_numeric($_GET[$param])) {
+                $cacheKey .= $cacheKey . '_' . $_GET[$param];
+            }
+
+            if (!empty($_POST[$param]) && is_numeric($_POST[$param])) {
+                $cacheKey .= $cacheKey . '_' . $_POST[$param];
+            }
+        }
+
         if ($cache->contains($cacheKey)) {
             return $cache->fetch($cacheKey);
         }
