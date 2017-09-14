@@ -234,11 +234,11 @@
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
 				<bandwidth />
-				<eventName>Name8</eventName>
-				<eventValue>353.678</eventValue>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Name8</eventName>
+				<eventValue>353.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -574,11 +574,11 @@
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
 				<bandwidth />
-				<eventName>Name7</eventName>
-				<eventValue>352.678</eventValue>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Name7</eventName>
+				<eventValue>352.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -936,11 +936,11 @@
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
 				<bandwidth />
-				<eventName>Name6</eventName>
-				<eventValue>351.678</eventValue>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Name6</eventName>
+				<eventValue>351.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1276,11 +1276,11 @@
 				<eventCategory>Cat5</eventCategory>
 				<eventAction>Action5</eventAction>
 				<bandwidth />
-				<eventName>Name5</eventName>
-				<eventValue>350.678</eventValue>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Name5</eventName>
+				<eventValue>350.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -1638,11 +1638,11 @@
 				<eventCategory>Cat4</eventCategory>
 				<eventAction>Action4</eventAction>
 				<bandwidth />
-				<eventName>Name4</eventName>
-				<eventValue>349.678</eventValue>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Name4</eventName>
+				<eventValue>349.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>

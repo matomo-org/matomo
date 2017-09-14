@@ -3668,10 +3668,10 @@
 				<eventCategory>cloudfront_rtmp</eventCategory>
 				<eventAction>play</eventAction>
 				<bandwidth>3914</bandwidth>
-				<eventName>myvideo</eventName>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>myvideo</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
