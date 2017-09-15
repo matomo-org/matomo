@@ -79,7 +79,7 @@ class FileIntegrity
             'plugins/ImageGraph/fonts/unifont.ttf',
             'vendor/autoload.php',
             'vendor/composer/autoload_real.php',
-            'vendor/szymach/c-pchart/app/*.db',
+            'vendor/szymach/c-pchart/app/*',
             'tmp/*',
             // Search engine sites verification
             'google*.html',
