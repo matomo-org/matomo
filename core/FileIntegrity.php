@@ -79,8 +79,12 @@ class FileIntegrity
             'plugins/ImageGraph/fonts/unifont.ttf',
             'vendor/autoload.php',
             'vendor/composer/autoload_real.php',
-            'vendor/szymach/c-pchart/app/cache/*.db',
+            'vendor/szymach/c-pchart/app/*.db',
             'tmp/*',
+            // Search engine sites verification
+            'google*.html',
+            'BingSiteAuth.xml',
+            'yandex*.html',
             // Files below are not expected but they used to be present in older Piwik versions and may be still here
             // As they are not going to cause any trouble we won't report them as 'File to delete'
             '*.coveralls.yml',
