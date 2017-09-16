@@ -918,7 +918,7 @@
 		<name>Visits per local time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
-		<dimension>Local time - hour</dimension>
+		<dimension>Local time - hour (Start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
