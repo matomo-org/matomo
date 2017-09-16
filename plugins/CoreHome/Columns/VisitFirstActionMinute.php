@@ -6,23 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\VisitTime\Columns;
+namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
-use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Metrics\Formatter;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
-class ServerMinute extends VisitDimension
+class VisitFirstActionMinute extends VisitDimension
 {
-    protected $columnName = 'visit_last_action_time';
+    protected $columnName = 'visit_first_action_time';
     protected $type = self::TYPE_DATETIME;
-    protected $segmentName = 'visitEndServerMinute';
-    protected $nameSingular = 'VisitTime_ColumnVisitEndServerMinute';
-    protected $sqlSegment = 'MINUTE(log_visit.visit_last_action_time)';
+
+    protected $sqlSegment = 'HOUR(log_visit.visit_first_action_time)';
+    protected $segmentName = 'visitStartServerMinute';
     protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
+    protected $nameSingular = 'VisitTime_ColumnVisitStartServerMinute';
 
     public function __construct()
     {
@@ -33,7 +34,7 @@ class ServerMinute extends VisitDimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        // no metrics for this dimension
+        // no metrics to be generated
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)
