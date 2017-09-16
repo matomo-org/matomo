@@ -159,7 +159,7 @@ class API extends \Piwik\Plugin\API
 
         $isNotAnonymous = !Piwik::isUserIsAnonymous();
 
-        $sites   = implode('.', $idSites);
+        $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
         $cache   = Cache::getTransientCache();
         $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
         $cachKey = CacheId::pluginAware($cachKey);
