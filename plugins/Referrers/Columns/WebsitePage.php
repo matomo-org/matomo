@@ -14,9 +14,5 @@ use Piwik\Piwik;
 class WebsitePage extends Dimension
 {
     protected $type = self::TYPE_TEXT;
-
-    public function getName()
-    {
-        return Piwik::translate('Referrers_ColumnWebsitePage');
-    }
+    protected $nameSingular = 'Referrers_ColumnWebsitePage';
 }

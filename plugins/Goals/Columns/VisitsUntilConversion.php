@@ -14,9 +14,6 @@ use Piwik\Piwik;
 class VisitsUntilConversion extends Dimension
 {
     protected $type = self::TYPE_NUMBER;
+    protected $nameSingular = 'Goals_VisitsUntilConv';
 
-    public function getName()
-    {
-        return Piwik::translate('Goals_VisitsUntilConv');
-    }
 }

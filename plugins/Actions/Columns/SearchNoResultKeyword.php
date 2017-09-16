@@ -14,9 +14,5 @@ use Piwik\Piwik;
 class SearchNoResultKeyword extends Dimension
 {
     protected $type = self::TYPE_TEXT;
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnNoResultKeyword');
-    }
+    protected $nameSingular = 'Actions_ColumnNoResultKeyword';
 }

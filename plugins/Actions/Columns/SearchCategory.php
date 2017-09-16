@@ -14,9 +14,5 @@ use Piwik\Piwik;
 class SearchCategory extends Dimension
 {
     protected $type = self::TYPE_TEXT;
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnSearchCategory');
-    }
+    protected $nameSingular = 'Actions_ColumnSearchCategory';
 }

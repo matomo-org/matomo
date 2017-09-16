@@ -14,9 +14,5 @@ use Piwik\Piwik;
 class DestinationPage extends Dimension
 {
     protected $type = self::TYPE_TEXT;
-
-    public function getName()
-    {
-        return Piwik::translate('General_ColumnDestinationPage');
-    }
+    protected $nameSingular = 'General_ColumnDestinationPage';
 }

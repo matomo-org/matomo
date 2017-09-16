@@ -41,8 +41,4 @@ class Resolution extends VisitDimension
         return $resolution;
     }
 
-    public function getName()
-    {
-        return Piwik::translate('Resolution_ColumnResolution');
-    }
 }

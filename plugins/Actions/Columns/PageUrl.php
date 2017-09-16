@@ -36,8 +36,4 @@ class PageUrl extends ActionDimension
         return new Discriminator('log_action', 'type', Action::TYPE_PAGE_URL);
     }
 
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnPageURL');
-    }
 }

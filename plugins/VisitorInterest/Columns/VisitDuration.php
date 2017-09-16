@@ -15,9 +15,5 @@ class VisitDuration extends Dimension
 {
 
     protected $type = self::TYPE_DURATION_S;
-
-    public function getName()
-    {
-        return Piwik::translate('VisitorInterest_ColumnVisitDuration');
-    }
+    protected $nameSingular = 'VisitorInterest_ColumnVisitDuration';
 }

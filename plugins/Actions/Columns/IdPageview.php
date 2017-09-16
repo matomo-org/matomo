@@ -21,6 +21,7 @@ class IdPageview extends ActionDimension
     protected $columnName = 'idpageview';
     protected $columnType = 'CHAR(6) NULL DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'Actions_ColumnIdPageview';
 
     /**
      * @param Request $request
@@ -33,11 +34,6 @@ class IdPageview extends ActionDimension
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
         return substr($request->getParam('pv_id'), 0, 6);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnIdPageview');
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
