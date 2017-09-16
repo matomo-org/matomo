@@ -28,6 +28,13 @@ class VisitFirstActionTime extends VisitDimension
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
     protected $nameSingular = 'VisitTime_ColumnVisitStartServerHour';
 
+    public function __construct()
+    {
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+            return range(0, min(23, $maxValuesToReturn));
+        };
+    }
+
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         return $value;
