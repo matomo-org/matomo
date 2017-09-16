@@ -1,8 +1,8 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Local time",
-        "ColumnLocalHour": "Local time - hour",
-        "ColumnLocalMinute": "Local time - minute",
+        "ColumnLocalHour": "Local time - hour (Start of visit)",
+        "ColumnLocalMinute": "Local time - minute (Start of visit)",
         "ColumnServerTime": "Server time",
         "ColumnServerHour": "Server time - hour",
         "ColumnVisitEndServerHour": "Server time - hour (End of visit)",
