@@ -7,7 +7,7 @@
 
 (function ($) {
 
-var sparklineColorNames = ['backgroundColor', 'lineColor', 'minPointColor', 'maxPointColor', 'lastPointColor'];
+var sparklineColorNames = ['backgroundColor', 'lineColor', 'minPointColor', 'maxPointColor', 'lastPointColor', 'fillColor'];
 
 piwik.getSparklineColors = function () {
     return piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);

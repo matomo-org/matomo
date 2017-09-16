@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed95573aa1d50a430cc55428d46160b6",
+    "content-hash": "53d9ab304551df4691f2057dc8b12c99",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -154,6 +154,63 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "davaxi/sparkline",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davaxi/Sparkline.git",
+                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/d563481f0960bac1acb4e24743ab884f4ce251e2",
+                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "ext-gd": "*",
+                "friendsofphp/php-cs-fixer": "^2.8",
+                "jakub-onderka/php-parallel-lint": "^0.9.2",
+                "php": ">=5.3.0",
+                "phpro/grumphp": "^0.12.0",
+                "povils/phpmnd": "^1.1",
+                "sebastian/phpcpd": "^3.0",
+                "sensiolabs/security-checker": "^4.1",
+                "squizlabs/php_codesniffer": "^3.1",
+                "wearejust/grumphp-extra-tasks": "^2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Davaxi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Patiashvili",
+                    "email": "stratagem.david@gmail.com",
+                    "homepage": "https://www.patiashvili.fr/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Class (using GD) to generate sparklines",
+            "keywords": [
+                "php",
+                "picture",
+                "sparkline"
+            ],
+            "time": "2017-12-15T15:45:18+00:00"
         },
         {
             "name": "doctrine/cache",
