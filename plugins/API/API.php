@@ -153,12 +153,12 @@ class API extends \Piwik\Plugin\API
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
         } else {
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
             Piwik::checkUserHasViewAccess($idSites);
         }
 
         $isNotAnonymous = !Piwik::isUserIsAnonymous();
 
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
         $sites   = implode('.', $idSites);
         $cache   = Cache::getTransientCache();
         $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
