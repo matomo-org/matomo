@@ -122,7 +122,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         }
 
         \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
-        \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
+        \Piwik\Visualization\Sparkline::$enableSparklineImages = true;
         \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
 
         if ($this->vars->deleteArchiveTables
