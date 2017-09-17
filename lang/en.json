@@ -38,6 +38,7 @@
         "ColumnActionsPerVisit": "Actions per Visit",
         "ColumnActionsPerVisitDocumentation": "The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.",
         "ColumnAverageGenerationTime": "Avg. generation time",
+        "ColumnViewsWithGenerationTime": "Pageviews with generation time",
         "ColumnAverageGenerationTimeDocumentation": "The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!",
         "ColumnAverageTimeOnPage": "Avg. time on page",
         "ColumnAverageTimeOnPageDocumentation": "The average amount of time visitors spent on this page (only the page, not the entire website).",
