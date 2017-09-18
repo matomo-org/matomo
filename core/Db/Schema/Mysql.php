@@ -81,8 +81,8 @@ class Mysql implements SchemaInterface
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,
                           `user_login` VARCHAR(100) NOT NULL DEFAULT '',
-						  `plugin_setting_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-						  PRIMARY KEY (plugin_setting_id),
+                          `plugin_setting_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (plugin_setting_id),
                               INDEX(plugin_name, user_login)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -92,8 +92,8 @@ class Mysql implements SchemaInterface
                           `plugin_name` VARCHAR(60) NOT NULL,
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,
-						  `site_setting_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-						  PRIMARY KEY (site_setting_id),
+                          `site_setting_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (site_setting_id),
                               INDEX(idsite, plugin_name)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -212,8 +212,8 @@ class Mysql implements SchemaInterface
                                   query TEXT NOT NULL,
                                   count INTEGER UNSIGNED NULL,
                                   sum_time_ms FLOAT NULL,
-								  log_profiling_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-						          PRIMARY KEY (log_profiling_id),
+                                  log_profiling_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                    PRIMARY KEY (log_profiling_id),
                                     UNIQUE KEY query(query(100))
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
