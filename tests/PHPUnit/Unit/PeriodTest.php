@@ -74,7 +74,6 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidate_InvalidDates($invalidDateFormat)
     {
-        Translator::reset();
         Period::checkDateFormat($invalidDateFormat);
     }
 
