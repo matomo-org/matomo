@@ -14,6 +14,7 @@ use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Translation\Translator;
 
 /**
  * @group Core
@@ -68,11 +69,12 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidDateFormat
+     * @expectedExceptionMessageRegExp Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):
      * @dataProvider getInvalidDateFormats
      */
     public function testValidate_InvalidDates($invalidDateFormat)
     {
+        Translator::reset();
         Period::checkDateFormat($invalidDateFormat);
     }
 
