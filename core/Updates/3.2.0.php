@@ -28,7 +28,7 @@ class Updates_3_2_0 extends Updates
 
     private $pluginSettingsTable = 'plugin_setting';
     private $siteSettingsTable = 'site_setting';
-	private $logProfilingTable = 'log_profiling';
+    private $logProfilingTable = 'log_profiling';
 
     public function __construct(MigrationFactory $factory)
     {
@@ -61,7 +61,7 @@ class Updates_3_2_0 extends Updates
      */
     private function getPluginSettingsMigrations($queries)
     {
-		$queries[] = $this->migration->db->addColumn($this->pluginSettingsTable, 'plugin_setting_id', 'BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT', 'user_login');
+        $queries[] = $this->migration->db->addColumn($this->pluginSettingsTable, 'plugin_setting_id', 'BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT', 'user_login');
 
         return $queries;
     }
@@ -72,7 +72,7 @@ class Updates_3_2_0 extends Updates
      */
     private function getSiteSettingsMigrations($queries)
     {
-		$queries[] = $this->migration->db->addColumn($this->siteSettingsTable, 'site_setting_id', 'BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT', 'setting_value');
+        $queries[] = $this->migration->db->addColumn($this->siteSettingsTable, 'site_setting_id', 'BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT', 'setting_value');
 
         return $queries;
     }
@@ -83,7 +83,7 @@ class Updates_3_2_0 extends Updates
      */
     private function getLogProfilingMigrations($queries)
     {
-		$queries[] = $this->migration->db->addColumn($this->logProfilingTable, 'log_profiling_id', 'BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT', 'sum_time_ms');
+        $queries[] = $this->migration->db->addColumn($this->logProfilingTable, 'log_profiling_id', 'BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT', 'sum_time_ms');
 
         return $queries;
     }
