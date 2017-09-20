@@ -9,12 +9,55 @@
 namespace Piwik\Period;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin;
 
-class Factory
+/**
+ * Creates Period instances using the values used for the 'period' and 'date'
+ * query parameters.
+ *
+ * ## Custom Periods
+ *
+ * Plugins can define their own period factories all plugins to define new period types, in addition
+ * to "day", "week", "month", "year" and "range".
+ *
+ * To define a new period type:
+ *
+ * 1. create a new period class that derives from {@see \Piwik\Period}.
+ * 2. extend this class in a new PeriodFactory class and put it in /path/to/piwik/plugins/MyPlugin/PeriodFactory.php
+ *
+ * Period name collisions:
+ *
+ * If two plugins try to handle the same period label, the first one encountered will
+ * be used. In other words, avoid using another plugin's period label.
+ */
+abstract class Factory
 {
+    public function __construct()
+    {
+        // empty
+    }
+
+    /**
+     * Returns true if this factory should handle the period/date string combination.
+     *
+     * @return bool
+     */
+    public abstract function shouldHandle($strPeriod, $strDate);
+
+    /**
+     * Creates a period using the value of the 'date' query parameter.
+     *
+     * @param string $strPeriod
+     * @param string|Date $date
+     * @param string $timezone
+     * @return Period
+     */
+    public abstract function make($strPeriod, $date, $timezone);
+
     /**
      * Creates a new Period instance with a period ID and {@link Date} instance.
      *
@@ -35,26 +78,33 @@ class Factory
                 || $period == 'range') {
                 return new Range($period, $date, $timezone);
             }
-            $date = Date::factory($date);
+
+            $dateObject = Date::factory($date);
+        } else {
+            $dateObject = $date;
         }
 
         switch ($period) {
             case 'day':
-                return new Day($date);
-                break;
-
+                return new Day($dateObject);
             case 'week':
-                return new Week($date);
-                break;
-
+                return new Week($dateObject);
             case 'month':
-                return new Month($date);
-                break;
-
+                return new Month($dateObject);
             case 'year':
-                return new Year($date);
-                break;
+                return new Year($dateObject);
         }
+
+        /** @var string[] $customPeriodFactories */
+        $customPeriodFactories = Plugin\Manager::getInstance()->findComponents('PeriodFactory', self::class);
+        foreach ($customPeriodFactories as $customPeriodFactoryClass) {
+            $customPeriodFactory = StaticContainer::get($customPeriodFactoryClass);
+            if ($customPeriodFactory->shouldHandle($period, $date)) {
+                return $customPeriodFactory->make($period, $date, $timezone);
+            }
+        }
+
+        throw new \Exception("Don't know how to create a '$period' period!");
     }
 
     public static function checkPeriodIsEnabled($period)

@@ -40,7 +40,7 @@
 		<segment>browserCode==RM</segment>
 	</row>
 	<row>
-		<label>Epiphany</label>
+		<label>GNOME Web</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>

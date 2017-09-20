@@ -79,6 +79,8 @@ matrix:
     - php: 5.5
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
 
+dist: precise
+
 sudo: required
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh

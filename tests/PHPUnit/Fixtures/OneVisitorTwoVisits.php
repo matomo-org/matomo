@@ -208,4 +208,12 @@ class OneVisitorTwoVisits extends Fixture
         // -
         // End of second visit
     }
+
+    /**
+     * @return string
+     */
+    public static function getValueForHideColumns()
+    {
+        return 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth';
+    }
 }

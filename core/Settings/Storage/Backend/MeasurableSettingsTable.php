@@ -150,8 +150,15 @@ class MeasurableSettingsTable implements BackendInterface
      */
     public static function removeAllSettingsForSite($idSite)
     {
-        $query = sprintf('DELETE FROM %s WHERE idsite = ?', Common::prefixTable('site_setting'));
-        Db::query($query, array($idSite));
+        try {
+            $query = sprintf('DELETE FROM %s WHERE idsite = ?', Common::prefixTable('site_setting'));
+            Db::query($query, array($idSite));
+        } catch (Exception $e) {
+            if ($e->getCode() != 42) {
+                // ignore table not found error, which might occur when updating from an older version of Piwik
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -161,7 +168,14 @@ class MeasurableSettingsTable implements BackendInterface
      */
     public static function removeAllSettingsForPlugin($pluginName)
     {
-        $query = sprintf('DELETE FROM %s WHERE plugin_name = ?', Common::prefixTable('site_setting'));
-        Db::query($query, array($pluginName));
+        try {
+            $query = sprintf('DELETE FROM %s WHERE plugin_name = ?', Common::prefixTable('site_setting'));
+            Db::query($query, array($pluginName));
+        } catch (Exception $e) {
+            if ($e->getCode() != 42) {
+                // ignore table not found error, which might occur when updating from an older version of Piwik
+                throw $e;
+            }
+        }
     }
 }

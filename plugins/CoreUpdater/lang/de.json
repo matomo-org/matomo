@@ -12,7 +12,7 @@
         "ErrorDIYHelp_1": "identifizieren und korrigieren Sie die Quelle des Problems (z.B. memory_limit oder max_execution_time)",
         "ErrorDIYHelp_2": "führen Sie die fehlgeschlagenen Befehle zur Aktualisierung nochmal aus",
         "ErrorDIYHelp_3": "Aktualisieren Sie die Tabelle `option` in der Datenbank und setzen dabei den Wert version_core auf die aktuelle Version, deren Aktualisierung fehlgeschlagen ist",
-        "ErrorDIYHelp_4": "starten Sie die Aktualisierung erneut (im Browser oder auf der Kommandozeile), um die Aktualisierung zu fortzusetzen",
+        "ErrorDIYHelp_4": "Starten Sie die Aktualisierung erneut (im Browser oder auf der Kommandozeile), um die Aktualisierung fortzusetzen",
         "ErrorDIYHelp_5": "Melden Sie den Fehler (und die Lösung), um Piwik zu verbessern",
         "ErrorDuringPluginsUpdates": "Fehler während Plugin-Aktualisierungen:",
         "ExceptionAlreadyLatestVersion": "Ihre Piwik Version %s ist aktuell.",

@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomPiwikJs\tests\Integration;
 
+use Piwik\Plugins\CustomPiwikJs\File;
 use Piwik\Plugins\CustomPiwikJs\tests\Framework\Mock\PluginTrackerFilesMock;
 use Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -48,6 +49,52 @@ class TrackerUpdaterTest extends IntegrationTestCase
     private function makeUpdater($from = null, $to = null)
     {
         return new TrackerUpdater($from, $to);
+    }
+
+    public function test_construct_setsDefaults()
+    {
+        $updater = $this->makeUpdater();
+        $fromFile = $updater->getFromFile();
+        $toFile = $updater->getToFile();
+        $this->assertTrue($fromFile instanceof File);
+        $this->assertTrue($toFile instanceof File);
+
+        $this->assertSame(basename(TrackerUpdater::ORIGINAL_PIWIK_JS), $fromFile->getName());
+        $this->assertSame(basename(TrackerUpdater::TARGET_PIWIK_JS), $toFile->getName());
+    }
+
+    public function test_setFormFile_getFromFile()
+    {
+        $updater = $this->makeUpdater();
+        $testFile = new File('foobar');
+        $updater->setFromFile($testFile);
+
+        $this->assertSame($testFile, $updater->getFromFile());
+    }
+
+    public function test_setFormFile_CanBeString()
+    {
+        $updater = $this->makeUpdater();
+        $updater->setFromFile('foobar');
+
+        $this->assertSame('foobar', $updater->getFromFile()->getName());
+    }
+
+    public function test_setToFile_getToFile()
+    {
+        $updater = $this->makeUpdater();
+        $testFile = new File('foobar');
+        $updater->setToFile($testFile);
+
+        $this->assertSame($testFile, $updater->getToFile());
+    }
+
+    public function test_setToFile_CanBeString()
+    {
+        $updater = $this->makeUpdater();
+        $updater->setToFile('foobar');
+
+        $this->assertSame('foobar', $updater->getToFile()->getName());
     }
 
     public function test_checkWillSucceed_shouldNotThrowExceptionIfPiwikJsTargetIsWritable()

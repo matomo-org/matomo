@@ -3,6 +3,7 @@
         "AddUser": "Add a new user",
         "Alias": "Alias",
         "AllWebsites": "All websites",
+        "AnonymousAccessConfirmation": "You are about to grant the anonymous user the 'view' access to this website. This means your analytics reports and your visitors information will be publicly viewable by anyone even without a login. Are you sure you want to proceed?",
         "AnonymousUser": "Anonymous user",
         "AnonymousUserHasViewAccess": "Note: the %1$s user has %2$s access to this website.",
         "AnonymousUserHasViewAccess2": "Your analytics reports and your visitors information are publicly viewable.",

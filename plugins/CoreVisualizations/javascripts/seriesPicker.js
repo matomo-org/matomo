@@ -266,8 +266,8 @@
                     }
                 });
 
-                var noRowSelected = this._pickerPopover.find('.pickRow').size() > 0
-                                 && this._pickerPopover.find('.pickRow input:checked').size() == 0;
+                var noRowSelected = this._pickerPopover.find('.pickRow').length > 0
+                                 && this._pickerPopover.find('.pickRow input:checked').length === 0;
                 if (columns.length > 0 && !noRowSelected) {
                     $(this).trigger('seriesPicked', [columns, rows]);
 

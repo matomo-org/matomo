@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomPiwikJs\tests\Integration;
 
+use Piwik\Piwik;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -81,6 +82,24 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $this->assertTrue(isset($foundFiles['Goals']));
         $this->assertEquals('tracker.js', $foundFiles['CustomPiwikJs']->getName());
         $this->assertEquals('tracker.min.js', $foundFiles['Goals']->getName());
+    }
+
+    public function test_find_EventsCanIgnoreFiles()
+    {
+        $trackerFiles = new CustomPluginTrackerFiles('CustomPiwikJs', 'Goals');
+        $foundFiles = $trackerFiles->find();
+        $this->assertCount(2, $foundFiles);
+
+        Piwik::addAction('CustomPiwikJs.shouldAddTrackerFile', function (&$shouldAdd, $pluginName) {
+            if ($pluginName === 'Goals') {
+                $shouldAdd = false;
+            }
+        });
+
+        $foundFiles = $trackerFiles->find();
+        $this->assertCount(1, $foundFiles);
+        $this->assertTrue(isset($foundFiles['CustomPiwikJs']));
+        $this->assertFalse(isset($foundFiles['Goals']));
     }
 
     public function test_find_shouldNotReturnATrackerFile_IfPluginIsNotActivatedOrLoaded()

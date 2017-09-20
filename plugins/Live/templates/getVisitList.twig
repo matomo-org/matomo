@@ -1,27 +1,35 @@
 {% for visitInfo in visits.getRows() %}
-<li>
+<li data-number="{{ startCounter }}">
     <div>
-        <div class="visitor-profile-visit-title-row">
-            <h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}" title="{{ 'Live_ClickToViewMoreAboutVisit'|translate }}">
-                {{ 'General_Visit'|translate }} #{{ startCounter }}
+        <div class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}" title="{{ 'Live_ClickToViewMoreAboutVisit'|translate }}">
+            {{ 'General_Visit'|translate }} #{{ startCounter }}
 
-                {% if visitInfo.getColumn('visitDuration') != 0 %}
-                    <span>&nbsp; ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span>
-                {% endif %}
-                <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}">
-                    {{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}
-                </span>
-            </h2>
+            <span class="visitor-profile-date" title="{{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}">
+                {{ visitInfo.getColumn('serverDatePrettyFirstAction') }} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}
+            </span>
         </div>
-        <ol class="visitor-profile-actions">
+        <div class="visitor-profile-visit-details-extended">
+            {{ postEvent('Live.renderVisitorDetails', visitInfo) }}
+        </div>
+        <div class="visitor-profile-visit-details">
+            {{ postEvent('Live.renderVisitorIcons', visitInfo) }}
+            <a href="#" class="visitor-profile-show-actions">
+                {% set actionCount = visitInfo.getColumn('actionDetails')|length %}
+                {% if visitInfo.truncatedActionsCount is defined %}
+                    {% set actionCount = actionCount + visitInfo.truncatedActionsCount %}
+                {% endif %}
+                {% if visitInfo.getColumn('visitDuration') != 0 %}
+                    {{ 'Live_ActionsAndDuration'|translate(actionCount, visitInfo.getColumn('visitDurationPretty')) }}
+                {% else %}
+                    {{ actionCount }} {{ 'General_Actions'|translate }}
+                {% endif %}
+            </a>
+        </div>
+        <ol class="visitorLog visitor-profile-actions">
             {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
-                                                       'clientSideParameters': {
-                                                            'idSite': idSite,
-                                                            'pageUrlNotDefined': 'General_NotDefined'|translate('Actions_ColumnPageURL'|translate)
-                                                        },
-                                                        'overrideLinkStyle': false} %}
+                                                       'visitInfo': visitInfo} %}
         </ol>
     </div>
 </li>
-{% set startCounter = startCounter + 1 %}
+{% set startCounter = startCounter - 1 %}
 {% endfor %}

@@ -17,6 +17,11 @@ class Visit extends LogTable
         return 'log_visit';
     }
 
+    public function getIdColumn()
+    {
+        return 'idvisit';
+    }
+
     public function getColumnToJoinOnIdVisit()
     {
         return 'idvisit';

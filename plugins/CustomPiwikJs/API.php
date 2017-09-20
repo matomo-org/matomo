@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomPiwikJs;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomPiwikJs\Exception\AccessDeniedException;
 
@@ -28,7 +29,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeAdminAccess();
 
         try {
-            $updater = new TrackerUpdater();
+            $updater = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater');
             $updater->checkWillSucceed();
             return true;
         } catch (AccessDeniedException $e) {

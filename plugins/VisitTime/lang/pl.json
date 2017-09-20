@@ -5,13 +5,14 @@
         "DayOfWeek": "Dzień tygodnia",
         "LocalTime": "Odwiedziny według lokalnego czasu",
         "NHour": "%sh",
+        "PluginDescription": "Raport czasu lokalnego użytkownika i czasu serwera, kiedy użytkownik odwiedził Twój serwis lub aplikację.",
         "ServerTime": "Odwiedziny według czasu serwera",
-        "SubmenuTimes": "Czas",
+        "SubmenuTimes": "Czasy odwiedzin",
         "VisitsByDayOfWeek": "Odwiedziny w poszczególnych dniach tygodnia",
-        "WidgetByDayOfWeekDocumentation": "Ten wykres pokazuje liczbe odwiedzin twojej stony otrzymanych każdego dnia tygodnia",
+        "WidgetByDayOfWeekDocumentation": "Ten wykres pokazuje liczbę odwiedzin Twojej strony w ciągu każdego dnia tygodnia",
         "WidgetLocalTime": "Odwiedziny według lokalnego czasu",
-        "WidgetLocalTimeDocumentation": "Ten wykres pokazuje jaki czas był %1$s w strefie czasowej odwiedzających %2$s podczas ich wizyty.",
+        "WidgetLocalTimeDocumentation": "Ten wykres pokazuje godzinę w %1$s strefie czasowej odwiedzających %2$s podczas ich wizyty.",
         "WidgetServerTime": "Odwiedziny według czasu serwera",
-        "WidgetServerTimeDocumentation": "Ten wykres pokazuje jaki czas był w %1$s strefie czasowej serwera %2$s podczas odwiedzin."
+        "WidgetServerTimeDocumentation": "Ten wykres pokazuje godzinę w %1$s strefie czasowej serwera %2$s podczas odwiedzin."
     }
 }

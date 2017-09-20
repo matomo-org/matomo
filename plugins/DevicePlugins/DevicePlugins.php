@@ -8,9 +8,10 @@
  */
 namespace Piwik\Plugins\DevicePlugins;
 
+use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugin;
 
 /**
  *
@@ -18,22 +19,13 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 class DevicePlugins extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
         );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['plugins']                  = $instance->getPlugins();
-        $visitor['pluginsIcons']             = $instance->getPluginIcons();
     }
 
     public function addMetricTranslations(&$translations)
@@ -43,5 +35,41 @@ class DevicePlugins extends \Piwik\Plugin
         );
 
         $translations = array_merge($translations, $metrics);
+    }
+
+
+    /**
+     * Returns all available DevicePlugins Columns
+     *
+     * @return Columns\DevicePluginColumn[]
+     * @throws \Exception
+     */
+    public static function getAllPluginColumns()
+    {
+        $cacheId = CacheId::pluginAware('DevicePluginColumns');
+        $cache   = Cache::getTransientCache();
+
+        if (!$cache->contains($cacheId)) {
+            $instances = [];
+
+            foreach (self::getAllDevicePluginsColumnClasses() as $className) {
+                $instance = new $className();
+                $instances[] = $instance;
+            }
+            $cache->save($cacheId, $instances);
+        }
+
+        return $cache->fetch($cacheId);
+    }
+
+    /**
+     * Returns class names of all DevicePlugins Column classes.
+     *
+     * @return string[]
+     * @api
+     */
+    protected static function getAllDevicePluginsColumnClasses()
+    {
+        return Plugin\Manager::getInstance()->findMultipleComponents('Columns', 'Piwik\Plugins\DevicePlugins\Columns\DevicePluginColumn');
     }
 }

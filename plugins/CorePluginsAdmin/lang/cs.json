@@ -41,6 +41,8 @@
         "OriginThirdParty": "Třetí strana",
         "PluginHomepage": "Domovská stránka zásuvného modulu",
         "PluginNotCompatibleWith": "%1$s zásuvný modul není kompatibilní s %2$s",
+        "PluginNotFound": "Plugin %1$s nebyl nalezen v souborovém systému.",
+        "PluginNotFoundAlternative": "Pokud jste tento zásuvný modul používali, zkuste jej znovu načíst nebo jej znovu nainstalovat z tržiště. V opačném případě klikněte na Odinstalovat a odeberte ho ze seznamu.",
         "PluginNotWorkingAlternative": "Pokud jste tento zásuvný modul používali, možná najdete v obchodě novější verzi. Pokud ne, možná ho chcete odinstalovat.",
         "PluginRequirement": "%1$s vyžaduje %2$s.",
         "PluginsManagement": "Správa zásuvných modulů",
@@ -51,6 +53,7 @@
         "Status": "Stav",
         "SuccessfullyActicated": "Úspěšně jste aktivovali <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Rozšiřte Piwik s použitím zásuvných modulů a šablon",
+        "TeaserExtendPiwikByPlugin": "Rozšiřte Piwik o %1$sinstalací zásuvného module z tržiště %2$s nebo %3$snahrajte zásuvný modul ve formátu .zip%4$s.",
         "TeaserExtendPiwikByTheme": "Užijte si nový vzhled po %1$sinstalaci nového vzhledu%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Můžete zásuvný modul nainstalovat automaticky z obchodu, %1$snebo ho nahrát%2$s ve formátu .zip.",
         "Theme": "Šablona",
@@ -60,7 +63,7 @@
         "UninstallConfirm": "Chystáte se odebrat zásuvný modul %s. Tento modul bude kompletně odebrán z platformy a akci nebude možné vrátit zpět. Jste si jisti, že to chcete provést?",
         "Version": "Verze",
         "ViewAllMarketplacePlugins": "Zobrazit všechny zásuvné moduly v marketplace zásuvných modulů",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Zásuvný modul %s byl vypnut, chybí závislosti:",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Zásuvný modul %1$s nelze načíst, protože chybí závislosti: %2$s",
         "Websites": "Stránky"
     }
 }

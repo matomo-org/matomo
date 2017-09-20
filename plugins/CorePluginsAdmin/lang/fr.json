@@ -41,6 +41,8 @@
         "OriginThirdParty": "Tierce-Partie",
         "PluginHomepage": "Page d'accueil du plugin",
         "PluginNotCompatibleWith": "Le composant %1$s n'est pas compatible avec %2$s.",
+        "PluginNotFound": "Le composant %1$s est introuvable.",
+        "PluginNotFoundAlternative": "Si vous utilisiez ce composant, essayez de le téléverser à nouveau ou de le réinstaller depuis le marché. Sinon, cliquez sur désinstaller pour le supprimer de la liste.",
         "PluginNotWorkingAlternative": "Si vous avez utilisé ce composant additionnel, peut être pourriez vous trouver une version plus récente sur le Marché. Le cas échéant vous devriez le désinstaller.",
         "PluginRequirement": "%1$s requiert %2$s.",
         "PluginsManagement": "Gestionnaire de plugins",
@@ -51,6 +53,7 @@
         "Status": "État",
         "SuccessfullyActicated": "Vous avez activé avec succès <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Etendre Piwik avec des composants additionnels et des thèmes",
+        "TeaserExtendPiwikByPlugin": "Enrichissez Piwik en %1$sinstallant des composants depuis le marché%2$s ou %3$sen téléversant un composant au format .zip%4$s.",
         "TeaserExtendPiwikByTheme": "Profitez d'une nouvelle charte graphique en %1$sinstallant un nouveau thème%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Vous pouvez installer automatiquement un plugin à partir du Marketplace ou %1$supload a plugin%2$s au format .zip.",
         "Theme": "Thème",
@@ -60,7 +63,7 @@
         "UninstallConfirm": "Vous êtes sur le point de désinstaller le composant %s. Ce composant sera supprimé de manière définitive de votre plateforme et cette action est irréversible. Etes vous sûr(e) de vouloir effectuer cela?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Voir tous les plugins du marché",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Nous avons désactiver le composant %s car certaines dépendances lui manquent :",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Le composant %1$s n'a pas pu être chargé car il a des dépendances manquantes: %2$s",
         "Websites": "Sites web"
     }
 }

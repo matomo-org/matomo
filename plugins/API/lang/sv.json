@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Om du vill ändra denna token gå till din %1$spersonliga inställningssida%2$s.",
         "GenerateVisits": "Om du inte har data för idag så kan du först skapa några data med hjälp av %1$s plugin. Du kan aktivera %2$s plugin, klicka sedan på 'Besöksgeneratorn'-menyn i Piwik administrationsområdet.",
         "KeepTokenSecret": "Detta token_auth är lika hemligt som ditt användarnamn och lösenord, %1$s dela inte med dig av detta! %2$s!",
         "LoadedAPIs": "Laddade in %s API'er utan problem",

@@ -31,7 +31,7 @@
             var i, field, fields = ['displayFormat', 'emailMe', 'evolutionGraph', 'additionalEmails'];
             for (i in fields) {
                 field = fields[i];
-                if (report.parameters[field]) {
+                if (field in report.parameters) {
                     report[field] = report.parameters[field];
                 }
             }

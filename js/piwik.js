@@ -986,12 +986,12 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
-    setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
+    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, isSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie, enableCrossDomainLinking,
-    disableCrossDomainLinking, isCrossDomainLinkingEnabled,
+    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
+    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
@@ -1198,7 +1198,7 @@ if (typeof window.Piwik !== 'object') {
 
                 var isStaticPluginCall = isString(f) && f.indexOf('::') > 0;
                 if (isStaticPluginCall) {
-                    // a static method will not be called on a tracker and is not dependent on the existance of a
+                    // a static method will not be called on a tracker and is not dependent on the existence of a
                     // tracker etc
                     fParts = f.split('::');
                     context = fParts[0];
@@ -1588,6 +1588,15 @@ if (typeof window.Piwik !== 'object') {
             var regex = new RegExp(regexSearch);
             var results = regex.exec(url);
             return results ? decodeWrapper(results[1]) : '';
+        }
+
+        function trim(text)
+        {
+            if (text && String(text) === text) {
+                return text.replace(/^\s+|\s+$/g, '');
+            }
+
+            return text;
         }
 
         /*
@@ -2625,11 +2634,7 @@ if (typeof window.Piwik !== 'object') {
             },
             trim: function (text)
             {
-                if (text && String(text) === text) {
-                    return text.replace(/^\s+|\s+$/g, '');
-                }
-
-                return text;
+                return trim(text);
             },
             isOrWasNodeInViewport: function (node)
             {
@@ -3089,6 +3094,9 @@ if (typeof window.Piwik !== 'object') {
                 // VDI = visitor device identifier
                 configVisitorIdUrlParameter = 'pk_vid',
 
+                // Cross domain linking, the visitor ID is transmitted only in the 180 seconds following the click.
+                configVisitorIdUrlParameterTimeoutInSeconds = 180,
+
                 // First-party cookie domain
                 // User agent defaults to origin hostname
                 configCookieDomain,
@@ -3194,7 +3202,9 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
+
+                secureCookie = false;
 
             // Document title
             try {
@@ -3206,7 +3216,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain, secure) {
+            function setCookie(cookieName, value, msToExpire, path, domain) {
                 if (configCookiesDisabled) {
                     return;
                 }
@@ -3223,7 +3233,21 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (secure ? ';secure' : '');
+                    (secureCookie ? ';secure' : '');
+            }
+
+            /*
+             * Set cookie secure flag
+             */
+            function setSecureCookie(value) {
+                secureCookie = !!value;
+            }
+
+            /**
+             * Get secure cookie flag value
+             */
+            function isSecureCookie() {
+                return secureCookie;
             }
 
             /*
@@ -3799,11 +3823,13 @@ if (typeof window.Piwik !== 'object') {
                     // we only reuse visitorId when used on same device / browser
 
                     var currentTimestampInSeconds = getCurrentTimestampInSeconds();
-                    var timeoutInSeconds = 45;
 
+                    if (configVisitorIdUrlParameterTimeoutInSeconds <= 0) {
+                        return true;
+                    }
                     if (currentTimestampInSeconds >= timestampInUrl
-                        && currentTimestampInSeconds <= (timestampInUrl + timeoutInSeconds)) {
-                        // we only use visitorId if it was generated max 45 seconds ago
+                        && currentTimestampInSeconds <= (timestampInUrl + configVisitorIdUrlParameterTimeoutInSeconds)) {
+                        // we only use visitorId if it was generated max 180 seconds ago
                         return true;
                     }
                 }
@@ -4957,7 +4983,8 @@ if (typeof window.Piwik !== 'object') {
             function logEvent(category, action, name, value, customData, callback)
             {
                 // Category and Action are required parameters
-                if (String(category).length === 0 || String(action).length === 0) {
+                if (trim(String(category)).length === 0 || trim(String(action)).length === 0) {
+                    logConsoleError('Error while logging event: Parameters `category` and `action` must not be empty or filled with whitespaces');
                     return false;
                 }
                 var request = getRequest(
@@ -5323,7 +5350,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
 
-            function enableTrackOnlyVisibleContent (checkOnSroll, timeIntervalInMs, tracker) {
+            function enableTrackOnlyVisibleContent (checkOnScroll, timeIntervalInMs, tracker) {
 
                 if (isTrackOnlyVisibleContentEnabled) {
                     // already enabled, do not register intervals again
@@ -5366,7 +5393,7 @@ if (typeof window.Piwik !== 'object') {
                         }, intervalInMs);
                     }
 
-                    if (checkOnSroll) {
+                    if (checkOnScroll) {
 
                         // scroll event is executed after each pixel, so we make sure not to
                         // execute event too often. otherwise FPS goes down a lot!
@@ -6110,6 +6137,15 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * By default, the two visits across domains will be linked together
+             * when the link is click and the page is loaded within 180 seconds.
+             * @param timeout in seconds
+             */
+            this.setCrossDomainLinkingTimeout = function (timeout) {
+                configVisitorIdUrlParameterTimeoutInSeconds = timeout;
+            };
+
+            /**
              * Set array of classes to be ignored if present in link
              *
              * @param string|array ignoreClasses
@@ -6701,20 +6737,20 @@ if (typeof window.Piwik !== 'object') {
              *                                     In case your frames per second goes down you might want to increase
              *                                     this value or disable it by passing the value `0`.
              */
-            this.trackVisibleContentImpressions = function (checkOnSroll, timeIntervalInMs) {
+            this.trackVisibleContentImpressions = function (checkOnScroll, timeIntervalInMs) {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
 
-                if (!isDefined(checkOnSroll)) {
-                    checkOnSroll = true;
+                if (!isDefined(checkOnScroll)) {
+                    checkOnScroll = true;
                 }
 
                 if (!isDefined(timeIntervalInMs)) {
                     timeIntervalInMs = 750;
                 }
 
-                enableTrackOnlyVisibleContent(checkOnSroll, timeIntervalInMs, this);
+                enableTrackOnlyVisibleContent(checkOnScroll, timeIntervalInMs, this);
 
                 trackCallback(function () {
                     trackCallbackOnLoad(function () {
@@ -6739,6 +6775,10 @@ if (typeof window.Piwik !== 'object') {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
+
+                contentName = trim(contentName);
+                contentPiece = trim(contentPiece);
+                contentTarget = trim(contentTarget);
 
                 if (!contentName) {
                     return;
@@ -6800,6 +6840,11 @@ if (typeof window.Piwik !== 'object') {
                 if (isOverlaySession(configTrackerSiteId)) {
                     return;
                 }
+
+                contentInteraction = trim(contentInteraction);
+                contentName = trim(contentName);
+                contentPiece = trim(contentPiece);
+                contentTarget = trim(contentTarget);
 
                 if (!contentInteraction || !contentName) {
                     return;
@@ -7048,7 +7093,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'setSecureCookie'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
@@ -7262,7 +7307,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (!siteId && !piwikUrl) {
-                    // for BC and by default we just return the initally created tracker
+                    // for BC and by default we just return the initially created tracker
                     return firstTracker;
                 }
 

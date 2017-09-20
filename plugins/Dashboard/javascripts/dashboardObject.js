@@ -353,7 +353,7 @@
 
         var $dashboardElement = $(' > .col', dashboardElement);
 
-        if (!$dashboardElement.size()) {
+        if (!$dashboardElement.length) {
             return;
         }
 
@@ -605,7 +605,7 @@
         $(layoutColumnSelector).each(function () {
             columns[columnNumber] = [];
             var items = $('[widgetId]', this);
-            for (var j = 0; j < items.size(); j++) {
+            for (var j = 0; j < items.length; j++) {
                 columns[columnNumber][j] = $(items[j]).dashboardWidget('getWidgetObject');
 
                 // Do not store segment in the dashboard layout

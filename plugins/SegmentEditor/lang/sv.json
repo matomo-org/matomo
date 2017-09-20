@@ -11,6 +11,7 @@
         "DataAvailableAtLaterDate": "Dina segmenterade analysrapporter kommer att finnas tillgänglig senare. Vi ber om ursäkt för besväret.",
         "DefaultAllVisits": "Alla besök",
         "DragDropCondition": "Dra & Droppa villkor",
+        "HideMessageInFuture": "Dölj detta meddelande i framtiden",
         "LoadingSegmentedDataMayTakeSomeTime": "Att processa data för segmenterade besökare kan ta några minuter...",
         "OperatorAND": "OCH",
         "OperatorOR": "ELLER",

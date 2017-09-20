@@ -178,17 +178,34 @@ class Date
     }
 
     /**
-     * Returns the start of the day of the current timestamp in UTC. For example,
-     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
-     * be `'2007-07-24'`.
-     *
      * @return string
+     * @deprecated
      */
     public function getDateStartUTC()
     {
+        return $this->getStartOfDay()->toString(self::DATE_TIME_FORMAT);
+    }
+
+    /**
+     * Returns the start of the day of the current timestamp in UTC. For example,
+     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
+     * be `'2007-07-24'` as a Date.
+     *
+     * @return Date
+     */
+    public function getStartOfDay()
+    {
         $dateStartUTC = gmdate('Y-m-d', $this->timestamp);
-        $date = Date::factory($dateStartUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateStartUTC)->setTimezone($this->timezone);
+    }
+
+    /**
+     * @return string
+     * @deprecated
+     */
+    public function getDateEndUTC()
+    {
+        return $this->getEndOfDay()->toString(self::DATE_TIME_FORMAT);
     }
 
     /**
@@ -196,13 +213,12 @@ class Date
      * if the current timestamp is `'2007-07-24 14:03:24'` in UTC, the result will
      * be `'2007-07-24 23:59:59'`.
      *
-     * @return string
+     * @return Date
      */
-    public function getDateEndUTC()
+    public function getEndOfDay()
     {
         $dateEndUTC = gmdate('Y-m-d 23:59:59', $this->timestamp);
-        $date = Date::factory($dateEndUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateEndUTC)->setTimezone($this->timezone);
     }
 
     /**
@@ -725,6 +741,14 @@ class Date
                 return $this->toString('h');
             case "h":
                 return $this->toString('g');
+            case "KK": // 00 .. 11
+                return str_pad($this->toString('g') - 1, 2, '0');
+            case "K": // 0 .. 11
+                return $this->toString('g') - 1;
+            case "kk": // 01 .. 24
+                return str_pad($this->toString('G') + 1, 2, '0');
+            case "k": // 1 .. 24
+                return $this->toString('G') + 1;
             // minute
             case "mm":
             case "m":
@@ -755,7 +779,7 @@ class Date
     }
 
     protected static $tokens = array(
-        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'z', 'Z', 'v',
+        'G', 'y', 'M', 'L', 'd', 'h', 'H', 'k', 'K', 'm', 's', 'E', 'c', 'e', 'D', 'F', 'w', 'W', 'a', 'z', 'Z', 'v',
     );
 
     /**

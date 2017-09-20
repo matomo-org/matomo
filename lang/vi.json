@@ -51,7 +51,6 @@
         "ColumnDestinationPage": "Trang đích",
         "ColumnEntrances": "Số lối vào",
         "ColumnEntrancesDocumentation": "Số lần truy cập đã bắt đầu trên trang này.",
-        "ColumnExitRate": "Tỷ lệ thoát",
         "ColumnExitRateDocumentation": "Tỷ lệ truy cập đã rời khỏi trang web sau khi xem trang này.",
         "ColumnExits": "Số lần thoát ra",
         "ColumnExitsDocumentation": "Số lần truy cập đã kết thúc trên trang này.",

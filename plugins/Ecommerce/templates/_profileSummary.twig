@@ -1,0 +1,14 @@
+<div class="visitor-profile-summary visitor-profile-lifetimevalue">
+    <h1>{{ 'Goals_Ecommerce'|translate }}</h1>
+    <div>
+        <p title="{{ 'Ecommerce_LifeTimeValueDescription'|translate(visitorData.visitorId) }}">
+            {{ 'Ecommerce_VisitorProfileLTV'|translate( "<strong>" ~ visitorData.totalEcommerceRevenue|money(idSite) ~ "</strong>")|raw }}
+            {{ 'Ecommerce_VisitorProfileItemsAndOrders'|translate("<strong>" ~ visitorData.totalEcommerceItems ~ "</strong>", "<strong>" ~ visitorData.totalEcommerceConversions ~ "</strong>")|raw }}
+        </p>
+        <p>
+            {%- if visitorData.totalAbandonedCarts|default(0) > 0 %}
+                {{ 'Ecommerce_VisitorProfileAbandonedCartSummary'|translate('<strong>' ~ visitorData.totalAbandonedCarts ~ '</strong>', '<strong>' ~ visitorData.totalAbandonedCartsItems ~ '</strong>', '<strong>' ~ visitorData.totalAbandonedCartsRevenue|money(idSite) ~ '</strong>')|raw }}
+            {%- endif -%}
+        </p>
+    </div>
+</div>

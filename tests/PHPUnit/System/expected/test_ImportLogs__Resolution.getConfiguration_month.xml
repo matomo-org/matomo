@@ -23,7 +23,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>GNU/Linux / Epiphany / unknown</label>
+		<label>GNU/Linux / GNOME Web / unknown</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>

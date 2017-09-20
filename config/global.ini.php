@@ -276,6 +276,20 @@ default_period = day
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 150
 
+; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
+; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
+; is set. In this case it will default to "time_before_today_archive_considered_outdated";
+time_before_week_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to monthly archives
+time_before_month_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to yearly archives
+time_before_year_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
+time_before_range_archive_considered_outdated = -1
+
 ; This setting is overriden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Piwik archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
@@ -544,6 +558,9 @@ enable_plugins_admin = 1
 ; an attacker who gained Super User access could execute custom PHP code in a Piwik plugin.
 enable_plugin_upload = 0
 
+; By setting this option to 0 (e.g. in common.config.ini.php) the installer will be disabled.
+enable_installer = 1
+
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
@@ -557,12 +574,18 @@ enable_delete_old_data_settings_admin = 1
 ; - "Email server settings"
 enable_general_settings_admin = 1
 
+; Disabling this will disable features like automatic updates for Piwik,
+; its plugins and components like the GeoIP database, referrer spam blacklist or search engines and social network definitions
+enable_internet_features = 1
+
 ; By setting this option to 0, it will disable the "Auto update" feature
 enable_auto_update = 1
 
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
+
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Piwik is not installed yet)
 always_load_commands_from_plugin=

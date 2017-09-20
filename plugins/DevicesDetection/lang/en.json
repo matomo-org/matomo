@@ -38,6 +38,7 @@
         "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
+        "XVisitsFromDevices": "%1$s visits from %2$s devices",
         "WidgetBrowsers": "Visitor Browser",
         "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately."
     }

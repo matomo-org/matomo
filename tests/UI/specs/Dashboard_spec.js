@@ -133,8 +133,8 @@ describe("Dashboard", function () {
     });
 
     it("should open row evolution", function (done) {
-        expect.screenshot("rowevolution").to.be.capture(function (page) {
-            page.mouseMove('#widgetActionsgetPageUrls table.dataTable tbody tr:contains(thankyou)');
+        expect.screenshot("rowevolution").to.be.captureSelector('.ui-dialog:visible', function (page) {
+            page.mouseMove('#widgetActionsgetPageUrls table.dataTable tbody tr:contains(thankyou) td:first-child', 100);
             page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
             page.click('a.actionRowEvolution:visible', 2000);
         }, done);
@@ -197,6 +197,11 @@ describe("Dashboard", function () {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=resetDashboard]');
             page.click('.modal.open .modal-footer a:contains(Yes)', 4000);
+            page.evaluate(function(){
+                $('#widgetReferrersgetReferrerType').hide();
+                $('#widgetReferrersgetReferrerType').offsetHeight;
+                $('#widgetReferrersgetReferrerType').show();
+            }, 100);
             page.mouseMove('.dashboard-manager');
         }, done);
     });

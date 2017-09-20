@@ -98,7 +98,6 @@
         "SystemCheckOtherExtensions": "Інші розширення",
         "SystemCheckOtherFunctions": "Інші функції",
         "SystemCheckPageSpeedDisabled": "PageSpeed вимкнено",
-        "SystemCheckPageSpeedWarn": "Ми рекомендуємо відключити модуль PageSpeed ​​на вашому веб-сервері %s: PageSpeed повідомляє про проблеми з Piwik.",
         "SystemCheckPackHelp": "Функція pack() необхідна для відстеження відвідувачів в Piwik.",
         "SystemCheckParseIniFileHelp": "Ця вбудована функція було заблокована на вашому хостингу. Piwik спробує емулювати цю функцію але може зістикнутися з подальшими обмеженнями по безпеці. Також це вплине на загальну швидкість роботи системи.",
         "SystemCheckPdoAndMysqliHelp": "На Linux-сервері ви можете cкомпілювати PHP з наступними опціями: %1$s В php.ini, додати наступні рядки: %2$s",

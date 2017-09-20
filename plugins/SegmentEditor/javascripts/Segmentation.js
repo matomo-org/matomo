@@ -1012,7 +1012,6 @@ Segmentation = (function($) {
             }
             // remove any remaining forms
 
-
             self.form = getFormHtml();
             self.target.prepend(self.form);
 
@@ -1028,8 +1027,11 @@ Segmentation = (function($) {
 
             placeSegmentationFormControls();
 
+            // needs to be done before jQuery selects are built, as angular compiler screws up the selected values
+            piwikHelper.compileAngularComponents(self.target);
+
             if(mode == "edit") {
-                var userSelector = $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);
+                $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);
 
                 // Replace "Visible to me" by "Visible to $login" when user is super user
                 if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
@@ -1056,8 +1058,6 @@ Segmentation = (function($) {
             $(".segmentListContainer", self.target).hide();
 
             self.target.closest('.segmentEditorPanel').addClass('editing');
-
-            piwikHelper.compileAngularComponents(self.target);
         };
 
         var closeForm = function () {
@@ -1314,7 +1314,7 @@ $(document).ready(function() {
 
         this.forceSegmentReload = function (segmentDefinition) {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
-            return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
+            return broadcast.propagateNewPage('', true, 'segment=' + segmentDefinition);
         };
 
         this.changeSegmentList = function () {};

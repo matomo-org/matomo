@@ -123,7 +123,7 @@ class ErrorHandler
         $message = ErrorHandler::getErrNoString($errno) . ' - ' . $errstr;
 
         $html = "<p>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
-        and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search firit might have been reported already!).</p>";
+        and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a search first as it might have been reported already!).</p>";
         $html .= "<p><strong>{$message}</strong> in <em>{$errfile}</em>";
         $html .= " on line {$errline}</p>";
         $html .= "Backtrace:<pre>";

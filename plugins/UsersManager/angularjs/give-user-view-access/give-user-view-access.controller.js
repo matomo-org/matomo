@@ -133,7 +133,15 @@
             if (idSites === 'all') {
                 setViewAccessForUserToAllWebsitesIfUserConfirms(userLogin);
             } else {
-                setViewAccessForUserIfNotAlreadyHasAccess(userLogin, idSites);
+                function onValidate() {
+                    setViewAccessForUserIfNotAlreadyHasAccess(userLogin, idSites);
+                }
+
+                if (userLogin == 'anonymous') {
+                    piwikHelper.modalConfirm('#confirmAnonymousAccess', {yes: onValidate, no: hideLoading})
+                } else {
+                    onValidate();
+                }
             }
         }
 

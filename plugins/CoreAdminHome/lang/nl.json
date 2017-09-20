@@ -44,6 +44,7 @@
         "JSTracking_TrackNoScript": "Volg gebruikers via JavaScript is uitgeschakeld",
         "JSTracking_VisitorCustomVars": "Hou custom variabelen bij voor deze bezoeker",
         "JSTracking_VisitorCustomVarsDesc": "Bijvoorbeeld met variabele naam \"Type\" en waarde \"Klant\"",
+        "JSTracking_EndNote": "Opmerking: Na het installatie proces, kun je custom tracking code genereren in het %1$sTracking Code%2$s admin gedeelte.",
         "JSTrackingIntro1": "Je kunt bezoekers volgen op verschillende manieren. De aanbevolen manier is via JavaScript. Om van deze methode gebruik te maken, moet elke pagina van je website de JavaScript code bevatten, die je hier kan genereren.",
         "JSTrackingIntro2": "Wanneer je de JavaScript code voor je website hebt, kopieer en plak de code naar alle pagina's die je wilt volgen met Piwik",
         "JSTrackingIntro3b": "In de meeste websites, blogs, CMS-en, etc kan je een plugin gebruiken die de technische integratie van Piwik uit handen nemen. (Zie daarvoor onze %1$slijst van plugins om Piwik te integreren%2$s.) In sommige gevallen bestaat er (nog) geen plugin. De Piwik code kan dan door het bewerken van je website template in de &lt;\/head&gt; tag, welke vaak in de 'header.php', 'header.tpl'of een soortgelijke bestandsnaam staat, toegevoegd worden.",

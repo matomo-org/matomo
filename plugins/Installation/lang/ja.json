@@ -99,7 +99,6 @@
         "SystemCheckOtherExtensions": "その他のエクステンション",
         "SystemCheckOtherFunctions": "その他の関数",
         "SystemCheckPageSpeedDisabled": "無効なページスピード",
-        "SystemCheckPageSpeedWarn": "Web サーバー %s Piwik でいくつかの問題を引き起こすこと報告された PageSpeed の PageSpeed モジュールを無効にするをお勧めします。",
         "SystemCheckPackHelp": "pack()ファンクションはPiwikでビジターをトラックするのに必要です。",
         "SystemCheckParseIniFileHelp": "この組み込み関数はホストで無効化されています。 Piwik はこの関数のエミュレートを試みますが、さらなるセキュリティ制限に遭遇する場合があります。 また、トラッカーのパフォーマンスにも影響を与えます。",
         "SystemCheckPdoAndMysqliHelp": "Linux サーバーでは、次のオプションで PHP をコンパイルします：%1$sphp.ini に次の行を追加します：%2$s",

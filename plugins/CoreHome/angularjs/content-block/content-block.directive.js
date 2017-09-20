@@ -38,7 +38,7 @@
 
                 return function (scope, element, attrs) {
                     var inlineHelp = element.find('[ng-transclude] > .contentHelp');
-                    if (inlineHelp.size()) {
+                    if (inlineHelp.length) {
                         scope.helpText = inlineHelp.html();
                         inlineHelp.remove();
                     }
@@ -54,14 +54,14 @@
 
                     var contentTopPosition = false;
 
-                    if (adminContent.size()) {
+                    if (adminContent.length) {
                         contentTopPosition = adminContent.offset().top;
                     }
 
                     if (contentTopPosition || contentTopPosition === 0) {
                         var parents = element.parentsUntil('.col', '[piwik-widget-loader]');
                         var topThis;
-                        if (parents.size()) {
+                        if (parents.length) {
                             // when shown within the widget loader, we need to get the offset of that element
                             // as the widget loader might be still shown. Would otherwise not position correctly
                             // the widgets on the admin home page

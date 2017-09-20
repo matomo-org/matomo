@@ -1,6 +1,6 @@
 {
     "Installation": {
-        "CollaborativeProject": "Piwik is een samenwerkingsproject, met liefde gebouwd door mensen van over de hele wereld.",
+        "CollaborativeProject": "Piwik is een samenwerkingsproject, met liefde gebouwd door mensen van over de hele were",
         "ConfigurationHelp": "Uw Piwik configuratie bestand is waarschijnlijk niet correct geconfigureerd. U kunt ofwel config\/config.ini.php verwijderen en de installatie vervolgen of de toegangsgegevens voor de database corrigeren.",
         "ConfirmDeleteExistingTables": "Bent u zeker dat u de tabellen wilt verwijderen: %s uit uw datbase? WAARSCHUWING: DATA VAN DEZE TABELLEN KAN NIET WORDEN HERSTELD!",
         "Congratulations": "Gefeliciteerd",
@@ -12,7 +12,7 @@
         "DatabaseSetup": "Database instellen",
         "DatabaseSetupAdapter": "Adapter",
         "DatabaseSetupDatabaseName": "Naam database",
-        "DatabaseSetupLogin": "Inlog",
+        "DatabaseSetupLogin": "Login",
         "DatabaseSetupServer": "Server database",
         "DatabaseSetupTablePrefix": "Voorvoegsel tabel",
         "Email": "Email",
@@ -84,6 +84,7 @@
         "SystemCheckGlobHelp": "Deze ingebouwde functie is uitgeschakeld door uw webhoster. Piwik zal proberen deze functie te emuleren, maar kan tegen andere veiligheids restricties oplopen. Functionaliteit kan worden ingeperkt.",
         "SystemCheckGzcompressHelp": "U moet de zlib-extensie en gzcompress-functie inschakelen.",
         "SystemCheckGzuncompressHelp": "U moet de zlib-extensie en gzuncompress-functie inschakelen.",
+        "SystemCheckHashHelp": "Je dient PHP opnieuw te configureren en compileren met hash() support, door de optie --disable-hash weg te laten.",
         "SystemCheckIconvHelp": "U moet PHP configureren met iconv support ingeschakeld --with-iconv.",
         "SystemCheckJsonHelp": "De php5-json-extensie is vereist voor Piwik om JSON-gegevens te lezen en te schrijven.",
         "SystemCheckMailHelp": "Feedback en vergeten wachtwoord berichten zullen niet worden verzonden zonder mail()",
@@ -98,7 +99,7 @@
         "SystemCheckOtherExtensions": "Andere extensies",
         "SystemCheckOtherFunctions": "Andere functies",
         "SystemCheckPageSpeedDisabled": "PageSpeed uitgeschakeld",
-        "SystemCheckPageSpeedWarn": "We raden aan om de PageSpeed module op je webserver uit te schakelen %s: We ontvingen meldingen erdoor over verschillende problemen met Piwik.",
+        "SystemCheckPageSpeedWarning": "Wij raden aan om de PageSpeed Module van uw web server uit te schakelen %s: PageSpeed veroorzaakt meerdere problemen met Piwik, zoals: problemen met Pages reports, Row Evolution, en andere problemen die moeilijk te adresseren zijn. Schakel daarom mod_pagespeed uit op deze server.",
         "SystemCheckPackHelp": "De pack()-functie is vereist om bezoekers te volgen in Piwik.",
         "SystemCheckParseIniFileHelp": "Deze ingebouwde functie is uitgeschakeld op uw host. Piwik zal proberen deze functie te emuleren maar dit kan andere veiligheidsbeperkingen oplopen. De Tracker prestaties zullen ook veranderen.",
         "SystemCheckPdoAndMysqliHelp": "Op een Linux server kunt u php compileren met de volgende opties: %1$s in uw php.ini, voeg de volgende regels toe: %2$s",

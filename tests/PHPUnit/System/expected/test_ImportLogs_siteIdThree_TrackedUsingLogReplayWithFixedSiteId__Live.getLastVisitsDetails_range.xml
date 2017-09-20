@@ -12,23 +12,32 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>69</pageId>
+				<bandwidth>43</bandwidth>
+				<generationTimeMilliseconds>292</generationTimeMilliseconds>
+				<generationTime>0.29s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>292</generationTimeMilliseconds>
-				<generationTime>0.29s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -39,7 +48,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>77</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -75,6 +83,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -97,11 +111,11 @@
 			</row>
 		</customVariables>
 		<resolution>1366x768</resolution>
-		<plugins>pdf, flash, java</plugins>
+		<plugins>cookie, flash, java, pdf</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -111,18 +125,11 @@
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -136,18 +143,21 @@
 				<pageTitle>Changelog Archive - Analytics - Piwik</pageTitle>
 				<pageIdAction>44</pageIdAction>
 				
+				
 				<pageId>60</pageId>
+				<bandwidth>43</bandwidth>
+				<timeSpent>79</timeSpent>
+				<timeSpentPretty>1 min 19s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<timeSpent>79</timeSpent>
-				<timeSpentPretty>1 min 19s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -155,21 +165,30 @@
 				<pageTitle>Contact the Piwik team - Analytics - Piwik</pageTitle>
 				<pageIdAction>55</pageIdAction>
 				
+				
 				<pageId>68</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition>2</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -180,7 +199,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>2</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>181</daysSinceFirstVisit>
@@ -216,6 +234,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -240,17 +264,6 @@
 		<resolution>1536x864</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -264,23 +277,32 @@
 				<pageTitle>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</pageTitle>
 				<pageIdAction>53</pageIdAction>
 				
+				
 				<pageId>67</pageId>
+				<bandwidth>43</bandwidth>
+				<generationTimeMilliseconds>413</generationTimeMilliseconds>
+				<generationTime>0.41s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>413</generationTimeMilliseconds>
-				<generationTime>0.41s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -291,7 +313,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -327,6 +348,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -353,11 +380,11 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1200</resolution>
-		<plugins>pdf, flash, java, quicktime, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -368,6 +395,10 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
@@ -376,17 +407,6 @@
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -400,18 +420,21 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>64</pageId>
+				<bandwidth>43</bandwidth>
+				<timeSpent>32</timeSpent>
+				<timeSpentPretty>32s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<timeSpent>32</timeSpent>
-				<timeSpentPretty>32s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -419,21 +442,30 @@
 				<pageTitle>What is Piwik? - Analytics - Piwik</pageTitle>
 				<pageIdAction>51</pageIdAction>
 				
+				
 				<pageId>66</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>501</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition>2</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -444,7 +476,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>7</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>17</daysSinceFirstVisit>
@@ -459,7 +490,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
+		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCcQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=8vwgU8TYDZTI2wWTi4CQCA&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.b2I</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode />
@@ -480,6 +511,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -502,11 +539,11 @@
 			</row>
 		</customVariables>
 		<resolution>2880x1800</resolution>
-		<plugins>pdf, flash, java, quicktime</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -517,21 +554,14 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -545,21 +575,30 @@
 				<pageTitle />
 				<pageIdAction>49</pageIdAction>
 				
+				
 				<pageId>65</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition />
+				<icon>plugins/Morpheus/images/link.png</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/link.png</icon>
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -570,7 +609,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -606,6 +644,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -628,11 +672,11 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
-		<plugins>pdf, flash, java, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -643,21 +687,14 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -671,23 +708,32 @@
 				<pageTitle>Integrate Piwik into your Rails Application - Analytics - Piwik</pageTitle>
 				<pageIdAction>48</pageIdAction>
 				
+				
 				<pageId>63</pageId>
+				<bandwidth>43</bandwidth>
+				<generationTimeMilliseconds>391</generationTimeMilliseconds>
+				<generationTime>0.39s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>391</generationTimeMilliseconds>
-				<generationTime>0.39s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -698,7 +744,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -713,7 +758,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition />
-		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
+		<referrerUrl>https://www.google.com/</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode />
@@ -734,6 +779,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
@@ -756,11 +807,11 @@
 			</row>
 		</customVariables>
 		<resolution>1360x768</resolution>
-		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -771,29 +822,22 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
-				<pluginName>quicktime</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
+				<pluginName>quicktime</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
+			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -807,21 +851,30 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
 				
+				
 				<pageId>62</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>404</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -832,7 +885,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>4</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>3</daysSinceFirstVisit>
@@ -847,7 +899,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>2</referrerKeywordPosition>
-		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
+		<referrerUrl>https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;ved=0CDAQFjAB&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F&amp;ei=rogdU5OuK43pkgXZmYGICA&amp;usg=AFQjCNH4nR8bKYaliCj2egiJ0H_CX4sFJg&amp;bvm=bv.62578216,d.dGI</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode />
@@ -868,6 +920,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
@@ -890,32 +948,25 @@
 			</row>
 		</customVariables>
 		<resolution>2560x1440</resolution>
-		<plugins>pdf, java, quicktime</plugins>
+		<plugins>cookie, java, pdf, quicktime</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
 				<pluginName>quicktime</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -929,23 +980,32 @@
 				<pageTitle>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</pageTitle>
 				<pageIdAction>46</pageIdAction>
 				
+				
 				<pageId>61</pageId>
+				<bandwidth>43</bandwidth>
+				<generationTimeMilliseconds>119</generationTimeMilliseconds>
+				<generationTime>0.12s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>119</generationTimeMilliseconds>
-				<generationTime>0.12s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -956,7 +1016,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>2</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -987,11 +1046,17 @@
 		<operatingSystemVersion />
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 27.0</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
-		<browserCode>FF</browserCode>
+		<browser>Firefox Mobile 27.0</browser>
+		<browserName>Firefox Mobile</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FM.png</browserIcon>
+		<browserCode>FM</browserCode>
 		<browserVersion>27.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1014,24 +1079,17 @@
 			</row>
 		</customVariables>
 		<resolution>360x640</resolution>
-		<plugins>flash</plugins>
+		<plugins>cookie, flash</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1045,23 +1103,32 @@
 				<pageTitle>Log Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>42</pageIdAction>
 				
+				
 				<pageId>59</pageId>
+				<bandwidth>43</bandwidth>
+				<generationTimeMilliseconds>145</generationTimeMilliseconds>
+				<generationTime>0.15s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>145</generationTimeMilliseconds>
-				<generationTime>0.15s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1072,7 +1139,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>1</daysSinceFirstVisit>
@@ -1108,6 +1174,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1130,11 +1202,11 @@
 			</row>
 		</customVariables>
 		<resolution>2560x1440</resolution>
-		<plugins>pdf, flash, java, quicktime, windowsmedia, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, quicktime, silverlight, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -1145,29 +1217,22 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
-				<pluginName>quicktime</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/quicktime.png</pluginIcon>
+				<pluginName>quicktime</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
+			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1181,20 +1246,23 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>55</pageId>
+				<bandwidth>43</bandwidth>
+				<timeSpent>2</timeSpent>
+				<timeSpentPretty>2s</timeSpentPretty>
+				<generationTimeMilliseconds>182</generationTimeMilliseconds>
+				<generationTime>0.18s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>403</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>182</generationTimeMilliseconds>
-				<generationTime>0.18s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<timeSpent>2</timeSpent>
-				<timeSpentPretty>2s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -1202,20 +1270,23 @@
 				<pageTitle>Download - Analytics - Piwik</pageTitle>
 				<pageIdAction>39</pageIdAction>
 				
+				
 				<pageId>57</pageId>
+				<bandwidth>43</bandwidth>
+				<timeSpent>7</timeSpent>
+				<timeSpentPretty>7s</timeSpentPretty>
+				<generationTimeMilliseconds>113</generationTimeMilliseconds>
+				<generationTime>0.11s</generationTime>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>500</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>113</generationTimeMilliseconds>
-				<generationTime>0.11s</generationTime>
-				<interactionPosition>2</interactionPosition>
-				<timeSpent>7</timeSpent>
-				<timeSpentPretty>7s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>download</type>
@@ -1223,21 +1294,30 @@
 				<pageTitle />
 				<pageIdAction>40</pageIdAction>
 				
+				
 				<pageId>58</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition />
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/download.png</icon>
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1248,7 +1328,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1263,7 +1342,7 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Keyword not defined</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
+		<referrerUrl>http://www.google.ru/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCoQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=ffwgU57VGuf44QT3-oCQCw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.bGE&amp;cad=rjt</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode />
@@ -1284,6 +1363,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>27.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1306,8 +1391,12 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -1317,17 +1406,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1341,23 +1419,32 @@
 				<pageTitle>Hello Installing Piwik - Analytics - Piwik</pageTitle>
 				<pageIdAction>37</pageIdAction>
 				
+				
 				<pageId>56</pageId>
+				<bandwidth>43</bandwidth>
+				<generationTimeMilliseconds>134</generationTimeMilliseconds>
+				<generationTime>0.13s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>134</generationTimeMilliseconds>
-				<generationTime>0.13s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1368,7 +1455,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>30</daysSinceFirstVisit>
@@ -1404,6 +1490,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1426,11 +1518,11 @@
 			</row>
 		</customVariables>
 		<resolution>1366x768</resolution>
-		<plugins>pdf, flash, java, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -1441,21 +1533,14 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1469,23 +1554,32 @@
 				<pageTitle>Liberate Web Analytics - Analytics - Piwik</pageTitle>
 				<pageIdAction>35</pageIdAction>
 				
+				
 				<pageId>54</pageId>
+				<bandwidth>43</bandwidth>
+				<generationTimeMilliseconds>58</generationTimeMilliseconds>
+				<generationTime>0.06s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTimeMilliseconds>58</generationTimeMilliseconds>
-				<generationTime>0.06s</generationTime>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1496,7 +1590,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1532,6 +1625,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>33.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -1554,11 +1653,11 @@
 			</row>
 		</customVariables>
 		<resolution>1920x1080</resolution>
-		<plugins>pdf, flash, java, silverlight</plugins>
+		<plugins>cookie, flash, java, pdf, silverlight</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
@@ -1569,21 +1668,14 @@
 				<pluginName>java</pluginName>
 			</row>
 			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/silverlight.png</pluginIcon>
 				<pluginName>silverlight</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1597,7 +1689,12 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>50</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -1612,14 +1709,18 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1630,7 +1731,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1666,6 +1766,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -1688,8 +1794,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -1699,17 +1809,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1723,21 +1822,30 @@
 				<pageTitle>Piwik Forums</pageTitle>
 				<pageIdAction>31</pageIdAction>
 				
+				
 				<pageId>51</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1748,7 +1856,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>444</daysSinceFirstVisit>
@@ -1784,6 +1891,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>11.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -1806,44 +1919,37 @@
 			</row>
 		</customVariables>
 		<resolution>1280x800</resolution>
-		<plugins>pdf, flash, java, director, windowsmedia, gears</plugins>
+		<plugins>cookie, director, flash, gears, java, pdf, windowsmedia</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
-				<pluginName>pdf</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-				<pluginName>java</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
-				<pluginName>windowsmedia</pluginName>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
 			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/gears.png</pluginIcon>
 				<pluginName>gears</pluginName>
 			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
+			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>3</idSite>
@@ -1857,18 +1963,21 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>33</pageId>
+				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -1876,7 +1985,14 @@
 				<pageTitle>Another Product page with no category</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>52</pageId>
+				<bandwidth>43</bandwidth>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -1887,11 +2003,7 @@
 						<customVariablePageValue4>PRODUCT name</customVariablePageValue4>
 					</row>
 				</customVariables>
-				<interactionPosition>2</interactionPosition>
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -1899,21 +2011,30 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>53</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>3</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1924,7 +2045,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1960,6 +2080,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/SF.png</browserIcon>
 		<browserCode>SF</browserCode>
 		<browserVersion>5.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -1982,8 +2108,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -1993,16 +2123,5 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 </result>

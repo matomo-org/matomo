@@ -229,6 +229,33 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getMethodsToTest
      */
+    public function testHttpCustomHeaders($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/AdditionalHeaders.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            array(),
+            array('CustomHeader: customdata')
+        );
+
+        $this->assertEquals('customdata', $result);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
     public function testHttpsWorksWithValidCertificate($method)
     {
         $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
@@ -262,7 +289,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSocketHttpsWorksWithValidCertificate()
     {
-        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net/', 10);
+        $result = Http::sendHttpRequestBy('socket', 'https://piwik.org/', 10);
         $this->assertNotEmpty($result);
     }
 }

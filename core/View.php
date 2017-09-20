@@ -212,10 +212,15 @@ class View implements ViewInterface
         return isset($this->templateVars[$name]);
     }
 
+    /** @var Twig */
+    static $twigCached = null;
+
     private function initializeTwig()
     {
-        $piwikTwig = new Twig();
-        $this->twig = $piwikTwig->getTwigEnvironment();
+        if (empty(static::$twigCached)) {
+            static::$twigCached = new Twig();
+        }
+        $this->twig = static::$twigCached->getTwigEnvironment();
     }
 
     /**

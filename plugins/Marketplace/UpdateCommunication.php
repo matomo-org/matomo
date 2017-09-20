@@ -55,9 +55,12 @@ class UpdateCommunication
      */
     public static function canBeEnabled()
     {
-        $isEnabled = Config::getInstance()->General['enable_update_communication'];
-
-        return Marketplace::isMarketplaceEnabled() && !empty($isEnabled);
+        $isEnabled = (bool) Config::getInstance()->General['enable_update_communication'];
+        if($isEnabled === true && Marketplace::isMarketplaceEnabled() === true && SettingsPiwik::isInternetEnabled() === true){
+            return true;
+        }
+        
+        return false;
     }
 
     /**

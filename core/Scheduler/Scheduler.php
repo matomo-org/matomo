@@ -9,6 +9,7 @@
 namespace Piwik\Scheduler;
 
 use Exception;
+use Piwik\Piwik;
 use Piwik\Timer;
 use Psr\Log\LoggerInterface;
 
@@ -120,6 +121,17 @@ class Scheduler
                     $this->logger->debug("Task {task} is scheduled to run again for {date}.", array('task' => $taskName, 'date' => $rescheduledDate));
                 }
 
+                /**
+                 * Triggered before a task is executed.
+                 *
+                 * A plugin can listen to it and modify whether a specific task should be executed or not. This way
+                 * you can force certain tasks to be executed more often or for example to be never executed.
+                 *
+                 * @param bool &$shouldExecuteTask Decides whether the task will be executed.
+                 * @param Task $task The task that is about to be executed.
+                 */
+                Piwik::postEvent('ScheduledTasks.shouldExecuteTask', array(&$shouldExecuteTask, $task));
+
                 if ($shouldExecuteTask) {
                     $message = $this->executeTask($task);
 
@@ -222,6 +234,13 @@ class Scheduler
 
         $timer = new Timer();
 
+        /**
+         * Triggered directly before a scheduled task is executed
+         *
+         * @param Task $task  The task that is about to be executed
+         */
+        Piwik::postEvent('ScheduledTasks.execute', array(&$task));
+
         try {
             $callable = array($task->getObjectInstance(), $task->getMethodName());
             call_user_func($callable, $task->getMethodParameter());
@@ -231,6 +250,16 @@ class Scheduler
         }
 
         $this->isRunningTask = false;
+
+        /**
+         * Triggered after a scheduled task is successfully executed.
+         *
+         * You can use the event to execute for example another task whenever a specific task is executed or to clean up
+         * certain resources.
+         *
+         * @param Task $task The task that was just executed
+         */
+        Piwik::postEvent('ScheduledTasks.execute.end', array(&$task));
 
         $this->logger->info("Scheduler: finished. {timeElapsed}", array(
             'timeElapsed' => $timer,

@@ -30,9 +30,13 @@ class UpdateCommunication
      */
     public function isEnabled()
     {
-        $isEnabled = Config::getInstance()->General['enable_update_communication'];
+        $isEnabled = (bool) Config::getInstance()->General['enable_update_communication'];
 
-        return !empty($isEnabled);
+        if($isEnabled === true && SettingsPiwik::isInternetEnabled() === true){
+            return true;
+        }
+        
+        return false;
     }
 
     /**

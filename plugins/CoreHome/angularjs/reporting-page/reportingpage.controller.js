@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReportingPageController', ReportingPageController);
 
-    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel'];
+    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel'];
 
-    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel) {
+    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel) {
         pageModel.resetPage();
         $scope.pageModel = pageModel;
 
@@ -53,6 +53,17 @@
             }
 
             pageModel.fetchPage(category, subcategory).then(function () {
+
+                if (!pageModel.page) {
+                    var page = pagesModel.findPageInCategory(category);
+                    if (page && page.subcategory) {
+                        var $search = $location.search();
+                        $search.subcategory = page.subcategory.id;
+                        $location.search($search);
+                        return;
+                    }
+                }
+
                 $scope.hasNoPage = !pageModel.page;
                 $scope.loading = false;
             });

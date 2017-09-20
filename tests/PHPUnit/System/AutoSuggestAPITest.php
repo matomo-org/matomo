@@ -54,7 +54,7 @@ class AutoSuggestAPITest extends SystemTestCase
             $apiForTesting[] = $this->getApiForTestingForSegment($idSite, $segment);
         }
 
-        if (self::isMysqli() || self::isTravisCI()) {
+        if (self::isMysqli()) {
             // Skip the test on Mysqli as it fails due to rounding Float errors on latitude/longitude
             // then the test started failing after bc19503 and I cannot understand why
             echo "Skipped test \n";
@@ -121,10 +121,6 @@ class AutoSuggestAPITest extends SystemTestCase
 
         $apiForTesting = array();
         foreach ($segments as $segment) {
-            if(self::isTravisCI() && $segment == 'deviceType') {
-                // test started failing after bc19503 and I cannot understand why
-                continue;
-            }
             $apiForTesting[] = array('VisitsSummary.get',
                                      array('idSite'            => self::$fixture->idSite,
                                            'date'              => date("Y-m-d", strtotime(self::$fixture->dateTime)) . ',today',
