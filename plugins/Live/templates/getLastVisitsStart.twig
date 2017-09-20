@@ -144,8 +144,8 @@
                                 {% elseif action.eventCategory|default(false) is not empty %}
                                     <img  class="iconPadding" src='{{ action.icon }}'
                                         title="{{ 'Events_Event'|translate }} {{ action.eventCategory }} - {{ action.eventAction }} {% if action.eventName is defined %}- {{ action.eventName }}{% endif %} {% if action.eventValue is defined %}- {{ action.eventValue }}{% endif %}"/>
-                                {% elseif action.type == 'goal' or action.type == constant('Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER') or
-                                          action.type == constant('Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART') %}
+                                {% elseif action.type == 'goal' or action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER') or
+                                          action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART') %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{{ action.goalName }} - {% if action.revenue > 0 %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }} - {% endif %} {{ action.serverTimePretty }}"/>
                                 {% endif %}
