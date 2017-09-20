@@ -213,7 +213,7 @@ class Http
                 throw new Exception('Invalid protocol/scheme: ' . $url['scheme']);
             }
             $host = $url['host'];
-            $port = isset($url['port']) ? $url['port'] : 80;
+            $port = isset($url['port']) ? $url['port'] : ('https' == $url['scheme'] ? 443 : 80);
             $path = isset($url['path']) ? $url['path'] : '/';
             if (isset($url['query'])) {
                 $path .= '?' . $url['query'];
@@ -241,6 +241,10 @@ class Http
                 $connectHost = $host;
                 $connectPort = $port;
                 $requestHeader = "$httpMethod $path HTTP/$httpVer\r\n";
+
+                if ('https' == $url['scheme']) {
+                    $connectHost = 'ssl://' . $connectHost;
+                }
             }
 
             // connection attempt
