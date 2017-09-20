@@ -262,7 +262,7 @@ class Http
 
             // send HTTP request header
             $requestHeader .=
-                "Host: $host" . ($port != 80 ? ':' . $port : '') . "\r\n"
+                "Host: $host" . ($port != 80 && ('https' == $url['scheme'] && $port != 443) ? ':' . $port : '') . "\r\n"
                 . ($httpAuth ? $httpAuth : '')
                 . ($proxyAuth ? $proxyAuth : '')
                 . 'User-Agent: ' . $userAgent . "\r\n"
