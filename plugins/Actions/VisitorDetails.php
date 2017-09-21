@@ -265,7 +265,14 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function finalizeProfile($visits, &$profile)
     {
         arsort($this->visitedPageUrls);
-        $profile['visitedPages'] = $this->visitedPageUrls;
+        $profile['visitedPages'] = [];
+
+        foreach ($this->visitedPageUrls as $visitedPageUrl => $count) {
+            $profile['visitedPages'][] = [
+                'url' => $visitedPageUrl,
+                'count' => $count
+            ];
+        }
 
         $this->handleSiteSearches($profile);
         $this->handleAveragePageGenerationTime($profile);
