@@ -22,9 +22,9 @@ define('FONT_3', 3);
 define('FONT_4', 4);
 define('FONT_5', 5);
 
-require_once dirname(__FILE__).'/Object.php';
+require_once dirname(__FILE__).'/SparklineObject.php';
 
-class Sparkline extends Object {
+class Sparkline extends SparklineObject {
 
   var $imageX;
   var $imageY;
