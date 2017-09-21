@@ -2342,10 +2342,22 @@
 	</lastVisit>
 	<visitsAggregated>20</visitsAggregated>
 	<visitedPages>
-		<row key="http://example.org/my/dir/page0">8</row>
-		<row key="http://example.org/my/dir/page1">8</row>
-		<row key="http://example.org/my/dir/page2">8</row>
-		<row key="http://example.org/my/dir/page3">7</row>
+		<row>
+			<url>http://example.org/my/dir/page0</url>
+			<count>8</count>
+		</row>
+		<row>
+			<url>http://example.org/my/dir/page1</url>
+			<count>8</count>
+		</row>
+		<row>
+			<url>http://example.org/my/dir/page2</url>
+			<count>8</count>
+		</row>
+		<row>
+			<url>http://example.org/my/dir/page3</url>
+			<count>7</count>
+		</row>
 	</visitedPages>
 	<devices>
 		<Unknown>
