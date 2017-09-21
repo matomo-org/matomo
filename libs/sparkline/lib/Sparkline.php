@@ -405,7 +405,7 @@ class Sparkline extends SparklineObject {
   }
 
   function DrawImageCopyResampled($dhandle, $shandle, $dx, $dy, $sx, $sy, $dw, $dh, $sw, $sh) {
-    $this->Debug("Sparkline :: DrawImageCopyResampled($dhhandle, $shandle, $dx, $dy, $sx, $sy, $dw, $dh, $sw, $sh)", DEBUG_DRAW);
+    $this->Debug("Sparkline :: DrawImageCopyResampled($dhandle, $shandle, $dx, $dy, $sx, $sy, $dw, $dh, $sw, $sh)", DEBUG_DRAW);
     if (!$this->IsError()) {
       return imagecopyresampled($dhandle,  // dest handle
                                 $shandle,  // src  handle
