@@ -498,6 +498,9 @@ abstract class Dimension
             } elseif (in_array($this->getType(), array(self::TYPE_URL, self::TYPE_TEXT, self::TYPE_BINARY, self::TYPE_ENUM))) {
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
                 $metricsList->addMetric($metric);
+            } elseif (in_array($this->getType(), array(self::TYPE_BOOL))) {
+                $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+                $metricsList->addMetric($metric);
             } else {
                 $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
                 $metricsList->addMetric($metric);
