@@ -9,6 +9,7 @@
     {% set topMenuModule = 'CoreAdminHome' %}
     {% set topMenuAction = 'home' %}
     {{ parent() }}
+    {{ postEvent("Template.footer", "admin") }}
 {% endblock %}
 
 {% block root %}
