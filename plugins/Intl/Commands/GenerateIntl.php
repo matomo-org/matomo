@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Intl\Commands;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Filesystem;
@@ -51,7 +52,7 @@ class GenerateIntl extends ConsoleCommand
         }
 
         preg_match_all("~^(.)(.*)$~u", $str, $arr);
-        return mb_strtoupper($arr[1][0], 'UTF-8').$arr[2][0];
+        return Common::mb_strtoupper($arr[1][0]).$arr[2][0];
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

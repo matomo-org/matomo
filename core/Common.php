@@ -235,6 +235,24 @@ class Common
         return strtolower($string);
     }
 
+    /**
+     * Multi-byte strtoupper() - works with UTF-8.
+     *
+     * Calls `mb_strtoupper` if available and falls back to `strtoupper` if not.
+     *
+     * @param string $string
+     * @return string
+     * @api
+     */
+    public static function mb_strtoupper($string)
+    {
+        if (function_exists('mb_strtoupper')) {
+            return mb_strtoupper($string, 'UTF-8');
+        }
+
+        return strtoupper($string);
+    }
+
     /*
      * Escaping input
      */
