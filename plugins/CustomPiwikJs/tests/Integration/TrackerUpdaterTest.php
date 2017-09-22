@@ -46,6 +46,11 @@ class TrackerUpdaterTest extends IntegrationTestCase
         if (file_exists($target)) {
             unlink($target);
         }
+
+        $nonExistentFile = $this->dir . 'MyNotExisIngFilessss.js';
+        if (file_exists($nonExistentFile)) {
+            unlink($nonExistentFile);
+        }
     }
 
     private function makeUpdater($from = null, $to = null)
@@ -177,7 +182,7 @@ var myArray = [];
 
     public function test_update_shouldNotThrowAnError_IfTargetFileIsNotWritable()
     {
-        $updater = $this->makeUpdater(null, $this->dir . 'MyNotExisIngFilessss.js');
+        $updater = $this->makeUpdater(null, $this->dir . 'not-writable/MyNotExisIngFilessss.js');
         $updater->update();
         $this->assertTrue(true);
         $this->assertNull($this->piwikJsChangedEventPath);
