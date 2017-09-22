@@ -303,7 +303,10 @@
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>
 	<visitedPages>
-		<row key="http://example.org/homepage">1</row>
+		<row>
+			<url>http://example.org/homepage</url>
+			<count>1</count>
+		</row>
 	</visitedPages>
 	<devices>
 		<Desktop>
