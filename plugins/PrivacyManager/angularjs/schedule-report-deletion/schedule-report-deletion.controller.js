@@ -19,7 +19,7 @@
 
         this.save = function () {
             var method = 'PrivacyManager.setScheduleReportDeletionSettings';
-            reportDeletionModel.model.savePurageDataSettings(this, method, {
+            self.model.savePurageDataSettings(this, method, {
                 deleteLowestInterval: this.deleteLowestInterval
             });
         };
