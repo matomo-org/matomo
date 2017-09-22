@@ -8,12 +8,12 @@
 {% block body %}
     {% set topMenuModule = 'CoreAdminHome' %}
     {% set topMenuAction = 'home' %}
+    {{ postEvent("Template.header", "admin") }}
     {{ parent() }}
     {{ postEvent("Template.footer", "admin") }}
 {% endblock %}
 
 {% block root %}
-    {{ postEvent("Template.header", "admin") }}
     {% include "@CoreHome/_topScreen.twig" %}
 
     <div class="top_controls">
