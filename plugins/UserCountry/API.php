@@ -160,6 +160,34 @@ class API extends \Piwik\Plugin\API
 
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
+        
+        // show visits from "1|ti" cities: Lasa, Lhasa, Lang, Nang, Lima, Moto, Dechen, Yanhuqu to "14|cn"
+        $dataTables = [$dataTable];
+
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+        }
+
+        foreach ($dataTables as $dt) {
+            if ($dt->getRowFromLabel('Lasa|1|ti') ||
+                $dt->getRowFromLabel('Lhasa|1|ti') ||
+                $dt->getRowFromLabel('Lang|1|ti') ||
+                $dt->getRowFromLabel('Nang|1|ti') ||
+                $dt->getRowFromLabel('Lima|1|ti') ||
+                $dt->getRowFromLabel('Moto|1|ti') ||
+                $dt->getRowFromLabel('Dechen|1|ti') ||
+                $dt->getRowFromLabel('Yanhuqu|1|ti')) {
+                $dt->filter('GroupBy', array(
+                    'label',
+                    function ($label) {
+                        if (in_array($label, array('Lasa|1|ti', 'Lhasa|1|ti', 'Lang|1|ti', 'Nang|1|ti', 'Lima|1|ti', 'Moto|1|ti', 'Dechen|1|ti', 'Yanhuqu|1|ti'))) {
+                            return str_replace('1|ti', '14|cn', $label);
+                        }
+                        return $label;
+                    }
+                ));
+            }
+        }
 
         // split the label and put the elements into the 'city_name', 'region', 'country',
         // 'lat' & 'long' metadata fields
