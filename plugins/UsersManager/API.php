@@ -538,8 +538,21 @@ class API extends \Piwik\Plugin\API
         if (!empty($user)) {
             unset($user['token_auth']);
         }
+        $lastSeen = $this->addLastSeen($user);
+
+        if ($lastSeen) {
+          $user['last_seen'] = $lastSeen;
+        }
 
         return $user;
+    }
+
+    private function addLastSeen($user)
+    {
+        $lastSeenTimeLogger = new LastSeenTimeLogger();
+        $lastSeen = $lastSeenTimeLogger->getLastSeenTimeForUser($user['login']);
+
+        return $lastSeen;
     }
 
     /**
