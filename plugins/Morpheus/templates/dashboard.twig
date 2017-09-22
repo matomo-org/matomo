@@ -15,8 +15,9 @@
 {% set bodyClass = postEvent('Template.bodyClass', 'dashboard') %}
 
 {% block body %}
+    {{ postEvent("Template.header", "dashboard") }}
     {{ parent() }}
-    {{ postEvent("Template.footer") }}
+    {{ postEvent("Template.footer", "dashboard") }}
 {% endblock %}
 
 {% block root %}
