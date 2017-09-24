@@ -108,7 +108,7 @@ class API extends \Piwik\Plugin\API
                     'label',
                     function ($label) {
                         if ($label == '1|ti') {
-                            return 'cn';
+                            return '14|cn';
                         }
                         return $label;
                     }

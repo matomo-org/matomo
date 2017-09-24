@@ -108,11 +108,11 @@
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
 				<bandwidth />
-				<eventName>Name8</eventName>
-				<eventValue>353.678</eventValue>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Name8</eventName>
+				<eventValue>353.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -448,11 +448,11 @@
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
 				<bandwidth />
-				<eventName>Name7</eventName>
-				<eventValue>352.678</eventValue>
 				<interactionPosition />
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Name7</eventName>
+				<eventValue>352.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>

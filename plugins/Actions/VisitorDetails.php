@@ -22,8 +22,6 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
-    const EVENT_VALUE_PRECISION = 3;
-
     public function extendVisitorDetails(&$visitor)
     {
         $visitor['searches']     = $this->details['visit_total_searches'];
@@ -50,19 +48,11 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $formatter = new Formatter();
 
-        $actionTypesToHandle = array(
-            Action::TYPE_PAGE_URL,
-            Action::TYPE_SITE_SEARCH,
-            Action::TYPE_EVENT,
-            Action::TYPE_OUTLINK,
-            Action::TYPE_DOWNLOAD
-        );
-
         // Enrich with time spent per action
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
 
-            if ($idx < $nextActionId || !in_array($action['type'], $actionTypesToHandle)) {
+            if ($idx < $nextActionId || !$this->shouldHandleAction($action)) {
                 continue; // skip to next action having timeSpentRef
             }
 
@@ -71,7 +61,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $nextAction   = null;
 
             while (isset($actionDetails[$nextActionId]) &&
-                (!in_array($actionDetails[$nextActionId]['type'], $actionTypesToHandle) ||
+                (!$this->shouldHandleAction($actionDetails[$nextActionId]) ||
                     !array_key_exists('timeSpentRef', $actionDetails[$nextActionId]))) {
                 $nextActionId++;
             }
@@ -107,40 +97,37 @@ class VisitorDetails extends VisitorDetailsAbstract
         $actions = $actionDetails;
     }
 
+    private function shouldHandleAction($action) {
+        $actionTypesToHandle = array(
+            Action::TYPE_PAGE_URL,
+            Action::TYPE_SITE_SEARCH,
+            Action::TYPE_EVENT,
+            Action::TYPE_OUTLINK,
+            Action::TYPE_DOWNLOAD
+        );
+
+        return in_array($action['type'], $actionTypesToHandle) || !empty($action['eventType']);
+    }
+
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
         $formatter = new Formatter();
 
-        if ($action['type'] == Action::TYPE_EVENT) {
-            // Handle Event
-            if (strlen($action['pageTitle']) > 0) {
-                $action['eventName'] = $action['pageTitle'];
-            }
-
+        if ($action['type'] == Action::TYPE_SITE_SEARCH) {
+            // Handle Site Search
+            $action['siteSearchKeyword'] = $action['pageTitle'];
             unset($action['pageTitle']);
-
-        } else {
-            if ($action['type'] == Action::TYPE_SITE_SEARCH) {
-                // Handle Site Search
-                $action['siteSearchKeyword'] = $action['pageTitle'];
-                unset($action['pageTitle']);
-            }
         }
 
-        // Event value / Generation time
-        if ($action['type'] == Action::TYPE_EVENT) {
-            if (strlen($action['custom_float']) > 0) {
-                $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
-            }
-        } elseif (isset($action['custom_float']) && $action['custom_float'] > 0) {
+        // Generation time
+        if ($this->shouldHandleAction($action) && empty($action['eventType']) && isset($action['custom_float']) && $action['custom_float'] > 0) {
             $action['generationTimeMilliseconds'] = $action['custom_float'];
             $action['generationTime'] = $formatter->getPrettyTimeFromSeconds($action['custom_float'] / 1000, true);
+            unset($action['custom_float']);
         }
-        unset($action['custom_float']);
 
-        if ($action['type'] != Action::TYPE_EVENT) {
-            unset($action['eventCategory']);
-            unset($action['eventAction']);
+        if (array_key_exists('custom_float', $action) && is_null($action['custom_float'])) {
+            unset($action['custom_float']);
         }
 
         if (array_key_exists('interaction_position', $action)) {
@@ -214,7 +201,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $sql           = "
 				SELECT
 					log_link_visit_action.idvisit,
-					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
+					COALESCE(log_action.type, log_action_title.type) AS type,
 					log_action.name AS url,
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
@@ -278,7 +265,14 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function finalizeProfile($visits, &$profile)
     {
         arsort($this->visitedPageUrls);
-        $profile['visitedPages'] = $this->visitedPageUrls;
+        $profile['visitedPages'] = [];
+
+        foreach ($this->visitedPageUrls as $visitedPageUrl => $count) {
+            $profile['visitedPages'][] = [
+                'url' => $visitedPageUrl,
+                'count' => $count
+            ];
+        }
 
         $this->handleSiteSearches($profile);
         $this->handleAveragePageGenerationTime($profile);

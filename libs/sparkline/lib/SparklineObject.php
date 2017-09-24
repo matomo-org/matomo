@@ -69,7 +69,7 @@ function log_write($string, $type = '', $date = false) {
   }
 } // function log_write
 
-class Object {
+class SparklineObject {
 
   var $isError;
   var $logFile;

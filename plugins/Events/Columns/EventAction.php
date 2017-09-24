@@ -48,7 +48,7 @@ class EventAction extends ActionDimension
             return false;
         }
 
-        $eventAction = $request->getParam('e_a');
+        $eventAction = $action->getEventAction();
         $eventAction = trim($eventAction);
 
         if (strlen($eventAction) > 0) {
