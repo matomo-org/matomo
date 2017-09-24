@@ -144,6 +144,11 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $filterLimit = Common::getRequestVar('filter_offset', 0, 'int');
         $startCounter = Common::getRequestVar('start_number', 0, 'int');
+
+        if ($startCounter >= API::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE) {
+            return; // do not return more visits than configured for profile
+        }
+
         $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
                                                                                 'segment'                 => self::getSegmentWithVisitorId(),
                                                                                 'filter_limit'            => VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,

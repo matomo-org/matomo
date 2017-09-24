@@ -43,7 +43,7 @@ class EventName extends ActionDimension
             return false;
         }
 
-        $eventName = $request->getParam('e_n');
+        $eventName = $action->getEventName();
         $eventName = trim($eventName);
 
         if (strlen($eventName) > 0) {

@@ -16,7 +16,6 @@
         "country_a2": "卫星供应商",
         "country_cat": "加泰罗尼亚语社区",
         "country_o1": "其它国家",
-        "country_ti": "中国西藏",
         "CurrentLocationIntro": "根据提供商信息，您现在的位置是",
         "DefaultLocationProviderDesc1": "默认的地理位置查询以访客的浏览器猜测国家。",
         "DefaultLocationProviderDesc2": "这不是很准确，所以 %1$s我们建议安装使用 %2$sGeoIP%3$s.%4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "更新程序最后运行时间 %s。",
         "UpdaterWillRunNext": "这是下一个计划在 %s 运行。",
         "WidgetLocation": "访客位置"
-    },
-    "Intl": {
-        "Country_TI": "中国西藏"
     }
 }

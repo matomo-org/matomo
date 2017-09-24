@@ -62,7 +62,11 @@ DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, 
         var labelPart = labelParts[i].replace('@', '');
         labelParts[i] = $.trim(decodeURIComponent(labelPart));
     }
-    label = labelParts.join(piwik.config.action_url_category_delimiter);
+    var delimiter = piwik.config.action_url_category_delimiter;
+    if(this.dataTable.param.action.indexOf('PageTitles') !== false) {
+        delimiter = piwik.config.action_title_category_delimiter;
+    }
+    label = labelParts.join(delimiter);
     this.openPopover('title:' + label);
 };
 

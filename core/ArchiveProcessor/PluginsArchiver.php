@@ -49,11 +49,11 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
-    public function __construct(Parameters $params, $isTemporaryArchive)
+    public function __construct(Parameters $params, $isTemporaryArchive, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
         $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = new ArchiveWriter($this->params, $this->isTemporaryArchive);
+        $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params, $this->isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);

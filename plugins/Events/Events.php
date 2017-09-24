@@ -263,6 +263,7 @@ class Events extends \Piwik\Plugin
 
     public function provideActionDimensionFields(&$fields, &$joins)
     {
+        $fields[] = 'log_action_event_category.type AS eventType';
         $fields[] = 'log_action_event_category.name AS eventCategory';
         $fields[] = 'log_action_event_action.name as eventAction';
         $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_event_action

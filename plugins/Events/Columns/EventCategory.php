@@ -45,7 +45,7 @@ class EventCategory extends ActionDimension
             return false;
         }
 
-        $eventCategory = $request->getParam('e_c');
+        $eventCategory = $action->getEventCategory();
         $eventCategory = trim($eventCategory);
 
         if (strlen($eventCategory) > 0) {

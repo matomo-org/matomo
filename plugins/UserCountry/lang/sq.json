@@ -16,7 +16,6 @@
         "country_a2": "Furnizues Satelitor",
         "country_cat": "Bashkësi që flasin Katalançe",
         "country_o1": "Vend Tjetër",
-        "country_ti": "Tibet",
         "CurrentLocationIntro": "Sipas këtij furnizuesi, gjendeni në",
         "DefaultLocationProviderDesc1": "Furnizuesi parazgjedhje i vendeve e hamendëson vendin e një vizitori bazuar në gjuhën e përdorur prej tyre.",
         "DefaultLocationProviderDesc2": "Kjo s’është shumë e saktë, ndaj %1$skëshillojmë instalimin dhe përdorimin e %2$sGeoIP%3$s.%4$s",
@@ -94,8 +93,5 @@
         "UpdaterWasLastRun": "Përditësuesi u xhirua së fundi më %s.",
         "UpdaterWillRunNext": "Është planifikuar të xhirojë sërish më %s.",
         "WidgetLocation": "Vend Vizitori"
-    },
-    "Intl": {
-        "Country_TI": "Tibet"
     }
 }

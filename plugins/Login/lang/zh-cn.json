@@ -11,6 +11,8 @@
         "LoginPasswordNotCorrect": "用户名或密码不正确！",
         "LostYourPassword": "忘记密码了?",
         "MailTopicPasswordChange": "密码修改确认",
+        "NewPassword": "新密码",
+        "NewPasswordRepeat": "新密码(重复)",
         "PasswordChanged": "您的密码已修改。",
         "PasswordRepeat": "密码(重复)",
         "PasswordsDoNotMatch": "密码不一致。",
