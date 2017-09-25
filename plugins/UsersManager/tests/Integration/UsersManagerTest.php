@@ -76,6 +76,7 @@ class UsersManagerTest extends IntegrationTestCase
         }
         $userAfter = $this->api->getUser($user["login"]);
         unset($userAfter['date_registered']);
+        unset($userAfter['date_last_seen']);
         unset($userAfter['password']);
 
         // implicitly checks password!
@@ -425,6 +426,7 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['password']);
             unset($user['token_auth']);
             unset($user['date_registered']);
+            unset($user['date_last_seen']);
         }
         return $users;
     }
