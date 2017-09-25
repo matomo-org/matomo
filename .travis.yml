@@ -67,9 +67,11 @@ matrix:
     - php: 5.5
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
       sudo: false
+      dist: precise
     - php: 5.5
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
       sudo: false
+      dist: precise
 
 dist: trusty
 
