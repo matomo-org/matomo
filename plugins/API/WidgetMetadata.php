@@ -10,6 +10,7 @@ namespace Piwik\Plugins\API;
 
 use Piwik\Category\CategoryList;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\CoreHome;
 use Piwik\Report\ReportWidgetConfig;
 use Piwik\Category\Category;
 use Piwik\Category\Subcategory;
@@ -33,6 +34,7 @@ class WidgetMetadata
         $flat = array();
 
         foreach ($widgetsList->getWidgetConfigs() as $widgetConfig) {
+            $metadataOverrides = [];
 
             /** @var WidgetConfig[] $widgets */
             $widgets = array($widgetConfig);
@@ -47,7 +49,21 @@ class WidgetMetadata
                     continue;
                 }
 
-                $flat[] = $this->buildWidgetMetadata($widget, $categoryList);
+                // widgets in containers with ByDimension layout have a special, unrecognized category/subcategory
+                // (eg, "Sales by Referrer Type"). we change it to the container's category/subcategory so the widget
+                // will appear in the dashboard manager.
+                if ($widgetConfig instanceof WidgetContainerConfig
+                    && $widgetConfig->getLayout() == CoreHome::WIDGET_CONTAINER_LAYOUT_BY_DIMENSION
+                ) {
+                    $metadataOverrides = [
+                        'category' => $widgetConfig->getCategoryId(),
+                        'subcategory' => $widgetConfig->getSubcategoryId(),
+                        'name' => Piwik::translate($widget->getCategoryId()) . ': '
+                            . Piwik::translate($widget->getName()),
+                    ];
+                }
+
+                $flat[] = $this->buildWidgetMetadata($widget, $categoryList, $metadataOverrides);
             }
         }
 
@@ -61,17 +77,26 @@ class WidgetMetadata
      * @param CategoryList|null $categoryList If null, no category information will be added to the widgets in first
      *                                        level (they will be added to nested widgets as potentially needed eg for
      *                                        widgets in ByDimensionView where they are needed to build the left menu)
+     * @param array $metadataOverrides Overrides for data in `$widget`. Currently only 'name', 'category', 'subcategory'
+     *                                 are recognized.
      * @return array
      */
-    public function buildWidgetMetadata(WidgetConfig $widget, $categoryList = null)
+    public function buildWidgetMetadata(WidgetConfig $widget, $categoryList = null, array $metadataOverrides = [])
     {
+        $widgetName = !empty($metadataOverrides['name']) ? $metadataOverrides['name'] : $widget->getName();
+
         $item = array(
-            'name' => Piwik::translate($widget->getName())
+            'name' => Piwik::translate($widgetName),
         );
 
         if (isset($categoryList)) {
-            $category    = $categoryList->getCategory($widget->getCategoryId());
-            $subcategory = $category ? $category->getSubcategory($widget->getSubcategoryId()) : null;
+            $widgetCategory = !empty($metadataOverrides['category'])
+                ? $metadataOverrides['category'] : $widget->getCategoryId();
+            $widgetSubcategory = !empty($metadataOverrides['subcategory'])
+                ? $metadataOverrides['subcategory'] : $widget->getSubcategoryId();
+
+            $category    = $categoryList->getCategory($widgetCategory);
+            $subcategory = $category ? $category->getSubcategory($widgetSubcategory) : null;
 
             $item['category']    = $this->buildCategoryMetadata($category);
             $item['subcategory'] = $this->buildSubcategoryMetadata($subcategory);
