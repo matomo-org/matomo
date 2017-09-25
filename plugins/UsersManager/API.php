@@ -539,10 +539,7 @@ class API extends \Piwik\Plugin\API
             unset($user['token_auth']);
         }
         $lastSeen = $this->addLastSeen($user);
-
-        if ($lastSeen) {
-          $user['last_seen'] = $lastSeen;
-        }
+        $user['date_last_seen'] = $lastSeen;
 
         return $user;
     }
@@ -550,7 +547,8 @@ class API extends \Piwik\Plugin\API
     private function addLastSeen($user)
     {
         $lastSeenTimeLogger = new LastSeenTimeLogger();
-        $lastSeen = $lastSeenTimeLogger->getLastSeenTimeForUser($user['login']);
+        $lastSeenTimeStamp = $lastSeenTimeLogger->getLastSeenTimeForUser($user['login']);
+        $lastSeen = $lastSeenTimeStamp ? date("Y-m-d H:i:s", $lastSeenTimeStamp) : 0;
 
         return $lastSeen;
     }
