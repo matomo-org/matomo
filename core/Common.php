@@ -232,7 +232,8 @@ class Common
             return mb_strtolower($string, 'UTF-8');
         }
 
-        return strtolower($string);
+        // return unchanged string as using `strtolower` might cause unicode problems
+        return $string;
     }
 
     /**
@@ -250,7 +251,8 @@ class Common
             return mb_strtoupper($string, 'UTF-8');
         }
 
-        return strtoupper($string);
+        // return unchanged string as using `strtoupper` might cause unicode problems
+        return $string;
     }
 
     /*
