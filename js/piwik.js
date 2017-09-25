@@ -1393,6 +1393,14 @@ if (typeof window.Piwik !== 'object') {
             var now;
 
             executePluginMethod('unload');
+
+            now  = new Date();
+            var aliasTime = now.getTimeAlias();
+            if( (expireDateTime - aliasTime) > 3000) // fix bug #12108
+            {
+                return;
+            }
+            
             /*
              * Delay/pause (blocks UI)
              */
