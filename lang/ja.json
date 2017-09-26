@@ -432,7 +432,6 @@
         "YearsDays": "%1$s 年 %2$s 日",
         "Yes": "はい",
         "YouAreCurrentlyUsing": "現在Piwik %s を利用しています",
-        "YouAreViewingDemoShortMessage": "Piwik のデモを表示します。",
         "YouMustBeLoggedIn": "この機能にアクセスするにはログインする必要があります。",
         "YourChangesHaveBeenSaved": "変更は保存されました。"
     },

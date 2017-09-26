@@ -361,7 +361,6 @@
         "YearsDays": "%1$s سنة %2$s أيام",
         "Yes": "نعم",
         "YouAreCurrentlyUsing": "أنت تشاهد حالياً نسخة Piwik %s .",
-        "YouAreViewingDemoShortMessage": "أنت تشاهد نسخة عرض من Piwik",
         "YouMustBeLoggedIn": "يجب عليك تسجيل الدخول للوصول إلى هذه الخاصية.",
         "YourChangesHaveBeenSaved": "تم حفظ التغييرات."
     },
