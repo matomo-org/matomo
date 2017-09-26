@@ -41,6 +41,7 @@ class TestsRun extends ConsoleCommand
         $options = $input->getOption('options');
         $groups  = $input->getOption('group');
         $magics  = $input->getArgument('variables');
+        $piwikDomain = $input->getOption('piwik-domain');
 
         $groups = $this->getGroupsFromString($groups);
 
@@ -113,7 +114,7 @@ class TestsRun extends ConsoleCommand
             }
         }
 
-        $this->executeTests($suite, $testFile, $groups, $options, $command, $output);
+        $this->executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, $output);
 
         return $this->returnVar;
     }
@@ -158,12 +159,12 @@ class TestsRun extends ConsoleCommand
         return $this->fixPathToTestFileOrDirectory($testFile);
     }
 
-    private function executeTests($suite, $testFile, $groups, $options, $command, OutputInterface $output)
+    private function executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, OutputInterface $output)
     {
         if (empty($suite) && empty($groups) && empty($testFile)) {
             foreach ($this->getTestsSuites() as $suite) {
                 $suite = $this->buildTestSuiteName($suite);
-                $this->executeTests($suite, $testFile, $groups, $options, $command, $output);
+                $this->executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, $output);
             }
 
             return;
@@ -175,12 +176,17 @@ class TestsRun extends ConsoleCommand
             $params = $params . " " . $testFile;
         }
 
-        $this->executeTestRun($command, $params, $output);
+        $this->executeTestRun($piwikDomain, $command, $params, $output);
     }
 
-    private function executeTestRun($command, $params, OutputInterface $output)
+    private function executeTestRun($piwikDomain, $command, $params, OutputInterface $output)
     {
-        $cmd = $this->getCommand($command, $params);
+        $envVars = '';
+        if (!empty($piwikDomain)) {
+            $envVars .= "PIWIK_DOMAIN=$piwikDomain";
+        }
+
+        $cmd = $this->getCommand($envVars, $command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         passthru($cmd, $returnVar);
         $output->writeln("");
@@ -198,9 +204,9 @@ class TestsRun extends ConsoleCommand
      * @param $params
      * @return string
      */
-    private function getCommand($command, $params)
+    private function getCommand($envVars, $command, $params)
     {
-        return sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
+        return sprintf('cd %s/tests/PHPUnit && %s %s %s', PIWIK_DOCUMENT_ROOT, $envVars, $command, $params);
     }
 
     private function buildPhpUnitCliParams($suite, $groups, $options)
