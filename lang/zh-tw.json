@@ -432,7 +432,6 @@
         "YearsDays": "%1$s 年 %2$s 天",
         "Yes": "是",
         "YouAreCurrentlyUsing": "你正在使用 Piwik %s。",
-        "YouAreViewingDemoShortMessage": "你正在瀏覽 Piwik 範例網站",
         "YouMustBeLoggedIn": "你必須登入才能存取這個功能。",
         "YourChangesHaveBeenSaved": "你的變更已保存。"
     },

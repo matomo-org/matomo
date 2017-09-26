@@ -432,7 +432,7 @@
         "YearsDays": "%1$s έτη %2$s ημέρες",
         "Yes": "Ναι",
         "YouAreCurrentlyUsing": "Χρησιμοποιείτε την έκδοση %s του Piwik.",
-        "YouAreViewingDemoShortMessage": "Βλέπετε μια έκδοση του Piwik σε κατάστασης παρουσίασης",
+        "YouAreViewingDemoMessage": "Βλέπετε μια έκδοση επίδειξης του %1$sPiwik%2$s",
         "YouMustBeLoggedIn": "Πρέπει να συνδεθείτε για να έχετε πρόσβαση στη λειτουργία",
         "YourChangesHaveBeenSaved": "Οι αλλαγές σας αποθηκεύτηκαν."
     },

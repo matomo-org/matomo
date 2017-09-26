@@ -26,6 +26,7 @@
         "SimpleRealTimeWidget_Message": "%1$s og %2$s i den sidste %3$s.",
         "ViewVisitorProfile": "Vis besøgendes profil",
         "VisitedPages": "Besøgte sider",
+        "RevisitedPages": "Sider vist mere end én gang",
         "VisitorLog": "Besøgslog",
         "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%1$s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %2$s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
         "VisitorProfile": "Besøgendes profil",
