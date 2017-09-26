@@ -95,7 +95,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // skipped as phantom seems to crash at this test sometimes
-    it.skip('should load visitors > visitor log page correctly', function (done) {
+    it('should load visitors > visitor log page correctly', function (done) {
         this.retries(3);
         expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
