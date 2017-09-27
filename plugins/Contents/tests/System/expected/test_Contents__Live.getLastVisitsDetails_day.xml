@@ -14,6 +14,7 @@
 				
 				
 				<pageId>1</pageId>
+				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
@@ -21,6 +22,7 @@
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -35,8 +37,10 @@
 				<contentPiece>Unknown</contentPiece>
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -51,8 +55,10 @@
 				<contentPiece />
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -67,8 +73,10 @@
 				<contentPiece>/path/ad.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -83,8 +91,10 @@
 				<contentPiece>/path/ad2.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -99,8 +109,10 @@
 				<contentPiece>/path/ad.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -115,8 +127,10 @@
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -131,8 +145,10 @@
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -147,8 +163,10 @@
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -163,8 +181,10 @@
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -179,8 +199,10 @@
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -195,8 +217,10 @@
 				<contentPiece>movie.mov</contentPiece>
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -307,6 +331,7 @@
 				
 				
 				<pageId>13</pageId>
+				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
@@ -314,6 +339,7 @@
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -328,8 +354,10 @@
 				<contentPiece>Unknown</contentPiece>
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -344,8 +372,10 @@
 				<contentPiece />
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -360,8 +390,10 @@
 				<contentPiece>/path/ad.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -376,8 +408,10 @@
 				<contentPiece>/path/ad2.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -392,8 +426,10 @@
 				<contentPiece>/path/ad.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -408,8 +444,10 @@
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -424,8 +462,10 @@
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/</contentTarget>
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -440,8 +480,10 @@
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -456,8 +498,10 @@
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -472,8 +516,10 @@
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>13</type>
@@ -488,8 +534,10 @@
 				<contentPiece>movie.mov</contentPiece>
 				<contentTarget />
 				<contentInteraction />
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
