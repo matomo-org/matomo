@@ -181,7 +181,7 @@
 				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -197,7 +197,7 @@
 				<bandwidth />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -213,7 +213,7 @@
 				<bandwidth />
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -229,7 +229,7 @@
 				<bandwidth />
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
