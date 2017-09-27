@@ -100,7 +100,7 @@ class DataTableGenericFilter
                       'filter_sort_order'  => array('string', 'desc'),
                       $naturalSort = true,
                       $recursiveSort = true,
-                      $doSortBySecondaryColumn = true
+                      'filter_sort_column_secondary' => true
                   )),
             array('Truncate',
                   array(
@@ -124,6 +124,13 @@ class DataTableGenericFilter
                 if ($filter[0] === 'Sort') {
                     $filters[$index][1]['filter_sort_column'] = array('string', $this->report->getDefaultSortColumn());
                     $filters[$index][1]['filter_sort_order']  = array('string', $this->report->getDefaultSortOrder());
+
+                    $callback = $this->report->getSecondSortColumnCallback();
+
+                    if (is_callable($callback)) {
+                        $filters[$index][1]['filter_sort_column_secondary'] = $callback;
+                    }
+
                 }
             }
         }

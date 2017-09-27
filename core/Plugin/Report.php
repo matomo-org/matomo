@@ -10,16 +10,13 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
-use Piwik\Cache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
-use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
 use Piwik\Widget\WidgetsList;
@@ -646,6 +643,30 @@ class Report
         }
 
         return Sort::ORDER_ASC;
+    }
+
+    /**
+     * Allows to define a callback that will be used to determine the secondary column to sort by
+     *
+     * ```
+     * public function getSecondSortColumnCallback()
+     * {
+     *     return function ($primaryColumn) {
+     *         switch ($primaryColumn) {
+     *             case Metrics::NB_CLICKS:
+     *                 return Metrics::NB_IMPRESSIONS;
+     *             case 'label':
+     *             default:
+     *                 return Metrics::NB_CLICKS;
+     *         }
+     *     };
+     * }
+     * ```
+     * @return null|callable
+     */
+    public function getSecondSortColumnCallback()
+    {
+        return null;
     }
 
     /**

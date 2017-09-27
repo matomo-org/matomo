@@ -28,6 +28,7 @@ class Sort extends BaseFilter
     protected $order;
     protected $naturalSort;
     protected $isSecondaryColumnSortEnabled;
+    protected $secondaryColumnSortCallback;
 
     const ORDER_DESC = 'desc';
     const ORDER_ASC  = 'asc';
@@ -40,8 +41,9 @@ class Sort extends BaseFilter
      * @param string $order order `'asc'` or `'desc'`.
      * @param bool $naturalSort Whether to use a natural sort or not (see {@link http://php.net/natsort}).
      * @param bool $recursiveSort Whether to sort all subtables or not.
-     * @param bool $doSortBySecondaryColumn If true will sort by a secondary column. The column is automatically
-     *                                    detected and will be either nb_visits or label, if possible.
+     * @param bool|callback $doSortBySecondaryColumn If true will sort by a secondary column. The column is automatically
+     *                                               detected and will be either nb_visits or label, if possible.
+     *                                               If callback given it will sort by the column returned by the callback (if any)
      */
     public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = true, $doSortBySecondaryColumn = false)
     {
@@ -54,7 +56,8 @@ class Sort extends BaseFilter
         $this->columnToSort = $columnToSort;
         $this->naturalSort = $naturalSort;
         $this->order = strtolower($order);
-        $this->isSecondaryColumnSortEnabled = $doSortBySecondaryColumn;
+        $this->isSecondaryColumnSortEnabled = !empty($doSortBySecondaryColumn);
+        $this->secondaryColumnSortCallback = is_callable($doSortBySecondaryColumn) ? $doSortBySecondaryColumn : null;
     }
 
     /**
@@ -90,7 +93,11 @@ class Sort extends BaseFilter
         $config->primaryColumnToSort   = $sorter->getPrimaryColumnToSort($table, $this->columnToSort);
         $config->primarySortOrder      = $sorter->getPrimarySortOrder($this->order);
         $config->primarySortFlags      = $sorter->getBestSortFlags($table, $config->primaryColumnToSort);
-        $config->secondaryColumnToSort = $sorter->getSecondaryColumnToSort($row, $config->primaryColumnToSort);
+        if (!empty($this->secondaryColumnSortCallback)) {
+            $config->secondaryColumnToSort = call_user_func($this->secondaryColumnSortCallback, $config->primaryColumnToSort);
+        } else {
+            $config->secondaryColumnToSort = $sorter->getSecondaryColumnToSort($row, $config->primaryColumnToSort);
+        }
         $config->secondarySortOrder    = $sorter->getSecondarySortOrder($this->order, $config->secondaryColumnToSort);
         $config->secondarySortFlags    = $sorter->getBestSortFlags($table, $config->secondaryColumnToSort);
 
