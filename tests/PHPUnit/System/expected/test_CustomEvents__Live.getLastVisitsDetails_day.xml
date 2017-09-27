@@ -620,7 +620,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>La fiancée de l'eau</eventName>
@@ -644,7 +644,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>La fiancée de l'eau</eventName>
@@ -668,7 +668,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>La fiancée de l'eau</eventName>
@@ -692,7 +692,7 @@
 				<bandwidth />
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>La fiancée de l'eau</eventName>
@@ -716,7 +716,7 @@
 				<bandwidth />
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>La fiancée de l'eau</eventName>
@@ -740,7 +740,7 @@
 				<bandwidth />
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>La fiancée de l'eau</eventName>
@@ -765,7 +765,7 @@
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>La fiancée de l'eau</eventName>
@@ -801,7 +801,7 @@
 				<bandwidth />
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -836,7 +836,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
@@ -854,7 +854,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
@@ -872,7 +872,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -890,7 +890,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -908,7 +908,7 @@
 				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -924,7 +924,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1792,7 +1792,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
@@ -1810,7 +1810,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
@@ -1828,7 +1828,7 @@
 				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1846,7 +1846,7 @@
 				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1864,7 +1864,7 @@
 				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1880,7 +1880,7 @@
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>

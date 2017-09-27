@@ -1297,7 +1297,7 @@
 				
 				<pageId>58</pageId>
 				<bandwidth>43</bandwidth>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<customVariables>
