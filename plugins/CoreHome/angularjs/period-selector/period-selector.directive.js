@@ -30,7 +30,7 @@
                 scope.$on('$locationChangeSuccess', scope.periodSelector.updateSelectedValuesFromHash);
 
                 function closePeriodSelector() {
-                    element.find('#periodString').removeClass('expanded');
+                    element.find('.periodSelector').removeClass('expanded');
                 }
             }
         };

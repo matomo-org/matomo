@@ -202,6 +202,7 @@
     function piwikPeriods() {
         return {
             getAllLabels: getAllLabels,
+            isRecognizedPeriod: isRecognizedPeriod,
             get: get,
             parse: parse,
             parseDate: parseDate
@@ -216,7 +217,6 @@
             if (!periodClass) {
                 throw new Error('Invalid period label: ' + strPeriod);
             }
-
             return periodClass;
         }
 
@@ -224,6 +224,9 @@
             return get(strPeriod).parse(strDate);
         }
 
+        function isRecognizedPeriod(strPeriod) {
+            return !! periods[strPeriod];
+        }
     }
 
     function addCustomPeriod(name, periodClass) {

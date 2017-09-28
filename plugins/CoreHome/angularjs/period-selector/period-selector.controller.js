@@ -30,9 +30,26 @@
         vm.onApplyClicked = onApplyClicked;
         vm.updateSelectedValuesFromHash = updateSelectedValuesFromHash;
         vm.getPeriodDisplayText = getPeriodDisplayText;
+        vm.$onChanges = $onChanges;
 
-        vm.updateSelectedValuesFromHash();
-        initTopControls(); // must be called when a top control changes width
+        init();
+
+        function init() {
+            vm.updateSelectedValuesFromHash();
+            initTopControls(); // must be called when a top control changes width
+        }
+
+        function $onChanges(changesObj) {
+            if (changesObj.periods) {
+                removeUnrecognizedPeriods();
+            }
+        }
+
+        function removeUnrecognizedPeriods() {
+            vm.periods = vm.periods.filter(function (periodLabel) {
+                return piwikPeriods.isRecognizedPeriod(periodLabel);
+            });
+        }
 
         function updateSelectedValuesFromHash() {
             var strDate = getQueryParamValue('date');
@@ -73,7 +90,7 @@
         function getCurrentlyViewingText() {
             var date;
             if (vm.periodValue === 'range') {
-                date = formatDate(vm.startRangeDate) + ',' + formatDate(vm.endRangeDate);
+                date = vm.startRangeDate + ',' + vm.endRangeDate;
             } else {
                 date = formatDate(vm.dateValue);
             }
