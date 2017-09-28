@@ -8,8 +8,6 @@
  */
 
 describe("Live", function () {
-    this.retries(3);
-
     this.timeout(0);
 
     this.fixture = "Piwik\\Plugins\\Live\\tests\\Fixtures\\VisitsWithAllActionsAndDevices";
