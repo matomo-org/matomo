@@ -104,7 +104,7 @@ class AutoSuggestAPITest extends SystemTestCase
                 $topSegmentValue = Common::forceDotAsSeparatorForDecimalPoint($topSegmentValue);
             }
             // Now build the segment request
-            $segmentValue = rawurlencode(html_entity_decode($topSegmentValue));
+            $segmentValue = rawurlencode(html_entity_decode($topSegmentValue, ENT_COMPAT | ENT_HTML401, 'UTF-8'));
             $params['segment'] = $params['segmentToComplete'] . '==' . $segmentValue;
             unset($params['segmentToComplete']);
             $this->runApiTests($api, $params);
