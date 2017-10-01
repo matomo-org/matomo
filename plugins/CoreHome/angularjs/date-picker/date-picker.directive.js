@@ -39,8 +39,10 @@
         return {
             restrict: 'A',
             scope: {
-                selectedDates: '<',
-                highlightedDates: '<',
+                selectedDateStart: '<',
+                selectedDateEnd: '<',
+                highlightedDateStart: '<',
+                highlightedDateEnd: '<',
                 viewDate: '<',
                 stepMonths: '<',
                 disableMonthDropdown: '<',
@@ -51,51 +53,22 @@
             },
             template: '',
             link: function (scope, element) {
+                scope.$onChanges = $onChanges;
+
                 var customOptions = scope.options || {};
                 var datePickerOptions = $.extend({}, piwik.getBaseDatePickerOptions(), customOptions, {
                     onSelect: onDateSelected
                 });
                 element.datepicker(datePickerOptions);
 
-                // redraw when selected/highlighted dates change
-                scope.$watchGroup(
-                    [
-                        dateForWatchGetter('selectedDates', 0),
-                        dateForWatchGetter('selectedDates', 1),
-                        dateForWatchGetter('highlightedDates', 0),
-                        dateForWatchGetter('highlightedDates', 1)
-                    ],
-                    setDatePickerCellColors
-                );
-
-                scope.$watch('viewDate', function () {
-                    var date = scope.viewDate;
-                    if (!(date instanceof Date)) {
-                        try {
-                            date = $.datepicker.parseDate('yy-mm-dd', date);
-                        } catch (e) {
-                            return;
-                        }
+                element.on('mouseover', 'tbody td a', function (event) {
+                    // this event is triggered when a user clicks a date as well. in that case,
+                    // the originalEvent is null. we don't need to redraw again for that, so
+                    // we ignore events like that.
+                    if (event.originalEvent) {
+                        setDatePickerCellColors();
                     }
-
-                    element.datepicker('setDate', date);
-
-                    setDatePickerCellColors();
                 });
-
-                scope.$watch('stepMonths', function () {
-                    // setting stepMonths will change the month in view back to the selected date. to avoid
-                    // we set the selected date to the month in view.
-                    var currentMonth = $('.ui-datepicker-month', element).val(),
-                        currentYear = $('.ui-datepicker-year', element).val();
-                    scope.viewDate = new Date(currentYear, currentMonth);
-
-                    element.datepicker('option', 'stepMonths', scope.stepMonths);
-                });
-
-                scope.$watch('disableMonthDropdown', enableDisableMonthDropdown);
-
-                element.on('mouseover', 'tbody td a', setDatePickerCellColors);
 
                 // on hover cell, execute scope.cellHover()
                 element.on('mouseenter', 'tbody td', function () {
@@ -135,6 +108,80 @@
                     onCalendarViewChange();
                 });
 
+                init();
+
+                function init() {
+                    viewDateChanged();
+                    stepMonthsChanged();
+                    enableDisableMonthDropdown();
+                    setDatePickerCellColors();
+                }
+
+                function $onChanges(changesObj) {
+                    // redraw when selected/highlighted dates change
+                    var redraw = changesObj.selectedDateStart
+                        || changesObj.selectedDateEnd
+                        || changesObj.highlightedDateStart
+                        || changesObj.highlightedDateEnd;
+
+                    if (changesObj.viewDate) {
+                        // I can't figure out why, but $onChanges is triggered with viewDate
+                        // three times when selecting a date (even though period-date-picker
+                        // only changes once). for two of those changes,
+                        // selectedDateStart/highlightedDateStart is undefined. not sure what's
+                        // causing it, but it seems internal to angular.
+                        //
+                        // note: the change values for viewDate for those two changes are the
+                        // start/end of the new selected date range.
+                        if (scope.selectedDateStart
+                            || scope.highlightedDateStart
+                        ) {
+                            redraw = true;
+                        }
+
+                        viewDateChanged();
+                    }
+
+                    if (changesObj.stepMonths) {
+                        stepMonthsChanged();
+                    }
+
+                    if (changesObj.enableDisableMonthDropdown) {
+                        enableDisableMonthDropdown();
+                    }
+
+                    if (redraw) {
+                        // timeout ensures the style change happens after jquery datepicker
+                        // does its own rendering, so we're overriding jquery.
+                        setTimeout(function () {
+                            setDatePickerCellColors();
+                        }, 0);
+                    }
+                }
+
+                function viewDateChanged() {
+                    var date = scope.viewDate;
+                    if (!(date instanceof Date)) {
+                        try {
+                            date = $.datepicker.parseDate('yy-mm-dd', date);
+                        } catch (e) {
+                            return;
+                        }
+                    }
+
+                    element.datepicker('setDate', date);
+                }
+
+                function stepMonthsChanged() {
+                    // setting stepMonths will change the month in view back to the selected date. to avoid
+                    // we set the selected date to the month in view.
+                    var currentMonth = $('.ui-datepicker-month', element).val(),
+                        currentYear = $('.ui-datepicker-year', element).val();
+                    scope.viewDate = new Date(currentYear, currentMonth);
+
+                    element.datepicker('option', 'stepMonths', scope.stepMonths);
+                }
+
                 function onDateSelected(dateStr) {
                     if (!scope.dateSelect) {
                         return;
@@ -143,6 +190,9 @@
                     scope.dateSelect({
                         date: $.datepicker.parseDate('yy-mm-dd', dateStr)
                     });
+
+                    // this event comes from jquery, so we must apply manually
+                    scope.$apply();
                 }
 
                 function handleOtherMonthClick() {
@@ -169,7 +219,7 @@
 
                     scope.cellHoverLeave();
 
-                    $timeout(); // trigger new digest
+                    $timeout();
                 }
 
                 function onCalendarViewChange() {
@@ -187,10 +237,13 @@
 
                     var monthYear = getMonthYearDisplayed();
 
-                    var $firstDateCell = $calendarTable.find('td').first();
+                    // highlight the rest of the cells by first getting the date for the first cell
+                    // in the calendar, then just incrementing by one for the rest of the cells.
+                    var $cells = $calendarTable.find('td');
+                    var $firstDateCell = $cells.first();
                     var currentDate = getCellDate($firstDateCell, monthYear[0], monthYear[1]);
 
-                    $calendarTable.find('td').each(function () {
+                    $cells.each(function () {
                         setDateCellColor($(this), currentDate);
 
                         currentDate.setDate(currentDate.getDate() + 1);
@@ -208,18 +261,20 @@
                     var $dateCellLink = $dateCell.children('a');
                     $dateCellLink.removeClass('ui-state-active');
 
-                    if (scope.selectedDates
-                        && dateValue >= scope.selectedDates[0]
-                        && dateValue <= scope.selectedDates[1]
+                    if (scope.selectedDateStart
+                        && scope.selectedDateEnd
+                        && dateValue >= scope.selectedDateStart
+                        && dateValue <= scope.selectedDateEnd
                     ) {
                         $dateCell.addClass('ui-datepicker-current-period');
                     } else {
                         $dateCell.removeClass('ui-datepicker-current-period');
                     }
 
-                    if (scope.highlightedDates
-                        && dateValue >= scope.highlightedDates[0]
-                        && dateValue <= scope.highlightedDates[1]
+                    if (scope.highlightedDateStart
+                        && scope.highlightedDateEnd
+                        && dateValue >= scope.highlightedDateStart
+                        && dateValue <= scope.highlightedDateEnd
                     ) {
                         // other-month cells don't have links, so the <td> must have the ui-state-hover class
                         var elementToAddClassTo = $dateCellLink.length ? $dateCellLink : $dateCell;
@@ -261,13 +316,6 @@
                     date = getCellDate($lastDateInMonth, month, year);
                     date.setDate(date.getDate() + $rowCells.index($dateCell) - $rowCells.index($lastDateInMonth));
                     return date;
-                }
-
-                // watch on date's actual time, so the watch only executes when the actual time values change
-                function dateForWatchGetter(propertyName, index) {
-                    return function () {
-                        return (scope[propertyName] && scope[propertyName][index]) ? scope[propertyName][index].getTime() : null;
-                    };
                 }
 
                 function enableDisableMonthDropdown() {

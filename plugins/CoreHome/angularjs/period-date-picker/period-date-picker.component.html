@@ -1,7 +1,9 @@
 <div
     piwik-date-picker
-    selected-dates="$ctrl.selectedDates"
-    highlighted-dates="$ctrl.highlightedDates"
+    selected-date-start="$ctrl.selectedDates[0]"
+    selected-date-end="$ctrl.selectedDates[1]"
+    highlighted-date-start="$ctrl.highlightedDates[0]"
+    highlighted-date-end="$ctrl.highlightedDates[1]"
     view-date="$ctrl.date"
     step-months="$ctrl.period === 'year' ? 12 : 1"
     disable-month-dropdown="$ctrl.period === 'year'"

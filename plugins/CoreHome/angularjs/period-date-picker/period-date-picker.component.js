@@ -38,8 +38,8 @@
             piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
         var vm = this;
-        vm.selectedDates = null;
-        vm.highlightedDates = null;
+        vm.selectedDates = [null, null];
+        vm.highlightedDates = [null, null];
         vm.onHoverNormalCell = onHoverNormalCell;
         vm.onHoverLeaveNormalCells = onHoverLeaveNormalCells;
         vm.onDateSelected = onDateSelected;
@@ -56,7 +56,7 @@
             if (isOutOfMinMaxDateRange
                 || shouldNotHighlightFromWhitespace
             ) {
-                vm.highlightedDates = null;
+                vm.highlightedDates = [null, null];
                 return;
             }
 
@@ -64,12 +64,13 @@
         }
 
         function onHoverLeaveNormalCells() {
-            vm.highlightedDates = null;
+            vm.highlightedDates = [null, null];
         }
 
         function $onChanges() {
             if (!vm.period || !vm.date) {
-                vm.selectedDates = null;
+                console.log('setting to null?');
+                vm.selectedDates = [null, null];
                 return;
             }
 
