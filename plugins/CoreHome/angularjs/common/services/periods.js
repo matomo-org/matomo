@@ -245,7 +245,9 @@
     }
 
     function parseDate(strDate) {
-        if (strDate === 'today') {
+        if (strDate === 'today'
+            || strDate === 'now'
+        ) {
             return getToday();
         }
 

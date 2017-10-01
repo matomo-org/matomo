@@ -143,17 +143,12 @@
             vm.selectedPeriod = period;
             vm.dateValue = date;
 
-            piwik.period = period;
-            piwik.currentDateString = formatDate(date);
-
-            var dateRange = piwikPeriods.parse(period, piwik.currentDateString).getDateRange();
+            var currentDateString = formatDate(date);
+            var dateRange = piwikPeriods.parse(period, currentDateString).getDateRange();
             vm.startRangeDate = formatDate(dateRange[0]);
             vm.endRangeDate = formatDate(dateRange[1]);
 
-            piwik.startDateString = vm.startRangeDate;
-            piwik.endDateString = vm.endRangeDate;
-
-            propagateNewUrlParams(piwik.currentDateString, vm.selectedPeriod);
+            propagateNewUrlParams(currentDateString, vm.selectedPeriod);
             initTopControls();
         }
 
