@@ -13,6 +13,7 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 
 ### New APIs
 * Reports and visualizations can now hide the export icons with a new property `$view->config->show_export`.
+* Reports and visualizations can now show a message above the report with a new property `$view->config->show_header_message`.
 * The following events have been added:
   * `Metric.addMetrics` Triggered to add new metrics that cannot be picked up automatically by the platform.
   * `Metric.addComputedMetrics` Triggered to add computed metrics that are not generated automatically
