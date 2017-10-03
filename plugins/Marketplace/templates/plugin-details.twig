@@ -7,6 +7,8 @@
             {{ errorMessage }}
         {% elseif plugin %}
 
+            {% set isBundle = plugin.isBundle is defined and plugin.isBundle %}
+
             {% if plugin.versions is not empty and plugin.versions[plugin.versions|length - 1] %}
                 {% set latestVersion = plugin.versions[plugin.versions|length - 1] %}
             {% else %}
@@ -176,11 +178,15 @@
 
                         <p><br /></p>
                         <dl>
-                            <dt>{{ 'CorePluginsAdmin_Version'|translate }}</dt>
-                            <dd>{{ plugin.latestVersion }}</dd>
+                            {% if not isBundle %}
+                                <dt>{{ 'CorePluginsAdmin_Version'|translate }}</dt>
+                                <dd>{{ plugin.latestVersion }}</dd>
+                            {% endif %}
+
                             <dt>{{ 'Marketplace_PluginKeywords'|translate }}</dt>
                             <dd>{{ plugin.keywords|join(', ') }}</dd>
-                            {% if plugin.lastUpdated %}
+
+                            {% if plugin.lastUpdated and not isBundle %}
                                 <dt>{{ 'Marketplace_LastUpdated'|translate }}</dt>
                                 <dd>{{ plugin.lastUpdated }}</dd>
                             {% endif %}
@@ -188,50 +194,54 @@
                                 <dt>{{ 'General_Downloads'|translate }}</dt>
                                 <dd title="{{ 'Marketplace_NumDownloadsLatestVersion'|translate(latestVersion.numDownloads|number_format) }}">{{ plugin.numDownloads }}</dd>
                             {% endif %}
-                            <dt>{{ 'Marketplace_Developer'|translate }}</dt>
-                            <dd>{{ marketplaceMacro.pluginDeveloper(plugin.owner) }}</dd>
-                            {% if latestVersion and latestVersion.license is defined and latestVersion.license and latestVersion.license.name is defined and latestVersion.license.name %}
-                                <dt>{{ 'Marketplace_License'|translate }}</dt>
-                                <dd>
-                                    {% if latestVersion.license.url is defined and latestVersion.license.url %}
-                                        <a rel="noreferrer"
-                                           href="{{ latestVersion.license.url }}"
-                                           target="_blank">{{ latestVersion.license.name }}</a>
-                                    {% else %}
-                                        {{ latestVersion.license.name }}
-                                    {% endif %}
+
+                            {% if not isBundle %}
+                                <dt>{{ 'Marketplace_Developer'|translate }}</dt>
+                                <dd>{{ marketplaceMacro.pluginDeveloper(plugin.owner) }}</dd>
+                                {% if latestVersion and latestVersion.license is defined and latestVersion.license and latestVersion.license.name is defined and latestVersion.license.name %}
+                                    <dt>{{ 'Marketplace_License'|translate }}</dt>
+                                    <dd>
+                                        {% if latestVersion.license.url is defined and latestVersion.license.url %}
+                                            <a rel="noreferrer"
+                                               href="{{ latestVersion.license.url }}"
+                                               target="_blank">{{ latestVersion.license.name }}</a>
+                                        {% else %}
+                                            {{ latestVersion.license.name }}
+                                        {% endif %}
+                                    </dd>
+                                {% endif %}
+                                <dt>{{ 'Marketplace_Authors'|translate }}</dt>
+                                <dd>{% for author in plugin.authors if author.name %}
+
+                                        {% spaceless %}
+                                            {% if author.homepage %}
+                                                <a target="_blank" rel="noreferrer" href="{{ author.homepage }}">{{ author.name }}</a>
+                                            {% elseif author.email %}
+                                                <a href="mailto:{{ author.email|escape('url') }}">{{ author.name }}</a>
+                                            {% else %}
+                                                {{ author.name }}
+                                            {% endif %}
+
+                                            {% if loop.index < plugin.authors|length %}
+                                                ,
+                                            {% endif %}
+                                        {% endspaceless %}
+
+                                    {% endfor %}
                                 </dd>
                             {% endif %}
-                            <dt>{{ 'Marketplace_Authors'|translate }}</dt>
-                            <dd>{% for author in plugin.authors if author.name %}
-
-                                    {% spaceless %}
-                                        {% if author.homepage %}
-                                            <a target="_blank" rel="noreferrer" href="{{ author.homepage }}">{{ author.name }}</a>
-                                        {% elseif author.email %}
-                                            <a href="mailto:{{ author.email|escape('url') }}">{{ author.name }}</a>
-                                        {% else %}
-                                            {{ author.name }}
-                                        {% endif %}
-
-                                        {% if loop.index < plugin.authors|length %}
-                                            ,
-                                        {% endif %}
-                                    {% endspaceless %}
-
-                                {% endfor %}
-                            </dd>
                             <dt>{{ 'CorePluginsAdmin_Websites'|translate }}</dt>
                             <dd>
                                 {% if plugin.homepage %}
-                                    <a target="_blank" rel="noreferrer" href="{{ plugin.homepage }}">{{ 'Marketplace_PluginWebsite'|translate }}</a>,
-                                {% endif %}
+                                    <a target="_blank" rel="noreferrer" href="{{ plugin.homepage }}">{{ 'Marketplace_PluginWebsite'|translate }}</a>
+                                {%- endif -%}
 
-                                {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
-                                    <a target="_blank" rel="noreferrer" href="{{ plugin.changelog.url }}">{{ 'CorePluginsAdmin_Changelog'|translate }}</a>,
-                                {% endif %}
+                                {%- if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url -%}
+                                    {%- if plugin.homepage %}, {% endif %}
+                                    <a target="_blank" rel="noreferrer" href="{{ plugin.changelog.url }}">{{ 'CorePluginsAdmin_Changelog'|translate }}</a>
+                                {%- endif -%}
 
-                                <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a>
+                                {%- if plugin.repositoryUrl %}, <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a>{% endif %}
                             </dd>
 
                             {% if plugin.activity and plugin.activity.numCommits %}
