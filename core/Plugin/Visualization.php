@@ -38,6 +38,7 @@ use Piwik\API\Request as ApiRequest;
  * itself:
  *
  * - report documentation,
+ * - a header message (if {@link Piwik\ViewDataTable\Config::$show_header_message} is set),
  * - a footer message (if {@link Piwik\ViewDataTable\Config::$show_footer_message} is set),
  * - a list of links to related reports (if {@link Piwik\ViewDataTable\Config::$related_reports} is set),
  * - a button that allows users to switch visualizations,
