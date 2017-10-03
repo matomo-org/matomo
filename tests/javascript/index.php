@@ -3105,7 +3105,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(23);
+        expect(25);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
