@@ -432,7 +432,6 @@
         "YearsDays": "%1$s år %2$s dage",
         "Yes": "Ja",
         "YouAreCurrentlyUsing": "Du bruger i øjeblikket Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Du bruger en demo version af Piwik",
         "YouMustBeLoggedIn": "Du skal være logget på for at få adgang til denne funktion.",
         "YourChangesHaveBeenSaved": "Ændringer er gemt."
     },

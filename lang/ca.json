@@ -366,7 +366,6 @@
         "YearsDays": "%1$s anys %2$s dies",
         "Yes": "Sí",
         "YouAreCurrentlyUsing": "Ara mateix estàs fent servir el Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Ara mateix estàs veient la demostració del Piwik",
         "YouMustBeLoggedIn": "Has d'entrar per accedir a aquesta funcionalitat.",
         "YourChangesHaveBeenSaved": "Els vostres canvis s'han guardat"
     },

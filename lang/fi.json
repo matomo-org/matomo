@@ -412,7 +412,6 @@
         "YearsDays": "%1$s vuotta %2$s päivää",
         "Yes": "Kyllä",
         "YouAreCurrentlyUsing": "Käytät Piwik %s:ää",
-        "YouAreViewingDemoShortMessage": "Katsot Piwikin demoversiota",
         "YouMustBeLoggedIn": "Sinun täytyy kirjautua sisään ennen tämän toiminnallisuuden käyttämistä.",
         "YourChangesHaveBeenSaved": "Muutokset on tallennettu"
     },

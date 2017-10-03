@@ -153,8 +153,8 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
 
         return $this->renderTemplate('glossary', array(
-            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports')),
-            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics')),
+            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports', 'filter_limit' => -1)),
+            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics', 'filter_limit' => -1)),
         ));
     }
 }

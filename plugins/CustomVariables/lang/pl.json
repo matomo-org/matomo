@@ -5,6 +5,14 @@
         "CustomVariables": "Zmienne niestandardowe",
         "CustomVariablesReportDocumentation": "Raport ten zawiera informacje na temat niestandardowych zmiennych. Kliknij na nazwę zmiennej, aby zobaczyć rozkład wartości. %1$sAby uzyskać więcej informacji na temat niestandardowych zmiennych, przeczytaj dokumentację Zmienne %2$sCustom na piwik.org%3$s",
         "ScopePage": "strona zakresu",
-        "ScopeVisit": "zakres wizyt"
+        "ScopeVisit": "zakres wizyt",
+        "ScopeX": "Zakres %s",
+        "Index": "Indeks",
+        "Usages": "Wykorzystanie",
+        "Unused": "Niewykorzystane",
+        "CreateNewSlot": "Zwiększ liczbę dostępnych pól zmiennych niestandardowych",
+        "UsageDetails": "%1$s wizyt i %2$s akcji od utworzenia tego serwisu.",
+        "CurrentAvailableCustomVariables": "Obecnie możesz wykorzystać do %s Zmiennych Niestandardowych per serwis.",
+        "ToCreateCustomVarExecute": "W celu dodania nowego pola zmiennej niestandardowej wykonaj następującą komendę na serwerze utrzymującym Piwik'a:"
     }
 }

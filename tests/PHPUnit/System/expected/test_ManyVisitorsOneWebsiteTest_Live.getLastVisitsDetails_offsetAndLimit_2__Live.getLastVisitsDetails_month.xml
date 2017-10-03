@@ -221,7 +221,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -237,7 +237,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -252,7 +252,7 @@
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name6</eventName>

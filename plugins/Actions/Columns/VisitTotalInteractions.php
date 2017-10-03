@@ -72,6 +72,17 @@ class VisitTotalInteractions extends VisitDimension
     {
         $position = $request->getMetadata('Actions', 'visit_total_interactions');
 
+        return (int) $position;
+    }
+
+    /**
+     * @param Request $request
+     * @return int
+     */
+    public static function getNextInteractionPosition($request)
+    {
+        $position = self::getCurrentInteractionPosition($request);
+
         $position = $position + 1;
 
         // Remove this in Piwik 4

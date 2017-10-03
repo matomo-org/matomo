@@ -1,5 +1,6 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Sök efter uppdateringar för plugins",
         "ClickHereToViewSqlQueries": "Klicka här för att visa och kopiera listan över SQL-frågor som kommer att exekveras",
         "CriticalErrorDuringTheUpgradeProcess": "Kritiskt fel uppstod under uppdateringsprocessen:",
         "DatabaseUpgradeRequired": "Databasuppgradering krävs",
@@ -23,14 +24,18 @@
         "HelpMessageIntroductionWhenError": "Ovanstående är huvudsakliga felmeddelandet. Det bör bidra till att förklara orsaken, men om du behöver mer hjälp vänligen:",
         "HelpMessageIntroductionWhenWarning": "Uppdateringen slutfördes framgångsrikt, men det fanns dock problem under processen. Vänligen läs ovanstående beskrivningar för detaljer. För ytterligare hjälp:",
         "HighTrafficPiwikServerEnableMaintenance": "Om du hanterar en Piwik server med mycket trafik rekommenderar vi att du tillfälligt %1$sinaktiverar spårning av besökare och sätter Piwik's användargränssnitt i underhållsläge%2$s.",
+        "IncompatbilePluginsWillBeDisabledInfo": "Obs: vissa tillägg är inte kompatibla med Piwik %s. De kommer att uppdateras om en nyare version finns tillgänglig på Marketplace, annars kommer de att inaktiveras när du uppgraderar:",
         "InstallingTheLatestVersion": "Installerar den senaste versionen",
         "LatestBetaRelease": "Senaste betaversion",
         "LatestStableRelease": "Senaste stabila versionen",
         "Latest2XStableRelease": "Senaste stabila 2.X",
         "Latest2XBetaRelease": "Senaste beta 2.X",
         "LtsSupportVersion": "Version med långtidsstöd",
+        "ListOfSqlQueriesFYI": "Info: dessa SQL-frågor kommer att köras för att uppgradera din databas till Piwik %s",
         "MajorUpdateWarning1": "Det här är en stor uppdatering! Den kommer att ta längre tid än vanligt.",
         "MajorUpdateWarning2": "Följande råd är extra viktiga för stora installationer.",
+        "NeedHelpUpgrading": "Behöver du hjälp med att uppdatera Piwik?",
+        "NeedHelpUpgradingText": "Om du behöver hjälp med att uppgradera Piwik, så finns skaparna av Piwik här för att hjälpa dig med instruktioner, bästa tillvägagångssätt och löpande support. %1$s Kontakta Piwik-experterna för att komma igång med uppgraderingen av Piwik på ett säkert sätt.%2$s",
         "NoteForLargePiwikInstances": "Viktig notering för stora Piwik-installationer",
         "NotificationClickToUpdatePlugins": "Klicka här för att uppdatera dina tillägg nu:",
         "NotificationClickToUpdateThemes": "Klicka här för att uppdatera dina teman nu:",
@@ -50,11 +55,13 @@
         "UpdateAutomatically": "Uppdatera automatiskt",
         "UpdateHasBeenCancelledExplanation": "Piwik's Ett-klicks-uppdatering har avbrutits. Om du inte kan åtgärda ovanstående felmeddelande, rekommenderas att du manuellt uppdaterar Piwik. %1$s Kolla in %2$sUppdateringsdokumentation%3$s för att komma igång!",
         "UpdateTitle": "Uppdatera",
+        "UpdatingPluginXToVersionY": "Uppdaterar plugin %1$s till version %2$s",
         "UpdateSuccessTitle": "Piwik har uppdaterats utan problem!",
         "UpdateErrorTitle": "Uppdateringsfel",
         "ThankYouUpdatePiwik": "Tack för att du använder Piwik och håller den uppdaterad!",
-        "PostUpdateMessage": "Piwik kommer alltid att vara fri att använda men behöver ditt stöd för att växa och utvecklas.",
+        "PostUpdateMessage": "Piwik kommer alltid att vara gratis att använda, men behöver ditt stöd för att växa och utvecklas.",
         "PostUpdateSupport": "Om du behöver hjälp att använda Piwik kan du få stöd från utvecklarna:",
+        "ServicesSupport": "Tjänster & support",
         "CloudHosting": "Molntjänst",
         "Updating": "Uppdateringar",
         "UpdateUsingHttpsFailed": "Nedladdning ac den senaste versionen av Piwik över HTTPS fungerade inte på grund av följande fel:",
@@ -70,6 +77,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Du kan uppdatera till den senaste versionen %s automatiskt eller ladda ner paketet och installera det manuellt:",
         "YouMustDownloadPackageOrFixPermissions": "Piwik kunde inte skriva över din aktuella installation. Du kan antingen fixa mapp\/filrättigheterna eller ladda ner paketet och installera versionen %s manuellt:",
         "YourDatabaseIsOutOfDate": "Din Piwik-databas är inte uppdaterad och måste därför uppgraderas innan du kan fortsätta.",
-        "ViewVersionChangelog": "Visa ändringslogg för denna version:"
+        "ViewVersionChangelog": "Visa ändringslogg för denna version:",
+        "ReceiveEmailBecauseIsSuperUser": "Du får det här mailet eftersom du är en Super User för Piwik på: %s"
     }
 }

@@ -432,7 +432,6 @@
         "YearsDays": "%1$s г. %2$s дн.",
         "Yes": "Да",
         "YouAreCurrentlyUsing": "Вы используете версию Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Вы просматриваете Piwik в демо режиме",
         "YouMustBeLoggedIn": "Вы должны зайти на сайт, чтобы получить доступ к этому функционалу.",
         "YourChangesHaveBeenSaved": "Изменения сохранены."
     },

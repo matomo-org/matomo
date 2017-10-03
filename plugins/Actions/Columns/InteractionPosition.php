@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -35,7 +36,13 @@ class InteractionPosition extends ActionDimension
         if ($shouldCount && $visitor->isNewVisit()) {
             return 1;
         } else if ($shouldCount) {
-            return VisitTotalInteractions::getCurrentInteractionPosition($request);
+            return VisitTotalInteractions::getNextInteractionPosition($request);
+        }
+
+        // we re-use same interaction position as last page view eg for events etc.
+        $position = VisitTotalInteractions::getCurrentInteractionPosition($request);
+        if ($position >= 1) {
+            return $position;
         }
 
         return false;

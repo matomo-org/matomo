@@ -44,6 +44,16 @@ if (getenv('PIWIK_USE_XHPROF') == 1) {
     \Piwik\Profiler::setupProfilerXHProf();
 }
 
+function setPiwikDomainFromEnvVar()
+{
+    $piwikDomain = getenv('PIWIK_DOMAIN');
+    if (!empty($piwikDomain)) {
+        $_SERVER['HTTP_HOST'] = $piwikDomain;
+    }
+}
+
+setPiwikDomainFromEnvVar();
+
 // setup container for tests
 function setupRootContainer() {
     // before running tests, delete the TestingEnvironmentVariables file, since it can indirectly mess w/

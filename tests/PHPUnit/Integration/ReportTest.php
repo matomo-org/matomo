@@ -329,6 +329,17 @@ class ReportTest extends IntegrationTestCase
         $this->assertEquals($action, $report->getAction());
     }
 
+    public function test_getId_ShouldReturnOnlyReturnModuleAndActionWhenNoParametersSet()
+    {
+        $report = new GetExampleReport();
+        $this->assertEquals('ExampleReport.getExampleReport', $report->getId());
+    }
+
+    public function test_getId_ShouldReturnIncludeParamsIfSet()
+    {
+        $this->assertEquals('TestPlugin.getAdvancedReport_idGoal--1', $this->advancedReport->getId());
+    }
+
     public function test_getSubtableDimension_ShouldReturnNullIfNoSubtableActionExists()
     {
         $report = new GetExampleReport();

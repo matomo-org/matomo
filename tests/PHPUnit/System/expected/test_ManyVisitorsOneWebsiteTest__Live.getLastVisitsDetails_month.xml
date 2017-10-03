@@ -203,7 +203,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -219,7 +219,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -234,7 +234,7 @@
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name8</eventName>
@@ -543,7 +543,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -559,7 +559,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -574,7 +574,7 @@
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name7</eventName>
@@ -905,7 +905,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -921,7 +921,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -936,7 +936,7 @@
 				<eventCategory>Cat6</eventCategory>
 				<eventAction>Action6</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name6</eventName>
@@ -1245,7 +1245,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1261,7 +1261,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1276,7 +1276,7 @@
 				<eventCategory>Cat5</eventCategory>
 				<eventAction>Action5</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name5</eventName>
@@ -1607,7 +1607,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1623,7 +1623,7 @@
 				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1638,7 +1638,7 @@
 				<eventCategory>Cat4</eventCategory>
 				<eventAction>Action4</eventAction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name4</eventName>
