@@ -5723,7 +5723,7 @@ if (typeof window.Piwik !== 'object') {
             this.setNewVisitorId = function() {
                 configUserId = '';
                 visitorUUID = generateRandomUuid();
-            }
+            };
 
             /**
              * Sets a User ID to this user (such as an email address or a username)
