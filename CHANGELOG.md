@@ -6,11 +6,16 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 
 ## Piwik 3.2.0
 
+### New Segments
+* New Segment added: `visitStartServerMinute` for Server time - minute (Start of visit)
+* New Segment added: `visitEndServerMinute` for Server time - minute (End of visit)
+
+
 ### New APIs
 * Reports and visualizations can now hide the export icons with a new property `$view->config->show_export`.
 * The following events have been added:
   * `Metric.addMetrics` Triggered to add new metrics that cannot be picked up automatically by the platform.
-  * `Metric.addComputedMetrics` Triggeed to add computed metrics that are not generated automatically
+  * `Metric.addComputedMetrics` Triggered to add computed metrics that are not generated automatically
   * `Metric.filterMetrics` Triggered to filter metrics
 * The following new API classes have been added:
  * `Piwik\Columns\MetricsList` Holds a list of all available metrics
@@ -112,11 +117,11 @@ If the tracker is not initialised correctly, the browser console will display th
 * The "User Menu" was removed and should be replaced by "Admin Menu". Change `configureUserMenu(MenuUser $menu)` to `configureAdminMenu(MenuAdmin $menu)` in your `Menu.php`.
 * The method `Piwik\Menu\MenuAbstract::add()` has been removed, use `Piwik\Menu\MenuAbstract::addItem()` instead
 * The method `Piwik\Menu\MenuAdmin::addSettingsItem()` was removed, use  `Piwik\Menu\MenuAdmin::addSystemItem()` instead.
-* A new methd `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
-* The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
+* A new method `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
+* The class `Piwik\Plugin\Settings` has been split to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no longer possible to define an introduction text for settings.
-* If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
+* If requesting multiple periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 * The following deprecated events have been removed as mentioned.
  * `Tracker.existingVisitInformation` Use [dimensions](https://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
  * `Tracker.newVisitorInformation`
@@ -140,7 +145,7 @@ If the tracker is not initialised correctly, the browser console will display th
    UserSettings | getPlugin | DevicePlugins | getPlugin
    UserSettings | index | DevicesDetection | software
    UserSettings | getBrowser | DevicesDetection | getBrowsers
-   UserSettings | getBrowserVerions | DevicesDetection | getBrowserVersions
+   UserSettings | getBrowserVersions | DevicesDetection | getBrowserVersions
    UserSettings | getMobileVsDesktop | DevicesDetection | getType
    UserSettings | getOS | DevicesDetection | getOsVersions
    UserSettings | getOSFamily | DevicesDetection | getOsFamilies
@@ -263,9 +268,9 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * New segment operators `=^` "Starts with" and `=$` "Ends with" complement the existing segment operators: Contains, Does not contain, Equals, Not equals, Greater than or equal to, Less than or equal to.
  * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
  * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
- * It is now possible to pass an option `php-cli-options` to the `core:archive` command. The given cli options will be forwarded to the actual PHP command. This allows to for example specifiy a different memory limit for the archiving process like this: `./console core:archive --php-cli-options="-d memory_limit=8G"`
+ * It is now possible to pass an option `php-cli-options` to the `core:archive` command. The given cli options will be forwarded to the actual PHP command. This allows to for example specify a different memory limit for the archiving process like this: `./console core:archive --php-cli-options="-d memory_limit=8G"`
  * New less variable `@theme-color-menu-contrast-textSelected` that lets you specify the color of a selected menu item.
- * in Administration > Diagnostics, there is a new page `Config file` which lets Super User view all config values from `global.ini.php` in the UI, and whether they were overriden in your `config/config.ini.php`
+ * in Administration > Diagnostics, there is a new page `Config file` which lets Super User view all config values from `global.ini.php` in the UI, and whether they were overridden in your `config/config.ini.php`
 
 ### New commands
  * New command `config:set` lets you set INI config options from the command line. This command can be used for convenience or for automation.
@@ -331,7 +336,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * In `piwik.js` we replaced [JSON2](https://github.com/douglascrockford/JSON-js) with [JSON3](https://bestiejs.github.io/json3/) to implement CSP (Content Security Policy) as JSON3 does not use `eval()`. JSON3 will be used if a browser does not provide a native JSON API. We are using `JSON3` in a way that it will not conflict if your website is using `JSON3` as well.
 * The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
 * All numbers in reports will now appear formatted (eg. `1,000,000` instead of `1000000`)
-* Database connections now use `UTF-8` charset explicitely to force UTF-8 data handling
+* Database connections now use `UTF-8` charset explicitly to force UTF-8 data handling
 
 ## Piwik 2.14.0
 
