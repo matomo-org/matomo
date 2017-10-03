@@ -3172,9 +3172,11 @@ function PiwikTest() {
 
         // Verify that when resetting the User ID, it also changes the Visitor ID
         tracker.setUserId(false);
-        ok(getVisitorIdFromCookie(tracker).length == 16, "after resetting user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
-        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after resetting user id, visitor ID from cookie should be different ("+ visitorId +")");
+        ok(tracker.getVisitorId().length == 16, "after resetting user id, visitor ID should still be 16 chars, got: " + tracker.getVisitorId());
+        notEqual(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be different ("+ tracker.getVisitorId() +")");
         tracker.trackPageView("Track some data to write the cookies...");
+        ok(getVisitorIdFromCookie(tracker).length == 16, "after resetting user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after resetting user id, visitor ID from cookie should be different ("+ getVisitorIdFromCookie(tracker) +")");
 
     });
 
