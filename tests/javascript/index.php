@@ -2131,6 +2131,7 @@ function PiwikTest() {
         equal( typeof tracker.getCurrentUrl, 'function', 'getCurrentUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
+        equal( typeof tracker.setNewVisitorId, 'function', 'setNewVisitorId' );
         equal( typeof tracker.setUserId, 'function', 'setUserId' );
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
@@ -3171,11 +3172,9 @@ function PiwikTest() {
 
         // Verify that when resetting the User ID, it also changes the Visitor ID
         tracker.setUserId(false);
-        ok(getVisitorIdFromCookie(tracker).length == 16, "after setting empty user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
-        equal(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should be the same as previously ("+ visitorId +")");
+        ok(getVisitorIdFromCookie(tracker).length == 16, "after resetting user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after resetting user id, visitor ID from cookie should be different ("+ visitorId +")");
         tracker.trackPageView("Track some data to write the cookies...");
-        // Currently it does not work to setUserId(false)
-//        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should different ("+ visitorId +")");
 
     });
 

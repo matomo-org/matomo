@@ -974,7 +974,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     exec,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    initialized, hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    initialized, hook, getHook, setNewVisitorId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -5718,11 +5718,23 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Sets the current visitor ID to a random new one.
+             */
+            this.setNewVisitorId = function() {
+                configUserId = '';
+                visitorUUID = generateRandomUuid();
+            }
+
+            /**
              * Sets a User ID to this user (such as an email address or a username)
              *
-             * @param string User ID
+             * @param string Any user ID string (eg. email address, ID, username). Must be non empty. Set to false to de-assign a user id previously set.
              */
             this.setUserId = function (userId) {
+                if(userId === false) {
+                    this.setNewVisitorId();
+                    return;
+                }
                 if(!isDefined(userId) || !userId.length) {
                     return;
                 }
