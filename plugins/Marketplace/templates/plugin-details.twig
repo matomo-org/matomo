@@ -234,14 +234,14 @@
                             <dd>
                                 {% if plugin.homepage %}
                                     <a target="_blank" rel="noreferrer" href="{{ plugin.homepage }}">{{ 'Marketplace_PluginWebsite'|translate }}</a>
-                                {% endif %}
+                                {%- endif -%}
 
-                                {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
-                                    {% if plugin.homepage %}, {% endif %}
+                                {%- if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url -%}
+                                    {%- if plugin.homepage %}, {% endif %}
                                     <a target="_blank" rel="noreferrer" href="{{ plugin.changelog.url }}">{{ 'CorePluginsAdmin_Changelog'|translate }}</a>
-                                {% endif %}
+                                {%- endif -%}
 
-                                {% if plugin.repositoryUrl %}, <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a>{% endif %}
+                                {%- if plugin.repositoryUrl %}, <a target="_blank" href="{{ plugin.repositoryUrl }}">GitHub</a>{% endif %}
                             </dd>
 
                             {% if plugin.activity and plugin.activity.numCommits %}
