@@ -10,7 +10,6 @@ namespace Piwik\Plugins\VisitorInterest\Columns;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -19,16 +18,9 @@ class VisitsByDaysSinceLastVisit extends VisitDimension
 {
     protected $columnName = 'visitor_days_since_last';
     protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('daysSinceLastVisit');
-        $segment->setName('General_DaysSinceLastVisit');
-        $segment->setType(Segment::TYPE_METRIC);
-
-        $this->addSegment($segment);
-    }
+    protected $type = self::TYPE_NUMBER;
+    protected $segmentName = 'daysSinceLastVisit';
+    protected $nameSingular = 'General_DaysSinceLastVisit';
 
     public function getName()
     {

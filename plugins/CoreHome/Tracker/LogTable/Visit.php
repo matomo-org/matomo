@@ -32,4 +32,8 @@ class Visit extends LogTable
         return true;
     }
 
+    public function getPrimaryKey()
+    {
+        return array('idvisit');
+    }
 }

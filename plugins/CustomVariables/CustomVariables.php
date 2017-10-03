@@ -23,6 +23,7 @@ class CustomVariables extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Dimension.addDimensions' => 'addDimensions',
             'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         );
     }
@@ -35,6 +36,24 @@ class CustomVariables extends \Piwik\Plugin
     public function uninstall()
     {
         Model::uninstall();
+    }
+
+    public function addDimensions(&$instances)
+    {
+        foreach (Model::getScopes() as $scope) {
+            $model = new Model($scope);
+            try {
+                $highestIndex = $model->getHighestCustomVarIndex();
+            } catch (\Exception $e) {
+                continue; // ignore error for tests to work as this might be executed before Piwik tables are installed
+            }
+
+            foreach (range(1, $highestIndex) as $index) {
+                $custom = new CustomDimension();
+                $custom->initCustomDimension($index, $model);
+                $instances[] = $custom;
+            }
+        }
     }
 
     /**

@@ -337,6 +337,14 @@
                      options='{1: "0123456789",2:"9876543210",3:"5432109876"}'>
                 </div>
 
+                <div piwik-field uicontrol="expandable-select" name="selectexpand"
+                     title="{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}"
+                     value="Select value"
+                     inline-help="Expandable select"
+                     ng-model="view.selectedExpand"
+                     options='[{group: "Group 1",key:"1",value:"Hello"}, {group: "Group 1",key:"2",value:"How",tooltip: "Help text"}, {group: "Group 1",key:"3",value:"Are"}, {group: "Group 2",key:"4",value:"You"}]'>
+                </div>
+
                 <div piwik-field uicontrol="checkbox" name="enableFeature"
                      title="Enable feature"
                      introduction="Radio and checkboxes"
@@ -441,6 +449,14 @@
          options='{1: &quot;0123456789&quot;,2:&quot;9876543210&quot;,3:&quot;5432109876&quot;}'&gt;
     &lt;/div&gt;
 
+    &lt;div piwik-field uicontrol=&quot;expandable-select&quot; name=&quot;selectexpand&quot;
+         title=&quot;{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}&quot;
+         value=&quot;Select value&quot;
+         inline-help=&quot;Expandable select&quot;
+         ng-model=&quot;view.selectedExpand&quot;
+         options='[{group: &quot;Group 1&quot;,key:&quot;1&quot;,value:&quot;Hello&quot;}, {group: &quot;Group 1&quot;,key:&quot;2&quot;,value:&quot;How&quot;,tooltip: &quot;Help text&quot;}, {group: &quot;Group 1&quot;,key:&quot;3&quot;,value:&quot;Are&quot;}, {group: &quot;Group 2&quot;,key:&quot;4&quot;,value:&quot;You&quot;}]'&gt;
+    &lt;/div&gt;
+                
     &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
          title=&quot;Enable feature&quot;
          introduction=&quot;Radio and checkboxes&quot;

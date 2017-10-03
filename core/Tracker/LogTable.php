@@ -82,4 +82,15 @@ abstract class LogTable {
         return;
     }
 
+    /**
+     * Get the names of the columns that represents the primary key. For example "idvisit" or "idlink_va". If the table
+     * defines the primary key based on multiple columns, you must specify them all
+     * (eg array('idvisit', 'idgoal', 'buster')).
+     *
+     * @return array
+     */
+    public function getPrimaryKey()
+    {
+        return array();
+    }
 }

@@ -32,103 +32,15 @@
         </div>
     </div>
 
-    <div class="initial-state-rows">{# no space here important for jQuery #}<div class="segment-add-row initial"><div>
-        <span>+ {{ 'SegmentEditor_DragDropCondition'|translate|raw }}</span>
-    </div></div>
-    <div class="segment-and">{{ 'SegmentEditor_OperatorAND'|translate|raw }}</div>
-    <div class="segment-add-row initial"><div>
-        <span>+ {{ 'SegmentEditor_DragDropCondition'|translate|raw }}</span>
-    </div></div>
-    </div>
-
-    <div class="segment-row-inputs">
-        <div class="segment-input metricListBlock">
-            <select title="{{ 'SegmentEditor_ChooseASegment'|translate }}" class="metricList browser-default">
-                {% for category,segmentsInCategory in segmentsByCategory %}
-                <optgroup label="{{ category }}">
-                    {% for segmentInCategory in segmentsInCategory %}
-                        <option data-type="{{ segmentInCategory.type }}" value="{{ segmentInCategory.segment }}">{{ segmentInCategory.name }}</option>
-                    {% endfor %}
-                </optgroup>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="segment-input metricMatchBlock">
-            <select title="{{ 'General_Matches'|translate }}" class="browser-default">
-                <option value="==">{{ 'General_OperationEquals'|translate }}</option>
-                <option value="!=">{{ 'General_OperationNotEquals'|translate }}</option>
-                <option value="<=">{{ 'General_OperationAtMost'|translate }}</option>
-                <option value=">=">{{ 'General_OperationAtLeast'|translate }}</option>
-                <option value="<">{{ 'General_OperationLessThan'|translate }}</option>
-                <option value=">">{{ 'General_OperationGreaterThan'|translate }}</option>
-                <option value="=@">{{ 'General_OperationContains'|translate }}</option>
-                <option value="!@">{{ 'General_OperationDoesNotContain'|translate }}</option>
-                <option value="=^">{{ 'General_OperationStartsWith'|translate }}</option>
-                <option value="=$">{{ 'General_OperationEndsWith'|translate }}</option>
-            </select>
-        </div>
-        <div class="segment-input metricValueBlock">
-            <input type="text" class="browser-default" title="{{ 'General_Value'|translate }}">
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div class="segment-rows">
-        <div class="segment-row">
-            <a href="#" class="segment-close"></a>
-            <a href="#" class="segment-loading"></a>
-        </div>
-    </div>
-    <div class="segment-or">{{ 'SegmentEditor_OperatorOR'|translate }}</div>
-    <div class="segment-add-or"><div>
-            {% set orCondition %}<span>{{ 'SegmentEditor_OperatorOR'|translate }}</span>{% endset %}
-            <a href="#"> + {{ 'SegmentEditor_AddANDorORCondition'|translate(orCondition)|raw }} </a>
-        </div>
-    </div>
-    <div class="segment-and">{{ 'SegmentEditor_OperatorAND'|translate }}</div>
-    <div class="segment-add-row"><div>
-            {% set andCondition %}<span>{{ 'SegmentEditor_OperatorAND'|translate }}</span>{% endset %}
-            <a href="#">+ {{ 'SegmentEditor_AddANDorORCondition'|translate(andCondition)|raw }}</a>
-        </div>
-    </div>
     <div class="segment-element borderedControl expanded">
-        <div class="segment-nav">
-            <h4 class="visits">
-                <span class="icon-segment"></span><span class="available_segments"><strong>
-                <select class="available_segments_select browser-default"></select>
-            </strong></span></h4>
 
-            <div class="custom_select_search">
-                <a href="#"></a>
-                <input type="text" aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" class="inp ui-autocomplete-input segmentSearch browser-default" value="{{ 'General_Search'|translate }}" length="15">
-            </div>
-
-            <div class="scrollable">
-            <ul>
-                {% for category,segmentsInCategory in segmentsByCategory %}
-                <li data="visit">
-                    <a class="metric_category" href="#">{{ category }}</a>
-                    <ul style="display:none;">
-                        {% for segmentInCategory in segmentsInCategory %}
-                            {% set title = segmentInCategory.name %}
-                            {% if segmentInCategory.unionOfSegments is defined and segmentInCategory.unionOfSegments %}
-                                {% set title = 'SegmentEditor_SegmentXIsAUnionOf'|translate(title) %}
-                                {% for unionSegment in segmentInCategory.unionOfSegments %}
-                                    {% set title = title ~ ' ' ~ unionSegment %}
-                                    {% if not loop.last  %}
-                                        {% set title = title ~ ',' %}
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                            <li data-metric="{{ segmentInCategory.segment }}" title="{{ title|e('html_attr') }}"><a class="ddmetric" href="#">{{ segmentInCategory.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                {% endfor %}
-            </ul>
-            </div>
-        </div>
         <div class="segment-content">
             <div class="segment-top" {% if not isSuperUser %}style="display:none"{% endif %}>
+
+                <span class="icon-segment"></span><span class="available_segments"><strong>
+                <select class="available_segments_select browser-default"></select>
+            </strong></span>
+
                 {{ 'SegmentEditor_ThisSegmentIsVisibleTo'|translate }} <span class="enable_all_users"><strong>
                         <select class="enable_all_users_select">
                             <option selected="1" value="0">{{ 'SegmentEditor_VisibleToMe'|translate }}</option>
@@ -152,7 +64,7 @@
                     </strong></span>
 
             </div>
-            <h3>{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
+            <h3 style="margin: 12px 6px;">{{ 'General_Name'|translate }}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{{ 'General_Edit'|translate|lower }}</a></h3>
         </div>
         <div class="segment-footer">
             <div piwik-rate-feature title="Segment Editor" style="display:inline-block;float: left;margin-top: 2px;margin-right: 10px;"></div>

@@ -2,75 +2,219 @@
 <result>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
+		<name>Actions In Visit</name>
+		<segment>actions</segment>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
 		<name>Days since first visit</name>
 		<segment>daysSinceFirstVisit</segment>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Days since last Ecommerce order</name>
 		<segment>daysSinceLastEcommerceOrder</segment>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Days since last visit</name>
 		<segment>daysSinceLastVisit</segment>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
-		<name>Number of Actions</name>
-		<segment>actions</segment>
+		<category>Visitors</category>
+		<name>Local time - minute (Start of visit)</name>
+		<segment>visitLocalMinute</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 67, 57, 58, 59</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Number of Interactions</name>
 		<segment>interactions</segment>
 		<acceptedValues>Any positive integer</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Number of Internal Searches</name>
 		<segment>searches</segment>
 		<acceptedValues>To select all visits who used internal Site Search, use: &amp;segment=searches&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Total events</name>
 		<segment>events</segment>
 		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Visit Duration (in seconds)</name>
 		<segment>visitDuration</segment>
 	</row>
 	<row>
 		<type>metric</type>
-		<category>Visit</category>
+		<category>Visitors</category>
 		<name>Visitor IP</name>
 		<segment>visitIp</segment>
 		<acceptedValues>13.54.122.1. &lt;/code&gt;Select IP ranges with notation: &lt;code&gt;visitIp&gt;13.54.122.0;visitIp&lt;13.54.122.255</acceptedValues>
 		<permission>1</permission>
 	</row>
 	<row>
-		<type>metric</type>
-		<category>Actions</category>
-		<name>Bandwidth</name>
-		<segment>bandwidth</segment>
-		<acceptedValues>Any number in bytes, eg. 1000</acceptedValues>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Browser</name>
+		<segment>browserCode</segment>
+		<acceptedValues>FF, IE, CH, SF, OP, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Browser engine</name>
+		<segment>browserEngine</segment>
+		<acceptedValues>Trident, WebKit, Presto, Gecko, Blink, etc.</acceptedValues>
+		<suggestedValuesCallback>\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines</suggestedValuesCallback>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Browser version</name>
+		<segment>browserVersion</segment>
+		<acceptedValues>1.0, 8.0, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Device brand</name>
+		<segment>deviceBrand</segment>
+		<acceptedValues>3Q, 4Good, Acer, Ainol, Airness, Airties, Alcatel, Allview, Altech UEC, Amazon, Amoi, Apple, Archos, Arnova, ARRIS, Asus, Audiovox, Avvio, Axxion, BangOlufsen, Barnes &amp; Noble, BBK, Becker, Beetel, BenQ, BenQ-Siemens, Bird, Blackview, Blaupunkt, Blu, Bmobile, Boway, bq, Bravis, Brondi, Bush, Capitel, Captiva, Carrefour, Casio, Cat, Celkon, Changhong, Cherry Mobile, China Mobile, CnM, Coby Kyros, Compal, Compaq, ConCorde, Coolpad, Cowon, CreNova, Cricket, Crius Mea, Crosscall, Cube, CUBOT, Cyrus, Danew, Datang, Dbtel, Dell, Denver, Desay, DEXP, Dicam, Digma, DMM, DNS, DoCoMo, Doogee, Doov, Dopod, Dune HD, E-Boda, Easypix, EBEST, ECS, Elephone, Energy Sistem, Ericsson, Ericy, Eton, eTouch, Evertek, Evolveo, Explay, Ezio, Ezze, Fairphone, Fly, Foxconn, Freetel, Fujitsu, Garmin-Asus, Gateway, Gemini, Gigabyte, Gigaset, Gionee, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hi-Level, Hisense, Homtom, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, i-Joy, i-mate, i-mobile, iBall, iBerry, IconBIT, Ikea, iKoMo, iNew, Infinix, Inkti, Innostream, INQ, Intek, Intex, Inverto, iOcean, iTel, JAY-Tech, Jiayu, Jolla, K-Touch, Karbonn, Kazam, KDDI, Kiano, Kingsun, Komu, Konka, Konrow, Koobee, KOPO, Koridy, KT-Tech, Kumai, Kyocera, Landvo, Lanix, Lava, LCT, LeEco, Lenco, Lenovo, Le Pan, Lexibook, LG, Lingwin, Loewe, Logicom, LYF, M.T.T., Majestic, Manta Multimedia, Mecer, Mediacom, MediaTek, Medion, MEEG, Meizu, Memup, Metz, MEU, MicroMax, Microsoft, Mio, Mitsubishi, MIXC, MLLED, Mobistel, Modecom, Mofut, Motorola, Mpman, MSI, MyPhone, NEC, Neffos, Netgear, Newgen, Nexian, NextBook, NGM, Nikon, Nintendo, Noain, Nokia, Nomi, Nous, Nvidia, O2, Odys, Onda, OnePlus, OPPO, Opsson, Orange, Ouki, OUYA, Overmax, Oysters, Palm, Panasonic, Pantech, PEAQ, Pentagram, Philips, phoneOne, Pioneer, Ployer, Point of View, Polaroid, PolyPad, Pomp, Positivo, PPTV, Prestigio, ProScan, PULID, Qilive, QMobile, Qtek, Quechua, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Sagem, Samsung, Sanyo, Sega, Selevision, Sencor, Sendo, Senseit, SFR, Sharp, Siemens, Skyworth, Smart, Smartfren, Smartisan, Softbank, Sony, Sony Ericsson, Spice, Star, Stonex, Storex, Sumvision, SunVan, SuperSonic, Supra, Symphony, T-Mobile, TB Touch, TCL, TechniSat, TechnoTrend, Tecno Mobile, Telefunken, Telenor, Telit, Tesco, Tesla, teXet, ThL, Thomson, TIANYU, TiPhone, Tolino, Toplux, Toshiba, TrekStor, Trevi, Tunisie Telecom, Turbo-X, TVC, UMIDIGI, Uniscope, Unknown, Unowhy, UTStarcom, Vastking, Vertu, Vestel, Videocon, Videoweb, ViewSonic, Vitelcom, Vivo, Vizio, VK Mobile, Vodafone, Voto, Voxtel, Walton, Web TV, WellcoM, Wexler, Wiko, Wileyfox, Wolder, Wolfgang, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Ytone, Yuandao, Yusun, Zeemi, Zen, Zonda, Zopo, ZTE</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Device type</name>
+		<segment>deviceType</segment>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Local time - hour (Start of visit)</name>
+		<segment>visitLocalHour</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Operating system</name>
+		<segment>operatingSystemCode</segment>
+		<acceptedValues>WIN, MAC, LIN, AND, IPD, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Operating system version</name>
+		<segment>operatingSystemVersion</segment>
+		<acceptedValues>XP, 7, 2.3, 5.1, ...</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Resolution</name>
+		<segment>resolution</segment>
+		<acceptedValues>1280x1024, 800x600, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - hour (End of visit)</name>
+		<segment>visitServerHour</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - hour (Start of visit)</name>
+		<segment>visitStartServerHour</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - minute (End of visit)</name>
+		<segment>visitEndServerMinute</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - minute (Start of visit)</name>
+		<segment>visitStartServerMinute</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>User ID</name>
+		<segment>userId</segment>
+		<acceptedValues>any non empty unique string identifying the user (such as an email address or a username).</acceptedValues>
+		<permission>1</permission>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Visit Ecommerce status at the end of the visit</name>
+		<segment>visitEcommerceStatus</segment>
+		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Visit ID</name>
+		<segment>visitId</segment>
+		<acceptedValues>Any integer.</acceptedValues>
+		<permission>1</permission>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Visit converted a specific Goal Id</name>
+		<segment>visitConvertedGoalId</segment>
+		<acceptedValues>1, 2, 3, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Visit converted at least one Goal</name>
+		<segment>visitConverted</segment>
+		<acceptedValues>0, 1</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Visit type</name>
+		<segment>visitorType</segment>
+		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Visitor ID</name>
+		<segment>visitorId</segment>
+		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -120,175 +264,6 @@
 		<name>Region</name>
 		<segment>regionCode</segment>
 		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=A1;country=fr</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Browser</name>
-		<segment>browserCode</segment>
-		<acceptedValues>FF, IE, CH, SF, OP, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Browser engine</name>
-		<segment>browserEngine</segment>
-		<acceptedValues>Trident, WebKit, Presto, Gecko, Blink, etc.</acceptedValues>
-		<suggestedValuesCallback>\DeviceDetector\Parser\Client\Browser\Engine::getAvailableEngines</suggestedValuesCallback>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Browser version</name>
-		<segment>browserVersion</segment>
-		<acceptedValues>1.0, 8.0, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Device brand</name>
-		<segment>deviceBrand</segment>
-		<acceptedValues>3Q, 4Good, Acer, Ainol, Airness, Airties, Alcatel, Allview, Altech UEC, Amazon, Amoi, Apple, Archos, Arnova, ARRIS, Asus, Audiovox, Avvio, Axxion, BangOlufsen, Barnes &amp; Noble, BBK, Becker, Beetel, BenQ, BenQ-Siemens, Bird, Blackview, Blaupunkt, Blu, Bmobile, Boway, bq, Bravis, Brondi, Bush, Capitel, Captiva, Carrefour, Casio, Cat, Celkon, Changhong, Cherry Mobile, China Mobile, CnM, Coby Kyros, Compal, Compaq, ConCorde, Coolpad, Cowon, CreNova, Cricket, Crius Mea, Crosscall, Cube, CUBOT, Cyrus, Danew, Datang, Dbtel, Dell, Denver, Desay, DEXP, Dicam, Digma, DMM, DNS, DoCoMo, Doogee, Doov, Dopod, Dune HD, E-Boda, Easypix, EBEST, ECS, Elephone, Energy Sistem, Ericsson, Ericy, Eton, eTouch, Evertek, Evolveo, Explay, Ezio, Ezze, Fairphone, Fly, Foxconn, Freetel, Fujitsu, Garmin-Asus, Gateway, Gemini, Gigabyte, Gigaset, Gionee, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hi-Level, Hisense, Homtom, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, i-Joy, i-mate, i-mobile, iBall, iBerry, IconBIT, Ikea, iKoMo, iNew, Infinix, Inkti, Innostream, INQ, Intek, Intex, Inverto, iOcean, iTel, JAY-Tech, Jiayu, Jolla, K-Touch, Karbonn, Kazam, KDDI, Kiano, Kingsun, Komu, Konka, Konrow, Koobee, KOPO, Koridy, KT-Tech, Kumai, Kyocera, Landvo, Lanix, Lava, LCT, LeEco, Lenco, Lenovo, Le Pan, Lexibook, LG, Lingwin, Loewe, Logicom, LYF, M.T.T., Majestic, Manta Multimedia, Mecer, Mediacom, MediaTek, Medion, MEEG, Meizu, Memup, Metz, MEU, MicroMax, Microsoft, Mio, Mitsubishi, MIXC, MLLED, Mobistel, Modecom, Mofut, Motorola, Mpman, MSI, MyPhone, NEC, Neffos, Netgear, Newgen, Nexian, NextBook, NGM, Nikon, Nintendo, Noain, Nokia, Nomi, Nous, Nvidia, O2, Odys, Onda, OnePlus, OPPO, Opsson, Orange, Ouki, OUYA, Overmax, Oysters, Palm, Panasonic, Pantech, PEAQ, Pentagram, Philips, phoneOne, Pioneer, Ployer, Point of View, Polaroid, PolyPad, Pomp, Positivo, PPTV, Prestigio, ProScan, PULID, Qilive, QMobile, Qtek, Quechua, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Sagem, Samsung, Sanyo, Sega, Selevision, Sencor, Sendo, Senseit, SFR, Sharp, Siemens, Skyworth, Smart, Smartfren, Smartisan, Softbank, Sony, Sony Ericsson, Spice, Star, Stonex, Storex, Sumvision, SunVan, SuperSonic, Supra, Symphony, T-Mobile, TB Touch, TCL, TechniSat, TechnoTrend, Tecno Mobile, Telefunken, Telenor, Telit, Tesco, Tesla, teXet, ThL, Thomson, TIANYU, TiPhone, Tolino, Toplux, Toshiba, TrekStor, Trevi, Tunisie Telecom, Turbo-X, TVC, UMIDIGI, Uniscope, Unknown, Unowhy, UTStarcom, Vastking, Vertu, Vestel, Videocon, Videoweb, ViewSonic, Vitelcom, Vivo, Vizio, VK Mobile, Vodafone, Voto, Voxtel, Walton, Web TV, WellcoM, Wexler, Wiko, Wileyfox, Wolder, Wolfgang, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Ytone, Yuandao, Yusun, Zeemi, Zen, Zonda, Zopo, ZTE</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Device type</name>
-		<segment>deviceType</segment>
-		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Local time</name>
-		<segment>visitLocalHour</segment>
-		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Operating system</name>
-		<segment>operatingSystemCode</segment>
-		<acceptedValues>WIN, MAC, LIN, AND, IPD, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Operating system version</name>
-		<segment>operatingSystemVersion</segment>
-		<acceptedValues>XP, 7, 2.3, 5.1, ...</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Resolution</name>
-		<segment>resolution</segment>
-		<acceptedValues>1280x1024, 800x600, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Server time</name>
-		<segment>visitServerHour</segment>
-		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>User ID</name>
-		<segment>userId</segment>
-		<acceptedValues>any non empty unique string identifying the user (such as an email address or a username).</acceptedValues>
-		<permission>1</permission>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visit Ecommerce status at the end of the visit</name>
-		<segment>visitEcommerceStatus</segment>
-		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visit ID</name>
-		<segment>visitId</segment>
-		<acceptedValues>Any integer.</acceptedValues>
-		<permission>1</permission>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visit converted a specific Goal Id</name>
-		<segment>visitConvertedGoalId</segment>
-		<acceptedValues>1, 2, 3, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visit converted at least one Goal</name>
-		<segment>visitConverted</segment>
-		<acceptedValues>0, 1</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visit type</name>
-		<segment>visitorType</segment>
-		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Visitor ID</name>
-		<segment>visitorId</segment>
-		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
-		<permission>1</permission>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Keyword</name>
-		<segment>referrerKeyword</segment>
-		<acceptedValues>Encoded%20Keyword, keyword</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Referrer Name</name>
-		<segment>referrerName</segment>
-		<acceptedValues>twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Referrer Type</name>
-		<segment>referrerType</segment>
-		<acceptedValues>direct, search, website, campaign</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Referrer URL</name>
-		<segment>referrerUrl</segment>
-		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Events</category>
-		<name>Event Action</name>
-		<segment>eventAction</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Events</category>
-		<name>Event Category</name>
-		<segment>eventCategory</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Events</category>
-		<name>Event Name</name>
-		<segment>eventName</segment>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -463,6 +438,13 @@
 		<segment>customVariableValue5</segment>
 	</row>
 	<row>
+		<type>metric</type>
+		<category>Actions</category>
+		<name>Bandwidth</name>
+		<segment>bandwidth</segment>
+		<acceptedValues>Any number in bytes, eg. 1000</acceptedValues>
+	</row>
+	<row>
 		<type>dimension</type>
 		<category>Actions</category>
 		<name>Action Type</name>
@@ -553,7 +535,7 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
-		<name>Page Name</name>
+		<name>Page Title</name>
 		<segment>pageTitle</segment>
 	</row>
 	<row>
@@ -562,5 +544,64 @@
 		<name>Page URL</name>
 		<segment>pageUrl</segment>
 		<acceptedValues>All these segments must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Server time - hour</name>
+		<segment>actionServerHour</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Server time - minute</name>
+		<segment>actionServerMinute</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Events</category>
+		<name>Event Action</name>
+		<segment>eventAction</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Events</category>
+		<name>Event Category</name>
+		<segment>eventCategory</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Events</category>
+		<name>Event Name</name>
+		<segment>eventName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Keyword</name>
+		<segment>referrerKeyword</segment>
+		<acceptedValues>Encoded%20Keyword, keyword</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Referrer Name</name>
+		<segment>referrerName</segment>
+		<acceptedValues>twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Referrer Type</name>
+		<segment>referrerType</segment>
+		<acceptedValues>direct, search, website, campaign</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
+		<name>Referrer URL</name>
+		<segment>referrerUrl</segment>
+		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
 	</row>
 </result>

@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -19,20 +17,12 @@ class Region extends Base
 {
     protected $columnName = 'location_region';
     protected $columnType = 'char(2) DEFAULT NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('regionCode');
-        $segment->setName('UserCountry_Region');
-        $segment->setAcceptedValues('01 02, OR, P8, etc.<br/>eg. region=A1;country=fr');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('UserCountry_Region');
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $category = 'UserCountry_VisitLocation';
+    protected $segmentName = 'regionCode';
+    protected $nameSingular = 'UserCountry_Region';
+    protected $namePlural = 'UserCountryMap_Regions';
+    protected $acceptValues = '01 02, OR, P8, etc.<br/>eg. region=A1;country=fr';
 
     /**
      * @param Request $request

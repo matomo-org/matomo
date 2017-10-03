@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
-use Piwik\Plugins\Referrers\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -17,15 +16,12 @@ class ReferrerUrl extends Base
 {
     protected $columnName = 'referer_url';
     protected $columnType = 'TEXT NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('referrerUrl');
-        $segment->setName('Live_Referrer_URL');
-        $segment->setAcceptedValues('http%3A%2F%2Fwww.example.org%2Freferer-page.htm');
-        $this->addSegment($segment);
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $segmentName = 'referrerUrl';
+    protected $nameSingular = 'Live_Referrer_URL';
+    protected $namePlural = 'Referrers_ReferrerURLs';
+    protected $category = 'Referrers_Referrers';
+    protected $acceptValues = 'http%3A%2F%2Fwww.example.org%2Freferer-page.htm';
 
     /**
      * @param Request $request

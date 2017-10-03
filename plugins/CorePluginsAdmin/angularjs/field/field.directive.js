@@ -134,6 +134,12 @@
                     }
                 });
 
+                $scope.$watch('title', function (val, oldVal) {
+                    if (val !== oldVal) {
+                        $scope.field.title = val;
+                    }
+                });
+
                 if ('undefined' !== typeof $scope.placeholder && $scope.placeholder !== null) {
                     $scope.$watch('placeholder', function (val, oldVal) {
                         if (val !== oldVal) {

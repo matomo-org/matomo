@@ -133,6 +133,12 @@
                     }
                 }
             });
+            if ('object' === typeof widgetsHelper && widgetsHelper.availableWidgets) {
+                // lets also update widgetslist so will be easier to update list of available widgets in dashboard selector
+                // immediately
+                delete widgetsHelper.availableWidgets;
+                widgetsHelper.getAvailableWidgets();
+            }
         });
 
         $rootScope.$on('$locationChangeSuccess', function () {

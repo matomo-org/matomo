@@ -120,6 +120,11 @@ class JoinGenerator
                     $this->joinString .= ' LEFT JOIN';
                 }
 
+                if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table']) && !empty($availableLogTables)) {
+                    $logTable = $this->tables->getLogTable($table['table']);
+                    $table['joinOn'] = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
+                }
+
                 $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
                                    . " ON " . $table['joinOn'];
                 continue;
@@ -166,7 +171,7 @@ class JoinGenerator
      *                       to be joined
      * @throws Exception if table cannot be joined for segmentation
      */
-    protected function findJoinCriteriasForTables(LogTable $logTable, $availableLogTables)
+    public function findJoinCriteriasForTables(LogTable $logTable, $availableLogTables)
     {
         $join = null;
         $alternativeJoin = null;
@@ -278,10 +283,16 @@ class JoinGenerator
         }
 
         if (is_array($tA)) {
+            if (isset($tA['joinOn']) && is_string($tA['joinOn']) && strpos($tA['joinOn'] . '.', $tB) === 0) {
+                return 1; // tA requires tB so needs to be listed before
+            }
             return -1;
         }
 
         if (is_array($tB)) {
+            if (isset($tB['joinOn']) && is_string($tB['joinOn']) &&  strpos($tB['joinOn'] . '.', $tA) === 0) {
+                return -1; // tB requires tA so needs to be listed before
+            }
             return 1;
         }
 

@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
@@ -214,7 +215,8 @@ class Formatter
 
         if ($metricsToFormat !== null) {
             $metricMatchRegex = $this->makeRegexToMatchMetrics($metricsToFormat);
-            $metrics = array_filter($metrics, function (ProcessedMetric $metric) use ($metricMatchRegex) {
+            $metrics = array_filter($metrics, function ($metric) use ($metricMatchRegex) {
+                /** @var ProcessedMetric|ArchivedMetric $metric */
                 return preg_match($metricMatchRegex, $metric->getName());
             });
         }
