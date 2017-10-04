@@ -19,6 +19,9 @@ use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Session\SessionAuthCookieFactory;
+use Piwik\Session\SessionFingerprint;
+use Piwik\Session\SessionAuth;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -344,33 +347,7 @@ class FrontController extends Singleton
             SettingsPiwik::getPiwikUrl();
         }
 
-        /**
-         * Triggered before the user is authenticated, when the global authentication object
-         * should be created.
-         *
-         * Plugins that provide their own authentication implementation should use this event
-         * to set the global authentication object (which must derive from {@link Piwik\Auth}).
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Request.initAuthenticationObject', function() {
-         *         StaticContainer::getContainer()->set('Piwik\Auth', new MyAuthImplementation());
-         *     });
-         */
-        Piwik::postEvent('Request.initAuthenticationObject');
-        try {
-            $authAdapter = StaticContainer::get('Piwik\Auth');
-        } catch (Exception $e) {
-            $message = "Authentication object cannot be found in the container. Maybe the Login plugin is not activated?
-                        <br />You can activate the plugin by adding:<br />
-                        <code>Plugins[] = Login</code><br />
-                        under the <code>[Plugins]</code> section in your config/config.ini.php";
-
-            $ex = new AuthenticationFailedException($message);
-            $ex->setIsHtmlMessage();
-
-            throw $ex;
-        }
+        $authAdapter = $this->makeAuthenticator();
         Access::getInstance()->reloadAccess($authAdapter);
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
@@ -594,5 +571,47 @@ class FrontController extends Singleton
             );
             throw new DatabaseSchemaIsNewerThanCodebaseException(implode(" ", $messages));
         }
+    }
+
+    private function makeAuthenticator()
+    {
+        // if the session cookie exists in this request, validate the session instead of trying to
+        // authenticate the request.
+        $sessionCookieExists = StaticContainer::get(SessionAuthCookieFactory::class)->isCookieInRequest();
+        if ($sessionCookieExists) {
+            Session::start();
+
+            return StaticContainer::get(SessionAuth::class);
+        }
+
+        /**
+         * Triggered before the user is authenticated, when the global authentication object
+         * should be created.
+         *
+         * Plugins that provide their own authentication implementation should use this event
+         * to set the global authentication object (which must derive from {@link Piwik\Auth}).
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Request.initAuthenticationObject', function() {
+         *         StaticContainer::getContainer()->set('Piwik\Auth', new MyAuthImplementation());
+         *     });
+         */
+        Piwik::postEvent('Request.initAuthenticationObject');
+        try {
+            $authAdapter = StaticContainer::get('Piwik\Auth');
+        } catch (Exception $e) {
+            $message = "Authentication object cannot be found in the container. Maybe the Login plugin is not activated?
+                        <br />You can activate the plugin by adding:<br />
+                        <code>Plugins[] = Login</code><br />
+                        under the <code>[Plugins]</code> section in your config/config.ini.php";
+
+            $ex = new AuthenticationFailedException($message);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
+        }
+
+        return $authAdapter;
     }
 }

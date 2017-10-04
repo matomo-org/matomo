@@ -28,7 +28,6 @@ class Login extends \Piwik\Plugin
     public function registerEvents()
     {
         $hooks = array(
-            'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
@@ -83,35 +82,12 @@ class Login extends \Piwik\Plugin
     }
 
     /**
-     * Initializes the authentication object.
-     * Listens to Request.initAuthenticationObject hook.
-     */
-    function initAuthenticationObject($activateCookieAuth = false)
-    {
-        $this->initAuthenticationFromCookie(StaticContainer::getContainer()->get('Piwik\Auth'), $activateCookieAuth);
-    }
-
-    /**
      * @param $auth
+     * @deprecated authenticating via cookie is handled in core by SessionAuth
      */
     public static function initAuthenticationFromCookie(\Piwik\Auth $auth, $activateCookieAuth)
     {
-        if (self::isModuleIsAPI() && !$activateCookieAuth) {
-            return;
-        }
-
-        $authCookieName = Config::getInstance()->General['login_cookie_name'];
-        $authCookieExpiry = 0;
-        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
-        $authCookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
-        $defaultLogin = 'anonymous';
-        $defaultTokenAuth = 'anonymous';
-        if ($authCookie->isCookieFound()) {
-            $defaultLogin = $authCookie->get('login');
-            $defaultTokenAuth = $authCookie->get('token_auth');
-        }
-        $auth->setLogin($defaultLogin);
-        $auth->setTokenAuth($defaultTokenAuth);
+        // empty
     }
 
 }

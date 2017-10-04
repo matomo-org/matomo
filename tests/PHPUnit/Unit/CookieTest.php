@@ -8,6 +8,8 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Cookie;
+
 class CookieTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -151,5 +153,16 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         // arrays and objects cannot be used as keys, i.e., generates "Warning: Illegal offset type ..."
         $a = 'a:2:{i:0;a:0:{}O:28:"Test_Piwik_Cookie_Mock_Class":0:{}s:4:"test";';
         $this->assertFalse(safe_unserialize($a), "test: unserializing with illegal key");
+    }
+
+    public function test_isCookieInRequest_ReturnsTrueIfCookieExists()
+    {
+        $_COOKIE['abc'] = 'value';
+        $this->assertTrue(Cookie::isCookieInRequest('abc'));
+    }
+
+    public function test_isCookieInRequest_ReturnsFalseIfCookieExists()
+    {
+        $this->assertFalse(Cookie::isCookieInRequest('abc'));
     }
 }
