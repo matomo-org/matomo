@@ -497,27 +497,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return parseInt(maxWidth, 10);
         }
 
-        function removePaddingFromWidth(domElem, labelWidth) {
-            var maxPaddingLeft  = 0;
-            var maxPaddingRight = 0;
+        function removePaddingFromWidth(elem, labelWidth) {
+            var paddingLeft  = elem.css('paddingLeft');
+            paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
+            var paddingRight = elem.css('paddingRight');
+            paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
 
-            $('tbody tr td.label', domElem).each(function (i, node) {
-                $node = $(node);
-
-                var paddingLeft  = $node.css('paddingLeft');
-                paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
-                var paddingRight = $node.css('paddingRight');
-                paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
-
-                if (paddingLeft > maxPaddingLeft) {
-                    maxPaddingLeft = paddingLeft;
-                }
-                if (paddingRight > maxPaddingRight) {
-                    maxPaddingRight = paddingRight;
-                }
-            });
-
-            labelWidth = labelWidth - maxPaddingLeft - maxPaddingRight;
+            labelWidth = labelWidth - paddingLeft - paddingRight;
 
             return labelWidth;
         }
@@ -531,9 +517,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (isTableVisualization) {
             // we do this only for html tables
 
-            var minLabelWidth = 125;
-            var maxLabelWidth = 440;
-
             var tableWidth = getTableWidth(domElem);
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
@@ -546,10 +529,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelColumnWidth = labelColumnMaxWidth;
             }
 
-            labelColumnWidth = removePaddingFromWidth(domElem, labelColumnWidth);
-
             if (labelColumnWidth) {
-                $('td.label', domElem).width(labelColumnWidth);
+                $('td.label', domElem).each(function() {
+                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
+                });
             }
 
             $('td span.label', domElem).each(function () { self.tooltip($(this)); });
