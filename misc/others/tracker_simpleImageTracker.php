@@ -24,7 +24,7 @@ $trackingURL = Piwik_getUrlTrackPageView($idSite = 16, $customTitle = 'This titl
 This page loads a Simple Tracker request to Piwik website id=1
 
 <?php
-echo '<img src="' . htmlentities($trackingURL) . '" alt="" />';
+echo '<img src="' . htmlentities($trackingURL, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '" alt="" />';
 ?>
 </body>
 </html>
