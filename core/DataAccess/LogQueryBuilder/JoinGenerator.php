@@ -272,10 +272,25 @@ class JoinGenerator
         );
 
         if (is_array($tA) && is_array($tB)) {
-            if (isset($tB['tableAlias']) && isset($tA['joinOn']) && strpos($tA['joinOn'], $tB['tableAlias']) !== false) {
+            $tAName = '';
+            if (isset($tA['tableAlias'])) {
+                $tAName = $tA['tableAlias'];
+            } elseif (isset($tA['table'])) {
+                $tAName = $tA['table'];
+            }
+
+            $tBName = '';
+            if (isset($tB['tableAlias'])) {
+                $tBName = $tB['tableAlias'];
+            } elseif (isset($tB['table'])) {
+                $tBName = $tB['table'];
+            }
+
+            if ($tBName && isset($tA['joinOn']) && strpos($tA['joinOn'], $tBName) !== false) {
                 return 1;
             }
-            if (isset($tA['tableAlias']) && isset($tB['joinOn']) && strpos($tB['joinOn'], $tA['tableAlias']) !== false) {
+
+            if ($tAName && isset($tB['joinOn']) && strpos($tB['joinOn'], $tAName) !== false) {
                 return -1;
             }
 
@@ -283,17 +298,11 @@ class JoinGenerator
         }
 
         if (is_array($tA)) {
-            if (isset($tA['joinOn']) && is_string($tA['joinOn']) && strpos($tA['joinOn'] . '.', $tB) === 0) {
-                return 1; // tA requires tB so needs to be listed before
-            }
-            return -1;
+            return 1;
         }
 
         if (is_array($tB)) {
-            if (isset($tB['joinOn']) && is_string($tB['joinOn']) &&  strpos($tB['joinOn'] . '.', $tA) === 0) {
-                return -1; // tB requires tA so needs to be listed before
-            }
-            return 1;
+            return -1;
         }
 
         if (isset($coreSort[$tA])) {
