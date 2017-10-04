@@ -8,11 +8,14 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Category\CategoryList;
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Cache as PiwikCache;
+use Piwik\Site;
 
 /**
  * Get reports that are defined by plugins.
@@ -44,11 +47,44 @@ class ReportsProvider
 
     private static function getMapOfModuleActionsToReport()
     {
-        $cacheId = CacheId::pluginAware('ReportFactoryMap');
+        $cacheKey = 'ReportFactoryMap';
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
 
-        $cache = PiwikCache::getEagerCache();
-        if ($cache->contains($cacheId)) {
-            $mapApiToReport = $cache->fetch($cacheId);
+        if (!empty($idSite)) {
+            // some reports may be per site!
+            $cacheKey .= '_' . (int) $idSite;
+        }
+
+        // fallback eg fror API.getReportMetadata and API.getSegmentsMetadata
+        $idSites = Common::getRequestVar('idSites', '', $type = null);
+        if (!empty($idSites)) {
+
+            $transientCache = Cache::getTransientCache();
+            $transientCacheKey = 'ReportIdSitesParam';
+            if ($transientCache->contains($transientCacheKey)) {
+                $idSites = $transientCache->fetch($transientCacheKey);
+            } else {
+                // this may be called 100 times during one page request and may go to DB, therefore have to cache
+                $idSites = Site::getIdSitesFromIdSitesString($idSites);
+                sort($idSites);// we sort to reuse the cache key as often as possible
+                $transientCache->save($transientCacheKey, $idSites);
+            }
+
+            // it is important to not use either idsite, or idsites in the cache key but to include both for security reasons
+            // otherwise someone may specify idSite=5&idSites=7 and if then a plugin is eg only looking at idSites param
+            // we could return a wrong result (eg API.getSegmentsMetadata)
+            if (count($idSites) <= 5) {
+                $cacheKey .= '_' . implode('_', $idSites); // we keep the cache key readable when possible
+            } else {
+                $cacheKey .= '_' . md5(implode('_', $idSites)); // we need to shorten it
+            }
+        }
+
+        $lazyCacheId = CacheId::pluginAware($cacheKey);
+
+        $cache = PiwikCache::getLazyCache();
+        if ($cache->contains($lazyCacheId)) {
+            $mapApiToReport = $cache->fetch($lazyCacheId);
         } else {
             $reports = new static();
             $reports = $reports->getAllReports();
@@ -66,7 +102,7 @@ class ReportsProvider
                 $mapApiToReport[$key] = get_class($report);
             }
 
-            $cache->save($cacheId, $mapApiToReport);
+            $cache->save($lazyCacheId, $mapApiToReport);
         }
 
         return $mapApiToReport;
