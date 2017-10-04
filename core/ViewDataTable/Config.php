@@ -372,7 +372,16 @@ class   Config
     public $show_ecommerce = false;
 
     /**
+     * Stores an HTML message (if any) to display above the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
+     */
+    public $show_header_message = false;
+
+    /**
      * Stores an HTML message (if any) to display under the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
      */
     public $show_footer_message = false;
 
