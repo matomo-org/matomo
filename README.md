@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://piwik.org/download/)
 [![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
-[![License](https://poser.pugx.org/piwik/piwik/license)](http://piwik.org/free-software/)
+[![License](https://poser.pugx.org/piwik/piwik/license)](https://piwik.org/free-software/)
 
 ## Code Status
 
@@ -41,7 +41,7 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
   * PHP extension pdo and pdo_mysql, or the MySQLi extension.
   * Piwik is OS / server independent
 
-See http://piwik.org/docs/requirements/
+See https://piwik.org/docs/requirements/
 
 ## Install
 
@@ -51,7 +51,7 @@ See http://piwik.org/docs/requirements/
   * Add the given javascript code to your pages
   * (You may also generate fake data to experiment, by enabling the plugin VisitorGenerator)
 
-See http://piwik.org/docs/installation/
+See https://piwik.org/docs/installation/
 
 ## Free trial 
 
@@ -63,7 +63,7 @@ Check out the online demo for Piwik at [demo.piwik.org](https://demo.piwik.org/)
 
 ## Changelog
 
-For the list of all tickets closed in the current and past releases, see http://piwik.org/changelog/. For the list of technical changes in the Piwik platform, see [http://developer.piwik.org/changelog](http://developer.piwik.org/changelog).
+For the list of all tickets closed in the current and past releases, see https://piwik.org/changelog/. For the list of technical changes in the Piwik platform, see [https://developer.piwik.org/changelog](https://developer.piwik.org/changelog).
 
 ## Get involved!
 
@@ -85,9 +85,9 @@ Security is a top priority at Piwik. As potential issues are discovered, we vali
 
 ## Support for Piwik
 
-For **Free support**, post a message in our community forums: [forum.piwik.org](http://forum.piwik.org/)
+For **Free support**, post a message in our community forums: [forum.piwik.org](https://forum.piwik.org/)
 
-For **Professional paid support**, send a message to our network of Piwik professionals: [piwik.org/support](http://piwik.org/contact/)  
+For **Professional paid support**, send a message to our network of Piwik professionals: [piwik.org/support](https://piwik.org/contact/)  
 
 ## Contact
 
@@ -119,4 +119,4 @@ What makes Piwik unique from the competition:
   * Advanced Web Analytics capabilities such as Ecommerce Tracking, Goal tracking, Campaign tracking,
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real time maps, and more!
 
-Documentation and more info on http://piwik.org
+Documentation and more info on https://piwik.org
