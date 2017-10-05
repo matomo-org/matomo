@@ -34,6 +34,6 @@ class Action extends LogTable
 
     public function getPrimaryKey()
     {
-        return 'idaction';
+        return array('idaction');
     }
 }
