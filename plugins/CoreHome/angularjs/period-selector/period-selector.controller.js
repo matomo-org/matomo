@@ -11,6 +11,9 @@
     PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods'];
 
     function PeriodSelectorController(piwik, $location, piwikPeriods) {
+        var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
+            piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
+
         var vm = this;
 
         // the period & date currently being viewed
@@ -66,10 +69,7 @@
                 vm.dateValue = piwikPeriods.parseDate(parts[0]);
             } else {
                 vm.dateValue = piwikPeriods.parseDate(strDate);
-
-                var range = piwikPeriods.parse(strPeriod, strDate).getDateRange();
-                vm.startRangeDate = formatDate(range[0]);
-                vm.endRangeDate = formatDate(range[1]);
+                setRangeStartEndFromPeriod(strPeriod, strDate);
             }
         }
 
@@ -144,12 +144,16 @@
             vm.dateValue = date;
 
             var currentDateString = formatDate(date);
-            var dateRange = piwikPeriods.parse(period, currentDateString).getDateRange();
-            vm.startRangeDate = formatDate(dateRange[0]);
-            vm.endRangeDate = formatDate(dateRange[1]);
+            setRangeStartEndFromPeriod(period, currentDateString);
 
             propagateNewUrlParams(currentDateString, vm.selectedPeriod);
             initTopControls();
+        }
+
+        function setRangeStartEndFromPeriod(period, dateStr) {
+            var dateRange = piwikPeriods.parse(period, dateStr).getDateRange();
+            vm.startRangeDate = formatDate(dateRange[0] < piwikMinDate ? piwikMinDate : dateRange[0]);
+            vm.endRangeDate = formatDate(dateRange[1] > piwikMaxDate ? piwikMaxDate : dateRange[1]);
         }
 
         function propagateNewUrlParams(date, period) {
