@@ -40,6 +40,7 @@
         var vm = this;
         vm.selectedDates = [null, null];
         vm.highlightedDates = [null, null];
+        vm.viewDate = vm.date;
         vm.onHoverNormalCell = onHoverNormalCell;
         vm.onHoverLeaveNormalCells = onHoverLeaveNormalCells;
         vm.onDateSelected = onDateSelected;
@@ -69,7 +70,6 @@
 
         function $onChanges() {
             if (!vm.period || !vm.date) {
-                console.log('setting to null?');
                 vm.selectedDates = [null, null];
                 return;
             }

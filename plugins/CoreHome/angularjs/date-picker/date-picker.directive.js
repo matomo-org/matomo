@@ -16,7 +16,7 @@
  * - highlightedDates: null or a two element array of Date instances. The first element is the
  *                     start of the range of highlighted dates. The second element is the end of
  *                     the range of highlighted dates. The range is inclusive.
- * - viewDate: The date that should be displayed initially. The month & year of this date is what will
+ * - viewDate: The date that should be displayed. The month & year of this date is what will
  *             be displayed to the user.
  * - stepMonths: The number of months to move when the left/right arrows are clicked.
  * - disableMonthDropdown: true if the month dropdown should be disabled, false if enabled.
@@ -36,6 +36,8 @@
     piwikDatePicker.$inject = ['piwik', '$timeout'];
 
     function piwikDatePicker(piwik, $timeout) {
+        const DEFAULT_STEP_MONTHS = 1;
+
         return {
             restrict: 'A',
             scope: {
@@ -57,7 +59,13 @@
 
                 var customOptions = scope.options || {};
                 var datePickerOptions = $.extend({}, piwik.getBaseDatePickerOptions(), customOptions, {
-                    onSelect: onDateSelected
+                    onChangeMonthYear: function () {
+                        // datepicker renders the HTML after this hook is called, so we use setTimeout
+                        // to run some code after the render.
+                        setTimeout(function () {
+                            onJqueryUiRenderedPicker();
+                        });
+                    }
                 });
                 element.datepicker(datePickerOptions);
 
@@ -108,13 +116,37 @@
                     onCalendarViewChange();
                 });
 
+                // when a cell is clicked, invoke the onDateSelected function. this, in conjunction
+                // with onJqueryUiRenderedPicker(), overrides the date picker's click behavior.
+                element.on('click', 'td[data-month]', function (event) {
+                    var $cell = $(event.target).closest('td');
+                    var month = parseInt($cell.attr('data-month'));
+                    var year = parseInt($cell.attr('data-year'));
+                    var day = parseInt($cell.children('a,span').text());
+                    onDateSelected(new Date(year, month, day));
+                });
+
                 init();
 
                 function init() {
+                    var renderPostProcessed = false;
+
+                    renderPostProcessed |= stepMonthsChanged();
                     viewDateChanged();
-                    stepMonthsChanged();
                     enableDisableMonthDropdown();
+
+                    if (!renderPostProcessed) {
+                        onJqueryUiRenderedPicker();
+                    }
+
                     setDatePickerCellColors();
+                }
+
+                // remove the ui-state-active class & click handlers for every cell. we bypass
+                // the datepicker's date selection logic for smoother browser rendering.
+                function onJqueryUiRenderedPicker() {
+                    element.find('td[data-event]').off('click');
+                    element.find('.ui-state-active').removeClass('ui-state-active');
                 }
 
                 function $onChanges(changesObj) {
@@ -124,22 +156,10 @@
                         || changesObj.highlightedDateStart
                         || changesObj.highlightedDateEnd;
 
-                    if (changesObj.viewDate) {
-                        // I can't figure out why, but $onChanges is triggered with viewDate
-                        // three times when selecting a date (even though period-date-picker
-                        // only changes once). for two of those changes,
-                        // selectedDateStart/highlightedDateStart is undefined. not sure what's
-                        // causing it, but it seems internal to angular.
-                        //
-                        // note: the change values for viewDate for those two changes are the
-                        // start/end of the new selected date range.
-                        if (scope.selectedDateStart
-                            || scope.highlightedDateStart
-                        ) {
-                            redraw = true;
-                        }
-
-                        viewDateChanged();
+                    if (changesObj.viewDate
+                        && viewDateChanged()
+                    ) {
+                        redraw = true;
                     }
 
                     if (changesObj.stepMonths) {
@@ -153,9 +173,7 @@
                     if (redraw) {
                         // timeout ensures the style change happens after jquery datepicker
                         // does its own rendering, so we're overriding jquery.
-                        setTimeout(function () {
-                            setDatePickerCellColors();
-                        }, 0);
+                        setDatePickerCellColors();
                     }
                 }
 
@@ -169,26 +187,46 @@
                         }
                     }
 
-                    element.datepicker('setDate', date);
+                    // only change the datepicker date if the date is outside of the current month/year.
+                    // this avoids a re-render in other cases.
+                    var monthYear = getMonthYearDisplayed();
+                    if (monthYear[0] !== date.getMonth()
+                        || monthYear[1] !== date.getFullYear()
+                    ) {
+                        element.datepicker('setDate', date);
+                        return true;
+                    }
+
+                    return false;
                 }
 
                 function stepMonthsChanged() {
+                    var stepMonths = scope.stepMonths || DEFAULT_STEP_MONTHS;
+                    if (element.datepicker('option', 'stepMonths') === stepMonths) {
+                        return false;
+                    }
+
                     // setting stepMonths will change the month in view back to the selected date. to avoid
                     // we set the selected date to the month in view.
                     var currentMonth = $('.ui-datepicker-month', element).val(),
                         currentYear = $('.ui-datepicker-year', element).val();
-                    scope.viewDate = new Date(currentYear, currentMonth);
 
-                    element.datepicker('option', 'stepMonths', scope.stepMonths);
+                    element
+                        .datepicker('option', 'stepMonths', stepMonths)
+                        .datepicker('setDate', new Date(currentYear, currentMonth));
+
+                    onJqueryUiRenderedPicker();
+
+                    return true;
                 }
 
-                function onDateSelected(dateStr) {
+                function onDateSelected(date) {
                     if (!scope.dateSelect) {
                         return;
                     }
 
                     scope.dateSelect({
-                        date: $.datepicker.parseDate('yy-mm-dd', dateStr)
+                        date: date
                     });
 
                     // this event comes from jquery, so we must apply manually
@@ -259,7 +297,6 @@
 
                 function setDateCellColor($dateCell, dateValue) {
                     var $dateCellLink = $dateCell.children('a');
-                    $dateCellLink.removeClass('ui-state-active');
 
                     if (scope.selectedDateStart
                         && scope.selectedDateEnd
