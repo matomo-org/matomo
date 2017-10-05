@@ -96,7 +96,7 @@ class Goals extends \Piwik\Plugin
 
         foreach ($goals as $goal) {
             $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visitors', ComputedMetric::AGGREGATION_RATE);
-            $goalName = Piwik::translate('Goals_GoalX', $goal['name']);
+            goalName = '"' . Piwik::translate('Goals_GoalX', $goal['name']) . '"';
             $metricName = Piwik::translate('Goals_ConversionRate', $goalName);
             $metric->setTranslatedName($metricName);
             $list->addMetric($metric);
