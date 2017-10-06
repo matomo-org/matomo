@@ -87,8 +87,9 @@
                     var current = $(this).html();
 
                     if (current == prevhtml) {
-                        $(this).find('>div').prepend($("<span>"+(duplicateCounter+2)+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
                         duplicateCounter++;
+                        $(this).find('>div').prepend($("<span>"+(duplicateCounter+1)+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
+                        prevelement.addClass('duplicate');
 
                     } else {
                         duplicateCounter = 0;
@@ -108,6 +109,23 @@
                     });
 
                 });
+            });
+
+            $("ol.visitorLog > li:not(.duplicate) .icon-refresh").parents('li').each(function(){
+                $(this).attr('origtitle', $(this).attr('title'));
+                $(this).attr('title', _pk_translate('Live_ClickToViewAllActions'));
+                $(this).click(function(e){
+                    e.preventDefault();
+                    $(this).prevUntil('li:not(.duplicate)').removeClass('duplicate').find('.icon-refresh').hide();
+                    var elem = $(this);
+                    window.setTimeout(function() {
+                        elem.attr('title', elem.attr('origtitle'));
+                        elem.attr('origtitle', null);
+                    }, 150);
+                    $(this).off('click').find('.icon-refresh').hide();
+                    return false;
+                });
+
             });
 
             $("ol.visitorLog > li").tooltip({
