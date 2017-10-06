@@ -51,13 +51,14 @@ function getPiwikDomain()
     return null;
 }
 
-$environment = new Environment('cli');
-$environment->init();
 
 $piwikDomain = getPiwikDomain();
 if($piwikDomain) {
     Url::setHost($piwikDomain);
 }
+
+$environment = new Environment('cli');
+$environment->init();
 
 $token = Db::get()->fetchOne("SELECT token_auth
                               FROM " . Common::prefixTable("user") . "
