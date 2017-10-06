@@ -649,7 +649,7 @@ class Report
      * Allows to define a callback that will be used to determine the secondary column to sort by
      *
      * ```
-     * public function getSecondSortColumnCallback()
+     * public function getSecondarySortColumnCallback()
      * {
      *     return function ($primaryColumn) {
      *         switch ($primaryColumn) {
@@ -664,7 +664,7 @@ class Report
      * ```
      * @return null|callable
      */
-    public function getSecondSortColumnCallback()
+    public function getSecondarySortColumnCallback()
     {
         return null;
     }

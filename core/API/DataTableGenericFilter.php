@@ -125,7 +125,7 @@ class DataTableGenericFilter
                     $filters[$index][1]['filter_sort_column'] = array('string', $this->report->getDefaultSortColumn());
                     $filters[$index][1]['filter_sort_order']  = array('string', $this->report->getDefaultSortOrder());
 
-                    $callback = $this->report->getSecondSortColumnCallback();
+                    $callback = $this->report->getSecondarySortColumnCallback();
 
                     if (is_callable($callback)) {
                         $filters[$index][1]['filter_sort_column_secondary'] = $callback;
