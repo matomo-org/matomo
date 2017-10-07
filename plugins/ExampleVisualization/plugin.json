@@ -5,12 +5,12 @@
     "theme": false,
     "license": "GPL v3+",
     "keywords": ["SimpleTable"],
-    "homepage": "http://piwik.org",
+    "homepage": "https://piwik.org",
     "authors": [
         {
             "name": "The Piwik Team",
             "email": "hello@piwik.org",
-            "homepage": "http://piwik.org"
+            "homepage": "https://piwik.org"
         }
     ]
 }
