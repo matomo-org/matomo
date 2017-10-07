@@ -36,7 +36,7 @@
     piwikDatePicker.$inject = ['piwik', '$timeout'];
 
     function piwikDatePicker(piwik, $timeout) {
-        const DEFAULT_STEP_MONTHS = 1;
+        var DEFAULT_STEP_MONTHS = 1;
 
         return {
             restrict: 'A',
@@ -129,9 +129,8 @@
                 init();
 
                 function init() {
-                    var renderPostProcessed = false;
+                    var renderPostProcessed = stepMonthsChanged();
 
-                    renderPostProcessed |= stepMonthsChanged();
                     viewDateChanged();
                     enableDisableMonthDropdown();
 
@@ -147,6 +146,7 @@
                 function onJqueryUiRenderedPicker() {
                     element.find('td[data-event]').off('click');
                     element.find('.ui-state-active').removeClass('ui-state-active');
+                    element.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day');
                 }
 
                 function $onChanges(changesObj) {
@@ -269,9 +269,6 @@
 
                 function setDatePickerCellColors() {
                     var $calendarTable = element.find('.ui-datepicker-calendar');
-
-                    // unhighlight datepicker's "current day"
-                    $calendarTable.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day');
 
                     var monthYear = getMonthYearDisplayed();
 
