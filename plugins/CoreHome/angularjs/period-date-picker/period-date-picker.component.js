@@ -40,11 +40,12 @@
         var vm = this;
         vm.selectedDates = [null, null];
         vm.highlightedDates = [null, null];
-        vm.viewDate = vm.date;
+        vm.viewDate = null;
         vm.onHoverNormalCell = onHoverNormalCell;
         vm.onHoverLeaveNormalCells = onHoverLeaveNormalCells;
         vm.onDateSelected = onDateSelected;
         vm.$onChanges = $onChanges;
+        vm.$onInit = $onInit;
 
         function onHoverNormalCell(cellDate, $cell) {
             var isOutOfMinMaxDateRange = cellDate < piwikMinDate || cellDate > piwikMaxDate;
@@ -66,6 +67,11 @@
 
         function onHoverLeaveNormalCells() {
             vm.highlightedDates = [null, null];
+        }
+
+        function $onInit() {
+            // vm.date is only guaranteed to be set here
+            vm.viewDate = vm.date;
         }
 
         function $onChanges() {
