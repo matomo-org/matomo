@@ -7,7 +7,7 @@ We use Travis CI for our continuous integration server. It automatically runs ou
 after each commit to our GIT repo. More information at the links:
 
  * Piwik on Travis CI: https://travis-ci.org/piwik/piwik
- * QA in Piwik: http://piwik.org/qa/
+ * QA in Piwik: https://piwik.org/qa/
 
 Each core Piwik developer is responsible to keep the build green. If a developer breaks the build, he will receive an email from Travis CI.
 
@@ -183,6 +183,6 @@ See [tests/README.xhprof.md](https://github.com/piwik/piwik/blob/master/tests/RE
 ## Participate
 
 You can help by improving existing tests, or identify some missing tests and implement them.
-See http://piwik.org/participate/development-process
+See https://piwik.org/participate/development-process
 Please contact us at hello@piwik.org
 
