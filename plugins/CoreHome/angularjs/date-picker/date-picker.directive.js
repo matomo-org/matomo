@@ -179,6 +179,10 @@
 
                 function viewDateChanged() {
                     var date = scope.viewDate;
+                    if (!date) {
+                        return;
+                    }
+
                     if (!(date instanceof Date)) {
                         try {
                             date = $.datepicker.parseDate('yy-mm-dd', date);
