@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<error message="You can't access this resource as it requires an 'admin' access for the website id = 3." />
+	<error message="You can't access this resource as it requires 'admin' access for the website id = 3." />
 </result>
