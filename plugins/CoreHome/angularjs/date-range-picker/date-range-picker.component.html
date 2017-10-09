@@ -8,7 +8,8 @@
             name="inputCalendarFrom"
             class="browser-default"
             ng-model="$ctrl.startDate"
-            ng-keyup="$ctrl.onRangeInputChanged('from', $event)"
+            ng-change="$ctrl.onRangeInputChanged('from')"
+            ng-keyup="$ctrl.handleEnterPress($event)"
         />
     </h6>
 
@@ -36,7 +37,8 @@
             name="inputCalendarTo"
             class="browser-default"
             ng-model="$ctrl.endDate"
-            ng-keyup="$ctrl.onRangeInputChanged('to', $event)"
+            ng-change="$ctrl.onRangeInputChanged('to')"
+            ng-keyup="$ctrl.handleEnterPress($event)"
         />
     </h6>
 

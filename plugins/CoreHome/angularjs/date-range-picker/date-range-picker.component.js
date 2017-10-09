@@ -46,6 +46,7 @@
         vm.setEndRangeDate = setEndRangeDate;
         vm.onRangeInputChanged = onRangeInputChanged;
         vm.getNewHighlightedDates = getNewHighlightedDates;
+        vm.handleEnterPress = handleEnterPress;
 
         function $onChanges() {
             try {
@@ -63,7 +64,7 @@
             }
         }
 
-        function onRangeInputChanged(source, $event) {
+        function onRangeInputChanged(source) {
             var dateStr = source === 'from' ? vm.startDate : vm.endDate;
 
             var date;
@@ -80,13 +81,17 @@
             }
 
             rangeChanged();
+        }
 
-            if ($event.keyCode === 13 && vm.submit) {
-                vm.submit({
-                    start: vm.startDate,
-                    end: vm.endDate
-                });
+        function handleEnterPress($event) {
+            if ($event.keyCode !== 13 || !vm.submit) {
+                return;
             }
+
+            vm.submit({
+                start: vm.startDate,
+                end: vm.endDate
+            });
         }
 
         function setStartRangeDate(date) {
