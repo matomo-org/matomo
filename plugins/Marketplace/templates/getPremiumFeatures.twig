@@ -1,6 +1,6 @@
 <div class="getNewPlugins getPremiumFeatures widgetBody">
     <div class="row">
-        {% for plugin in plugins %}
+        {% for plugin in plugins if not plugin.isBundle %}
             <div class="col s12 m4">
 
                 <h3 class="pluginName" piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ plugin.displayName }}</h3>
