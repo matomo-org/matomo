@@ -15,6 +15,7 @@ use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\ProxyHttp;
 use Piwik\Session;
 use Piwik\Session\SessionAuthCookieFactory;
@@ -139,8 +140,11 @@ class SessionInitializer
         $sessionIdentifier = new SessionFingerprint();
         $sessionIdentifier->initialize($authResult->getIdentity());
 
+        $userModel = new Model();
+        $user = $userModel->getUser($authResult->getIdentity());
+
         $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
-        $cookie->set('id', $passwordHelper->hash($authResult->getTokenAuth()));
+        $cookie->set('id', $passwordHelper->hash($user['password']));
         $cookie->set('user', $authResult->getIdentity());
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);

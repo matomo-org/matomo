@@ -30,9 +30,8 @@ use Piwik\IP;
  */
 class SessionFingerprint
 {
-    const SESSION_SECRET_SESSION_VAR_NAME = 'session.secret';
     const USER_NAME_SESSION_VAR_NAME = 'user.name';
-    const USER_INFO_SESSION_VAR_NAME = 'user.info';
+    const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
 
     public function getUser()
     {
@@ -45,17 +44,18 @@ class SessionFingerprint
 
     public function getUserInfo()
     {
-        if (isset($_SESSION[self::USER_INFO_SESSION_VAR_NAME])) {
-            return $_SESSION[self::USER_INFO_SESSION_VAR_NAME];
+        if (isset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME])) {
+            return $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME];
         }
 
         return null;
     }
 
-    public function initialize($userName, $ip = null, $userAgent = null)
+    public function initialize($userName, $time = null, $ip = null, $userAgent = null)
     {
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
-        $_SESSION[self::USER_INFO_SESSION_VAR_NAME] = [
+        $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
+            'ts' => $time ?: time(),
             'ip' => $ip ?: IP::getIpFromHeader(),
             'ua' => $userAgent ?: $this->getUserAgent(),
         ];
@@ -72,6 +72,22 @@ class SessionFingerprint
         }
 
         return $userInfo['ip'] == $requestIp && $userInfo['ua'] == $requestUa;
+    }
+
+    /**
+     * @param int $passwordModifiedTime
+     * @return bool
+     */
+    public function hasPasswordChangedSinceSessionStart($passwordModifiedTime)
+    {
+        $userInfo = $this->getUserInfo();
+        if (empty($userInfo)) {
+            return true;
+        }
+
+        // if the session was created before the password was last modified,
+        // it has changed and this session is no longer valid.
+        return $userInfo['ts'] < $passwordModifiedTime;
     }
 
     private function getUserAgent()

@@ -32,16 +32,11 @@ class SessionAuthTest extends IntegrationTestCase
      */
     private $testInstance;
 
-    public static function beforeTableDataCached()
-    {
-        parent::beforeTableDataCached();
-
-        UsersManagerAPI::getInstance()->addUser(self::TEST_OTHER_USER, 'testpass', 'test@example.com');
-    }
-
     public function setUp()
     {
         parent::setUp();
+
+        UsersManagerAPI::getInstance()->addUser(self::TEST_OTHER_USER, 'testpass', 'test@example.com');
 
         $this->testInstance = StaticContainer::get(SessionAuth::class);
     }
@@ -49,7 +44,7 @@ class SessionAuthTest extends IntegrationTestCase
     public function test_authenticate_ReturnsFailure_IfUsernameInSessionCookieIsInvalid()
     {
         $this->initializeSession(self::TEST_IP, self::TEST_UA, 'inavliduser');
-        $this->initializeRequest(self::TEST_IP, self::TEST_UA, 'inavliduser', 'invalidtokenauth');
+        $this->initializeRequest(self::TEST_IP, self::TEST_UA, 'inavliduser', 'invalidpasswordhash');
 
         $result = $this->testInstance->authenticate();
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
@@ -122,22 +117,50 @@ class SessionAuthTest extends IntegrationTestCase
 
         $sessionFingerprint = new SessionFingerprint();
         $this->assertEquals(Fixture::ADMIN_USER_LOGIN, $sessionFingerprint->getUser());
-        $this->assertEquals(['ip' => self::TEST_IP, 'ua' => self::TEST_UA], $sessionFingerprint->getUserInfo());
+
+        $userInfo = $sessionFingerprint->getUserInfo();
+        $this->assertEquals(self::TEST_IP, $userInfo['ip']);
+        $this->assertEquals(self::TEST_UA, $userInfo['ua']);
+        $this->assertGreaterThan(0, $userInfo['ts']);
     }
 
-    private function initializeRequest($ip, $userAgent, $userName, $tokenAuth = false)
+    public function test_authenticate_ReturnsFailure_IfAuthenticatedSession_AndPasswordChangedAfterSessionCreated()
     {
-        if (empty($tokenAuth)) {
+        $this->initializeSession(self::TEST_IP, self::TEST_UA, self::TEST_OTHER_USER);
+        $this->initializeRequest(self::TEST_IP, self::TEST_UA, self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        UsersManagerAPI::getInstance()->updateUser(self::TEST_OTHER_USER, 'testpass2');
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function test_authenticate_ReturnsFailure_IfReauthenticating_AndPasswordChangedAfterSessionStarted()
+    {
+        // no session initialized
+        $this->initializeRequest(self::TEST_IP, self::TEST_UA, self::TEST_OTHER_USER);
+
+        UsersManagerAPI::getInstance()->updateUser(self::TEST_OTHER_USER, 'testpass2');
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    private function initializeRequest($ip, $userAgent, $userName, $passwordHash = false)
+    {
+        if (empty($passwordHash)) {
             $model = new Model();
             $user = $model->getUser($userName);
-            $tokenAuth = $user['token_auth'];
+            $passwordHash = $user['password'];
         }
 
         $sessionCookieFactory = StaticContainer::get(SessionAuthCookieFactory::class);
         $passwordHelper = new Password();
 
         $cookie = $sessionCookieFactory->getCookie(false);
-        $cookie->set('id', $passwordHelper->hash($tokenAuth));
+        $cookie->set('id', $passwordHelper->hash($passwordHash));
         $cookie->set('user', $userName);
 
         $cookieName = Config::getInstance()->General['login_cookie_name'];
@@ -150,7 +173,7 @@ class SessionAuthTest extends IntegrationTestCase
     private function initializeSession($ip, $userAgent, $userLogin)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin, $ip, $userAgent);
+        $sessionFingerprint->initialize($userLogin, $time = null, $ip, $userAgent);
     }
 
     protected static function configureFixture($fixture)
