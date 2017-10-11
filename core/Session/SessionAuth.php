@@ -11,6 +11,7 @@ namespace Piwik\Session;
 
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
@@ -86,6 +87,7 @@ class SessionAuth implements Auth
 
         if (!$sessionId->isMatchingCurrentRequest()
             || $userNameInCookie != $userForSession
+            || $this->hasPasswordChangedSinceSessionStart($user, $sessionId)
         ) {
             return $this->makeAuthFailure();
         }
@@ -121,7 +123,7 @@ class SessionAuth implements Auth
     {
         $passwordHelper = new Auth\Password();
 
-        $isValid = $passwordHelper->verify($user['token_auth'], $cookieHash);
+        $isValid = $passwordHelper->verify($user['password'], $cookieHash);
 
         if ($isValid) {
             $sessionId->initialize($user['login']);
@@ -129,5 +131,15 @@ class SessionAuth implements Auth
         } else {
             return $this->makeAuthFailure();
         }
+    }
+
+    private function hasPasswordChangedSinceSessionStart($user, SessionFingerprint $sessionId)
+    {
+        if (empty($user['ts_password_modified'])) { // sanity check
+            return true;
+        }
+
+        $tsPasswordModified = Date::factory($user['ts_password_modified'])->getTimestampUTC();
+        return $sessionId->hasPasswordChangedSinceSessionStart($tsPasswordModified);
     }
 }
