@@ -1,5 +1,6 @@
 {
     "MobileMessaging": {
+        "MultiSites_Must_Be_Activated": "Web sitenizin istatistiklerinin SMS metinlerini oluşturmak için lütfen Piwik'teki MultiSites eklentisini aktifleştirin.",
         "PhoneNumbers": "Telefon Numaraları",
         "Settings_APIKey": "API Anahtarı",
         "Settings_CountryCode": "Ülke Kodu",

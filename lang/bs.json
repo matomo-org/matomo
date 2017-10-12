@@ -118,8 +118,6 @@
         "ExceptionMissingFile": "Nedostajući fajl: %s",
         "ExceptionNonceMismatch": "Nemogućnost provjere sigurnosti uzete sa ove forme.",
         "ExceptionPrivilege": "Ne možeš dostupiti ovim resursima jer zahtijeva %s pristup.",
-        "ExceptionPrivilegeAccessWebsite": "Ne možeš pristupiti ovom resursu pošto zahtijeva %s pristup za web stranicu sa id-om: %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Ne možeš pristupiti ovim resursima pošto zahtijeva %s pristup za barem jednu web stranicu.",
         "ExceptionUnableToStartSession": "Nije moguće pokrenuti sesiju.",
         "ExceptionUndeletableFile": "Nije moguće izbrisati %s",
         "ExceptionUnreadableFileDisabledMethod": "Konfigracijski fajl {%1$s} nije moguće čitati. Vaš host mora onesposobiti %2$s.",

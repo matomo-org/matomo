@@ -1,5 +1,6 @@
 {
     "UserCountry": {
+        "CannotLocalizeLocalIP": "%s IP adresi bir lokal adrestir ve coğrafi konumu belirlenemez.",
         "City": "Şehir",
         "Continent": "Kıta",
         "Country": "Ülke",

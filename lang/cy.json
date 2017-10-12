@@ -98,8 +98,6 @@
         "ExceptionMissingFile": "Ffeil ar goll: %s",
         "ExceptionNonceMismatch": "Doedd dim modd gwirio'r tocyn diogelwch ar y ffurflen hon.",
         "ExceptionPrivilege": "Ni allwch ddefnyddio'r adnodd hwn, mae'n ofynnol cael %s i gael mynediad.",
-        "ExceptionPrivilegeAccessWebsite": "Ni allwch ddefnyddio'r adnodd hwn, mae'n ofynnol cael lefel %s i gael mynediad i'r wefan =%d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Ni allwch ddefnyddio'r adnodd hwn, mae'n ofynnol cael lefel %s i gael mynediad ar gyfer o leiaf un wefan.",
         "ExceptionUnableToStartSession": "Methu dechrau sesiwn",
         "ExceptionUndeletableFile": "Wedi methu dileu %s",
         "ExceptionUnreadableFileDisabledMethod": "Nid oedd modd darllen y ffeil cyfluniad {%1$s}. Efallai bod eich cynhaliwr gwefan wedi ei anablu %2$s.",

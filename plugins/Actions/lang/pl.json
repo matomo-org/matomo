@@ -2,14 +2,18 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Średnia podstawa dla %1$s trafień %2$s pomiędzy %3$s i %4$s",
         "ColumnClickedURL": "Kliknięty link URL",
+        "ColumnClickedURLs": "Kliknięte adresy",
         "ColumnActionURL": "Adres URL Akcji",
         "ColumnClicks": "Kliknięcia",
         "ColumnClicksDocumentation": "Ilość kliknięć na ten link.",
         "ColumnDownloadURL": "Adres URL pobrań",
+        "ColumnDownloadURLs": "Adresy pobrań",
         "ColumnEntryPageTitle": "Tytuł stron z których wchodzono",
-        "ColumnEntryPageURL": "Adres URL stron z których wchodzono",
+        "ColumnEntryPageURL": "Adres strony wejścia",
+        "ColumnEntryPageURLs": "Adresy stron wejścia",
         "ColumnExitPageTitle": "Tytuł strony wybierany przy opuszczaniu strony",
         "ColumnExitPageURL": "Adres URL wybierany przy opuszczaniu strony",
+        "ColumnExitPageURLs": "Adres strony wyjścia",
         "ColumnNoResultKeyword": "Brak wyników dla podanego słowa kluczowego",
         "ColumnPageName": "Nazwa strony",
         "ColumnPagesPerSearch": "Strony z Wynikami Wyszukiwania",
@@ -28,6 +32,7 @@
         "ColumnUniqueOutlinks": "Unikalne linki zewnętrzne",
         "ColumnIdPageview": "ID wyświetlenia strony",
         "ColumnInteractionPosition": "Miejsce interakcji",
+        "ActionsInVisit": "Akcji podczas wizyty",
         "DownloadsReportDocumentation": "W tym raporcie możesz zobaczyć które pliki twoi odwiedzający pobrali. %s Które Piwik liczy jako pobrane kliknięcia na link pobrania. Niezalerznie czy pobranie było ukończone lub czy Piwik nie ma o tym informacji.",
         "EntryPagesReportDocumentation": "Ten raport zawiera informacje o stronach wejścia użytych w określonym przedziale czasu. Strona wejściowa, to pierwsza strona, którą odwiedzający zobaczy podczas wizyty. %s Adresy wejścia są wyświetlane w strukturze katalogów.",
         "EntryPageTitles": "Tytuły stron Wejściowych",
@@ -49,7 +54,10 @@
         "SiteSearchCategories2": "Na przykład, strony E-Commerce zazwyczaj mają selektor \"Kategoria\" dzięki czemu odwiedzający mogą ograniczyć wyszukiwanie wszystkich produktów dla danej kategorii.",
         "SiteSearchFollowingPagesDoc": "Kiedy odwiedzający wyszukują na twojej stronie, wtedy szukają danej strony, zawartości, produktu lub usługi. Ten raport zawiera listę stron, które najczęściej były klikane po wewnętrznym wyszukiwaniu. Innymi słowy, lista stron które najczęściej użytkownicy szukają jak już znajdą się na twoje stronie.",
         "SiteSearchIntro": "Śledzenie wyszukiwań jakie odwiedzający wykonują na twojej stronie jest bardzo efektywnym sposobem poznania więcej informacji o tym czego publiczność szuka, może on pomóc znaleźć pomysły na nową zawartość, nowy produkt E-Commercem, który klienci będą szukać oraz generalnie poprawić doświadczenia odwiedzających twoją stronę.",
+        "SiteSearchCategory": "Kategoria (Wyszukiwarka)",
+        "SiteSearchCategories": "Kategorie (Wyszukiwarka)",
         "SiteSearchKeyword": "Słowo kluczowe (Wyszukiwarka)",
+        "SiteSearchKeywords": "Słowa kluczowe (Wyszukiwarka)",
         "SiteSearchKeywordsDocumentation": "Ten raport jest to lista Słów Kluczowych, które odwiedzający wyszukiwali używając wewnętrznej wyszukiwarki.",
         "SiteSearchKeywordsNoResultDocumentation": "Ten raport jest to lista Słów Kluczowych które nie zwróciły żadnych wyników: może algorytm wyszukiwarki może być poprawiony, z może twoi odwiedzający szukają treści jakiej (jeszcze) nie ma na twojej stronie?",
         "SubmenuPagesEntry": "Strony wejść",
@@ -66,6 +74,7 @@
         "WidgetSearchCategories": "Kategorie wyszukiwań",
         "WidgetSearchKeywords": "Słowa kluczowe wyszukiwarki",
         "WidgetSearchNoResultKeywords": "Słowa Kluczowe bez Wyników",
-        "ActionType": "Typ Akcji"
+        "ActionType": "Typ Akcji",
+        "ActionTypes": "Typy Akcji"
     }
 }

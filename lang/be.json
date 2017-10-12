@@ -113,8 +113,6 @@
         "ExceptionMissingFile": "Адсутнічае файл: %s",
         "ExceptionNonceMismatch": "Не атрымалася праверыць токэн бяспекі ў гэтай форме.",
         "ExceptionPrivilege": "Вы не можаце атрымаць доступ да гэтага рэсурсу, таму што ён патрабуе %s доступ.",
-        "ExceptionPrivilegeAccessWebsite": "Вы не можаце атрымаць доступ да гэтага рэсурсу, таму што ён патрабуе %s доступ для вэб-сайта id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Вы не можаце атрымаць доступ да гэтага рэсурсу, таму што ён патрабуе %s доступ, па меншай меры аднаго вэб-сайта.",
         "ExceptionUnableToStartSession": "Немагчыма запусціць сесію.",
         "ExceptionUndeletableFile": "Немагчыма выдаліць %s",
         "ExceptionUnreadableFileDisabledMethod": "Файл канфігурацыі {%1$s} не можа быць прачытаны. Магчыма ваш хост адключыў %2$s.",

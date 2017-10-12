@@ -138,8 +138,6 @@
         "ExceptionMissingFile": "ملف مفقود: %s",
         "ExceptionNonceMismatch": "لم يمكن تعريف مفتاح الأمان في هذا النموذج.",
         "ExceptionPrivilege": "لا يمكنك الوصول لهذا المورد، فهو يتطلب صلاحيات وصول %s.",
-        "ExceptionPrivilegeAccessWebsite": "لا يمكنك مشاهدة هذا المورد، فهو يتطلب صلاحيات وصول %s لموقع id=%d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "لا يمكنك الوصول لهذا المورد، فهو يتطلب صلاحيات وصول %s على الأقل لموقع واحد.",
         "ExceptionUnableToStartSession": "لا يمكن بدء الجلسة.",
         "ExceptionUndeletableFile": "لم يمكن حذف %s",
         "ExceptionUnreadableFileDisabledMethod": "لم يمكن قراءة ملف الإعدادات (%1$s). قد يكون المستضيف قد عطل %2$s.",

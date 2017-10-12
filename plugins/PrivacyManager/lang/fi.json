@@ -1,14 +1,15 @@
 {
     "PrivacyManager": {
         "AnonymizeIpDescription": "Valitse \"Kyllä\", jos et halua, että Piwik seuraa kokonaisia IP-osoitteita.",
-        "AnonymizeIpInlineHelp": "Poistaa viimeisen tavun vierailijoiden IP-osoitteista, mikäli paikalliset yksityiseensuojalait\/-ohjeistukset vaativat.",
+        "AnonymizeIpInlineHelp": "Poistaa viimeisen tavun vierailijoiden IP-osoitteista. Tämä voi olla tarpeen paikallisien tietosuojalakien tai -ohjeistuksien noudattamiseksi.",
         "AnonymizeIpExtendedHelp": "Kun käyttäjät vierailevat sivullasi, Piwik ei tallenna täyttä IP-osoitetta (esim. %1$s), vaan sen sijaan osoite anonymisoidaan (esim. %2$s). IP-osoitteen anonymisointi on osa yksityisyydensuojasta määrääviä lakeja esimerkiksi Saksassa.",
         "AnonymizeIpMaskLengtDescription": "Valitse, montako tavua käyttäjien IP-osoitteista piilotetaan.",
         "AnonymizeIpMaskLength": "%1$s tavua - esim. %2$s",
+        "CannotLockSoDeleteLogActions": "log_action taulua ei tyhjennetä; anna ensin LOCK TABLES-oikeus MySQL käyttäjälle '%s'",
         "ClickHereSettings": "Muokkaa %s:n asetuksia.",
         "CurrentDBSize": "Nykyinen tietokannan koko",
         "DBPurged": "Tietokannasta poistettiin vanhat tiedot.",
-        "DeleteBothConfirm": "Olet ottamassa käyttöön sekä logien että raporttien poistamisen. Tämä poistaa peruuttamattomasti vanhat analytiikkatiedot. Haluatko varmasti tehdä tämän?",
+        "DeleteBothConfirm": "Olet ottamassa käyttöön sekä lokien että raporttien poistamisen. Tämä poistaa peruuttamattomasti vanhat analytiikkatiedot. Haluatko varmasti tehdä tämän?",
         "DeleteDataDescription": "Voit säätää Piwikin poistamaan vanhat kävijätiedot ja\/tai luodut raportit, jotta tietokannan koko pysyy pienenä.",
         "DeleteDataDescription2": "Voit valita, että etukäteen luodut raportit säilytetään, ja ainoastaan käynnit, avatut sivut ja seurantalokit poistetaan. Vaihtoehtoisesti raportit voidaan poistaa ja lokit säilyttää.",
         "DeleteDataInterval": "Poista vanhat tiedot joka",

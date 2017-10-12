@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Diretório para apagar: %s",
         "ExceptionNonceMismatch": "Não conseguiria verificar a segurança tomada nesse modelo.",
         "ExceptionPrivilege": "Não pode aceder a este recurso uma vez que ele requer um acesso %s.",
-        "ExceptionPrivilegeAccessWebsite": "Não pode aceder a este recurso uma vez que ele requer um acesso %s para o site id=%d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Não pode aceder a este recurso uma vez que ele requer um acesso %s para pelo menos um site.",
         "ExceptionUnableToStartSession": "Não foi possível iniciar a sessão.",
         "ExceptionUndeletableFile": "Impossível de apagar %s",
         "ExceptionUnreadableFileDisabledMethod": "O arquivo de configuração {%1$s} não pôde ser lido. O seu host pode ter destivado %2$s.",

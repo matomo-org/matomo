@@ -144,8 +144,6 @@
         "ExceptionMissingFile": "लापता फ़ाइल: %s",
         "ExceptionNonceMismatch": "इस प्रपत्र पर सुरक्षा टोकन को सत्यापित नहीं किया जा सका.",
         "ExceptionPrivilege": "इसे एक %s पहुँच की आवश्यकता के रूप में आप इस संसाधन तक पहुँच नहीं सकते हैं.",
-        "ExceptionPrivilegeAccessWebsite": "यह वेबसाइट आईडी के लिए एक %s पहुँच की आवश्यकता के रूप में आप इस संसाधन तक पहुँच नहीं सकते हैं = %d",
-        "ExceptionPrivilegeAtLeastOneWebsite": "इसे कम से कम एक वेबसाइट के लिए किसी पहुँच की आवश्यकता के रूप %s में आप इस संसाधन तक पहुँच नहीं सकते हैं.",
         "ExceptionUnableToStartSession": "सत्र प्रारंभ करने में अक्षम.",
         "ExceptionUndeletableFile": "%s हटाने में असमर्थ",
         "ExceptionUnreadableFileDisabledMethod": "विन्यास फाइल {%1$s} नहीं पढ़ी जा सकी. आपका मेजबान %2$s निष्क्रिय हो सकता है",

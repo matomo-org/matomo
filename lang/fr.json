@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Répertoire à supprimer : %s",
         "ExceptionNonceMismatch": "Impossible de vérifier le code (token) de sécurité pour ce formulaire.",
         "ExceptionPrivilege": "Vous ne pouvez accéder à cette ressource, ceci requiert un accès de type %s.",
-        "ExceptionPrivilegeAccessWebsite": "Vous ne pouvez pas accéder à cette ressource, ceci requiert un accès de type %s pour le site id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Vous ne pouvez accéder à cette ressource, ceci requiert au moins un accès de type %s à un site web.",
         "ExceptionUnableToStartSession": "Impossible de démarrer une session.",
         "ExceptionUndeletableFile": "Impossible de supprimer %s",
         "ExceptionUnreadableFileDisabledMethod": "Le fichier de configuration {%1$s} n'a pas pu être lu. votre hébergeur a probablement désactivé %2$s.",

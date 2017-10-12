@@ -149,8 +149,6 @@
         "ExceptionMissingFile": "Tập tin lỗi: %s",
         "ExceptionNonceMismatch": "Không thể xác minh mã bảo mật của mẫu(form) này.",
         "ExceptionPrivilege": "Bạn không thể truy cập tài nguyên này vì nó đòi hỏi quyền truy cập %s.",
-        "ExceptionPrivilegeAccessWebsite": "Bạn không thể truy cập tài nguyên này vì nó đòi hỏi một truy cập %s với ID web =% d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Bạn không thể truy cập tài nguyên này vì nó đòi hỏi một truy cập %s ít nhất trên một trang web.",
         "ExceptionUnableToStartSession": "Không thể bắt đầu phiên.",
         "ExceptionUndeletableFile": "Không thể xóa %s",
         "ExceptionUnreadableFileDisabledMethod": "Tập tin cấu hình {%1$s} không có thể đọc. Máy chủ của bạn có thể đã bị vô hiệu hóa %2$s.",

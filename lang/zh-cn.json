@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "需要删除的目录：%s",
         "ExceptionNonceMismatch": "无法验证此表单的安全性。",
         "ExceptionPrivilege": "您无法存取这个资源，必须要一个 %s 权限。",
-        "ExceptionPrivilegeAccessWebsite": "您无法存取这个资源，必须拥有网站 ID = %d 的 %s 权限。",
-        "ExceptionPrivilegeAtLeastOneWebsite": "您无法存取这个资源，必须至少要一个网站的 %s 权限。",
         "ExceptionUnableToStartSession": "无法启动会话",
         "ExceptionUndeletableFile": "无法刪除 %s",
         "ExceptionUnreadableFileDisabledMethod": "配置文件 {%1$s} 无法读取。您的主机可能禁用 %2$s。",

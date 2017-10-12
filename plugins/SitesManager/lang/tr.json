@@ -2,6 +2,7 @@
     "SitesManager": {
         "AddSite": "Websitesi ekle",
         "AdvancedTimezoneSupportNotFound": "Gelişmiş saat dilimini sizin PHP'niz desteklemiyor. (Desteklenen PHP>=5.2) Siz manuel şekilde UTC ayarlayabilirsiniz.",
+        "ChangingYourTimezoneWillOnlyAffectDataForward": "Saat diliminizi değiştirmek, yalnızca ilerideki verileri etkiler ve geriye dönük olarak uygulanmaz.",
         "ChooseCityInSameTimezoneAsYou": "Sizinle aynı zaman dilimini paylaşan bir şehir seçiniz.",
         "Currency": "Para Birimi",
         "CurrencySymbolWillBeUsedForGoals": "Para birim simgesi Goals yanında gösterilir.",
