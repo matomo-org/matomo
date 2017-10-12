@@ -355,7 +355,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DateRangeFromTo';
         $translationKeys[] = 'General_DateRangeFrom';
         $translationKeys[] = 'General_DateRangeTo';
-        $translationKeys[] = 'General_ClickToChangePeriod';
+        $translationKeys[] = 'General_DoubleClickToChangePeriod';
         $translationKeys[] = 'General_Apply';
         $translationKeys[] = 'General_Period';
     }
