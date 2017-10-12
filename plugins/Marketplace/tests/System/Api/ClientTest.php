@@ -79,6 +79,7 @@ class ClientTest extends SystemTestCase
             'isBundle',
             'isCustomPlugin',
             'shop',
+            'bundle',
             'versions',
             'isDownloadable',
             'changelog',
