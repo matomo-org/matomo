@@ -842,7 +842,13 @@ $(document).ready(function() {
 
         this.forceSegmentReload = function (segmentDefinition) {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
-            return broadcast.propagateNewPage('', true, 'segment=' + segmentDefinition);
+            
+            if (piwikHelper.isAngularRenderingThePage()) {
+                return broadcast.propagateNewPage('', true, 'segment=' + segmentDefinition);
+            } else {
+                // eg in case of exported dashboard
+                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'segment=' + segmentDefinition);
+            }
         };
 
         this.changeSegmentList = function () {};
