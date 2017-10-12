@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Zu löschendes Verzeichnis: %s",
         "ExceptionNonceMismatch": "Das Sicherheitstoken des Formulars konnte nicht verifiziert werden.",
         "ExceptionPrivilege": "Sie können auf die Ressource nicht zugreifen, da Sie dafür mindestens %s Rechte benötigen.",
-        "ExceptionPrivilegeAccessWebsite": "Sie können auf diese Ressource nicht zugreifen, da es mindestens %s-Rechte für die Website-ID %d benötigt.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Sie können auf diese Ressource nicht zugreifen, da eine %s Berechtigung für mindestens eine Website benötigt wird.",
         "ExceptionUnableToStartSession": "Starten einer Session nicht möglich.",
         "ExceptionUndeletableFile": "Löschen von %s nicht möglich",
         "ExceptionUnreadableFileDisabledMethod": "Die Konfigurationsdatei {%1$s} konnte nicht gelesen werden. Ihr Host hat möglicherweise %2$s deaktiviert.",
@@ -432,6 +430,7 @@
         "YearsDays": "%1$s Jahre %2$s Tage",
         "Yes": "Ja",
         "YouAreCurrentlyUsing": "Sie nutzen derzeit Piwik %s.",
+        "YouAreViewingDemoMessage": "Sie sehen gerade die Demo von %1$sPiwik%2$s",
         "YouMustBeLoggedIn": "Sie müssen angemeldet sein, um diese Funktion nutzen zu können.",
         "YourChangesHaveBeenSaved": "Ihre Änderungen wurden gespeichert."
     },

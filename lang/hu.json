@@ -120,8 +120,6 @@
         "ExceptionMissingFile": "Hiányzó fájl: %s",
         "ExceptionNonceMismatch": "Nem lehetett ellenőrizni a biztonsági kódot ezen az űrlapon.",
         "ExceptionPrivilege": "Ez a lehetőség nem elérhető, mivel %s szintű hozzáférés kellene hozzá.",
-        "ExceptionPrivilegeAccessWebsite": "Ez a lehetőség nem elérhető, mivel %s szintű hozzáférés kellene hozzá a id = %d weboldal esetén.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Ez a lehetőség nem elérhető, mivel %s szintű hozzáférés kellene hozzá legalább egy weboldal esetén.",
         "ExceptionUnableToStartSession": "Nem lehet elindítani a munkamenetet.",
         "ExceptionUndeletableFile": "Ezt nem lehet letörölni: %s",
         "ExceptionUnreadableFileDisabledMethod": "A konfigurációs fájl {%1$s} nem olvasható. Lehet, hogy a szerveren nem engedélyezett a következő: %2$s.",

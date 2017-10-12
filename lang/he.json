@@ -158,8 +158,6 @@
         "ExceptionDirectoryToDelete": "תיקיות למחיקה: %s",
         "ExceptionNonceMismatch": "לא ניתן לאמת את כרטיס האבטחה בטופס זה.",
         "ExceptionPrivilege": "לא ניתן לגשת למשאב זה מכיוון שהוא דורש גישת %s.",
-        "ExceptionPrivilegeAccessWebsite": "לא ניתן לגשת למשאב זה מכיוון שהוא דורש גישת %s עבור האתר שמספרו הסידורי הוא %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "לא ניתן לגשת למשאב זה מכיוון שהוא דורש גישת %s עבור אתר אחד לפחות.",
         "ExceptionUnableToStartSession": "לא מצליח להתחיל session.",
         "ExceptionUndeletableFile": "לא ניתן למחוק את %s",
         "ExceptionUnreadableFileDisabledMethod": "קובץ ההגדרות {%1$s} לא ניתן לקריאה. המארח אולי חסם את %2$s.",

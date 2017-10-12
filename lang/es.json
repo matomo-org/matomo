@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Directorio a eliminar: %s",
         "ExceptionNonceMismatch": "No se puede verificar la llave de seguridad en este formulario.",
         "ExceptionPrivilege": "No puede acceder a este recurso pues requiere un acceso %s .",
-        "ExceptionPrivilegeAccessWebsite": "No se puede acceder a este recurso, ya que requiere un %s de acceso al sitio de internet id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "No se puede acceder a este recurso, ya que requiere un %s de acceso a por lo menos un sitio de internet.",
         "ExceptionUnableToStartSession": "No se pudo iniciar sesión.",
         "ExceptionUndeletableFile": "No se puede borrar %s",
         "ExceptionUnreadableFileDisabledMethod": "El archivo de configuración {%1$s} no se pudo leer. Su host puede estar deshabilitado %2$s.",

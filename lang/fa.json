@@ -143,8 +143,6 @@
         "ExceptionMissingFile": "فایل مفقود: %s",
         "ExceptionNonceMismatch": "آیا این نشانه رمز امنیتی در این فرم معتبر نیست.",
         "ExceptionPrivilege": "شما نمی توانید به این منبع دسترسی داشته باشید زیرا این به دسترسی %s نیاز دارد.",
-        "ExceptionPrivilegeAccessWebsite": "شما می توانید به این منبع دسترسی داشته باشید نه به عنوان آن نیاز به %s دسترسی به سایت id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "شما نمی توانید به این منبع دسترسی پیدا کنید زیرا این حداقل به دسترسی %s برای یک وبسایت نیاز دارید.",
         "ExceptionUnableToStartSession": "قادر به شروع جلسه نیست.",
         "ExceptionUndeletableFile": "غیر قابل حذف %s",
         "ExceptionReportNotFound": "گزارش درخواست شده وجود ندارد.",

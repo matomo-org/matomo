@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Директория для удаления: %s",
         "ExceptionNonceMismatch": "Не могу проверить элемент безопасности для этой формы.",
         "ExceptionPrivilege": "Вы не можете иметь доступ к этому ресурсу, поскольку он требует прав %s.",
-        "ExceptionPrivilegeAccessWebsite": "Вы не можете получить доступ к этому ресурсу, поскольку необходимы права %s для сайта с id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Вы не можете получить доступ к этому ресурсу, поскольку необходимы права %s хотя бы для одного сайта.",
         "ExceptionUnableToStartSession": "Не удалось запустить сессию.",
         "ExceptionUndeletableFile": "Невозможно удалить %s",
         "ExceptionUnreadableFileDisabledMethod": "Конфигурационный файл {%1$s} не может быть прочтен. Возможно, на вашем хосте отключен %2$s.",

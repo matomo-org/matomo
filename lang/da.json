@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Slet mappe: %s",
         "ExceptionNonceMismatch": "Kan ikke kontrollere sikkerheden på formularen.",
         "ExceptionPrivilege": "Du kan ikke få adgang til denne ressource, det kræver en %s adgang.",
-        "ExceptionPrivilegeAccessWebsite": "Du kan ikke få adgang til denne ressource, da det kræver en %s adgang til hjemmeside id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Du kan ikke få adgang til denne ressource, da det kræver en %s adgang til mindst én hjemmeside.",
         "ExceptionUnableToStartSession": "Kan ikke starte sessionen.",
         "ExceptionUndeletableFile": "Kunne ikke slette %s",
         "ExceptionUnreadableFileDisabledMethod": "Konfigurationsfilen (%1$s) kunne ikke læses. Udbyderen kan have deaktiveret %2$s.",

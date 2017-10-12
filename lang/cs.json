@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Adresář ke smazání: %s",
         "ExceptionNonceMismatch": "Nebylo možné ověřit bezpečnostní token tohoto formuláře.",
         "ExceptionPrivilege": "Nemůžete přistupovat k tomuto zdroji, protože vyžaduje oprávnění %s.",
-        "ExceptionPrivilegeAccessWebsite": "Nemůžete přistupovat k tomuto zdroji, protože vyžaduje přístup %s pro stránku s ID = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Nemůžete přistupovat k tomuto zdroji, protože vyžaduje oprávnění %s alespoň pro jeden web",
         "ExceptionUnableToStartSession": "Nepodařilo se zahájit sezení.",
         "ExceptionUndeletableFile": "Nelze vymazat soubor %s",
         "ExceptionUnreadableFileDisabledMethod": "Konfigurační soubor {%1$s} je nečitelný. Host může být zakázán %2$s.",

@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Folder za brisanje: %s",
         "ExceptionNonceMismatch": "Nije moguće proveriti sigurnosni token na ovoj formi.",
         "ExceptionPrivilege": "Ne možete pristupiti resursu pošto to zahteva %s.",
-        "ExceptionPrivilegeAccessWebsite": "Ne možete pristupiti resursu pošto to zahteva %s za sajt id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Ne možete pristupiti resursu pošto to zahteva %s za barem jedan sajt.",
         "ExceptionUnableToStartSession": "Nije moguće pokrenuti sesiju",
         "ExceptionUndeletableFile": "Nije moguće obrisati %s",
         "ExceptionUnreadableFileDisabledMethod": "Datoteka sa podešavanjima {%1$s} ne može biti pročitana. Vaš server možda ima onemogućen %2$s.",

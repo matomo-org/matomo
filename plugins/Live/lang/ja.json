@@ -27,6 +27,7 @@
         "SimpleRealTimeWidget_Message": "最後の %1$s の %2$s と %3$s",
         "ViewVisitorProfile": "ビジターのプロフィールをみる",
         "VisitedPages": "訪問されたページ",
+        "RevisitedPages": "複数回閲覧されたページ",
         "VisitorLog": "ビジターログ",
         "VisitorLogDocumentation": "この表は選択した日付期間内で最新のビジットについて表示しています。ビジットの日付の上にマウスを移動して、そのビジターの最後のビジットが何日前か見ることが出来ます。%1$s 期間内に本日が含まれていれば、ビジターをリアルタイムで見られます！ %2$s ここに表示されるのは、アーカイブのためのcronジョブ設定の頻度に関わらず、常にライブのデータです。",
         "VisitorProfile": "ビジターのプロフィール",

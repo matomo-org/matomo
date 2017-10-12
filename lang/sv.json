@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Katalog som raderas: %s",
         "ExceptionNonceMismatch": "Kunde inte verifiera säkerhetsbeviset på detta formulär.",
         "ExceptionPrivilege": "Du kan inte komma åt denna resurs eftersom det kräver %s tillträde.",
-        "ExceptionPrivilegeAccessWebsite": "Du kan inte komma åt denna resurs eftersom det åtminstone kräver %s tillträde till webbplatsen med id: %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Du kan inte komma åt denna resurs eftersom det åtminstone kräver %s tillträde till en webbplats.",
         "ExceptionUnableToStartSession": "Kan inte starta sessionen.",
         "ExceptionUndeletableFile": "Det går inte att ta bort %s",
         "ExceptionUnreadableFileDisabledMethod": "Konfigurationsfilen {%1$s} kunde inte läsas. Din värd har kanske inaktiverat %2$s.",

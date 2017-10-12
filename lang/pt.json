@@ -128,8 +128,6 @@
         "ExceptionMissingFile": "Falta o ficheiro: %s",
         "ExceptionNonceMismatch": "Não foi possível verificar o símbolo de segurança deste formulário.",
         "ExceptionPrivilege": "Não pode aceder a este recurso porque necessita de acesso %s.",
-        "ExceptionPrivilegeAccessWebsite": "Não pode aceder a este recurso porque necessita de acesso %s para o website de id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Não pode aceder a este recurso porque necessita de acesso %s pelo menos para um website.",
         "ExceptionUnableToStartSession": "Não foi possível começar a sessão.",
         "ExceptionUndeletableFile": "Não é possível eliminar %s",
         "ExceptionUnreadableFileDisabledMethod": "Não foi possível ler o ficheiro de configuração {%1$s}. O seu host pode ter desactivado %2$s.",

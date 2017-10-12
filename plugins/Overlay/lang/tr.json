@@ -1,5 +1,8 @@
 {
     "Overlay": {
+        "Clicks": "%s tıklama",
+        "Domain": "Alan adı",
+        "ErrorNotLoadingLink": "Daha fazla sorun giderme ipucu almak için burayı tıklayın",
         "Location": "Konum"
     }
 }
