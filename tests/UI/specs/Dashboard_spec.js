@@ -239,6 +239,12 @@ describe("Dashboard", function () {
         }, done);
     });
 
+    it("should load segmented dashboard", function (done) {
+        expect.screenshot("segmented").to.be.capture(function (page) {
+            page.load(url + '&segment=' + encodeURIComponent("browserCode==FF"), 5000);
+        }, done);
+    });
+
     it("should load correctly with token_auth", function (done) {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
