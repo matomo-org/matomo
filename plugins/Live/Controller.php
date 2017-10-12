@@ -19,7 +19,7 @@ use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Live\ProfileSummary\ProfileSummaryAbstract;
 use Piwik\Url;
 use Piwik\View;
-
+use Piwik\NumberFormatter;
 /**
  */
 class Controller extends \Piwik\Plugin\Controller
@@ -95,10 +95,10 @@ class Controller extends \Piwik\Plugin\Controller
         $last30min = $last30min[0];
         $today = API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment, array('visits', 'actions'));
         $today = $today[0];
-        $view->visitorsCountHalfHour = $last30min['visits'];
-        $view->visitorsCountToday = $today['visits'];
-        $view->pisHalfhour = $last30min['actions'];
-        $view->pisToday = $today['actions'];
+        $view->visitorsCountHalfHour = NumberFormatter::getInstance()->format(($last30min['visits']));
+        $view->visitorsCountToday = NumberFormatter::getInstance()->format($today['visits']);
+        $view->pisHalfhour = NumberFormatter::getInstance()->format($last30min['actions']);
+        $view->pisToday = NumberFormatter::getInstance()->format($today['actions']);
         return $view;
     }
 
