@@ -80,14 +80,6 @@ class AddSegmentBySegmentValueTest extends \PHPUnit_Framework_TestCase
         $this->assertSegment('city==mytest', $row);
     }
 
-    public function test_filter_shouldUseTheFirstSegment_IfAReportHasMultiple()
-    {
-        $report = new GetCountry();
-        $this->assertCount(2, $report->getDimension()->getSegments());
-
-        $this->assertSegmentForSegmentValueAndReport($report, $segmentValue = 'existing', 'countryCode==existing');
-    }
-
     public function test_filter_shouldNotGenerateASegment_IfReportHasNoDimension()
     {
         $report = new Get(); // VisitsSummary.get has no dimension

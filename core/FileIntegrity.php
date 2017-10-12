@@ -73,6 +73,7 @@ class FileIntegrity
             'misc/*.dat.gz',
             'misc/*.bin',
             'misc/user/*png',
+            'misc/user/*js',
             'misc/package',
             'misc/package/WebAppGallery/*.xml',
             'misc/package/WebAppGallery/install.sql',

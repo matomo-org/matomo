@@ -432,7 +432,6 @@
         "YearsDays": "%1$s Jahre %2$s Tage",
         "Yes": "Ja",
         "YouAreCurrentlyUsing": "Sie nutzen derzeit Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Sie sehen gerade die Demo von Piwik",
         "YouMustBeLoggedIn": "Sie müssen angemeldet sein, um diese Funktion nutzen zu können.",
         "YourChangesHaveBeenSaved": "Ihre Änderungen wurden gespeichert."
     },

@@ -13,7 +13,6 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
-use Piwik\Plugin\Report;
 
 /**
  * The average amount of time it takes to generate a page. Calculated as

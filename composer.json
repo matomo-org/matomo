@@ -3,17 +3,17 @@
     "type": "application",
     "description": "the leading free/libre analytics platform",
     "keywords": ["piwik","web","analytics"],
-    "homepage": "http://piwik.org",
+    "homepage": "https://piwik.org",
     "license": "GPL-3.0+",
     "authors": [
         {
             "name": "The Piwik Team",
             "email": "hello@piwik.org",
-            "homepage": "http://piwik.org/the-piwik-team/"
+            "homepage": "https://piwik.org/team/"
         }
     ],
     "support": {
-        "forum": "http://forum.piwik.org/",
+        "forum": "https://forum.piwik.org/",
         "issues": "https://github.com/piwik/piwik/issues",
         "wiki": "https://github.com/piwik/piwik/wiki",
         "source": "https://github.com/piwik/piwik"

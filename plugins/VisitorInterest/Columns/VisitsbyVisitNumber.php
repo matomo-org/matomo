@@ -13,8 +13,5 @@ use Piwik\Piwik;
 
 class VisitsbyVisitNumber extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('VisitorInterest_visitsByVisitCount');
-    }
+    protected $nameSingular = 'VisitorInterest_visitsByVisitCount';
 }

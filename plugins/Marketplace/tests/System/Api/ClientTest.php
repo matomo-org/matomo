@@ -76,6 +76,7 @@ class ClientTest extends SystemTestCase
             'featured',
             'isFree',
             'isPaid',
+            'isBundle',
             'isCustomPlugin',
             'shop',
             'versions',

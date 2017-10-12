@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\Device\DeviceParserAbstract;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugins\DevicesDetection\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -19,23 +19,25 @@ class DeviceBrand extends Base
 {
     protected $columnName = 'config_device_brand';
     protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'DevicesDetection_DeviceBrand';
+    protected $namePlural = 'DevicesDetection_DeviceBrands';
+    protected $segmentName = 'deviceBrand';
 
-    public function getName()
+
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return Piwik::translate('DevicesDetection_DeviceBrand');
+        return \Piwik\Plugins\DevicesDetection\getDeviceBrandLabel($value);
     }
 
-    protected function configureSegments()
+    public function __construct()
     {
         $brands = DeviceParserAbstract::$deviceBrands;
         natcasesort ($brands);
         $brandList = implode(", ", $brands);
+        $this->acceptValues = $brandList;
 
-        $segment = new Segment();
-        $segment->setSegment('deviceBrand');
-        $segment->setName('DevicesDetection_DeviceBrand');
-        $segment->setAcceptedValues($brandList);
-        $segment->setSqlFilter(function ($brand) use ($brandList, $brands) {
+        $this->sqlFilter = function ($brand) use ($brandList, $brands) {
             if ($brand == Piwik::translate('General_Unknown')) {
                 return '';
             }
@@ -44,8 +46,7 @@ class DeviceBrand extends Base
                 throw new \Exception("deviceBrand segment must be one of: $brandList");
             }
             return $index;
-        });
-        $this->addSegment($segment);
+        };
     }
 
     /**

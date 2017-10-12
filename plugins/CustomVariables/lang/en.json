@@ -7,6 +7,7 @@
         "PluginDescription": "Custom Variables are (name, value) pairs that you can assign using the Javascript API to visitors or any of their action. Piwik will then report how many visits, pages, conversions for each of these custom names and values. View the detailed Custom Variables for each user and action in the Visitor Log.<br />Required to use <a href=\"http://piwik.org/docs/ecommerce-analytics/\">Ecommerce Analytics</a> feature!",
         "ScopePage": "scope page",
         "ScopeVisit": "scope visit",
+        "ScopeConversion": "scope conversion",
         "ManageDescription": "This overview shows all custom variable slots and their usages for website '%s'. The names within each slot are ordered by how often they were used in total.",
         "ScopeX": "Scope %s",
         "Index": "Index",

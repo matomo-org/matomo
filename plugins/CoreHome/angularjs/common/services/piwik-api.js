@@ -214,7 +214,7 @@ var hasBlockedContent = false;
             }
 
             for (var key in defaultParams) {
-                if (!getParamsToMixin[key] && !postParams[key] && defaultParams[key]) {
+                if (!(key in getParamsToMixin) && !(key in postParams) && defaultParams[key]) {
                     getParamsToMixin[key] = defaultParams[key];
                 }
             }

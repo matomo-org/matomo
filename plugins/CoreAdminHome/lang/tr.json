@@ -25,6 +25,7 @@
         "JSTracking_CustomCampaignQueryParam": "Kampanya adı ve anahtar sözcük için özel sorgu parametresi adları kullanılsın",
         "JSTracking_CustomCampaignQueryParamDesc": "Not: %1$sPiwik otomatik olarak Google Analytics parametreleri algılar. %2$s",
         "JSTracking_DisableCookies": "Tüm takip cookilerini devredışı bırak",
+        "JSTracking_EnableCrossDomainLinking": "Domainler arası bağlantıyı etkinleştirir",
         "JSTracking_EnableDoNotTrack": "İstemci tarafında İZLEMEMEYİ etkinleştirin",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Not: Sunucu tqarafında İZLEMEME etkinleştirilmiştir. Bu seçeneğin hiç bir etkisi olmayacaktır.",
         "JSTracking_EnableDoNotTrackDesc": "Ziyaretçilerinize izlenme onayı sorulur, eğer istemiyorsa ziyaretleri kayıt altına alınmaz.",

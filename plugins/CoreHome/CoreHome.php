@@ -7,6 +7,10 @@
  *
  */
 namespace Piwik\Plugins\CoreHome;
+use Piwik\Columns\ComputedMetricFactory;
+use Piwik\Columns\MetricsList;
+use Piwik\Plugin\ArchivedMetric;
+use Piwik\Plugin\ComputedMetric;
 
 /**
  *
@@ -21,7 +25,7 @@ class CoreHome extends \Piwik\Plugin
     const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -30,7 +34,25 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Metric.addComputedMetrics'              => 'addComputedMetrics'
         );
+    }
+
+    public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
+    {
+        $metrics = $list->getMetrics();
+        foreach ($metrics as $metric) {
+            if ($metric instanceof ArchivedMetric && $metric->getDimension()) {
+                $metricName = $metric->getName();
+                if ($metric->getDbTableName() === 'log_visit'
+                    && $metricName !== 'nb_uniq_visitors'
+                    && $metricName !== 'nb_visits'
+                    && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0) {
+                    $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_visits', ComputedMetric::AGGREGATION_AVG);
+                    $list->addMetric($metric);
+                }
+            }
+        }
     }
 
     public function filterMergedJavaScripts(&$mergedContent)

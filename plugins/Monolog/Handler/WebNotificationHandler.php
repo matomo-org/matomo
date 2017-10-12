@@ -37,7 +37,7 @@ class WebNotificationHandler extends AbstractProcessingHandler
                 break;
         }
 
-        $message = $record['level_name'] . ': ' . htmlentities($record['message']);
+        $message = $record['level_name'] . ': ' . htmlentities($record['message'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
 
         $notification = new Notification($message);
         $notification->context = $context;

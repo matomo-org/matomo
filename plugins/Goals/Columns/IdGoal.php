@@ -8,26 +8,27 @@
  */
 namespace Piwik\Plugins\Goals\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\Join;
+use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\ConversionDimension;
-use Piwik\Plugin\Segment;
 
 class IdGoal extends ConversionDimension
 {
     protected $columnName = 'idgoal';
+    protected $type = self::TYPE_TEXT;
+    protected $category = 'General_Visitors'; // todo move into goal category?
+    protected $nameSingular = 'General_VisitConvertedGoalId';
+    protected $segmentName = 'visitConvertedGoalId';
+    protected $acceptValues = '1, 2, 3, etc.';
 
-    protected function configureSegments()
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $segment = new Segment();
-        $segment->setCategory('General_Visit');
-        $segment->setName('General_VisitConvertedGoalId');
-        $segment->setSegment('visitConvertedGoalId');
-        $segment->setAcceptedValues('1, 2, 3, etc.');
-        $this->addSegment($segment);
+        // do not create any metrics for this dimension, they don't really make much sense and are rather confusing
     }
 
-    public function getName()
+    public function getDbColumnJoin()
     {
-        return Piwik::translate('General_VisitConvertedGoalId');
+        return new Join\GoalNameJoin();
     }
 }

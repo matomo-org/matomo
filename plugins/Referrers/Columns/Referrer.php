@@ -13,8 +13,6 @@ use Piwik\Piwik;
 
 class Referrer extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('Referrers_Referrer');
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'Referrers_Referrer';
 }

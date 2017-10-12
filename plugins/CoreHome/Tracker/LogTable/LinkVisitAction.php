@@ -31,4 +31,9 @@ class LinkVisitAction extends LogTable
     {
         return 'idvisit';
     }
+
+    public function getPrimaryKey()
+    {
+        return array('idlink_va');
+    }
 }

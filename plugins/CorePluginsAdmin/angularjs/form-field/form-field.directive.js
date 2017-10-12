@@ -214,6 +214,39 @@
                         return flatValues;
                     }
 
+                    if (hasUiControl(field, 'expandable-select')) {
+                        var availableValues = field.availableValues;
+                        var flatValues = [];
+
+                        var groups = {};
+                        angular.forEach(availableValues, function (value) {
+
+                            if (!value.group) {
+                                value.group = '';
+                            }
+
+                            if (!(value.group in groups) || !groups[value.group]) {
+                                groups[value.group] = {values: [], group: value.group}
+                            }
+
+                            var formatted = {key: value.key, value: value.value};
+
+                            if ('tooltip' in value && value.tooltip) {
+                                formatted.tooltip = value.tooltip;
+                            }
+
+                            groups[value.group].values.push(formatted);
+                        });
+
+                        angular.forEach(groups, function (group) {
+                            if (group.values.length) {
+                                flatValues.push(group);
+                            }
+                        });
+
+                        return flatValues;
+                    }
+
                     if (isSelectControl(field)) {
                         var availableValues = field.availableValues;
 

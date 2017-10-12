@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomPiwikJs;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PiwikJsManipulator;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles;
+use Piwik\Piwik;
 
 /**
  * Updates the Piwik JavaScript Tracker "piwik.js" in case plugins extend the tracker.
@@ -130,6 +131,13 @@ class TrackerUpdater
 
         if ($newContent !== $this->getCurrentTrackerFileContent()) {
             $this->toFile->save($newContent);
+
+            /**
+             * Triggered after the tracker JavaScript content (the content of the piwik.js file) is changed.
+             *
+             * @param string $absolutePath The path to the new piwik.js file.
+             */
+            Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$this->toFile->getPath()]);
         }
     }
 }

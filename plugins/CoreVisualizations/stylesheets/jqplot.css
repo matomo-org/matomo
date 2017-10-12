@@ -211,8 +211,6 @@ a.rowevolution-startmulti {
     height: 16px;
     margin-top: 3px;
     background: url(../../Morpheus/images/chart_line_edit.png) no-repeat center center;
-    overflow: hidden;
-    text-indent: -999px;
 }
 
 .jqplot-seriespicker-popover {
@@ -236,6 +234,7 @@ a.rowevolution-startmulti {
     padding: 0 4px 0 0;
     line-height: 15px;
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 .jqplot-seriespicker-popover p.headline {

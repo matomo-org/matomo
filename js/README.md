@@ -56,4 +56,4 @@ The js/ folder contains:
 * We use /*! to include Piwik's license header in the minified source. Read
   Stallman's "The JavaScript Trap" for more information.
 
-* Information about the current version number you have installed can be found under [What version of Piwik do I have?](http://piwik.org/faq/how-to-update/faq_8/). 
+* Information about the current version number you have installed can be found under [What version of Piwik do I have?](https://piwik.org/faq/how-to-update/faq_8/). 

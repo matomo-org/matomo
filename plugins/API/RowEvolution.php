@@ -36,7 +36,7 @@ class RowEvolution
         'getPageUrl'
     );
 
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = array(), $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
         // validation of requested $period & $date
         if ($period == 'range') {
@@ -51,9 +51,9 @@ class RowEvolution
         $label = DataTablePostProcessor::unsanitizeLabelParameter($label);
         $labels = Piwik::getArrayFromApiParameter($label);
 
-        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal, $idDimension);
+        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters);
 
-        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $idGoal, $idDimension);
+        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters);
 
         if (empty($labels)) {
             $labels = $this->getLabelsFromDataTable($dataTable, $labels);
@@ -244,11 +244,11 @@ class RowEvolution
      * @param string $apiAction
      * @param string|bool $label
      * @param string|bool $segment
-     * @param int|bool $idGoal
+     * @param array $apiParameters
      * @throws Exception
      * @return DataTable\Map|DataTable
      */
-    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $idGoal = false, $idDimension = false)
+    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $apiParameters)
     {
         if (!is_array($label)) {
             $label = array($label);
@@ -264,9 +264,6 @@ class RowEvolution
             'format'                   => 'original',
             'serialize'                => '0',
             'segment'                  => $segment,
-            'idGoal'                   => $idGoal,
-            'idDimension'              => $idDimension,
-
             // data for row evolution should NOT be limited
             'filter_limit'             => -1,
 
@@ -275,6 +272,11 @@ class RowEvolution
             // can be sorted in a different order)
             'labelFilterAddLabelIndex' => count($label) > 1 ? 1 : 0,
         );
+        if (!empty($apiParameters) && is_array($apiParameters)) {
+            foreach ($apiParameters as $param => $value) {
+                $parameters[$param] = $value;
+            }
+        }
 
         // add "processed metrics" like actions per visit or bounce rate
         // note: some reports should not be filtered with AddColumnProcessedMetrics
@@ -306,19 +308,12 @@ class RowEvolution
      * @param $apiModule
      * @param $apiAction
      * @param $language
-     * @param $idGoal
+     * @param $apiParameters
      * @throws Exception
      * @return array
      */
-    private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal = false, $idDimension = false)
+    private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters)
     {
-        $apiParameters = array();
-        if (!empty($idGoal) && $idGoal > 0) {
-            $apiParameters = array('idGoal' => $idGoal);
-        }
-        if (!empty($idDimension) && $idDimension > 0) {
-            $apiParameters = array('idDimension' => (int) $idDimension);
-        }
         $reportMetadata = API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
             $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
 

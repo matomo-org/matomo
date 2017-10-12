@@ -190,7 +190,7 @@
 				<max>1</max>
 			</nb_hits_1>
 		</metrics>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 		<columns>
 			<nb_hits>Pageviews</nb_hits>
 			<nb_visits>Unique Pageviews</nb_visits>

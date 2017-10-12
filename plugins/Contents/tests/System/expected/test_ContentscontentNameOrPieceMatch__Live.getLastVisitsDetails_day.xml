@@ -38,7 +38,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -56,7 +56,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -74,7 +74,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -92,7 +92,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -110,7 +110,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction>submit</contentInteraction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -128,7 +128,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -146,7 +146,7 @@
 				<contentTarget>http://piwik.org/</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -164,7 +164,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -182,7 +182,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -200,7 +200,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -218,7 +218,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -230,13 +230,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -272,10 +277,10 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
@@ -350,7 +355,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -368,7 +373,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -386,7 +391,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -404,7 +409,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -422,7 +427,7 @@
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction>submit</contentInteraction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -440,7 +445,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -458,7 +463,7 @@
 				<contentTarget>http://piwik.org/</contentTarget>
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -476,7 +481,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -494,7 +499,7 @@
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -512,7 +517,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -530,7 +535,7 @@
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
-				<interactionPosition />
+				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -542,13 +547,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -584,10 +594,10 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
 		<totalEcommerceConversions>0</totalEcommerceConversions>
 		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
