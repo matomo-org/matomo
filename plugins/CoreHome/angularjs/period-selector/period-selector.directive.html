@@ -6,7 +6,7 @@
         id="date"
         class="title"
         title="{{ 'General_ChooseDate'|translate:periodSelector.getCurrentlyViewingText() }}"
-        tabindex="4"
+        tabindex="-1"
     >
         <span class="icon icon-calendar"></span>
         {{ periodSelector.getCurrentlyViewingText() }}
@@ -45,7 +45,6 @@
                                 <input
                                     type="radio"
                                     name="period"
-                                    tabindex="4"
                                     ng-attr-id="period_id_{{ period }}"
                                     ng-model="periodSelector.selectedPeriod"
                                     ng-value="period"
@@ -64,7 +63,6 @@
                             </p>
                         </div>
                         <input
-                            tabindex="4"
                             type="submit"
                             value="{{ 'General_Apply'|translate }}"
                             id="calendarApply"

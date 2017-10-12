@@ -147,6 +147,9 @@
                     element.find('td[data-event]').off('click');
                     element.find('.ui-state-active').removeClass('ui-state-active');
                     element.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day');
+
+                    // add href to left/right nav in calendar so they can be accessed via keyboard
+                    element.find('.ui-datepicker-prev,.ui-datepicker-next').attr('href', '');
                 }
 
                 function $onChanges(changesObj) {
