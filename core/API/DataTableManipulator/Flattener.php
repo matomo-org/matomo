@@ -12,6 +12,7 @@ use Piwik\API\DataTableManipulator;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * This class is responsible for flattening data tables.
@@ -67,7 +68,11 @@ class Flattener extends DataTableManipulator
         $dataTable->filter('ReplaceSummaryRowLabel');
         $dataTable->filter('ReplaceColumnNames');
 
-        $this->flattenDataTableInto($dataTable, $newDataTable);
+        $report        = ReportsProvider::factory($this->apiModule, $this->apiMethod);
+        $dimension     = $report->getDimension();
+        $dimensionName = $dimension ? str_replace('.', '_', $dimension->getId()) : 'label1';
+
+        $this->flattenDataTableInto($dataTable, $newDataTable, $dimensionName);
 
         return $newDataTable;
     }
@@ -75,11 +80,12 @@ class Flattener extends DataTableManipulator
     /**
      * @param $dataTable DataTable
      * @param $newDataTable
+     * @param $dimensionName
      */
-    protected function flattenDataTableInto($dataTable, $newDataTable, $prefix = '', $logo = false)
+    protected function flattenDataTableInto($dataTable, $newDataTable, $dimensionName, $prefix = '', $logo = false)
     {
         foreach ($dataTable->getRows() as $rowId => $row) {
-            $this->flattenRow($row, $rowId, $newDataTable, $prefix, $logo);
+            $this->flattenRow($row, $rowId, $newDataTable, $dimensionName, $prefix, $logo);
         }
     }
 
@@ -87,12 +93,14 @@ class Flattener extends DataTableManipulator
      * @param Row $row
      * @param DataTable $dataTable
      * @param string $labelPrefix
+     * @param string $dimensionName
      * @param bool $parentLogo
      */
-    private function flattenRow(Row $row, $rowId, DataTable $dataTable,
+    private function flattenRow(Row $row, $rowId, DataTable $dataTable, $dimensionName,
                                 $labelPrefix = '', $parentLogo = false)
     {
-        $label = $row->getColumn('label');
+        $origLabel = $label = $row->getColumn('label');
+
         if ($label !== false) {
             $label = trim($label);
 
@@ -104,8 +112,16 @@ class Flattener extends DataTableManipulator
                 }
             }
 
+            $origLabel = $label;
+
             $label = $labelPrefix . $label;
             $row->setColumn('label', $label);
+
+            if ($row->getMetadata($dimensionName)) {
+                $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
+            }
+
+            $row->setMetadata($dimensionName, $origLabel);
         }
 
         $logo = $row->getMetadata('logo');
@@ -137,7 +153,18 @@ class Flattener extends DataTableManipulator
                 $dataTable->addRow($row);
             }
             $prefix = $label . $this->recursiveLabelSeparator;
-            $this->flattenDataTableInto($subTable, $dataTable, $prefix, $logo);
+
+            $report           = ReportsProvider::factory($this->apiModule, $this->getApiMethodForSubtable($this->request));
+            $subDimension     = $report->getDimension();
+            $subDimensionName = $subDimension ? str_replace('.', '_', $subDimension->getId()) : 'label' . (substr_count($prefix, $this->recursiveLabelSeparator) + 1);
+
+            if ($origLabel !== false) {
+                foreach ($subTable->getRows() as $subRow) {
+                    $subRow->setMetadata($dimensionName, $origLabel);
+                }
+            }
+
+            $this->flattenDataTableInto($subTable, $dataTable, $subDimensionName, $prefix, $logo);
         }
     }
 
