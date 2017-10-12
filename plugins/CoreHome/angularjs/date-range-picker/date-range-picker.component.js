@@ -40,6 +40,8 @@
         vm.toPickerSelectedDates = null;
         vm.fromPickerHighlightedDates = null;
         vm.toPickerHighlightedDates = null;
+        vm.startDateInvalid = false;
+        vm.endDateInvalid = false;
 
         vm.$onChanges = $onChanges;
         vm.setStartRangeDate = setStartRangeDate;
@@ -48,39 +50,48 @@
         vm.getNewHighlightedDates = getNewHighlightedDates;
         vm.handleEnterPress = handleEnterPress;
 
-        function $onChanges() {
-            try {
-                var startDateParsed = $.datepicker.parseDate('yy-mm-dd', vm.startDate);
-                vm.fromPickerSelectedDates = [startDateParsed, startDateParsed];
-            } catch (e) {
-                // ignore
+        function $onChanges(changes) {
+            if (changes.startDate) {
+                setStartRangeDateFromStr(vm.startDate);
             }
 
-            try {
-                var endDateParsed = $.datepicker.parseDate('yy-mm-dd', vm.endDate);
-                vm.toPickerSelectedDates = [endDateParsed, endDateParsed];
-            } catch (e) {
-                // ignore
+            if (changes.endDate) {
+                setEndRangeDateFromStr(vm.endDate);
             }
         }
 
         function onRangeInputChanged(source) {
-            var dateStr = source === 'from' ? vm.startDate : vm.endDate;
-
-            var date;
-            try {
-                date = $.datepicker.parseDate('yy-mm-dd', dateStr);
-            } catch (e) {
-                return;
-            }
-
             if (source === 'from') {
-                vm.fromPickerSelectedDates = [date, date];
+                setStartRangeDateFromStr(vm.startDate);
             } else {
-                vm.toPickerSelectedDates = [date, date];
+                setEndRangeDateFromStr(vm.endDate);
             }
+        }
 
-            rangeChanged();
+        function setStartRangeDateFromStr(dateStr) {
+            try {
+                var startDateParsed = $.datepicker.parseDate('yy-mm-dd', dateStr);
+                vm.fromPickerSelectedDates = [startDateParsed, startDateParsed];
+
+                vm.startDateInvalid = false;
+
+                rangeChanged();
+            } catch (e) {
+                vm.startDateInvalid = true;
+            }
+        }
+
+        function setEndRangeDateFromStr(dateStr) {
+            try {
+                var endDateParsed = $.datepicker.parseDate('yy-mm-dd', dateStr);
+                vm.toPickerSelectedDates = [endDateParsed, endDateParsed];
+
+                vm.endDateInvalid = false;
+
+                rangeChanged();
+            } catch (e) {
+                vm.endDateInvalid = true;
+            }
         }
 
         function handleEnterPress($event) {
@@ -95,14 +106,18 @@
         }
 
         function setStartRangeDate(date) {
+            vm.startDateInvalid = false;
             vm.startDate = $.datepicker.formatDate('yy-mm-dd', date);
+
             vm.fromPickerSelectedDates = [date, date];
 
             rangeChanged();
         }
 
         function setEndRangeDate(date) {
+            vm.endDateInvalid = false;
             vm.endDate = $.datepicker.formatDate('yy-mm-dd', date);
+
             vm.toPickerSelectedDates = [date, date];
 
             rangeChanged();
