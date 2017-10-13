@@ -13,7 +13,8 @@
  * - startDate: The start of the date range. Should be a string in the YYYY-MM-DD format.
  * - endDate: The end of the date range. Should be a string in the YYYY-MM-DD format. Note:
  *            date ranges are inclusive.
- * - rangeChange: Called when one or both dates bounding the range change.
+ * - rangeChange: Called when one or both dates bounding the range change. If the dates are
+ *                in an invalid state, the date will be null in this event.
  * - submit: Called if the 'enter' key is pressed in either of the inputs.
  *
  * Usage:
@@ -69,29 +70,39 @@
         }
 
         function setStartRangeDateFromStr(dateStr) {
+            vm.startDateInvalid = true;
+
+            var startDateParsed;
             try {
-                var startDateParsed = $.datepicker.parseDate('yy-mm-dd', dateStr);
-                vm.fromPickerSelectedDates = [startDateParsed, startDateParsed];
-
-                vm.startDateInvalid = false;
-
-                rangeChanged();
+                startDateParsed = $.datepicker.parseDate('yy-mm-dd', dateStr);
             } catch (e) {
-                vm.startDateInvalid = true;
+                // ignore
             }
+
+            if (startDateParsed) {
+                vm.fromPickerSelectedDates = [startDateParsed, startDateParsed];
+                vm.startDateInvalid = false;
+            }
+
+            rangeChanged();
         }
 
         function setEndRangeDateFromStr(dateStr) {
+            vm.endDateInvalid = true;
+
+            var endDateParsed;
             try {
-                var endDateParsed = $.datepicker.parseDate('yy-mm-dd', dateStr);
-                vm.toPickerSelectedDates = [endDateParsed, endDateParsed];
-
-                vm.endDateInvalid = false;
-
-                rangeChanged();
+                endDateParsed = $.datepicker.parseDate('yy-mm-dd', dateStr);
             } catch (e) {
-                vm.endDateInvalid = true;
+                // ignore
             }
+
+            if (endDateParsed) {
+                vm.toPickerSelectedDates = [endDateParsed, endDateParsed];
+                vm.endDateInvalid = false;
+            }
+
+            rangeChanged();
         }
 
         function handleEnterPress($event) {
@@ -129,8 +140,8 @@
             }
 
             vm.rangeChange({
-                start: vm.startDate,
-                end: vm.endDate
+                start: vm.startDateInvalid ? null : vm.startDate,
+                end: vm.endDateInvalid ? null : vm.endDate
             });
         }
 

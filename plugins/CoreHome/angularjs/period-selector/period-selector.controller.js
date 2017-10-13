@@ -24,6 +24,7 @@
 
         vm.startRangeDate = null;
         vm.endRangeDate = null;
+        vm.isRangeValid = null;
 
         vm.isLoadingNewPage = false;
 
@@ -34,6 +35,8 @@
         vm.updateSelectedValuesFromHash = updateSelectedValuesFromHash;
         vm.getPeriodDisplayText = getPeriodDisplayText;
         vm.$onChanges = $onChanges;
+        vm.onRangeChange = onRangeChange;
+        vm.isApplyEnabled = isApplyEnabled;
 
         init();
 
@@ -46,6 +49,27 @@
             if (changesObj.periods) {
                 removeUnrecognizedPeriods();
             }
+        }
+
+        function onRangeChange(start, end) {
+            if (!start || !end) {
+                vm.isRangeValid = false;
+                return;
+            }
+
+            vm.isRangeValid = true;
+            vm.startRangeDate = start;
+            vm.endRangeDate = end;
+        }
+
+        function isApplyEnabled() {
+            if (vm.selectedPeriod === 'range'
+                && !vm.isRangeValid
+            ) {
+                return false;
+            }
+
+            return true;
         }
 
         function removeUnrecognizedPeriods() {

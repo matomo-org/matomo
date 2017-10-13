@@ -20,7 +20,7 @@
                         class="period-range"
                         start-date="periodSelector.startRangeDate"
                         end-date="periodSelector.endRangeDate"
-                        range-change="periodSelector.startRangeDate = start; periodSelector.endRangeDate = end"
+                        range-change="periodSelector.onRangeChange(start, end)"
                         submit="periodSelector.onApplyClicked()"
                     >
                     </piwik-date-range-picker>
@@ -68,6 +68,7 @@
                             id="calendarApply"
                             class="btn"
                             ng-click="periodSelector.onApplyClicked()"
+                            ng-disabled="!periodSelector.isApplyEnabled()"
                         />
                         <div id="ajaxLoadingCalendar" ng-if="periodSelector.isLoadingNewPage">
                             <div class="loadingPiwik">
