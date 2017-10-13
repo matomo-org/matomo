@@ -11,6 +11,9 @@
 ; WARNING - YOU SHOULD NOT EDIT THIS FILE DIRECTLY - Edit config.ini.php instead.
 ;--------
 
+[path]
+tmp = "/tmp"
+
 [database]
 host =
 username =
