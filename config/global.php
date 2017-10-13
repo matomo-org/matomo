@@ -4,6 +4,7 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
 use Piwik\SettingsServer;
+use Piwik\Config;
 
 return array(
 
