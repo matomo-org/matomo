@@ -19,8 +19,10 @@ return array(
         } else {
             $instanceId = '';
         }
-
-        return $root . '/tmp' . $instanceId;
+        
+        $tmp = Config::getInstance()->path['tmp'];
+        
+        return $root . $tmp . $instanceId;
     },
 
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
