@@ -54,7 +54,7 @@
 
                                 <label
                                     ng-attr-for="period_id_{{ period }}"
-                                    ng-attr-title="{{ period === periodSelector.selectedPeriod ? '' : ('General_DoubleClickToChangePeriod'|translate) }}"
+                                    ng-attr-title="{{ period === periodSelector.periodValue ? '' : ('General_DoubleClickToChangePeriod'|translate) }}"
                                     ng-class="{'selected-period-label': period === periodSelector.selectedPeriod}"
                                     ng-dblclick="periodSelector.changeViewedPeriod(period)"
                                 >
