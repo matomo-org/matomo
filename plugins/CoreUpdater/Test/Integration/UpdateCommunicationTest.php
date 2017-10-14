@@ -77,12 +77,12 @@ CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 {$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
 
 CoreUpdater_ViewVersionChangelog
-http://piwik.org/changelog/piwik-33-0-0/
+https://piwik.org/changelog/piwik-33-0-0/
 
 CoreUpdater_ReceiveEmailBecauseIsSuperUser
 
 CoreUpdater_FeedbackRequest
-http://piwik.org/contact/";
+https://piwik.org/contact/";
 
         $this->assertEmailForVersion('33.0.0', $message);
     }

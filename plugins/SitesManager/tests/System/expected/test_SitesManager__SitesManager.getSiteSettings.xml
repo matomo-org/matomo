@@ -210,7 +210,7 @@
 					<row>Ecommerce enabled</row>
 				</availableValues>
 				<description />
-				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Piwik allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
+				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Piwik allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='https://piwik.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />
