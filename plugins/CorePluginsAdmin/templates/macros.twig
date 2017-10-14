@@ -144,7 +144,8 @@
                             {{ plugin.info.description|raw|nl2br }}
 
                             {% if plugin.info.homepage|default is not empty and plugin.info.homepage not in [
-                            'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/'
+                            'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/',
+                            'https://piwik.org', 'https://www.piwik.org', 'https://piwik.org/', 'https://www.piwik.org/'
                             ] %}
                                 <span class="plugin-homepage">
                             <a target="_blank" href="{{ plugin.info.homepage }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
