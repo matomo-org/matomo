@@ -45,7 +45,7 @@ $byteStart = $byteEnd = false;
 if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     || !PIWIK_KEEP_JS_TRACKER_COMMENT
 ) {
-    $byteStart = 369; // length of comment header in bytes
+    $byteStart = 371; // length of comment header in bytes
 }
 
 $environment = new \Piwik\Application\Environment(null);
