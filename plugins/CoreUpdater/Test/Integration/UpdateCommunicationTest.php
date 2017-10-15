@@ -100,7 +100,7 @@ CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 CoreUpdater_ReceiveEmailBecauseIsSuperUser
 
 CoreUpdater_FeedbackRequest
-http://piwik.org/contact/";
+https://piwik.org/contact/";
 
         $this->assertEmailForVersion('33.0.0-b1', $message);
     }
