@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
-use Piwik\Metrics\Formatter;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
