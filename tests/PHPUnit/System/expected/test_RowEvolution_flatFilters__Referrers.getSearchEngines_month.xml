@@ -11,6 +11,8 @@
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://google.com/search?q=free+%3E+proprietary</url>
+		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
+		<Referrers_Keyword>free &gt; proprietary</Referrers_Keyword>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 	</row>
 	<row>
@@ -24,6 +26,8 @@
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://google.com/search?q=justice+%29%28%26%5E%23%25%24+not+%27%22+corruption%21</url>
+		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
+		<Referrers_Keyword>justice )(&amp;^#%$ not '&quot; corruption!</Referrers_Keyword>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 	</row>
 	<row>
@@ -37,6 +41,8 @@
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://google.com/search?q=peace+%22%2C%22+not+war</url>
+		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
+		<Referrers_Keyword>peace &quot;,&quot; not war</Referrers_Keyword>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 	</row>
 </result>

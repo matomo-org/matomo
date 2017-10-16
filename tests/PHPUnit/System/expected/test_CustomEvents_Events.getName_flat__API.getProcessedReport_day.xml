@@ -9,6 +9,10 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<dimensions>
+			<Events_EventName>Event Name</Events_EventName>
+			<Events_EventAction>Event Action</Events_EventAction>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -422,8 +426,174 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventName>
+				<Events_EventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Purchase</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Ponyo (崖の上のポニョ)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Princess Mononoke (もののけ姫)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Search query here</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>clickBuyNow</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playStart</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>This is an event without a URL</Events_EventAction>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventName>
+				<Events_EventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Event Name not defined</Events_EventName>
+				<Events_EventAction>Purchase</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>La fiancée de l'eau</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Ponyo (崖の上のポニョ)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Princess Mononoke (もののけ姫)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Search query here</Events_EventName>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>clickBuyNow</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playStart</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventName>Spirited Away (千と千尋の神隠し)</Events_EventName>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />

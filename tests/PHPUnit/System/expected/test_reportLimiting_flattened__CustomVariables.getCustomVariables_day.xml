@@ -3,25 +3,34 @@
 	<row>
 		<label>Others</label>
 		<nb_actions>60</nb_actions>
+		<CustomVariables_CustomVariableName>Others</CustomVariables_CustomVariableName>
 	</row>
 	<row>
 		<label>name - Others</label>
 		<nb_visits>19</nb_visits>
 		<nb_actions>19</nb_actions>
+		<CustomVariables_CustomVariableName>name</CustomVariables_CustomVariableName>
+		<CustomVariables_CustomVariableValue>Others</CustomVariables_CustomVariableValue>
 	</row>
 	<row>
 		<label>liked - y</label>
 		<nb_visits>16</nb_visits>
 		<nb_actions>16</nb_actions>
+		<CustomVariables_CustomVariableName>liked</CustomVariables_CustomVariableName>
+		<CustomVariables_CustomVariableValue>y</CustomVariables_CustomVariableValue>
 	</row>
 	<row>
 		<label>liked - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_actions>4</nb_actions>
+		<CustomVariables_CustomVariableName>liked</CustomVariables_CustomVariableName>
+		<CustomVariables_CustomVariableValue>Others</CustomVariables_CustomVariableValue>
 	</row>
 	<row>
 		<label>name - thing0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<CustomVariables_CustomVariableName>name</CustomVariables_CustomVariableName>
+		<CustomVariables_CustomVariableValue>thing0</CustomVariables_CustomVariableValue>
 	</row>
 </result>

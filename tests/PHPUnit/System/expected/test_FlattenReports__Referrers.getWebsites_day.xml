@@ -11,6 +11,8 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer1.com/sub/dir/page1.html</url>
+		<Referrers_Website>www.referrer1.com</Referrers_Website>
+		<Referrers_WebsitePage>sub/dir/page1.html</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>www.referrer1.com/sub/dir/page2.html</label>
@@ -23,6 +25,8 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer1.com/sub/dir/page2.html</url>
+		<Referrers_Website>www.referrer1.com</Referrers_Website>
+		<Referrers_WebsitePage>sub/dir/page2.html</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>www.referrer2.com/sub/dir/page1.html</label>
@@ -35,6 +39,8 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer2.com/sub/dir/page1.html</url>
+		<Referrers_Website>www.referrer2.com</Referrers_Website>
+		<Referrers_WebsitePage>sub/dir/page1.html</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>www.referrer2.com/sub/dir/page2.html</label>
@@ -47,6 +53,8 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer2.com/sub/dir/page2.html</url>
+		<Referrers_Website>www.referrer2.com</Referrers_Website>
+		<Referrers_WebsitePage>sub/dir/page2.html</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>www.referrer3.com/sub/dir/page1.html</label>
@@ -59,6 +67,8 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer3.com/sub/dir/page1.html</url>
+		<Referrers_Website>www.referrer3.com</Referrers_Website>
+		<Referrers_WebsitePage>sub/dir/page1.html</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>www.referrer3.com/sub/dir/page2.html</label>
@@ -71,5 +81,7 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer3.com/sub/dir/page2.html</url>
+		<Referrers_Website>www.referrer3.com</Referrers_Website>
+		<Referrers_WebsitePage>sub/dir/page2.html</Referrers_WebsitePage>
 	</row>
 </result>

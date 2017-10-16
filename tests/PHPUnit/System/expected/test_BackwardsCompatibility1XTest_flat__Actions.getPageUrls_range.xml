@@ -15,6 +15,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.224</avg_time_generation>
 		<url>http://example.org/</url>
+		<Actions_PageUrl>index</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2F</segment>
 	</row>
 	<row>
@@ -34,6 +35,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.023</avg_time_generation>
 		<url>http://example.org/index.htm</url>
+		<Actions_PageUrl>index.htm</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 	</row>
 	<row>
@@ -56,6 +58,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.234</avg_time_generation>
 		<url>http://example.org/index.htm?parameter=Should display</url>
+		<Actions_PageUrl>index.htm?parameter=Should display</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fparameter%3DShould+display</segment>
 	</row>
 	<row>
@@ -80,6 +83,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
 		<url>http://example.org/store/purchase.htm</url>
+		<Actions_PageUrl>store/purchase.htm</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fstore%2Fpurchase.htm</segment>
 	</row>
 </result>

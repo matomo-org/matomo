@@ -22,6 +22,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
+		<Actions_PageUrl>dir1</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -46,6 +47,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
+		<Actions_PageUrl>dir1/sub</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -70,6 +72,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
+		<Actions_PageUrl>dir1/sub/dir</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -94,6 +97,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.6</avg_time_generation>
+		<Actions_PageUrl>dir2</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -118,6 +122,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.6</avg_time_generation>
+		<Actions_PageUrl>dir2/sub</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -142,6 +147,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.6</avg_time_generation>
+		<Actions_PageUrl>dir2/sub/dir</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -166,6 +172,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
+		<Actions_PageUrl>dir3</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -190,6 +197,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
+		<Actions_PageUrl>dir3/sub</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -214,6 +222,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
+		<Actions_PageUrl>dir3/sub/dir</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -240,6 +249,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.15</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page0.html</url>
+		<Actions_PageUrl>dir1/sub/dir/page0.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage0.html</segment>
 	</row>
@@ -262,6 +272,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page1.html</url>
+		<Actions_PageUrl>dir1/sub/dir/page1.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage1.html</segment>
 	</row>
@@ -286,6 +297,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.45</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page2.html</url>
+		<Actions_PageUrl>dir1/sub/dir/page2.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage2.html</segment>
 	</row>
@@ -313,6 +325,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page0.html</url>
+		<Actions_PageUrl>dir2/sub/dir/page0.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage0.html</segment>
 	</row>
@@ -335,6 +348,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.6</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page1.html</url>
+		<Actions_PageUrl>dir2/sub/dir/page1.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage1.html</segment>
 	</row>
@@ -359,6 +373,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page2.html</url>
+		<Actions_PageUrl>dir2/sub/dir/page2.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage2.html</segment>
 	</row>
@@ -386,6 +401,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.45</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page0.html</url>
+		<Actions_PageUrl>dir3/sub/dir/page0.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage0.html</segment>
 	</row>
@@ -408,6 +424,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page1.html</url>
+		<Actions_PageUrl>dir3/sub/dir/page1.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage1.html</segment>
 	</row>
@@ -432,6 +449,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>1.35</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page2.html</url>
+		<Actions_PageUrl>dir3/sub/dir/page2.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage2.html</segment>
 	</row>
@@ -456,6 +474,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/page1.html</url>
+		<Actions_PageUrl>page1.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage1.html</segment>
 	</row>
@@ -480,6 +499,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<Actions_PageUrl>sub</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -503,6 +523,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<Actions_PageUrl>sub/dir</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -526,6 +547,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<Actions_PageUrl>sub/dir/dir1</Actions_PageUrl>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -552,6 +574,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/sub/dir/dir1/page1.html</url>
+		<Actions_PageUrl>sub/dir/dir1/page1.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fsub%2Fdir%2Fdir1%2Fpage1.html</segment>
 	</row>

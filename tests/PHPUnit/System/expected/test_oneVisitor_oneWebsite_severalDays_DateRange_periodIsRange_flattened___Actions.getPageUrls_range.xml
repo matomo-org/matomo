@@ -20,6 +20,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/homepage</url>
+		<Actions_PageUrl>homepage</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fhomepage</segment>
 	</row>
 	<row>
@@ -44,6 +45,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/news</url>
+		<Actions_PageUrl>news</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fnews</segment>
 	</row>
 	<row>
@@ -63,6 +65,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/sub1/sub2/sub3/news</url>
+		<Actions_PageUrl>sub1/sub2/sub3/news</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fsub1%2Fsub2%2Fsub3%2Fnews</segment>
 	</row>
 </result>

@@ -12,6 +12,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>URL unknown!</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
+		<Referrers_SearchEngine>Others</Referrers_SearchEngine>
 	</row>
 	<row>
 		<label>Google - Others</label>
@@ -23,6 +24,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
+		<Referrers_Keyword>Others</Referrers_Keyword>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 	</row>
 	<row>
@@ -35,6 +38,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Referrers_SearchEngine>Yahoo!</Referrers_SearchEngine>
+		<Referrers_Keyword>Others</Referrers_Keyword>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
 	</row>
 	<row>
@@ -48,6 +53,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://google.com/search?q=search+term+3</url>
+		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
+		<Referrers_Keyword>search term 3</Referrers_Keyword>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 	</row>
 	<row>
@@ -61,6 +68,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://search.yahoo.com/search?p=search+term+4</url>
+		<Referrers_SearchEngine>Yahoo!</Referrers_SearchEngine>
+		<Referrers_Keyword>search term 4</Referrers_Keyword>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
 	</row>
 </result>
