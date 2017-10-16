@@ -92,6 +92,9 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -142,6 +145,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-url.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/report-metadata-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/reporting-pages-model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/periods.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
@@ -219,6 +223,13 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/selector/selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/date-picker/date-picker.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
@@ -326,6 +337,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Intl_Day_Min_StandAlone_5';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_6';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_7';
+        $translationKeys[] = 'Intl_PeriodDay';
+        $translationKeys[] = 'Intl_PeriodWeek';
+        $translationKeys[] = 'Intl_PeriodMonth';
+        $translationKeys[] = 'Intl_PeriodYear';
+        $translationKeys[] = 'General_DateRangeInPeriodList';
         $translationKeys[] = 'General_And';
         $translationKeys[] = 'General_All';
         $translationKeys[] = 'General_Search';
@@ -359,5 +375,10 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ChangeCurrentWebsite';
         $translationKeys[] = 'General_CreatedByUser';
         $translationKeys[] = 'General_DateRangeFromTo';
+        $translationKeys[] = 'General_DateRangeFrom';
+        $translationKeys[] = 'General_DateRangeTo';
+        $translationKeys[] = 'General_DoubleClickToChangePeriod';
+        $translationKeys[] = 'General_Apply';
+        $translationKeys[] = 'General_Period';
     }
 }

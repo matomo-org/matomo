@@ -841,6 +841,7 @@ abstract class Controller
 
         $view->period = $currentPeriod;
         $view->otherPeriods = $availablePeriods;
+        $view->enabledPeriods = self::getEnabledPeriodsInUI();
         $view->periodsNames = self::getEnabledPeriodsNames();
     }
 
