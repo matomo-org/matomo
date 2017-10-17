@@ -4,6 +4,11 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 3.2.1
+
+### New APIs
+ * Themes can now customer the header text color using `@theme-color-header-text`
+
 ## Piwik 3.2.0
 
 ### New Segments
