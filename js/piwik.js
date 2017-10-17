@@ -7281,9 +7281,9 @@ if (typeof window.Piwik !== 'object') {
              */
             addTracker: function (piwikUrl, siteId) {
                 if (!asyncTrackers.length) {
-                    createFirstTracker(piwikUrl, siteId);
+                    return createFirstTracker(piwikUrl, siteId);
                 } else {
-                    asyncTrackers[0].addTracker(piwikUrl, siteId);
+                    return asyncTrackers[0].addTracker(piwikUrl, siteId);
                 }
             },
 
