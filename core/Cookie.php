@@ -370,6 +370,14 @@ class Cookie
     }
 
     /**
+     * Removes all values from the cookie.
+     */
+    public function clear()
+    {
+        $this->value = [];
+    }
+
+    /**
      * Returns an easy to read cookie dump
      *
      * @return string  The cookie dump
