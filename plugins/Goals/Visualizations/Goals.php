@@ -58,7 +58,7 @@ class Goals extends HtmlTable
     {
         // set view properties based on goal requested
         $idSite = Common::getRequestVar('idSite', null, 'int');
-        $idGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
+        $idGoal = Common::getRequestVar('showGoalMetricsFor', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
 
         $goalsToProcess = null;
         if (Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER == $idGoal) {
