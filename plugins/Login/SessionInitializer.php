@@ -10,15 +10,16 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Auth as AuthInterface;
+use Piwik\Auth\Password;
 use Piwik\AuthResult;
-use Piwik\Config;
-use Piwik\Cookie;
-use Piwik\Db;
-use Piwik\Log;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\ProxyHttp;
 use Piwik\Session;
+use Piwik\Session\SessionAuthCookieFactory;
+use Piwik\Session\SessionFingerprint;
 
 /**
  * Initializes authenticated sessions using an Auth implementation.
@@ -35,6 +36,11 @@ use Piwik\Session;
 class SessionInitializer
 {
     /**
+     * @var SessionAuthCookieFactory
+     */
+    private $sessionCookieFactory;
+
+    /**
      * The UsersManager API instance.
      *
      * @var UsersManagerAPI
@@ -42,61 +48,19 @@ class SessionInitializer
     private $usersManagerAPI;
 
     /**
-     * The authenticated session cookie's name. Defaults to the value of the `[General] login_cookie_name`
-     * INI config option.
-     *
-     * @var string
-     */
-    private $authCookieName;
-
-    /**
-     * The time in seconds before the authenticated session cookie expires. Only used if `$rememberMe`
-     * is true in the {@link initSession()} call.
-     *
-     * Defaults to the value of the `[General] login_cookie_expire` INI config option.
-     *
-     * @var string
-     */
-    private $authCookieValidTime;
-
-    /**
-     * The path for the authenticated session cookie. Defaults to the value of the `[General] login_cookie_path`
-     * INI config option.
-     *
-     * @var string
-     */
-    private $authCookiePath;
-
-    /**
-     * Constructor.
-     *
      * @param UsersManagerAPI|null $usersManagerAPI
      * @param string|null $authCookieName
      * @param int|null $authCookieValidTime
      * @param string|null $authCookiePath
      */
-    public function __construct($usersManagerAPI = null, $authCookieName = null, $authCookieValidTime = null,
-                                $authCookiePath = null)
+    public function __construct(SessionAuthCookieFactory $sessionCookieFactory = null, $usersManagerAPI = null)
     {
+        $this->sessionCookieFactory = $sessionCookieFactory ?: StaticContainer::get(SessionAuthCookieFactory::class);
+
         if (empty($usersManagerAPI)) {
             $usersManagerAPI = UsersManagerAPI::getInstance();
         }
         $this->usersManagerAPI = $usersManagerAPI;
-
-        if (empty($authCookieName)) {
-            $authCookieName = Config::getInstance()->General['login_cookie_name'];
-        }
-        $this->authCookieName = $authCookieName;
-
-        if (empty($authCookieValidTime)) {
-            $authCookieValidTime = Config::getInstance()->General['login_cookie_expire'];
-        }
-        $this->authCookieValidTime = $authCookieValidTime;
-
-        if (empty($authCookiePath)) {
-            $authCookiePath = Config::getInstance()->General['login_cookie_path'];
-        }
-        $this->authCookiePath = $authCookiePath;
     }
 
     /**
@@ -148,21 +112,6 @@ class SessionInitializer
     }
 
     /**
-     * Returns a Cookie instance that manages the browser cookie used to store session
-     * information.
-     *
-     * @param bool $rememberMe Whether the authenticated session should be remembered after
-     *                         the browser is closed or not.
-     * @return Cookie
-     */
-    protected function getAuthCookie($rememberMe)
-    {
-        $authCookieExpiry = $rememberMe ? time() + $this->authCookieValidTime : 0;
-        $cookie = new Cookie($this->authCookieName, $authCookieExpiry, $this->authCookiePath);
-        return $cookie;
-    }
-
-    /**
      * Executed when the session could not authenticate.
      *
      * @param bool $rememberMe Whether the authenticated session should be remembered after
@@ -171,7 +120,7 @@ class SessionInitializer
      */
     protected function processFailedSession($rememberMe)
     {
-        $cookie = $this->getAuthCookie($rememberMe);
+        $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
         $cookie->delete();
 
         throw new Exception(Piwik::translate('Login_LoginPasswordNotCorrect'));
@@ -186,9 +135,15 @@ class SessionInitializer
      */
     protected function processSuccessfulSession(AuthResult $authResult, $rememberMe)
     {
-        $cookie = $this->getAuthCookie($rememberMe);
-        $cookie->set('login', $authResult->getIdentity());
-        $cookie->set('token_auth', $this->getHashTokenAuth($authResult->getIdentity(), $authResult->getTokenAuth()));
+        $sessionIdentifier = new SessionFingerprint();
+        $sessionIdentifier->initialize($authResult->getIdentity());
+
+        $userModel = new Model();
+        $user = $userModel->getUser($authResult->getIdentity());
+
+        $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
+        $cookie->clear();
+        $cookie->set('id', $sessionIdentifier->getHash($user['ts_password_modified']));
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();
@@ -205,6 +160,7 @@ class SessionInitializer
      * @param string $login user login
      * @param string $token_auth authentication token
      * @return string hashed authentication token
+     * @deprecated
      */
     public static function getHashTokenAuth($login, $token_auth)
     {

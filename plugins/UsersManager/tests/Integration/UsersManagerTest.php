@@ -76,6 +76,7 @@ class UsersManagerTest extends IntegrationTestCase
         }
         $userAfter = $this->api->getUser($user["login"]);
         unset($userAfter['date_registered']);
+        unset($userAfter['ts_password_modified']);
         unset($userAfter['password']);
 
         // implicitly checks password!
