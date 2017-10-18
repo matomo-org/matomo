@@ -142,6 +142,7 @@ class SessionInitializer
         $user = $userModel->getUser($authResult->getIdentity());
 
         $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
+        $cookie->clear();
         $cookie->set('id', $sessionIdentifier->getHash($user['ts_password_modified']));
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
