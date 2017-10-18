@@ -62,6 +62,8 @@ use Piwik\Session\SessionAuth;
 class FrontController extends Singleton
 {
     const DEFAULT_MODULE = 'CoreHome';
+    const DEFAULT_LOGIN = 'anonymous';
+    const DEFAULT_TOKEN_AUTH = 'anonymous';
 
     /**
      * Set to false and the Front Controller will not dispatch the request
@@ -623,6 +625,9 @@ class FrontController extends Singleton
 
             throw $ex;
         }
+
+        $authAdapter->setLogin(self::DEFAULT_LOGIN);
+        $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
 
         return $authAdapter;
     }
