@@ -11,8 +11,8 @@ namespace Piwik\Session;
 
 use Piwik\Auth;
 use Piwik\AuthResult;
-use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Session;
 
 /**
  * Validates already authenticated sessions.
@@ -26,9 +26,17 @@ class SessionAuth implements Auth
      */
     private $sessionAuthCookieFactory;
 
-    public function __construct(SessionAuthCookieFactory $sessionAuthCookieFactory)
+    /**
+     * For tests, since there's no actual session there.
+     *
+     * @var bool
+     */
+    private $shouldDestroySession;
+
+    public function __construct(SessionAuthCookieFactory $sessionAuthCookieFactory, $shouldDestroySession = true)
     {
         $this->sessionAuthCookieFactory = $sessionAuthCookieFactory;
+        $this->shouldDestroySession = $shouldDestroySession;
     }
 
     public function getName()
@@ -72,27 +80,45 @@ class SessionAuth implements Auth
         $userModel = new UsersModel();
 
         $cookie = $this->sessionAuthCookieFactory->getCookie($rememberMe = false);
-        $userNameInCookie = $cookie->get('user');
         $cookieHash = $cookie->get('id');
 
-        $user = $userModel->getUser($userNameInCookie);
+        $userForSession = $sessionId->getUser();
+        if (empty($userForSession)) {
+            return $this->makeAuthFailure();
+        }
+
+        $user = $userModel->getUser($userForSession);
         if (empty($user)) {
             return $this->makeAuthFailure();
         }
 
-        $userForSession = $sessionId->getUser();
-        if (empty($userForSession)) {
-            return $this->reAuthenticateSession($user, $cookieHash, $sessionId);
+        if (!$sessionId->isMatchingCurrentRequest()) {
+            return $this->makeAuthFailure();
         }
 
-        if (!$sessionId->isMatchingCurrentRequest()
-            || $userNameInCookie != $userForSession
-            || $this->hasPasswordChangedSinceSessionStart($user, $sessionId)
-        ) {
+        if (!$this->isCookieHashMatchingSession($sessionId, $cookieHash, $user['ts_password_modified'])) {
+            // Note: can't use Session::destroy() since Zend prohibits starting a new session
+            // after session_destroy() is called.
+            $sessionId->clear();
+
+            // if the cookie hash doesn't match, then the password's been changed, so
+            // we can get rid of this session
+            if ($this->shouldDestroySession) {
+                Session::expireSessionCookie();
+            }
+
+            $cookie->delete();
+
             return $this->makeAuthFailure();
         }
 
         return $this->makeAuthSuccess($user);
+    }
+
+
+    public function isCookieHashMatchingSession(SessionFingerprint $sessionId, $cookieHash, $passwordModifiedTime)
+    {
+        return $sessionId->getHash($passwordModifiedTime) == $cookieHash;
     }
 
     private function makeAuthFailure()
@@ -108,38 +134,5 @@ class SessionAuth implements Auth
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
         return new AuthResult($code, $user['login'], $user['token_auth']);
-    }
-
-    /**
-     * Piwik uses the session cookie expiration time as the session expiration
-     * time. When a cookie expires, the session is no longer authenticated.
-     *
-     * Unfortunately, PHP's session.gc-probability INI config can delete a
-     * session server side, before the cookie expires. In this case, we have
-     * to securely re-authenticate, without revealing sensitive information
-     * in the cookie.
-     */
-    private function reAuthenticateSession($user, $cookieHash, SessionFingerprint $sessionId)
-    {
-        $passwordHelper = new Auth\Password();
-
-        $isValid = $passwordHelper->verify($user['password'], $cookieHash);
-
-        if ($isValid) {
-            $sessionId->initialize($user['login']);
-            return $this->makeAuthSuccess($user);
-        } else {
-            return $this->makeAuthFailure();
-        }
-    }
-
-    private function hasPasswordChangedSinceSessionStart($user, SessionFingerprint $sessionId)
-    {
-        if (empty($user['ts_password_modified'])) { // sanity check
-            return true;
-        }
-
-        $tsPasswordModified = Date::factory($user['ts_password_modified'])->getTimestampUTC();
-        return $sessionId->hasPasswordChangedSinceSessionStart($tsPasswordModified);
     }
 }

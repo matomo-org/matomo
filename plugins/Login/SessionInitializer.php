@@ -135,8 +135,6 @@ class SessionInitializer
      */
     protected function processSuccessfulSession(AuthResult $authResult, $rememberMe)
     {
-        $passwordHelper = new Password();
-
         $sessionIdentifier = new SessionFingerprint();
         $sessionIdentifier->initialize($authResult->getIdentity());
 
@@ -144,8 +142,7 @@ class SessionInitializer
         $user = $userModel->getUser($authResult->getIdentity());
 
         $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
-        $cookie->set('id', $passwordHelper->hash($user['password']));
-        $cookie->set('user', $authResult->getIdentity());
+        $cookie->set('id', $sessionIdentifier->getHash($user['ts_password_modified']));
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();
@@ -162,6 +159,7 @@ class SessionInitializer
      * @param string $login user login
      * @param string $token_auth authentication token
      * @return string hashed authentication token
+     * @deprecated
      */
     public static function getHashTokenAuth($login, $token_auth)
     {

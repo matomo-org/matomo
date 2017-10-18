@@ -52,6 +52,8 @@ class Session extends Zend_Session
         }
         self::$sessionStarted = true;
 
+        $config = Config::getInstance();
+
         // use cookies to store session id on the client side
         @ini_set('session.use_cookies', '1');
 
@@ -73,8 +75,11 @@ class Session extends Zend_Session
         // incorrectly invalidate the session
         @ini_set('session.referer_check', '');
 
+        // to preserve previous behavior piwik_auth provided when it contained a token_auth, we ensure
+        // the session data won't be deleted until the cookie expires.
+        @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
+
         $currentSaveHandler = ini_get('session.save_handler');
-        $config = Config::getInstance();
 
         if (self::isFileBasedSessions()) {
             // Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
