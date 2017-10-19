@@ -238,8 +238,8 @@ class Date
     /**
      * Returns the offset to UTC time for the given timezone
      *
-     * @param $timezone
-     * @return int offest in minutes
+     * @param string $timezone
+     * @return int offset in seconds
      */
     public static function getUtcOffset($timezone)
     {
