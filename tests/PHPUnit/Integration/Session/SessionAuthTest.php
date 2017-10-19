@@ -49,15 +49,6 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
-    public function test_authenticate_ReturnsFailure_IfCookieUsernameDiffersFromSessionUsername()
-    {
-        $this->initializeSession(self::TEST_IP, self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
-        $this->initializeRequest(self::TEST_IP, self::TEST_UA, self::TEST_OTHER_USER);
-
-        $result = $this->testInstance->authenticate();
-        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
-    }
-
     public function test_authenticate_ReturnsFailure_IfRequestIpDiffersFromSessionIp()
     {
         $this->initializeSession(self::TEST_IP, self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
