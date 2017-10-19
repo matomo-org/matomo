@@ -47,8 +47,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
-
     /**
      * @var LoggerInterface
      */
@@ -211,9 +209,10 @@ class API extends \Piwik\Plugin\API
 
         $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
 
+        $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
+
         $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $newSegment,
-            $offset = 0,
-            $limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE);
+            $offset = 0, $limit);
         $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
 
         if ($visits->getRowsCount() == 0) {
