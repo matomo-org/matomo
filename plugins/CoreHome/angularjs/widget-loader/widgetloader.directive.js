@@ -77,13 +77,14 @@
                             if (piwikUrl.getSearchParam('widget')) {
                                 $urlParams['widget'] = 'widget';
                             }
-                            if (piwikUrl.getSearchParam('segment')) {
-                                $urlParams['segment'] = 'segment';
-                            }
                         } else {
                             $urlParams = angular.copy($urlParams);
                             delete $urlParams['category'];
                             delete $urlParams['subcategory'];
+                        }
+
+                        if (piwikUrl.getSearchParam('segment')) {
+                            $urlParams['segment'] = 'segment';
                         }
 
                         angular.forEach($urlParams, function (value, key) {
