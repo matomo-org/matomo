@@ -7280,11 +7280,13 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             addTracker: function (piwikUrl, siteId) {
+                var tracker;
                 if (!asyncTrackers.length) {
-                    createFirstTracker(piwikUrl, siteId);
+                    tracker = createFirstTracker(piwikUrl, siteId);
                 } else {
-                    asyncTrackers[0].addTracker(piwikUrl, siteId);
+                    tracker = asyncTrackers[0].addTracker(piwikUrl, siteId);
                 }
+                return tracker;
             },
 
             /**
