@@ -448,6 +448,10 @@ live_widget_refresh_after_seconds = 5
 ; the widget looks in.
 live_widget_visitor_count_last_minutes = 3
 
+; by default visitor profile will show aggregated information for the last up to 100 visits of a visitor
+; this limit can be adjusted by changing this value
+live_visitor_profile_max_visits_to_aggregate = 100
+
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300

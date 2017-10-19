@@ -144,8 +144,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $filterLimit = Common::getRequestVar('filter_offset', 0, 'int');
         $startCounter = Common::getRequestVar('start_number', 0, 'int');
+        $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
 
-        if ($startCounter >= API::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE) {
+        if ($startCounter >= $limit) {
             return; // do not return more visits than configured for profile
         }
 
