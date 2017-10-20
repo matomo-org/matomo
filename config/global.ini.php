@@ -11,9 +11,6 @@
 ; WARNING - YOU SHOULD NOT EDIT THIS FILE DIRECTLY - Edit config.ini.php instead.
 ;--------
 
-[path]
-tmp = "/tmp"
-
 [database]
 host =
 username =
@@ -138,7 +135,9 @@ enabled = 0
 disable_merged_assets = 0
 
 [General]
-
+; The path on the server in which the temporary files are stored.
+; Defaults to /tmp.
+tmp = "/tmp"
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
 ; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
