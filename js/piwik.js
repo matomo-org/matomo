@@ -5456,7 +5456,9 @@ if (typeof window.Piwik !== 'object') {
 
                     // Safari and Opera
                     // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
-                    if (typeof navigator.javaEnabled !== 'unknown' &&
+                    // on Edge navigator.javaEnabled() always returns `true`, so ignore it
+                    if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
+                            typeof navigator.javaEnabled !== 'unknown' &&
                             isDefined(navigatorAlias.javaEnabled) &&
                             navigatorAlias.javaEnabled()) {
                         browserFeatures.java = '1';
