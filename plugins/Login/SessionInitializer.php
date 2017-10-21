@@ -10,12 +10,11 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Auth as AuthInterface;
-use Piwik\Auth\Password;
 use Piwik\AuthResult;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
-use Piwik\Plugins\UsersManager\Model;
 use Piwik\ProxyHttp;
 use Piwik\Session;
 use Piwik\Session\SessionAuthCookieFactory;
@@ -138,15 +137,15 @@ class SessionInitializer
         $sessionIdentifier = new SessionFingerprint();
         $sessionIdentifier->initialize($authResult->getIdentity());
 
-        $userModel = new Model();
-        $user = $userModel->getUser($authResult->getIdentity());
-
         $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
         $cookie->clear();
-        $cookie->set('id', $sessionIdentifier->getHash($user['ts_password_modified']));
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();
+
+        if ($rememberMe) {
+            Session::rememberMe(Config::getInstance()->General['login_cookie_expire']);
+        }
     }
 
     protected function regenerateSessionId()

@@ -19,9 +19,8 @@ use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\Session\SessionAuthCookieFactory;
-use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionAuth;
+use Piwik\Session\SessionAuthCookieFactory;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -591,8 +590,8 @@ class FrontController extends Singleton
     {
         // if the session cookie exists in this request, validate the session instead of trying to
         // authenticate the request.
-        $sessionCookieExists = StaticContainer::get(SessionAuthCookieFactory::class)->isCookieInRequest();
-        if ($sessionCookieExists) {
+        $sessionAuthCookieFactory = StaticContainer::get(SessionAuthCookieFactory::class);
+        if ($sessionAuthCookieFactory->isCookieInRequest()) {
             Session::start();
 
             return StaticContainer::get(SessionAuth::class);

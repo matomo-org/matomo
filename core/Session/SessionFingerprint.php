@@ -9,7 +9,6 @@
 
 namespace Piwik\Session;
 
-use Piwik\Common;
 use Piwik\IP;
 
 /**
@@ -57,11 +56,11 @@ class SessionFingerprint
         return null;
     }
 
-    public function initialize($userName, $ip = null, $userAgent = null)
+    public function initialize($userName, $time = null, $ip = null, $userAgent = null)
     {
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
-            'sec' => $this->generateSessionSecret(),
+            'ts' => $time ?: time(),
             'ip' => $ip ?: IP::getIpFromHeader(),
             'ua' => $userAgent ?: $this->getUserAgent(),
         ];
@@ -86,23 +85,20 @@ class SessionFingerprint
         return $userInfo['ip'] == $requestIp && $userInfo['ua'] == $requestUa;
     }
 
-    public function getHash($passwordModifiedTime)
+    public function getSessionStartTime()
     {
         $userInfo = $this->getUserInfo();
-        if (empty($userInfo)) {
-            throw new \Exception('Unexpected error: session fingerprint has not been initialized yet!');
+        if (empty($userInfo)
+            || empty($userInfo['ts'])
+        ) {
+            return null;
         }
 
-        return md5($passwordModifiedTime . $userInfo['sec']);
+        return $userInfo['ts'];
     }
 
     private function getUserAgent()
     {
         return array_key_exists('HTTP_USER_AGENT', $_SERVER) ? $_SERVER['HTTP_USER_AGENT'] : null;
-    }
-
-    private function generateSessionSecret()
-    {
-        return Common::generateUniqId();
     }
 }

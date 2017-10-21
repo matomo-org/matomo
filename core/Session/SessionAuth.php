@@ -11,6 +11,7 @@ namespace Piwik\Session;
 
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
 
@@ -22,20 +23,14 @@ use Piwik\Session;
 class SessionAuth implements Auth
 {
     /**
-     * @var SessionAuthCookieFactory
-     */
-    private $sessionAuthCookieFactory;
-
-    /**
      * For tests, since there's no actual session there.
      *
      * @var bool
      */
     private $shouldDestroySession;
 
-    public function __construct(SessionAuthCookieFactory $sessionAuthCookieFactory, $shouldDestroySession = true)
+    public function __construct($shouldDestroySession = true)
     {
-        $this->sessionAuthCookieFactory = $sessionAuthCookieFactory;
         $this->shouldDestroySession = $shouldDestroySession;
     }
 
@@ -79,9 +74,6 @@ class SessionAuth implements Auth
         $sessionId = new SessionFingerprint();
         $userModel = new UsersModel();
 
-        $cookie = $this->sessionAuthCookieFactory->getCookie($rememberMe = false);
-        $cookieHash = $cookie->get('id');
-
         $userForSession = $sessionId->getUser();
         if (empty($userForSession)) {
             return $this->makeAuthFailure();
@@ -93,21 +85,25 @@ class SessionAuth implements Auth
         }
 
         if (!$sessionId->isMatchingCurrentRequest()) {
+            // this user should be using a different session, so generate a new ID
+            // NOTE: Zend_Session cannot be used since it will destroy the old
+            // session.
+            if ($this->shouldDestroySession) {
+                session_regenerate_id();
+            }
+            $sessionId->clear();
+
             return $this->makeAuthFailure();
         }
 
-        if (!$this->isCookieHashMatchingSession($sessionId, $cookieHash, $user['ts_password_modified'])) {
+        $tsPasswordModified = $user['ts_password_modified'];
+        if ($this->isSessionStartedBeforePasswordChange($sessionId, $tsPasswordModified)) {
             // Note: can't use Session::destroy() since Zend prohibits starting a new session
             // after session_destroy() is called.
             $sessionId->clear();
-
-            // if the cookie hash doesn't match, then the password's been changed, so
-            // we can get rid of this session
             if ($this->shouldDestroySession) {
-                Session::expireSessionCookie();
+                Session::regenerateId();
             }
-
-            $cookie->delete();
 
             return $this->makeAuthFailure();
         }
@@ -115,10 +111,15 @@ class SessionAuth implements Auth
         return $this->makeAuthSuccess($user);
     }
 
-
-    public function isCookieHashMatchingSession(SessionFingerprint $sessionId, $cookieHash, $passwordModifiedTime)
+    private function isSessionStartedBeforePasswordChange(SessionFingerprint $sessionId, $tsPasswordModified)
     {
-        return $sessionId->getHash($passwordModifiedTime) == $cookieHash;
+        // if the session start time doesn't exist for some reason, log the user out
+        $sessionStartTime = $sessionId->getSessionStartTime();
+        if (empty($sessionStartTime)) {
+            return true;
+        }
+
+        return $sessionStartTime < Date::factory($tsPasswordModified)->getTimestampUTC();
     }
 
     private function makeAuthFailure()

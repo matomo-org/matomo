@@ -14,6 +14,8 @@ use Piwik\Session\SessionFingerprint;
 
 class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 {
+    const TEST_TIME_VALUE = 4567;
+
     /**
      * @var SessionFingerprint
      */
@@ -57,13 +59,11 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = '55.66.77.88';
         $_SERVER['HTTP_USER_AGENT'] = 'test-user-agent';
-        $this->testInstance->initialize('testuser');
-
-        $this->checkSessionSecret();
+        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ip' => '55.66.77.88', 'ua' => 'test-user-agent'],
+            ['ts' => self::TEST_TIME_VALUE, 'ip' => '55.66.77.88', 'ua' => 'test-user-agent'],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
@@ -72,13 +72,11 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = '55.66.77.88';
         unset($_SERVER['HTTP_USER_AGENT']);
-        $this->testInstance->initialize('testuser');
-
-        $this->checkSessionSecret();
+        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ip' => '55.66.77.88', 'ua' => null],
+            ['ts' => self::TEST_TIME_VALUE, 'ip' => '55.66.77.88', 'ua' => null],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
@@ -87,13 +85,11 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
     {
         unset($_SERVER['REMOTE_ADDR']);
         $_SERVER['HTTP_USER_AGENT'] = 'test-user-agent';
-        $this->testInstance->initialize('testuser');
-
-        $this->checkSessionSecret();
+        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ip' => '0.0.0.0', 'ua' => 'test-user-agent'],
+            ['ts' => self::TEST_TIME_VALUE, 'ip' => '0.0.0.0', 'ua' => 'test-user-agent'],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
@@ -144,26 +140,23 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->testInstance->isMatchingCurrentRequest());
     }
 
-    public function test_getHash_CreatesCorrectHash()
+    public function test_getSessionStartTime_()
     {
-        $passwordModifiedTime = '2012-01-01 00:34:56';
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'sec' => 'somesecret',
+            'ts' => 123.
         ];
-
-        $this->assertEquals(
-            md5($passwordModifiedTime . 'somesecret'),
-            $this->testInstance->getHash($passwordModifiedTime)
-        );
+        $this->assertEquals(123, $this->testInstance->getSessionStartTime());
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage session fingerprint has not been initialized yet
-     */
-    public function test_getHash_ThrowsIfSessionIsUninitialized()
+    public function test_getSessionStartTime_ReturnsNull_IfThereIsNoSessionInfo()
     {
-        $this->testInstance->getHash('2012-01-01 00:23:45');
+        $this->assertNull($this->testInstance->getSessionStartTime());
+    }
+
+    public function test_getSessionStartTime_ReturnsNull_IfThereIsNoSessionStartTime()
+    {
+        $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [];
+        $this->assertNull($this->testInstance->getSessionStartTime());
     }
 
     public function test_destroy_RemovesSessionFingerprintSessionVars()
@@ -177,11 +170,5 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         $this->testInstance->clear();
 
         $this->assertEquals(['someotherdata' => 'somedata'], $_SESSION);
-    }
-
-    private function checkSessionSecret()
-    {
-        $this->assertRegExp('/^[a-zA-Z0-9]{32}$/', $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['sec']);
-        unset($_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['sec']);
     }
 }

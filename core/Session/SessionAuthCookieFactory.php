@@ -9,7 +9,6 @@
 
 namespace Piwik\Session;
 
-use Piwik\Config;
 use Piwik\Cookie;
 
 class SessionAuthCookieFactory
