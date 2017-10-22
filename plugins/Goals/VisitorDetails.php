@@ -107,6 +107,11 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $idGoal    = $action['goalId'];
+
+        if (empty($idGoal)) {
+            return;
+        }
+
         $idGoalKey = 'idgoal=' . $idGoal;
 
         if (!isset($profile['totalConversionsByGoal'][$idGoalKey])) {
